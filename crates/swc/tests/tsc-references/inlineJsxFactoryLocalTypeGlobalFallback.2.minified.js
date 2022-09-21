@@ -6,3 +6,5 @@ export { };
 import { predom } from "./renderer2";
 export default predom("h", null);
 //// [index.tsx]
+import { dom } from "./renderer";
+import prerendered from "./component";

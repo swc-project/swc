@@ -1,7 +1,7 @@
 //// [objectSpreadRepeatedNullCheckPerf.ts]
 import _object_spread from "@swc/helpers/src/_object_spread.mjs";
 !function(config) {
-    return _object_spread({}, void 0 !== config.a && {
+    _object_spread({}, void 0 !== config.a && {
         a: config.a.toString()
     }, void 0 !== config.b && {
         b: config.b.toString()

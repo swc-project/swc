@@ -101,12 +101,15 @@ impl OptChaining {
         stmt.visit_mut_with(self);
 
         if !self.vars_with_init.is_empty() {
-            new.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                declare: false,
-                kind: VarDeclKind::Var,
-                decls: mem::take(&mut self.vars_with_init),
-            }))));
+            new.push(T::from_stmt(
+                VarDecl {
+                    span: DUMMY_SP,
+                    declare: false,
+                    kind: VarDeclKind::Var,
+                    decls: mem::take(&mut self.vars_with_init),
+                }
+                .into(),
+            ));
         }
         new.push(stmt);
     }
@@ -127,12 +130,15 @@ impl OptChaining {
         if !self.vars_without_init.is_empty() {
             prepend_stmt(
                 &mut new,
-                T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    kind: VarDeclKind::Var,
-                    decls: mem::take(&mut self.vars_without_init),
-                }))),
+                T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        declare: false,
+                        kind: VarDeclKind::Var,
+                        decls: mem::take(&mut self.vars_without_init),
+                    }
+                    .into(),
+                ),
             );
         }
 

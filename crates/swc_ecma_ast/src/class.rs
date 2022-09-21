@@ -36,10 +36,10 @@ pub struct Class {
     pub is_abstract: bool,
 
     #[serde(default)]
-    pub type_params: Option<TsTypeParamDecl>,
+    pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[serde(default)]
-    pub super_type_params: Option<TsTypeParamInstantiation>,
+    pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// Typescript extension.
     #[serde(default)]
@@ -106,7 +106,7 @@ pub struct ClassProp {
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[serde(default)]
     pub is_static: bool,
@@ -151,7 +151,7 @@ pub struct PrivateProp {
     pub value: Option<Box<Expr>>,
 
     #[serde(default, rename = "typeAnnotation")]
-    pub type_ann: Option<TsTypeAnn>,
+    pub type_ann: Option<Box<TsTypeAnn>>,
 
     #[serde(default)]
     pub is_static: bool,
@@ -187,7 +187,7 @@ macro_rules! method {
 
             pub key: $KEY,
 
-            pub function: Function,
+            pub function: Box<Function>,
 
             pub kind: MethodKind,
 

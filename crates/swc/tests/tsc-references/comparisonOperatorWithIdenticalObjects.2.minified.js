@@ -1,11 +1,4 @@
 //// [comparisonOperatorWithIdenticalObjects.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-!function() {
-    "use strict";
-    function A1() {
-        _class_call_check(this, A1);
-    }
-    return A1.prototype.fn = function(a) {
-        return null;
-    }, A1;
-}();
+import _inherits from "@swc/helpers/src/_inherits.mjs";
+import _create_super from "@swc/helpers/src/_create_super.mjs";

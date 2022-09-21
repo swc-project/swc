@@ -62,7 +62,7 @@ impl Swcify for Statement {
             Statement::Switch(v) => v.swcify(ctx).into(),
             Statement::Throw(v) => v.swcify(ctx).into(),
             Statement::Try(v) => v.swcify(ctx).into(),
-            Statement::VarDecl(v) => Decl::Var(v.swcify(ctx)).into(),
+            Statement::VarDecl(v) => v.swcify(ctx).into(),
             Statement::While(v) => v.swcify(ctx).into(),
             Statement::With(v) => v.swcify(ctx).into(),
             Statement::ClassDecl(v) => Decl::Class(v.swcify(ctx)).into(),
@@ -182,8 +182,8 @@ impl Swcify for ForStmtLeft {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx)),
-            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx)),
+            ForStmtLeft::VarDecl(v) => VarDeclOrPat::VarDecl(v.swcify(ctx).into()),
+            ForStmtLeft::LVal(v) => VarDeclOrPat::Pat(v.swcify(ctx).into()),
         }
     }
 }
@@ -207,7 +207,7 @@ impl Swcify for ForStmtInit {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         match self {
-            ForStmtInit::VarDecl(v) => VarDeclOrExpr::VarDecl(v.swcify(ctx)),
+            ForStmtInit::VarDecl(v) => VarDeclOrExpr::VarDecl(v.swcify(ctx).into()),
             ForStmtInit::Expr(v) => VarDeclOrExpr::Expr(v.swcify(ctx)),
         }
     }
@@ -229,7 +229,8 @@ impl Swcify for FunctionDeclaration {
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: Default::default(),
                 return_type: Default::default(),
-            },
+            }
+            .into(),
         }
     }
 }
@@ -421,7 +422,8 @@ impl Swcify for ClassDeclaration {
                 type_params: None,
                 super_type_params: None,
                 implements: Default::default(),
-            },
+            }
+            .into(),
         }
     }
 }
@@ -432,7 +434,7 @@ impl Swcify for ExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).into(),
             asserts: self
                 .assertions
                 .swcify(ctx)
@@ -444,9 +446,12 @@ impl Swcify for ExportAllDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }
@@ -520,7 +525,7 @@ impl Swcify for ExportNamedDeclaration {
         NamedExport {
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).map(Box::new),
             type_only: false,
             asserts: self
                 .assertions
@@ -533,9 +538,12 @@ impl Swcify for ExportNamedDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }
@@ -614,7 +622,7 @@ impl Swcify for ImportDeclaration {
         ImportDecl {
             span: ctx.span(&self.base),
             specifiers: self.specifiers.swcify(ctx),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).into(),
             type_only: false,
             asserts: self
                 .assertions
@@ -627,9 +635,12 @@ impl Swcify for ImportDeclaration {
                         .map(PropOrSpread::Prop)
                         .collect()
                 })
-                .map(|props| ObjectLit {
-                    span: DUMMY_SP,
-                    props,
+                .map(|props| {
+                    ObjectLit {
+                        span: DUMMY_SP,
+                        props,
+                    }
+                    .into()
                 }),
         }
     }
@@ -765,7 +776,7 @@ impl Swcify for DeclareExportAllDeclaration {
     fn swcify(self, ctx: &Context) -> Self::Output {
         ExportAll {
             span: ctx.span(&self.base),
-            src: self.source.swcify(ctx),
+            src: self.source.swcify(ctx).into(),
             asserts: Default::default(),
         }
     }

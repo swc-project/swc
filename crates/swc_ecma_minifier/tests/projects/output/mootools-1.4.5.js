@@ -1948,7 +1948,7 @@ Elements.prototype = {
             return inserter(document.id(el, !0), this), this;
         }, Element.implement(methods);
     });
-    var types, propertyGetters = {}, propertySetters = {}, properties = {};
+    var propertyGetters = {}, propertySetters = {}, properties = {};
     Array.forEach([
         "type",
         "value",
@@ -2019,7 +2019,7 @@ Elements.prototype = {
     "button" != el.type && (propertySetters.type = function(node, value) {
         node.setAttribute("type", value);
     }), el = null;
-    var div, input = document.createElement("input");
+    var types, div, input = document.createElement("input");
     input.value = "t", input.type = "submit", "t" != input.value && (propertySetters.type = function(node, type) {
         var value = node.value;
         node.type = type, node.value = value;

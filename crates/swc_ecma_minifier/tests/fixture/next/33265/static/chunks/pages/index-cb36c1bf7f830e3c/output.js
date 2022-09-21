@@ -463,12 +463,12 @@
                 }) : [
                     ebml_helpers_normalizePath(paths1)
                 ], bytes = (0, byte_helpers.Ki)(bytes);
-                var results = [];
+                var paths1, results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
                     0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
-                    var paths1, dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
+                    var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
                     (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1)))), i += id.length + dataHeader.length + data.length;
                 }
                 return results;

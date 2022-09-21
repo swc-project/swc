@@ -6630,7 +6630,7 @@
                         var playlist = master.playlists[i], CODECS = playlist.attributes && playlist.attributes.CODECS;
                         return CODECS && CODECS.split(",").every(function(c) {
                             return (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.KL)(c);
-                        }) ? "continue" : someAudioVariant(master, function(variant) {
+                        }) || someAudioVariant(master, function(variant) {
                             return playlistMatch(playlist, variant);
                         }) ? "continue" : {
                             v: !1

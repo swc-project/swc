@@ -65,7 +65,7 @@ macro_rules! impl_for_for_stmt {
                         return;
                     }
                     let ref_ident = make_ref_ident_for_for_stmt();
-                    let left = VarDeclOrPat::VarDecl(VarDecl {
+                    let left = VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ref_ident.clone().into(),
@@ -75,7 +75,8 @@ macro_rules! impl_for_for_stmt {
                         span: var_decl.span,
                         kind: var_decl.kind,
                         declare: var_decl.declare,
-                    });
+                    }
+                    .into();
 
                     // I(kdy1) guess var_decl.len() == 1
                     let mut decls = var_decl
@@ -90,25 +91,26 @@ macro_rules! impl_for_for_stmt {
                     decls.visit_mut_children_with(self);
 
                     // Unpack variables
-                    let stmt = Stmt::Decl(Decl::Var(VarDecl {
+                    let stmt: Stmt = VarDecl {
                         span: var_decl.span(),
                         kind: VarDeclKind::Let,
                         decls,
                         declare: false,
-                    }));
+                    }
+                    .into();
                     (left, stmt)
                 }
-                VarDeclOrPat::Pat(pat) => match pat {
+                VarDeclOrPat::Pat(pat) => match **pat {
                     Pat::Ident(..) => {
                         return;
                     }
                     _ => {
                         let left_ident = make_ref_ident_for_for_stmt();
-                        let left = VarDeclOrPat::Pat(Pat::Ident(left_ident.clone().into()));
+                        let left = VarDeclOrPat::Pat(left_ident.clone().into());
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(Box::new(pat.take())),
+                            left: PatOrExpr::Pat(pat.take()),
                             op: op!("="),
                             right: Box::new(left_ident.into()),
                         }
@@ -536,12 +538,13 @@ impl Destructuring {
         let stmts = if decls.is_empty() {
             body.stmts.take()
         } else {
-            let mut stmt = Stmt::Decl(Decl::Var(VarDecl {
+            let mut stmt: Stmt = VarDecl {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Let,
                 decls,
                 declare: false,
-            }));
+            }
+            .into();
 
             stmt.visit_mut_children_with(self);
 
@@ -1007,12 +1010,15 @@ impl Destructuring {
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        stmts_updated.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
+                        stmts_updated.push(T::from_stmt(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: folder.vars,
+                                declare: false,
+                            }
+                            .into(),
+                        ));
                     }
 
                     stmts_updated.push(item);
@@ -1023,12 +1029,15 @@ impl Destructuring {
                     // Add variable declaration
                     // e.g. var ref
                     if !folder.vars.is_empty() {
-                        stmts_updated.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Var,
-                            decls: folder.vars,
-                            declare: false,
-                        }))));
+                        stmts_updated.push(T::from_stmt(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Var,
+                                decls: folder.vars,
+                                declare: false,
+                            }
+                            .into(),
+                        ));
                     }
 
                     stmts_updated.push(T::from_stmt(stmt));

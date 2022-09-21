@@ -5854,7 +5854,7 @@
                             var endInfo = this._findEnd();
                             if (!endInfo) return null;
                             var counters = this._fillCounters(startInfo.end, endInfo.start, !1);
-                            return this._verifyCounterLength(counters) ? !this._decodePayload(counters, result, decodedCodes) || result.length % 2 != 0 || result.length < 6 ? null : (decodedCodes.push(endInfo), {
+                            return this._verifyCounterLength(counters) && this._decodePayload(counters, result, decodedCodes) && result.length % 2 == 0 && !(result.length < 6) ? (decodedCodes.push(endInfo), {
                                 code: result.join(""),
                                 start: startInfo.start,
                                 end: endInfo.end,

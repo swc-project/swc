@@ -81,12 +81,12 @@ impl ClassExtra {
         if !self.vars.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
@@ -94,12 +94,12 @@ impl ClassExtra {
         if !self.lets.is_empty() {
             prepend_stmt(
                 stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
@@ -110,24 +110,24 @@ impl ClassExtra {
     fn merge_with<T: StmtLike + From<Stmt>>(self, stmts: &mut Vec<T>, class: T) {
         if !self.vars.is_empty() {
             stmts.push(
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     decls: self.vars,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
 
         if !self.lets.is_empty() {
             stmts.push(
-                Stmt::Decl(Decl::Var(VarDecl {
+                Stmt::from(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Let,
                     decls: self.lets,
                     declare: false,
-                }))
+                })
                 .into(),
             )
         }
@@ -273,8 +273,8 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 }
                 match stmt {
                     Stmt::Expr(e) => exprs.push(e.expr),
-                    Stmt::Decl(Decl::Var(VarDecl { decls, .. })) => {
-                        for mut decl in decls {
+                    Stmt::Decl(Decl::Var(v)) => {
+                        for mut decl in v.decls {
                             let init = decl.init.take();
 
                             if let Some(init) = init {
@@ -425,7 +425,7 @@ impl<C: Comments> ClassProperties<C> {
     fn visit_mut_class_as_decl(
         &mut self,
         class_ident: Ident,
-        mut class: Class,
+        mut class: Box<Class>,
     ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
         let private = Private {
@@ -933,8 +933,9 @@ impl<C: Comments> ClassProperties<C> {
                 declare: false,
                 class: Class {
                     body: members,
-                    ..class
-                },
+                    ..*class
+                }
+                .into(),
             },
             ClassExtra {
                 vars,

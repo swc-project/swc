@@ -1,8 +1,8 @@
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
+use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{maybe_par, option::CompressOptions};
+use crate::{maybe_par, option::CompressOptions, LIGHT_TASK_PARALLELS};
 
 pub fn postcompress_optimizer(options: &CompressOptions) -> impl '_ + VisitMut {
     PostcompressOptimizer {
@@ -58,7 +58,9 @@ impl VisitMut for PostcompressOptimizer<'_> {
         );
         self.ctx.is_top_level = true;
 
-        self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, nodes);
+        self.maybe_par(*crate::LIGHT_TASK_PARALLELS, nodes, |v, n| {
+            n.visit_mut_with(v);
+        });
     }
 
     fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
@@ -66,7 +68,9 @@ impl VisitMut for PostcompressOptimizer<'_> {
 
         self.ctx.is_top_level = false;
 
-        self.visit_mut_par(*crate::LIGHT_TASK_PARALLELS, nodes);
+        self.maybe_par(*crate::LIGHT_TASK_PARALLELS, nodes, |v, n| {
+            n.visit_mut_with(v);
+        });
 
         self.ctx = old;
     }
@@ -83,5 +87,29 @@ impl VisitMut for PostcompressOptimizer<'_> {
                 }
             }
         }
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
     }
 }

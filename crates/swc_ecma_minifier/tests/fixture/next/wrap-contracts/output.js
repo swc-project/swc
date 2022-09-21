@@ -9516,9 +9516,9 @@
                 return byteArray;
             }
             function utf16leToBytes(str, units) {
-                let c, hi;
+                let c, hi, lo;
                 const byteArray = [];
-                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
+                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(lo = c % 256), byteArray.push(hi);
                 return byteArray;
             }
             function base64ToBytes(str) {
@@ -11751,8 +11751,8 @@
             };
         },
         3346: function(module, __unused_webpack_exports, __webpack_require__) {
-            var factory;
-            factory = function() {
+            var global, factory;
+            global = this, factory = function() {
                 'use strict';
                 var toStringFunction = Function.prototype.toString, create = Object.create, defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getPrototypeOf$1 = Object.getPrototypeOf, _a = Object.prototype, hasOwnProperty = _a.hasOwnProperty, propertyIsEnumerable = _a.propertyIsEnumerable, SYMBOL_PROPERTIES = 'function' == typeof getOwnPropertySymbols, WEAK_MAP = 'function' == typeof WeakMap, createCache = function() {
                     if (WEAK_MAP) return function() {
@@ -13941,7 +13941,7 @@
                     }
                     return method;
                 }, nodeWrap = function(method, is224) {
-                    var nodeMethod, crypto = eval("require('crypto')"), Buffer = eval("require('buffer').Buffer"), algorithm = is224 ? 'sha224' : 'sha256';
+                    var crypto = eval("require('crypto')"), Buffer = eval("require('buffer').Buffer"), algorithm = is224 ? 'sha224' : 'sha256';
                     return function(message) {
                         if ('string' == typeof message) return crypto.createHash(algorithm).update(message, 'utf8').digest('hex');
                         if (null == message) throw Error(ERROR);
@@ -16257,7 +16257,7 @@
                     787: function(e, t, r) {
                         "use strict";
                         e.exports = Readable, Readable.ReadableState = ReadableState, r(361).EventEmitter;
-                        var a = function(e, t) {
+                        var n, u, w, m, S, a = function(e, t) {
                             return e.listeners(t).length;
                         }, o = r(455), s = r(300).Buffer, f = __webpack_require__.g.Uint8Array || function() {};
                         function _uint8ArrayToBuffer(e) {
@@ -16268,7 +16268,7 @@
                         }
                         var l = r(837);
                         u = l && l.debuglog ? l.debuglog("stream") : function() {};
-                        var n, u, w, m, S, d = r(41), c = r(289), p = r(483).getHighWaterMark, b = r(349).q, g = b.ERR_INVALID_ARG_TYPE, y = b.ERR_STREAM_PUSH_AFTER_EOF, _ = b.ERR_METHOD_NOT_IMPLEMENTED, v = b.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
+                        var d = r(41), c = r(289), p = r(483).getHighWaterMark, b = r(349).q, g = b.ERR_INVALID_ARG_TYPE, y = b.ERR_STREAM_PUSH_AFTER_EOF, _ = b.ERR_METHOD_NOT_IMPLEMENTED, v = b.ERR_STREAM_UNSHIFT_AFTER_END_EVENT;
                         r(140)(Readable, o);
                         var R = c.errorOrDestroy, E = [
                             "error",
@@ -24188,7 +24188,7 @@
             };
         },
         7605: function(module, exports) {
-            var __WEBPACK_AMD_DEFINE_RESULT__, loader = function(exports) {
+            var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__, loader = function(exports) {
                 "use strict";
                 Object.defineProperty(exports, "__esModule", {
                     value: !0
@@ -24458,7 +24458,7 @@
             }({});
             void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                 return loader;
-            }).apply(exports, [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+            }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__ = [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
         },
         3083: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

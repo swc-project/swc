@@ -414,7 +414,7 @@ fn mark_root() {
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
                 Stmt::Decl(Decl::Fn(FnDecl {
                     ident: quote_ident!("Foo"),
-                    function: Function {
+                    function: Box::new(Function {
                         span: DUMMY_SP,
                         is_async: false,
                         is_generator: false,
@@ -434,7 +434,7 @@ fn mark_root() {
                         params: vec![],
                         type_params: Default::default(),
                         return_type: Default::default(),
-                    },
+                    }),
 
                     declare: false,
                 })),
@@ -501,7 +501,7 @@ fn fn_args() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -520,7 +520,7 @@ fn fn_args() {
                     .fold_with(&mut marker(&[("force", mark1)]))],
                     type_params: Default::default(),
                     return_type: Default::default(),
-                },
+                }),
 
                 declare: false,
             }))])
@@ -542,7 +542,7 @@ fn block_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -561,7 +561,7 @@ fn block_in_fn() {
                     params: vec![],
                     type_params: Default::default(),
                     return_type: Default::default(),
-                },
+                }),
 
                 declare: false,
             }))])
@@ -595,7 +595,7 @@ fn flat_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -614,7 +614,7 @@ fn flat_in_fn() {
                     params: vec![],
                     type_params: Default::default(),
                     return_type: Default::default(),
-                },
+                }),
 
                 declare: false,
             }))])
@@ -637,7 +637,7 @@ fn params_in_fn() {
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
-                function: Function {
+                function: Box::new(Function {
                     span: DUMMY_SP,
                     is_async: false,
                     is_generator: false,
@@ -660,7 +660,7 @@ fn params_in_fn() {
                     ],
                     type_params: Default::default(),
                     return_type: Default::default(),
-                },
+                }),
 
                 declare: false,
             }))])

@@ -10,4 +10,4 @@ class SymbolIterator {
         return this;
     }
 }
-!function(s) {}(...new SymbolIterator);
+new SymbolIterator;

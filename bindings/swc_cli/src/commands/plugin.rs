@@ -233,7 +233,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             &src_path.join("lib.rs"),
             r##"use swc_core::ecma::{
     ast::Program,
-    transforms::testing::test
+    transforms::testing::test,
     visit::{as_folder, FoldWith, VisitMut},
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};

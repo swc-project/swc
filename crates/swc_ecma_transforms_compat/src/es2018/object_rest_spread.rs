@@ -95,15 +95,16 @@ macro_rules! impl_for_for_stmt {
                         .into(),
                     ));
 
-                    VarDeclOrPat::VarDecl(VarDecl {
+                    VarDecl {
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
                             name: ref_ident.into(),
                             init: None,
                             definite: false,
                         }],
-                        ..var_decl.take()
-                    })
+                        ..*var_decl.take()
+                    }
+                    .into()
                 }
                 VarDeclOrPat::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
@@ -111,7 +112,7 @@ macro_rules! impl_for_for_stmt {
                     let pat = pat.take();
 
                     // initialize (or destructure)
-                    match pat {
+                    match &*pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                         Pat::Object(ObjectPat { .. }) => {
                             stmt = Some(Stmt::Expr(ExprStmt {
@@ -120,7 +121,7 @@ macro_rules! impl_for_for_stmt {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(Box::new(pat)),
+                                        left: PatOrExpr::Pat(pat),
                                         right: Box::new(Expr::Ident(var_ident.clone())),
                                     }
                                     .into(),
@@ -138,7 +139,7 @@ macro_rules! impl_for_for_stmt {
                                 index,
                                 VarDeclarator {
                                     span: DUMMY_SP,
-                                    name: pat,
+                                    name: *pat,
                                     init: Some(Box::new(Expr::Ident(var_ident.clone()))),
                                     definite: false,
                                 },
@@ -147,7 +148,7 @@ macro_rules! impl_for_for_stmt {
                     }
 
                     // `var _ref` in `for (var _ref in foo)`
-                    VarDeclOrPat::VarDecl(VarDecl {
+                    VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
                         decls: vec![VarDeclarator {
@@ -157,7 +158,8 @@ macro_rules! impl_for_for_stmt {
                             definite: false,
                         }],
                         declare: false,
-                    })
+                    }
+                    .into()
                 }
             };
             for_stmt.left = left;
@@ -481,21 +483,27 @@ impl ObjectRest {
             // Add variable declaration
             // e.g. var ref
             if !folder.mutable_vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.mutable_vars,
-                    declare: false,
-                }))));
+                buf.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: folder.mutable_vars,
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             if !folder.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: folder.vars,
-                    declare: false,
-                }))));
+                buf.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: folder.vars,
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             buf.push(stmt);
@@ -671,12 +679,15 @@ impl ObjectRest {
                 stmts: if self.vars.is_empty() {
                     None
                 } else {
-                    Some(Stmt::Decl(Decl::Var(VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: mem::take(&mut self.vars),
-                        declare: false,
-                    })))
+                    Some(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: mem::take(&mut self.vars),
+                            declare: false,
+                        }
+                        .into(),
+                    )
                 }
                 .into_iter()
                 .chain(body.stmts.take())

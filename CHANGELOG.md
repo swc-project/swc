@@ -5,6 +5,47 @@
 
 
 
+- **(cli)** Add missing comma (#5902) ([ccca6d0](https://github.com/swc-project/swc/commit/ccca6d0a8866b9e34e1778e176ed47d19e30be78))
+
+
+- **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
+
+### Features
+
+
+
+- **(css/parser)** Parse more math functions in `@media` (#5904) ([2bf2419](https://github.com/swc-project/swc/commit/2bf24195f2e9803f24f335b637ff9e7ea394402b))
+
+
+- **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
+
+### Performance
+
+
+
+- **(es)** Optimize memory layout of AST (#5829) ([1a182ef](https://github.com/swc-project/swc/commit/1a182ef8d90c2294ac67e8cdee63bfab2c295bae))
+
+
+- **(es/minifier)** Make more passes parallel (#5906) ([6bbd3f4](https://github.com/swc-project/swc/commit/6bbd3f4c14eb243b697dc12593ada1b196a0cad8))
+
+
+- **(es/minifier)** Invoke DCE only before the first compression (#5907) ([1df7243](https://github.com/swc-project/swc/commit/1df72430a56cc85ac41c6f9753d7c7e6d5ea279a))
+
+
+- **(es/minifier)** Optimize analyzer (#5908) ([a9873e5](https://github.com/swc-project/swc/commit/a9873e505d33b4537e341a618f524931870a0db4))
+
+### Testing
+
+
+
+- **(es)** Accept arguments (#5916) ([fe40d83](https://github.com/swc-project/swc/commit/fe40d8312b7153de1e334d552e9f6bcafc9cc161))
+
+## [1.3.2] - 2022-09-19
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Drop the last comma in an array literal (#5877) ([7d6d04b](https://github.com/swc-project/swc/commit/7d6d04b4215c5c1ec368a8ccdabdda187cfa647e))
 
 
@@ -29,6 +70,9 @@
 - **(es/minifier)** Move assign with seq init into seq (#5847) ([63fb0c4](https://github.com/swc-project/swc/commit/63fb0c4ad34698d4d3f0c49ff5a78f6e446e64f9))
 
 
+- **(es/minifier)** Drop variable from the sequential inliner (#5896) ([4e656af](https://github.com/swc-project/swc/commit/4e656af1ecddadc4fa96e79aaf7338b7f22a672c))
+
+
 - **(es/plugin)** Enable plugin for bytecheck flags (#5885) ([2d4d04d](https://github.com/swc-project/swc/commit/2d4d04d06beec5c88e8515c95298a0bf5d961d8c))
 
 
@@ -41,7 +85,7 @@
 
 
 
-- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))
+- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))- **general**: Remove `.prettierrc.json` (#5895) ([89f0a4c](https://github.com/swc-project/swc/commit/89f0a4c5ac66d30ac2b9bf51db488a9946acea65))
 
 ### Performance
 
@@ -60,6 +104,9 @@
 
 ### Testing
 
+
+
+- **(es/minifier)** Add a test for a fixed issue (#5897) ([0bbcfe1](https://github.com/swc-project/swc/commit/0bbcfe15ee25e6debfb3dbed2d97fbf65bbb885a))
 
 
 - **(es/modules)** Add tests for `jsc.paths` (#5876) ([0d492bf](https://github.com/swc-project/swc/commit/0d492bfce1681dbbdbe8701f6e928002cc6ce6cd))

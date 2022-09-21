@@ -129,3 +129,10 @@
 }
 
 @media (NOT (color)) OR (hover) {}
+
+@media (width > calc(5px + 1rem)) {}
+@media (width < calc(Infinity * 1px)) {}
+@media (max-width: calc(5px + 1rem)) {}
+@media (width: calc(5px + 1rem)) {}
+@media (calc(100px + 10px) < width <= calc(1000px + 10px)) {}
+@media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}

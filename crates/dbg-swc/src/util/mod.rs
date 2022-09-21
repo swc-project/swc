@@ -74,9 +74,9 @@ pub fn print_js(cm: Arc<SourceMap>, m: &Module, minify: bool) -> Result<String> 
     let mut buf = vec![];
 
     {
-        let mut wr = box JsWriter::new(cm.clone(), "\n", &mut buf, None) as Box<dyn WriteJs>;
+        let mut wr = Box::new(JsWriter::new(cm.clone(), "\n", &mut buf, None)) as Box<dyn WriteJs>;
         if minify {
-            wr = box omit_trailing_semi(wr);
+            wr = Box::new(omit_trailing_semi(wr));
         }
 
         let mut e = swc_ecma_codegen::Emitter {

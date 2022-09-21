@@ -167,7 +167,8 @@ impl<C: Comments> VisitMut for Actual<C> {
             decorators: Default::default(),
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        }
+        .into();
     }
 
     fn visit_mut_call_expr(&mut self, expr: &mut CallExpr) {
@@ -257,13 +258,13 @@ impl<C: Comments> VisitMut for Actual<C> {
         };
         prop.function.span = prop_method_body_span;
 
-        let fn_ref = make_fn_ref(FnExpr {
-            ident: None,
-            function: Function {
+        let fn_ref = make_fn_ref(
+            Function {
                 params: vec![],
-                ..prop.function.take()
-            },
-        });
+                ..*prop.function.take()
+            }
+            .into(),
+        );
 
         let fn_ref = if is_this_used {
             fn_ref.apply(
@@ -296,6 +297,7 @@ impl<C: Comments> VisitMut for Actual<C> {
             return_type: Default::default(),
             type_params: Default::default(),
         }
+        .into()
     }
 
     fn visit_mut_stmts(&mut self, _n: &mut Vec<Stmt>) {}
@@ -363,12 +365,7 @@ impl<C: Comments> Actual<C> {
                 }
             }
 
-            Expr::Fn(
-                fn_expr @ FnExpr {
-                    function: Function { is_async: true, .. },
-                    ..
-                },
-            ) => {
+            Expr::Fn(fn_expr) if fn_expr.function.is_async => {
                 let mut wrapper = FunctionWrapper::from(fn_expr.take());
                 wrapper.ignore_function_name = self.c.ignore_function_name;
                 wrapper.ignore_function_length = self.c.ignore_function_length;
@@ -579,12 +576,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
                 definite: false,
             };
-            for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Let,
-                declare: false,
-                decls: vec![value_var],
-            })));
+            for_loop_body.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Let,
+                    declare: false,
+                    decls: vec![value_var],
+                }
+                .into(),
+            );
         }
 
         match s.left {
@@ -596,12 +596,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     init: Some(Box::new(Expr::Ident(value))),
                     definite: false,
                 };
-                for_loop_body.push(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Const,
-                    declare: false,
-                    decls: vec![var_decl],
-                })));
+                for_loop_body.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Const,
+                        declare: false,
+                        decls: vec![var_decl],
+                    }
+                    .into(),
+                );
             }
             VarDeclOrPat::Pat(p) => {
                 for_loop_body.push(Stmt::Expr(ExprStmt {
@@ -609,7 +612,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(p)),
+                        left: PatOrExpr::Pat(p),
                         right: Box::new(Expr::Ident(value)),
                     })),
                 }));
@@ -650,12 +653,15 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
         let for_stmt = Stmt::For(ForStmt {
             span: s.span,
             // var _iterator = _asyncIterator(lol()), _step;
-            init: Some(VarDeclOrExpr::VarDecl(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: init_var_decls,
-            })),
+            init: Some(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: init_var_decls,
+                }
+                .into(),
+            ),
             // _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done
             test: {
                 let iter_next = iterator.clone().make_member(quote_ident!("next"));
@@ -811,7 +817,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             stmts: vec![conditional_yield],
         };
 
-        let inner_try = Stmt::Try(TryStmt {
+        let inner_try = TryStmt {
             span: DUMMY_SP,
             block: body,
             handler: None,
@@ -819,7 +825,8 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 span: DUMMY_SP,
                 stmts: vec![throw_iterator_error],
             }),
-        });
+        }
+        .into();
         BlockStmt {
             span: DUMMY_SP,
             stmts: vec![inner_try],
@@ -834,7 +841,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
     };
 
     let stmts = vec![
-        Stmt::Decl(Decl::Var(VarDecl {
+        VarDecl {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
@@ -861,8 +868,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     definite: false,
                 },
             ],
-        })),
-        Stmt::Try(try_stmt),
+        }
+        .into(),
+        try_stmt.into(),
     ];
 
     *stmt = Stmt::Block(BlockStmt {

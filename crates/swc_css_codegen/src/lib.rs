@@ -538,6 +538,7 @@ where
             MediaFeatureValue::Dimension(n) => emit!(self, n),
             MediaFeatureValue::Ident(n) => emit!(self, n),
             MediaFeatureValue::Ratio(n) => emit!(self, n),
+            MediaFeatureValue::Function(n) => emit!(self, n),
         }
     }
 

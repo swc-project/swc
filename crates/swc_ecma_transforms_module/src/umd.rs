@@ -146,7 +146,7 @@ where
 
         stmts.extend(
             self.handle_import_export(&mut import_map, link, export, is_export_assign)
-                .map(Into::into),
+                .map(From::from),
         );
 
         stmts.extend(module_items.take().into_iter().filter_map(|i| match i {
@@ -176,22 +176,20 @@ where
 
         let (adapter_fn_expr, factory_params) = self.adapter(exported_name, is_export_assign);
 
-        let factory_fn_expr = FnExpr {
-            ident: None,
-            function: Function {
-                params: factory_params,
-                decorators: Default::default(),
+        let factory_fn_expr: Expr = Function {
+            params: factory_params,
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(BlockStmt {
                 span: DUMMY_SP,
-                body: Some(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts,
-                }),
-                is_generator: false,
-                is_async: false,
-                type_params: None,
-                return_type: None,
-            },
-        };
+                stmts,
+            }),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        }
+        .into();
 
         *module_items = vec![adapter_fn_expr
             .as_call(
@@ -221,7 +219,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(Into::into).collect();
+        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -299,9 +297,9 @@ where
                 // mod = _introp(mod);
                 // var mod1 = _introp(mod);
                 if need_new_var {
-                    let stmt: Stmt = Stmt::Decl(Decl::Var(
-                        import_expr.into_var_decl(self.const_var_kind, new_var_ident.into()),
-                    ));
+                    let stmt: Stmt = import_expr
+                        .into_var_decl(self.const_var_kind, new_var_ident.into())
+                        .into();
 
                     stmts.push(stmt)
                 } else if need_interop {
@@ -519,19 +517,17 @@ where
             .into()],
         };
 
-        let adapter_fn_expr = FnExpr {
-            ident: None,
-            function: Function {
-                params: vec![global.into(), factory.into()],
-                decorators: Default::default(),
-                span: DUMMY_SP,
-                body: Some(adapter_body),
-                is_generator: false,
-                is_async: false,
-                type_params: None,
-                return_type: None,
-            },
-        };
+        let adapter_fn_expr = Function {
+            params: vec![global.into(), factory.into()],
+            decorators: Default::default(),
+            span: DUMMY_SP,
+            body: Some(adapter_body),
+            is_generator: false,
+            is_async: false,
+            type_params: None,
+            return_type: None,
+        }
+        .into();
 
         (adapter_fn_expr, factory_params)
     }

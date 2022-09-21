@@ -495,14 +495,16 @@ macro_rules! noop_visit_mut_type {
 }
 
 define!({
+    use BigIntValue;
+
     pub struct Class {
         pub span: Span,
         pub decorators: Vec<Decorator>,
         pub body: Vec<ClassMember>,
         pub super_class: Option<Box<Expr>>,
         pub is_abstract: bool,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub super_type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub super_type_params: Option<Box<TsTypeParamInstantiation>>,
         pub implements: Vec<TsExprWithTypeArgs>,
     }
 
@@ -521,7 +523,7 @@ define!({
         pub span: Span,
         pub key: PropName,
         pub value: Option<Box<Expr>>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
@@ -536,7 +538,7 @@ define!({
         pub span: Span,
         pub key: PrivateName,
         pub value: Option<Box<Expr>>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
@@ -548,7 +550,7 @@ define!({
     pub struct ClassMethod {
         pub span: Span,
         pub key: PropName,
-        pub function: Function,
+        pub function: Box<Function>,
         pub kind: MethodKind,
         pub is_static: bool,
         pub accessibility: Option<Accessibility>,
@@ -559,7 +561,7 @@ define!({
     pub struct PrivateMethod {
         pub span: Span,
         pub key: PrivateName,
-        pub function: Function,
+        pub function: Box<Function>,
         pub kind: MethodKind,
         pub is_static: bool,
         pub accessibility: Option<Accessibility>,
@@ -591,21 +593,21 @@ define!({
     pub enum Decl {
         Class(ClassDecl),
         Fn(FnDecl),
-        Var(VarDecl),
-        TsInterface(TsInterfaceDecl),
-        TsTypeAlias(TsTypeAliasDecl),
-        TsEnum(TsEnumDecl),
-        TsModule(TsModuleDecl),
+        Var(Box<VarDecl>),
+        TsInterface(Box<TsInterfaceDecl>),
+        TsTypeAlias(Box<TsTypeAliasDecl>),
+        TsEnum(Box<TsEnumDecl>),
+        TsModule(Box<TsModuleDecl>),
     }
     pub struct FnDecl {
         pub ident: Ident,
         pub declare: bool,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub struct ClassDecl {
         pub ident: Ident,
         pub declare: bool,
-        pub class: Class,
+        pub class: Box<Class>,
     }
     pub struct VarDecl {
         pub span: Span,
@@ -701,11 +703,11 @@ define!({
     }
     pub struct FnExpr {
         pub ident: Option<Ident>,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub struct ClassExpr {
         pub ident: Option<Ident>,
-        pub class: Class,
+        pub class: Box<Class>,
     }
     pub struct AssignExpr {
         pub span: Span,
@@ -742,13 +744,13 @@ define!({
         pub span: Span,
         pub callee: Callee,
         pub args: Vec<ExprOrSpread>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct NewExpr {
         pub span: Span,
         pub callee: Box<Expr>,
         pub args: Option<Vec<ExprOrSpread>>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct SeqExpr {
         pub span: Span,
@@ -760,8 +762,8 @@ define!({
         pub body: BlockStmtOrExpr,
         pub is_async: bool,
         pub is_generator: bool,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub return_type: Option<TsTypeAnn>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub return_type: Option<Box<TsTypeAnn>>,
     }
     pub struct YieldExpr {
         pub span: Span,
@@ -788,7 +790,7 @@ define!({
     pub struct TaggedTpl {
         pub span: Span,
         pub tag: Box<Expr>,
-        pub type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamInstantiation>>,
         pub tpl: Tpl,
     }
     pub struct TplElement {
@@ -837,7 +839,7 @@ define!({
         pub span: Span,
         pub callee: Box<Expr>,
         pub args: Vec<ExprOrSpread>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct Function {
         pub params: Vec<Param>,
@@ -846,8 +848,8 @@ define!({
         pub body: Option<BlockStmt>,
         pub is_generator: bool,
         pub is_async: bool,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub return_type: Option<TsTypeAnn>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub return_type: Option<Box<TsTypeAnn>>,
     }
     pub struct Param {
         pub span: Span,
@@ -861,7 +863,7 @@ define!({
 
     pub struct BindingIdent {
         pub id: Ident,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct Ident {
@@ -912,7 +914,7 @@ define!({
         pub span: Span,
         pub attrs: Vec<JSXAttrOrSpread>,
         pub self_closing: bool,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub enum JSXAttrOrSpread {
         JSXAttr(JSXAttr),
@@ -981,7 +983,7 @@ define!({
     }
     pub struct BigInt {
         pub span: Span,
-        pub value: BigIntValue,
+        pub value: Box<BigIntValue>,
         pub raw: Option<Atom>,
     }
     pub struct Str {
@@ -1033,7 +1035,7 @@ define!({
         ExportDefaultDecl(ExportDefaultDecl),
         ExportDefaultExpr(ExportDefaultExpr),
         ExportAll(ExportAll),
-        TsImportEquals(TsImportEqualsDecl),
+        TsImportEquals(Box<TsImportEqualsDecl>),
         TsExportAssignment(TsExportAssignment),
         TsNamespaceExport(TsNamespaceExportDecl),
     }
@@ -1048,21 +1050,21 @@ define!({
     pub struct ImportDecl {
         pub span: Span,
         pub specifiers: Vec<ImportSpecifier>,
-        pub src: Str,
+        pub src: Box<Str>,
         pub type_only: bool,
-        pub asserts: Option<ObjectLit>,
+        pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct ExportAll {
         pub span: Span,
-        pub src: Str,
-        pub asserts: Option<ObjectLit>,
+        pub src: Box<Str>,
+        pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct NamedExport {
         pub span: Span,
         pub specifiers: Vec<ExportSpecifier>,
-        pub src: Option<Str>,
+        pub src: Option<Box<Str>>,
         pub type_only: bool,
-        pub asserts: Option<ObjectLit>,
+        pub asserts: Option<Box<ObjectLit>>,
     }
     pub struct ExportDefaultDecl {
         pub span: Span,
@@ -1071,7 +1073,7 @@ define!({
     pub enum DefaultDecl {
         Class(ClassExpr),
         Fn(FnExpr),
-        TsInterfaceDecl(TsInterfaceDecl),
+        TsInterfaceDecl(Box<TsInterfaceDecl>),
     }
     pub enum ImportSpecifier {
         Named(ImportNamedSpecifier),
@@ -1186,25 +1188,25 @@ define!({
         pub span: Span,
         pub elems: Vec<Option<Pat>>,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct ObjectPat {
         pub span: Span,
         pub props: Vec<ObjectPatProp>,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct AssignPat {
         pub span: Span,
         pub left: Box<Pat>,
         pub right: Box<Expr>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub struct RestPat {
         pub span: Span,
         pub dot3_token: Span,
         pub arg: Box<Pat>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum ObjectPatProp {
         KeyValue(KeyValuePatProp),
@@ -1239,18 +1241,18 @@ define!({
     pub struct GetterProp {
         pub span: Span,
         pub key: PropName,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub body: Option<BlockStmt>,
     }
     pub struct SetterProp {
         pub span: Span,
         pub key: PropName,
-        pub param: Pat,
+        pub param: Box<Pat>,
         pub body: Option<BlockStmt>,
     }
     pub struct MethodProp {
         pub key: PropName,
-        pub function: Function,
+        pub function: Box<Function>,
     }
     pub enum PropName {
         Ident(Ident),
@@ -1279,7 +1281,7 @@ define!({
         If(IfStmt),
         Switch(SwitchStmt),
         Throw(ThrowStmt),
-        Try(TryStmt),
+        Try(Box<TryStmt>),
         While(WhileStmt),
         DoWhile(DoWhileStmt),
         For(ForStmt),
@@ -1382,11 +1384,11 @@ define!({
         pub body: BlockStmt,
     }
     pub enum VarDeclOrPat {
-        VarDecl(VarDecl),
-        Pat(Pat),
+        VarDecl(Box<VarDecl>),
+        Pat(Box<Pat>),
     }
     pub enum VarDeclOrExpr {
-        VarDecl(VarDecl),
+        VarDecl(Box<VarDecl>),
         Expr(Box<Expr>),
     }
     pub struct TsTypeAnn {
@@ -1441,14 +1443,14 @@ define!({
     pub struct TsCallSignatureDecl {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsConstructSignatureDecl {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsPropertySignature {
         pub span: Span,
@@ -1458,8 +1460,8 @@ define!({
         pub optional: bool,
         pub init: Option<Box<Expr>>,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
 
     pub struct TsGetterSignature {
@@ -1468,7 +1470,7 @@ define!({
         pub key: Box<Expr>,
         pub computed: bool,
         pub optional: bool,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
 
     pub struct TsSetterSignature {
@@ -1486,12 +1488,12 @@ define!({
         pub computed: bool,
         pub optional: bool,
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
     }
     pub struct TsIndexSignature {
         pub params: Vec<TsFnParam>,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
         pub readonly: bool,
         pub is_static: bool,
         pub span: Span,
@@ -1553,26 +1555,26 @@ define!({
     pub struct TsFnType {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub type_ann: TsTypeAnn,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub type_ann: Box<TsTypeAnn>,
     }
     pub struct TsConstructorType {
         pub span: Span,
         pub params: Vec<TsFnParam>,
-        pub type_params: Option<TsTypeParamDecl>,
-        pub type_ann: TsTypeAnn,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
+        pub type_ann: Box<TsTypeAnn>,
         pub is_abstract: bool,
     }
     pub struct TsTypeRef {
         pub span: Span,
         pub type_name: TsEntityName,
-        pub type_params: Option<TsTypeParamInstantiation>,
+        pub type_params: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypePredicate {
         pub span: Span,
         pub asserts: bool,
         pub param_name: TsThisTypeOrIdent,
-        pub type_ann: Option<TsTypeAnn>,
+        pub type_ann: Option<Box<TsTypeAnn>>,
     }
     pub enum TsThisTypeOrIdent {
         TsThisType(TsThisType),
@@ -1581,7 +1583,7 @@ define!({
     pub struct TsTypeQuery {
         pub span: Span,
         pub expr_name: TsTypeQueryExpr,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub enum TsTypeQueryExpr {
         TsEntityName(TsEntityName),
@@ -1591,7 +1593,7 @@ define!({
         pub span: Span,
         pub arg: Str,
         pub qualifier: Option<TsEntityName>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypeLit {
         pub span: Span,
@@ -1610,7 +1612,7 @@ define!({
     pub struct TsTupleElement {
         pub span: Span,
         pub label: Option<Pat>,
-        pub ty: TsType,
+        pub ty: Box<TsType>,
     }
 
     pub struct TsOptionalType {
@@ -1697,7 +1699,7 @@ define!({
         pub span: Span,
         pub id: Ident,
         pub declare: bool,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub extends: Vec<TsExprWithTypeArgs>,
         pub body: TsInterfaceBody,
     }
@@ -1708,13 +1710,13 @@ define!({
     pub struct TsExprWithTypeArgs {
         pub span: Span,
         pub expr: Box<Expr>,
-        pub type_args: Option<TsTypeParamInstantiation>,
+        pub type_args: Option<Box<TsTypeParamInstantiation>>,
     }
     pub struct TsTypeAliasDecl {
         pub span: Span,
         pub declare: bool,
         pub id: Ident,
-        pub type_params: Option<TsTypeParamDecl>,
+        pub type_params: Option<Box<TsTypeParamDecl>>,
         pub type_ann: Box<TsType>,
     }
     pub struct TsEnumDecl {
@@ -1810,7 +1812,7 @@ define!({
     pub struct TsInstantiation {
         pub span: Span,
         pub expr: Box<Expr>,
-        pub type_args: TsTypeParamInstantiation,
+        pub type_args: Box<TsTypeParamInstantiation>,
     }
 
     pub struct ReservedUnused {

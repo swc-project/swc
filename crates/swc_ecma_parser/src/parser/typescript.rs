@@ -437,7 +437,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_params(
         &mut self,
         allow_modifier: bool,
-    ) -> PResult<TsTypeParamDecl> {
+    ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type().parse_with(|p| {
             p.ts_in_no_context(|p| {
                 let start = cur_pos!(p);
@@ -455,10 +455,10 @@ impl<I: Tokens> Parser<I> {
                     true,
                 )?;
 
-                Ok(TsTypeParamDecl {
+                Ok(Box::new(TsTypeParamDecl {
                     span: span!(p, start),
                     params,
-                })
+                }))
             })
         })
     }
@@ -467,7 +467,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: &'static Token,
-    ) -> PResult<TsTypeAnn> {
+    ) -> PResult<Box<TsTypeAnn>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.in_type().parse_with(|p| {
@@ -516,10 +516,10 @@ impl<I: Tokens> Parser<I> {
                 type_ann,
             }));
 
-            Ok(TsTypeAnn {
+            Ok(Box::new(TsTypeAnn {
                 span: span!(p, return_token_start),
                 type_ann: node,
-            })
+            }))
         })
     }
 
@@ -554,7 +554,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<TsTypeParamInstantiation> {
+    pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
         debug_assert!(self.input.syntax().typescript());
 
         self.try_parse_ts(|p| {
@@ -627,7 +627,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         eat_colon: bool,
         start: BytePos,
-    ) -> PResult<TsTypeAnn> {
+    ) -> PResult<Box<TsTypeAnn>> {
         trace_cur!(self, parse_ts_type_ann);
 
         debug_assert!(self.input.syntax().typescript());
@@ -641,10 +641,10 @@ impl<I: Tokens> Parser<I> {
 
             let type_ann = p.parse_ts_type()?;
 
-            Ok(TsTypeAnn {
+            Ok(Box::new(TsTypeAnn {
                 span: span!(p, start),
                 type_ann,
-            })
+            }))
         })
     }
 
@@ -774,7 +774,7 @@ impl<I: Tokens> Parser<I> {
         &mut self,
         start: BytePos,
         is_const: bool,
-    ) -> PResult<TsEnumDecl> {
+    ) -> PResult<Box<TsEnumDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -783,13 +783,13 @@ impl<I: Tokens> Parser<I> {
             .parse_ts_delimited_list(ParsingContext::EnumMembers, |p| p.parse_ts_enum_member())?;
         expect!(self, '}');
 
-        Ok(TsEnumDecl {
+        Ok(Box::new(TsEnumDecl {
             span: span!(self, start),
             declare: false,
             is_const,
             id,
             members,
-        })
+        }))
     }
 
     /// `tsParseModuleBlock`
@@ -815,7 +815,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseModuleOrNamespaceDeclaration`
-    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<TsModuleDecl> {
+    fn parse_ts_module_or_ns_decl(&mut self, start: BytePos) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -837,17 +837,20 @@ impl<I: Tokens> Parser<I> {
             self.parse_ts_module_block().map(From::from)?
         };
 
-        Ok(TsModuleDecl {
+        Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
             id: TsModuleName::Ident(id),
             body: Some(body),
             global: false,
-        })
+        }))
     }
 
     /// `tsParseAmbientExternalModuleDeclaration`
-    fn parse_ts_ambient_external_module_decl(&mut self, start: BytePos) -> PResult<TsModuleDecl> {
+    fn parse_ts_ambient_external_module_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsModuleDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let (global, id) = if is!(self, "global") {
@@ -870,13 +873,13 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        Ok(TsModuleDecl {
+        Ok(Box::new(TsModuleDecl {
             span: span!(self, start),
             declare: false,
             id,
             global,
             body,
-        })
+        }))
     }
 
     pub fn parse_type(&mut self) -> PResult<Box<TsType>> {
@@ -1033,7 +1036,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseInterfaceDeclaration`
-    pub(super) fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<TsInterfaceDecl> {
+    pub(super) fn parse_ts_interface_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsInterfaceDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -1082,31 +1088,31 @@ impl<I: Tokens> Parser<I> {
             span: span!(self, body_start),
             body,
         };
-        Ok(TsInterfaceDecl {
+        Ok(Box::new(TsInterfaceDecl {
             span: span!(self, start),
             declare: false,
             id,
             type_params,
             extends,
             body,
-        })
+        }))
     }
 
     /// `tsParseTypeAliasDeclaration`
-    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<TsTypeAliasDecl> {
+    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params(true)?;
         let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
         expect!(self, ';');
-        Ok(TsTypeAliasDecl {
+        Ok(Box::new(TsTypeAliasDecl {
             declare: false,
             span: span!(self, start),
             id,
             type_params,
             type_ann,
-        })
+        }))
     }
 
     /// `tsParseImportEqualsDeclaration`
@@ -1115,7 +1121,7 @@ impl<I: Tokens> Parser<I> {
         start: BytePos,
         is_export: bool,
         is_type_only: bool,
-    ) -> PResult<TsImportEqualsDecl> {
+    ) -> PResult<Box<TsImportEqualsDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -1123,14 +1129,14 @@ impl<I: Tokens> Parser<I> {
 
         let module_ref = self.parse_ts_module_ref()?;
         expect!(self, ';');
-        Ok(TsImportEqualsDecl {
+        Ok(Box::new(TsImportEqualsDecl {
             span: span!(self, start),
             declare: false,
             id,
             is_export,
             is_type_only,
             module_ref,
-        })
+        }))
     }
 
     /// `tsIsExternalModuleReference`
@@ -1674,7 +1680,7 @@ impl<I: Tokens> Parser<I> {
         let mut seen_optional_element = false;
 
         for elem in elems.iter() {
-            match elem.ty {
+            match *elem.ty {
                 TsType::TsRestType(..) => {}
                 TsType::TsOptionalType(..) => {
                     seen_optional_element = true;
@@ -1744,10 +1750,10 @@ impl<I: Tokens> Parser<I> {
             return Ok(TsTupleElement {
                 span: span!(self, start),
                 label,
-                ty: TsType::TsRestType(TsRestType {
+                ty: Box::new(TsType::TsRestType(TsRestType {
                     span: span!(self, start),
                     type_ann,
-                }),
+                })),
             });
         }
 
@@ -1758,17 +1764,17 @@ impl<I: Tokens> Parser<I> {
             return Ok(TsTupleElement {
                 span: span!(self, start),
                 label,
-                ty: TsType::TsOptionalType(TsOptionalType {
+                ty: Box::new(TsType::TsOptionalType(TsOptionalType {
                     span: span!(self, start),
                     type_ann,
-                }),
+                })),
             });
         }
 
         Ok(TsTupleElement {
             span: span!(self, start),
             label,
-            ty: *ty,
+            ty,
         })
     }
 
@@ -1934,7 +1940,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsTryParseTypeOrTypePredicateAnnotation`
     ///
     /// Used for parsing return types.
-    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<TsTypeAnn>> {
+    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -1948,7 +1954,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseTypeAnnotation`
-    pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<TsTypeAnn>> {
+    pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -1974,7 +1980,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn try_parse_ts_type_params(
         &mut self,
         allow_modifier: bool,
-    ) -> PResult<Option<TsTypeParamDecl>> {
+    ) -> PResult<Option<Box<TsTypeParamDecl>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -2110,7 +2116,7 @@ impl<I: Tokens> Parser<I> {
 
                         TsLit::BigInt(BigInt {
                             span,
-                            value: -value,
+                            value: Box::new(-*value),
                             raw: Some(new_raw.into()),
                         })
                     }
@@ -2297,28 +2303,14 @@ impl<I: Tokens> Parser<I> {
             "declare" => {
                 let decl = self.try_parse_ts_declare(start, decorators)?;
                 if let Some(mut decl) = decl {
-                    match decl {
-                        Decl::Class(ClassDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::Fn(FnDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::Var(VarDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsInterface(TsInterfaceDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsTypeAlias(TsTypeAliasDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsEnum(TsEnumDecl {
-                            ref mut declare, ..
-                        })
-                        | Decl::TsModule(TsModuleDecl {
-                            ref mut declare, ..
-                        }) => *declare = true,
+                    match &mut decl {
+                        Decl::Class(ClassDecl { declare, .. })
+                        | Decl::Fn(FnDecl { declare, .. }) => *declare = true,
+                        Decl::Var(v) => v.declare = true,
+                        Decl::TsInterface(v) => v.declare = true,
+                        Decl::TsTypeAlias(v) => v.declare = true,
+                        Decl::TsEnum(v) => v.declare = true,
+                        Decl::TsModule(v) => v.declare = true,
                     }
                     Ok(Some(decl))
                 } else {
@@ -2338,13 +2330,13 @@ impl<I: Tokens> Parser<I> {
                         .map(TsNamespaceBody::from)
                         .map(Some)?;
                     Ok(Some(
-                        TsModuleDecl {
+                        Box::new(TsModuleDecl {
                             span: span!(self, start),
                             global,
                             declare: false,
                             id,
                             body,
-                        }
+                        })
                         .into(),
                     ))
                 } else {
@@ -2388,13 +2380,13 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Fn(f) => Decl::Fn(FnDecl {
                             declare: true,
-                            function: Function {
+                            function: Box::new(Function {
                                 span: Span {
                                     lo: declare_start,
                                     ..f.function.span
                                 },
-                                ..f.function
-                            },
+                                ..*f.function
+                            }),
                             ..f
                         }),
                         _ => decl,
@@ -2408,13 +2400,13 @@ impl<I: Tokens> Parser<I> {
                     .map(|decl| match decl {
                         Decl::Class(c) => Decl::Class(ClassDecl {
                             declare: true,
-                            class: Class {
+                            class: Box::new(Class {
                                 span: Span {
                                     lo: declare_start,
                                     ..c.class.span
                                 },
-                                ..c.class
-                            },
+                                ..*c.class
+                            }),
                             ..c
                         }),
                         _ => decl,
@@ -2435,8 +2427,9 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..decl
+                        ..*decl
                     })
+                    .map(Box::new)
                     .map(From::from)
                     .map(Some);
             }
@@ -2449,8 +2442,9 @@ impl<I: Tokens> Parser<I> {
                             lo: declare_start,
                             ..decl.span
                         },
-                        ..decl
+                        ..*decl
                     })
+                    .map(Box::new)
                     .map(From::from)
                     .map(Some);
             }
@@ -2649,7 +2643,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeArguments`
-    pub fn parse_ts_type_args(&mut self) -> PResult<TsTypeParamInstantiation> {
+    pub fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
 
@@ -2671,10 +2665,10 @@ impl<I: Tokens> Parser<I> {
         // `<C<number> />`, so set exprAllowed = false
         self.input.set_expr_allowed(false);
         expect!(self, '>');
-        Ok(TsTypeParamInstantiation {
+        Ok(Box::new(TsTypeParamInstantiation {
             span: span!(self, start),
             params,
-        })
+        }))
     }
 
     /// `tsParseIntersectionTypeOrHigher`
@@ -2831,20 +2825,21 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let first = ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(TsTypeAliasDecl {
-                    span: DUMMY_SP,
-                    declare: false,
-                    id: Ident::new("test".into(), DUMMY_SP),
-                    type_params: None,
-                    type_ann: Box::new(TsType::TsLitType(TsLitType {
+                let first =
+                    ModuleItem::Stmt(Stmt::Decl(Decl::TsTypeAlias(Box::new(TsTypeAliasDecl {
                         span: DUMMY_SP,
-                        lit: TsLit::Number(Number {
+                        declare: false,
+                        id: Ident::new("test".into(), DUMMY_SP),
+                        type_params: None,
+                        type_ann: Box::new(TsType::TsLitType(TsLitType {
                             span: DUMMY_SP,
-                            value: -1.0,
-                            raw: Some("-1".into()),
-                        }),
-                    })),
-                })));
+                            lit: TsLit::Number(Number {
+                                span: DUMMY_SP,
+                                value: -1.0,
+                                raw: Some("-1".into()),
+                            }),
+                        })),
+                    }))));
                 vec![first]
             },
         };
@@ -2864,7 +2859,7 @@ mod tests {
             span: DUMMY_SP,
             shebang: None,
             body: {
-                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                let second = ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Const,
                     declare: false,
@@ -2882,7 +2877,7 @@ mod tests {
                         }))),
                         definite: false,
                     }],
-                })));
+                }))));
                 vec![second]
             },
         };

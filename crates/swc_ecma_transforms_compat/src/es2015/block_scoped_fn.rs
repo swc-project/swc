@@ -38,20 +38,23 @@ impl VisitMut for BlockScopedFns {
                             extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
                             continue;
                         }
-                        stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                            span: DUMMY_SP,
-                            kind: VarDeclKind::Let,
-                            decls: vec![VarDeclarator {
+                        stmts.push(
+                            VarDecl {
                                 span: DUMMY_SP,
-                                name: decl.ident.clone().into(),
-                                init: Some(Box::new(Expr::Fn(FnExpr {
-                                    ident: Some(decl.ident),
-                                    function: decl.function,
-                                }))),
-                                definite: false,
-                            }],
-                            declare: false,
-                        })))
+                                kind: VarDeclKind::Let,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: decl.ident.clone().into(),
+                                    init: Some(Box::new(Expr::Fn(FnExpr {
+                                        ident: Some(decl.ident),
+                                        function: decl.function,
+                                    }))),
+                                    definite: false,
+                                }],
+                                declare: false,
+                            }
+                            .into(),
+                        )
                     }
                     _ => {
                         stmt.visit_mut_children_with(self);

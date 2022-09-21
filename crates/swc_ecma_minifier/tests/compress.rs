@@ -61,7 +61,7 @@ fn is_ignored(path: &Path) -> bool {
             .collect()
     });
 
-    static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/golden.txt"));
+    static GOLDEN: Lazy<Vec<String>> = Lazy::new(|| load_txt("tests/passing.txt"));
 
     let s = path.to_string_lossy().replace('-', "_").replace('\\', "/");
 
@@ -269,6 +269,7 @@ fn stdout_of(code: &str) -> Result<String, Error> {
         JsExecOptions {
             cache: true,
             module: false,
+            ..Default::default()
         },
     )
 }

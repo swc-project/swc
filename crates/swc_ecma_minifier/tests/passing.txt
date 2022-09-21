@@ -416,9 +416,6 @@ drop_unused/issue_3192/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
 drop_unused/issue_t161_top_retain_1/input.js
-drop_unused/issue_t161_top_retain_10/input.js
-drop_unused/issue_t161_top_retain_11/input.js
-drop_unused/issue_t161_top_retain_12/input.js
 drop_unused/issue_t161_top_retain_13/input.js
 drop_unused/issue_t161_top_retain_14/input.js
 drop_unused/issue_t161_top_retain_2/input.js
@@ -427,8 +424,6 @@ drop_unused/issue_t161_top_retain_4/input.js
 drop_unused/issue_t161_top_retain_5/input.js
 drop_unused/issue_t161_top_retain_6/input.js
 drop_unused/issue_t161_top_retain_7/input.js
-drop_unused/issue_t161_top_retain_8/input.js
-drop_unused/issue_t161_top_retain_9/input.js
 drop_unused/keep_fnames/input.js
 drop_unused/unused_block_decls/input.js
 drop_unused/unused_block_decls_in_catch/input.js
@@ -568,7 +563,6 @@ functions/issue_2097/input.js
 functions/issue_2101/input.js
 functions/issue_2428/input.js
 functions/issue_2531_2/input.js
-functions/issue_2531_3/input.js
 functions/issue_2630_3/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
@@ -700,7 +694,6 @@ identity/inline_identity_dont_lose_this_when_arg/input.js
 identity/inline_identity_duplicate_arg_var/input.js
 identity/inline_identity_function/input.js
 identity/inline_identity_higher_order/input.js
-identity/inline_identity_inline_function/input.js
 identity/inline_identity_inner_ref/input.js
 identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
@@ -898,7 +891,6 @@ issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
 issue_t120/issue_t120_1/input.js
-issue_t120/issue_t120_2/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
 issue_t50/issue_t50_let/input.js
@@ -1144,7 +1136,6 @@ reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
-reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_single_use_loop/input.js
 reduce_vars/defun_var_3/input.js
 reduce_vars/delay_def_lhs/input.js
@@ -1339,8 +1330,8 @@ sequences/hoist_defun/input.js
 sequences/iife/input.js
 sequences/issue_1685/input.js
 sequences/issue_2313/input.js
-sequences/issue_27/input.js
 sequences/lift_sequences_1/input.js
+sequences/lift_sequences_2/input.js
 sequences/lift_sequences_3/input.js
 sequences/lift_sequences_4/input.js
 sequences/lift_sequences_5/input.js

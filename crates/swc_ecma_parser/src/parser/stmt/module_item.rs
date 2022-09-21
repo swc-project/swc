@@ -55,11 +55,11 @@ impl<I: Tokens> Parser<I> {
         let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
             let src = match bump!(self) {
-                Token::Str { value, raw, .. } => Str {
+                Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),
                     value,
                     raw: Some(raw),
-                },
+                }),
                 _ => unreachable!(),
             };
             let _ = cur!(self, false);
@@ -68,7 +68,7 @@ impl<I: Tokens> Parser<I> {
                 && eat!(self, "assert")
             {
                 match *self.parse_object::<Box<Expr>>()? {
-                    Expr::Object(v) => Some(v),
+                    Expr::Object(v) => Some(Box::new(v)),
                     _ => unreachable!(),
                 }
             } else {
@@ -145,11 +145,11 @@ impl<I: Tokens> Parser<I> {
 
             match *cur!(self, true)? {
                 Token::Str { .. } => match bump!(self) {
-                    Token::Str { value, raw, .. } => Str {
+                    Token::Str { value, raw, .. } => Box::new(Str {
                         span: span!(self, str_start),
                         value,
                         raw: Some(raw),
-                    },
+                    }),
                     _ => unreachable!(),
                 },
                 _ => unexpected!(self, "a string literal"),
@@ -162,7 +162,7 @@ impl<I: Tokens> Parser<I> {
             && eat!(self, "assert")
         {
             match *self.parse_object::<Box<Expr>>()? {
-                Expr::Object(v) => Some(v),
+                Expr::Object(v) => Some(Box::new(v)),
                 _ => unreachable!(),
             }
         } else {
@@ -775,17 +775,17 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parses `from 'foo.js' assert {};`
-    fn parse_from_clause_and_semi(&mut self) -> PResult<(Str, Option<ObjectLit>)> {
+    fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
         let src = match *cur!(self, true)? {
             Token::Str { .. } => match bump!(self) {
-                Token::Str { value, raw, .. } => Str {
+                Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),
                     value,
                     raw: Some(raw),
-                },
+                }),
                 _ => unreachable!(),
             },
             _ => unexpected!(self, "a string literal"),
@@ -796,7 +796,7 @@ impl<I: Tokens> Parser<I> {
             && eat!(self, "assert")
         {
             match *self.parse_object::<Box<Expr>>()? {
-                Expr::Object(v) => Some(v),
+                Expr::Object(v) => Some(Box::new(v)),
                 _ => unreachable!(),
             }
         } else {

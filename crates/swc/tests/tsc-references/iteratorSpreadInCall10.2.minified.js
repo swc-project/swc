@@ -11,5 +11,5 @@ class SymbolIterator {
     }
 }
 !function(s) {
-    return s[0];
+    s[0];
 }(...new SymbolIterator);
