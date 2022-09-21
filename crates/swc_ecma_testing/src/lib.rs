@@ -3,7 +3,7 @@ use std::{env, fs, path::PathBuf, process::Command};
 use anyhow::{bail, Context, Result};
 use sha1::{Digest, Sha1};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct JsExecOptions {
     /// Cache the result of the execution.
     ///
@@ -20,6 +20,9 @@ pub struct JsExecOptions {
 
     /// If true, `--input-type=module` will be added.
     pub module: bool,
+
+    /// The arguments passed to the node.js process.
+    pub args: Vec<String>,
 }
 
 fn cargo_manifest_dir() -> PathBuf {

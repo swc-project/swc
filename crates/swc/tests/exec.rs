@@ -427,6 +427,7 @@ fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
         JsExecOptions {
             cache: true,
             module: matches!(module_type, NodeModuleType::Module),
+            ..Default::default()
         },
     )?;
 
