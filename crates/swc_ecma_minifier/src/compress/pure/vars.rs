@@ -267,7 +267,8 @@ impl Pure<'_> {
         if !prepender.vars.is_empty() {
             match stmts.get_mut(0).and_then(|v| v.as_stmt_mut()) {
                 Some(Stmt::Decl(Decl::Var(v))) if v.kind == target => {
-                    v.decls.extend(prepender.vars);
+                    prepender.vars.append(&mut v.decls);
+                    v.decls = prepender.vars;
                 }
                 _ => {
                     prepend_stmt(
