@@ -4,6 +4,7 @@ arguments/arguments_and_destructuring_3/input.js
 arguments/arguments_in_arrow_func_1/input.js
 arguments/arguments_in_arrow_func_2/input.js
 arguments/duplicate_parameter_with_arguments/input.js
+arguments/issue_687/input.js
 arguments/modified_strict/input.js
 arguments/replace_index_keep_fargs_strict/input.js
 array_constructor/array_constructor/input.js
@@ -1161,6 +1162,7 @@ reduce_vars/issue_1533_2/input.js
 reduce_vars/issue_1595_1/input.js
 reduce_vars/issue_1595_2/input.js
 reduce_vars/issue_1595_4/input.js
+reduce_vars/issue_1606/input.js
 reduce_vars/issue_1670_1/input.js
 reduce_vars/issue_1670_3/input.js
 reduce_vars/issue_1670_6/input.js
@@ -1275,6 +1277,7 @@ reduce_vars/unsafe_evaluate_object_1/input.js
 reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
+reduce_vars/var_assign_3/input.js
 reduce_vars/var_assign_4/input.js
 reduce_vars/var_assign_5/input.js
 reduce_vars/var_assign_6/input.js

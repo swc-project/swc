@@ -1,4 +1,3 @@
-arguments/issue_687/input.js
 arguments/modified/input.js
 arguments/replace_index/input.js
 arguments/replace_index_keep_fargs/input.js
