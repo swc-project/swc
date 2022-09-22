@@ -213,10 +213,6 @@ where
                     }
 
                     if let Some(arg) = arg {
-                        // NOTE
-                        //
-                        // This function is misdesigned and should be removed.
-                        // This is wrong because the order of execution is not guaranteed.
                         match &**arg {
                             Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
                             Expr::Lit(..) => {}
