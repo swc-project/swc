@@ -23,6 +23,7 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
+use pass::mangle_names::idents_to_preserve;
 use swc_common::{
     comments::Comments,
     pass::{Repeat, Repeated},
@@ -33,6 +34,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
+use util::base54::CharFreq;
 
 pub use self::analyzer::dump_snapshot;
 pub use crate::pass::unique_scope::unique_scope;
@@ -273,15 +275,26 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
+        let preserved = idents_to_preserve(mangle.clone(), &m);
+
+        let chars = CharFreq::compute(
+            &m,
+            &preserved,
+            SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+        )
+        .compile();
+
         m.visit_mut_with(&mut name_mangler(
             mangle.clone(),
             &m,
             SyntaxContext::empty().apply_mark(extra.unresolved_mark),
+            preserved,
+            chars,
         ));
-    }
 
-    if let Some(property_mangle_options) = options.mangle.as_ref().and_then(|o| o.props.as_ref()) {
-        mangle_properties(&mut m, &module_info, property_mangle_options.clone());
+        if let Some(property_mangle_options) = &mangle.props {
+            mangle_properties(&mut m, &module_info, property_mangle_options.clone());
+        }
     }
 
     m.visit_mut_with(&mut merge_exports());

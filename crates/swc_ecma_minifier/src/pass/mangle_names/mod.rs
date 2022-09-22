@@ -5,11 +5,8 @@ use swc_ecma_ast::{Module, *};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::VisitMut;
 
-use self::preserver::idents_to_preserve;
-use crate::{
-    option::MangleOptions,
-    util::base54::{Base54Chars, CharFreq},
-};
+pub(crate) use self::preserver::idents_to_preserve;
+use crate::{option::MangleOptions, util::base54::Base54Chars};
 
 mod preserver;
 mod private_name;
@@ -18,19 +15,17 @@ pub(crate) fn name_mangler(
     options: MangleOptions,
     program: &Program,
     unresolved_ctxt: SyntaxContext,
+    preserved: FxHashSet<Id>,
+    chars: Base54Chars,
 ) -> impl VisitMut {
-    let preserved = idents_to_preserve(options.clone(), program);
-
-    let base54 = CharFreq::compute(program, &preserved, unresolved_ctxt).compile();
-
     chain!(
-        self::private_name::private_name_mangler(options.keep_private_props, base54),
-        renamer(Default::default(), ManglingRenamer { base54, preserved })
+        self::private_name::private_name_mangler(options.keep_private_props, chars),
+        renamer(Default::default(), ManglingRenamer { chars, preserved })
     )
 }
 
 struct ManglingRenamer {
-    base54: Base54Chars,
+    chars: Base54Chars,
     preserved: FxHashSet<Id>,
 }
 
@@ -47,6 +42,6 @@ impl Renamer for ManglingRenamer {
     }
 
     fn new_name_for(&self, _: &Id, n: &mut usize) -> JsWord {
-        self.base54.encode(n, true)
+        self.chars.encode(n, true)
     }
 }
