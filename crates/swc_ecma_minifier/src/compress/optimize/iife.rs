@@ -244,12 +244,39 @@ where
                     Pat::Rest(param) => {
                         if let Pat::Ident(param) = &*param.arg {
                             if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                                if usage.reassigned() {
+                                if usage.reassigned()
+                                    || usage.ref_count != 1
+                                    || !usage.has_property_access
+                                {
                                     continue;
                                 }
-                                if usage.ref_count != 1 {
+
+                                if e.args.iter().skip(idx).any(|arg| {
+                                    if arg.spread.is_some() {
+                                        return true;
+                                    }
+
+                                    match &*arg.expr {
+                                        Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
+                                        Expr::Lit(..) => false,
+                                        _ => true,
+                                    }
+                                }) {
                                     continue;
                                 }
+
+                                vars.insert(
+                                    param.to_id(),
+                                    Box::new(Expr::Array(ArrayLit {
+                                        span: param.span,
+                                        elems: e
+                                            .args
+                                            .iter()
+                                            .skip(idx)
+                                            .map(|arg| Some(arg.clone()))
+                                            .collect(),
+                                    })),
+                                );
                             }
                         }
                     }
