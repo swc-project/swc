@@ -993,6 +993,11 @@ where
             Expr::Unary(expr) => {
                 self.changed = true;
                 report_change!("ignore_return_value: Reducing unary ({})", expr.op);
+
+                // We can ignore the identifier in case of typeof
+                if expr.op == op!("typeof") && expr.arg.is_ident() {
+                    return None;
+                }
                 return self.ignore_return_value(&mut expr.arg);
             }
 

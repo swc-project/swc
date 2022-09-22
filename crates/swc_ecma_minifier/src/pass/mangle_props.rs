@@ -12,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::{
     analyzer::{analyze, ModuleInfo, ProgramData},
     option::ManglePropertiesOptions,
-    util::base54,
+    util::base54::Base54Chars,
 };
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
@@ -31,8 +31,8 @@ pub static JS_ENVIRONMENT_PROPS: Lazy<AHashSet<JsWord>> = Lazy::new(|| {
     word_set
 });
 
-#[derive(Debug, Default)]
 struct ManglePropertiesState {
+    chars: Base54Chars,
     options: ManglePropertiesOptions,
 
     names_to_mangle: AHashSet<JsWord>,
@@ -85,7 +85,7 @@ impl ManglePropertiesState {
             if let Some(cached) = self.cache.get(name) {
                 Some(cached.clone())
             } else {
-                let mangled_name = base54::encode(&mut self.n, true);
+                let mangled_name = self.chars.encode(&mut self.n, true);
 
                 self.cache.insert(name.clone(), mangled_name.clone());
                 Some(mangled_name)
@@ -100,10 +100,15 @@ pub(crate) fn mangle_properties(
     m: &mut Program,
     module_info: &ModuleInfo,
     options: ManglePropertiesOptions,
+    chars: Base54Chars,
 ) {
     let mut state = ManglePropertiesState {
         options,
-        ..Default::default()
+        chars,
+        names_to_mangle: Default::default(),
+        unmangleable: Default::default(),
+        cache: Default::default(),
+        n: 0,
     };
 
     let data = analyze(&*m, module_info, None);
@@ -116,7 +121,6 @@ pub(crate) fn mangle_properties(
 }
 
 // Step 1 -- collect candidates to mangle
-#[derive(Debug)]
 pub struct PropertyCollector<'a> {
     data: ProgramData,
     state: &'a mut ManglePropertiesState,
@@ -219,7 +223,6 @@ fn get_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Str> 
 }
 
 // Step 2 -- mangle those properties
-#[derive(Debug)]
 struct Mangler<'a> {
     state: &'a mut ManglePropertiesState,
 }

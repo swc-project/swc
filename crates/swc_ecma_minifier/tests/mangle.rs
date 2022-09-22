@@ -288,7 +288,7 @@ class Class2 {
 }";
 
     let expected = "class l {
-    a = 1;
+    l = 1;
 }
 class s {
     hello2 = 2;
@@ -319,10 +319,10 @@ class Class2 {
 }";
 
     let expected = "class s {
-    #a = 1;
+    #s = 1;
 }
 class a {
-    #b = 2;
+    #a = 2;
 }";
 
     assert_mangled(

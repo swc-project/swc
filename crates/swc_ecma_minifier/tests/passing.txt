@@ -406,6 +406,7 @@ drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
+drop_unused/global_var/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
@@ -576,6 +577,7 @@ functions/issue_1841_2/input.js
 functions/issue_2097/input.js
 functions/issue_2101/input.js
 functions/issue_2428/input.js
+functions/issue_2531_1/input.js
 functions/issue_2531_2/input.js
 functions/issue_2630_3/input.js
 functions/issue_2647_1/input.js
@@ -766,6 +768,9 @@ issue_1212/issue_1212_debug_false/input.js
 issue_1212/issue_1212_debug_true/input.js
 issue_126/concatenate_rhs_strings/input.js
 issue_1275/string_plus_optimization/input.js
+issue_1321/issue_1321_debug/input.js
+issue_1321/issue_1321_no_debug/input.js
+issue_1321/issue_1321_with_quoted/input.js
 issue_143/tranformation_sort_order_equal/input.js
 issue_143/tranformation_sort_order_greater_or_equal/input.js
 issue_143/tranformation_sort_order_lesser_or_equal/input.js
@@ -1071,6 +1076,7 @@ properties/issue_2893_6/input.js
 properties/issue_2893_7/input.js
 properties/issue_2893_8/input.js
 properties/issue_3188_2/input.js
+properties/issue_869_1/input.js
 properties/join_object_assignments_3/input.js
 properties/join_object_assignments_4/input.js
 properties/join_object_assignments_NaN_1/input.js
@@ -1389,6 +1395,7 @@ switch/if_else5/input.js
 switch/if_else6/input.js
 switch/if_else7/input.js
 switch/if_else8/input.js
+switch/if_switch_typeof/input.js
 switch/issue_1083_1/input.js
 switch/issue_1083_2/input.js
 switch/issue_1083_3/input.js

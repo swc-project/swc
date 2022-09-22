@@ -128,7 +128,6 @@ drop_unused/drop_toplevel_vars/input.js
 drop_unused/drop_toplevel_vars_fargs/input.js
 drop_unused/drop_toplevel_vars_retain/input.js
 drop_unused/drop_var/input.js
-drop_unused/global_var/input.js
 drop_unused/issue_1583/input.js
 drop_unused/issue_1709/input.js
 drop_unused/issue_1715_3/input.js
@@ -216,7 +215,6 @@ functions/issue_2107/input.js
 functions/issue_2114_1/input.js
 functions/issue_2114_2/input.js
 functions/issue_2476/input.js
-functions/issue_2531_1/input.js
 functions/issue_2531_3/input.js
 functions/issue_2601_1/input.js
 functions/issue_2601_2/input.js
@@ -306,9 +304,6 @@ issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
-issue_1321/issue_1321_debug/input.js
-issue_1321/issue_1321_no_debug/input.js
-issue_1321/issue_1321_with_quoted/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
@@ -502,7 +497,6 @@ sequences/issue_1758/input.js
 sequences/issue_2062/input.js
 sequences/issue_27/input.js
 sequences/side_effects_cascade_3/input.js
-switch/if_switch_typeof/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
 transform/label_if_break/input.js
