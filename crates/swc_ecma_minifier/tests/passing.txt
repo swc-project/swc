@@ -32,7 +32,6 @@ arrow/async_function_expression/input.js
 arrow/async_identifiers/input.js
 arrow/async_object_literal/input.js
 arrow/call_args/input.js
-arrow/call_args_drop_param/input.js
 arrow/concise_method_with_super/input.js
 arrow/concise_methods_with_computed_property2/input.js
 arrow/export_default_object_expression/input.js
