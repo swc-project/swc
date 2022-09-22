@@ -301,7 +301,7 @@
                 return [
                     l(JSON.stringify(n)),
                     l(JSON.stringify(o)),
-                    a, 
+                    a
                 ].join(".");
             }
             function m() {
@@ -766,7 +766,7 @@
                     if (ti(t, [
                         "next",
                         "error",
-                        "complete", 
+                        "complete"
                     ])) {
                         i = t;
                     } else {
@@ -1112,12 +1112,12 @@
                 for(let s = 0; s < i; s++)s in r && e.call(n, r[s], s, t);
             };
             function A(t) {
-                a: {
+                t: {
                     var e = nE;
                     const n = t.length, i = "string" === typeof t ? t.split("") : t;
                     for(let r = 0; r < n; r++)if (r in i && e.call(void 0, i[r], r, t)) {
                         e = r;
-                        break a;
+                        break t;
                     }
                     e = -1;
                 }
@@ -1150,13 +1150,13 @@
                 return t < e ? -1 : t > e ? 1 : 0;
             }
             var R;
-            a: {
+            t: {
                 var k = a.navigator;
                 if (k) {
                     var L = k.userAgent;
                     if (L) {
                         R = L;
-                        break a;
+                        break t;
                     }
                 }
                 R = "";
@@ -1193,7 +1193,7 @@
                 return t ? t.documentMode : void 0;
             }
             var J;
-            a: {
+            t: {
                 var G = "", q = (function() {
                     var t = R;
                     if (W) return /rv:([^\);]+)(\)|;)/.exec(t);
@@ -1207,7 +1207,7 @@
                     var K = V();
                     if (null != K && K > parseFloat(G)) {
                         J = String(K);
-                        break a;
+                        break t;
                     }
                 }
                 J = G;
@@ -1283,11 +1283,11 @@
                     this.g = e;
                     if ((e = t.relatedTarget)) {
                         if (W) {
-                            a: {
+                            t: {
                                 try {
                                     B(e.nodeName);
                                     var r = !0;
-                                    break a;
+                                    break t;
                                 } catch (s) {}
                                 r = !1;
                             }
@@ -1896,7 +1896,7 @@
             };
             s.Ia = function(t) {
                 try {
-                    if (t == this.g) a: {
+                    if (t == this.g) t: {
                         const e = nC(this.g);
                         var n = this.g.Da();
                         const i = this.g.ba();
@@ -1905,7 +1905,7 @@
                             e_(this);
                             var r = this.g.ba();
                             this.N = r;
-                            b: if (ey(this)) {
+                            e: if (ey(this)) {
                                 var s = nT(this.g);
                                 t = "";
                                 var o = s.length, h = 4 == nC(this.g);
@@ -1914,7 +1914,7 @@
                                         eO(this);
                                         eA(this);
                                         var c = "";
-                                        break b;
+                                        break e;
                                     }
                                     this.h.i = new a.TextDecoder();
                                 }
@@ -1930,12 +1930,12 @@
                             tZ(this.j, this.u, this.A, this.m, this.X, e, r);
                             if (this.i) {
                                 if (this.$ && !this.J) {
-                                    b: {
+                                    e: {
                                         if (this.g) {
                                             var l, u = this.g;
                                             if ((l = u.g ? u.g.getResponseHeader("X-HTTP-Initial-Response") : null) && !C(l)) {
                                                 var f = l;
-                                                break b;
+                                                break e;
                                             }
                                         }
                                         f = null;
@@ -1947,7 +1947,7 @@
                                         t9(12);
                                         eO(this);
                                         eA(this);
-                                        break a;
+                                        break t;
                                     }
                                 }
                                 this.U ? (eb(this, e, c), $ && this.i && 3 == e && (tG(this.V, this.W, "tick", this.fb), this.W.start())) : (tQ(this.j, this.m, c, null), eI(this, c));
@@ -2039,10 +2039,10 @@
                         }
                         if (Array.isArray(i) && 3 == i.length) {
                             var s = i;
-                            if (0 == s[0]) a: {
+                            if (0 == s[0]) t: {
                                 if (!n.u) {
                                     if (n.g) if (n.g.F + 3e3 < t.F) nV(n), nx(n);
-                                    else break a;
+                                    else break t;
                                     n$(n);
                                     t9(18);
                                 }
@@ -2684,7 +2684,7 @@
                     t.h = !1;
                     try {
                         const e = t.ba();
-                        a: switch(e){
+                        t: switch(e){
                             case 200:
                             case 201:
                             case 202:
@@ -2693,7 +2693,7 @@
                             case 304:
                             case 1223:
                                 var n = !0;
-                                break a;
+                                break t;
                             default:
                                 n = !1;
                         }
@@ -2799,10 +2799,10 @@
                 return e;
             }
             function nD(t, e, n) {
-                a: {
+                t: {
                     for(i in n){
                         var i = !1;
-                        break a;
+                        break t;
                     }
                     i = !0;
                 }
@@ -2906,14 +2906,14 @@
                         let n = this.s;
                         this.P && (n ? ((n = P(n)), M(n, this.P)) : (n = this.P));
                         null === this.o && (e.H = n);
-                        if (this.ja) a: {
+                        if (this.ja) t: {
                             var i = 0;
                             for(var r = 0; r < this.l.length; r++){
-                                b: {
+                                e: {
                                     var s = this.l[r];
                                     if ("__data__" in s.g && ((s = s.g.__data__), "string" === typeof s)) {
                                         s = s.length;
-                                        break b;
+                                        break e;
                                     }
                                     s = void 0;
                                 }
@@ -2921,11 +2921,11 @@
                                 i += s;
                                 if (4096 < i) {
                                     i = r;
-                                    break a;
+                                    break t;
                                 }
                                 if (4096 === i || r === this.l.length - 1) {
                                     i = r + 1;
-                                    break a;
+                                    break t;
                                 }
                             }
                             i = 1e3;
@@ -2970,7 +2970,7 @@
             function nF(t, e, n) {
                 n = Math.min(t.l.length, n);
                 var i = t.j ? v(t.j.Oa, t.j, t) : null;
-                a: {
+                t: {
                     var r = t.l;
                     let s = -1;
                     for(;;){
@@ -2992,7 +2992,7 @@
                         }
                         if (a) {
                             i = o.join("&");
-                            break a;
+                            break t;
                         }
                     }
                 }
@@ -3210,10 +3210,10 @@
                 ea.call(this);
                 var e = t.__sm__;
                 if (e) {
-                    a: {
+                    t: {
                         for(const n in e){
                             t = n;
-                            break a;
+                            break t;
                         }
                         t = void 0;
                     }
@@ -3463,14 +3463,14 @@
                 [
                     "custom",
                     q
-                ], 
+                ]
             ]);
             var T = [
                 "fill",
                 "fixed",
                 "intrinsic",
                 "responsive",
-                undefined, 
+                undefined
             ];
             function j(t) {
                 return t.default !== undefined;
@@ -3490,7 +3490,7 @@
                     1200,
                     1920,
                     2048,
-                    3840, 
+                    3840
                 ],
                 imageSizes: [
                     16,
@@ -3648,7 +3648,7 @@
                     "onLoadingComplete",
                     "loader",
                     "placeholder",
-                    "blurDataURL", 
+                    "blurDataURL"
                 ]);
                 var x = L;
                 var P = n ? "responsive" : "intrinsic";
@@ -3870,7 +3870,7 @@
                     "f_auto",
                     "c_limit",
                     "w_" + i,
-                    "q_" + (r || "auto"), 
+                    "q_" + (r || "auto")
                 ];
                 var o = s.join(",") + "/";
                 return "".concat(e).concat(o).concat(X(n));
@@ -4030,7 +4030,7 @@
                 "imgix",
                 "cloudinary",
                 "akamai",
-                "custom", 
+                "custom"
             ];
             e.VALID_LOADERS = n;
             const i = {
@@ -4319,7 +4319,7 @@
                 const a = e.match(/\s|\//);
                 if (o || a) {
                     const h = [
-                        `Unable to register library "${s}" with version "${e}":`, 
+                        `Unable to register library "${s}" with version "${e}":`
                     ];
                     if (o) {
                         h.push(`library name "${s}" contains illegal characters (whitespace or "/")`);
@@ -4483,7 +4483,7 @@
                     const t = Array.from(this.instances.values());
                     await Promise.all([
                         ...t.filter((t)=>"INTERNAL" in t).map((t)=>t.INTERNAL.delete()),
-                        ...t.filter((t)=>"_delete" in t).map((t)=>t._delete()), 
+                        ...t.filter((t)=>"_delete" in t).map((t)=>t._delete())
                     ]);
                 }
                 isComponentSet() {
@@ -4757,5 +4757,5 @@
                 }
             }
         }
-    }, 
+    }
 ]);

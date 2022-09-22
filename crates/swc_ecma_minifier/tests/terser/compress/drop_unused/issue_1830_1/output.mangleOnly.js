@@ -1,3 +1,3 @@
 !(function() {
-    L: for(var o = console.log(1); !1;)continue L;
+    o: for(var o = console.log(1); !1;)continue o;
 })();

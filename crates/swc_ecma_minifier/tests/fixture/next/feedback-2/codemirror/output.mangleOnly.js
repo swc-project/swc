@@ -1019,12 +1019,12 @@
     }
     function e1(e, t) {
         var r = e.first;
-        outer: do {
+        e: do {
             for(var i = 0; i < e.children.length; ++i){
                 var n = e.children[i], o = n.height;
                 if (t < o) {
                     e = n;
-                    continue outer;
+                    continue e;
                 }
                 t -= o;
                 r += n.chunkSize();
@@ -4789,11 +4789,11 @@
             return;
         }
         if (o && y && s) {
-            outer: for(var d = t.target, p = a.view; d != u; d = d.parentNode){
+            e: for(var d = t.target, p = a.view; d != u; d = d.parentNode){
                 for(var v = 0; v < p.length; v++){
                     if (p[v].node == d) {
                         e.display.currentWheelTarget = d;
-                        break outer;
+                        break e;
                     }
                 }
             }
@@ -5262,11 +5262,11 @@
         for(var n = 0; n < r.length; ++n){
             var o = r[n], l = i[n];
             if (o && l) {
-                spans: for(var a = 0; a < l.length; ++a){
+                t: for(var a = 0; a < l.length; ++a){
                     var s = l[a];
                     for(var u = 0; u < o.length; ++u){
                         if (o[u].marker == s.marker) {
-                            continue spans;
+                            continue t;
                         }
                     }
                     o.push(s);
@@ -6914,7 +6914,7 @@
                     doc: this,
                     isParent: true,
                     sharedHist: e.sharedHist
-                }, 
+                }
             ];
             oS(i, oC(this));
             return i;

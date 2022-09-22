@@ -87,7 +87,7 @@
                 [
                     "httpEquiv",
                     "http-equiv"
-                ], 
+                ]
             ].forEach(function(e) {
                 var n = e[0];
                 b[n] = new y(n, 1, !1, e[1], null, !1, !1);
@@ -104,7 +104,7 @@
                 "autoReverse",
                 "externalResourcesRequired",
                 "focusable",
-                "preserveAlpha", 
+                "preserveAlpha"
             ].forEach(function(e) {
                 b[e] = new y(e, 2, !1, e, null, !1, !1);
             });
@@ -744,7 +744,7 @@
                 var r = lr(t);
                 if (null === r) return null;
                 t = r[n];
-                a: switch(n){
+                e: switch(n){
                     case "onClick":
                     case "onClickCapture":
                     case "onDoubleClick":
@@ -758,7 +758,7 @@
                     case "onMouseEnter":
                         (r = !r.disabled) || ((e = e.type), (r = !("button" === e || "input" === e || "select" === e || "textarea" === e)));
                         e = !r;
-                        break a;
+                        break e;
                     default:
                         e = !1;
                 }
@@ -1745,11 +1745,11 @@
                         };
                         e = r;
                     }
-                    a: {
+                    e: {
                         for(; t;){
                             if (t.nextSibling) {
                                 t = t.nextSibling;
-                                break a;
+                                break e;
                             }
                             t = t.parentNode;
                         }
@@ -1878,7 +1878,7 @@
                 "compositionend",
                 "keypress",
                 "textInput",
-                "paste", 
+                "paste"
             ]);
             i("onCompositionEnd", "compositionend focusout keydown keypress keyup mousedown".split(" "));
             i("onCompositionStart", "compositionstart focusout keydown keypress keyup mousedown".split(" "));
@@ -1895,12 +1895,12 @@
                 for(var t = 0; t < e.length; t++){
                     var r = e[t], l = r.event;
                     r = r.listeners;
-                    a: {
+                    e: {
                         var a = void 0;
                         if (n) for(var u = r.length - 1; 0 <= u; u--){
                             var o = r[u], i = o.instance, s = o.currentTarget;
                             o = o.listener;
-                            if (i !== a && l.isPropagationStopped()) break a;
+                            if (i !== a && l.isPropagationStopped()) break e;
                             rz(l, o, s);
                             a = i;
                         }
@@ -1909,7 +1909,7 @@
                             i = o.instance;
                             s = o.currentTarget;
                             o = o.listener;
-                            if (i !== a && l.isPropagationStopped()) break a;
+                            if (i !== a && l.isPropagationStopped()) break e;
                             rz(l, o, s);
                             a = i;
                         }
@@ -1962,7 +1962,7 @@
             }
             function rD(e, n, t, r, l) {
                 var a = r;
-                if (0 === (n & 1) && 0 === (n & 2) && null !== r) a: for(;;){
+                if (0 === (n & 1) && 0 === (n & 2) && null !== r) e: for(;;){
                     if (null === r) return;
                     var u = r.tag;
                     if (3 === u || 4 === u) {
@@ -1979,7 +1979,7 @@
                             i = u.tag;
                             if (5 === i || 6 === i) {
                                 r = a = u;
-                                continue a;
+                                continue e;
                             }
                             o = o.parentNode;
                         }
@@ -1988,13 +1988,13 @@
                 }
                 eF(function() {
                     var r = a, l = eE(t), u = [];
-                    a: {
+                    e: {
                         var o = rk.get(e);
                         if (void 0 !== o) {
                             var i = n5, s = e;
                             switch(e){
                                 case "keypress":
-                                    if (0 === n2(t)) break a;
+                                    if (0 === n2(t)) break e;
                                 case "keydown":
                                 case "keyup":
                                     i = tw;
@@ -2012,7 +2012,7 @@
                                     i = ti;
                                     break;
                                 case "click":
-                                    if (2 === t.button) break a;
+                                    if (2 === t.button) break e;
                                 case "auxclick":
                                 case "dblclick":
                                 case "mousedown":
@@ -2084,10 +2084,10 @@
                         }
                     }
                     if (0 === (n & 7)) {
-                        a: {
+                        e: {
                             o = "mouseover" === e || "pointerover" === e;
                             i = "mouseout" === e || "pointerout" === e;
-                            if (o && t !== ex && (s = t.relatedTarget || t.fromElement) && (le(s) || s[r6])) break a;
+                            if (o && t !== ex && (s = t.relatedTarget || t.fromElement) && (le(s) || s[r6])) break e;
                             if (i || o) {
                                 o = l.window === l ? l : (o = l.ownerDocument) ? o.defaultView || o.parentWindow : window;
                                 if (i) {
@@ -2107,7 +2107,7 @@
                                     m = null;
                                     le(l) === r && ((c = new c(d, p + "enter", s, t, l)), (c.target = h), (c.relatedTarget = f), (m = c));
                                     f = m;
-                                    if (i && s) b: {
+                                    if (i && s) n: {
                                         c = i;
                                         d = s;
                                         p = 0;
@@ -2117,7 +2117,7 @@
                                         for(; 0 < p - h;)(c = rV(c)), p--;
                                         for(; 0 < h - p;)(d = rV(d)), h--;
                                         for(; p--;){
-                                            if (c === d || (null !== d && c === d.alternate)) break b;
+                                            if (c === d || (null !== d && c === d.alternate)) break n;
                                             c = rV(c);
                                             d = rV(d);
                                         }
@@ -2129,7 +2129,7 @@
                                 }
                             }
                         }
-                        a: {
+                        e: {
                             o = r ? lt(r) : window;
                             i = o.nodeName && o.nodeName.toLowerCase();
                             if ("select" === i || ("input" === i && "file" === o.type)) var v = tY;
@@ -2141,7 +2141,7 @@
                             else (i = o.nodeName) && "input" === i.toLowerCase() && ("checkbox" === o.type || "radio" === o.type) && (v = t4);
                             if (v && (v = v(e, r))) {
                                 tW(u, v, t, l);
-                                break a;
+                                break e;
                             }
                             g && g(e, o, r);
                             "focusout" === e && (g = o._wrapperState) && g.controlled && "number" === o.type && el(o, "number", o.value);
@@ -2170,17 +2170,17 @@
                                 rc(u, t, l);
                         }
                         var y;
-                        if (tL) b: {
+                        if (tL) n: {
                             switch(e){
                                 case "compositionstart":
                                     var b = "onCompositionStart";
-                                    break b;
+                                    break n;
                                 case "compositionend":
                                     b = "onCompositionEnd";
-                                    break b;
+                                    break n;
                                 case "compositionupdate":
                                     b = "onCompositionUpdate";
-                                    break b;
+                                    break n;
                             }
                             b = void 0;
                         }
@@ -2575,7 +2575,7 @@
                                 callback: o.callback,
                                 next: null
                             });
-                            a: {
+                            e: {
                                 var h = e, m = o;
                                 d = n;
                                 p = t;
@@ -2584,18 +2584,18 @@
                                         h = m.payload;
                                         if ("function" === typeof h) {
                                             f = h.call(p, f, d);
-                                            break a;
+                                            break e;
                                         }
                                         f = h;
-                                        break a;
+                                        break e;
                                     case 3:
                                         h.flags = (h.flags & -65537) | 128;
                                     case 0:
                                         h = m.payload;
                                         d = "function" === typeof h ? h.call(p, f, d) : h;
-                                        if (null === d || void 0 === d) break a;
+                                        if (null === d || void 0 === d) break e;
                                         f = V({}, f, d);
-                                        break a;
+                                        break e;
                                     case 2:
                                         lU = !0;
                                 }
@@ -2829,7 +2829,7 @@
                     e = e.memoizedState;
                     e = null !== e ? e.dehydrated : null;
                     if (!e) throw Error(a(317));
-                    a: {
+                    e: {
                         e = e.nextSibling;
                         for(n = 0; e;){
                             if (8 === e.nodeType) {
@@ -2837,7 +2837,7 @@
                                 if ("/$" === t) {
                                     if (0 === n) {
                                         al = r1(e.nextSibling);
-                                        break a;
+                                        break e;
                                     }
                                     n--;
                                 } else ("$" !== t && "$!" !== t && "$?" !== t) || n++;
@@ -3068,7 +3068,7 @@
                     if ("object" === typeof a && null !== a) {
                         switch(a.$$typeof){
                             case E:
-                                a: {
+                                e: {
                                     for(var i = a.key, s = r; null !== s;){
                                         if (s.key === i) {
                                             i = a.type;
@@ -3078,7 +3078,7 @@
                                                     r = l(s, a.props.children);
                                                     r.return = e;
                                                     e = r;
-                                                    break a;
+                                                    break e;
                                                 }
                                             } else if (s.elementType === i || ("object" === typeof i && null !== i && i.$$typeof === O && ag(i) === s.type)) {
                                                 t(e, s.sibling);
@@ -3086,7 +3086,7 @@
                                                 r.ref = am(e, s, a);
                                                 r.return = e;
                                                 e = r;
-                                                break a;
+                                                break e;
                                             }
                                             t(e, s);
                                             break;
@@ -3097,14 +3097,14 @@
                                 }
                                 return o(e);
                             case _:
-                                a: {
+                                e: {
                                     for(s = a.key; null !== r;){
                                         if (r.key === s) if (4 === r.tag && r.stateNode.containerInfo === a.containerInfo && r.stateNode.implementation === a.implementation) {
                                             t(e, r.sibling);
                                             r = l(r, a.children || []);
                                             r.return = e;
                                             e = r;
-                                            break a;
+                                            break e;
                                         } else {
                                             t(e, r);
                                             break;
@@ -4083,7 +4083,7 @@
                                 e[r8] = r;
                                 uT(e, n, !1, !1);
                                 n.stateNode = e;
-                                a: {
+                                e: {
                                     i = eS(t, r);
                                     switch(t){
                                         case "dialog":
@@ -4174,10 +4174,10 @@
                                         case "select":
                                         case "textarea":
                                             r = !!r.autoFocus;
-                                            break a;
+                                            break e;
                                         case "img":
                                             r = !0;
-                                            break a;
+                                            break e;
                                         default:
                                             r = !1;
                                     }
@@ -4630,7 +4630,7 @@
                 r = aT.current;
                 if (0 !== (r & 2)) (r = (r & 1) | 2), (n.flags |= 128);
                 else {
-                    if (null !== e && 0 !== (e.flags & 128)) a: for(e = n.child; null !== e;){
+                    if (null !== e && 0 !== (e.flags & 128)) e: for(e = n.child; null !== e;){
                         if (13 === e.tag) null !== e.memoizedState && u4(e, t, n);
                         else if (19 === e.tag) u4(e, t, n);
                         else if (null !== e.child) {
@@ -4638,9 +4638,9 @@
                             e = e.child;
                             continue;
                         }
-                        if (e === n) break a;
+                        if (e === n) break e;
                         for(; null === e.sibling;){
-                            if (null === e.return || e.return === n) break a;
+                            if (null === e.return || e.return === n) break e;
                             e = e.return;
                         }
                         e.sibling.return = e.return;
@@ -4803,7 +4803,7 @@
                         start: e.selectionStart,
                         end: e.selectionEnd
                     };
-                    else a: {
+                    else e: {
                         t = ((t = e.ownerDocument) && t.defaultView) || window;
                         var r = t.getSelection && t.getSelection();
                         if (r && 0 !== r.rangeCount) {
@@ -4814,10 +4814,10 @@
                                 t.nodeType, u.nodeType;
                             } catch (o) {
                                 t = null;
-                                break a;
+                                break e;
                             }
                             var i = 0, s = -1, c = -1, f = 0, d = 0, p = e, h = null;
-                            b: for(;;){
+                            n: for(;;){
                                 for(var m;;){
                                     p !== t || (0 !== l && 3 !== p.nodeType) || (s = i + l);
                                     p !== u || (0 !== r && 3 !== p.nodeType) || (c = i + r);
@@ -4827,7 +4827,7 @@
                                     p = m;
                                 }
                                 for(;;){
-                                    if (p === e) break b;
+                                    if (p === e) break n;
                                     h === t && ++f === l && (s = i);
                                     h === u && ++d === r && (c = i);
                                     if (null !== (m = p.nextSibling)) break;
@@ -4962,15 +4962,15 @@
                 return 5 === e.tag || 3 === e.tag || 4 === e.tag;
             }
             function op(e) {
-                a: for(;;){
+                e: for(;;){
                     for(; null === e.sibling;){
                         if (null === e.return || od(e.return)) return null;
                         e = e.return;
                     }
                     e.sibling.return = e.return;
                     for(e = e.sibling; 5 !== e.tag && 6 !== e.tag && 18 !== e.tag;){
-                        if (e.flags & 2) continue a;
-                        if (null === e.child || 4 === e.tag) continue a;
+                        if (e.flags & 2) continue e;
+                        if (null === e.child || 4 === e.tag) continue e;
                         else (e.child.return = e), (e = e.child);
                     }
                     if (!(e.flags & 2)) return e.stateNode;
@@ -5068,20 +5068,20 @@
                     var l = t[r];
                     try {
                         var u = e, o = n, i = o;
-                        a: for(; null !== i;){
+                        e: for(; null !== i;){
                             switch(i.tag){
                                 case 5:
                                     ov = i.stateNode;
                                     og = !1;
-                                    break a;
+                                    break e;
                                 case 3:
                                     ov = i.stateNode.containerInfo;
                                     og = !0;
-                                    break a;
+                                    break e;
                                 case 4:
                                     ov = i.stateNode.containerInfo;
                                     og = !0;
-                                    break a;
+                                    break e;
                             }
                             i = i.return;
                         }
@@ -5207,7 +5207,7 @@
                         ox(e);
                         if (r & 8192) {
                             h = null !== e.memoizedState;
-                            a: for(m = null, v = e;;){
+                            e: for(m = null, v = e;;){
                                 if (5 === v.tag) {
                                     if (null === m) {
                                         m = v;
@@ -5228,9 +5228,9 @@
                                     v = v.child;
                                     continue;
                                 }
-                                if (v === e) break a;
+                                if (v === e) break e;
                                 for(; null === v.sibling;){
-                                    if (null === v.return || v.return === e) break a;
+                                    if (null === v.return || v.return === e) break e;
                                     m === v && (m = null);
                                     v = v.return;
                                 }
@@ -5292,11 +5292,11 @@
                 var n = e.flags;
                 if (n & 2) {
                     try {
-                        a: {
+                        e: {
                             for(var t = e.return; null !== t;){
                                 if (od(t)) {
                                     var r = t;
-                                    break a;
+                                    break e;
                                 }
                                 t = t.return;
                             }
@@ -5851,7 +5851,7 @@
                             oO = null;
                             break;
                         }
-                        a: {
+                        e: {
                             var u = e, o = t.return, i = t, s = n;
                             n = oD;
                             i.flags |= 32768;
@@ -5874,12 +5874,12 @@
                                         v.add(s);
                                         n.updateQueue = v;
                                     } else m.add(s);
-                                    break a;
+                                    break e;
                                 } else {
                                     if (0 === (n & 1)) {
                                         uP(u, c, n);
                                         im();
-                                        break a;
+                                        break e;
                                     }
                                     s = Error(a(426));
                                 }
@@ -5889,7 +5889,7 @@
                                     0 === (g.flags & 65536) && (g.flags |= 256);
                                     uz(g, o, i, u, n);
                                     ah(s);
-                                    break a;
+                                    break e;
                                 }
                             }
                             u = s;
@@ -5907,7 +5907,7 @@
                                         i.lanes |= n;
                                         var y = u_(i, s, n);
                                         lW(i, y);
-                                        break a;
+                                        break e;
                                     case 1:
                                         u = s;
                                         var b = i.type, k = i.stateNode;
@@ -5917,7 +5917,7 @@
                                             i.lanes |= n;
                                             var w = uC(i, u, n);
                                             lW(i, w);
-                                            break a;
+                                            break e;
                                         }
                                 }
                                 i = i.return;
@@ -6132,7 +6132,7 @@
                                     }
                                 }
                                 if (0 !== (u.subtreeFlags & 2064) && null !== o) (o.return = u), (or = o);
-                                else b: for(; null !== or;){
+                                else n: for(; null !== or;){
                                     u = or;
                                     if (0 !== (u.flags & 2048)) switch(u.tag){
                                         case 0:
@@ -6144,7 +6144,7 @@
                                     if (null !== y) {
                                         y.return = u.return;
                                         or = y;
-                                        break b;
+                                        break n;
                                     }
                                     or = u.return;
                                 }
@@ -6154,7 +6154,7 @@
                                 o = or;
                                 var k = o.child;
                                 if (0 !== (o.subtreeFlags & 2064) && null !== k) (k.return = o), (or = k);
-                                else b: for(o = b; null !== or;){
+                                else n: for(o = b; null !== or;){
                                     i = or;
                                     if (0 !== (i.flags & 2048)) try {
                                         switch(i.tag){
@@ -6168,13 +6168,13 @@
                                     }
                                     if (i === o) {
                                         or = null;
-                                        break b;
+                                        break n;
                                     }
                                     var S = i.sibling;
                                     if (null !== S) {
                                         S.return = i.return;
                                         or = S;
-                                        break b;
+                                        break n;
                                     }
                                     or = i.return;
                                 }
@@ -6281,7 +6281,7 @@
                         return n;
                     case 16:
                         r = n.elementType;
-                        a: {
+                        e: {
                             null !== e && ((e.alternate = null), (n.alternate = null), (n.flags |= 2));
                             e = n.pendingProps;
                             l = r._init;
@@ -6292,16 +6292,16 @@
                             switch(l){
                                 case 0:
                                     n = uH(null, n, r, e, t);
-                                    break a;
+                                    break e;
                                 case 1:
                                     n = uQ(null, n, r, e, t);
-                                    break a;
+                                    break e;
                                 case 11:
                                     n = u$(null, n, r, e, t);
-                                    break a;
+                                    break e;
                                 case 14:
                                     n = uA(null, n, r, lP(r.type, e), t);
-                                    break a;
+                                    break e;
                             }
                             throw Error(a(306, r, ""));
                         }
@@ -6311,7 +6311,7 @@
                     case 1:
                         return ((r = n.type), (l = n.pendingProps), (l = n.elementType === r ? l : lP(r, l)), uQ(e, n, r, l, t));
                     case 3:
-                        a: {
+                        e: {
                             uK(n);
                             if (null === e) throw Error(a(387));
                             r = n.pendingProps;
@@ -6330,17 +6330,17 @@
                             }), (n.updateQueue.baseState = u), (n.memoizedState = u), n.flags & 256)) {
                                 l = Error(a(423));
                                 n = uY(e, n, r, t, l);
-                                break a;
+                                break e;
                             } else if (r !== l) {
                                 l = Error(a(424));
                                 n = uY(e, n, r, t, l);
-                                break a;
+                                break e;
                             } else for(al = r1(n.stateNode.containerInfo.firstChild), ar = n, aa = !0, au = null, t = ak(n, null, r, t), n.child = t; t;)(t.flags = (t.flags & -3) | 4096), (t = t.sibling);
                             else {
                                 ap();
                                 if (r === l) {
                                     n = u5(e, n, t);
-                                    break a;
+                                    break e;
                                 }
                                 uV(e, n, r, t);
                             }
@@ -6364,7 +6364,7 @@
                     case 12:
                         return uV(e, n, n.pendingProps.children, t), n.child;
                     case 10:
-                        a: {
+                        e: {
                             r = n.type._context;
                             l = n.pendingProps;
                             u = n.memoizedProps;
@@ -6374,7 +6374,7 @@
                             if (null !== u) if (t5(u.value, o)) {
                                 if (u.children === l.children && !lf.current) {
                                     n = u5(e, n, t);
-                                    break a;
+                                    break e;
                                 }
                             } else for(u = n.child, null !== u && (u.return = n); null !== u;){
                                 var i = u.dependencies;
@@ -6505,7 +6505,7 @@
                 r = e;
                 if ("function" === typeof e) iF(e) && (o = 1);
                 else if ("string" === typeof e) o = 5;
-                else a: switch(e){
+                else e: switch(e){
                     case C:
                         return iU(t.children, l, u, n);
                     case P:
@@ -6524,20 +6524,20 @@
                         if ("object" === typeof e && null !== e) switch(e.$$typeof){
                             case z:
                                 o = 10;
-                                break a;
+                                break e;
                             case T:
                                 o = 9;
-                                break a;
+                                break e;
                             case L:
                                 o = 11;
-                                break a;
+                                break e;
                             case F:
                                 o = 14;
-                                break a;
+                                break e;
                             case O:
                                 o = 16;
                                 r = null;
-                                break a;
+                                break e;
                         }
                         throw Error(a(130, null == e ? e : typeof e, ""));
                 }
@@ -6618,18 +6618,18 @@
             function iH(e) {
                 if (!e) return ls;
                 e = e._reactInternals;
-                a: {
+                e: {
                     if (eq(e) !== e || 1 !== e.tag) throw Error(a(170));
                     var n = e;
                     do {
                         switch(n.tag){
                             case 3:
                                 n = n.stateNode.context;
-                                break a;
+                                break e;
                             case 1:
                                 if (lh(n.type)) {
                                     n = n.stateNode.__reactInternalMemoizedMergedChildContext;
-                                    break a;
+                                    break e;
                                 }
                         }
                         n = n.return;
@@ -7006,10 +7006,10 @@
             function t(e, n) {
                 var t = e.length;
                 e.push(n);
-                a: for(; 0 < t;){
+                e: for(; 0 < t;){
                     var r = (t - 1) >>> 1, l = e[r];
                     if (0 < a(l, n)) (e[r] = n), (e[t] = l), (t = r);
-                    else break a;
+                    else break e;
                 }
             }
             function r(e) {
@@ -7020,11 +7020,11 @@
                 var n = e[0], t = e.pop();
                 if (t !== n) {
                     e[0] = t;
-                    a: for(var r = 0, l = e.length, u = l >>> 1; r < u;){
+                    e: for(var r = 0, l = e.length, u = l >>> 1; r < u;){
                         var o = 2 * (r + 1) - 1, i = e[o], s = o + 1, c = e[s];
                         if (0 > a(i, t)) s < l && 0 > a(c, i) ? ((e[r] = c), (e[s] = t), (r = s)) : ((e[r] = i), (e[o] = t), (r = o));
                         else if (s < l && 0 > a(c, t)) (e[r] = c), (e[s] = t), (r = s);
-                        else break a;
+                        else break e;
                     }
                 }
                 return n;
@@ -7599,5 +7599,5 @@
                 e.exports = t(1837);
             } else {}
         }
-    }, 
+    }
 ]);

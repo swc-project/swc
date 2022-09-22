@@ -179,7 +179,7 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         e = e | 0;
-        a: do if (!(u[(n + (r << 3) + 4) >> 2] | 0)) {
+        n: do if (!(u[(n + (r << 3) + 4) >> 2] | 0)) {
             if ((r | 2 | 0) == 3 ? u[(n + 60) >> 2] | 0 : 0) {
                 n = (n + 56) | 0;
                 break;
@@ -192,7 +192,7 @@ export function foo(n, r, e) {
                     {
                         if (u[(n + 52) >> 2] | 0) {
                             n = (n + 48) | 0;
-                            break a;
+                            break n;
                         }
                         break;
                     }
@@ -303,7 +303,7 @@ export function foo(n, r, e) {
         c = (n + 4) | 0;
         e = u[c >> 2] | 0;
         f = e;
-        a: do if ((i | 0) == (e | 0)) {
+        n: do if ((i | 0) == (e | 0)) {
             t = i;
             o = 4;
         } else {
@@ -312,7 +312,7 @@ export function foo(n, r, e) {
                 if ((u[n >> 2] | 0) == (r | 0)) {
                     t = n;
                     o = 4;
-                    break a;
+                    break n;
                 }
                 n = (n + 4) | 0;
                 if ((n | 0) == (e | 0)) {
@@ -1646,7 +1646,7 @@ export function foo(n, r, e) {
             a[(n + 936) >> 2] = Z(-1.0);
             L = 1;
         }
-        a: do if (!(u[(n + 964) >> 2] | 0)) {
+        n: do if (!(u[(n + 964) >> 2] | 0)) {
             if (s) {
                 d = (n + 916) | 0;
                 if (!(eZ(Z(a[d >> 2]), r) | 0)) {
@@ -1673,7 +1673,7 @@ export function foo(n, r, e) {
                     d = (n + 524 + ((w * 24) | 0)) | 0;
                     if (((eZ(Z(a[d >> 2]), r) | 0 ? eZ(Z(a[(n + 524 + ((w * 24) | 0) + 4) >> 2]), e) | 0 : 0) ? (u[(n + 524 + ((w * 24) | 0) + 8) >> 2] | 0) == (f | 0) : 0) ? (u[(n + 524 + ((w * 24) | 0) + 12) >> 2] | 0) == (o | 0) : 0) {
                         C = 22;
-                        break a;
+                        break n;
                     }
                     w = (w + 1) | 0;
                     if (w >>> 0 >= _ >>> 0) {
@@ -1701,7 +1701,7 @@ export function foo(n, r, e) {
                         G = Z(a[(n + 524 + ((w * 24) | 0) + 16) >> 2]);
                         if (eW(f, r, o, e, u[(n + 524 + ((w * 24) | 0) + 8) >> 2] | 0, P, u[(n + 524 + ((w * 24) | 0) + 12) >> 2] | 0, E, G, Z(a[(n + 524 + ((w * 24) | 0) + 20) >> 2]), y, p, h) | 0) {
                             C = 22;
-                            break a;
+                            break n;
                         }
                         w = (w + 1) | 0;
                         if (w >>> 0 >= _ >>> 0) {
@@ -1958,7 +1958,7 @@ export function foo(n, r, e) {
             else n_ = Z(Mm(Z(Mp(r, I)), A));
             p = nL ? nN : n_;
             nd = nL ? n_ : nN;
-            a: do if ((x | 0) == 1) {
+            n: do if ((x | 0) == 1) {
                 t = 0;
                 w = 0;
                 while(1){
@@ -1968,7 +1968,7 @@ export function foo(n, r, e) {
                         else t = 0;
                     } else if (iO(d) | 0) {
                         m = 0;
-                        break a;
+                        break n;
                     }
                     w = (w + 1) | 0;
                     if (w >>> 0 >= nE >>> 0) {
@@ -2036,7 +2036,7 @@ export function foo(n, r, e) {
             nk = Z(0.0);
             ni = Z(0.0);
             while(1){
-                b: do if (O >>> 0 < nE >>> 0) {
+                r: do if (O >>> 0 < nE >>> 0) {
                     T = u[nP >> 2] | 0;
                     _ = 0;
                     I = Z(0.0);
@@ -2059,7 +2059,7 @@ export function foo(n, r, e) {
                                 c = _;
                                 M = I;
                                 x = m;
-                                break b;
+                                break r;
                             }
                             M = Z(M + e);
                             e = Z(A + M);
@@ -2196,7 +2196,7 @@ export function foo(n, r, e) {
                             a[nu >> 2] = p;
                             u[no >> 2] = 1;
                             C = Z(a[(w + 396) >> 2]);
-                            c: do if (rv(C) | 0) {
+                            e: do if (rv(C) | 0) {
                                 d = rv(nd) | 0;
                                 do if (!d) {
                                     if (B | (ie(w, nB, nd) | 0 | E)) break;
@@ -2205,7 +2205,7 @@ export function foo(n, r, e) {
                                     if ((u[((ij(w, nB) | 0) + 4) >> 2] | 0) == 3) break;
                                     a[nt >> 2] = nd;
                                     u[nf >> 2] = 1;
-                                    break c;
+                                    break e;
                                 }
                                 while (0)
                                 if (ie(w, nB, nd) | 0) {
@@ -2274,7 +2274,7 @@ export function foo(n, r, e) {
                         e = Z(0.0);
                     } else J = 101;
                 } else J = 101;
-                d: do if ((J | 0) == 101) {
+                i: do if ((J | 0) == 101) {
                     J = 0;
                     switch(V | 0){
                         case 1:
@@ -2282,14 +2282,14 @@ export function foo(n, r, e) {
                                 d = 0;
                                 M = Z(p * Z(0.5));
                                 e = Z(0.0);
-                                break d;
+                                break i;
                             }
                         case 2:
                             {
                                 d = 0;
                                 M = p;
                                 e = Z(0.0);
-                                break d;
+                                break i;
                             }
                         case 3:
                             {
@@ -2297,34 +2297,34 @@ export function foo(n, r, e) {
                                     d = 0;
                                     M = Z(0.0);
                                     e = Z(0.0);
-                                    break d;
+                                    break i;
                                 }
                                 e = Z(((c + -1) | 0) >>> 0);
                                 d = 0;
                                 M = Z(0.0);
                                 e = Z(Z(Mm(p, Z(0.0))) / e);
-                                break d;
+                                break i;
                             }
                         case 5:
                             {
                                 e = Z(p / Z(((c + 1) | 0) >>> 0));
                                 d = 0;
                                 M = e;
-                                break d;
+                                break i;
                             }
                         case 4:
                             {
                                 e = Z(p / Z(c >>> 0));
                                 d = 0;
                                 M = Z(e * Z(0.5));
-                                break d;
+                                break i;
                             }
                         default:
                             {
                                 d = 0;
                                 M = Z(0.0);
                                 e = Z(0.0);
-                                break d;
+                                break i;
                             }
                     }
                 }
@@ -2337,17 +2337,17 @@ export function foo(n, r, e) {
                     p = Z(0.0);
                     do {
                         d = u[(_ + (w << 2)) >> 2] | 0;
-                        e: do if ((u[(d + 36) >> 2] | 0) != 1) {
+                        t: do if ((u[(d + 36) >> 2] | 0) != 1) {
                             switch(u[(d + 24) >> 2] | 0){
                                 case 1:
                                     {
                                         if (iD(d, nG) | 0) {
-                                            if (!b) break e;
+                                            if (!b) break t;
                                             nY = Z(iF(d, nG, P));
                                             nY = Z(nY + Z(ip(n, nG)));
                                             nY = Z(nY + Z(ih(d, nG, nN)));
                                             a[(d + 400 + (u[K >> 2] << 2)) >> 2] = nY;
-                                            break e;
+                                            break t;
                                         }
                                         break;
                                     }
@@ -2367,11 +2367,11 @@ export function foo(n, r, e) {
                                             nY = Z(e + Z(e4(d, nG, nN)));
                                             p = nd;
                                             r = Z(r + Z(nY + Z(a[(d + 504) >> 2])));
-                                            break e;
+                                            break t;
                                         } else {
                                             r = Z(r + Z(e + Z(iK(d, nG, nN))));
                                             p = Z(Mm(p, Z(iK(d, nB, nN))));
-                                            break e;
+                                            break t;
                                         }
                                     }
                                 default:
@@ -2450,13 +2450,13 @@ export function foo(n, r, e) {
                                 r = y;
                             } else J = 139;
                             while (0)
-                            f: do if ((J | 0) == 139) {
+                            u: do if ((J | 0) == 139) {
                                 J = 0;
                                 r = Z(M - Z(iK(_, nB, nN)));
                                 do if ((u[((iU(_, nB) | 0) + 4) >> 2] | 0) == 3) {
                                     if ((u[((ij(_, nB) | 0) + 4) >> 2] | 0) != 3) break;
                                     r = Z(y + Z(Mm(Z(0.0), Z(r * Z(0.5)))));
-                                    break f;
+                                    break u;
                                 }
                                 while (0)
                                 if ((u[((ij(_, nB) | 0) + 4) >> 2] | 0) == 3) {
@@ -2471,17 +2471,17 @@ export function foo(n, r, e) {
                                     case 1:
                                         {
                                             r = y;
-                                            break f;
+                                            break u;
                                         }
                                     case 2:
                                         {
                                             r = Z(y + Z(r * Z(0.5)));
-                                            break f;
+                                            break u;
                                         }
                                     default:
                                         {
                                             r = Z(y + r);
-                                            break f;
+                                            break u;
                                         }
                                 }
                             }
@@ -2509,7 +2509,7 @@ export function foo(n, r, e) {
                 if (!d ? !(iq(n) | 0) : 0) break;
                 if (!(rv(nd) | 0)) {
                     r = Z(nd - nk);
-                    g: do switch(u[(n + 12) >> 2] | 0){
+                    f: do switch(u[(n + 12) >> 2] | 0){
                         case 3:
                             {
                                 y = Z(y + r);
@@ -2533,11 +2533,11 @@ export function foo(n, r, e) {
                                 y = Z(y + Z(r / Z((c << 1) >>> 0)));
                                 A = Z(r / Z(c >>> 0));
                                 A = d ? A : Z(0.0);
-                                break g;
+                                break f;
                             } else {
                                 y = Z(y + Z(r * Z(0.5)));
                                 A = Z(0.0);
-                                break g;
+                                break f;
                             }
                         case 6:
                             {
@@ -2555,7 +2555,7 @@ export function foo(n, r, e) {
                         m = 0;
                         w = 0;
                         while(1){
-                            h: do if (w >>> 0 < nE >>> 0) {
+                            o: do if (w >>> 0 < nE >>> 0) {
                                 p = Z(0.0);
                                 C = Z(0.0);
                                 r = Z(0.0);
@@ -2563,7 +2563,7 @@ export function foo(n, r, e) {
                                 while(1){
                                     d = u[((u[nP >> 2] | 0) + (_ << 2)) >> 2] | 0;
                                     do if ((u[(d + 36) >> 2] | 0) != 1 ? (u[(d + 24) >> 2] | 0) == 0 : 0) {
-                                        if ((u[(d + 940) >> 2] | 0) != (m | 0)) break h;
+                                        if ((u[(d + 940) >> 2] | 0) != (m | 0)) break o;
                                         if (iH(d, nB) | 0) {
                                             nY = Z(a[(d + 908 + (u[T >> 2] << 2)) >> 2]);
                                             r = Z(Mm(r, Z(nY + Z(e4(d, nB, nN)))));
@@ -2601,30 +2601,30 @@ export function foo(n, r, e) {
                                 d = w;
                                 do {
                                     w = u[((u[nP >> 2] | 0) + (d << 2)) >> 2] | 0;
-                                    i: do if ((u[(w + 36) >> 2] | 0) != 1 ? (u[(w + 24) >> 2] | 0) == 0 : 0) switch(iY(n, w) | 0){
+                                    c: do if ((u[(w + 36) >> 2] | 0) != 1 ? (u[(w + 24) >> 2] | 0) == 0 : 0) switch(iY(n, w) | 0){
                                         case 1:
                                             {
                                                 nY = Z(e + Z(ih(w, nB, nN)));
                                                 a[(w + 400 + (u[S >> 2] << 2)) >> 2] = nY;
-                                                break i;
+                                                break c;
                                             }
                                         case 3:
                                             {
                                                 nY = Z(Z(y - Z(id(w, nB, nN))) - Z(a[(w + 908 + (u[T >> 2] << 2)) >> 2]));
                                                 a[(w + 400 + (u[S >> 2] << 2)) >> 2] = nY;
-                                                break i;
+                                                break c;
                                             }
                                         case 2:
                                             {
                                                 nY = Z(e + Z(Z(g - Z(a[(w + 908 + (u[T >> 2] << 2)) >> 2])) * Z(0.5)));
                                                 a[(w + 400 + (u[S >> 2] << 2)) >> 2] = nY;
-                                                break i;
+                                                break c;
                                             }
                                         case 4:
                                             {
                                                 nY = Z(e + Z(ih(w, nB, nN)));
                                                 a[(w + 400 + (u[S >> 2] << 2)) >> 2] = nY;
-                                                if (ie(w, nB, nd) | 0) break i;
+                                                if (ie(w, nB, nd) | 0) break c;
                                                 if (nL) {
                                                     p = Z(a[(w + 908) >> 2]);
                                                     r = Z(p + Z(e4(w, nG, nN)));
@@ -2635,17 +2635,17 @@ export function foo(n, r, e) {
                                                     r = g;
                                                     p = Z(a[(w + 908) >> 2]);
                                                 }
-                                                if (eZ(r, p) | 0 ? eZ(C, Z(a[(w + 912) >> 2])) | 0 : 0) break i;
+                                                if (eZ(r, p) | 0 ? eZ(C, Z(a[(w + 912) >> 2])) | 0 : 0) break c;
                                                 e1(w, r, C, nO, 1, 1, nN, n_, 1, 3501, h) | 0;
-                                                break i;
+                                                break c;
                                             }
                                         case 5:
                                             {
                                                 a[(w + 404) >> 2] = Z(Z(M - Z(iX(w))) + Z(iF(w, 0, nd)));
-                                                break i;
+                                                break c;
                                             }
                                         default:
-                                            break i;
+                                            break c;
                                     }
                                     while (0)
                                     d = (d + 1) | 0;
@@ -3036,19 +3036,19 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         var e = 0;
-        a: do if ((r | 0) == 2) {
+        n: do if ((r | 0) == 2) {
             switch(n | 0){
                 case 2:
                     {
                         n = 3;
-                        break a;
+                        break n;
                     }
                 case 3:
                     break;
                 default:
                     {
                         e = 4;
-                        break a;
+                        break n;
                     }
             }
             n = 2;
@@ -3473,7 +3473,7 @@ export function foo(n, r, e) {
     function iq(n) {
         n = n | 0;
         var r = 0, e = 0, i = 0;
-        a: do if (!(iV(u[(n + 4) >> 2] | 0) | 0)) {
+        n: do if (!(iV(u[(n + 4) >> 2] | 0) | 0)) {
             if ((u[(n + 16) >> 2] | 0) != 5) {
                 e = ry(n) | 0;
                 if (!e) r = 0;
@@ -3483,7 +3483,7 @@ export function foo(n, r, e) {
                         i = rp(n, r) | 0;
                         if ((u[(i + 24) >> 2] | 0) == 0 ? (u[(i + 20) >> 2] | 0) == 5 : 0) {
                             r = 1;
-                            break a;
+                            break n;
                         }
                         r = (r + 1) | 0;
                         if (r >>> 0 >= e >>> 0) {
@@ -15296,12 +15296,12 @@ export function foo(n, r, e) {
         var e = 0, i = 0;
         w4() | 0;
         e = u[2652] | 0;
-        a: do if (e | 0) {
+        n: do if (e | 0) {
             while(1){
                 i = u[(e + 4) >> 2] | 0;
                 if (i | 0 ? (C$(_t(i) | 0, n) | 0) == 0 : 0) break;
                 e = u[e >> 2] | 0;
-                if (!e) break a;
+                if (!e) break n;
             }
             _u(i, r);
         }
@@ -15449,7 +15449,7 @@ export function foo(n, r, e) {
                     u[w >> 2] = 0;
                     u[l >> 2] = 0;
                     u[v >> 2] = 0;
-                    a: do if (u[i >> 2] | 0) {
+                    n: do if (u[i >> 2] | 0) {
                         t = 0;
                         f = 0;
                         while(1){
@@ -15459,7 +15459,7 @@ export function foo(n, r, e) {
                                 u[l >> 2] = (u[l >> 2] | 0) + 4;
                             }
                             i = (i + 4) | 0;
-                            if (!(u[i >> 2] | 0)) break a;
+                            if (!(u[i >> 2] | 0)) break n;
                             t = u[l >> 2] | 0;
                             f = u[s >> 2] | 0;
                         }
@@ -17035,10 +17035,10 @@ export function foo(n, r, e) {
         n = n | 0;
         r = r | 0;
         var e = 0, i = 0;
-        a: while(1){
+        n: while(1){
             e = u[2703] | 0;
             while(1){
-                if ((e | 0) == (r | 0)) break a;
+                if ((e | 0) == (r | 0)) break n;
                 i = u[e >> 2] | 0;
                 u[2703] = i;
                 if (!e) e = i;
@@ -18577,7 +18577,7 @@ export function foo(n, r, e) {
         nD(CS() | 0, 5167);
         s = w4() | 0;
         n = u[s >> 2] | 0;
-        a: do if (n | 0) {
+        n: do if (n | 0) {
             do {
                 CT(u[(n + 4) >> 2] | 0);
                 n = u[n >> 2] | 0;
@@ -18594,7 +18594,7 @@ export function foo(n, r, e) {
                         u[h >> 2] = v;
                         u[b >> 2] = u[h >> 2];
                         CN(s, b) | 0;
-                        if (!n) break a;
+                        if (!n) break n;
                     }
                     CL(o);
                     v = u[v >> 2] | 0;
@@ -18645,17 +18645,17 @@ export function foo(n, r, e) {
             n = u[n >> 2] | 0;
         }while ((n | 0) != 0)
         n = u[(w4() | 0) >> 2] | 0;
-        b: do if (n | 0) {
-            c: while(1){
+        r: do if (n | 0) {
+            e: while(1){
                 r = u[(n + 4) >> 2] | 0;
                 if (r | 0 ? ((d = u[(_7(r) | 0) >> 2] | 0), (w = u[(mi(r) | 0) >> 2] | 0), w | 0) : 0) {
                     e = w;
                     do {
                         r = (e + 4) | 0;
                         t = _b(r) | 0;
-                        d: do if (t | 0) switch(fK(t) | 0){
+                        i: do if (t | 0) switch(fK(t) | 0){
                             case 0:
-                                break c;
+                                break e;
                             case 4:
                             case 3:
                             case 2:
@@ -18667,7 +18667,7 @@ export function foo(n, r, e) {
                                     h = fK(t) | 0;
                                     m = _y(r) | 0;
                                     nK(d | 0, l | 0, v | 0, s | 0, b | 0, 0, h | 0, m | 0, CR(r) | 0, CY(r) | 0);
-                                    break d;
+                                    break i;
                                 }
                             case 1:
                                 {
@@ -18679,7 +18679,7 @@ export function foo(n, r, e) {
                                     h = fK(t) | 0;
                                     m = _y(r) | 0;
                                     nK(d | 0, a | 0, l | 0, v | 0, s | 0, b | 0, h | 0, m | 0, CR(r) | 0, CY(r) | 0);
-                                    break d;
+                                    break i;
                                 }
                             case 5:
                                 {
@@ -18688,17 +18688,17 @@ export function foo(n, r, e) {
                                     h = ((_h(t) | 0) + 1) | 0;
                                     m = CG(t) | 0;
                                     nK(d | 0, s | 0, b | 0, h | 0, m | 0, CU(t) | 0, fK(t) | 0, 0, 0, 0);
-                                    break d;
+                                    break i;
                                 }
                             default:
-                                break d;
+                                break i;
                         }
                         while (0)
                         e = u[e >> 2] | 0;
                     }while ((e | 0) != 0)
                 }
                 n = u[n >> 2] | 0;
-                if (!n) break b;
+                if (!n) break r;
             }
             nZ();
         }
@@ -19009,7 +19009,7 @@ export function foo(n, r, e) {
                     }
                 } else c = 0;
                 e = u[(11436 + (c << 2)) >> 2] | 0;
-                a: do if (!e) {
+                n: do if (!e) {
                     e = 0;
                     n = 0;
                     p = 57;
@@ -19024,7 +19024,7 @@ export function foo(n, r, e) {
                             i = 0;
                             t = e;
                             p = 61;
-                            break a;
+                            break n;
                         } else {
                             n = e;
                             i = t;
@@ -19320,9 +19320,9 @@ export function foo(n, r, e) {
             k = M;
             return C | 0;
         }
-        b: do if (!(u[2894] & 4)) {
+        r: do if (!(u[2894] & 4)) {
             e = u[2789] | 0;
-            c: do if (e) {
+            e: do if (e) {
                 i = 11580;
                 while(1){
                     n = u[i >> 2] | 0;
@@ -19330,7 +19330,7 @@ export function foo(n, r, e) {
                     n = u[(i + 8) >> 2] | 0;
                     if (!n) {
                         p = 118;
-                        break c;
+                        break e;
                     } else i = n;
                 }
                 r = (f - o) & t;
@@ -19341,7 +19341,7 @@ export function foo(n, r, e) {
                             o = r;
                             f = n;
                             p = 135;
-                            break b;
+                            break r;
                         }
                     } else {
                         i = n;
@@ -19363,7 +19363,7 @@ export function foo(n, r, e) {
                         o = r;
                         f = e;
                         p = 135;
-                        break b;
+                        break r;
                     } else {
                         i = n;
                         p = 126;
@@ -19380,7 +19380,7 @@ export function foo(n, r, e) {
                     o = r;
                     f = i;
                     p = 135;
-                    break b;
+                    break r;
                 }
                 n = u[2903] | 0;
                 n = (a - r + n) & (0 - n);
@@ -19388,7 +19388,7 @@ export function foo(n, r, e) {
                     o = r;
                     f = i;
                     p = 135;
-                    break b;
+                    break r;
                 }
                 if ((MZ(n | 0) | 0) == (-1 | 0)) {
                     MZ(e | 0) | 0;
@@ -19398,7 +19398,7 @@ export function foo(n, r, e) {
                     o = (n + r) | 0;
                     f = i;
                     p = 135;
-                    break b;
+                    break r;
                 }
             }
             while (0)
@@ -19482,7 +19482,7 @@ export function foo(n, r, e) {
                         if (((n & 3) | 0) == 1) {
                             o = n & -8;
                             i = n >>> 3;
-                            d: do if (n >>> 0 < 256) {
+                            i: do if (n >>> 0 < 256) {
                                 n = u[(r + 8) >> 2] | 0;
                                 e = u[(r + 12) >> 2] | 0;
                                 if ((e | 0) == (n | 0)) {
@@ -19535,12 +19535,12 @@ export function foo(n, r, e) {
                                 i = (11436 + (e << 2)) | 0;
                                 do if ((r | 0) != (u[i >> 2] | 0)) {
                                     u[(f + 16 + ((((u[(f + 16) >> 2] | 0) != (r | 0)) & 1) << 2)) >> 2] = n;
-                                    if (!n) break d;
+                                    if (!n) break i;
                                 } else {
                                     u[i >> 2] = n;
                                     if (n | 0) break;
                                     u[2784] = u[2784] & ~(1 << e);
-                                    break d;
+                                    break i;
                                 }
                                 while (0)
                                 u[(n + 24) >> 2] = f;
@@ -20197,7 +20197,7 @@ export function foo(n, r, e) {
         u[(f + 4) >> 2] = t;
         u[(f + 8) >> 2] = 2;
         f = CX(n5(146, f | 0) | 0) | 0;
-        a: do if ((i | 0) != (f | 0)) {
+        n: do if ((i | 0) != (f | 0)) {
             r = 2;
             while(1){
                 if ((f | 0) < 0) break;
@@ -20216,7 +20216,7 @@ export function foo(n, r, e) {
                 f = CX(n5(146, l | 0) | 0) | 0;
                 if ((i | 0) == (f | 0)) {
                     v = 3;
-                    break a;
+                    break n;
                 }
             }
             u[(n + 16) >> 2] = 0;
@@ -20315,7 +20315,7 @@ export function foo(n, r, e) {
         r = r | 0;
         e = e | 0;
         var t = 0, u = 0;
-        a: do if (!e) n = 0;
+        n: do if (!e) n = 0;
         else {
             while(1){
                 t = i[n >> 0] | 0;
@@ -20324,7 +20324,7 @@ export function foo(n, r, e) {
                 e = (e + -1) | 0;
                 if (!e) {
                     n = 0;
-                    break a;
+                    break n;
                 } else {
                     n = (n + 1) | 0;
                     r = (r + 1) | 0;
@@ -20414,7 +20414,7 @@ export function foo(n, r, e) {
         a = 0;
         c = 0;
         h = 0;
-        a: while(1){
+        n: while(1){
             do if ((c | 0) > -1) if ((a | 0) > ((2147483647 - c) | 0)) {
                 u[(CZ() | 0) >> 2] = 75;
                 c = -1;
@@ -20429,18 +20429,18 @@ export function foo(n, r, e) {
                 C = 87;
                 break;
             } else v = r;
-            b: while(1){
+            r: while(1){
                 switch((a << 24) >> 24){
                     case 37:
                         {
                             a = v;
                             C = 9;
-                            break b;
+                            break r;
                         }
                     case 0:
                         {
                             a = v;
-                            break b;
+                            break r;
                         }
                     default:
                         {}
@@ -20450,9 +20450,9 @@ export function foo(n, r, e) {
                 a = i[p >> 0] | 0;
                 v = p;
             }
-            c: do if ((C | 0) == 9) while(1){
+            e: do if ((C | 0) == 9) while(1){
                 C = 0;
-                if ((i[(v + 1) >> 0] | 0) != 37) break c;
+                if ((i[(v + 1) >> 0] | 0) != 37) break e;
                 a = (a + 1) | 0;
                 v = (v + 2) | 0;
                 u[T >> 2] = v;
@@ -20477,14 +20477,14 @@ export function foo(n, r, e) {
             u[T >> 2] = s;
             a = i[s >> 0] | 0;
             v = (((a << 24) >> 24) + -32) | 0;
-            d: do if (v >>> 0 < 32) {
+            i: do if (v >>> 0 < 32) {
                 b = 0;
                 d = a;
                 while(1){
                     a = 1 << v;
                     if (!(a & 75913)) {
                         a = d;
-                        break d;
+                        break i;
                     }
                     b = a | b;
                     s = (s + 1) | 0;
@@ -20551,7 +20551,7 @@ export function foo(n, r, e) {
                 }
                 if (h | 0) {
                     c = -1;
-                    break a;
+                    break n;
                 }
                 if (M) {
                     p = ((u[e >> 2] | 0) + (4 - 1)) & ~(4 - 1);
@@ -20566,7 +20566,7 @@ export function foo(n, r, e) {
             while(1){
                 if ((((i[s >> 0] | 0) + -65) | 0) >>> 0 > 57) {
                     c = -1;
-                    break a;
+                    break n;
                 }
                 p = (s + 1) | 0;
                 u[T >> 2] = p;
@@ -20585,7 +20585,7 @@ export function foo(n, r, e) {
             do if ((d << 24) >> 24 == 19) {
                 if (_) {
                     c = -1;
-                    break a;
+                    break n;
                 } else C = 49;
             } else {
                 if (_) {
@@ -20600,7 +20600,7 @@ export function foo(n, r, e) {
                 }
                 if (!M) {
                     c = 0;
-                    break a;
+                    break n;
                 }
                 C9(N, w, e);
             }
@@ -20614,7 +20614,7 @@ export function foo(n, r, e) {
             s = ((m | 0) != 0) & (((s & 15) | 0) == 3) ? s & -33 : s;
             _ = b & -65537;
             y = ((b & 8192) | 0) == 0 ? b : _;
-            e: do switch(s | 0){
+            t: do switch(s | 0){
                 case 110:
                     switch(((m & 255) << 24) >> 24){
                         case 0:
@@ -20622,14 +20622,14 @@ export function foo(n, r, e) {
                                 u[u[N >> 2] >> 2] = c;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 1:
                             {
                                 u[u[N >> 2] >> 2] = c;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 2:
                             {
@@ -20638,28 +20638,28 @@ export function foo(n, r, e) {
                                 u[(a + 4) >> 2] = (((c | 0) < 0) << 31) >> 31;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 3:
                             {
                                 t[u[N >> 2] >> 1] = c;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 4:
                             {
                                 i[u[N >> 2] >> 0] = c;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 6:
                             {
                                 u[u[N >> 2] >> 2] = c;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         case 7:
                             {
@@ -20668,13 +20668,13 @@ export function foo(n, r, e) {
                                 u[(a + 4) >> 2] = (((c | 0) < 0) << 31) >> 31;
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                         default:
                             {
                                 a = 0;
                                 r = p;
-                                continue a;
+                                continue n;
                             }
                     }
                 case 112:
@@ -20721,12 +20721,12 @@ export function foo(n, r, e) {
                             b = 1;
                             d = 5642;
                             C = 66;
-                            break e;
+                            break t;
                         } else {
                             b = (((y & 2049) | 0) != 0) & 1;
                             d = ((y & 2048) | 0) == 0 ? ((y & 1) | 0) == 0 ? 5642 : 5644 : 5643;
                             C = 66;
-                            break e;
+                            break t;
                         }
                     }
                 case 117:
@@ -20798,7 +20798,7 @@ export function foo(n, r, e) {
                     {
                         a = Mu(n, +l[N >> 3], a, v, y, s) | 0;
                         r = p;
-                        continue a;
+                        continue n;
                     }
                 default:
                     {
@@ -20810,7 +20810,7 @@ export function foo(n, r, e) {
                     }
             }
             while (0)
-            f: do if ((C | 0) == 61) {
+            u: do if ((C | 0) == 61) {
                 y = N;
                 m = u[y >> 2] | 0;
                 y = u[(y + 4) >> 2] | 0;
@@ -20852,7 +20852,7 @@ export function foo(n, r, e) {
                 }
                 if ((v | 0) < 0) {
                     c = -1;
-                    break a;
+                    break n;
                 }
                 Mi(n, 32, a, r, y);
                 if (!r) {
@@ -20864,13 +20864,13 @@ export function foo(n, r, e) {
                         v = u[s >> 2] | 0;
                         if (!v) {
                             C = 84;
-                            break f;
+                            break u;
                         }
                         v = Mt(O, v) | 0;
                         b = (v + b) | 0;
                         if ((b | 0) > (r | 0)) {
                             C = 84;
-                            break f;
+                            break u;
                         }
                         C3(n, O, v);
                         if (b >>> 0 >= r >>> 0) {
@@ -20909,7 +20909,7 @@ export function foo(n, r, e) {
             Mi(n, 32, a, y, v ^ 8192);
             r = p;
         }
-        g: do if ((C | 0) == 87) if (!n) if (!h) c = 0;
+        f: do if ((C | 0) == 87) if (!n) if (!h) c = 0;
         else {
             c = 1;
             while(1){
@@ -20919,13 +20919,13 @@ export function foo(n, r, e) {
                 c = (c + 1) | 0;
                 if ((c | 0) >= 10) {
                     c = 1;
-                    break g;
+                    break f;
                 }
             }
             while(1){
                 if (u[(o + (c << 2)) >> 2] | 0) {
                     c = -1;
-                    break g;
+                    break f;
                 }
                 c = (c + 1) | 0;
                 if ((c | 0) >= 10) {
@@ -20974,14 +20974,14 @@ export function foo(n, r, e) {
         r = r | 0;
         e = e | 0;
         var i = 0, t = 0, f = 0.0;
-        a: do if (r >>> 0 <= 20) do switch(r | 0){
+        n: do if (r >>> 0 <= 20) do switch(r | 0){
             case 9:
                 {
                     i = ((u[e >> 2] | 0) + (4 - 1)) & ~(4 - 1);
                     r = u[i >> 2] | 0;
                     u[e >> 2] = i + 4;
                     u[n >> 2] = r;
-                    break a;
+                    break n;
                 }
             case 10:
                 {
@@ -20991,7 +20991,7 @@ export function foo(n, r, e) {
                     i = n;
                     u[i >> 2] = r;
                     u[(i + 4) >> 2] = (((r | 0) < 0) << 31) >> 31;
-                    break a;
+                    break n;
                 }
             case 11:
                 {
@@ -21001,7 +21001,7 @@ export function foo(n, r, e) {
                     i = n;
                     u[i >> 2] = r;
                     u[(i + 4) >> 2] = 0;
-                    break a;
+                    break n;
                 }
             case 12:
                 {
@@ -21013,7 +21013,7 @@ export function foo(n, r, e) {
                     i = n;
                     u[i >> 2] = t;
                     u[(i + 4) >> 2] = r;
-                    break a;
+                    break n;
                 }
             case 13:
                 {
@@ -21024,7 +21024,7 @@ export function foo(n, r, e) {
                     t = n;
                     u[t >> 2] = i;
                     u[(t + 4) >> 2] = (((i | 0) < 0) << 31) >> 31;
-                    break a;
+                    break n;
                 }
             case 14:
                 {
@@ -21034,7 +21034,7 @@ export function foo(n, r, e) {
                     t = n;
                     u[t >> 2] = i & 65535;
                     u[(t + 4) >> 2] = 0;
-                    break a;
+                    break n;
                 }
             case 15:
                 {
@@ -21045,7 +21045,7 @@ export function foo(n, r, e) {
                     t = n;
                     u[t >> 2] = i;
                     u[(t + 4) >> 2] = (((i | 0) < 0) << 31) >> 31;
-                    break a;
+                    break n;
                 }
             case 16:
                 {
@@ -21055,7 +21055,7 @@ export function foo(n, r, e) {
                     t = n;
                     u[t >> 2] = i & 255;
                     u[(t + 4) >> 2] = 0;
-                    break a;
+                    break n;
                 }
             case 17:
                 {
@@ -21063,7 +21063,7 @@ export function foo(n, r, e) {
                     f = +l[t >> 3];
                     u[e >> 2] = t + 8;
                     l[n >> 3] = f;
-                    break a;
+                    break n;
                 }
             case 18:
                 {
@@ -21071,10 +21071,10 @@ export function foo(n, r, e) {
                     f = +l[t >> 3];
                     u[e >> 2] = t + 8;
                     l[n >> 3] = f;
-                    break a;
+                    break n;
                 }
             default:
-                break a;
+                break n;
         }
         while (0)
         while (0)
@@ -21141,12 +21141,12 @@ export function foo(n, r, e) {
         var t = 0, f = 0, o = 0, c = 0;
         o = r & 255;
         t = (e | 0) != 0;
-        a: do if (t & (((n & 3) | 0) != 0)) {
+        n: do if (t & (((n & 3) | 0) != 0)) {
             f = r & 255;
             while(1){
                 if ((i[n >> 0] | 0) == (f << 24) >> 24) {
                     c = 6;
-                    break a;
+                    break n;
                 }
                 n = (n + 1) | 0;
                 e = (e + -1) | 0;
@@ -21160,18 +21160,18 @@ export function foo(n, r, e) {
         while (0)
         if ((c | 0) == 5) if (t) c = 6;
         else e = 0;
-        b: do if ((c | 0) == 6) {
+        r: do if ((c | 0) == 6) {
             f = r & 255;
             if ((i[n >> 0] | 0) != (f << 24) >> 24) {
                 t = K(o, 16843009) | 0;
-                c: do if (e >>> 0 > 3) while(1){
+                e: do if (e >>> 0 > 3) while(1){
                     o = u[n >> 2] ^ t;
                     if ((((o & -2139062144) ^ -2139062144) & (o + -16843009)) | 0) break;
                     n = (n + 4) | 0;
                     e = (e + -4) | 0;
                     if (e >>> 0 <= 3) {
                         c = 11;
-                        break c;
+                        break e;
                     }
                 }
                 else c = 11;
@@ -21181,7 +21181,7 @@ export function foo(n, r, e) {
                     break;
                 }
                 while(1){
-                    if ((i[n >> 0] | 0) == (f << 24) >> 24) break b;
+                    if ((i[n >> 0] | 0) == (f << 24) >> 24) break r;
                     n = (n + 1) | 0;
                     e = (e + -1) | 0;
                     if (!e) {
@@ -21807,7 +21807,7 @@ export function foo(n, r, e) {
         o = Md(u[(n + 8) >> 2] | 0, k) | 0;
         t = Md(u[(n + 12) >> 2] | 0, k) | 0;
         f = Md(u[(n + 16) >> 2] | 0, k) | 0;
-        a: do if ((o >>> 0 < (r >>> 2) >>> 0 ? ((b = (r - (o << 2)) | 0), (t >>> 0 < b >>> 0) & (f >>> 0 < b >>> 0)) : 0) ? (((f | t) & 3) | 0) == 0 : 0) {
+        n: do if ((o >>> 0 < (r >>> 2) >>> 0 ? ((b = (r - (o << 2)) | 0), (t >>> 0 < b >>> 0) & (f >>> 0 < b >>> 0)) : 0) ? (((f | t) & 3) | 0) == 0 : 0) {
             b = t >>> 2;
             s = f >>> 2;
             v = 0;
@@ -21820,18 +21820,18 @@ export function foo(n, r, e) {
                 f = Md(u[(n + ((f + 1) << 2)) >> 2] | 0, k) | 0;
                 if (!((f >>> 0 < r >>> 0) & (t >>> 0 < ((r - f) | 0) >>> 0))) {
                     t = 0;
-                    break a;
+                    break n;
                 }
                 if (i[(n + (f + t)) >> 0] | 0) {
                     t = 0;
-                    break a;
+                    break n;
                 }
                 t = C$(e, (n + f) | 0) | 0;
                 if (!t) break;
                 t = (t | 0) < 0;
                 if ((o | 0) == 1) {
                     t = 0;
-                    break a;
+                    break n;
                 } else {
                     v = t ? v : l;
                     o = t ? a : (o - a) | 0;
@@ -21866,7 +21866,7 @@ export function foo(n, r, e) {
                 o = 5;
             } else t = 0;
         } else o = 5;
-        a: do if ((o | 0) == 5) {
+        n: do if ((o | 0) == 5) {
             a = (e + 20) | 0;
             c = u[a >> 2] | 0;
             t = c;
@@ -21874,20 +21874,20 @@ export function foo(n, r, e) {
                 t = gJ[u[(e + 36) >> 2] & 7](e, n, r) | 0;
                 break;
             }
-            b: do if ((i[(e + 75) >> 0] | 0) > -1) {
+            r: do if ((i[(e + 75) >> 0] | 0) > -1) {
                 c = r;
                 while(1){
                     if (!c) {
                         o = 0;
                         f = n;
-                        break b;
+                        break r;
                     }
                     f = (c + -1) | 0;
                     if ((i[(n + f) >> 0] | 0) == 10) break;
                     else c = f;
                 }
                 t = gJ[u[(e + 36) >> 2] & 7](e, n, c) | 0;
-                if (t >>> 0 < c >>> 0) break a;
+                if (t >>> 0 < c >>> 0) break n;
                 o = c;
                 f = (n + c) | 0;
                 r = (r - c) | 0;
@@ -21979,7 +21979,7 @@ export function foo(n, r, e) {
         o = (c >>> 23) & 255;
         l = f & -2147483648;
         t = c << 1;
-        a: do if ((t | 0) != 0 ? !(((e | 0) == 255) | (((Mg(r) | 0) & 2147483647) >>> 0 > 2139095040)) : 0) {
+        n: do if ((t | 0) != 0 ? !(((e | 0) == 255) | (((Mg(r) | 0) & 2147483647) >>> 0 > 2139095040)) : 0) {
             i = f << 1;
             if (i >>> 0 <= t >>> 0) {
                 r = Z(n * Z(0.0));
@@ -22011,7 +22011,7 @@ export function foo(n, r, e) {
             } else c = (c & 8388607) | 8388608;
             t = (i - c) | 0;
             f = (t | 0) > -1;
-            b: do if ((e | 0) > (o | 0)) {
+            r: do if ((e | 0) > (o | 0)) {
                 while(1){
                     if (f) if (!t) break;
                     else i = t;
@@ -22019,10 +22019,10 @@ export function foo(n, r, e) {
                     e = (e + -1) | 0;
                     t = (i - c) | 0;
                     f = (t | 0) > -1;
-                    if ((e | 0) <= (o | 0)) break b;
+                    if ((e | 0) <= (o | 0)) break r;
                 }
                 r = Z(n * Z(0.0));
-                break a;
+                break n;
             }
             while (0)
             if (f) if (!t) {
@@ -22908,7 +22908,7 @@ export function foo(n, r, e) {
         gd,
         gd,
         gd,
-        gd, 
+        gd
     ];
     var gF = [
         gw
@@ -23041,7 +23041,7 @@ export function foo(n, r, e) {
         g_,
         g_,
         g_,
-        g_, 
+        g_
     ];
     var gq = [
         gm,
@@ -23075,7 +23075,7 @@ export function foo(n, r, e) {
         gm,
         gm,
         gm,
-        gm, 
+        gm
     ];
     var gH = [
         gy,
@@ -23109,7 +23109,7 @@ export function foo(n, r, e) {
         gy,
         gy,
         gy,
-        gy, 
+        gy
     ];
     var gX = [
         gp,
