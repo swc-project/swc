@@ -201,42 +201,59 @@ where
             let mut vars = HashMap::default();
             // We check for parameter and argument
             for (idx, param) in params.iter().enumerate() {
-                let arg = e.args.get(idx).map(|v| &v.expr);
-                if let Pat::Ident(param) = &param {
-                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                        if usage.reassigned() {
-                            continue;
-                        }
-                        if usage.ref_count != 1 {
-                            continue;
-                        }
-                    }
-
-                    if let Some(arg) = arg {
-                        match &**arg {
-                            Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
-                            Expr::Lit(..) => {}
-                            _ => continue,
+                match &param {
+                    Pat::Ident(param) => {
+                        if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                            if usage.reassigned() {
+                                continue;
+                            }
+                            if usage.ref_count != 1 {
+                                continue;
+                            }
                         }
 
-                        let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                        if should_be_inlined {
+                        let arg = e.args.get(idx).map(|v| &v.expr);
+
+                        if let Some(arg) = arg {
+                            match &**arg {
+                                Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
+                                Expr::Lit(..) => {}
+                                _ => continue,
+                            }
+
+                            let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                            if should_be_inlined {
+                                trace_op!(
+                                    "iife: Trying to inline argument ({}{:?})",
+                                    param.id.sym,
+                                    param.id.span.ctxt
+                                );
+                                vars.insert(param.to_id(), arg.clone());
+                            }
+                        } else {
                             trace_op!(
-                                "iife: Trying to inline argument ({}{:?})",
+                                "iife: Trying to inline argument ({}{:?}) (undefined)",
                                 param.id.sym,
                                 param.id.span.ctxt
                             );
-                            vars.insert(param.to_id(), arg.clone());
-                        }
-                    } else {
-                        trace_op!(
-                            "iife: Trying to inline argument ({}{:?}) (undefined)",
-                            param.id.sym,
-                            param.id.span.ctxt
-                        );
 
-                        vars.insert(param.to_id(), undefined(param.span()));
+                            vars.insert(param.to_id(), undefined(param.span()));
+                        }
                     }
+
+                    Pat::Rest(param) => {
+                        if let Pat::Ident(param) = &*param.arg {
+                            if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                                if usage.reassigned() {
+                                    continue;
+                                }
+                                if usage.ref_count != 1 {
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                    _ => (),
                 }
             }
             if vars.is_empty() {
