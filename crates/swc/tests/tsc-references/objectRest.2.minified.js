@@ -3,7 +3,7 @@ let nestedrest, complex;
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
-var _complex, _tmp, _o, o = {
+var _tmp, _o, o = {
     a: 1,
     b: 'no'
 };
@@ -17,16 +17,11 @@ _object_without_properties(o, [
     "a",
     "b"
 ]);
-var { b: renamed  } = o;
-_object_without_properties(o, [
+var { b: renamed  } = o, justA = _object_without_properties(o, [
     'b'
-]);
-var { b: renamed  } = o;
-_object_without_properties(o, [
+]), { b: renamed  } = o, justA = _object_without_properties(o, [
     'b'
-]);
-var { b: { 0: n , 1: oooo  }  } = o;
-_object_without_properties(o, [
+]), { b: { 0: n , 1: oooo  }  } = o, justA = _object_without_properties(o, [
     "b"
 ]);
 let o2 = {
@@ -48,12 +43,12 @@ _object_without_properties(complex.x, [
 ]), _object_without_properties(complex, [
     "x",
     "y"
-]), _object_without_properties((_complex = complex).x, [
+]), _object_without_properties(complex.x, [
     "ka"
-]), _object_without_properties(_complex, [
+]), _object_without_properties(complex, [
     "x",
     "y"
-]), { x: { ka  } , y: other  } = _complex;
+]), { x: { ka  } , y: other  } = complex;
 var _ref = {
     x: 1,
     y: 2

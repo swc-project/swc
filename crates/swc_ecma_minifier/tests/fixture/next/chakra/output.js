@@ -1238,7 +1238,7 @@
                 }
             }
             var Anatomy = function() {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1281,7 +1281,7 @@
                         };
                     }, this.__type = {};
                 }
-                return Constructor = Anatomy, protoProps = [
+                return _defineProperties(Anatomy.prototype, [
                     {
                         key: "selectors",
                         get: function() {
@@ -1310,7 +1310,7 @@
                             return Object.keys(this.map);
                         }
                     }
-                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
+                ]), staticProps && _defineProperties(Anatomy, staticProps), Object.defineProperty(Anatomy, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();
@@ -1391,13 +1391,13 @@
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
-                var value, prefix, value1, prefix1, name1, fallback, fallback1, cssVariable = (value = name, void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (value1 = value, void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                var prefix, prefix1, fallback, fallback1, cssVariable = (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === (prefix1 = prefix) && (prefix1 = ""), [
                     prefix1,
-                    chakra_ui_theme_tools_esm_escape(value1)
+                    chakra_ui_theme_tools_esm_escape(name)
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: (name1 = cssVariable, fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(name1) + (fallback ? ", " + fallback : "") + ")")
+                    reference: (fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback ? ", " + fallback : "") + ")")
                 };
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
@@ -1597,7 +1597,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var list, opts, fallback, color, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1695,33 +1695,26 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = (color = bg, function(theme) {
-                    var color1;
-                    return "dark" === (color1 = color, function(theme) {
-                        var hex = getColor(theme, color1);
-                        return new module_TinyColor(hex).isDark() ? "dark" : "light";
-                    })(theme);
-                })(theme), color1 = "white";
-                isBgDark || (color1 = "gray.800");
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
+                isBgDark || (color = "gray.800");
                 var borderColor = mode("white", "gray.800")(props);
                 return {
                     bg: bg,
-                    color: color1,
+                    color: color,
                     borderColor: borderColor,
                     verticalAlign: "top"
                 };
             }, baseStyle$B = function(props) {
-                var props1, props2;
                 return {
-                    badge: (props1 = props, {
+                    badge: {
                         transform: "translate(25%, 25%)",
                         borderRadius: "full",
                         border: "0.2em solid",
-                        borderColor: mode("white", "gray.800")(props1)
-                    }),
-                    excessLabel: (props2 = props, {
-                        bg: mode("gray.200", "whiteAlpha.400")(props2)
-                    }),
+                        borderColor: mode("white", "gray.800")(props)
+                    },
+                    excessLabel: {
+                        bg: mode("gray.200", "whiteAlpha.400")(props)
+                    },
                     container: baseStyleContainer$3(props)
                 };
             };
@@ -2079,18 +2072,17 @@
                 px: 6,
                 py: 4
             }, baseStyle$s = function(props) {
-                var props1;
                 return {
                     overlay: baseStyleOverlay$1,
                     dialogContainer: baseStyleDialogContainer$1,
-                    dialog: sizes_501602a9_esm_extends({}, (props1 = props).isFullHeight && {
+                    dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
                         height: "100vh"
                     }, {
                         zIndex: "modal",
                         maxH: "100vh",
-                        bg: mode("white", "gray.700")(props1),
+                        bg: mode("white", "gray.700")(props),
                         color: "inherit",
-                        boxShadow: mode("lg", "dark-lg")(props1)
+                        boxShadow: mode("lg", "dark-lg")(props)
                     }),
                     header: baseStyleHeader$2,
                     closeButton: baseStyleCloseButton$3,
@@ -2148,39 +2140,37 @@
                     }
                 }
             }, baseStyle$q = function(props) {
-                var props1, props2;
                 return {
                     container: {
                         width: "100%",
                         position: "relative"
                     },
-                    requiredIndicator: (props1 = props, {
+                    requiredIndicator: {
                         marginStart: 1,
-                        color: mode("red.500", "red.300")(props1)
-                    }),
-                    helperText: (props2 = props, {
+                        color: mode("red.500", "red.300")(props)
+                    },
+                    helperText: {
                         mt: 2,
-                        color: mode("gray.500", "whiteAlpha.600")(props2),
+                        color: mode("gray.500", "whiteAlpha.600")(props),
                         lineHeight: "normal",
                         fontSize: "sm"
-                    })
+                    }
                 };
             }, Form = {
                 parts: formAnatomy.keys,
                 baseStyle: baseStyle$q
             }, baseStyle$p = function(props) {
-                var props1, props2;
                 return {
-                    text: (props1 = props, {
-                        color: mode("red.500", "red.300")(props1),
+                    text: {
+                        color: mode("red.500", "red.300")(props),
                         mt: 2,
                         fontSize: "sm",
                         lineHeight: "normal"
-                    }),
-                    icon: (props2 = props, {
+                    },
+                    icon: {
                         marginEnd: "0.5em",
-                        color: mode("red.500", "red.300")(props2)
-                    })
+                        color: mode("red.500", "red.300")(props)
+                    }
                 };
             }, FormError = {
                 parts: formErrorAnatomy.keys,
@@ -2406,39 +2396,38 @@
                 transitionProperty: "common",
                 transitionDuration: "normal"
             }, baseStyle$i = function(props) {
-                var props1, props2;
                 return {
                     button: baseStyleButton,
-                    list: (props1 = props, {
-                        bg: mode("#fff", "gray.700")(props1),
-                        boxShadow: mode("sm", "dark-lg")(props1),
+                    list: {
+                        bg: mode("#fff", "gray.700")(props),
+                        boxShadow: mode("sm", "dark-lg")(props),
                         color: "inherit",
                         minW: "3xs",
                         py: "2",
                         zIndex: 1,
                         borderRadius: "md",
                         borderWidth: "1px"
-                    }),
-                    item: (props2 = props, {
+                    },
+                    item: {
                         py: "0.4rem",
                         px: "0.8rem",
                         transitionProperty: "background",
                         transitionDuration: "ultra-fast",
                         transitionTimingFunction: "ease-in",
                         _focus: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props2)
+                            bg: mode("gray.100", "whiteAlpha.100")(props)
                         },
                         _active: {
-                            bg: mode("gray.200", "whiteAlpha.200")(props2)
+                            bg: mode("gray.200", "whiteAlpha.200")(props)
                         },
                         _expanded: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props2)
+                            bg: mode("gray.100", "whiteAlpha.100")(props)
                         },
                         _disabled: {
                             opacity: 0.4,
                             cursor: "not-allowed"
                         }
-                    }),
+                    },
                     groupTitle: baseStyleGroupTitle,
                     command: baseStyleCommand,
                     divider: baseStyleDivider
@@ -2473,15 +2462,14 @@
                 px: 6,
                 py: 4
             }, baseStyle$h = function(props) {
-                var props1;
                 return {
                     overlay: baseStyleOverlay,
                     dialogContainer: {
                         display: "flex",
                         zIndex: "modal",
                         justifyContent: "center",
-                        alignItems: (props1 = props).isCentered ? "center" : "flex-start",
-                        overflow: "inside" === props1.scrollBehavior ? "hidden" : "auto"
+                        alignItems: props.isCentered ? "center" : "flex-start",
+                        overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
                     },
                     dialog: baseStyleDialog(props),
                     header: baseStyleHeader$1,
@@ -2535,23 +2523,22 @@
                     $stepperWidth.reference
                 ]
             }, baseStyle$g = function(props) {
-                var props1;
                 return {
                     root: baseStyleRoot$1,
                     field: baseStyleField$1,
                     stepperGroup: baseStyleStepperGroup,
-                    stepper: (props1 = props, {
+                    stepper: {
                         borderStart: "1px solid",
-                        borderStartColor: mode("inherit", "whiteAlpha.300")(props1),
-                        color: mode("inherit", "whiteAlpha.800")(props1),
+                        borderStartColor: mode("inherit", "whiteAlpha.300")(props),
+                        color: mode("inherit", "whiteAlpha.800")(props),
                         _active: {
-                            bg: mode("gray.200", "whiteAlpha.300")(props1)
+                            bg: mode("gray.200", "whiteAlpha.300")(props)
                         },
                         _disabled: {
                             opacity: 0.4,
                             cursor: "not-allowed"
                         }
-                    })
+                    }
                 };
             };
             function getSize(size) {
@@ -2579,7 +2566,7 @@
                     }
                 };
             }
-            var config, sizes$c = {
+            var sizes$c = {
                 xs: getSize("xs"),
                 sm: getSize("sm"),
                 md: getSize("md"),
@@ -2650,23 +2637,22 @@
                 fontWeight: "bold",
                 color: "white"
             }, baseStyleFilledTrack$1 = function(props) {
-                var props1, c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
+                var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
                     transitionDuration: "slow"
-                }, (c = (props1 = props).colorScheme, t = props1.theme, isIndeterminate = props1.isIndeterminate, hasStripe = props1.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props1), bgColor = mode(c + ".500", c + ".200")(props1), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
+                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), bgColor = mode(c + ".500", c + ".200")(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
                     bgImage: gradient
                 } : {
                     bgColor: bgColor
                 })));
             }, baseStyle$d = function(props) {
-                var props1;
                 return {
                     label: baseStyleLabel$2,
                     filledTrack: baseStyleFilledTrack$1(props),
-                    track: (props1 = props, {
-                        bg: mode("gray.100", "whiteAlpha.300")(props1)
-                    })
+                    track: {
+                        bg: mode("gray.100", "whiteAlpha.300")(props)
+                    }
                 };
             }, Progress = {
                 parts: progressAnatomy.keys,
@@ -2766,17 +2752,16 @@
                     opacity: 0.5
                 }
             }, baseStyle$b = function(props) {
-                var props1;
                 return {
-                    field: (props1 = props, sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                        bg: mode("white", "gray.700")(props1),
+                    field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
+                        bg: mode("white", "gray.700")(props),
                         appearance: "none",
                         paddingBottom: "1px",
                         lineHeight: "normal",
                         "> option, > optgroup": {
-                            bg: mode("white", "gray.700")(props1)
+                            bg: mode("white", "gray.700")(props)
                         }
-                    })),
+                    }),
                     icon: baseStyleIcon$1
                 };
             }, iconSpacing = {
@@ -2804,22 +2789,22 @@
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
             }, baseStyle$a = function(props) {
-                var startColor, endColor, defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
+                var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
                 return {
                     opacity: 0.7,
                     borderRadius: "2px",
                     borderColor: start,
                     background: end,
-                    animation: speed + "s linear infinite alternate " + (startColor = start, endColor = end, (0, emotion_react_browser_esm.F4)({
+                    animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
                         from: {
-                            borderColor: startColor,
-                            background: startColor
+                            borderColor: start,
+                            background: start
                         },
                         to: {
-                            borderColor: endColor,
-                            background: endColor
+                            borderColor: end,
+                            background: end
                         }
-                    }))
+                    })
                 };
             }, baseStyle$9 = function(props) {
                 return {
@@ -2842,7 +2827,6 @@
                     bg: mode(c + ".500", c + ".200")(props)
                 };
             }, baseStyle$8 = function(props) {
-                var props1;
                 return {
                     container: sizes_501602a9_esm_extends({
                         display: "inline-block",
@@ -2862,14 +2846,14 @@
                             w: "100%"
                         }
                     })),
-                    track: (props1 = props, {
+                    track: {
                         overflow: "hidden",
                         borderRadius: "sm",
-                        bg: mode("gray.200", "whiteAlpha.200")(props1),
+                        bg: mode("gray.200", "whiteAlpha.200")(props),
                         _disabled: {
-                            bg: mode("gray.300", "whiteAlpha.300")(props1)
+                            bg: mode("gray.300", "whiteAlpha.300")(props)
                         }
-                    }),
+                    },
                     thumb: sizes_501602a9_esm_extends({
                         display: "flex",
                         alignItems: "center",
@@ -3525,18 +3509,18 @@
                 ], _ref[$arrowBg.variable] = [
                     $bg.reference
                 ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-            }, breakpoints = (config = {
+            }, breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+                condition: !0,
+                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
+            }), chakra_ui_theme_tools_esm_extends({
+                base: "0em"
+            }, {
                 sm: "30em",
                 md: "48em",
                 lg: "62em",
                 xl: "80em",
                 "2xl": "96em"
-            }, (0, chakra_ui_utils_esm.ZK)({
-                condition: !0,
-                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
-            }), chakra_ui_theme_tools_esm_extends({
-                base: "0em"
-            }, config)), foundations = sizes_501602a9_esm_extends({
+            })), foundations = sizes_501602a9_esm_extends({
                 breakpoints: breakpoints,
                 zIndices: {
                     hide: -1,
@@ -4452,9 +4436,9 @@
                     });
                 },
                 notify: function(message, options) {
-                    var message1, options1, _options$id, _options$position, id, position, toast = (message1 = message, void 0 === (options1 = options) && (options1 = {}), counter += 1, id = null != (_options$id = options1.id) ? _options$id : counter, position = null != (_options$position = options1.position) ? _options$position : "bottom", {
+                    var options1, _options$id, _options$position, id, position, toast = (void 0 === (options1 = options) && (options1 = {}), counter += 1, id = null != (_options$id = options1.id) ? _options$id : counter, position = null != (_options$position = options1.position) ? _options$position : "bottom", {
                         id: id,
-                        message: message1,
+                        message: message,
                         position: position,
                         duration: options1.duration,
                         onCloseComplete: options1.onCloseComplete,
@@ -4620,8 +4604,8 @@
                     containerStyle,
                     toastSpacing
                 ]), toastStyle = react.useMemo(function() {
-                    var position1, isRighty, isLefty, alignItems;
-                    return isRighty = (position1 = position).includes("right"), isLefty = position1.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
+                    var isRighty, isLefty, alignItems;
+                    return isRighty = position.includes("right"), isLefty = position.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: alignItems
@@ -4655,19 +4639,19 @@
             chakra_ui_utils_esm.Ts && (ToastComponent.displayName = "ToastComponent");
             var ToastProvider = function(props) {
                 var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
-                    var position1, top, bottom, right, left, toasts = state[position];
+                    var top, bottom, right, left, toasts = state[position];
                     return react.createElement("ul", {
                         role: "region",
                         "aria-live": "polite",
                         key: position,
                         id: "chakra-toast-manager-" + position,
-                        style: (top = (position1 = position).includes("top") ? "env(safe-area-inset-top, 0px)" : void 0, bottom = position1.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0, right = position1.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)", left = position1.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)", {
+                        style: (top = position.includes("top") ? "env(safe-area-inset-top, 0px)" : void 0, bottom = position.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0, right = position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)", left = position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)", {
                             position: "fixed",
                             zIndex: 5500,
                             pointerEvents: "none",
                             display: "flex",
                             flexDirection: "column",
-                            margin: "top" === position1 || "bottom" === position1 ? "0 auto" : void 0,
+                            margin: "top" === position || "bottom" === position ? "0 auto" : void 0,
                             top: top,
                             bottom: bottom,
                             right: right,

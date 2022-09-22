@@ -23,8 +23,8 @@
                     nodes.forEach(this._insertTag);
                 }, _proto.insert = function(rule) {
                     if (this.ctr % (this.isSpeedy ? 65000 : 1) == 0) {
-                        var options, tag;
-                        this._insertTag((options = this, (tag = document.createElement("style")).setAttribute("data-emotion", options.key), void 0 !== options.nonce && tag.setAttribute("nonce", options.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
+                        var tag;
+                        this._insertTag(((tag = document.createElement("style")).setAttribute("data-emotion", this.key), void 0 !== this.nonce && tag.setAttribute("nonce", this.nonce), tag.appendChild(document.createTextNode("")), tag.setAttribute("data-s", ""), tag));
                     }
                     var tag1 = this.tags[this.tags.length - 1];
                     if (this.isSpeedy) {
@@ -226,7 +226,7 @@
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var value1, points, points1 = [], rules = (value1 = value, points = points1, dealloc(toRules(alloc(value1), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -239,8 +239,7 @@
                     if (!element.return) switch(element.type){
                         case DECLARATION:
                             element.return = function prefix(value, length) {
-                                var value1;
-                                switch((((length << 2 ^ Utility_charat(value1 = value, 0)) << 2 ^ Utility_charat(value1, 1)) << 2 ^ Utility_charat(value1, 2)) << 2 ^ Utility_charat(value1, 3)){
+                                switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     case 5103:
                                         return WEBKIT + "print-" + value + value;
                                     case 5737:
@@ -845,10 +844,10 @@
                 var childProps = {
                     ref: setRef,
                     onClick: function(e) {
-                        var e1, router1, href1, as1, replace1, shallow1, scroll1, locale1, event, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (e1 = e, router1 = router, href1 = href, as1 = as, replace1 = replace, shallow1 = shallow, scroll1 = scroll, locale1 = locale, "A" === e1.currentTarget.nodeName && ((target = (event = e1).currentTarget.target) && "_self" !== target || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.nativeEvent && 2 === event.nativeEvent.which || !_router.isLocalURL(href1)) || (e1.preventDefault(), null == scroll1 && as1.indexOf("#") >= 0 && (scroll1 = !1), router1[replace1 ? "replace" : "push"](href1, as1, {
-                            shallow: shallow1,
-                            locale: locale1,
+                        var scroll1, target;
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
+                            shallow: shallow,
+                            locale: locale,
                             scroll: scroll1
                         })));
                     }
@@ -889,8 +888,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var element, callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
+                    var callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
@@ -908,8 +907,8 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
-                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,

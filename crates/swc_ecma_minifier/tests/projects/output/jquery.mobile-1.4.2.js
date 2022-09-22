@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, $1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window1, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window2, $18, $19, $20, defaultGetMaxScrollForTransition, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, $1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window1, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window2, $18, $19, $20, defaultGetMaxScrollForTransition, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -567,7 +567,7 @@
                 hash !== history_hash && (iframe_doc.title = doc.title, iframe_doc.open(), domain && iframe_doc.write('<script>document.domain="' + domain + '"</script>'), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         }();
-    }(jQuery, this), $5 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = (doc = document1).documentElement).firstElementChild || docElem.firstChild, fakeBody = doc.createElement("body"), (div = doc.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
+    }(jQuery, this), $5 = jQuery, window.matchMedia = window.matchMedia || (refNode = (docElem = document1.documentElement).firstElementChild || docElem.firstChild, fakeBody = document1.createElement("body"), (div = document1.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
         return div.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody, refNode), bool = 42 === div.offsetWidth, docElem.removeChild(fakeBody), {
             matches: bool,
             media: q
@@ -668,7 +668,7 @@
         setup: function() {
             !self.bound && (self.bound = !0, self.isPushStateEnabled() ? (self.originalEventName = "popstate", $win.bind("popstate.navigate", self.popstate)) : self.isHashChangeEnabled() && (self.originalEventName = "hashchange", $win.bind("hashchange.navigate", self.hashchange)));
         }
-    }, dialogHashKey = "&ui-state=dialog", ($8 = jQuery).mobile.path = path = {
+    }, dialogHashKey = "&ui-state=dialog", jQuery.mobile.path = path = {
         uiStateKey: "&ui-state",
         urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
         getLocation: function(url) {
@@ -676,13 +676,13 @@
             return hash = "#" === hash ? "" : hash, uri.protocol + "//" + uri.host + uri.pathname + uri.search + hash;
         },
         getDocumentUrl: function(asParsedObject) {
-            return asParsedObject ? $8.extend({}, path.documentUrl) : path.documentUrl.href;
+            return asParsedObject ? jQuery.extend({}, path.documentUrl) : path.documentUrl.href;
         },
         parseLocation: function() {
             return this.parseUrl(this.getLocation());
         },
         parseUrl: function(url) {
-            if ("object" === $8.type(url)) return url;
+            if ("object" === jQuery.type(url)) return url;
             var matches = path.urlParseRE.exec(url || "") || [];
             return {
                 href: matches[0] || "",
@@ -734,7 +734,7 @@
             return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
-            var u = path.parseUrl(url), p = "object" == typeof params ? $8.param(params) : params, s = u.search || "?";
+            var u = path.parseUrl(url), p = "object" == typeof params ? jQuery.param(params) : params, s = u.search || "?";
             return u.hrefNoSearch + s + ("?" !== s.charAt(s.length - 1) ? "&" : "") + p + (u.hash || "");
         },
         convertUrlToDataUrl: function(absUrl) {
@@ -788,24 +788,24 @@
             return hasHash && (hash = hash.substring(1)), (hasHash ? "#" : "") + hash.replace(/([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g, "\\$1");
         },
         getFilePath: function(path) {
-            var splitkey = "&" + $8.mobile.subPageUrlKey;
+            var splitkey = "&" + jQuery.mobile.subPageUrlKey;
             return path && path.split(splitkey)[0].split(dialogHashKey)[0];
         },
         isFirstPageUrl: function(url) {
-            var u = path.parseUrl(path.makeUrlAbsolute(url, this.documentBase)), samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, fp = $8.mobile.firstPage, fpId = fp && fp[0] ? fp[0].id : undefined2;
+            var u = path.parseUrl(path.makeUrlAbsolute(url, this.documentBase)), samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, fp = jQuery.mobile.firstPage, fpId = fp && fp[0] ? fp[0].id : undefined2;
             return samePath && (!u.hash || "#" === u.hash || fpId && u.hash.replace(/^#/, "") === fpId);
         },
         isPermittedCrossDomainRequest: function(docUrl, reqUrl) {
-            return $8.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
+            return jQuery.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
         }
-    }, path.documentUrl = path.parseLocation(), $base = $8("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
-        return asParsedObject ? $8.extend({}, path.documentBase) : path.documentBase.href;
-    }, $8.extend($8.mobile, {
+    }, path.documentUrl = path.parseLocation(), $base = jQuery("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
+        return asParsedObject ? jQuery.extend({}, path.documentBase) : path.documentBase.href;
+    }, jQuery.extend(jQuery.mobile, {
         getDocumentUrl: path.getDocumentUrl,
         getDocumentBase: path.getDocumentBase
-    }), ($9 = jQuery).mobile.History = function(stack, index) {
+    }), jQuery.mobile.History = function(stack, index) {
         this.stack = stack || [], this.activeIndex = index || 0;
-    }, $9.extend($9.mobile.History.prototype, {
+    }, jQuery.extend(jQuery.mobile.History.prototype, {
         getActive: function() {
             return this.stack[this.activeIndex];
         },
@@ -835,7 +835,7 @@
         },
         direct: function(opts) {
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
-            newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || $9.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || $9.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
+            newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
         }
     }), path1 = ($10 = jQuery).mobile.path, initialHref = location.href, $10.mobile.Navigator = function(history1) {
         this.history = history1, this.ignoreInitialHashChange = !0, $10.mobile.window.bind({
@@ -1180,17 +1180,17 @@
                 }
             };
         });
-    }(jQuery, this), ($13 = jQuery).event.special.throttledresize = {
+    }(jQuery, this), jQuery.event.special.throttledresize = {
         setup: function() {
-            $13(this).bind("resize", handler);
+            jQuery(this).bind("resize", handler);
         },
         teardown: function() {
-            $13(this).unbind("resize", handler);
+            jQuery(this).unbind("resize", handler);
         }
     }, handler = function() {
-        (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $13(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
+        (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, jQuery(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
     }, lastCall = 0, function($, window) {
-        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
+        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, win = $(window), event_name = "orientationchange", portrait_map = {
             0: !0,
             180: !0
         };
@@ -1198,7 +1198,7 @@
             var orientation = get_orientation();
             orientation !== last_orientation && (last_orientation = orientation, win.trigger(event_name));
         }
-        $.support.orientation && (ww = window.innerWidth || win.width(), wh = window.innerHeight || win.height(), landscape_threshold = 50, initial_orientation_is_landscape = ww > wh && ww - wh > landscape_threshold, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
+        $.support.orientation && (initial_orientation_is_landscape = (ww = window.innerWidth || win.width()) > (wh = window.innerHeight || win.height()) && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
             90: !0
         })), $.event.special.orientationchange = $.extend({}, $.event.special.orientationchange, {
@@ -1783,21 +1783,21 @@
             var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $17.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $17.mobile.maxTransitionWidth && $17.mobile.window.width() > $17.mobile.maxTransitionWidth;
             return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
         }
-    }), ($18 = jQuery).mobile.SerialTransition = function() {
+    }), jQuery.mobile.SerialTransition = function() {
         this.init.apply(this, arguments);
-    }, $18.extend($18.mobile.SerialTransition.prototype, $18.mobile.Transition.prototype, {
+    }, jQuery.extend(jQuery.mobile.SerialTransition.prototype, jQuery.mobile.Transition.prototype, {
         sequential: !0,
         beforeDoneOut: function() {
             this.$from && this.cleanFrom();
         },
         beforeStartOut: function(screenHeight, reverseClass, none) {
-            this.$from.animationComplete($18.proxy(function() {
+            this.$from.animationComplete(jQuery.proxy(function() {
                 this.doneOut(screenHeight, reverseClass, none);
             }, this));
         }
-    }), ($19 = jQuery).mobile.ConcurrentTransition = function() {
+    }), jQuery.mobile.ConcurrentTransition = function() {
         this.init.apply(this, arguments);
-    }, $19.extend($19.mobile.ConcurrentTransition.prototype, $19.mobile.Transition.prototype, {
+    }, jQuery.extend(jQuery.mobile.ConcurrentTransition.prototype, jQuery.mobile.Transition.prototype, {
         sequential: !1,
         beforeDoneIn: function() {
             this.$from && this.cleanFrom();
@@ -2064,9 +2064,9 @@
         }, $.mobile.behaviors.addFirstLastClasses));
     }(jQuery), jQuery.fn.fieldcontain = function() {
         return this.addClass("ui-field-contain");
-    }, ($33 = jQuery).fn.grid = function(options) {
+    }, jQuery.fn.grid = function(options) {
         return this.each(function() {
-            var iterator, letter, $this = $33(this), o = $33.extend({
+            var iterator, letter, $this = jQuery(this), o = jQuery.extend({
                 grid: null
             }, options), $kids = $this.children(), gridCols = {
                 solo: 1,
@@ -2178,8 +2178,8 @@
                 if (this._superApply(arguments), this.options.hideDividers) for(idx = (items = this._getChildrenByTagName(this.element[0], "li", "LI")).length - 1; idx > -1; idx--)(item = items[idx]).className.match(rdivider) ? (hideDivider && (item.className = item.className + " ui-screen-hidden"), hideDivider = !0) : item.className.match(rhidden) || (hideDivider = !1);
             }
         });
-    }(jQuery), ($34 = jQuery).mobile.nojs = function(target) {
-        $34(":jqmData(role='nojs')", target).addClass("ui-nojs");
+    }(jQuery), jQuery.mobile.nojs = function(target) {
+        jQuery(":jqmData(role='nojs')", target).addClass("ui-nojs");
     }, jQuery.mobile.behaviors.formReset = {
         _handleFormReset: function() {
             this._on(this.element.closest("form"), {
@@ -3051,8 +3051,8 @@
                 this._setDisabled(!1), this.button.removeClass("ui-state-disabled");
             }
         }, $.mobile.behaviors.formReset));
-    }(jQuery), ($37 = jQuery).mobile.links = function(target) {
-        $37(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
+    }(jQuery), jQuery.mobile.links = function(target) {
+        jQuery(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
             var idref = this.getAttribute("href").substring(1);
             idref && (this.setAttribute("aria-haspopup", !0), this.setAttribute("aria-owns", idref), this.setAttribute("aria-expanded", !1));
         }).end().not(".ui-btn, :jqmData(role='none'), :jqmData(role='nojs')").addClass("ui-link");
