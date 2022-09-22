@@ -11,6 +11,9 @@
 - **(css/parser)** Fix infinite loop about `@import` and `layer`  (#5919) ([10cdbed](https://github.com/swc-project/swc/commit/10cdbed05e3d0f2430a21a7f3c6a185f56ea0861))
 
 
+- **(css/parser)** Report an error for invalid `layer` in `@import` (#5928) ([64694dc](https://github.com/swc-project/swc/commit/64694dc7d5d92880f17c0669c118df666620a50a))
+
+
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
 

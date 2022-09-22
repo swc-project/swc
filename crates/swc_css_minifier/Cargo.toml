@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.88.2"
+version       = "0.88.3"
 
 [lib]
 bench = false
@@ -22,8 +22,8 @@ swc_css_visit = { version = "0.112.2", path = "../swc_css_visit" }
 
 [dev-dependencies]
 criterion       = "0.3"
-swc_css_codegen = { version = "0.123.2", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "0.122.2", path = "../swc_css_parser" }
+swc_css_codegen = { version = "0.123.3", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.122.3", path = "../swc_css_parser" }
 swc_node_base   = { version = "0.5.0", path = "../swc_node_base" }
 testing         = { version = "0.30.9", path = "../testing" }
 
