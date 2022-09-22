@@ -160,18 +160,26 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        fn find_params(callee: &Expr) -> Option<Vec<&Pat>> {
+        fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
             match callee {
-                Expr::Arrow(callee) => Some(callee.params.iter().collect()),
+                Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
                 Expr::Fn(callee) => Some(
                     callee
                         .function
                         .params
-                        .iter()
-                        .map(|param| &param.pat)
+                        .iter_mut()
+                        .map(|param| &mut param.pat)
                         .collect(),
                 ),
                 _ => None,
+            }
+        }
+
+        fn clean_params(callee: &mut Expr) {
+            match callee {
+                Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
+                Expr::Fn(callee) => callee.function.params.retain(|p| !p.pat.is_invalid()),
+                _ => {}
             }
         }
 
@@ -197,52 +205,94 @@ where
         }
 
         let params = find_params(callee);
-        if let Some(params) = params {
+        if let Some(mut params) = params {
             let mut vars = HashMap::default();
             // We check for parameter and argument
-            for (idx, param) in params.iter().enumerate() {
-                let arg = e.args.get(idx).map(|v| &v.expr);
-                if let Pat::Ident(param) = &param {
-                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                        if usage.reassigned() {
-                            continue;
-                        }
-                        if usage.ref_count != 1 {
-                            continue;
-                        }
-                    }
-
-                    if let Some(arg) = arg {
-                        // NOTE
-                        //
-                        // This function is misdesigned and should be removed.
-                        // This is wrong because the order of execution is not guaranteed.
-                        match &**arg {
-                            Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
-                            Expr::Lit(..) => {}
-                            _ => continue,
+            for (idx, param) in params.iter_mut().enumerate() {
+                match &mut **param {
+                    Pat::Ident(param) => {
+                        if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                            if usage.reassigned() {
+                                continue;
+                            }
+                            if usage.ref_count != 1 {
+                                continue;
+                            }
                         }
 
-                        let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                        if should_be_inlined {
+                        let arg = e.args.get(idx).map(|v| &v.expr);
+
+                        if let Some(arg) = arg {
+                            match &**arg {
+                                Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
+                                Expr::Lit(..) => {}
+                                _ => continue,
+                            }
+
+                            let should_be_inlined = self.can_be_inlined_for_iife(arg);
+                            if should_be_inlined {
+                                trace_op!(
+                                    "iife: Trying to inline argument ({}{:?})",
+                                    param.id.sym,
+                                    param.id.span.ctxt
+                                );
+                                vars.insert(param.to_id(), arg.clone());
+                            }
+                        } else {
                             trace_op!(
-                                "iife: Trying to inline argument ({}{:?})",
+                                "iife: Trying to inline argument ({}{:?}) (undefined)",
                                 param.id.sym,
                                 param.id.span.ctxt
                             );
-                            vars.insert(param.to_id(), arg.clone());
-                        }
-                    } else {
-                        trace_op!(
-                            "iife: Trying to inline argument ({}{:?}) (undefined)",
-                            param.id.sym,
-                            param.id.span.ctxt
-                        );
 
-                        vars.insert(param.to_id(), undefined(param.span()));
+                            vars.insert(param.to_id(), undefined(param.span()));
+                        }
                     }
+
+                    Pat::Rest(rest_pat) => {
+                        if let Pat::Ident(param_id) = &*rest_pat.arg {
+                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
+                                if usage.reassigned()
+                                    || usage.ref_count != 1
+                                    || !usage.has_property_access
+                                {
+                                    continue;
+                                }
+
+                                if e.args.iter().skip(idx).any(|arg| {
+                                    if arg.spread.is_some() {
+                                        return true;
+                                    }
+
+                                    match &*arg.expr {
+                                        Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => true,
+                                        Expr::Lit(..) => false,
+                                        _ => true,
+                                    }
+                                }) {
+                                    continue;
+                                }
+
+                                vars.insert(
+                                    param_id.to_id(),
+                                    Box::new(Expr::Array(ArrayLit {
+                                        span: param_id.span,
+                                        elems: e
+                                            .args
+                                            .iter()
+                                            .skip(idx)
+                                            .map(|arg| Some(arg.clone()))
+                                            .collect(),
+                                    })),
+                                );
+                                param.take();
+                            }
+                        }
+                    }
+                    _ => (),
                 }
             }
+
             if vars.is_empty() {
                 log_abort!("vars is empty");
                 return;
@@ -266,6 +316,8 @@ where
                 _ => {}
             }
         }
+
+        clean_params(callee);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
