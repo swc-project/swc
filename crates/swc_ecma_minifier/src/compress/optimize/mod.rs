@@ -1358,6 +1358,20 @@ where
             }
         }
     }
+
+    fn visit_with_prepend<N>(&mut self, n: &mut N)
+    where
+        N: VisitMutWith<Self>,
+    {
+        let mut old_prepend_stmts = self.prepend_stmts.take();
+        let old_append_stmts = self.append_stmts.take();
+        n.visit_mut_with(self);
+        old_prepend_stmts.append(&mut *self.prepend_stmts);
+        old_prepend_stmts.append(&mut *self.append_stmts);
+
+        self.prepend_stmts = old_prepend_stmts;
+        self.append_stmts = old_append_stmts;
+    }
 }
 
 impl<M> VisitMut for Optimizer<'_, M>
@@ -1895,7 +1909,7 @@ where
                 is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
-            n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+            self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
@@ -1917,7 +1931,7 @@ where
                 is_exact_lhs_of_assign: n.left.is_pat(),
                 ..self.ctx
             };
-            n.left.visit_mut_with(&mut *self.with_ctx(ctx));
+            self.with_ctx(ctx).visit_with_prepend(&mut n.left);
         }
 
         {
@@ -1931,24 +1945,15 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
+        self.visit_with_prepend(&mut s.init);
+
+        s.test.visit_mut_with(self);
+        s.update.visit_mut_with(self);
+
         let ctx = Ctx {
             executed_multiple_time: true,
             ..self.ctx
         };
-
-        {
-            let mut old_prepend_stmts = self.prepend_stmts.take();
-            let old_append_stmts = self.append_stmts.take();
-            s.init.visit_mut_with(self);
-            old_prepend_stmts.append(&mut *self.prepend_stmts);
-            old_prepend_stmts.append(&mut *self.append_stmts);
-
-            self.prepend_stmts = old_prepend_stmts;
-            self.append_stmts = old_append_stmts;
-        }
-
-        s.test.visit_mut_with(self);
-        s.update.visit_mut_with(self);
 
         s.body.visit_mut_with(&mut *self.with_ctx(ctx));
 
