@@ -1,2 +1,2 @@
-undefined.i_will_throw;
-undefined(1);
+(void 0).i_will_throw;
+(void 0)(1);
