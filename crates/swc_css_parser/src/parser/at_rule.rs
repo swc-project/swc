@@ -452,8 +452,6 @@ where
                                 ..
                             }) = &func.value[0]
                             {
-                                let name = ImportPreludeLayerName::Function(func.clone());
-
                                 parser.input.skip_ws();
 
                                 if name_raw.is_empty() {
@@ -466,7 +464,7 @@ where
                                     ));
                                     None
                                 } else {
-                                    Some(Box::new(name))
+                                    Some(Box::new(ImportPreludeLayerName::Function(func)))
                                 }
                             } else {
                                 parser.errors.push(Error::new(
