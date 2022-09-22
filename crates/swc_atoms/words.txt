@@ -25,6 +25,8 @@ animateMotion
 animatetransform
 animateTransform
 Animation
+animation
+animation-name
 AnimationEffectReadOnly
 AnimationEffectTiming
 AnimationEffectTimingReadOnly
@@ -864,6 +866,7 @@ Response
 return
 ReturnType
 revert
+revert-layer
 role
 rotate
 rotate3d
