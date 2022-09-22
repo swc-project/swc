@@ -219,7 +219,7 @@ where
         if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
             if v.ref_count == 0
                 && v.usage_count == 0
-                && !v.reassigned_with_assignment
+                && !v.reassigned()
                 && !v.has_property_mutation
                 && !v.declared_as_catch_param
             {
