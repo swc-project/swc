@@ -5,9 +5,6 @@ hoist_props/contains_this_2/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/hoist_class/input.js
 hoist_props/hoist_class_with_new/input.js
-hoist_props/issue_2377_1/input.js
-hoist_props/issue_2377_2/input.js
-hoist_props/issue_2377_3/input.js
 hoist_props/issue_2473_4/input.js
 hoist_props/issue_2508_1/input.js
 hoist_props/issue_2508_2/input.js
