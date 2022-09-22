@@ -6,7 +6,6 @@ arrays/constant_join_3/input.js
 arrays/for_loop/input.js
 arrays/index/input.js
 arrays/index_length/input.js
-arrow/call_args_drop_param/input.js
 arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
@@ -250,9 +249,7 @@ functions/issue_2842/input.js
 functions/issue_2898/input.js
 functions/issue_3016_1/input.js
 functions/issue_3016_2/input.js
-functions/issue_3016_2_ie8/input.js
 functions/issue_3016_3/input.js
-functions/issue_3016_3_ie8/input.js
 functions/issue_3018/input.js
 functions/issue_3076/input.js
 functions/issue_3125/input.js
@@ -326,7 +323,6 @@ issue_1321/issue_1321_no_debug/input.js
 issue_1321/issue_1321_with_quoted/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
-issue_1446/typeof_eq_undefined_ie8/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
 issue_1466/different_variable_in_multiple_forIn/input.js
 issue_1466/different_variable_in_multiple_forOf/input.js
@@ -345,7 +341,6 @@ issue_1639/issue_1639_1/input.js
 issue_1639/issue_1639_2/input.js
 issue_1673/side_effects_else/input.js
 issue_1733/function_catch_catch/input.js
-issue_1733/function_iife_catch_ie8/input.js
 issue_1750/case_1/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
@@ -508,7 +503,6 @@ reduce_vars/var_assign_1/input.js
 reduce_vars/var_assign_2/input.js
 reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 regexp/unsafe_slashes/input.js
-rename/function_iife_catch_ie8/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js

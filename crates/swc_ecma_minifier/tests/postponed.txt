@@ -1,3 +1,5 @@
+functions/issue_3016_2_ie8/input.js
+functions/issue_3016_3_ie8/input.js
 hoist_props/contains_this_1/input.js
 hoist_props/contains_this_2/input.js
 hoist_props/direct_access_1/input.js
@@ -29,6 +31,8 @@ ie8/dont_screw_try_catch_undefined/input.js
 ie8/issue_1586_1/input.js
 ie8/issue_2120_1/input.js
 ie8/reduce_vars/input.js
+issue_1446/typeof_eq_undefined_ie8/input.js
+issue_1733/function_iife_catch_ie8/input.js
 properties/const_prop_assign_pure/input.js
 properties/const_prop_assign_strict/input.js
 properties/dont_mangle_computed_property_1/input.js
@@ -120,3 +124,4 @@ pure_getters/set_mutable_2/input.js
 pure_getters/strict_reduce_vars/input.js
 pure_getters/unsafe/input.js
 pure_getters/unsafe_reduce_vars/input.js
+rename/function_iife_catch_ie8/input.js
