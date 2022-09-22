@@ -2,8 +2,9 @@ use std::{env, fs, path::PathBuf, process::Command};
 
 use anyhow::{bail, Context, Result};
 use sha1::{Digest, Sha1};
+use tracing::debug;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct JsExecOptions {
     /// Cache the result of the execution.
     ///
@@ -20,6 +21,9 @@ pub struct JsExecOptions {
 
     /// If true, `--input-type=module` will be added.
     pub module: bool,
+
+    /// The arguments passed to the node.js process.
+    pub args: Vec<String>,
 }
 
 fn cargo_manifest_dir() -> PathBuf {
@@ -41,7 +45,7 @@ fn cargo_cache_root() -> PathBuf {
 /// Executes `js_code` and capture thw output.
 pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     if opts.cache {
-        let hash = calc_hash(js_code);
+        let hash = calc_hash(&format!("{:?}:{}", opts.args, js_code));
         let cache_dir = cargo_cache_root().join(".swc-node-exec-cache");
         let cache_path = cache_dir.join(format!("{}.stdout", hash));
 
@@ -64,6 +68,8 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
         return Ok(output);
     }
 
+    debug!("Executing nodejs:\n{}", js_code);
+
     let mut c = Command::new("node");
 
     if opts.module {
@@ -72,11 +78,13 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
         c.arg("--input-type=commonjs");
     }
 
-    let output = c
-        .arg("-e")
-        .arg(js_code)
-        .output()
-        .context("failed to execute output of minifier")?;
+    c.arg("-e").arg(js_code);
+
+    for arg in opts.args {
+        c.arg(arg);
+    }
+
+    let output = c.output().context("failed to execute output of minifier")?;
 
     if !output.status.success() {
         bail!(

@@ -70,12 +70,13 @@ impl Fold for AsyncArrowsInClass {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut stmts,
-                ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
-                }))),
+                }
+                .into(),
             );
         }
 
@@ -87,12 +88,13 @@ impl Fold for AsyncArrowsInClass {
         if !self.vars.is_empty() {
             prepend_stmt(
                 &mut stmts,
-                Stmt::Decl(Decl::Var(VarDecl {
+                VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
                     decls: self.vars.take(),
-                })),
+                }
+                .into(),
             );
         }
 

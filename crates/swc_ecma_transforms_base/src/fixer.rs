@@ -464,26 +464,34 @@ impl VisitMut for Fixer<'_> {
         s.visit_mut_children_with(self);
 
         if s.await_token.is_none() {
-            if let VarDeclOrPat::Pat(Pat::Ident(BindingIdent {
-                id:
-                    id @ Ident {
-                        sym: js_word!("async"),
-                        ..
-                    },
-                ..
-            })) = &mut s.left
-            {
-                let expr = Expr::Ident(id.take());
-                s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)));
+            match &s.left {
+                VarDeclOrPat::Pat(p)
+                    if matches!(
+                        &**p,
+                        Pat::Ident(BindingIdent {
+                            id: Ident {
+                                sym: js_word!("async"),
+                                ..
+                            },
+                            ..
+                        })
+                    ) =>
+                {
+                    let expr = Expr::Ident(p.clone().expect_ident().id);
+                    s.left = VarDeclOrPat::Pat(Pat::Expr(Box::new(expr)).into());
+                }
+                _ => (),
             }
 
-            if let VarDeclOrPat::Pat(Pat::Expr(expr)) = &mut s.left {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("async"),
-                    ..
-                }) = &**expr
-                {
-                    self.wrap(&mut *expr);
+            if let VarDeclOrPat::Pat(e) = &mut s.left {
+                if let Pat::Expr(expr) = &mut **e {
+                    if let Expr::Ident(Ident {
+                        sym: js_word!("async"),
+                        ..
+                    }) = &**expr
+                    {
+                        self.wrap(&mut *expr);
+                    }
                 }
             }
         }

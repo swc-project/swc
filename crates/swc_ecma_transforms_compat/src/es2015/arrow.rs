@@ -138,31 +138,29 @@ impl VisitMut for Arrow {
 
                 body.visit_mut_with(&mut self.hoister);
 
-                let fn_expr = Expr::Fn(FnExpr {
-                    ident: None,
-                    function: Function {
-                        decorators: vec![],
-                        span: *span,
-                        params,
-                        is_async: *is_async,
-                        is_generator: *is_generator,
-                        body: Some(match body {
-                            BlockStmtOrExpr::BlockStmt(block) => block.take(),
-                            BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                let fn_expr = Function {
+                    decorators: vec![],
+                    span: *span,
+                    params,
+                    is_async: *is_async,
+                    is_generator: *is_generator,
+                    body: Some(match body {
+                        BlockStmtOrExpr::BlockStmt(block) => block.take(),
+                        BlockStmtOrExpr::Expr(expr) => BlockStmt {
+                            span: DUMMY_SP,
+                            stmts: vec![Stmt::Return(ReturnStmt {
+                                // this is needed so
+                                // () => /* 123 */ 1 would become
+                                // function { return /*123 */ 123 }
                                 span: DUMMY_SP,
-                                stmts: vec![Stmt::Return(ReturnStmt {
-                                    // this is needed so
-                                    // () => /* 123 */ 1 would become
-                                    // function { return /*123 */ 123 }
-                                    span: DUMMY_SP,
-                                    arg: Some(expr.take()),
-                                })],
-                            },
-                        }),
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    },
-                });
+                                arg: Some(expr.take()),
+                            })],
+                        },
+                    }),
+                    type_params: Default::default(),
+                    return_type: Default::default(),
+                }
+                .into();
 
                 *expr = fn_expr;
             }

@@ -187,6 +187,17 @@ where
     }
 }
 
+impl<T> Babelify for Box<T>
+where
+    T: Babelify,
+{
+    type Output = T::Output;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        (*self).babelify(ctx)
+    }
+}
+
 fn extract_class_body_span(class: &Class, ctx: &Context) -> Span {
     let sp = ctx.cm.span_take_while(class.span, |ch| *ch != '{');
     class.span.with_lo(sp.hi())

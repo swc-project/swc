@@ -10,10 +10,10 @@ use syn::{
     parse_quote::parse, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle, Attribute, Block,
     Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary, Field, FieldValue,
     Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam, Generics, ImplItem,
-    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, Lifetime,
-    LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
+    ImplItemMethod, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct, ItemTrait, ItemUse,
+    Lifetime, LifetimeDef, Member, Pat, PatIdent, PatTuple, PatTupleStruct, PatType, PatWild, Path,
     PathArguments, Receiver, ReturnType, Signature, Stmt, Token, TraitItem, TraitItemMethod, Type,
-    TypePath, TypeReference, UnOp, Variant, VisPublic, Visibility,
+    TypePath, TypeReference, UnOp, UseTree, Variant, VisPublic, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -2580,6 +2580,18 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemM
                 default: Some(block),
                 semi_token: None,
             }
+        }
+
+        Item::Use(ItemUse {
+            tree: UseTree::Name(tree),
+            ..
+        }) => {
+            let type_name = &tree.ident;
+            types.push(Type::Path(TypePath {
+                qself: None,
+                path: type_name.clone().into(),
+            }));
+            return None;
         }
 
         _ => unimplemented!(

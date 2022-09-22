@@ -427,20 +427,23 @@ impl<C: Comments> VisitMut for Refresh<C> {
         // var _c, _c1;
         // ```
         if !refresh_regs.is_empty() {
-            items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: refresh_regs
-                    .iter()
-                    .map(|(handle, _)| VarDeclarator {
-                        span: DUMMY_SP,
-                        name: handle.clone().into(),
-                        init: None,
-                        definite: false,
-                    })
-                    .collect(),
-            }))));
+            items.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: refresh_regs
+                        .iter()
+                        .map(|(handle, _)| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: handle.clone().into(),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                }
+                .into(),
+            );
         }
 
         // Insert

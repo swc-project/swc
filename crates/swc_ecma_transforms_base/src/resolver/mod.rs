@@ -1565,15 +1565,21 @@ impl VisitMut for Hoister<'_, '_> {
                     }
                 }
 
-                Decl::TsModule(TsModuleDecl {
-                    global: false,
-                    id: TsModuleName::Ident(id),
-                    ..
-                }) => {
+                Decl::TsModule(v)
+                    if matches!(
+                        &**v,
+                        TsModuleDecl {
+                            global: false,
+                            id: TsModuleName::Ident(_),
+                            ..
+                        },
+                    ) =>
+                {
                     if !self.in_block {
                         let old_in_type = self.resolver.in_type;
                         self.resolver.in_type = false;
-                        self.resolver.modify(id, DeclKind::Lexical);
+                        self.resolver
+                            .modify(v.id.as_mut_ident().unwrap(), DeclKind::Lexical);
                         self.resolver.in_type = old_in_type;
                     }
                 }
@@ -1707,14 +1713,14 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_expr(&mut self, n: &mut VarDeclOrExpr) {
         match n {
-            VarDeclOrExpr::VarDecl(VarDecl {
-                kind: VarDeclKind::Let,
-                ..
-            })
-            | VarDeclOrExpr::VarDecl(VarDecl {
-                kind: VarDeclKind::Const,
-                ..
-            }) => {}
+            VarDeclOrExpr::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
             _ => {
                 n.visit_mut_children_with(self);
             }
@@ -1723,14 +1729,14 @@ impl VisitMut for Hoister<'_, '_> {
 
     fn visit_mut_var_decl_or_pat(&mut self, n: &mut VarDeclOrPat) {
         match n {
-            VarDeclOrPat::VarDecl(VarDecl {
-                kind: VarDeclKind::Let,
-                ..
-            })
-            | VarDeclOrPat::VarDecl(VarDecl {
-                kind: VarDeclKind::Const,
-                ..
-            }) => {}
+            VarDeclOrPat::VarDecl(v)
+                if matches!(
+                    &**v,
+                    VarDecl {
+                        kind: VarDeclKind::Let | VarDeclKind::Const,
+                        ..
+                    }
+                ) => {}
             // Hoister should not handle lhs of for in statement below
             //
             // const b = [];
@@ -1770,20 +1776,24 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in items {
             match item {
-                ModuleItem::Stmt(Stmt::Decl(
-                    Decl::Var(VarDecl {
+                ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+                | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(v),
+                    ..
+                })) if matches!(
+                    &**v,
+                    VarDecl {
                         kind: VarDeclKind::Var,
                         ..
-                    })
-                    | Decl::Fn(..),
-                ))
+                    }
+                ) =>
+                {
+                    item.visit_mut_with(self);
+                }
+
+                ModuleItem::Stmt(Stmt::Decl(Decl::Fn(..)))
                 | ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl:
-                        Decl::Var(VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        })
-                        | Decl::Fn(..),
+                    decl: Decl::Fn(..),
                     ..
                 })) => {
                     item.visit_mut_with(self);
@@ -1805,11 +1815,18 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in stmts {
             match item {
-                Stmt::Decl(Decl::Var(VarDecl {
-                    kind: VarDeclKind::Var,
-                    ..
-                }))
-                | Stmt::Decl(Decl::Fn(..)) => {
+                Stmt::Decl(Decl::Var(v))
+                    if matches!(
+                        &**v,
+                        VarDecl {
+                            kind: VarDeclKind::Var,
+                            ..
+                        }
+                    ) =>
+                {
+                    item.visit_mut_with(self);
+                }
+                Stmt::Decl(Decl::Fn(..)) => {
                     item.visit_mut_with(self);
                 }
                 _ => {

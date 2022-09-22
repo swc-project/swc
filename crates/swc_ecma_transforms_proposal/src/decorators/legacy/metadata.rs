@@ -112,7 +112,7 @@ impl VisitMut for Metadata<'_> {
                         .map(|v| match v {
                             ParamOrTsParamProp::TsParamProp(p) => {
                                 let ann = match &p.param {
-                                    TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
+                                    TsParamPropParam::Ident(i) => i.type_ann.as_deref(),
                                     TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
                                 };
                                 Some(serialize_type(self.class_name, ann).as_arg())
@@ -200,7 +200,7 @@ impl VisitMut for Metadata<'_> {
 
         let dec = self.create_metadata_design_decorator(
             "design:type",
-            serialize_type(self.class_name, p.type_ann.as_ref()).as_arg(),
+            serialize_type(self.class_name, p.type_ann.as_deref()).as_arg(),
         );
         p.decorators.push(dec);
     }
@@ -493,17 +493,19 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
 
 fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
     match p {
-        Pat::Ident(p) => &p.type_ann,
-        Pat::Array(p) => &p.type_ann,
-        Pat::Rest(p) => &p.type_ann,
-        Pat::Object(p) => &p.type_ann,
+        Pat::Ident(p) => p.type_ann.as_deref(),
+        Pat::Array(p) => p.type_ann.as_deref(),
+        Pat::Rest(p) => p.type_ann.as_deref(),
+        Pat::Object(p) => p.type_ann.as_deref(),
         Pat::Assign(p) => {
-            return p.type_ann.as_ref().or_else(|| get_type_ann_of_pat(&p.left));
+            return p
+                .type_ann
+                .as_deref()
+                .or_else(|| get_type_ann_of_pat(&p.left));
         }
-        Pat::Invalid(_) => return None,
-        Pat::Expr(_) => return None,
+        Pat::Invalid(_) => None,
+        Pat::Expr(_) => None,
     }
-    .as_ref()
 }
 
 fn is_str(ty: &TsType) -> bool {

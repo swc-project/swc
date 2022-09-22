@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{BlockContentsGrammar, Ctx},
+    parser::{value::is_math_function, BlockContentsGrammar, Ctx},
     Parse,
 };
 
@@ -1716,9 +1716,12 @@ where
             }
             tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
+            Token::Function { value, .. } if is_math_function(value) => {
+                Ok(MediaFeatureValue::Function(self.parse()?))
+            }
             _ => Err(Error::new(
                 span,
-                ErrorKind::Expected("number, ident or dimension token"),
+                ErrorKind::Expected("number, ident, dimension or function token"),
             )),
         }
     }
@@ -1865,6 +1868,8 @@ where
         let start = self.input.cur_span().lo;
         let mut name = vec![];
 
+        let entered = is!(self, Ident);
+
         while is!(self, Ident) {
             let span = self.input.cur_span();
             let token = bump!(self);
@@ -1884,6 +1889,11 @@ where
             if is!(self, ".") {
                 eat!(self, ".");
             }
+        }
+
+        if !entered {
+            // if first argument is not ident, without bump! will cause infinite loop
+            bump!(self);
         }
 
         Ok(LayerName {

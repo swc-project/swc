@@ -275,6 +275,7 @@ C._ = _get(_get_prototype_of(C), "w", C).call(C);
 super.w();
 export { };
 //// [inContainingFuncExprStaticField.ts]
-export { };
+import _get from "@swc/helpers/src/_get.mjs";
+import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 //// [inContainingFuncExprStaticBlock.ts]
 export { };

@@ -8,13 +8,55 @@
 - **(cli)** Add missing comma (#5902) ([ccca6d0](https://github.com/swc-project/swc/commit/ccca6d0a8866b9e34e1778e176ed47d19e30be78))
 
 
+- **(css/parser)** Fix infinite loop about `@import` and `layer`  (#5919) ([10cdbed](https://github.com/swc-project/swc/commit/10cdbed05e3d0f2430a21a7f3c6a185f56ea0861))
+
+
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
+
+
+- **(es/minifier)** Fix analysis of assignments (#5924) ([e303f7e](https://github.com/swc-project/swc/commit/e303f7e8530a2c16f908d4132b077540eb1ecc58))
 
 ### Features
 
 
 
+- **(css/parser)** Parse more math functions in `@media` (#5904) ([2bf2419](https://github.com/swc-project/swc/commit/2bf24195f2e9803f24f335b637ff9e7ea394402b))
+
+
 - **(es/minifier)** Drop function identifier in a single pass (#5901) ([aacf7aa](https://github.com/swc-project/swc/commit/aacf7aaf80034509cf20e4b54d87c2e95ae9b3df))
+
+
+- **(es/minifier)** Collapse `let` without init (#5909) ([19ce273](https://github.com/swc-project/swc/commit/19ce2737b16f2f6daf5f2eb53dc7a70ceefb107d))
+
+
+- **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
+
+### Performance
+
+
+
+- **(es)** Optimize memory layout of AST (#5829) ([1a182ef](https://github.com/swc-project/swc/commit/1a182ef8d90c2294ac67e8cdee63bfab2c295bae))
+
+
+- **(es/minifier)** Make more passes parallel (#5906) ([6bbd3f4](https://github.com/swc-project/swc/commit/6bbd3f4c14eb243b697dc12593ada1b196a0cad8))
+
+
+- **(es/minifier)** Invoke DCE only before the first compression (#5907) ([1df7243](https://github.com/swc-project/swc/commit/1df72430a56cc85ac41c6f9753d7c7e6d5ea279a))
+
+
+- **(es/minifier)** Optimize analyzer (#5908) ([a9873e5](https://github.com/swc-project/swc/commit/a9873e505d33b4537e341a618f524931870a0db4))
+
+### Testing
+
+
+
+- **(es)** Accept arguments (#5916) ([fe40d83](https://github.com/swc-project/swc/commit/fe40d8312b7153de1e334d552e9f6bcafc9cc161))
+
+
+- **(es/minifier)** Add a test for a wrong issue (#5923) ([0b34bcb](https://github.com/swc-project/swc/commit/0b34bcb40e844f8a78e8c239ed8b0eeed2ef6992))
+
+
+- **(es/minifier)** Add an execution test for a fixed issue (#5925) ([31711e7](https://github.com/swc-project/swc/commit/31711e76af84aa52766a511af7b772390144f1ee))
 
 ## [1.3.2] - 2022-09-19
 

@@ -2324,8 +2324,8 @@
                     const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), endOffset = parseInt(offsetResponse.offset), startOffset = endOffset - size + 1, data = new Uint8Array(size);
                     let byte = 0;
                     for(; byte < size;){
-                        this.api.config.logging && console.log(`[chunk] ${byte}/${size}`);
                         let chunkData;
+                        this.api.config.logging && console.log(`[chunk] ${byte}/${size}`);
                         try {
                             chunkData = await this.getChunkData(startOffset + byte);
                         } catch (error) {
@@ -3869,8 +3869,8 @@
                     const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), endOffset = parseInt(offsetResponse.offset), startOffset = endOffset - size + 1, data = new Uint8Array(size);
                     let byte = 0;
                     for(; byte < size;){
-                        this.api.config.logging && console.log(`[chunk] ${byte}/${size}`);
                         let chunkData;
+                        this.api.config.logging && console.log(`[chunk] ${byte}/${size}`);
                         try {
                             chunkData = await this.getChunkData(startOffset + byte);
                         } catch (error) {
@@ -5319,6 +5319,7 @@
                 const state = this._baseState;
                 return assert(null === state.use), state.contains = item, this;
             }, Node.prototype._decode = function(input, options) {
+                let prevObj;
                 const state = this._baseState;
                 if (null === state.parent) return input.wrapResult(state.children[0]._decode(input, options));
                 let result = state.default, present = !0, prevKey = null;
@@ -5336,7 +5337,6 @@
                         input.restore(save);
                     }
                 }
-                let prevObj;
                 if (state.obj && present && (prevObj = input.enterObject()), present) {
                     if (null !== state.explicit) {
                         const explicit = this._decodeTag(input, state.explicit);
@@ -5629,11 +5629,11 @@
                 return buffer.isError(res) ? res : (len = buffer.offset - state.offset, buffer.restore(state), buffer.skip(len, 'Failed to match body of: "' + tag + '"'));
             }, DERNode.prototype._skipUntilEnd = function(buffer, fail) {
                 for(;;){
+                    let res;
                     const tag = derDecodeTag(buffer, fail);
                     if (buffer.isError(tag)) return tag;
                     const len = derDecodeLen(buffer, tag.primitive, fail);
                     if (buffer.isError(len)) return len;
-                    let res;
                     if (res = tag.primitive || null !== len ? buffer.skip(len) : this._skipUntilEnd(buffer, fail), buffer.isError(res)) return res;
                     if ('end' === tag.tagStr) break;
                 }
@@ -5688,8 +5688,8 @@
                 }
                 return result;
             }, DERNode.prototype._decodeTime = function(buffer, tag) {
-                const str = buffer.raw().toString();
                 let year, mon, day, hour, min, sec;
+                const str = buffer.raw().toString();
                 if ('gentime' === tag) year = 0 | str.slice(0, 4), mon = 0 | str.slice(4, 6), day = 0 | str.slice(6, 8), hour = 0 | str.slice(8, 10), min = 0 | str.slice(10, 12), sec = 0 | str.slice(12, 14);
                 else {
                     if ('utctime' !== tag) return buffer.error('Decoding ' + tag + ' time is not supported yet');
@@ -5875,8 +5875,8 @@
             }, DERNode.prototype._use = function(entity, obj) {
                 return 'function' == typeof entity && (entity = entity(obj)), entity._getEncoder('der').tree;
             }, DERNode.prototype._skipDefault = function(dataBuffer, reporter, parent) {
-                const state = this._baseState;
                 let i;
+                const state = this._baseState;
                 if (null === state.default) return !1;
                 const data = dataBuffer.join();
                 if (void 0 === state.defaultBuffer && (state.defaultBuffer = this._encodeValue(state.default, reporter, parent).join()), data.length !== state.defaultBuffer.length) return !1;
@@ -8516,8 +8516,8 @@
                     };
                 }
                 _get(key, options, callback) {
-                    const store = this[kStore]('readonly');
                     let req;
+                    const store = this[kStore]('readonly');
                     try {
                         req = store.get(key);
                     } catch (err) {
@@ -8547,8 +8547,8 @@
                     parallel(tasks, 16, callback);
                 }
                 _del(key, options, callback) {
-                    const store = this[kStore]('readwrite');
                     let req;
+                    const store = this[kStore]('readwrite');
                     try {
                         req = store.delete(key);
                     } catch (err) {
@@ -8557,8 +8557,8 @@
                     this[kOnComplete](req, callback);
                 }
                 _put(key, value, options, callback) {
-                    const store = this[kStore]('readwrite');
                     let req;
+                    const store = this[kStore]('readwrite');
                     try {
                         req = store.put(value, key);
                     } catch (err) {
@@ -8570,11 +8570,12 @@
                     return new Iterator(this, this[kLocation], options);
                 }
                 _batch(operations, options, callback) {
+                    let error;
                     const store = this[kStore]('readwrite'), transaction = store.transaction;
-                    let index = 0, error;
+                    let index = 0;
                     function loop() {
-                        const op = operations[index++], key = op.key;
                         let req;
+                        const op = operations[index++], key = op.key;
                         try {
                             req = 'del' === op.type ? store.delete(key) : store.put(op.value, key);
                         } catch (err) {
@@ -8629,10 +8630,10 @@
                     }, this[kPosition] = void 0, this[kLocation] = location, this[kFirst] = !0;
                 }
                 _nextv(size, options, callback) {
+                    let keyRange;
                     if (this[kFirst] = !1, this[kFinished]) return this.nextTick(callback, null, []);
                     if (this[kCache].length > 0) return size = Math.min(size, this[kCache].length), this.nextTick(callback, null, this[kCache].splice(0, size));
                     void 0 !== this[kPosition] && (this[kOptions].reverse ? (this[kCurrentOptions].lt = this[kPosition], this[kCurrentOptions].lte = void 0) : (this[kCurrentOptions].gt = this[kPosition], this[kCurrentOptions].gte = void 0));
-                    let keyRange;
                     try {
                         keyRange = createKeyRange(this[kCurrentOptions]);
                     } catch (_) {
@@ -8703,10 +8704,10 @@
                     });
                 }
                 _seek(target, options) {
+                    let keyRange;
                     this[kFirst] = !0, this[kCache] = [], this[kFinished] = !1, this[kPosition] = void 0, this[kCurrentOptions] = {
                         ...this[kOptions]
                     };
-                    let keyRange;
                     try {
                         keyRange = createKeyRange(this[kOptions]);
                     } catch (_) {
@@ -8847,9 +8848,9 @@
                 return fromArrayLike(arrayView);
             }
             function fromArrayBuffer(array, byteOffset, length) {
+                let buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                let buf;
                 return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
             }
             function fromObject(obj) {
@@ -8941,7 +8942,7 @@
                 throw TypeError('val must be string, number or Buffer');
             }
             function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-                let indexSize = 1, arrLength = arr.length, valLength = val.length;
+                let i, indexSize = 1, arrLength = arr.length, valLength = val.length;
                 if (void 0 !== encoding && ('ucs2' === (encoding = String(encoding).toLowerCase()) || 'ucs-2' === encoding || 'utf16le' === encoding || 'utf-16le' === encoding)) {
                     if (arr.length < 2 || val.length < 2) return -1;
                     indexSize = 2, arrLength /= 2, valLength /= 2, byteOffset /= 2;
@@ -8949,7 +8950,6 @@
                 function read(buf, i) {
                     return 1 === indexSize ? buf[i] : buf.readUInt16BE(i * indexSize);
                 }
-                let i;
                 if (dir) {
                     let foundIndex = -1;
                     for(i = byteOffset; i < arrLength; i++)if (read(arr, i) === read(val, -1 === foundIndex ? 0 : i - foundIndex)) {
@@ -8966,13 +8966,12 @@
                 return -1;
             }
             function hexWrite(buf, string, offset, length) {
+                let i;
                 offset = Number(offset) || 0;
                 const remaining = buf.length - offset;
                 length ? (length = Number(length)) > remaining && (length = remaining) : length = remaining;
                 const strLen = string.length;
-                length > strLen / 2 && (length = strLen / 2);
-                let i;
-                for(i = 0; i < length; ++i){
+                for(length > strLen / 2 && (length = strLen / 2), i = 0; i < length; ++i){
                     const parsed = parseInt(string.substr(2 * i, 2), 16);
                     if (numberIsNaN(parsed)) break;
                     buf[offset + i] = parsed;
@@ -9068,9 +9067,9 @@
                         return !1;
                 }
             }, Buffer.concat = function(list, length) {
+                let i;
                 if (!Array.isArray(list)) throw TypeError('"list" argument must be an Array of Buffers');
                 if (0 === list.length) return Buffer.alloc(0);
-                let i;
                 if (void 0 === length) for(i = 0, length = 0; i < list.length; ++i)length += list[i].length;
                 const buffer = Buffer.allocUnsafe(length);
                 let pos = 0;
@@ -9387,6 +9386,7 @@
                 const len = end - start;
                 return this === target && 'function' == typeof Uint8Array.prototype.copyWithin ? this.copyWithin(targetStart, start, end) : Uint8Array.prototype.set.call(target, this.subarray(start, end), targetStart), len;
             }, Buffer.prototype.fill = function(val, start, end, encoding) {
+                let i;
                 if ('string' == typeof val) {
                     if ('string' == typeof start ? (encoding = start, start = 0, end = this.length) : 'string' == typeof end && (encoding = end, end = this.length), void 0 !== encoding && 'string' != typeof encoding) throw TypeError('encoding must be a string');
                     if ('string' == typeof encoding && !Buffer.isEncoding(encoding)) throw TypeError('Unknown encoding: ' + encoding);
@@ -9397,9 +9397,7 @@
                 } else 'number' == typeof val ? val &= 255 : 'boolean' == typeof val && (val = Number(val));
                 if (start < 0 || this.length < start || this.length < end) throw RangeError('Out of range index');
                 if (end <= start) return this;
-                start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0);
-                let i;
-                if ('number' == typeof val) for(i = start; i < end; ++i)this[i] = val;
+                if (start >>>= 0, end = void 0 === end ? this.length : end >>> 0, val || (val = 0), 'number' == typeof val) for(i = start; i < end; ++i)this[i] = val;
                 else {
                     const bytes = Buffer.isBuffer(val) ? val : Buffer.from(val, encoding), len = bytes.length;
                     if (0 === len) throw TypeError('The value "' + val + '" is invalid for argument "value"');
@@ -9444,8 +9442,8 @@
             }
             function checkIntBI(value, min, max, buf, offset, byteLength) {
                 if (value > max || value < min) {
-                    const n = 'bigint' == typeof min ? 'n' : '';
                     let range;
+                    const n = 'bigint' == typeof min ? 'n' : '';
                     throw range = byteLength > 3 ? 0 === min || min === BigInt(0) ? `>= 0${n} and < 2${n} ** ${(byteLength + 1) * 8}${n}` : `>= -(2${n} ** ${(byteLength + 1) * 8 - 1}${n}) and < 2 ** ${(byteLength + 1) * 8 - 1}${n}` : `>= ${min}${n} and <= ${max}${n}`, new errors.ERR_OUT_OF_RANGE('value', range, value);
                 }
                 checkBounds(buf, offset, byteLength);
@@ -9473,8 +9471,8 @@
                 return str;
             }
             function utf8ToBytes(string, units) {
-                units = units || 1 / 0;
                 let codePoint;
+                units = units || 1 / 0;
                 const length = string.length;
                 let leadSurrogate = null;
                 const bytes = [];
@@ -9516,9 +9514,9 @@
                 return byteArray;
             }
             function utf16leToBytes(str, units) {
-                let c, hi;
+                let c, hi, lo;
                 const byteArray = [];
-                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
+                for(let i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(lo = c % 256), byteArray.push(hi);
                 return byteArray;
             }
             function base64ToBytes(str) {
@@ -11751,8 +11749,8 @@
             };
         },
         3346: function(module, __unused_webpack_exports, __webpack_require__) {
-            var factory;
-            factory = function() {
+            var global, factory;
+            global = this, factory = function() {
                 'use strict';
                 var toStringFunction = Function.prototype.toString, create = Object.create, defineProperty = Object.defineProperty, getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols, getPrototypeOf$1 = Object.getPrototypeOf, _a = Object.prototype, hasOwnProperty = _a.hasOwnProperty, propertyIsEnumerable = _a.propertyIsEnumerable, SYMBOL_PROPERTIES = 'function' == typeof getOwnPropertySymbols, WEAK_MAP = 'function' == typeof WeakMap, createCache = function() {
                     if (WEAK_MAP) return function() {
@@ -14497,8 +14495,9 @@
                 return readBn(stream).toString();
             }
             function readBn(stream) {
+                let byt;
                 const num = new Bn(0);
-                let shift = 0, byt;
+                let shift = 0;
                 for(; byt = stream.read(1)[0], num.ior(new Bn(0x7f & byt).shln(shift)), shift += 7, byt >> 7 != 0;);
                 return 0x40 & byt && num.setn(shift), num.fromTwos(shift);
             }
@@ -14543,8 +14542,9 @@
                 return readBn(stream).toString();
             }
             function readBn(stream) {
+                let byt;
                 const num = new Bn(0);
-                let shift = 0, byt;
+                let shift = 0;
                 for(; byt = stream.read(1)[0], num.ior(new Bn(0x7f & byt).shln(shift)), byt >> 7 != 0;)shift += 7;
                 return num;
             }
@@ -16176,10 +16176,8 @@
                         createErrorType("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), createErrorType("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                            let n;
-                            "string" == typeof t && startsWith(t, "not ") ? (n = "must not be", t = t.replace(/^not /, "")) : n = "must be";
-                            let i;
-                            if (endsWith(e, " argument")) i = `The ${e} ${n} ${oneOf(t, "type")}`;
+                            let n, i;
+                            if ("string" == typeof t && startsWith(t, "not ") ? (n = "must not be", t = t.replace(/^not /, "")) : n = "must be", endsWith(e, " argument")) i = `The ${e} ${n} ${oneOf(t, "type")}`;
                             else {
                                 const r1 = includes(e, ".") ? "property" : "argument";
                                 i = `The "${e}" ${r1} ${n} ${oneOf(t, "type")}`;
@@ -18655,6 +18653,7 @@
                 return entry.code = meteredCode, entry;
             }
             exports.meterJSON = (json, opts)=>{
+                let functionModule, typeModule;
                 function findSection(module, sectionName) {
                     return module.find((section)=>section.name === sectionName);
                 }
@@ -18671,7 +18670,7 @@
                         }
                     }
                 }
-                let funcIndex = 0, functionModule, typeModule, { costTable , moduleStr , fieldStr , meterType  } = opts;
+                let funcIndex = 0, { costTable , moduleStr , fieldStr , meterType  } = opts;
                 costTable || (costTable = defaultCostTable), moduleStr || (moduleStr = 'metering'), fieldStr || (fieldStr = 'usegas'), meterType || (meterType = 'i32'), findSection(json, 'type') || createSection(json, 'type'), findSection(json, 'import') || createSection(json, 'import');
                 const importJson = {
                     moduleStr: moduleStr,
@@ -18722,8 +18721,9 @@
             module.exports = runParallelLimit;
             const queueMicrotask1 = __webpack_require__(4375);
             function runParallelLimit(tasks, limit, cb) {
+                let results, len, pending, keys, isErrored, next;
                 if ('number' != typeof limit) throw Error('second argument must be a Number');
-                let results, len, pending, keys, isErrored, isSync = !0, next;
+                let isSync = !0;
                 function done(err) {
                     function end() {
                         cb && cb(err, results), cb = null;
@@ -19787,13 +19787,13 @@
             const workerHelper = function() {
                 if (!isNode) return {
                     async createWorker (url) {
+                        let text;
                         try {
                             const worker = await startWorker(url);
                             return worker;
                         } catch (e) {
                             console.warn('could not load worker:', url);
                         }
-                        let text;
                         try {
                             const req = await fetch(url, {
                                 mode: 'cors'
@@ -20068,11 +20068,11 @@
                 };
             }
             async function readEntryDataHeader(reader, rawEntry) {
+                let decompress;
                 if (0x1 & rawEntry.generalPurposeBitFlag) throw Error('encrypted entries not supported');
                 const buffer = await readAs(reader, rawEntry.relativeOffsetOfLocalHeader, 30), totalLength = await reader.getLength(), signature = getUint32LE(buffer, 0);
                 if (0x04034b50 !== signature) throw Error(`invalid local file header signature: 0x${signature.toString(16)}`);
                 const fileNameLength = getUint16LE(buffer, 26), extraFieldLength = getUint16LE(buffer, 28), localFileHeaderEnd = rawEntry.relativeOffsetOfLocalHeader + buffer.length + fileNameLength + extraFieldLength;
-                let decompress;
                 if (0 === rawEntry.compressionMethod) decompress = !1;
                 else if (8 === rawEntry.compressionMethod) decompress = !0;
                 else throw Error(`unsupported compression method: ${rawEntry.compressionMethod}`);
@@ -20964,10 +20964,10 @@
                 }
                 async createExecutionContext(contractTxId, upToSortKey, forceDefinitionLoad = !1, interactions) {
                     var _a;
+                    let handler, contractDefinition, sortedInteractions;
                     const { definitionLoader , interactionsLoader , executorFactory , stateEvaluator  } = this.warp, benchmark = Benchmark_1.Benchmark.measure(), cachedState = await stateEvaluator.latestAvailableState(contractTxId, upToSortKey);
                     this.logger.debug('cache lookup', benchmark.elapsed()), benchmark.reset();
                     const evolvedSrcTxId = Evolve_1.Evolve.evolvedSrcTxId(null === (_a = null == cachedState ? void 0 : cachedState.cachedValue) || void 0 === _a ? void 0 : _a.state);
-                    let handler, contractDefinition, sortedInteractions;
                     return this.logger.debug('Cached state', cachedState, upToSortKey), cachedState && cachedState.sortKey == upToSortKey ? (this.logger.debug('State fully cached, not loading interactions.'), (forceDefinitionLoad || evolvedSrcTxId) && (handler = await executorFactory.create(contractDefinition = await definitionLoader.load(contractTxId, evolvedSrcTxId), this._evaluationOptions))) : ([contractDefinition, sortedInteractions] = await Promise.all([
                         definitionLoader.load(contractTxId, evolvedSrcTxId),
                         interactions ? Promise.resolve(interactions) : await interactionsLoader.load(contractTxId, null == cachedState ? void 0 : cachedState.sortKey, this.getToSortKey(upToSortKey), this._evaluationOptions)
@@ -20997,11 +20997,11 @@
                     null == this._parentContract && (this.logger.debug('Clearing call stack for the root contract'), this._callStack = new ContractCallStack_1.ContractCallStack(this.txId(), 0), this._rootSortKey = null, this.warp.interactionsLoader.clearCache());
                 }
                 async callContract(input, caller, sortKey, tags = [], transfer = CreateContract_1.emptyTransfer) {
+                    let effectiveCaller;
                     this.logger.info('Call contract input', input), this.maybeResetRootContract(), this.signer || this.logger.warn('Wallet not set.');
                     const { arweave , stateEvaluator  } = this.warp;
                     let executionContext = await this.createExecutionContext(this._contractTxId, sortKey, !0);
                     const currentBlockData = 'mainnet' == this.warp.environment ? await this._arweaveWrapper.warpGwBlock() : await arweave.blocks.getCurrent();
-                    let effectiveCaller;
                     if (caller) effectiveCaller = caller;
                     else if (this.signer) {
                         const dummyTx = await arweave.createTransaction({
@@ -21204,6 +21204,7 @@
                     }, !effectiveUseBundler, srcTx);
                 }
                 async deployFromSourceTx(contractData, disableBundling, srcTx = null) {
+                    let responseOk, response;
                     this.logger.debug('Creating new contract from src tx');
                     const { wallet , srcTxId , initState , tags , transfer , data  } = contractData, effectiveUseBundler = void 0 == disableBundling ? 'warp' == this.warp.definitionLoader.type() : !disableBundling;
                     let contractTX = await this.arweave.createTransaction({
@@ -21214,9 +21215,7 @@
                         target: transfer.target,
                         quantity: transfer.winstonQty
                     }, wallet)), null == tags ? void 0 : tags.length) for (const tag of tags)contractTX.addTag(tag.name.toString(), tag.value.toString());
-                    contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.APP_NAME, 'SmartWeaveContract'), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.APP_VERSION, '0.3.0'), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTRACT_SRC_TX_ID, srcTxId), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.SDK, 'RedStone'), data ? (contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE, data['Content-Type']), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.INIT_STATE, initState)) : contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE, 'application/json'), await this.arweave.transactions.sign(contractTX, wallet);
-                    let responseOk, response;
-                    if (effectiveUseBundler) {
+                    if (contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.APP_NAME, 'SmartWeaveContract'), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.APP_VERSION, '0.3.0'), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTRACT_SRC_TX_ID, srcTxId), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.SDK, 'RedStone'), data ? (contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE, data['Content-Type']), contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.INIT_STATE, initState)) : contractTX.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE, 'application/json'), await this.arweave.transactions.sign(contractTX, wallet), effectiveUseBundler) {
                         const result = await this.post(contractTX, srcTx);
                         this.logger.debug(result), responseOk = !0;
                     } else responseOk = 200 === (response = await this.arweave.transactions.post(contractTX)).status || 208 === response.status;
@@ -21278,17 +21277,18 @@
                     this.arweave = arweave, this.logger = LoggerFactory_1.LoggerFactory.INST.create('Source');
                 }
                 async save(contractData, signer, useBundler = !1) {
+                    let srcTx, response;
                     this.logger.debug('Creating new contract source');
                     const { src , wasmSrcCodeDir , wasmGlueCode  } = contractData, contractType = src instanceof Buffer ? 'wasm' : 'js';
-                    let srcTx, wasmLang = null, wasmVersion = null;
+                    let wasmLang = null, wasmVersion = null;
                     const metadata = {}, data = [];
                     if ('wasm' == contractType) {
+                        let lang;
                         const meteredWasmBinary = redstone_wasm_metering_1.default.meterWASM(src, {
                             meterType: 'i32'
                         });
                         data.push(meteredWasmBinary);
                         const wasmModule = await WebAssembly.compile(src), moduleImports = WebAssembly.Module.imports(wasmModule);
-                        let lang;
                         if (this.isGoModule(moduleImports)) {
                             const go = new go_wasm_imports_1.Go(null), module = new WebAssembly.Instance(wasmModule, go.importObject);
                             go.run(module), lang = go.exports.lang(), wasmVersion = go.exports.version();
@@ -21311,7 +21311,7 @@
                     }) : await this.arweave.createTransaction({
                         data: allData
                     }, signer)).addTag(SmartWeaveTags_1.SmartWeaveTags.APP_NAME, 'SmartWeaveContractSource'), srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.APP_VERSION, '0.3.0'), srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.SDK, 'Warp'), srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE, 'js' == contractType ? 'application/javascript' : 'application/wasm'), 'wasm' == contractType && (srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.WASM_LANG, wasmLang), srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.WASM_LANG_VERSION, wasmVersion), srcTx.addTag(SmartWeaveTags_1.SmartWeaveTags.WASM_META, JSON.stringify(metadata))), 'function' == typeof signer ? await signer(srcTx) : await this.arweave.transactions.sign(srcTx, signer), this.logger.debug('Posting transaction with source');
-                    let responseOk = !0, response;
+                    let responseOk = !0;
                     if (useBundler || (responseOk = 200 === (response = await this.arweave.transactions.post(srcTx)).status || 208 === response.status), responseOk) return srcTx;
                     throw Error(`Unable to write Contract Source. Arweave responded with status ${response.status}: ${response.statusText}`);
                 }
@@ -21981,10 +21981,10 @@
                     };
                 }
                 async loadContractSource(contractSrcTxId) {
+                    let srcWasmLang, wasmSrc, srcMetaData;
                     const benchmark = Benchmark_1.Benchmark.measure(), contractSrcTx = await this.arweaveWrapper.tx(contractSrcTxId), srcContentType = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.CONTENT_TYPE);
                     if (!supportedSrcContentTypes.includes(srcContentType)) throw Error(`Contract source content type ${srcContentType} not supported`);
                     const contractType = 'application/javascript' == srcContentType ? 'js' : 'wasm', src = 'js' == contractType ? await this.arweaveWrapper.txDataString(contractSrcTxId) : await this.arweaveWrapper.txData(contractSrcTxId);
-                    let srcWasmLang, wasmSrc, srcMetaData;
                     if ('wasm' == contractType) {
                         if (wasmSrc = new WasmSrc_1.WasmSrc(src), !(srcWasmLang = (0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_LANG))) throw Error(`Wasm lang not set for wasm contract src ${contractSrcTxId}`);
                         srcMetaData = JSON.parse((0, utils_1.getTag)(contractSrcTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
@@ -22120,8 +22120,8 @@
                     return null !== lastConfirmedTxState && await this.onStateEvaluated(lastConfirmedTxState.tx, executionContext, lastConfirmedTxState.state), new SortKeyCache_1.SortKeyCacheResult(currentSortKey, evalStateResult);
                 }
                 verifyVrf(vrf, sortKey, arweave) {
-                    const keys = EC.keyFromPublic(vrf.pubkey, 'hex');
                     let hash;
+                    const keys = EC.keyFromPublic(vrf.pubkey, 'hex');
                     try {
                         hash = (0, vrf_js_1.ProofHoHash)(keys.getPublic(), arweave.utils.stringToBuffer(sortKey), arweave.utils.b64UrlToBuffer(vrf.proof));
                     } catch (e) {
@@ -22191,9 +22191,10 @@
                         owner: contractDefinition.owner
                     }, evaluationOptions);
                     if ('wasm' == contractDefinition.contractType) {
+                        let wasmInstance;
                         this.logger.info('Creating handler for wasm contract', contractDefinition.txId);
                         const benchmark = Benchmark_1.Benchmark.measure();
-                        let wasmInstance, jsExports = null;
+                        let jsExports = null;
                         const wasmResponse = generateResponse(contractDefinition.srcBinary);
                         switch(contractDefinition.srcWasmLang){
                             case 'assemblyscript':
@@ -22410,10 +22411,9 @@
                             throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.rLogger.error(error.body.message), Error(`Unable to retrieve contract data. Warp gateway responded with status ${error.status}:${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
                         });
                         if (null == result.srcBinary || result.srcBinary instanceof Buffer || (result.srcBinary = Buffer.from(result.srcBinary.data)), result.srcBinary) {
-                            const wasmSrc = new WasmSrc_1.WasmSrc(result.srcBinary);
-                            result.srcBinary = wasmSrc.wasmBinary();
                             let sourceTx;
-                            sourceTx = result.srcTx ? new transaction_1.default({
+                            const wasmSrc = new WasmSrc_1.WasmSrc(result.srcBinary);
+                            result.srcBinary = wasmSrc.wasmBinary(), sourceTx = result.srcTx ? new transaction_1.default({
                                 ...result.srcTx
                             }) : await this.arweaveWrapper.tx(result.srcTxId);
                             const srcMetaData = JSON.parse((0, utils_1.getTag)(sourceTx, SmartWeaveTags_1.SmartWeaveTags.WASM_META));
@@ -22694,8 +22694,9 @@
                                 if (!handleResult) return;
                                 if (Object.prototype.hasOwnProperty.call(handleResult, 'Ok')) return handleResult.Ok;
                                 {
+                                    let errorKey;
                                     this.logger.debug('Error from rust', handleResult.Err);
-                                    let errorKey, errorArgs = '';
+                                    let errorArgs = '';
                                     if ('string' == typeof handleResult.Err || handleResult.Err instanceof String ? errorKey = handleResult.Err : (errorKey = Object.keys(handleResult.Err)[0], errorArgs = ' ' + handleResult.Err[errorKey]), 'RuntimeError' == errorKey) throw Error(`[RE:RE]${errorArgs}`);
                                     throw Error(`[CE:${errorKey}${errorArgs}]`);
                                 }
@@ -22878,12 +22879,13 @@
         },
         7170: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            let globalJsModule;
             var process = __webpack_require__(3957);
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.Go = void 0;
             const LoggerFactory_1 = __webpack_require__(5913), encoder = new TextEncoder(), decoder = new TextDecoder('utf-8');
-            let logLine = [], globalJsModule;
+            let logLine = [];
             (function(global) {
                 (globalJsModule = global).redstone = {
                     go: {}
@@ -23415,6 +23417,7 @@
                     return dropObject(idx), ret;
                 }
                 function debugString(val) {
+                    let className;
                     const type = typeof val;
                     if ('number' == type || 'boolean' == type || null == val) return `${val}`;
                     if ('string' == type) return `"${val}"`;
@@ -23434,7 +23437,6 @@
                         return debug + ']';
                     }
                     const builtInMatches = /\[object ([^\]]+)\]/.exec(toString.call(val));
-                    let className;
                     if (!(builtInMatches.length > 1)) return toString.call(val);
                     if ('Object' == (className = builtInMatches[1])) try {
                         return 'Object(' + JSON.stringify(val) + ')';
@@ -24188,7 +24190,7 @@
             };
         },
         7605: function(module, exports) {
-            var __WEBPACK_AMD_DEFINE_RESULT__, loader = function(exports) {
+            var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__, loader = function(exports) {
                 "use strict";
                 Object.defineProperty(exports, "__esModule", {
                     value: !0
@@ -24282,8 +24284,8 @@
                         throw Error(`unsupported align: ${alignLog2}`);
                     }
                     function __newArray(id, valuesOrCapacity = 0) {
-                        const input = valuesOrCapacity, info = getArrayInfo(id), align = getValueAlign(info), isArrayLike = "number" != typeof input, length = isArrayLike ? input.length : input, buf = __new(length << align, info & STATICARRAY ? id : ARRAYBUFFER_ID);
                         let result;
+                        const input = valuesOrCapacity, info = getArrayInfo(id), align = getValueAlign(info), isArrayLike = "number" != typeof input, length = isArrayLike ? input.length : input, buf = __new(length << align, info & STATICARRAY ? id : ARRAYBUFFER_ID);
                         if (info & STATICARRAY) result = buf;
                         else {
                             __pin(buf);
@@ -24458,7 +24460,7 @@
             }({});
             void 0 !== (__WEBPACK_AMD_DEFINE_RESULT__ = (function() {
                 return loader;
-            }).apply(exports, [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
+            }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__ = [])) && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__);
         },
         3083: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

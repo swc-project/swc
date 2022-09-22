@@ -418,7 +418,8 @@ impl Fold for Polyfills {
                             span: DUMMY_SP,
                             raw: None,
                             value: src,
-                        },
+                        }
+                        .into(),
                         type_only: false,
                         asserts: None,
                     }))
@@ -435,7 +436,8 @@ impl Fold for Polyfills {
                             span: DUMMY_SP,
                             raw: None,
                             value: src,
-                        },
+                        }
+                        .into(),
                         type_only: false,
                         asserts: None,
                     }))
@@ -443,18 +445,13 @@ impl Fold for Polyfills {
             );
         }
 
-        m.body.retain(|item| {
-            !matches!(
-                item,
-                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                    src: Str {
-                        span: DUMMY_SP,
-                        value: js_word!(""),
-                        ..
-                    },
-                    ..
-                }))
-            )
+        m.body.retain(|item| match item {
+            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
+                if src.span == DUMMY_SP && src.value == js_word!("") =>
+            {
+                false
+            }
+            _ => true,
         });
 
         m

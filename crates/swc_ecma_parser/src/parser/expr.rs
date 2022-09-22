@@ -986,7 +986,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_tagged_tpl(
         &mut self,
         tag: Box<Expr>,
-        type_params: Option<TsTypeParamInstantiation>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
     ) -> PResult<TaggedTpl> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
@@ -1919,7 +1919,7 @@ impl<I: Tokens> Parser<I> {
             Token::BigInt { .. } => match bump!(self) {
                 Token::BigInt { value, raw } => Lit::BigInt(BigInt {
                     span: span!(self, start),
-                    value: *value,
+                    value,
                     raw: Some(raw),
                 }),
                 _ => unreachable!(),

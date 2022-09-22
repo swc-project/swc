@@ -580,7 +580,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), handle || jqLiteExpandoStore(element, "handle", (element1 = element, events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -594,9 +594,9 @@
                 event.isDefaultPrevented = function() {
                     return event.defaultPrevented || !1 === event.returnValue;
                 }, forEach(events[type || event.type], function(fn) {
-                    fn.call(element, event);
+                    fn.call(element1, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }).elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
+            }).elem = element1, handle = eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -911,12 +911,12 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var setTimeout2;
-            return isUndefined(pollTimeout) && function check() {
+            var interval, setTimeout2;
+            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
-                }), pollTimeout = setTimeout1(check, 100);
-            }(), pollFns.push(fn), fn;
+                }), pollTimeout = setTimeout2(check, 100);
+            }()), pollFns.push(fn), fn;
         };
         var lastBrowserUrl = location.href, baseElement = document1.find("base"), newLocation = null;
         self.url = function(url, replace) {
@@ -1152,7 +1152,7 @@
                             if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)addDirective(directives, nName = directiveNormalize(match[2]), "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
                         case 3:
-                            (interpolateFn = $interpolate(text = node.nodeValue, !0)) && directives.push({
+                            directives1 = directives, (interpolateFn = $interpolate(text = node.nodeValue, !0)) && directives1.push({
                                 priority: 0,
                                 compile: valueFn(function(scope, node) {
                                     var parent = node.parent(), bindings = parent.data("$binding") || [];
@@ -1490,7 +1490,8 @@
             ],
             transformRequest: [
                 function(d) {
-                    return isObject(d) && "[object File]" !== toString.call(d) ? toJson(d) : d;
+                    var obj;
+                    return isObject(d) && (obj = d, "[object File]" !== toString.call(obj)) ? toJson(d) : d;
                 }
             ],
             headers: {
@@ -1660,9 +1661,9 @@
             "$document",
             function($browser, $window, $document) {
                 var $browser1, XHR1, $browserDefer, callbacks, rawDocument;
-                return $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
+                return $browser1 = $browser, XHR1 = XHR, $browserDefer = $browser.defer, callbacks = $window.angular.callbacks, rawDocument = $document[0], function(method, url, post, callback, headers, timeout, withCredentials, responseType) {
                     var status;
-                    if ($browser.$$incOutstandingRequestCount(), url = url || $browser.url(), "jsonp" == lowercase(method)) {
+                    if ($browser1.$$incOutstandingRequestCount(), url = url || $browser1.url(), "jsonp" == lowercase(method)) {
                         var url1, done, script, doneWrapper, callbackId = "_" + (callbacks.counter++).toString(36);
                         callbacks[callbackId] = function(data) {
                             callbacks[callbackId].data = data;
@@ -1677,7 +1678,7 @@
                             doneWrapper();
                         }, rawDocument.body.appendChild(script), doneWrapper);
                     } else {
-                        var xhr = new XHR();
+                        var xhr = new XHR1();
                         xhr.open(method, url, !0), forEach(headers, function(value, key) {
                             isDefined(value) && xhr.setRequestHeader(key, value);
                         }), xhr.onreadystatechange = function() {
@@ -1694,7 +1695,7 @@
                     }
                     function completeRequest(callback, status, response, headersString) {
                         var protocol = urlResolve(url).protocol;
-                        timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser.$$completeOutstandingRequest(noop);
+                        timeoutId && $browserDefer.cancel(timeoutId), jsonpDone = xhr = null, callback(status = 1223 == (status = "file" == protocol && 0 === status ? response ? 200 : 404 : status) ? 204 : status, response, headersString), $browser1.$$completeOutstandingRequest(noop);
                     }
                 };
             }
@@ -1859,7 +1860,7 @@
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
             var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", 'Invalid url "{0}", missing hash prefix "{1}".', url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === (url1 = withoutHashUrl).indexOf(appBase) && (url1 = url1.replace(appBase, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, url1 = withoutHashUrl, base = appBase, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === url1.indexOf(base) && (url1 = url1.replace(base, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -1898,7 +1899,7 @@
             "$rootElement",
             function($rootScope, $browser, $sniffer, $rootElement) {
                 var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
-                html5Mode ? (appBase = initialUrl.substring(0, initialUrl.indexOf("/", initialUrl.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
+                html5Mode ? (appBase = (url = initialUrl).substring(0, url.indexOf("/", url.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); "a" !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;
                         var absHref = elm.prop("href"), rewrittenUrl = $location.$$rewrite(absHref);
@@ -2946,6 +2947,7 @@
             adjustedMatchers.push(function(matcher) {
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
+                    var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
                     return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
@@ -3450,7 +3452,7 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var array, queue = errors[validationToken];
+            var array, obj, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
@@ -4267,26 +4269,26 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        }(scope, element, ngModelCtrl1) : multiple ? ((ctrl = ngModelCtrl1).$render = function() {
+                        }(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
                             var items = new HashMap(ctrl.$viewValue);
-                            forEach(element.find("option"), function(option) {
+                            forEach(selectElement.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
                             });
-                        }, scope.$watch(function() {
+                        }, scope1.$watch(function() {
                             equals(lastView, ctrl.$viewValue) || (lastView = copy(ctrl.$viewValue), ctrl.$render());
-                        }), element.on("change", function() {
-                            scope.$apply(function() {
+                        }), selectElement.on("change", function() {
+                            scope1.$apply(function() {
                                 var array = [];
-                                forEach(element.find("option"), function(option) {
+                                forEach(selectElement.find("option"), function(option) {
                                     option.selected && array.push(option.value);
                                 }), ctrl.$setViewValue(array);
                             });
-                        })) : ((ngModelCtrl = ngModelCtrl1).$render = function() {
+                        })) : (scope2 = scope, selectElement1 = element, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
                             var viewValue = ngModelCtrl.$viewValue;
-                            selectCtrl1.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), element.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? element.val("") : selectCtrl1.renderUnknownOption(viewValue);
-                        }, element.on("change", function() {
-                            scope.$apply(function() {
-                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(element.val());
+                            selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement1.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement1.val("") : selectCtrl.renderUnknownOption(viewValue);
+                        }, selectElement1.on("change", function() {
+                            scope2.$apply(function() {
+                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement1.val());
                             });
                         }));
                     }

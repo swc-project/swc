@@ -273,23 +273,26 @@ impl SystemJs {
             let export_obj = quote_ident!("exportObj");
             let key_ident = quote_ident!("key");
             let target = quote_ident!(local_name_for_src(&meta.src));
-            meta.setter_fn_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: vec![VarDeclarator {
+            meta.setter_fn_stmts.push(
+                VarDecl {
                     span: DUMMY_SP,
-                    name: export_obj.clone().into(),
-                    init: Some(Box::new(Expr::Object(ObjectLit {
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        props: vec![],
-                    }))),
-                    definite: false,
-                }],
-            })));
+                        name: export_obj.clone().into(),
+                        init: Some(Box::new(Expr::Object(ObjectLit {
+                            span: DUMMY_SP,
+                            props: vec![],
+                        }))),
+                        definite: false,
+                    }],
+                }
+                .into(),
+            );
             meta.setter_fn_stmts.push(Stmt::ForIn(ForInStmt {
                 span: DUMMY_SP,
-                left: VarDeclOrPat::VarDecl(VarDecl {
+                left: VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
                     declare: false,
@@ -299,7 +302,8 @@ impl SystemJs {
                         init: None,
                         definite: false,
                     }],
-                }),
+                }
+                .into(),
                 right: Box::new(Expr::Ident(target.clone())),
 
                 body: Box::new(Stmt::Block(BlockStmt {
@@ -389,7 +393,8 @@ impl SystemJs {
         }
     }
 
-    fn hoist_var_decl(&mut self, var_decl: VarDecl) -> Option<Expr> {
+    #[allow(clippy::boxed_local)]
+    fn hoist_var_decl(&mut self, var_decl: Box<VarDecl>) -> Option<Expr> {
         let mut exprs = vec![];
         for var_declarator in var_decl.decls {
             let mut tos: Vec<Id> = vec![];
@@ -452,7 +457,7 @@ impl SystemJs {
                         .push(Ident::new(to.0, DUMMY_SP.with_ctxt(to.1)));
                 }
 
-                VarDeclOrPat::Pat(var_declarator.name)
+                VarDeclOrPat::Pat(var_declarator.name.into())
             } else {
                 VarDeclOrPat::VarDecl(var_decl)
             }
@@ -831,7 +836,7 @@ impl Fold for SystemJs {
                             Decl::Var(var_decl) => {
                                 let mut decl = VarDecl {
                                     decls: vec![],
-                                    ..var_decl
+                                    ..*var_decl
                                 };
                                 for var_declarator in var_decl.decls {
                                     let mut tos: Vec<Id> = vec![];
@@ -843,7 +848,7 @@ impl Fold for SystemJs {
                                     }
                                     decl.decls.push(var_declarator);
                                 }
-                                execute_stmts.push(Stmt::Decl(Decl::Var(decl)));
+                                execute_stmts.push(decl.into());
                             }
                             _ => {}
                         };
@@ -979,31 +984,28 @@ impl Fold for SystemJs {
                 .elems
                 .push(Some(quote_str!(meta.src.clone()).as_arg()));
             setters.elems.push(Some(
-                FnExpr {
-                    ident: None,
-                    function: Function {
-                        params: vec![Param {
-                            span: DUMMY_SP,
-                            decorators: Default::default(),
-                            pat: quote_ident!(local_name_for_src(&meta.src)).into(),
-                        }],
-                        decorators: Default::default(),
+                Function {
+                    params: vec![Param {
                         span: DUMMY_SP,
-                        body: Some(BlockStmt {
-                            span: DUMMY_SP,
-                            stmts: self.build_module_item_export_all(meta),
-                        }),
-                        is_generator: false,
-                        is_async: false,
-                        type_params: Default::default(),
-                        return_type: Default::default(),
-                    },
+                        decorators: Default::default(),
+                        pat: quote_ident!(local_name_for_src(&meta.src)).into(),
+                    }],
+                    decorators: Default::default(),
+                    span: DUMMY_SP,
+                    body: Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: self.build_module_item_export_all(meta),
+                    }),
+                    is_generator: false,
+                    is_async: false,
+                    type_params: Default::default(),
+                    return_type: Default::default(),
                 }
                 .as_arg(),
             ));
         }
 
-        let execute = Function {
+        let execute = Box::new(Function {
             params: vec![],
             decorators: Default::default(),
             span: DUMMY_SP,
@@ -1015,7 +1017,7 @@ impl Fold for SystemJs {
             is_async: self.tla,
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        });
 
         let return_stmt = ReturnStmt {
             span: DUMMY_SP,
@@ -1040,29 +1042,32 @@ impl Fold for SystemJs {
         let mut function_stmts = vec![use_strict()];
 
         if !self.declare_var_idents.is_empty() {
-            function_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP,
-                kind: VarDeclKind::Var,
-                declare: false,
-                decls: self
-                    .declare_var_idents
-                    .iter()
-                    .map(|i| VarDeclarator {
-                        span: i.span,
-                        name: Pat::Ident(BindingIdent {
-                            id: i.clone(),
-                            type_ann: None,
-                        }),
-                        init: None,
-                        definite: false,
-                    })
-                    .collect(),
-            })));
+            function_stmts.push(
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    declare: false,
+                    decls: self
+                        .declare_var_idents
+                        .iter()
+                        .map(|i| VarDeclarator {
+                            span: i.span,
+                            name: Pat::Ident(BindingIdent {
+                                id: i.clone(),
+                                type_ann: None,
+                            }),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                }
+                .into(),
+            );
         }
         function_stmts.append(&mut before_body_stmts);
         function_stmts.push(return_stmt.into());
 
-        let function = Function {
+        let function = Box::new(Function {
             params: vec![
                 Param {
                     span: DUMMY_SP,
@@ -1085,7 +1090,7 @@ impl Fold for SystemJs {
             is_async: false,
             type_params: Default::default(),
             return_type: Default::default(),
-        };
+        });
 
         Module {
             body: vec![CallExpr {

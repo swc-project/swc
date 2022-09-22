@@ -87,13 +87,11 @@ impl Visit for DuplicateExports {
     }
 
     fn visit_export_default_decl(&mut self, d: &ExportDefaultDecl) {
-        if matches!(
-            d.decl,
-            DefaultDecl::Fn(FnExpr {
-                function: Function { body: None, .. },
-                ..
-            }) | DefaultDecl::TsInterfaceDecl(..)
-        ) {
+        if match &d.decl {
+            DefaultDecl::Fn(FnExpr { function: f, .. }) if f.body.is_none() => true,
+            DefaultDecl::TsInterfaceDecl(..) => true,
+            _ => false,
+        } {
             return;
         }
 
@@ -105,14 +103,9 @@ impl Visit for DuplicateExports {
     fn visit_export_default_expr(&mut self, d: &ExportDefaultExpr) {
         d.visit_children_with(self);
 
-        if matches!(
-            &*d.expr,
-            Expr::Fn(FnExpr {
-                function: Function { body: None, .. },
-                ..
-            })
-        ) {
-            return;
+        match &*d.expr {
+            Expr::Fn(FnExpr { function: f, .. }) if f.body.is_none() => return,
+            _ => {}
         }
 
         self.add(&Ident::new(js_word!("default"), d.span));

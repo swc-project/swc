@@ -1,9 +1,11 @@
 //// [correctlyMarkAliasAsReferences4.tsx]
 //// [declaration.d.ts]
 //// [0.tsx]
+let buttonProps;
 import _extends from "@swc/helpers/src/_extends.mjs";
 import * as cx from 'classnames';
-_extends({}, void 0, {
+import * as React from "react";
+_extends({}, buttonProps, {
     className: cx('class1', {
         class2: !0
     })

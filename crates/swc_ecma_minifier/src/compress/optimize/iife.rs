@@ -413,12 +413,15 @@ where
                                 .collect::<Vec<_>>();
 
                             if !vars.is_empty() {
-                                self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                                    kind: VarDeclKind::Var,
-                                    declare: Default::default(),
-                                    decls: vars,
-                                })));
+                                self.prepend_stmts.push(
+                                    VarDecl {
+                                        span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                                        kind: VarDeclKind::Var,
+                                        declare: Default::default(),
+                                        decls: vars,
+                                    }
+                                    .into(),
+                                );
                             }
                         }
 
@@ -601,12 +604,16 @@ where
         }
 
         if !body.stmts.iter().all(|stmt| match stmt {
-            Stmt::Decl(Decl::Var(VarDecl {
-                kind: VarDeclKind::Var | VarDeclKind::Let,
-                decls,
-                ..
-            })) => {
-                if decls.iter().any(|decl| match &decl.name {
+            Stmt::Decl(Decl::Var(var))
+                if matches!(
+                    &**var,
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        ..
+                    }
+                ) =>
+            {
+                if var.decls.iter().any(|decl| match &decl.name {
                     Pat::Ident(BindingIdent {
                         id:
                             Ident {
@@ -767,12 +774,15 @@ where
         if !vars.is_empty() {
             trace_op!("iife: Creating variables: {:?}", vars);
 
-            self.prepend_stmts.push(Stmt::Decl(Decl::Var(VarDecl {
-                span: DUMMY_SP.apply_mark(self.marks.non_top_level),
-                kind: VarDeclKind::Var,
-                declare: Default::default(),
-                decls: vars,
-            })));
+            self.prepend_stmts.push(
+                VarDecl {
+                    span: DUMMY_SP.apply_mark(self.marks.non_top_level),
+                    kind: VarDeclKind::Var,
+                    declare: Default::default(),
+                    decls: vars,
+                }
+                .into(),
+            );
         }
 
         for mut stmt in body.stmts.take() {

@@ -269,50 +269,6 @@ where
             n.visit_with(&mut AssertValid);
         }
 
-        if self.options.unused {
-            let _timer = timer!("remove dead code");
-
-            let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
-                swc_ecma_transforms_optimization::simplify::dce::Config {
-                    module_mark: None,
-                    top_level: self.options.top_level(),
-                    top_retain: self.options.top_retain.clone(),
-                },
-                self.marks.unresolved_mark,
-            );
-
-            loop {
-                #[cfg(feature = "debug")]
-                let start = n.dump();
-
-                n.apply(&mut visitor);
-
-                self.changed |= visitor.changed();
-
-                #[cfg(feature = "debug")]
-                if visitor.changed() {
-                    let src = n.dump();
-                    debug!(
-                        "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
-                        start, src
-                    );
-                }
-
-                if visitor.changed() {
-                    self.changed = true;
-                } else {
-                    break;
-                }
-
-                visitor.reset();
-            }
-        }
-
-        #[cfg(debug_assertions)]
-        {
-            n.visit_with(&mut AssertValid);
-        }
-
         {
             let _timer = timer!("apply full optimizer");
 
@@ -382,6 +338,30 @@ where
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         self.optimize_unit_repeatedly(n);
+    }
+
+    fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        stmts.retain(|stmt| match stmt {
+            ModuleItem::Stmt(Stmt::Empty(..)) => false,
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                decl: Decl::Var(v),
+                ..
+            }))
+            | ModuleItem::Stmt(Stmt::Decl(Decl::Var(v)))
+                if v.decls.is_empty() =>
+            {
+                false
+            }
+            _ => true,
+        });
+    }
+
+    fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        stmts.retain(|stmt| match stmt {
+            Stmt::Empty(..) => false,
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => false,
+            _ => true,
+        });
     }
 }
 

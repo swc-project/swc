@@ -65,10 +65,8 @@ where
                     self.drop_unused_vars(var.span, &mut var.name, None);
                 }
                 // I don't know why, but terser preserves this
-                Expr::Fn(FnExpr {
-                    function: Function { is_async: true, .. },
-                    ..
-                }) => {}
+                Expr::Fn(FnExpr { function, .. })
+                    if matches!(&**function, Function { is_async: true, .. }) => {}
                 _ => {
                     self.drop_unused_vars(var.span, &mut var.name, Some(init));
 
@@ -498,7 +496,7 @@ where
                     );
                     // This will remove the declaration.
                     let class = decl.take().class().unwrap();
-                    let mut side_effects = extract_class_side_effect(&self.expr_ctx, class.class);
+                    let mut side_effects = extract_class_side_effect(&self.expr_ctx, *class.class);
 
                     if !side_effects.is_empty() {
                         self.prepend_stmts.push(Stmt::Expr(ExprStmt {

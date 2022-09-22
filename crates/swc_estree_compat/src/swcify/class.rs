@@ -50,9 +50,10 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         body: Some(self.body.swcify(ctx)),
                         is_generator: self.generator.unwrap_or_default(),
                         is_async: self.is_async.unwrap_or_default(),
-                        type_params: self.type_parameters.swcify(ctx).flatten(),
-                        return_type: self.return_type.swcify(ctx).flatten(),
-                    },
+                        type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
+                        return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                    }
+                    .into(),
                     kind: self
                         .kind
                         .map(|kind| match kind {
@@ -104,9 +105,10 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
                 body: Some(self.body.swcify(ctx)),
                 is_generator: self.generator.unwrap_or_default(),
                 is_async: self.is_async.unwrap_or_default(),
-                type_params: self.type_parameters.swcify(ctx).flatten(),
-                return_type: self.return_type.swcify(ctx).flatten(),
-            },
+                type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+            }
+            .into(),
             kind: match self.kind.unwrap_or(ClassMethodKind::Method) {
                 ClassMethodKind::Get => MethodKind::Getter,
                 ClassMethodKind::Set => MethodKind::Setter,
@@ -134,7 +136,7 @@ impl Swcify for swc_estree_ast::ClassProperty {
             span: ctx.span(&self.base),
             key,
             value: self.value.swcify(ctx),
-            type_ann: self.type_annotation.swcify(ctx).flatten(),
+            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
             is_static: self.is_static.unwrap_or(false),
             decorators: self.decorators.swcify(ctx).unwrap_or_default(),
             accessibility: self.accessibility.swcify(ctx),
@@ -156,7 +158,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             value: self.value.swcify(ctx),
-            type_ann: self.type_annotation.swcify(ctx).flatten(),
+            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
             is_static: false,
             decorators: Default::default(),
             accessibility: Default::default(),
@@ -206,7 +208,7 @@ impl Swcify for TSExpressionWithTypeArguments {
         TsExprWithTypeArgs {
             span: ctx.span(&self.base),
             expr: swcify_expr(self.expression, ctx),
-            type_args: self.type_parameters.swcify(ctx),
+            type_args: self.type_parameters.swcify(ctx).map(Box::new),
         }
     }
 }

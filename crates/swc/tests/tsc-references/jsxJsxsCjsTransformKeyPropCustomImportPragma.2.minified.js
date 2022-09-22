@@ -3,9 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default, props = (require("preact/jsx-runtime"), require("react"), {
+var _objectSpread = require("@swc/helpers/lib/_object_spread.js").default, _objectSpreadProps = require("@swc/helpers/lib/_object_spread_props.js").default;
+require("preact/jsx-runtime"), require("react");
+var props = {
     answer: 42
-});
+};
 _objectSpreadProps(_objectSpread({}, props), {
     children: "text"
 }), _objectSpreadProps(_objectSpread({}, props), {

@@ -43,12 +43,15 @@ impl NullishCoalescing {
             stmt.visit_mut_with(self);
 
             if !self.vars.is_empty() {
-                buf.push(T::from_stmt(Stmt::Decl(Decl::Var(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: take(&mut self.vars),
-                    declare: false,
-                }))));
+                buf.push(T::from_stmt(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: take(&mut self.vars),
+                        declare: false,
+                    }
+                    .into(),
+                ));
             }
 
             buf.push(stmt);
