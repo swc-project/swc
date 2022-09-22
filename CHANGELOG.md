@@ -44,6 +44,9 @@
 - **(es/minifier)** Inline rest parameters of IIFE (#5929) ([ac7b066](https://github.com/swc-project/swc/commit/ac7b066d9aec13c99a2df87fc47021973c1fed5d))
 
 
+- **(es/minifier)** Improve analysis of reassignments (#5931) ([e9c7041](https://github.com/swc-project/swc/commit/e9c704182b2f6fb4d9771b358d2919c447723059))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
