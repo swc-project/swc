@@ -175,6 +175,14 @@ where
             }
         }
 
+        fn clean_params(callee: &mut Expr) {
+            match callee {
+                Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
+                Expr::Fn(callee) => callee.function.params.retain(|p| !p.pat.is_invalid()),
+                _ => {}
+            }
+        }
+
         if let Expr::Fn(FnExpr {
             ident: Some(ident),
             function,
@@ -308,6 +316,8 @@ where
                 _ => {}
             }
         }
+
+        clean_params(callee);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
