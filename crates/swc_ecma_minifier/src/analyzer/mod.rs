@@ -102,8 +102,8 @@ pub(crate) struct VarUsageInfo {
     pub usage_count: u32,
 
     /// The variable itself is modified.
-    pub reassigned_with_assignment: bool,
-    pub reassigned_with_var_decl: bool,
+    reassigned_with_assignment: bool,
+    reassigned_with_var_decl: bool,
     /// The variable itself or a property of it is modified.
     pub mutated: bool,
 
