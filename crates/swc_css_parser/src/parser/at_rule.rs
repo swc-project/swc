@@ -447,9 +447,10 @@ where
                                     ),
                                 ));
                                 None
-                            } else if let ComponentValue::LayerName {
-                                0: LayerName { name: name_raw, .. },
-                            } = &func.value[0]
+                            } else if let ComponentValue::LayerName(LayerName {
+                                name: name_raw,
+                                ..
+                            }) = &func.value[0]
                             {
                                 let name = ImportPreludeLayerName::Function(func.clone());
 
