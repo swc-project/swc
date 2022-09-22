@@ -47,6 +47,9 @@
 - **(es/minifier)** Improve analysis of reassignments (#5931) ([e9c7041](https://github.com/swc-project/swc/commit/e9c704182b2f6fb4d9771b358d2919c447723059))
 
 
+- **(es/minifier)** Use char frequency data for property manglers (#5932) ([5314ac5](https://github.com/swc-project/swc/commit/5314ac5d025737471a9595fa72d4189992b8454e))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
