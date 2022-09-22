@@ -406,6 +406,7 @@ drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
 drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
+drop_unused/global_var/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
@@ -1390,6 +1391,7 @@ switch/if_else5/input.js
 switch/if_else6/input.js
 switch/if_else7/input.js
 switch/if_else8/input.js
+switch/if_switch_typeof/input.js
 switch/issue_1083_1/input.js
 switch/issue_1083_2/input.js
 switch/issue_1083_3/input.js
