@@ -9,7 +9,6 @@ arrays/index_length/input.js
 arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
-arrow/issue_2136_2/input.js
 arrow/issue_2136_3/input.js
 arrow/issue_27/input.js
 ascii/ascii_only_false/input.js
@@ -70,7 +69,6 @@ collapse_vars/issue_2436_7/input.js
 collapse_vars/issue_2436_8/input.js
 collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437/input.js
-collapse_vars/issue_2453/input.js
 collapse_vars/issue_2497/input.js
 collapse_vars/issue_2506/input.js
 collapse_vars/issue_2914_2/input.js
@@ -79,7 +77,6 @@ collapse_vars/lvalues_def/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/pure_getters_chain/input.js
 collapse_vars/recursive_function_replacement/input.js
-collapse_vars/reduce_vars_assign/input.js
 collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
 collapse_vars/switch_case_1/input.js
@@ -103,7 +100,6 @@ dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/global_fns/input.js
 dead_code/issue_2749/input.js
 dead_code/issue_2860_2/input.js
-dead_code/issue_718/input.js
 dead_code/return_assignment/input.js
 dead_code/unsafe_builtin/input.js
 destructuring/destructuring_dont_evaluate_with_undefined_as_default_assignment/input.js
@@ -145,7 +141,6 @@ drop_unused/issue_1968/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_2105_1/input.js
 drop_unused/issue_2105_2/input.js
-drop_unused/issue_2136_2/input.js
 drop_unused/issue_2136_3/input.js
 drop_unused/issue_2163/input.js
 drop_unused/issue_2226_2/input.js
@@ -172,9 +167,7 @@ drop_unused/reassign_const/input.js
 drop_unused/unused_circular_references_1/input.js
 drop_unused/unused_circular_references_2/input.js
 drop_unused/unused_circular_references_3/input.js
-drop_unused/unused_null_conditional_chain/input.js
 drop_unused/var_catch_toplevel/input.js
-evaluate/call_args_drop_param/input.js
 evaluate/issue_2207_3/input.js
 evaluate/issue_2535_1/input.js
 evaluate/issue_399/input.js
