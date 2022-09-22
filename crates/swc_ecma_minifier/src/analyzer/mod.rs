@@ -153,7 +153,7 @@ impl VarUsageInfo {
     }
 
     pub fn reassigned(&self) -> bool {
-        self.reassigned_with_assignment || self.reassigned_with_var_decl
+        self.reassigned_with_assignment || self.reassigned_with_var_decl || self.assign_count > 1
     }
 }
 
