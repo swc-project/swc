@@ -3,17 +3,22 @@ use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-use crate::util::base54;
+use super::Base54Chars;
 
-pub fn private_name_mangler(keep_private_props: bool) -> impl Fold + VisitMut {
+pub(crate) fn private_name_mangler(
+    keep_private_props: bool,
+    chars: Base54Chars,
+) -> impl Fold + VisitMut {
     as_folder(PrivateNameMangler {
         keep_private_props,
         private_n: Default::default(),
         renamed_private: Default::default(),
+        chars,
     })
 }
 
 struct PrivateNameMangler {
+    chars: Base54Chars,
     keep_private_props: bool,
     private_n: usize,
 
@@ -27,7 +32,7 @@ impl PrivateNameMangler {
         let new_sym = if let Some(cached) = self.renamed_private.get(&id) {
             cached.clone()
         } else {
-            let sym = base54::encode(&mut self.private_n, true);
+            let sym = self.chars.encode(&mut self.private_n, true);
 
             self.renamed_private.insert(id.clone(), sym.clone());
 

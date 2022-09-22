@@ -403,7 +403,7 @@ pub(crate) fn name_mangler(
     let base54 = CharFreq::compute(program, &preserved, unresolved_ctxt).compile();
 
     chain!(
-        self::private_name::private_name_mangler(options.keep_private_props),
+        self::private_name::private_name_mangler(options.keep_private_props, base54),
         renamer(Default::default(), ManglingRenamer { base54, preserved })
     )
 }
