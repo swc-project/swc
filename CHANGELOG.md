@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Fix analysis of assignments (#5924) ([e303f7e](https://github.com/swc-project/swc/commit/e303f7e8530a2c16f908d4132b077540eb1ecc58))
 
+
+- **(es/minifier)** Prepend vars when dropping vars in a for loop initializer (#5930) ([f222413](https://github.com/swc-project/swc/commit/f2224132c1f000c560b97675b54cb7914bd444fa))
+
 ### Features
 
 
