@@ -314,15 +314,22 @@ where
             ImportPreludeLayerName::Ident(n) => emit!(self, n),
             ImportPreludeLayerName::Function(n) => {
                 if n.value.is_empty() {
-                    use swc_css_ast::AtRuleName::Ident;
                     use swc_atoms::js_word;
+                    use swc_css_ast::AtRuleName::Ident;
 
                     // Never emit `layer()`
-                    emit!(self, Ident(swc_css_ast::Ident{span: n.span, value: js_word!("layer"), raw: Some(js_word!("layer"))}))
+                    emit!(
+                        self,
+                        Ident(swc_css_ast::Ident {
+                            span: n.span,
+                            value: js_word!("layer"),
+                            raw: Some(js_word!("layer"))
+                        })
+                    )
                 } else {
                     emit!(self, n)
                 }
-            },
+            }
         }
     }
 
