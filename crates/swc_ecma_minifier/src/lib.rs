@@ -287,7 +287,7 @@ pub fn optimize(
         m.visit_mut_with(&mut name_mangler(mangle.clone(), preserved, chars));
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut m, &module_info, property_mangle_options.clone());
+            mangle_properties(&mut m, &module_info, property_mangle_options.clone(), chars);
         }
     }
 
