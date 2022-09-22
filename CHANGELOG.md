@@ -53,6 +53,9 @@
 - **(es/minifier)** Drop cycles in nested functions (#5933) ([e16827c](https://github.com/swc-project/swc/commit/e16827cc9d4ff7dcbc53fb38f56ba9b15dc9c3c8))
 
 
+- **(es/minifier)** Mangle labels (#5934) ([7bcaaef](https://github.com/swc-project/swc/commit/7bcaaef4f7219d52e7dd2199d4696d628e4d6de9))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
