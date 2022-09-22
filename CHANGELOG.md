@@ -50,6 +50,9 @@
 - **(es/minifier)** Use char frequency data for property manglers (#5932) ([5314ac5](https://github.com/swc-project/swc/commit/5314ac5d025737471a9595fa72d4189992b8454e))
 
 
+- **(es/minifier)** Drop cycles in nested functions (#5933) ([e16827c](https://github.com/swc-project/swc/commit/e16827cc9d4ff7dcbc53fb38f56ba9b15dc9c3c8))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
