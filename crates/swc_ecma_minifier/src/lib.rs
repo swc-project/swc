@@ -284,13 +284,7 @@ pub fn optimize(
         )
         .compile();
 
-        m.visit_mut_with(&mut name_mangler(
-            mangle.clone(),
-            &m,
-            SyntaxContext::empty().apply_mark(extra.unresolved_mark),
-            preserved,
-            chars,
-        ));
+        m.visit_mut_with(&mut name_mangler(mangle.clone(), preserved, chars));
 
         if let Some(property_mangle_options) = &mangle.props {
             mangle_properties(&mut m, &module_info, property_mangle_options.clone());

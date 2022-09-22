@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
-use swc_common::{chain, SyntaxContext};
+use swc_common::chain;
 use swc_ecma_ast::{Module, *};
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::VisitMut;
@@ -13,8 +13,6 @@ mod private_name;
 
 pub(crate) fn name_mangler(
     options: MangleOptions,
-    program: &Program,
-    unresolved_ctxt: SyntaxContext,
     preserved: FxHashSet<Id>,
     chars: Base54Chars,
 ) -> impl VisitMut {
