@@ -216,6 +216,7 @@ struct Analyzer<'a> {
 #[derive(Debug, Default)]
 struct Scope<'a> {
     parent: Option<&'a Scope<'a>>,
+    kind: ScopeKind,
 
     bindings_affected_by_eval: AHashSet<Id>,
     found_direct_eval: bool,
@@ -233,6 +234,12 @@ struct Scope<'a> {
 enum ScopeKind {
     Fn,
     ArrowFn,
+}
+
+impl Default for ScopeKind {
+    fn default() -> Self {
+        Self::Fn
+    }
 }
 
 impl Analyzer<'_> {
@@ -325,6 +332,10 @@ impl Analyzer<'_> {
                 for component in &s.ast_path {
                     self.data
                         .add_dep_edge(component.clone(), id.clone(), assign)
+                }
+
+                if s.kind == ScopeKind::Fn && !s.ast_path.is_empty() {
+                    break;
                 }
 
                 scope = s.parent;
