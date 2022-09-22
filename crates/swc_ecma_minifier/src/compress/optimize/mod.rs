@@ -1936,7 +1936,17 @@ where
             ..self.ctx
         };
 
-        s.init.visit_mut_with(self);
+        {
+            let mut old_prepend_stmts = self.prepend_stmts.take();
+            let old_append_stmts = self.append_stmts.take();
+            s.init.visit_mut_with(self);
+            old_prepend_stmts.append(&mut *self.prepend_stmts);
+            old_prepend_stmts.append(&mut *self.append_stmts);
+
+            self.prepend_stmts = old_prepend_stmts;
+            self.append_stmts = old_append_stmts;
+        }
+
         s.test.visit_mut_with(self);
         s.update.visit_mut_with(self);
 
