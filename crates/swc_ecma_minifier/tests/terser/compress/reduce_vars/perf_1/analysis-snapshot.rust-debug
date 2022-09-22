@@ -170,7 +170,7 @@ TestSnapshot {
                 assign_count: 1,
                 mutation_by_call_count: 1,
                 usage_count: 2,
-                reassigned_with_assignment: true,
+                reassigned_with_assignment: false,
                 reassigned_with_var_decl: false,
                 mutated: true,
                 has_property_access: false,

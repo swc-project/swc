@@ -310,9 +310,9 @@ export default function S(u) {
                 })
             });
         }) : []),
-        results: (M = v) ? Array.isArray(M.results) ? M.results.reduce(function(a, n) {
+        results: v ? Array.isArray(v.results) ? v.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
-        }, {}) : new s.SearchResults(new s.SearchParameters(M.state), M.rawResults) : null,
+        }, {}) : new s.SearchResults(new s.SearchParameters(v.state), v.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,

@@ -434,7 +434,7 @@
             });
             var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8436), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(8370), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(2911), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(3001), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7130), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(2374), _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_defineProperty__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(9178), Welcome = function(_React$Component) {
                 (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_4__.Z)(Welcome, _React$Component);
-                var Derived, hasNativeReflectConstruct, _super = (Derived = Welcome, hasNativeReflectConstruct = function() {
+                var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                     if ("function" == typeof Proxy) return !0;
                     try {
@@ -443,7 +443,7 @@
                         return !1;
                     }
                 }(), function() {
-                    var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Derived);
+                    var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Welcome);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);

@@ -12,25 +12,25 @@ var ClassA = function ClassA() {
     _classCallCheck(this, ClassA);
 };
 module.exports = function() {
-    var obj, key, value, ClassB = function() {
+    var obj, ClassB = function() {
         "use strict";
-        var Constructor, protoProps, staticProps;
+        var staticProps;
         function ClassB() {
             _classCallCheck(this, ClassB);
         }
-        return Constructor = ClassB, protoProps = [
+        return _defineProperties(ClassB.prototype, [
             {
                 key: "it",
                 value: function() {
                     this.bb = new ClassB.MyA();
                 }
             }
-        ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), ClassB;
+        ]), staticProps && _defineProperties(ClassB, staticProps), ClassB;
     }();
-    return obj = ClassB, key = "MyA", value = ClassA, key in obj ? Object.defineProperty(obj, key, {
-        value: value,
+    return "MyA" in (obj = ClassB) ? Object.defineProperty(obj, "MyA", {
+        value: ClassA,
         enumerable: !0,
         configurable: !0,
         writable: !0
-    }) : obj[key] = value, ClassB;
+    }) : obj.MyA = ClassA, ClassB;
 }();

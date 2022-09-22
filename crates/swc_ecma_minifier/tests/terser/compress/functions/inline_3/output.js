@@ -1,5 +1,3 @@
-console.log(1);
-(a = 2), console.log(a);
-var a;
-(b = 3), (c = b), console.log(c);
-var b, c;
+void console.log(1);
+void console.log(2);
+void console.log(3);

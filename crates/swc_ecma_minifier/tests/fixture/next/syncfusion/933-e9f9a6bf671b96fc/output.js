@@ -3613,7 +3613,7 @@
                     var firstDay = 'sun', mapper = util_getValue('supplemental.weekData.firstDay', cldr), iCulture = culture;
                     return /en-/.test(iCulture) && (iCulture = iCulture.slice(3)), iCulture = iCulture.slice(0, 2).toUpperCase() + iCulture.substr(2), mapper && (firstDay = mapper[iCulture] || mapper[iCulture.slice(0, 2)] || 'sun'), firstDayMapper[firstDay];
                 }, IntlBase.replaceBlazorCurrency = function(pData, aCurrency, rCurrency) {
-                    var currencyCode, iCurrency = (currencyCode = rCurrency, util_getValue(currencyCode || '', blazorCurrencyData));
+                    var iCurrency = util_getValue(rCurrency || '', blazorCurrencyData);
                     if (aCurrency !== iCurrency) for(var _i = 0; _i < pData.length; _i++){
                         var data = pData[_i];
                         data.nend = data.nend.replace(aCurrency, iCurrency), data.nlead = data.nlead.replace(aCurrency, iCurrency);
@@ -4108,13 +4108,13 @@
             }
             function Property(defaultValue) {
                 return function(target, key) {
-                    var defaultValue1, curKey, propertyDescriptor = {
-                        set: (defaultValue1 = defaultValue, curKey = key, function(newValue) {
-                            if (this.properties[curKey] !== newValue) {
-                                var oldVal = this.properties.hasOwnProperty(curKey) ? this.properties[curKey] : defaultValue1;
-                                this.saveChanges(curKey, newValue, oldVal), this.properties[curKey] = newValue;
+                    var propertyDescriptor = {
+                        set: function(newValue) {
+                            if (this.properties[key] !== newValue) {
+                                var oldVal = this.properties.hasOwnProperty(key) ? this.properties[key] : defaultValue;
+                                this.saveChanges(key, newValue, oldVal), this.properties[key] = newValue;
                             }
-                        }),
+                        },
                         get: propertyGetter(defaultValue, key),
                         enumerable: !0,
                         configurable: !0
@@ -4124,72 +4124,70 @@
             }
             function Complex(defaultValue, type) {
                 return function(target, key) {
-                    var defaultValue1, curKey, type1, defaultValue2, curKey1, type2, propertyDescriptor = {
-                        set: (defaultValue1 = defaultValue, curKey = key, type1 = type, function(newValue) {
-                            getObject(this, curKey, defaultValue1, type1).setProperties(newValue);
-                        }),
-                        get: (defaultValue2 = defaultValue, curKey1 = key, type2 = type, function() {
-                            return getObject(this, curKey1, defaultValue2, type2);
-                        }),
+                    Object.defineProperty(target, key, {
+                        set: function(newValue) {
+                            getObject(this, key, defaultValue, type).setProperties(newValue);
+                        },
+                        get: function() {
+                            return getObject(this, key, defaultValue, type);
+                        },
                         enumerable: !0,
                         configurable: !0
-                    };
-                    Object.defineProperty(target, key, propertyDescriptor), addPropertyCollection(target, key, 'complexProp', defaultValue, type);
+                    }), addPropertyCollection(target, key, 'complexProp', defaultValue, type);
                 };
             }
             function Collection(defaultValue, type) {
                 return function(target, key) {
-                    var defaultValue1, curKey, type1, defaultValue2, curKey1, type2, propertyDescriptor = {
-                        set: (defaultValue1 = defaultValue, curKey = key, type1 = type, function(newValue) {
+                    Object.defineProperty(target, key, {
+                        set: function(newValue) {
                             this.isComplexArraySetter = !0;
-                            var oldValueCollection = getObjectArray(this, curKey, defaultValue1, type1, !1), newValCollection = getObjectArray(this, curKey, newValue, type1, !0);
-                            this.isComplexArraySetter = !1, this.saveChanges(curKey, newValCollection, oldValueCollection), this.properties[curKey] = newValCollection;
-                        }),
-                        get: (defaultValue2 = defaultValue, curKey1 = key, type2 = type, function() {
+                            var oldValueCollection = getObjectArray(this, key, defaultValue, type, !1), newValCollection = getObjectArray(this, key, newValue, type, !0);
+                            this.isComplexArraySetter = !1, this.saveChanges(key, newValCollection, oldValueCollection), this.properties[key] = newValCollection;
+                        },
+                        get: function() {
                             var _this = this;
-                            if (!this.properties.hasOwnProperty(curKey1)) {
-                                var defCollection = getObjectArray(this, curKey1, defaultValue2, type2, !1);
-                                this.properties[curKey1] = defCollection;
+                            if (!this.properties.hasOwnProperty(key)) {
+                                var defCollection = getObjectArray(this, key, defaultValue, type, !1);
+                                this.properties[key] = defCollection;
                             }
                             var ignore = void 0 !== this.controlParent && this.controlParent.ignoreCollectionWatch || this.ignoreCollectionWatch;
-                            return this.properties[curKey1].hasOwnProperty('push') || ignore || [
+                            return this.properties[key].hasOwnProperty('push') || ignore || [
                                 'push',
                                 'pop'
                             ].forEach(function(extendFunc) {
-                                var dFunc, curKey, prop, descriptor = {
-                                    value: (dFunc = extendFunc, curKey = curKey1, prop = _this.properties[curKey1], function() {
+                                var prop, descriptor = {
+                                    value: (prop = _this.properties[key], function() {
                                         for(var newValue = [], _i = 0; _i < arguments.length; _i++)newValue[_i] = arguments[_i];
-                                        var keyString = this.propName ? this.getParentKey() + '.' + curKey + '-' : curKey + '-';
-                                        switch(dFunc){
+                                        var keyString = this.propName ? this.getParentKey() + '.' + key + '-' : key + '-';
+                                        switch(extendFunc){
                                             case 'push':
                                                 for(var i = 0; i < newValue.length; i++){
-                                                    Array.prototype[dFunc].apply(prop, [
+                                                    Array.prototype[extendFunc].apply(prop, [
                                                         newValue[i]
                                                     ]);
-                                                    var model_1 = getArrayModel(keyString + (prop.length - 1), newValue[i], !this.controlParent, dFunc);
-                                                    this.serverDataBind(model_1, newValue[i], !1, dFunc);
+                                                    var model_1 = getArrayModel(keyString + (prop.length - 1), newValue[i], !this.controlParent, extendFunc);
+                                                    this.serverDataBind(model_1, newValue[i], !1, extendFunc);
                                                 }
                                                 break;
                                             case 'pop':
-                                                Array.prototype[dFunc].apply(prop);
-                                                var model = getArrayModel(keyString + prop.length, null, !this.controlParent, dFunc);
+                                                Array.prototype[extendFunc].apply(prop);
+                                                var model = getArrayModel(keyString + prop.length, null, !this.controlParent, extendFunc);
                                                 this.serverDataBind(model, {
                                                     ejsAction: 'pop'
-                                                }, !1, dFunc);
+                                                }, !1, extendFunc);
                                         }
                                         return prop;
                                     }).bind(_this),
                                     configurable: !0
                                 };
-                                Object.defineProperty(_this.properties[curKey1], extendFunc, descriptor);
-                            }), this.properties[curKey1].hasOwnProperty('isComplexArray') || Object.defineProperty(this.properties[curKey1], 'isComplexArray', {
+                                Object.defineProperty(_this.properties[key], extendFunc, descriptor);
+                            }), this.properties[key].hasOwnProperty('isComplexArray') || Object.defineProperty(this.properties[key], 'isComplexArray', {
                                 value: !0
-                            }), this.properties[curKey1];
-                        }),
+                            }), this.properties[key];
+                        },
                         enumerable: !0,
                         configurable: !0
-                    };
-                    Object.defineProperty(target, key, propertyDescriptor), addPropertyCollection(target, key, 'colProp', defaultValue, type);
+                    }), addPropertyCollection(target, key, 'colProp', defaultValue, type);
                 };
             }
             function notify_property_change_Event() {
@@ -4337,12 +4335,12 @@
                 ], Animation);
             }(Base);
             function rippleEffect(element, rippleOptions, done) {
-                var rippleOptions1, rippleModel = {
-                    selector: (rippleOptions1 = rippleOptions) && rippleOptions1.selector ? rippleOptions1.selector : null,
-                    ignore: rippleOptions1 && rippleOptions1.ignore ? rippleOptions1.ignore : null,
-                    rippleFlag: rippleOptions1 && rippleOptions1.rippleFlag,
-                    isCenterRipple: rippleOptions1 && rippleOptions1.isCenterRipple,
-                    duration: rippleOptions1 && rippleOptions1.duration ? rippleOptions1.duration : 350
+                var rippleModel = {
+                    selector: rippleOptions && rippleOptions.selector ? rippleOptions.selector : null,
+                    ignore: rippleOptions && rippleOptions.ignore ? rippleOptions.ignore : null,
+                    rippleFlag: rippleOptions && rippleOptions.rippleFlag,
+                    isCenterRipple: rippleOptions && rippleOptions.isCenterRipple,
+                    duration: rippleOptions && rippleOptions.duration ? rippleOptions.duration : 350
                 };
                 return !1 !== rippleModel.rippleFlag && (void 0 !== rippleModel.rippleFlag || isRippleEnabled) ? (element.setAttribute('data-ripple', 'true'), EventHandler.add(element, 'mousedown', rippleHandler, {
                     parent: element,
@@ -4615,11 +4613,7 @@
                 return ret;
             }
             var extendStatics1, extendStatics2, validateLicense = function(key) {
-                if (key) {
-                    var key1;
-                    key1 = key, licenseValidator = new LicenseValidator(key1);
-                }
-                licenseValidator.validate();
+                key && (licenseValidator = new LicenseValidator(key)), licenseValidator.validate();
             }, component_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
                     __proto__: []
@@ -5461,10 +5455,9 @@
                     var eleStyle = getComputedStyle(element), style = eleStyle.overflow + eleStyle.overflowX + eleStyle.overflowY;
                     return !!/(auto|scroll)/.test(style);
                 }, Touch.prototype.tapHoldEvent = function(evt) {
-                    var eTapArgs;
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), eTapArgs = {
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
                         originalEvent: evt
-                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
@@ -5521,8 +5514,8 @@
             }
             function HandleSpecialCharArrObj(str, nameSpaceNew, keys, ignorePrefix) {
                 if (str = str.trim(), /\window\./gm.test(str)) return str;
-                var str1, addNS, nameSpace, ignoreList, quotes = /'|"/gm;
-                return (/@|\$|#/gm.test(str) && (str = NameSpaceForspecialChar(str, -1 === keys.indexOf(str), nameSpaceNew, keys) + '"]'), ARR_OBJ.test(str)) ? (str1 = str, addNS = !quotes.test(str) && -1 === keys.indexOf(str), nameSpace = nameSpaceNew, ignoreList = keys, !addNS || NOT_NUMBER.test(str1) || -1 !== ignoreList.indexOf(str1.split('.')[0]) || /^\..*/gm.test(str1) ? str1 : nameSpace + '.' + str1) : addNameSpace(str, !quotes.test(str) && -1 === keys.indexOf(str), nameSpaceNew, keys, ignorePrefix);
+                var str1, quotes = /'|"/gm;
+                return (/@|\$|#/gm.test(str) && (str = NameSpaceForspecialChar(str, -1 === keys.indexOf(str), nameSpaceNew, keys) + '"]'), ARR_OBJ.test(str)) ? (str1 = str, !(!quotes.test(str) && -1 === keys.indexOf(str)) || NOT_NUMBER.test(str1) || -1 !== keys.indexOf(str1.split('.')[0]) || /^\..*/gm.test(str1) ? str1 : nameSpaceNew + '.' + str1) : addNameSpace(str, !quotes.test(str) && -1 === keys.indexOf(str), nameSpaceNew, keys, ignorePrefix);
             }
             var HAS_ROW = /^[\n\r.]+<tr|^<tr/, HAS_SVG = /^[\n\r.]+<svg|^<path|^<g/;
             function template_engine_compile(templateString, helper, ignorePrefix) {
@@ -5552,33 +5545,33 @@
                 compile: new (function() {
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var template, helper1, argName, evalExpResult, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), template = templateString, helper1 = helper, argName = 'data', str = template, nameSpace = argName, helper2 = helper1, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, argName, evalExpResult, str, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), helper1 = helper, argName = 'data', ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = (str = templateString).match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), evalExpResult = str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
                             if (matches) {
                                 var rlStr = matches[1];
                                 if (ELSEIF_STMT.test(cnt)) cnt = '";} ' + cnt.replace(matches[1], rlStr.replace(WORD, function(str) {
-                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), nameSpace, localKeys, ignorePrefix1);
+                                    return addNameSpace(str = str.trim(), !QUOTES.test(str) && -1 === localKeys.indexOf(str), argName, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (IF_STMT.test(cnt)) cnt = '"; ' + cnt.replace(matches[1], rlStr.replace(WORDIF, function(strs) {
-                                    return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
+                                    return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
                                 })) + '{ \n str = str + "';
                                 else if (FOR_STMT.test(cnt)) {
                                     var rlStr_1 = matches[1].split(' of ');
                                     cnt = '"; ' + cnt.replace(matches[1], function(mtc) {
-                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
-                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
+                                        return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
+                                    }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, argName, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
                                 } else {
-                                    var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
+                                    var fnStr = cnt.split('('), fNameSpace = helper1 && helper1.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
-                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
-                                        return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
-                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
+                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? argName + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
+                                        return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
+                                    })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + argName + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, argName, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + argName + '.'), -1 === localKeys.indexOf(cnt), argName, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }), Function(argName, "var str=\"" + evalExpResult + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -6156,14 +6149,14 @@
                     ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(floatLabelType) || validateLabel(element, floatLabelType);
                 }
                 function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
-                    var element1, inputObject1, initial1, internalCreateElement1, button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement;
-                    isClear ? inputObject.clearButton = (element1 = element, inputObject1 = inputObject, initial1 = initial, internalCreateElement1 = makeElement, button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement1) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement1)('span', {
+                    var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement;
+                    isClear ? inputObject.clearButton = (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : makeElement)('span', {
                         className: CLASSNAMES.CLEARICON
-                    }), container = inputObject1.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(initial1) ? (inputObject1.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject1.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element1).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
+                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         container
                     ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element1, button, container), button.setAttribute('aria-label', 'close'), button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Od)(inputObject.clearButton), inputObject.clearButton = null);
+                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Od)(inputObject.clearButton), inputObject.clearButton = null);
                 }
                 function removeAttributes(attrs, element) {
                     for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
@@ -6193,8 +6186,8 @@
                     else if (buttons.length > 0) for(var index = 0; index < buttons.length; index++)buttons[index].removeEventListener('mousedown', _onMouseDownRipple, this), buttons[index].removeEventListener('mouseup', _onMouseUpRipple, this);
                 }
                 function _onMouseDownRipple() {
-                    for(var container, button, parentEle = this.parentElement; !parentEle.classList.contains('e-input-group');)parentEle = parentEle.parentElement;
-                    container = parentEle, button = this, container.classList.contains('e-disabled') || container.querySelector('input').readOnly || button.classList.add('e-input-btn-ripple');
+                    for(var container, parentEle = this.parentElement; !parentEle.classList.contains('e-input-group');)parentEle = parentEle.parentElement;
+                    (container = parentEle).classList.contains('e-disabled') || container.querySelector('input').readOnly || this.classList.add('e-input-btn-ripple');
                 }
                 function _onMouseUpRipple() {
                     var ele = this;
@@ -6286,12 +6279,12 @@
                 }, Input.setPlaceholder = setPlaceholder, Input.setReadonly = setReadonly, Input.setEnableRtl = setEnableRtl, Input.setEnabled = setEnabled, Input.setClearButton = setClearButton, Input.removeAttributes = removeAttributes, Input.addAttributes = addAttributes, Input.removeFloating = function(input) {
                     var container = input.container;
                     if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT)) {
-                        var element, inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES.FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
+                        var inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES.FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
                         (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(container.querySelector('.' + CLASSNAMES.FLOATLINE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(container.querySelector('.' + CLASSNAMES.FLOATTEXT)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.s1)(container, [
                             CLASSNAMES.INPUTGROUP
                         ], [
                             CLASSNAMES.FLOATINPUT
-                        ]), (element = inputEle).removeEventListener('focus', _focusFn), element.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Y4)(inputEle, {
+                        ]), inputEle.removeEventListener('focus', _focusFn), inputEle.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Y4)(inputEle, {
                             placeholder: placeholder
                         }), inputEle.classList.add(CLASSNAMES.INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
                     }
@@ -7126,7 +7119,7 @@
                         var oldVisibility = element.style.visibility;
                         element.style.visibility = 'hidden', element.style.display = 'block', elementRect = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
                     } else elementRect = element.getBoundingClientRect();
-                    var target1, edge, pos, fixedParent1, elementRect1, pos1 = {
+                    var edge, pos, elementRect1, pos1 = {
                         posX: positionX,
                         posY: positionY,
                         offsetX: offsetX,
@@ -7136,7 +7129,7 @@
                             top: 0
                         }
                     };
-                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, target1 = target, edge = tEdge, pos = pos1, fixedParent1 = fixedParent, elementRect1 = elementRect, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, pos.posX, pos.posY, fixedParent1, elementRect1), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'left', 'top', fixedParent1, elementRect1), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'right', 'top', fixedParent1, elementRect1), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'left', 'bottom', fixedParent1, elementRect1), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target1, 'right', 'bottom', fixedParent1, elementRect1), setPosition(eEdge, pos1, elementRect), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, edge = tEdge, pos = pos1, elementRect1 = elementRect, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect1), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect1), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect1), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect1), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect1), setPosition(eEdge, pos1, elementRect), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
                         tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
                     }(target, eEdge, tEdge, pos1, elementRect, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
@@ -10415,7 +10408,7 @@
                     return (0, ej2_base.le)(option.text) || (buttonProps.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonProps.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonProps.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonProps.click = option.click), buttonProps;
                 }
                 DialogUtility.alert = function(args) {
-                    var alertDialogObj, option, options, options1, option1, alertButtonModel, dialogElement = (0, ej2_base.az)('div', {
+                    var alertDialogObj, options, options1, alertButtonModel, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_ALERT
                     });
                     return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
@@ -10437,7 +10430,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog((option = args, (options = {}).buttons = [], options1 = options = formOptions(options, option), option1 = option, alertButtonModel = [
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
                         {
                             buttonModel: {
                                 isPrimary: !0,
@@ -10447,11 +10440,11 @@
                                 this.hide();
                             }
                         }
-                    ], (0, ej2_base.le)(option1.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option1.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
+                    ], (0, ej2_base.le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
                     }, alertDialogObj;
                 }, DialogUtility.confirm = function(args) {
-                    var confirmDialogObj, option, options, options1, option1, okButtonModel, cancelButtonModel, dialogElement = (0, ej2_base.az)('div', {
+                    var confirmDialogObj, options, options1, okButtonModel, cancelButtonModel, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_CONFIRM
                     });
                     return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
@@ -10481,7 +10474,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog((option = args, (options = {}).buttons = [], options1 = options = formOptions(options, option), option1 = option, okButtonModel = {
+                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
                         buttonModel: {
                             isPrimary: !0,
                             content: 'OK'
@@ -10496,7 +10489,7 @@
                         click: function() {
                             this.hide();
                         }
-                    }, (0, ej2_base.le)(option1.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], option1.okButton, okButtonModel), (0, ej2_base.le)(option1.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], option1.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
@@ -16087,7 +16080,7 @@
             }(ej2_base.wA), classes = __webpack_require__(9805), config = __webpack_require__(103), selection = __webpack_require__(8867), common_constant = __webpack_require__(8082), base_enum = __webpack_require__(809), globalTimeOut = {}, CLS_SHOWSPIN = 'e-spin-show', CLS_HIDESPIN = 'e-spin-hide', CLS_MATERIALSPIN = 'e-spin-material', CLS_FABRICSPIN = 'e-spin-fabric', CLS_FLUENTSPIN = 'e-spin-fluent', CLS_TAILWINDSPIN = 'e-spin-tailwind', CLS_BOOT4SPIN = 'e-spin-bootstrap4', CLS_BOOT5SPIN = 'e-spin-bootstrap5', CLS_HIGHCONTRASTSPIN = 'e-spin-high-contrast', CLS_SPINWRAP = 'e-spinner-pane', CLS_SPININWRAP = 'e-spinner-inner', CLS_SPINCIRCLE = 'e-path-circle', CLS_SPINTEMPLATE = 'e-spin-template';
             function createSpinner(args, internalCreateElement) {
                 if (args.target) {
-                    var target, makeElement, spinnerContainer, spinnerInnerContainer, radius, makeElement1 = (0, ej2_base.le)(internalCreateElement) ? ej2_base.az : internalCreateElement, container = (target = args.target, spinnerContainer = (makeElement = makeElement1)('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
+                    var target, spinnerContainer, spinnerInnerContainer, radius, makeElement = (0, ej2_base.le)(internalCreateElement) ? ej2_base.az : internalCreateElement, container = (target = args.target, spinnerContainer = makeElement('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
                         wrap: spinnerContainer,
                         inner_wrap: spinnerInnerContainer
                     });
@@ -16110,34 +16103,34 @@
                             }
                             return width = width ? parseFloat(width + '') : defaultSize, 'Bootstrap' === theme ? width : width / 2;
                         }((0, ej2_base.le)(args.width) ? void 0 : args.width, theme), function(theme, container, radius, makeElement) {
-                            var innerContainer, radius1, makeElement1, uniqueID, container1, radius2, makeElement2, uniqueID1, container2, radius3, makeElement3, uniqueID2, container3, radius4, makeElement4, uniqueID3, container4, radius5, makeElement5, uniqueID4, container5, radius6, makeElement6, uniqueID5, container6, radius7, makeElement7, uniqueID6, container7, radius8, makeElement8, uniqueID7, innerContainer1 = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer1.querySelector('svg');
-                            switch((0, ej2_base.le)(svg) || innerContainer1.removeChild(svg), theme){
+                            var uniqueID, uniqueID1, uniqueID2, uniqueID3, uniqueID4, uniqueID5, uniqueID6, uniqueID7, innerContainer = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer.querySelector('svg');
+                            switch((0, ej2_base.le)(svg) || innerContainer.removeChild(svg), theme){
                                 case 'Material':
-                                    container1 = innerContainer1, radius2 = radius, makeElement2 = makeElement, globalTimeOut[uniqueID1 = random_generator()] = {
+                                    globalTimeOut[uniqueID1 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Material',
-                                        radius: radius2
-                                    }, create_material_element(container1, uniqueID1, makeElement2, CLS_MATERIALSPIN), mat_calculate_attributes(radius2, container1, 'Material', CLS_MATERIALSPIN);
+                                        radius: radius
+                                    }, create_material_element(innerContainer, uniqueID1, makeElement, CLS_MATERIALSPIN), mat_calculate_attributes(radius, innerContainer, 'Material', CLS_MATERIALSPIN);
                                     break;
                                 case 'Fabric':
-                                    container2 = innerContainer1, radius3 = radius, makeElement3 = makeElement, globalTimeOut[uniqueID2 = random_generator()] = {
+                                    globalTimeOut[uniqueID2 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Fabric',
-                                        radius: radius3
-                                    }, create_fabric_element(container2, uniqueID2, CLS_FABRICSPIN, makeElement3), fb_calculate_attributes(radius3, container2, CLS_FABRICSPIN);
+                                        radius: radius
+                                    }, create_fabric_element(innerContainer, uniqueID2, CLS_FABRICSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FABRICSPIN);
                                     break;
                                 case 'Fluent':
-                                    container3 = innerContainer1, radius4 = radius, makeElement4 = makeElement, globalTimeOut[uniqueID3 = random_generator()] = {
+                                    globalTimeOut[uniqueID3 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Fluent',
-                                        radius: radius4
-                                    }, create_fabric_element(container3, uniqueID3, CLS_FLUENTSPIN, makeElement4), fb_calculate_attributes(radius4, container3, CLS_FLUENTSPIN);
+                                        radius: radius
+                                    }, create_fabric_element(innerContainer, uniqueID3, CLS_FLUENTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FLUENTSPIN);
                                     break;
                                 case 'Bootstrap':
-                                    innerContainer = innerContainer1, radius1 = radius, makeElement1 = makeElement, globalTimeOut[uniqueID = random_generator()] = {
+                                    globalTimeOut[uniqueID = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap',
-                                        radius: radius1
+                                        radius: radius
                                     }, function(innerContainer, uniqueID, makeElement) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
@@ -16145,48 +16138,48 @@
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, makeElement1), function(innerContainer, radius) {
+                                    }(innerContainer, uniqueID, makeElement), function(innerContainer, radius) {
                                         var svg = innerContainer.querySelector('svg.e-spin-bootstrap');
                                         svg.style.width = svg.style.height = radius + 'px';
                                         for(var startArc = 90, item = 0; item <= 7; item++){
                                             var start = defineArcPoints(0, 0, 24, startArc), circleEle = svg.querySelector('.' + CLS_SPINCIRCLE + '_' + item);
                                             circleEle.setAttribute('cx', start.x + ''), circleEle.setAttribute('cy', start.y + ''), startArc = startArc >= 360 ? 0 : startArc, startArc += 45;
                                         }
-                                    }(innerContainer, radius1);
+                                    }(innerContainer, radius);
                                     break;
                                 case 'HighContrast':
-                                    container4 = innerContainer1, radius5 = radius, makeElement5 = makeElement, globalTimeOut[uniqueID4 = random_generator()] = {
+                                    globalTimeOut[uniqueID4 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'HighContrast',
-                                        radius: radius5
-                                    }, create_fabric_element(container4, uniqueID4, CLS_HIGHCONTRASTSPIN, makeElement5), fb_calculate_attributes(radius5, container4, CLS_HIGHCONTRASTSPIN);
+                                        radius: radius
+                                    }, create_fabric_element(innerContainer, uniqueID4, CLS_HIGHCONTRASTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_HIGHCONTRASTSPIN);
                                     break;
                                 case 'Bootstrap4':
-                                    container5 = innerContainer1, radius6 = radius, makeElement6 = makeElement, globalTimeOut[uniqueID5 = random_generator()] = {
+                                    globalTimeOut[uniqueID5 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap4',
-                                        radius: radius6
-                                    }, create_material_element(container5, uniqueID5, makeElement6, CLS_BOOT4SPIN), mat_calculate_attributes(radius6, container5, 'Bootstrap4', CLS_BOOT4SPIN);
+                                        radius: radius
+                                    }, create_material_element(innerContainer, uniqueID5, makeElement, CLS_BOOT4SPIN), mat_calculate_attributes(radius, innerContainer, 'Bootstrap4', CLS_BOOT4SPIN);
                                     break;
                                 case 'Bootstrap5':
-                                    container6 = innerContainer1, radius7 = radius, makeElement7 = makeElement, globalTimeOut[uniqueID6 = random_generator()] = {
+                                    globalTimeOut[uniqueID6 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Bootstrap5',
-                                        radius: radius7
-                                    }, create_material_element(container6, uniqueID6, makeElement7, CLS_BOOT5SPIN), mat_calculate_attributes(radius7, container6, 'Bootstrap5', CLS_BOOT5SPIN);
+                                        radius: radius
+                                    }, create_material_element(innerContainer, uniqueID6, makeElement, CLS_BOOT5SPIN), mat_calculate_attributes(radius, innerContainer, 'Bootstrap5', CLS_BOOT5SPIN);
                                     break;
                                 case 'Tailwind':
                                 case 'Tailwind-dark':
-                                    container7 = innerContainer1, radius8 = radius, makeElement8 = makeElement, globalTimeOut[uniqueID7 = random_generator()] = {
+                                    globalTimeOut[uniqueID7 = random_generator()] = {
                                         timeOut: 0,
                                         type: 'Tailwind',
-                                        radius: radius8
-                                    }, create_fabric_element(container7, uniqueID7, CLS_TAILWINDSPIN, makeElement8), fb_calculate_attributes(radius8, container7, CLS_TAILWINDSPIN);
+                                        radius: radius
+                                    }, create_fabric_element(innerContainer, uniqueID7, CLS_TAILWINDSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_TAILWINDSPIN);
                             }
-                        }(theme, container.wrap, radius, makeElement1), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement1('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
+                        }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
                     } else {
-                        var container3, template, cssClass, template1 = (0, ej2_base.le)(args.template) ? null : args.template;
-                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, template = template1, cssClass = null, (0, ej2_base.le)(cssClass) || container3.classList.add(cssClass), container3.querySelector('.e-spinner-inner').innerHTML = template;
+                        var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
+                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
                     container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
@@ -16214,8 +16207,8 @@
                 svgMaterial.setAttribute('class', cls), svgMaterial.setAttribute('id', uniqueID), matCirclePath.setAttribute('class', CLS_SPINCIRCLE), innerContainer.insertBefore(svgMaterial, innerContainer.firstChild), svgMaterial.appendChild(matCirclePath);
             }
             function mat_calculate_attributes(radius, container, type, cls) {
-                var diameter, strokeSize, radius1, offset, diameter1 = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize1 = getStrokeSize(diameter1), transformOrigin = diameter1 / 2 + 'px';
-                svg.setAttribute('viewBox', '0 0 ' + diameter1 + ' ' + diameter1), svg.style.width = svg.style.height = diameter1 + 'px', svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, path.setAttribute('d', (diameter = diameter1, strokeSize = strokeSize1, 'M' + (radius1 = diameter / 2) + ',' + (offset = strokeSize / 2) + 'A' + (radius1 - offset) + ',' + (radius1 - offset) + ' 0 1 1 ' + offset + ',' + radius1)), 'Material' === type && (path.setAttribute('stroke-width', strokeSize1 + ''), path.setAttribute('stroke-dasharray', (diameter1 - strokeSize1) * Math.PI * 0.75 + ''), path.setAttribute('stroke-dashoffset', getDashOffset(diameter1, strokeSize1, 1, 75) + ''));
+                var radius1, offset, diameter = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize = getStrokeSize(diameter), transformOrigin = diameter / 2 + 'px';
+                svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.width = svg.style.height = diameter + 'px', svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, path.setAttribute('d', 'M' + (radius1 = diameter / 2) + ',' + (offset = strokeSize / 2) + 'A' + (radius1 - offset) + ',' + (radius1 - offset) + ' 0 1 1 ' + offset + ',' + radius1), 'Material' === type && (path.setAttribute('stroke-width', strokeSize + ''), path.setAttribute('stroke-dasharray', (diameter - strokeSize) * Math.PI * 0.75 + ''), path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, 1, 75) + ''));
             }
             function getStrokeSize(diameter) {
                 return 0.1 * diameter;
@@ -16228,37 +16221,37 @@
                 return start + change * (6 * timecount * timestamp + -15 * timestamp * timestamp + 10 * timecount);
             }
             function fb_calculate_attributes(radius, innerConainer, trgClass) {
-                var radius1, x, y, radius2, start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
+                var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
                 circle.setAttribute('d', [
                     'M',
                     radius,
                     radius,
                     'm',
-                    -(radius1 = radius),
+                    -radius,
                     0,
                     'a',
-                    radius1,
-                    radius1,
+                    radius,
+                    radius,
                     0,
                     1,
                     0,
-                    2 * radius1,
+                    2 * radius,
                     0,
                     'a',
-                    radius1,
-                    radius1,
+                    radius,
+                    radius,
                     0,
                     1,
                     0,
-                    -(2 * radius1),
+                    -(2 * radius),
                     0
-                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(x = radius, y = radius, radius2 = radius, 45), end = defineArcPoints(x, y, radius2, 315), [
+                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
                     'M',
                     start.x,
                     start.y,
                     'A',
-                    radius2,
-                    radius2,
+                    radius,
+                    radius,
                     0,
                     0,
                     0,
@@ -16281,12 +16274,12 @@
                 if (container && (spinnerWrap = container.classList.contains(CLS_SPINWRAP) ? container : container.querySelector('.' + CLS_SPINWRAP)), container && spinnerWrap) {
                     var inner = spinnerWrap.querySelector('.' + CLS_SPININWRAP);
                     if (isHide ? !spinnerWrap.classList.contains(CLS_SPINTEMPLATE) && !spinnerWrap.classList.contains(CLS_HIDESPIN) : !spinnerWrap.classList.contains(CLS_SPINTEMPLATE) && !spinnerWrap.classList.contains(CLS_SHOWSPIN)) {
-                        var container1, uniqueID, radius, globalObject, svgEle = spinnerWrap.querySelector('svg');
+                        var radius, globalObject, svgEle = spinnerWrap.querySelector('svg');
                         if ((0, ej2_base.le)(svgEle)) return;
                         var id = svgEle.getAttribute('id');
                         switch(globalTimeOut[id].isAnimate = !isHide, globalTimeOut[id].type){
                             case 'Material':
-                                isHide ? clearTimeout(globalTimeOut[id].timeOut) : (container1 = inner, uniqueID = id, radius = globalTimeOut[id].radius, globalObject = {}, globalTimeOut[uniqueID].timeOut = 0, globalObject[uniqueID] = {
+                                isHide ? clearTimeout(globalTimeOut[id].timeOut) : (radius = globalTimeOut[id].radius, globalObject = {}, globalTimeOut[id].timeOut = 0, globalObject[id] = {
                                     radius: radius,
                                     count: 0,
                                     previousId: 0
@@ -16304,8 +16297,8 @@
                                         })(spinnerInfo);
                                     })(1, 149, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 75, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
-                                    uniqueID: uniqueID,
-                                    container: container1,
+                                    uniqueID: id,
+                                    container: inner,
                                     globalInfo: globalObject,
                                     timeOutVar: 0
                                 }));
@@ -17751,15 +17744,15 @@
                     return new Promise(function(resolve, reject) {
                         var file = _this.fileStreams[fileIndex].rawFile;
                         try {
-                            var args, reader = new FileReader();
-                            reader.onload = (args = reader, function() {
+                            var reader = new FileReader();
+                            reader.onload = function() {
                                 try {
-                                    var contents = args.result, data = contents ? contents.split(';base64,')[1] : null;
+                                    var contents = reader.result, data = contents ? contents.split(';base64,')[1] : null;
                                     resolve(data);
                                 } catch (e) {
                                     reject(e);
                                 }
-                            }), reader.readAsDataURL(file.slice(position, position + totalCount));
+                            }, reader.readAsDataURL(file.slice(position, position + totalCount));
                         } catch (e) {
                             reject(e);
                         }

@@ -297,13 +297,13 @@
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }(i);
                 return target;
@@ -477,8 +477,8 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var element, callback, ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (element = el, callback = function(isVisible) {
+                    var callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
                         return isVisible && setVisible(isVisible);
                     }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
@@ -496,8 +496,8 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(element, callback), observer.observe(element), function() {
-                        elements.delete(element), observer.unobserve(element), 0 === elements.size && (observer.disconnect(), observers.delete(id));
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
+                        elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [
                     isDisabled,
@@ -579,8 +579,8 @@
         },
         7857: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var e, React = __webpack_require__(7294), countup_js = __webpack_require__(8273), React__default = (e = React) && "object" == typeof e && "default" in e ? e : {
-                default: e
+            var React = __webpack_require__(7294), countup_js = __webpack_require__(8273), React__default = React && "object" == typeof React && "default" in React ? React : {
+                default: React
             };
             function ownKeys(object, enumerableOnly) {
                 var keys = Object.keys(object);
