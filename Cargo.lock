@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.15.8"
+version = "0.15.9"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -728,7 +728,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.54.10"
+version = "0.54.11"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2923,7 +2923,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.227.8"
+version = "0.227.9"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -2994,7 +2994,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.188.8"
+version = "0.188.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3111,7 +3111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.25.10"
+version = "0.25.12"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3158,7 +3158,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.126.2"
+version = "0.126.3"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3183,7 +3183,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.123.2"
+version = "0.123.3"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -3211,7 +3211,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "0.32.2"
+version = "0.32.3"
 dependencies = [
  "auto_impl",
  "parking_lot",
@@ -3230,7 +3230,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "0.88.2"
+version = "0.88.3"
 dependencies = [
  "criterion",
  "serde",
@@ -3247,7 +3247,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "0.122.2"
+version = "0.122.3"
 dependencies = [
  "bitflags",
  "criterion",
@@ -3264,7 +3264,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.124.2"
+version = "0.124.3"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -3427,7 +3427,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.155.8"
+version = "0.155.9"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3854,7 +3854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.201.8"
+version = "0.201.9"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3902,7 +3902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.149.8"
+version = "0.149.9"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3950,7 +3950,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.76.9"
+version = "0.76.11"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4002,7 +4002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.73.9"
+version = "0.73.11"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4087,7 +4087,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.13.8"
+version = "0.13.9"
 dependencies = [
  "anyhow",
  "dashmap",

@@ -7,7 +7,6 @@
 @import url("narrow.css") handheld and (max-width: 400px);
 @import "narrow.css" handheld and (max-width: 400px);
 @import url("tabs.css") layer(framework);
-@import url("override.css") layer();
 @import url("override.css") layer;
 @import url("fineprint.css") print;
 @import url("bluish.css") projection, tv;

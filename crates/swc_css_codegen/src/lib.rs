@@ -5,6 +5,7 @@ pub use std::fmt::Result;
 use std::str::from_utf8;
 
 use serde::{Deserialize, Serialize};
+use swc_atoms::*;
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
@@ -312,7 +313,20 @@ where
     fn emit_import_layer_name(&mut self, n: &ImportPreludeLayerName) -> Result {
         match n {
             ImportPreludeLayerName::Ident(n) => emit!(self, n),
-            ImportPreludeLayerName::Function(n) => emit!(self, n),
+            ImportPreludeLayerName::Function(n) if n.value.is_empty() => {
+                // Never emit `layer()`
+                emit!(
+                    self,
+                    AtRuleName::Ident(swc_css_ast::Ident {
+                        span: n.span,
+                        value: js_word!("layer"),
+                        raw: Some(js_word!("layer"))
+                    })
+                )
+            }
+            ImportPreludeLayerName::Function(n) => {
+                emit!(self, n)
+            }
         }
     }
 

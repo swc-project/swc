@@ -15,7 +15,7 @@
 @import url("theme.css") layer(default);
 @import url("theme.css") LAYER(default);
 @import url("tabs.css") layer(framework.component);
-@import url("override.css") layer();
+@import url("override.css") layer;
 @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
 @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
 @import url("fallback-layout.css") supports(not (display: flex));
@@ -132,8 +132,8 @@ st.css');
 @import url("./test.css") layer(default);
 @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
-@import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-@import url("./test.css") layer();
+@import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+@import url("./test.css") layer;
 @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
 @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
 @import url("./test.css")screen and (min-width: 400px);
@@ -160,7 +160,7 @@ st.css');
 @import url(bootstrap-base.css) layer(base);
 @import url(base-headings.css) layer;
 @import url("tabs.css") layer(framework.component);
-@import url("override.css") layer();
+@import url("override.css") layer;
 
 /*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
 

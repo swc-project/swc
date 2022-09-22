@@ -1,0 +1,130 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 1,
+    "end": 98,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 1,
+        "end": 27,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 9,
+          "end": 26,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 9,
+            "end": 18,
+            "ctxt": 0
+          },
+          "value": "foo.css",
+          "raw": "\"foo.css\""
+        },
+        "layerName": null,
+        "supports": null,
+        "media": null
+      },
+      "block": null
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 28,
+        "end": 63,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 29,
+          "end": 35,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 36,
+          "end": 62,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 36,
+            "end": 45,
+            "ctxt": 0
+          },
+          "value": "foo.css",
+          "raw": "\"foo.css\""
+        },
+        "layerName": null,
+        "supports": null,
+        "media": null
+      },
+      "block": null
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 64,
+        "end": 98,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 65,
+          "end": 71,
+          "ctxt": 0
+        },
+        "value": "import",
+        "raw": "import"
+      },
+      "prelude": {
+        "type": "ImportPrelude",
+        "span": {
+          "start": 72,
+          "end": 97,
+          "ctxt": 0
+        },
+        "href": {
+          "type": "String",
+          "span": {
+            "start": 72,
+            "end": 81,
+            "ctxt": 0
+          },
+          "value": "foo.css",
+          "raw": "\"foo.css\""
+        },
+        "layerName": null,
+        "supports": null,
+        "media": null
+      },
+      "block": null
+    }
+  ]
+}

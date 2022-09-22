@@ -11,6 +11,9 @@
 - **(css/parser)** Fix infinite loop about `@import` and `layer`  (#5919) ([10cdbed](https://github.com/swc-project/swc/commit/10cdbed05e3d0f2430a21a7f3c6a185f56ea0861))
 
 
+- **(css/parser)** Report an error for invalid `layer` in `@import` (#5928) ([64694dc](https://github.com/swc-project/swc/commit/64694dc7d5d92880f17c0669c118df666620a50a))
+
+
 - **(es/minifier)** Remove more pure calls (#5900) ([83c7887](https://github.com/swc-project/swc/commit/83c7887600bcb391203911f3c82b62e16a217120))
 
 
@@ -33,6 +36,9 @@
 
 
 - **(es/minifier)** Evaluate more expressions (#5926) ([565bf31](https://github.com/swc-project/swc/commit/565bf317f6a16025f9b026209daafa5983ed7608))
+
+
+- **(es/minifier)** Inline rest parameters of IIFE (#5929) ([ac7b066](https://github.com/swc-project/swc/commit/ac7b066d9aec13c99a2df87fc47021973c1fed5d))
 
 
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))

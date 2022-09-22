@@ -18,7 +18,7 @@
   15 | |   @import url("theme.css") layer(default);
   16 | |   @import url("theme.css") LAYER(default);
   17 | |   @import url("tabs.css") layer(framework.component);
-  18 | |   @import url("override.css") layer();
+  18 | |   @import url("override.css") layer;
   19 | |   @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
   20 | |   @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
   21 | |   @import url("fallback-layout.css") supports(not (display: flex));
@@ -135,8 +135,8 @@
  132 | |   @import url("./test.css") layer(default);
  133 | |   @import url("./test.css") layer(default) supports(display: flex) screen and (min-width: 400px);
  134 | |   @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
- 135 | |   @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
- 136 | |   @import url("./test.css") layer();
+ 135 | |   @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+ 136 | |   @import url("./test.css") layer;
  137 | |   @import url("http://example.com/style.css") supports(display: flex) screen and (min-width: 400px);
  138 | |   @import url("./test.css")layer(default)supports(display: flex)screen and (min-width:400px);
  139 | |   @import url("./test.css")screen and (min-width: 400px);
@@ -163,7 +163,7 @@
  160 | |   @import url(bootstrap-base.css) layer(base);
  161 | |   @import url(base-headings.css) layer;
  162 | |   @import url("tabs.css") layer(framework.component);
- 163 | |   @import url("override.css") layer();
+ 163 | |   @import url("override.css") layer;
  164 | |   
  165 | |   /*@import url("./test.css") unknown(default) unknown(display: flex) unknown;*/
  166 | |   
@@ -1140,61 +1140,55 @@
 
   x Rule
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 | @import url("override.css") layer;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 | @import url("override.css") layer;
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :  ^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :  ^^^^^^
     `----
 
   x Url
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :         ^^^^^^^^^^^^^^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :         ^^^
     `----
 
   x UrlValue
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :             ^^^^^^^^^^^^^^
     `----
 
   x Str
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :             ^^^^^^^^^^^^^^
-    `----
-
-  x Function
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
-    :                             ^^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:18:1]
- 18 | @import url("override.css") layer();
+ 18 | @import url("override.css") layer;
     :                             ^^^^^
     `----
 
@@ -6681,253 +6675,241 @@
 
   x Rule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :  ^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :  ^^^^^^
      `----
 
   x Url
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :         ^^^^^^^^^^^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :         ^^^
      `----
 
   x UrlValue
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :             ^^^^^^^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :             ^^^^^^^^^^^^
-     `----
-
-  x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                           ^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
      :                           ^^^^^
      `----
 
   x Declaration
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                            ^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                          ^^^^^^^^^^^^^
      `----
 
   x DeclarationName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                            ^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                          ^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                            ^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                          ^^^^^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                     ^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                   ^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                     ^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                   ^^^^
      `----
 
   x MediaQueryList
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaQuery
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaType
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                           ^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                         ^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                           ^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                         ^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                  ^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                ^^^
      `----
 
   x MediaConditionWithoutOr
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                      ^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                    ^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaConditionWithoutOrType
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                      ^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                    ^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaInParens
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                      ^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                    ^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaFeature
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                      ^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                    ^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaFeaturePlain
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                      ^^^^^^^^^^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                    ^^^^^^^^^^^^^^^^^^
      `----
 
   x MediaFeatureName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                       ^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                     ^^^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                       ^^^^^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                     ^^^^^^^^^
      `----
 
   x MediaFeatureValue
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                                  ^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                                ^^^^^
      `----
 
   x Dimension
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                                  ^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                                ^^^^^
      `----
 
   x Length
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                                  ^^^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                                ^^^^^
      `----
 
   x Number
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                                  ^^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                                ^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:135:1]
- 135 | @import url("./test.css") layer() supports(display: flex) screen and (min-width: 400px);
-     :                                                                                     ^^
+ 135 | @import url("./test.css") layer supports(display: flex) screen and (min-width: 400px);
+     :                                                                                   ^^
      `----
 
   x Rule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 136 | @import url("./test.css") layer;
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 136 | @import url("./test.css") layer;
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :  ^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :  ^^^^^^
      `----
 
   x Url
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :         ^^^^^^^^^^^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :         ^^^
      `----
 
   x UrlValue
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :             ^^^^^^^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :             ^^^^^^^^^^^^
-     `----
-
-  x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
-     :                           ^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:136:1]
- 136 | @import url("./test.css") layer();
+ 136 | @import url("./test.css") layer;
      :                           ^^^^^
      `----
 
@@ -9747,60 +9729,54 @@
 
   x Rule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 163 | @import url("override.css") layer;
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRule
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 163 | @import url("override.css") layer;
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
   x AtRuleName
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :  ^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :  ^^^^^^
      `----
 
   x Url
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :         ^^^^^^^^^^^^^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :         ^^^
      `----
 
   x UrlValue
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :             ^^^^^^^^^^^^^^
      `----
 
   x Str
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :             ^^^^^^^^^^^^^^
-     `----
-
-  x Function
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
-     :                             ^^^^^^^
      `----
 
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:163:1]
- 163 | @import url("override.css") layer();
+ 163 | @import url("override.css") layer;
      :                             ^^^^^
      `----

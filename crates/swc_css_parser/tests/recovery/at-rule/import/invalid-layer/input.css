@@ -1,0 +1,3 @@
+@import "foo.css" layer();
+@import "foo.css" layer("invalid");
+@import "foo.css" layer(foo, bar);
