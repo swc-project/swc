@@ -216,6 +216,38 @@ impl Pure<'_> {
         }
     }
 
+    pub(super) fn eval_arguments_member_access(&mut self, e: &mut Expr) {
+        let member = match e {
+            Expr::Member(e) => e,
+            _ => return,
+        };
+
+        match &*member.obj {
+            Expr::Ident(Ident {
+                sym: js_word!("arguments"),
+                ..
+            }) => {}
+            _ => return,
+        }
+
+        match &mut member.prop {
+            MemberProp::Ident(_) => {}
+            MemberProp::PrivateName(_) => {}
+            MemberProp::Computed(p) => {
+                if let Expr::Lit(Lit::Str(s)) = &*p.expr {
+                    if let Ok(value) = s.value.parse::<u32>() {
+                        p.expr = Lit::Num(Number {
+                            span: s.span,
+                            value: value as f64,
+                            raw: None,
+                        })
+                        .into();
+                    }
+                }
+            }
+        }
+    }
+
     /// unsafely evaluate call to `Number`.
     pub(super) fn eval_number_call(&mut self, e: &mut Expr) {
         if self.options.unsafe_passes && self.options.unsafe_math {

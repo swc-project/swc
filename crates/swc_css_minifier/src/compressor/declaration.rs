@@ -422,6 +422,76 @@ impl Compressor {
                         declaration.value.remove(1);
                     }
                 }
+                js_word!("animation") if !declaration.value.is_empty() => {
+                    let first = declaration.value.get(0).cloned();
+                    if let Some(ComponentValue::Str(ident)) = first {
+                        declaration.value.remove(0);
+                        match &*ident.value.to_ascii_lowercase() {
+                            _ if crate::is_css_wide_keyword(&ident.value)
+                                || ident.value.to_ascii_lowercase() == js_word!("none") =>
+                            {
+                                declaration.value.insert(0, ComponentValue::Str(ident));
+                            }
+                            to_be_identify => {
+                                declaration.value.insert(
+                                    0,
+                                    if let Some(escaped) =
+                                        crate::escape::try_escape_if_shorter(to_be_identify)
+                                    {
+                                        ComponentValue::Ident(Ident {
+                                            span: ident.span,
+                                            value: escaped.into(),
+                                            raw: None,
+                                        })
+                                    } else {
+                                        ComponentValue::Str(Str {
+                                            span: ident.span,
+                                            value: to_be_identify.into(),
+                                            raw: None,
+                                        })
+                                    },
+                                );
+                            }
+                        }
+                    }
+                }
+                js_word!("animation-name") => {
+                    declaration.value = declaration
+                        .value
+                        .take()
+                        .into_iter()
+                        .map(|node| match node {
+                            ComponentValue::Str(ref ident) => {
+                                let value = ident.value.to_ascii_lowercase();
+                                match &*value {
+                                    _ if crate::is_css_wide_keyword(&ident.value)
+                                        || ident.value.to_ascii_lowercase() == js_word!("none") =>
+                                    {
+                                        node
+                                    }
+                                    to_be_identify => {
+                                        if let Some(escaped) =
+                                            crate::escape::try_escape_if_shorter(to_be_identify)
+                                        {
+                                            ComponentValue::Ident(Ident {
+                                                span: ident.span,
+                                                value: escaped.into(),
+                                                raw: None,
+                                            })
+                                        } else {
+                                            ComponentValue::Str(Str {
+                                                span: ident.span,
+                                                value: to_be_identify.into(),
+                                                raw: None,
+                                            })
+                                        }
+                                    }
+                                }
+                            }
+                            _ => node,
+                        })
+                        .collect();
+                }
                 _ => {}
             }
         }
