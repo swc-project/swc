@@ -80,7 +80,43 @@
     }
 }
 
+@keyframes " foo" {
+    to {
+        right: 100px;
+    }
+}
+
+@keyframes "foo bar" {
+    to {
+        right: 100px;
+    }
+}
+
+@keyframes "foo, bar" {
+    to {
+        right: 100px;
+    }
+}
+
 @keyframes "initial" {
+    to {
+        right: 100px;
+    }
+}
+
+@keyframes "revert-layer" {
+    to {
+        right: 100px;
+    }
+}
+
+@keyframes "None" {
+    to {
+        right: 100px;
+    }
+}
+
+@keyframes "foo bar baz" {
     0% {
         margin-left: 0px;
     }
@@ -89,11 +125,45 @@
     }
 }
 
-@keyframes "None" {
-    0% {
-        margin-left: 0px;
+@keyframes "none" {
+    to {
+        right: 100px;
     }
-    100% {
-        margin-left: 200px;
+}
+
+@keyframes "12" {
+    to {
+        left: 200px;
     }
+}
+
+/* <custom-ident> may disable the `auto/normal` keywords in the future */
+/* https://github.com/w3c/csswg-drafts/issues/7431 */
+@keyframes auto {
+    to {
+        left: 200px;
+    }
+}
+
+@keyframes normal {
+    to {
+        left: 200px;
+    }
+}
+
+@keyframes "auto" {
+     10%{
+        right: 200px;
+    }
+}
+
+@keyframes "normal" {
+    10% {
+        right: 200px;
+    }
+}
+
+
+.bar {
+    animation-name: "none", "unset", "foo bar baz";
 }

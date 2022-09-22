@@ -20,6 +20,9 @@
 
 
 
+- **(css/minifier)** Minify the name of `@keyframes` (#5894) ([1dc5307](https://github.com/swc-project/swc/commit/1dc530706915aab6c00564e8c10cc01e1f203204))
+
+
 - **(css/parser)** Parse more math functions in `@media` (#5904) ([2bf2419](https://github.com/swc-project/swc/commit/2bf24195f2e9803f24f335b637ff9e7ea394402b))
 
 
