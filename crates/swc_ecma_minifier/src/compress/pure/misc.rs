@@ -817,7 +817,7 @@ impl Pure<'_> {
 
                 Expr::Member(MemberExpr {
                     obj,
-                    prop: MemberProp::Ident(..),
+                    prop: MemberProp::Ident(prop),
                     ..
                 }) => {
                     if let Expr::Ident(Ident {
@@ -825,6 +825,9 @@ impl Pure<'_> {
                         ..
                     }) = &**obj
                     {
+                        if &*prop.sym == "callee" {
+                            return;
+                        }
                         e.take();
                         return;
                     }
