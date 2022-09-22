@@ -245,8 +245,11 @@ impl ProgramData {
 
         if is_modify && ctx.is_exact_reassignment {
             if is_first {
+                if e.var_initialized || e.assign_count != 0 {
+                    e.reassigned_with_assignment = true;
+                }
+
                 e.assign_count += 1;
-                e.reassigned_with_assignment = true;
             }
 
             if ctx.is_op_assign {
