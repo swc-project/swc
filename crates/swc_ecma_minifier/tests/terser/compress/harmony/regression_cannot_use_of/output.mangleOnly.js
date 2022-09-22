@@ -4,4 +4,4 @@ a = {
     of: "is ok"
 };
 x.of;
-of: foo();
+a: foo();

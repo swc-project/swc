@@ -1,6 +1,6 @@
 function o(o) {
-    l: {
-        if (o) break l;
+    o: {
+        if (o) break o;
         var n = 1;
     }
     console.log(n);
