@@ -1,3 +1,3 @@
-throw "error";
 import "x";
+throw "error";
 export { y };
