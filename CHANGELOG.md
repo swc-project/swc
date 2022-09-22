@@ -32,6 +32,9 @@
 - **(es/minifier)** Collapse `let` without init (#5909) ([19ce273](https://github.com/swc-project/swc/commit/19ce2737b16f2f6daf5f2eb53dc7a70ceefb107d))
 
 
+- **(es/minifier)** Evaluate more expressions (#5926) ([565bf31](https://github.com/swc-project/swc/commit/565bf317f6a16025f9b026209daafa5983ed7608))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
