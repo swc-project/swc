@@ -149,7 +149,7 @@
                 };
                 var n = typeof navigator == "object" ? navigator : {};
                 var r = (/mac|win|linux/i.exec(n.platform) || [
-                    "other", 
+                    "other"
                 ])[0].toLowerCase();
                 var s = n.userAgent || "";
                 var o = n.appName || "";
@@ -600,7 +600,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./keys");
@@ -1268,7 +1268,7 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/clipboard",
-                "ace/lib/keys", 
+                "ace/lib/keys"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
@@ -1846,7 +1846,7 @@
                         "selectByLinesEnd",
                         "dragWait",
                         "dragWaitEnd",
-                        "focusWait", 
+                        "focusWait"
                     ];
                     i.forEach(function(t) {
                         e[t] = this[t];
@@ -2130,7 +2130,7 @@
                 "ace/lib/dom",
                 "ace/lib/oop",
                 "ace/lib/event",
-                "ace/tooltip", 
+                "ace/tooltip"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
@@ -2248,7 +2248,7 @@
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
@@ -2311,7 +2311,7 @@
                 "module",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
@@ -2330,7 +2330,7 @@
                         "dragWaitEnd",
                         "startDrag",
                         "dragReadyEnd",
-                        "onMouseDrag", 
+                        "onMouseDrag"
                     ];
                     h.forEach(function(t) {
                         e[t] = this[t];
@@ -2552,14 +2552,14 @@
                             "copy",
                             "copymove",
                             "all",
-                            "uninitialized", 
+                            "uninitialized"
                         ];
                         var i = [
                             "move",
                             "copymove",
                             "linkmove",
                             "all",
-                            "uninitialized", 
+                            "uninitialized"
                         ];
                         var n = s.isMac ? e.altKey : e.ctrlKey;
                         var r = "uninitialized";
@@ -2653,7 +2653,7 @@
                 "module",
                 "ace/mouse/mouse_event",
                 "ace/lib/event",
-                "ace/lib/dom", 
+                "ace/lib/dom"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./mouse_event").MouseEvent;
@@ -2688,7 +2688,7 @@
                                         class: "ace_mobile-button",
                                         action: "selectall"
                                     },
-                                    "Select All", 
+                                    "Select All"
                                 ],
                                 i && [
                                     "span",
@@ -2696,7 +2696,7 @@
                                         class: "ace_mobile-button",
                                         action: "copy"
                                     },
-                                    "Copy", 
+                                    "Copy"
                                 ],
                                 i && [
                                     "span",
@@ -2704,7 +2704,7 @@
                                         class: "ace_mobile-button",
                                         action: "cut"
                                     },
-                                    "Cut", 
+                                    "Cut"
                                 ],
                                 e && [
                                     "span",
@@ -2712,7 +2712,7 @@
                                         class: "ace_mobile-button",
                                         action: "paste"
                                     },
-                                    "Paste", 
+                                    "Paste"
                                 ],
                                 r && [
                                     "span",
@@ -2720,7 +2720,7 @@
                                         class: "ace_mobile-button",
                                         action: "undo"
                                     },
-                                    "Undo", 
+                                    "Undo"
                                 ],
                                 [
                                     "span",
@@ -2728,7 +2728,7 @@
                                         class: "ace_mobile-button",
                                         action: "find"
                                     },
-                                    "Find", 
+                                    "Find"
                                 ],
                                 [
                                     "span",
@@ -2736,8 +2736,8 @@
                                         class: "ace_mobile-button",
                                         action: "openCommandPallete"
                                     },
-                                    "Pallete", 
-                                ], 
+                                    "Pallete"
+                                ]
                             ] : [
                                 "span"
                             ]), w.firstChild);
@@ -2789,8 +2789,8 @@
                                     class: "ace_mobile-button",
                                     action: "more"
                                 },
-                                "...", 
-                            ], 
+                                "..."
+                            ]
                         ], t.container);
                     }
                     function b() {
@@ -3119,7 +3119,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "no use strict";
                 var n = e("./oop");
@@ -3230,7 +3230,7 @@
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/dom",
-                "ace/lib/app_config", 
+                "ace/lib/app_config"
             ], function(e, t, n) {
                 "no use strict";
                 var r = e("./lib/lang");
@@ -3382,7 +3382,7 @@
                 "ace/mouse/mouse_event",
                 "ace/mouse/dragdrop_handler",
                 "ace/mouse/touch_handler",
-                "ace/config", 
+                "ace/config"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/event");
@@ -3411,7 +3411,7 @@
                         a,
                         e.renderer.scrollBarV && e.renderer.scrollBarV.inner,
                         e.renderer.scrollBarH && e.renderer.scrollBarH.inner,
-                        e.textInput && e.textInput.getElement(), 
+                        e.textInput && e.textInput.getElement()
                     ].filter(Boolean), [
                         400,
                         300,
@@ -3618,7 +3618,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/event", 
+                "ace/lib/event"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/keys");
@@ -3775,7 +3775,7 @@
                         4,
                         2,
                         0
-                    ], 
+                    ]
                 ];
                 var g = [
                     [
@@ -3813,7 +3813,7 @@
                         3,
                         1,
                         1
-                    ], 
+                    ]
                 ];
                 var m = 0, v = 1;
                 var p = 0;
@@ -4027,7 +4027,7 @@
                     y,
                     y,
                     y,
-                    y, 
+                    y
                 ];
                 var D = [
                     x,
@@ -4125,7 +4125,7 @@
                     y,
                     y,
                     y,
-                    x, 
+                    x
                 ];
                 function B(e, t, i, n) {
                     var r = s ? g : f, u = null, d = null, m = null, v = 0, p = null, w = null, $ = -1, b = null, y = null, k = [];
@@ -4374,7 +4374,7 @@
                 "exports",
                 "module",
                 "ace/lib/bidiutil",
-                "ace/lib/lang", 
+                "ace/lib/lang"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/bidiutil");
@@ -4610,7 +4610,7 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -5403,7 +5403,7 @@
                             },
                             {
                                 defaultToken: "text"
-                            }, 
+                            }
                         ]
                     };
                 };
@@ -5701,7 +5701,7 @@
                 "ace/lib/oop",
                 "ace/mode/behaviour",
                 "ace/token_iterator",
-                "ace/lib/lang", 
+                "ace/lib/lang"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../../lib/oop");
@@ -5713,7 +5713,7 @@
                     "paren.rparen",
                     "rparen",
                     "paren",
-                    "punctuation.operator", 
+                    "punctuation.operator"
                 ];
                 var l = [
                     "text",
@@ -5721,7 +5721,7 @@
                     "rparen",
                     "paren",
                     "punctuation.operator",
-                    "comment", 
+                    "comment"
                 ];
                 var h;
                 var c = {};
@@ -5756,7 +5756,7 @@
                             0,
                             e.start.column + 1,
                             r,
-                            e.end.column + (r ? 0 : 1), 
+                            e.end.column + (r ? 0 : 1)
                         ]
                     };
                 };
@@ -5838,7 +5838,7 @@
                                     1,
                                     b.length,
                                     1,
-                                    b.length, 
+                                    b.length
                                 ]
                             };
                         } else {
@@ -6929,7 +6929,7 @@
                     3,
                     5,
                     3,
-                    2, 
+                    2
                 ];
                 var r = 0;
                 var s = [];
@@ -6950,7 +6950,7 @@
                 "ace/unicode",
                 "ace/lib/lang",
                 "ace/token_iterator",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../config");
@@ -7162,7 +7162,7 @@
                             "checkOutdent",
                             "autoOutdent",
                             "transformAction",
-                            "getCompletions", 
+                            "getCompletions"
                         ];
                         for(var t = 0; t < o.length; t++){
                             (function(e) {
@@ -7315,7 +7315,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -7425,7 +7425,7 @@
                 "ace/apply_delta",
                 "ace/lib/event_emitter",
                 "ace/range",
-                "ace/anchor", 
+                "ace/anchor"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -7525,7 +7525,7 @@
                         var t;
                         if (e.start.row === e.end.row) {
                             t = [
-                                this.getLine(e.start.row).substring(e.start.column, e.end.column), 
+                                this.getLine(e.start.row).substring(e.start.column, e.end.column)
                             ];
                         } else {
                             t = this.getLines(e.start.row, e.end.row);
@@ -7803,7 +7803,7 @@
                 "exports",
                 "module",
                 "ace/lib/oop",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -7928,7 +7928,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/lang");
@@ -8365,7 +8365,7 @@
                 "exports",
                 "module",
                 "ace/range_list",
-                "ace/lib/oop", 
+                "ace/lib/oop"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range_list").RangeList;
@@ -8455,7 +8455,7 @@
                 "ace/range",
                 "ace/edit_session/fold_line",
                 "ace/edit_session/fold",
-                "ace/token_iterator", 
+                "ace/token_iterator"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../range").Range;
@@ -9078,7 +9078,7 @@
                 "exports",
                 "module",
                 "ace/token_iterator",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../token_iterator").TokenIterator;
@@ -9256,7 +9256,7 @@
                 "ace/background_tokenizer",
                 "ace/search_highlight",
                 "ace/edit_session/folding",
-                "ace/edit_session/bracket_match", 
+                "ace/edit_session/bracket_match"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -10736,7 +10736,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/lib/oop",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/lang");
@@ -10783,8 +10783,8 @@
                             var l = a.length;
                             var h = r.length - l;
                             var c;
-                            outer: for(var u = a.offset || 0; u <= h; u++){
-                                for(var d = 0; d < l; d++)if (r[u + d].search(a[d]) == -1) continue outer;
+                            e: for(var u = a.offset || 0; u <= h; u++){
+                                for(var d = 0; d < l; d++)if (r[u + d].search(a[d]) == -1) continue e;
                                 var f = r[u];
                                 var g = r[u + l - 1];
                                 var m = f.length - f.match(a[0])[0].length;
@@ -10965,7 +10965,7 @@
                 "exports",
                 "module",
                 "ace/lib/keys",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/keys");
@@ -11161,7 +11161,7 @@
                 "module",
                 "ace/lib/oop",
                 "ace/keyboard/hash_handler",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
@@ -11248,7 +11248,7 @@
                 "module",
                 "ace/lib/lang",
                 "ace/config",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/lang");
@@ -12347,7 +12347,7 @@
                             });
                         },
                         readOnly: true
-                    }, 
+                    }
                 ];
                 for(var a = 1; a < 9; a++){
                     t.commands.push({
@@ -12383,7 +12383,7 @@
                 "ace/commands/default_commands",
                 "ace/config",
                 "ace/token_iterator",
-                "ace/clipboard", 
+                "ace/clipboard"
             ], function(e, t, i) {
                 "use strict";
                 e("./lib/fixoldbrowsers");
@@ -12519,7 +12519,7 @@
                     this.$mergeableCommands = [
                         "backspace",
                         "del",
-                        "insertstring", 
+                        "insertstring"
                     ];
                     this.$historyTracker = function(e) {
                         if (!this.$mergeUndoDeltas) return;
@@ -12713,10 +12713,10 @@
                             }
                             if (i.length == 2) {
                                 if (f.comparePoints(i[0].end, i[1].start) == 0) i = [
-                                    f.fromPoints(i[0].start, i[1].end), 
+                                    f.fromPoints(i[0].start, i[1].end)
                                 ];
                                 else if (f.comparePoints(i[0].start, i[1].end) == 0) i = [
-                                    f.fromPoints(i[1].start, i[0].end), 
+                                    f.fromPoints(i[1].start, i[0].end)
                                 ];
                             }
                             t.$bracketHighlight = {
@@ -13572,7 +13572,7 @@
                         [
                             "==",
                             "!="
-                        ], 
+                        ]
                     ];
                     this.toggleWord = function() {
                         var e = this.selection.getCursor().row;
@@ -14922,7 +14922,7 @@
                 "ace/lib/oop",
                 "ace/lib/lang",
                 "ace/lib/event_emitter",
-                "ace/layer/lines", 
+                "ace/layer/lines"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/dom");
@@ -15380,7 +15380,7 @@
                 "ace/lib/dom",
                 "ace/lib/lang",
                 "ace/layer/lines",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
@@ -16049,7 +16049,7 @@
                 "ace/lib/oop",
                 "ace/lib/dom",
                 "ace/lib/event",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -16225,7 +16225,7 @@
                 "ace/lib/lang",
                 "ace/lib/event",
                 "ace/lib/useragent",
-                "ace/lib/event_emitter", 
+                "ace/lib/event_emitter"
             ], function(e, t, i) {
                 var n = e("../lib/oop");
                 var r = e("../lib/dom");
@@ -16345,7 +16345,7 @@
                                 "div",
                                 {
                                     style: "position: absolute;top:" + e + "px;left:" + t + "px;"
-                                }, 
+                                }
                             ];
                         };
                         this.els = r.buildDom([
@@ -16364,7 +16364,7 @@
                             var n = e[1] * t[0] - e[0] * t[1];
                             return [
                                 (-t[1] * i[0] + t[0] * i[1]) / n,
-                                (+e[1] * i[0] - e[0] * i[1]) / n, 
+                                (+e[1] * i[0] - e[0] * i[1]) / n
                             ];
                         }
                         function r(e, t) {
@@ -16428,7 +16428,7 @@
                 "ace/renderloop",
                 "ace/layer/font_metrics",
                 "ace/lib/event_emitter",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./lib/oop");
@@ -17756,7 +17756,7 @@ margin: 0 10px;\
                             };
                             var n = this.$fontMetrics.transformCoordinates([
                                 e,
-                                t, 
+                                t
                             ]);
                             e = n[1] - this.gutterWidth - this.margin.left;
                             t = n[0];
@@ -17783,7 +17783,7 @@ margin: 0 10px;\
                             };
                             var n = this.$fontMetrics.transformCoordinates([
                                 e,
-                                t, 
+                                t
                             ]);
                             e = n[1] - this.gutterWidth - this.margin.left;
                             t = n[0];
@@ -18089,7 +18089,7 @@ margin: 0 10px;\
                 "ace/lib/oop",
                 "ace/lib/net",
                 "ace/lib/event_emitter",
-                "ace/config", 
+                "ace/config"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../lib/oop");
@@ -18318,7 +18318,7 @@ margin: 0 10px;\
                 "module",
                 "ace/range",
                 "ace/lib/event_emitter",
-                "ace/lib/oop", 
+                "ace/lib/oop"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("./range").Range;
@@ -18472,7 +18472,7 @@ margin: 0 10px;\
                 "exports",
                 "module",
                 "ace/lib/event",
-                "ace/lib/useragent", 
+                "ace/lib/useragent"
             ], function(e, t, i) {
                 var n = e("../lib/event");
                 var r = e("../lib/useragent");
@@ -18763,7 +18763,7 @@ margin: 0 10px;\
                         },
                         scrollIntoView: "cursor",
                         readOnly: true
-                    }, 
+                    }
                 ];
                 t.multiSelectCommands = [
                     {
@@ -18778,7 +18778,7 @@ margin: 0 10px;\
                         isAvailable: function(e) {
                             return e && e.inMultiSelectMode;
                         }
-                    }, 
+                    }
                 ];
                 var n = e("../keyboard/hash_handler").HashHandler;
                 t.keyboardHandler = new n(t.multiSelectCommands);
@@ -18797,7 +18797,7 @@ margin: 0 10px;\
                 "ace/search",
                 "ace/edit_session",
                 "ace/editor",
-                "ace/config", 
+                "ace/config"
             ], function(e, t, i) {
                 var n = e("./range_list").RangeList;
                 var r = e("./range").Range;
@@ -19963,7 +19963,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 "module",
                 "ace/line_widgets",
                 "ace/lib/dom",
-                "ace/range", 
+                "ace/range"
             ], function(e, t, i) {
                 "use strict";
                 var n = e("../line_widgets").LineWidgets;
@@ -20140,7 +20140,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 "ace/mode/folding/fold_mode",
                 "ace/theme/textmate",
                 "ace/ext/error_marker",
-                "ace/config", 
+                "ace/config"
             ], function(e, t, n) {
                 "use strict";
                 e("./lib/fixoldbrowsers");
@@ -20223,5 +20223,5 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                 });
             })();
         }
-    }, 
+    }
 ]);

@@ -31,7 +31,7 @@
                         "24px",
                         "32px",
                         "40px",
-                        "48px", 
+                        "48px"
                     ],
                     fontWeights: {
                         light: 300,
@@ -69,7 +69,7 @@
                         "80px",
                         "96px",
                         "112px",
-                        "128px", 
+                        "128px"
                     ],
                     colorSchemes: {
                         light: {
@@ -3909,7 +3909,7 @@
                 "/_app",
                 function() {
                     return a(2078);
-                }, 
+                }
             ]);
             if (false) {}
         },
@@ -4227,19 +4227,19 @@
                                                 switch((S = c.charCodeAt(R + 1))){
                                                     case 42:
                                                     case 47:
-                                                        a: {
+                                                        e: {
                                                             for(A = R + 1; A < z; ++A){
                                                                 switch(c.charCodeAt(A)){
                                                                     case 47:
                                                                         if (42 === S && 42 === c.charCodeAt(A - 1) && R + 2 !== A) {
                                                                             R = A + 1;
-                                                                            break a;
+                                                                            break e;
                                                                         }
                                                                         break;
                                                                     case 10:
                                                                         if (47 === S) {
                                                                             R = A + 1;
-                                                                            break a;
+                                                                            break e;
                                                                         }
                                                                 }
                                                             }
@@ -5034,7 +5034,7 @@
                             var t = b;
                             return (b = []), t;
                         }
-                    }, 
+                    }
                 ])), (m.hash = l.length ? l.reduce(function(e, t) {
                     return t.name || M(15), es(e, t.name);
                 }, 5381).toString() : ""), m);
@@ -5407,7 +5407,7 @@
                 "svg",
                 "text",
                 "textPath",
-                "tspan", 
+                "tspan"
             ].forEach(function(e) {
                 eZ[e] = eZ(e);
             });
@@ -5473,7 +5473,7 @@
                         return ("<style " + [
                             a && 'nonce="' + a + '"',
                             L + '="true"',
-                            'data-styled-version="5.3.5"', 
+                            'data-styled-version="5.3.5"'
                         ].filter(Boolean).join(" ") + ">" + t + "</style>");
                     }), (this.getStyleTags = function() {
                         return e.sealed ? M(2) : e._emitSheetCSS();
@@ -5486,7 +5486,7 @@
                         return (n && (a.nonce = n), [
                             d.createElement("style", S({}, a, {
                                 key: "sc-0-0"
-                            })), 
+                            }))
                         ]);
                     }), (this.seal = function() {
                         e.sealed = !0;
@@ -6380,7 +6380,7 @@
                 "top",
                 "bottom",
                 "left",
-                "right", 
+                "right"
             ].reduce(function(e, t) {
                 var a;
                 return rV({}, e, ((a = {}), (a[t] = r5), a));
@@ -6997,7 +6997,7 @@
                     aF(g),
                     aA(l, c, false),
                     aI(c, g),
-                    a, 
+                    a
                 ]);
                 return d.createElement(aS, aL({
                     as: t,
@@ -7081,7 +7081,7 @@
                 ";border-radius:20px;",
                 ";",
                 ";&:empty{display:none;}",
-                ";", 
+                ";"
             ], aW("fontSizes.0"), aW("fontWeights.bold"), aW("lineHeights.condensedUltra"), aX, aK, ao);
             var aV = aq;
             function aJ() {
@@ -7164,7 +7164,7 @@
                 return a4.apply(this, arguments);
             }
             const a9 = e0([
-                '*{box-sizing:border-box;}body{margin:0;}table{border-collapse:collapse;}[role="button"]:focus:not(:focus-visible):not(.focus-visible),[role="tabpanel"][tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),button:focus:not(:focus-visible):not(.focus-visible),summary:focus:not(:focus-visible):not(.focus-visible),a:focus:not(:focus-visible):not(.focus-visible){outline:none;box-shadow:none;}[tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),details-dialog:focus:not(:focus-visible):not(.focus-visible){outline:none;}', 
+                '*{box-sizing:border-box;}body{margin:0;}table{border-collapse:collapse;}[role="button"]:focus:not(:focus-visible):not(.focus-visible),[role="tabpanel"][tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),button:focus:not(:focus-visible):not(.focus-visible),summary:focus:not(:focus-visible):not(.focus-visible),a:focus:not(:focus-visible):not(.focus-visible){outline:none;box-shadow:none;}[tabindex="0"]:focus:not(:focus-visible):not(.focus-visible),details-dialog:focus:not(:focus-visible):not(.focus-visible){outline:none;}'
             ]);
             const a8 = e4.div.withConfig({
                 displayName: "BaseStyles__Base",
@@ -7545,5 +7545,5 @@
         });
         var a = e.O();
         _N_E = a;
-    }, 
+    }
 ]);
