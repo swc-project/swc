@@ -176,7 +176,7 @@ impl Pure<'_> {
     /// This merges all variables to first variable declartion with an
     /// initializer. If such variable declaration is not found, variables are
     /// prepended to `stmts`.
-    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>)
+    pub(super) fn collapse_vars_without_init<T>(&mut self, stmts: &mut Vec<T>, target: VarDeclKind)
     where
         T: StmtLike,
         Vec<T>:
@@ -192,15 +192,7 @@ impl Pure<'_> {
             let mut found_other = false;
             let if_need_work = stmts.iter().any(|stmt| {
                 match stmt.as_stmt() {
-                    Some(Stmt::Decl(Decl::Var(v)))
-                        if matches!(
-                            &**v,
-                            VarDecl {
-                                kind: VarDeclKind::Var,
-                                ..
-                            }
-                        ) =>
-                    {
+                    Some(Stmt::Decl(Decl::Var(v))) if v.kind == target => {
                         if !(found_other && found_vars_without_init)
                             && v.decls.iter().all(|v| v.init.is_none())
                         {
@@ -233,18 +225,30 @@ impl Pure<'_> {
             });
 
             // Check for nested variable declartions.
-            let mut v = VarWithOutInitCounter::default();
-            stmts.visit_with(&mut v);
-            if !if_need_work && !v.need_work {
+            let visitor_need_work = if target == VarDeclKind::Var {
+                let mut v = VarWithOutInitCounter {
+                    target,
+                    need_work: Default::default(),
+                    found_var_without_init: Default::default(),
+                    found_var_with_init: Default::default(),
+                };
+                stmts.visit_with(&mut v);
+                v.need_work
+            } else {
+                false
+            };
+            if !if_need_work && !visitor_need_work {
                 return;
             }
         }
 
-        self.changed = true;
+        // TODO(kdy1): Fix this. This results in an infinite loop.
+        // self.changed = true;
         report_change!("collapse_vars: Collapsing variables without an initializer");
 
         let vars = {
             let mut v = VarMover {
+                target,
                 vars: Default::default(),
                 var_decl_kind: Default::default(),
             };
@@ -255,30 +259,40 @@ impl Pure<'_> {
 
         // Prepend vars
 
-        let mut prepender = VarPrepender { vars };
-        stmts.visit_mut_with(&mut prepender);
+        let mut prepender = VarPrepender { target, vars };
+        if target == VarDeclKind::Var {
+            stmts.visit_mut_with(&mut prepender);
+        }
 
         if !prepender.vars.is_empty() {
-            prepend_stmt(
-                stmts,
-                T::from_stmt(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        declare: Default::default(),
-                        decls: prepender.vars,
-                    }
-                    .into(),
-                ),
-            );
+            match stmts.get_mut(0).and_then(|v| v.as_stmt_mut()) {
+                Some(Stmt::Decl(Decl::Var(v))) if v.kind == target => {
+                    prepender.vars.append(&mut v.decls);
+                    v.decls = prepender.vars;
+                }
+                _ => {
+                    prepend_stmt(
+                        stmts,
+                        T::from_stmt(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: target,
+                                declare: Default::default(),
+                                decls: prepender.vars,
+                            }
+                            .into(),
+                        ),
+                    );
+                }
+            }
         }
     }
 }
 
 /// See if there's two [VarDecl] which has [VarDeclarator] without the
 /// initializer.
-#[derive(Default)]
 pub(super) struct VarWithOutInitCounter {
+    target: VarDeclKind,
     need_work: bool,
     found_var_without_init: bool,
     found_var_with_init: bool,
@@ -300,7 +314,7 @@ impl Visit for VarWithOutInitCounter {
     fn visit_var_decl(&mut self, v: &VarDecl) {
         v.visit_children_with(self);
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target {
             return;
         }
 
@@ -332,11 +346,22 @@ impl Visit for VarWithOutInitCounter {
         }
     }
 
+    fn visit_block_stmt(&mut self, n: &BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
     fn visit_var_decl_or_pat(&mut self, _: &VarDeclOrPat) {}
 }
 
 /// Moves all variable without initializer.
 pub(super) struct VarMover {
+    target: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
     var_decl_kind: Option<VarDeclKind>,
 }
@@ -361,6 +386,15 @@ impl VisitMut for VarMover {
         if let ModuleItem::Stmt(_) = s {
             s.visit_mut_children_with(self);
         }
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -396,7 +430,7 @@ impl VisitMut for VarMover {
     fn visit_mut_var_declarators(&mut self, d: &mut Vec<VarDeclarator>) {
         d.visit_mut_children_with(self);
 
-        if self.var_decl_kind.unwrap() != VarDeclKind::Var {
+        if self.var_decl_kind.unwrap() != self.target {
             return;
         }
 
@@ -441,6 +475,8 @@ impl VisitMut for VarMover {
 }
 
 pub(super) struct VarPrepender {
+    target: VarDeclKind,
+
     vars: Vec<VarDeclarator>,
 }
 
@@ -460,12 +496,21 @@ impl VisitMut for VarPrepender {
 
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
 
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        if self.target != VarDeclKind::Var {
+            // noop
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_var_decl(&mut self, v: &mut VarDecl) {
         if self.vars.is_empty() {
             return;
         }
 
-        if v.kind != VarDeclKind::Var {
+        if v.kind != self.target {
             return;
         }
 

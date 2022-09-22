@@ -1,4 +1,5 @@
 //// [objectRest.ts]
+let nestedrest, complex;
 import _extends from "@swc/helpers/src/_extends.mjs";
 import _object_without_properties from "@swc/helpers/src/_object_without_properties.mjs";
 import _to_property_key from "@swc/helpers/src/_to_property_key.mjs";
@@ -36,13 +37,11 @@ var { d: renamed  } = o2;
 _object_without_properties(o2, [
     "d"
 ]);
-let nestedrest;
 var { x , n1: { y , n2: { z  }  }  } = nestedrest;
 _extends({}, nestedrest.n1.n2.n3), _object_without_properties(nestedrest, [
     "x",
     "n1"
 ]);
-let complex;
 var { x: { ka  } , y: other  } = complex;
 _object_without_properties(complex.x, [
     "ka"
