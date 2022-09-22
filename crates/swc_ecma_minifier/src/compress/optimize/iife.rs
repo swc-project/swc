@@ -160,15 +160,15 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        fn find_params(callee: &Expr) -> Option<Vec<&Pat>> {
+        fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
             match callee {
-                Expr::Arrow(callee) => Some(callee.params.iter().collect()),
+                Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
                 Expr::Fn(callee) => Some(
                     callee
                         .function
                         .params
-                        .iter()
-                        .map(|param| &param.pat)
+                        .iter_mut()
+                        .map(|param| &mut param.pat)
                         .collect(),
                 ),
                 _ => None,
@@ -197,11 +197,11 @@ where
         }
 
         let params = find_params(callee);
-        if let Some(params) = params {
+        if let Some(mut params) = params {
             let mut vars = HashMap::default();
             // We check for parameter and argument
-            for (idx, param) in params.iter().enumerate() {
-                match &param {
+            for (idx, param) in params.iter_mut().enumerate() {
+                match &mut **param {
                     Pat::Ident(param) => {
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
                             if usage.reassigned() {
@@ -241,9 +241,9 @@ where
                         }
                     }
 
-                    Pat::Rest(param) => {
-                        if let Pat::Ident(param) = &*param.arg {
-                            if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                    Pat::Rest(rest_pat) => {
+                        if let Pat::Ident(param_id) = &*rest_pat.arg {
+                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
                                 if usage.reassigned()
                                     || usage.ref_count != 1
                                     || !usage.has_property_access
@@ -266,9 +266,9 @@ where
                                 }
 
                                 vars.insert(
-                                    param.to_id(),
+                                    param_id.to_id(),
                                     Box::new(Expr::Array(ArrayLit {
-                                        span: param.span,
+                                        span: param_id.span,
                                         elems: e
                                             .args
                                             .iter()
@@ -277,12 +277,14 @@ where
                                             .collect(),
                                     })),
                                 );
+                                param.take();
                             }
                         }
                     }
                     _ => (),
                 }
             }
+
             if vars.is_empty() {
                 log_abort!("vars is empty");
                 return;
