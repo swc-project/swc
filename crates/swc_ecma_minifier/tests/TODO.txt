@@ -304,9 +304,6 @@ issue_1105/with_in_function_scope/input.js
 issue_1105/with_using_existing_variable_outside_scope/input.js
 issue_1261/pure_function_calls/input.js
 issue_1261/pure_function_calls_toplevel/input.js
-issue_1321/issue_1321_debug/input.js
-issue_1321/issue_1321_no_debug/input.js
-issue_1321/issue_1321_with_quoted/input.js
 issue_1443/keep_fnames/input.js
 issue_1443/unsafe_undefined/input.js
 issue_1447/conditional_false_stray_else_in_loop/input.js
