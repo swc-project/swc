@@ -248,8 +248,10 @@ where
                     } else {
                         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
                             *e = Null { span: DUMMY_SP }.into();
+                            return;
                         } else {
                             *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            return;
                         }
                     }
                 }
