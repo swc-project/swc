@@ -205,7 +205,7 @@ where
         &mut self,
         parent_span: Span,
         i: &mut Ident,
-        init: Option<&mut Expr>,
+        mut init: Option<&mut Expr>,
     ) {
         trace_op!("unused: Checking identifier `{}`", i);
 
@@ -235,7 +235,7 @@ where
             }
 
             if v.ref_count == 0 && v.usage_count == 0 {
-                if let Some(e) = init {
+                if let Some(e) = init.as_mut() {
                     if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
                         if let Expr::Lit(Lit::Null(..)) = e {
                             return;
@@ -244,15 +244,58 @@ where
 
                     let ret = self.ignore_return_value(e);
                     if let Some(ret) = ret {
-                        *e = ret;
+                        **e = ret;
                     } else {
                         if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-                            *e = Null { span: DUMMY_SP }.into();
+                            **e = Null { span: DUMMY_SP }.into();
                             return;
                         } else {
-                            *e = Expr::Invalid(Invalid { span: DUMMY_SP });
+                            **e = Expr::Invalid(Invalid { span: DUMMY_SP });
                             return;
                         }
+                    }
+                }
+            }
+
+            if !v.used_as_arg && !v.used_as_callee && !v.used_as_spread {
+                if let Some(Expr::Object(obj)) = init.as_mut() {
+                    if obj.props.iter().any(|prop| match prop {
+                        PropOrSpread::Spread(_) => true,
+                        PropOrSpread::Prop(p) => match &**p {
+                            Prop::Shorthand(_) => false,
+                            Prop::KeyValue(p) => {
+                                if let PropName::Computed(key) = p.key {
+                                    key.expr.may_have_side_effects(&self.expr_ctx)
+                                } else {
+                                    false
+                                }
+                                || p.value.may_have_side_effects(&self.expr_ctx)
+                            }
+                            Prop::Assign(_) => true,
+                            Prop::Getter(p) => {
+                                if let PropName::Computed(key) = p.key {
+                                    key.expr.may_have_side_effects(&self.expr_ctx)
+                                } else {
+                                    false
+                                }
+                            }
+                            Prop::Setter(p) => {
+                                if let PropName::Computed(key) = p.key {
+                                    key.expr.may_have_side_effects(&self.expr_ctx)
+                                } else {
+                                    false
+                                }
+                            }
+                            Prop::Method(p) => {
+                                if let PropName::Computed(key) = p.key {
+                                    key.expr.may_have_side_effects(&self.expr_ctx)
+                                } else {
+                                    false
+                                }
+                            }
+                        },
+                    }) {
+                        return;
                     }
                 }
             }
