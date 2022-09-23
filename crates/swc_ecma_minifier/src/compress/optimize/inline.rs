@@ -51,12 +51,7 @@ where
         }
 
         if let Some(usage) = self.data.vars.get(&ident.to_id()) {
-            let ref_count = usage.ref_count
-                - if can_drop && usage.ref_count > 1 {
-                    1
-                } else {
-                    0
-                };
+            let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.var_initialized {
                 return;
             }
