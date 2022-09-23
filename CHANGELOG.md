@@ -59,6 +59,9 @@
 - **(es/minifier)** Mangle labels (#5934) ([7bcaaef](https://github.com/swc-project/swc/commit/7bcaaef4f7219d52e7dd2199d4696d628e4d6de9))
 
 
+- **(es/typescript)** Support TS 4.9 (#5938) ([5cddb4c](https://github.com/swc-project/swc/commit/5cddb4c7345eba7c3ac87288b5130ecd1a94bbf5))
+
+
 - **(swc_core)** Expose tty feature of `swc_common` as `common_tty` (#5920) ([72429d8](https://github.com/swc-project/swc/commit/72429d88018bd325af2e552c5d2bc7b255ea600d))
 
 ### Performance
