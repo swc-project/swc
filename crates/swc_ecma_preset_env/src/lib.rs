@@ -445,14 +445,7 @@ impl Fold for Polyfills {
             );
         }
 
-        m.body.retain(|item| match item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
-                if src.span == DUMMY_SP && src.value == js_word!("") =>
-            {
-                false
-            }
-            _ => true,
-        });
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == js_word!("")));
 
         m
     }
