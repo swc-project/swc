@@ -36,6 +36,8 @@ pub(crate) struct Ctx {
     /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
     pub(super) is_exact_reassignment: bool,
 
+    pub(super) is_callee: bool,
+
     /// `true` for arguments of [swc_ecma_ast::Expr::Call] or
     /// [swc_ecma_ast::Expr::New]
     pub(super) in_call_arg: bool,

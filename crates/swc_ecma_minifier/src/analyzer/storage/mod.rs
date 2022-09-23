@@ -58,6 +58,8 @@ pub(crate) trait VarDataLike: Sized {
 
     fn mark_used_as_arg(&mut self);
 
+    fn mark_indexed_with_dynamic_key(&mut self);
+
     fn add_accessed_property(&mut self, name: JsWord);
 
     fn mark_mutated(&mut self);
