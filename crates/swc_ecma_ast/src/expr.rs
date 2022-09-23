@@ -22,8 +22,8 @@ use crate::{
     prop::Prop,
     stmt::BlockStmt,
     typescript::{
-        TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsTypeAnn, TsTypeAssertion,
-        TsTypeParamDecl, TsTypeParamInstantiation,
+        TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfactionExpr, TsTypeAnn,
+        TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
     ComputedPropName, Id, Invalid,
 };
@@ -156,6 +156,9 @@ pub enum Expr {
 
     #[tag("TsInstantiation")]
     TsInstantiation(TsInstantiation),
+
+    #[tag("TsSatisfactionExpr")]
+    TsSatisfaction(TsSatisfactionExpr),
 
     #[tag("PrivateName")]
     PrivateName(PrivateName),

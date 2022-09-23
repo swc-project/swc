@@ -1055,6 +1055,17 @@ pub struct TsNonNullExpr {
     pub expr: Box<Expr>,
 }
 
+#[ast_node("TsSatisfactionExpr")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub struct TsSatisfactionExpr {
+    pub span: Span,
+    #[serde(rename = "expression")]
+    pub expr: Box<Expr>,
+    #[serde(rename = "typeAnnotation")]
+    pub type_ann: Box<TsType>,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(
