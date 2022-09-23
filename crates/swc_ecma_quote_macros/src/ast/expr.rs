@@ -38,6 +38,7 @@ impl_enum!(
         TsNonNull,
         TsAs,
         TsInstantiation,
+        TsSatisfaction,
         PrivateName,
         OptChain,
         Invalid
