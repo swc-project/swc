@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_ident_ref, ExprExt};
@@ -296,6 +296,56 @@ where
                     }) {
                         return;
                     }
+
+                    fn prop_name_to_symbol(p: &PropName) -> Option<&JsWord> {
+                        match p {
+                            PropName::Ident(i) => Some(&i.sym),
+                            PropName::Str(v) => Some(&v.value),
+                            PropName::Num(_) => None,
+                            PropName::Computed(p) => match &*p.expr {
+                                Expr::Lit(Lit::Str(v)) => Some(&v.value),
+                                _ => None,
+                            },
+                            PropName::BigInt(_) => None,
+                        }
+                    }
+
+                    // Key or values do not have side effects.
+                    obj.props.retain(|prop| match prop {
+                        PropOrSpread::Spread(_) => true,
+                        PropOrSpread::Prop(p) => match &**p {
+                            Prop::Shorthand(p) => v.accessed_props.contains_key(&p.sym),
+                            Prop::KeyValue(p) => {
+                                if let Some(key) = prop_name_to_symbol(&p.key) {
+                                    v.accessed_props.contains_key(key)
+                                } else {
+                                    true
+                                }
+                            }
+                            Prop::Assign(_) => true,
+                            Prop::Getter(p) => {
+                                if let Some(key) = prop_name_to_symbol(&p.key) {
+                                    v.accessed_props.contains_key(key)
+                                } else {
+                                    true
+                                }
+                            }
+                            Prop::Setter(p) => {
+                                if let Some(key) = prop_name_to_symbol(&p.key) {
+                                    v.accessed_props.contains_key(key)
+                                } else {
+                                    true
+                                }
+                            }
+                            Prop::Method(p) => {
+                                if let Some(key) = prop_name_to_symbol(&p.key) {
+                                    v.accessed_props.contains_key(key)
+                                } else {
+                                    true
+                                }
+                            }
+                        },
+                    });
                 }
             }
 
