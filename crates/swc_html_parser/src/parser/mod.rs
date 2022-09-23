@@ -384,6 +384,7 @@ where
         )
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn get_deep_end_span(&mut self, children: &[Child]) -> Option<Span> {
         match children.last() {
             Some(Child::DocumentType(DocumentType { span, .. })) => Some(*span),
