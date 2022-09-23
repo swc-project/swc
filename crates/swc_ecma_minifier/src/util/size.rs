@@ -197,6 +197,7 @@ impl SizeWithCtxt for Expr {
             Expr::TsNonNull(_) => TODO,
             Expr::TsAs(_) => TODO,
             Expr::TsInstantiation(_) => TODO,
+            Expr::TsSatisfaction(_) => TODO,
         }
     }
 }
