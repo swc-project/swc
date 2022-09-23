@@ -85,6 +85,9 @@
 
 - **(es/minifier)** Add an execution test for a fixed issue (#5925) ([31711e7](https://github.com/swc-project/swc/commit/31711e76af84aa52766a511af7b772390144f1ee))
 
+
+- **(es/minifier)** Remove analysis snapshot (#5939) ([93964a8](https://github.com/swc-project/swc/commit/93964a82eacb1bfe41de270900895b92f61e3670))
+
 ## [1.3.2] - 2022-09-19
 
 ### Bug Fixes
