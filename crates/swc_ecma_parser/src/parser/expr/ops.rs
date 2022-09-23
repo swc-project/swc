@@ -114,6 +114,24 @@ impl<I: Tokens> Parser<I> {
 
             return self.parse_bin_op_recursively_inner(node, min_prec);
         }
+        if self.input.syntax().typescript()
+            && PREC_OF_IN > min_prec
+            && !self.input.had_line_break_before_cur()
+            && is!(self, "satisfies")
+        {
+            let start = left.span_lo();
+            let expr = left;
+            let node = {
+                let type_ann = self.next_then_parse_ts_type()?;
+                Box::new(Expr::TsAs(TsAsExpr {
+                    span: span!(self, start),
+                    expr,
+                    type_ann,
+                }))
+            };
+
+            return self.parse_bin_op_recursively_inner(node, min_prec);
+        }
 
         let ctx = self.ctx();
         // Return left on eof
