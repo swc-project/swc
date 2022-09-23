@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::contains_ident_ref;
+use swc_ecma_utils::{contains_ident_ref, ExprExt};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -264,30 +264,29 @@ where
                         PropOrSpread::Prop(p) => match &**p {
                             Prop::Shorthand(_) => false,
                             Prop::KeyValue(p) => {
-                                if let PropName::Computed(key) = p.key {
+                                (if let PropName::Computed(key) = &p.key {
                                     key.expr.may_have_side_effects(&self.expr_ctx)
                                 } else {
                                     false
-                                }
-                                || p.value.may_have_side_effects(&self.expr_ctx)
+                                }) || p.value.may_have_side_effects(&self.expr_ctx)
                             }
                             Prop::Assign(_) => true,
                             Prop::Getter(p) => {
-                                if let PropName::Computed(key) = p.key {
+                                if let PropName::Computed(key) = &p.key {
                                     key.expr.may_have_side_effects(&self.expr_ctx)
                                 } else {
                                     false
                                 }
                             }
                             Prop::Setter(p) => {
-                                if let PropName::Computed(key) = p.key {
+                                if let PropName::Computed(key) = &p.key {
                                     key.expr.may_have_side_effects(&self.expr_ctx)
                                 } else {
                                     false
                                 }
                             }
                             Prop::Method(p) => {
-                                if let PropName::Computed(key) = p.key {
+                                if let PropName::Computed(key) = &p.key {
                                     key.expr.may_have_side_effects(&self.expr_ctx)
                                 } else {
                                     false
