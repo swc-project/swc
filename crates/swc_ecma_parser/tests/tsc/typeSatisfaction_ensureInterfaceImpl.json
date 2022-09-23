@@ -118,7 +118,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 62,
-            "end": 154,
+            "end": 198,
             "ctxt": 0
           },
           "id": {
@@ -133,134 +133,217 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ObjectExpression",
+            "type": "TsAsExpression",
             "span": {
               "start": 68,
-              "end": 154,
+              "end": 198,
               "ctxt": 0
             },
-            "properties": [
-              {
-                "type": "MethodProperty",
-                "key": {
-                  "type": "Identifier",
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 68,
+                "end": 154,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 74,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "value": "start",
+                    "optional": false
+                  },
+                  "params": [],
+                  "decorators": [],
                   "span": {
                     "start": 74,
-                    "end": 79,
-                    "ctxt": 0
-                  },
-                  "value": "start",
-                  "optional": false
-                },
-                "params": [],
-                "decorators": [],
-                "span": {
-                  "start": 74,
-                  "end": 85,
-                  "ctxt": 0
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 82,
                     "end": 85,
                     "ctxt": 0
                   },
-                  "stmts": []
-                },
-                "generator": false,
-                "async": false,
-                "typeParameters": null,
-                "returnType": null
-              },
-              {
-                "type": "MethodProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 91,
-                    "end": 95,
-                    "ctxt": 0
-                  },
-                  "value": "move",
-                  "optional": false
-                },
-                "params": [
-                  {
-                    "type": "Parameter",
+                  "body": {
+                    "type": "BlockStatement",
                     "span": {
-                      "start": 96,
-                      "end": 97,
+                      "start": 82,
+                      "end": 85,
                       "ctxt": 0
                     },
-                    "decorators": [],
-                    "pat": {
-                      "type": "Identifier",
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 91,
+                      "end": 95,
+                      "ctxt": 0
+                    },
+                    "value": "move",
+                    "optional": false
+                  },
+                  "params": [
+                    {
+                      "type": "Parameter",
                       "span": {
                         "start": 96,
                         "end": 97,
                         "ctxt": 0
                       },
-                      "value": "d",
-                      "optional": false,
-                      "typeAnnotation": null
+                      "decorators": [],
+                      "pat": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 96,
+                          "end": 97,
+                          "ctxt": 0
+                        },
+                        "value": "d",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
                     }
-                  }
-                ],
-                "decorators": [],
-                "span": {
-                  "start": 91,
-                  "end": 136,
-                  "ctxt": 0
-                },
-                "body": {
-                  "type": "BlockStatement",
+                  ],
+                  "decorators": [],
                   "span": {
-                    "start": 99,
+                    "start": 91,
                     "end": 136,
                     "ctxt": 0
                   },
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 99,
+                      "end": 136,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
                 },
-                "generator": false,
-                "async": false,
-                "typeParameters": null,
-                "returnType": null
-              },
-              {
-                "type": "MethodProperty",
-                "key": {
-                  "type": "Identifier",
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 142,
+                      "end": 146,
+                      "ctxt": 0
+                    },
+                    "value": "stop",
+                    "optional": false
+                  },
+                  "params": [],
+                  "decorators": [],
                   "span": {
                     "start": 142,
-                    "end": 146,
-                    "ctxt": 0
-                  },
-                  "value": "stop",
-                  "optional": false
-                },
-                "params": [],
-                "decorators": [],
-                "span": {
-                  "start": 142,
-                  "end": 152,
-                  "ctxt": 0
-                },
-                "body": {
-                  "type": "BlockStatement",
-                  "span": {
-                    "start": 149,
                     "end": 152,
                     "ctxt": 0
                   },
-                  "stmts": []
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 149,
+                      "end": 152,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            },
+            "typeAnnotation": {
+              "type": "TsIntersectionType",
+              "span": {
+                "start": 165,
+                "end": 198,
+                "ctxt": 0
+              },
+              "types": [
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 165,
+                    "end": 172,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 165,
+                      "end": 172,
+                      "ctxt": 0
+                    },
+                    "value": "Movable",
+                    "optional": false
+                  },
+                  "typeParams": null
                 },
-                "generator": false,
-                "async": false,
-                "typeParameters": null,
-                "returnType": null
-              }
-            ]
+                {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 175,
+                    "end": 198,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 175,
+                      "end": 181,
+                      "ctxt": 0
+                    },
+                    "value": "Record",
+                    "optional": false
+                  },
+                  "typeParams": {
+                    "type": "TsTypeParameterInstantiation",
+                    "span": {
+                      "start": 181,
+                      "end": 198,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 182,
+                          "end": 188,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      },
+                      {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 190,
+                          "end": 197,
+                          "ctxt": 0
+                        },
+                        "kind": "unknown"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
           },
           "definite": false
         }

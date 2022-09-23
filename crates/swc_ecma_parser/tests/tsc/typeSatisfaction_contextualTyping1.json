@@ -152,7 +152,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 67,
-            "end": 132,
+            "end": 153,
             "ctxt": 0
           },
           "id": {
@@ -167,186 +167,213 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ObjectExpression",
+            "type": "TsAsExpression",
             "span": {
               "start": 71,
-              "end": 132,
+              "end": 153,
               "ctxt": 0
             },
-            "properties": [
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 77,
-                    "end": 83,
-                    "ctxt": 0
-                  },
-                  "value": "isEven",
-                  "optional": false
-                },
-                "value": {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 85,
-                    "end": 101,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 85,
-                        "end": 86,
-                        "ctxt": 0
-                      },
-                      "value": "n",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "BinaryExpression",
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 71,
+                "end": 132,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
                     "span": {
-                      "start": 90,
+                      "start": 77,
+                      "end": 83,
+                      "ctxt": 0
+                    },
+                    "value": "isEven",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 85,
                       "end": 101,
                       "ctxt": 0
                     },
-                    "operator": "===",
-                    "left": {
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 85,
+                          "end": 86,
+                          "ctxt": 0
+                        },
+                        "value": "n",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
                       "type": "BinaryExpression",
                       "span": {
                         "start": 90,
-                        "end": 95,
-                        "ctxt": 0
-                      },
-                      "operator": "%",
-                      "left": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 90,
-                          "end": 91,
-                          "ctxt": 0
-                        },
-                        "value": "n",
-                        "optional": false
-                      },
-                      "right": {
-                        "type": "NumericLiteral",
-                        "span": {
-                          "start": 94,
-                          "end": 95,
-                          "ctxt": 0
-                        },
-                        "value": 2.0,
-                        "raw": "2"
-                      }
-                    },
-                    "right": {
-                      "type": "NumericLiteral",
-                      "span": {
-                        "start": 100,
                         "end": 101,
                         "ctxt": 0
                       },
-                      "value": 0.0,
-                      "raw": "0"
-                    }
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                }
-              },
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 107,
-                    "end": 112,
-                    "ctxt": 0
-                  },
-                  "value": "isOdd",
-                  "optional": false
-                },
-                "value": {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 114,
-                    "end": 130,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 114,
-                        "end": 115,
-                        "ctxt": 0
-                      },
-                      "value": "n",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "BinaryExpression",
-                    "span": {
-                      "start": 119,
-                      "end": 130,
-                      "ctxt": 0
-                    },
-                    "operator": "===",
-                    "left": {
-                      "type": "BinaryExpression",
-                      "span": {
-                        "start": 119,
-                        "end": 124,
-                        "ctxt": 0
-                      },
-                      "operator": "%",
+                      "operator": "===",
                       "left": {
-                        "type": "Identifier",
+                        "type": "BinaryExpression",
                         "span": {
-                          "start": 119,
-                          "end": 120,
+                          "start": 90,
+                          "end": 95,
                           "ctxt": 0
                         },
-                        "value": "n",
-                        "optional": false
+                        "operator": "%",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 90,
+                            "end": 91,
+                            "ctxt": 0
+                          },
+                          "value": "n",
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 94,
+                            "end": 95,
+                            "ctxt": 0
+                          },
+                          "value": 2.0,
+                          "raw": "2"
+                        }
                       },
                       "right": {
                         "type": "NumericLiteral",
                         "span": {
-                          "start": 123,
-                          "end": 124,
+                          "start": 100,
+                          "end": 101,
                           "ctxt": 0
                         },
-                        "value": 2.0,
-                        "raw": "2"
+                        "value": 0.0,
+                        "raw": "0"
                       }
                     },
-                    "right": {
-                      "type": "NumericLiteral",
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
+                },
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 107,
+                      "end": 112,
+                      "ctxt": 0
+                    },
+                    "value": "isOdd",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "ArrowFunctionExpression",
+                    "span": {
+                      "start": 114,
+                      "end": 130,
+                      "ctxt": 0
+                    },
+                    "params": [
+                      {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 114,
+                          "end": 115,
+                          "ctxt": 0
+                        },
+                        "value": "n",
+                        "optional": false,
+                        "typeAnnotation": null
+                      }
+                    ],
+                    "body": {
+                      "type": "BinaryExpression",
                       "span": {
-                        "start": 129,
+                        "start": 119,
                         "end": 130,
                         "ctxt": 0
                       },
-                      "value": 1.0,
-                      "raw": "1"
-                    }
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
+                      "operator": "===",
+                      "left": {
+                        "type": "BinaryExpression",
+                        "span": {
+                          "start": 119,
+                          "end": 124,
+                          "ctxt": 0
+                        },
+                        "operator": "%",
+                        "left": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 119,
+                            "end": 120,
+                            "ctxt": 0
+                          },
+                          "value": "n",
+                          "optional": false
+                        },
+                        "right": {
+                          "type": "NumericLiteral",
+                          "span": {
+                            "start": 123,
+                            "end": 124,
+                            "ctxt": 0
+                          },
+                          "value": 2.0,
+                          "raw": "2"
+                        }
+                      },
+                      "right": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 129,
+                          "end": 130,
+                          "ctxt": 0
+                        },
+                        "value": 1.0,
+                        "raw": "1"
+                      }
+                    },
+                    "async": false,
+                    "generator": false,
+                    "typeParameters": null,
+                    "returnType": null
+                  }
                 }
-              }
-            ]
+              ]
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 143,
+                "end": 153,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 143,
+                  "end": 153,
+                  "ctxt": 0
+                },
+                "value": "Predicates",
+                "optional": false
+              },
+              "typeParams": null
+            }
           },
           "definite": false
         }
