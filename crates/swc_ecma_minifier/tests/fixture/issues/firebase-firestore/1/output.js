@@ -4241,7 +4241,7 @@
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", (t1 = n).Ko.forEach((t)=>{
+                    n.currentUser = e, t1 = n, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", t1.Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, e1));
                         });

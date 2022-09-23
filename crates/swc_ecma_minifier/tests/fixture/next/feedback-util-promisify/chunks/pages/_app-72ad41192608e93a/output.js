@@ -318,7 +318,7 @@
                         }
                         function ucs2Write(e, r, t, f) {
                             return blitBuffer(function(e, r) {
-                                for(var t, f, n, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, n = t % 256, i.push(n), i.push(f);
+                                for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
                                 return i;
                             }(r, e.length - t), e, t, f);
                         }
@@ -507,7 +507,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var n = this.length - r;
+                            var t1, f1, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -517,9 +517,10 @@
                                 case "utf-8":
                                     return utf8Write(this, e, r, t);
                                 case "ascii":
+                                    return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return asciiWrite(this, e, r, t);
+                                    return t1 = r, f1 = t, asciiWrite(this, e, t1, f1);
                                 case "base64":
                                     return base64Write(this, e, r, t);
                                 case "ucs2":
@@ -741,7 +742,7 @@
                             return (p ? -1 : 1) * o * Math.pow(2, i - f);
                         }, r.write = function(e, r, t, f, n, i) {
                             var o, u, a, s = 8 * i - n - 1, h = (1 << s) - 1, c = h >> 1, l = 23 === n ? 0.00000005960464477539062 : 0, p = f ? 0 : i - 1, y = f ? 1 : -1, g = r < 0 || 0 === r && 1 / r < 0 ? 1 : 0;
-                            for(isNaN(r = Math.abs(r)) || r === 1 / 0 ? (u = isNaN(r) ? 1 : 0, o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
+                            for(r = Math.abs(r), isNaN(r) || r === 1 / 0 ? (u = isNaN(r) ? 1 : 0, o = h) : (o = Math.floor(Math.log(r) / Math.LN2), r * (a = Math.pow(2, -o)) < 1 && (o--, a *= 2), o + c >= 1 ? r += l / a : r += l * Math.pow(2, 1 - c), r * a >= 2 && (o++, a /= 2), o + c >= h ? (u = 0, o = h) : o + c >= 1 ? (u = (r * a - 1) * Math.pow(2, n), o += c) : (u = r * Math.pow(2, c - 1) * Math.pow(2, n), o = 0)); n >= 8; e[t + p] = 255 & u, p += y, u /= 256, n -= 8);
                             for(o = o << n | u, s += n; s > 0; e[t + p] = 255 & o, p += y, o /= 256, s -= 8);
                             e[t + p - y] |= 128 * g;
                         };

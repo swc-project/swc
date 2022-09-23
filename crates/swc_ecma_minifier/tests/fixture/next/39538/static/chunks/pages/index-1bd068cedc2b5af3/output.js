@@ -483,15 +483,15 @@
                                     return obj.root === id.root && obj.margin === id.margin;
                                 });
                                 if (existing && (instance = observers.get(existing))) return instance;
-                                var elements = new Map();
+                                var elements = new Map(), observer = new IntersectionObserver(function(entries) {
+                                    entries.forEach(function(entry) {
+                                        var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                        callback && isVisible && callback(isVisible);
+                                    });
+                                }, options);
                                 return instance = {
                                     id: id,
-                                    observer: new IntersectionObserver(function(entries) {
-                                        entries.forEach(function(entry) {
-                                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                                            callback && isVisible && callback(isVisible);
-                                        });
-                                    }, options),
+                                    observer: observer,
                                     elements: elements
                                 }, idList.push(id), observers.set(id, instance), instance;
                             }({

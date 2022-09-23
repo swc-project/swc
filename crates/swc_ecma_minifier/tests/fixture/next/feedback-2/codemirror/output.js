@@ -2970,7 +2970,7 @@
     function markText(doc, from, to, options, type) {
         if (options && options.shared) {
             var options1, markers, primary, widget;
-            return (options1 = copyObj(options1 = options)).shared = !1, primary = (markers = [
+            return options1 = options, (options1 = copyObj(options1)).shared = !1, primary = (markers = [
                 markText(doc, from, to, options1, type)
             ])[0], widget = options1.widgetNode, linkedDocs(doc, function(doc) {
                 widget && (options1.widgetNode = widget.cloneNode(!0)), markers.push(markText(doc, clipPos(doc, from), clipPos(doc, to), options1, type));
@@ -3190,7 +3190,8 @@
             extendSelections(this, clipPosArray(this, heads), options);
         }),
         extendSelectionsBy: docMethodOp(function(f, options) {
-            extendSelections(this, clipPosArray(this, map(this.sel.ranges, f)), options);
+            var heads = map(this.sel.ranges, f);
+            extendSelections(this, clipPosArray(this, heads), options);
         }),
         setSelections: docMethodOp(function(ranges, primary, options) {
             if (ranges.length) {
@@ -4587,9 +4588,11 @@
                     if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) return new Pos(start.line, ch, moveInStorageOrder ? "before" : "after");
                 }
                 var searchInVisualLine = function(partPos, dir, wrappedLineExtent) {
-                    for(; partPos >= 0 && partPos < bidi.length; partPos += dir){
-                        var ch, part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch1 = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
-                        if (part.from <= ch1 && ch1 < part.to || (ch1 = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch1 && ch1 < wrappedLineExtent.end)) return ch = ch1, moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
+                    for(var getRes = function(ch, moveInStorageOrder) {
+                        return moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
+                    }; partPos >= 0 && partPos < bidi.length; partPos += dir){
+                        var part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
+                        if (part.from <= ch && ch < part.to || (ch = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch && ch < wrappedLineExtent.end)) return getRes(ch, moveInStorageOrder);
                     }
                 }, res = searchInVisualLine(partPos + dir, dir, wrappedLineExtent);
                 if (res) return res;
@@ -5256,7 +5259,7 @@
         },
         getStateAfter: function(line, precise) {
             var doc = this.doc;
-            return getContextBefore(this, (line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line)) + 1, precise).state;
+            return line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line), getContextBefore(this, line + 1, precise).state;
         },
         cursorCoords: function(start, mode) {
             var pos, range = this.doc.sel.primary();

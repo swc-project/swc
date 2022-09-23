@@ -36,7 +36,7 @@
             allowCrossDomainPages: !1,
             dialogHashKey: "&ui-state=dialog"
         });
-    }(jQuery, this), nsNormalizeDict = {}, oldFind = ($1 = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $1.extend($1.mobile, {
+    }(jQuery, this), $1 = jQuery, nsNormalizeDict = {}, oldFind = $1.find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $1.extend($1.mobile, {
         ns: "",
         getAttribute: function(element, key) {
             var data;
@@ -668,7 +668,7 @@
         setup: function() {
             !self.bound && (self.bound = !0, self.isPushStateEnabled() ? (self.originalEventName = "popstate", $win.bind("popstate.navigate", self.popstate)) : self.isHashChangeEnabled() && (self.originalEventName = "hashchange", $win.bind("hashchange.navigate", self.hashchange)));
         }
-    }, dialogHashKey = "&ui-state=dialog", jQuery.mobile.path = path = {
+    }, $8 = jQuery, dialogHashKey = "&ui-state=dialog", $8.mobile.path = path = {
         uiStateKey: "&ui-state",
         urlParseRE: /^\s*(((([^:\/#\?]+:)?(?:(\/\/)((?:(([^:@\/#\?]+)(?:\:([^:@\/#\?]+))?)@)?(([^:\/#\?\]\[]+|\[[^\/\]@#?]+\])(?:\:([0-9]+))?))?)?)?((\/?(?:[^\/\?#]+\/+)*)([^\?#]*)))?(\?[^#]+)?)(#.*)?/,
         getLocation: function(url) {
@@ -676,13 +676,13 @@
             return hash = "#" === hash ? "" : hash, uri.protocol + "//" + uri.host + uri.pathname + uri.search + hash;
         },
         getDocumentUrl: function(asParsedObject) {
-            return asParsedObject ? jQuery.extend({}, path.documentUrl) : path.documentUrl.href;
+            return asParsedObject ? $8.extend({}, path.documentUrl) : path.documentUrl.href;
         },
         parseLocation: function() {
             return this.parseUrl(this.getLocation());
         },
         parseUrl: function(url) {
-            if ("object" === jQuery.type(url)) return url;
+            if ("object" === $8.type(url)) return url;
             var matches = path.urlParseRE.exec(url || "") || [];
             return {
                 href: matches[0] || "",
@@ -734,7 +734,7 @@
             return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
-            var u = path.parseUrl(url), p = "object" == typeof params ? jQuery.param(params) : params, s = u.search || "?";
+            var u = path.parseUrl(url), p = "object" == typeof params ? $8.param(params) : params, s = u.search || "?";
             return u.hrefNoSearch + s + ("?" !== s.charAt(s.length - 1) ? "&" : "") + p + (u.hash || "");
         },
         convertUrlToDataUrl: function(absUrl) {
@@ -788,19 +788,19 @@
             return hasHash && (hash = hash.substring(1)), (hasHash ? "#" : "") + hash.replace(/([!"#$%&'()*+,./:;<=>?@[\]^`{|}~])/g, "\\$1");
         },
         getFilePath: function(path) {
-            var splitkey = "&" + jQuery.mobile.subPageUrlKey;
+            var splitkey = "&" + $8.mobile.subPageUrlKey;
             return path && path.split(splitkey)[0].split(dialogHashKey)[0];
         },
         isFirstPageUrl: function(url) {
-            var u = path.parseUrl(path.makeUrlAbsolute(url, this.documentBase)), samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, fp = jQuery.mobile.firstPage, fpId = fp && fp[0] ? fp[0].id : undefined2;
+            var u = path.parseUrl(path.makeUrlAbsolute(url, this.documentBase)), samePath = u.hrefNoHash === this.documentUrl.hrefNoHash || this.documentBaseDiffers && u.hrefNoHash === this.documentBase.hrefNoHash, fp = $8.mobile.firstPage, fpId = fp && fp[0] ? fp[0].id : undefined2;
             return samePath && (!u.hash || "#" === u.hash || fpId && u.hash.replace(/^#/, "") === fpId);
         },
         isPermittedCrossDomainRequest: function(docUrl, reqUrl) {
-            return jQuery.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
+            return $8.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
         }
-    }, path.documentUrl = path.parseLocation(), $base = jQuery("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
-        return asParsedObject ? jQuery.extend({}, path.documentBase) : path.documentBase.href;
-    }, jQuery.extend(jQuery.mobile, {
+    }, path.documentUrl = path.parseLocation(), $base = $8("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
+        return asParsedObject ? $8.extend({}, path.documentBase) : path.documentBase.href;
+    }, $8.extend($8.mobile, {
         getDocumentUrl: path.getDocumentUrl,
         getDocumentBase: path.getDocumentBase
     }), jQuery.mobile.History = function(stack, index) {
@@ -2914,12 +2914,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
+                var paddingTop, paddingBottom, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), borderBottom = parseFloat(this.element.css("border-bottom-width")), height = scrollHeight + (borderHeight = borderTop + borderBottom) + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), paddingBottom = parseFloat(this.element.css("padding-bottom")), height += paddingTop + paddingBottom), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""
@@ -4347,7 +4347,7 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($38 = jQuery).mobile.filterable.prototype.options.filterCallback, $38.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), $38 = jQuery, rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = $38.mobile.filterable.prototype.options.filterCallback, $38.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
     }, $38.widget("mobile.filterable", $38.mobile.filterable, {
         options: {

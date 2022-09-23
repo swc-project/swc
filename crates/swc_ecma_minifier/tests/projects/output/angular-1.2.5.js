@@ -700,7 +700,7 @@
         }
     }, function(fn, name) {
         JQLite.prototype[name] = function(arg1, arg2, arg3) {
-            for(var value, i = 0; i < this.length; i++)isUndefined(value) ? isDefined(value = fn(this[i], arg1, arg2, arg3)) && (value = jqLite(value)) : jqLiteAddNodes(value, fn(this[i], arg1, arg2, arg3));
+            for(var value, i = 0; i < this.length; i++)isUndefined(value) ? (value = fn(this[i], arg1, arg2, arg3), isDefined(value) && (value = jqLite(value))) : jqLiteAddNodes(value, fn(this[i], arg1, arg2, arg3));
             return isDefined(value) ? value : this;
         }, JQLite.prototype.bind = JQLite.prototype.on, JQLite.prototype.unbind = JQLite.prototype.off;
     }), HashMap.prototype = {
@@ -817,7 +817,7 @@
                 invoke: invoke,
                 instantiate: function(Type, locals) {
                     var instance, returnedValue, Constructor = function() {};
-                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, returnedValue = invoke(Type, instance = new Constructor(), locals), isObject(returnedValue) || isFunction(returnedValue) ? returnedValue : instance;
+                    return Constructor.prototype = (isArray(Type) ? Type[Type.length - 1] : Type).prototype, instance = new Constructor(), returnedValue = invoke(Type, instance, locals), isObject(returnedValue) || isFunction(returnedValue) ? returnedValue : instance;
                 },
                 get: getService,
                 annotate: annotate,
@@ -939,7 +939,7 @@
             var cookieLength, cookieArray, cookie, i, index;
             if (name) value === undefined ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
-                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && undefined === lastCookies[name = unescape(cookie.substring(0, index))] && (lastCookies[name] = unescape(cookie.substring(index + 1)));
+                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && (name = unescape(cookie.substring(0, index)), undefined === lastCookies[name] && (lastCookies[name] = unescape(cookie.substring(index + 1))));
                 return lastCookies;
             }
         }, self.defer = function(fn, delay) {
@@ -972,9 +972,10 @@
                 }), data = {}, capacity = options && options.capacity || Number.MAX_VALUE, lruHash = {}, freshEnd = null, staleEnd = null;
                 return caches[cacheId] = {
                     put: function(key, value) {
-                        if (refresh(lruHash[key] || (lruHash[key] = {
+                        var lruEntry = lruHash[key] || (lruHash[key] = {
                             key: key
-                        })), !isUndefined(value)) return !(key in data) && size++, data[key] = value, size > capacity && this.remove(staleEnd.key), value;
+                        });
+                        if (refresh(lruEntry), !isUndefined(value)) return !(key in data) && size++, data[key] = value, size > capacity && this.remove(staleEnd.key), value;
                     },
                     get: function(key) {
                         var lruEntry = lruHash[key];
@@ -1149,7 +1150,7 @@
                                     ngAttrName === directiveNName + "Start" && (attrStartName = name, attrEndName = name.substr(0, name.length - 5) + "end", name = name.substr(0, name.length - 6)), attrsMap[nName = directiveNormalize(name.toLowerCase())] = name, attrs[nName] = value = trim(msie && "href" == name ? decodeURIComponent(node.getAttribute(name, 2)) : attr.value), getBooleanAttrName(node, nName) && (attrs[nName] = !0), addAttrInterpolateDirective(node, directives, value, nName), addDirective(directives, nName, "A", maxPriority, ignoreDirective, attrStartName, attrEndName);
                                 }
                             }
-                            if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)addDirective(directives, nName = directiveNormalize(match[2]), "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
+                            if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)nName = directiveNormalize(match[2]), addDirective(directives, nName, "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
                         case 3:
                             (interpolateFn = $interpolate(text = node.nodeValue, !0)) && directives.push({
@@ -1187,7 +1188,7 @@
                     for(var newScopeDirective, directive, directiveName, $template, linkFn, directiveValue, terminalPriority = -Number.MAX_VALUE, controllerDirectives = (previousCompileContext = previousCompileContext || {}).controllerDirectives, newIsolateScopeDirective = previousCompileContext.newIsolateScopeDirective, templateDirective = previousCompileContext.templateDirective, nonTlbTranscludeDirective = previousCompileContext.nonTlbTranscludeDirective, hasTranscludeDirective = !1, hasElementTranscludeDirective = !1, $compileNode = templateAttrs.$$element = jqLite(compileNode), replaceDirective = originalReplaceDirective, childTranscludeFn = transcludeFn, i = 0, ii = directives.length; i < ii; i++){
                         var attrStart = (directive = directives[i]).$$start, attrEnd = directive.$$end;
                         if (attrStart && ($compileNode = groupScan(compileNode, attrStart, attrEnd)), $template = undefined, terminalPriority > directive.priority) break;
-                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, assertNoDuplicate("'" + directiveName + "' controller", (controllerDirectives = controllerDirectives || {})[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
+                        if ((directiveValue = directive.scope) && (newScopeDirective = newScopeDirective || directive, !directive.templateUrl && (assertNoDuplicate("new/isolated scope", newIsolateScopeDirective, directive, $compileNode), isObject(directiveValue) && (newIsolateScopeDirective = directive))), directiveName = directive.name, !directive.templateUrl && directive.controller && (directiveValue = directive.controller, controllerDirectives = controllerDirectives || {}, assertNoDuplicate("'" + directiveName + "' controller", controllerDirectives[directiveName], directive, $compileNode), controllerDirectives[directiveName] = directive), (directiveValue = directive.transclude) && (hasTranscludeDirective = !0, directive.$$tlb || (assertNoDuplicate("transclusion", nonTlbTranscludeDirective, directive, $compileNode), nonTlbTranscludeDirective = directive), "element" == directiveValue ? (hasElementTranscludeDirective = !0, terminalPriority = directive.priority, $template = groupScan(compileNode, attrStart, attrEnd), compileNode = ($compileNode = templateAttrs.$$element = jqLite(document1.createComment(" " + directiveName + ": " + templateAttrs[directiveName] + " ")))[0], replaceWith(jqCollection, jqLite(sliceArgs($template)), compileNode), childTranscludeFn = compile($template, transcludeFn, terminalPriority, replaceDirective && replaceDirective.name, {
                             nonTlbTranscludeDirective: nonTlbTranscludeDirective
                         })) : ($template = jqLite(jqLiteClone(compileNode)).contents(), $compileNode.empty(), childTranscludeFn = compile($template, transcludeFn))), directive.template) {
                             if (assertNoDuplicate("template", templateDirective, directive, $compileNode), templateDirective = directive, directiveValue = isFunction(directive.template) ? directive.template($compileNode, templateAttrs) : directive.template, directiveValue = denormalizeTemplate(directiveValue), directive.replace) {
@@ -1859,7 +1860,7 @@
         parseAbsoluteUrl(appBase, this, appBase), this.$$parse = function(url) {
             var path, url1, base, firstPathSegmentMatch, windowsFilePathExp, withoutBaseUrl = beginsWith(appBase, url) || beginsWith(appBaseNoFile, url), withoutHashUrl = "#" == withoutBaseUrl.charAt(0) ? beginsWith(hashPrefix, withoutBaseUrl) : this.$$html5 ? withoutBaseUrl : "";
             if (!isString(withoutHashUrl)) throw $locationMinErr("ihshprfx", 'Invalid url "{0}", missing hash prefix "{1}".', url, hashPrefix);
-            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === (url1 = withoutHashUrl).indexOf(appBase) && (url1 = url1.replace(appBase, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
+            parseAppUrl(withoutHashUrl, this, appBase), this.$$path = (path = this.$$path, url1 = withoutHashUrl, windowsFilePathExp = /^\/?.*?:(\/.*)/, (0 === url1.indexOf(appBase) && (url1 = url1.replace(appBase, "")), windowsFilePathExp.exec(url1)) ? path : (firstPathSegmentMatch = windowsFilePathExp.exec(path)) ? firstPathSegmentMatch[1] : path), this.$$compose();
         }, this.$$compose = function() {
             var search = toKeyValue(this.$$search), hash = this.$$hash ? "#" + encodeUriSegment(this.$$hash) : "";
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBase + (this.$$url ? hashPrefix + this.$$url : "");
@@ -2755,7 +2756,7 @@
                     $watchCollection: function(obj, listener) {
                         var oldValue, newValue, self = this, changeDetected = 0, objGetter = $parse(obj), internalArray = [], internalObject = {}, oldLength = 0;
                         return this.$watch(function() {
-                            if (isObject(newValue = objGetter(self))) {
+                            if (newValue = objGetter(self), isObject(newValue)) {
                                 if (isArrayLike(newValue)) {
                                     oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
                                     for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
@@ -3455,7 +3456,7 @@
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
-                    if (-1 != indexOf(array = queue, control)) return;
+                    if (array = queue, -1 != indexOf(array, control)) return;
                 } else errors[validationToken] = queue = [], invalidCount++, toggleValidCss(!1, validationToken), parentForm.$setValidity(validationToken, !1, form);
                 queue.push(control), form.$valid = !1, form.$invalid = !0;
             }
@@ -3999,7 +4000,7 @@
                             for(key in trackByIdFn = trackByIdExpFn || trackByIdObjFn, collectionKeys = [], collection)collection.hasOwnProperty(key) && "$" != key.charAt(0) && collectionKeys.push(key);
                             collectionKeys.sort();
                         }
-                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], assertNotHasOwnProperty(trackById = trackByIdFn(key, value, index), "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
+                        for(index = 0, arrayLength = collectionKeys.length, length = nextBlockOrder.length = collectionKeys.length; index < length; index++)if (value = collection[key = collection === collectionKeys ? index : collectionKeys[index]], trackById = trackByIdFn(key, value, index), assertNotHasOwnProperty(trackById, "`track by` id"), lastBlockMap.hasOwnProperty(trackById)) block = lastBlockMap[trackById], delete lastBlockMap[trackById], nextBlockMap[trackById] = block, nextBlockOrder[index] = block;
                         else if (nextBlockMap.hasOwnProperty(trackById)) throw forEach(nextBlockOrder, function(block) {
                             block && block.scope && (lastBlockMap[block.id] = block);
                         }), ngRepeatMinErr("dupes", "Duplicates in a repeater are not allowed. Use 'track by' expression to specify unique keys. Repeater: {0}, Duplicate key: {1}", expression, trackById);

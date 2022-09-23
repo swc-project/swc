@@ -500,7 +500,7 @@
                 VND: '₫',
                 TWD: 'NT$'
             };
-            dateCorrection = [
+            HijriParser1 = HijriParser || (HijriParser = {}), dateCorrection = [
                 28607,
                 28636,
                 28665,
@@ -2242,7 +2242,7 @@
                 79930,
                 79960,
                 79990
-            ], (HijriParser1 = HijriParser || (HijriParser = {})).getHijriDate = function(gDate) {
+            ], HijriParser1.getHijriDate = function(gDate) {
                 var day = gDate.getDate(), month = gDate.getMonth(), year = gDate.getFullYear(), tMonth = month + 1, tYear = year;
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
@@ -3852,7 +3852,7 @@
                         }), -1 !== index && eventData.splice(index, 1), debounceListener && element.removeEventListener(event[j], debounceListener);
                     }, j = 0; j < event.length; j++)_loop_1(j);
                 }, EventHandler.clearEvents = function(element) {
-                    copyData = util_extend([], copyData, eventData = EventHandler.addOrGetEventData(element));
+                    eventData = EventHandler.addOrGetEventData(element), copyData = util_extend([], copyData, eventData);
                     for(var eventData, copyData, i = 0; i < copyData.length; i++)element.removeEventListener(copyData[i].name, copyData[i].debounce), eventData.shift();
                 }, EventHandler.trigger = function(element, eventName, eventProp) {
                     for(var eventData = EventHandler.addOrGetEventData(element), _i = 0; _i < eventData.length; _i++){
@@ -5392,19 +5392,23 @@
                         var point = _this.updateChangeTouches(evt);
                         _this.movedPoint = point, _this.isTouchMoved = !(point.clientX === _this.startPoint.clientX && point.clientY === _this.startPoint.clientY);
                         var eScrollArgs = {};
-                        _this.isTouchMoved && (clearTimeout(_this.timeOutTapHold), _this.calcScrollPoints(evt), eScrollArgs = util_extend(eScrollArgs, {}, {
-                            startEvents: _this.startEventData,
-                            originalEvent: evt,
-                            startX: _this.startPoint.clientX,
-                            startY: _this.startPoint.clientY,
-                            distanceX: _this.distanceX,
-                            distanceY: _this.distanceY,
-                            scrollDirection: _this.scrollDirection,
-                            velocity: _this.getVelocity(point)
-                        }), _this.trigger('scroll', eScrollArgs), _this.lastMovedPoint = {
-                            clientX: point.clientX,
-                            clientY: point.clientY
-                        });
+                        if (_this.isTouchMoved) {
+                            clearTimeout(_this.timeOutTapHold), _this.calcScrollPoints(evt);
+                            var scrollArg = {
+                                startEvents: _this.startEventData,
+                                originalEvent: evt,
+                                startX: _this.startPoint.clientX,
+                                startY: _this.startPoint.clientY,
+                                distanceX: _this.distanceX,
+                                distanceY: _this.distanceY,
+                                scrollDirection: _this.scrollDirection,
+                                velocity: _this.getVelocity(point)
+                            };
+                            eScrollArgs = util_extend(eScrollArgs, {}, scrollArg), _this.trigger('scroll', eScrollArgs), _this.lastMovedPoint = {
+                                clientX: point.clientX,
+                                clientY: point.clientY
+                            };
+                        }
                     }, _this.cancelEvent = function(evt) {
                         clearTimeout(_this.timeOutTapHold), clearTimeout(_this.timeOutTap), _this.tapCount = 0, _this.swipeFn(evt), EventHandler.remove(_this.element, Browser.touchCancelEvent, _this.cancelEvent);
                     }, _this.endEvent = function(evt) {
@@ -5571,7 +5575,7 @@
                                         return HandleSpecialCharArrObj(strs, argName, localKeys, ignorePrefix1);
                                     })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + argName + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, argName, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + argName + '.'), -1 === localKeys.indexOf(cnt), argName, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt.match(SINGLE_SLASH) ? (cnt = SlashReplace(cnt), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), argName, localKeys) + '"]+"') : cnt = '"+' + addNameSpace(cnt.replace(/,/gi, '+' + argName + '.'), -1 === localKeys.indexOf(cnt), argName, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }), Function(argName, "var str=\"" + evalExpResult + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -6235,7 +6239,7 @@
                     ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
                     return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         inputObject.container
-                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
+                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), inputObject = function(args, inputObject) {
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++){
                             var prop = _a[_i];
                             switch(prop){
@@ -6260,7 +6264,7 @@
                             }
                         }
                         return inputObject;
-                    }(args, inputObject), makeElement), inputObject;
+                    }(args, inputObject), createSpanElement(inputObject, makeElement), inputObject;
                 }, Input.bindInitialEvent = bindInitialEvent, Input.wireFloatingEvents = wireFloatingEvents, Input.wireClearBtnEvents = wireClearBtnEvents, Input.setValue = function(value, element, floatLabelType, clearButton) {
                     if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(clearButton) && clearButton) {
                         var parentElement = getParentNode(element);
@@ -19542,7 +19546,7 @@
                     }
                     return elWidth;
                 }, Toolbar.prototype.popupEleRefresh = function(width, popupEle, destroy) {
-                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== function(el) {
+                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, _loop_1 = function(el) {
                         if (el.classList.contains(CLS_POPPRI) && popPriority && !destroy) return "continue";
                         var elWidth = this_1.popupEleWidth(el);
                         if (el === this_1.tbarEle[0] && (elWidth += this_1.tbarEleMrgn), el.style.position = '', !(elWidth < width) && !destroy) return "break";
@@ -19558,7 +19562,7 @@
                         'Extended' !== this_1.overflowMode && eleSplice.slice(0, index).forEach(function(el) {
                             (el.classList.contains(CLS_TBAROVERFLOW) || el.classList.contains(CLS_SEPARATOR)) && (el.classList.contains(CLS_SEPARATOR) && (el.style.display = '', width -= el.offsetWidth), sepBeforePri_1++);
                         }), ignoreCount = this_1.ignoreEleFetch(index, innerEle), el.classList.contains(CLS_TBAROVERFLOW) ? (this_1.tbarPriRef(innerEle, index, sepBeforePri_1, el, destroy, elWidth, width, ignoreCount), width -= el.offsetWidth) : 0 === index ? (innerEle.insertBefore(el, innerEle.firstChild), width -= el.offsetWidth) : (priEleCnt = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, this_1.popObj.element).length, innerEle.insertBefore(el, innerEle.children[index + ignoreCount - priEleCnt]), width -= el.offsetWidth), el.style.height = '';
-                    }(_a[_i]); _i++);
+                    }, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== _loop_1(_a[_i]); _i++);
                     this.checkOverflow(this.element, this.element.getElementsByClassName(CLS_ITEMS)[0]) && !destroy && this.renderOverflowMode();
                 }, Toolbar.prototype.removePositioning = function() {
                     var item = this.element.querySelector('.' + CLS_ITEMS);

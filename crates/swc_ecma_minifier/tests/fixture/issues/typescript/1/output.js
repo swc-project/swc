@@ -474,7 +474,12 @@ var ts;
             return statements;
         }
         function appendExportsOfHoistedDeclaration(statements, decl) {
-            return currentModuleInfo.exportEquals || (ts.hasSyntacticModifier(decl, 1) && (statements = appendExportStatement(statements, ts.hasSyntacticModifier(decl, 512) ? factory.createIdentifier("default") : factory.getDeclarationName(decl), factory.getLocalName(decl), decl)), decl.name && (statements = appendExportsOfDeclaration(statements, decl))), statements;
+            if (currentModuleInfo.exportEquals) return statements;
+            if (ts.hasSyntacticModifier(decl, 1)) {
+                var exportName = ts.hasSyntacticModifier(decl, 512) ? factory.createIdentifier("default") : factory.getDeclarationName(decl);
+                statements = appendExportStatement(statements, exportName, factory.getLocalName(decl), decl);
+            }
+            return decl.name && (statements = appendExportsOfDeclaration(statements, decl)), statements;
         }
         function appendExportsOfDeclaration(statements, decl, liveBinding) {
             var name = factory.getDeclarationName(decl), exportSpecifiers = currentModuleInfo.exportSpecifiers.get(ts.idText(name));

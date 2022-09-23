@@ -1148,7 +1148,7 @@
                     } else if (isBlockNode(node)) break;
                     else {
                         for(var prev = node.previousSibling; prev && isIgnorable(prev);)moveNode = node.parentNode, moveOffset = domIndex(prev), prev = prev.previousSibling;
-                        if (prev) offset = nodeLen(node = prev);
+                        if (prev) node = prev, offset = nodeLen(node);
                         else {
                             if ((node = node.parentNode) == view.dom) break;
                             offset = 0;
@@ -1167,7 +1167,7 @@
                     } else if (isBlockNode(node)) break;
                     else {
                         for(var next = node.nextSibling; next && isIgnorable(next);)moveNode = next.parentNode, moveOffset = domIndex(next) + 1, next = next.nextSibling;
-                        if (next) offset = 0, len = nodeLen(node = next);
+                        if (next) node = next, offset = 0, len = nodeLen(node);
                         else {
                             if ((node = node.parentNode) == view.dom) break;
                             offset = len = 0;
@@ -2659,7 +2659,7 @@
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
-                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;
