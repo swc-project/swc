@@ -260,6 +260,7 @@ impl Clone for Expr {
             PrivateName(e) => PrivateName(e.clone()),
             OptChain(e) => OptChain(e.clone()),
             Invalid(e) => Invalid(e.clone()),
+            TsSatisfaction(e) => TsSatisfaction(e.clone()),
         }
     }
 }
