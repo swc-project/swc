@@ -257,7 +257,12 @@ where
                 }
             }
 
-            if !v.used_as_arg && !v.used_as_callee && !v.used_as_spread {
+            if self.options.side_effects
+                && !v.used_as_arg
+                && !v.used_as_callee
+                && !v.indexed_with_dynamic_key
+                && !v.is_infected()
+            {
                 if let Some(Expr::Object(obj)) = init.as_mut() {
                     if obj.props.iter().any(|prop| match prop {
                         PropOrSpread::Spread(_) => true,
