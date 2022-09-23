@@ -260,7 +260,7 @@
                         return sum;
                     }
                     return function() {
-                        var p1, p2, p12, m12, vet = [
+                        var p1, p2, p12, m1, m2, m12, vet = [
                             0
                         ], max = (1 << bitsPerPixel) - 1;
                         hist = function(imageWrapper, bitsPerPixel) {
@@ -268,7 +268,7 @@
                             for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper, bitsPerPixel);
-                        for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
+                        for(var k = 1; k < max; k++)p1 = px(0, k), p2 = px(k + 1, max), 0 == (p12 = p1 * p2) && (p12 = 1), m1 = mx(0, k) * p2, m2 = mx(k + 1, max) * p1, m12 = m1 - m2, vet[k] = m12 * m12 / p12;
                         return array_helper.a.maxIndex(vet);
                     }() << 8 - bitsPerPixel;
                 }(imageWrapper);

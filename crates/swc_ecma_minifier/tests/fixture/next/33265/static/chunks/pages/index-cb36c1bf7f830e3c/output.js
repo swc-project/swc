@@ -837,7 +837,7 @@
                 }), params.callback = callback, params;
             }
             function createXHR(uri, options, callback) {
-                return _createXHR(options = initParams(uri, options, callback));
+                return options = initParams(uri, options, callback), _createXHR(options);
             }
             function _createXHR(options) {
                 if (void 0 === options.callback) throw Error("callback argument missing");
@@ -1069,7 +1069,7 @@
                 var pt = Class.prototype;
                 if (!(pt instanceof Super)) {
                     function t() {}
-                    t.prototype = Super.prototype, copy(pt, t = new t()), Class.prototype = pt = t;
+                    t.prototype = Super.prototype, t = new t(), copy(pt, t), Class.prototype = pt = t;
                 }
                 pt.constructor != Class && ("function" != typeof Class && console.error("unknown Class:" + Class), pt.constructor = Class);
             }
@@ -1972,9 +1972,9 @@
                         case "'":
                         case '"':
                             if (3 === s || 1 === s) {
-                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
+                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start - 1), s = 5;
                                 else throw Error("attribute value no end '" + c + "' match");
-                            } else if (4 == s) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
+                            } else if (4 == s) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                             else throw Error('attribute value must after "="');
                             break;
                         case "/":
@@ -5314,7 +5314,7 @@
             }
             function ucs2Write(buf, string, offset, length) {
                 return blitBuffer(function(str, units) {
-                    for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
+                    for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
                     return byteArray;
                 }(string, buf.length - offset), buf, offset, length);
             }
@@ -5503,7 +5503,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var remaining = this.length - offset;
+                var offset1, length1, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5513,9 +5513,10 @@
                     case "utf-8":
                         return utf8Write(this, string, offset, length);
                     case "ascii":
+                        return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return asciiWrite(this, string, offset, length);
+                        return offset1 = offset, length1 = length, asciiWrite(this, string, offset1, length1);
                     case "base64":
                         return base64Write(this, string, offset, length);
                     case "ucs2":
@@ -5737,7 +5738,7 @@
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
                 var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539062 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
-                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
+                for(value = Math.abs(value), isNaN(value) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
             };

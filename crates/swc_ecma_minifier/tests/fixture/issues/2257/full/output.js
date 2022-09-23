@@ -546,14 +546,14 @@
                         var ref = _react.useState(window.__ICE_PAGE_PROPS__), data = ref[0], setData = ref[1];
                         return _react.useEffect(function() {
                             title && (document.title = title), scrollToTop && window.scrollTo(0, 0), window.__ICE_PAGE_PROPS__ ? window.__ICE_PAGE_PROPS__ = null : PageComponent.getInitialProps && swcHelpers.asyncToGenerator(_regeneratorRuntime.default.mark(function _callee() {
-                                var _location, href, origin, pathname, search, initialContext;
+                                var _location, href, origin, pathname, search, curPath, query, initialContext;
                                 return _regeneratorRuntime.default.wrap(function(_ctx) {
                                     for(;;)switch(_ctx.prev = _ctx.next){
                                         case 0:
-                                            return href = (_location = window.location).href, origin = _location.origin, pathname = _location.pathname, search = _location.search, initialContext = {
+                                            return href = (_location = window.location).href, origin = _location.origin, pathname = _location.pathname, search = _location.search, curPath = href.replace(origin, ""), query = queryString.parse(search), initialContext = {
                                                 pathname: pathname,
-                                                path: href.replace(origin, ""),
-                                                query: queryString.parse(search),
+                                                path: curPath,
+                                                query: query,
                                                 ssrError: window.__ICE_SSR_ERROR__
                                             }, _ctx.next = 7, PageComponent.getInitialProps(initialContext);
                                         case 7:
@@ -1437,7 +1437,10 @@
                 return getPrototypeOf(o);
             }
             function _superPropBase(object, property) {
-                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
+                for(; !Object.prototype.hasOwnProperty.call(object, property);){
+                    var o;
+                    if (o = object, null === (object = getPrototypeOf(o))) break;
+                }
                 return object;
             }
             function get(target, property, receiver) {
@@ -5104,7 +5107,7 @@
                 concat: function(arg) {
                     var i, k, length, len, E, O = toObject(this), A = arraySpeciesCreate(O, 0), n = 0;
                     for(i = -1, length = arguments.length; i < length; i++)if (E = -1 === i ? O : arguments[i], isConcatSpreadable(E)) {
-                        if (n + (len = toLength(E.length)) > 0x1fffffffffffff) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
+                        if (len = toLength(E.length), n + len > 0x1fffffffffffff) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
                         for(k = 0; k < len; k++, n++)k in E && createProperty(A, n, E[k]);
                     } else {
                         if (n >= 0x1fffffffffffff) throw TypeError(MAXIMUM_ALLOWED_INDEX_EXCEEDED);
@@ -10292,14 +10295,14 @@
                 return options.parseNumbers && !Number.isNaN(Number(value)) && "string" == typeof value && "" !== value.trim() ? value = Number(value) : options.parseBooleans && null !== value && ("true" === value.toLowerCase() || "false" === value.toLowerCase()) && (value = "true" === value.toLowerCase()), value;
             }
             function parse(query, options) {
-                validateArrayFormatSeparator((options = Object.assign({
+                options = Object.assign({
                     decode: !0,
                     sort: !0,
                     arrayFormat: "none",
                     arrayFormatSeparator: ",",
                     parseNumbers: !1,
                     parseBooleans: !1
-                }, options)).arrayFormatSeparator);
+                }, options), validateArrayFormatSeparator(options.arrayFormatSeparator);
                 const formatter = function(options) {
                     let result;
                     switch(options.arrayFormat){
@@ -10647,7 +10650,7 @@
             exports.setInitialData = setInitialData, exports.getInitialData = getInitialData, exports.getRenderApp = getRenderApp, exports.reactAppRenderer = function(options) {
                 var _a;
                 return __awaiter(this, void 0, void 0, function() {
-                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, initialContext, _d, _e, runtime, modifiedAppConfig;
+                    var appConfig, _b, buildConfig, appLifecycle, createBaseApp, emitLifeCycles, initAppLifeCycles, context, _c, href, origin_1, pathname, search, path, query, initialContext, _d, _e, runtime, modifiedAppConfig;
                     return __generator(this, function(_f) {
                         switch(_f.label){
                             case 0:
@@ -10664,10 +10667,10 @@
                                     3,
                                     3
                                 ];
-                                return href = (_c = window.location).href, origin_1 = _c.origin, pathname = _c.pathname, search = _c.search, initialContext = {
+                                return href = (_c = window.location).href, origin_1 = _c.origin, pathname = _c.pathname, search = _c.search, path = href.replace(origin_1, ""), query = queryString.parse(search), initialContext = {
                                     pathname: pathname,
-                                    path: href.replace(origin_1, ""),
-                                    query: queryString.parse(search),
+                                    path: path,
+                                    query: query,
                                     ssrError: window.__ICE_SSR_ERROR__
                                 }, _d = context, [
                                     4,
@@ -13132,7 +13135,7 @@
                         b = (b = b.documentElement) ? b.namespaceURI : mb(null, "");
                         break;
                     default:
-                        b = mb(b = (a = 8 === a ? b.parentNode : b).namespaceURI || null, a = a.tagName);
+                        b = (a = 8 === a ? b.parentNode : b).namespaceURI || null, b = mb(b, a = a.tagName);
                 }
                 H(ah), I(ah, b);
             }
@@ -13471,7 +13474,7 @@
                 return Vh(4, 2, a, b);
             }
             function Zh(a, b) {
-                return "function" == typeof b ? (b(a = a()), function() {
+                return "function" == typeof b ? (a = a(), b(a), function() {
                     b(null);
                 }) : null != b ? (a = a(), b.current = a, function() {
                     b.current = null;
@@ -13775,13 +13778,13 @@
                     var g = b.stateNode, h = b.memoizedProps;
                     g.props = h;
                     var k = g.context, l = c.contextType;
-                    l = "object" == typeof l && null !== l ? vg(l) : Ef(b, l = Ff(c) ? Df : M.current);
+                    "object" == typeof l && null !== l ? l = vg(l) : (l = Ff(c) ? Df : M.current, l = Ef(b, l));
                     var n = c.getDerivedStateFromProps, A = "function" == typeof n || "function" == typeof g.getSnapshotBeforeUpdate;
                     A || "function" != typeof g.UNSAFE_componentWillReceiveProps && "function" != typeof g.componentWillReceiveProps || (h !== d || k !== l) && Ng(b, g, d, l), wg = !1;
                     var p = b.memoizedState;
                     g.state = p, Cg(b, d, g, e), k = b.memoizedState, h !== d || p !== k || N.current || wg ? ("function" == typeof n && (Gg(b, c, n, d), k = b.memoizedState), (h = wg || Lg(b, c, h, d, p, k, l)) ? (A || "function" != typeof g.UNSAFE_componentWillMount && "function" != typeof g.componentWillMount || ("function" == typeof g.componentWillMount && g.componentWillMount(), "function" == typeof g.UNSAFE_componentWillMount && g.UNSAFE_componentWillMount()), "function" == typeof g.componentDidMount && (b.flags |= 4)) : ("function" == typeof g.componentDidMount && (b.flags |= 4), b.memoizedProps = d, b.memoizedState = k), g.props = d, g.state = k, g.context = l, d = h) : ("function" == typeof g.componentDidMount && (b.flags |= 4), d = !1);
                 } else {
-                    g = b.stateNode, yg(a, b), h = b.memoizedProps, l = b.type === b.elementType ? h : lg(b.type, h), g.props = l, A = b.pendingProps, p = g.context, k = "object" == typeof (k = c.contextType) && null !== k ? vg(k) : Ef(b, k = Ff(c) ? Df : M.current);
+                    g = b.stateNode, yg(a, b), h = b.memoizedProps, l = b.type === b.elementType ? h : lg(b.type, h), g.props = l, A = b.pendingProps, p = g.context, "object" == typeof (k = c.contextType) && null !== k ? k = vg(k) : (k = Ff(c) ? Df : M.current, k = Ef(b, k));
                     var C = c.getDerivedStateFromProps;
                     (n = "function" == typeof C || "function" == typeof g.getSnapshotBeforeUpdate) || "function" != typeof g.UNSAFE_componentWillReceiveProps && "function" != typeof g.componentWillReceiveProps || (h !== A || p !== k) && Ng(b, g, d, k), wg = !1, p = b.memoizedState, g.state = p, Cg(b, d, g, e);
                     var x = b.memoizedState;
@@ -14618,7 +14621,7 @@
                     var b = 4186112 & ~Hj;
                     return 0 == (b &= -b) && 0 == (b = (a = 4186112 & ~a) & -a) && (b = 8192), b;
                 }
-                return a = eg(), a = 0 != (4 & X) && 98 === a ? Xc(12, Gj) : Xc(a = function(a) {
+                return a = eg(), 0 != (4 & X) && 98 === a ? a = Xc(12, Gj) : (a = function(a) {
                     switch(a){
                         case 99:
                             return 15;
@@ -14632,7 +14635,7 @@
                         default:
                             return 0;
                     }
-                }(a), Gj);
+                }(a), a = Xc(a, Gj)), a;
             }
             function Jg(a, b, c) {
                 if (50 < Dj) throw Dj = 0, Ej = null, Error(y(185));
@@ -16478,6 +16481,9 @@
                 n = w("react.element"), p = w("react.portal"), exports.Fragment = w("react.fragment"), exports.StrictMode = w("react.strict_mode"), exports.Profiler = w("react.profiler"), q = w("react.provider"), r = w("react.context"), t = w("react.forward_ref"), exports.Suspense = w("react.suspense"), u = w("react.memo"), v = w("react.lazy");
             }
             var x = "function" == typeof Symbol && Symbol.iterator;
+            function y(a) {
+                return null === a || "object" != typeof a ? null : "function" == typeof (a = x && a[x] || a["@@iterator"]) ? a : null;
+            }
             function z(a) {
                 for(var b = "https://reactjs.org/docs/error-decoder.html?invariant=" + a, c = 1; c < arguments.length; c++)b += "&args[]=" + encodeURIComponent(arguments[c]);
                 return "Minified React error #" + a + "; visit " + b + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
@@ -16532,6 +16538,16 @@
                     _owner: G.current
                 };
             }
+            function K(a, b) {
+                return {
+                    $$typeof: n,
+                    type: a.type,
+                    key: b,
+                    ref: a.ref,
+                    props: a.props,
+                    _owner: a._owner
+                };
+            }
             function L(a) {
                 return "object" == typeof a && null !== a && a.$$typeof === n;
             }
@@ -16549,7 +16565,7 @@
                 if (null == a) return a;
                 var e = [], d = 0;
                 return !function O(a, b, c, e, d) {
-                    var a1, b1, a2, k = typeof a;
+                    var k = typeof a;
                     ("undefined" === k || "boolean" === k) && (a = null);
                     var h = !1;
                     if (null === a) h = !0;
@@ -16565,21 +16581,14 @@
                                     h = !0;
                             }
                     }
-                    if (h) return d = d(h = a), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
+                    if (h) return h = a, d = d(h), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
                         return a;
-                    })) : null != d && (L(d) && (a1 = d, b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, d = {
-                        $$typeof: n,
-                        type: a1.type,
-                        key: b1,
-                        ref: a1.ref,
-                        props: a1.props,
-                        _owner: a1._owner
-                    }), b.push(d)), 1;
+                    })) : null != d && (L(d) && (d = K(d, c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a)), b.push(d)), 1;
                     if (h = 0, e = "" === e ? "." : e + ":", Array.isArray(a)) for(var g = 0; g < a.length; g++){
                         var f = e + N(k = a[g], g);
                         h += O(k, b, c, f, d);
                     }
-                    else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
+                    else if ("function" == typeof (f = y(a))) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
                     else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
                     return h;
                 }(a, e, "", "", function(a) {

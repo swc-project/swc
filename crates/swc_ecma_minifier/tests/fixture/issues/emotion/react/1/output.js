@@ -552,7 +552,7 @@
                     return output;
                 }), stylis = function(styles) {
                     var value;
-                    return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                    return serialize((value = styles, dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
                         for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
                             case 34:
                             case 39:
@@ -635,9 +635,9 @@
                         return rulesets;
                     }("", null, null, null, [
                         ""
-                    ], value = alloc(value = styles), 0, [
+                    ], value = alloc(value), 0, [
                         0
-                    ], value)), serializer);
+                    ], value))), serializer);
                 };
                 _insert = function(selector, serialized, sheet, shouldCache) {
                     currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
