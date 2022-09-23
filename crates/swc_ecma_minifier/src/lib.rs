@@ -18,7 +18,8 @@
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
-#![allow(clippy::logic_bug)]
+#![allow(clippy::overly_compres_bool_expr)]
+#![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
 
