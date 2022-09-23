@@ -891,6 +891,7 @@ impl Minifier<'_> {
         }
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn remove_leading_and_trailing_whitespaces(
         &self,
         children: &mut Vec<Child>,
