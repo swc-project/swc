@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Prepend vars when dropping vars in a for loop initializer (#5930) ([f222413](https://github.com/swc-project/swc/commit/f2224132c1f000c560b97675b54cb7914bd444fa))
 
+
+- **(es/minifier)** Track aliasing via assignments (#5940) ([9764786](https://github.com/swc-project/swc/commit/97647861bfcbf111f07b2748ba755b19a7e16844))
+
 ### Features
 
 
