@@ -115,7 +115,6 @@ impl<I: Tokens> Parser<I> {
             return self.parse_bin_op_recursively_inner(node, min_prec);
         }
         if self.input.syntax().typescript()
-            && PREC_OF_IN > min_prec
             && !self.input.had_line_break_before_cur()
             && is!(self, "satisfies")
         {
