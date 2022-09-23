@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 67,
-            "end": 80,
+            "end": 92,
             "ctxt": 0
           },
           "id": {
@@ -35,14 +35,40 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "Identifier",
+            "type": "TsAsExpression",
             "span": {
               "start": 71,
-              "end": 80,
+              "end": 92,
               "ctxt": 0
             },
-            "value": "undefined",
-            "optional": false
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 71,
+                "end": 80,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            },
+            "typeAnnotation": {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 91,
+                "end": 92,
+                "ctxt": 0
+              },
+              "literal": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 91,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
           },
           "definite": false
         }

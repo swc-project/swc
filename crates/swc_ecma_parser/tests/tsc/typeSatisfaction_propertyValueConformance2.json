@@ -666,7 +666,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 452,
-            "end": 488,
+            "end": 504,
             "ctxt": 0
           },
           "id": {
@@ -681,59 +681,86 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ObjectExpression",
+            "type": "TsAsExpression",
             "span": {
               "start": 457,
-              "end": 488,
+              "end": 504,
               "ctxt": 0
             },
-            "properties": [
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 463,
-                    "end": 464,
-                    "ctxt": 0
-                  },
-                  "value": "m",
-                  "optional": false
-                },
-                "value": {
-                  "type": "BooleanLiteral",
-                  "span": {
-                    "start": 466,
-                    "end": 470,
-                    "ctxt": 0
-                  },
-                  "value": true
-                }
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 457,
+                "end": 488,
+                "ctxt": 0
               },
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 476,
-                    "end": 477,
-                    "ctxt": 0
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 463,
+                      "end": 464,
+                      "ctxt": 0
+                    },
+                    "value": "m",
+                    "optional": false
                   },
-                  "value": "s",
-                  "optional": false
+                  "value": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 466,
+                      "end": 470,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
                 },
-                "value": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 479,
-                    "end": 486,
-                    "ctxt": 0
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 476,
+                      "end": 477,
+                      "ctxt": 0
+                    },
+                    "value": "s",
+                    "optional": false
                   },
-                  "value": "false",
-                  "raw": "\"false\""
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 479,
+                      "end": 486,
+                      "ctxt": 0
+                    },
+                    "value": "false",
+                    "raw": "\"false\""
+                  }
                 }
-              }
-            ]
+              ]
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 499,
+                "end": 504,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 499,
+                  "end": 504,
+                  "ctxt": 0
+                },
+                "value": "Facts",
+                "optional": false
+              },
+              "typeParams": null
+            }
           },
           "definite": false
         }

@@ -660,6 +660,7 @@ define!({
         TsConstAssertion(TsConstAssertion),
         TsNonNull(TsNonNullExpr),
         TsAs(TsAsExpr),
+        TsSatisfaction(TsSatisfactionExpr),
         TsInstantiation(TsInstantiation),
         PrivateName(PrivateName),
         OptChain(OptChainExpr),

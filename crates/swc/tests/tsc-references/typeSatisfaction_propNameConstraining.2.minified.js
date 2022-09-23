@@ -1,7 +1,7 @@
 //// [typeSatisfaction_propNameConstraining.ts]
-//! 
-//!   x Expected a semicolon
-//!    ,----
-//!  7 | } satisfies Partial<Record<Keys, unknown>>;
-//!    :   ^^^^^^^^^
-//!    `----
+var p = {
+    a: 0,
+    b: "hello",
+    x: 8
+};
+p.a.toFixed(), p.b.substring(1), p.d;

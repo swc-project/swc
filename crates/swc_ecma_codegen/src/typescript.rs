@@ -40,6 +40,19 @@ where
     }
 
     #[emitter]
+    fn emit_ts_satisfaction_expr(&mut self, n: &TsSatisfactionExpr) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
+
+        emit!(n.expr);
+
+        space!();
+        keyword!("satisfies");
+        space!();
+
+        emit!(n.type_ann);
+    }
+
+    #[emitter]
     fn emit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 

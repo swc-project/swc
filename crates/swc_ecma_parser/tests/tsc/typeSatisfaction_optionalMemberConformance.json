@@ -132,7 +132,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 99,
-            "end": 112,
+            "end": 139,
             "ctxt": 0
           },
           "id": {
@@ -147,37 +147,92 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ObjectExpression",
+            "type": "TsAsExpression",
             "span": {
               "start": 103,
-              "end": 112,
+              "end": 139,
               "ctxt": 0
             },
-            "properties": [
-              {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 105,
-                    "end": 106,
-                    "ctxt": 0
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 103,
+                "end": 112,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 105,
+                      "end": 106,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false
                   },
-                  "value": "x",
-                  "optional": false
-                },
-                "value": {
-                  "type": "NumericLiteral",
-                  "span": {
-                    "start": 108,
-                    "end": 110,
-                    "ctxt": 0
-                  },
-                  "value": 10.0,
-                  "raw": "10"
+                  "value": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 108,
+                      "end": 110,
+                      "ctxt": 0
+                    },
+                    "value": 10.0,
+                    "raw": "10"
+                  }
                 }
+              ]
+            },
+            "typeAnnotation": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 123,
+                "end": 139,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 123,
+                  "end": 130,
+                  "ctxt": 0
+                },
+                "value": "Partial",
+                "optional": false
+              },
+              "typeParams": {
+                "type": "TsTypeParameterInstantiation",
+                "span": {
+                  "start": 130,
+                  "end": 139,
+                  "ctxt": 0
+                },
+                "params": [
+                  {
+                    "type": "TsTypeReference",
+                    "span": {
+                      "start": 131,
+                      "end": 138,
+                      "ctxt": 0
+                    },
+                    "typeName": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 131,
+                        "end": 138,
+                        "ctxt": 0
+                      },
+                      "value": "Point2d",
+                      "optional": false
+                    },
+                    "typeParams": null
+                  }
+                ]
               }
-            ]
+            }
           },
           "definite": false
         }

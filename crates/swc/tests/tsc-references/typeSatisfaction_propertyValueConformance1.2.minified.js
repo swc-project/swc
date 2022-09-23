@@ -1,7 +1,5 @@
 //// [typeSatisfaction_propertyValueConformance1.ts]
-//! 
-//!   x Expected a semicolon
-//!     ,----
-//!  24 | } satisfies Facts;
-//!     :   ^^^^^^^^^
-//!     `----
+var x = {
+    m: !0
+};
+checkTruths(x), checkM(x), console.log(x.z), x.m;

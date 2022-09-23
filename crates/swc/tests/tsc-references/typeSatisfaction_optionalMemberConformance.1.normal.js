@@ -1,7 +1,9 @@
 //// [typeSatisfaction_optionalMemberConformance.ts]
-//! 
-//!   x Expected a semicolon
-//!    ,----
-//!  3 | const a = { x: 10 } satisfies Partial<Point2d>;
-//!    :                     ^^^^^^^^^
-//!    `----
+// Undesirable behavior today with type annotation
+var a = {
+    x: 10
+};
+// Should OK
+console.log(a.x.toFixed());
+// Should error
+var p = a.y;

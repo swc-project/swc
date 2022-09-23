@@ -332,6 +332,9 @@ macro_rules! tok {
     ("as") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("as")))
     };
+    ("satisfies") => {
+        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("satisfies")))
+    };
     ("namespace") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("namespace")))
     };

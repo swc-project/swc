@@ -422,6 +422,7 @@ impl<I: Tokens> Parser<I> {
                         type_ann,
                     })));
                 }
+
                 // async a => body
                 let arg = Pat::from(ident);
                 let params = vec![arg];

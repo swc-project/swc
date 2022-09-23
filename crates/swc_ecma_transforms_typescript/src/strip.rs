@@ -436,7 +436,8 @@ where
             | Expr::TsNonNull(TsNonNullExpr { expr, .. })
             | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { expr, .. }) => {
+            | Expr::TsInstantiation(TsInstantiation { expr, .. })
+            | Expr::TsSatisfaction(TsSatisfactionExpr { expr, .. }) => {
                 expr.visit_mut_with(self);
                 let expr = *expr.take();
                 *n = expr;

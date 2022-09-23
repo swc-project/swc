@@ -141,7 +141,8 @@ impl StartsWithAlphaNum for Expr {
             Expr::TsNonNull(TsNonNullExpr { ref expr, .. })
             | Expr::TsAs(TsAsExpr { ref expr, .. })
             | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
-            | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => {
+            | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
+            | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => {
                 expr.starts_with_alpha_num()
             }
 

@@ -1,7 +1,9 @@
 //// [typeSatisfaction_contextualTyping1.ts]
-//! 
-//!   x Expected a semicolon
-//!    ,----
-//!  6 | } satisfies Predicates;
-//!    :   ^^^^^^^^^
-//!    `----
+var p = {
+    isEven: function(n) {
+        return n % 2 === 0;
+    },
+    isOdd: function(n) {
+        return n % 2 === 1;
+    }
+};

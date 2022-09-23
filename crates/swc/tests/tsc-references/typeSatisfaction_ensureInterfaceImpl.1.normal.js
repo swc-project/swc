@@ -1,7 +1,8 @@
 //// [typeSatisfaction_ensureInterfaceImpl.ts]
-//! 
-//!   x Expected a semicolon
-//!     ,----
-//!  11 | } satisfies Movable & Record<string, unknown>;
-//!     :   ^^^^^^^^^
-//!     `----
+var car = {
+    start: function start() {},
+    move: function move(d) {
+    // d should be number
+    },
+    stop: function stop() {}
+};

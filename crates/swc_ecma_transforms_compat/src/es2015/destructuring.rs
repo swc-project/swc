@@ -1170,14 +1170,12 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::Member(..)
         | Expr::SuperProp(..)
         | Expr::Call(..)
-        // an opt chain is either a member or a call
         | Expr::OptChain(..)
         | Expr::New(..)
         | Expr::Yield(..)
         | Expr::Await(..)
         | Expr::MetaProp(..) => true,
 
-        // This does not include null
         Expr::Lit(..) => false,
 
         Expr::Array(..)
@@ -1198,7 +1196,6 @@ fn can_be_null(e: &Expr) -> bool {
             ref cons, ref alt, ..
         }) => can_be_null(cons) || can_be_null(alt),
 
-        // TODO(kdy1): I'm not sure about this.
         Expr::Unary(..) | Expr::Update(..) | Expr::Bin(..) => true,
 
         Expr::JSXMember(..)
@@ -1207,12 +1204,12 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::JSXElement(..)
         | Expr::JSXFragment(..) => unreachable!("destructuring jsx"),
 
-        // Trust user
         Expr::TsNonNull(..) => false,
         Expr::TsAs(TsAsExpr { ref expr, .. })
         | Expr::TsTypeAssertion(TsTypeAssertion { ref expr, .. })
         | Expr::TsConstAssertion(TsConstAssertion { ref expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { ref expr, .. }) => can_be_null(expr),
+        | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
+        | Expr::TsSatisfaction(TsSatisfactionExpr { ref expr, .. }) => can_be_null(expr),
 
         Expr::Invalid(..) => unreachable!(),
     }

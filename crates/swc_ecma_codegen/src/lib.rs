@@ -746,7 +746,7 @@ where
 
     #[emitter]
     fn emit_expr(&mut self, node: &Expr) -> Result {
-        match *node {
+        match node {
             Expr::Array(ref n) => emit!(n),
             Expr::Arrow(ref n) => emit!(n),
             Expr::Assign(ref n) => emit!(n),
@@ -786,6 +786,9 @@ where
             Expr::TsInstantiation(ref n) => emit!(n),
             Expr::OptChain(ref n) => emit!(n),
             Expr::Invalid(ref n) => emit!(n),
+            Expr::TsSatisfaction(n) => {
+                emit!(n)
+            }
         }
 
         if self.comments.is_some() {
