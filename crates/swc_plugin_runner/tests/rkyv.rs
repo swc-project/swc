@@ -11,14 +11,12 @@ use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{
-    collections::AHashMap, errors::HANDLER, plugin::metadata::TransformPluginMetadataContext,
-    sync::Lazy, FileName, Mark,
+    collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName,
+    Mark,
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, EsConfig, Syntax, TsConfig};
-use swc_plugin_runner::cache::{
-    init_plugin_module_cache_once, PluginModuleCache, PLUGIN_MODULE_CACHE,
-};
+use swc_plugin_runner::cache::{init_plugin_module_cache_once, PLUGIN_MODULE_CACHE};
 use tracing::info;
 
 /// Returns the path to the built plugin

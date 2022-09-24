@@ -1252,7 +1252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.15"
+version = "0.4.17"
 dependencies = [
  "once_cell",
  "rkyv",
@@ -1265,7 +1265,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.28.8"
+version = "0.28.10"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1295,7 +1295,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.23.29"
+version = "0.26.0"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1313,7 +1313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.91.8"
+version = "0.93.0"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1329,7 +1329,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.124.14"
+version = "0.126.0"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1357,7 +1357,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.119.12"
+version = "0.121.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -1374,7 +1374,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.30.12"
+version = "0.32.0"
 dependencies = [
  "anyhow",
  "pmutil",
@@ -1390,7 +1390,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.17.14"
+version = "0.19.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1400,11 +1400,12 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "testing",
+ "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.108.17"
+version = "0.110.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1424,7 +1425,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.110.17"
+version = "0.112.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1446,7 +1447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.102.14"
+version = "0.104.0"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -1461,7 +1462,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.77.8"
+version = "0.79.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -1483,7 +1484,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.12.8"
+version = "0.12.10"
 dependencies = [
  "anyhow",
  "miette",
@@ -1528,7 +1529,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.19.10"
+version = "0.21.0"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -1549,7 +1550,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.2"
+version = "0.5.3"
 dependencies = [
  "either",
  "swc_visit_macros",
@@ -1557,7 +1558,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit_macros"
-version = "0.5.3"
+version = "0.5.4"
 dependencies = [
  "Inflector",
  "pmutil",
@@ -1613,7 +1614,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.30.8"
+version = "0.30.10"
 dependencies = [
  "ansi_term",
  "difference",
