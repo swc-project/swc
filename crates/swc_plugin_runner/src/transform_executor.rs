@@ -187,7 +187,7 @@ impl TransformExecutor {
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: bool,
     ) -> Result<PluginSerializedBytes, Error> {
-        let should_enable_comments_proxy = if should_enable_comments_proxy { 1 } else { 0 };
+        let should_enable_comments_proxy = i32::from(should_enable_comments_proxy);
         let guest_program_ptr = self.write_bytes_into_guest(program)?;
 
         let result = self.exported_plugin_transform.call(

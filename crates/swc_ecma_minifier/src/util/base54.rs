@@ -32,7 +32,7 @@ impl SourceMapper for DummySourceMap {
         unreachable!()
     }
 
-    fn span_to_lines(&self, _: Span) -> Result<FileLines, SpanLinesError> {
+    fn span_to_lines(&self, _: Span) -> Result<FileLines, Box<SpanLinesError>> {
         unreachable!()
     }
 
@@ -56,7 +56,7 @@ impl SourceMapper for DummySourceMap {
         line
     }
 
-    fn span_to_snippet(&self, _: Span) -> Result<String, swc_common::SpanSnippetError> {
+    fn span_to_snippet(&self, _: Span) -> Result<String, Box<swc_common::SpanSnippetError>> {
         Ok(String::new())
     }
 }

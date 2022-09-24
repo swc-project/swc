@@ -917,6 +917,7 @@ where
     }
 }
 
+#[allow(clippy::unused_peekable)]
 fn minify_attribute_value(value: &str) -> String {
     if value.is_empty() {
         return "\"\"".to_string();
@@ -983,6 +984,7 @@ fn normalize_attribute_value(value: &str) -> String {
     normalized
 }
 
+#[allow(clippy::unused_peekable)]
 fn minify_text(value: &str) -> String {
     let mut result = String::with_capacity(value.len());
     let mut chars = value.chars().peekable();

@@ -132,6 +132,7 @@ where
         })
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn collect_all_deps(
         &self,
         graph: &ModuleGraph,

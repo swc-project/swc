@@ -42,6 +42,7 @@ impl NoThrowLiteral {
         });
     }
 
+    #[allow(clippy::only_used_in_recursion)]
     fn could_be_error(&self, expr: &Expr) -> bool {
         match unwrap_seqs_and_parens(expr) {
             Expr::Ident(_)

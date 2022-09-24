@@ -139,8 +139,8 @@ impl Data {
                     from,
                     to,
                     VarInfo {
-                        usage: if !assign { 1 } else { 0 },
-                        assign: if assign { 1 } else { 0 },
+                        usage: u32::from(!assign),
+                        assign: u32::from(assign),
                     },
                 );
             }

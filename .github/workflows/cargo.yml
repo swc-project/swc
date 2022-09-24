@@ -83,7 +83,7 @@ jobs:
 
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
-        run: cargo check --color always --all --all-targets
+        run: cargo check --all --all-targets
   test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.runner }}
@@ -523,37 +523,37 @@ jobs:
       - name: Run cargo test
         if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
         run: |
-          cargo test --color always -p ${{ matrix.settings.crate }}
+          cargo test -p ${{ matrix.settings.crate }}
 
       - name: Run cargo test (core)
         if: matrix.settings.crate == 'swc_core'
         run: |
-          cargo test --color always -p swc_core --features ecma_quote --features common --features ecma_utils
+          cargo test -p swc_core --features ecma_quote --features common --features ecma_utils
 
       - name: Run cargo test (binding_core_wasm)
         if: matrix.settings.crate == 'binding_core_wasm'
         run: |
-          cargo test --color always --manifest-path ./bindings/binding_core_wasm/Cargo.toml
+          cargo test --manifest-path ./bindings/binding_core_wasm/Cargo.toml
 
       - name: Run cargo test (cli)
         if: matrix.settings.crate == 'swc_cli'
         run: |
-          cargo test --color always --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
+          cargo test --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
 
       - name: Run cargo test (plugin)
         if: matrix.settings.crate == 'swc_plugin_runner'
         run: |
-          cargo test --color always -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl
+          cargo test -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
         run: |
-          cargo test --color always -p swc_ecma_minifier --features concurrent
+          cargo test -p swc_ecma_minifier --features concurrent
 
       - name: Run cargo test (all features)
         if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
         run: |
-          cargo test --color always -p ${{ matrix.settings.crate }} --all-features
+          cargo test -p ${{ matrix.settings.crate }} --all-features
 
       - name: Run cargo test (concurrent)
         if: runner.os == 'Linux' && matrix.settings.crate != 'swc_ecma_minifier'
@@ -569,7 +569,7 @@ jobs:
         env:
           SWC_FORCE_CONCURRENT: "1"
         run: |
-          cargo test --color always -p swc --all-targets --features concurrent
+          cargo test -p swc --all-targets --features concurrent
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0

@@ -100,7 +100,7 @@ where
             _ => return,
         };
 
-        if stmt.alt == None {
+        if stmt.alt.is_none() {
             if let Stmt::Expr(cons) = &mut *stmt.cons {
                 self.changed = true;
                 report_change!("conditionals: `if (foo) bar;` => `foo && bar`");

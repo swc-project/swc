@@ -2,6 +2,7 @@
 #![allow(clippy::boxed_local)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
+#![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
 #[doc(hidden)]
 pub extern crate swc_ecma_ast;

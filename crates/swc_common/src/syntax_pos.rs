@@ -1216,9 +1216,9 @@ pub struct PartialFileLines {
 // MalformedSourceMapPositions
 //
 
-pub type FileLinesResult = Result<FileLines, SpanLinesError>;
+pub type FileLinesResult = Result<FileLines, Box<SpanLinesError>>;
 #[cfg(feature = "__plugin")]
-pub type PartialFileLinesResult = Result<PartialFileLines, SpanLinesError>;
+pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(

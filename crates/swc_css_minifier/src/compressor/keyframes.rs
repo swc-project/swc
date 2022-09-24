@@ -13,7 +13,7 @@ impl Compressor {
                     && string.value.to_ascii_lowercase() != js_word!("none") =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
-                    if let Some(escaped) = crate::escape::try_escape_if_shorter(&*string.value) {
+                    if let Some(escaped) = crate::escape::try_escape_if_shorter(&string.value) {
                         KeyframesName::CustomIdent(CustomIdent {
                             span: string.span,
                             value: escaped.into(),

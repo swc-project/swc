@@ -467,7 +467,7 @@ impl SourceMap {
         }
 
         if sp.lo() > sp.hi() {
-            return Err(SpanLinesError::IllFormedSpan(sp));
+            return Err(Box::new(SpanLinesError::IllFormedSpan(sp)));
         }
 
         let lo = self.lookup_char_pos(sp.lo());
@@ -480,10 +480,10 @@ impl SourceMap {
         }
 
         if lo.file.start_pos != hi.file.start_pos {
-            return Err(SpanLinesError::DistinctSources(DistinctSources {
+            return Err(Box::new(SpanLinesError::DistinctSources(DistinctSources {
                 begin: (lo.file.name.clone(), lo.file.start_pos),
                 end: (hi.file.name.clone(), hi.file.start_pos),
-            }));
+            })));
         }
         assert!(hi.line >= lo.line);
 
@@ -537,39 +537,45 @@ impl SourceMap {
     /// arguments: a string slice containing the source, an index in
     /// the slice for the beginning of the span and an index in the slice for
     /// the end of the span.
-    fn span_to_source<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
+    fn span_to_source<F, Ret>(
+        &self,
+        sp: Span,
+        extract_source: F,
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str, usize, usize) -> Ret,
     {
         if sp.lo() > sp.hi() {
-            return Err(SpanSnippetError::IllFormedSpan(sp));
+            return Err(Box::new(SpanSnippetError::IllFormedSpan(sp)));
         }
         if sp.lo.is_dummy() || sp.hi.is_dummy() {
-            return Err(SpanSnippetError::DummyBytePos);
+            return Err(Box::new(SpanSnippetError::DummyBytePos));
         }
 
         let local_begin = self.lookup_byte_offset(sp.lo());
         let local_end = self.lookup_byte_offset(sp.hi());
 
         if local_begin.sf.start_pos != local_end.sf.start_pos {
-            Err(SpanSnippetError::DistinctSources(DistinctSources {
-                begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
-                end: (local_end.sf.name.clone(), local_end.sf.start_pos),
-            }))
+            Err(Box::new(SpanSnippetError::DistinctSources(
+                DistinctSources {
+                    begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
+                    end: (local_end.sf.name.clone(), local_end.sf.start_pos),
+                },
+            )))
         } else {
             let start_index = local_begin.pos.to_usize();
             let end_index = local_end.pos.to_usize();
             let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
 
             if start_index > end_index || end_index > source_len {
-                return Err(SpanSnippetError::MalformedForSourcemap(
+                return Err(Box::new(SpanSnippetError::MalformedForSourcemap(
                     MalformedSourceMapPositions {
                         name: local_begin.sf.name.clone(),
                         source_len,
                         begin_pos: local_begin.pos,
                         end_pos: local_end.pos,
                     },
-                ));
+                )));
             }
 
             let src = &local_begin.sf.src;
@@ -578,7 +584,11 @@ impl SourceMap {
     }
 
     /// Calls `op` with the source code located at `sp`.
-    pub fn with_snippet_of_span<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    pub fn with_snippet_of_span<F, Ret>(
+        &self,
+        sp: Span,
+        op: F,
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str) -> Ret,
     {
@@ -598,7 +608,11 @@ impl SourceMap {
     }
 
     /// Calls the given closure with the source snippet before the given `Span`
-    pub fn with_span_to_prev_source<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    pub fn with_span_to_prev_source<F, Ret>(
+        &self,
+        sp: Span,
+        op: F,
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str) -> Ret,
     {
@@ -606,12 +620,16 @@ impl SourceMap {
     }
 
     /// Return the source snippet as `String` before the given `Span`
-    pub fn span_to_prev_source(&self, sp: Span) -> Result<String, SpanSnippetError> {
+    pub fn span_to_prev_source(&self, sp: Span) -> Result<String, Box<SpanSnippetError>> {
         self.with_span_to_prev_source(sp, |s| s.to_string())
     }
 
     /// Calls the given closure with the source snippet after the given `Span`
-    pub fn with_span_to_next_source<F, Ret>(&self, sp: Span, op: F) -> Result<Ret, SpanSnippetError>
+    pub fn with_span_to_next_source<F, Ret>(
+        &self,
+        sp: Span,
+        op: F,
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str) -> Ret,
     {
@@ -619,7 +637,7 @@ impl SourceMap {
     }
 
     /// Return the source snippet as `String` after the given `Span`
-    pub fn span_to_next_source(&self, sp: Span) -> Result<String, SpanSnippetError> {
+    pub fn span_to_next_source(&self, sp: Span) -> Result<String, Box<SpanSnippetError>> {
         self.with_span_to_next_source(sp, |s| s.to_string())
     }
 
@@ -1271,7 +1289,7 @@ impl SourceMapper for SourceMap {
     }
 
     /// Return the source snippet as `String` corresponding to the given `Span`
-    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+    fn span_to_snippet(&self, sp: Span) -> Result<String, Box<SpanSnippetError>> {
         self.span_to_source(sp, |src, start_index, end_index| {
             src[start_index..end_index].to_string()
         })

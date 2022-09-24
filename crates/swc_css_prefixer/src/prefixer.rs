@@ -429,14 +429,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
             }
 
             if matches!(self.from, "radial-gradient" | "repeating-radial-gradient") {
-                let at_index = n.value.iter().position(|n| match n {
-                    ComponentValue::Ident(Ident { value, .. })
-                        if value.as_ref().eq_ignore_ascii_case("at") =>
-                    {
-                        true
-                    }
-                    _ => false,
-                });
+                let at_index = n.value.iter().position(|n| matches!(n, ComponentValue::Ident(Ident { value, .. }) if value.as_ref().eq_ignore_ascii_case("at")));
                 let first_comma_index = n.value.iter().position(|n| {
                     matches!(
                         n,

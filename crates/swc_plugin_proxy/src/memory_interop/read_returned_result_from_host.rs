@@ -1,5 +1,3 @@
-#[cfg(feature = "rkyv-impl")]
-use rkyv;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]

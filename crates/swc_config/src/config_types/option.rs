@@ -36,15 +36,12 @@ where
     T: Merge + Default,
 {
     fn merge(&mut self, other: Self) {
-        match other.0 {
-            Some(other) => {
-                if self.0.is_none() {
-                    self.0 = Some(Default::default());
-                }
-
-                self.0.as_mut().unwrap().merge(other);
+        if let Some(other) = other.0 {
+            if self.0.is_none() {
+                self.0 = Some(Default::default());
             }
-            None => {}
+
+            self.0.as_mut().unwrap().merge(other);
         }
     }
 }

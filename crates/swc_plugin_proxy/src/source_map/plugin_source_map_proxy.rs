@@ -69,7 +69,7 @@ pub struct PluginSourceMapProxy {
 #[swc_trace]
 impl PluginSourceMapProxy {
     /*
-    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
+    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str, usize, usize) -> Ret,
     {
@@ -115,17 +115,17 @@ impl PluginSourceMapProxy {
         &self,
         sp: Span,
         extract_source: F,
-    ) -> Result<Ret, SpanSnippetError>
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str, usize, usize) -> Ret,
     {
         #[cfg(target_arch = "wasm32")]
         {
             if sp.lo() > sp.hi() {
-                return Err(SpanSnippetError::IllFormedSpan(sp));
+                return Err(Box::new(SpanSnippetError::IllFormedSpan(sp)));
             }
             if sp.lo.is_dummy() || sp.hi.is_dummy() {
-                return Err(SpanSnippetError::DummyBytePos);
+                return Err(Box::new(SpanSnippetError::DummyBytePos));
             }
 
             let local_begin: SourceFileAndBytePos =
@@ -140,24 +140,26 @@ impl PluginSourceMapProxy {
                 .expect("Should return end offset");
 
             if local_begin.sf.start_pos != local_end.sf.start_pos {
-                Err(SpanSnippetError::DistinctSources(DistinctSources {
-                    begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
-                    end: (local_end.sf.name.clone(), local_end.sf.start_pos),
-                }))
+                Err(Box::new(SpanSnippetError::DistinctSources(
+                    DistinctSources {
+                        begin: (local_begin.sf.name.clone(), local_begin.sf.start_pos),
+                        end: (local_end.sf.name.clone(), local_end.sf.start_pos),
+                    },
+                )))
             } else {
                 let start_index = local_begin.pos.to_usize();
                 let end_index = local_end.pos.to_usize();
                 let source_len = (local_begin.sf.end_pos - local_begin.sf.start_pos).to_usize();
 
                 if start_index > end_index || end_index > source_len {
-                    return Err(SpanSnippetError::MalformedForSourcemap(
+                    return Err(Box::new(SpanSnippetError::MalformedForSourcemap(
                         MalformedSourceMapPositions {
                             name: local_begin.sf.name.clone(),
                             source_len,
                             begin_pos: local_begin.pos,
                             end_pos: local_end.pos,
                         },
-                    ));
+                    )));
                 }
 
                 let src = &local_begin.sf.src;
@@ -283,7 +285,7 @@ impl SourceMapper for PluginSourceMapProxy {
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
-    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+    fn span_to_snippet(&self, sp: Span) -> Result<String, Box<SpanSnippetError>> {
         #[cfg(target_arch = "wasm32")]
         return self.span_to_source(sp, |src, start_index, end_index| {
             src[start_index..end_index].to_string()
