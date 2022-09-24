@@ -8,6 +8,7 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use clap::Args;
+use rayon::{prelude::ParallelIterator, str::ParallelString};
 use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
 
@@ -39,13 +40,15 @@ impl CheckSizeCommand {
         wrap_task(|| {
             if !self.ensure_fresh {}
 
-            self.build_app(app_dir)
+            let files = self.build_app(app_dir)?;
+
+            Ok(())
         })
         .context("failed to extract inputs for the swc minifier")
     }
 
-    /// Invokes `npm run build`
-    fn build_app(&self, app_dir: &Path) -> Result<()> {
+    /// Invokes `npm run build` and extacts the inputs for the swc minifier.
+    fn build_app(&self, app_dir: &Path) -> Result<Vec<InputFile>> {
         wrap_task(|| {
             // Remove cache
             let _ = remove_dir_all(app_dir.join(".next"));
@@ -67,16 +70,14 @@ impl CheckSizeCommand {
             }
 
             let output = String::from_utf8_lossy(&output.stdout);
-            for line in output.lines() {
-                if line.contains("{ name:") {
-                    let input_file: InputFile =
-                        parse_loose_json(line).context("failed to parse input file")?;
 
-                    eprintln!("{}", input_file.name);
-                }
-            }
-
-            Ok(())
+            output
+                .par_lines()
+                .filter(|line| line.contains("{ name:"))
+                .map(|line| {
+                    parse_loose_json::<InputFile>(line).context("failed to parse input file")
+                })
+                .collect::<Result<_>>()
         })
         .with_context(|| format!("failed to build app in `{}`", app_dir.display()))
     }
