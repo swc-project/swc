@@ -63,6 +63,6 @@ impl CheckSizeCommand {
 
             Ok(())
         })
-        .with_context(|| format!("failed to build app"))
+        .with_context(|| format!("failed to build app in `{}`", app_dir.display()))
     }
 }
