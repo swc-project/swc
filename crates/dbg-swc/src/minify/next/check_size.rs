@@ -47,6 +47,7 @@ impl CheckSizeCommand {
             let _ = remove_dir_all(app_dir.join(".next"));
 
             let mut c = Command::new("npm");
+            c.current_dir(app_dir);
             c.env("NEXT_DEBUG_MINIFY", "1");
             c.arg("run").arg("build");
 
