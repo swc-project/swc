@@ -735,6 +735,7 @@ dependencies = [
  "flate2",
  "rayon",
  "serde",
+ "serde_json",
  "sha1 0.10.1",
  "swc_atoms",
  "swc_common",

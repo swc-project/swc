@@ -17,6 +17,7 @@ clap = { version = "3", features = ["derive"] }
 flate2 = "1.0"
 rayon = "1.5.2"
 serde = "1"
+serde_json = "1"
 sha1 = "0.10.1"
 swc_atoms = { version = "0.4.17", path = "../swc_atoms" }
 swc_common = { version = "0.28.10", features = [
