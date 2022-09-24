@@ -1,10 +1,12 @@
 use std::{
+    io::Write,
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::Arc,
 };
 
 use anyhow::{bail, Context, Result};
+use flate2::{write::ZlibEncoder, Compression};
 use swc_common::{comments::SingleThreadedComments, errors::HANDLER, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::{EsVersion, Module};
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter, WriteJs};
@@ -20,6 +22,13 @@ where
     F: FnOnce() -> Result<T>,
 {
     op()
+}
+
+pub fn gzipped_size(code: &str) -> usize {
+    let mut e = ZlibEncoder::new(Vec::new(), Compression::new(9));
+    e.write_all(code.as_bytes()).unwrap();
+    let compressed_bytes = e.finish().unwrap();
+    compressed_bytes.len()
 }
 
 pub fn make_pretty(f: &Path) -> Result<()> {

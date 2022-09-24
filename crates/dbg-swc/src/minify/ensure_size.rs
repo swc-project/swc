@@ -1,12 +1,10 @@
 use std::{
-    io::Write,
     path::{Path, PathBuf},
     sync::Arc,
 };
 
 use anyhow::{Context, Result};
 use clap::Args;
-use flate2::{write::ZlibEncoder, Compression};
 use rayon::prelude::*;
 use swc_common::{
     errors::{ColorConfig, Handler, HANDLER},
@@ -15,7 +13,7 @@ use swc_common::{
 use tracing::info;
 
 use crate::util::{
-    all_js_files,
+    all_js_files, gzipped_size,
     minifier::{get_esbuild_output, get_minified, get_terser_output},
     print_js, wrap_task,
 };
@@ -213,13 +211,6 @@ impl EnsureSize {
         })
         .with_context(|| format!("failed to check file: {}", js_file.display()))
     }
-}
-
-fn gzipped_size(code: &str) -> usize {
-    let mut e = ZlibEncoder::new(Vec::new(), Compression::new(9));
-    e.write_all(code.as_bytes()).unwrap();
-    let compressed_bytes = e.finish().unwrap();
-    compressed_bytes.len()
 }
 
 #[allow(unused)]
