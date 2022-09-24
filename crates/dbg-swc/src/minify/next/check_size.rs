@@ -145,9 +145,9 @@ impl CheckSizeCommand {
     fn minify_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<CompareResult> {
         wrap_task(|| {
             let terser_full =
-                get_terser_output(js_file, true, false).context("failed to get terser output")?;
+                get_terser_output(js_file, true, true).context("failed to get terser output")?;
 
-            let swc_full = get_minified(cm.clone(), js_file, true, false)?;
+            let swc_full = get_minified(cm.clone(), js_file, true, true)?;
             let swc_full = print_js(cm.clone(), &swc_full.module, true)?;
 
             Ok(CompareResult {
