@@ -734,6 +734,7 @@ dependencies = [
  "clap 3.1.0",
  "flate2",
  "rayon",
+ "serde",
  "sha1 0.10.1",
  "swc_atoms",
  "swc_common",
