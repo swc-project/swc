@@ -77,6 +77,8 @@ impl CheckSizeCommand {
     /// Invokes `npm run build` and extacts the inputs for the swc minifier.
     fn build_app(&self, app_dir: &Path) -> Result<Vec<InputFile>> {
         wrap_task(|| {
+            info!("Running `npm run build`");
+
             // Remove cache
             let _ = remove_dir_all(app_dir.join(".next"));
 
