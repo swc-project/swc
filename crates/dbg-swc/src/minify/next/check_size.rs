@@ -41,10 +41,22 @@ impl CheckSizeCommand {
 
         info!("Running minifier");
 
-        let files = files
+        let mut files = files
             .into_par_iter()
             .map(|file| self.minify_file(cm.clone(), &file))
             .collect::<Result<Vec<_>>>()?;
+
+        files.retain(|f| f.swc >= f.terser);
+        files.sort_by_key(|f| f.swc - f.terser);
+
+        for file in files {
+            println!(
+                "{}: {} bytes (swc) vs {} bytes (terser)",
+                file.path.display(),
+                file.swc,
+                file.terser
+            );
+        }
 
         Ok(())
     }
@@ -133,6 +145,7 @@ impl CheckSizeCommand {
             Ok(CompareResult {
                 terser: gzipped_size(&terser),
                 swc: gzipped_size(&swc),
+                path: js_file.to_owned(),
             })
         })
         .with_context(|| format!("failed to minify `{}`", js_file.display()))
@@ -140,6 +153,7 @@ impl CheckSizeCommand {
 }
 
 struct CompareResult {
+    path: PathBuf,
     swc: usize,
     terser: usize,
 }
