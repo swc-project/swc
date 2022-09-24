@@ -510,6 +510,15 @@ fn issue_3672_2() {
     );
 }
 
+#[test]
+fn issue_5947() {
+    test_parser(
+        "[a as number, b as number, c as string] = [1, 2, '3']",
+        Syntax::Typescript(Default::default()),
+        |p| p.parse_module(),
+    );
+}
+
 #[bench]
 fn bench_new_expr_ts(b: &mut Bencher) {
     bench_parser(
