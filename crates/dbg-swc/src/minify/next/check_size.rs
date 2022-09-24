@@ -13,7 +13,7 @@ use rayon::{
     str::ParallelString,
 };
 use serde::{de::DeserializeOwned, Deserialize};
-use swc_common::{SourceMap, GLOBALS};
+use swc_common::{errors::HANDLER, SourceMap, GLOBALS};
 use tracing::info;
 
 use crate::util::{
@@ -42,10 +42,16 @@ impl CheckSizeCommand {
         info!("Running minifier");
 
         let mut files = GLOBALS.with(|globals| {
-            files
-                .into_par_iter()
-                .map(|file| GLOBALS.set(globals, || self.minify_file(cm.clone(), &file)))
-                .collect::<Result<Vec<_>>>()
+            HANDLER.with(|handler| {
+                files
+                    .into_par_iter()
+                    .map(|file| {
+                        GLOBALS.set(globals, || {
+                            HANDLER.set(handler, || self.minify_file(cm.clone(), &file))
+                        })
+                    })
+                    .collect::<Result<Vec<_>>>()
+            })
         })?;
 
         files.retain(|f| f.swc >= f.terser);
