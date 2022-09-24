@@ -21,7 +21,7 @@ use crate::util::wrap_task;
 #[derive(Debug, Args)]
 pub struct CheckSizeCommand {
     /// The directory store inputs to the swc minifier.
-    #[clap(long, short = 'w', default_value = ".swc/dbg-swc")]
+    #[clap(long, short = 'w', default_value = ".next/dbg-swc")]
     workspace: PathBuf,
 
     /// Rerun `npm run build` even if `workspace` is not empty.
