@@ -1,6 +1,6 @@
 use std::{
     env::current_dir,
-    fs::{read_dir, remove_dir_all},
+    fs::{self, create_dir_all, read_dir, remove_dir_all},
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::Arc,
@@ -8,7 +8,10 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use clap::Args;
-use rayon::{prelude::ParallelIterator, str::ParallelString};
+use rayon::{
+    prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator},
+    str::ParallelString,
+};
 use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
 use tracing::log::info;
@@ -37,7 +40,7 @@ impl CheckSizeCommand {
 
     /// Invokes `npm run build` with appropriate environment variables, and
     /// store the result in `self.workspace`.
-    fn store_minifier_inputs(&self, app_dir: &Path) -> Result<()> {
+    fn store_minifier_inputs(&self, app_dir: &Path) -> Result<Vec<PathBuf>> {
         wrap_task(|| {
             if !self.ensure_fresh
                 && self.workspace.is_dir()
@@ -50,14 +53,23 @@ impl CheckSizeCommand {
                     "Skipping `npm run build` because the cache exists and `--ensure-fresh` is \
                      not set"
                 );
-                return Ok(());
+
+                return get_all_files(&self.workspace).context("failed to get files from cache");
             }
 
             let files = self.build_app(app_dir)?;
 
-            if !self.workspace.exists() {}
+            files
+                .into_par_iter()
+                .map(|file| {
+                    let file_path = self.workspace.join(file.name);
+                    create_dir_all(file_path.parent().unwrap())
+                        .context("failed to create a directory")?;
+                    fs::write(&file_path, file.source).context("failed to write file")?;
 
-            Ok(())
+                    Ok(file_path)
+                })
+                .collect::<Result<_>>()
         })
         .context("failed to extract inputs for the swc minifier")
     }
@@ -133,4 +145,18 @@ where
         serde_json::from_slice(&json_str).context("failed to parse json")
     })
     .with_context(|| format!("failed to parse loose json: {}", s))
+}
+
+fn get_all_files(path: &Path) -> Result<Vec<PathBuf>> {
+    if path.is_dir() {
+        let v = read_dir(path)
+            .with_context(|| format!("failed to read directory at `{}`", path.display()))?
+            .par_bridge()
+            .map(|entry| get_all_files(&entry?.path()).context("failed get recurse"))
+            .collect::<Result<Vec<_>>>()?;
+
+        Ok(v.into_iter().flatten().collect())
+    } else {
+        Ok(vec![path.to_path_buf()])
+    }
 }
