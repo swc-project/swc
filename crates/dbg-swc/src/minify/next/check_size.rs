@@ -27,12 +27,14 @@ impl CheckSizeCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let app_dir = current_dir().context("failed to get current directory")?;
 
+        self.store_minifier_inputs(&app_dir)?;
+
         Ok(())
     }
 
     /// Invokes `npm run build` with appropriate environment variables, and
     /// store the result in `self.workspace`.
-    fn extract_inputs(&self, app_dir: &Path) -> Result<()> {
+    fn store_minifier_inputs(&self, app_dir: &Path) -> Result<()> {
         wrap_task(|| {
             if !self.ensure_fresh {}
 
