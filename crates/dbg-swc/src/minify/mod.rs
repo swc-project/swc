@@ -12,6 +12,7 @@ use self::{
 mod compare;
 mod diff_options;
 mod ensure_size;
+mod next;
 mod reduce;
 
 /// Debug swc es minifier
