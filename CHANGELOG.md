@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Build
+
+
+
+- **(rustc)** Update rustc (#5943) ([3c3529c](https://github.com/swc-project/swc/commit/3c3529cb84052dcde7976fed4d74d17d33317242))
+
+## [1.3.3] - 2022-09-23
+
 ### Bug Fixes
 
 
