@@ -8,6 +8,7 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use clap::Args;
+use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
 
 use crate::util::wrap_task;
@@ -46,10 +47,12 @@ impl CheckSizeCommand {
     /// Invokes `npm run build`
     fn build_app(&self, app_dir: &Path) -> Result<()> {
         wrap_task(|| {
+            // Remove cache
             let _ = remove_dir_all(app_dir.join(".next"));
 
             let mut c = Command::new("npm");
             c.current_dir(app_dir);
+            c.env("FORCE_COLOR", "3");
             c.env("NEXT_DEBUG_MINIFY", "1");
             c.arg("run").arg("build");
 
@@ -63,8 +66,55 @@ impl CheckSizeCommand {
                 bail!("`npm run build` failed");
             }
 
+            let output = String::from_utf8_lossy(&output.stdout);
+            for line in output.lines() {
+                if line.contains("{ name:") {
+                    let input_file: InputFile =
+                        parse_loose_json(line).context("failed to parse input file")?;
+
+                    eprintln!("{}", input_file.name);
+                }
+            }
+
             Ok(())
         })
         .with_context(|| format!("failed to build app in `{}`", app_dir.display()))
     }
+}
+
+#[derive(Deserialize)]
+struct InputFile {
+    name: String,
+    source: String,
+}
+
+fn parse_loose_json<T>(s: &str) -> Result<T>
+where
+    T: DeserializeOwned,
+{
+    wrap_task(|| {
+        let mut c = Command::new("node");
+
+        c.arg("-e");
+        c.arg(
+            r###"
+            function looseJsonParse(obj) {
+                return Function('"use strict";return (' + obj + ")")();
+            }
+            console.log(JSON.stringify(looseJsonParse(process.argv[1])));
+            "###,
+        );
+
+        c.arg(s);
+
+        c.stderr(Stdio::inherit());
+
+        let json_str = c
+            .output()
+            .context("failed to parse json loosely using node")?
+            .stdout;
+
+        serde_json::from_slice(&json_str).context("failed to parse json")
+    })
+    .with_context(|| format!("failed to parse loose json: {}", s))
 }
