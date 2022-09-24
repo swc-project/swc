@@ -69,7 +69,7 @@ pub struct PluginSourceMapProxy {
 #[swc_trace]
 impl PluginSourceMapProxy {
     /*
-    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, SpanSnippetError>
+    fn sss<F, Ret>(&self, sp: Span, extract_source: F) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str, usize, usize) -> Ret,
     {
@@ -115,7 +115,7 @@ impl PluginSourceMapProxy {
         &self,
         sp: Span,
         extract_source: F,
-    ) -> Result<Ret, SpanSnippetError>
+    ) -> Result<Ret, Box<SpanSnippetError>>
     where
         F: FnOnce(&str, usize, usize) -> Ret,
     {
@@ -283,7 +283,7 @@ impl SourceMapper for PluginSourceMapProxy {
         unimplemented!("Sourcemap proxy cannot be called in this context")
     }
 
-    fn span_to_snippet(&self, sp: Span) -> Result<String, SpanSnippetError> {
+    fn span_to_snippet(&self, sp: Span) -> Result<String, Box<SpanSnippetError>> {
         #[cfg(target_arch = "wasm32")]
         return self.span_to_source(sp, |src, start_index, end_index| {
             src[start_index..end_index].to_string()
