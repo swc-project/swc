@@ -6,7 +6,7 @@ use swc_common::SourceMap;
 
 use self::{
     compare::CompareCommand, diff_options::DiffOptionCommand, ensure_size::EnsureSize,
-    reduce::ReduceCommand,
+    next::NextCommand, reduce::ReduceCommand,
 };
 
 mod compare;
@@ -18,6 +18,8 @@ mod reduce;
 /// Debug swc es minifier
 #[derive(Debug, Subcommand)]
 pub enum MinifyCommand {
+    #[clap(subcommand)]
+    Next(NextCommand),
     Reduce(ReduceCommand),
     Compare(CompareCommand),
     DiffOption(DiffOptionCommand),
@@ -27,6 +29,7 @@ pub enum MinifyCommand {
 impl MinifyCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         match self {
+            MinifyCommand::Next(cmd) => cmd.run(cm),
             MinifyCommand::Reduce(cmd) => cmd.run(cm),
             MinifyCommand::EnsureSize(cmd) => cmd.run(cm),
             MinifyCommand::Compare(cmd) => cmd.run(cm),
