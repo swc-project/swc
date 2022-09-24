@@ -144,15 +144,15 @@ impl CheckSizeCommand {
 
     fn minify_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<CompareResult> {
         wrap_task(|| {
-            let terser =
+            let terser_full =
                 get_terser_output(js_file, true, false).context("failed to get terser output")?;
 
-            let swc = get_minified(cm.clone(), js_file, true, false)?;
-            let swc = print_js(cm.clone(), &swc.module, true)?;
+            let swc_full = get_minified(cm.clone(), js_file, true, false)?;
+            let swc_full = print_js(cm.clone(), &swc_full.module, true)?;
 
             Ok(CompareResult {
-                terser: gzipped_size(&terser),
-                swc: gzipped_size(&swc),
+                terser: gzipped_size(&terser_full),
+                swc: gzipped_size(&swc_full),
                 path: js_file.to_owned(),
             })
         })
