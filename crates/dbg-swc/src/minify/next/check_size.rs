@@ -7,7 +7,7 @@ use swc_common::SourceMap;
 #[derive(Debug, Args)]
 pub struct CheckSizeCommand {
     /// The directory store inputs to the swc minifier.
-    #[clap(long, default_value = ".swc/dbg-swc")]
+    #[clap(long, short = 'w', default_value = ".swc/dbg-swc")]
     workspace: PathBuf,
 
     /// Rerun `next build` even if `workspace` is not empty.
