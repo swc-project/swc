@@ -14,7 +14,7 @@ mod diff_options;
 mod ensure_size;
 mod reduce;
 
-/// Minify a javascript file.
+/// Debug swc es minifier
 #[derive(Debug, Subcommand)]
 pub enum MinifyCommand {
     Reduce(ReduceCommand),
