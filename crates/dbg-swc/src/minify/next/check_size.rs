@@ -14,7 +14,7 @@ use rayon::{
 };
 use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
-use tracing::log::info;
+use tracing::info;
 
 use crate::util::wrap_task;
 
