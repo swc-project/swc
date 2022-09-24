@@ -1,6 +1,6 @@
 use std::{
     env::current_dir,
-    fs::remove_dir_all,
+    fs::{read_dir, remove_dir_all},
     path::{Path, PathBuf},
     process::{Command, Stdio},
     sync::Arc,
@@ -11,6 +11,7 @@ use clap::Args;
 use rayon::{prelude::ParallelIterator, str::ParallelString};
 use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
+use tracing::log::info;
 
 use crate::util::wrap_task;
 
@@ -38,9 +39,23 @@ impl CheckSizeCommand {
     /// store the result in `self.workspace`.
     fn store_minifier_inputs(&self, app_dir: &Path) -> Result<()> {
         wrap_task(|| {
-            if !self.ensure_fresh {}
+            if !self.ensure_fresh
+                && self.workspace.is_dir()
+                && read_dir(&self.workspace)
+                    .context("failed to read workspace directory")?
+                    .count()
+                    != 0
+            {
+                info!(
+                    "Skipping `npm run build` because the cache exists and `--ensure-fresh` is \
+                     not set"
+                );
+                return Ok(());
+            }
 
             let files = self.build_app(app_dir)?;
+
+            if !self.workspace.exists() {}
 
             Ok(())
         })
