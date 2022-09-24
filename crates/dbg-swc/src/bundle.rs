@@ -4,14 +4,10 @@ use std::{
 };
 
 use anyhow::{bail, Context, Result};
-use clap::Subcommand;
 use swc_common::{FileName, SourceMap};
 use swc_timer::timer;
 
 use crate::util::{parse_js, wrap_task, ModuleRecord};
-
-#[derive(Debug, Subcommand)]
-pub enum BundleCommand {}
 
 pub fn bundle(cm: Arc<SourceMap>, entry_url: &str) -> Result<ModuleRecord> {
     wrap_task(|| {
