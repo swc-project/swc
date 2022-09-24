@@ -16,12 +16,16 @@ use serde::{de::DeserializeOwned, Deserialize};
 use swc_common::SourceMap;
 use tracing::info;
 
-use crate::util::wrap_task;
+use crate::util::{
+    gzipped_size,
+    minifier::{get_minified, get_terser_output},
+    print_js, wrap_task,
+};
 
 #[derive(Debug, Args)]
 pub struct CheckSizeCommand {
     /// The directory store inputs to the swc minifier.
-    #[clap(long, short = 'w', default_value = ".next/dbg-swc")]
+    #[clap(long, short = 'w', default_value = ".next/dbg-swc/minifier-check-size")]
     workspace: PathBuf,
 
     /// Rerun `npm run build` even if `workspace` is not empty.
@@ -33,7 +37,14 @@ impl CheckSizeCommand {
     pub fn run(self, cm: Arc<SourceMap>) -> Result<()> {
         let app_dir = current_dir().context("failed to get current directory")?;
 
-        self.store_minifier_inputs(&app_dir)?;
+        let files = self.store_minifier_inputs(&app_dir)?;
+
+        info!("Running minifier");
+
+        let files = files
+            .into_par_iter()
+            .map(|file| self.minify_file(cm.clone(), &file))
+            .collect::<Result<Vec<_>>>()?;
 
         Ok(())
     }
@@ -110,6 +121,27 @@ impl CheckSizeCommand {
         })
         .with_context(|| format!("failed to build app in `{}`", app_dir.display()))
     }
+
+    fn minify_file(&self, cm: Arc<SourceMap>, js_file: &Path) -> Result<CompareResult> {
+        wrap_task(|| {
+            let terser =
+                get_terser_output(js_file, true, false).context("failed to get terser output")?;
+
+            let swc = get_minified(cm.clone(), js_file, true, false)?;
+            let swc = print_js(cm.clone(), &swc.module, true)?;
+
+            Ok(CompareResult {
+                terser: gzipped_size(&terser),
+                swc: gzipped_size(&swc),
+            })
+        })
+        .with_context(|| format!("failed to minify `{}`", js_file.display()))
+    }
+}
+
+struct CompareResult {
+    swc: usize,
+    terser: usize,
 }
 
 #[derive(Deserialize)]
