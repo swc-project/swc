@@ -1232,11 +1232,13 @@ where
         }
 
         formatting_space!();
-        punct!("{");
-        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
-        punct!("}");
 
-        srcmap!(node, false);
+        punct!("{");
+
+        self.emit_list(node.span, Some(&node.body), ListFormat::ClassMembers)?;
+
+        srcmap!(node, false, true);
+        punct!("}");
     }
 
     #[emitter]
