@@ -569,7 +569,7 @@ where
             }
         }
 
-        srcmap!(node, false);
+        // srcmap!(node, false);
     }
 
     #[emitter]
