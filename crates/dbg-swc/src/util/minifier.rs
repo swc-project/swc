@@ -60,7 +60,8 @@ pub fn get_minified(
 
 pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<String> {
     wrap_task(|| {
-        let mut cmd = Command::new("terser");
+        let mut cmd = Command::new("npx");
+        cmd.arg("terser");
         cmd.stderr(Stdio::inherit());
 
         if compress {

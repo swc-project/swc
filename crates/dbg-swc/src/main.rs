@@ -10,7 +10,6 @@ use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing_subscriber::EnvFilter;
 
 use self::{
-    bundle::BundleCommand,
     minify::MinifyCommand,
     test::TestCommand,
     util::{minifier::get_esbuild_output, print_js},
@@ -34,8 +33,6 @@ struct AppArgs {
 
 #[derive(Debug, Subcommand)]
 enum Cmd {
-    #[clap(subcommand)]
-    Bundle(BundleCommand),
     #[clap(subcommand)]
     Minify(MinifyCommand),
     #[clap(subcommand)]
@@ -145,7 +142,6 @@ fn main() -> Result<()> {
         |handler| {
             GLOBALS.set(&Globals::default(), || {
                 HANDLER.set(handler, || match args.cmd {
-                    Cmd::Bundle(_) => todo!(),
                     Cmd::Minify(cmd) => cmd.run(cm),
                     Cmd::Test(cmd) => cmd.run(cm),
                 })
