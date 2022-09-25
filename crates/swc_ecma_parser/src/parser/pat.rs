@@ -566,7 +566,8 @@ impl<I: Tokens> Parser<I> {
                 | Expr::Fn(..)
                 | Expr::Class(..)
                 | Expr::Paren(..)
-                | Expr::Tpl(..) => {
+                | Expr::Tpl(..)
+                | Expr::TsAs(..) => {
                     if !expr.is_valid_simple_assignment_target(self.ctx().strict) {
                         self.emit_err(span, SyntaxError::NotSimpleAssign)
                     }
