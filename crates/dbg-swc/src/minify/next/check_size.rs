@@ -33,6 +33,10 @@ pub struct CheckSizeCommand {
     /// Rerun `npm run build` even if `workspace` is not empty.
     #[clap(long)]
     ensure_fresh: bool,
+
+    /// Show every file, even if the output of swc minifier was smaller.
+    #[clap(long)]
+    show_all: bool,
 }
 
 impl CheckSizeCommand {
@@ -56,7 +60,22 @@ impl CheckSizeCommand {
             })
         })?;
 
+        if !self.show_all {
+            files.retain(|f| f.swc <= f.terser);
+        }
         files.sort_by_key(|f| Reverse(f.swc as i32 - f.terser as i32));
+
+        for file in &files {
+            println!(
+                "{}: {} bytes (swc) vs {} bytes (terser)",
+                file.path
+                    .strip_prefix(&self.workspace.join("inputs"))
+                    .unwrap()
+                    .display(),
+                file.swc,
+                file.terser
+            );
+        }
 
         if !files.is_empty() {
             println!("Select a file to open diff");
