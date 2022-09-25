@@ -56,8 +56,7 @@ impl CheckSizeCommand {
             })
         })?;
 
-        files.retain(|f| f.swc >= f.terser);
-        files.sort_by_key(|f| Reverse(f.swc - f.terser));
+        files.sort_by_key(|f| Reverse(f.swc as i32 - f.terser as i32));
 
         for file in &files {
             println!(
@@ -78,7 +77,7 @@ impl CheckSizeCommand {
                 format!(
                     "{}: Diff: {} bytes; {} bytes (swc) vs {} bytes (terser)",
                     f.path.strip_prefix(&self.workspace).unwrap().display(),
-                    f.swc - f.terser,
+                    f.swc as i32 - f.terser as i32,
                     f.swc,
                     f.terser,
                 )
