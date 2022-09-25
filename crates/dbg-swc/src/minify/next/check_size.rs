@@ -1,7 +1,6 @@
 use std::{
     cmp::Reverse,
     env::current_dir,
-    fmt::{self, Display},
     fs::{self, create_dir_all, read_dir, remove_dir_all},
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -69,11 +68,11 @@ impl CheckSizeCommand {
             );
         }
 
-        let mut items = files
+        let items = files
             .iter()
             .map(|f| {
                 format!(
-                    "{}: {}; {} bytes (swc) vs {} bytes (terser)",
+                    "{}: Diff: {} bytes; {} bytes (swc) vs {} bytes (terser)",
                     f.path.strip_prefix(&self.workspace).unwrap().display(),
                     f.swc - f.terser,
                     f.swc,
