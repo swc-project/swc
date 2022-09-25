@@ -61,6 +61,11 @@ impl CheckSizeCommand {
         })?;
 
         if !self.show_all {
+            info!(
+                "Skiping files which are smaller than terser output, as `--show-all` is not \
+                 specified"
+            );
+
             files.retain(|f| f.swc > f.terser);
         }
         files.sort_by_key(|f| Reverse(f.swc as i32 - f.terser as i32));
