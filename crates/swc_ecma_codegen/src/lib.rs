@@ -1900,9 +1900,8 @@ where
             self.wr.write_line()?;
         }
 
+        srcmap!(node, false, true);
         punct!("}");
-
-        srcmap!(node, false);
     }
 
     #[emitter]
