@@ -7,6 +7,12 @@
 
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
+### Features
+
+
+
+- **(dbg-swc)** Add a size debugger for next.js (#5945) ([b219fa2](https://github.com/swc-project/swc/commit/b219fa2f015f39e1f3da17ade777a4bc92b6eabe))
+
 ### Build
 
 
