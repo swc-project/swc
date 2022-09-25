@@ -1187,7 +1187,7 @@ pub struct LineInfo {
 }
 
 /// Used to create a `.map` file.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct LineCol {
     pub line: u32,
     pub col: u32,
