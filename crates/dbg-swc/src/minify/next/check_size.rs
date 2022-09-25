@@ -58,18 +58,6 @@ impl CheckSizeCommand {
 
         files.sort_by_key(|f| Reverse(f.swc as i32 - f.terser as i32));
 
-        for file in &files {
-            println!(
-                "{}: {} bytes (swc) vs {} bytes (terser)",
-                file.path
-                    .strip_prefix(&self.workspace.join("inputs"))
-                    .unwrap()
-                    .display(),
-                file.swc,
-                file.terser
-            );
-        }
-
         if !files.is_empty() {
             println!("Select a file to open diff");
         }
