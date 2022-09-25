@@ -1,5 +1,7 @@
 use std::{
+    cmp::Reverse,
     env::current_dir,
+    fmt::{self, Display},
     fs::{self, create_dir_all, read_dir, remove_dir_all},
     path::{Path, PathBuf},
     process::{Command, Stdio},
@@ -8,6 +10,7 @@ use std::{
 
 use anyhow::{bail, Context, Result};
 use clap::Args;
+use dialoguer::{console::Term, theme::ColorfulTheme, Select};
 use rayon::{
     prelude::{IntoParallelIterator, ParallelBridge, ParallelIterator},
     str::ParallelString,
@@ -55,9 +58,9 @@ impl CheckSizeCommand {
         })?;
 
         files.retain(|f| f.swc >= f.terser);
-        files.sort_by_key(|f| f.swc - f.terser);
+        files.sort_by_key(|f| Reverse(f.swc - f.terser));
 
-        for file in files {
+        for file in &files {
             println!(
                 "{}: {} bytes (swc) vs {} bytes (terser)",
                 file.path.display(),
@@ -65,6 +68,24 @@ impl CheckSizeCommand {
                 file.terser
             );
         }
+
+        let mut items = files
+            .iter()
+            .map(|f| {
+                format!(
+                    "{}: {}; {} bytes (swc) vs {} bytes (terser)",
+                    f.path.strip_prefix(&self.workspace).unwrap().display(),
+                    f.swc - f.terser,
+                    f.swc,
+                    f.terser,
+                )
+            })
+            .collect::<Vec<_>>();
+
+        let selection = Select::with_theme(&ColorfulTheme::default())
+            .items(&items)
+            .default(0)
+            .interact_on_opt(&Term::stderr())?;
 
         Ok(())
     }
