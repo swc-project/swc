@@ -61,7 +61,10 @@ impl CheckSizeCommand {
         for file in &files {
             println!(
                 "{}: {} bytes (swc) vs {} bytes (terser)",
-                file.path.display(),
+                file.path
+                    .strip_prefix(&self.workspace.join("inputs"))
+                    .unwrap()
+                    .display(),
                 file.swc,
                 file.terser
             );
@@ -76,7 +79,10 @@ impl CheckSizeCommand {
             .map(|f| {
                 format!(
                     "{}: Diff: {} bytes; {} bytes (swc) vs {} bytes (terser)",
-                    f.path.strip_prefix(&self.workspace).unwrap().display(),
+                    f.path
+                        .strip_prefix(&self.workspace.join("inputs"))
+                        .unwrap()
+                        .display(),
                     f.swc as i32 - f.terser as i32,
                     f.swc,
                     f.terser,
