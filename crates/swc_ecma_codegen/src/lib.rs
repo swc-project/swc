@@ -2038,9 +2038,9 @@ where
 
         punct!("(");
         emit!(node.expr);
-        punct!(")");
 
-        srcmap!(node, false);
+        srcmap!(node, false, true);
+        punct!(")");
     }
 
     #[emitter]
