@@ -2616,7 +2616,7 @@ where
             Span::new(expr_span.hi, e.span.hi, Default::default())
         };
 
-        semi!(span);
+        semi!();
     }
 
     #[emitter]
