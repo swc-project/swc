@@ -96,7 +96,7 @@ impl CheckSizeCommand {
 
             let swc = get_minified(cm.clone(), &files[selection].path, true, false)?;
 
-            std::fs::write(&swc_path, print_js(cm, &swc.module, false)?.as_bytes())
+            std::fs::write(&swc_path, print_js(cm, &swc.module, true)?.as_bytes())
                 .context("failed to write swc.output.js")?;
 
             make_pretty(&swc_path)?;
