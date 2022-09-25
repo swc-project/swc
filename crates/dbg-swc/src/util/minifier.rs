@@ -70,7 +70,7 @@ pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<St
         if mangle {
             cmd.arg("--mangle");
         }
-        cmd.arg("--comments 0");
+        cmd.arg("--comments false");
         cmd.arg("--");
         cmd.arg(file);
 
