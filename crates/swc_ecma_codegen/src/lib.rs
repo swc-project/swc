@@ -3020,8 +3020,6 @@ where
         punct!(")");
 
         emit!(node.body);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -3070,8 +3068,6 @@ where
         punct!(")");
 
         emit!(n.body);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -3106,8 +3102,6 @@ where
         punct!(")");
 
         emit!(n.body);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -3144,8 +3138,6 @@ where
         }
         punct!(")");
         emit!(n.body);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
