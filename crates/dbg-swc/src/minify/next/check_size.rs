@@ -19,7 +19,7 @@ use swc_common::{errors::HANDLER, SourceMap, GLOBALS};
 use tracing::info;
 
 use crate::util::{
-    gzipped_size,
+    gzipped_size, make_pretty,
     minifier::{get_minified, get_terser_output},
     print_js, wrap_task,
 };
@@ -89,6 +89,33 @@ impl CheckSizeCommand {
             .items(&items)
             .default(0)
             .interact_on_opt(&Term::stderr())?;
+
+        if let Some(selection) = selection {
+            let swc_path = self.workspace.join("swc.output.js");
+            let terser_path = self.workspace.join("terser.output.js");
+
+            let swc = get_minified(cm.clone(), &files[selection].path, true, false)?;
+
+            std::fs::write(&swc_path, print_js(cm, &swc.module, false)?.as_bytes())
+                .context("failed to write swc.output.js")?;
+
+            make_pretty(&swc_path)?;
+
+            let terser = get_terser_output(&files[selection].path, true, false)?;
+
+            std::fs::write(&terser_path, terser.as_bytes())
+                .context("failed to write terser.output.js")?;
+
+            make_pretty(&terser_path)?;
+
+            {
+                let mut c = Command::new("code");
+                c.arg("--diff");
+                c.arg(swc_path);
+                c.arg(terser_path);
+                c.output().context("failed to run vscode")?;
+            }
+        }
 
         Ok(())
     }
