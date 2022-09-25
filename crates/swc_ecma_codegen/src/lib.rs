@@ -599,9 +599,11 @@ where
         let mut striped_raw = None;
         let mut value = String::default();
 
+        srcmap!(self, num, true);
+
         if self.cfg.minify {
             value = minify_number(num.value);
-            self.wr.write_str_lit(num.span, &value)?;
+            self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
             match &num.raw {
                 Some(raw) => {
@@ -610,17 +612,17 @@ where
                         slice == b"0b" || slice == b"0o" || slice == b"0B" || slice == b"0O"
                     } {
                         value = num.value.to_string();
-                        self.wr.write_str_lit(num.span, &value)?;
+                        self.wr.write_str_lit(DUMMY_SP, &value)?;
                     } else if raw.len() > 2
                         && self.cfg.target < EsVersion::Es2021
                         && raw.contains('_')
                     {
                         let value = raw.replace('_', "");
-                        self.wr.write_str_lit(num.span, &value)?;
+                        self.wr.write_str_lit(DUMMY_SP, &value)?;
 
                         striped_raw = Some(value);
                     } else {
-                        self.wr.write_str_lit(num.span, raw)?;
+                        self.wr.write_str_lit(DUMMY_SP, raw)?;
 
                         if !detect_dot {
                             return Ok(false);
@@ -631,7 +633,7 @@ where
                 }
                 _ => {
                     value = num.value.to_string();
-                    self.wr.write_str_lit(num.span, &value)?;
+                    self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
             }
         }
