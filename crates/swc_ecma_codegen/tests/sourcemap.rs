@@ -65,6 +65,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Terser is wrong
     "f17ec9517a3339d9.js",
     "fe2d3b945530c806.js",
+    "fa5b398eeef697a6.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
