@@ -126,7 +126,7 @@ impl CheckSizeCommand {
         wrap_task(|| {
             if !self.ensure_fresh
                 && self.workspace.is_dir()
-                && read_dir(&self.workspace)
+                && read_dir(&self.workspace.join("inputs"))
                     .context("failed to read workspace directory")?
                     .count()
                     != 0
@@ -136,7 +136,8 @@ impl CheckSizeCommand {
                      not set"
                 );
 
-                return get_all_files(&self.workspace).context("failed to get files from cache");
+                return get_all_files(&self.workspace.join("inputs"))
+                    .context("failed to get files from cache");
             }
 
             let files = self.build_app(app_dir)?;
@@ -144,7 +145,7 @@ impl CheckSizeCommand {
             files
                 .into_par_iter()
                 .map(|file| {
-                    let file_path = self.workspace.join(file.name);
+                    let file_path = self.workspace.join("inputs").join(file.name);
                     create_dir_all(file_path.parent().unwrap())
                         .context("failed to create a directory")?;
                     fs::write(&file_path, file.source).context("failed to write file")?;
