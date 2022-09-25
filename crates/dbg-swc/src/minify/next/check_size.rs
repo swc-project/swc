@@ -68,6 +68,10 @@ impl CheckSizeCommand {
             );
         }
 
+        if !files.is_empty() {
+            println!("Select a file to open diff");
+        }
+
         let items = files
             .iter()
             .map(|f| {
