@@ -61,7 +61,7 @@ impl CheckSizeCommand {
         })?;
 
         if !self.show_all {
-            files.retain(|f| f.swc <= f.terser);
+            files.retain(|f| f.swc > f.terser);
         }
         files.sort_by_key(|f| Reverse(f.swc as i32 - f.terser as i32));
 
