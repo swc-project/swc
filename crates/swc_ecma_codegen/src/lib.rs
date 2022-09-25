@@ -510,6 +510,7 @@ where
             Lit::BigInt(ref s) => emit!(s),
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
+                srcmap!(n, true);
                 punct!("/");
                 self.wr.write_str(&n.exp)?;
                 punct!("/");
