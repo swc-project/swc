@@ -1977,8 +1977,6 @@ where
         punct!(")");
         formatting_space!();
         emit!(node.body);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -2008,8 +2006,6 @@ where
         punct!(")");
 
         emit!(node.body);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
