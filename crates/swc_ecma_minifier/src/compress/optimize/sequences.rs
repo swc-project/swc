@@ -1177,9 +1177,19 @@ where
                         }
                     }
                 }
+                if let Callee::Expr(e) = &e.callee {
+                    if !self.is_skippable_for_seq(a, e) {
+                        return false;
+                    }
+                }
 
-                // TODO(kdy1): We can calculate side effects of call expressions
-                // in some cases.
+                for arg in &e.args {
+                    if !self.is_skippable_for_seq(a, &arg.expr) {
+                        return false;
+                    }
+                }
+
+                return true;
             }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
