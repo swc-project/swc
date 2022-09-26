@@ -1929,10 +1929,6 @@ where
             self.wr.add_srcmap(value_span.lo)?;
         }
         emit!(node.value);
-
-        if !value_span.is_dummy() {
-            self.wr.add_srcmap(value_span.hi)?;
-        }
     }
 
     #[emitter]
@@ -1944,8 +1940,6 @@ where
         emit!(node.key);
         punct!("=");
         emit!(node.value);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
