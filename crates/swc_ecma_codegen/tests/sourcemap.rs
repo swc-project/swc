@@ -66,6 +66,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "be2c3fff6426873e.js",
     "db66e1e8f3f1faef.js",
     "a7b8ce1d4c0f0bc2.js",
+    "6498dcc494193cb4.js",
     // TODO: (maybe) fix span of `,`
     "641ac9060a206183.js",
     "e4cef19dab44335a.js",
@@ -182,10 +183,9 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "597108fd45a6e79b.js",
     "60dcd48a3f6af44f.js",
     "62d7c1ee4e1626c4.js",
-    // TOOD(kdy1): Categorize
-    "6498dcc494193cb4.js",
-    "64cc57f82a54b7fb.js",
     "665f4940c7cf30c9.js",
+    "64cc57f82a54b7fb.js",
+    // TOOD(kdy1): Categorize
     "66d2dbcb692491ec.module.js",
     "697b3d30c1d06918.js",
     "698a8cfb0705c277.js",
