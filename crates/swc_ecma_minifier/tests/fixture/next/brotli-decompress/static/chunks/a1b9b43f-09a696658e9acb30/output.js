@@ -339,24 +339,23 @@
                         cb = Module;
                         Module = {};
                     }
-                    Module.onRuntimeInitialized = function(init, cb) {
-                        return function() {
-                            if (init) init.apply(this, arguments);
-                            try {
-                                Module.ccall("nbind_init");
-                            } catch (err) {
-                                cb(err);
-                                return;
-                            }
-                            cb(null, {
-                                bind: Module._nbind_value,
-                                reflect: Module.NBind.reflect,
-                                queryType: Module.NBind.queryType,
-                                toggleLightGC: Module.toggleLightGC,
-                                lib: Module
-                            });
-                        };
-                    }(Module.onRuntimeInitialized, cb);
+                    var init, cb;
+                    Module.onRuntimeInitialized = (init = Module.onRuntimeInitialized, cb = cb, function() {
+                        if (init) init.apply(this, arguments);
+                        try {
+                            Module.ccall("nbind_init");
+                        } catch (err) {
+                            cb(err);
+                            return;
+                        }
+                        cb(null, {
+                            bind: Module._nbind_value,
+                            reflect: Module.NBind.reflect,
+                            queryType: Module.NBind.queryType,
+                            toggleLightGC: Module.toggleLightGC,
+                            lib: Module
+                        });
+                    });
                     var Module;
                     if (!Module) Module = (void 0 !== Module ? Module : null) || {};
                     var moduleOverrides = {};

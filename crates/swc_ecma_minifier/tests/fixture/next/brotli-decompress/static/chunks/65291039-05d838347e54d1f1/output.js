@@ -1306,12 +1306,6 @@
                     this.forceLarge = true;
                 }
             }
-            class $6d59db2e29cc77b3$var$CFFBlendOp {
-                static decode(stream, parent, operands) {
-                    let numBlends = operands.pop();
-                    while(operands.length > numBlends)operands.pop();
-                }
-            }
             var $6d59db2e29cc77b3$export$2e2bcd8739ae039 = new $61aa549f16d58b9b$export$2e2bcd8739ae039([
                 [
                     6,
@@ -1451,7 +1445,12 @@
                 [
                     23,
                     "blend",
-                    $6d59db2e29cc77b3$var$CFFBlendOp,
+                    class $6d59db2e29cc77b3$var$CFFBlendOp {
+                        static decode(stream, parent, operands) {
+                            let numBlends = operands.pop();
+                            while(operands.length > numBlends)operands.pop();
+                        }
+                    },
                     null
                 ],
                 [
@@ -4323,28 +4322,27 @@
                 scriptCount: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 scriptList: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ($71cfb3c4767fbd0c$var$JstfScriptRecord, "scriptCount")
             });
-            class $d059a6bd2d3b5b63$var$VariableSizeNumber {
-                decode(stream, parent) {
-                    switch(this.size(0, parent)){
-                        case 1:
-                            return stream.readUInt8();
-                        case 2:
-                            return stream.readUInt16BE();
-                        case 3:
-                            return stream.readUInt24BE();
-                        case 4:
-                            return stream.readUInt32BE();
-                    }
-                }
-                size(val, parent) {
-                    return (0, restructure__WEBPACK_IMPORTED_MODULE_0__.dB)(this._size, null, parent);
-                }
-                constructor(size){
-                    this._size = size;
-                }
-            }
             let $d059a6bd2d3b5b63$var$MapDataEntry = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
-                entry: new $d059a6bd2d3b5b63$var$VariableSizeNumber((t)=>((0x0030 & t.parent.entryFormat) >> 4) + 1),
+                entry: new class $d059a6bd2d3b5b63$var$VariableSizeNumber {
+                    decode(stream, parent) {
+                        switch(this.size(0, parent)){
+                            case 1:
+                                return stream.readUInt8();
+                            case 2:
+                                return stream.readUInt16BE();
+                            case 3:
+                                return stream.readUInt24BE();
+                            case 4:
+                                return stream.readUInt32BE();
+                        }
+                    }
+                    size(val, parent) {
+                        return (0, restructure__WEBPACK_IMPORTED_MODULE_0__.dB)(this._size, null, parent);
+                    }
+                    constructor(size){
+                        this._size = size;
+                    }
+                }((t)=>((0x0030 & t.parent.entryFormat) >> 4) + 1),
                 outerIndex: (t)=>t.entry >> (0x000F & t.parent.entryFormat) + 1,
                 innerIndex: (t)=>t.entry & (1 << (0x000F & t.parent.entryFormat) + 1) - 1
             });
@@ -4609,7 +4607,7 @@
                 }
             }
             let $6cb7dd5f47d82580$export$8351f8c2ae2f103c = function(ValueType = restructure__WEBPACK_IMPORTED_MODULE_0__.mL) {
-                class Shadow {
+                ValueType = new class Shadow {
                     decode(stream, ctx) {
                         ctx = ctx.parent.parent;
                         return this.type.decode(stream, ctx);
@@ -4625,8 +4623,7 @@
                     constructor(type){
                         this.type = type;
                     }
-                }
-                ValueType = new Shadow(ValueType);
+                }(ValueType);
                 let BinarySearchHeader = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
                     unitSize: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                     nUnits: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
@@ -4687,29 +4684,6 @@
                     entryTable: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.U7, new $6cb7dd5f47d82580$export$c5af1eebc882e39a(Entry))
                 });
                 return StateHeader;
-            }
-            function $6cb7dd5f47d82580$export$105027425199cc51(entryData = {}, lookupType = restructure__WEBPACK_IMPORTED_MODULE_0__.mL) {
-                let ClassLookupTable = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
-                    version () {
-                        return 8;
-                    },
-                    firstGlyph: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
-                    values: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(restructure__WEBPACK_IMPORTED_MODULE_0__.w_, restructure__WEBPACK_IMPORTED_MODULE_0__.mL)
-                });
-                let entry = Object.assign({
-                    newStateOffset: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
-                    newState: (t)=>(t.newStateOffset - (t.parent.stateArray.base - t.parent._startOffset)) / t.parent.nClasses,
-                    flags: restructure__WEBPACK_IMPORTED_MODULE_0__.mL
-                }, entryData);
-                let Entry = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU(entry);
-                let StateArray = new $6cb7dd5f47d82580$export$c5af1eebc882e39a(new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(restructure__WEBPACK_IMPORTED_MODULE_0__.w_, (t)=>t.nClasses));
-                let StateHeader1 = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
-                    nClasses: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
-                    classTable: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, ClassLookupTable),
-                    stateArray: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, StateArray),
-                    entryTable: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, new $6cb7dd5f47d82580$export$c5af1eebc882e39a(Entry))
-                });
-                return StateHeader1;
             }
             let $6a3746e8c708f5a3$var$BslnSubtable = new restructure__WEBPACK_IMPORTED_MODULE_0__.bS("format", {
                 0: {
@@ -4795,11 +4769,6 @@
                 instance: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ($e83fd065f00fcd01$var$Instance, "instanceCount")
             });
             let $dbe33c8d3a7f131c$var$shortFrac = new restructure__WEBPACK_IMPORTED_MODULE_0__.gb(16, "BE", 14);
-            class $dbe33c8d3a7f131c$var$Offset {
-                static decode(stream, parent) {
-                    return parent.flags ? stream.readUInt32BE() : 2 * stream.readUInt16BE();
-                }
-            }
             let $dbe33c8d3a7f131c$var$gvar = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
                 version: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 reserved: new restructure__WEBPACK_IMPORTED_MODULE_0__.kV(restructure__WEBPACK_IMPORTED_MODULE_0__.mL),
@@ -4809,7 +4778,11 @@
                 glyphCount: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 flags: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 offsetToData: restructure__WEBPACK_IMPORTED_MODULE_0__.U7,
-                offsets: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(new restructure__WEBPACK_IMPORTED_MODULE_0__.$J($dbe33c8d3a7f131c$var$Offset, "void", {
+                offsets: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(class $dbe33c8d3a7f131c$var$Offset {
+                    static decode(stream, parent) {
+                        return parent.flags ? stream.readUInt32BE() : 2 * stream.readUInt16BE();
+                    }
+                }, "void", {
                     relativeTo: (ctx)=>ctx.offsetToData,
                     allowNull: false
                 }), (t)=>t.glyphCount + 1)
@@ -4819,7 +4792,29 @@
                 length: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 coverage: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
                 subFeatureFlags: restructure__WEBPACK_IMPORTED_MODULE_0__.U7,
-                stateTable: new $6cb7dd5f47d82580$export$105027425199cc51
+                stateTable: new function(entryData = {}, lookupType = restructure__WEBPACK_IMPORTED_MODULE_0__.mL) {
+                    let ClassLookupTable = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
+                        version () {
+                            return 8;
+                        },
+                        firstGlyph: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
+                        values: new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(restructure__WEBPACK_IMPORTED_MODULE_0__.w_, restructure__WEBPACK_IMPORTED_MODULE_0__.mL)
+                    });
+                    let entry = Object.assign({
+                        newStateOffset: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
+                        newState: (t)=>(t.newStateOffset - (t.parent.stateArray.base - t.parent._startOffset)) / t.parent.nClasses,
+                        flags: restructure__WEBPACK_IMPORTED_MODULE_0__.mL
+                    }, entryData);
+                    let Entry = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU(entry);
+                    let StateArray = new $6cb7dd5f47d82580$export$c5af1eebc882e39a(new restructure__WEBPACK_IMPORTED_MODULE_0__.mJ(restructure__WEBPACK_IMPORTED_MODULE_0__.w_, (t)=>t.nClasses));
+                    let StateHeader1 = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
+                        nClasses: restructure__WEBPACK_IMPORTED_MODULE_0__.mL,
+                        classTable: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, ClassLookupTable),
+                        stateArray: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, StateArray),
+                        entryTable: new restructure__WEBPACK_IMPORTED_MODULE_0__.$J(restructure__WEBPACK_IMPORTED_MODULE_0__.mL, new $6cb7dd5f47d82580$export$c5af1eebc882e39a(Entry))
+                    });
+                    return StateHeader1;
+                }
             });
             let $05b01887df96c4ee$var$WidthDeltaRecord = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
                 justClass: restructure__WEBPACK_IMPORTED_MODULE_0__.U7,
@@ -5727,31 +5722,6 @@
             function $130d1a642ebcd2b7$export$ce50e82f12a827a4(tag) {
                 return $130d1a642ebcd2b7$var$OPENTYPE_SCRIPTS[tag];
             }
-            function $130d1a642ebcd2b7$export$e5cb25e204fb8450(string) {
-                let len = string.length;
-                let idx = 0;
-                while(idx < len){
-                    let code = string.charCodeAt(idx++);
-                    if (0xd800 <= code && code <= 0xdbff && idx < len) {
-                        let next = string.charCodeAt(idx);
-                        if (0xdc00 <= next && next <= 0xdfff) {
-                            idx++;
-                            code = ((0x3FF & code) << 10) + (0x3FF & next) + 0x10000;
-                        }
-                    }
-                    let script2 = (0, unicode_properties__WEBPACK_IMPORTED_MODULE_2__.iM)(code);
-                    if ("Common" !== script2 && "Inherited" !== script2 && "Unknown" !== script2) return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS[script2];
-                }
-                return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS.Unknown;
-            }
-            function $130d1a642ebcd2b7$export$16fab0757cfc223d(codePoints) {
-                for(let i = 0; i < codePoints.length; i++){
-                    let codePoint = codePoints[i];
-                    let script3 = (0, unicode_properties__WEBPACK_IMPORTED_MODULE_2__.iM)(codePoint);
-                    if ("Common" !== script3 && "Inherited" !== script3 && "Unknown" !== script3) return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS[script3];
-                }
-                return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS.Unknown;
-            }
             const $130d1a642ebcd2b7$var$RTL = {
                 arab: true,
                 hebr: true,
@@ -6239,17 +6209,6 @@
                 if (null == $3b6302b64eccc32c$var$AATMapping[aat[0]]) $3b6302b64eccc32c$var$AATMapping[aat[0]] = {};
                 $3b6302b64eccc32c$var$AATMapping[aat[0]][aat[1]] = ot;
             }
-            function $3b6302b64eccc32c$export$b813f7d2a1677c16(features1) {
-                let res = {};
-                for(let k in features1){
-                    let r;
-                    if (r = $3b6302b64eccc32c$var$OTMapping[k]) {
-                        if (null == res[r[0]]) res[r[0]] = {};
-                        res[r[0]][r[1]] = features1[k];
-                    }
-                }
-                return res;
-            }
             function $3b6302b64eccc32c$var$mapFeatureStrings(f) {
                 let [type, setting] = f;
                 if (isNaN(type)) var typeCode = $3b6302b64eccc32c$var$features[type] && $3b6302b64eccc32c$var$features[type].code;
@@ -6260,26 +6219,6 @@
                     typeCode,
                     settingCode
                 ];
-            }
-            function $3b6302b64eccc32c$export$bd6df347a4f391c4(features2) {
-                let res = {};
-                if (Array.isArray(features2)) for(let k = 0; k < features2.length; k++){
-                    let r;
-                    let f = $3b6302b64eccc32c$var$mapFeatureStrings(features2[k]);
-                    if (r = $3b6302b64eccc32c$var$AATMapping[f[0]] && $3b6302b64eccc32c$var$AATMapping[f[0]][f[1]]) res[r] = true;
-                }
-                else if ("object" == typeof features2) for(let type in features2){
-                    let feature1 = features2[type];
-                    for(let setting in feature1){
-                        let r1;
-                        let f1 = $3b6302b64eccc32c$var$mapFeatureStrings([
-                            type,
-                            setting
-                        ]);
-                        if (feature1[setting] && (r1 = $3b6302b64eccc32c$var$AATMapping[f1[0]] && $3b6302b64eccc32c$var$AATMapping[f1[0]][f1[1]])) res[r1] = true;
-                    }
-                }
-                return Object.keys(res);
             }
             class $ff5ce077dae0f144$export$2e2bcd8739ae039 {
                 lookup(glyph) {
@@ -6493,7 +6432,135 @@
                 processIndicRearragement(glyph, entry, index) {
                     if (entry.flags & $55f71433a605c87d$var$MARK_FIRST) this.firstGlyph = index;
                     if (entry.flags & $55f71433a605c87d$var$MARK_LAST) this.lastGlyph = index;
-                    $55f71433a605c87d$var$reorderGlyphs(this.glyphs, entry.flags & $55f71433a605c87d$var$VERB, this.firstGlyph, this.lastGlyph);
+                    (function(glyphs, verb, firstGlyph, lastGlyph) {
+                        let length = lastGlyph - firstGlyph + 1;
+                        switch(verb){
+                            case 0:
+                                return glyphs;
+                            case 1:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    1
+                                ], [
+                                    lastGlyph,
+                                    0
+                                ]);
+                            case 2:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    0
+                                ], [
+                                    lastGlyph,
+                                    1
+                                ]);
+                            case 3:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    1
+                                ], [
+                                    lastGlyph,
+                                    1
+                                ]);
+                            case 4:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    0
+                                ]);
+                            case 5:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    0
+                                ], true, false);
+                            case 6:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    0
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ]);
+                            case 7:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    0
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ], false, true);
+                            case 8:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    1
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ]);
+                            case 9:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    1
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ], false, true);
+                            case 10:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    1
+                                ]);
+                            case 11:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    1
+                                ], true, false);
+                            case 12:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ]);
+                            case 13:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ], true, false);
+                            case 14:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ], false, true);
+                            case 15:
+                                return $55f71433a605c87d$var$swap(glyphs, [
+                                    firstGlyph,
+                                    2
+                                ], [
+                                    lastGlyph,
+                                    2
+                                ], true, true);
+                            default:
+                                throw Error(`Unknown verb: ${verb}`);
+                        }
+                    })(this.glyphs, entry.flags & $55f71433a605c87d$var$VERB, this.firstGlyph, this.lastGlyph);
                 }
                 processContextualSubstitution(glyph, entry, index) {
                     let subsitutions = this.subtable.table.substitutionTable.items;
@@ -6661,142 +6728,42 @@
                 glyphs.splice(rangeB[0] - (rangeA[1] - 1), 0, ...start);
                 return glyphs;
             }
-            function $55f71433a605c87d$var$reorderGlyphs(glyphs, verb, firstGlyph, lastGlyph) {
-                let length = lastGlyph - firstGlyph + 1;
-                switch(verb){
-                    case 0:
-                        return glyphs;
-                    case 1:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            1
-                        ], [
-                            lastGlyph,
-                            0
-                        ]);
-                    case 2:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            0
-                        ], [
-                            lastGlyph,
-                            1
-                        ]);
-                    case 3:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            1
-                        ], [
-                            lastGlyph,
-                            1
-                        ]);
-                    case 4:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            0
-                        ]);
-                    case 5:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            0
-                        ], true, false);
-                    case 6:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            0
-                        ], [
-                            lastGlyph,
-                            2
-                        ]);
-                    case 7:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            0
-                        ], [
-                            lastGlyph,
-                            2
-                        ], false, true);
-                    case 8:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            1
-                        ], [
-                            lastGlyph,
-                            2
-                        ]);
-                    case 9:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            1
-                        ], [
-                            lastGlyph,
-                            2
-                        ], false, true);
-                    case 10:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            1
-                        ]);
-                    case 11:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            1
-                        ], true, false);
-                    case 12:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            2
-                        ]);
-                    case 13:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            2
-                        ], true, false);
-                    case 14:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            2
-                        ], false, true);
-                    case 15:
-                        return $55f71433a605c87d$var$swap(glyphs, [
-                            firstGlyph,
-                            2
-                        ], [
-                            lastGlyph,
-                            2
-                        ], true, true);
-                    default:
-                        throw Error(`Unknown verb: ${verb}`);
-                }
-            }
             class $ba6dd74203be8728$export$2e2bcd8739ae039 {
                 substitute(glyphRun) {
                     if ("rtl" === glyphRun.direction) glyphRun.glyphs.reverse();
-                    this.morxProcessor.process(glyphRun.glyphs, $3b6302b64eccc32c$export$b813f7d2a1677c16(glyphRun.features));
+                    this.morxProcessor.process(glyphRun.glyphs, function(features1) {
+                        let res = {};
+                        for(let k in features1){
+                            let r;
+                            if (r = $3b6302b64eccc32c$var$OTMapping[k]) {
+                                if (null == res[r[0]]) res[r[0]] = {};
+                                res[r[0]][r[1]] = features1[k];
+                            }
+                        }
+                        return res;
+                    }(glyphRun.features));
                 }
                 getAvailableFeatures(script, language) {
-                    return $3b6302b64eccc32c$export$bd6df347a4f391c4(this.morxProcessor.getSupportedFeatures());
+                    return function(features2) {
+                        let res = {};
+                        if (Array.isArray(features2)) for(let k = 0; k < features2.length; k++){
+                            let r;
+                            let f = $3b6302b64eccc32c$var$mapFeatureStrings(features2[k]);
+                            if (r = $3b6302b64eccc32c$var$AATMapping[f[0]] && $3b6302b64eccc32c$var$AATMapping[f[0]][f[1]]) res[r] = true;
+                        }
+                        else if ("object" == typeof features2) for(let type in features2){
+                            let feature1 = features2[type];
+                            for(let setting in feature1){
+                                let r1;
+                                let f1 = $3b6302b64eccc32c$var$mapFeatureStrings([
+                                    type,
+                                    setting
+                                ]);
+                                if (feature1[setting] && (r1 = $3b6302b64eccc32c$var$AATMapping[f1[0]] && $3b6302b64eccc32c$var$AATMapping[f1[0]][f1[1]])) res[r1] = true;
+                            }
+                        }
+                        return Object.keys(res);
+                    }(this.morxProcessor.getSupportedFeatures());
                 }
                 stringsForGlyph(gid) {
                     let glyphStrings = this.morxProcessor.generateInputs(gid);
@@ -7862,23 +7829,22 @@
                 }
                 return i;
             }
-            function $e1c6bbc8cb416f8c$var$getLength(code) {
-                switch($e1c6bbc8cb416f8c$var$getType(code)){
-                    case $e1c6bbc8cb416f8c$var$LV:
-                    case $e1c6bbc8cb416f8c$var$LVT:
-                        return 1;
-                    case $e1c6bbc8cb416f8c$var$V:
-                        return 2;
-                    case $e1c6bbc8cb416f8c$var$T:
-                        return 3;
-                }
-            }
             function $e1c6bbc8cb416f8c$var$reorderToneMark(glyphs, i, font) {
                 let glyph = glyphs[i];
                 let code = glyphs[i].codePoints[0];
                 if (0 === font.glyphForCodePoint(code).advanceWidth) return;
                 let prev = glyphs[i - 1].codePoints[0];
-                let len = $e1c6bbc8cb416f8c$var$getLength(prev);
+                let len = function(code) {
+                    switch($e1c6bbc8cb416f8c$var$getType(code)){
+                        case $e1c6bbc8cb416f8c$var$LV:
+                        case $e1c6bbc8cb416f8c$var$LVT:
+                            return 1;
+                        case $e1c6bbc8cb416f8c$var$V:
+                            return 2;
+                        case $e1c6bbc8cb416f8c$var$T:
+                            return 3;
+                    }
+                }(prev);
                 glyphs.splice(i, 1);
                 return glyphs.splice(i - len, 0, glyph);
             }
@@ -8092,7 +8058,7 @@
                             "clig"
                         ]
                     });
-                    plan.unicodeScript = $130d1a642ebcd2b7$export$ce50e82f12a827a4(plan.script);
+                    plan.unicodeScript = $130d1a642ebcd2b7$var$OPENTYPE_SCRIPTS[plan.script];
                     plan.indicConfig = $90a9d3398ee54fe5$export$e99d119da76a0fc5[plan.unicodeScript] || $90a9d3398ee54fe5$export$e99d119da76a0fc5.Default;
                     plan.isOldSpec = plan.indicConfig.hasOldSpec && "2" !== plan.script[plan.script.length - 1];
                 }
@@ -8662,16 +8628,6 @@
                 latn: $649970d87335b30f$export$2e2bcd8739ae039,
                 DFLT: $649970d87335b30f$export$2e2bcd8739ae039
             };
-            function $102b6fe50f1d50b4$export$7877a478dd30fd3d(script) {
-                if (!Array.isArray(script)) script = [
-                    script
-                ];
-                for (let s of script){
-                    let shaper = $102b6fe50f1d50b4$var$SHAPERS[s];
-                    if (shaper) return shaper;
-                }
-                return $649970d87335b30f$export$2e2bcd8739ae039;
-            }
             class $0a876c45f1f7c41c$export$2e2bcd8739ae039 extends $a83b9c36aaa94fd3$export$2e2bcd8739ae039 {
                 applyLookup(lookupType, table) {
                     switch(lookupType){
@@ -9003,7 +8959,16 @@
                     let script = null;
                     if (this.GPOSProcessor) script = this.GPOSProcessor.selectScript(glyphRun.script, glyphRun.language, glyphRun.direction);
                     if (this.GSUBProcessor) script = this.GSUBProcessor.selectScript(glyphRun.script, glyphRun.language, glyphRun.direction);
-                    this.shaper = $102b6fe50f1d50b4$export$7877a478dd30fd3d(script);
+                    this.shaper = function(script) {
+                        if (!Array.isArray(script)) script = [
+                            script
+                        ];
+                        for (let s of script){
+                            let shaper = $102b6fe50f1d50b4$var$SHAPERS[s];
+                            if (shaper) return shaper;
+                        }
+                        return $649970d87335b30f$export$2e2bcd8739ae039;
+                    }(script);
                     this.plan = new $94d7a73bd2edfc9a$export$2e2bcd8739ae039(this.font, script, glyphRun.direction);
                     this.shaper.plan(this.plan, this.glyphInfos, glyphRun.features);
                     for(let key in this.plan.allFeatures)glyphRun.features[key] = true;
@@ -9067,13 +9032,36 @@
                         features = [];
                     }
                     if ("string" == typeof string) {
-                        if (null == script) script = $130d1a642ebcd2b7$export$e5cb25e204fb8450(string);
+                        if (null == script) script = function(string) {
+                            let len = string.length;
+                            let idx = 0;
+                            while(idx < len){
+                                let code = string.charCodeAt(idx++);
+                                if (0xd800 <= code && code <= 0xdbff && idx < len) {
+                                    let next = string.charCodeAt(idx);
+                                    if (0xdc00 <= next && next <= 0xdfff) {
+                                        idx++;
+                                        code = ((0x3FF & code) << 10) + (0x3FF & next) + 0x10000;
+                                    }
+                                }
+                                let script2 = (0, unicode_properties__WEBPACK_IMPORTED_MODULE_2__.iM)(code);
+                                if ("Common" !== script2 && "Inherited" !== script2 && "Unknown" !== script2) return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS[script2];
+                            }
+                            return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS.Unknown;
+                        }(string);
                         var glyphs = this.font.glyphsForString(string);
                     } else {
                         if (null == script) {
                             let codePoints = [];
                             for (let glyph of string)codePoints.push(...glyph.codePoints);
-                            script = $130d1a642ebcd2b7$export$16fab0757cfc223d(codePoints);
+                            script = function(codePoints) {
+                                for(let i = 0; i < codePoints.length; i++){
+                                    let codePoint = codePoints[i];
+                                    let script3 = (0, unicode_properties__WEBPACK_IMPORTED_MODULE_2__.iM)(codePoint);
+                                    if ("Common" !== script3 && "Inherited" !== script3 && "Unknown" !== script3) return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS[script3];
+                                }
+                                return $130d1a642ebcd2b7$var$UNICODE_SCRIPTS.Unknown;
+                            }(codePoints);
                         }
                         var glyphs = string;
                     }
@@ -11404,34 +11392,6 @@
                 this.tables = tables1;
             };
             var $c1726355ecc5b889$export$2e2bcd8739ae039 = $c1726355ecc5b889$var$WOFFDirectory;
-            class $760785214b9fc52c$export$2e2bcd8739ae039 extends $4c1709dee528ea76$export$2e2bcd8739ae039 {
-                static probe(buffer) {
-                    return "wOFF" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
-                }
-                _decodeDirectory() {
-                    this.directory = $c1726355ecc5b889$export$2e2bcd8739ae039.decode(this.stream, {
-                        _startOffset: 0
-                    });
-                }
-                _getTableStream(tag) {
-                    let table = this.directory.tables[tag];
-                    if (table) {
-                        this.stream.pos = table.offset;
-                        if (!(table.compLength < table.length)) return this.stream;
-                        {
-                            this.stream.pos += 2;
-                            let outBuffer = new Uint8Array(table.length);
-                            let buf = tiny_inflate__WEBPACK_IMPORTED_MODULE_6__(this.stream.readBuffer(table.compLength - 2), outBuffer);
-                            return new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(buf);
-                        }
-                    }
-                    return null;
-                }
-                constructor(...args){
-                    super(...args);
-                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "WOFF");
-                }
-            }
             class $8046190c9f1ad19e$export$2e2bcd8739ae039 extends $69aac16029968692$export$2e2bcd8739ae039 {
                 _decode() {
                     return this._font._transformedGlyphs[this.id];
@@ -11564,76 +11524,6 @@
                 return this.tables = tables;
             };
             var $c28ec7bbb3b8de3a$export$2e2bcd8739ae039 = $c28ec7bbb3b8de3a$var$WOFF2Directory;
-            class $21ee218f84ac7f32$export$2e2bcd8739ae039 extends $4c1709dee528ea76$export$2e2bcd8739ae039 {
-                static probe(buffer) {
-                    return "wOF2" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
-                }
-                _decodeDirectory() {
-                    this.directory = $c28ec7bbb3b8de3a$export$2e2bcd8739ae039.decode(this.stream);
-                    this._dataPos = this.stream.pos;
-                }
-                _decompress() {
-                    if (!this._decompressed) {
-                        this.stream.pos = this._dataPos;
-                        let buffer = this.stream.readBuffer(this.directory.totalCompressedSize);
-                        let decompressedSize = 0;
-                        for(let tag in this.directory.tables){
-                            let entry = this.directory.tables[tag];
-                            entry.offset = decompressedSize;
-                            decompressedSize += null != entry.transformLength ? entry.transformLength : entry.length;
-                        }
-                        let decompressed = brotli_decompress_js__WEBPACK_IMPORTED_MODULE_7__(buffer, decompressedSize);
-                        if (!decompressed) throw Error("Error decoding compressed data in WOFF2");
-                        this.stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(decompressed);
-                        this._decompressed = true;
-                    }
-                }
-                _decodeTable(table) {
-                    this._decompress();
-                    return super._decodeTable(table);
-                }
-                _getBaseGlyph(glyph, characters = []) {
-                    if (!this._glyphs[glyph]) {
-                        if (!this.directory.tables.glyf || !this.directory.tables.glyf.transformed) return super._getBaseGlyph(glyph, characters);
-                        if (!this._transformedGlyphs) this._transformGlyfTable();
-                        return this._glyphs[glyph] = new $8046190c9f1ad19e$export$2e2bcd8739ae039(glyph, characters, this);
-                    }
-                }
-                _transformGlyfTable() {
-                    this._decompress();
-                    this.stream.pos = this.directory.tables.glyf.offset;
-                    let table = $21ee218f84ac7f32$var$GlyfTable.decode(this.stream);
-                    let glyphs = [];
-                    for(let index = 0; index < table.numGlyphs; index++){
-                        let glyph = {};
-                        let nContours = table.nContours.readInt16BE();
-                        glyph.numberOfContours = nContours;
-                        if (nContours > 0) {
-                            let nPoints = [];
-                            let totalPoints = 0;
-                            for(let i = 0; i < nContours; i++){
-                                let r1 = $21ee218f84ac7f32$var$read255UInt16(table.nPoints);
-                                totalPoints += r1;
-                                nPoints.push(totalPoints);
-                            }
-                            glyph.points = $21ee218f84ac7f32$var$decodeTriplet(table.flags, table.glyphs, totalPoints);
-                            for(let i1 = 0; i1 < nContours; i1++)glyph.points[nPoints[i1] - 1].endContour = true;
-                            var instructionSize = $21ee218f84ac7f32$var$read255UInt16(table.glyphs);
-                        } else if (nContours < 0) {
-                            let haveInstructions = $69aac16029968692$export$2e2bcd8739ae039.prototype._decodeComposite.call({
-                                _font: this
-                            }, glyph, table.composites);
-                            if (haveInstructions) var instructionSize = $21ee218f84ac7f32$var$read255UInt16(table.glyphs);
-                        }
-                        glyphs.push(glyph);
-                    }
-                    this._transformedGlyphs = glyphs;
-                }
-                constructor(...args){
-                    super(...args);
-                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "WOFF2");
-                }
-            }
             class $21ee218f84ac7f32$var$Substream {
                 decode(stream, parent) {
                     return new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(this._buf.decode(stream, parent));
@@ -11728,35 +11618,6 @@
                     dsigOffset: restructure__WEBPACK_IMPORTED_MODULE_0__.U7
                 }
             });
-            class $cd5853a56c68fec7$export$2e2bcd8739ae039 {
-                static probe(buffer) {
-                    return "ttcf" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
-                }
-                getFont(name) {
-                    for (let offset of this.header.offsets){
-                        let stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(this.stream.buffer);
-                        stream.pos = offset;
-                        let font = new $4c1709dee528ea76$export$2e2bcd8739ae039(stream);
-                        if (font.postscriptName === name || font.postscriptName instanceof Uint8Array && name instanceof Uint8Array && font.postscriptName.every((v, i)=>name[i] === v)) return font;
-                    }
-                    return null;
-                }
-                get fonts() {
-                    let fonts = [];
-                    for (let offset of this.header.offsets){
-                        let stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(this.stream.buffer);
-                        stream.pos = offset;
-                        fonts.push(new $4c1709dee528ea76$export$2e2bcd8739ae039(stream));
-                    }
-                    return fonts;
-                }
-                constructor(stream){
-                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "TTC");
-                    this.stream = stream;
-                    if ("ttcf" !== stream.readString(4)) throw Error("Not a TrueType collection");
-                    this.header = $cd5853a56c68fec7$var$TTCHeader.decode(stream);
-                }
-            }
             let $05f49f930186144e$var$DFontName = new restructure__WEBPACK_IMPORTED_MODULE_0__.Ld(restructure__WEBPACK_IMPORTED_MODULE_0__.w_);
             let $05f49f930186144e$var$DFontData = new restructure__WEBPACK_IMPORTED_MODULE_0__.AU({
                 len: restructure__WEBPACK_IMPORTED_MODULE_0__.U7,
@@ -11791,7 +11652,135 @@
                 dataLength: restructure__WEBPACK_IMPORTED_MODULE_0__.U7,
                 mapLength: restructure__WEBPACK_IMPORTED_MODULE_0__.U7
             });
-            class $05f49f930186144e$export$2e2bcd8739ae039 {
+            $d636bc798e7178db$export$36b2f24e97d43be($4c1709dee528ea76$export$2e2bcd8739ae039);
+            $d636bc798e7178db$export$36b2f24e97d43be(class $760785214b9fc52c$export$2e2bcd8739ae039 extends $4c1709dee528ea76$export$2e2bcd8739ae039 {
+                static probe(buffer) {
+                    return "wOFF" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
+                }
+                _decodeDirectory() {
+                    this.directory = $c1726355ecc5b889$export$2e2bcd8739ae039.decode(this.stream, {
+                        _startOffset: 0
+                    });
+                }
+                _getTableStream(tag) {
+                    let table = this.directory.tables[tag];
+                    if (table) {
+                        this.stream.pos = table.offset;
+                        if (!(table.compLength < table.length)) return this.stream;
+                        {
+                            this.stream.pos += 2;
+                            let outBuffer = new Uint8Array(table.length);
+                            let buf = tiny_inflate__WEBPACK_IMPORTED_MODULE_6__(this.stream.readBuffer(table.compLength - 2), outBuffer);
+                            return new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(buf);
+                        }
+                    }
+                    return null;
+                }
+                constructor(...args){
+                    super(...args);
+                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "WOFF");
+                }
+            });
+            $d636bc798e7178db$export$36b2f24e97d43be(class $21ee218f84ac7f32$export$2e2bcd8739ae039 extends $4c1709dee528ea76$export$2e2bcd8739ae039 {
+                static probe(buffer) {
+                    return "wOF2" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
+                }
+                _decodeDirectory() {
+                    this.directory = $c28ec7bbb3b8de3a$export$2e2bcd8739ae039.decode(this.stream);
+                    this._dataPos = this.stream.pos;
+                }
+                _decompress() {
+                    if (!this._decompressed) {
+                        this.stream.pos = this._dataPos;
+                        let buffer = this.stream.readBuffer(this.directory.totalCompressedSize);
+                        let decompressedSize = 0;
+                        for(let tag in this.directory.tables){
+                            let entry = this.directory.tables[tag];
+                            entry.offset = decompressedSize;
+                            decompressedSize += null != entry.transformLength ? entry.transformLength : entry.length;
+                        }
+                        let decompressed = brotli_decompress_js__WEBPACK_IMPORTED_MODULE_7__(buffer, decompressedSize);
+                        if (!decompressed) throw Error("Error decoding compressed data in WOFF2");
+                        this.stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(decompressed);
+                        this._decompressed = true;
+                    }
+                }
+                _decodeTable(table) {
+                    this._decompress();
+                    return super._decodeTable(table);
+                }
+                _getBaseGlyph(glyph, characters = []) {
+                    if (!this._glyphs[glyph]) {
+                        if (!this.directory.tables.glyf || !this.directory.tables.glyf.transformed) return super._getBaseGlyph(glyph, characters);
+                        if (!this._transformedGlyphs) this._transformGlyfTable();
+                        return this._glyphs[glyph] = new $8046190c9f1ad19e$export$2e2bcd8739ae039(glyph, characters, this);
+                    }
+                }
+                _transformGlyfTable() {
+                    this._decompress();
+                    this.stream.pos = this.directory.tables.glyf.offset;
+                    let table = $21ee218f84ac7f32$var$GlyfTable.decode(this.stream);
+                    let glyphs = [];
+                    for(let index = 0; index < table.numGlyphs; index++){
+                        let glyph = {};
+                        let nContours = table.nContours.readInt16BE();
+                        glyph.numberOfContours = nContours;
+                        if (nContours > 0) {
+                            let nPoints = [];
+                            let totalPoints = 0;
+                            for(let i = 0; i < nContours; i++){
+                                let r1 = $21ee218f84ac7f32$var$read255UInt16(table.nPoints);
+                                totalPoints += r1;
+                                nPoints.push(totalPoints);
+                            }
+                            glyph.points = $21ee218f84ac7f32$var$decodeTriplet(table.flags, table.glyphs, totalPoints);
+                            for(let i1 = 0; i1 < nContours; i1++)glyph.points[nPoints[i1] - 1].endContour = true;
+                            var instructionSize = $21ee218f84ac7f32$var$read255UInt16(table.glyphs);
+                        } else if (nContours < 0) {
+                            let haveInstructions = $69aac16029968692$export$2e2bcd8739ae039.prototype._decodeComposite.call({
+                                _font: this
+                            }, glyph, table.composites);
+                            if (haveInstructions) var instructionSize = $21ee218f84ac7f32$var$read255UInt16(table.glyphs);
+                        }
+                        glyphs.push(glyph);
+                    }
+                    this._transformedGlyphs = glyphs;
+                }
+                constructor(...args){
+                    super(...args);
+                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "WOFF2");
+                }
+            });
+            $d636bc798e7178db$export$36b2f24e97d43be(class $cd5853a56c68fec7$export$2e2bcd8739ae039 {
+                static probe(buffer) {
+                    return "ttcf" === $12727730ddfc8bfe$export$3d28c1996ced1f14.decode(buffer.slice(0, 4));
+                }
+                getFont(name) {
+                    for (let offset of this.header.offsets){
+                        let stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(this.stream.buffer);
+                        stream.pos = offset;
+                        let font = new $4c1709dee528ea76$export$2e2bcd8739ae039(stream);
+                        if (font.postscriptName === name || font.postscriptName instanceof Uint8Array && name instanceof Uint8Array && font.postscriptName.every((v, i)=>name[i] === v)) return font;
+                    }
+                    return null;
+                }
+                get fonts() {
+                    let fonts = [];
+                    for (let offset of this.header.offsets){
+                        let stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(this.stream.buffer);
+                        stream.pos = offset;
+                        fonts.push(new $4c1709dee528ea76$export$2e2bcd8739ae039(stream));
+                    }
+                    return fonts;
+                }
+                constructor(stream){
+                    (0, _swc_helpers_src_define_property_mjs__WEBPACK_IMPORTED_MODULE_9__.Z)(this, "type", "TTC");
+                    this.stream = stream;
+                    if ("ttcf" !== stream.readString(4)) throw Error("Not a TrueType collection");
+                    this.header = $cd5853a56c68fec7$var$TTCHeader.decode(stream);
+                }
+            });
+            $d636bc798e7178db$export$36b2f24e97d43be(class $05f49f930186144e$export$2e2bcd8739ae039 {
                 static probe(buffer) {
                     let stream = new restructure__WEBPACK_IMPORTED_MODULE_0__.fT(buffer);
                     try {
@@ -11833,12 +11822,7 @@
                         if ("sfnt" === type.name) this.sfnt = type;
                     }
                 }
-            }
-            $d636bc798e7178db$export$36b2f24e97d43be($4c1709dee528ea76$export$2e2bcd8739ae039);
-            $d636bc798e7178db$export$36b2f24e97d43be($760785214b9fc52c$export$2e2bcd8739ae039);
-            $d636bc798e7178db$export$36b2f24e97d43be($21ee218f84ac7f32$export$2e2bcd8739ae039);
-            $d636bc798e7178db$export$36b2f24e97d43be($cd5853a56c68fec7$export$2e2bcd8739ae039);
-            $d636bc798e7178db$export$36b2f24e97d43be($05f49f930186144e$export$2e2bcd8739ae039);
+            });
         }
     }
 ]);

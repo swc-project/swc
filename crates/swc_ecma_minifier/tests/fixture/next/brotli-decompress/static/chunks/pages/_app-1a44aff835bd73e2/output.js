@@ -21,26 +21,24 @@
                 }
             });
             var _define_property = __webpack_require__(4924);
-            function _objectSpread(target) {
-                for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {};
-                    var ownKeys = Object.keys(source);
-                    if ('function' == typeof Object.getOwnPropertySymbols) ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                    }));
-                    ownKeys.forEach(function(key) {
-                        (0, _define_property.Z)(target, key, source[key]);
-                    });
-                }
-                return target;
-            }
             var jsx_runtime = __webpack_require__(5893);
             var globals = __webpack_require__(906);
-            function MyApp(param) {
+            var _app = function(param) {
                 var Component = param.Component, pageProps = param.pageProps;
-                return (0, jsx_runtime.jsx)(Component, _objectSpread({}, pageProps));
-            }
-            var _app = MyApp;
+                return (0, jsx_runtime.jsx)(Component, function(target) {
+                    for(var i = 1; i < arguments.length; i++){
+                        var source = null != arguments[i] ? arguments[i] : {};
+                        var ownKeys = Object.keys(source);
+                        if ('function' == typeof Object.getOwnPropertySymbols) ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+                        }));
+                        ownKeys.forEach(function(key) {
+                            (0, _define_property.Z)(target, key, source[key]);
+                        });
+                    }
+                    return target;
+                }({}, pageProps));
+            };
         },
         906: function() {},
         4924: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
