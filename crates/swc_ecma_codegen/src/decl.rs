@@ -100,6 +100,8 @@ where
     fn emit_var_decl_inner(&mut self, node: &VarDecl, last_source_map: bool) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(self, node, true);
 
         if node.declare {
