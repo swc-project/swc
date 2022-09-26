@@ -74,6 +74,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "547fa50af16beca7.js",
     "547fa50af16beca7.js",
     // TODO(kdy1): Non-ascii char count
+    "58cb05d17f7ec010.js",
     "4d2c7020de650d40.js",
     // Our one is better
     "1efde9ddd9d6e6ce.module.js",
@@ -174,6 +175,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "4e7c58761e24d77c.js",
     "4e7c58761e24d77c.js",
     "5641ad33abcd1752.js",
+    "587400d1c019785a.js",
+    "58ed6ffb30191684.js",
+    "5b8d2b991d2c1f5b.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
