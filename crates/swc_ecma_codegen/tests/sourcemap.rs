@@ -246,9 +246,9 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "fbde237f11796df9.js",
     "fd5ea844fcc07d3d.js",
     "6c5f0dd83c417a5a.js",
+    "78eb22badc114b6f.js",
     // TODO(kdy1): Fix
-    // "78eb22badc114b6f.js",
-    "7afd38d79e6795a8.js",
+    // "7afd38d79e6795a8.js",
     "80950061e291542b.js",
     "8a0fc8ea31727188.module.js",
     "af97a3752e579223.js",
