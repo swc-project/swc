@@ -1,33 +1,36 @@
-(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([
     [
         179
     ],
     {
         5300: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _arrayLikeToArray;
             function _arrayLikeToArray(arr, len) {
-                (null == len || len > arr.length) && (len = arr.length);
+                if (null == len || len > arr.length) len = arr.length;
                 for(var i = 0, arr2 = Array(len); i < len; i++)arr2[i] = arr[i];
                 return arr2;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _arrayLikeToArray;
         },
         6564: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _arrayWithHoles;
             function _arrayWithHoles(arr) {
                 if (Array.isArray(arr)) return arr;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _arrayWithHoles;
         },
         2568: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _arrayWithoutHoles;
+                value: true
+            });
+            exports["default"] = _arrayWithoutHoles;
             var _arrayLikeToArrayMjs = _interopRequireDefault(__webpack_require__(5300));
             function _arrayWithoutHoles(arr) {
                 if (Array.isArray(arr)) return _arrayLikeToArrayMjs.default(arr);
@@ -40,16 +43,24 @@
         },
         8646: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _assertThisInitialized;
             function _assertThisInitialized(self1) {
-                if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                if (void 0 === self1) {
+                    throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                }
                 return self1;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _assertThisInitialized;
         },
         932: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _asyncToGenerator;
             function _asyncToGenerator(fn) {
                 return function() {
                     var self1 = this, args = arguments;
@@ -67,27 +78,35 @@
             }
             function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
                 try {
-                    var info = gen[key](arg), value = info.value;
+                    var info = gen[key](arg);
+                    var value = info.value;
                 } catch (error) {
                     reject(error);
                     return;
                 }
-                info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
+                if (info.done) resolve(value);
+                else Promise.resolve(value).then(_next, _throw);
             }
-            exports.Z = _asyncToGenerator;
         },
         9658: function(__unused_webpack_module, exports) {
             "use strict";
-            function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-            }
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _classCallCheck;
+            function _classCallCheck(instance, Constructor) {
+                if (!(instance instanceof Constructor)) {
+                    throw TypeError("Cannot call a class as a function");
+                }
+            }
         },
         5317: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _construct;
+                value: true
+            });
+            exports["default"] = _construct;
             var _setPrototypeOfMjs = _interopRequireDefault(__webpack_require__(5814));
             function _construct(Parent, args, Class) {
                 return construct.apply(null, arguments);
@@ -98,50 +117,72 @@
                 };
             }
             function isNativeReflectConstruct() {
-                if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
-                if ("function" == typeof Proxy) return !0;
+                if ("undefined" == typeof Reflect || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if ("function" == typeof Proxy) return true;
                 try {
-                    return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+                    Date.prototype.toString.call(Reflect.construct(Date, [], function() {}));
+                    return true;
                 } catch (e) {
-                    return !1;
+                    return false;
                 }
             }
             function construct(Parent1, args1, Class1) {
-                return (construct = isNativeReflectConstruct() ? Reflect.construct : function(Parent, args, Class) {
+                construct = isNativeReflectConstruct() ? Reflect.construct : function construct(Parent, args, Class) {
                     var a = [
                         null
                     ];
                     a.push.apply(a, args);
-                    var instance = new (Function.bind.apply(Parent, a))();
-                    return Class && _setPrototypeOfMjs.default(instance, Class.prototype), instance;
-                }).apply(null, arguments);
+                    var Constructor = Function.bind.apply(Parent, a);
+                    var instance = new Constructor();
+                    if (Class) _setPrototypeOfMjs.default(instance, Class.prototype);
+                    return instance;
+                };
+                return construct.apply(null, arguments);
             }
         },
         7222: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _createClass;
             function _createClass(Constructor, protoProps, staticProps) {
-                return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
+                if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+                if (staticProps) _defineProperties(Constructor, staticProps);
+                return Constructor;
             }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    descriptor.enumerable = descriptor.enumerable || false;
+                    descriptor.configurable = true;
+                    if ("value" in descriptor) descriptor.writable = true;
+                    Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
-            exports.Z = _createClass;
         },
         7735: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _createSuper;
-            var _isNativeReflectConstructMjs = _interopRequireDefault(__webpack_require__(9158)), _getPrototypeOfMjs = _interopRequireDefault(__webpack_require__(898)), _possibleConstructorReturnMjs = _interopRequireDefault(__webpack_require__(9241));
+            var _isNativeReflectConstructMjs = _interopRequireDefault(__webpack_require__(9158));
+            var _getPrototypeOfMjs = _interopRequireDefault(__webpack_require__(898));
+            var _possibleConstructorReturnMjs = _interopRequireDefault(__webpack_require__(9241));
             function _createSuper(Derived) {
                 var hasNativeReflectConstruct = _isNativeReflectConstructMjs.default();
-                return function() {
-                    var result, Super = _getPrototypeOfMjs.default(Derived);
+                return function _createSuperInternal() {
+                    var Super = _getPrototypeOfMjs.default(Derived), result;
                     if (hasNativeReflectConstruct) {
                         var NewTarget = _getPrototypeOfMjs.default(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
-                    } else result = Super.apply(this, arguments);
+                    } else {
+                        result = Super.apply(this, arguments);
+                    }
                     return _possibleConstructorReturnMjs.default(this, result);
                 };
             }
@@ -153,47 +194,61 @@
         },
         6495: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _extends;
             function _extends() {
                 return extends_.apply(this, arguments);
             }
             function extends_() {
-                return (extends_ = Object.assign || function(target) {
+                extends_ = Object.assign || function(target) {
                     for(var i = 1; i < arguments.length; i++){
                         var source = arguments[i];
-                        for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
+                        for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
                     }
                     return target;
-                }).apply(this, arguments);
+                };
+                return extends_.apply(this, arguments);
             }
-            exports.Z = _extends;
         },
         898: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _getPrototypeOf;
             function _getPrototypeOf(o) {
                 return getPrototypeOf(o);
             }
             function getPrototypeOf(o1) {
-                return (getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
+                getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function getPrototypeOf(o) {
                     return o.__proto__ || Object.getPrototypeOf(o);
-                })(o1);
+                };
+                return getPrototypeOf(o1);
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _getPrototypeOf;
         },
         7788: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _inherits;
             var _setPrototypeOfMjs = _interopRequireDefault(__webpack_require__(5814));
             function _inherits(subClass, superClass) {
-                if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
+                if ("function" != typeof superClass && null !== superClass) {
+                    throw TypeError("Super expression must either be null or a function");
+                }
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
                     constructor: {
                         value: subClass,
-                        writable: !0,
-                        configurable: !0
+                        writable: true,
+                        configurable: true
                     }
-                }), superClass && _setPrototypeOfMjs.default(subClass, superClass);
+                });
+                if (superClass) _setPrototypeOfMjs.default(subClass, superClass);
             }
             function _interopRequireDefault(obj) {
                 return obj && obj.__esModule ? obj : {
@@ -203,114 +258,161 @@
         },
         6856: function(__unused_webpack_module, exports) {
             "use strict";
-            function _instanceof(left, right) {
-                return null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance] ? !!right[Symbol.hasInstance](left) : left instanceof right;
-            }
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _instanceof;
+            function _instanceof(left, right) {
+                if (null != right && "undefined" != typeof Symbol && right[Symbol.hasInstance]) {
+                    return !!right[Symbol.hasInstance](left);
+                }
+                return left instanceof right;
+            }
         },
         2648: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _interopRequireDefault;
             function _interopRequireDefault(obj) {
                 return obj && obj.__esModule ? obj : {
                     default: obj
                 };
             }
-            exports.Z = _interopRequireDefault;
         },
         1598: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _interopRequireWildcard;
             function _interopRequireWildcard(obj, nodeInterop) {
-                if (!nodeInterop && obj && obj.__esModule) return obj;
-                if (null === obj || "object" != typeof obj && "function" != typeof obj) return {
-                    default: obj
-                };
+                if (!nodeInterop && obj && obj.__esModule) {
+                    return obj;
+                }
+                if (null === obj || "object" != typeof obj && "function" != typeof obj) {
+                    return {
+                        default: obj
+                    };
+                }
                 var cache = _getRequireWildcardCache(nodeInterop);
-                if (cache && cache.has(obj)) return cache.get(obj);
-                var newObj = {}, hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+                if (cache && cache.has(obj)) {
+                    return cache.get(obj);
+                }
+                var newObj = {};
+                var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
                 for(var key in obj)if ("default" !== key && Object.prototype.hasOwnProperty.call(obj, key)) {
                     var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-                    desc && (desc.get || desc.set) ? Object.defineProperty(newObj, key, desc) : newObj[key] = obj[key];
+                    if (desc && (desc.get || desc.set)) Object.defineProperty(newObj, key, desc);
+                    else newObj[key] = obj[key];
                 }
-                return newObj.default = obj, cache && cache.set(obj, newObj), newObj;
+                newObj.default = obj;
+                if (cache) cache.set(obj, newObj);
+                return newObj;
             }
             function _getRequireWildcardCache(nodeInterop1) {
                 if ("function" != typeof WeakMap) return null;
-                var cacheBabelInterop = new WeakMap(), cacheNodeInterop = new WeakMap();
+                var cacheBabelInterop = new WeakMap();
+                var cacheNodeInterop = new WeakMap();
                 return (_getRequireWildcardCache = function(nodeInterop) {
                     return nodeInterop ? cacheNodeInterop : cacheBabelInterop;
                 })(nodeInterop1);
             }
-            exports.Z = _interopRequireWildcard;
         },
         4499: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _isNativeFunction;
             function _isNativeFunction(fn) {
                 return -1 !== Function.toString.call(fn).indexOf("[native code]");
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _isNativeFunction;
         },
         9158: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _isNativeReflectConstruct;
             function _isNativeReflectConstruct() {
-                if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
-                if ("function" == typeof Proxy) return !0;
+                if ("undefined" == typeof Reflect || !Reflect.construct) return false;
+                if (Reflect.construct.sham) return false;
+                if ("function" == typeof Proxy) return true;
                 try {
-                    return Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {})), !0;
+                    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+                    return true;
                 } catch (e) {
-                    return !1;
+                    return false;
                 }
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _isNativeReflectConstruct;
         },
         1301: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _iterableToArray;
             function _iterableToArray(iter) {
                 if ("undefined" != typeof Symbol && null != iter[Symbol.iterator] || null != iter["@@iterator"]) return Array.from(iter);
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _iterableToArray;
         },
         6936: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _nonIterableRest;
             function _nonIterableRest() {
                 throw TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _nonIterableRest;
         },
         4162: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _nonIterableSpread;
             function _nonIterableSpread() {
                 throw TypeError("Invalid attempt to spread non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _nonIterableSpread;
         },
         7273: function(__unused_webpack_module, exports) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
+            exports.Z = _objectWithoutPropertiesLoose;
             function _objectWithoutPropertiesLoose(source, excluded) {
                 if (null == source) return {};
-                var key, i, target = {}, sourceKeys = Object.keys(source);
-                for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                var target = {};
+                var sourceKeys = Object.keys(source);
+                var key, i;
+                for(i = 0; i < sourceKeys.length; i++){
+                    key = sourceKeys[i];
+                    if (!(excluded.indexOf(key) >= 0)) target[key] = source[key];
+                }
                 return target;
             }
-            exports.Z = _objectWithoutPropertiesLoose;
         },
         9241: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _possibleConstructorReturn;
-            var _assertThisInitializedMjs = _interopRequireDefault(__webpack_require__(8646)), _typeOfMjs = _interopRequireDefault(__webpack_require__(5753));
+                value: true
+            });
+            exports["default"] = _possibleConstructorReturn;
+            var _assertThisInitializedMjs = _interopRequireDefault(__webpack_require__(8646));
+            var _typeOfMjs = _interopRequireDefault(__webpack_require__(5753));
             function _possibleConstructorReturn(self1, call) {
-                return call && ("object" === _typeOfMjs.default(call) || "function" == typeof call) ? call : _assertThisInitializedMjs.default(self1);
+                if (call && ("object" === _typeOfMjs.default(call) || "function" == typeof call)) {
+                    return call;
+                }
+                return _assertThisInitializedMjs.default(self1);
             }
             function _interopRequireDefault(obj) {
                 return obj && obj.__esModule ? obj : {
@@ -320,22 +422,32 @@
         },
         5814: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _setPrototypeOf;
             function _setPrototypeOf(o, p) {
                 return setPrototypeOf(o, p);
             }
             function setPrototypeOf(o1, p1) {
-                return (setPrototypeOf = Object.setPrototypeOf || function(o, p) {
-                    return o.__proto__ = p, o;
-                })(o1, p1);
+                setPrototypeOf = Object.setPrototypeOf || function setPrototypeOf(o, p) {
+                    o.__proto__ = p;
+                    return o;
+                };
+                return setPrototypeOf(o1, p1);
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _setPrototypeOf;
         },
         4941: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _slicedToArray;
-            var _arrayWithHolesMjs = _interopRequireDefault(__webpack_require__(6564)), _iterableToArrayMjs = _interopRequireDefault(__webpack_require__(1301)), _nonIterableRestMjs = _interopRequireDefault(__webpack_require__(6936)), _unsupportedIterableToArrayMjs = _interopRequireDefault(__webpack_require__(2149));
+            var _arrayWithHolesMjs = _interopRequireDefault(__webpack_require__(6564));
+            var _iterableToArrayMjs = _interopRequireDefault(__webpack_require__(1301));
+            var _nonIterableRestMjs = _interopRequireDefault(__webpack_require__(6936));
+            var _unsupportedIterableToArrayMjs = _interopRequireDefault(__webpack_require__(2149));
             function _slicedToArray(arr, i) {
                 return _arrayWithHolesMjs.default(arr) || _iterableToArrayMjs.default(arr, i) || _unsupportedIterableToArrayMjs.default(arr, i) || _nonIterableRestMjs.default();
             }
@@ -347,8 +459,15 @@
         },
         3929: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _toConsumableArray;
-            var _arrayWithoutHolesMjs = _interopRequireDefault(__webpack_require__(2568)), _iterableToArrayMjs = _interopRequireDefault(__webpack_require__(1301)), _nonIterableSpreadMjs = _interopRequireDefault(__webpack_require__(4162)), _unsupportedIterableToArrayMjs = _interopRequireDefault(__webpack_require__(2149));
+            var _arrayWithoutHolesMjs = _interopRequireDefault(__webpack_require__(2568));
+            var _iterableToArrayMjs = _interopRequireDefault(__webpack_require__(1301));
+            var _nonIterableSpreadMjs = _interopRequireDefault(__webpack_require__(4162));
+            var _unsupportedIterableToArrayMjs = _interopRequireDefault(__webpack_require__(2149));
             function _toConsumableArray(arr) {
                 return _arrayWithoutHolesMjs.default(arr) || _iterableToArrayMjs.default(arr) || _unsupportedIterableToArrayMjs.default(arr) || _nonIterableSpreadMjs.default();
             }
@@ -360,8 +479,12 @@
         },
         2401: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             Object.defineProperty(exports, "Z", {
-                enumerable: !0,
+                enumerable: true,
                 get: function() {
                     return _tslib.__generator;
                 }
@@ -370,26 +493,28 @@
         },
         5753: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = _typeof;
             function _typeof(obj) {
                 return obj && obj.constructor === Symbol ? "symbol" : typeof obj;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _typeof;
         },
         2149: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = _unsupportedIterableToArray;
+                value: true
+            });
+            exports["default"] = _unsupportedIterableToArray;
             var _arrayLikeToArrayMjs = _interopRequireDefault(__webpack_require__(5300));
             function _unsupportedIterableToArray(o, minLen) {
-                if (o) {
-                    if ("string" == typeof o) return _arrayLikeToArrayMjs.default(o, minLen);
-                    var n = Object.prototype.toString.call(o).slice(8, -1);
-                    if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(n);
-                    if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArrayMjs.default(o, minLen);
-                }
+                if (!o) return;
+                if ("string" == typeof o) return _arrayLikeToArrayMjs.default(o, minLen);
+                var n = Object.prototype.toString.call(o).slice(8, -1);
+                if ("Object" === n && o.constructor) n = o.constructor.name;
+                if ("Map" === n || "Set" === n) return Array.from(n);
+                if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArrayMjs.default(o, minLen);
             }
             function _interopRequireDefault(obj) {
                 return obj && obj.__esModule ? obj : {
@@ -399,8 +524,15 @@
         },
         9968: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var __webpack_unused_export__;
+            __webpack_unused_export__ = {
+                value: true
+            };
             exports.Z = _wrapNativeSuper;
-            var _constructMjs = _interopRequireDefault(__webpack_require__(5317)), _isNativeFunctionMjs = _interopRequireDefault(__webpack_require__(4499)), _getPrototypeOfMjs = _interopRequireDefault(__webpack_require__(898)), _setPrototypeOfMjs = _interopRequireDefault(__webpack_require__(5814));
+            var _constructMjs = _interopRequireDefault(__webpack_require__(5317));
+            var _isNativeFunctionMjs = _interopRequireDefault(__webpack_require__(4499));
+            var _getPrototypeOfMjs = _interopRequireDefault(__webpack_require__(898));
+            var _setPrototypeOfMjs = _interopRequireDefault(__webpack_require__(5814));
             function _wrapNativeSuper(Class) {
                 return wrapNativeSuper(Class);
             }
@@ -411,9 +543,11 @@
             }
             function wrapNativeSuper(Class1) {
                 var _cache = "function" == typeof Map ? new Map() : void 0;
-                return (wrapNativeSuper = function(Class) {
+                wrapNativeSuper = function wrapNativeSuper(Class) {
                     if (null === Class || !_isNativeFunctionMjs.default(Class)) return Class;
-                    if ("function" != typeof Class) throw TypeError("Super expression must either be null or a function");
+                    if ("function" != typeof Class) {
+                        throw TypeError("Super expression must either be null or a function");
+                    }
                     if (void 0 !== _cache) {
                         if (_cache.has(Class)) return _cache.get(Class);
                         _cache.set(Class, Wrapper);
@@ -421,15 +555,17 @@
                     function Wrapper() {
                         return _constructMjs.default(Class, arguments, _getPrototypeOfMjs.default(this).constructor);
                     }
-                    return Wrapper.prototype = Object.create(Class.prototype, {
+                    Wrapper.prototype = Object.create(Class.prototype, {
                         constructor: {
                             value: Wrapper,
-                            enumerable: !1,
-                            writable: !0,
-                            configurable: !0
+                            enumerable: false,
+                            writable: true,
+                            configurable: true
                         }
-                    }), _setPrototypeOfMjs.default(Wrapper, Class);
-                })(Class1);
+                    });
+                    return _setPrototypeOfMjs.default(Wrapper, Class);
+                };
+                return wrapNativeSuper(Class1);
             }
         },
         37: function() {
@@ -464,64 +600,103 @@
         8684: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.addBasePath = addBasePath;
-            var _addPathPrefix = __webpack_require__(5391), _normalizeTrailingSlash = __webpack_require__(2392);
+                value: true
+            });
+            exports.addBasePath = addBasePath;
+            var _addPathPrefix = __webpack_require__(5391);
+            var _normalizeTrailingSlash = __webpack_require__(2392);
+            var basePath = "";
             function addBasePath(path, required) {
-                return _normalizeTrailingSlash.normalizePathTrailingSlash(_addPathPrefix.addPathPrefix(path, ""));
+                if (false) ;
+                return _normalizeTrailingSlash.normalizePathTrailingSlash(_addPathPrefix.addPathPrefix(path, basePath));
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         2725: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), __webpack_require__(3929).Z, Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.addLocale = void 0, __webpack_require__(2392);
+                value: true
+            });
+            var _toConsumableArray = __webpack_require__(3929).Z;
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.addLocale = void 0;
+            var _normalizeTrailingSlash = __webpack_require__(2392);
             var addLocale = function(path) {
                 for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
+                if (false) var _instance;
                 return path;
             };
-            exports.addLocale = addLocale, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.addLocale = addLocale;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         8748: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), __webpack_require__(3929).Z, Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.detectDomainLocale = void 0;
+                value: true
+            });
+            var _toConsumableArray = __webpack_require__(3929).Z;
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.detectDomainLocale = void 0;
             var detectDomainLocale = function() {
                 for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                if (false) var _instance;
             };
-            exports.detectDomainLocale = detectDomainLocale, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.detectDomainLocale = detectDomainLocale;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         4119: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.hasBasePath = hasBasePath;
+                value: true
+            });
+            exports.hasBasePath = hasBasePath;
             var _pathHasPrefix = __webpack_require__(1259);
+            var basePath = "";
             function hasBasePath(path) {
-                return _pathHasPrefix.pathHasPrefix(path, "");
+                return _pathHasPrefix.pathHasPrefix(path, basePath);
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         6007: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
             var _instanceof = __webpack_require__(6856).Z;
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = initHeadManager;
+            exports.isEqualNode = isEqualNode;
+            exports.DOMAttributeNames = void 0;
             function initHeadManager() {
                 return {
                     mountedInstances: new Set(),
@@ -529,18 +704,24 @@
                         var tags = {};
                         head.forEach(function(h) {
                             if ("link" === h.type && h.props["data-optimized-fonts"]) {
-                                if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) return;
-                                h.props.href = h.props["data-href"], h.props["data-href"] = void 0;
+                                if (document.querySelector('style[data-href="'.concat(h.props["data-href"], '"]'))) {
+                                    return;
+                                }
+                                h.props.href = h.props["data-href"];
+                                h.props["data-href"] = void 0;
                             }
                             var components = tags[h.type] || [];
-                            components.push(h), tags[h.type] = components;
+                            components.push(h);
+                            tags[h.type] = components;
                         });
-                        var titleComponent = tags.title ? tags.title[0] : null, title = "";
+                        var titleComponent = tags.title ? tags.title[0] : null;
+                        var title = "";
                         if (titleComponent) {
                             var children = titleComponent.props.children;
                             title = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "";
                         }
-                        title !== document.title && (document.title = title), [
+                        if (title !== document.title) document.title = title;
+                        [
                             "meta",
                             "base",
                             "link",
@@ -552,9 +733,6 @@
                     }
                 };
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = initHeadManager, exports.isEqualNode = isEqualNode, exports.DOMAttributeNames = void 0;
             var DOMAttributeNames = {
                 acceptCharset: "accept-charset",
                 className: "class",
@@ -562,78 +740,156 @@
                 httpEquiv: "http-equiv",
                 noModule: "noModule"
             };
+            exports.DOMAttributeNames = DOMAttributeNames;
             function reactElementToDOM(param) {
-                var type = param.type, props = param.props, el = document.createElement(type);
-                for(var p in props)if (props.hasOwnProperty(p) && "children" !== p && "dangerouslySetInnerHTML" !== p && void 0 !== props[p]) {
-                    var attr = DOMAttributeNames[p] || p.toLowerCase();
-                    "script" === type && ("async" === attr || "defer" === attr || "noModule" === attr) ? el[attr] = !!props[p] : el.setAttribute(attr, props[p]);
+                var type = param.type, props = param.props;
+                var el = document.createElement(type);
+                for(var p in props)if (!!props.hasOwnProperty(p)) {
+                    if ("children" !== p && "dangerouslySetInnerHTML" !== p) {
+                        if (void 0 !== props[p]) {
+                            var attr = DOMAttributeNames[p] || p.toLowerCase();
+                            if ("script" === type && ("async" === attr || "defer" === attr || "noModule" === attr)) el[attr] = !!props[p];
+                            else el.setAttribute(attr, props[p]);
+                        }
+                    }
                 }
                 var children = props.children, dangerouslySetInnerHTML = props.dangerouslySetInnerHTML;
-                return dangerouslySetInnerHTML ? el.innerHTML = dangerouslySetInnerHTML.__html || "" : children && (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : ""), el;
+                if (dangerouslySetInnerHTML) el.innerHTML = dangerouslySetInnerHTML.__html || "";
+                else if (children) el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "";
+                return el;
             }
             function isEqualNode(oldTag, newTag) {
                 if (_instanceof(oldTag, HTMLElement) && _instanceof(newTag, HTMLElement)) {
                     var nonce = newTag.getAttribute("nonce");
                     if (nonce && !oldTag.getAttribute("nonce")) {
-                        var cloneTag = newTag.cloneNode(!0);
-                        return cloneTag.setAttribute("nonce", ""), cloneTag.nonce = nonce, nonce === oldTag.nonce && oldTag.isEqualNode(cloneTag);
+                        var cloneTag = newTag.cloneNode(true);
+                        cloneTag.setAttribute("nonce", "");
+                        cloneTag.nonce = nonce;
+                        return nonce === oldTag.nonce && oldTag.isEqualNode(cloneTag);
                     }
                 }
                 return oldTag.isEqualNode(newTag);
             }
             function updateElements(type, components) {
-                for(var ref, headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [], i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null)(null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
+                var headEl = document.getElementsByTagName("head")[0];
+                var headCountEl = headEl.querySelector("meta[name=next-head-count]");
+                if (false) ;
+                var headCount = Number(headCountEl.content);
+                var oldTags = [];
+                for(var i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
+                    var ref;
+                    if ((null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type) oldTags.push(j);
+                }
                 var newTags = components.map(reactElementToDOM).filter(function(newTag) {
-                    for(var k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
-                    return !0;
+                    for(var k = 0, len = oldTags.length; k < len; k++){
+                        var oldTag = oldTags[k];
+                        if (isEqualNode(oldTag, newTag)) {
+                            oldTags.splice(k, 1);
+                            return false;
+                        }
+                    }
+                    return true;
                 });
                 oldTags.forEach(function(t) {
                     var ref;
                     return null == (ref = t.parentNode) ? void 0 : ref.removeChild(t);
-                }), newTags.forEach(function(t) {
+                });
+                newTags.forEach(function(t) {
                     return headEl.insertBefore(t, headCountEl);
-                }), headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
+                });
+                headCountEl.content = (headCount - oldTags.length + newTags.length).toString();
             }
-            exports.DOMAttributeNames = DOMAttributeNames, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         7339: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var router, initialData, asPath, pageLoader, appElement, headManager, lastAppProps, lastRenderReject, CachedApp, onPerfEntry, CachedComponent, _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _inherits = __webpack_require__(7788).Z, _interopRequireWildcard = __webpack_require__(1598).Z, _slicedToArray = __webpack_require__(4941).Z, _createSuper = __webpack_require__(7735).Z, _tsGenerator = __webpack_require__(2401).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
+            var _inherits = __webpack_require__(7788).Z;
+            var _interopRequireWildcard = __webpack_require__(1598).Z;
+            var _slicedToArray = __webpack_require__(4941).Z;
+            var _createSuper = __webpack_require__(7735).Z;
+            var _tsGenerator = __webpack_require__(2401).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.initialize = initialize, exports.hydrate = hydrate, exports.emitter = exports.router = exports.version = void 0;
-            var _async_to_generator = __webpack_require__(932).Z, _extends = __webpack_require__(6495).Z, _interop_require_default = __webpack_require__(2648).Z;
-            __webpack_require__(1598).Z, __webpack_require__(37);
-            var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119), ReactDOM = __webpack_require__(745);
-            exports.version = "12.3.1", exports.router = router;
+                value: true
+            });
+            exports.initialize = initialize;
+            exports.hydrate = hydrate;
+            exports.emitter = exports.router = exports.version = void 0;
+            var _async_to_generator = __webpack_require__(932).Z;
+            var _extends = __webpack_require__(6495).Z;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            __webpack_require__(37);
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _headManagerContext = __webpack_require__(8404);
+            var _mitt = _interop_require_default(__webpack_require__(5660));
+            var _routerContext = __webpack_require__(3462);
+            var _isDynamic = __webpack_require__(8689);
+            var _querystring = __webpack_require__(466);
+            var _runtimeConfig = __webpack_require__(8027);
+            var _utils = __webpack_require__(3794);
+            var _portal = __webpack_require__(2207);
+            var _headManager = _interop_require_default(__webpack_require__(6007));
+            var _pageLoader = _interop_require_default(__webpack_require__(5181));
+            var _performanceRelayer = _interop_require_default(__webpack_require__(9302));
+            var _routeAnnouncer = __webpack_require__(8982);
+            var _router = __webpack_require__(387);
+            var _isError = __webpack_require__(676);
+            var _imageConfigContext = __webpack_require__(9977);
+            var _removeBasePath = __webpack_require__(9320);
+            var _hasBasePath = __webpack_require__(4119);
+            var ReactDOM = __webpack_require__(745);
+            var version = "12.3.1";
+            exports.version = version;
+            var router;
+            exports.router = router;
             var emitter = _mitt.default();
             exports.emitter = emitter;
             var looseToArray = function(input) {
                 return [].slice.call(input);
-            }, defaultLocale = void 0, initialMatchesMiddleware = !1;
+            };
+            var initialData;
+            var defaultLocale = void 0;
+            var asPath;
+            var pageLoader;
+            var appElement;
+            var headManager;
+            var initialMatchesMiddleware = false;
+            var lastAppProps;
+            var lastRenderReject;
+            var webpackHMR;
+            var CachedApp, onPerfEntry;
+            var CachedComponent;
             self.__next_require__ = __webpack_require__;
             var Container = function(_Component) {
                 _inherits(Container, _Component);
                 var _super = _createSuper(Container);
                 function Container() {
-                    return _classCallCheck(this, Container), _super.apply(this, arguments);
+                    _classCallCheck(this, Container);
+                    return _super.apply(this, arguments);
                 }
-                return _createClass(Container, [
+                _createClass(Container, [
                     {
                         key: "componentDidCatch",
-                        value: function(componentErr, info) {
+                        value: function componentDidCatch(componentErr, info) {
                             this.props.fn(componentErr, info);
                         }
                     },
                     {
                         key: "componentDidMount",
-                        value: function() {
-                            this.scrollToHash(), router.isSsr && "/404" !== initialData.page && "/_error" !== initialData.page && (initialData.isFallback || initialData.nextExport && (_isDynamic.isDynamicRoute(router.pathname) || location.search || initialMatchesMiddleware) || initialData.props && initialData.props.__N_SSG && (location.search || initialMatchesMiddleware)) && router.replace(router.pathname + "?" + String(_querystring.assign(_querystring.urlQueryToSearchParams(router.query), new URLSearchParams(location.search))), asPath, {
+                        value: function componentDidMount() {
+                            this.scrollToHash();
+                            if (router.isSsr && "/404" !== initialData.page && "/_error" !== initialData.page && (initialData.isFallback || initialData.nextExport && (_isDynamic.isDynamicRoute(router.pathname) || location.search || initialMatchesMiddleware) || initialData.props && initialData.props.__N_SSG && (location.search || initialMatchesMiddleware))) router.replace(router.pathname + "?" + String(_querystring.assign(_querystring.urlQueryToSearchParams(router.query), new URLSearchParams(location.search))), asPath, {
                                 _h: 1,
                                 shallow: !initialData.isFallback && !initialMatchesMiddleware
                             }).catch(function(err) {
@@ -643,57 +899,87 @@
                     },
                     {
                         key: "componentDidUpdate",
-                        value: function() {
+                        value: function componentDidUpdate() {
                             this.scrollToHash();
                         }
                     },
                     {
                         key: "scrollToHash",
-                        value: function() {
+                        value: function scrollToHash() {
                             var hash = location.hash;
-                            if (hash = hash && hash.substring(1)) {
-                                var el = document.getElementById(hash);
-                                el && setTimeout(function() {
-                                    return el.scrollIntoView();
-                                }, 0);
-                            }
+                            hash = hash && hash.substring(1);
+                            if (!hash) return;
+                            var el = document.getElementById(hash);
+                            if (!el) return;
+                            setTimeout(function() {
+                                return el.scrollIntoView();
+                            }, 0);
                         }
                     },
                     {
                         key: "render",
-                        value: function() {
-                            return this.props.children;
+                        value: function render() {
+                            if (true) {
+                                return this.props.children;
+                            }
+                            var ReactDevOverlay;
                         }
                     }
-                ]), Container;
+                ]);
+                return Container;
             }(_react.default.Component);
             function initialize() {
                 return _initialize.apply(this, arguments);
             }
             function _initialize() {
-                return (_initialize = _async_to_generator(function() {
-                    var prefix, register, _arguments = arguments;
+                _initialize = _async_to_generator(function() {
+                    var opts, prefix, normalizeLocalePath, detectDomainLocale, parseRelativeUrl, formatUrl, parsedAs, localePathResult, detectedDomain, initScriptLoader, register;
+                    var _arguments = arguments;
                     return _tsGenerator(this, function(_state) {
-                        return _arguments.length > 0 && void 0 !== _arguments[0] && _arguments[0], initialData = JSON.parse(document.getElementById("__NEXT_DATA__").textContent), window.__NEXT_DATA__ = initialData, defaultLocale = initialData.defaultLocale, prefix = initialData.assetPrefix || "", __webpack_require__.p = "".concat(prefix, "/_next/"), _runtimeConfig.setConfig({
+                        opts = _arguments.length > 0 && void 0 !== _arguments[0] ? _arguments[0] : {};
+                        if (false) ;
+                        initialData = JSON.parse(document.getElementById("__NEXT_DATA__").textContent);
+                        window.__NEXT_DATA__ = initialData;
+                        defaultLocale = initialData.defaultLocale;
+                        prefix = initialData.assetPrefix || "";
+                        __webpack_require__.p = "".concat(prefix, "/_next/");
+                        _runtimeConfig.setConfig({
                             serverRuntimeConfig: {},
                             publicRuntimeConfig: initialData.runtimeConfig || {}
-                        }), asPath = _utils.getURL(), _hasBasePath.hasBasePath(asPath) && (asPath = _removeBasePath.removeBasePath(asPath)), initialData.scriptLoader && (0, __webpack_require__(699).initScriptLoader)(initialData.scriptLoader), pageLoader = new _pageLoader.default(initialData.buildId, prefix), register = function(param) {
+                        });
+                        asPath = _utils.getURL();
+                        if (_hasBasePath.hasBasePath(asPath)) asPath = _removeBasePath.removeBasePath(asPath);
+                        if (false) ;
+                        if (initialData.scriptLoader) {
+                            initScriptLoader = __webpack_require__(699).initScriptLoader;
+                            initScriptLoader(initialData.scriptLoader);
+                        }
+                        pageLoader = new _pageLoader.default(initialData.buildId, prefix);
+                        register = function(param) {
                             var _param = _slicedToArray(param, 2), r = _param[0], f = _param[1];
                             return pageLoader.routeLoader.onEntrypoint(r, f);
-                        }, window.__NEXT_P && window.__NEXT_P.map(function(p) {
+                        };
+                        if (window.__NEXT_P) window.__NEXT_P.map(function(p) {
                             return setTimeout(function() {
                                 return register(p);
                             }, 0);
-                        }), window.__NEXT_P = [], window.__NEXT_P.push = register, (headManager = _headManager.default()).getIsSsr = function() {
+                        });
+                        window.__NEXT_P = [];
+                        window.__NEXT_P.push = register;
+                        headManager = _headManager.default();
+                        headManager.getIsSsr = function() {
                             return router.isSsr;
-                        }, appElement = document.getElementById("__next"), [
+                        };
+                        appElement = document.getElementById("__next");
+                        return [
                             2,
                             {
                                 assetPrefix: prefix
                             }
                         ];
                     });
-                })).apply(this, arguments);
+                });
+                return _initialize.apply(this, arguments);
             }
             function renderApp(App, appProps) {
                 return _react.default.createElement(App, Object.assign({}, appProps));
@@ -737,8 +1023,8 @@
                         ],
                         path: "/_next/image",
                         loader: "default",
-                        dangerouslyAllowSVG: !1,
-                        unoptimized: !1
+                        dangerouslyAllowSVG: false,
+                        unoptimized: false
                     }
                 }, children))));
             }
@@ -754,7 +1040,10 @@
             };
             function renderError(renderErrorProps) {
                 var App = renderErrorProps.App, err = renderErrorProps.err;
-                return console.error(err), console.error("A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred"), pageLoader.loadPage("/_error").then(function(param) {
+                if (false) ;
+                console.error(err);
+                console.error("A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred");
+                return pageLoader.loadPage("/_error").then(function(param) {
                     var ErrorComponent = param.page, styleSheets = param.styleSheets;
                     return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(function() {
                         return _interopRequireWildcard(__webpack_require__(9185));
@@ -762,7 +1051,9 @@
                         return Promise.resolve().then(function() {
                             return _interopRequireWildcard(__webpack_require__(6029));
                         }).then(function(appModule) {
-                            return App = appModule.default, renderErrorProps.App = App, errorModule;
+                            App = appModule.default;
+                            renderErrorProps.App = App;
+                            return errorModule;
                         });
                     }).then(function(m) {
                         return {
@@ -774,7 +1065,10 @@
                         styleSheets: styleSheets
                     };
                 }).then(function(param) {
-                    var ref, ErrorComponent = param.ErrorComponent, styleSheets = param.styleSheets, AppTree = wrapApp(App), appCtx = {
+                    var ErrorComponent = param.ErrorComponent, styleSheets = param.styleSheets;
+                    var ref;
+                    var AppTree = wrapApp(App);
+                    var appCtx = {
                         Component: ErrorComponent,
                         AppTree: AppTree,
                         router: router,
@@ -798,13 +1092,15 @@
             }
             function Head(param) {
                 var callback = param.callback;
-                return _react.default.useLayoutEffect(function() {
+                _react.default.useLayoutEffect(function() {
                     return callback();
                 }, [
                     callback
-                ]), null;
+                ]);
+                return null;
             }
-            var reactRoot = null, shouldHydrate = !0;
+            var reactRoot = null;
+            var shouldHydrate = true;
             function clearMarks() {
                 [
                     "beforeRender",
@@ -816,110 +1112,166 @@
                 });
             }
             function markHydrateComplete() {
-                _utils.ST && (performance.mark("afterHydrate"), performance.measure("Next.js-before-hydration", "navigationStart", "beforeRender"), performance.measure("Next.js-hydration", "beforeRender", "afterHydrate"), onPerfEntry && performance.getEntriesByName("Next.js-hydration").forEach(onPerfEntry), clearMarks());
+                if (!_utils.ST) return;
+                performance.mark("afterHydrate");
+                performance.measure("Next.js-before-hydration", "navigationStart", "beforeRender");
+                performance.measure("Next.js-hydration", "beforeRender", "afterHydrate");
+                if (onPerfEntry) performance.getEntriesByName("Next.js-hydration").forEach(onPerfEntry);
+                clearMarks();
             }
             function markRenderComplete() {
-                if (_utils.ST) {
-                    performance.mark("afterRender");
-                    var navStartEntries = performance.getEntriesByName("routeChange", "mark");
-                    navStartEntries.length && (performance.measure("Next.js-route-change-to-render", navStartEntries[0].name, "beforeRender"), performance.measure("Next.js-render", "beforeRender", "afterRender"), onPerfEntry && (performance.getEntriesByName("Next.js-render").forEach(onPerfEntry), performance.getEntriesByName("Next.js-route-change-to-render").forEach(onPerfEntry)), clearMarks(), [
-                        "Next.js-route-change-to-render",
-                        "Next.js-render"
-                    ].forEach(function(measure) {
-                        return performance.clearMeasures(measure);
-                    }));
+                if (!_utils.ST) return;
+                performance.mark("afterRender");
+                var navStartEntries = performance.getEntriesByName("routeChange", "mark");
+                if (!navStartEntries.length) return;
+                performance.measure("Next.js-route-change-to-render", navStartEntries[0].name, "beforeRender");
+                performance.measure("Next.js-render", "beforeRender", "afterRender");
+                if (onPerfEntry) {
+                    performance.getEntriesByName("Next.js-render").forEach(onPerfEntry);
+                    performance.getEntriesByName("Next.js-route-change-to-render").forEach(onPerfEntry);
                 }
+                clearMarks();
+                [
+                    "Next.js-route-change-to-render",
+                    "Next.js-render"
+                ].forEach(function(measure) {
+                    return performance.clearMeasures(measure);
+                });
             }
             function renderReactElement(domEl, fn) {
-                _utils.ST && performance.mark("beforeRender");
+                if (_utils.ST) performance.mark("beforeRender");
                 var reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete);
-                reactRoot ? (0, _react.default.startTransition)(function() {
-                    reactRoot.render(reactEl);
-                }) : (reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), shouldHydrate = !1);
+                if (true) if (reactRoot) {
+                    var startTransition = _react.default.startTransition;
+                    startTransition(function() {
+                        reactRoot.render(reactEl);
+                    });
+                } else {
+                    reactRoot = ReactDOM.hydrateRoot(domEl, reactEl);
+                    shouldHydrate = false;
+                }
             }
             function Root(param) {
                 var callbacks = param.callbacks, children = param.children;
-                return _react.default.useLayoutEffect(function() {
+                _react.default.useLayoutEffect(function() {
                     return callbacks.forEach(function(callback) {
                         return callback();
                     });
                 }, [
                     callbacks
-                ]), _react.default.useEffect(function() {
+                ]);
+                _react.default.useEffect(function() {
                     _performanceRelayer.default(onPerfEntry);
-                }, []), children;
+                }, []);
+                if (false) ;
+                return children;
             }
             function doRender(input) {
-                var resolvePromise, onHeadCommit = function() {
+                var onStart = function onStart() {
+                    if (!styleSheets) {
+                        return false;
+                    }
+                    var currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]"));
+                    var currentHrefs = new Set(currentStyleTags.map(function(tag) {
+                        return tag.getAttribute("data-n-href");
+                    }));
+                    var noscript = document.querySelector("noscript[data-n-css]");
+                    var nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
+                    styleSheets.forEach(function(param) {
+                        var href = param.href, text = param.text;
+                        if (!currentHrefs.has(href)) {
+                            var styleTag = document.createElement("style");
+                            styleTag.setAttribute("data-n-href", href);
+                            styleTag.setAttribute("media", "x");
+                            if (nonce) styleTag.setAttribute("nonce", nonce);
+                            document.head.appendChild(styleTag);
+                            styleTag.appendChild(document.createTextNode(text));
+                        }
+                    });
+                    return true;
+                };
+                var onHeadCommit = function onHeadCommit() {
                     if (styleSheets && !canceled) {
-                        for(var desiredHrefs = new Set(styleSheets.map(function(s) {
+                        var desiredHrefs = new Set(styleSheets.map(function(s) {
                             return s.href;
-                        })), currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = currentStyleTags.map(function(tag) {
+                        }));
+                        var currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]"));
+                        var currentHrefs = currentStyleTags.map(function(tag) {
                             return tag.getAttribute("data-n-href");
-                        }), idx = 0; idx < currentHrefs.length; ++idx)desiredHrefs.has(currentHrefs[idx]) ? currentStyleTags[idx].removeAttribute("media") : currentStyleTags[idx].setAttribute("media", "x");
+                        });
+                        for(var idx = 0; idx < currentHrefs.length; ++idx)if (desiredHrefs.has(currentHrefs[idx])) currentStyleTags[idx].removeAttribute("media");
+                        else currentStyleTags[idx].setAttribute("media", "x");
                         var referenceNode = document.querySelector("noscript[data-n-css]");
-                        referenceNode && styleSheets.forEach(function(param) {
-                            var href = param.href, targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
-                            targetTag && (referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling), referenceNode = targetTag);
-                        }), looseToArray(document.querySelectorAll("link[data-n-p]")).forEach(function(el) {
+                        if (referenceNode) styleSheets.forEach(function(param) {
+                            var href = param.href;
+                            var targetTag = document.querySelector('style[data-n-href="'.concat(href, '"]'));
+                            if (targetTag) {
+                                referenceNode.parentNode.insertBefore(targetTag, referenceNode.nextSibling);
+                                referenceNode = targetTag;
+                            }
+                        });
+                        looseToArray(document.querySelectorAll("link[data-n-p]")).forEach(function(el) {
                             el.parentNode.removeChild(el);
                         });
                     }
                     if (input.scroll) {
-                        var htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
-                        htmlElement.style.scrollBehavior = "auto", window.scrollTo(input.scroll.x, input.scroll.y), htmlElement.style.scrollBehavior = existing;
+                        var htmlElement = document.documentElement;
+                        var existing = htmlElement.style.scrollBehavior;
+                        htmlElement.style.scrollBehavior = "auto";
+                        window.scrollTo(input.scroll.x, input.scroll.y);
+                        htmlElement.style.scrollBehavior = existing;
                     }
-                }, onRootCommit = function() {
+                };
+                var onRootCommit = function onRootCommit() {
                     resolvePromise();
-                }, App = input.App, Component = input.Component, props = input.props, err = input.err, styleSheets = "initial" in input ? void 0 : input.styleSheets;
-                Component = Component || lastAppProps.Component, props = props || lastAppProps.props;
+                };
+                var App = input.App, Component = input.Component, props = input.props, err = input.err;
+                var styleSheets = "initial" in input ? void 0 : input.styleSheets;
+                Component = Component || lastAppProps.Component;
+                props = props || lastAppProps.props;
                 var appProps = _extends({}, props, {
                     Component: Component,
                     err: err,
                     router: router
                 });
                 lastAppProps = appProps;
-                var canceled = !1, renderPromise = new Promise(function(resolve, reject) {
-                    lastRenderReject && lastRenderReject(), resolvePromise = function() {
-                        lastRenderReject = null, resolve();
-                    }, lastRenderReject = function() {
-                        canceled = !0, lastRenderReject = null;
+                var canceled = false;
+                var resolvePromise;
+                var renderPromise = new Promise(function(resolve, reject) {
+                    if (lastRenderReject) lastRenderReject();
+                    resolvePromise = function() {
+                        lastRenderReject = null;
+                        resolve();
+                    };
+                    lastRenderReject = function() {
+                        canceled = true;
+                        lastRenderReject = null;
                         var error = Error("Cancel rendering route");
-                        error.cancelled = !0, reject(error);
+                        error.cancelled = true;
+                        reject(error);
                     };
                 });
-                !function() {
-                    if (!styleSheets) return !1;
-                    var currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = new Set(currentStyleTags.map(function(tag) {
-                        return tag.getAttribute("data-n-href");
-                    })), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
-                    styleSheets.forEach(function(param) {
-                        var href = param.href, text = param.text;
-                        if (!currentHrefs.has(href)) {
-                            var styleTag = document.createElement("style");
-                            styleTag.setAttribute("data-n-href", href), styleTag.setAttribute("media", "x"), nonce && styleTag.setAttribute("nonce", nonce), document.head.appendChild(styleTag), styleTag.appendChild(document.createTextNode(text));
-                        }
-                    });
-                }();
+                onStart();
                 var elem = _react.default.createElement(_react.default.Fragment, null, _react.default.createElement(Head, {
                     callback: onHeadCommit
                 }), _react.default.createElement(AppContainer, null, renderApp(App, appProps), _react.default.createElement(_portal.Portal, {
                     type: "next-route-announcer"
                 }, _react.default.createElement(_routeAnnouncer.RouteAnnouncer, null))));
-                return renderReactElement(appElement, function(callback) {
+                renderReactElement(appElement, function(callback) {
                     return _react.default.createElement(Root, {
                         callbacks: [
                             callback,
                             onRootCommit
                         ]
                     }, _react.default.createElement(_react.default.StrictMode, null, elem));
-                }), renderPromise;
+                });
+                return renderPromise;
             }
             function render(renderingProps) {
                 return _render.apply(this, arguments);
             }
             function _render() {
-                return (_render = _async_to_generator(function(renderingProps) {
+                _render = _async_to_generator(function(renderingProps) {
                     var err, renderErr;
                     return _tsGenerator(this, function(_state) {
                         switch(_state.label){
@@ -933,32 +1285,45 @@
                                     renderError(renderingProps)
                                 ];
                             case 1:
-                                return _state.sent(), [
+                                _state.sent();
+                                return [
                                     2
                                 ];
                             case 2:
-                                return _state.trys.push([
+                                _state.trys.push([
                                     2,
                                     4,
                                     ,
                                     6
-                                ]), [
+                                ]);
+                                return [
                                     4,
                                     doRender(renderingProps)
                                 ];
                             case 3:
-                            case 5:
-                                return _state.sent(), [
+                                _state.sent();
+                                return [
                                     3,
                                     6
                                 ];
                             case 4:
-                                if (err = _state.sent(), (renderErr = _isError.getProperError(err)).cancelled) throw renderErr;
+                                err = _state.sent();
+                                renderErr = _isError.getProperError(err);
+                                if (renderErr.cancelled) {
+                                    throw renderErr;
+                                }
+                                if (false) ;
                                 return [
                                     4,
                                     renderError(_extends({}, renderingProps, {
                                         err: renderErr
                                     }))
+                                ];
+                            case 5:
+                                _state.sent();
+                                return [
+                                    3,
+                                    6
                                 ];
                             case 6:
                                 return [
@@ -966,33 +1331,43 @@
                                 ];
                         }
                     });
-                })).apply(this, arguments);
+                });
+                return _render.apply(this, arguments);
             }
             function hydrate(opts) {
                 return _hydrate.apply(this, arguments);
             }
             function _hydrate() {
-                return (_hydrate = _async_to_generator(function(opts) {
-                    var initialErr, appEntrypoint, app, mod, pageEntrypoint, _tmp, error1, renderCtx;
+                _hydrate = _async_to_generator(function(opts) {
+                    var initialErr, appEntrypoint, app, mod, pageEntrypoint, _tmp, isValidElementType, error1, getServerError, renderCtx;
                     return _tsGenerator(this, function(_state) {
                         switch(_state.label){
                             case 0:
-                                initialErr = initialData.err, _state.label = 1;
+                                initialErr = initialData.err;
+                                _state.label = 1;
                             case 1:
-                                return _state.trys.push([
+                                _state.trys.push([
                                     1,
                                     6,
                                     ,
                                     7
-                                ]), [
+                                ]);
+                                return [
                                     4,
                                     pageLoader.routeLoader.whenEntrypoint("/_app")
                                 ];
                             case 2:
-                                if ("error" in (appEntrypoint = _state.sent())) throw appEntrypoint.error;
-                                return app = appEntrypoint.component, mod = appEntrypoint.exports, CachedApp = app, mod && mod.reportWebVitals && (onPerfEntry = function(param) {
-                                    var perfStartEntry, id = param.id, name = param.name, startTime = param.startTime, value = param.value, duration = param.duration, entryType = param.entryType, entries = param.entries, uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
-                                    entries && entries.length && (perfStartEntry = entries[0].startTime);
+                                appEntrypoint = _state.sent();
+                                if ("error" in appEntrypoint) {
+                                    throw appEntrypoint.error;
+                                }
+                                app = appEntrypoint.component, mod = appEntrypoint.exports;
+                                CachedApp = app;
+                                if (mod && mod.reportWebVitals) onPerfEntry = function(param) {
+                                    var id = param.id, name = param.name, startTime = param.startTime, value = param.value, duration = param.duration, entryType = param.entryType, entries = param.entries;
+                                    var uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
+                                    var perfStartEntry;
+                                    if (entries && entries.length) perfStartEntry = entries[0].startTime;
                                     var webVitals = {
                                         id: id || uniqueID,
                                         name: name,
@@ -1001,9 +1376,17 @@
                                         label: "mark" === entryType || "measure" === entryType ? "custom" : "web-vital"
                                     };
                                     mod.reportWebVitals(webVitals);
-                                }), [
+                                };
+                                if (true) return [
                                     3,
                                     3
+                                ];
+                                _tmp = {
+                                    error: initialData.err
+                                };
+                                return [
+                                    3,
+                                    5
                                 ];
                             case 3:
                                 return [
@@ -1011,19 +1394,28 @@
                                     pageLoader.routeLoader.whenEntrypoint(initialData.page)
                                 ];
                             case 4:
-                                _tmp = _state.sent(), _state.label = 5;
+                                _tmp = _state.sent();
+                                _state.label = 5;
                             case 5:
-                                if ("error" in (pageEntrypoint = _tmp)) throw pageEntrypoint.error;
-                                return CachedComponent = pageEntrypoint.component, [
+                                pageEntrypoint = _tmp;
+                                if ("error" in pageEntrypoint) {
+                                    throw pageEntrypoint.error;
+                                }
+                                CachedComponent = pageEntrypoint.component;
+                                if (false) ;
+                                return [
                                     3,
                                     7
                                 ];
                             case 6:
-                                return error1 = _state.sent(), initialErr = _isError.getProperError(error1), [
+                                error1 = _state.sent();
+                                initialErr = _isError.getProperError(error1);
+                                return [
                                     3,
                                     7
                                 ];
                             case 7:
+                                if (false) ;
                                 if (!window.__NEXT_PRELOADREADY) return [
                                     3,
                                     9
@@ -1033,9 +1425,10 @@
                                     window.__NEXT_PRELOADREADY(initialData.dynamicIds)
                                 ];
                             case 8:
-                                _state.sent(), _state.label = 9;
+                                _state.sent();
+                                _state.label = 9;
                             case 9:
-                                return exports.router = router = _router.createRouter(initialData.page, initialData.query, asPath, {
+                                exports.router = router = _router.createRouter(initialData.page, initialData.query, asPath, {
                                     initialProps: initialData.props,
                                     pageLoader: pageLoader,
                                     App: CachedApp,
@@ -1054,18 +1447,21 @@
                                     defaultLocale: defaultLocale,
                                     domainLocales: initialData.domainLocales,
                                     isPreview: initialData.isPreview
-                                }), [
+                                });
+                                return [
                                     4,
                                     router._initialMatchesMiddlewarePromise
                                 ];
                             case 10:
-                                if (initialMatchesMiddleware = _state.sent(), renderCtx = {
+                                initialMatchesMiddleware = _state.sent();
+                                renderCtx = {
                                     App: CachedApp,
-                                    initial: !0,
+                                    initial: true,
                                     Component: CachedComponent,
                                     props: initialData.props,
                                     err: initialErr
-                                }, !(null == opts ? void 0 : opts.beforeRender)) return [
+                                };
+                                if (!(null == opts ? void 0 : opts.beforeRender)) return [
                                     3,
                                     12
                                 ];
@@ -1074,18 +1470,25 @@
                                     opts.beforeRender()
                                 ];
                             case 11:
-                                _state.sent(), _state.label = 12;
+                                _state.sent();
+                                _state.label = 12;
                             case 12:
-                                return render(renderCtx), [
+                                render(renderCtx);
+                                return [
                                     2
                                 ];
                         }
                     });
-                })).apply(this, arguments);
+                });
+                return _hydrate.apply(this, arguments);
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         2870: function(module, exports, __webpack_require__) {
             "use strict";
@@ -1096,72 +1499,118 @@
                     return _.router;
                 },
                 emitter: _.emitter
-            }, _.initialize({}).then(function() {
+            };
+            _.initialize({}).then(function() {
                 return _.hydrate();
-            }).catch(console.error), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            }).catch(console.error);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         2392: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.normalizePathTrailingSlash = void 0;
-            var _removeTrailingSlash = __webpack_require__(6316), _parsePath = __webpack_require__(4943), normalizePathTrailingSlash = function(path) {
-                if (!path.startsWith("/")) return path;
+                value: true
+            });
+            exports.normalizePathTrailingSlash = void 0;
+            var _removeTrailingSlash = __webpack_require__(6316);
+            var _parsePath = __webpack_require__(4943);
+            var normalizePathTrailingSlash = function(path) {
+                if (!path.startsWith("/")) {
+                    return path;
+                }
                 var ref = _parsePath.parsePath(path), pathname = ref.pathname, query = ref.query, hash = ref.hash;
+                if (false) ;
                 return "".concat(_removeTrailingSlash.removeTrailingSlash(pathname)).concat(query).concat(hash);
             };
-            exports.normalizePathTrailingSlash = normalizePathTrailingSlash, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.normalizePathTrailingSlash = normalizePathTrailingSlash;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         5181: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = void 0;
-            var _interop_require_default = __webpack_require__(2648).Z, _addBasePath = __webpack_require__(8684), _router = __webpack_require__(6273), _getAssetPathFromRoute = _interop_require_default(__webpack_require__(3891)), _addLocale = __webpack_require__(2725), _isDynamic = __webpack_require__(8689), _parseRelativeUrl = __webpack_require__(6305), _removeTrailingSlash = __webpack_require__(6316), _routeLoader = __webpack_require__(2669), PageLoader = function() {
+                value: true
+            });
+            exports["default"] = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _addBasePath = __webpack_require__(8684);
+            var _router = __webpack_require__(6273);
+            var _getAssetPathFromRoute = _interop_require_default(__webpack_require__(3891));
+            var _addLocale = __webpack_require__(2725);
+            var _isDynamic = __webpack_require__(8689);
+            var _parseRelativeUrl = __webpack_require__(6305);
+            var _removeTrailingSlash = __webpack_require__(6316);
+            var _routeLoader = __webpack_require__(2669);
+            var PageLoader = function() {
                 function PageLoader(buildId, assetPrefix) {
-                    _classCallCheck(this, PageLoader), this.routeLoader = _routeLoader.createRouteLoader(assetPrefix), this.buildId = buildId, this.assetPrefix = assetPrefix, this.promisedSsgManifest = new Promise(function(resolve) {
-                        window.__SSG_MANIFEST ? resolve(window.__SSG_MANIFEST) : window.__SSG_MANIFEST_CB = function() {
+                    _classCallCheck(this, PageLoader);
+                    this.routeLoader = _routeLoader.createRouteLoader(assetPrefix);
+                    this.buildId = buildId;
+                    this.assetPrefix = assetPrefix;
+                    this.promisedSsgManifest = new Promise(function(resolve) {
+                        if (window.__SSG_MANIFEST) resolve(window.__SSG_MANIFEST);
+                        else window.__SSG_MANIFEST_CB = function() {
                             resolve(window.__SSG_MANIFEST);
                         };
                     });
                 }
-                return _createClass(PageLoader, [
+                _createClass(PageLoader, [
                     {
                         key: "getPageList",
-                        value: function() {
-                            return _routeLoader.getClientBuildManifest().then(function(manifest) {
-                                return manifest.sortedPages;
-                            });
+                        value: function getPageList() {
+                            if (true) {
+                                return _routeLoader.getClientBuildManifest().then(function(manifest) {
+                                    return manifest.sortedPages;
+                                });
+                            }
                         }
                     },
                     {
                         key: "getMiddleware",
-                        value: function() {
-                            return window.__MIDDLEWARE_MATCHERS = [], window.__MIDDLEWARE_MATCHERS;
+                        value: function getMiddleware() {
+                            if (true) {
+                                var middlewareMatchers = [];
+                                window.__MIDDLEWARE_MATCHERS = middlewareMatchers || void 0;
+                                return window.__MIDDLEWARE_MATCHERS;
+                            }
                         }
                     },
                     {
                         key: "getDataHref",
-                        value: function(params) {
-                            var _this = this, asPath = params.asPath, href = params.href, locale = params.locale, ref = _parseRelativeUrl.parseRelativeUrl(href), hrefPathname = ref.pathname, query = ref.query, search = ref.search, asPathname = _parseRelativeUrl.parseRelativeUrl(asPath).pathname, route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
-                            if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                            return function(path) {
+                        value: function getDataHref(params) {
+                            var _this = this;
+                            var asPath = params.asPath, href = params.href, locale = params.locale;
+                            var ref = _parseRelativeUrl.parseRelativeUrl(href), hrefPathname = ref.pathname, query = ref.query, search = ref.search;
+                            var ref1 = _parseRelativeUrl.parseRelativeUrl(asPath), asPathname = ref1.pathname;
+                            var route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
+                            if ("/" !== route[0]) {
+                                throw Error('Route name should start with a "/", got "'.concat(route, '"'));
+                            }
+                            var getHrefForSlug = function(path) {
                                 var dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
-                                return _addBasePath.addBasePath("/_next/data/".concat(_this.buildId).concat(dataRoute).concat(search), !0);
-                            }(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
+                                return _addBasePath.addBasePath("/_next/data/".concat(_this.buildId).concat(dataRoute).concat(search), true);
+                            };
+                            return getHrefForSlug(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
                         }
                     },
                     {
                         key: "_isSsg",
-                        value: function(route) {
+                        value: function _isSsg(route) {
                             return this.promisedSsgManifest.then(function(manifest) {
                                 return manifest.has(route);
                             });
@@ -1169,109 +1618,167 @@
                     },
                     {
                         key: "loadPage",
-                        value: function(route) {
+                        value: function loadPage(route) {
                             return this.routeLoader.loadRoute(route).then(function(res) {
-                                if ("component" in res) return {
-                                    page: res.component,
-                                    mod: res.exports,
-                                    styleSheets: res.styles.map(function(o) {
-                                        return {
-                                            href: o.href,
-                                            text: o.content
-                                        };
-                                    })
-                                };
+                                if ("component" in res) {
+                                    return {
+                                        page: res.component,
+                                        mod: res.exports,
+                                        styleSheets: res.styles.map(function(o) {
+                                            return {
+                                                href: o.href,
+                                                text: o.content
+                                            };
+                                        })
+                                    };
+                                }
                                 throw res.error;
                             });
                         }
                     },
                     {
                         key: "prefetch",
-                        value: function(route) {
+                        value: function prefetch(route) {
                             return this.routeLoader.prefetch(route);
                         }
                     }
-                ]), PageLoader;
+                ]);
+                return PageLoader;
             }();
-            exports.default = PageLoader, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports["default"] = PageLoader;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         9302: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = void 0;
-            var userReportHandler, _webVitals = __webpack_require__(8018);
-            location.href;
-            var isRegistered = !1;
+                value: true
+            });
+            exports["default"] = void 0;
+            var _webVitals = __webpack_require__(8018);
+            var initialHref = location.href;
+            var isRegistered = false;
+            var userReportHandler;
             function onReport(metric) {
-                userReportHandler && userReportHandler(metric);
+                if (userReportHandler) userReportHandler(metric);
+                if (false) var send, vitalsUrl, blob, body, ref, fallbackSend;
             }
             var _default = function(onPerfEntry) {
-                userReportHandler = onPerfEntry, isRegistered || (isRegistered = !0, _webVitals.onCLS(onReport), _webVitals.onFID(onReport), _webVitals.onFCP(onReport), _webVitals.onLCP(onReport), _webVitals.onTTFB(onReport), _webVitals.onINP(onReport));
+                userReportHandler = onPerfEntry;
+                if (isRegistered) {
+                    return;
+                }
+                isRegistered = true;
+                _webVitals.onCLS(onReport);
+                _webVitals.onFID(onReport);
+                _webVitals.onFCP(onReport);
+                _webVitals.onLCP(onReport);
+                _webVitals.onTTFB(onReport);
+                _webVitals.onINP(onReport);
             };
-            exports.default = _default, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports["default"] = _default;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         2207: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
             var _slicedToArray = __webpack_require__(4941).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.Portal = void 0;
-            var _react = __webpack_require__(7294), _reactDom = __webpack_require__(3935), Portal = function(param) {
-                var children = param.children, type = param.type, ref = _slicedToArray(_react.useState(null), 2), portalNode = ref[0], setPortalNode = ref[1];
-                return _react.useEffect(function() {
+                value: true
+            });
+            exports.Portal = void 0;
+            var _react = __webpack_require__(7294);
+            var _reactDom = __webpack_require__(3935);
+            var Portal = function(param) {
+                var children = param.children, type = param.type;
+                var ref = _slicedToArray(_react.useState(null), 2), portalNode = ref[0], setPortalNode = ref[1];
+                _react.useEffect(function() {
                     var element = document.createElement(type);
-                    return document.body.appendChild(element), setPortalNode(element), function() {
+                    document.body.appendChild(element);
+                    setPortalNode(element);
+                    return function() {
                         document.body.removeChild(element);
                     };
                 }, [
                     type
-                ]), portalNode ? _reactDom.createPortal(children, portalNode) : null;
+                ]);
+                return portalNode ? _reactDom.createPortal(children, portalNode) : null;
             };
-            exports.Portal = Portal, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.Portal = Portal;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         9320: function(module, exports, __webpack_require__) {
             "use strict";
-            function removeBasePath(path) {
-                return (path = path.slice(0)).startsWith("/") || (path = "/".concat(path)), path;
-            }
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.removeBasePath = removeBasePath, __webpack_require__(4119), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+                value: true
+            });
+            exports.removeBasePath = removeBasePath;
+            var _hasBasePath = __webpack_require__(4119);
+            var basePath = "";
+            function removeBasePath(path) {
+                if (false) ;
+                path = path.slice(basePath.length);
+                if (!path.startsWith("/")) path = "/".concat(path);
+                return path;
+            }
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         5776: function(module, exports, __webpack_require__) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.removeLocale = removeLocale;
+            var _parsePath = __webpack_require__(4943);
             function removeLocale(path, locale) {
+                if (false) var localeLower, pathLower, pathname;
                 return path;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.removeLocale = removeLocale, __webpack_require__(4943), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         9311: function(module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0;
+                value: true
+            });
+            exports.cancelIdleCallback = exports.requestIdleCallback = void 0;
             var requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 var start = Date.now();
                 return setTimeout(function() {
                     cb({
-                        didTimeout: !1,
-                        timeRemaining: function() {
+                        didTimeout: false,
+                        timeRemaining: function timeRemaining() {
                             return Math.max(0, 50 - (Date.now() - start));
                         }
                     });
@@ -1281,20 +1788,29 @@
             var cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
             };
-            exports.cancelIdleCallback = cancelIdleCallback, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.cancelIdleCallback = cancelIdleCallback;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         8982: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
             var _slicedToArray = __webpack_require__(4941).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = exports.RouteAnnouncer = void 0;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _router = __webpack_require__(387), nextjsRouteAnnouncerStyles = {
+                value: true
+            });
+            exports["default"] = exports.RouteAnnouncer = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _router = __webpack_require__(387);
+            var nextjsRouteAnnouncerStyles = {
                 border: 0,
                 clip: "rect(0 0 0 0)",
                 height: "1px",
@@ -1305,63 +1821,102 @@
                 width: "1px",
                 whiteSpace: "nowrap",
                 wordWrap: "normal"
-            }, RouteAnnouncer = function() {
-                var asPath = _router.useRouter().asPath, ref = _slicedToArray(_react.default.useState(""), 2), routeAnnouncement = ref[0], setRouteAnnouncement = ref[1], previouslyLoadedPath = _react.default.useRef(asPath);
-                return _react.default.useEffect(function() {
-                    if (previouslyLoadedPath.current !== asPath) {
-                        if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
-                        else {
-                            var ref, pageHeader = document.querySelector("h1");
-                            setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
-                        }
+            };
+            var RouteAnnouncer = function() {
+                var asPath = _router.useRouter().asPath;
+                var ref = _slicedToArray(_react.default.useState(""), 2), routeAnnouncement = ref[0], setRouteAnnouncement = ref[1];
+                var previouslyLoadedPath = _react.default.useRef(asPath);
+                _react.default.useEffect(function() {
+                    if (previouslyLoadedPath.current === asPath) return;
+                    previouslyLoadedPath.current = asPath;
+                    if (document.title) setRouteAnnouncement(document.title);
+                    else {
+                        var pageHeader = document.querySelector("h1");
+                        var ref;
+                        var content = null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent;
+                        setRouteAnnouncement(content || asPath);
                     }
                 }, [
                     asPath
-                ]), _react.default.createElement("p", {
+                ]);
+                return _react.default.createElement("p", {
                     "aria-live": "assertive",
                     id: "__next-route-announcer__",
                     role: "alert",
                     style: nextjsRouteAnnouncerStyles
                 }, routeAnnouncement);
             };
-            exports.RouteAnnouncer = RouteAnnouncer, exports.default = RouteAnnouncer, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            exports.RouteAnnouncer = RouteAnnouncer;
+            var _default = RouteAnnouncer;
+            exports["default"] = _default;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         2669: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.markAssetError = markAssetError, exports.isAssetError = isAssetError, exports.getClientBuildManifest = getClientBuildManifest, exports.createRouteLoader = createRouteLoader, (0, __webpack_require__(2648).Z)(__webpack_require__(3891));
-            var _trustedTypes = __webpack_require__(4991), _requestIdleCallback = __webpack_require__(9311), MS_MAX_IDLE_DELAY = 3800;
+                value: true
+            });
+            exports.markAssetError = markAssetError;
+            exports.isAssetError = isAssetError;
+            exports.getClientBuildManifest = getClientBuildManifest;
+            exports.createRouteLoader = createRouteLoader;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _getAssetPathFromRoute = _interop_require_default(__webpack_require__(3891));
+            var _trustedTypes = __webpack_require__(4991);
+            var _requestIdleCallback = __webpack_require__(9311);
+            var MS_MAX_IDLE_DELAY = 3800;
             function withFuture(key, map, generator) {
-                var resolver, entry = map.get(key);
-                if (entry) return "future" in entry ? entry.future : Promise.resolve(entry);
+                var entry = map.get(key);
+                if (entry) {
+                    if ("future" in entry) {
+                        return entry.future;
+                    }
+                    return Promise.resolve(entry);
+                }
+                var resolver;
                 var prom = new Promise(function(resolve) {
                     resolver = resolve;
                 });
-                return map.set(key, entry = {
+                map.set(key, entry = {
                     resolve: resolver,
                     future: prom
-                }), generator ? generator().then(function(value) {
+                });
+                return generator ? generator().then(function(value) {
                     return resolver(value), value;
                 }).catch(function(err) {
-                    throw map.delete(key), err;
+                    map.delete(key);
+                    throw err;
                 }) : prom;
             }
             function hasPrefetch(link) {
                 try {
-                    return link = document.createElement("link"), !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
+                    link = document.createElement("link");
+                    return !!window.MSInputMethodContext && !!document.documentMode || link.relList.supports("prefetch");
                 } catch (e) {
-                    return !1;
+                    return false;
                 }
             }
             var canPrefetch = hasPrefetch();
             function prefetchViaDom(href, as, link) {
                 return new Promise(function(res, rej) {
                     var selector = '\n      link[rel="prefetch"][href^="'.concat(href, '"],\n      link[rel="preload"][href^="').concat(href, '"],\n      script[src^="').concat(href, '"]');
-                    if (document.querySelector(selector)) return res();
-                    link = document.createElement("link"), as && (link.as = as), link.rel = "prefetch", link.crossOrigin = void 0, link.onload = res, link.onerror = rej, link.href = href, document.head.appendChild(link);
+                    if (document.querySelector(selector)) {
+                        return res();
+                    }
+                    link = document.createElement("link");
+                    if (as) link.as = as;
+                    link.rel = "prefetch";
+                    link.crossOrigin = void 0;
+                    link.onload = res;
+                    link.onerror = rej;
+                    link.href = href;
+                    document.head.appendChild(link);
                 });
             }
             var ASSET_LOAD_ERROR = Symbol("ASSET_LOAD_ERROR");
@@ -1373,36 +1928,51 @@
             }
             function appendScript(src, script) {
                 return new Promise(function(resolve, reject) {
-                    (script = document.createElement("script")).onload = resolve, script.onerror = function() {
+                    script = document.createElement("script");
+                    script.onload = resolve;
+                    script.onerror = function() {
                         return reject(markAssetError(Error("Failed to load script: ".concat(src))));
-                    }, script.crossOrigin = void 0, script.src = src, document.body.appendChild(script);
+                    };
+                    script.crossOrigin = void 0;
+                    script.src = src;
+                    document.body.appendChild(script);
                 });
             }
+            var devBuildPromise;
             function resolvePromiseWithTimeout(p, ms, err) {
                 return new Promise(function(resolve, reject) {
-                    var cancelled = !1;
+                    var cancelled = false;
                     p.then(function(r) {
-                        cancelled = !0, resolve(r);
-                    }).catch(reject), _requestIdleCallback.requestIdleCallback(function() {
+                        cancelled = true;
+                        resolve(r);
+                    }).catch(reject);
+                    if (false) ;
+                    if (true) _requestIdleCallback.requestIdleCallback(function() {
                         return setTimeout(function() {
-                            cancelled || reject(err);
+                            if (!cancelled) reject(err);
                         }, ms);
                     });
                 });
             }
             function getClientBuildManifest() {
-                if (self.__BUILD_MANIFEST) return Promise.resolve(self.__BUILD_MANIFEST);
+                if (self.__BUILD_MANIFEST) {
+                    return Promise.resolve(self.__BUILD_MANIFEST);
+                }
                 var onBuildManifest = new Promise(function(resolve) {
                     var cb = self.__BUILD_MANIFEST_CB;
                     self.__BUILD_MANIFEST_CB = function() {
-                        resolve(self.__BUILD_MANIFEST), cb && cb();
+                        resolve(self.__BUILD_MANIFEST);
+                        cb && cb();
                     };
                 });
                 return resolvePromiseWithTimeout(onBuildManifest, MS_MAX_IDLE_DELAY, markAssetError(Error("Failed to load client build manifest")));
             }
             function getFilesForRoute(assetPrefix, route) {
+                if (false) var scriptUrl;
                 return getClientBuildManifest().then(function(manifest) {
-                    if (!(route in manifest)) throw markAssetError(Error("Failed to lookup route: ".concat(route)));
+                    if (!(route in manifest)) {
+                        throw markAssetError(Error("Failed to lookup route: ".concat(route)));
+                    }
                     var allFiles = manifest[route].map(function(entry) {
                         return assetPrefix + "/_next/" + encodeURI(entry);
                     });
@@ -1419,13 +1989,28 @@
                 });
             }
             function createRouteLoader(assetPrefix) {
-                var maybeExecuteScript = function(src) {
-                    var prom = loadedScripts.get(src.toString());
-                    return prom || (document.querySelector('script[src^="'.concat(src, '"]')) ? Promise.resolve() : (loadedScripts.set(src.toString(), prom = appendScript(src)), prom));
-                }, fetchStyleSheet = function(href) {
+                var maybeExecuteScript = function maybeExecuteScript(src) {
+                    if (true) {
+                        var prom = loadedScripts.get(src.toString());
+                        if (prom) {
+                            return prom;
+                        }
+                        if (document.querySelector('script[src^="'.concat(src, '"]'))) {
+                            return Promise.resolve();
+                        }
+                        loadedScripts.set(src.toString(), prom = appendScript(src));
+                        return prom;
+                    }
+                };
+                var fetchStyleSheet = function fetchStyleSheet(href) {
                     var prom = styleSheets.get(href);
-                    return prom || styleSheets.set(href, prom = fetch(href).then(function(res) {
-                        if (!res.ok) throw Error("Failed to load stylesheet: ".concat(href));
+                    if (prom) {
+                        return prom;
+                    }
+                    styleSheets.set(href, prom = fetch(href).then(function(res) {
+                        if (!res.ok) {
+                            throw Error("Failed to load stylesheet: ".concat(href));
+                        }
                         return res.text().then(function(text) {
                             return {
                                 href: href,
@@ -1434,13 +2019,18 @@
                         });
                     }).catch(function(err) {
                         throw markAssetError(err);
-                    })), prom;
-                }, entrypoints = new Map(), loadedScripts = new Map(), styleSheets = new Map(), routes = new Map();
+                    }));
+                    return prom;
+                };
+                var entrypoints = new Map();
+                var loadedScripts = new Map();
+                var styleSheets = new Map();
+                var routes = new Map();
                 return {
-                    whenEntrypoint: function(route) {
+                    whenEntrypoint: function whenEntrypoint(route) {
                         return withFuture(route, entrypoints);
                     },
-                    onEntrypoint: function(route, execute) {
+                    onEntrypoint: function onEntrypoint(route, execute) {
                         (execute ? Promise.resolve().then(function() {
                             return execute();
                         }).then(function(exports1) {
@@ -1454,13 +2044,23 @@
                             };
                         }) : Promise.resolve(void 0)).then(function(input) {
                             var old = entrypoints.get(route);
-                            old && "resolve" in old ? input && (entrypoints.set(route, input), old.resolve(input)) : (input ? entrypoints.set(route, input) : entrypoints.delete(route), routes.delete(route));
+                            if (old && "resolve" in old) {
+                                if (input) {
+                                    entrypoints.set(route, input);
+                                    old.resolve(input);
+                                }
+                            } else {
+                                if (input) entrypoints.set(route, input);
+                                else entrypoints.delete(route);
+                                routes.delete(route);
+                            }
                         });
                     },
-                    loadRoute: function(route, prefetch) {
+                    loadRoute: function loadRoute(route, prefetch) {
                         var _this = this;
                         return withFuture(route, routes, function() {
                             var devBuildPromiseResolve;
+                            if (false) ;
                             return resolvePromiseWithTimeout(getFilesForRoute(assetPrefix, route).then(function(param) {
                                 var scripts = param.scripts, css = param.css;
                                 return Promise.all([
@@ -1475,12 +2075,15 @@
                                     };
                                 });
                             }), MS_MAX_IDLE_DELAY, markAssetError(Error("Route did not complete loading: ".concat(route)))).then(function(param) {
-                                var entrypoint = param.entrypoint, res = Object.assign({
-                                    styles: param.styles
+                                var entrypoint = param.entrypoint, styles = param.styles;
+                                var res = Object.assign({
+                                    styles: styles
                                 }, entrypoint);
                                 return "error" in entrypoint ? entrypoint : res;
                             }).catch(function(err) {
-                                if (prefetch) throw err;
+                                if (prefetch) {
+                                    throw err;
+                                }
                                 return {
                                     error: err
                                 };
@@ -1489,51 +2092,73 @@
                             });
                         });
                     },
-                    prefetch: function(route) {
-                        var cn, _this = this;
-                        return (cn = navigator.connection) && (cn.saveData || /2g/.test(cn.effectiveType)) ? Promise.resolve() : getFilesForRoute(assetPrefix, route).then(function(output) {
+                    prefetch: function prefetch(route) {
+                        var _this = this;
+                        var cn;
+                        if (cn = navigator.connection) {
+                            if (cn.saveData || /2g/.test(cn.effectiveType)) return Promise.resolve();
+                        }
+                        return getFilesForRoute(assetPrefix, route).then(function(output) {
                             return Promise.all(canPrefetch ? output.scripts.map(function(script) {
                                 return prefetchViaDom(script.toString(), "script");
                             }) : []);
                         }).then(function() {
                             _requestIdleCallback.requestIdleCallback(function() {
-                                return _this.loadRoute(route, !0).catch(function() {});
+                                return _this.loadRoute(route, true).catch(function() {});
                             });
                         }).catch(function() {});
                     }
                 };
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         387: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _construct = __webpack_require__(5317).default, _toConsumableArray = __webpack_require__(3929).Z;
+            var _construct = __webpack_require__(5317)["default"];
+            var _toConsumableArray = __webpack_require__(3929).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), Object.defineProperty(exports, "Router", {
-                enumerable: !0,
-                get: function() {
+                value: true
+            });
+            Object.defineProperty(exports, "Router", {
+                enumerable: true,
+                get: function get() {
                     return _router.default;
                 }
-            }), Object.defineProperty(exports, "withRouter", {
-                enumerable: !0,
-                get: function() {
+            });
+            Object.defineProperty(exports, "withRouter", {
+                enumerable: true,
+                get: function get() {
                     return _withRouter.default;
                 }
-            }), exports.useRouter = useRouter, exports.createRouter = createRouter, exports.makePublicRouterInstance = makePublicRouterInstance, exports.default = void 0;
-            var _interop_require_default = __webpack_require__(2648).Z, _react = _interop_require_default(__webpack_require__(7294)), _router = _interop_require_default(__webpack_require__(6273)), _routerContext = __webpack_require__(3462), _isError = _interop_require_default(__webpack_require__(676)), _withRouter = _interop_require_default(__webpack_require__(8981)), singletonRouter = {
+            });
+            exports.useRouter = useRouter;
+            exports.createRouter = createRouter;
+            exports.makePublicRouterInstance = makePublicRouterInstance;
+            exports["default"] = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _router = _interop_require_default(__webpack_require__(6273));
+            var _routerContext = __webpack_require__(3462);
+            var _isError = _interop_require_default(__webpack_require__(676));
+            var _withRouter = _interop_require_default(__webpack_require__(8981));
+            var singletonRouter = {
                 router: null,
                 readyCallbacks: [],
-                ready: function(cb) {
+                ready: function ready(cb) {
                     if (this.router) return cb();
-                    this.readyCallbacks.push(cb);
+                    if (true) this.readyCallbacks.push(cb);
                 }
-            }, urlPropertyFields = [
+            };
+            var urlPropertyFields = [
                 "pathname",
                 "route",
                 "query",
@@ -1548,7 +2173,16 @@
                 "isPreview",
                 "isLocaleDomain",
                 "domainLocales"
-            ], coreMethodFields = [
+            ];
+            var routerEvents = [
+                "routeChangeStart",
+                "beforeHistoryChange",
+                "routeChangeComplete",
+                "routeChangeError",
+                "hashChangeStart",
+                "hashChangeComplete"
+            ];
+            var coreMethodFields = [
                 "push",
                 "replace",
                 "reload",
@@ -1556,23 +2190,72 @@
                 "prefetch",
                 "beforePopState"
             ];
+            Object.defineProperty(singletonRouter, "events", {
+                get: function get() {
+                    return _router.default.events;
+                }
+            });
             function getRouter() {
-                if (!singletonRouter.router) throw Error('No router instance found.\nYou should only use "next/router" on the client side of your app.\n');
+                if (!singletonRouter.router) {
+                    var message = 'No router instance found.\nYou should only use "next/router" on the client side of your app.\n';
+                    throw Error(message);
+                }
                 return singletonRouter.router;
             }
+            urlPropertyFields.forEach(function(field) {
+                Object.defineProperty(singletonRouter, field, {
+                    get: function get() {
+                        var router = getRouter();
+                        return router[field];
+                    }
+                });
+            });
+            coreMethodFields.forEach(function(field) {
+                singletonRouter[field] = function() {
+                    for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                    var _router;
+                    var router = getRouter();
+                    return (_router = router)[field].apply(_router, _toConsumableArray(args));
+                };
+            });
+            routerEvents.forEach(function(event) {
+                singletonRouter.ready(function() {
+                    _router.default.events.on(event, function() {
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        var eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1));
+                        var _singletonRouter = singletonRouter;
+                        if (_singletonRouter[eventField]) {
+                            try {
+                                var __singletonRouter;
+                                (__singletonRouter = _singletonRouter)[eventField].apply(__singletonRouter, _toConsumableArray(args));
+                            } catch (err) {
+                                console.error("Error when running the Router event: ".concat(eventField));
+                                console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
+                            }
+                        }
+                    });
+                });
+            });
+            var _default = singletonRouter;
+            exports["default"] = _default;
             function useRouter() {
                 return _react.default.useContext(_routerContext.RouterContext);
             }
             function createRouter() {
                 for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                return singletonRouter.router = _construct(_router.default, _toConsumableArray(args)), singletonRouter.readyCallbacks.forEach(function(cb) {
+                singletonRouter.router = _construct(_router.default, _toConsumableArray(args));
+                singletonRouter.readyCallbacks.forEach(function(cb) {
                     return cb();
-                }), singletonRouter.readyCallbacks = [], singletonRouter.router;
+                });
+                singletonRouter.readyCallbacks = [];
+                return singletonRouter.router;
             }
             function makePublicRouterInstance(router) {
-                var scopedRouter = router, instance = {}, _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
+                var scopedRouter = router;
+                var instance = {};
+                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = void 0;
                 try {
-                    for(var _step, _iterator = urlPropertyFields[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+                    for(var _iterator = urlPropertyFields[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
                         var property = _step.value;
                         if ("object" == typeof scopedRouter[property]) {
                             instance[property] = Object.assign(Array.isArray(scopedRouter[property]) ? [] : {}, scopedRouter[property]);
@@ -1581,182 +2264,230 @@
                         instance[property] = scopedRouter[property];
                     }
                 } catch (err) {
-                    _didIteratorError = !0, _iteratorError = err;
+                    _didIteratorError = true;
+                    _iteratorError = err;
                 } finally{
                     try {
-                        _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
+                        if (!_iteratorNormalCompletion && null != _iterator.return) _iterator.return();
                     } finally{
-                        if (_didIteratorError) throw _iteratorError;
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
                     }
                 }
-                return instance.events = _router.default.events, coreMethodFields.forEach(function(field) {
+                instance.events = _router.default.events;
+                coreMethodFields.forEach(function(field) {
                     instance[field] = function() {
-                        for(var _scopedRouter, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        var _scopedRouter;
                         return (_scopedRouter = scopedRouter)[field].apply(_scopedRouter, _toConsumableArray(args));
                     };
-                }), instance;
+                });
+                return instance;
             }
-            Object.defineProperty(singletonRouter, "events", {
-                get: function() {
-                    return _router.default.events;
-                }
-            }), urlPropertyFields.forEach(function(field) {
-                Object.defineProperty(singletonRouter, field, {
-                    get: function() {
-                        return getRouter()[field];
-                    }
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
                 });
-            }), coreMethodFields.forEach(function(field) {
-                singletonRouter[field] = function() {
-                    for(var _router, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return (_router = getRouter())[field].apply(_router, _toConsumableArray(args));
-                };
-            }), [
-                "routeChangeStart",
-                "beforeHistoryChange",
-                "routeChangeComplete",
-                "routeChangeError",
-                "hashChangeStart",
-                "hashChangeComplete"
-            ].forEach(function(event) {
-                singletonRouter.ready(function() {
-                    _router.default.events.on(event, function() {
-                        for(var __singletonRouter, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                        var eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1)), _singletonRouter = singletonRouter;
-                        if (_singletonRouter[eventField]) try {
-                            (__singletonRouter = _singletonRouter)[eventField].apply(__singletonRouter, _toConsumableArray(args));
-                        } catch (err) {
-                            console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
-                        }
-                    });
-                });
-            }), exports.default = singletonRouter, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         699: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _slicedToArray = __webpack_require__(4941).Z, _toConsumableArray = __webpack_require__(3929).Z;
+            var _slicedToArray = __webpack_require__(4941).Z;
+            var _toConsumableArray = __webpack_require__(3929).Z;
+            "client";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.handleClientScriptLoad = handleClientScriptLoad, exports.initScriptLoader = initScriptLoader, exports.default = void 0;
-            var _extends = __webpack_require__(6495).Z, _interop_require_wildcard = __webpack_require__(1598).Z, _object_without_properties_loose = __webpack_require__(7273).Z, _react = _interop_require_wildcard(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _headManager = __webpack_require__(6007), _requestIdleCallback = __webpack_require__(9311), ScriptCache = new Map(), LoadCache = new Set(), ignoreProps = [
+                value: true
+            });
+            exports.handleClientScriptLoad = handleClientScriptLoad;
+            exports.initScriptLoader = initScriptLoader;
+            exports["default"] = void 0;
+            var _extends = __webpack_require__(6495).Z;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _object_without_properties_loose = __webpack_require__(7273).Z;
+            var _react = _interop_require_wildcard(__webpack_require__(7294));
+            var _headManagerContext = __webpack_require__(8404);
+            var _headManager = __webpack_require__(6007);
+            var _requestIdleCallback = __webpack_require__(9311);
+            "client";
+            var ScriptCache = new Map();
+            var LoadCache = new Set();
+            var ignoreProps = [
                 "onLoad",
                 "onReady",
                 "dangerouslySetInnerHTML",
                 "children",
                 "onError",
                 "strategy"
-            ], loadScript = function(props) {
-                var src = props.src, id = props.id, _onLoad = props.onLoad, onLoad = void 0 === _onLoad ? function() {} : _onLoad, _onReady = props.onReady, onReady = void 0 === _onReady ? null : _onReady, dangerouslySetInnerHTML = props.dangerouslySetInnerHTML, _children = props.children, children = void 0 === _children ? "" : _children, _strategy = props.strategy, strategy = void 0 === _strategy ? "afterInteractive" : _strategy, onError = props.onError, cacheKey = id || src;
-                if (!(cacheKey && LoadCache.has(cacheKey))) {
-                    if (ScriptCache.has(src)) {
-                        LoadCache.add(cacheKey), ScriptCache.get(src).then(onLoad, onError);
-                        return;
-                    }
-                    var afterLoad = function() {
-                        onReady && onReady(), LoadCache.add(cacheKey);
-                    }, el = document.createElement("script"), loadPromise = new Promise(function(resolve, reject) {
-                        el.addEventListener("load", function(e) {
-                            resolve(), onLoad && onLoad.call(this, e), afterLoad();
-                        }), el.addEventListener("error", function(e) {
-                            reject(e);
-                        });
-                    }).catch(function(e) {
-                        onError && onError(e);
-                    });
-                    dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html || "", afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, ScriptCache.set(src, loadPromise));
-                    var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
-                    try {
-                        for(var _step, _iterator = Object.entries(props)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
-                            var _value = _slicedToArray(_step.value, 2), k = _value[0], value = _value[1];
-                            if (!(void 0 === value || ignoreProps.includes(k))) {
-                                var attr = _headManager.DOMAttributeNames[k] || k.toLowerCase();
-                                el.setAttribute(attr, value);
-                            }
-                        }
-                    } catch (err) {
-                        _didIteratorError = !0, _iteratorError = err;
-                    } finally{
-                        try {
-                            _iteratorNormalCompletion || null == _iterator.return || _iterator.return();
-                        } finally{
-                            if (_didIteratorError) throw _iteratorError;
-                        }
-                    }
-                    "worker" === strategy && el.setAttribute("type", "text/partytown"), el.setAttribute("data-nscript", strategy), document.body.appendChild(el);
+            ];
+            var loadScript = function(props) {
+                var src = props.src, id = props.id, _onLoad = props.onLoad, onLoad = void 0 === _onLoad ? function() {} : _onLoad, _onReady = props.onReady, onReady = void 0 === _onReady ? null : _onReady, dangerouslySetInnerHTML = props.dangerouslySetInnerHTML, _children = props.children, children = void 0 === _children ? "" : _children, _strategy = props.strategy, strategy = void 0 === _strategy ? "afterInteractive" : _strategy, onError = props.onError;
+                var cacheKey = id || src;
+                if (cacheKey && LoadCache.has(cacheKey)) {
+                    return;
                 }
+                if (ScriptCache.has(src)) {
+                    LoadCache.add(cacheKey);
+                    ScriptCache.get(src).then(onLoad, onError);
+                    return;
+                }
+                var afterLoad = function() {
+                    if (onReady) onReady();
+                    LoadCache.add(cacheKey);
+                };
+                var el = document.createElement("script");
+                var loadPromise = new Promise(function(resolve, reject) {
+                    el.addEventListener("load", function(e) {
+                        resolve();
+                        if (onLoad) onLoad.call(this, e);
+                        afterLoad();
+                    });
+                    el.addEventListener("error", function(e) {
+                        reject(e);
+                    });
+                }).catch(function(e) {
+                    if (onError) onError(e);
+                });
+                if (dangerouslySetInnerHTML) {
+                    el.innerHTML = dangerouslySetInnerHTML.__html || "";
+                    afterLoad();
+                } else if (children) {
+                    el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "";
+                    afterLoad();
+                } else if (src) {
+                    el.src = src;
+                    ScriptCache.set(src, loadPromise);
+                }
+                var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = void 0;
+                try {
+                    for(var _iterator = Object.entries(props)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
+                        var _value = _slicedToArray(_step.value, 2), k = _value[0], value = _value[1];
+                        if (void 0 === value || ignoreProps.includes(k)) {
+                            continue;
+                        }
+                        var attr = _headManager.DOMAttributeNames[k] || k.toLowerCase();
+                        el.setAttribute(attr, value);
+                    }
+                } catch (err) {
+                    _didIteratorError = true;
+                    _iteratorError = err;
+                } finally{
+                    try {
+                        if (!_iteratorNormalCompletion && null != _iterator.return) _iterator.return();
+                    } finally{
+                        if (_didIteratorError) {
+                            throw _iteratorError;
+                        }
+                    }
+                }
+                if ("worker" === strategy) el.setAttribute("type", "text/partytown");
+                el.setAttribute("data-nscript", strategy);
+                document.body.appendChild(el);
             };
             function handleClientScriptLoad(props) {
-                var _strategy = props.strategy;
-                "lazyOnload" === (void 0 === _strategy ? "afterInteractive" : _strategy) ? window.addEventListener("load", function() {
+                var _strategy = props.strategy, strategy = void 0 === _strategy ? "afterInteractive" : _strategy;
+                if ("lazyOnload" === strategy) window.addEventListener("load", function() {
                     _requestIdleCallback.requestIdleCallback(function() {
                         return loadScript(props);
                     });
-                }) : loadScript(props);
+                });
+                else loadScript(props);
             }
             function loadLazyScript(props) {
-                "complete" === document.readyState ? _requestIdleCallback.requestIdleCallback(function() {
+                if ("complete" === document.readyState) _requestIdleCallback.requestIdleCallback(function() {
                     return loadScript(props);
-                }) : window.addEventListener("load", function() {
+                });
+                else window.addEventListener("load", function() {
                     _requestIdleCallback.requestIdleCallback(function() {
                         return loadScript(props);
                     });
                 });
             }
             function addBeforeInteractiveToCache() {
-                _toConsumableArray(document.querySelectorAll('[data-nscript="beforeInteractive"]')).concat(_toConsumableArray(document.querySelectorAll('[data-nscript="beforePageRender"]'))).forEach(function(script) {
+                var scripts = _toConsumableArray(document.querySelectorAll('[data-nscript="beforeInteractive"]')).concat(_toConsumableArray(document.querySelectorAll('[data-nscript="beforePageRender"]')));
+                scripts.forEach(function(script) {
                     var cacheKey = script.id || script.getAttribute("src");
                     LoadCache.add(cacheKey);
                 });
             }
             function initScriptLoader(scriptLoaderItems) {
-                scriptLoaderItems.forEach(handleClientScriptLoad), addBeforeInteractiveToCache();
+                scriptLoaderItems.forEach(handleClientScriptLoad);
+                addBeforeInteractiveToCache();
             }
             function Script(props) {
-                var id = props.id, _src = props.src, src = void 0 === _src ? "" : _src, _onLoad = props.onLoad, _onReady = props.onReady, onReady = void 0 === _onReady ? null : _onReady, _strategy = props.strategy, strategy = void 0 === _strategy ? "afterInteractive" : _strategy, onError = props.onError, restProps = _object_without_properties_loose(props, [
+                var id = props.id, _src = props.src, src = void 0 === _src ? "" : _src, _onLoad = props.onLoad, onLoad = void 0 === _onLoad ? function() {} : _onLoad, _onReady = props.onReady, onReady = void 0 === _onReady ? null : _onReady, _strategy = props.strategy, strategy = void 0 === _strategy ? "afterInteractive" : _strategy, onError = props.onError, restProps = _object_without_properties_loose(props, [
                     "id",
                     "src",
                     "onLoad",
                     "onReady",
                     "strategy",
                     "onError"
-                ]), ref = _react.useContext(_headManagerContext.HeadManagerContext), updateScripts = ref.updateScripts, scripts = ref.scripts, getIsSsr = ref.getIsSsr, hasOnReadyEffectCalled = _react.useRef(!1);
+                ]);
+                var ref = _react.useContext(_headManagerContext.HeadManagerContext), updateScripts = ref.updateScripts, scripts = ref.scripts, getIsSsr = ref.getIsSsr;
+                var hasOnReadyEffectCalled = _react.useRef(false);
                 _react.useEffect(function() {
                     var cacheKey = id || src;
-                    hasOnReadyEffectCalled.current || (onReady && cacheKey && LoadCache.has(cacheKey) && onReady(), hasOnReadyEffectCalled.current = !0);
+                    if (!hasOnReadyEffectCalled.current) {
+                        if (onReady && cacheKey && LoadCache.has(cacheKey)) onReady();
+                        hasOnReadyEffectCalled.current = true;
+                    }
                 }, [
                     onReady,
                     id,
                     src
                 ]);
-                var hasLoadScriptEffectCalled = _react.useRef(!1);
-                return _react.useEffect(function() {
-                    hasLoadScriptEffectCalled.current || ("afterInteractive" === strategy ? loadScript(props) : "lazyOnload" === strategy && loadLazyScript(props), hasLoadScriptEffectCalled.current = !0);
+                var hasLoadScriptEffectCalled = _react.useRef(false);
+                _react.useEffect(function() {
+                    if (!hasLoadScriptEffectCalled.current) {
+                        if ("afterInteractive" === strategy) loadScript(props);
+                        else if ("lazyOnload" === strategy) loadLazyScript(props);
+                        hasLoadScriptEffectCalled.current = true;
+                    }
                 }, [
                     props,
                     strategy
-                ]), ("beforeInteractive" === strategy || "worker" === strategy) && (updateScripts ? (scripts[strategy] = (scripts[strategy] || []).concat([
-                    _extends({
-                        id: id,
-                        src: src,
-                        onLoad: void 0 === _onLoad ? function() {} : _onLoad,
-                        onReady: onReady,
-                        onError: onError
-                    }, restProps)
-                ]), updateScripts(scripts)) : getIsSsr && getIsSsr() ? LoadCache.add(id || src) : getIsSsr && !getIsSsr() && loadScript(props)), null;
+                ]);
+                if ("beforeInteractive" === strategy || "worker" === strategy) {
+                    if (updateScripts) {
+                        scripts[strategy] = (scripts[strategy] || []).concat([
+                            _extends({
+                                id: id,
+                                src: src,
+                                onLoad: onLoad,
+                                onReady: onReady,
+                                onError: onError
+                            }, restProps)
+                        ]);
+                        updateScripts(scripts);
+                    } else if (getIsSsr && getIsSsr()) LoadCache.add(id || src);
+                    else if (getIsSsr && !getIsSsr()) loadScript(props);
+                }
+                return null;
             }
             Object.defineProperty(Script, "__nextScript", {
-                value: !0
-            }), exports.default = Script, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+                value: true
+            });
+            var _default = Script;
+            exports["default"] = _default;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         4991: function(module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.__unsafeCreateTrustedScriptURL = __unsafeCreateTrustedScriptURL;
             var policy;
             function getPolicy() {
                 if (void 0 === policy) {
@@ -1779,107 +2510,145 @@
                 var ref;
                 return (null == (ref = getPolicy()) ? void 0 : ref.createScriptURL(url)) || url;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.__unsafeCreateTrustedScriptURL = __unsafeCreateTrustedScriptURL, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         8981: function(module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = withRouter;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _router = __webpack_require__(387);
+                value: true
+            });
+            exports["default"] = withRouter;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _router = __webpack_require__(387);
             function withRouter(ComposedComponent) {
-                var WithRouterWrapper = function(props) {
+                var WithRouterWrapper = function WithRouterWrapper(props) {
                     return _react.default.createElement(ComposedComponent, Object.assign({
                         router: _router.useRouter()
                     }, props));
                 };
-                return WithRouterWrapper.getInitialProps = ComposedComponent.getInitialProps, WithRouterWrapper.origGetInitialProps = ComposedComponent.origGetInitialProps, WithRouterWrapper;
+                WithRouterWrapper.getInitialProps = ComposedComponent.getInitialProps;
+                WithRouterWrapper.origGetInitialProps = ComposedComponent.origGetInitialProps;
+                if (false) var name;
+                return WithRouterWrapper;
             }
-            ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         6029: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _inherits = __webpack_require__(7788).Z, _createSuper = __webpack_require__(7735).Z, _tsGenerator = __webpack_require__(2401).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
+            var _inherits = __webpack_require__(7788).Z;
+            var _createSuper = __webpack_require__(7735).Z;
+            var _tsGenerator = __webpack_require__(2401).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), Object.defineProperty(exports, "AppInitialProps", {
-                enumerable: !0,
-                get: function() {
+                value: true
+            });
+            Object.defineProperty(exports, "AppInitialProps", {
+                enumerable: true,
+                get: function get() {
                     return _utils.AppInitialProps;
                 }
-            }), Object.defineProperty(exports, "NextWebVitalsMetric", {
-                enumerable: !0,
-                get: function() {
+            });
+            Object.defineProperty(exports, "NextWebVitalsMetric", {
+                enumerable: true,
+                get: function get() {
                     return _utils.NextWebVitalsMetric;
                 }
-            }), Object.defineProperty(exports, "AppType", {
-                enumerable: !0,
-                get: function() {
+            });
+            Object.defineProperty(exports, "AppType", {
+                enumerable: true,
+                get: function get() {
                     return _utils.AppType;
                 }
-            }), exports.default = void 0;
-            var _async_to_generator = __webpack_require__(932).Z, _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _utils = __webpack_require__(3794);
+            });
+            exports["default"] = void 0;
+            var _async_to_generator = __webpack_require__(932).Z;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _utils = __webpack_require__(3794);
             function appGetInitialProps(_) {
                 return _appGetInitialProps.apply(this, arguments);
             }
             function _appGetInitialProps() {
-                return (_appGetInitialProps = _async_to_generator(function(param) {
-                    var Component, ctx;
+                _appGetInitialProps = _async_to_generator(function(param) {
+                    var Component, ctx, pageProps;
                     return _tsGenerator(this, function(_state) {
                         switch(_state.label){
                             case 0:
-                                return Component = param.Component, ctx = param.ctx, [
+                                Component = param.Component, ctx = param.ctx;
+                                return [
                                     4,
                                     _utils.loadGetInitialProps(Component, ctx)
                                 ];
                             case 1:
+                                pageProps = _state.sent();
                                 return [
                                     2,
                                     {
-                                        pageProps: _state.sent()
+                                        pageProps: pageProps
                                     }
                                 ];
                         }
                     });
-                })).apply(this, arguments);
+                });
+                return _appGetInitialProps.apply(this, arguments);
             }
+            var _Component;
             var App = function(_superClass) {
                 _inherits(App, _superClass);
                 var _super = _createSuper(App);
                 function App() {
-                    return _classCallCheck(this, App), _super.apply(this, arguments);
+                    _classCallCheck(this, App);
+                    return _super.apply(this, arguments);
                 }
-                return _createClass(App, [
+                _createClass(App, [
                     {
                         key: "render",
-                        value: function() {
+                        value: function render() {
                             var _props = this.props, Component = _props.Component, pageProps = _props.pageProps;
                             return _react.default.createElement(Component, Object.assign({}, pageProps));
                         }
                     }
-                ]), App;
-            }(_react.default.Component);
-            App.origGetInitialProps = appGetInitialProps, App.getInitialProps = appGetInitialProps, exports.default = App;
+                ]);
+                return App;
+            }(_Component = _react.default.Component);
+            App.origGetInitialProps = appGetInitialProps;
+            App.getInitialProps = appGetInitialProps;
+            exports["default"] = App;
         },
         9185: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _inherits = __webpack_require__(7788).Z, _createSuper = __webpack_require__(7735).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
+            var _inherits = __webpack_require__(7788).Z;
+            var _createSuper = __webpack_require__(7735).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = void 0;
-            var _interop_require_default = __webpack_require__(2648).Z, _react = _interop_require_default(__webpack_require__(7294)), _head = _interop_require_default(__webpack_require__(5443)), statusCodes = {
+                value: true
+            });
+            exports["default"] = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _head = _interop_require_default(__webpack_require__(5443));
+            var statusCodes = {
                 400: "Bad Request",
                 404: "This page could not be found",
                 405: "Method Not Allowed",
@@ -1887,8 +2656,9 @@
             };
             function _getInitialProps(param) {
                 var res = param.res, err = param.err;
+                var statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;
                 return {
-                    statusCode: res && res.statusCode ? res.statusCode : err ? err.statusCode : 404
+                    statusCode: statusCode
                 };
             }
             var styles = {
@@ -1925,22 +2695,26 @@
                     margin: 0,
                     padding: 0
                 }
-            }, Error1 = function(_superClass) {
+            };
+            var _Component;
+            var Error1 = function(_superClass) {
                 _inherits(Error1, _superClass);
                 var _super = _createSuper(Error1);
                 function Error1() {
-                    return _classCallCheck(this, Error1), _super.apply(this, arguments);
+                    _classCallCheck(this, Error1);
+                    return _super.apply(this, arguments);
                 }
-                return _createClass(Error1, [
+                _createClass(Error1, [
                     {
                         key: "render",
-                        value: function() {
-                            var _props = this.props, statusCode = _props.statusCode, _withDarkMode = _props.withDarkMode, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
+                        value: function render() {
+                            var _props = this.props, statusCode = _props.statusCode, _withDarkMode = _props.withDarkMode, withDarkMode = void 0 === _withDarkMode || _withDarkMode;
+                            var title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
                             return _react.default.createElement("div", {
                                 style: styles.error
                             }, _react.default.createElement(_head.default, null, _react.default.createElement("title", null, statusCode ? "".concat(statusCode, ": ").concat(title) : "Application error: a client-side exception has occurred")), _react.default.createElement("div", null, _react.default.createElement("style", {
                                 dangerouslySetInnerHTML: {
-                                    __html: "\n                body { margin: 0; color: #000; background: #fff; }\n                .next-error-h1 {\n                  border-right: 1px solid rgba(0, 0, 0, .3);\n                }\n\n                ".concat(void 0 === _withDarkMode || _withDarkMode ? "@media (prefers-color-scheme: dark) {\n                  body { color: #fff; background: #000; }\n                  .next-error-h1 {\n                    border-right: 1px solid rgba(255, 255, 255, .3);\n                  }\n                }" : "")
+                                    __html: "\n                body { margin: 0; color: #000; background: #fff; }\n                .next-error-h1 {\n                  border-right: 1px solid rgba(0, 0, 0, .3);\n                }\n\n                ".concat(withDarkMode ? "@media (prefers-color-scheme: dark) {\n                  body { color: #fff; background: #000; }\n                  .next-error-h1 {\n                    border-right: 1px solid rgba(255, 255, 255, .3);\n                  }\n                }" : "")
                                 }
                             }), statusCode ? _react.default.createElement("h1", {
                                 className: "next-error-h1",
@@ -1952,69 +2726,109 @@
                             }, this.props.title || statusCode ? title : _react.default.createElement(_react.default.Fragment, null, "Application error: a client-side exception has occurred (see the browser console for more information)"), "."))));
                         }
                     }
-                ]), Error1;
-            }(_react.default.Component);
-            Error1.displayName = "ErrorPage", Error1.getInitialProps = _getInitialProps, Error1.origGetInitialProps = _getInitialProps, exports.default = Error1;
+                ]);
+                return Error1;
+            }(_Component = _react.default.Component);
+            Error1.displayName = "ErrorPage";
+            Error1.getInitialProps = _getInitialProps;
+            Error1.origGetInitialProps = _getInitialProps;
+            exports["default"] = Error1;
         },
         2227: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.AmpStateContext = void 0;
-            var AmpStateContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+                value: true
+            });
+            exports.AmpStateContext = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var AmpStateContext = _react.default.createContext({});
             exports.AmpStateContext = AmpStateContext;
+            if (false) ;
         },
         7363: function(__unused_webpack_module, exports) {
             "use strict";
-            function isInAmpMode() {
-                var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, _ampFirst = ref.ampFirst, _hybrid = ref.hybrid, _hasQuery = ref.hasQuery;
-                return void 0 !== _ampFirst && _ampFirst || void 0 !== _hybrid && _hybrid && void 0 !== _hasQuery && _hasQuery;
-            }
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.isInAmpMode = isInAmpMode;
+                value: true
+            });
+            exports.isInAmpMode = isInAmpMode;
+            function isInAmpMode() {
+                var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, _ampFirst = ref.ampFirst, ampFirst = void 0 !== _ampFirst && _ampFirst, _hybrid = ref.hybrid, hybrid = void 0 !== _hybrid && _hybrid, _hasQuery = ref.hasQuery, hasQuery = void 0 !== _hasQuery && _hasQuery;
+                return ampFirst || hybrid && hasQuery;
+            }
         },
         489: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.escapeStringRegexp = escapeStringRegexp;
-            var reHasRegExp = /[|\\{}()[\]^$+*?.-]/, reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
+                value: true
+            });
+            exports.escapeStringRegexp = escapeStringRegexp;
+            var reHasRegExp = /[|\\{}()[\]^$+*?.-]/;
+            var reReplaceRegExp = /[|\\{}()[\]^$+*?.-]/g;
             function escapeStringRegexp(str) {
-                return reHasRegExp.test(str) ? str.replace(reReplaceRegExp, "\\$&") : str;
+                if (reHasRegExp.test(str)) {
+                    return str.replace(reReplaceRegExp, "\\$&");
+                }
+                return str;
             }
         },
         8404: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.HeadManagerContext = void 0;
-            var HeadManagerContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+                value: true
+            });
+            exports.HeadManagerContext = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var HeadManagerContext = _react.default.createContext({});
             exports.HeadManagerContext = HeadManagerContext;
+            if (false) ;
         },
         5443: function(module, exports, __webpack_require__) {
             "use strict";
+            "client";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.defaultHead = defaultHead, exports.default = void 0;
-            var _extends = __webpack_require__(6495).Z, _interop_require_default = __webpack_require__(2648).Z, _react = (0, __webpack_require__(1598).Z)(__webpack_require__(7294)), _sideEffect = _interop_require_default(__webpack_require__(5188)), _ampContext = __webpack_require__(2227), _headManagerContext = __webpack_require__(8404), _ampMode = __webpack_require__(7363);
+                value: true
+            });
+            exports.defaultHead = defaultHead;
+            exports["default"] = void 0;
+            var _extends = __webpack_require__(6495).Z;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _react = _interop_require_wildcard(__webpack_require__(7294));
+            var _sideEffect = _interop_require_default(__webpack_require__(5188));
+            var _ampContext = __webpack_require__(2227);
+            var _headManagerContext = __webpack_require__(8404);
+            var _ampMode = __webpack_require__(7363);
+            var _utils = __webpack_require__(3794);
+            "client";
             function defaultHead() {
-                var inAmpMode = arguments.length > 0 && void 0 !== arguments[0] && arguments[0], head = [
+                var inAmpMode = arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
+                var head = [
                     _react.default.createElement("meta", {
                         charSet: "utf-8"
                     })
                 ];
-                return inAmpMode || head.push(_react.default.createElement("meta", {
+                if (!inAmpMode) head.push(_react.default.createElement("meta", {
                     name: "viewport",
                     content: "width=device-width"
-                })), head;
+                }));
+                return head;
             }
             function onlyReactElement(list, child) {
-                return "string" == typeof child || "number" == typeof child ? list : child.type === _react.default.Fragment ? list.concat(_react.default.Children.toArray(child.props.children).reduce(function(fragmentList, fragmentChild) {
-                    return "string" == typeof fragmentChild || "number" == typeof fragmentChild ? fragmentList : fragmentList.concat(fragmentChild);
-                }, [])) : list.concat(child);
+                if ("string" == typeof child || "number" == typeof child) {
+                    return list;
+                }
+                if (child.type === _react.default.Fragment) {
+                    return list.concat(_react.default.Children.toArray(child.props.children).reduce(function(fragmentList, fragmentChild) {
+                        if ("string" == typeof fragmentChild || "number" == typeof fragmentChild) {
+                            return fragmentList;
+                        }
+                        return fragmentList.concat(fragmentChild);
+                    }, []));
+                }
+                return list.concat(child);
             }
-            __webpack_require__(3794);
             var METATYPES = [
                 "name",
                 "httpEquiv",
@@ -2022,30 +2836,41 @@
                 "itemProp"
             ];
             function unique() {
-                var keys = new Set(), tags = new Set(), metaTypes = new Set(), metaCategories = {};
+                var keys = new Set();
+                var tags = new Set();
+                var metaTypes = new Set();
+                var metaCategories = {};
                 return function(h) {
-                    var isUnique = !0, hasKey = !1;
+                    var isUnique = true;
+                    var hasKey = false;
                     if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
-                        hasKey = !0;
+                        hasKey = true;
                         var key = h.key.slice(h.key.indexOf("$") + 1);
-                        keys.has(key) ? isUnique = !1 : keys.add(key);
+                        if (keys.has(key)) isUnique = false;
+                        else keys.add(key);
                     }
                     switch(h.type){
                         case "title":
                         case "base":
-                            tags.has(h.type) ? isUnique = !1 : tags.add(h.type);
+                            if (tags.has(h.type)) isUnique = false;
+                            else tags.add(h.type);
                             break;
                         case "meta":
                             for(var i = 0, len = METATYPES.length; i < len; i++){
                                 var metatype = METATYPES[i];
-                                if (h.props.hasOwnProperty(metatype)) {
-                                    if ("charSet" === metatype) metaTypes.has(metatype) ? isUnique = !1 : metaTypes.add(metatype);
+                                if (!!h.props.hasOwnProperty(metatype)) if ("charSet" === metatype) if (metaTypes.has(metatype)) isUnique = false;
+                                else metaTypes.add(metatype);
+                                else {
+                                    var category = h.props[metatype];
+                                    var categories = metaCategories[metatype] || new Set();
+                                    if (("name" !== metatype || !hasKey) && categories.has(category)) isUnique = false;
                                     else {
-                                        var category = h.props[metatype], categories = metaCategories[metatype] || new Set();
-                                        ("name" !== metatype || !hasKey) && categories.has(category) ? isUnique = !1 : (categories.add(category), metaCategories[metatype] = categories);
+                                        categories.add(category);
+                                        metaCategories[metatype] = categories;
                                     }
                                 }
                             }
+                            break;
                     }
                     return isUnique;
                 };
@@ -2054,66 +2879,98 @@
                 var inAmpMode = props.inAmpMode;
                 return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter(unique()).reverse().map(function(c, i) {
                     var key = c.key || i;
-                    if (!inAmpMode && "link" === c.type && c.props.href && [
-                        "https://fonts.googleapis.com/css",
-                        "https://use.typekit.net/"
-                    ].some(function(url) {
-                        return c.props.href.startsWith(url);
-                    })) {
-                        var newProps = _extends({}, c.props || {});
-                        return newProps["data-href"] = newProps.href, newProps.href = void 0, newProps["data-optimized-fonts"] = !0, _react.default.cloneElement(c, newProps);
+                    if (!inAmpMode) {
+                        if ("link" === c.type && c.props["href"] && [
+                            "https://fonts.googleapis.com/css",
+                            "https://use.typekit.net/"
+                        ].some(function(url) {
+                            return c.props["href"].startsWith(url);
+                        })) {
+                            var newProps = _extends({}, c.props || {});
+                            newProps["data-href"] = newProps["href"];
+                            newProps["href"] = void 0;
+                            newProps["data-optimized-fonts"] = true;
+                            return _react.default.cloneElement(c, newProps);
+                        }
                     }
+                    if (false) var srcMessage;
                     return _react.default.cloneElement(c, {
                         key: key
                     });
                 });
             }
             function Head(param) {
-                var children = param.children, ampState = _react.useContext(_ampContext.AmpStateContext), headManager = _react.useContext(_headManagerContext.HeadManagerContext);
+                var children = param.children;
+                var ampState = _react.useContext(_ampContext.AmpStateContext);
+                var headManager = _react.useContext(_headManagerContext.HeadManagerContext);
                 return _react.default.createElement(_sideEffect.default, {
                     reduceComponentsToState: reduceComponents,
                     headManager: headManager,
                     inAmpMode: _ampMode.isInAmpMode(ampState)
                 }, children);
             }
-            exports.default = Head, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            var _default = Head;
+            exports["default"] = _default;
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         4317: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.normalizeLocalePath = normalizeLocalePath;
             function normalizeLocalePath(pathname, locales) {
-                var detectedLocale, pathnameParts = pathname.split("/");
-                return (locales || []).some(function(locale) {
-                    return !!pathnameParts[1] && pathnameParts[1].toLowerCase() === locale.toLowerCase() && (detectedLocale = locale, pathnameParts.splice(1, 1), pathname = pathnameParts.join("/") || "/", !0);
-                }), {
+                var detectedLocale;
+                var pathnameParts = pathname.split("/");
+                (locales || []).some(function(locale) {
+                    if (pathnameParts[1] && pathnameParts[1].toLowerCase() === locale.toLowerCase()) {
+                        detectedLocale = locale;
+                        pathnameParts.splice(1, 1);
+                        pathname = pathnameParts.join("/") || "/";
+                        return true;
+                    }
+                    return false;
+                });
+                return {
                     pathname: pathname,
                     detectedLocale: detectedLocale
                 };
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.normalizeLocalePath = normalizeLocalePath;
         },
         9977: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.ImageConfigContext = void 0;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _imageConfig = __webpack_require__(9309), ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
+                value: true
+            });
+            exports.ImageConfigContext = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var _imageConfig = __webpack_require__(9309);
+            var ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
             exports.ImageConfigContext = ImageConfigContext;
+            if (false) ;
         },
         9309: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.imageConfigDefault = exports.VALID_LOADERS = void 0, exports.VALID_LOADERS = [
+                value: true
+            });
+            exports.imageConfigDefault = exports.VALID_LOADERS = void 0;
+            var VALID_LOADERS = [
                 "default",
                 "imgix",
                 "cloudinary",
                 "akamai",
                 "custom"
-            ], exports.imageConfigDefault = {
+            ];
+            exports.VALID_LOADERS = VALID_LOADERS;
+            var imageConfigDefault = {
                 deviceSizes: [
                     640,
                     750,
@@ -2137,47 +2994,56 @@
                 path: "/_next/image",
                 loader: "default",
                 domains: [],
-                disableStaticImages: !1,
+                disableStaticImages: false,
                 minimumCacheTTL: 60,
                 formats: [
                     "image/webp"
                 ],
-                dangerouslyAllowSVG: !1,
+                dangerouslyAllowSVG: false,
                 contentSecurityPolicy: "script-src 'none'; frame-src 'none'; sandbox;",
                 remotePatterns: [],
-                unoptimized: !1
+                unoptimized: false
             };
+            exports.imageConfigDefault = imageConfigDefault;
         },
         8887: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.getObjectClassLabel = getObjectClassLabel;
+            exports.isPlainObject = isPlainObject;
             function getObjectClassLabel(value) {
                 return Object.prototype.toString.call(value);
             }
             function isPlainObject(value) {
-                if ("[object Object]" !== getObjectClassLabel(value)) return !1;
+                if ("[object Object]" !== getObjectClassLabel(value)) {
+                    return false;
+                }
                 var prototype = Object.getPrototypeOf(value);
                 return null === prototype || prototype.hasOwnProperty("isPrototypeOf");
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.getObjectClassLabel = getObjectClassLabel, exports.isPlainObject = isPlainObject;
         },
         5660: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
             var _toConsumableArray = __webpack_require__(3929).Z;
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = mitt;
             function mitt() {
                 var all = Object.create(null);
                 return {
-                    on: function(type, handler) {
+                    on: function on(type, handler) {
                         (all[type] || (all[type] = [])).push(handler);
                     },
-                    off: function(type, handler) {
-                        all[type] && all[type].splice(all[type].indexOf(handler) >>> 0, 1);
+                    off: function off(type, handler) {
+                        if (all[type]) all[type].splice(all[type].indexOf(handler) >>> 0, 1);
                     },
-                    emit: function(type) {
+                    emit: function emit(type) {
                         for(var _len = arguments.length, evts = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)evts[_key - 1] = arguments[_key];
                         (all[type] || []).slice().map(function(handler) {
                             handler.apply(void 0, _toConsumableArray(evts));
@@ -2185,16 +3051,15 @@
                     }
                 };
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = mitt;
         },
         8317: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.denormalizePagePath = denormalizePagePath;
-            var _utils = __webpack_require__(418), _normalizePathSep = __webpack_require__(9892);
+                value: true
+            });
+            exports.denormalizePagePath = denormalizePagePath;
+            var _utils = __webpack_require__(418);
+            var _normalizePathSep = __webpack_require__(9892);
             function denormalizePagePath(page) {
                 var _page = _normalizePathSep.normalizePathSep(page);
                 return _page.startsWith("/index/") && !_utils.isDynamicRoute(_page) ? _page.slice(6) : "/index" !== _page ? _page : "/";
@@ -2202,44 +3067,86 @@
         },
         9892: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.normalizePathSep = normalizePathSep;
             function normalizePathSep(path) {
                 return path.replace(/\\/g, "/");
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.normalizePathSep = normalizePathSep;
         },
         3462: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.RouterContext = void 0;
-            var RouterContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext(null);
+                value: true
+            });
+            exports.RouterContext = void 0;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _react = _interop_require_default(__webpack_require__(7294));
+            var RouterContext = _react.default.createContext(null);
             exports.RouterContext = RouterContext;
+            if (false) ;
         },
         6273: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _slicedToArray = __webpack_require__(4941).Z, _tsGenerator = __webpack_require__(2401).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
+            var _slicedToArray = __webpack_require__(4941).Z;
+            var _tsGenerator = __webpack_require__(2401).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.matchesMiddleware = matchesMiddleware, exports.isLocalURL = isLocalURL, exports.interpolateAs = interpolateAs, exports.resolveHref = resolveHref, exports.createKey = createKey, exports.default = void 0;
-            var _async_to_generator = __webpack_require__(932).Z, _extends = __webpack_require__(6495).Z, _interop_require_default = __webpack_require__(2648).Z, _interop_require_wildcard = __webpack_require__(1598).Z, _normalizeTrailingSlash = __webpack_require__(2392), _removeTrailingSlash = __webpack_require__(6316), _routeLoader = __webpack_require__(2669), _script = __webpack_require__(699), _isError = _interop_require_wildcard(__webpack_require__(676)), _denormalizePagePath = __webpack_require__(8317), _normalizeLocalePath = __webpack_require__(4317), _mitt = _interop_require_default(__webpack_require__(5660)), _utils = __webpack_require__(3794), _isDynamic = __webpack_require__(8689), _parseRelativeUrl = __webpack_require__(6305), _querystring = __webpack_require__(466), _resolveRewrites = _interop_require_default(__webpack_require__(2431)), _routeMatcher = __webpack_require__(3888), _routeRegex = __webpack_require__(4095), _formatUrl = __webpack_require__(4611);
-            __webpack_require__(8748);
-            var _parsePath = __webpack_require__(4943), _addLocale = __webpack_require__(2725), _removeLocale = __webpack_require__(5776), _removeBasePath = __webpack_require__(9320), _addBasePath = __webpack_require__(8684), _hasBasePath = __webpack_require__(4119), _getNextPathnameInfo = __webpack_require__(159), _formatNextPathnameInfo = __webpack_require__(4022), _compareStates = __webpack_require__(610), _isBot = __webpack_require__(9671);
+                value: true
+            });
+            exports.matchesMiddleware = matchesMiddleware;
+            exports.isLocalURL = isLocalURL;
+            exports.interpolateAs = interpolateAs;
+            exports.resolveHref = resolveHref;
+            exports.createKey = createKey;
+            exports["default"] = void 0;
+            var _async_to_generator = __webpack_require__(932).Z;
+            var _extends = __webpack_require__(6495).Z;
+            var _interop_require_default = __webpack_require__(2648).Z;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _normalizeTrailingSlash = __webpack_require__(2392);
+            var _removeTrailingSlash = __webpack_require__(6316);
+            var _routeLoader = __webpack_require__(2669);
+            var _script = __webpack_require__(699);
+            var _isError = _interop_require_wildcard(__webpack_require__(676));
+            var _denormalizePagePath = __webpack_require__(8317);
+            var _normalizeLocalePath = __webpack_require__(4317);
+            var _mitt = _interop_require_default(__webpack_require__(5660));
+            var _utils = __webpack_require__(3794);
+            var _isDynamic = __webpack_require__(8689);
+            var _parseRelativeUrl = __webpack_require__(6305);
+            var _querystring = __webpack_require__(466);
+            var _resolveRewrites = _interop_require_default(__webpack_require__(2431));
+            var _routeMatcher = __webpack_require__(3888);
+            var _routeRegex = __webpack_require__(4095);
+            var _formatUrl = __webpack_require__(4611);
+            var _detectDomainLocale = __webpack_require__(8748);
+            var _parsePath = __webpack_require__(4943);
+            var _addLocale = __webpack_require__(2725);
+            var _removeLocale = __webpack_require__(5776);
+            var _removeBasePath = __webpack_require__(9320);
+            var _addBasePath = __webpack_require__(8684);
+            var _hasBasePath = __webpack_require__(4119);
+            var _getNextPathnameInfo = __webpack_require__(159);
+            var _formatNextPathnameInfo = __webpack_require__(4022);
+            var _compareStates = __webpack_require__(610);
+            var _isBot = __webpack_require__(9671);
             function buildCancellationError() {
                 return Object.assign(Error("Route Cancelled"), {
-                    cancelled: !0
+                    cancelled: true
                 });
             }
             function matchesMiddleware(options) {
                 return _matchesMiddleware.apply(this, arguments);
             }
             function _matchesMiddleware() {
-                return (_matchesMiddleware = _async_to_generator(function(options) {
-                    var matchers, asPathname, cleanedAs, asWithBasePathAndLocale;
+                _matchesMiddleware = _async_to_generator(function(options) {
+                    var matchers, ref, asPathname, cleanedAs, asWithBasePathAndLocale;
                     return _tsGenerator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -2248,11 +3155,15 @@
                                     Promise.resolve(options.router.pageLoader.getMiddleware())
                                 ];
                             case 1:
-                                if (!(matchers = _state.sent())) return [
+                                matchers = _state.sent();
+                                if (!matchers) return [
                                     2,
-                                    !1
+                                    false
                                 ];
-                                return asPathname = _parsePath.parsePath(options.asPath).pathname, cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname, asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale)), [
+                                ref = _parsePath.parsePath(options.asPath), asPathname = ref.pathname;
+                                cleanedAs = _hasBasePath.hasBasePath(asPathname) ? _removeBasePath.removeBasePath(asPathname) : asPathname;
+                                asWithBasePathAndLocale = _addBasePath.addBasePath(_addLocale.addLocale(cleanedAs, options.locale));
+                                return [
                                     2,
                                     matchers.some(function(m) {
                                         return RegExp(m.regexp).test(asWithBasePathAndLocale);
@@ -2260,7 +3171,8 @@
                                 ];
                         }
                     });
-                })).apply(this, arguments);
+                });
+                return _matchesMiddleware.apply(this, arguments);
             }
             function stripOrigin(url) {
                 var origin = _utils.getLocationOrigin();
@@ -2268,45 +3180,61 @@
             }
             function omit(object, keys) {
                 var omitted = {};
-                return Object.keys(object).forEach(function(key) {
-                    keys.includes(key) || (omitted[key] = object[key]);
-                }), omitted;
+                Object.keys(object).forEach(function(key) {
+                    if (!keys.includes(key)) omitted[key] = object[key];
+                });
+                return omitted;
             }
             function isLocalURL(url) {
-                if (!_utils.isAbsoluteUrl(url)) return !0;
+                if (!_utils.isAbsoluteUrl(url)) return true;
                 try {
-                    var locationOrigin = _utils.getLocationOrigin(), resolved = new URL(url, locationOrigin);
+                    var locationOrigin = _utils.getLocationOrigin();
+                    var resolved = new URL(url, locationOrigin);
                     return resolved.origin === locationOrigin && _hasBasePath.hasBasePath(resolved.pathname);
                 } catch (_) {
-                    return !1;
+                    return false;
                 }
             }
             function interpolateAs(route, asPathname, query) {
-                var interpolatedRoute = "", dynamicRegex = _routeRegex.getRouteRegex(route), dynamicGroups = dynamicRegex.groups, dynamicMatches = (asPathname !== route ? _routeMatcher.getRouteMatcher(dynamicRegex)(asPathname) : "") || query;
+                var interpolatedRoute = "";
+                var dynamicRegex = _routeRegex.getRouteRegex(route);
+                var dynamicGroups = dynamicRegex.groups;
+                var dynamicMatches = (asPathname !== route ? _routeMatcher.getRouteMatcher(dynamicRegex)(asPathname) : "") || query;
                 interpolatedRoute = route;
                 var params = Object.keys(dynamicGroups);
-                return params.every(function(param) {
-                    var value = dynamicMatches[param] || "", _param = dynamicGroups[param], repeat = _param.repeat, optional = _param.optional, replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
-                    return optional && (replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]")), repeat && !Array.isArray(value) && (value = [
+                if (!params.every(function(param) {
+                    var value = dynamicMatches[param] || "";
+                    var _param = dynamicGroups[param], repeat = _param.repeat, optional = _param.optional;
+                    var replaced = "[".concat(repeat ? "..." : "").concat(param, "]");
+                    if (optional) replaced = "".concat(value ? "" : "/", "[").concat(replaced, "]");
+                    if (repeat && !Array.isArray(value)) value = [
                         value
-                    ]), (optional || param in dynamicMatches) && (interpolatedRoute = interpolatedRoute.replace(replaced, repeat ? value.map(function(segment) {
+                    ];
+                    return (optional || param in dynamicMatches) && (interpolatedRoute = interpolatedRoute.replace(replaced, repeat ? value.map(function(segment) {
                         return encodeURIComponent(segment);
                     }).join("/") : encodeURIComponent(value)) || "/");
-                }) || (interpolatedRoute = ""), {
+                })) interpolatedRoute = "";
+                return {
                     params: params,
                     result: interpolatedRoute
                 };
             }
             function resolveHref(router, href, resolveAs) {
-                var base, urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href), urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
-                if ((urlAsStringNoProto.split("?")[0] || "").match(/(\/\/|\\)/)) {
+                var base;
+                var urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
+                var urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//);
+                var urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
+                var urlParts = urlAsStringNoProto.split("?");
+                if ((urlParts[0] || "").match(/(\/\/|\\)/)) {
                     console.error("Invalid href passed to next/router: ".concat(urlAsString, ", repeated forward-slashes (//) or backslashes \\ are not valid in the href"));
                     var normalizedUrl = _utils.normalizeRepeatedSlashes(urlAsStringNoProto);
                     urlAsString = (urlProtoMatch ? urlProtoMatch[0] : "") + normalizedUrl;
                 }
-                if (!isLocalURL(urlAsString)) return resolveAs ? [
-                    urlAsString
-                ] : urlAsString;
+                if (!isLocalURL(urlAsString)) {
+                    return resolveAs ? [
+                        urlAsString
+                    ] : urlAsString;
+                }
                 try {
                     base = new URL(urlAsString.startsWith("#") ? router.asPath : router.pathname, "http://n");
                 } catch (_) {
@@ -2317,12 +3245,13 @@
                     finalUrl.pathname = _normalizeTrailingSlash.normalizePathTrailingSlash(finalUrl.pathname);
                     var interpolatedAs = "";
                     if (_isDynamic.isDynamicRoute(finalUrl.pathname) && finalUrl.searchParams && resolveAs) {
-                        var query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams), ref = interpolateAs(finalUrl.pathname, finalUrl.pathname, query), result = ref.result, params = ref.params;
-                        result && (interpolatedAs = _formatUrl.formatWithValidation({
+                        var query = _querystring.searchParamsToUrlQuery(finalUrl.searchParams);
+                        var ref = interpolateAs(finalUrl.pathname, finalUrl.pathname, query), result = ref.result, params = ref.params;
+                        if (result) interpolatedAs = _formatUrl.formatWithValidation({
                             pathname: result,
                             hash: finalUrl.hash,
                             query: omit(query, params)
-                        }));
+                        });
                     }
                     var resolvedHref = finalUrl.origin === base.origin ? finalUrl.href.slice(finalUrl.origin.length) : finalUrl.href;
                     return resolveAs ? [
@@ -2336,9 +3265,14 @@
                 }
             }
             function prepareUrlAs(router, url, as) {
-                var ref = _slicedToArray(resolveHref(router, url, !0), 2), resolvedHref = ref[0], resolvedAs = ref[1], origin = _utils.getLocationOrigin(), hrefHadOrigin = resolvedHref.startsWith(origin), asHadOrigin = resolvedAs && resolvedAs.startsWith(origin);
-                resolvedHref = stripOrigin(resolvedHref), resolvedAs = resolvedAs ? stripOrigin(resolvedAs) : resolvedAs;
-                var preparedUrl = hrefHadOrigin ? resolvedHref : _addBasePath.addBasePath(resolvedHref), preparedAs = as ? stripOrigin(resolveHref(router, as)) : resolvedAs || resolvedHref;
+                var ref = _slicedToArray(resolveHref(router, url, true), 2), resolvedHref = ref[0], resolvedAs = ref[1];
+                var origin = _utils.getLocationOrigin();
+                var hrefHadOrigin = resolvedHref.startsWith(origin);
+                var asHadOrigin = resolvedAs && resolvedAs.startsWith(origin);
+                resolvedHref = stripOrigin(resolvedHref);
+                resolvedAs = resolvedAs ? stripOrigin(resolvedAs) : resolvedAs;
+                var preparedUrl = hrefHadOrigin ? resolvedHref : _addBasePath.addBasePath(resolvedHref);
+                var preparedAs = as ? stripOrigin(resolveHref(router, as)) : resolvedAs || resolvedHref;
                 return {
                     url: preparedUrl,
                     as: asHadOrigin ? preparedAs : _addBasePath.addBasePath(preparedAs)
@@ -2346,9 +3280,16 @@
             }
             function resolveDynamicRoute(pathname, pages) {
                 var cleanPathname = _removeTrailingSlash.removeTrailingSlash(_denormalizePagePath.denormalizePagePath(pathname));
-                return "/404" === cleanPathname || "/_error" === cleanPathname ? pathname : (pages.includes(cleanPathname) || pages.some(function(page) {
-                    if (_isDynamic.isDynamicRoute(page) && _routeRegex.getRouteRegex(page).re.test(cleanPathname)) return pathname = page, !0;
-                }), _removeTrailingSlash.removeTrailingSlash(pathname));
+                if ("/404" === cleanPathname || "/_error" === cleanPathname) {
+                    return pathname;
+                }
+                if (!pages.includes(cleanPathname)) pages.some(function(page) {
+                    if (_isDynamic.isDynamicRoute(page) && _routeRegex.getRouteRegex(page).re.test(cleanPathname)) {
+                        pathname = page;
+                        return true;
+                    }
+                });
+                return _removeTrailingSlash.removeTrailingSlash(pathname);
             }
             function getMiddlewareData(source, response, options) {
                 var nextConfig = {
@@ -2356,30 +3297,37 @@
                     i18n: {
                         locales: options.router.locales
                     },
-                    trailingSlash: Boolean(!1)
-                }, rewriteHeader = response.headers.get("x-nextjs-rewrite"), rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path"), matchedPath = response.headers.get("x-matched-path");
-                if (!matchedPath || rewriteTarget || matchedPath.includes("__next_data_catchall") || matchedPath.includes("/_error") || matchedPath.includes("/404") || (rewriteTarget = matchedPath), rewriteTarget) {
+                    trailingSlash: Boolean(false)
+                };
+                var rewriteHeader = response.headers.get("x-nextjs-rewrite");
+                var rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
+                var matchedPath = response.headers.get("x-matched-path");
+                if (matchedPath && !rewriteTarget && !matchedPath.includes("__next_data_catchall") && !matchedPath.includes("/_error") && !matchedPath.includes("/404")) rewriteTarget = matchedPath;
+                if (rewriteTarget) {
                     if (rewriteTarget.startsWith("/")) {
-                        var parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
+                        var parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget);
+                        var pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
                             nextConfig: nextConfig,
-                            parseData: !0
-                        }), fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
+                            parseData: true
+                        });
+                        var fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
                         return Promise.all([
                             options.router.pageLoader.getPageList(),
                             _routeLoader.getClientBuildManifest()
                         ]).then(function(param) {
-                            var _param = _slicedToArray(param, 2), pages = _param[0];
-                            _param[1].__rewrites;
+                            var _param = _slicedToArray(param, 2), pages = _param[0], ref = _param[1], rewrites = ref.__rewrites;
                             var as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
                             if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
                                 var parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
-                                    parseData: !0
+                                    parseData: true
                                 });
-                                as = _addBasePath.addBasePath(parsedSource.pathname), parsedRewriteTarget.pathname = as;
+                                as = _addBasePath.addBasePath(parsedSource.pathname);
+                                parsedRewriteTarget.pathname = as;
                             }
-                            if (!pages.includes(fsPathname)) {
+                            if (false) var result;
+                            else if (!pages.includes(fsPathname)) {
                                 var resolvedPathname = resolveDynamicRoute(fsPathname, pages);
-                                resolvedPathname !== fsPathname && (fsPathname = resolvedPathname);
+                                if (resolvedPathname !== fsPathname) fsPathname = resolvedPathname;
                             }
                             var resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
                             if (_isDynamic.isDynamicRoute(resolvedHref)) {
@@ -2393,9 +3341,10 @@
                             };
                         });
                     }
-                    var src = _parsePath.parsePath(source), pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                    var src = _parsePath.parsePath(source);
+                    var pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
                         nextConfig: nextConfig,
-                        parseData: !0
+                        parseData: true
                     }), {
                         defaultLocale: options.router.defaultLocale,
                         buildId: ""
@@ -2408,9 +3357,10 @@
                 var redirectTarget = response.headers.get("x-nextjs-redirect");
                 if (redirectTarget) {
                     if (redirectTarget.startsWith("/")) {
-                        var src1 = _parsePath.parsePath(redirectTarget), pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
+                        var src1 = _parsePath.parsePath(redirectTarget);
+                        var pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
                             nextConfig: nextConfig,
-                            parseData: !0
+                            parseData: true
                         }), {
                             defaultLocale: options.router.defaultLocale,
                             buildId: ""
@@ -2432,22 +3382,26 @@
             }
             function withMiddlewareEffects(options) {
                 return matchesMiddleware(options).then(function(matches) {
-                    return matches && options.fetchData ? options.fetchData().then(function(data) {
-                        return getMiddlewareData(data.dataHref, data.response, options).then(function(effect) {
-                            return {
-                                dataHref: data.dataHref,
-                                cacheKey: data.cacheKey,
-                                json: data.json,
-                                response: data.response,
-                                text: data.text,
-                                effect: effect
-                            };
+                    if (matches && options.fetchData) {
+                        return options.fetchData().then(function(data) {
+                            return getMiddlewareData(data.dataHref, data.response, options).then(function(effect) {
+                                return {
+                                    dataHref: data.dataHref,
+                                    cacheKey: data.cacheKey,
+                                    json: data.json,
+                                    response: data.response,
+                                    text: data.text,
+                                    effect: effect
+                                };
+                            });
+                        }).catch(function(_err) {
+                            return null;
                         });
-                    }).catch(function(_err) {
-                        return null;
-                    }) : null;
+                    }
+                    return null;
                 });
             }
+            var manualScrollRestoration = null;
             var SSG_DATA_NOT_FOUND = Symbol("SSG_DATA_NOT_FOUND");
             function fetchRetry(url, attempts, options) {
                 return fetch(url, {
@@ -2462,8 +3416,11 @@
             }
             var backgroundCache = {};
             function handleSmoothScroll(fn) {
-                var htmlElement = document.documentElement, existing = htmlElement.style.scrollBehavior;
-                htmlElement.style.scrollBehavior = "auto", fn(), htmlElement.style.scrollBehavior = existing;
+                var htmlElement = document.documentElement;
+                var existing = htmlElement.style.scrollBehavior;
+                htmlElement.style.scrollBehavior = "auto";
+                fn();
+                htmlElement.style.scrollBehavior = existing;
             }
             function tryToParseAsJSON(text) {
                 try {
@@ -2473,47 +3430,58 @@
                 }
             }
             function fetchNextData(param) {
-                var ref1, dataHref = param.dataHref, inflightCache = param.inflightCache, isPrefetch = param.isPrefetch, hasMiddleware = param.hasMiddleware, isServerRender = param.isServerRender, parseJSON = param.parseJSON, persistCache = param.persistCache, isBackground = param.isBackground, unstable_skipClientCache = param.unstable_skipClientCache, cacheKey = new URL(dataHref, window.location.href).href, getData = function(params) {
+                var dataHref = param.dataHref, inflightCache = param.inflightCache, isPrefetch = param.isPrefetch, hasMiddleware = param.hasMiddleware, isServerRender = param.isServerRender, parseJSON = param.parseJSON, persistCache = param.persistCache, isBackground = param.isBackground, unstable_skipClientCache = param.unstable_skipClientCache;
+                var ref = new URL(dataHref, window.location.href), cacheKey = ref.href;
+                var ref1;
+                var getData = function(params) {
                     return fetchRetry(dataHref, isServerRender ? 3 : 1, {
                         headers: isPrefetch ? {
                             purpose: "prefetch"
                         } : {},
                         method: null != (ref1 = null == params ? void 0 : params.method) ? ref1 : "GET"
                     }).then(function(response) {
-                        return response.ok && (null == params ? void 0 : params.method) === "HEAD" ? {
-                            dataHref: dataHref,
-                            response: response,
-                            text: "",
-                            json: {},
-                            cacheKey: cacheKey
-                        } : response.text().then(function(text) {
+                        if (response.ok && (null == params ? void 0 : params.method) === "HEAD") {
+                            return {
+                                dataHref: dataHref,
+                                response: response,
+                                text: "",
+                                json: {},
+                                cacheKey: cacheKey
+                            };
+                        }
+                        return response.text().then(function(text) {
                             if (!response.ok) {
                                 if (hasMiddleware && [
                                     301,
                                     302,
                                     307,
                                     308
-                                ].includes(response.status)) return {
-                                    dataHref: dataHref,
-                                    response: response,
-                                    text: text,
-                                    json: {},
-                                    cacheKey: cacheKey
-                                };
-                                if (!hasMiddleware && 404 === response.status) {
-                                    var ref;
-                                    if (null == (ref = tryToParseAsJSON(text)) ? void 0 : ref.notFound) return {
+                                ].includes(response.status)) {
+                                    return {
                                         dataHref: dataHref,
-                                        json: {
-                                            notFound: SSG_DATA_NOT_FOUND
-                                        },
                                         response: response,
                                         text: text,
+                                        json: {},
                                         cacheKey: cacheKey
                                     };
                                 }
+                                if (!hasMiddleware && 404 === response.status) {
+                                    var ref;
+                                    if (null == (ref = tryToParseAsJSON(text)) ? void 0 : ref.notFound) {
+                                        return {
+                                            dataHref: dataHref,
+                                            json: {
+                                                notFound: SSG_DATA_NOT_FOUND
+                                            },
+                                            response: response,
+                                            text: text,
+                                            cacheKey: cacheKey
+                                        };
+                                    }
+                                }
                                 var error = Error("Failed to load static props");
-                                throw isServerRender || _routeLoader.markAssetError(error), error;
+                                if (!isServerRender) _routeLoader.markAssetError(error);
+                                throw error;
                             }
                             return {
                                 dataHref: dataHref,
@@ -2524,14 +3492,23 @@
                             };
                         });
                     }).then(function(data) {
-                        return persistCache && "no-cache" !== data.response.headers.get("x-middleware-cache") || delete inflightCache[cacheKey], data;
+                        if (!persistCache || "no-cache" === data.response.headers.get("x-middleware-cache")) delete inflightCache[cacheKey];
+                        return data;
                     }).catch(function(err) {
-                        throw delete inflightCache[cacheKey], err;
+                        delete inflightCache[cacheKey];
+                        throw err;
                     });
                 };
-                return unstable_skipClientCache && persistCache ? getData({}).then(function(data) {
-                    return inflightCache[cacheKey] = Promise.resolve(data), data;
-                }) : void 0 !== inflightCache[cacheKey] ? inflightCache[cacheKey] : inflightCache[cacheKey] = getData(isBackground ? {
+                if (unstable_skipClientCache && persistCache) {
+                    return getData({}).then(function(data) {
+                        inflightCache[cacheKey] = Promise.resolve(data);
+                        return data;
+                    });
+                }
+                if (void 0 !== inflightCache[cacheKey]) {
+                    return inflightCache[cacheKey];
+                }
+                return inflightCache[cacheKey] = getData(isBackground ? {
                     method: "HEAD"
                 } : {});
             }
@@ -2540,26 +3517,38 @@
             }
             function handleHardNavigation(param) {
                 var url = param.url, router = param.router;
-                if (url === _addBasePath.addBasePath(_addLocale.addLocale(router.asPath, router.locale))) throw Error("Invariant: attempted to hard navigate to the same URL ".concat(url, " ").concat(location.href));
+                if (url === _addBasePath.addBasePath(_addLocale.addLocale(router.asPath, router.locale))) {
+                    throw Error("Invariant: attempted to hard navigate to the same URL ".concat(url, " ").concat(location.href));
+                }
                 window.location.href = url;
             }
             var getCancelledHandler = function(param) {
-                var route = param.route, router = param.router, cancelled = !1, cancel = router.clc = function() {
-                    cancelled = !0;
+                var route = param.route, router = param.router;
+                var cancelled = false;
+                var cancel = router.clc = function() {
+                    cancelled = true;
                 };
-                return function() {
+                var handleCancelled = function() {
                     if (cancelled) {
                         var error = Error('Abort fetching component for route: "'.concat(route, '"'));
-                        throw error.cancelled = !0, error;
+                        error.cancelled = true;
+                        throw error;
                     }
-                    cancel === router.clc && (router.clc = null);
+                    if (cancel === router.clc) router.clc = null;
                 };
-            }, Router = function() {
+                return handleCancelled;
+            };
+            var Router = function() {
                 function Router(pathname1, query1, as1, param) {
-                    var initialProps = param.initialProps, pageLoader = param.pageLoader, App = param.App, wrapApp = param.wrapApp, Component = param.Component, err = param.err, subscription = param.subscription, isFallback = param.isFallback, locale = param.locale, isPreview = (param.locales, param.defaultLocale, param.domainLocales, param.isPreview), _this = this;
-                    _classCallCheck(this, Router), this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = function(e) {
-                        var forcedScroll, isFirstPopStateEvent = _this.isFirstPopStateEvent;
-                        _this.isFirstPopStateEvent = !1;
+                    var initialProps = param.initialProps, pageLoader = param.pageLoader, App = param.App, wrapApp = param.wrapApp, Component = param.Component, err = param.err, subscription = param.subscription, isFallback = param.isFallback, locale = param.locale, locales = param.locales, defaultLocale = param.defaultLocale, domainLocales = param.domainLocales, isPreview = param.isPreview;
+                    var _this = this;
+                    _classCallCheck(this, Router);
+                    this.sdc = {};
+                    this.isFirstPopStateEvent = true;
+                    this._key = createKey();
+                    this.onPopState = function(e) {
+                        var isFirstPopStateEvent = _this.isFirstPopStateEvent;
+                        _this.isFirstPopStateEvent = false;
                         var state = e.state;
                         if (!state) {
                             var pathname = _this.pathname, query = _this.query;
@@ -2573,31 +3562,55 @@
                             window.location.reload();
                             return;
                         }
-                        if (state.__N && (!isFirstPopStateEvent || _this.locale !== state.options.locale || state.as !== _this.asPath)) {
-                            var url = state.url, as = state.as, options = state.options, key = state.key;
-                            _this._key = key;
-                            var pathname1 = _parseRelativeUrl.parseRelativeUrl(url).pathname;
-                            (!_this.isSsr || as !== _addBasePath.addBasePath(_this.asPath) || pathname1 !== _addBasePath.addBasePath(_this.pathname)) && (!_this._bps || _this._bps(state)) && _this.change("replaceState", url, as, Object.assign({}, options, {
-                                shallow: options.shallow && _this._shallow,
-                                locale: options.locale || _this.defaultLocale,
-                                _h: 0
-                            }), forcedScroll);
+                        if (!state.__N) {
+                            return;
                         }
+                        if (isFirstPopStateEvent && _this.locale === state.options.locale && state.as === _this.asPath) {
+                            return;
+                        }
+                        var forcedScroll;
+                        var url = state.url, as = state.as, options = state.options, key = state.key;
+                        if (false) var v;
+                        _this._key = key;
+                        var pathname1 = _parseRelativeUrl.parseRelativeUrl(url).pathname;
+                        if (_this.isSsr && as === _addBasePath.addBasePath(_this.asPath) && pathname1 === _addBasePath.addBasePath(_this.pathname)) {
+                            return;
+                        }
+                        if (_this._bps && !_this._bps(state)) {
+                            return;
+                        }
+                        _this.change("replaceState", url, as, Object.assign({}, options, {
+                            shallow: options.shallow && _this._shallow,
+                            locale: options.locale || _this.defaultLocale,
+                            _h: 0
+                        }), forcedScroll);
                     };
                     var route = _removeTrailingSlash.removeTrailingSlash(pathname1);
-                    this.components = {}, "/_error" !== pathname1 && (this.components[route] = {
+                    this.components = {};
+                    if ("/_error" !== pathname1) this.components[route] = {
                         Component: Component,
-                        initial: !0,
+                        initial: true,
                         props: initialProps,
                         err: err,
                         __N_SSG: initialProps && initialProps.__N_SSG,
                         __N_SSP: initialProps && initialProps.__N_SSP
-                    }), this.components["/_app"] = {
+                    };
+                    this.components["/_app"] = {
                         Component: App,
                         styleSheets: []
-                    }, this.events = Router.events, this.pageLoader = pageLoader;
+                    };
+                    this.events = Router.events;
+                    this.pageLoader = pageLoader;
                     var autoExportDynamic = _isDynamic.isDynamicRoute(pathname1) && self.__NEXT_DATA__.autoExport;
-                    if (this.basePath = "", this.sub = subscription, this.clc = null, this._wrapApp = wrapApp, this.isSsr = !0, this.isLocaleDomain = !1, this.isReady = !!(self.__NEXT_DATA__.gssp || self.__NEXT_DATA__.gip || self.__NEXT_DATA__.appGip && !self.__NEXT_DATA__.gsp || !autoExportDynamic && !self.location.search), this.state = {
+                    this.basePath = "";
+                    this.sub = subscription;
+                    this.clc = null;
+                    this._wrapApp = wrapApp;
+                    this.isSsr = true;
+                    this.isLocaleDomain = false;
+                    this.isReady = !!(self.__NEXT_DATA__.gssp || self.__NEXT_DATA__.gip || self.__NEXT_DATA__.appGip && !self.__NEXT_DATA__.gsp || !autoExportDynamic && !self.location.search);
+                    if (false) ;
+                    this.state = {
                         route: route,
                         pathname: pathname1,
                         query: query1,
@@ -2605,110 +3618,161 @@
                         isPreview: !!isPreview,
                         locale: void 0,
                         isFallback: isFallback
-                    }, this._initialMatchesMiddlewarePromise = Promise.resolve(!1), !as1.startsWith("//")) {
-                        var options = {
-                            locale: locale
-                        }, asPath = _utils.getURL();
-                        this._initialMatchesMiddlewarePromise = matchesMiddleware({
-                            router: this,
-                            locale: locale,
-                            asPath: asPath
-                        }).then(function(matches) {
-                            return options._shouldResolveHref = as1 !== pathname1, _this.changeState("replaceState", matches ? asPath : _formatUrl.formatWithValidation({
-                                pathname: _addBasePath.addBasePath(pathname1),
-                                query: query1
-                            }), asPath, options), matches;
-                        });
+                    };
+                    this._initialMatchesMiddlewarePromise = Promise.resolve(false);
+                    if (true) {
+                        if (!as1.startsWith("//")) {
+                            var options = {
+                                locale: locale
+                            };
+                            var asPath = _utils.getURL();
+                            this._initialMatchesMiddlewarePromise = matchesMiddleware({
+                                router: this,
+                                locale: locale,
+                                asPath: asPath
+                            }).then(function(matches) {
+                                options._shouldResolveHref = as1 !== pathname1;
+                                _this.changeState("replaceState", matches ? asPath : _formatUrl.formatWithValidation({
+                                    pathname: _addBasePath.addBasePath(pathname1),
+                                    query: query1
+                                }), asPath, options);
+                                return matches;
+                            });
+                        }
+                        window.addEventListener("popstate", this.onPopState);
+                        if (false) ;
                     }
-                    window.addEventListener("popstate", this.onPopState);
                 }
-                return _createClass(Router, [
+                _createClass(Router, [
                     {
                         key: "reload",
-                        value: function() {
+                        value: function reload() {
                             window.location.reload();
                         }
                     },
                     {
                         key: "back",
-                        value: function() {
+                        value: function back() {
                             window.history.back();
                         }
                     },
                     {
                         key: "push",
-                        value: function(url, as) {
-                            var ref, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
-                            return url = (ref = prepareUrlAs(this, url, as)).url, as = ref.as, this.change("pushState", url, as, options);
+                        value: function push(url, as) {
+                            var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
+                            if (false) ;
+                            var ref;
+                            ref = prepareUrlAs(this, url, as), url = ref.url, as = ref.as;
+                            return this.change("pushState", url, as, options);
                         }
                     },
                     {
                         key: "replace",
-                        value: function(url, as) {
-                            var ref, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
-                            return url = (ref = prepareUrlAs(this, url, as)).url, as = ref.as, this.change("replaceState", url, as, options);
+                        value: function replace(url, as) {
+                            var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
+                            var ref;
+                            ref = prepareUrlAs(this, url, as), url = ref.url, as = ref.as;
+                            return this.change("replaceState", url, as, options);
                         }
                     },
                     {
                         key: "change",
-                        value: function(method, url, as, options, forcedScroll) {
+                        value: function change(method, url, as, options, forcedScroll) {
                             var _this = this;
                             return _async_to_generator(function() {
-                                var isQueryUpdating, shouldResolveHref, nextState, readyStateChange, isSsr, prevLocale, _shallow, shallow, _scroll, scroll, routeProps, cleanedAs, localeChange, err, parsed, pathname, query, pages, ref1, resolvedAs, isMiddlewareMatch, route, routeMatch, parsedAs1, asPathname, routeRegex, shouldInterpolate, interpolatedAs, missingParams, ref21, ref3, routeInfo, cleanedParsedPathname, rewriteAs, routeRegex1, curRouteMatch, error, props, __N_SSG, __N_SSP, component, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, _route, isValidShallowRoute, _scroll1, shouldScroll, resetScroll, upcomingRouterState, upcomingScrollState, hashRegex, err11;
+                                var isQueryUpdating, shouldResolveHref, nextState, readyStateChange, isSsr, prevLocale, parsedAs, localePathResult, didNavigate, ref, detectedDomain, asNoBasePath, _shallow, shallow, _scroll, scroll, routeProps, cleanedAs, localeChange, err, parsed, pathname, query, pages, rewrites, ref1, ref2, err1, resolvedAs, isMiddlewareMatch, rewritesResult, route, routeMatch, parsedAs1, asPathname, routeRegex, shouldInterpolate, interpolatedAs, missingParams, ref21, ref3, routeInfo, cleanedParsedPathname, prefixedAs, rewriteAs, localeResult, routeRegex1, curRouteMatch, error, props, __N_SSG, __N_SSP, component, scripts, destination, parsedHref, ref4, newUrl, newAs, notFoundRoute, _, _route, isValidShallowRoute, _scroll1, shouldScroll, resetScroll, upcomingRouterState, upcomingScrollState, canSkipUpdating, hashRegex, err11;
                                 return _tsGenerator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
-                                            if (!isLocalURL(url)) return handleHardNavigation({
-                                                url: url,
-                                                router: _this
-                                            }), [
-                                                2,
-                                                !1
-                                            ];
-                                            if (shouldResolveHref = (isQueryUpdating = options._h) || options._shouldResolveHref || _parsePath.parsePath(url).pathname === _parsePath.parsePath(as).pathname, nextState = _extends({}, _this.state), readyStateChange = !0 !== _this.isReady, _this.isReady = !0, isSsr = _this.isSsr, isQueryUpdating || (_this.isSsr = !1), isQueryUpdating && _this.clc) return [
-                                                2,
-                                                !1
-                                            ];
-                                            if (prevLocale = nextState.locale, _utils.ST && performance.mark("routeChange"), shallow = void 0 !== (_shallow = options.shallow) && _shallow, scroll = void 0 === (_scroll = options.scroll) || _scroll, routeProps = {
+                                            if (!isLocalURL(url)) {
+                                                handleHardNavigation({
+                                                    url: url,
+                                                    router: _this
+                                                });
+                                                return [
+                                                    2,
+                                                    false
+                                                ];
+                                            }
+                                            isQueryUpdating = options._h;
+                                            shouldResolveHref = isQueryUpdating || options._shouldResolveHref || _parsePath.parsePath(url).pathname === _parsePath.parsePath(as).pathname;
+                                            nextState = _extends({}, _this.state);
+                                            readyStateChange = true !== _this.isReady;
+                                            _this.isReady = true;
+                                            isSsr = _this.isSsr;
+                                            if (!isQueryUpdating) _this.isSsr = false;
+                                            if (isQueryUpdating && _this.clc) {
+                                                return [
+                                                    2,
+                                                    false
+                                                ];
+                                            }
+                                            prevLocale = nextState.locale;
+                                            if (false) ;
+                                            if (_utils.ST) performance.mark("routeChange");
+                                            _shallow = options.shallow, shallow = void 0 !== _shallow && _shallow, _scroll = options.scroll, scroll = void 0 === _scroll || _scroll;
+                                            routeProps = {
                                                 shallow: shallow
-                                            }, _this._inFlightRoute && _this.clc && (isSsr || Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps), _this.clc(), _this.clc = null), as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale)), cleanedAs = _removeLocale.removeLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, nextState.locale), _this._inFlightRoute = as, localeChange = prevLocale !== nextState.locale, !(!isQueryUpdating && _this.onlyAHashChange(cleanedAs) && !localeChange)) return [
+                                            };
+                                            if (_this._inFlightRoute && _this.clc) {
+                                                if (!isSsr) Router.events.emit("routeChangeError", buildCancellationError(), _this._inFlightRoute, routeProps);
+                                                _this.clc();
+                                                _this.clc = null;
+                                            }
+                                            as = _addBasePath.addBasePath(_addLocale.addLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, options.locale, _this.defaultLocale));
+                                            cleanedAs = _removeLocale.removeLocale(_hasBasePath.hasBasePath(as) ? _removeBasePath.removeBasePath(as) : as, nextState.locale);
+                                            _this._inFlightRoute = as;
+                                            localeChange = prevLocale !== nextState.locale;
+                                            if (!(!isQueryUpdating && _this.onlyAHashChange(cleanedAs) && !localeChange)) return [
                                                 3,
                                                 5
                                             ];
-                                            nextState.asPath = cleanedAs, Router.events.emit("hashChangeStart", as, routeProps), _this.changeState(method, url, as, _extends({}, options, {
-                                                scroll: !1
-                                            })), scroll && _this.scrollToHash(cleanedAs), _state.label = 1;
+                                            nextState.asPath = cleanedAs;
+                                            Router.events.emit("hashChangeStart", as, routeProps);
+                                            _this.changeState(method, url, as, _extends({}, options, {
+                                                scroll: false
+                                            }));
+                                            if (scroll) _this.scrollToHash(cleanedAs);
+                                            _state.label = 1;
                                         case 1:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 1,
                                                 3,
                                                 ,
                                                 4
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.set(nextState, _this.components[nextState.route], null)
                                             ];
                                         case 2:
-                                            return _state.sent(), [
+                                            _state.sent();
+                                            return [
                                                 3,
                                                 4
                                             ];
                                         case 3:
-                                            throw err = _state.sent(), _isError.default(err) && err.cancelled && Router.events.emit("routeChangeError", err, cleanedAs, routeProps), err;
+                                            err = _state.sent();
+                                            if (_isError.default(err) && err.cancelled) Router.events.emit("routeChangeError", err, cleanedAs, routeProps);
+                                            throw err;
                                         case 4:
-                                            return Router.events.emit("hashChangeComplete", as, routeProps), [
+                                            Router.events.emit("hashChangeComplete", as, routeProps);
+                                            return [
                                                 2,
-                                                !0
+                                                true
                                             ];
                                         case 5:
-                                            pathname = (parsed = _parseRelativeUrl.parseRelativeUrl(url)).pathname, query = parsed.query, _state.label = 6;
+                                            parsed = _parseRelativeUrl.parseRelativeUrl(url);
+                                            pathname = parsed.pathname, query = parsed.query;
+                                            _state.label = 6;
                                         case 6:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 6,
                                                 8,
                                                 ,
                                                 9
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 Promise.all([
                                                     _this.pageLoader.getPageList(),
@@ -2717,23 +3781,29 @@
                                                 ])
                                             ];
                                         case 7:
-                                            return pages = (ref1 = _slicedToArray.apply(void 0, [
+                                            ref1 = _slicedToArray.apply(void 0, [
                                                 _state.sent(),
                                                 2
-                                            ]))[0], ref1[1].__rewrites, [
+                                            ]), pages = ref1[0], ref2 = ref1[1], rewrites = ref2.__rewrites;
+                                            return [
                                                 3,
                                                 9
                                             ];
                                         case 8:
-                                            return _state.sent(), handleHardNavigation({
+                                            err1 = _state.sent();
+                                            handleHardNavigation({
                                                 url: as,
                                                 router: _this
-                                            }), [
+                                            });
+                                            return [
                                                 2,
-                                                !1
+                                                false
                                             ];
                                         case 9:
-                                            return _this.urlIsNew(cleanedAs) || localeChange || (method = "replaceState"), resolvedAs = as, pathname = pathname ? _removeTrailingSlash.removeTrailingSlash(_removeBasePath.removeBasePath(pathname)) : pathname, [
+                                            if (!_this.urlIsNew(cleanedAs) && !localeChange) method = "replaceState";
+                                            resolvedAs = as;
+                                            pathname = pathname ? _removeTrailingSlash.removeTrailingSlash(_removeBasePath.removeBasePath(pathname)) : pathname;
+                                            return [
                                                 4,
                                                 matchesMiddleware({
                                                     asPath: as,
@@ -2742,30 +3812,66 @@
                                                 })
                                             ];
                                         case 10:
-                                            if (isMiddlewareMatch = _state.sent(), options.shallow && isMiddlewareMatch && (pathname = _this.pathname), shouldResolveHref && "/_error" !== pathname && (options._shouldResolveHref = !0, parsed.pathname = resolveDynamicRoute(pathname, pages), parsed.pathname === pathname || (pathname = parsed.pathname, parsed.pathname = _addBasePath.addBasePath(pathname), isMiddlewareMatch || (url = _formatUrl.formatWithValidation(parsed)))), !isLocalURL(as)) return handleHardNavigation({
-                                                url: as,
-                                                router: _this
-                                            }), [
-                                                2,
-                                                !1
-                                            ];
-                                            if (resolvedAs = _removeLocale.removeLocale(_removeBasePath.removeBasePath(resolvedAs), nextState.locale), route = _removeTrailingSlash.removeTrailingSlash(pathname), routeMatch = !1, _isDynamic.isDynamicRoute(route)) {
-                                                if (asPathname = (parsedAs1 = _parseRelativeUrl.parseRelativeUrl(resolvedAs)).pathname, routeRegex = _routeRegex.getRouteRegex(route), routeMatch = _routeMatcher.getRouteMatcher(routeRegex)(asPathname), interpolatedAs = (shouldInterpolate = route === asPathname) ? interpolateAs(route, asPathname, query) : {}, routeMatch && (!shouldInterpolate || interpolatedAs.result)) shouldInterpolate ? as = _formatUrl.formatWithValidation(Object.assign({}, parsedAs1, {
+                                            isMiddlewareMatch = _state.sent();
+                                            if (options.shallow && isMiddlewareMatch) pathname = _this.pathname;
+                                            if (shouldResolveHref && "/_error" !== pathname) {
+                                                options._shouldResolveHref = true;
+                                                if (false) ;
+                                                else {
+                                                    parsed.pathname = resolveDynamicRoute(pathname, pages);
+                                                    if (parsed.pathname !== pathname) {
+                                                        pathname = parsed.pathname;
+                                                        parsed.pathname = _addBasePath.addBasePath(pathname);
+                                                        if (!isMiddlewareMatch) url = _formatUrl.formatWithValidation(parsed);
+                                                    }
+                                                }
+                                            }
+                                            if (!isLocalURL(as)) {
+                                                if (false) ;
+                                                handleHardNavigation({
+                                                    url: as,
+                                                    router: _this
+                                                });
+                                                return [
+                                                    2,
+                                                    false
+                                                ];
+                                            }
+                                            resolvedAs = _removeLocale.removeLocale(_removeBasePath.removeBasePath(resolvedAs), nextState.locale);
+                                            route = _removeTrailingSlash.removeTrailingSlash(pathname);
+                                            routeMatch = false;
+                                            if (_isDynamic.isDynamicRoute(route)) {
+                                                parsedAs1 = _parseRelativeUrl.parseRelativeUrl(resolvedAs);
+                                                asPathname = parsedAs1.pathname;
+                                                routeRegex = _routeRegex.getRouteRegex(route);
+                                                routeMatch = _routeMatcher.getRouteMatcher(routeRegex)(asPathname);
+                                                shouldInterpolate = route === asPathname;
+                                                interpolatedAs = shouldInterpolate ? interpolateAs(route, asPathname, query) : {};
+                                                if (routeMatch && (!shouldInterpolate || interpolatedAs.result)) if (shouldInterpolate) as = _formatUrl.formatWithValidation(Object.assign({}, parsedAs1, {
                                                     pathname: interpolatedAs.result,
                                                     query: omit(query, interpolatedAs.params)
-                                                })) : Object.assign(query, routeMatch);
-                                                else if ((missingParams = Object.keys(routeRegex.groups).filter(function(param) {
-                                                    return !query[param];
-                                                })).length > 0 && !isMiddlewareMatch) throw Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(", "), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? "href-interpolation-failed" : "incompatible-href-as"));
+                                                }));
+                                                else Object.assign(query, routeMatch);
+                                                else {
+                                                    missingParams = Object.keys(routeRegex.groups).filter(function(param) {
+                                                        return !query[param];
+                                                    });
+                                                    if (missingParams.length > 0 && !isMiddlewareMatch) {
+                                                        if (false) ;
+                                                        throw Error((shouldInterpolate ? "The provided `href` (".concat(url, ") value is missing query values (").concat(missingParams.join(", "), ") to be interpolated properly. ") : "The provided `as` value (".concat(asPathname, ") is incompatible with the `href` value (").concat(route, "). ")) + "Read more: https://nextjs.org/docs/messages/".concat(shouldInterpolate ? "href-interpolation-failed" : "incompatible-href-as"));
+                                                    }
+                                                }
                                             }
-                                            isQueryUpdating || Router.events.emit("routeChangeStart", as, routeProps), _state.label = 11;
+                                            if (!isQueryUpdating) Router.events.emit("routeChangeStart", as, routeProps);
+                                            _state.label = 11;
                                         case 11:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 11,
                                                 21,
                                                 ,
                                                 22
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.getRouteInfo({
                                                     route: route,
@@ -2780,62 +3886,102 @@
                                                 })
                                             ];
                                         case 12:
-                                            if ("route" in (routeInfo = _state.sent()) && isMiddlewareMatch && (route = pathname = routeInfo.route || route, routeProps.shallow || (query = Object.assign({}, routeInfo.query || {}, query)), cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname, routeMatch && pathname !== cleanedParsedPathname && Object.keys(routeMatch).forEach(function(key) {
-                                                routeMatch && query[key] === routeMatch[key] && delete query[key];
-                                            }), _isDynamic.isDynamicRoute(pathname)) && (rewriteAs = !routeProps.shallow && routeInfo.resolvedAs ? routeInfo.resolvedAs : _addBasePath.addBasePath(_addLocale.addLocale(new URL(as, location.href).pathname, nextState.locale), !0), _hasBasePath.hasBasePath(rewriteAs) && (rewriteAs = _removeBasePath.removeBasePath(rewriteAs)), routeRegex1 = _routeRegex.getRouteRegex(pathname), (curRouteMatch = _routeMatcher.getRouteMatcher(routeRegex1)(rewriteAs)) && Object.assign(query, curRouteMatch)), "type" in routeInfo) {
-                                                if ("redirect-internal" === routeInfo.type) return [
-                                                    2,
-                                                    _this.change(method, routeInfo.newUrl, routeInfo.newAs, options)
-                                                ];
-                                                return handleHardNavigation({
+                                            routeInfo = _state.sent();
+                                            if ("route" in routeInfo && isMiddlewareMatch) {
+                                                pathname = routeInfo.route || route;
+                                                route = pathname;
+                                                if (!routeProps.shallow) query = Object.assign({}, routeInfo.query || {}, query);
+                                                cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname;
+                                                if (routeMatch && pathname !== cleanedParsedPathname) Object.keys(routeMatch).forEach(function(key) {
+                                                    if (routeMatch && query[key] === routeMatch[key]) delete query[key];
+                                                });
+                                                if (_isDynamic.isDynamicRoute(pathname)) {
+                                                    prefixedAs = !routeProps.shallow && routeInfo.resolvedAs ? routeInfo.resolvedAs : _addBasePath.addBasePath(_addLocale.addLocale(new URL(as, location.href).pathname, nextState.locale), true);
+                                                    rewriteAs = prefixedAs;
+                                                    if (_hasBasePath.hasBasePath(rewriteAs)) rewriteAs = _removeBasePath.removeBasePath(rewriteAs);
+                                                    if (false) ;
+                                                    routeRegex1 = _routeRegex.getRouteRegex(pathname);
+                                                    curRouteMatch = _routeMatcher.getRouteMatcher(routeRegex1)(rewriteAs);
+                                                    if (curRouteMatch) Object.assign(query, curRouteMatch);
+                                                }
+                                            }
+                                            if ("type" in routeInfo) {
+                                                if ("redirect-internal" === routeInfo.type) {
+                                                    return [
+                                                        2,
+                                                        _this.change(method, routeInfo.newUrl, routeInfo.newAs, options)
+                                                    ];
+                                                }
+                                                handleHardNavigation({
                                                     url: routeInfo.destination,
                                                     router: _this
-                                                }), [
+                                                });
+                                                return [
                                                     2,
                                                     new Promise(function() {})
                                                 ];
                                             }
-                                            if (error = routeInfo.error, props = routeInfo.props, __N_SSG = routeInfo.__N_SSG, __N_SSP = routeInfo.__N_SSP, (component = routeInfo.Component) && component.unstable_scriptLoader && [].concat(component.unstable_scriptLoader()).forEach(function(script) {
-                                                _script.handleClientScriptLoad(script.props);
-                                            }), !((__N_SSG || __N_SSP) && props)) return [
+                                            error = routeInfo.error, props = routeInfo.props, __N_SSG = routeInfo.__N_SSG, __N_SSP = routeInfo.__N_SSP;
+                                            component = routeInfo.Component;
+                                            if (component && component.unstable_scriptLoader) {
+                                                scripts = [].concat(component.unstable_scriptLoader());
+                                                scripts.forEach(function(script) {
+                                                    _script.handleClientScriptLoad(script.props);
+                                                });
+                                            }
+                                            if (!((__N_SSG || __N_SSP) && props)) return [
                                                 3,
                                                 18
                                             ];
                                             if (props.pageProps && props.pageProps.__N_REDIRECT) {
-                                                if (options.locale = !1, (destination = props.pageProps.__N_REDIRECT).startsWith("/") && !1 !== props.pageProps.__N_REDIRECT_BASE_PATH) return (parsedHref = _parseRelativeUrl.parseRelativeUrl(destination)).pathname = resolveDynamicRoute(parsedHref.pathname, pages), newUrl = (ref4 = prepareUrlAs(_this, destination, destination)).url, newAs = ref4.as, [
-                                                    2,
-                                                    _this.change(method, newUrl, newAs, options)
-                                                ];
-                                                return handleHardNavigation({
+                                                options.locale = false;
+                                                destination = props.pageProps.__N_REDIRECT;
+                                                if (destination.startsWith("/") && false !== props.pageProps.__N_REDIRECT_BASE_PATH) {
+                                                    parsedHref = _parseRelativeUrl.parseRelativeUrl(destination);
+                                                    parsedHref.pathname = resolveDynamicRoute(parsedHref.pathname, pages);
+                                                    ref4 = prepareUrlAs(_this, destination, destination), newUrl = ref4.url, newAs = ref4.as;
+                                                    return [
+                                                        2,
+                                                        _this.change(method, newUrl, newAs, options)
+                                                    ];
+                                                }
+                                                handleHardNavigation({
                                                     url: destination,
                                                     router: _this
-                                                }), [
+                                                });
+                                                return [
                                                     2,
                                                     new Promise(function() {})
                                                 ];
                                             }
-                                            if (nextState.isPreview = !!props.__N_PREVIEW, props.notFound !== SSG_DATA_NOT_FOUND) return [
+                                            nextState.isPreview = !!props.__N_PREVIEW;
+                                            if (props.notFound !== SSG_DATA_NOT_FOUND) return [
                                                 3,
                                                 18
                                             ];
                                             _state.label = 13;
                                         case 13:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 13,
                                                 15,
                                                 ,
                                                 16
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.fetchComponent("/404")
                                             ];
                                         case 14:
-                                            return _state.sent(), notFoundRoute = "/404", [
+                                            _state.sent();
+                                            notFoundRoute = "/404";
+                                            return [
                                                 3,
                                                 16
                                             ];
                                         case 15:
-                                            return _state.sent(), notFoundRoute = "/_error", [
+                                            _ = _state.sent();
+                                            notFoundRoute = "/_error";
+                                            return [
                                                 3,
                                                 16
                                             ];
@@ -2849,26 +3995,38 @@
                                                     as: as,
                                                     resolvedAs: resolvedAs,
                                                     routeProps: {
-                                                        shallow: !1
+                                                        shallow: false
                                                     },
                                                     locale: nextState.locale,
                                                     isPreview: nextState.isPreview
                                                 })
                                             ];
                                         case 17:
-                                            if ("type" in (routeInfo = _state.sent())) throw Error("Unexpected middleware effect on /404");
+                                            routeInfo = _state.sent();
+                                            if ("type" in routeInfo) {
+                                                throw Error("Unexpected middleware effect on /404");
+                                            }
                                             _state.label = 18;
                                         case 18:
-                                            if (Router.events.emit("beforeHistoryChange", as, routeProps), _this.changeState(method, url, as, options), isQueryUpdating && "/_error" === pathname && (null == (ref21 = self.__NEXT_DATA__.props) ? void 0 : null == (ref3 = ref21.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps) && (props.pageProps.statusCode = 500), isValidShallowRoute = options.shallow && nextState.route === (null != (_route = routeInfo.route) ? _route : route), resetScroll = (shouldScroll = null != (_scroll1 = options.scroll) ? _scroll1 : !options._h && !isValidShallowRoute) ? {
+                                            Router.events.emit("beforeHistoryChange", as, routeProps);
+                                            _this.changeState(method, url, as, options);
+                                            if (isQueryUpdating && "/_error" === pathname && (null == (ref21 = self.__NEXT_DATA__.props) ? void 0 : null == (ref3 = ref21.pageProps) ? void 0 : ref3.statusCode) === 500 && (null == props ? void 0 : props.pageProps)) props.pageProps.statusCode = 500;
+                                            isValidShallowRoute = options.shallow && nextState.route === (null != (_route = routeInfo.route) ? _route : route);
+                                            shouldScroll = null != (_scroll1 = options.scroll) ? _scroll1 : !options._h && !isValidShallowRoute;
+                                            resetScroll = shouldScroll ? {
                                                 x: 0,
                                                 y: 0
-                                            } : null, upcomingRouterState = _extends({}, nextState, {
+                                            } : null;
+                                            upcomingRouterState = _extends({}, nextState, {
                                                 route: route,
                                                 pathname: pathname,
                                                 query: query,
                                                 asPath: cleanedAs,
-                                                isFallback: !1
-                                            }), upcomingScrollState = null != forcedScroll ? forcedScroll : resetScroll, options._h && !upcomingScrollState && !readyStateChange && !localeChange && _compareStates.compareRouterStates(upcomingRouterState, _this.state)) return [
+                                                isFallback: false
+                                            });
+                                            upcomingScrollState = null != forcedScroll ? forcedScroll : resetScroll;
+                                            canSkipUpdating = options._h && !upcomingScrollState && !readyStateChange && !localeChange && _compareStates.compareRouterStates(upcomingRouterState, _this.state);
+                                            if (!!canSkipUpdating) return [
                                                 3,
                                                 20
                                             ];
@@ -2880,18 +4038,29 @@
                                                 })
                                             ];
                                         case 19:
-                                            if (_state.sent(), error) throw isQueryUpdating || Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
-                                            isQueryUpdating || Router.events.emit("routeChangeComplete", as, routeProps), hashRegex = /#.+$/, shouldScroll && hashRegex.test(as) && _this.scrollToHash(as), _state.label = 20;
+                                            _state.sent();
+                                            if (error) {
+                                                if (!isQueryUpdating) Router.events.emit("routeChangeError", error, cleanedAs, routeProps);
+                                                throw error;
+                                            }
+                                            if (false) ;
+                                            if (!isQueryUpdating) Router.events.emit("routeChangeComplete", as, routeProps);
+                                            hashRegex = /#.+$/;
+                                            if (shouldScroll && hashRegex.test(as)) _this.scrollToHash(as);
+                                            _state.label = 20;
                                         case 20:
                                             return [
                                                 2,
-                                                !0
+                                                true
                                             ];
                                         case 21:
-                                            if (err11 = _state.sent(), _isError.default(err11) && err11.cancelled) return [
-                                                2,
-                                                !1
-                                            ];
+                                            err11 = _state.sent();
+                                            if (_isError.default(err11) && err11.cancelled) {
+                                                return [
+                                                    2,
+                                                    false
+                                                ];
+                                            }
                                             throw err11;
                                         case 22:
                                             return [
@@ -2904,61 +4073,76 @@
                     },
                     {
                         key: "changeState",
-                        value: function(method, url, as) {
+                        value: function changeState(method, url, as) {
                             var options = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : {};
-                            ("pushState" !== method || _utils.getURL() !== as) && (this._shallow = options.shallow, window.history[method]({
-                                url: url,
-                                as: as,
-                                options: options,
-                                __N: !0,
-                                key: this._key = "pushState" !== method ? this._key : createKey()
-                            }, "", as));
+                            if (false) ;
+                            if ("pushState" !== method || _utils.getURL() !== as) {
+                                this._shallow = options.shallow;
+                                window.history[method]({
+                                    url: url,
+                                    as: as,
+                                    options: options,
+                                    __N: true,
+                                    key: this._key = "pushState" !== method ? this._key : createKey()
+                                }, "", as);
+                            }
                         }
                     },
                     {
                         key: "handleRouteInfoError",
-                        value: function(err, pathname, query, as, routeProps, loadErrorFail) {
+                        value: function handleRouteInfoError(err, pathname, query, as, routeProps, loadErrorFail) {
                             var _this = this;
                             return _async_to_generator(function() {
-                                var props, ref, Component, routeInfo, gipErr, routeInfoErr;
+                                var props, ref, Component, styleSheets, routeInfo, gipErr, routeInfoErr;
                                 return _tsGenerator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
-                                            if (console.error(err), err.cancelled) throw err;
-                                            if (_routeLoader.isAssetError(err) || loadErrorFail) throw Router.events.emit("routeChangeError", err, as, routeProps), handleHardNavigation({
-                                                url: as,
-                                                router: _this
-                                            }), buildCancellationError();
+                                            console.error(err);
+                                            if (err.cancelled) {
+                                                throw err;
+                                            }
+                                            if (_routeLoader.isAssetError(err) || loadErrorFail) {
+                                                Router.events.emit("routeChangeError", err, as, routeProps);
+                                                handleHardNavigation({
+                                                    url: as,
+                                                    router: _this
+                                                });
+                                                throw buildCancellationError();
+                                            }
                                             _state.label = 1;
                                         case 1:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 1,
                                                 7,
                                                 ,
                                                 8
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.fetchComponent("/_error")
                                             ];
                                         case 2:
-                                            if (Component = (ref = _state.sent()).page, (routeInfo = {
+                                            ref = _state.sent(), Component = ref.page, styleSheets = ref.styleSheets;
+                                            routeInfo = {
                                                 props: props,
                                                 Component: Component,
-                                                styleSheets: ref.styleSheets,
+                                                styleSheets: styleSheets,
                                                 err: err,
                                                 error: err
-                                            }).props) return [
+                                            };
+                                            if (!!routeInfo.props) return [
                                                 3,
                                                 6
                                             ];
                                             _state.label = 3;
                                         case 3:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 3,
                                                 5,
                                                 ,
                                                 6
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.getInitialProps(Component, {
                                                     err: err,
@@ -2967,12 +4151,16 @@
                                                 })
                                             ];
                                         case 4:
-                                            return routeInfo.props = _state.sent(), [
+                                            routeInfo.props = _state.sent();
+                                            return [
                                                 3,
                                                 6
                                             ];
                                         case 5:
-                                            return gipErr = _state.sent(), console.error("Error in error page `getInitialProps`: ", gipErr), routeInfo.props = {}, [
+                                            gipErr = _state.sent();
+                                            console.error("Error in error page `getInitialProps`: ", gipErr);
+                                            routeInfo.props = {};
+                                            return [
                                                 3,
                                                 6
                                             ];
@@ -2982,9 +4170,10 @@
                                                 routeInfo
                                             ];
                                         case 7:
-                                            return routeInfoErr = _state.sent(), [
+                                            routeInfoErr = _state.sent();
+                                            return [
                                                 2,
-                                                _this.handleRouteInfoError(_isError.default(routeInfoErr) ? routeInfoErr : Error(routeInfoErr + ""), pathname, query, as, routeProps, !0)
+                                                _this.handleRouteInfoError(_isError.default(routeInfoErr) ? routeInfoErr : Error(routeInfoErr + ""), pathname, query, as, routeProps, true)
                                             ];
                                         case 8:
                                             return [
@@ -2997,45 +4186,55 @@
                     },
                     {
                         key: "getRouteInfo",
-                        value: function(param) {
-                            var requestedRoute = param.route, pathname = param.pathname, query = param.query, as = param.as, resolvedAs = param.resolvedAs, routeProps = param.routeProps, locale = param.locale, hasMiddleware = param.hasMiddleware, isPreview = param.isPreview, unstable_skipClientCache = param.unstable_skipClientCache, _this = this;
+                        value: function getRouteInfo(param) {
+                            var requestedRoute = param.route, pathname = param.pathname, query = param.query, as = param.as, resolvedAs = param.resolvedAs, routeProps = param.routeProps, locale = param.locale, hasMiddleware = param.hasMiddleware, isPreview = param.isPreview, unstable_skipClientCache = param.unstable_skipClientCache;
+                            var _this = this;
                             return _async_to_generator(function() {
-                                var route, ref, ref4, ref5, handleCancelled, existingInfo, cachedRouteInfo, fetchNextDataParams, data, routeInfo, _tmp, shouldFetchData, ref1, props, cacheKey, err;
+                                var route, ref, ref4, ref5, handleCancelled, existingInfo, cachedRouteInfo, fetchNextDataParams, data, routeInfo, _tmp, isValidElementType, shouldFetchData, ref1, props, cacheKey, err;
                                 return _tsGenerator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
-                                            route = requestedRoute, _state.label = 1;
+                                            route = requestedRoute;
+                                            _state.label = 1;
                                         case 1:
-                                            if (_state.trys.push([
+                                            _state.trys.push([
                                                 1,
                                                 6,
                                                 ,
                                                 7
-                                            ]), handleCancelled = getCancelledHandler({
+                                            ]);
+                                            handleCancelled = getCancelledHandler({
                                                 route: route,
                                                 router: _this
-                                            }), existingInfo = _this.components[route], routeProps.shallow && existingInfo && _this.route === route) return [
-                                                2,
-                                                existingInfo
-                                            ];
-                                            return hasMiddleware && (existingInfo = void 0), cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo, fetchNextDataParams = {
+                                            });
+                                            existingInfo = _this.components[route];
+                                            if (routeProps.shallow && existingInfo && _this.route === route) {
+                                                return [
+                                                    2,
+                                                    existingInfo
+                                                ];
+                                            }
+                                            if (hasMiddleware) existingInfo = void 0;
+                                            cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo;
+                                            fetchNextDataParams = {
                                                 dataHref: _this.pageLoader.getDataHref({
                                                     href: _formatUrl.formatWithValidation({
                                                         pathname: pathname,
                                                         query: query
                                                     }),
-                                                    skipInterpolation: !0,
+                                                    skipInterpolation: true,
                                                     asPath: resolvedAs,
                                                     locale: locale
                                                 }),
-                                                hasMiddleware: !0,
+                                                hasMiddleware: true,
                                                 isServerRender: _this.isSsr,
-                                                parseJSON: !0,
+                                                parseJSON: true,
                                                 inflightCache: _this.sdc,
                                                 persistCache: !isPreview,
-                                                isPrefetch: !1,
+                                                isPrefetch: false,
                                                 unstable_skipClientCache: unstable_skipClientCache
-                                            }, [
+                                            };
+                                            return [
                                                 4,
                                                 withMiddlewareEffects({
                                                     fetchData: function() {
@@ -3047,24 +4246,41 @@
                                                 })
                                             ];
                                         case 2:
-                                            if (data = _state.sent(), handleCancelled(), (null == data ? void 0 : null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data ? void 0 : null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return [
-                                                2,
-                                                data.effect
-                                            ];
-                                            if ((null == data ? void 0 : null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), existingInfo = _this.components[route], routeProps.shallow && existingInfo && _this.route === route && !hasMiddleware)) return [
-                                                2,
-                                                _extends({}, existingInfo, {
-                                                    route: route
-                                                })
-                                            ];
-                                            if ("/api" === route || route.startsWith("/api/")) return handleHardNavigation({
-                                                url: as,
-                                                router: _this
-                                            }), [
-                                                2,
-                                                new Promise(function() {})
-                                            ];
-                                            if (_tmp = cachedRouteInfo) return [
+                                            data = _state.sent();
+                                            handleCancelled();
+                                            if ((null == data ? void 0 : null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data ? void 0 : null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") {
+                                                return [
+                                                    2,
+                                                    data.effect
+                                                ];
+                                            }
+                                            if ((null == data ? void 0 : null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite") {
+                                                route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref);
+                                                pathname = data.effect.resolvedHref;
+                                                query = _extends({}, query, data.effect.parsedAs.query);
+                                                resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname);
+                                                existingInfo = _this.components[route];
+                                                if (routeProps.shallow && existingInfo && _this.route === route && !hasMiddleware) {
+                                                    return [
+                                                        2,
+                                                        _extends({}, existingInfo, {
+                                                            route: route
+                                                        })
+                                                    ];
+                                                }
+                                            }
+                                            if ("/api" === route || route.startsWith("/api/")) {
+                                                handleHardNavigation({
+                                                    url: as,
+                                                    router: _this
+                                                });
+                                                return [
+                                                    2,
+                                                    new Promise(function() {})
+                                                ];
+                                            }
+                                            _tmp = cachedRouteInfo;
+                                            if (_tmp) return [
                                                 3,
                                                 4
                                             ];
@@ -3080,12 +4296,16 @@
                                                 })
                                             ];
                                         case 3:
-                                            _tmp = _state.sent(), _state.label = 4;
+                                            _tmp = _state.sent();
+                                            _state.label = 4;
                                         case 4:
-                                            return shouldFetchData = (routeInfo = _tmp).__N_SSG || routeInfo.__N_SSP, [
+                                            routeInfo = _tmp;
+                                            if (false) ;
+                                            shouldFetchData = routeInfo.__N_SSG || routeInfo.__N_SSP;
+                                            return [
                                                 4,
                                                 _this._getData(_async_to_generator(function() {
-                                                    var ref, json, _tmp, _tmp1;
+                                                    var ref, json, _cacheKey, _tmp, _tmp1;
                                                     return _tsGenerator(this, function(_state) {
                                                         switch(_state.label){
                                                             case 0:
@@ -3097,7 +4317,8 @@
                                                                     3,
                                                                     1
                                                                 ];
-                                                                return _tmp = data, [
+                                                                _tmp = data;
+                                                                return [
                                                                     3,
                                                                     3
                                                                 ];
@@ -3114,28 +4335,31 @@
                                                                             locale: locale
                                                                         }),
                                                                         isServerRender: _this.isSsr,
-                                                                        parseJSON: !0,
+                                                                        parseJSON: true,
                                                                         inflightCache: _this.sdc,
                                                                         persistCache: !isPreview,
-                                                                        isPrefetch: !1,
+                                                                        isPrefetch: false,
                                                                         unstable_skipClientCache: unstable_skipClientCache
                                                                     })
                                                                 ];
                                                             case 2:
-                                                                _tmp = _state.sent(), _state.label = 3;
+                                                                _tmp = _state.sent();
+                                                                _state.label = 3;
                                                             case 3:
-                                                                return json = (ref = _tmp).json, [
+                                                                ref = _tmp, json = ref.json, _cacheKey = ref.cacheKey;
+                                                                return [
                                                                     2,
                                                                     {
-                                                                        cacheKey: ref.cacheKey,
+                                                                        cacheKey: _cacheKey,
                                                                         props: json || {}
                                                                     }
                                                                 ];
                                                             case 4:
-                                                                return _tmp1 = {
+                                                                _tmp1 = {
                                                                     headers: {},
                                                                     cacheKey: ""
-                                                                }, [
+                                                                };
+                                                                return [
                                                                     4,
                                                                     _this.getInitialProps(routeInfo.Component, {
                                                                         pathname: pathname,
@@ -3156,16 +4380,26 @@
                                                 }))
                                             ];
                                         case 5:
-                                            return props = (ref1 = _state.sent()).props, cacheKey = ref1.cacheKey, routeInfo.__N_SSP && fetchNextDataParams.dataHref && delete _this.sdc[cacheKey], !_this.isPreview && routeInfo.__N_SSG && fetchNextData(Object.assign({}, fetchNextDataParams, {
-                                                isBackground: !0,
-                                                persistCache: !1,
+                                            ref1 = _state.sent(), props = ref1.props, cacheKey = ref1.cacheKey;
+                                            if (routeInfo.__N_SSP && fetchNextDataParams.dataHref) delete _this.sdc[cacheKey];
+                                            if (!_this.isPreview && routeInfo.__N_SSG) fetchNextData(Object.assign({}, fetchNextDataParams, {
+                                                isBackground: true,
+                                                persistCache: false,
                                                 inflightCache: backgroundCache
-                                            })).catch(function() {}), props.pageProps = Object.assign({}, props.pageProps), routeInfo.props = props, routeInfo.route = route, routeInfo.query = query, routeInfo.resolvedAs = resolvedAs, _this.components[route] = routeInfo, [
+                                            })).catch(function() {});
+                                            props.pageProps = Object.assign({}, props.pageProps);
+                                            routeInfo.props = props;
+                                            routeInfo.route = route;
+                                            routeInfo.query = query;
+                                            routeInfo.resolvedAs = resolvedAs;
+                                            _this.components[route] = routeInfo;
+                                            return [
                                                 2,
                                                 routeInfo
                                             ];
                                         case 6:
-                                            return err = _state.sent(), [
+                                            err = _state.sent();
+                                            return [
                                                 2,
                                                 _this.handleRouteInfoError(_isError.getProperError(err), pathname, query, as, routeProps)
                                             ];
@@ -3180,35 +4414,44 @@
                     },
                     {
                         key: "set",
-                        value: function(state, data, resetScroll) {
-                            return this.state = state, this.sub(data, this.components["/_app"].Component, resetScroll);
+                        value: function set(state, data, resetScroll) {
+                            this.state = state;
+                            return this.sub(data, this.components["/_app"].Component, resetScroll);
                         }
                     },
                     {
                         key: "beforePopState",
-                        value: function(cb) {
+                        value: function beforePopState(cb) {
                             this._bps = cb;
                         }
                     },
                     {
                         key: "onlyAHashChange",
-                        value: function(as) {
-                            if (!this.asPath) return !1;
-                            var ref = _slicedToArray(this.asPath.split("#"), 2), oldUrlNoHash = ref[0], oldHash = ref[1], ref1 = _slicedToArray(as.split("#"), 2), newUrlNoHash = ref1[0], newHash = ref1[1];
-                            return !!newHash && oldUrlNoHash === newUrlNoHash && oldHash === newHash || oldUrlNoHash === newUrlNoHash && oldHash !== newHash;
+                        value: function onlyAHashChange(as) {
+                            if (!this.asPath) return false;
+                            var ref = _slicedToArray(this.asPath.split("#"), 2), oldUrlNoHash = ref[0], oldHash = ref[1];
+                            var ref1 = _slicedToArray(as.split("#"), 2), newUrlNoHash = ref1[0], newHash = ref1[1];
+                            if (newHash && oldUrlNoHash === newUrlNoHash && oldHash === newHash) {
+                                return true;
+                            }
+                            if (oldUrlNoHash !== newUrlNoHash) {
+                                return false;
+                            }
+                            return oldHash !== newHash;
                         }
                     },
                     {
                         key: "scrollToHash",
-                        value: function(as) {
-                            var tmp = _slicedToArray(as.split("#"), 2)[1], hash = void 0 === tmp ? "" : tmp;
+                        value: function scrollToHash(as) {
+                            var ref = _slicedToArray(as.split("#"), 2), tmp = ref[1], hash = void 0 === tmp ? "" : tmp;
                             if ("" === hash || "top" === hash) {
                                 handleSmoothScroll(function() {
                                     return window.scrollTo(0, 0);
                                 });
                                 return;
                             }
-                            var rawHash = decodeURIComponent(hash), idEl = document.getElementById(rawHash);
+                            var rawHash = decodeURIComponent(hash);
+                            var idEl = document.getElementById(rawHash);
                             if (idEl) {
                                 handleSmoothScroll(function() {
                                     return idEl.scrollIntoView();
@@ -3216,47 +4459,79 @@
                                 return;
                             }
                             var nameEl = document.getElementsByName(rawHash)[0];
-                            nameEl && handleSmoothScroll(function() {
+                            if (nameEl) handleSmoothScroll(function() {
                                 return nameEl.scrollIntoView();
                             });
                         }
                     },
                     {
                         key: "urlIsNew",
-                        value: function(asPath) {
+                        value: function urlIsNew(asPath) {
                             return this.asPath !== asPath;
                         }
                     },
                     {
                         key: "prefetch",
-                        value: function(url) {
-                            var asPath = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : url, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, _this = this;
+                        value: function prefetch(url) {
+                            var asPath = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : url, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
+                            var _this = this;
                             return _async_to_generator(function() {
-                                var parsed, pathname, query, pages, resolvedAs, locale, rewrites, rewritesResult, route;
+                                var parsed, pathname, query, parsedAs, localePathResult, pages, resolvedAs, locale, rewrites, ref, rewritesResult, route;
                                 return _tsGenerator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
-                                            if (_isBot.isBot(window.navigator.userAgent)) return [
-                                                2
-                                            ];
-                                            return pathname = (parsed = _parseRelativeUrl.parseRelativeUrl(url)).pathname, query = parsed.query, [
+                                            if (_isBot.isBot(window.navigator.userAgent)) {
+                                                return [
+                                                    2
+                                                ];
+                                            }
+                                            parsed = _parseRelativeUrl.parseRelativeUrl(url);
+                                            pathname = parsed.pathname, query = parsed.query;
+                                            if (false) ;
+                                            return [
                                                 4,
                                                 _this.pageLoader.getPageList()
                                             ];
                                         case 1:
-                                            return pages = _state.sent(), resolvedAs = asPath, locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale, [
+                                            pages = _state.sent();
+                                            resolvedAs = asPath;
+                                            locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
+                                            if (true) return [
                                                 3,
                                                 3
                                             ];
-                                        case 2:
-                                            if (rewrites = _state.sent().__rewrites, (rewritesResult = _resolveRewrites.default(_addBasePath.addBasePath(_addLocale.addLocale(asPath, _this.locale), !0), pages, rewrites, parsed.query, function(p) {
-                                                return resolveDynamicRoute(p, pages);
-                                            }, _this.locales)).externalDest) return [
-                                                2
+                                            return [
+                                                4,
+                                                _routeLoader.getClientBuildManifest()
                                             ];
-                                            resolvedAs = _removeLocale.removeLocale(_removeBasePath.removeBasePath(rewritesResult.asPath), _this.locale), rewritesResult.matchedPage && rewritesResult.resolvedHref && (pathname = rewritesResult.resolvedHref, parsed.pathname = pathname, url = _formatUrl.formatWithValidation(parsed)), _state.label = 3;
+                                        case 2:
+                                            ref = _state.sent(), rewrites = ref.__rewrites;
+                                            rewritesResult = _resolveRewrites.default(_addBasePath.addBasePath(_addLocale.addLocale(asPath, _this.locale), true), pages, rewrites, parsed.query, function(p) {
+                                                return resolveDynamicRoute(p, pages);
+                                            }, _this.locales);
+                                            if (rewritesResult.externalDest) {
+                                                return [
+                                                    2
+                                                ];
+                                            }
+                                            resolvedAs = _removeLocale.removeLocale(_removeBasePath.removeBasePath(rewritesResult.asPath), _this.locale);
+                                            if (rewritesResult.matchedPage && rewritesResult.resolvedHref) {
+                                                pathname = rewritesResult.resolvedHref;
+                                                parsed.pathname = pathname;
+                                                url = _formatUrl.formatWithValidation(parsed);
+                                            }
+                                            _state.label = 3;
                                         case 3:
-                                            return parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed)), route = _removeTrailingSlash.removeTrailingSlash(pathname), [
+                                            parsed.pathname = resolveDynamicRoute(parsed.pathname, pages);
+                                            if (_isDynamic.isDynamicRoute(parsed.pathname)) {
+                                                pathname = parsed.pathname;
+                                                parsed.pathname = pathname;
+                                                Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {});
+                                                url = _formatUrl.formatWithValidation(parsed);
+                                            }
+                                            if (false) ;
+                                            route = _removeTrailingSlash.removeTrailingSlash(pathname);
+                                            return [
                                                 4,
                                                 Promise.all([
                                                     _this.pageLoader._isSsg(route).then(function(isSsg) {
@@ -3266,21 +4541,22 @@
                                                                 asPath: resolvedAs,
                                                                 locale: locale
                                                             }),
-                                                            isServerRender: !1,
-                                                            parseJSON: !0,
+                                                            isServerRender: false,
+                                                            parseJSON: true,
                                                             inflightCache: _this.sdc,
                                                             persistCache: !_this.isPreview,
-                                                            isPrefetch: !0,
-                                                            unstable_skipClientCache: options.unstable_skipClientCache || !!options.priority
+                                                            isPrefetch: true,
+                                                            unstable_skipClientCache: options.unstable_skipClientCache || options.priority && true
                                                         }).then(function() {
-                                                            return !1;
+                                                            return false;
                                                         });
                                                     }),
                                                     _this.pageLoader[options.priority ? "loadPage" : "prefetch"](route)
                                                 ])
                                             ];
                                         case 4:
-                                            return _state.sent(), [
+                                            _state.sent();
+                                            return [
                                                 2
                                             ];
                                     }
@@ -3290,7 +4566,7 @@
                     },
                     {
                         key: "fetchComponent",
-                        value: function(route) {
+                        value: function fetchComponent(route) {
                             var _this = this;
                             return _async_to_generator(function() {
                                 var handleCancelled, componentResult, err;
@@ -3300,24 +4576,30 @@
                                             handleCancelled = getCancelledHandler({
                                                 route: route,
                                                 router: _this
-                                            }), _state.label = 1;
+                                            });
+                                            _state.label = 1;
                                         case 1:
-                                            return _state.trys.push([
+                                            _state.trys.push([
                                                 1,
                                                 3,
                                                 ,
                                                 4
-                                            ]), [
+                                            ]);
+                                            return [
                                                 4,
                                                 _this.pageLoader.loadPage(route)
                                             ];
                                         case 2:
-                                            return componentResult = _state.sent(), handleCancelled(), [
+                                            componentResult = _state.sent();
+                                            handleCancelled();
+                                            return [
                                                 2,
                                                 componentResult
                                             ];
                                         case 3:
-                                            throw err = _state.sent(), handleCancelled(), err;
+                                            err = _state.sent();
+                                            handleCancelled();
+                                            throw err;
                                         case 4:
                                             return [
                                                 2
@@ -3329,14 +4611,19 @@
                     },
                     {
                         key: "_getData",
-                        value: function(fn) {
-                            var _this = this, cancelled = !1, cancel = function() {
-                                cancelled = !0;
+                        value: function _getData(fn) {
+                            var _this = this;
+                            var cancelled = false;
+                            var cancel = function() {
+                                cancelled = true;
                             };
-                            return this.clc = cancel, fn().then(function(data) {
-                                if (cancel === _this.clc && (_this.clc = null), cancelled) {
+                            this.clc = cancel;
+                            return fn().then(function(data) {
+                                if (cancel === _this.clc) _this.clc = null;
+                                if (cancelled) {
                                     var err = Error("Loading initial props cancelled");
-                                    throw err.cancelled = !0, err;
+                                    err.cancelled = true;
+                                    throw err;
                                 }
                                 return data;
                             });
@@ -3344,26 +4631,29 @@
                     },
                     {
                         key: "_getFlightData",
-                        value: function(dataHref) {
+                        value: function _getFlightData(dataHref) {
                             return fetchNextData({
                                 dataHref: dataHref,
-                                isServerRender: !0,
-                                parseJSON: !1,
+                                isServerRender: true,
+                                parseJSON: false,
                                 inflightCache: this.sdc,
-                                persistCache: !1,
-                                isPrefetch: !1
+                                persistCache: false,
+                                isPrefetch: false
                             }).then(function(param) {
+                                var text = param.text;
                                 return {
-                                    data: param.text
+                                    data: text
                                 };
                             });
                         }
                     },
                     {
                         key: "getInitialProps",
-                        value: function(Component, ctx) {
-                            var App = this.components["/_app"].Component, AppTree = this._wrapApp(App);
-                            return ctx.AppTree = AppTree, _utils.loadGetInitialProps(App, {
+                        value: function getInitialProps(Component, ctx) {
+                            var ref = this.components["/_app"], App = ref.Component;
+                            var AppTree = this._wrapApp(App);
+                            ctx.AppTree = AppTree;
+                            return _utils.loadGetInitialProps(App, {
                                 AppTree: AppTree,
                                 Component: Component,
                                 router: this,
@@ -3373,68 +4663,78 @@
                     },
                     {
                         key: "route",
-                        get: function() {
+                        get: function get() {
                             return this.state.route;
                         }
                     },
                     {
                         key: "pathname",
-                        get: function() {
+                        get: function get() {
                             return this.state.pathname;
                         }
                     },
                     {
                         key: "query",
-                        get: function() {
+                        get: function get() {
                             return this.state.query;
                         }
                     },
                     {
                         key: "asPath",
-                        get: function() {
+                        get: function get() {
                             return this.state.asPath;
                         }
                     },
                     {
                         key: "locale",
-                        get: function() {
+                        get: function get() {
                             return this.state.locale;
                         }
                     },
                     {
                         key: "isFallback",
-                        get: function() {
+                        get: function get() {
                             return this.state.isFallback;
                         }
                     },
                     {
                         key: "isPreview",
-                        get: function() {
+                        get: function get() {
                             return this.state.isPreview;
                         }
                     }
-                ]), Router;
+                ]);
+                return Router;
             }();
-            Router.events = _mitt.default(), exports.default = Router;
+            Router.events = _mitt.default();
+            exports["default"] = Router;
         },
         7459: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.addLocale = addLocale;
-            var _addPathPrefix = __webpack_require__(5391), _pathHasPrefix = __webpack_require__(1259);
+                value: true
+            });
+            exports.addLocale = addLocale;
+            var _addPathPrefix = __webpack_require__(5391);
+            var _pathHasPrefix = __webpack_require__(1259);
             function addLocale(path, locale, defaultLocale, ignorePrefix) {
-                return locale && locale !== defaultLocale && (ignorePrefix || !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/".concat(locale.toLowerCase())) && !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/api")) ? _addPathPrefix.addPathPrefix(path, "/".concat(locale)) : path;
+                if (locale && locale !== defaultLocale && (ignorePrefix || !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/".concat(locale.toLowerCase())) && !_pathHasPrefix.pathHasPrefix(path.toLowerCase(), "/api"))) {
+                    return _addPathPrefix.addPathPrefix(path, "/".concat(locale));
+                }
+                return path;
             }
         },
         5391: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.addPathPrefix = addPathPrefix;
+                value: true
+            });
+            exports.addPathPrefix = addPathPrefix;
             var _parsePath = __webpack_require__(4943);
             function addPathPrefix(path, prefix) {
-                if (!path.startsWith("/") || !prefix) return path;
+                if (!path.startsWith("/") || !prefix) {
+                    return path;
+                }
                 var ref = _parsePath.parsePath(path), pathname = ref.pathname, query = ref.query, hash = ref.hash;
                 return "".concat(prefix).concat(pathname).concat(query).concat(hash);
             }
@@ -3442,64 +4742,102 @@
         4156: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.addPathSuffix = addPathSuffix;
+                value: true
+            });
+            exports.addPathSuffix = addPathSuffix;
             var _parsePath = __webpack_require__(4943);
             function addPathSuffix(path, suffix) {
-                if (!path.startsWith("/") || !suffix) return path;
+                if (!path.startsWith("/") || !suffix) {
+                    return path;
+                }
                 var ref = _parsePath.parsePath(path), pathname = ref.pathname, query = ref.query, hash = ref.hash;
                 return "".concat(pathname).concat(suffix).concat(query).concat(hash);
             }
         },
         610: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.compareRouterStates = compareRouterStates;
             function compareRouterStates(a, b) {
                 var stateKeys = Object.keys(a);
-                if (stateKeys.length !== Object.keys(b).length) return !1;
+                if (stateKeys.length !== Object.keys(b).length) return false;
                 for(var i = stateKeys.length; i--;){
                     var key = stateKeys[i];
                     if ("query" === key) {
                         var queryKeys = Object.keys(a.query);
-                        if (queryKeys.length !== Object.keys(b.query).length) return !1;
+                        if (queryKeys.length !== Object.keys(b.query).length) {
+                            return false;
+                        }
                         for(var j = queryKeys.length; j--;){
                             var queryKey = queryKeys[j];
-                            if (!b.query.hasOwnProperty(queryKey) || a.query[queryKey] !== b.query[queryKey]) return !1;
+                            if (!b.query.hasOwnProperty(queryKey) || a.query[queryKey] !== b.query[queryKey]) {
+                                return false;
+                            }
                         }
-                    } else if (!b.hasOwnProperty(key) || a[key] !== b[key]) return !1;
+                    } else if (!b.hasOwnProperty(key) || a[key] !== b[key]) {
+                        return false;
+                    }
                 }
-                return !0;
+                return true;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.compareRouterStates = compareRouterStates;
         },
         4022: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.formatNextPathnameInfo = formatNextPathnameInfo;
-            var _removeTrailingSlash = __webpack_require__(6316), _addPathPrefix = __webpack_require__(5391), _addPathSuffix = __webpack_require__(4156), _addLocale = __webpack_require__(7459);
+                value: true
+            });
+            exports.formatNextPathnameInfo = formatNextPathnameInfo;
+            var _removeTrailingSlash = __webpack_require__(6316);
+            var _addPathPrefix = __webpack_require__(5391);
+            var _addPathSuffix = __webpack_require__(4156);
+            var _addLocale = __webpack_require__(7459);
             function formatNextPathnameInfo(info) {
                 var pathname = _addLocale.addLocale(info.pathname, info.locale, info.buildId ? void 0 : info.defaultLocale, info.ignorePrefix);
-                return info.buildId && (pathname = _addPathSuffix.addPathSuffix(_addPathPrefix.addPathPrefix(pathname, "/_next/data/".concat(info.buildId)), "/" === info.pathname ? "index.json" : ".json")), pathname = _addPathPrefix.addPathPrefix(pathname, info.basePath), info.trailingSlash ? info.buildId || pathname.endsWith("/") ? pathname : _addPathSuffix.addPathSuffix(pathname, "/") : _removeTrailingSlash.removeTrailingSlash(pathname);
+                if (info.buildId) pathname = _addPathSuffix.addPathSuffix(_addPathPrefix.addPathPrefix(pathname, "/_next/data/".concat(info.buildId)), "/" === info.pathname ? "index.json" : ".json");
+                pathname = _addPathPrefix.addPathPrefix(pathname, info.basePath);
+                return info.trailingSlash ? info.buildId || pathname.endsWith("/") ? pathname : _addPathSuffix.addPathSuffix(pathname, "/") : _removeTrailingSlash.removeTrailingSlash(pathname);
             }
         },
         4611: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.formatUrl = formatUrl, exports.formatWithValidation = formatWithValidation, exports.urlObjectKeys = void 0;
-            var querystring = (0, __webpack_require__(1598).Z)(__webpack_require__(466)), slashedProtocols = /https?|ftp|gopher|file/;
+                value: true
+            });
+            exports.formatUrl = formatUrl;
+            exports.formatWithValidation = formatWithValidation;
+            exports.urlObjectKeys = void 0;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var querystring = _interop_require_wildcard(__webpack_require__(466));
+            var slashedProtocols = /https?|ftp|gopher|file/;
             function formatUrl(urlObj) {
-                var auth = urlObj.auth, hostname = urlObj.hostname, protocol = urlObj.protocol || "", pathname = urlObj.pathname || "", hash = urlObj.hash || "", query = urlObj.query || "", host = !1;
-                auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
+                var auth = urlObj.auth, hostname = urlObj.hostname;
+                var protocol = urlObj.protocol || "";
+                var pathname = urlObj.pathname || "";
+                var hash = urlObj.hash || "";
+                var query = urlObj.query || "";
+                var host = false;
+                auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "";
+                if (urlObj.host) host = auth + urlObj.host;
+                else if (hostname) {
+                    host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname);
+                    if (urlObj.port) host += ":" + urlObj.port;
+                }
+                if (query && "object" == typeof query) query = String(querystring.urlQueryToSearchParams(query));
                 var search = urlObj.search || query && "?".concat(query) || "";
-                return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : host || (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
+                if (protocol && !protocol.endsWith(":")) protocol += ":";
+                if (urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && false !== host) {
+                    host = "//" + (host || "");
+                    if (pathname && "/" !== pathname[0]) pathname = "/" + pathname;
+                } else if (!host) host = "";
+                if (hash && "#" !== hash[0]) hash = "#" + hash;
+                if (search && "?" !== search[0]) search = "?" + search;
+                pathname = pathname.replace(/[?#]/g, encodeURIComponent);
+                search = search.replace("#", "%23");
+                return "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
             }
-            function formatWithValidation(url) {
-                return formatUrl(url);
-            }
-            exports.urlObjectKeys = [
+            var urlObjectKeys = [
                 "auth",
                 "hash",
                 "host",
@@ -3513,35 +4851,54 @@
                 "search",
                 "slashes"
             ];
+            exports.urlObjectKeys = urlObjectKeys;
+            function formatWithValidation(url) {
+                if (false) ;
+                return formatUrl(url);
+            }
         },
         3891: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports["default"] = getAssetPathFromRoute;
             function getAssetPathFromRoute(route) {
                 var ext = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : "";
-                return ("/" === route ? "/index" : /^\/index(\/|$)/.test(route) ? "/index".concat(route) : "".concat(route)) + ext;
+                var path = "/" === route ? "/index" : /^\/index(\/|$)/.test(route) ? "/index".concat(route) : "".concat(route);
+                return path + ext;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = getAssetPathFromRoute;
         },
         159: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.getNextPathnameInfo = getNextPathnameInfo;
-            var _normalizeLocalePath = __webpack_require__(4317), _removePathPrefix = __webpack_require__(9244), _pathHasPrefix = __webpack_require__(1259);
+                value: true
+            });
+            exports.getNextPathnameInfo = getNextPathnameInfo;
+            var _normalizeLocalePath = __webpack_require__(4317);
+            var _removePathPrefix = __webpack_require__(9244);
+            var _pathHasPrefix = __webpack_require__(1259);
             function getNextPathnameInfo(pathname, options) {
-                var _nextConfig, ref = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, basePath = ref.basePath, i18n = ref.i18n, trailingSlash = ref.trailingSlash, info = {
+                var _nextConfig;
+                var ref = null != (_nextConfig = options.nextConfig) ? _nextConfig : {}, basePath = ref.basePath, i18n = ref.i18n, trailingSlash = ref.trailingSlash;
+                var info = {
                     pathname: pathname,
                     trailingSlash: "/" !== pathname ? pathname.endsWith("/") : trailingSlash
                 };
-                if (basePath && _pathHasPrefix.pathHasPrefix(info.pathname, basePath) && (info.pathname = _removePathPrefix.removePathPrefix(info.pathname, basePath), info.basePath = basePath), !0 === options.parseData && info.pathname.startsWith("/_next/data/") && info.pathname.endsWith(".json")) {
-                    var paths = info.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/"), buildId = paths[0];
-                    info.pathname = "index" !== paths[1] ? "/".concat(paths.slice(1).join("/")) : "/", info.buildId = buildId;
+                if (basePath && _pathHasPrefix.pathHasPrefix(info.pathname, basePath)) {
+                    info.pathname = _removePathPrefix.removePathPrefix(info.pathname, basePath);
+                    info.basePath = basePath;
+                }
+                if (true === options.parseData && info.pathname.startsWith("/_next/data/") && info.pathname.endsWith(".json")) {
+                    var paths = info.pathname.replace(/^\/_next\/data\//, "").replace(/\.json$/, "").split("/");
+                    var buildId = paths[0];
+                    info.pathname = "index" !== paths[1] ? "/".concat(paths.slice(1).join("/")) : "/";
+                    info.buildId = buildId;
                 }
                 if (i18n) {
                     var pathLocale = _normalizeLocalePath.normalizeLocalePath(info.pathname, i18n.locales);
-                    info.locale = null == pathLocale ? void 0 : pathLocale.detectedLocale, info.pathname = (null == pathLocale ? void 0 : pathLocale.pathname) || info.pathname;
+                    info.locale = null == pathLocale ? void 0 : pathLocale.detectedLocale;
+                    info.pathname = (null == pathLocale ? void 0 : pathLocale.pathname) || info.pathname;
                 }
                 return info;
             }
@@ -3549,34 +4906,39 @@
         418: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), Object.defineProperty(exports, "getSortedRoutes", {
-                enumerable: !0,
-                get: function() {
+                value: true
+            });
+            Object.defineProperty(exports, "getSortedRoutes", {
+                enumerable: true,
+                get: function get() {
                     return _sortedRoutes.getSortedRoutes;
                 }
-            }), Object.defineProperty(exports, "isDynamicRoute", {
-                enumerable: !0,
-                get: function() {
+            });
+            Object.defineProperty(exports, "isDynamicRoute", {
+                enumerable: true,
+                get: function get() {
                     return _isDynamic.isDynamicRoute;
                 }
             });
-            var _sortedRoutes = __webpack_require__(3907), _isDynamic = __webpack_require__(8689);
+            var _sortedRoutes = __webpack_require__(3907);
+            var _isDynamic = __webpack_require__(8689);
         },
         9671: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.isBot = isBot;
             function isBot(userAgent) {
                 return /Googlebot|Mediapartners-Google|AdsBot-Google|googleweblight|Storebot-Google|Google-PageRenderer|Bingbot|BingPreview|Slurp|DuckDuckBot|baiduspider|yandex|sogou|LinkedInBot|bitlybot|tumblr|vkShare|quora link preview|facebookexternalhit|facebookcatalog|Twitterbot|applebot|redditbot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|ia_archiver/i.test(userAgent);
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.isBot = isBot;
         },
         8689: function(__unused_webpack_module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.isDynamicRoute = isDynamicRoute;
+                value: true
+            });
+            exports.isDynamicRoute = isDynamicRoute;
             var TEST_ROUTE = /\/\[[^/]+?\](?=\/|$)/;
             function isDynamicRoute(route) {
                 return TEST_ROUTE.test(route);
@@ -3584,31 +4946,43 @@
         },
         4943: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.parsePath = parsePath;
             function parsePath(path) {
-                var hashIndex = path.indexOf("#"), queryIndex = path.indexOf("?"), hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
-                return hasQuery || hashIndex > -1 ? {
-                    pathname: path.substring(0, hasQuery ? queryIndex : hashIndex),
-                    query: hasQuery ? path.substring(queryIndex, hashIndex > -1 ? hashIndex : void 0) : "",
-                    hash: hashIndex > -1 ? path.slice(hashIndex) : ""
-                } : {
+                var hashIndex = path.indexOf("#");
+                var queryIndex = path.indexOf("?");
+                var hasQuery = queryIndex > -1 && (hashIndex < 0 || queryIndex < hashIndex);
+                if (hasQuery || hashIndex > -1) {
+                    return {
+                        pathname: path.substring(0, hasQuery ? queryIndex : hashIndex),
+                        query: hasQuery ? path.substring(queryIndex, hashIndex > -1 ? hashIndex : void 0) : "",
+                        hash: hashIndex > -1 ? path.slice(hashIndex) : ""
+                    };
+                }
+                return {
                     pathname: path,
                     query: "",
                     hash: ""
                 };
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.parsePath = parsePath;
         },
         6305: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.parseRelativeUrl = parseRelativeUrl;
-            var _utils = __webpack_require__(3794), _querystring = __webpack_require__(466);
+                value: true
+            });
+            exports.parseRelativeUrl = parseRelativeUrl;
+            var _utils = __webpack_require__(3794);
+            var _querystring = __webpack_require__(466);
             function parseRelativeUrl(url, base) {
-                var globalBase = new URL(_utils.getLocationOrigin()), resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase, ref = new URL(url, resolvedBase), pathname = ref.pathname, searchParams = ref.searchParams, search = ref.search, hash = ref.hash, href = ref.href;
-                if (ref.origin !== globalBase.origin) throw Error("invariant: invalid relative URL, router received ".concat(url));
+                var globalBase = new URL(_utils.getLocationOrigin());
+                var resolvedBase = base ? new URL(base, globalBase) : url.startsWith(".") ? new URL(window.location.href) : globalBase;
+                var ref = new URL(url, resolvedBase), pathname = ref.pathname, searchParams = ref.searchParams, search = ref.search, hash = ref.hash, href = ref.href, origin = ref.origin;
+                if (origin !== globalBase.origin) {
+                    throw Error("invariant: invalid relative URL, router received ".concat(url));
+                }
                 return {
                     pathname: pathname,
                     query: _querystring.searchParamsToUrlQuery(searchParams),
@@ -3621,11 +4995,14 @@
         1259: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.pathHasPrefix = pathHasPrefix;
+                value: true
+            });
+            exports.pathHasPrefix = pathHasPrefix;
             var _parsePath = __webpack_require__(4943);
             function pathHasPrefix(path, prefix) {
-                if ("string" != typeof path) return !1;
+                if ("string" != typeof path) {
+                    return false;
+                }
                 var pathname = _parsePath.parsePath(path).pathname;
                 return pathname === prefix || pathname.startsWith(prefix + "/");
             }
@@ -3633,49 +5010,63 @@
         466: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
             var _slicedToArray = __webpack_require__(4941).Z;
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.searchParamsToUrlQuery = searchParamsToUrlQuery;
+            exports.urlQueryToSearchParams = urlQueryToSearchParams;
+            exports.assign = assign;
             function searchParamsToUrlQuery(searchParams) {
                 var query = {};
-                return searchParams.forEach(function(value, key) {
-                    void 0 === query[key] ? query[key] = value : Array.isArray(query[key]) ? query[key].push(value) : query[key] = [
+                searchParams.forEach(function(value, key) {
+                    if (void 0 === query[key]) query[key] = value;
+                    else if (Array.isArray(query[key])) query[key].push(value);
+                    else query[key] = [
                         query[key],
                         value
                     ];
-                }), query;
+                });
+                return query;
             }
             function stringifyUrlQueryParam(param) {
-                return "string" != typeof param && ("number" != typeof param || isNaN(param)) && "boolean" != typeof param ? "" : String(param);
+                if ("string" != typeof param && ("number" != typeof param || isNaN(param)) && "boolean" != typeof param) {
+                    return "";
+                }
+                return String(param);
             }
             function urlQueryToSearchParams(urlQuery) {
                 var result = new URLSearchParams();
-                return Object.entries(urlQuery).forEach(function(param) {
+                Object.entries(urlQuery).forEach(function(param) {
                     var _param = _slicedToArray(param, 2), key = _param[0], value = _param[1];
-                    Array.isArray(value) ? value.forEach(function(item) {
+                    if (Array.isArray(value)) value.forEach(function(item) {
                         return result.append(key, stringifyUrlQueryParam(item));
-                    }) : result.set(key, stringifyUrlQueryParam(value));
-                }), result;
+                    });
+                    else result.set(key, stringifyUrlQueryParam(value));
+                });
+                return result;
             }
             function assign(target) {
                 for(var _len = arguments.length, searchParamsList = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)searchParamsList[_key - 1] = arguments[_key];
-                return searchParamsList.forEach(function(searchParams) {
+                searchParamsList.forEach(function(searchParams) {
                     Array.from(searchParams.keys()).forEach(function(key) {
                         return target.delete(key);
-                    }), searchParams.forEach(function(value, key) {
+                    });
+                    searchParams.forEach(function(value, key) {
                         return target.append(key, value);
                     });
-                }), target;
+                });
+                return target;
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.searchParamsToUrlQuery = searchParamsToUrlQuery, exports.urlQueryToSearchParams = urlQueryToSearchParams, exports.assign = assign;
         },
         9244: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.removePathPrefix = removePathPrefix;
+                value: true
+            });
+            exports.removePathPrefix = removePathPrefix;
             var _pathHasPrefix = __webpack_require__(1259);
             function removePathPrefix(path, prefix) {
                 if (_pathHasPrefix.pathHasPrefix(path, prefix)) {
@@ -3687,69 +5078,87 @@
         },
         6316: function(__unused_webpack_module, exports) {
             "use strict";
+            Object.defineProperty(exports, "__esModule", {
+                value: true
+            });
+            exports.removeTrailingSlash = removeTrailingSlash;
             function removeTrailingSlash(route) {
                 return route.replace(/\/$/, "") || "/";
             }
-            Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.removeTrailingSlash = removeTrailingSlash;
         },
         3888: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.getRouteMatcher = getRouteMatcher;
+                value: true
+            });
+            exports.getRouteMatcher = getRouteMatcher;
             var _utils = __webpack_require__(3794);
             function getRouteMatcher(param) {
                 var re = param.re, groups = param.groups;
                 return function(pathname) {
                     var routeMatch = re.exec(pathname);
-                    if (!routeMatch) return !1;
+                    if (!routeMatch) {
+                        return false;
+                    }
                     var decode = function(param) {
                         try {
                             return decodeURIComponent(param);
                         } catch (_) {
                             throw new _utils.DecodeError("failed to decode param");
                         }
-                    }, params = {};
-                    return Object.keys(groups).forEach(function(slugName) {
-                        var g = groups[slugName], m = routeMatch[g.pos];
-                        void 0 !== m && (params[slugName] = ~m.indexOf("/") ? m.split("/").map(function(entry) {
+                    };
+                    var params = {};
+                    Object.keys(groups).forEach(function(slugName) {
+                        var g = groups[slugName];
+                        var m = routeMatch[g.pos];
+                        if (void 0 !== m) params[slugName] = ~m.indexOf("/") ? m.split("/").map(function(entry) {
                             return decode(entry);
                         }) : g.repeat ? [
                             decode(m)
-                        ] : decode(m));
-                    }), params;
+                        ] : decode(m);
+                    });
+                    return params;
                 };
             }
         },
         4095: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.getRouteRegex = getRouteRegex, exports.getNamedRouteRegex = getNamedRouteRegex, exports.getNamedMiddlewareRegex = getNamedMiddlewareRegex;
-            var _extends = __webpack_require__(6495).Z, _escapeRegexp = __webpack_require__(489), _removeTrailingSlash = __webpack_require__(6316);
+                value: true
+            });
+            exports.getRouteRegex = getRouteRegex;
+            exports.getNamedRouteRegex = getNamedRouteRegex;
+            exports.getNamedMiddlewareRegex = getNamedMiddlewareRegex;
+            var _extends = __webpack_require__(6495).Z;
+            var _escapeRegexp = __webpack_require__(489);
+            var _removeTrailingSlash = __webpack_require__(6316);
             function parseParameter(param) {
                 var optional = param.startsWith("[") && param.endsWith("]");
-                optional && (param = param.slice(1, -1));
+                if (optional) param = param.slice(1, -1);
                 var repeat = param.startsWith("...");
-                return repeat && (param = param.slice(3)), {
+                if (repeat) param = param.slice(3);
+                return {
                     key: param,
                     repeat: repeat,
                     optional: optional
                 };
             }
             function getParametrizedRoute(route) {
-                var segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), groups = {}, groupIndex = 1;
+                var segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/");
+                var groups = {};
+                var groupIndex = 1;
                 return {
                     parameterizedRoute: segments.map(function(segment) {
-                        if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
-                        var ref = parseParameter(segment.slice(1, -1)), key = ref.key, optional = ref.optional, repeat = ref.repeat;
-                        return groups[key] = {
-                            pos: groupIndex++,
-                            repeat: repeat,
-                            optional: optional
-                        }, repeat ? optional ? "(?:/(.+?))?" : "/(.+?)" : "/([^/]+?)";
+                        if (segment.startsWith("[") && segment.endsWith("]")) {
+                            var ref = parseParameter(segment.slice(1, -1)), key = ref.key, optional = ref.optional, repeat = ref.repeat;
+                            groups[key] = {
+                                pos: groupIndex++,
+                                repeat: repeat,
+                                optional: optional
+                            };
+                            return repeat ? optional ? "(?:/(.+?))?" : "/(.+?)" : "/([^/]+?)";
+                        }
+                        return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                     }).join(""),
                     groups: groups
                 };
@@ -3762,19 +5171,38 @@
                 };
             }
             function buildGetSafeRouteKey() {
-                var routeKeyCharCode = 97, routeKeyCharLength = 1;
+                var routeKeyCharCode = 97;
+                var routeKeyCharLength = 1;
                 return function() {
-                    for(var routeKey = "", i = 0; i < routeKeyCharLength; i++)routeKey += String.fromCharCode(routeKeyCharCode), ++routeKeyCharCode > 122 && (routeKeyCharLength++, routeKeyCharCode = 97);
+                    var routeKey = "";
+                    for(var i = 0; i < routeKeyCharLength; i++){
+                        routeKey += String.fromCharCode(routeKeyCharCode);
+                        routeKeyCharCode++;
+                        if (routeKeyCharCode > 122) {
+                            routeKeyCharLength++;
+                            routeKeyCharCode = 97;
+                        }
+                    }
                     return routeKey;
                 };
             }
             function getNamedParametrizedRoute(route) {
-                var segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), getSafeRouteKey = buildGetSafeRouteKey(), routeKeys = {};
+                var segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/");
+                var getSafeRouteKey = buildGetSafeRouteKey();
+                var routeKeys = {};
                 return {
                     namedParameterizedRoute: segments.map(function(segment) {
-                        if (!(segment.startsWith("[") && segment.endsWith("]"))) return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
-                        var ref = parseParameter(segment.slice(1, -1)), key = ref.key, optional = ref.optional, repeat = ref.repeat, cleanedKey = key.replace(/\W/g, ""), invalidKey = !1;
-                        return (0 === cleanedKey.length || cleanedKey.length > 30) && (invalidKey = !0), isNaN(parseInt(cleanedKey.slice(0, 1))) || (invalidKey = !0), invalidKey && (cleanedKey = getSafeRouteKey()), routeKeys[cleanedKey] = key, repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
+                        if (segment.startsWith("[") && segment.endsWith("]")) {
+                            var ref = parseParameter(segment.slice(1, -1)), key = ref.key, optional = ref.optional, repeat = ref.repeat;
+                            var cleanedKey = key.replace(/\W/g, "");
+                            var invalidKey = false;
+                            if (0 === cleanedKey.length || cleanedKey.length > 30) invalidKey = true;
+                            if (!isNaN(parseInt(cleanedKey.slice(0, 1)))) invalidKey = true;
+                            if (invalidKey) cleanedKey = getSafeRouteKey();
+                            routeKeys[cleanedKey] = key;
+                            return repeat ? optional ? "(?:/(?<".concat(cleanedKey, ">.+?))?") : "/(?<".concat(cleanedKey, ">.+?)") : "/(?<".concat(cleanedKey, ">[^/]+?)");
+                        }
+                        return "/".concat(_escapeRegexp.escapeStringRegexp(segment));
                     }).join(""),
                     routeKeys: routeKeys
                 };
@@ -3787,176 +5215,297 @@
                 });
             }
             function getNamedMiddlewareRegex(normalizedRoute, options) {
-                var parameterizedRoute = getParametrizedRoute(normalizedRoute).parameterizedRoute, _catchAll = options.catchAll, catchAll = void 0 === _catchAll || _catchAll;
-                if ("/" === parameterizedRoute) return {
-                    namedRegex: "^/".concat(catchAll ? ".*" : "", "$")
-                };
+                var parameterizedRoute = getParametrizedRoute(normalizedRoute).parameterizedRoute;
+                var _catchAll = options.catchAll, catchAll = void 0 === _catchAll || _catchAll;
+                if ("/" === parameterizedRoute) {
+                    var catchAllRegex = catchAll ? ".*" : "";
+                    return {
+                        namedRegex: "^/".concat(catchAllRegex, "$")
+                    };
+                }
                 var namedParameterizedRoute = getNamedParametrizedRoute(normalizedRoute).namedParameterizedRoute;
+                var catchAllGroupedRegex = catchAll ? "(?:(/.*)?)" : "";
                 return {
-                    namedRegex: "^".concat(namedParameterizedRoute).concat(catchAll ? "(?:(/.*)?)" : "", "$")
+                    namedRegex: "^".concat(namedParameterizedRoute).concat(catchAllGroupedRegex, "$")
                 };
             }
         },
         3907: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _toConsumableArray = __webpack_require__(3929).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _createClass = __webpack_require__(7222).Z;
+            var _toConsumableArray = __webpack_require__(3929).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.getSortedRoutes = getSortedRoutes;
+                value: true
+            });
+            exports.getSortedRoutes = getSortedRoutes;
             var UrlNode = function() {
                 function UrlNode() {
-                    _classCallCheck(this, UrlNode), this.placeholder = !0, this.children = new Map(), this.slugName = null, this.restSlugName = null, this.optionalRestSlugName = null;
+                    _classCallCheck(this, UrlNode);
+                    this.placeholder = true;
+                    this.children = new Map();
+                    this.slugName = null;
+                    this.restSlugName = null;
+                    this.optionalRestSlugName = null;
                 }
-                return _createClass(UrlNode, [
+                _createClass(UrlNode, [
                     {
                         key: "insert",
-                        value: function(urlPath) {
-                            this._insert(urlPath.split("/").filter(Boolean), [], !1);
+                        value: function insert(urlPath) {
+                            this._insert(urlPath.split("/").filter(Boolean), [], false);
                         }
                     },
                     {
                         key: "smoosh",
-                        value: function() {
+                        value: function smoosh() {
                             return this._smoosh();
                         }
                     },
                     {
                         key: "_smoosh",
-                        value: function() {
-                            var _routes, _routes1, _routes2, prefix = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "/", _this = this, childrenPaths = _toConsumableArray(this.children.keys()).sort();
-                            null !== this.slugName && childrenPaths.splice(childrenPaths.indexOf("[]"), 1), null !== this.restSlugName && childrenPaths.splice(childrenPaths.indexOf("[...]"), 1), null !== this.optionalRestSlugName && childrenPaths.splice(childrenPaths.indexOf("[[...]]"), 1);
+                        value: function _smoosh() {
+                            var prefix = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "/";
+                            var _this = this;
+                            var childrenPaths = _toConsumableArray(this.children.keys()).sort();
+                            if (null !== this.slugName) childrenPaths.splice(childrenPaths.indexOf("[]"), 1);
+                            if (null !== this.restSlugName) childrenPaths.splice(childrenPaths.indexOf("[...]"), 1);
+                            if (null !== this.optionalRestSlugName) childrenPaths.splice(childrenPaths.indexOf("[[...]]"), 1);
                             var routes = childrenPaths.map(function(c) {
                                 return _this.children.get(c)._smoosh("".concat(prefix).concat(c, "/"));
                             }).reduce(function(prev, curr) {
                                 return _toConsumableArray(prev).concat(_toConsumableArray(curr));
                             }, []);
-                            if (null !== this.slugName && (_routes = routes).push.apply(_routes, _toConsumableArray(this.children.get("[]")._smoosh("".concat(prefix, "[").concat(this.slugName, "]/")))), !this.placeholder) {
+                            if (null !== this.slugName) {
+                                var _routes;
+                                (_routes = routes).push.apply(_routes, _toConsumableArray(this.children.get("[]")._smoosh("".concat(prefix, "[").concat(this.slugName, "]/"))));
+                            }
+                            if (!this.placeholder) {
                                 var r = "/" === prefix ? "/" : prefix.slice(0, -1);
-                                if (null != this.optionalRestSlugName) throw Error('You cannot define a route with the same specificity as a optional catch-all route ("'.concat(r, '" and "').concat(r, "[[...").concat(this.optionalRestSlugName, ']]").'));
+                                if (null != this.optionalRestSlugName) {
+                                    throw Error('You cannot define a route with the same specificity as a optional catch-all route ("'.concat(r, '" and "').concat(r, "[[...").concat(this.optionalRestSlugName, ']]").'));
+                                }
                                 routes.unshift(r);
                             }
-                            return null !== this.restSlugName && (_routes1 = routes).push.apply(_routes1, _toConsumableArray(this.children.get("[...]")._smoosh("".concat(prefix, "[...").concat(this.restSlugName, "]/")))), null !== this.optionalRestSlugName && (_routes2 = routes).push.apply(_routes2, _toConsumableArray(this.children.get("[[...]]")._smoosh("".concat(prefix, "[[...").concat(this.optionalRestSlugName, "]]/")))), routes;
+                            if (null !== this.restSlugName) {
+                                var _routes1;
+                                (_routes1 = routes).push.apply(_routes1, _toConsumableArray(this.children.get("[...]")._smoosh("".concat(prefix, "[...").concat(this.restSlugName, "]/"))));
+                            }
+                            if (null !== this.optionalRestSlugName) {
+                                var _routes2;
+                                (_routes2 = routes).push.apply(_routes2, _toConsumableArray(this.children.get("[[...]]")._smoosh("".concat(prefix, "[[...").concat(this.optionalRestSlugName, "]]/"))));
+                            }
+                            return routes;
                         }
                     },
                     {
                         key: "_insert",
-                        value: function(urlPaths, slugNames, isCatchAll) {
+                        value: function _insert(urlPaths, slugNames, isCatchAll) {
                             if (0 === urlPaths.length) {
-                                this.placeholder = !1;
+                                this.placeholder = false;
                                 return;
                             }
-                            if (isCatchAll) throw Error("Catch-all must be the last part of the URL.");
+                            if (isCatchAll) {
+                                throw Error("Catch-all must be the last part of the URL.");
+                            }
                             var nextSegment = urlPaths[0];
                             if (nextSegment.startsWith("[") && nextSegment.endsWith("]")) {
-                                var handleSlug = function(previousSlug, nextSlug) {
-                                    if (null !== previousSlug && previousSlug !== nextSlug) throw Error("You cannot use different slug names for the same dynamic path ('".concat(previousSlug, "' !== '").concat(nextSlug, "')."));
-                                    slugNames.forEach(function(slug) {
-                                        if (slug === nextSlug) throw Error('You cannot have the same slug name "'.concat(nextSlug, '" repeat within a single dynamic path'));
-                                        if (slug.replace(/\W/g, "") === nextSegment.replace(/\W/g, "")) throw Error('You cannot have the slug names "'.concat(slug, '" and "').concat(nextSlug, '" differ only by non-word symbols within a single dynamic path'));
-                                    }), slugNames.push(nextSlug);
-                                }, segmentName = nextSegment.slice(1, -1), isOptional = !1;
-                                if (segmentName.startsWith("[") && segmentName.endsWith("]") && (segmentName = segmentName.slice(1, -1), isOptional = !0), segmentName.startsWith("...") && (segmentName = segmentName.substring(3), isCatchAll = !0), segmentName.startsWith("[") || segmentName.endsWith("]")) throw Error("Segment names may not start or end with extra brackets ('".concat(segmentName, "')."));
-                                if (segmentName.startsWith(".")) throw Error("Segment names may not start with erroneous periods ('".concat(segmentName, "')."));
-                                if (isCatchAll) {
-                                    if (isOptional) {
-                                        if (null != this.restSlugName) throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
-                                        handleSlug(this.optionalRestSlugName, segmentName), this.optionalRestSlugName = segmentName, nextSegment = "[[...]]";
-                                    } else {
-                                        if (null != this.optionalRestSlugName) throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
-                                        handleSlug(this.restSlugName, segmentName), this.restSlugName = segmentName, nextSegment = "[...]";
+                                var handleSlug = function handleSlug(previousSlug, nextSlug) {
+                                    if (null !== previousSlug) {
+                                        if (previousSlug !== nextSlug) {
+                                            throw Error("You cannot use different slug names for the same dynamic path ('".concat(previousSlug, "' !== '").concat(nextSlug, "')."));
+                                        }
                                     }
+                                    slugNames.forEach(function(slug) {
+                                        if (slug === nextSlug) {
+                                            throw Error('You cannot have the same slug name "'.concat(nextSlug, '" repeat within a single dynamic path'));
+                                        }
+                                        if (slug.replace(/\W/g, "") === nextSegment.replace(/\W/g, "")) {
+                                            throw Error('You cannot have the slug names "'.concat(slug, '" and "').concat(nextSlug, '" differ only by non-word symbols within a single dynamic path'));
+                                        }
+                                    });
+                                    slugNames.push(nextSlug);
+                                };
+                                var segmentName = nextSegment.slice(1, -1);
+                                var isOptional = false;
+                                if (segmentName.startsWith("[") && segmentName.endsWith("]")) {
+                                    segmentName = segmentName.slice(1, -1);
+                                    isOptional = true;
+                                }
+                                if (segmentName.startsWith("...")) {
+                                    segmentName = segmentName.substring(3);
+                                    isCatchAll = true;
+                                }
+                                if (segmentName.startsWith("[") || segmentName.endsWith("]")) {
+                                    throw Error("Segment names may not start or end with extra brackets ('".concat(segmentName, "')."));
+                                }
+                                if (segmentName.startsWith(".")) {
+                                    throw Error("Segment names may not start with erroneous periods ('".concat(segmentName, "')."));
+                                }
+                                if (isCatchAll) if (isOptional) {
+                                    if (null != this.restSlugName) {
+                                        throw Error('You cannot use both an required and optional catch-all route at the same level ("[...'.concat(this.restSlugName, ']" and "').concat(urlPaths[0], '" ).'));
+                                    }
+                                    handleSlug(this.optionalRestSlugName, segmentName);
+                                    this.optionalRestSlugName = segmentName;
+                                    nextSegment = "[[...]]";
                                 } else {
-                                    if (isOptional) throw Error('Optional route parameters are not yet supported ("'.concat(urlPaths[0], '").'));
-                                    handleSlug(this.slugName, segmentName), this.slugName = segmentName, nextSegment = "[]";
+                                    if (null != this.optionalRestSlugName) {
+                                        throw Error('You cannot use both an optional and required catch-all route at the same level ("[[...'.concat(this.optionalRestSlugName, ']]" and "').concat(urlPaths[0], '").'));
+                                    }
+                                    handleSlug(this.restSlugName, segmentName);
+                                    this.restSlugName = segmentName;
+                                    nextSegment = "[...]";
+                                }
+                                else {
+                                    if (isOptional) {
+                                        throw Error('Optional route parameters are not yet supported ("'.concat(urlPaths[0], '").'));
+                                    }
+                                    handleSlug(this.slugName, segmentName);
+                                    this.slugName = segmentName;
+                                    nextSegment = "[]";
                                 }
                             }
-                            this.children.has(nextSegment) || this.children.set(nextSegment, new UrlNode()), this.children.get(nextSegment)._insert(urlPaths.slice(1), slugNames, isCatchAll);
+                            if (!this.children.has(nextSegment)) this.children.set(nextSegment, new UrlNode());
+                            this.children.get(nextSegment)._insert(urlPaths.slice(1), slugNames, isCatchAll);
                         }
                     }
-                ]), UrlNode;
+                ]);
+                return UrlNode;
             }();
             function getSortedRoutes(normalizedPages) {
                 var root = new UrlNode();
-                return normalizedPages.forEach(function(pagePath) {
+                normalizedPages.forEach(function(pagePath) {
                     return root.insert(pagePath);
-                }), root.smoosh();
+                });
+                return root.smoosh();
             }
         },
         8027: function(module, exports) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.setConfig = setConfig, exports.default = void 0;
-            var runtimeConfig, _default = function() {
+                value: true
+            });
+            exports.setConfig = setConfig;
+            exports["default"] = void 0;
+            var runtimeConfig;
+            var _default = function() {
                 return runtimeConfig;
             };
+            exports["default"] = _default;
             function setConfig(configValue) {
                 runtimeConfig = configValue;
             }
-            exports.default = _default, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
-                value: !0
-            }), Object.assign(exports.default, exports), module.exports = exports.default);
+            if (("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule) {
+                Object.defineProperty(exports.default, "__esModule", {
+                    value: true
+                });
+                Object.assign(exports.default, exports);
+                module.exports = exports.default;
+            }
         },
         5188: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = SideEffect;
-            var _react = (0, __webpack_require__(1598).Z)(__webpack_require__(7294));
+                value: true
+            });
+            exports["default"] = SideEffect;
+            var _interop_require_wildcard = __webpack_require__(1598).Z;
+            var _react = _interop_require_wildcard(__webpack_require__(7294));
             function SideEffect(props) {
-                var ref, emitChange = function() {
+                var emitChange = function emitChange() {
                     if (headManager && headManager.mountedInstances) {
                         var headElements = _react.Children.toArray(Array.from(headManager.mountedInstances).filter(Boolean));
                         headManager.updateHead(reduceComponentsToState(headElements, props));
                     }
-                }, headManager = props.headManager, reduceComponentsToState = props.reduceComponentsToState;
-                return isServer && (null == headManager || null == (ref = headManager.mountedInstances) || ref.add(props.children), emitChange()), useClientOnlyLayoutEffect(function() {
+                };
+                var headManager = props.headManager, reduceComponentsToState = props.reduceComponentsToState;
+                if (isServer) {
+                    var ref;
+                    null == headManager ? void 0 : null == (ref = headManager.mountedInstances) ? void 0 : ref.add(props.children);
+                    emitChange();
+                }
+                useClientOnlyLayoutEffect(function() {
                     var ref1;
-                    return null == headManager || null == (ref1 = headManager.mountedInstances) || ref1.add(props.children), function() {
+                    null == headManager ? void 0 : null == (ref1 = headManager.mountedInstances) ? void 0 : ref1.add(props.children);
+                    return function() {
                         var ref;
-                        null == headManager || null == (ref = headManager.mountedInstances) || ref.delete(props.children);
+                        null == headManager ? void 0 : null == (ref = headManager.mountedInstances) ? void 0 : ref.delete(props.children);
                     };
-                }), useClientOnlyLayoutEffect(function() {
-                    return headManager && (headManager._pendingUpdate = emitChange), function() {
-                        headManager && (headManager._pendingUpdate = emitChange);
+                });
+                useClientOnlyLayoutEffect(function() {
+                    if (headManager) headManager._pendingUpdate = emitChange;
+                    return function() {
+                        if (headManager) headManager._pendingUpdate = emitChange;
                     };
-                }), useClientOnlyEffect(function() {
-                    return headManager && headManager._pendingUpdate && (headManager._pendingUpdate(), headManager._pendingUpdate = null), function() {
-                        headManager && headManager._pendingUpdate && (headManager._pendingUpdate(), headManager._pendingUpdate = null);
+                });
+                useClientOnlyEffect(function() {
+                    if (headManager && headManager._pendingUpdate) {
+                        headManager._pendingUpdate();
+                        headManager._pendingUpdate = null;
+                    }
+                    return function() {
+                        if (headManager && headManager._pendingUpdate) {
+                            headManager._pendingUpdate();
+                            headManager._pendingUpdate = null;
+                        }
                     };
-                }), null;
+                });
+                return null;
             }
-            var isServer = !1, useClientOnlyLayoutEffect = isServer ? function() {} : _react.useLayoutEffect, useClientOnlyEffect = isServer ? function() {} : _react.useEffect;
+            var isServer = false;
+            var useClientOnlyLayoutEffect = isServer ? function() {} : _react.useLayoutEffect;
+            var useClientOnlyEffect = isServer ? function() {} : _react.useEffect;
         },
         3794: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
+                value: true
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _inherits = __webpack_require__(7788).Z, _toConsumableArray = __webpack_require__(3929).Z, _wrapNativeSuper = __webpack_require__(9968).Z, _createSuper = __webpack_require__(7735).Z, _tsGenerator = __webpack_require__(2401).Z;
+            var _classCallCheck = __webpack_require__(9658).Z;
+            var _inherits = __webpack_require__(7788).Z;
+            var _toConsumableArray = __webpack_require__(3929).Z;
+            var _wrapNativeSuper = __webpack_require__(9968).Z;
+            var _createSuper = __webpack_require__(7735).Z;
+            var _tsGenerator = __webpack_require__(2401).Z;
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.execOnce = execOnce, exports.getLocationOrigin = getLocationOrigin, exports.getURL = getURL, exports.getDisplayName = getDisplayName, exports.isResSent = isResSent, exports.normalizeRepeatedSlashes = normalizeRepeatedSlashes, exports.loadGetInitialProps = loadGetInitialProps, exports.ST = exports.SP = exports.warnOnce = exports.isAbsoluteUrl = void 0;
+                value: true
+            });
+            exports.execOnce = execOnce;
+            exports.getLocationOrigin = getLocationOrigin;
+            exports.getURL = getURL;
+            exports.getDisplayName = getDisplayName;
+            exports.isResSent = isResSent;
+            exports.normalizeRepeatedSlashes = normalizeRepeatedSlashes;
+            exports.loadGetInitialProps = loadGetInitialProps;
+            exports.ST = exports.SP = exports.warnOnce = exports.isAbsoluteUrl = void 0;
             var _async_to_generator = __webpack_require__(932).Z;
             function execOnce(fn) {
-                var result, used = !1;
+                var used = false;
+                var result;
                 return function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return used || (used = !0, result = fn.apply(void 0, _toConsumableArray(args))), result;
+                    if (!used) {
+                        used = true;
+                        result = fn.apply(void 0, _toConsumableArray(args));
+                    }
+                    return result;
                 };
             }
-            var ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/, isAbsoluteUrl = function(url) {
+            var ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
+            var isAbsoluteUrl = function(url) {
                 return ABSOLUTE_URL_REGEX.test(url);
             };
+            exports.isAbsoluteUrl = isAbsoluteUrl;
             function getLocationOrigin() {
                 var _location = window.location, protocol = _location.protocol, hostname = _location.hostname, port = _location.port;
                 return "".concat(protocol, "//").concat(hostname).concat(port ? ":" + port : "");
             }
             function getURL() {
-                var href = window.location.href, origin = getLocationOrigin();
+                var href = window.location.href;
+                var origin = getLocationOrigin();
                 return href.substring(origin.length);
             }
             function getDisplayName(Component) {
@@ -3967,18 +5516,21 @@
             }
             function normalizeRepeatedSlashes(url) {
                 var urlParts = url.split("?");
-                return urlParts[0].replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
+                var urlNoQuery = urlParts[0];
+                return urlNoQuery.replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
             }
             function loadGetInitialProps(App, ctx) {
                 return _loadGetInitialProps.apply(this, arguments);
             }
             function _loadGetInitialProps() {
-                return (_loadGetInitialProps = _async_to_generator(function(App, ctx) {
-                    var res, _tmp, props, message1;
+                _loadGetInitialProps = _async_to_generator(function(App, ctx) {
+                    var ref, message, res, _tmp, props, message1;
                     return _tsGenerator(this, function(_state) {
                         switch(_state.label){
                             case 0:
-                                if (res = ctx.res || ctx.ctx && ctx.ctx.res, App.getInitialProps) return [
+                                if (false) ;
+                                res = ctx.res || ctx.ctx && ctx.ctx.res;
+                                if (!!App.getInitialProps) return [
                                     3,
                                     3
                                 ];
@@ -3986,7 +5538,8 @@
                                     3,
                                     2
                                 ];
-                                return _tmp = {}, [
+                                _tmp = {};
+                                return [
                                     4,
                                     loadGetInitialProps(ctx.Component, ctx.ctx)
                                 ];
@@ -4006,21 +5559,30 @@
                                     App.getInitialProps(ctx)
                                 ];
                             case 4:
-                                if (props = _state.sent(), res && isResSent(res)) return [
-                                    2,
-                                    props
-                                ];
-                                if (!props) throw message1 = '"'.concat(getDisplayName(App), '.getInitialProps()" should resolve to an object. But found "').concat(props, '" instead.'), Error(message1);
+                                props = _state.sent();
+                                if (res && isResSent(res)) {
+                                    return [
+                                        2,
+                                        props
+                                    ];
+                                }
+                                if (!props) {
+                                    message1 = '"'.concat(getDisplayName(App), '.getInitialProps()" should resolve to an object. But found "').concat(props, '" instead.');
+                                    throw Error(message1);
+                                }
+                                if (false) ;
                                 return [
                                     2,
                                     props
                                 ];
                         }
                     });
-                })).apply(this, arguments);
+                });
+                return _loadGetInitialProps.apply(this, arguments);
             }
-            exports.isAbsoluteUrl = isAbsoluteUrl;
-            var warnOnce = function(_) {}, SP = "undefined" != typeof performance;
+            var warnOnce = function(_) {};
+            if (false) var warnings;
+            var SP = "undefined" != typeof performance;
             exports.SP = SP;
             var ST = SP && [
                 "mark",
@@ -4034,7 +5596,8 @@
                 _inherits(DecodeError, Error1);
                 var _super = _createSuper(DecodeError);
                 function DecodeError() {
-                    return _classCallCheck(this, DecodeError), _super.apply(this, arguments);
+                    _classCallCheck(this, DecodeError);
+                    return _super.apply(this, arguments);
                 }
                 return DecodeError;
             }(_wrapNativeSuper(Error));
@@ -4043,7 +5606,8 @@
                 _inherits(NormalizeError, Error1);
                 var _super = _createSuper(NormalizeError);
                 function NormalizeError() {
-                    return _classCallCheck(this, NormalizeError), _super.apply(this, arguments);
+                    _classCallCheck(this, NormalizeError);
+                    return _super.apply(this, arguments);
                 }
                 return NormalizeError;
             }(_wrapNativeSuper(Error));
@@ -4052,8 +5616,12 @@
                 _inherits(PageNotFoundError, Error1);
                 var _super = _createSuper(PageNotFoundError);
                 function PageNotFoundError(page) {
+                    _classCallCheck(this, PageNotFoundError);
                     var _this;
-                    return _classCallCheck(this, PageNotFoundError), (_this = _super.call(this)).code = "ENOENT", _this.message = "Cannot find module for page: ".concat(page), _this;
+                    _this = _super.call(this);
+                    _this.code = "ENOENT";
+                    _this.message = "Cannot find module for page: ".concat(page);
+                    return _this;
                 }
                 return PageNotFoundError;
             }(_wrapNativeSuper(Error));
@@ -4062,8 +5630,11 @@
                 _inherits(MissingStaticPage, Error1);
                 var _super = _createSuper(MissingStaticPage);
                 function MissingStaticPage(page, message) {
+                    _classCallCheck(this, MissingStaticPage);
                     var _this;
-                    return _classCallCheck(this, MissingStaticPage), (_this = _super.call(this)).message = "Failed to load static file for page: ".concat(page, " ").concat(message), _this;
+                    _this = _super.call(this);
+                    _this.message = "Failed to load static file for page: ".concat(page, " ").concat(message);
+                    return _this;
                 }
                 return MissingStaticPage;
             }(_wrapNativeSuper(Error));
@@ -4072,39 +5643,50 @@
                 _inherits(MiddlewareNotFoundError, Error1);
                 var _super = _createSuper(MiddlewareNotFoundError);
                 function MiddlewareNotFoundError() {
+                    _classCallCheck(this, MiddlewareNotFoundError);
                     var _this;
-                    return _classCallCheck(this, MiddlewareNotFoundError), (_this = _super.call(this)).code = "ENOENT", _this.message = "Cannot find the middleware module", _this;
+                    _this = _super.call(this);
+                    _this.code = "ENOENT";
+                    _this.message = "Cannot find the middleware module";
+                    return _this;
                 }
                 return MiddlewareNotFoundError;
             }(_wrapNativeSuper(Error));
-            exports.MiddlewareNotFoundError = MiddlewareNotFoundError, exports.warnOnce = warnOnce;
+            exports.MiddlewareNotFoundError = MiddlewareNotFoundError;
+            exports.warnOnce = warnOnce;
         },
         8018: function(module) {
-            !function() {
+            var __dirname = "/";
+            (function() {
                 "use strict";
                 var n = {};
                 !function() {
                     n.d = function(y, T) {
-                        for(var C in T)n.o(T, C) && !n.o(y, C) && Object.defineProperty(y, C, {
-                            enumerable: !0,
+                        for(var C in T)if (n.o(T, C) && !n.o(y, C)) Object.defineProperty(y, C, {
+                            enumerable: true,
                             get: T[C]
                         });
                     };
-                }(), function() {
+                }();
+                !function() {
                     n.o = function(n, y) {
                         return Object.prototype.hasOwnProperty.call(n, y);
                     };
-                }(), function() {
+                }();
+                !function() {
                     n.r = function(n) {
-                        "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
+                        if ("undefined" != typeof Symbol && Symbol.toStringTag) Object.defineProperty(n, Symbol.toStringTag, {
                             value: "Module"
-                        }), Object.defineProperty(n, "__esModule", {
-                            value: !0
+                        });
+                        Object.defineProperty(n, "__esModule", {
+                            value: true
                         });
                     };
-                }(), void 0 !== n && (n.ab = "//");
+                }();
+                if (void 0 !== n) n.ab = __dirname + "/";
                 var y = {};
-                n.r(y), n.d(y, {
+                n.r(y);
+                n.d(y, {
                     getCLS: function() {
                         return E;
                     },
@@ -4190,7 +5772,8 @@
                     return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;
                 }, m = function() {
                     d(function(n) {
-                        N = n.timeStamp;
+                        var y = n.timeStamp;
+                        N = y;
                     }, !0);
                 }, h = function() {
                     return N < 0 && (N = v(), m(), o(function() {
@@ -4302,11 +5885,12 @@
                     w = l(n, N, I, y.reportAllChanges), j && d(function() {
                         m(j.takeRecords()), j.disconnect();
                     }, !0), j && o(function() {
-                        N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
+                        var k;
+                        N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), k = v, P.push(k), S();
                     });
                 }, J = 0, K = 1 / 0, Q = 0, M = function(n) {
                     n.forEach(function(n) {
-                        n.interactionId && (K = Math.min(K, n.interactionId), J = (Q = Math.max(Q, n.interactionId)) ? (Q - K) / 7 + 1 : 0);
+                        n.interactionId && (K = Math.min(K, n.interactionId), Q = Math.max(Q, n.interactionId), J = Q ? (Q - K) / 7 + 1 : 0);
                     });
                 }, B = function() {
                     return I ? J : performance.interactionCount || 0;
@@ -4353,7 +5937,7 @@
                                 });
                             }) || H(n);
                         });
-                        var T = V[Math.min(V.length - 1, Math.floor(R() / 50))];
+                        var y, T = (y = Math.min(V.length - 1, Math.floor(R() / 50)), V[y]);
                         T && T.latency !== w.value && (w.value = T.latency, w.entries = T.entries, C());
                     }, P = s("event", a, {
                         durationThreshold: y.durationThreshold || 40
@@ -4426,24 +6010,31 @@
                     });
                 };
                 module.exports = y;
-            }();
+            })();
         },
         676: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
             Object.defineProperty(exports, "__esModule", {
-                value: !0
-            }), exports.default = isError, exports.getProperError = getProperError;
+                value: true
+            });
+            exports["default"] = isError;
+            exports.getProperError = getProperError;
             var _isPlainObject = __webpack_require__(8887);
             function isError(err) {
                 return "object" == typeof err && null !== err && "name" in err && "message" in err;
             }
             function getProperError(err) {
-                return isError(err) ? err : Error(_isPlainObject.isPlainObject(err) ? JSON.stringify(err) : err + "");
+                if (isError(err)) {
+                    return err;
+                }
+                if (false) ;
+                return Error(_isPlainObject.isPlainObject(err) ? JSON.stringify(err) : err + "");
             }
         },
         655: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
+            __webpack_require__.r(__webpack_exports__);
+            __webpack_require__.d(__webpack_exports__, {
                 __assign: function() {
                     return __assign;
                 },
@@ -4521,37 +6112,45 @@
                 }
             });
             var extendStatics = function(d, b) {
-                return (extendStatics = Object.setPrototypeOf || ({
+                extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
                     d.__proto__ = b;
                 } || function(d, b) {
-                    for(var p in b)Object.prototype.hasOwnProperty.call(b, p) && (d[p] = b[p]);
-                })(d, b);
+                    for(var p in b)if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p];
+                };
+                return extendStatics(d, b);
             };
             function __extends(d, b) {
                 if ("function" != typeof b && null !== b) throw TypeError("Class extends value " + String(b) + " is not a constructor or null");
+                extendStatics(d, b);
                 function __() {
                     this.constructor = d;
                 }
-                extendStatics(d, b), d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
+                d.prototype = null === b ? Object.create(b) : (__.prototype = b.prototype, new __());
             }
             var __assign = function() {
-                return (__assign = Object.assign || function(t) {
-                    for(var s, i = 1, n = arguments.length; i < n; i++)for(var p in s = arguments[i])Object.prototype.hasOwnProperty.call(s, p) && (t[p] = s[p]);
+                __assign = Object.assign || function __assign(t) {
+                    for(var s, i = 1, n = arguments.length; i < n; i++){
+                        s = arguments[i];
+                        for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+                    }
                     return t;
-                }).apply(this, arguments);
+                };
+                return __assign.apply(this, arguments);
             };
             function __rest(s, e) {
                 var t = {};
-                for(var p in s)Object.prototype.hasOwnProperty.call(s, p) && 0 > e.indexOf(p) && (t[p] = s[p]);
-                if (null != s && "function" == typeof Object.getOwnPropertySymbols) for(var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)0 > e.indexOf(p[i]) && Object.prototype.propertyIsEnumerable.call(s, p[i]) && (t[p[i]] = s[p[i]]);
+                for(var p in s)if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0) t[p] = s[p];
+                if (null != s && "function" == typeof Object.getOwnPropertySymbols) {
+                    for(var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++)if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i])) t[p[i]] = s[p[i]];
+                }
                 return t;
             }
             function __decorate(decorators, target, key, desc) {
-                var d, c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc;
+                var c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
-                else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
+                else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             }
             function __param(paramIndex, decorator) {
@@ -4578,7 +6177,7 @@
                     }
                     function rejected(value) {
                         try {
-                            step(generator.throw(value));
+                            step(generator["throw"](value));
                         } catch (e) {
                             reject(e);
                         }
@@ -4590,7 +6189,7 @@
                 });
             }
             function __generator(thisArg, body) {
-                var f, y, t, g, _ = {
+                var _ = {
                     label: 0,
                     sent: function() {
                         if (1 & t[0]) throw t[1];
@@ -4598,7 +6197,7 @@
                     },
                     trys: [],
                     ops: []
-                };
+                }, f, y, t, g;
                 return g = {
                     next: verb(0),
                     throw: verb(1),
@@ -4616,31 +6215,36 @@
                 }
                 function step(op) {
                     if (f) throw TypeError("Generator is already executing.");
-                    for(; _;)try {
-                        if (f = 1, y && (t = 2 & op[0] ? y.return : op[0] ? y.throw || ((t = y.return) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-                        switch(y = 0, t && (op = [
+                    while(_)try {
+                        if (f = 1, y && (t = 2 & op[0] ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                        if (y = 0, t) op = [
                             2 & op[0],
                             t.value
-                        ]), op[0]){
+                        ];
+                        switch(op[0]){
                             case 0:
                             case 1:
                                 t = op;
                                 break;
                             case 4:
-                                return _.label++, {
+                                _.label++;
+                                return {
                                     value: op[1],
-                                    done: !1
+                                    done: false
                                 };
                             case 5:
-                                _.label++, y = op[1], op = [
+                                _.label++;
+                                y = op[1];
+                                op = [
                                     0
                                 ];
                                 continue;
                             case 7:
-                                op = _.ops.pop(), _.trys.pop();
+                                op = _.ops.pop();
+                                _.trys.pop();
                                 continue;
                             default:
-                                if (!(t = (t = _.trys).length > 0 && t[t.length - 1]) && (6 === op[0] || 2 === op[0])) {
+                                if (t = _.trys, !(t = t.length > 0 && t[t.length - 1]) && (6 === op[0] || 2 === op[0])) {
                                     _ = 0;
                                     continue;
                                 }
@@ -4649,14 +6253,17 @@
                                     break;
                                 }
                                 if (6 === op[0] && _.label < t[1]) {
-                                    _.label = t[1], t = op;
+                                    _.label = t[1];
+                                    t = op;
                                     break;
                                 }
                                 if (t && _.label < t[2]) {
-                                    _.label = t[2], _.ops.push(op);
+                                    _.label = t[2];
+                                    _.ops.push(op);
                                     break;
                                 }
-                                t[2] && _.ops.pop(), _.trys.pop();
+                                if (t[2]) _.ops.pop();
+                                _.trys.pop();
                                 continue;
                         }
                         op = body.call(thisArg, _);
@@ -4664,38 +6271,42 @@
                         op = [
                             6,
                             e
-                        ], y = 0;
+                        ];
+                        y = 0;
                     } finally{
                         f = t = 0;
                     }
                     if (5 & op[0]) throw op[1];
                     return {
                         value: op[0] ? op[1] : void 0,
-                        done: !0
+                        done: true
                     };
                 }
             }
             var __createBinding = Object.create ? function(o, m, k, k2) {
-                void 0 === k2 && (k2 = k);
+                if (void 0 === k2) k2 = k;
                 var desc = Object.getOwnPropertyDescriptor(m, k);
-                (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) && (desc = {
-                    enumerable: !0,
+                if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) desc = {
+                    enumerable: true,
                     get: function() {
                         return m[k];
                     }
-                }), Object.defineProperty(o, k2, desc);
+                };
+                Object.defineProperty(o, k2, desc);
             } : function(o, m, k, k2) {
-                void 0 === k2 && (k2 = k), o[k2] = m[k];
+                if (void 0 === k2) k2 = k;
+                o[k2] = m[k];
             };
             function __exportStar(m, o) {
-                for(var p in m)"default" === p || Object.prototype.hasOwnProperty.call(o, p) || __createBinding(o, m, p);
+                for(var p in m)if ("default" !== p && !Object.prototype.hasOwnProperty.call(o, p)) __createBinding(o, m, p);
             }
             function __values(o) {
                 var s = "function" == typeof Symbol && Symbol.iterator, m = s && o[s], i = 0;
                 if (m) return m.call(o);
                 if (o && "number" == typeof o.length) return {
                     next: function() {
-                        return o && i >= o.length && (o = void 0), {
+                        if (o && i >= o.length) o = void 0;
+                        return {
                             value: o && o[i++],
                             done: !o
                         };
@@ -4706,16 +6317,16 @@
             function __read(o, n) {
                 var m = "function" == typeof Symbol && o[Symbol.iterator];
                 if (!m) return o;
-                var r, e, i = m.call(o), ar = [];
+                var i = m.call(o), r, ar = [], e;
                 try {
-                    for(; (void 0 === n || n-- > 0) && !(r = i.next()).done;)ar.push(r.value);
+                    while((void 0 === n || n-- > 0) && !(r = i.next()).done)ar.push(r.value);
                 } catch (error) {
                     e = {
                         error: error
                     };
                 } finally{
                     try {
-                        r && !r.done && (m = i.return) && m.call(i);
+                        if (r && !r.done && (m = i["return"])) m.call(i);
                     } finally{
                         if (e) throw e.error;
                     }
@@ -4732,7 +6343,12 @@
                 return r;
             }
             function __spreadArray(to, from, pack) {
-                if (pack || 2 === arguments.length) for(var ar, i = 0, l = from.length; i < l; i++)!ar && i in from || (ar || (ar = Array.prototype.slice.call(from, 0, i)), ar[i] = from[i]);
+                if (pack || 2 === arguments.length) {
+                    for(var i = 0, l = from.length, ar; i < l; i++)if (ar || !(i in from)) {
+                        if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+                        ar[i] = from[i];
+                    }
+                }
                 return to.concat(ar || Array.prototype.slice.call(from));
             }
             function __await(v) {
@@ -4740,12 +6356,12 @@
             }
             function __asyncGenerator(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
-                var i, g = generator.apply(thisArg, _arguments || []), q = [];
+                var g = generator.apply(thisArg, _arguments || []), i, q = [];
                 return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
                 function verb(n) {
-                    g[n] && (i[n] = function(v) {
+                    if (g[n]) i[n] = function(v) {
                         return new Promise(function(a, b) {
                             q.push([
                                 n,
@@ -4754,7 +6370,7 @@
                                 b
                             ]) > 1 || resume(n, v);
                         });
-                    });
+                    };
                 }
                 function resume(n, v) {
                     try {
@@ -4773,7 +6389,7 @@
                     resume("throw", value);
                 }
                 function settle(f, v) {
-                    f(v), q.shift(), q.length && resume(q[0][0], q[0][1]);
+                    if (f(v), q.shift(), q.length) resume(q[0][0], q[0][1]);
                 }
             }
             function __asyncDelegator(o) {
@@ -4794,14 +6410,14 @@
             }
             function __asyncValues(o) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
-                var i, m = o[Symbol.asyncIterator];
-                return m ? m.call(o) : (o = __values(o), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+                var m = o[Symbol.asyncIterator], i;
+                return m ? m.call(o) : (o = "function" == typeof __values ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i);
                 function verb(n) {
                     i[n] = o[n] && function(v) {
                         return new Promise(function(resolve, reject) {
-                            settle(resolve, reject, (v = o[n](v)).done, v.value);
+                            v = o[n](v), settle(resolve, reject, v.done, v.value);
                         });
                     };
                 }
@@ -4815,23 +6431,28 @@
                 }
             }
             function __makeTemplateObject(cooked, raw) {
-                return Object.defineProperty ? Object.defineProperty(cooked, "raw", {
+                if (Object.defineProperty) Object.defineProperty(cooked, "raw", {
                     value: raw
-                }) : cooked.raw = raw, cooked;
+                });
+                else cooked.raw = raw;
+                return cooked;
             }
             var __setModuleDefault = Object.create ? function(o, v) {
                 Object.defineProperty(o, "default", {
-                    enumerable: !0,
+                    enumerable: true,
                     value: v
                 });
             } : function(o, v) {
-                o.default = v;
+                o["default"] = v;
             };
             function __importStar(mod) {
                 if (mod && mod.__esModule) return mod;
                 var result = {};
-                if (null != mod) for(var k in mod)"default" !== k && Object.prototype.hasOwnProperty.call(mod, k) && __createBinding(result, mod, k);
-                return __setModuleDefault(result, mod), result;
+                if (null != mod) {
+                    for(var k in mod)if ("default" !== k && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+                }
+                __setModuleDefault(result, mod);
+                return result;
             }
             function __importDefault(mod) {
                 return mod && mod.__esModule ? mod : {
@@ -4857,12 +6478,15 @@
         2431: function() {}
     },
     function(__webpack_require__) {
+        var __webpack_exec__ = function(moduleId) {
+            return __webpack_require__(__webpack_require__.s = moduleId);
+        };
         __webpack_require__.O(0, [
             774
         ], function() {
-            return function(moduleId) {
-                return __webpack_require__(__webpack_require__.s = moduleId);
-            }(2870);
-        }), _N_E = __webpack_require__.O();
+            return __webpack_exec__(2870);
+        });
+        var __webpack_exports__ = __webpack_require__.O();
+        _N_E = __webpack_exports__;
     }
 ]);

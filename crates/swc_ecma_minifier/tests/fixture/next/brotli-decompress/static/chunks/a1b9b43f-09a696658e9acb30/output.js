@@ -1,5 +1,5 @@
 "use strict";
-(self.webpackChunk_N_E = self.webpackChunk_N_E || []).push([
+(self["webpackChunk_N_E"] = self["webpackChunk_N_E"] || []).push([
     [
         474
     ],
@@ -10,11 +10,13 @@
                     return entryBrowser;
                 }
             });
-            var process = __webpack_require__(3454), Buffer = __webpack_require__(1876).Buffer, commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {};
+            var process = __webpack_require__(3454);
+            var Buffer = __webpack_require__(1876)["Buffer"];
+            var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {};
             function commonjsRequire(path) {
                 throw Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
             }
-            var YGEnums = {
+            var CONSTANTS$1 = {
                 ALIGN_COUNT: 8,
                 ALIGN_AUTO: 0,
                 ALIGN_FLEX_START: 1,
@@ -92,92 +94,120 @@
                 WRAP_NO_WRAP: 0,
                 WRAP_WRAP: 1,
                 WRAP_WRAP_REVERSE: 2
-            }, _extends = Object.assign || function(target) {
+            };
+            var YGEnums = CONSTANTS$1;
+            var _extends = Object.assign || function(target) {
                 for(var i = 1; i < arguments.length; i++){
                     var source = arguments[i];
-                    for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
+                    for(var key in source)if (Object.prototype.hasOwnProperty.call(source, key)) target[key] = source[key];
                 }
                 return target;
-            }, _createClass = function() {
+            };
+            var _createClass = function() {
                 function defineProperties(target, props) {
                     for(var i = 0; i < props.length; i++){
                         var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        descriptor.enumerable = descriptor.enumerable || false;
+                        descriptor.configurable = true;
+                        if ("value" in descriptor) descriptor.writable = true;
+                        Object.defineProperty(target, descriptor.key, descriptor);
                     }
                 }
                 return function(Constructor, protoProps, staticProps) {
-                    return protoProps && defineProperties(Constructor.prototype, protoProps), staticProps && defineProperties(Constructor, staticProps), Constructor;
+                    if (protoProps) defineProperties(Constructor.prototype, protoProps);
+                    if (staticProps) defineProperties(Constructor, staticProps);
+                    return Constructor;
                 };
             }();
             function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
+                if (key in obj) Object.defineProperty(obj, key, {
                     value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
+                    enumerable: true,
+                    configurable: true,
+                    writable: true
+                });
+                else obj[key] = value;
+                return obj;
             }
             function _classCallCheck(instance, Constructor) {
-                if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-            }
-            var CONSTANTS = YGEnums, Layout = function() {
-                function Layout(left, right, top, bottom, width, height) {
-                    _classCallCheck(this, Layout), this.left = left, this.right = right, this.top = top, this.bottom = bottom, this.width = width, this.height = height;
+                if (!(instance instanceof Constructor)) {
+                    throw TypeError("Cannot call a class as a function");
                 }
-                return _createClass(Layout, [
+            }
+            var CONSTANTS = YGEnums;
+            var Layout = function() {
+                function Layout(left, right, top, bottom, width, height) {
+                    _classCallCheck(this, Layout);
+                    this.left = left;
+                    this.right = right;
+                    this.top = top;
+                    this.bottom = bottom;
+                    this.width = width;
+                    this.height = height;
+                }
+                _createClass(Layout, [
                     {
                         key: 'fromJS',
-                        value: function(expose) {
+                        value: function fromJS(expose) {
                             expose(this.left, this.right, this.top, this.bottom, this.width, this.height);
                         }
                     },
                     {
                         key: 'toString',
-                        value: function() {
+                        value: function toString() {
                             return '<Layout#' + this.left + ':' + this.right + ';' + this.top + ':' + this.bottom + ';' + this.width + ':' + this.height + '>';
                         }
                     }
-                ]), Layout;
-            }(), Size = function() {
-                function Size(width, height) {
-                    _classCallCheck(this, Size), this.width = width, this.height = height;
-                }
-                return _createClass(Size, null, [
+                ]);
+                return Layout;
+            }();
+            var Size = function() {
+                _createClass(Size, null, [
                     {
                         key: 'fromJS',
-                        value: function(_ref) {
+                        value: function fromJS(_ref) {
                             var width = _ref.width, height = _ref.height;
                             return new Size(width, height);
                         }
                     }
-                ]), _createClass(Size, [
+                ]);
+                function Size(width, height) {
+                    _classCallCheck(this, Size);
+                    this.width = width;
+                    this.height = height;
+                }
+                _createClass(Size, [
                     {
                         key: 'fromJS',
-                        value: function(expose) {
+                        value: function fromJS(expose) {
                             expose(this.width, this.height);
                         }
                     },
                     {
                         key: 'toString',
-                        value: function() {
+                        value: function toString() {
                             return '<Size#' + this.width + 'x' + this.height + '>';
                         }
                     }
-                ]), Size;
-            }(), Value = function() {
+                ]);
+                return Size;
+            }();
+            var Value = function() {
                 function Value(unit, value) {
-                    _classCallCheck(this, Value), this.unit = unit, this.value = value;
+                    _classCallCheck(this, Value);
+                    this.unit = unit;
+                    this.value = value;
                 }
-                return _createClass(Value, [
+                _createClass(Value, [
                     {
                         key: 'fromJS',
-                        value: function(expose) {
+                        value: function fromJS(expose) {
                             expose(this.unit, this.value);
                         }
                     },
                     {
                         key: 'toString',
-                        value: function() {
+                        value: function toString() {
                             switch(this.unit){
                                 case CONSTANTS.UNIT_POINT:
                                     return String(this.value);
@@ -192,12 +222,14 @@
                     },
                     {
                         key: 'valueOf',
-                        value: function() {
+                        value: function valueOf() {
                             return this.value;
                         }
                     }
-                ]), Value;
-            }(), entryCommon = function(bind, lib) {
+                ]);
+                return Value;
+            }();
+            var entryCommon = function(bind, lib) {
                 function patch(prototype, name, fn) {
                     var original = prototype[name];
                     prototype[name] = function() {
@@ -208,7 +240,7 @@
                         ].concat(args));
                     };
                 }
-                for(var _arr = [
+                var _arr = [
                     'setPosition',
                     'setMargin',
                     'setFlexBasis',
@@ -219,60 +251,97 @@
                     'setMaxWidth',
                     'setMaxHeight',
                     'setPadding'
-                ], _loop = function() {
-                    var _methods, fnName = _arr[_i], methods = (_defineProperty(_methods = {}, CONSTANTS.UNIT_POINT, lib.Node.prototype[fnName]), _defineProperty(_methods, CONSTANTS.UNIT_PERCENT, lib.Node.prototype[fnName + 'Percent']), _defineProperty(_methods, CONSTANTS.UNIT_AUTO, lib.Node.prototype[fnName + 'Auto']), _methods);
+                ];
+                var _loop = function _loop() {
+                    var _methods;
+                    var fnName = _arr[_i];
+                    var methods = (_methods = {}, _defineProperty(_methods, CONSTANTS.UNIT_POINT, lib.Node.prototype[fnName]), _defineProperty(_methods, CONSTANTS.UNIT_PERCENT, lib.Node.prototype[fnName + 'Percent']), _defineProperty(_methods, CONSTANTS.UNIT_AUTO, lib.Node.prototype[fnName + 'Auto']), _methods);
                     patch(lib.Node.prototype, fnName, function(original) {
-                        for(var _methods$unit, _methods$unit2, _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++)args[_key2 - 1] = arguments[_key2];
-                        var value = args.pop(), unit = void 0, asNumber = void 0;
-                        if ('auto' === value) unit = CONSTANTS.UNIT_AUTO, asNumber = void 0;
-                        else if (value instanceof Value) unit = value.unit, asNumber = value.valueOf();
-                        else if (unit = 'string' == typeof value && value.endsWith('%') ? CONSTANTS.UNIT_PERCENT : CONSTANTS.UNIT_POINT, asNumber = parseFloat(value), !Number.isNaN(value) && Number.isNaN(asNumber)) throw Error('Invalid value ' + value + ' for ' + fnName);
+                        for(var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++)args[_key2 - 1] = arguments[_key2];
+                        var value = args.pop();
+                        var unit = void 0, asNumber = void 0;
+                        if ('auto' === value) {
+                            unit = CONSTANTS.UNIT_AUTO;
+                            asNumber = void 0;
+                        } else if (value instanceof Value) {
+                            unit = value.unit;
+                            asNumber = value.valueOf();
+                        } else {
+                            unit = 'string' == typeof value && value.endsWith('%') ? CONSTANTS.UNIT_PERCENT : CONSTANTS.UNIT_POINT;
+                            asNumber = parseFloat(value);
+                            if (!Number.isNaN(value) && Number.isNaN(asNumber)) {
+                                throw Error('Invalid value ' + value + ' for ' + fnName);
+                            }
+                        }
                         if (!methods[unit]) throw Error('Failed to execute "' + fnName + '": Unsupported unit \'' + value + '\'');
-                        return void 0 !== asNumber ? (_methods$unit = methods[unit]).call.apply(_methods$unit, [
-                            this
-                        ].concat(args, [
-                            asNumber
-                        ])) : (_methods$unit2 = methods[unit]).call.apply(_methods$unit2, [
+                        if (void 0 !== asNumber) {
+                            var _methods$unit;
+                            return (_methods$unit = methods[unit]).call.apply(_methods$unit, [
+                                this
+                            ].concat(args, [
+                                asNumber
+                            ]));
+                        }
+                        var _methods$unit2;
+                        return (_methods$unit2 = methods[unit]).call.apply(_methods$unit2, [
                             this
                         ].concat(args));
                     });
-                }, _i = 0; _i < _arr.length; _i++)_loop();
-                return patch(lib.Config.prototype, 'free', function() {
+                };
+                for(var _i = 0; _i < _arr.length; _i++)_loop();
+                patch(lib.Config.prototype, 'free', function() {
                     lib.Config.destroy(this);
-                }), patch(lib.Node, 'create', function(_, config) {
+                });
+                patch(lib.Node, 'create', function(_, config) {
                     return config ? lib.Node.createWithConfig(config) : lib.Node.createDefault();
-                }), patch(lib.Node.prototype, 'free', function() {
+                });
+                patch(lib.Node.prototype, 'free', function() {
                     lib.Node.destroy(this);
-                }), patch(lib.Node.prototype, 'freeRecursive', function() {
+                });
+                patch(lib.Node.prototype, 'freeRecursive', function() {
                     for(var t = 0, T = this.getChildCount(); t < T; ++t)this.getChild(0).freeRecursive();
                     this.free();
-                }), patch(lib.Node.prototype, 'setMeasureFunc', function(original, measureFunc) {
-                    return measureFunc ? original.call(this, function() {
-                        return Size.fromJS(measureFunc.apply(void 0, arguments));
-                    }) : this.unsetMeasureFunc();
-                }), patch(lib.Node.prototype, 'calculateLayout', function(original) {
-                    var width = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : NaN, height = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : NaN, direction = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : CONSTANTS.DIRECTION_LTR;
+                });
+                patch(lib.Node.prototype, 'setMeasureFunc', function(original, measureFunc) {
+                    if (measureFunc) {
+                        return original.call(this, function() {
+                            return Size.fromJS(measureFunc.apply(void 0, arguments));
+                        });
+                    }
+                    return this.unsetMeasureFunc();
+                });
+                patch(lib.Node.prototype, 'calculateLayout', function(original) {
+                    var width = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : NaN;
+                    var height = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : NaN;
+                    var direction = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : CONSTANTS.DIRECTION_LTR;
                     return original.call(this, width, height, direction);
-                }), _extends({
+                });
+                return _extends({
                     Config: lib.Config,
                     Node: lib.Node,
                     Layout: bind('Layout', Layout),
                     Size: bind('Size', Size),
                     Value: bind('Value', Value),
-                    getInstanceCount: function() {
+                    getInstanceCount: function getInstanceCount() {
                         return lib.getInstanceCount.apply(lib, arguments);
                     }
                 }, CONSTANTS);
-            }, nbind$1 = {
+            };
+            var nbind$1 = {
                 exports: {}
             };
-            !function(module) {
-                !function(root, wrapper) {
-                    module.exports ? module.exports = wrapper : (root.nbind = root.nbind || {}).init = wrapper;
-                }(commonjsGlobal, function(Module, cb) {
-                    "function" == typeof Module && (cb = Module, Module = {}), Module.onRuntimeInitialized = function(init, cb) {
+            (function(module) {
+                (function(root, wrapper) {
+                    if (module.exports) module.exports = wrapper;
+                    else (root.nbind = root.nbind || {}).init = wrapper;
+                })(commonjsGlobal, function(Module, cb) {
+                    if ("function" == typeof Module) {
+                        cb = Module;
+                        Module = {};
+                    }
+                    Module.onRuntimeInitialized = function(init, cb) {
                         return function() {
-                            init && init.apply(this, arguments);
+                            if (init) init.apply(this, arguments);
                             try {
                                 Module.ccall("nbind_init");
                             } catch (err) {
@@ -287,79 +356,150 @@
                                 lib: Module
                             });
                         };
-                    }(Module.onRuntimeInitialized, cb), Module || (Module = (void 0 !== Module ? Module : null) || {});
-                    var Module, nodeFS, nodePath, cwrap, ccall, HEAP, buffer, HEAP8, HEAPU8, HEAP16, HEAPU16, HEAP32, HEAPU32, HEAPF32, HEAPF64, STATIC_BASE, STATICTOP, staticSealed, STACK_BASE, STACKTOP, STACK_MAX, DYNAMIC_BASE, DYNAMICTOP_PTR, initialStackTop, moduleOverrides = {};
-                    for(var key in Module)Module.hasOwnProperty(key) && (moduleOverrides[key] = Module[key]);
-                    var ENVIRONMENT_IS_WEB = !1, ENVIRONMENT_IS_WORKER = !1, ENVIRONMENT_IS_NODE = !1, ENVIRONMENT_IS_SHELL = !1;
-                    if (Module.ENVIRONMENT) {
-                        if ("WEB" === Module.ENVIRONMENT) ENVIRONMENT_IS_WEB = !0;
-                        else if ("WORKER" === Module.ENVIRONMENT) ENVIRONMENT_IS_WORKER = !0;
-                        else if ("NODE" === Module.ENVIRONMENT) ENVIRONMENT_IS_NODE = !0;
-                        else if ("SHELL" === Module.ENVIRONMENT) ENVIRONMENT_IS_SHELL = !0;
-                        else throw Error("The provided Module['ENVIRONMENT'] value is not valid. It must be one of: WEB|WORKER|NODE|SHELL.");
-                    } else ENVIRONMENT_IS_WEB = "object" == typeof window, ENVIRONMENT_IS_WORKER = "function" == typeof importScripts, ENVIRONMENT_IS_NODE = "object" == typeof process && !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_WORKER, ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
-                    if (ENVIRONMENT_IS_NODE) Module.print || (Module.print = console.log), Module.printErr || (Module.printErr = console.warn), Module.read = function shell_read(filename, binary) {
-                        nodeFS || (nodeFS = ({})("")), nodePath || (nodePath = ({})("")), filename = nodePath.normalize(filename);
-                        var ret = nodeFS.readFileSync(filename);
-                        return binary ? ret : ret.toString();
-                    }, Module.readBinary = function readBinary(filename) {
-                        var ret = Module.read(filename, !0);
-                        return ret.buffer || (ret = new Uint8Array(ret)), assert(ret.buffer), ret;
-                    }, Module.load = function load(f) {
-                        globalEval(read(f));
-                    }, Module.thisProgram || (process.argv.length > 1 ? Module.thisProgram = process.argv[1].replace(/\\/g, "/") : Module.thisProgram = "unknown-program"), Module.arguments = process.argv.slice(2), module.exports = Module, process.on("uncaughtException", function(ex) {
-                        if (!(ex instanceof ExitStatus)) throw ex;
-                    }), Module.inspect = function() {
-                        return "[Emscripten Module object]";
-                    };
-                    else if (ENVIRONMENT_IS_SHELL) Module.print || (Module.print = print), "undefined" != typeof printErr && (Module.printErr = printErr), "undefined" != typeof read ? Module.read = read : Module.read = function shell_read() {
-                        throw "no read() available";
-                    }, Module.readBinary = function readBinary(f) {
-                        if ("function" == typeof readbuffer) return new Uint8Array(readbuffer(f));
-                        var data = read(f, "binary");
-                        return assert("object" == typeof data), data;
-                    }, "undefined" != typeof scriptArgs ? Module.arguments = scriptArgs : "undefined" != typeof arguments && (Module.arguments = arguments), "function" == typeof quit && (Module.quit = function(status, toThrow) {
-                        quit(status);
-                    });
-                    else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
-                        if (Module.read = function shell_read(url) {
-                            var xhr = new XMLHttpRequest();
-                            return xhr.open("GET", url, !1), xhr.send(null), xhr.responseText;
-                        }, ENVIRONMENT_IS_WORKER && (Module.readBinary = function readBinary(url) {
-                            var xhr = new XMLHttpRequest();
-                            return xhr.open("GET", url, !1), xhr.responseType = "arraybuffer", xhr.send(null), new Uint8Array(xhr.response);
-                        }), Module.readAsync = function readAsync(url, onload, onerror) {
-                            var xhr = new XMLHttpRequest();
-                            xhr.open("GET", url, !0), xhr.responseType = "arraybuffer", xhr.onload = function xhr_onload() {
-                                200 == xhr.status || 0 == xhr.status && xhr.response ? onload(xhr.response) : onerror();
-                            }, xhr.onerror = onerror, xhr.send(null);
-                        }, "undefined" != typeof arguments && (Module.arguments = arguments), "undefined" != typeof console) Module.print || (Module.print = function shell_print(x) {
-                            console.log(x);
-                        }), Module.printErr || (Module.printErr = function shell_printErr(x) {
-                            console.warn(x);
+                    }(Module.onRuntimeInitialized, cb);
+                    var Module;
+                    if (!Module) Module = (void 0 !== Module ? Module : null) || {};
+                    var moduleOverrides = {};
+                    for(var key in Module)if (Module.hasOwnProperty(key)) moduleOverrides[key] = Module[key];
+                    var ENVIRONMENT_IS_WEB = false;
+                    var ENVIRONMENT_IS_WORKER = false;
+                    var ENVIRONMENT_IS_NODE = false;
+                    var ENVIRONMENT_IS_SHELL = false;
+                    if (Module["ENVIRONMENT"]) if ("WEB" === Module["ENVIRONMENT"]) ENVIRONMENT_IS_WEB = true;
+                    else if ("WORKER" === Module["ENVIRONMENT"]) ENVIRONMENT_IS_WORKER = true;
+                    else if ("NODE" === Module["ENVIRONMENT"]) ENVIRONMENT_IS_NODE = true;
+                    else if ("SHELL" === Module["ENVIRONMENT"]) ENVIRONMENT_IS_SHELL = true;
+                    else {
+                        throw Error("The provided Module['ENVIRONMENT'] value is not valid. It must be one of: WEB|WORKER|NODE|SHELL.");
+                    }
+                    else {
+                        ENVIRONMENT_IS_WEB = "object" == typeof window;
+                        ENVIRONMENT_IS_WORKER = "function" == typeof importScripts;
+                        ENVIRONMENT_IS_NODE = "object" == typeof process && "function" == typeof commonjsRequire && !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_WORKER;
+                        ENVIRONMENT_IS_SHELL = !ENVIRONMENT_IS_WEB && !ENVIRONMENT_IS_NODE && !ENVIRONMENT_IS_WORKER;
+                    }
+                    if (ENVIRONMENT_IS_NODE) {
+                        if (!Module["print"]) Module["print"] = console.log;
+                        if (!Module["printErr"]) Module["printErr"] = console.warn;
+                        var nodeFS;
+                        var nodePath;
+                        Module["read"] = function shell_read(filename, binary) {
+                            if (!nodeFS) nodeFS = ({})("");
+                            if (!nodePath) nodePath = ({})("");
+                            filename = nodePath["normalize"](filename);
+                            var ret = nodeFS["readFileSync"](filename);
+                            return binary ? ret : ret.toString();
+                        };
+                        Module["readBinary"] = function readBinary(filename) {
+                            var ret = Module["read"](filename, true);
+                            if (!ret.buffer) ret = new Uint8Array(ret);
+                            assert(ret.buffer);
+                            return ret;
+                        };
+                        Module["load"] = function load(f) {
+                            globalEval(read(f));
+                        };
+                        if (!Module["thisProgram"]) if (process["argv"].length > 1) Module["thisProgram"] = process["argv"][1].replace(/\\/g, "/");
+                        else Module["thisProgram"] = "unknown-program";
+                        Module["arguments"] = process["argv"].slice(2);
+                        module["exports"] = Module;
+                        process["on"]("uncaughtException", function(ex) {
+                            if (!(ex instanceof ExitStatus)) {
+                                throw ex;
+                            }
                         });
-                        else {
-                            var TRY_USE_DUMP = !1;
-                            Module.print || (Module.print = TRY_USE_DUMP && "undefined" != typeof dump ? function(x) {
+                        Module["inspect"] = function() {
+                            return "[Emscripten Module object]";
+                        };
+                    } else if (ENVIRONMENT_IS_SHELL) {
+                        if (!Module["print"]) Module["print"] = print;
+                        if ("undefined" != typeof printErr) Module["printErr"] = printErr;
+                        if ("undefined" != typeof read) Module["read"] = read;
+                        else Module["read"] = function shell_read() {
+                            throw "no read() available";
+                        };
+                        Module["readBinary"] = function readBinary(f) {
+                            if ("function" == typeof readbuffer) {
+                                return new Uint8Array(readbuffer(f));
+                            }
+                            var data = read(f, "binary");
+                            assert("object" == typeof data);
+                            return data;
+                        };
+                        if ("undefined" != typeof scriptArgs) Module["arguments"] = scriptArgs;
+                        else if ("undefined" != typeof arguments) Module["arguments"] = arguments;
+                        if ("function" == typeof quit) Module["quit"] = function(status, toThrow) {
+                            quit(status);
+                        };
+                    } else if (ENVIRONMENT_IS_WEB || ENVIRONMENT_IS_WORKER) {
+                        Module["read"] = function shell_read(url) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", url, false);
+                            xhr.send(null);
+                            return xhr.responseText;
+                        };
+                        if (ENVIRONMENT_IS_WORKER) Module["readBinary"] = function readBinary(url) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", url, false);
+                            xhr.responseType = "arraybuffer";
+                            xhr.send(null);
+                            return new Uint8Array(xhr.response);
+                        };
+                        Module["readAsync"] = function readAsync(url, onload, onerror) {
+                            var xhr = new XMLHttpRequest();
+                            xhr.open("GET", url, true);
+                            xhr.responseType = "arraybuffer";
+                            xhr.onload = function xhr_onload() {
+                                if (200 == xhr.status || 0 == xhr.status && xhr.response) onload(xhr.response);
+                                else onerror();
+                            };
+                            xhr.onerror = onerror;
+                            xhr.send(null);
+                        };
+                        if ("undefined" != typeof arguments) Module["arguments"] = arguments;
+                        if ("undefined" != typeof console) {
+                            if (!Module["print"]) Module["print"] = function shell_print(x) {
+                                console.log(x);
+                            };
+                            if (!Module["printErr"]) Module["printErr"] = function shell_printErr(x) {
+                                console.warn(x);
+                            };
+                        } else {
+                            var TRY_USE_DUMP = false;
+                            if (!Module["print"]) Module["print"] = TRY_USE_DUMP && "undefined" != typeof dump ? function(x) {
                                 dump(x);
-                            } : function(x) {});
+                            } : function(x) {};
                         }
-                        ENVIRONMENT_IS_WORKER && (Module.load = importScripts), void 0 === Module.setWindowTitle && (Module.setWindowTitle = function(title) {
+                        if (ENVIRONMENT_IS_WORKER) Module["load"] = importScripts;
+                        if (void 0 === Module["setWindowTitle"]) Module["setWindowTitle"] = function(title) {
                             document.title = title;
-                        });
-                    } else throw "Unknown runtime environment. Where are we?";
+                        };
+                    } else {
+                        throw "Unknown runtime environment. Where are we?";
+                    }
                     function globalEval(x) {
                         eval.call(null, x);
                     }
-                    for(var key in !Module.load && Module.read && (Module.load = function load(f) {
-                        globalEval(Module.read(f));
-                    }), Module.print || (Module.print = function() {}), Module.printErr || (Module.printErr = Module.print), Module.arguments || (Module.arguments = []), Module.thisProgram || (Module.thisProgram = "./this.program"), Module.quit || (Module.quit = function(status, toThrow) {
+                    if (!Module["load"] && Module["read"]) Module["load"] = function load(f) {
+                        globalEval(Module["read"](f));
+                    };
+                    if (!Module["print"]) Module["print"] = function() {};
+                    if (!Module["printErr"]) Module["printErr"] = Module["print"];
+                    if (!Module["arguments"]) Module["arguments"] = [];
+                    if (!Module["thisProgram"]) Module["thisProgram"] = "./this.program";
+                    if (!Module["quit"]) Module["quit"] = function(status, toThrow) {
                         throw toThrow;
-                    }), Module.print = Module.print, Module.printErr = Module.printErr, Module.preRun = [], Module.postRun = [], moduleOverrides)moduleOverrides.hasOwnProperty(key) && (Module[key] = moduleOverrides[key]);
+                    };
+                    Module.print = Module["print"];
+                    Module.printErr = Module["printErr"];
+                    Module["preRun"] = [];
+                    Module["postRun"] = [];
+                    for(var key in moduleOverrides)if (moduleOverrides.hasOwnProperty(key)) Module[key] = moduleOverrides[key];
                     moduleOverrides = void 0;
                     var Runtime = {
                         setTempRet0: function(value) {
-                            return tempRet0 = value, value;
+                            tempRet0 = value;
+                            return value;
                         },
                         getTempRet0: function() {
                             return tempRet0;
@@ -378,16 +518,23 @@
                                 case "i16":
                                     return 2;
                                 case "i32":
-                                case "float":
                                     return 4;
                                 case "i64":
+                                    return 8;
+                                case "float":
+                                    return 4;
                                 case "double":
                                     return 8;
                                 default:
-                                    if ("*" === type[type.length - 1]) return Runtime.QUANTUM_SIZE;
-                                    if ("i" !== type[0]) return 0;
-                                    var bits = parseInt(type.substr(1));
-                                    return assert(bits % 8 == 0), bits / 8;
+                                    if ("*" === type[type.length - 1]) {
+                                        return Runtime.QUANTUM_SIZE;
+                                    }
+                                    if ("i" === type[0]) {
+                                        var bits = parseInt(type.substr(1));
+                                        assert(bits % 8 === 0);
+                                        return bits / 8;
+                                    }
+                                    return 0;
                             }
                         },
                         getNativeFieldSize: function(type) {
@@ -395,83 +542,246 @@
                         },
                         STACK_ALIGN: 16,
                         prepVararg: function(ptr, type) {
-                            return "double" === type || "i64" === type ? 7 & ptr && (assert((7 & ptr) == 4), ptr += 4) : assert((3 & ptr) == 0), ptr;
+                            if ("double" === type || "i64" === type) {
+                                if (7 & ptr) {
+                                    assert((7 & ptr) === 4);
+                                    ptr += 4;
+                                }
+                            } else assert((3 & ptr) === 0);
+                            return ptr;
                         },
                         getAlignSize: function(type, size, vararg) {
-                            return vararg || "i64" != type && "double" != type ? type ? Math.min(size || (type ? Runtime.getNativeFieldSize(type) : 0), Runtime.QUANTUM_SIZE) : Math.min(size, 8) : 8;
+                            if (!vararg && ("i64" == type || "double" == type)) return 8;
+                            if (!type) return Math.min(size, 8);
+                            return Math.min(size || (type ? Runtime.getNativeFieldSize(type) : 0), Runtime.QUANTUM_SIZE);
                         },
                         dynCall: function(sig, ptr, args) {
-                            return args && args.length ? Module["dynCall_" + sig].apply(null, [
-                                ptr
-                            ].concat(args)) : Module["dynCall_" + sig].call(null, ptr);
+                            if (args && args.length) {
+                                return Module["dynCall_" + sig].apply(null, [
+                                    ptr
+                                ].concat(args));
+                            }
+                            return Module["dynCall_" + sig].call(null, ptr);
                         },
                         functionPointers: [],
                         addFunction: function(func) {
-                            for(var i = 0; i < Runtime.functionPointers.length; i++)if (!Runtime.functionPointers[i]) return Runtime.functionPointers[i] = func, 2 * (1 + i);
+                            for(var i = 0; i < Runtime.functionPointers.length; i++)if (!Runtime.functionPointers[i]) {
+                                Runtime.functionPointers[i] = func;
+                                return 2 * (1 + i);
+                            }
                             throw "Finished up all reserved function pointers. Use a higher value for RESERVED_FUNCTION_POINTERS.";
                         },
                         removeFunction: function(index) {
                             Runtime.functionPointers[(index - 2) / 2] = null;
                         },
                         warnOnce: function(text) {
-                            Runtime.warnOnce.shown || (Runtime.warnOnce.shown = {}), Runtime.warnOnce.shown[text] || (Runtime.warnOnce.shown[text] = 1, Module.printErr(text));
+                            if (!Runtime.warnOnce.shown) Runtime.warnOnce.shown = {};
+                            if (!Runtime.warnOnce.shown[text]) {
+                                Runtime.warnOnce.shown[text] = 1;
+                                Module.printErr(text);
+                            }
                         },
                         funcWrappers: {},
                         getFuncWrapper: function(func, sig) {
-                            if (func) {
-                                assert(sig), Runtime.funcWrappers[sig] || (Runtime.funcWrappers[sig] = {});
-                                var sigCache = Runtime.funcWrappers[sig];
-                                return sigCache[func] || (1 === sig.length ? sigCache[func] = function dynCall_wrapper() {
-                                    return Runtime.dynCall(sig, func);
-                                } : 2 === sig.length ? sigCache[func] = function dynCall_wrapper(arg) {
-                                    return Runtime.dynCall(sig, func, [
-                                        arg
-                                    ]);
-                                } : sigCache[func] = function dynCall_wrapper() {
-                                    return Runtime.dynCall(sig, func, Array.prototype.slice.call(arguments));
-                                }), sigCache[func];
-                            }
+                            if (!func) return;
+                            assert(sig);
+                            if (!Runtime.funcWrappers[sig]) Runtime.funcWrappers[sig] = {};
+                            var sigCache = Runtime.funcWrappers[sig];
+                            if (!sigCache[func]) if (1 === sig.length) sigCache[func] = function dynCall_wrapper() {
+                                return Runtime.dynCall(sig, func);
+                            };
+                            else if (2 === sig.length) sigCache[func] = function dynCall_wrapper(arg) {
+                                return Runtime.dynCall(sig, func, [
+                                    arg
+                                ]);
+                            };
+                            else sigCache[func] = function dynCall_wrapper() {
+                                return Runtime.dynCall(sig, func, Array.prototype.slice.call(arguments));
+                            };
+                            return sigCache[func];
                         },
                         getCompilerSetting: function(name) {
                             throw "You must build with -s RETAIN_COMPILER_SETTINGS=1 for Runtime.getCompilerSetting or emscripten_get_compiler_setting to work";
                         },
                         stackAlloc: function(size) {
                             var ret = STACKTOP;
-                            return STACKTOP = (STACKTOP = STACKTOP + size | 0) + 15 & -16, ret;
+                            STACKTOP = STACKTOP + size | 0;
+                            STACKTOP = STACKTOP + 15 & -16;
+                            return ret;
                         },
                         staticAlloc: function(size) {
                             var ret = STATICTOP;
-                            return STATICTOP = (STATICTOP = STATICTOP + size | 0) + 15 & -16, ret;
+                            STATICTOP = STATICTOP + size | 0;
+                            STATICTOP = STATICTOP + 15 & -16;
+                            return ret;
                         },
                         dynamicAlloc: function(size) {
-                            var ret = HEAP32[DYNAMICTOP_PTR >> 2], end = (ret + size + 15 | 0) & -16;
-                            return (HEAP32[DYNAMICTOP_PTR >> 2] = end, end >= TOTAL_MEMORY && !enlargeMemory()) ? (HEAP32[DYNAMICTOP_PTR >> 2] = ret, 0) : ret;
+                            var ret = HEAP32[DYNAMICTOP_PTR >> 2];
+                            var end = (ret + size + 15 | 0) & -16;
+                            HEAP32[DYNAMICTOP_PTR >> 2] = end;
+                            if (end >= TOTAL_MEMORY) {
+                                var success = enlargeMemory();
+                                if (!success) {
+                                    HEAP32[DYNAMICTOP_PTR >> 2] = ret;
+                                    return 0;
+                                }
+                            }
+                            return ret;
                         },
                         alignMemory: function(size, quantum) {
-                            return size = Math.ceil(size / (quantum || 16)) * (quantum || 16);
+                            var ret = size = Math.ceil(size / (quantum || 16)) * (quantum || 16);
+                            return ret;
                         },
                         makeBigInt: function(low, high, unsigned) {
-                            return unsigned ? +(low >>> 0) + 4294967296 * +(high >>> 0) : +(low >>> 0) + 4294967296 * +(0 | high);
+                            var ret = unsigned ? +(low >>> 0) + 4294967296 * +(high >>> 0) : +(low >>> 0) + 4294967296 * +(0 | high);
+                            return ret;
                         },
                         GLOBAL_BASE: 8,
                         QUANTUM_SIZE: 4,
                         __dummy__: 0
                     };
-                    Module.Runtime = Runtime;
+                    Module["Runtime"] = Runtime;
                     var ABORT = 0;
                     function assert(condition, text) {
-                        condition || abort("Assertion failed: " + text);
+                        if (!condition) abort("Assertion failed: " + text);
                     }
                     function getCFunc(ident) {
                         var func = Module["_" + ident];
-                        if (!func) try {
-                            func = eval("_" + ident);
-                        } catch (e) {}
-                        return assert(func, "Cannot call unknown function " + ident + " (perhaps LLVM optimizations or closure removed it?)"), func;
+                        if (!func) {
+                            try {
+                                func = eval("_" + ident);
+                            } catch (e) {}
+                        }
+                        assert(func, "Cannot call unknown function " + ident + " (perhaps LLVM optimizations or closure removed it?)");
+                        return func;
                     }
+                    var cwrap, ccall;
+                    (function() {
+                        var JSfuncs = {
+                            stackSave: function() {
+                                Runtime.stackSave();
+                            },
+                            stackRestore: function() {
+                                Runtime.stackRestore();
+                            },
+                            arrayToC: function(arr) {
+                                var ret = Runtime.stackAlloc(arr.length);
+                                writeArrayToMemory(arr, ret);
+                                return ret;
+                            },
+                            stringToC: function(str) {
+                                var ret = 0;
+                                if (null != str && 0 !== str) {
+                                    var len = (str.length << 2) + 1;
+                                    ret = Runtime.stackAlloc(len);
+                                    stringToUTF8(str, ret, len);
+                                }
+                                return ret;
+                            }
+                        };
+                        var toC = {
+                            string: JSfuncs["stringToC"],
+                            array: JSfuncs["arrayToC"]
+                        };
+                        ccall = function ccallFunc(ident, returnType, argTypes, args, opts) {
+                            var func = getCFunc(ident);
+                            var cArgs = [];
+                            var stack = 0;
+                            if (args) {
+                                for(var i = 0; i < args.length; i++){
+                                    var converter = toC[argTypes[i]];
+                                    if (converter) {
+                                        if (0 === stack) stack = Runtime.stackSave();
+                                        cArgs[i] = converter(args[i]);
+                                    } else {
+                                        cArgs[i] = args[i];
+                                    }
+                                }
+                            }
+                            var ret = func.apply(null, cArgs);
+                            if ("string" === returnType) ret = Pointer_stringify(ret);
+                            if (0 !== stack) {
+                                if (opts && opts.async) {
+                                    EmterpreterAsync.asyncFinalizers.push(function() {
+                                        Runtime.stackRestore(stack);
+                                    });
+                                    return;
+                                }
+                                Runtime.stackRestore(stack);
+                            }
+                            return ret;
+                        };
+                        var sourceRegex = /^function\s*[a-zA-Z$_0-9]*\s*\(([^)]*)\)\s*{\s*([^*]*?)[\s;]*(?:return\s*(.*?)[;\s]*)?}$/;
+                        function parseJSFunc(jsfunc) {
+                            var parsed = jsfunc.toString().match(sourceRegex).slice(1);
+                            return {
+                                arguments: parsed[0],
+                                body: parsed[1],
+                                returnValue: parsed[2]
+                            };
+                        }
+                        var JSsource = null;
+                        function ensureJSsource() {
+                            if (!JSsource) {
+                                JSsource = {};
+                                for(var fun in JSfuncs)if (JSfuncs.hasOwnProperty(fun)) JSsource[fun] = parseJSFunc(JSfuncs[fun]);
+                            }
+                        }
+                        cwrap = function cwrap(ident, returnType, argTypes) {
+                            argTypes = argTypes || [];
+                            var cfunc = getCFunc(ident);
+                            var numericArgs = argTypes.every(function(type) {
+                                return "number" === type;
+                            });
+                            var numericRet = "string" !== returnType;
+                            if (numericRet && numericArgs) {
+                                return cfunc;
+                            }
+                            var argNames = argTypes.map(function(x, i) {
+                                return "$" + i;
+                            });
+                            var funcstr = "(function(" + argNames.join(",") + ") {";
+                            var nargs = argTypes.length;
+                            if (!numericArgs) {
+                                ensureJSsource();
+                                funcstr += "var stack = " + JSsource["stackSave"].body + ";";
+                                for(var i = 0; i < nargs; i++){
+                                    var arg = argNames[i], type = argTypes[i];
+                                    if ("number" !== type) {
+                                        var convertCode = JSsource[type + "ToC"];
+                                        funcstr += "var " + convertCode.arguments + " = " + arg + ";";
+                                        funcstr += convertCode.body + ";";
+                                        funcstr += arg + "=(" + convertCode.returnValue + ");";
+                                    }
+                                }
+                            }
+                            var cfuncname = parseJSFunc(function() {
+                                return cfunc;
+                            }).returnValue;
+                            funcstr += "var ret = " + cfuncname + "(" + argNames.join(",") + ");";
+                            if (!numericRet) {
+                                var strgfy = parseJSFunc(function() {
+                                    return Pointer_stringify;
+                                }).returnValue;
+                                funcstr += "ret = " + strgfy + "(ret);";
+                            }
+                            if (!numericArgs) {
+                                ensureJSsource();
+                                funcstr += JSsource["stackRestore"].body.replace("()", "(stack)") + ";";
+                            }
+                            funcstr += "return ret})";
+                            return eval(funcstr);
+                        };
+                    })();
+                    Module["ccall"] = ccall;
+                    Module["cwrap"] = cwrap;
                     function setValue(ptr, value, type, noSafe) {
-                        switch("*" === (type = type || "i8").charAt(type.length - 1) && (type = "i32"), type){
+                        type = type || "i8";
+                        if ("*" === type.charAt(type.length - 1)) type = "i32";
+                        switch(type){
                             case "i1":
+                                HEAP8[ptr >> 0] = value;
+                                break;
                             case "i8":
                                 HEAP8[ptr >> 0] = value;
                                 break;
@@ -497,14 +807,19 @@
                                 abort("invalid type for setValue: " + type);
                         }
                     }
+                    Module["setValue"] = setValue;
                     function getValue(ptr, type, noSafe) {
-                        switch("*" === (type = type || "i8").charAt(type.length - 1) && (type = "i32"), type){
+                        type = type || "i8";
+                        if ("*" === type.charAt(type.length - 1)) type = "i32";
+                        switch(type){
                             case "i1":
+                                return HEAP8[ptr >> 0];
                             case "i8":
                                 return HEAP8[ptr >> 0];
                             case "i16":
                                 return HEAP16[ptr >> 1];
                             case "i32":
+                                return HEAP32[ptr >> 2];
                             case "i64":
                                 return HEAP32[ptr >> 2];
                             case "float":
@@ -516,217 +831,252 @@
                         }
                         return null;
                     }
-                    !function() {
-                        var JSfuncs = {
-                            stackSave: function() {
-                                Runtime.stackSave();
-                            },
-                            stackRestore: function() {
-                                Runtime.stackRestore();
-                            },
-                            arrayToC: function(arr) {
-                                var ret = Runtime.stackAlloc(arr.length);
-                                return writeArrayToMemory(arr, ret), ret;
-                            },
-                            stringToC: function(str) {
-                                var ret = 0;
-                                if (null != str && 0 !== str) {
-                                    var len = (str.length << 2) + 1;
-                                    stringToUTF8(str, ret = Runtime.stackAlloc(len), len);
-                                }
-                                return ret;
-                            }
-                        }, toC = {
-                            string: JSfuncs.stringToC,
-                            array: JSfuncs.arrayToC
-                        };
-                        ccall = function ccallFunc(ident, returnType, argTypes, args, opts) {
-                            var func = getCFunc(ident), cArgs = [], stack = 0;
-                            if (args) for(var i = 0; i < args.length; i++){
-                                var converter = toC[argTypes[i]];
-                                converter ? (0 === stack && (stack = Runtime.stackSave()), cArgs[i] = converter(args[i])) : cArgs[i] = args[i];
-                            }
-                            var ret = func.apply(null, cArgs);
-                            if ("string" === returnType && (ret = Pointer_stringify(ret)), 0 !== stack) {
-                                if (opts && opts.async) {
-                                    EmterpreterAsync.asyncFinalizers.push(function() {
-                                        Runtime.stackRestore(stack);
-                                    });
-                                    return;
-                                }
-                                Runtime.stackRestore(stack);
-                            }
-                            return ret;
-                        };
-                        var sourceRegex = /^function\s*[a-zA-Z$_0-9]*\s*\(([^)]*)\)\s*{\s*([^*]*?)[\s;]*(?:return\s*(.*?)[;\s]*)?}$/;
-                        function parseJSFunc(jsfunc) {
-                            var parsed = jsfunc.toString().match(sourceRegex).slice(1);
-                            return {
-                                arguments: parsed[0],
-                                body: parsed[1],
-                                returnValue: parsed[2]
-                            };
-                        }
-                        var JSsource = null;
-                        function ensureJSsource() {
-                            if (!JSsource) for(var fun in JSsource = {}, JSfuncs)JSfuncs.hasOwnProperty(fun) && (JSsource[fun] = parseJSFunc(JSfuncs[fun]));
-                        }
-                        cwrap = function cwrap(ident, returnType, argTypes) {
-                            argTypes = argTypes || [];
-                            var cfunc = getCFunc(ident), numericArgs = argTypes.every(function(type) {
-                                return "number" === type;
-                            }), numericRet = "string" !== returnType;
-                            if (numericRet && numericArgs) return cfunc;
-                            var argNames = argTypes.map(function(x, i) {
-                                return "$" + i;
-                            }), funcstr = "(function(" + argNames.join(",") + ") {", nargs = argTypes.length;
-                            if (!numericArgs) {
-                                ensureJSsource(), funcstr += "var stack = " + JSsource.stackSave.body + ";";
-                                for(var i = 0; i < nargs; i++){
-                                    var arg = argNames[i], type = argTypes[i];
-                                    if ("number" !== type) {
-                                        var convertCode = JSsource[type + "ToC"];
-                                        funcstr += "var " + convertCode.arguments + " = " + arg + ";", funcstr += convertCode.body + ";", funcstr += arg + "=(" + convertCode.returnValue + ");";
-                                    }
-                                }
-                            }
-                            var cfuncname = parseJSFunc(function() {
-                                return cfunc;
-                            }).returnValue;
-                            if (funcstr += "var ret = " + cfuncname + "(" + argNames.join(",") + ");", !numericRet) {
-                                var strgfy = parseJSFunc(function() {
-                                    return Pointer_stringify;
-                                }).returnValue;
-                                funcstr += "ret = " + strgfy + "(ret);";
-                            }
-                            return numericArgs || (ensureJSsource(), funcstr += JSsource.stackRestore.body.replace("()", "(stack)") + ";"), eval(funcstr += "return ret})");
-                        };
-                    }(), Module.ccall = ccall, Module.cwrap = cwrap, Module.setValue = setValue, Module.getValue = getValue;
-                    var ALLOC_NORMAL = 0, ALLOC_STACK = 1, ALLOC_STATIC = 2, ALLOC_DYNAMIC = 3, ALLOC_NONE = 4;
+                    Module["getValue"] = getValue;
+                    var ALLOC_NORMAL = 0;
+                    var ALLOC_STACK = 1;
+                    var ALLOC_STATIC = 2;
+                    var ALLOC_DYNAMIC = 3;
+                    var ALLOC_NONE = 4;
+                    Module["ALLOC_NORMAL"] = ALLOC_NORMAL;
+                    Module["ALLOC_STACK"] = ALLOC_STACK;
+                    Module["ALLOC_STATIC"] = ALLOC_STATIC;
+                    Module["ALLOC_DYNAMIC"] = ALLOC_DYNAMIC;
+                    Module["ALLOC_NONE"] = ALLOC_NONE;
                     function allocate(slab, types, allocator, ptr) {
-                        "number" == typeof slab ? (zeroinit = !0, size = slab) : (zeroinit = !1, size = slab.length);
+                        var zeroinit, size;
+                        if ("number" == typeof slab) {
+                            zeroinit = true;
+                            size = slab;
+                        } else {
+                            zeroinit = false;
+                            size = slab.length;
+                        }
                         var singleType = "string" == typeof types ? types : null;
-                        if (ret = allocator == ALLOC_NONE ? ptr : [
+                        var ret;
+                        ret = allocator == ALLOC_NONE ? ptr : [
                             "function" == typeof _malloc ? _malloc : Runtime.staticAlloc,
                             Runtime.stackAlloc,
                             Runtime.staticAlloc,
                             Runtime.dynamicAlloc
-                        ][void 0 === allocator ? ALLOC_STATIC : allocator](Math.max(size, singleType ? 1 : types.length)), zeroinit) {
-                            var zeroinit, size, ret, stop, ptr = ret;
-                            for(assert((3 & ret) == 0), stop = ret + (-4 & size); ptr < stop; ptr += 4)HEAP32[ptr >> 2] = 0;
-                            for(stop = ret + size; ptr < stop;)HEAP8[ptr++ >> 0] = 0;
+                        ][void 0 === allocator ? ALLOC_STATIC : allocator](Math.max(size, singleType ? 1 : types.length));
+                        if (zeroinit) {
+                            var ptr = ret, stop;
+                            assert((3 & ret) == 0);
+                            stop = ret + (-4 & size);
+                            for(; ptr < stop; ptr += 4)HEAP32[ptr >> 2] = 0;
+                            stop = ret + size;
+                            while(ptr < stop){
+                                HEAP8[ptr++ >> 0] = 0;
+                            }
                             return ret;
                         }
-                        if ("i8" === singleType) return slab.subarray || slab.slice ? HEAPU8.set(slab, ret) : HEAPU8.set(new Uint8Array(slab), ret), ret;
-                        for(var type, typeSize, previousType, i = 0; i < size;){
+                        if ("i8" === singleType) {
+                            if (slab.subarray || slab.slice) HEAPU8.set(slab, ret);
+                            else HEAPU8.set(new Uint8Array(slab), ret);
+                            return ret;
+                        }
+                        var i = 0, type, typeSize, previousType;
+                        while(i < size){
                             var curr = slab[i];
-                            if ("function" == typeof curr && (curr = Runtime.getFunctionIndex(curr)), 0 === (type = singleType || types[i])) {
+                            if ("function" == typeof curr) curr = Runtime.getFunctionIndex(curr);
+                            type = singleType || types[i];
+                            if (0 === type) {
                                 i++;
                                 continue;
                             }
-                            "i64" == type && (type = "i32"), setValue(ret + i, curr, type), previousType !== type && (typeSize = Runtime.getNativeTypeSize(type), previousType = type), i += typeSize;
+                            if ("i64" == type) type = "i32";
+                            setValue(ret + i, curr, type);
+                            if (previousType !== type) {
+                                typeSize = Runtime.getNativeTypeSize(type);
+                                previousType = type;
+                            }
+                            i += typeSize;
                         }
                         return ret;
                     }
+                    Module["allocate"] = allocate;
                     function getMemory(size) {
-                        return staticSealed ? runtimeInitialized ? _malloc(size) : Runtime.dynamicAlloc(size) : Runtime.staticAlloc(size);
+                        if (!staticSealed) return Runtime.staticAlloc(size);
+                        if (!runtimeInitialized) return Runtime.dynamicAlloc(size);
+                        return _malloc(size);
                     }
+                    Module["getMemory"] = getMemory;
                     function Pointer_stringify(ptr, length) {
                         if (0 === length || !ptr) return "";
-                        for(var hasUtf = 0, i = 0; hasUtf |= t = HEAPU8[ptr + i >> 0], (0 != t || length) && (i++, !length || i != length););
-                        length || (length = i);
+                        var hasUtf = 0;
+                        var t;
+                        var i = 0;
+                        while(1){
+                            t = HEAPU8[ptr + i >> 0];
+                            hasUtf |= t;
+                            if (0 == t && !length) break;
+                            i++;
+                            if (length && i == length) break;
+                        }
+                        if (!length) length = i;
                         var ret = "";
                         if (hasUtf < 128) {
-                            for(var t, curr, MAX_CHUNK = 1024; length > 0;)curr = String.fromCharCode.apply(String, HEAPU8.subarray(ptr, ptr + Math.min(length, MAX_CHUNK))), ret = ret ? ret + curr : curr, ptr += MAX_CHUNK, length -= MAX_CHUNK;
+                            var MAX_CHUNK = 1024;
+                            var curr;
+                            while(length > 0){
+                                curr = String.fromCharCode.apply(String, HEAPU8.subarray(ptr, ptr + Math.min(length, MAX_CHUNK)));
+                                ret = ret ? ret + curr : curr;
+                                ptr += MAX_CHUNK;
+                                length -= MAX_CHUNK;
+                            }
                             return ret;
                         }
-                        return Module.UTF8ToString(ptr);
+                        return Module["UTF8ToString"](ptr);
                     }
+                    Module["Pointer_stringify"] = Pointer_stringify;
                     function AsciiToString(ptr) {
-                        for(var str = "";;){
+                        var str = "";
+                        while(1){
                             var ch = HEAP8[ptr++ >> 0];
                             if (!ch) return str;
                             str += String.fromCharCode(ch);
                         }
                     }
+                    Module["AsciiToString"] = AsciiToString;
                     function stringToAscii(str, outPtr) {
-                        return writeAsciiToMemory(str, outPtr, !1);
+                        return writeAsciiToMemory(str, outPtr, false);
                     }
-                    Module.ALLOC_NORMAL = ALLOC_NORMAL, Module.ALLOC_STACK = ALLOC_STACK, Module.ALLOC_STATIC = ALLOC_STATIC, Module.ALLOC_DYNAMIC = ALLOC_DYNAMIC, Module.ALLOC_NONE = ALLOC_NONE, Module.allocate = allocate, Module.getMemory = getMemory, Module.Pointer_stringify = Pointer_stringify, Module.AsciiToString = AsciiToString, Module.stringToAscii = stringToAscii;
+                    Module["stringToAscii"] = stringToAscii;
                     var UTF8Decoder = "undefined" != typeof TextDecoder ? new TextDecoder("utf8") : void 0;
                     function UTF8ArrayToString(u8Array, idx) {
-                        for(var endPtr = idx; u8Array[endPtr];)++endPtr;
-                        if (endPtr - idx > 16 && u8Array.subarray && UTF8Decoder) return UTF8Decoder.decode(u8Array.subarray(idx, endPtr));
-                        for(var u0, u1, u2, u3, u4, u5, str = "";;){
-                            if (!(u0 = u8Array[idx++])) return str;
+                        var endPtr = idx;
+                        while(u8Array[endPtr])++endPtr;
+                        if (endPtr - idx > 16 && u8Array.subarray && UTF8Decoder) {
+                            return UTF8Decoder.decode(u8Array.subarray(idx, endPtr));
+                        }
+                        var u0, u1, u2, u3, u4, u5;
+                        var str = "";
+                        while(1){
+                            u0 = u8Array[idx++];
+                            if (!u0) return str;
                             if (!(128 & u0)) {
                                 str += String.fromCharCode(u0);
                                 continue;
                             }
-                            if (u1 = 63 & u8Array[idx++], (224 & u0) == 192) {
+                            u1 = 63 & u8Array[idx++];
+                            if ((224 & u0) == 192) {
                                 str += String.fromCharCode((31 & u0) << 6 | u1);
                                 continue;
                             }
-                            if (u2 = 63 & u8Array[idx++], (240 & u0) == 224 ? u0 = (15 & u0) << 12 | u1 << 6 | u2 : (u3 = 63 & u8Array[idx++], (248 & u0) == 240 ? u0 = (7 & u0) << 18 | u1 << 12 | u2 << 6 | u3 : (u4 = 63 & u8Array[idx++], u0 = (252 & u0) == 248 ? (3 & u0) << 24 | u1 << 18 | u2 << 12 | u3 << 6 | u4 : (1 & u0) << 30 | u1 << 24 | u2 << 18 | u3 << 12 | u4 << 6 | (u5 = 63 & u8Array[idx++]))), u0 < 65536) str += String.fromCharCode(u0);
+                            u2 = 63 & u8Array[idx++];
+                            if ((240 & u0) == 224) u0 = (15 & u0) << 12 | u1 << 6 | u2;
+                            else {
+                                u3 = 63 & u8Array[idx++];
+                                if ((248 & u0) == 240) u0 = (7 & u0) << 18 | u1 << 12 | u2 << 6 | u3;
+                                else {
+                                    u4 = 63 & u8Array[idx++];
+                                    if ((252 & u0) == 248) u0 = (3 & u0) << 24 | u1 << 18 | u2 << 12 | u3 << 6 | u4;
+                                    else {
+                                        u5 = 63 & u8Array[idx++];
+                                        u0 = (1 & u0) << 30 | u1 << 24 | u2 << 18 | u3 << 12 | u4 << 6 | u5;
+                                    }
+                                }
+                            }
+                            if (u0 < 65536) str += String.fromCharCode(u0);
                             else {
                                 var ch = u0 - 65536;
                                 str += String.fromCharCode(55296 | ch >> 10, 56320 | 1023 & ch);
                             }
                         }
                     }
+                    Module["UTF8ArrayToString"] = UTF8ArrayToString;
                     function UTF8ToString(ptr) {
                         return UTF8ArrayToString(HEAPU8, ptr);
                     }
+                    Module["UTF8ToString"] = UTF8ToString;
                     function stringToUTF8Array(str, outU8Array, outIdx, maxBytesToWrite) {
                         if (!(maxBytesToWrite > 0)) return 0;
-                        for(var startIdx = outIdx, endIdx = outIdx + maxBytesToWrite - 1, i = 0; i < str.length; ++i){
+                        var startIdx = outIdx;
+                        var endIdx = outIdx + maxBytesToWrite - 1;
+                        for(var i = 0; i < str.length; ++i){
                             var u = str.charCodeAt(i);
-                            if (u >= 55296 && u <= 57343 && (u = 65536 + ((1023 & u) << 10) | 1023 & str.charCodeAt(++i)), u <= 127) {
+                            if (u >= 55296 && u <= 57343) u = 65536 + ((1023 & u) << 10) | 1023 & str.charCodeAt(++i);
+                            if (u <= 127) {
                                 if (outIdx >= endIdx) break;
                                 outU8Array[outIdx++] = u;
                             } else if (u <= 2047) {
                                 if (outIdx + 1 >= endIdx) break;
-                                outU8Array[outIdx++] = 192 | u >> 6, outU8Array[outIdx++] = 128 | 63 & u;
+                                outU8Array[outIdx++] = 192 | u >> 6;
+                                outU8Array[outIdx++] = 128 | 63 & u;
                             } else if (u <= 65535) {
                                 if (outIdx + 2 >= endIdx) break;
-                                outU8Array[outIdx++] = 224 | u >> 12, outU8Array[outIdx++] = 128 | u >> 6 & 63, outU8Array[outIdx++] = 128 | 63 & u;
+                                outU8Array[outIdx++] = 224 | u >> 12;
+                                outU8Array[outIdx++] = 128 | u >> 6 & 63;
+                                outU8Array[outIdx++] = 128 | 63 & u;
                             } else if (u <= 2097151) {
                                 if (outIdx + 3 >= endIdx) break;
-                                outU8Array[outIdx++] = 240 | u >> 18, outU8Array[outIdx++] = 128 | u >> 12 & 63, outU8Array[outIdx++] = 128 | u >> 6 & 63, outU8Array[outIdx++] = 128 | 63 & u;
+                                outU8Array[outIdx++] = 240 | u >> 18;
+                                outU8Array[outIdx++] = 128 | u >> 12 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 6 & 63;
+                                outU8Array[outIdx++] = 128 | 63 & u;
                             } else if (u <= 67108863) {
                                 if (outIdx + 4 >= endIdx) break;
-                                outU8Array[outIdx++] = 248 | u >> 24, outU8Array[outIdx++] = 128 | u >> 18 & 63, outU8Array[outIdx++] = 128 | u >> 12 & 63, outU8Array[outIdx++] = 128 | u >> 6 & 63, outU8Array[outIdx++] = 128 | 63 & u;
+                                outU8Array[outIdx++] = 248 | u >> 24;
+                                outU8Array[outIdx++] = 128 | u >> 18 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 12 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 6 & 63;
+                                outU8Array[outIdx++] = 128 | 63 & u;
                             } else {
                                 if (outIdx + 5 >= endIdx) break;
-                                outU8Array[outIdx++] = 252 | u >> 30, outU8Array[outIdx++] = 128 | u >> 24 & 63, outU8Array[outIdx++] = 128 | u >> 18 & 63, outU8Array[outIdx++] = 128 | u >> 12 & 63, outU8Array[outIdx++] = 128 | u >> 6 & 63, outU8Array[outIdx++] = 128 | 63 & u;
+                                outU8Array[outIdx++] = 252 | u >> 30;
+                                outU8Array[outIdx++] = 128 | u >> 24 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 18 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 12 & 63;
+                                outU8Array[outIdx++] = 128 | u >> 6 & 63;
+                                outU8Array[outIdx++] = 128 | 63 & u;
                             }
                         }
-                        return outU8Array[outIdx] = 0, outIdx - startIdx;
+                        outU8Array[outIdx] = 0;
+                        return outIdx - startIdx;
                     }
+                    Module["stringToUTF8Array"] = stringToUTF8Array;
                     function stringToUTF8(str, outPtr, maxBytesToWrite) {
                         return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite);
                     }
+                    Module["stringToUTF8"] = stringToUTF8;
                     function lengthBytesUTF8(str) {
-                        for(var len = 0, i = 0; i < str.length; ++i){
+                        var len = 0;
+                        for(var i = 0; i < str.length; ++i){
                             var u = str.charCodeAt(i);
-                            u >= 55296 && u <= 57343 && (u = 65536 + ((1023 & u) << 10) | 1023 & str.charCodeAt(++i)), u <= 127 ? ++len : u <= 2047 ? len += 2 : u <= 65535 ? len += 3 : u <= 2097151 ? len += 4 : u <= 67108863 ? len += 5 : len += 6;
+                            if (u >= 55296 && u <= 57343) u = 65536 + ((1023 & u) << 10) | 1023 & str.charCodeAt(++i);
+                            if (u <= 127) ++len;
+                            else if (u <= 2047) len += 2;
+                            else if (u <= 65535) len += 3;
+                            else if (u <= 2097151) len += 4;
+                            else if (u <= 67108863) len += 5;
+                            else len += 6;
                         }
                         return len;
                     }
+                    Module["lengthBytesUTF8"] = lengthBytesUTF8;
+                    "undefined" != typeof TextDecoder ? new TextDecoder("utf-16le") : void 0;
                     function demangle(func) {
-                        var __cxa_demangle_func = Module.___cxa_demangle || Module.__cxa_demangle;
+                        var __cxa_demangle_func = Module["___cxa_demangle"] || Module["__cxa_demangle"];
                         if (__cxa_demangle_func) {
                             try {
-                                var s = func.substr(1), len = lengthBytesUTF8(s) + 1, buf = _malloc(len);
+                                var s = func.substr(1);
+                                var len = lengthBytesUTF8(s) + 1;
+                                var buf = _malloc(len);
                                 stringToUTF8(s, buf, len);
-                                var status = _malloc(4), ret = __cxa_demangle_func(buf, 0, 0, status);
-                                if (0 === getValue(status, "i32") && ret) return Pointer_stringify(ret);
+                                var status = _malloc(4);
+                                var ret = __cxa_demangle_func(buf, 0, 0, status);
+                                if (0 === getValue(status, "i32") && ret) {
+                                    return Pointer_stringify(ret);
+                                }
                             } catch (e) {} finally{
-                                buf && _free(buf), status && _free(status), ret && _free(ret);
+                                if (buf) _free(buf);
+                                if (status) _free(status);
+                                if (ret) _free(ret);
                             }
                             return func;
                         }
-                        return Runtime.warnOnce("warning: build with  -s DEMANGLE_SUPPORT=1  to link in libcxxabi demangling"), func;
+                        Runtime.warnOnce("warning: build with  -s DEMANGLE_SUPPORT=1  to link in libcxxabi demangling");
+                        return func;
                     }
                     function demangleAll(text) {
                         var regex = /__Z[\w\d_]+/g;
@@ -743,50 +1093,95 @@
                             } catch (e) {
                                 err = e;
                             }
-                            if (!err.stack) return "(no stack trace available)";
+                            if (!err.stack) {
+                                return "(no stack trace available)";
+                            }
                         }
                         return err.stack.toString();
                     }
                     function stackTrace() {
                         var js = jsStackTrace();
-                        return Module.extraStackTrace && (js += "\n" + Module.extraStackTrace()), demangleAll(js);
+                        if (Module["extraStackTrace"]) js += "\n" + Module["extraStackTrace"]();
+                        return demangleAll(js);
                     }
+                    Module["stackTrace"] = stackTrace;
+                    var HEAP, buffer, HEAP8, HEAPU8, HEAP16, HEAPU16, HEAP32, HEAPU32, HEAPF32, HEAPF64;
                     function updateGlobalBufferViews() {
-                        Module.HEAP8 = HEAP8 = new Int8Array(buffer), Module.HEAP16 = HEAP16 = new Int16Array(buffer), Module.HEAP32 = HEAP32 = new Int32Array(buffer), Module.HEAPU8 = HEAPU8 = new Uint8Array(buffer), Module.HEAPU16 = HEAPU16 = new Uint16Array(buffer), Module.HEAPU32 = HEAPU32 = new Uint32Array(buffer), Module.HEAPF32 = HEAPF32 = new Float32Array(buffer), Module.HEAPF64 = HEAPF64 = new Float64Array(buffer);
+                        Module["HEAP8"] = HEAP8 = new Int8Array(buffer);
+                        Module["HEAP16"] = HEAP16 = new Int16Array(buffer);
+                        Module["HEAP32"] = HEAP32 = new Int32Array(buffer);
+                        Module["HEAPU8"] = HEAPU8 = new Uint8Array(buffer);
+                        Module["HEAPU16"] = HEAPU16 = new Uint16Array(buffer);
+                        Module["HEAPU32"] = HEAPU32 = new Uint32Array(buffer);
+                        Module["HEAPF32"] = HEAPF32 = new Float32Array(buffer);
+                        Module["HEAPF64"] = HEAPF64 = new Float64Array(buffer);
                     }
+                    var STATIC_BASE, STATICTOP, staticSealed;
+                    var STACK_BASE, STACKTOP, STACK_MAX;
+                    var DYNAMIC_BASE, DYNAMICTOP_PTR;
+                    STATIC_BASE = STATICTOP = STACK_BASE = STACKTOP = STACK_MAX = DYNAMIC_BASE = DYNAMICTOP_PTR = 0;
+                    staticSealed = false;
                     function abortOnCannotGrowMemory() {
                         abort("Cannot enlarge memory arrays. Either (1) compile with  -s TOTAL_MEMORY=X  with X higher than the current value " + TOTAL_MEMORY + ", (2) compile with  -s ALLOW_MEMORY_GROWTH=1  which allows increasing the size at runtime but prevents some optimizations, (3) set Module.TOTAL_MEMORY to a higher value before the program runs, or (4) if you want malloc to return NULL (0) instead of this abort, compile with  -s ABORTING_MALLOC=0 ");
                     }
                     function enlargeMemory() {
                         abortOnCannotGrowMemory();
                     }
-                    Module.UTF8ArrayToString = UTF8ArrayToString, Module.UTF8ToString = UTF8ToString, Module.stringToUTF8Array = stringToUTF8Array, Module.stringToUTF8 = stringToUTF8, Module.lengthBytesUTF8 = lengthBytesUTF8, "undefined" != typeof TextDecoder && new TextDecoder("utf-16le"), Module.stackTrace = stackTrace, STATIC_BASE = STATICTOP = STACK_BASE = STACKTOP = STACK_MAX = DYNAMIC_BASE = DYNAMICTOP_PTR = 0, staticSealed = !1;
-                    var TOTAL_STACK = Module.TOTAL_STACK || 5242880, TOTAL_MEMORY = Module.TOTAL_MEMORY || 268435456;
+                    var TOTAL_STACK = Module["TOTAL_STACK"] || 5242880;
+                    var TOTAL_MEMORY = Module["TOTAL_MEMORY"] || 268435456;
+                    if (TOTAL_MEMORY < TOTAL_STACK) Module.printErr("TOTAL_MEMORY should be larger than TOTAL_STACK, was " + TOTAL_MEMORY + "! (TOTAL_STACK=" + TOTAL_STACK + ")");
+                    buffer = Module["buffer"] ? Module["buffer"] : new ArrayBuffer(TOTAL_MEMORY);
+                    updateGlobalBufferViews();
                     function getTotalMemory() {
                         return TOTAL_MEMORY;
                     }
-                    if (TOTAL_MEMORY < TOTAL_STACK && Module.printErr("TOTAL_MEMORY should be larger than TOTAL_STACK, was " + TOTAL_MEMORY + "! (TOTAL_STACK=" + TOTAL_STACK + ")"), buffer = Module.buffer ? Module.buffer : new ArrayBuffer(TOTAL_MEMORY), updateGlobalBufferViews(), HEAP32[0] = 1668509029, HEAP16[1] = 25459, 115 !== HEAPU8[2] || 99 !== HEAPU8[3]) throw "Runtime error: expected the system to be little-endian!";
+                    HEAP32[0] = 1668509029;
+                    HEAP16[1] = 25459;
+                    if (115 !== HEAPU8[2] || 99 !== HEAPU8[3]) throw "Runtime error: expected the system to be little-endian!";
+                    Module["HEAP"] = HEAP;
+                    Module["buffer"] = buffer;
+                    Module["HEAP8"] = HEAP8;
+                    Module["HEAP16"] = HEAP16;
+                    Module["HEAP32"] = HEAP32;
+                    Module["HEAPU8"] = HEAPU8;
+                    Module["HEAPU16"] = HEAPU16;
+                    Module["HEAPU32"] = HEAPU32;
+                    Module["HEAPF32"] = HEAPF32;
+                    Module["HEAPF64"] = HEAPF64;
                     function callRuntimeCallbacks(callbacks) {
-                        for(; callbacks.length > 0;){
+                        while(callbacks.length > 0){
                             var callback = callbacks.shift();
                             if ("function" == typeof callback) {
                                 callback();
                                 continue;
                             }
                             var func = callback.func;
-                            "number" == typeof func ? void 0 === callback.arg ? Module.dynCall_v(func) : Module.dynCall_vi(func, callback.arg) : func(void 0 === callback.arg ? null : callback.arg);
+                            if ("number" == typeof func) if (void 0 === callback.arg) Module["dynCall_v"](func);
+                            else Module["dynCall_vi"](func, callback.arg);
+                            else func(void 0 === callback.arg ? null : callback.arg);
                         }
                     }
-                    Module.HEAP = HEAP, Module.buffer = buffer, Module.HEAP8 = HEAP8, Module.HEAP16 = HEAP16, Module.HEAP32 = HEAP32, Module.HEAPU8 = HEAPU8, Module.HEAPU16 = HEAPU16, Module.HEAPU32 = HEAPU32, Module.HEAPF32 = HEAPF32, Module.HEAPF64 = HEAPF64;
-                    var __ATPRERUN__ = [], __ATINIT__ = [], __ATMAIN__ = [], __ATEXIT__ = [], __ATPOSTRUN__ = [], runtimeInitialized = !1;
+                    var __ATPRERUN__ = [];
+                    var __ATINIT__ = [];
+                    var __ATMAIN__ = [];
+                    var __ATEXIT__ = [];
+                    var __ATPOSTRUN__ = [];
+                    var runtimeInitialized = false;
                     function preRun() {
-                        if (Module.preRun) for("function" == typeof Module.preRun && (Module.preRun = [
-                            Module.preRun
-                        ]); Module.preRun.length;)addOnPreRun(Module.preRun.shift());
+                        if (Module["preRun"]) {
+                            if ("function" == typeof Module["preRun"]) Module["preRun"] = [
+                                Module["preRun"]
+                            ];
+                            while(Module["preRun"].length){
+                                addOnPreRun(Module["preRun"].shift());
+                            }
+                        }
                         callRuntimeCallbacks(__ATPRERUN__);
                     }
                     function ensureInitRuntime() {
-                        runtimeInitialized || (runtimeInitialized = !0, callRuntimeCallbacks(__ATINIT__));
+                        if (runtimeInitialized) return;
+                        runtimeInitialized = true;
+                        callRuntimeCallbacks(__ATINIT__);
                     }
                     function preMain() {
                         callRuntimeCallbacks(__ATMAIN__);
@@ -795,78 +1190,128 @@
                         callRuntimeCallbacks(__ATEXIT__);
                     }
                     function postRun() {
-                        if (Module.postRun) for("function" == typeof Module.postRun && (Module.postRun = [
-                            Module.postRun
-                        ]); Module.postRun.length;)addOnPostRun(Module.postRun.shift());
+                        if (Module["postRun"]) {
+                            if ("function" == typeof Module["postRun"]) Module["postRun"] = [
+                                Module["postRun"]
+                            ];
+                            while(Module["postRun"].length){
+                                addOnPostRun(Module["postRun"].shift());
+                            }
+                        }
                         callRuntimeCallbacks(__ATPOSTRUN__);
                     }
                     function addOnPreRun(cb) {
                         __ATPRERUN__.unshift(cb);
                     }
+                    Module["addOnPreRun"] = addOnPreRun;
                     function addOnInit(cb) {
                         __ATINIT__.unshift(cb);
                     }
+                    Module["addOnInit"] = addOnInit;
                     function addOnPreMain(cb) {
                         __ATMAIN__.unshift(cb);
                     }
+                    Module["addOnPreMain"] = addOnPreMain;
                     function addOnExit(cb) {
                         __ATEXIT__.unshift(cb);
                     }
+                    Module["addOnExit"] = addOnExit;
                     function addOnPostRun(cb) {
                         __ATPOSTRUN__.unshift(cb);
                     }
+                    Module["addOnPostRun"] = addOnPostRun;
                     function intArrayFromString(stringy, dontAddNull, length) {
-                        var len = length > 0 ? length : lengthBytesUTF8(stringy) + 1, u8array = Array(len), numBytesWritten = stringToUTF8Array(stringy, u8array, 0, u8array.length);
-                        return dontAddNull && (u8array.length = numBytesWritten), u8array;
+                        var len = length > 0 ? length : lengthBytesUTF8(stringy) + 1;
+                        var u8array = Array(len);
+                        var numBytesWritten = stringToUTF8Array(stringy, u8array, 0, u8array.length);
+                        if (dontAddNull) u8array.length = numBytesWritten;
+                        return u8array;
                     }
+                    Module["intArrayFromString"] = intArrayFromString;
                     function intArrayToString(array) {
-                        for(var ret = [], i = 0; i < array.length; i++){
+                        var ret = [];
+                        for(var i = 0; i < array.length; i++){
                             var chr = array[i];
-                            chr > 255 && (chr &= 255), ret.push(String.fromCharCode(chr));
+                            if (chr > 255) chr &= 255;
+                            ret.push(String.fromCharCode(chr));
                         }
                         return ret.join("");
                     }
+                    Module["intArrayToString"] = intArrayToString;
                     function writeStringToMemory(string, buffer, dontAddNull) {
+                        Runtime.warnOnce("writeStringToMemory is deprecated and should not be called! Use stringToUTF8() instead!");
                         var lastChar, end;
-                        Runtime.warnOnce("writeStringToMemory is deprecated and should not be called! Use stringToUTF8() instead!"), dontAddNull && (lastChar = HEAP8[end = buffer + lengthBytesUTF8(string)]), stringToUTF8(string, buffer, 1 / 0), dontAddNull && (HEAP8[end] = lastChar);
+                        if (dontAddNull) {
+                            end = buffer + lengthBytesUTF8(string);
+                            lastChar = HEAP8[end];
+                        }
+                        stringToUTF8(string, buffer, 1 / 0);
+                        if (dontAddNull) HEAP8[end] = lastChar;
                     }
+                    Module["writeStringToMemory"] = writeStringToMemory;
                     function writeArrayToMemory(array, buffer) {
                         HEAP8.set(array, buffer);
                     }
+                    Module["writeArrayToMemory"] = writeArrayToMemory;
                     function writeAsciiToMemory(str, buffer, dontAddNull) {
                         for(var i = 0; i < str.length; ++i)HEAP8[buffer++ >> 0] = str.charCodeAt(i);
-                        dontAddNull || (HEAP8[buffer >> 0] = 0);
+                        if (!dontAddNull) HEAP8[buffer >> 0] = 0;
                     }
-                    if (Module.addOnPreRun = addOnPreRun, Module.addOnInit = addOnInit, Module.addOnPreMain = addOnPreMain, Module.addOnExit = addOnExit, Module.addOnPostRun = addOnPostRun, Module.intArrayFromString = intArrayFromString, Module.intArrayToString = intArrayToString, Module.writeStringToMemory = writeStringToMemory, Module.writeArrayToMemory = writeArrayToMemory, Module.writeAsciiToMemory = writeAsciiToMemory, Math.imul && -5 === Math.imul(4294967295, 5) || (Math.imul = function(a, b) {
-                        var ah = a >>> 16, al = 65535 & a, bh = b >>> 16, bl = 65535 & b;
+                    Module["writeAsciiToMemory"] = writeAsciiToMemory;
+                    if (!Math["imul"] || -5 !== Math["imul"](4294967295, 5)) Math["imul"] = function imul(a, b) {
+                        var ah = a >>> 16;
+                        var al = 65535 & a;
+                        var bh = b >>> 16;
+                        var bl = 65535 & b;
                         return al * bl + (ah * bl + al * bh << 16) | 0;
-                    }), Math.imul = Math.imul, !Math.fround) {
+                    };
+                    Math.imul = Math["imul"];
+                    if (!Math["fround"]) {
                         var froundBuffer = new Float32Array(1);
-                        Math.fround = function(x) {
-                            return froundBuffer[0] = x, froundBuffer[0];
+                        Math["fround"] = function(x) {
+                            froundBuffer[0] = x;
+                            return froundBuffer[0];
                         };
                     }
-                    Math.fround = Math.fround, Math.clz32 || (Math.clz32 = function(x) {
+                    Math.fround = Math["fround"];
+                    if (!Math["clz32"]) Math["clz32"] = function(x) {
                         x >>>= 0;
                         for(var i = 0; i < 32; i++)if (x & 1 << 31 - i) return i;
                         return 32;
-                    }), Math.clz32 = Math.clz32, Math.trunc || (Math.trunc = function(x) {
+                    };
+                    Math.clz32 = Math["clz32"];
+                    if (!Math["trunc"]) Math["trunc"] = function(x) {
                         return x < 0 ? Math.ceil(x) : Math.floor(x);
-                    }), Math.trunc = Math.trunc;
-                    var Math_abs = Math.abs, Math_ceil = Math.ceil, Math_floor = Math.floor, Math_min = Math.min, runDependencies = 0, dependenciesFulfilled = null;
+                    };
+                    Math.trunc = Math["trunc"];
+                    var Math_abs = Math.abs;
+                    var Math_ceil = Math.ceil;
+                    var Math_floor = Math.floor;
+                    var Math_min = Math.min;
+                    var runDependencies = 0;
+                    var dependenciesFulfilled = null;
                     function getUniqueRunDependency(id) {
                         return id;
                     }
                     function addRunDependency(id) {
-                        runDependencies++, Module.monitorRunDependencies && Module.monitorRunDependencies(runDependencies);
+                        runDependencies++;
+                        if (Module["monitorRunDependencies"]) Module["monitorRunDependencies"](runDependencies);
                     }
+                    Module["addRunDependency"] = addRunDependency;
                     function removeRunDependency(id) {
-                        if (runDependencies--, Module.monitorRunDependencies && Module.monitorRunDependencies(runDependencies), 0 == runDependencies && dependenciesFulfilled) {
-                            var callback = dependenciesFulfilled;
-                            dependenciesFulfilled = null, callback();
+                        runDependencies--;
+                        if (Module["monitorRunDependencies"]) Module["monitorRunDependencies"](runDependencies);
+                        if (0 == runDependencies) {
+                            if (dependenciesFulfilled) {
+                                var callback = dependenciesFulfilled;
+                                dependenciesFulfilled = null;
+                                callback();
+                            }
                         }
                     }
-                    Module.addRunDependency = addRunDependency, Module.removeRunDependency = removeRunDependency, Module.preloadedImages = {}, Module.preloadedAudios = {};
+                    Module["removeRunDependency"] = removeRunDependency;
+                    Module["preloadedImages"] = {};
+                    Module["preloadedAudios"] = {};
                     var ASM_CONSTS = [
                         function($0, $1, $2, $3, $4, $5, $6, $7) {
                             return _nbind.callbackSignatureList[$0].apply(this, arguments);
@@ -893,7 +1338,9 @@
                     function _emscripten_asm_const_iiiiii(code, a0, a1, a2, a3, a4) {
                         return ASM_CONSTS[code](a0, a1, a2, a3, a4);
                     }
-                    STATICTOP = (STATIC_BASE = Runtime.GLOBAL_BASE) + 12800, __ATINIT__.push({
+                    STATIC_BASE = Runtime.GLOBAL_BASE;
+                    STATICTOP = STATIC_BASE + 12800;
+                    __ATINIT__.push({
                         func: function() {
                             __GLOBAL__sub_I_Yoga_cpp();
                         }
@@ -909,7 +1356,8 @@
                         func: function() {
                             __GLOBAL__sub_I_Binding_cc();
                         }
-                    }), allocate([
+                    });
+                    allocate([
                         0,
                         0,
                         0,
@@ -8508,6 +8956,7 @@
                         0
                     ], "i8", ALLOC_NONE, Runtime.GLOBAL_BASE);
                     var tempDoublePtr = STATICTOP;
+                    STATICTOP += 16;
                     function _atexit(func, arg) {
                         __ATEXIT__.unshift({
                             func: func,
@@ -8518,28 +8967,28 @@
                         return _atexit.apply(null, arguments);
                     }
                     function _abort() {
-                        Module.abort();
+                        Module["abort"]();
                     }
                     function __ZN8facebook4yoga14YGNodeToStringEPNSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP6YGNode14YGPrintOptionsj() {
-                        Module.printErr("missing function: _ZN8facebook4yoga14YGNodeToStringEPNSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP6YGNode14YGPrintOptionsj"), abort(-1);
+                        Module["printErr"]("missing function: _ZN8facebook4yoga14YGNodeToStringEPNSt3__212basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEEP6YGNode14YGPrintOptionsj");
+                        abort(-1);
                     }
                     function __decorate(decorators, target, key, desc) {
-                        var d, c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc;
+                        var c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
                         if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
-                        else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
+                        else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
                         return c > 3 && r && Object.defineProperty(target, key, r), r;
                     }
                     function _defineHidden(value) {
                         return function(target, key) {
                             Object.defineProperty(target, key, {
-                                configurable: !1,
-                                enumerable: !1,
+                                configurable: false,
+                                enumerable: false,
                                 value: value,
-                                writable: !0
+                                writable: true
                             });
                         };
                     }
-                    STATICTOP += 16;
                     var _nbind = {};
                     function __nbind_free_external(num) {
                         _nbind.externalList[num].dereference(num);
@@ -8548,11 +8997,21 @@
                         _nbind.externalList[num].reference();
                     }
                     function _llvm_stackrestore(p) {
-                        var self1 = _llvm_stacksave, ret = self1.LLVM_SAVEDSTACKS[p];
-                        self1.LLVM_SAVEDSTACKS.splice(p, 1), Runtime.stackRestore(ret);
+                        var self1 = _llvm_stacksave;
+                        var ret = self1.LLVM_SAVEDSTACKS[p];
+                        self1.LLVM_SAVEDSTACKS.splice(p, 1);
+                        Runtime.stackRestore(ret);
                     }
                     function __nbind_register_pool(pageSize, usedPtr, rootPtr, pagePtr) {
-                        _nbind.Pool.pageSize = pageSize, _nbind.Pool.usedPtr = usedPtr / 4, _nbind.Pool.rootPtr = rootPtr, _nbind.Pool.pagePtr = pagePtr / 4, HEAP32[usedPtr / 4] = 16909060, 1 == HEAP8[usedPtr] && (_nbind.bigEndian = !0), HEAP32[usedPtr / 4] = 0, _nbind.makeTypeKindTbl = ((_a = {})[1024] = _nbind.PrimitiveType, _a[64] = _nbind.Int64Type, _a[2048] = _nbind.BindClass, _a[3072] = _nbind.BindClassPtr, _a[4096] = _nbind.SharedClassPtr, _a[5120] = _nbind.ArrayType, _a[6144] = _nbind.ArrayType, _a[7168] = _nbind.CStringType, _a[9216] = _nbind.CallbackType, _a[10240] = _nbind.BindType, _a), _nbind.makeTypeNameTbl = {
+                        _nbind.Pool.pageSize = pageSize;
+                        _nbind.Pool.usedPtr = usedPtr / 4;
+                        _nbind.Pool.rootPtr = rootPtr;
+                        _nbind.Pool.pagePtr = pagePtr / 4;
+                        HEAP32[usedPtr / 4] = 16909060;
+                        if (1 == HEAP8[usedPtr]) _nbind.bigEndian = true;
+                        HEAP32[usedPtr / 4] = 0;
+                        _nbind.makeTypeKindTbl = (_a = {}, _a[1024] = _nbind.PrimitiveType, _a[64] = _nbind.Int64Type, _a[2048] = _nbind.BindClass, _a[3072] = _nbind.BindClassPtr, _a[4096] = _nbind.SharedClassPtr, _a[5120] = _nbind.ArrayType, _a[6144] = _nbind.ArrayType, _a[7168] = _nbind.CStringType, _a[9216] = _nbind.CallbackType, _a[10240] = _nbind.BindType, _a);
+                        _nbind.makeTypeNameTbl = {
                             Buffer: _nbind.BufferType,
                             External: _nbind.ExternalType,
                             Int64: _nbind.Int64Type,
@@ -8562,38 +9021,61 @@
                             "const cbFunction &": _nbind.CallbackType,
                             "const std::string &": _nbind.StringType,
                             "std::string": _nbind.StringType
-                        }, Module.toggleLightGC = _nbind.toggleLightGC, _nbind.callUpcast = Module.dynCall_ii;
-                        var _a, globalScope = _nbind.makeType(_nbind.constructType, {
+                        };
+                        Module["toggleLightGC"] = _nbind.toggleLightGC;
+                        _nbind.callUpcast = Module["dynCall_ii"];
+                        var globalScope = _nbind.makeType(_nbind.constructType, {
                             flags: 2048,
                             id: 0,
                             name: ""
                         });
-                        globalScope.proto = Module, _nbind.BindClass.list.push(globalScope);
+                        globalScope.proto = Module;
+                        _nbind.BindClass.list.push(globalScope);
+                        var _a;
                     }
                     function _emscripten_set_main_loop_timing(mode, value) {
-                        if (Browser.mainLoop.timingMode = mode, Browser.mainLoop.timingValue = value, !Browser.mainLoop.func) return 1;
-                        if (0 == mode) Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_setTimeout() {
-                            var timeUntilNextTick = 0 | Math.max(0, Browser.mainLoop.tickStartTime + value - _emscripten_get_now());
-                            setTimeout(Browser.mainLoop.runner, timeUntilNextTick);
-                        }, Browser.mainLoop.method = "timeout";
-                        else if (1 == mode) Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_rAF() {
-                            Browser.requestAnimationFrame(Browser.mainLoop.runner);
-                        }, Browser.mainLoop.method = "rAF";
-                        else if (2 == mode) {
-                            if (!window.setImmediate) {
-                                var setImmediates = [], emscriptenMainLoopMessageId = "setimmediate";
+                        Browser.mainLoop.timingMode = mode;
+                        Browser.mainLoop.timingValue = value;
+                        if (!Browser.mainLoop.func) {
+                            return 1;
+                        }
+                        if (0 == mode) {
+                            Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_setTimeout() {
+                                var timeUntilNextTick = 0 | Math.max(0, Browser.mainLoop.tickStartTime + value - _emscripten_get_now());
+                                setTimeout(Browser.mainLoop.runner, timeUntilNextTick);
+                            };
+                            Browser.mainLoop.method = "timeout";
+                        } else if (1 == mode) {
+                            Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_rAF() {
+                                Browser.requestAnimationFrame(Browser.mainLoop.runner);
+                            };
+                            Browser.mainLoop.method = "rAF";
+                        } else if (2 == mode) {
+                            if (!window["setImmediate"]) {
+                                var setImmediates = [];
+                                var emscriptenMainLoopMessageId = "setimmediate";
                                 function Browser_setImmediate_messageHandler(event) {
-                                    event.source === window && event.data === emscriptenMainLoopMessageId && (event.stopPropagation(), setImmediates.shift()());
+                                    if (event.source === window && event.data === emscriptenMainLoopMessageId) {
+                                        event.stopPropagation();
+                                        setImmediates.shift()();
+                                    }
                                 }
-                                window.addEventListener("message", Browser_setImmediate_messageHandler, !0), window.setImmediate = function Browser_emulated_setImmediate(func) {
-                                    setImmediates.push(func), ENVIRONMENT_IS_WORKER ? (void 0 === Module.setImmediates && (Module.setImmediates = []), Module.setImmediates.push(func), window.postMessage({
-                                        target: emscriptenMainLoopMessageId
-                                    })) : window.postMessage(emscriptenMainLoopMessageId, "*");
+                                window.addEventListener("message", Browser_setImmediate_messageHandler, true);
+                                window["setImmediate"] = function Browser_emulated_setImmediate(func) {
+                                    setImmediates.push(func);
+                                    if (ENVIRONMENT_IS_WORKER) {
+                                        if (void 0 === Module["setImmediates"]) Module["setImmediates"] = [];
+                                        Module["setImmediates"].push(func);
+                                        window.postMessage({
+                                            target: emscriptenMainLoopMessageId
+                                        });
+                                    } else window.postMessage(emscriptenMainLoopMessageId, "*");
                                 };
                             }
                             Browser.mainLoop.scheduler = function Browser_mainLoop_scheduler_setImmediate() {
-                                window.setImmediate(Browser.mainLoop.runner);
-                            }, Browser.mainLoop.method = "immediate";
+                                window["setImmediate"](Browser.mainLoop.runner);
+                            };
+                            Browser.mainLoop.method = "immediate";
                         }
                         return 0;
                     }
@@ -8601,33 +9083,61 @@
                         abort();
                     }
                     function _emscripten_set_main_loop(func, fps, simulateInfiniteLoop, arg, noSetTiming) {
-                        Module.noExitRuntime = !0, assert(!Browser.mainLoop.func, "emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters."), Browser.mainLoop.func = func, Browser.mainLoop.arg = arg, browserIterationFunc = void 0 !== arg ? function() {
-                            Module.dynCall_vi(func, arg);
+                        Module["noExitRuntime"] = true;
+                        assert(!Browser.mainLoop.func, "emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.");
+                        Browser.mainLoop.func = func;
+                        Browser.mainLoop.arg = arg;
+                        var browserIterationFunc;
+                        browserIterationFunc = void 0 !== arg ? function() {
+                            Module["dynCall_vi"](func, arg);
                         } : function() {
-                            Module.dynCall_v(func);
+                            Module["dynCall_v"](func);
                         };
-                        var browserIterationFunc, thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop;
-                        if (Browser.mainLoop.runner = function Browser_mainLoop_runner() {
-                            if (!ABORT) {
-                                if (Browser.mainLoop.queue.length > 0) {
-                                    var start = Date.now(), blocker = Browser.mainLoop.queue.shift();
-                                    if (blocker.func(blocker.arg), Browser.mainLoop.remainingBlockers) {
-                                        var remaining = Browser.mainLoop.remainingBlockers, next = remaining % 1 == 0 ? remaining - 1 : Math.floor(remaining);
-                                        blocker.counted ? Browser.mainLoop.remainingBlockers = next : (next += .5, Browser.mainLoop.remainingBlockers = (8 * remaining + next) / 9);
+                        var thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop;
+                        Browser.mainLoop.runner = function Browser_mainLoop_runner() {
+                            if (ABORT) return;
+                            if (Browser.mainLoop.queue.length > 0) {
+                                var start = Date.now();
+                                var blocker = Browser.mainLoop.queue.shift();
+                                blocker.func(blocker.arg);
+                                if (Browser.mainLoop.remainingBlockers) {
+                                    var remaining = Browser.mainLoop.remainingBlockers;
+                                    var next = remaining % 1 == 0 ? remaining - 1 : Math.floor(remaining);
+                                    if (blocker.counted) Browser.mainLoop.remainingBlockers = next;
+                                    else {
+                                        next += .5;
+                                        Browser.mainLoop.remainingBlockers = (8 * remaining + next) / 9;
                                     }
-                                    if (console.log('main loop blocker "' + blocker.name + '" took ' + (Date.now() - start) + " ms"), Browser.mainLoop.updateStatus(), thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
-                                    setTimeout(Browser.mainLoop.runner, 0);
-                                    return;
                                 }
-                                if (!(thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop)) {
-                                    if (Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0, 1 == Browser.mainLoop.timingMode && Browser.mainLoop.timingValue > 1 && Browser.mainLoop.currentFrameNumber % Browser.mainLoop.timingValue != 0) {
-                                        Browser.mainLoop.scheduler();
-                                        return;
-                                    }
-                                    0 == Browser.mainLoop.timingMode && (Browser.mainLoop.tickStartTime = _emscripten_get_now()), "timeout" === Browser.mainLoop.method && Module.ctx && (Module.printErr("Looks like you are rendering without using requestAnimationFrame for the main loop. You should use 0 for the frame rate in emscripten_set_main_loop in order to use requestAnimationFrame, as that can greatly improve your frame rates!"), Browser.mainLoop.method = ""), Browser.mainLoop.runIter(browserIterationFunc), thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop || ("object" == typeof SDL && SDL.audio && SDL.audio.queueNewAudioData && SDL.audio.queueNewAudioData(), Browser.mainLoop.scheduler());
-                                }
+                                console.log('main loop blocker "' + blocker.name + '" took ' + (Date.now() - start) + " ms");
+                                Browser.mainLoop.updateStatus();
+                                if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+                                setTimeout(Browser.mainLoop.runner, 0);
+                                return;
                             }
-                        }, noSetTiming || (fps && fps > 0 ? _emscripten_set_main_loop_timing(0, 1e3 / fps) : _emscripten_set_main_loop_timing(1, 1), Browser.mainLoop.scheduler()), simulateInfiniteLoop) throw "SimulateInfiniteLoop";
+                            if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+                            Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0;
+                            if (1 == Browser.mainLoop.timingMode && Browser.mainLoop.timingValue > 1 && Browser.mainLoop.currentFrameNumber % Browser.mainLoop.timingValue != 0) {
+                                Browser.mainLoop.scheduler();
+                                return;
+                            }
+                            if (0 == Browser.mainLoop.timingMode) Browser.mainLoop.tickStartTime = _emscripten_get_now();
+                            if ("timeout" === Browser.mainLoop.method && Module.ctx) {
+                                Module.printErr("Looks like you are rendering without using requestAnimationFrame for the main loop. You should use 0 for the frame rate in emscripten_set_main_loop in order to use requestAnimationFrame, as that can greatly improve your frame rates!");
+                                Browser.mainLoop.method = "";
+                            }
+                            Browser.mainLoop.runIter(browserIterationFunc);
+                            if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) return;
+                            if ("object" == typeof SDL && SDL.audio && SDL.audio.queueNewAudioData) SDL.audio.queueNewAudioData();
+                            Browser.mainLoop.scheduler();
+                        };
+                        if (!noSetTiming) {
+                            fps && fps > 0 ? _emscripten_set_main_loop_timing(0, 1e3 / fps) : _emscripten_set_main_loop_timing(1, 1);
+                            Browser.mainLoop.scheduler();
+                        }
+                        if (simulateInfiniteLoop) {
+                            throw "SimulateInfiniteLoop";
+                        }
                     }
                     var Browser = {
                         mainLoop: {
@@ -8641,94 +9151,143 @@
                             currentFrameNumber: 0,
                             queue: [],
                             pause: function() {
-                                Browser.mainLoop.scheduler = null, Browser.mainLoop.currentlyRunningMainloop++;
+                                Browser.mainLoop.scheduler = null;
+                                Browser.mainLoop.currentlyRunningMainloop++;
                             },
                             resume: function() {
                                 Browser.mainLoop.currentlyRunningMainloop++;
-                                var timingMode = Browser.mainLoop.timingMode, timingValue = Browser.mainLoop.timingValue, func = Browser.mainLoop.func;
-                                Browser.mainLoop.func = null, _emscripten_set_main_loop(func, 0, !1, Browser.mainLoop.arg, !0), _emscripten_set_main_loop_timing(timingMode, timingValue), Browser.mainLoop.scheduler();
+                                var timingMode = Browser.mainLoop.timingMode;
+                                var timingValue = Browser.mainLoop.timingValue;
+                                var func = Browser.mainLoop.func;
+                                Browser.mainLoop.func = null;
+                                _emscripten_set_main_loop(func, 0, false, Browser.mainLoop.arg, true);
+                                _emscripten_set_main_loop_timing(timingMode, timingValue);
+                                Browser.mainLoop.scheduler();
                             },
                             updateStatus: function() {
-                                if (Module.setStatus) {
-                                    var message = Module.statusMessage || "Please wait...", remaining = Browser.mainLoop.remainingBlockers, expected = Browser.mainLoop.expectedBlockers;
-                                    remaining ? remaining < expected ? Module.setStatus(message + " (" + (expected - remaining) + "/" + expected + ")") : Module.setStatus(message) : Module.setStatus("");
+                                if (Module["setStatus"]) {
+                                    var message = Module["statusMessage"] || "Please wait...";
+                                    var remaining = Browser.mainLoop.remainingBlockers;
+                                    var expected = Browser.mainLoop.expectedBlockers;
+                                    if (remaining) if (remaining < expected) Module["setStatus"](message + " (" + (expected - remaining) + "/" + expected + ")");
+                                    else Module["setStatus"](message);
+                                    else Module["setStatus"]("");
                                 }
                             },
                             runIter: function(func) {
-                                if (!ABORT && (!Module.preMainLoop || !1 !== Module.preMainLoop())) {
-                                    try {
-                                        func();
-                                    } catch (e) {
-                                        if (e instanceof ExitStatus) return;
-                                        throw e && "object" == typeof e && e.stack && Module.printErr("exception thrown: " + [
-                                            e,
-                                            e.stack
-                                        ]), e;
+                                if (ABORT) return;
+                                if (Module["preMainLoop"]) {
+                                    var preRet = Module["preMainLoop"]();
+                                    if (false === preRet) {
+                                        return;
                                     }
-                                    Module.postMainLoop && Module.postMainLoop();
                                 }
+                                try {
+                                    func();
+                                } catch (e) {
+                                    if (e instanceof ExitStatus) {
+                                        return;
+                                    }
+                                    if (e && "object" == typeof e && e.stack) Module.printErr("exception thrown: " + [
+                                        e,
+                                        e.stack
+                                    ]);
+                                    throw e;
+                                }
+                                if (Module["postMainLoop"]) Module["postMainLoop"]();
                             }
                         },
-                        isFullscreen: !1,
-                        pointerLock: !1,
+                        isFullscreen: false,
+                        pointerLock: false,
                         moduleContextCreatedCallbacks: [],
                         workers: [],
                         init: function() {
-                            if (Module.preloadPlugins || (Module.preloadPlugins = []), !Browser.initted) {
-                                Browser.initted = !0;
-                                try {
-                                    new Blob(), Browser.hasBlobConstructor = !0;
-                                } catch (e) {
-                                    Browser.hasBlobConstructor = !1, console.log("warning: no blob constructor, cannot create blobs with mimetypes");
-                                }
-                                Browser.BlobBuilder = "undefined" != typeof MozBlobBuilder ? MozBlobBuilder : "undefined" != typeof WebKitBlobBuilder ? WebKitBlobBuilder : Browser.hasBlobConstructor ? null : console.log("warning: no BlobBuilder"), Browser.URLObject = "undefined" != typeof window ? window.URL ? window.URL : window.webkitURL : void 0, Module.noImageDecoding || void 0 !== Browser.URLObject || (console.log("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available."), Module.noImageDecoding = !0);
-                                var imagePlugin = {};
-                                imagePlugin.canHandle = function imagePlugin_canHandle(name) {
-                                    return !Module.noImageDecoding && /\.(jpg|jpeg|png|bmp)$/i.test(name);
-                                }, imagePlugin.handle = function imagePlugin_handle(byteArray, name, onload, onerror) {
-                                    var b = null;
-                                    if (Browser.hasBlobConstructor) try {
-                                        (b = new Blob([
+                            if (!Module["preloadPlugins"]) Module["preloadPlugins"] = [];
+                            if (Browser.initted) return;
+                            Browser.initted = true;
+                            try {
+                                new Blob();
+                                Browser.hasBlobConstructor = true;
+                            } catch (e) {
+                                Browser.hasBlobConstructor = false;
+                                console.log("warning: no blob constructor, cannot create blobs with mimetypes");
+                            }
+                            Browser.BlobBuilder = "undefined" != typeof MozBlobBuilder ? MozBlobBuilder : "undefined" != typeof WebKitBlobBuilder ? WebKitBlobBuilder : Browser.hasBlobConstructor ? null : console.log("warning: no BlobBuilder");
+                            Browser.URLObject = "undefined" != typeof window ? window.URL ? window.URL : window.webkitURL : void 0;
+                            if (!Module.noImageDecoding && void 0 === Browser.URLObject) {
+                                console.log("warning: Browser does not support creating object URLs. Built-in browser image decoding will not be available.");
+                                Module.noImageDecoding = true;
+                            }
+                            var imagePlugin = {};
+                            imagePlugin["canHandle"] = function imagePlugin_canHandle(name) {
+                                return !Module.noImageDecoding && /\.(jpg|jpeg|png|bmp)$/i.test(name);
+                            };
+                            imagePlugin["handle"] = function imagePlugin_handle(byteArray, name, onload, onerror) {
+                                var b = null;
+                                if (Browser.hasBlobConstructor) {
+                                    try {
+                                        b = new Blob([
                                             byteArray
                                         ], {
                                             type: Browser.getMimetype(name)
-                                        })).size !== byteArray.length && (b = new Blob([
+                                        });
+                                        if (b.size !== byteArray.length) b = new Blob([
                                             new Uint8Array(byteArray).buffer
                                         ], {
                                             type: Browser.getMimetype(name)
-                                        }));
+                                        });
                                     } catch (e) {
                                         Runtime.warnOnce("Blob constructor present but fails: " + e + "; falling back to blob builder");
                                     }
-                                    if (!b) {
-                                        var bb = new Browser.BlobBuilder();
-                                        bb.append(new Uint8Array(byteArray).buffer), b = bb.getBlob();
-                                    }
-                                    var url = Browser.URLObject.createObjectURL(b), img = new Image();
-                                    img.onload = function img_onload() {
-                                        assert(img.complete, "Image " + name + " could not be decoded");
-                                        var canvas = document.createElement("canvas");
-                                        canvas.width = img.width, canvas.height = img.height, canvas.getContext("2d").drawImage(img, 0, 0), Module.preloadedImages[name] = canvas, Browser.URLObject.revokeObjectURL(url), onload && onload(byteArray);
-                                    }, img.onerror = function img_onerror(event) {
-                                        console.log("Image " + url + " could not be decoded"), onerror && onerror();
-                                    }, img.src = url;
-                                }, Module.preloadPlugins.push(imagePlugin);
-                                var audioPlugin = {};
-                                audioPlugin.canHandle = function audioPlugin_canHandle(name) {
-                                    return !Module.noAudioDecoding && name.substr(-4) in {
-                                        ".ogg": 1,
-                                        ".wav": 1,
-                                        ".mp3": 1
-                                    };
-                                }, audioPlugin.handle = function audioPlugin_handle(byteArray, name, onload, onerror) {
-                                    var done = !1;
-                                    function finish(audio) {
-                                        !done && (done = !0, Module.preloadedAudios[name] = audio, onload && onload(byteArray));
-                                    }
-                                    function fail() {
-                                        !done && (done = !0, Module.preloadedAudios[name] = new Audio(), onerror && onerror());
-                                    }
-                                    if (!Browser.hasBlobConstructor) return fail();
+                                }
+                                if (!b) {
+                                    var bb = new Browser.BlobBuilder();
+                                    bb.append(new Uint8Array(byteArray).buffer);
+                                    b = bb.getBlob();
+                                }
+                                var url = Browser.URLObject.createObjectURL(b);
+                                var img = new Image();
+                                img.onload = function img_onload() {
+                                    assert(img.complete, "Image " + name + " could not be decoded");
+                                    var canvas = document.createElement("canvas");
+                                    canvas.width = img.width;
+                                    canvas.height = img.height;
+                                    var ctx = canvas.getContext("2d");
+                                    ctx.drawImage(img, 0, 0);
+                                    Module["preloadedImages"][name] = canvas;
+                                    Browser.URLObject.revokeObjectURL(url);
+                                    if (onload) onload(byteArray);
+                                };
+                                img.onerror = function img_onerror(event) {
+                                    console.log("Image " + url + " could not be decoded");
+                                    if (onerror) onerror();
+                                };
+                                img.src = url;
+                            };
+                            Module["preloadPlugins"].push(imagePlugin);
+                            var audioPlugin = {};
+                            audioPlugin["canHandle"] = function audioPlugin_canHandle(name) {
+                                return !Module.noAudioDecoding && name.substr(-4) in {
+                                    ".ogg": 1,
+                                    ".wav": 1,
+                                    ".mp3": 1
+                                };
+                            };
+                            audioPlugin["handle"] = function audioPlugin_handle(byteArray, name, onload, onerror) {
+                                var done = false;
+                                function finish(audio) {
+                                    if (done) return;
+                                    done = true;
+                                    Module["preloadedAudios"][name] = audio;
+                                    if (onload) onload(byteArray);
+                                }
+                                function fail() {
+                                    if (done) return;
+                                    done = true;
+                                    Module["preloadedAudios"][name] = new Audio();
+                                    if (onerror) onerror();
+                                }
+                                if (Browser.hasBlobConstructor) {
                                     try {
                                         var b = new Blob([
                                             byteArray
@@ -8738,113 +9297,216 @@
                                     } catch (e) {
                                         return fail();
                                     }
-                                    var url = Browser.URLObject.createObjectURL(b), audio = new Audio();
+                                    var url = Browser.URLObject.createObjectURL(b);
+                                    var audio = new Audio();
                                     audio.addEventListener("canplaythrough", function() {
                                         finish(audio);
-                                    }, !1), audio.onerror = function audio_onerror(event) {
-                                        done || (console.log("warning: browser could not fully decode audio " + name + ", trying slower base64 approach"), audio.src = "data:audio/x-" + name.substr(-3) + ";base64," + encode64(byteArray), finish(audio));
+                                    }, false);
+                                    audio.onerror = function audio_onerror(event) {
+                                        if (done) return;
+                                        console.log("warning: browser could not fully decode audio " + name + ", trying slower base64 approach");
                                         function encode64(data) {
-                                            for(var BASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", PAD = "=", ret = "", leftchar = 0, leftbits = 0, i = 0; i < data.length; i++)for(leftchar = leftchar << 8 | data[i], leftbits += 8; leftbits >= 6;){
-                                                var curr = leftchar >> leftbits - 6 & 63;
-                                                leftbits -= 6, ret += BASE[curr];
+                                            var BASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+                                            var PAD = "=";
+                                            var ret = "";
+                                            var leftchar = 0;
+                                            var leftbits = 0;
+                                            for(var i = 0; i < data.length; i++){
+                                                leftchar = leftchar << 8 | data[i];
+                                                leftbits += 8;
+                                                while(leftbits >= 6){
+                                                    var curr = leftchar >> leftbits - 6 & 63;
+                                                    leftbits -= 6;
+                                                    ret += BASE[curr];
+                                                }
                                             }
-                                            return 2 == leftbits ? (ret += BASE[(3 & leftchar) << 4], ret += PAD + PAD) : 4 == leftbits && (ret += BASE[(15 & leftchar) << 2], ret += PAD), ret;
+                                            if (2 == leftbits) {
+                                                ret += BASE[(3 & leftchar) << 4];
+                                                ret += PAD + PAD;
+                                            } else if (4 == leftbits) {
+                                                ret += BASE[(15 & leftchar) << 2];
+                                                ret += PAD;
+                                            }
+                                            return ret;
                                         }
-                                    }, audio.src = url, Browser.safeSetTimeout(function() {
+                                        audio.src = "data:audio/x-" + name.substr(-3) + ";base64," + encode64(byteArray);
+                                        finish(audio);
+                                    };
+                                    audio.src = url;
+                                    Browser.safeSetTimeout(function() {
                                         finish(audio);
                                     }, 1e4);
-                                }, Module.preloadPlugins.push(audioPlugin);
-                                var canvas = Module.canvas;
-                                canvas && (canvas.requestPointerLock = canvas.requestPointerLock || canvas.mozRequestPointerLock || canvas.webkitRequestPointerLock || canvas.msRequestPointerLock || function() {}, canvas.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock || document.webkitExitPointerLock || document.msExitPointerLock || function() {}, canvas.exitPointerLock = canvas.exitPointerLock.bind(document), document.addEventListener("pointerlockchange", pointerLockChange, !1), document.addEventListener("mozpointerlockchange", pointerLockChange, !1), document.addEventListener("webkitpointerlockchange", pointerLockChange, !1), document.addEventListener("mspointerlockchange", pointerLockChange, !1), Module.elementPointerLock && canvas.addEventListener("click", function(ev) {
-                                    !Browser.pointerLock && Module.canvas.requestPointerLock && (Module.canvas.requestPointerLock(), ev.preventDefault());
-                                }, !1));
-                            }
+                                } else {
+                                    return fail();
+                                }
+                            };
+                            Module["preloadPlugins"].push(audioPlugin);
                             function pointerLockChange() {
-                                Browser.pointerLock = document.pointerLockElement === Module.canvas || document.mozPointerLockElement === Module.canvas || document.webkitPointerLockElement === Module.canvas || document.msPointerLockElement === Module.canvas;
+                                Browser.pointerLock = document["pointerLockElement"] === Module["canvas"] || document["mozPointerLockElement"] === Module["canvas"] || document["webkitPointerLockElement"] === Module["canvas"] || document["msPointerLockElement"] === Module["canvas"];
+                            }
+                            var canvas = Module["canvas"];
+                            if (canvas) {
+                                canvas.requestPointerLock = canvas["requestPointerLock"] || canvas["mozRequestPointerLock"] || canvas["webkitRequestPointerLock"] || canvas["msRequestPointerLock"] || function() {};
+                                canvas.exitPointerLock = document["exitPointerLock"] || document["mozExitPointerLock"] || document["webkitExitPointerLock"] || document["msExitPointerLock"] || function() {};
+                                canvas.exitPointerLock = canvas.exitPointerLock.bind(document);
+                                document.addEventListener("pointerlockchange", pointerLockChange, false);
+                                document.addEventListener("mozpointerlockchange", pointerLockChange, false);
+                                document.addEventListener("webkitpointerlockchange", pointerLockChange, false);
+                                document.addEventListener("mspointerlockchange", pointerLockChange, false);
+                                if (Module["elementPointerLock"]) canvas.addEventListener("click", function(ev) {
+                                    if (!Browser.pointerLock && Module["canvas"].requestPointerLock) {
+                                        Module["canvas"].requestPointerLock();
+                                        ev.preventDefault();
+                                    }
+                                }, false);
                             }
                         },
                         createContext: function(canvas, useWebGL, setInModule, webGLContextAttributes) {
                             if (useWebGL && Module.ctx && canvas == Module.canvas) return Module.ctx;
+                            var ctx;
+                            var contextHandle;
                             if (useWebGL) {
-                                var ctx, contextHandle, contextAttributes = {
-                                    antialias: !1,
-                                    alpha: !1
+                                var contextAttributes = {
+                                    antialias: false,
+                                    alpha: false
                                 };
-                                if (webGLContextAttributes) for(var attribute in webGLContextAttributes)contextAttributes[attribute] = webGLContextAttributes[attribute];
-                                (contextHandle = GL.createContext(canvas, contextAttributes)) && (ctx = GL.getContext(contextHandle).GLctx);
-                            } else ctx = canvas.getContext("2d");
-                            return ctx ? (setInModule && (useWebGL || assert("undefined" == typeof GLctx, "cannot set in module if GLctx is used, but we are a non-GL context that would replace it"), Module.ctx = ctx, useWebGL && GL.makeContextCurrent(contextHandle), Module.useWebGL = useWebGL, Browser.moduleContextCreatedCallbacks.forEach(function(callback) {
-                                callback();
-                            }), Browser.init()), ctx) : null;
+                                if (webGLContextAttributes) {
+                                    for(var attribute in webGLContextAttributes)contextAttributes[attribute] = webGLContextAttributes[attribute];
+                                }
+                                contextHandle = GL.createContext(canvas, contextAttributes);
+                                if (contextHandle) ctx = GL.getContext(contextHandle).GLctx;
+                            } else {
+                                ctx = canvas.getContext("2d");
+                            }
+                            if (!ctx) return null;
+                            if (setInModule) {
+                                if (!useWebGL) assert("undefined" == typeof GLctx, "cannot set in module if GLctx is used, but we are a non-GL context that would replace it");
+                                Module.ctx = ctx;
+                                if (useWebGL) GL.makeContextCurrent(contextHandle);
+                                Module.useWebGL = useWebGL;
+                                Browser.moduleContextCreatedCallbacks.forEach(function(callback) {
+                                    callback();
+                                });
+                                Browser.init();
+                            }
+                            return ctx;
                         },
                         destroyContext: function(canvas, useWebGL, setInModule) {},
-                        fullscreenHandlersInstalled: !1,
+                        fullscreenHandlersInstalled: false,
                         lockPointer: void 0,
                         resizeCanvas: void 0,
                         requestFullscreen: function(lockPointer, resizeCanvas, vrDevice) {
-                            Browser.lockPointer = lockPointer, Browser.resizeCanvas = resizeCanvas, Browser.vrDevice = vrDevice, void 0 === Browser.lockPointer && (Browser.lockPointer = !0), void 0 === Browser.resizeCanvas && (Browser.resizeCanvas = !1), void 0 === Browser.vrDevice && (Browser.vrDevice = null);
-                            var canvas = Module.canvas;
+                            Browser.lockPointer = lockPointer;
+                            Browser.resizeCanvas = resizeCanvas;
+                            Browser.vrDevice = vrDevice;
+                            if (void 0 === Browser.lockPointer) Browser.lockPointer = true;
+                            if (void 0 === Browser.resizeCanvas) Browser.resizeCanvas = false;
+                            if (void 0 === Browser.vrDevice) Browser.vrDevice = null;
+                            var canvas = Module["canvas"];
                             function fullscreenChange() {
-                                Browser.isFullscreen = !1;
+                                Browser.isFullscreen = false;
                                 var canvasContainer = canvas.parentNode;
-                                (document.fullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement) === canvasContainer ? (canvas.exitFullscreen = document.exitFullscreen || document.cancelFullScreen || document.mozCancelFullScreen || document.msExitFullscreen || document.webkitCancelFullScreen || function() {}, canvas.exitFullscreen = canvas.exitFullscreen.bind(document), Browser.lockPointer && canvas.requestPointerLock(), Browser.isFullscreen = !0, Browser.resizeCanvas && Browser.setFullscreenCanvasSize()) : (canvasContainer.parentNode.insertBefore(canvas, canvasContainer), canvasContainer.parentNode.removeChild(canvasContainer), Browser.resizeCanvas && Browser.setWindowedCanvasSize()), Module.onFullScreen && Module.onFullScreen(Browser.isFullscreen), Module.onFullscreen && Module.onFullscreen(Browser.isFullscreen), Browser.updateCanvasDimensions(canvas);
+                                if ((document["fullscreenElement"] || document["mozFullScreenElement"] || document["msFullscreenElement"] || document["webkitFullscreenElement"] || document["webkitCurrentFullScreenElement"]) === canvasContainer) {
+                                    canvas.exitFullscreen = document["exitFullscreen"] || document["cancelFullScreen"] || document["mozCancelFullScreen"] || document["msExitFullscreen"] || document["webkitCancelFullScreen"] || function() {};
+                                    canvas.exitFullscreen = canvas.exitFullscreen.bind(document);
+                                    if (Browser.lockPointer) canvas.requestPointerLock();
+                                    Browser.isFullscreen = true;
+                                    if (Browser.resizeCanvas) Browser.setFullscreenCanvasSize();
+                                } else {
+                                    canvasContainer.parentNode.insertBefore(canvas, canvasContainer);
+                                    canvasContainer.parentNode.removeChild(canvasContainer);
+                                    if (Browser.resizeCanvas) Browser.setWindowedCanvasSize();
+                                }
+                                if (Module["onFullScreen"]) Module["onFullScreen"](Browser.isFullscreen);
+                                if (Module["onFullscreen"]) Module["onFullscreen"](Browser.isFullscreen);
+                                Browser.updateCanvasDimensions(canvas);
                             }
-                            Browser.fullscreenHandlersInstalled || (Browser.fullscreenHandlersInstalled = !0, document.addEventListener("fullscreenchange", fullscreenChange, !1), document.addEventListener("mozfullscreenchange", fullscreenChange, !1), document.addEventListener("webkitfullscreenchange", fullscreenChange, !1), document.addEventListener("MSFullscreenChange", fullscreenChange, !1));
+                            if (!Browser.fullscreenHandlersInstalled) {
+                                Browser.fullscreenHandlersInstalled = true;
+                                document.addEventListener("fullscreenchange", fullscreenChange, false);
+                                document.addEventListener("mozfullscreenchange", fullscreenChange, false);
+                                document.addEventListener("webkitfullscreenchange", fullscreenChange, false);
+                                document.addEventListener("MSFullscreenChange", fullscreenChange, false);
+                            }
                             var canvasContainer = document.createElement("div");
-                            canvas.parentNode.insertBefore(canvasContainer, canvas), canvasContainer.appendChild(canvas), canvasContainer.requestFullscreen = canvasContainer.requestFullscreen || canvasContainer.mozRequestFullScreen || canvasContainer.msRequestFullscreen || (canvasContainer.webkitRequestFullscreen ? function() {
-                                canvasContainer.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                            } : null) || (canvasContainer.webkitRequestFullScreen ? function() {
-                                canvasContainer.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-                            } : null), vrDevice ? canvasContainer.requestFullscreen({
+                            canvas.parentNode.insertBefore(canvasContainer, canvas);
+                            canvasContainer.appendChild(canvas);
+                            canvasContainer.requestFullscreen = canvasContainer["requestFullscreen"] || canvasContainer["mozRequestFullScreen"] || canvasContainer["msRequestFullscreen"] || (canvasContainer["webkitRequestFullscreen"] ? function() {
+                                canvasContainer["webkitRequestFullscreen"](Element["ALLOW_KEYBOARD_INPUT"]);
+                            } : null) || (canvasContainer["webkitRequestFullScreen"] ? function() {
+                                canvasContainer["webkitRequestFullScreen"](Element["ALLOW_KEYBOARD_INPUT"]);
+                            } : null);
+                            if (vrDevice) canvasContainer.requestFullscreen({
                                 vrDisplay: vrDevice
-                            }) : canvasContainer.requestFullscreen();
+                            });
+                            else canvasContainer.requestFullscreen();
                         },
                         requestFullScreen: function(lockPointer, resizeCanvas, vrDevice) {
-                            return Module.printErr("Browser.requestFullScreen() is deprecated. Please call Browser.requestFullscreen instead."), Browser.requestFullScreen = function(lockPointer, resizeCanvas, vrDevice) {
+                            Module.printErr("Browser.requestFullScreen() is deprecated. Please call Browser.requestFullscreen instead.");
+                            Browser.requestFullScreen = function(lockPointer, resizeCanvas, vrDevice) {
                                 return Browser.requestFullscreen(lockPointer, resizeCanvas, vrDevice);
-                            }, Browser.requestFullscreen(lockPointer, resizeCanvas, vrDevice);
+                            };
+                            return Browser.requestFullscreen(lockPointer, resizeCanvas, vrDevice);
                         },
                         nextRAF: 0,
                         fakeRequestAnimationFrame: function(func) {
                             var now = Date.now();
                             if (0 === Browser.nextRAF) Browser.nextRAF = now + 1e3 / 60;
-                            else for(; now + 2 >= Browser.nextRAF;)Browser.nextRAF += 1e3 / 60;
-                            setTimeout(func, Math.max(Browser.nextRAF - now, 0));
+                            else {
+                                while(now + 2 >= Browser.nextRAF){
+                                    Browser.nextRAF += 1e3 / 60;
+                                }
+                            }
+                            var delay = Math.max(Browser.nextRAF - now, 0);
+                            setTimeout(func, delay);
                         },
                         requestAnimationFrame: function requestAnimationFrame(func) {
-                            "undefined" == typeof window ? Browser.fakeRequestAnimationFrame(func) : (window.requestAnimationFrame || (window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame || window.oRequestAnimationFrame || Browser.fakeRequestAnimationFrame), window.requestAnimationFrame(func));
+                            if ("undefined" == typeof window) Browser.fakeRequestAnimationFrame(func);
+                            else {
+                                if (!window.requestAnimationFrame) window.requestAnimationFrame = window["requestAnimationFrame"] || window["mozRequestAnimationFrame"] || window["webkitRequestAnimationFrame"] || window["msRequestAnimationFrame"] || window["oRequestAnimationFrame"] || Browser.fakeRequestAnimationFrame;
+                                window.requestAnimationFrame(func);
+                            }
                         },
                         safeCallback: function(func) {
                             return function() {
                                 if (!ABORT) return func.apply(null, arguments);
                             };
                         },
-                        allowAsyncCallbacks: !0,
+                        allowAsyncCallbacks: true,
                         queuedAsyncCallbacks: [],
                         pauseAsyncCallbacks: function() {
-                            Browser.allowAsyncCallbacks = !1;
+                            Browser.allowAsyncCallbacks = false;
                         },
                         resumeAsyncCallbacks: function() {
-                            if (Browser.allowAsyncCallbacks = !0, Browser.queuedAsyncCallbacks.length > 0) {
+                            Browser.allowAsyncCallbacks = true;
+                            if (Browser.queuedAsyncCallbacks.length > 0) {
                                 var callbacks = Browser.queuedAsyncCallbacks;
-                                Browser.queuedAsyncCallbacks = [], callbacks.forEach(function(func) {
+                                Browser.queuedAsyncCallbacks = [];
+                                callbacks.forEach(function(func) {
                                     func();
                                 });
                             }
                         },
                         safeRequestAnimationFrame: function(func) {
                             return Browser.requestAnimationFrame(function() {
-                                ABORT || (Browser.allowAsyncCallbacks ? func() : Browser.queuedAsyncCallbacks.push(func));
+                                if (ABORT) return;
+                                if (Browser.allowAsyncCallbacks) func();
+                                else Browser.queuedAsyncCallbacks.push(func);
                             });
                         },
                         safeSetTimeout: function(func, timeout) {
-                            return Module.noExitRuntime = !0, setTimeout(function() {
-                                ABORT || (Browser.allowAsyncCallbacks ? func() : Browser.queuedAsyncCallbacks.push(func));
+                            Module["noExitRuntime"] = true;
+                            return setTimeout(function() {
+                                if (ABORT) return;
+                                if (Browser.allowAsyncCallbacks) func();
+                                else Browser.queuedAsyncCallbacks.push(func);
                             }, timeout);
                         },
                         safeSetInterval: function(func, timeout) {
-                            return Module.noExitRuntime = !0, setInterval(function() {
-                                !ABORT && Browser.allowAsyncCallbacks && func();
+                            Module["noExitRuntime"] = true;
+                            return setInterval(function() {
+                                if (ABORT) return;
+                                if (Browser.allowAsyncCallbacks) func();
                             }, timeout);
                         },
                         getMimetype: function(name) {
@@ -8859,13 +9521,14 @@
                             })[name.substr(name.lastIndexOf(".") + 1)];
                         },
                         getUserMedia: function(func) {
-                            window.getUserMedia || (window.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia), window.getUserMedia(func);
+                            if (!window.getUserMedia) window.getUserMedia = navigator["getUserMedia"] || navigator["mozGetUserMedia"];
+                            window.getUserMedia(func);
                         },
                         getMovementX: function(event) {
-                            return event.movementX || event.mozMovementX || event.webkitMovementX || 0;
+                            return event["movementX"] || event["mozMovementX"] || event["webkitMovementX"] || 0;
                         },
                         getMovementY: function(event) {
-                            return event.movementY || event.mozMovementY || event.webkitMovementY || 0;
+                            return event["movementY"] || event["mozMovementY"] || event["webkitMovementY"] || 0;
                         },
                         getMouseWheelDelta: function(event) {
                             var delta = 0;
@@ -8877,7 +9540,7 @@
                                     delta = event.wheelDelta;
                                     break;
                                 case "wheel":
-                                    delta = event.deltaY;
+                                    delta = event["deltaY"];
                                     break;
                                 default:
                                     throw "unrecognized mouse wheel event: " + event.type;
@@ -8891,89 +9554,162 @@
                         touches: {},
                         lastTouches: {},
                         calculateMouseEvent: function(event) {
-                            if (Browser.pointerLock) "mousemove" != event.type && "mozMovementX" in event ? Browser.mouseMovementX = Browser.mouseMovementY = 0 : (Browser.mouseMovementX = Browser.getMovementX(event), Browser.mouseMovementY = Browser.getMovementY(event)), "undefined" != typeof SDL ? (Browser.mouseX = SDL.mouseX + Browser.mouseMovementX, Browser.mouseY = SDL.mouseY + Browser.mouseMovementY) : (Browser.mouseX += Browser.mouseMovementX, Browser.mouseY += Browser.mouseMovementY);
-                            else {
-                                var rect = Module.canvas.getBoundingClientRect(), cw = Module.canvas.width, ch = Module.canvas.height, scrollX = void 0 !== window.scrollX ? window.scrollX : window.pageXOffset, scrollY = void 0 !== window.scrollY ? window.scrollY : window.pageYOffset;
+                            if (Browser.pointerLock) {
+                                if ("mousemove" != event.type && "mozMovementX" in event) Browser.mouseMovementX = Browser.mouseMovementY = 0;
+                                else {
+                                    Browser.mouseMovementX = Browser.getMovementX(event);
+                                    Browser.mouseMovementY = Browser.getMovementY(event);
+                                }
+                                if ("undefined" != typeof SDL) {
+                                    Browser.mouseX = SDL.mouseX + Browser.mouseMovementX;
+                                    Browser.mouseY = SDL.mouseY + Browser.mouseMovementY;
+                                } else {
+                                    Browser.mouseX += Browser.mouseMovementX;
+                                    Browser.mouseY += Browser.mouseMovementY;
+                                }
+                            } else {
+                                var rect = Module["canvas"].getBoundingClientRect();
+                                var cw = Module["canvas"].width;
+                                var ch = Module["canvas"].height;
+                                var scrollX = void 0 !== window.scrollX ? window.scrollX : window.pageXOffset;
+                                var scrollY = void 0 !== window.scrollY ? window.scrollY : window.pageYOffset;
                                 if ("touchstart" === event.type || "touchend" === event.type || "touchmove" === event.type) {
                                     var touch = event.touch;
-                                    if (void 0 === touch) return;
-                                    var adjustedX = touch.pageX - (scrollX + rect.left), adjustedY = touch.pageY - (scrollY + rect.top), coords = {
-                                        x: adjustedX *= cw / rect.width,
-                                        y: adjustedY *= ch / rect.height
+                                    if (void 0 === touch) {
+                                        return;
+                                    }
+                                    var adjustedX = touch.pageX - (scrollX + rect.left);
+                                    var adjustedY = touch.pageY - (scrollY + rect.top);
+                                    adjustedX *= cw / rect.width;
+                                    adjustedY *= ch / rect.height;
+                                    var coords = {
+                                        x: adjustedX,
+                                        y: adjustedY
                                     };
-                                    if ("touchstart" === event.type) Browser.lastTouches[touch.identifier] = coords, Browser.touches[touch.identifier] = coords;
-                                    else if ("touchend" === event.type || "touchmove" === event.type) {
+                                    if ("touchstart" === event.type) {
+                                        Browser.lastTouches[touch.identifier] = coords;
+                                        Browser.touches[touch.identifier] = coords;
+                                    } else if ("touchend" === event.type || "touchmove" === event.type) {
                                         var last = Browser.touches[touch.identifier];
-                                        last || (last = coords), Browser.lastTouches[touch.identifier] = last, Browser.touches[touch.identifier] = coords;
+                                        if (!last) last = coords;
+                                        Browser.lastTouches[touch.identifier] = last;
+                                        Browser.touches[touch.identifier] = coords;
                                     }
                                     return;
                                 }
-                                var x = event.pageX - (scrollX + rect.left), y = event.pageY - (scrollY + rect.top);
-                                x *= cw / rect.width, y *= ch / rect.height, Browser.mouseMovementX = x - Browser.mouseX, Browser.mouseMovementY = y - Browser.mouseY, Browser.mouseX = x, Browser.mouseY = y;
+                                var x = event.pageX - (scrollX + rect.left);
+                                var y = event.pageY - (scrollY + rect.top);
+                                x *= cw / rect.width;
+                                y *= ch / rect.height;
+                                Browser.mouseMovementX = x - Browser.mouseX;
+                                Browser.mouseMovementY = y - Browser.mouseY;
+                                Browser.mouseX = x;
+                                Browser.mouseY = y;
                             }
                         },
                         asyncLoad: function(url, onload, onerror, noRunDep) {
                             var dep = noRunDep ? "" : getUniqueRunDependency("al " + url);
-                            Module.readAsync(url, function(arrayBuffer) {
-                                assert(arrayBuffer, 'Loading data file "' + url + '" failed (no arrayBuffer).'), onload(new Uint8Array(arrayBuffer)), dep && removeRunDependency();
+                            Module["readAsync"](url, function(arrayBuffer) {
+                                assert(arrayBuffer, 'Loading data file "' + url + '" failed (no arrayBuffer).');
+                                onload(new Uint8Array(arrayBuffer));
+                                if (dep) removeRunDependency();
                             }, function(event) {
                                 if (onerror) onerror();
-                                else throw 'Loading data file "' + url + '" failed.';
-                            }), dep && addRunDependency();
+                                else {
+                                    throw 'Loading data file "' + url + '" failed.';
+                                }
+                            });
+                            if (dep) addRunDependency();
                         },
                         resizeListeners: [],
                         updateResizeListeners: function() {
-                            var canvas = Module.canvas;
+                            var canvas = Module["canvas"];
                             Browser.resizeListeners.forEach(function(listener) {
                                 listener(canvas.width, canvas.height);
                             });
                         },
                         setCanvasSize: function(width, height, noUpdates) {
-                            var canvas = Module.canvas;
-                            Browser.updateCanvasDimensions(canvas, width, height), noUpdates || Browser.updateResizeListeners();
+                            var canvas = Module["canvas"];
+                            Browser.updateCanvasDimensions(canvas, width, height);
+                            if (!noUpdates) Browser.updateResizeListeners();
                         },
                         windowedWidth: 0,
                         windowedHeight: 0,
                         setFullscreenCanvasSize: function() {
                             if ("undefined" != typeof SDL) {
                                 var flags = HEAPU32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2];
-                                flags |= 8388608, HEAP32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2] = flags;
+                                flags |= 8388608;
+                                HEAP32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2] = flags;
                             }
                             Browser.updateResizeListeners();
                         },
                         setWindowedCanvasSize: function() {
                             if ("undefined" != typeof SDL) {
                                 var flags = HEAPU32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2];
-                                flags &= -8388609, HEAP32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2] = flags;
+                                flags &= -8388609;
+                                HEAP32[SDL.screen + 0 * Runtime.QUANTUM_SIZE >> 2] = flags;
                             }
                             Browser.updateResizeListeners();
                         },
                         updateCanvasDimensions: function(canvas, wNative, hNative) {
-                            wNative && hNative ? (canvas.widthNative = wNative, canvas.heightNative = hNative) : (wNative = canvas.widthNative, hNative = canvas.heightNative);
-                            var w = wNative, h = hNative;
-                            if (Module.forcedAspectRatio && Module.forcedAspectRatio > 0 && (w / h < Module.forcedAspectRatio ? w = Math.round(h * Module.forcedAspectRatio) : h = Math.round(w / Module.forcedAspectRatio)), (document.fullscreenElement || document.mozFullScreenElement || document.msFullscreenElement || document.webkitFullscreenElement || document.webkitCurrentFullScreenElement) === canvas.parentNode && "undefined" != typeof screen) {
-                                var factor = Math.min(screen.width / w, screen.height / h);
-                                w = Math.round(w * factor), h = Math.round(h * factor);
+                            if (wNative && hNative) {
+                                canvas.widthNative = wNative;
+                                canvas.heightNative = hNative;
+                            } else {
+                                wNative = canvas.widthNative;
+                                hNative = canvas.heightNative;
                             }
-                            Browser.resizeCanvas ? (canvas.width != w && (canvas.width = w), canvas.height != h && (canvas.height = h), void 0 !== canvas.style && (canvas.style.removeProperty("width"), canvas.style.removeProperty("height"))) : (canvas.width != wNative && (canvas.width = wNative), canvas.height != hNative && (canvas.height = hNative), void 0 !== canvas.style && (w != wNative || h != hNative ? (canvas.style.setProperty("width", w + "px", "important"), canvas.style.setProperty("height", h + "px", "important")) : (canvas.style.removeProperty("width"), canvas.style.removeProperty("height"))));
+                            var w = wNative;
+                            var h = hNative;
+                            if (Module["forcedAspectRatio"] && Module["forcedAspectRatio"] > 0) if (w / h < Module["forcedAspectRatio"]) w = Math.round(h * Module["forcedAspectRatio"]);
+                            else h = Math.round(w / Module["forcedAspectRatio"]);
+                            if ((document["fullscreenElement"] || document["mozFullScreenElement"] || document["msFullscreenElement"] || document["webkitFullscreenElement"] || document["webkitCurrentFullScreenElement"]) === canvas.parentNode && "undefined" != typeof screen) {
+                                var factor = Math.min(screen.width / w, screen.height / h);
+                                w = Math.round(w * factor);
+                                h = Math.round(h * factor);
+                            }
+                            if (Browser.resizeCanvas) {
+                                if (canvas.width != w) canvas.width = w;
+                                if (canvas.height != h) canvas.height = h;
+                                if (void 0 !== canvas.style) {
+                                    canvas.style.removeProperty("width");
+                                    canvas.style.removeProperty("height");
+                                }
+                            } else {
+                                if (canvas.width != wNative) canvas.width = wNative;
+                                if (canvas.height != hNative) canvas.height = hNative;
+                                if (void 0 !== canvas.style) if (w != wNative || h != hNative) {
+                                    canvas.style.setProperty("width", w + "px", "important");
+                                    canvas.style.setProperty("height", h + "px", "important");
+                                } else {
+                                    canvas.style.removeProperty("width");
+                                    canvas.style.removeProperty("height");
+                                }
+                            }
                         },
                         wgetRequests: {},
                         nextWgetRequestHandle: 0,
                         getNextWgetRequestHandle: function() {
                             var handle = Browser.nextWgetRequestHandle;
-                            return Browser.nextWgetRequestHandle++, handle;
+                            Browser.nextWgetRequestHandle++;
+                            return handle;
                         }
-                    }, SYSCALLS = {
+                    };
+                    var SYSCALLS = {
                         varargs: 0,
                         get: function(varargs) {
-                            return SYSCALLS.varargs += 4, HEAP32[SYSCALLS.varargs - 4 >> 2];
+                            SYSCALLS.varargs += 4;
+                            var ret = HEAP32[SYSCALLS.varargs - 4 >> 2];
+                            return ret;
                         },
                         getStr: function() {
-                            return Pointer_stringify(SYSCALLS.get());
+                            var ret = Pointer_stringify(SYSCALLS.get());
+                            return ret;
                         },
                         get64: function() {
                             var low = SYSCALLS.get(), high = SYSCALLS.get();
-                            return low >= 0 ? assert(0 === high) : assert(-1 === high), low;
+                            low >= 0 ? assert(0 === high) : assert(-1 === high);
+                            return low;
                         },
                         getZero: function() {
                             assert(0 === SYSCALLS.get());
@@ -8983,9 +9719,11 @@
                         SYSCALLS.varargs = varargs;
                         try {
                             var stream = SYSCALLS.getStreamFromFD();
-                            return FS.close(stream), 0;
+                            FS.close(stream);
+                            return 0;
                         } catch (e) {
-                            return "undefined" != typeof FS && e instanceof FS.ErrnoError || abort(e), -e.errno;
+                            if ("undefined" == typeof FS || !(e instanceof FS.ErrnoError)) abort(e);
+                            return -e.errno;
                         }
                     }
                     function ___syscall54(which, varargs) {
@@ -8993,7 +9731,8 @@
                         try {
                             return 0;
                         } catch (e) {
-                            return "undefined" != typeof FS && e instanceof FS.ErrnoError || abort(e), -e.errno;
+                            if ("undefined" == typeof FS || !(e instanceof FS.ErrnoError)) abort(e);
+                            return -e.errno;
                         }
                     }
                     function _typeModule(self1) {
@@ -9051,28 +9790,43 @@
                         ];
                         function applyStructure(outerName, outerFlags, innerName, innerFlags, param, flip) {
                             if (1 == outerFlags) {
-                                var name, ref = 896 & innerFlags;
-                                (128 == ref || 256 == ref || 384 == ref) && (outerName = "X const");
+                                var ref = 896 & innerFlags;
+                                if (128 == ref || 256 == ref || 384 == ref) outerName = "X const";
                             }
-                            return (name = flip ? innerName.replace("X", outerName).replace("Y", param) : outerName.replace("X", innerName).replace("Y", param)).replace(/([*&]) (?=[*&])/g, "$1");
+                            var name;
+                            name = flip ? innerName.replace("X", outerName).replace("Y", param) : outerName.replace("X", innerName).replace("Y", param);
+                            return name.replace(/([*&]) (?=[*&])/g, "$1");
                         }
                         function reportProblem(problem, id, kind, structureType, place) {
                             throw Error(problem + " type " + kind.replace("X", id + "?") + (structureType ? " with flag " + structureType : "") + " in " + place);
                         }
                         function getComplexType(id, constructType, getType, queryType, place, kind, prevStructure, depth) {
-                            void 0 === kind && (kind = "X"), void 0 === depth && (depth = 1);
-                            var problem, srcSpec, result = getType(id);
+                            if (void 0 === kind) kind = "X";
+                            if (void 0 === depth) depth = 1;
+                            var result = getType(id);
                             if (result) return result;
-                            var query = queryType(id), structureType = query.placeholderFlag, structure = structureList[structureType];
-                            prevStructure && structure && (kind = applyStructure(prevStructure[2], prevStructure[0], kind, structure[0], "?", !0)), 0 == structureType && (problem = "Unbound"), structureType >= 10 && (problem = "Corrupt"), depth > 20 && (problem = "Deeply nested"), problem && reportProblem(problem, id, kind, structureType, place || "?");
-                            var subType = getComplexType(query.paramList[0], constructType, getType, queryType, place, kind, structure, depth + 1), spec = {
+                            var query = queryType(id);
+                            var structureType = query.placeholderFlag;
+                            var structure = structureList[structureType];
+                            if (prevStructure && structure) kind = applyStructure(prevStructure[2], prevStructure[0], kind, structure[0], "?", true);
+                            var problem;
+                            if (0 == structureType) problem = "Unbound";
+                            if (structureType >= 10) problem = "Corrupt";
+                            if (depth > 20) problem = "Deeply nested";
+                            if (problem) reportProblem(problem, id, kind, structureType, place || "?");
+                            var subId = query.paramList[0];
+                            var subType = getComplexType(subId, constructType, getType, queryType, place, kind, structure, depth + 1);
+                            var srcSpec;
+                            var spec = {
                                 flags: structure[0],
                                 id: id,
                                 name: "",
                                 paramList: [
                                     subType
                                 ]
-                            }, argList = [], structureParam = "?";
+                            };
+                            var argList = [];
+                            var structureParam = "?";
                             switch(query.placeholderFlag){
                                 case 1:
                                     srcSpec = subType.spec;
@@ -9085,19 +9839,25 @@
                                 case 3:
                                 case 6:
                                 case 5:
-                                    srcSpec = subType.spec, subType.flags;
+                                    srcSpec = subType.spec;
+                                    if ((15360 & subType.flags) != 2048) ;
                                     break;
                                 case 8:
-                                    structureParam = "" + query.paramList[1], spec.paramList.push(query.paramList[1]);
+                                    structureParam = "" + query.paramList[1];
+                                    spec.paramList.push(query.paramList[1]);
                                     break;
                                 case 9:
                                     for(var _i = 0, _a = query.paramList[1]; _i < _a.length; _i++){
-                                        var paramType = getComplexType(_a[_i], constructType, getType, queryType, place, kind, structure, depth + 1);
-                                        argList.push(paramType.name), spec.paramList.push(paramType);
+                                        var paramId = _a[_i];
+                                        var paramType = getComplexType(paramId, constructType, getType, queryType, place, kind, structure, depth + 1);
+                                        argList.push(paramType.name);
+                                        spec.paramList.push(paramType);
                                     }
                                     structureParam = argList.join(", ");
+                                    break;
                             }
-                            if (spec.name = applyStructure(structure[2], structure[0], subType.name, subType.flags, structureParam), srcSpec) {
+                            spec.name = applyStructure(structure[2], structure[0], subType.name, subType.flags, structureParam);
+                            if (srcSpec) {
                                 for(var _b = 0, _c = Object.keys(srcSpec); _b < _c.length; _b++){
                                     var key = _c[_b];
                                     spec[key] = spec[key] || srcSpec[key];
@@ -9107,26 +9867,42 @@
                             return makeType(constructType, spec);
                         }
                         function makeType(constructType, spec) {
-                            var flags = spec.flags, refKind = 896 & flags, kind = 15360 & flags;
-                            return spec.name || 1024 != kind || (1 == spec.ptrSize ? spec.name = (16 & flags ? "" : (8 & flags ? "un" : "") + "signed ") + "char" : spec.name = (8 & flags ? "u" : "") + (32 & flags ? "float" : "int") + 8 * spec.ptrSize + "_t"), 8 != spec.ptrSize || 32 & flags || (kind = 64), 2048 == kind && (512 == refKind || 640 == refKind ? kind = 4096 : refKind && (kind = 3072)), constructType(kind, spec);
+                            var flags = spec.flags;
+                            var refKind = 896 & flags;
+                            var kind = 15360 & flags;
+                            if (!spec.name && 1024 == kind) if (1 == spec.ptrSize) spec.name = (16 & flags ? "" : (8 & flags ? "un" : "") + "signed ") + "char";
+                            else spec.name = (8 & flags ? "u" : "") + (32 & flags ? "float" : "int") + 8 * spec.ptrSize + "_t";
+                            if (8 == spec.ptrSize && !(32 & flags)) kind = 64;
+                            if (2048 == kind) {
+                                if (512 == refKind || 640 == refKind) kind = 4096;
+                                else if (refKind) kind = 3072;
+                            }
+                            return constructType(kind, spec);
                         }
+                        var Type = function() {
+                            function Type(spec) {
+                                this.id = spec.id;
+                                this.name = spec.name;
+                                this.flags = spec.flags;
+                                this.spec = spec;
+                            }
+                            Type.prototype.toString = function() {
+                                return this.name;
+                            };
+                            return Type;
+                        }();
                         var output = {
-                            Type: function() {
-                                function Type(spec) {
-                                    this.id = spec.id, this.name = spec.name, this.flags = spec.flags, this.spec = spec;
-                                }
-                                return Type.prototype.toString = function() {
-                                    return this.name;
-                                }, Type;
-                            }(),
+                            Type: Type,
                             getComplexType: getComplexType,
                             makeType: makeType,
                             structureList: structureList
                         };
-                        return self1.output = output, self1.output || output;
+                        self1.output = output;
+                        return self1.output || output;
                     }
                     function __nbind_register_type(id, namePtr) {
-                        var name = _nbind.readAsciiString(namePtr), spec = {
+                        var name = _nbind.readAsciiString(namePtr);
+                        var spec = {
                             flags: 10240,
                             id: id,
                             name: name
@@ -9134,23 +9910,31 @@
                         _nbind.makeType(_nbind.constructType, spec);
                     }
                     function __nbind_register_callback_signature(typeListPtr, typeCount) {
-                        var typeList = _nbind.readTypeIdList(typeListPtr, typeCount), num = _nbind.callbackSignatureList.length;
-                        return _nbind.callbackSignatureList[num] = _nbind.makeJSCaller(typeList), num;
+                        var typeList = _nbind.readTypeIdList(typeListPtr, typeCount);
+                        var num = _nbind.callbackSignatureList.length;
+                        _nbind.callbackSignatureList[num] = _nbind.makeJSCaller(typeList);
+                        return num;
                     }
                     function __extends(Class, Parent) {
-                        for(var key in Parent)Parent.hasOwnProperty(key) && (Class[key] = Parent[key]);
+                        for(var key in Parent)if (Parent.hasOwnProperty(key)) Class[key] = Parent[key];
                         function Base() {
                             this.constructor = Class;
                         }
-                        Base.prototype = Parent.prototype, Class.prototype = new Base();
+                        Base.prototype = Parent.prototype;
+                        Class.prototype = new Base();
                     }
                     function __nbind_register_class(idListPtr, policyListPtr, superListPtr, upcastListPtr, superCount, destructorPtr, namePtr) {
-                        var name = _nbind.readAsciiString(namePtr), policyTbl = _nbind.readPolicyList(policyListPtr), idList = HEAPU32.subarray(idListPtr / 4, idListPtr / 4 + 2), spec = {
-                            flags: 2048 | (policyTbl.Value ? 2 : 0),
+                        var name = _nbind.readAsciiString(namePtr);
+                        var policyTbl = _nbind.readPolicyList(policyListPtr);
+                        var idList = HEAPU32.subarray(idListPtr / 4, idListPtr / 4 + 2);
+                        var spec = {
+                            flags: 2048 | (policyTbl["Value"] ? 2 : 0),
                             id: idList[0],
                             name: name
-                        }, bindClass = _nbind.makeType(_nbind.constructType, spec);
-                        bindClass.ptrType = _nbind.getComplexType(idList[1], _nbind.constructType, _nbind.getType, _nbind.queryType), bindClass.destroy = _nbind.makeMethodCaller(bindClass.ptrType, {
+                        };
+                        var bindClass = _nbind.makeType(_nbind.constructType, spec);
+                        bindClass.ptrType = _nbind.getComplexType(idList[1], _nbind.constructType, _nbind.getType, _nbind.queryType);
+                        bindClass.destroy = _nbind.makeMethodCaller(bindClass.ptrType, {
                             boundID: spec.id,
                             flags: 0,
                             name: "destroy",
@@ -9162,7 +9946,13 @@
                                 "uint32_t",
                                 "uint32_t"
                             ]
-                        }), superCount && (bindClass.superIdList = Array.prototype.slice.call(HEAPU32.subarray(superListPtr / 4, superListPtr / 4 + superCount)), bindClass.upcastList = Array.prototype.slice.call(HEAPU32.subarray(upcastListPtr / 4, upcastListPtr / 4 + superCount))), Module[bindClass.name] = bindClass.makeBound(policyTbl), _nbind.BindClass.list.push(bindClass);
+                        });
+                        if (superCount) {
+                            bindClass.superIdList = Array.prototype.slice.call(HEAPU32.subarray(superListPtr / 4, superListPtr / 4 + superCount));
+                            bindClass.upcastList = Array.prototype.slice.call(HEAPU32.subarray(upcastListPtr / 4, upcastListPtr / 4 + superCount));
+                        }
+                        Module[bindClass.name] = bindClass.makeBound(policyTbl);
+                        _nbind.BindClass.list.push(bindClass);
                     }
                     function _removeAccessorPrefix(name) {
                         var prefixMatcher = /^[Gg]et_?([A-Z]?([A-Z]?))/;
@@ -9171,7 +9961,10 @@
                         });
                     }
                     function __nbind_register_function(boundID, policyListPtr, typeListPtr, typeCount, ptr, direct, signatureType, namePtr, num, flags) {
-                        var specList, bindClass = _nbind.getType(boundID), policyTbl = _nbind.readPolicyList(policyListPtr), typeList = _nbind.readTypeIdList(typeListPtr, typeCount);
+                        var bindClass = _nbind.getType(boundID);
+                        var policyTbl = _nbind.readPolicyList(policyListPtr);
+                        var typeList = _nbind.readTypeIdList(typeListPtr, typeCount);
+                        var specList;
                         if (5 == signatureType) specList = [
                             {
                                 direct: ptr,
@@ -9194,8 +9987,10 @@
                             }
                         ];
                         else {
-                            var name_1 = _nbind.readAsciiString(namePtr), title = (bindClass.name && bindClass.name + ".") + name_1;
-                            (3 == signatureType || 4 == signatureType) && (name_1 = _removeAccessorPrefix(name_1)), specList = [
+                            var name_1 = _nbind.readAsciiString(namePtr);
+                            var title = (bindClass.name && bindClass.name + ".") + name_1;
+                            if (3 == signatureType || 4 == signatureType) name_1 = _removeAccessorPrefix(name_1);
+                            specList = [
                                 {
                                     boundID: boundID,
                                     direct: direct,
@@ -9208,15 +10003,24 @@
                         }
                         for(var _i = 0, specList_1 = specList; _i < specList_1.length; _i++){
                             var spec = specList_1[_i];
-                            spec.signatureType = signatureType, spec.policyTbl = policyTbl, spec.num = num, spec.flags = flags, bindClass.addMethod(spec);
+                            spec.signatureType = signatureType;
+                            spec.policyTbl = policyTbl;
+                            spec.num = num;
+                            spec.flags = flags;
+                            bindClass.addMethod(spec);
                         }
                     }
                     function _nbind_value(name, proto) {
-                        _nbind.typeNameTbl[name] || _nbind.throwError("Unknown value type " + name), Module.NBind.bind_value(name, proto), _defineHidden(_nbind.typeNameTbl[name].proto.prototype.__nbindValueConstructor)(proto.prototype, "__nbindValueConstructor");
+                        if (!_nbind.typeNameTbl[name]) _nbind.throwError("Unknown value type " + name);
+                        Module["NBind"].bind_value(name, proto);
+                        _defineHidden(_nbind.typeNameTbl[name].proto.prototype.__nbindValueConstructor)(proto.prototype, "__nbindValueConstructor");
                     }
+                    Module["_nbind_value"] = _nbind_value;
                     function __nbind_get_value_object(num, ptr) {
                         var obj = _nbind.popValue(num);
-                        if (!obj.fromJS) throw Error("Object " + obj + " has no fromJS function");
+                        if (!obj.fromJS) {
+                            throw Error("Object " + obj + " has no fromJS function");
+                        }
                         obj.fromJS(function() {
                             obj.__nbindValueConstructor.apply(this, Array.prototype.concat.apply([
                                 ptr
@@ -9224,7 +10028,8 @@
                         });
                     }
                     function _emscripten_memcpy_big(dest, src, num) {
-                        return HEAPU8.set(HEAPU8.subarray(src, src + num), dest), dest;
+                        HEAPU8.set(HEAPU8.subarray(src, src + num), dest);
+                        return dest;
                     }
                     function __nbind_register_primitive(id, size, flags) {
                         var spec = {
@@ -9234,7 +10039,6 @@
                         };
                         _nbind.makeType(_nbind.constructType, spec);
                     }
-                    Module._nbind_value = _nbind_value;
                     var cttz_i8 = allocate([
                         8,
                         0,
@@ -9494,307 +10298,158 @@
                         0
                     ], "i8", ALLOC_STATIC);
                     function ___setErrNo(value) {
-                        return Module.___errno_location && (HEAP32[Module.___errno_location() >> 2] = value), value;
+                        if (Module["___errno_location"]) HEAP32[Module["___errno_location"]() >> 2] = value;
+                        return value;
                     }
                     function _llvm_stacksave() {
                         var self1 = _llvm_stacksave;
-                        return self1.LLVM_SAVEDSTACKS || (self1.LLVM_SAVEDSTACKS = []), self1.LLVM_SAVEDSTACKS.push(Runtime.stackSave()), self1.LLVM_SAVEDSTACKS.length - 1;
+                        if (!self1.LLVM_SAVEDSTACKS) self1.LLVM_SAVEDSTACKS = [];
+                        self1.LLVM_SAVEDSTACKS.push(Runtime.stackSave());
+                        return self1.LLVM_SAVEDSTACKS.length - 1;
                     }
                     function ___syscall140(which, varargs) {
                         SYSCALLS.varargs = varargs;
                         try {
-                            var stream = SYSCALLS.getStreamFromFD(), offset_low = (SYSCALLS.get(), SYSCALLS.get()), result = SYSCALLS.get(), whence = SYSCALLS.get(), offset = offset_low;
-                            return FS.llseek(stream, offset, whence), HEAP32[result >> 2] = stream.position, stream.getdents && 0 === offset && 0 === whence && (stream.getdents = null), 0;
+                            var stream = SYSCALLS.getStreamFromFD(), offset_high = SYSCALLS.get(), offset_low = SYSCALLS.get(), result = SYSCALLS.get(), whence = SYSCALLS.get();
+                            var offset = offset_low;
+                            FS.llseek(stream, offset, whence);
+                            HEAP32[result >> 2] = stream.position;
+                            if (stream.getdents && 0 === offset && 0 === whence) stream.getdents = null;
+                            return 0;
                         } catch (e) {
-                            return "undefined" != typeof FS && e instanceof FS.ErrnoError || abort(e), -e.errno;
+                            if ("undefined" == typeof FS || !(e instanceof FS.ErrnoError)) abort(e);
+                            return -e.errno;
                         }
                     }
                     function ___syscall146(which, varargs) {
                         SYSCALLS.varargs = varargs;
                         try {
-                            var stream = SYSCALLS.get(), iov = SYSCALLS.get(), iovcnt = SYSCALLS.get(), ret = 0;
-                            ___syscall146.buffer || (___syscall146.buffers = [
-                                null,
-                                [],
-                                []
-                            ], ___syscall146.printChar = function(stream, curr) {
-                                var buffer = ___syscall146.buffers[stream];
-                                assert(buffer), 0 === curr || 10 === curr ? ((1 === stream ? Module.print : Module.printErr)(UTF8ArrayToString(buffer, 0)), buffer.length = 0) : buffer.push(curr);
-                            });
+                            var stream = SYSCALLS.get(), iov = SYSCALLS.get(), iovcnt = SYSCALLS.get();
+                            var ret = 0;
+                            if (!___syscall146.buffer) {
+                                ___syscall146.buffers = [
+                                    null,
+                                    [],
+                                    []
+                                ];
+                                ___syscall146.printChar = function(stream, curr) {
+                                    var buffer = ___syscall146.buffers[stream];
+                                    assert(buffer);
+                                    if (0 === curr || 10 === curr) {
+                                        (1 === stream ? Module["print"] : Module["printErr"])(UTF8ArrayToString(buffer, 0));
+                                        buffer.length = 0;
+                                    } else {
+                                        buffer.push(curr);
+                                    }
+                                };
+                            }
                             for(var i = 0; i < iovcnt; i++){
-                                for(var ptr = HEAP32[iov + 8 * i >> 2], len = HEAP32[iov + (8 * i + 4) >> 2], j = 0; j < len; j++)___syscall146.printChar(stream, HEAPU8[ptr + j]);
+                                var ptr = HEAP32[iov + 8 * i >> 2];
+                                var len = HEAP32[iov + (8 * i + 4) >> 2];
+                                for(var j = 0; j < len; j++)___syscall146.printChar(stream, HEAPU8[ptr + j]);
                                 ret += len;
                             }
                             return ret;
                         } catch (e) {
-                            return "undefined" != typeof FS && e instanceof FS.ErrnoError || abort(e), -e.errno;
+                            if ("undefined" == typeof FS || !(e instanceof FS.ErrnoError)) abort(e);
+                            return -e.errno;
                         }
                     }
                     function __nbind_finish() {
-                        for(var _i = 0, _a = _nbind.BindClass.list; _i < _a.length; _i++)_a[_i].finish();
+                        for(var _i = 0, _a = _nbind.BindClass.list; _i < _a.length; _i++){
+                            var bindClass = _a[_i];
+                            bindClass.finish();
+                        }
                     }
                     var ___dso_handle = STATICTOP;
-                    function invoke_viiiii(index, a1, a2, a3, a4, a5) {
-                        try {
-                            Module.dynCall_viiiii(index, a1, a2, a3, a4, a5);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_vif(index, a1, a2) {
-                        try {
-                            Module.dynCall_vif(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_vid(index, a1, a2) {
-                        try {
-                            Module.dynCall_vid(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_fiff(index, a1, a2, a3) {
-                        try {
-                            return Module.dynCall_fiff(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_vi(index, a1) {
-                        try {
-                            Module.dynCall_vi(index, a1);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_vii(index, a1, a2) {
-                        try {
-                            Module.dynCall_vii(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_ii(index, a1) {
-                        try {
-                            return Module.dynCall_ii(index, a1);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viddi(index, a1, a2, a3, a4) {
-                        try {
-                            Module.dynCall_viddi(index, a1, a2, a3, a4);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_vidd(index, a1, a2, a3) {
-                        try {
-                            Module.dynCall_vidd(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_iiii(index, a1, a2, a3) {
-                        try {
-                            return Module.dynCall_iiii(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_diii(index, a1, a2, a3) {
-                        try {
-                            return Module.dynCall_diii(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_di(index, a1) {
-                        try {
-                            return Module.dynCall_di(index, a1);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_iid(index, a1, a2) {
-                        try {
-                            return Module.dynCall_iid(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_iii(index, a1, a2) {
-                        try {
-                            return Module.dynCall_iii(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viiddi(index, a1, a2, a3, a4, a5) {
-                        try {
-                            Module.dynCall_viiddi(index, a1, a2, a3, a4, a5);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viiiiii(index, a1, a2, a3, a4, a5, a6) {
-                        try {
-                            Module.dynCall_viiiiii(index, a1, a2, a3, a4, a5, a6);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_dii(index, a1, a2) {
-                        try {
-                            return Module.dynCall_dii(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_i(index) {
-                        try {
-                            return Module.dynCall_i(index);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_iiiiii(index, a1, a2, a3, a4, a5) {
-                        try {
-                            return Module.dynCall_iiiiii(index, a1, a2, a3, a4, a5);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viiid(index, a1, a2, a3, a4) {
-                        try {
-                            Module.dynCall_viiid(index, a1, a2, a3, a4);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viififi(index, a1, a2, a3, a4, a5, a6) {
-                        try {
-                            Module.dynCall_viififi(index, a1, a2, a3, a4, a5, a6);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viii(index, a1, a2, a3) {
-                        try {
-                            Module.dynCall_viii(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_v(index) {
-                        try {
-                            Module.dynCall_v(index);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viid(index, a1, a2, a3) {
-                        try {
-                            Module.dynCall_viid(index, a1, a2, a3);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_idd(index, a1, a2) {
-                        try {
-                            return Module.dynCall_idd(index, a1, a2);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    function invoke_viiii(index, a1, a2, a3, a4) {
-                        try {
-                            Module.dynCall_viiii(index, a1, a2, a3, a4);
-                        } catch (e) {
-                            if ("number" != typeof e && "longjmp" !== e) throw e;
-                            Module.setThrew(1, 0);
-                        }
-                    }
-                    STATICTOP += 16, function(_nbind) {
+                    STATICTOP += 16;
+                    (function(_nbind) {
                         var typeIdTbl = {};
                         _nbind.typeNameTbl = {};
                         var Pool = function() {
                             function Pool() {}
-                            return Pool.lalloc = function(size) {
+                            Pool.lalloc = function(size) {
                                 size = size + 7 & -8;
                                 var used = HEAPU32[Pool.usedPtr];
-                                return size > Pool.pageSize / 2 || size > Pool.pageSize - used ? _nbind.typeNameTbl.NBind.proto.lalloc(size) : (HEAPU32[Pool.usedPtr] = used + size, Pool.rootPtr + used);
-                            }, Pool.lreset = function(used, page) {
-                                HEAPU32[Pool.pagePtr] ? _nbind.typeNameTbl.NBind.proto.lreset(used, page) : HEAPU32[Pool.usedPtr] = used;
-                            }, Pool;
+                                if (size > Pool.pageSize / 2 || size > Pool.pageSize - used) {
+                                    var NBind = _nbind.typeNameTbl["NBind"].proto;
+                                    return NBind.lalloc(size);
+                                }
+                                HEAPU32[Pool.usedPtr] = used + size;
+                                return Pool.rootPtr + used;
+                            };
+                            Pool.lreset = function(used, page) {
+                                var topPage = HEAPU32[Pool.pagePtr];
+                                if (topPage) {
+                                    var NBind = _nbind.typeNameTbl["NBind"].proto;
+                                    NBind.lreset(used, page);
+                                } else {
+                                    HEAPU32[Pool.usedPtr] = used;
+                                }
+                            };
+                            return Pool;
                         }();
+                        _nbind.Pool = Pool;
                         function constructType(kind, spec) {
-                            var bindType = new (10240 == kind ? _nbind.makeTypeNameTbl[spec.name] || _nbind.BindType : _nbind.makeTypeKindTbl[kind])(spec);
-                            return typeIdTbl[spec.id] = bindType, _nbind.typeNameTbl[spec.name] = bindType, bindType;
+                            var construct = 10240 == kind ? _nbind.makeTypeNameTbl[spec.name] || _nbind.BindType : _nbind.makeTypeKindTbl[kind];
+                            var bindType = new construct(spec);
+                            typeIdTbl[spec.id] = bindType;
+                            _nbind.typeNameTbl[spec.name] = bindType;
+                            return bindType;
                         }
+                        _nbind.constructType = constructType;
                         function getType(id) {
                             return typeIdTbl[id];
                         }
+                        _nbind.getType = getType;
                         function queryType(id) {
-                            var placeholderFlag = HEAPU8[id], paramCount = _nbind.structureList[placeholderFlag][1];
-                            id /= 4, paramCount < 0 && (paramCount = HEAPU32[++id] + 1);
+                            var placeholderFlag = HEAPU8[id];
+                            var paramCount = _nbind.structureList[placeholderFlag][1];
+                            id /= 4;
+                            if (paramCount < 0) {
+                                ++id;
+                                paramCount = HEAPU32[id] + 1;
+                            }
                             var paramList = Array.prototype.slice.call(HEAPU32.subarray(id + 1, id + 1 + paramCount));
-                            return 9 == placeholderFlag && (paramList = [
+                            if (9 == placeholderFlag) paramList = [
                                 paramList[0],
                                 paramList.slice(1)
-                            ]), {
+                            ];
+                            return {
                                 paramList: paramList,
                                 placeholderFlag: placeholderFlag
                             };
                         }
+                        _nbind.queryType = queryType;
                         function getTypes(idList, place) {
                             return idList.map(function(id) {
                                 return "number" == typeof id ? _nbind.getComplexType(id, constructType, getType, queryType, place) : _nbind.typeNameTbl[id];
                             });
                         }
+                        _nbind.getTypes = getTypes;
                         function readTypeIdList(typeListPtr, typeCount) {
                             return Array.prototype.slice.call(HEAPU32, typeListPtr / 4, typeListPtr / 4 + typeCount);
                         }
+                        _nbind.readTypeIdList = readTypeIdList;
                         function readAsciiString(ptr) {
-                            for(var endPtr = ptr; HEAPU8[endPtr++];);
+                            var endPtr = ptr;
+                            while(HEAPU8[endPtr++]);
                             return String.fromCharCode.apply("", HEAPU8.subarray(ptr, endPtr - 1));
                         }
+                        _nbind.readAsciiString = readAsciiString;
                         function readPolicyList(policyListPtr) {
                             var policyTbl = {};
-                            if (policyListPtr) for(;;){
-                                var namePtr = HEAPU32[policyListPtr / 4];
-                                if (!namePtr) break;
-                                policyTbl[readAsciiString(namePtr)] = !0, policyListPtr += 4;
+                            if (policyListPtr) {
+                                while(1){
+                                    var namePtr = HEAPU32[policyListPtr / 4];
+                                    if (!namePtr) break;
+                                    policyTbl[readAsciiString(namePtr)] = true;
+                                    policyListPtr += 4;
+                                }
                             }
                             return policyTbl;
                         }
+                        _nbind.readPolicyList = readPolicyList;
                         function getDynCall(typeList, name) {
                             var mangleMap = {
                                 float32_t: "d",
@@ -9802,39 +10457,62 @@
                                 int64_t: "d",
                                 uint64_t: "d",
                                 void: "v"
-                            }, signature = typeList.map(function(type) {
+                            };
+                            var signature = typeList.map(function(type) {
                                 return mangleMap[type.name] || "i";
-                            }).join(""), dynCall = Module["dynCall_" + signature];
-                            if (!dynCall) throw Error("dynCall_" + signature + " not found for " + name + "(" + typeList.map(function(type) {
-                                return type.name;
-                            }).join(", ") + ")");
+                            }).join("");
+                            var dynCall = Module["dynCall_" + signature];
+                            if (!dynCall) {
+                                throw Error("dynCall_" + signature + " not found for " + name + "(" + typeList.map(function(type) {
+                                    return type.name;
+                                }).join(", ") + ")");
+                            }
                             return dynCall;
                         }
+                        _nbind.getDynCall = getDynCall;
                         function addMethod(obj, name, func, arity) {
                             var overload = obj[name];
-                            obj.hasOwnProperty(name) && overload ? ((overload.arity || 0 === overload.arity) && (overload = _nbind.makeOverloader(overload, overload.arity), obj[name] = overload), overload.addMethod(func, arity)) : (func.arity = arity, obj[name] = func);
+                            if (obj.hasOwnProperty(name) && overload) {
+                                if (overload.arity || 0 === overload.arity) {
+                                    overload = _nbind.makeOverloader(overload, overload.arity);
+                                    obj[name] = overload;
+                                }
+                                overload.addMethod(func, arity);
+                            } else {
+                                func.arity = arity;
+                                obj[name] = func;
+                            }
                         }
+                        _nbind.addMethod = addMethod;
                         function throwError(message) {
                             throw Error(message);
                         }
-                        _nbind.Pool = Pool, _nbind.constructType = constructType, _nbind.getType = getType, _nbind.queryType = queryType, _nbind.getTypes = getTypes, _nbind.readTypeIdList = readTypeIdList, _nbind.readAsciiString = readAsciiString, _nbind.readPolicyList = readPolicyList, _nbind.getDynCall = getDynCall, _nbind.addMethod = addMethod, _nbind.throwError = throwError, _nbind.bigEndian = !1;
+                        _nbind.throwError = throwError;
+                        _nbind.bigEndian = false;
                         var _a = _typeModule(_typeModule);
                         _nbind.Type = _a.Type, _nbind.makeType = _a.makeType, _nbind.getComplexType = _a.getComplexType, _nbind.structureList = _a.structureList;
                         var BindType = function(_super) {
+                            __extends(BindType, _super);
                             function BindType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.heap = HEAPU32, _this.ptrSize = 4, _this;
+                                _this.heap = HEAPU32;
+                                _this.ptrSize = 4;
+                                return _this;
                             }
-                            return __extends(BindType, _super), BindType.prototype.needsWireRead = function(policyTbl) {
+                            BindType.prototype.needsWireRead = function(policyTbl) {
                                 return !!this.wireRead || !!this.makeWireRead;
-                            }, BindType.prototype.needsWireWrite = function(policyTbl) {
+                            };
+                            BindType.prototype.needsWireWrite = function(policyTbl) {
                                 return !!this.wireWrite || !!this.makeWireWrite;
-                            }, BindType;
+                            };
+                            return BindType;
                         }(_nbind.Type);
                         _nbind.BindType = BindType;
                         var PrimitiveType = function(_super) {
+                            __extends(PrimitiveType, _super);
                             function PrimitiveType(spec) {
-                                var _this = _super.call(this, spec) || this, heapTbl = 32 & spec.flags ? {
+                                var _this = _super.call(this, spec) || this;
+                                var heapTbl = 32 & spec.flags ? {
                                     32: HEAPF32,
                                     64: HEAPF64
                                 } : 8 & spec.flags ? {
@@ -9846,176 +10524,253 @@
                                     16: HEAP16,
                                     32: HEAP32
                                 };
-                                return _this.heap = heapTbl[8 * spec.ptrSize], _this.ptrSize = spec.ptrSize, _this;
+                                _this.heap = heapTbl[8 * spec.ptrSize];
+                                _this.ptrSize = spec.ptrSize;
+                                return _this;
                             }
-                            return __extends(PrimitiveType, _super), PrimitiveType.prototype.needsWireWrite = function(policyTbl) {
-                                return !!policyTbl && !!policyTbl.Strict;
-                            }, PrimitiveType.prototype.makeWireWrite = function(expr, policyTbl) {
-                                return policyTbl && policyTbl.Strict && function(arg) {
+                            PrimitiveType.prototype.needsWireWrite = function(policyTbl) {
+                                return !!policyTbl && !!policyTbl["Strict"];
+                            };
+                            PrimitiveType.prototype.makeWireWrite = function(expr, policyTbl) {
+                                return policyTbl && policyTbl["Strict"] && function(arg) {
                                     if ("number" == typeof arg) return arg;
                                     throw Error("Type mismatch");
                                 };
-                            }, PrimitiveType;
+                            };
+                            return PrimitiveType;
                         }(BindType);
+                        _nbind.PrimitiveType = PrimitiveType;
                         function pushCString(str, policyTbl) {
                             if (null == str) {
-                                if (policyTbl && policyTbl.Nullable) return 0;
+                                if (policyTbl && policyTbl["Nullable"]) {
+                                    return 0;
+                                }
                                 throw Error("Type mismatch");
                             }
-                            if (policyTbl && policyTbl.Strict) {
+                            if (policyTbl && policyTbl["Strict"]) {
                                 if ("string" != typeof str) throw Error("Type mismatch");
                             } else str = str.toString();
-                            var length = Module.lengthBytesUTF8(str) + 1, result = _nbind.Pool.lalloc(length);
-                            return Module.stringToUTF8Array(str, HEAPU8, result, length), result;
+                            var length = Module.lengthBytesUTF8(str) + 1;
+                            var result = _nbind.Pool.lalloc(length);
+                            Module.stringToUTF8Array(str, HEAPU8, result, length);
+                            return result;
                         }
+                        _nbind.pushCString = pushCString;
                         function popCString(ptr) {
-                            return 0 === ptr ? null : Module.Pointer_stringify(ptr);
+                            if (0 === ptr) return null;
+                            return Module.Pointer_stringify(ptr);
                         }
-                        _nbind.PrimitiveType = PrimitiveType, _nbind.pushCString = pushCString, _nbind.popCString = popCString;
+                        _nbind.popCString = popCString;
                         var CStringType = function(_super) {
+                            __extends(CStringType, _super);
                             function CStringType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireRead = popCString, _this.wireWrite = pushCString, _this.readResources = [
+                                _this.wireRead = popCString;
+                                _this.wireWrite = pushCString;
+                                _this.readResources = [
                                     _nbind.resources.pool
-                                ], _this.writeResources = [
+                                ];
+                                _this.writeResources = [
                                     _nbind.resources.pool
-                                ], _this;
+                                ];
+                                return _this;
                             }
-                            return __extends(CStringType, _super), CStringType.prototype.makeWireWrite = function(expr, policyTbl) {
+                            CStringType.prototype.makeWireWrite = function(expr, policyTbl) {
                                 return function(arg) {
                                     return pushCString(arg, policyTbl);
                                 };
-                            }, CStringType;
+                            };
+                            return CStringType;
                         }(BindType);
                         _nbind.CStringType = CStringType;
                         var BooleanType = function(_super) {
+                            __extends(BooleanType, _super);
                             function BooleanType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireRead = function(arg) {
+                                _this.wireRead = function(arg) {
                                     return !!arg;
-                                }, _this;
+                                };
+                                return _this;
                             }
-                            return __extends(BooleanType, _super), BooleanType.prototype.needsWireWrite = function(policyTbl) {
-                                return !!policyTbl && !!policyTbl.Strict;
-                            }, BooleanType.prototype.makeWireRead = function(expr) {
+                            BooleanType.prototype.needsWireWrite = function(policyTbl) {
+                                return !!policyTbl && !!policyTbl["Strict"];
+                            };
+                            BooleanType.prototype.makeWireRead = function(expr) {
                                 return "!!(" + expr + ")";
-                            }, BooleanType.prototype.makeWireWrite = function(expr, policyTbl) {
-                                return policyTbl && policyTbl.Strict && function(arg) {
+                            };
+                            BooleanType.prototype.makeWireWrite = function(expr, policyTbl) {
+                                return policyTbl && policyTbl["Strict"] && function(arg) {
                                     if ("boolean" == typeof arg) return arg;
                                     throw Error("Type mismatch");
                                 } || expr;
-                            }, BooleanType;
+                            };
+                            return BooleanType;
                         }(BindType);
                         _nbind.BooleanType = BooleanType;
                         var Wrapper = function() {
                             function Wrapper() {}
-                            return Wrapper.prototype.persist = function() {
+                            Wrapper.prototype.persist = function() {
                                 this.__nbindState |= 1;
-                            }, Wrapper;
+                            };
+                            return Wrapper;
                         }();
+                        _nbind.Wrapper = Wrapper;
                         function makeBound(policyTbl, bindClass) {
                             var Bound = function(_super) {
+                                __extends(Bound, _super);
                                 function Bound(marker, flags, ptr, shared) {
                                     var _this = _super.call(this) || this;
-                                    if (!(_this instanceof Bound)) return new (Function.prototype.bind.apply(Bound, Array.prototype.concat.apply([
-                                        null
-                                    ], arguments)))();
-                                    var nbindFlags = flags, nbindPtr = ptr, nbindShared = shared;
+                                    if (!(_this instanceof Bound)) {
+                                        return new (Function.prototype.bind.apply(Bound, Array.prototype.concat.apply([
+                                            null
+                                        ], arguments)))();
+                                    }
+                                    var nbindFlags = flags;
+                                    var nbindPtr = ptr;
+                                    var nbindShared = shared;
                                     if (marker !== _nbind.ptrMarker) {
                                         var wirePtr = _this.__nbindConstructor.apply(_this, arguments);
-                                        nbindFlags = 4608, nbindShared = HEAPU32[wirePtr / 4], nbindPtr = HEAPU32[wirePtr / 4 + 1];
+                                        nbindFlags = 4608;
+                                        nbindShared = HEAPU32[wirePtr / 4];
+                                        nbindPtr = HEAPU32[wirePtr / 4 + 1];
                                     }
                                     var spec = {
-                                        configurable: !0,
-                                        enumerable: !1,
+                                        configurable: true,
+                                        enumerable: false,
                                         value: null,
-                                        writable: !1
-                                    }, propTbl = {
+                                        writable: false
+                                    };
+                                    var propTbl = {
                                         __nbindFlags: nbindFlags,
                                         __nbindPtr: nbindPtr
                                     };
-                                    nbindShared && (propTbl.__nbindShared = nbindShared, _nbind.mark(_this));
+                                    if (nbindShared) {
+                                        propTbl["__nbindShared"] = nbindShared;
+                                        _nbind.mark(_this);
+                                    }
                                     for(var _i = 0, _a = Object.keys(propTbl); _i < _a.length; _i++){
                                         var key = _a[_i];
-                                        spec.value = propTbl[key], Object.defineProperty(_this, key, spec);
+                                        spec.value = propTbl[key];
+                                        Object.defineProperty(_this, key, spec);
                                     }
-                                    return _defineHidden(0)(_this, "__nbindState"), _this;
+                                    _defineHidden(0)(_this, "__nbindState");
+                                    return _this;
                                 }
-                                return __extends(Bound, _super), Bound.prototype.free = function() {
-                                    bindClass.destroy.call(this, this.__nbindShared, this.__nbindFlags), this.__nbindState |= 2, disableMember(this, "__nbindShared"), disableMember(this, "__nbindPtr");
-                                }, Bound;
+                                Bound.prototype.free = function() {
+                                    bindClass.destroy.call(this, this.__nbindShared, this.__nbindFlags);
+                                    this.__nbindState |= 2;
+                                    disableMember(this, "__nbindShared");
+                                    disableMember(this, "__nbindPtr");
+                                };
+                                return Bound;
                             }(Wrapper);
-                            return __decorate([
+                            __decorate([
                                 _defineHidden()
-                            ], Bound.prototype, "__nbindConstructor", void 0), __decorate([
+                            ], Bound.prototype, "__nbindConstructor", void 0);
+                            __decorate([
                                 _defineHidden()
-                            ], Bound.prototype, "__nbindValueConstructor", void 0), __decorate([
+                            ], Bound.prototype, "__nbindValueConstructor", void 0);
+                            __decorate([
                                 _defineHidden(policyTbl)
-                            ], Bound.prototype, "__nbindPolicies", void 0), Bound;
+                            ], Bound.prototype, "__nbindPolicies", void 0);
+                            return Bound;
                         }
+                        _nbind.makeBound = makeBound;
                         function disableMember(obj, name) {
                             function die() {
                                 throw Error("Accessing deleted object");
                             }
                             Object.defineProperty(obj, name, {
-                                configurable: !1,
-                                enumerable: !1,
+                                configurable: false,
+                                enumerable: false,
                                 get: die,
                                 set: die
                             });
                         }
-                        _nbind.Wrapper = Wrapper, _nbind.makeBound = makeBound, _nbind.ptrMarker = {};
+                        _nbind.ptrMarker = {};
                         var BindClass = function(_super) {
+                            __extends(BindClass, _super);
                             function BindClass(spec) {
                                 var _this = _super.call(this, spec) || this;
-                                return _this.wireRead = function(arg) {
+                                _this.wireRead = function(arg) {
                                     return _nbind.popValue(arg, _this.ptrType);
-                                }, _this.wireWrite = function(arg) {
-                                    return pushPointer(arg, _this.ptrType, !0);
-                                }, _this.pendingSuperCount = 0, _this.ready = !1, _this.methodTbl = {}, spec.paramList ? (_this.classType = spec.paramList[0].classType, _this.proto = _this.classType.proto) : _this.classType = _this, _this;
+                                };
+                                _this.wireWrite = function(arg) {
+                                    return pushPointer(arg, _this.ptrType, true);
+                                };
+                                _this.pendingSuperCount = 0;
+                                _this.ready = false;
+                                _this.methodTbl = {};
+                                if (spec.paramList) {
+                                    _this.classType = spec.paramList[0].classType;
+                                    _this.proto = _this.classType.proto;
+                                } else _this.classType = _this;
+                                return _this;
                             }
-                            return __extends(BindClass, _super), BindClass.prototype.makeBound = function(policyTbl) {
+                            BindClass.prototype.makeBound = function(policyTbl) {
                                 var Bound = _nbind.makeBound(policyTbl, this);
-                                return this.proto = Bound, this.ptrType.proto = Bound, Bound;
-                            }, BindClass.prototype.addMethod = function(spec) {
+                                this.proto = Bound;
+                                this.ptrType.proto = Bound;
+                                return Bound;
+                            };
+                            BindClass.prototype.addMethod = function(spec) {
                                 var overloadList = this.methodTbl[spec.name] || [];
-                                overloadList.push(spec), this.methodTbl[spec.name] = overloadList;
-                            }, BindClass.prototype.registerMethods = function(src, staticOnly) {
-                                for(var setter, _i = 0, _a = Object.keys(src.methodTbl); _i < _a.length; _i++)for(var name_1 = _a[_i], overloadList = src.methodTbl[name_1], _b = 0, overloadList_1 = overloadList; _b < overloadList_1.length; _b++){
-                                    var spec = overloadList_1[_b], target = void 0, caller = void 0;
-                                    if (target = this.proto.prototype, !staticOnly || 1 == spec.signatureType) switch(spec.signatureType){
-                                        case 1:
-                                            target = this.proto;
-                                        case 5:
-                                            caller = _nbind.makeCaller(spec), _nbind.addMethod(target, spec.name, caller, spec.typeList.length - 1);
-                                            break;
-                                        case 4:
-                                            setter = _nbind.makeMethodCaller(src.ptrType, spec);
-                                            break;
-                                        case 3:
-                                            Object.defineProperty(target, spec.name, {
-                                                configurable: !0,
-                                                enumerable: !1,
-                                                get: _nbind.makeMethodCaller(src.ptrType, spec),
-                                                set: setter
-                                            });
-                                            break;
-                                        case 2:
-                                            caller = _nbind.makeMethodCaller(src.ptrType, spec), _nbind.addMethod(target, spec.name, caller, spec.typeList.length - 1);
+                                overloadList.push(spec);
+                                this.methodTbl[spec.name] = overloadList;
+                            };
+                            BindClass.prototype.registerMethods = function(src, staticOnly) {
+                                var setter;
+                                for(var _i = 0, _a = Object.keys(src.methodTbl); _i < _a.length; _i++){
+                                    var name_1 = _a[_i];
+                                    var overloadList = src.methodTbl[name_1];
+                                    for(var _b = 0, overloadList_1 = overloadList; _b < overloadList_1.length; _b++){
+                                        var spec = overloadList_1[_b];
+                                        var target = void 0;
+                                        var caller = void 0;
+                                        target = this.proto.prototype;
+                                        if (!staticOnly || 1 == spec.signatureType) switch(spec.signatureType){
+                                            case 1:
+                                                target = this.proto;
+                                            case 5:
+                                                caller = _nbind.makeCaller(spec);
+                                                _nbind.addMethod(target, spec.name, caller, spec.typeList.length - 1);
+                                                break;
+                                            case 4:
+                                                setter = _nbind.makeMethodCaller(src.ptrType, spec);
+                                                break;
+                                            case 3:
+                                                Object.defineProperty(target, spec.name, {
+                                                    configurable: true,
+                                                    enumerable: false,
+                                                    get: _nbind.makeMethodCaller(src.ptrType, spec),
+                                                    set: setter
+                                                });
+                                                break;
+                                            case 2:
+                                                caller = _nbind.makeMethodCaller(src.ptrType, spec);
+                                                _nbind.addMethod(target, spec.name, caller, spec.typeList.length - 1);
+                                                break;
+                                        }
                                     }
                                 }
-                            }, BindClass.prototype.registerSuperMethods = function(src, firstSuper, visitTbl) {
-                                if (!visitTbl[src.name]) {
-                                    visitTbl[src.name] = !0;
-                                    for(var nextFirst, superNum = 0, _i = 0, _a = src.superIdList || []; _i < _a.length; _i++){
-                                        var superId = _a[_i], superClass = _nbind.getType(superId);
-                                        nextFirst = superNum++ < firstSuper || firstSuper < 0 ? -1 : 0, this.registerSuperMethods(superClass, nextFirst, visitTbl);
-                                    }
-                                    this.registerMethods(src, firstSuper < 0);
+                            };
+                            BindClass.prototype.registerSuperMethods = function(src, firstSuper, visitTbl) {
+                                if (visitTbl[src.name]) return;
+                                visitTbl[src.name] = true;
+                                var superNum = 0;
+                                var nextFirst;
+                                for(var _i = 0, _a = src.superIdList || []; _i < _a.length; _i++){
+                                    var superId = _a[_i];
+                                    var superClass = _nbind.getType(superId);
+                                    nextFirst = superNum++ < firstSuper || firstSuper < 0 ? -1 : 0;
+                                    this.registerSuperMethods(superClass, nextFirst, visitTbl);
                                 }
-                            }, BindClass.prototype.finish = function() {
+                                this.registerMethods(src, firstSuper < 0);
+                            };
+                            BindClass.prototype.finish = function() {
                                 if (this.ready) return this;
-                                this.ready = !0, this.superList = (this.superIdList || []).map(function(superId) {
+                                this.ready = true;
+                                this.superList = (this.superIdList || []).map(function(superId) {
                                     return _nbind.getType(superId).finish();
                                 });
                                 var Bound = this.proto;
@@ -10023,236 +10778,356 @@
                                     var Proto = function() {
                                         this.constructor = Bound;
                                     };
-                                    Proto.prototype = this.superList[0].proto.prototype, Bound.prototype = new Proto();
+                                    Proto.prototype = this.superList[0].proto.prototype;
+                                    Bound.prototype = new Proto();
                                 }
-                                return Bound != Module && (Bound.prototype.__nbindType = this), this.registerSuperMethods(this, 1, {}), this;
-                            }, BindClass.prototype.upcastStep = function(dst, ptr) {
+                                if (Bound != Module) Bound.prototype.__nbindType = this;
+                                this.registerSuperMethods(this, 1, {});
+                                return this;
+                            };
+                            BindClass.prototype.upcastStep = function(dst, ptr) {
                                 if (dst == this) return ptr;
                                 for(var i = 0; i < this.superList.length; ++i){
                                     var superPtr = this.superList[i].upcastStep(dst, _nbind.callUpcast(this.upcastList[i], ptr));
                                     if (superPtr) return superPtr;
                                 }
                                 return 0;
-                            }, BindClass;
+                            };
+                            return BindClass;
                         }(_nbind.BindType);
+                        BindClass.list = [];
+                        _nbind.BindClass = BindClass;
                         function popPointer(ptr, type) {
                             return ptr ? new type.proto(_nbind.ptrMarker, type.flags, ptr) : null;
                         }
+                        _nbind.popPointer = popPointer;
                         function pushPointer(obj, type, tryValue) {
                             if (!(obj instanceof _nbind.Wrapper)) {
-                                if (tryValue) return _nbind.pushValue(obj);
+                                if (tryValue) {
+                                    return _nbind.pushValue(obj);
+                                }
                                 throw Error("Type mismatch");
                             }
-                            var ptr = obj.__nbindPtr, objType = obj.__nbindType.classType, classType = type.classType;
-                            if (obj instanceof type.proto) for(; objType != classType;)ptr = _nbind.callUpcast(objType.upcastList[0], ptr), objType = objType.superList[0];
-                            else if (!(ptr = objType.upcastStep(classType, ptr))) throw Error("Type mismatch");
+                            var ptr = obj.__nbindPtr;
+                            var objType = obj.__nbindType.classType;
+                            var classType = type.classType;
+                            if (obj instanceof type.proto) {
+                                while(objType != classType){
+                                    ptr = _nbind.callUpcast(objType.upcastList[0], ptr);
+                                    objType = objType.superList[0];
+                                }
+                            } else {
+                                ptr = objType.upcastStep(classType, ptr);
+                                if (!ptr) throw Error("Type mismatch");
+                            }
                             return ptr;
                         }
+                        _nbind.pushPointer = pushPointer;
                         function pushMutablePointer(obj, type) {
                             var ptr = pushPointer(obj, type);
-                            if (1 & obj.__nbindFlags) throw Error("Passing a const value as a non-const argument");
+                            if (1 & obj.__nbindFlags) {
+                                throw Error("Passing a const value as a non-const argument");
+                            }
                             return ptr;
                         }
-                        BindClass.list = [], _nbind.BindClass = BindClass, _nbind.popPointer = popPointer, _nbind.pushPointer = pushPointer;
                         var BindClassPtr = function(_super) {
+                            __extends(BindClassPtr, _super);
                             function BindClassPtr(spec) {
                                 var _this = _super.call(this, spec) || this;
-                                _this.classType = spec.paramList[0].classType, _this.proto = _this.classType.proto;
-                                var isConst = 1 & spec.flags, isValue = (896 & _this.flags) == 256 && 2 & spec.flags, push = isConst ? pushPointer : pushMutablePointer, pop = isValue ? _nbind.popValue : popPointer;
-                                return _this.makeWireWrite = function(expr, policyTbl) {
-                                    return policyTbl.Nullable ? function(arg) {
+                                _this.classType = spec.paramList[0].classType;
+                                _this.proto = _this.classType.proto;
+                                var isConst = 1 & spec.flags;
+                                var isValue = (896 & _this.flags) == 256 && 2 & spec.flags;
+                                var push = isConst ? pushPointer : pushMutablePointer;
+                                var pop = isValue ? _nbind.popValue : popPointer;
+                                _this.makeWireWrite = function(expr, policyTbl) {
+                                    return policyTbl["Nullable"] ? function(arg) {
                                         return arg ? push(arg, _this) : 0;
                                     } : function(arg) {
                                         return push(arg, _this);
                                     };
-                                }, _this.wireRead = function(arg) {
+                                };
+                                _this.wireRead = function(arg) {
                                     return pop(arg, _this);
-                                }, _this.wireWrite = function(arg) {
+                                };
+                                _this.wireWrite = function(arg) {
                                     return push(arg, _this);
-                                }, _this;
+                                };
+                                return _this;
                             }
-                            return __extends(BindClassPtr, _super), BindClassPtr;
+                            return BindClassPtr;
                         }(_nbind.BindType);
+                        _nbind.BindClassPtr = BindClassPtr;
                         function popShared(ptr, type) {
-                            var shared = HEAPU32[ptr / 4], unsafe = HEAPU32[ptr / 4 + 1];
+                            var shared = HEAPU32[ptr / 4];
+                            var unsafe = HEAPU32[ptr / 4 + 1];
                             return unsafe ? new type.proto(_nbind.ptrMarker, type.flags, unsafe, shared) : null;
                         }
+                        _nbind.popShared = popShared;
                         function pushShared(obj, type) {
                             if (!(obj instanceof type.proto)) throw Error("Type mismatch");
                             return obj.__nbindShared;
                         }
                         function pushMutableShared(obj, type) {
                             if (!(obj instanceof type.proto)) throw Error("Type mismatch");
-                            if (1 & obj.__nbindFlags) throw Error("Passing a const value as a non-const argument");
+                            if (1 & obj.__nbindFlags) {
+                                throw Error("Passing a const value as a non-const argument");
+                            }
                             return obj.__nbindShared;
                         }
-                        _nbind.BindClassPtr = BindClassPtr, _nbind.popShared = popShared;
                         var SharedClassPtr = function(_super) {
+                            __extends(SharedClassPtr, _super);
                             function SharedClassPtr(spec) {
                                 var _this = _super.call(this, spec) || this;
                                 _this.readResources = [
                                     _nbind.resources.pool
-                                ], _this.classType = spec.paramList[0].classType, _this.proto = _this.classType.proto;
-                                var push = 1 & spec.flags ? pushShared : pushMutableShared;
-                                return _this.wireRead = function(arg) {
+                                ];
+                                _this.classType = spec.paramList[0].classType;
+                                _this.proto = _this.classType.proto;
+                                var isConst = 1 & spec.flags;
+                                var push = isConst ? pushShared : pushMutableShared;
+                                _this.wireRead = function(arg) {
                                     return popShared(arg, _this);
-                                }, _this.wireWrite = function(arg) {
+                                };
+                                _this.wireWrite = function(arg) {
                                     return push(arg, _this);
-                                }, _this;
+                                };
+                                return _this;
                             }
-                            return __extends(SharedClassPtr, _super), SharedClassPtr;
+                            return SharedClassPtr;
                         }(_nbind.BindType);
-                        _nbind.SharedClassPtr = SharedClassPtr, _nbind.externalList = [
+                        _nbind.SharedClassPtr = SharedClassPtr;
+                        _nbind.externalList = [
                             0
                         ];
-                        var firstFreeExternal = 0, External = function() {
+                        var firstFreeExternal = 0;
+                        var External = function() {
                             function External(data) {
-                                this.refCount = 1, this.data = data;
+                                this.refCount = 1;
+                                this.data = data;
                             }
-                            return External.prototype.register = function() {
+                            External.prototype.register = function() {
                                 var num = firstFreeExternal;
-                                return num ? firstFreeExternal = _nbind.externalList[num] : num = _nbind.externalList.length, _nbind.externalList[num] = this, num;
-                            }, External.prototype.reference = function() {
+                                if (num) firstFreeExternal = _nbind.externalList[num];
+                                else num = _nbind.externalList.length;
+                                _nbind.externalList[num] = this;
+                                return num;
+                            };
+                            External.prototype.reference = function() {
                                 ++this.refCount;
-                            }, External.prototype.dereference = function(num) {
-                                0 == --this.refCount && (this.free && this.free(), _nbind.externalList[num] = firstFreeExternal, firstFreeExternal = num);
-                            }, External;
+                            };
+                            External.prototype.dereference = function(num) {
+                                if (0 == --this.refCount) {
+                                    if (this.free) this.free();
+                                    _nbind.externalList[num] = firstFreeExternal;
+                                    firstFreeExternal = num;
+                                }
+                            };
+                            return External;
                         }();
+                        _nbind.External = External;
                         function popExternal(num) {
                             var obj = _nbind.externalList[num];
-                            return obj.dereference(num), obj.data;
+                            obj.dereference(num);
+                            return obj.data;
                         }
                         function pushExternal(obj) {
                             var external = new External(obj);
-                            return external.reference(), external.register();
+                            external.reference();
+                            return external.register();
                         }
-                        _nbind.External = External;
                         var ExternalType = function(_super) {
+                            __extends(ExternalType, _super);
                             function ExternalType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireRead = popExternal, _this.wireWrite = pushExternal, _this;
+                                _this.wireRead = popExternal;
+                                _this.wireWrite = pushExternal;
+                                return _this;
                             }
-                            return __extends(ExternalType, _super), ExternalType;
+                            return ExternalType;
                         }(_nbind.BindType);
-                        _nbind.ExternalType = ExternalType, _nbind.callbackSignatureList = [];
+                        _nbind.ExternalType = ExternalType;
+                        _nbind.callbackSignatureList = [];
                         var CallbackType = function(_super) {
+                            __extends(CallbackType, _super);
                             function CallbackType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireWrite = function(func) {
-                                    return "function" != typeof func && _nbind.throwError("Type mismatch"), new _nbind.External(func).register();
-                                }, _this;
+                                _this.wireWrite = function(func) {
+                                    if ("function" != typeof func) _nbind.throwError("Type mismatch");
+                                    return new _nbind.External(func).register();
+                                };
+                                return _this;
                             }
-                            return __extends(CallbackType, _super), CallbackType;
+                            return CallbackType;
                         }(_nbind.BindType);
-                        _nbind.CallbackType = CallbackType, _nbind.valueList = [
+                        _nbind.CallbackType = CallbackType;
+                        _nbind.valueList = [
                             0
                         ];
                         var firstFreeValue = 0;
                         function pushValue(value) {
                             var num = firstFreeValue;
-                            return num ? firstFreeValue = _nbind.valueList[num] : num = _nbind.valueList.length, _nbind.valueList[num] = value, 2 * num + 1;
+                            if (num) firstFreeValue = _nbind.valueList[num];
+                            else num = _nbind.valueList.length;
+                            _nbind.valueList[num] = value;
+                            return 2 * num + 1;
                         }
+                        _nbind.pushValue = pushValue;
                         function popValue(num, type) {
-                            if (num || _nbind.throwError("Value type JavaScript class is missing or not registered"), 1 & num) {
+                            if (!num) _nbind.throwError("Value type JavaScript class is missing or not registered");
+                            if (1 & num) {
                                 num >>= 1;
                                 var obj = _nbind.valueList[num];
-                                return _nbind.valueList[num] = firstFreeValue, firstFreeValue = num, obj;
+                                _nbind.valueList[num] = firstFreeValue;
+                                firstFreeValue = num;
+                                return obj;
                             }
-                            if (type) return _nbind.popShared(num, type);
+                            if (type) {
+                                return _nbind.popShared(num, type);
+                            }
                             throw Error("Invalid value slot " + num);
                         }
-                        _nbind.pushValue = pushValue, _nbind.popValue = popValue;
+                        _nbind.popValue = popValue;
                         var valueBase = 0x10000000000000000;
                         function push64(num) {
-                            return "number" == typeof num ? num : 4096 * pushValue(num) + valueBase;
+                            if ("number" == typeof num) return num;
+                            return 4096 * pushValue(num) + valueBase;
                         }
                         function pop64(num) {
-                            return num < valueBase ? num : popValue((num - valueBase) / 4096);
+                            if (num < valueBase) return num;
+                            return popValue((num - valueBase) / 4096);
                         }
                         var CreateValueType = function(_super) {
+                            __extends(CreateValueType, _super);
                             function CreateValueType() {
                                 return null !== _super && _super.apply(this, arguments) || this;
                             }
-                            return __extends(CreateValueType, _super), CreateValueType.prototype.makeWireWrite = function(expr) {
+                            CreateValueType.prototype.makeWireWrite = function(expr) {
                                 return "(_nbind.pushValue(new " + expr + "))";
-                            }, CreateValueType;
+                            };
+                            return CreateValueType;
                         }(_nbind.BindType);
                         _nbind.CreateValueType = CreateValueType;
                         var Int64Type = function(_super) {
+                            __extends(Int64Type, _super);
                             function Int64Type() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireWrite = push64, _this.wireRead = pop64, _this;
+                                _this.wireWrite = push64;
+                                _this.wireRead = pop64;
+                                return _this;
                             }
-                            return __extends(Int64Type, _super), Int64Type;
+                            return Int64Type;
                         }(_nbind.BindType);
+                        _nbind.Int64Type = Int64Type;
                         function pushArray(arr, type) {
                             if (!arr) return 0;
                             var length = arr.length;
-                            if ((type.size || 0 === type.size) && length < type.size) throw Error("Type mismatch");
-                            var ptrSize = type.memberType.ptrSize, result = _nbind.Pool.lalloc(4 + length * ptrSize);
+                            if ((type.size || 0 === type.size) && length < type.size) {
+                                throw Error("Type mismatch");
+                            }
+                            var ptrSize = type.memberType.ptrSize;
+                            var result = _nbind.Pool.lalloc(4 + length * ptrSize);
                             HEAPU32[result / 4] = length;
-                            var heap = type.memberType.heap, ptr = (result + 4) / ptrSize, wireWrite = type.memberType.wireWrite, num = 0;
-                            if (wireWrite) for(; num < length;)heap[ptr++] = wireWrite(arr[num++]);
-                            else for(; num < length;)heap[ptr++] = arr[num++];
+                            var heap = type.memberType.heap;
+                            var ptr = (result + 4) / ptrSize;
+                            var wireWrite = type.memberType.wireWrite;
+                            var num = 0;
+                            if (wireWrite) {
+                                while(num < length){
+                                    heap[ptr++] = wireWrite(arr[num++]);
+                                }
+                            } else {
+                                while(num < length){
+                                    heap[ptr++] = arr[num++];
+                                }
+                            }
                             return result;
                         }
+                        _nbind.pushArray = pushArray;
                         function popArray(ptr, type) {
                             if (0 === ptr) return null;
-                            var length = HEAPU32[ptr / 4], arr = Array(length), heap = type.memberType.heap;
+                            var length = HEAPU32[ptr / 4];
+                            var arr = Array(length);
+                            var heap = type.memberType.heap;
                             ptr = (ptr + 4) / type.memberType.ptrSize;
-                            var wireRead = type.memberType.wireRead, num = 0;
-                            if (wireRead) for(; num < length;)arr[num++] = wireRead(heap[ptr++]);
-                            else for(; num < length;)arr[num++] = heap[ptr++];
+                            var wireRead = type.memberType.wireRead;
+                            var num = 0;
+                            if (wireRead) {
+                                while(num < length){
+                                    arr[num++] = wireRead(heap[ptr++]);
+                                }
+                            } else {
+                                while(num < length){
+                                    arr[num++] = heap[ptr++];
+                                }
+                            }
                             return arr;
                         }
-                        _nbind.Int64Type = Int64Type, _nbind.pushArray = pushArray, _nbind.popArray = popArray;
+                        _nbind.popArray = popArray;
                         var ArrayType = function(_super) {
+                            __extends(ArrayType, _super);
                             function ArrayType(spec) {
                                 var _this = _super.call(this, spec) || this;
-                                return _this.wireRead = function(arg) {
+                                _this.wireRead = function(arg) {
                                     return popArray(arg, _this);
-                                }, _this.wireWrite = function(arg) {
+                                };
+                                _this.wireWrite = function(arg) {
                                     return pushArray(arg, _this);
-                                }, _this.readResources = [
+                                };
+                                _this.readResources = [
                                     _nbind.resources.pool
-                                ], _this.writeResources = [
+                                ];
+                                _this.writeResources = [
                                     _nbind.resources.pool
-                                ], _this.memberType = spec.paramList[0], spec.paramList[1] && (_this.size = spec.paramList[1]), _this;
+                                ];
+                                _this.memberType = spec.paramList[0];
+                                if (spec.paramList[1]) _this.size = spec.paramList[1];
+                                return _this;
                             }
-                            return __extends(ArrayType, _super), ArrayType;
+                            return ArrayType;
                         }(_nbind.BindType);
+                        _nbind.ArrayType = ArrayType;
                         function pushString(str, policyTbl) {
-                            if (null == str) {
-                                if (policyTbl && policyTbl.Nullable) str = "";
-                                else throw Error("Type mismatch");
-                            }
-                            if (policyTbl && policyTbl.Strict) {
+                            if (null == str) if (policyTbl && policyTbl["Nullable"]) str = "";
+                            else throw Error("Type mismatch");
+                            if (policyTbl && policyTbl["Strict"]) {
                                 if ("string" != typeof str) throw Error("Type mismatch");
                             } else str = str.toString();
-                            var length = Module.lengthBytesUTF8(str), result = _nbind.Pool.lalloc(4 + length + 1);
-                            return HEAPU32[result / 4] = length, Module.stringToUTF8Array(str, HEAPU8, result + 4, length + 1), result;
+                            var length = Module.lengthBytesUTF8(str);
+                            var result = _nbind.Pool.lalloc(4 + length + 1);
+                            HEAPU32[result / 4] = length;
+                            Module.stringToUTF8Array(str, HEAPU8, result + 4, length + 1);
+                            return result;
                         }
+                        _nbind.pushString = pushString;
                         function popString(ptr) {
                             if (0 === ptr) return null;
                             var length = HEAPU32[ptr / 4];
                             return Module.Pointer_stringify(ptr + 4, length);
                         }
-                        _nbind.ArrayType = ArrayType, _nbind.pushString = pushString, _nbind.popString = popString;
+                        _nbind.popString = popString;
                         var StringType = function(_super) {
+                            __extends(StringType, _super);
                             function StringType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireRead = popString, _this.wireWrite = pushString, _this.readResources = [
+                                _this.wireRead = popString;
+                                _this.wireWrite = pushString;
+                                _this.readResources = [
                                     _nbind.resources.pool
-                                ], _this.writeResources = [
+                                ];
+                                _this.writeResources = [
                                     _nbind.resources.pool
-                                ], _this;
+                                ];
+                                return _this;
                             }
-                            return __extends(StringType, _super), StringType.prototype.makeWireWrite = function(expr, policyTbl) {
+                            StringType.prototype.makeWireWrite = function(expr, policyTbl) {
                                 return function(arg) {
                                     return pushString(arg, policyTbl);
                                 };
-                            }, StringType;
+                            };
+                            return StringType;
                         }(_nbind.BindType);
+                        _nbind.StringType = StringType;
                         function makeArgList(argCount) {
                             return Array.apply(null, Array(argCount)).map(function(dummy, num) {
                                 return "a" + (num + 1);
@@ -10261,35 +11136,54 @@
                         function anyNeedsWireWrite(typeList, policyTbl) {
                             return typeList.reduce(function(result, type) {
                                 return result || type.needsWireWrite(policyTbl);
-                            }, !1);
+                            }, false);
                         }
                         function anyNeedsWireRead(typeList, policyTbl) {
                             return typeList.reduce(function(result, type) {
                                 return result || !!type.needsWireRead(policyTbl);
-                            }, !1);
+                            }, false);
                         }
                         function makeWireRead(convertParamList, policyTbl, type, expr) {
                             var paramNum = convertParamList.length;
-                            return type.makeWireRead ? type.makeWireRead(expr, convertParamList, paramNum) : type.wireRead ? (convertParamList[paramNum] = type.wireRead, "(convertParamList[" + paramNum + "](" + expr + "))") : expr;
+                            if (type.makeWireRead) {
+                                return type.makeWireRead(expr, convertParamList, paramNum);
+                            }
+                            if (!type.wireRead) return expr;
+                            convertParamList[paramNum] = type.wireRead;
+                            return "(convertParamList[" + paramNum + "](" + expr + "))";
                         }
                         function makeWireWrite(convertParamList, policyTbl, type, expr) {
-                            var wireWrite, paramNum = convertParamList.length;
-                            return (wireWrite = type.makeWireWrite ? type.makeWireWrite(expr, policyTbl, convertParamList, paramNum) : type.wireWrite) ? "string" == typeof wireWrite ? wireWrite : (convertParamList[paramNum] = wireWrite, "(convertParamList[" + paramNum + "](" + expr + "))") : expr;
+                            var wireWrite;
+                            var paramNum = convertParamList.length;
+                            wireWrite = type.makeWireWrite ? type.makeWireWrite(expr, policyTbl, convertParamList, paramNum) : type.wireWrite;
+                            if (!wireWrite) return expr;
+                            if ("string" == typeof wireWrite) {
+                                return wireWrite;
+                            }
+                            convertParamList[paramNum] = wireWrite;
+                            return "(convertParamList[" + paramNum + "](" + expr + "))";
                         }
                         function buildCallerFunction(dynCall, ptrType, ptr, num, policyTbl, needsWireWrite, prefix, returnType, argTypeList, mask, err) {
-                            var argList = makeArgList(argTypeList.length), convertParamList = [], callExpression = makeWireRead(convertParamList, policyTbl, returnType, "dynCall(" + [
+                            var argList = makeArgList(argTypeList.length);
+                            var convertParamList = [];
+                            var callExpression = makeWireRead(convertParamList, policyTbl, returnType, "dynCall(" + [
                                 prefix
                             ].concat(argList.map(function(name, index) {
                                 return makeWireWrite(convertParamList, policyTbl, argTypeList[index], name);
-                            })).join(",") + ")"), resourceSet = _nbind.listResources([
+                            })).join(",") + ")");
+                            var resourceSet = _nbind.listResources([
                                 returnType
                             ], argTypeList);
-                            return eval("(function(" + argList.join(",") + "){" + (mask ? "this.__nbindFlags&mask&&err();" : "") + resourceSet.makeOpen() + "var r=" + callExpression + ";" + resourceSet.makeClose() + "return r;})");
+                            var sourceCode = "function(" + argList.join(",") + "){" + (mask ? "this.__nbindFlags&mask&&err();" : "") + resourceSet.makeOpen() + "var r=" + callExpression + ";" + resourceSet.makeClose() + "return r;}";
+                            return eval("(" + sourceCode + ")");
                         }
                         function buildJSCallerFunction(returnType, argTypeList) {
-                            var argList = makeArgList(argTypeList.length), convertParamList = [], callExpression = makeWireWrite(convertParamList, null, returnType, "_nbind.externalList[num].data(" + argList.map(function(name, index) {
+                            var argList = makeArgList(argTypeList.length);
+                            var convertParamList = [];
+                            var callExpression = makeWireWrite(convertParamList, null, returnType, "_nbind.externalList[num].data(" + argList.map(function(name, index) {
                                 return makeWireRead(convertParamList, null, argTypeList[index], name);
-                            }).join(",") + ")"), resourceSet = _nbind.listResources(argTypeList, [
+                            }).join(",") + ")");
+                            var resourceSet = _nbind.listResources(argTypeList, [
                                 returnType
                             ]);
                             resourceSet.remove(_nbind.resources.pool);
@@ -10299,57 +11193,85 @@
                             ].concat(argList).join(",") + "){" + resourceSet.makeOpen() + "var r=" + callExpression + ";" + resourceSet.makeClose() + "return r;}";
                             return eval("(" + sourceCode + ")");
                         }
+                        _nbind.buildJSCallerFunction = buildJSCallerFunction;
                         function makeJSCaller(idList) {
-                            var argCount = idList.length - 1, typeList = _nbind.getTypes(idList, "callback"), returnType = typeList[0], argTypeList = typeList.slice(1), needsWireRead = anyNeedsWireRead(argTypeList, null);
-                            if (!returnType.needsWireWrite(null) && !needsWireRead) switch(argCount){
-                                case 0:
-                                    return function(dummy, num) {
-                                        return _nbind.externalList[num].data();
-                                    };
-                                case 1:
-                                    return function(dummy, num, a1) {
-                                        return _nbind.externalList[num].data(a1);
-                                    };
-                                case 2:
-                                    return function(dummy, num, a1, a2) {
-                                        return _nbind.externalList[num].data(a1, a2);
-                                    };
-                                case 3:
-                                    return function(dummy, num, a1, a2, a3) {
-                                        return _nbind.externalList[num].data(a1, a2, a3);
-                                    };
+                            var argCount = idList.length - 1;
+                            var typeList = _nbind.getTypes(idList, "callback");
+                            var returnType = typeList[0];
+                            var argTypeList = typeList.slice(1);
+                            var needsWireRead = anyNeedsWireRead(argTypeList, null);
+                            var needsWireWrite = returnType.needsWireWrite(null);
+                            if (!needsWireWrite && !needsWireRead) {
+                                switch(argCount){
+                                    case 0:
+                                        return function(dummy, num) {
+                                            return _nbind.externalList[num].data();
+                                        };
+                                    case 1:
+                                        return function(dummy, num, a1) {
+                                            return _nbind.externalList[num].data(a1);
+                                        };
+                                    case 2:
+                                        return function(dummy, num, a1, a2) {
+                                            return _nbind.externalList[num].data(a1, a2);
+                                        };
+                                    case 3:
+                                        return function(dummy, num, a1, a2, a3) {
+                                            return _nbind.externalList[num].data(a1, a2, a3);
+                                        };
+                                }
                             }
                             return buildJSCallerFunction(returnType, argTypeList);
                         }
+                        _nbind.makeJSCaller = makeJSCaller;
                         function makeMethodCaller(ptrType, spec) {
-                            var argCount = spec.typeList.length - 1, typeIdList = spec.typeList.slice(0);
+                            var argCount = spec.typeList.length - 1;
+                            var typeIdList = spec.typeList.slice(0);
                             typeIdList.splice(1, 0, "uint32_t", spec.boundID);
-                            var typeList = _nbind.getTypes(typeIdList, spec.title), returnType = typeList[0], argTypeList = typeList.slice(3), needsWireRead = returnType.needsWireRead(spec.policyTbl), needsWireWrite = anyNeedsWireWrite(argTypeList, spec.policyTbl), ptr = spec.ptr, num = spec.num, dynCall = _nbind.getDynCall(typeList, spec.title), mask = 1 & ~spec.flags;
+                            var typeList = _nbind.getTypes(typeIdList, spec.title);
+                            var returnType = typeList[0];
+                            var argTypeList = typeList.slice(3);
+                            var needsWireRead = returnType.needsWireRead(spec.policyTbl);
+                            var needsWireWrite = anyNeedsWireWrite(argTypeList, spec.policyTbl);
+                            var ptr = spec.ptr;
+                            var num = spec.num;
+                            var dynCall = _nbind.getDynCall(typeList, spec.title);
+                            var mask = 1 & ~spec.flags;
                             function err() {
                                 throw Error("Calling a non-const method on a const object");
                             }
-                            if (!needsWireRead && !needsWireWrite) switch(argCount){
-                                case 0:
-                                    return function() {
-                                        return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType));
-                                    };
-                                case 1:
-                                    return function(a1) {
-                                        return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1);
-                                    };
-                                case 2:
-                                    return function(a1, a2) {
-                                        return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1, a2);
-                                    };
-                                case 3:
-                                    return function(a1, a2, a3) {
-                                        return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1, a2, a3);
-                                    };
+                            if (!needsWireRead && !needsWireWrite) {
+                                switch(argCount){
+                                    case 0:
+                                        return function() {
+                                            return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType));
+                                        };
+                                    case 1:
+                                        return function(a1) {
+                                            return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1);
+                                        };
+                                    case 2:
+                                        return function(a1, a2) {
+                                            return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1, a2);
+                                        };
+                                    case 3:
+                                        return function(a1, a2, a3) {
+                                            return this.__nbindFlags & mask ? err() : dynCall(ptr, num, _nbind.pushPointer(this, ptrType), a1, a2, a3);
+                                        };
+                                }
                             }
                             return buildCallerFunction(dynCall, ptrType, ptr, num, spec.policyTbl, needsWireWrite, "ptr,num,pushPointer(this,ptrType)", returnType, argTypeList, mask);
                         }
+                        _nbind.makeMethodCaller = makeMethodCaller;
                         function makeCaller(spec) {
-                            var prefix, argCount = spec.typeList.length - 1, typeList = _nbind.getTypes(spec.typeList, spec.title), returnType = typeList[0], argTypeList = typeList.slice(1), needsWireRead = returnType.needsWireRead(spec.policyTbl), needsWireWrite = anyNeedsWireWrite(argTypeList, spec.policyTbl), direct = spec.direct, ptr = spec.ptr;
+                            var argCount = spec.typeList.length - 1;
+                            var typeList = _nbind.getTypes(spec.typeList, spec.title);
+                            var returnType = typeList[0];
+                            var argTypeList = typeList.slice(1);
+                            var needsWireRead = returnType.needsWireRead(spec.policyTbl);
+                            var needsWireWrite = anyNeedsWireWrite(argTypeList, spec.policyTbl);
+                            var direct = spec.direct;
+                            var ptr = spec.ptr;
                             if (spec.direct && !needsWireRead && !needsWireWrite) {
                                 var dynCall_1 = _nbind.getDynCall(typeList, spec.title);
                                 switch(argCount){
@@ -10372,41 +11294,57 @@
                                 }
                                 ptr = 0;
                             }
+                            var prefix;
                             if (ptr) {
                                 var typeIdList = spec.typeList.slice(0);
-                                typeIdList.splice(1, 0, "uint32_t"), typeList = _nbind.getTypes(typeIdList, spec.title), prefix = "ptr,num";
-                            } else ptr = direct, prefix = "ptr";
-                            return buildCallerFunction(_nbind.getDynCall(typeList, spec.title), null, ptr, spec.num, spec.policyTbl, needsWireWrite, prefix, returnType, argTypeList);
+                                typeIdList.splice(1, 0, "uint32_t");
+                                typeList = _nbind.getTypes(typeIdList, spec.title);
+                                prefix = "ptr,num";
+                            } else {
+                                ptr = direct;
+                                prefix = "ptr";
+                            }
+                            var dynCall = _nbind.getDynCall(typeList, spec.title);
+                            return buildCallerFunction(dynCall, null, ptr, spec.num, spec.policyTbl, needsWireWrite, prefix, returnType, argTypeList);
                         }
+                        _nbind.makeCaller = makeCaller;
                         function makeOverloader(func, arity) {
                             var callerList = [];
                             function call() {
                                 return callerList[arguments.length].apply(this, arguments);
                             }
-                            return call.addMethod = function(_func, _arity) {
+                            call.addMethod = function(_func, _arity) {
                                 callerList[_arity] = _func;
-                            }, call.addMethod(func, arity), call;
+                            };
+                            call.addMethod(func, arity);
+                            return call;
                         }
-                        _nbind.StringType = StringType, _nbind.buildJSCallerFunction = buildJSCallerFunction, _nbind.makeJSCaller = makeJSCaller, _nbind.makeMethodCaller = makeMethodCaller, _nbind.makeCaller = makeCaller, _nbind.makeOverloader = makeOverloader;
+                        _nbind.makeOverloader = makeOverloader;
                         var Resource = function() {
                             function Resource(open, close) {
                                 var _this = this;
                                 this.makeOpen = function() {
                                     return Object.keys(_this.openTbl).join("");
-                                }, this.makeClose = function() {
+                                };
+                                this.makeClose = function() {
                                     return Object.keys(_this.closeTbl).join("");
-                                }, this.openTbl = {}, this.closeTbl = {}, open && (this.openTbl[open] = !0), close && (this.closeTbl[close] = !0);
+                                };
+                                this.openTbl = {};
+                                this.closeTbl = {};
+                                if (open) this.openTbl[open] = true;
+                                if (close) this.closeTbl[close] = true;
                             }
-                            return Resource.prototype.add = function(other) {
+                            Resource.prototype.add = function(other) {
                                 for(var _i = 0, _a = Object.keys(other.openTbl); _i < _a.length; _i++){
                                     var key = _a[_i];
-                                    this.openTbl[key] = !0;
+                                    this.openTbl[key] = true;
                                 }
                                 for(var _b = 0, _c = Object.keys(other.closeTbl); _b < _c.length; _b++){
                                     var key = _c[_b];
-                                    this.closeTbl[key] = !0;
+                                    this.closeTbl[key] = true;
                                 }
-                            }, Resource.prototype.remove = function(other) {
+                            };
+                            Resource.prototype.remove = function(other) {
                                 for(var _i = 0, _a = Object.keys(other.openTbl); _i < _a.length; _i++){
                                     var key = _a[_i];
                                     delete this.openTbl[key];
@@ -10415,114 +11353,382 @@
                                     var key = _c[_b];
                                     delete this.closeTbl[key];
                                 }
-                            }, Resource;
+                            };
+                            return Resource;
                         }();
+                        _nbind.Resource = Resource;
                         function listResources(readList, writeList) {
-                            for(var result = new Resource(), _i = 0, readList_1 = readList; _i < readList_1.length; _i++)for(var bindType = readList_1[_i], _a = 0, _b = bindType.readResources || []; _a < _b.length; _a++){
-                                var resource = _b[_a];
-                                result.add(resource);
+                            var result = new Resource();
+                            for(var _i = 0, readList_1 = readList; _i < readList_1.length; _i++){
+                                var bindType = readList_1[_i];
+                                for(var _a = 0, _b = bindType.readResources || []; _a < _b.length; _a++){
+                                    var resource = _b[_a];
+                                    result.add(resource);
+                                }
                             }
-                            for(var _c = 0, writeList_1 = writeList; _c < writeList_1.length; _c++)for(var bindType = writeList_1[_c], _d = 0, _e = bindType.writeResources || []; _d < _e.length; _d++){
-                                var resource = _e[_d];
-                                result.add(resource);
+                            for(var _c = 0, writeList_1 = writeList; _c < writeList_1.length; _c++){
+                                var bindType = writeList_1[_c];
+                                for(var _d = 0, _e = bindType.writeResources || []; _d < _e.length; _d++){
+                                    var resource = _e[_d];
+                                    result.add(resource);
+                                }
                             }
                             return result;
                         }
-                        _nbind.Resource = Resource, _nbind.listResources = listResources, _nbind.resources = {
+                        _nbind.listResources = listResources;
+                        _nbind.resources = {
                             pool: new Resource("var used=HEAPU32[_nbind.Pool.usedPtr],page=HEAPU32[_nbind.Pool.pagePtr];", "_nbind.Pool.lreset(used,page);")
                         };
                         var ExternalBuffer = function(_super) {
+                            __extends(ExternalBuffer, _super);
                             function ExternalBuffer(buf, ptr) {
                                 var _this = _super.call(this, buf) || this;
-                                return _this.ptr = ptr, _this;
+                                _this.ptr = ptr;
+                                return _this;
                             }
-                            return __extends(ExternalBuffer, _super), ExternalBuffer.prototype.free = function() {
+                            ExternalBuffer.prototype.free = function() {
                                 _free(this.ptr);
-                            }, ExternalBuffer;
+                            };
+                            return ExternalBuffer;
                         }(_nbind.External);
                         function getBuffer(buf) {
-                            return buf instanceof ArrayBuffer ? new Uint8Array(buf) : buf instanceof DataView ? new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength) : buf;
+                            if (buf instanceof ArrayBuffer) {
+                                return new Uint8Array(buf);
+                            }
+                            if (!(buf instanceof DataView)) return buf;
+                            return new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength);
                         }
                         function pushBuffer(buf, policyTbl) {
-                            if (null == buf && policyTbl && policyTbl.Nullable && (buf = []), "object" != typeof buf) throw Error("Type mismatch");
-                            var b = buf, length = b.byteLength || b.length;
+                            if (null == buf) {
+                                if (policyTbl && policyTbl["Nullable"]) buf = [];
+                            }
+                            if ("object" != typeof buf) throw Error("Type mismatch");
+                            var b = buf;
+                            var length = b.byteLength || b.length;
                             if (!length && 0 !== length && 0 !== b.byteLength) throw Error("Type mismatch");
-                            var result = _nbind.Pool.lalloc(8), data = _malloc(length), ptr = result / 4;
-                            return HEAPU32[ptr++] = length, HEAPU32[ptr++] = data, HEAPU32[ptr++] = new ExternalBuffer(buf, data).register(), HEAPU8.set(getBuffer(buf), data), result;
+                            var result = _nbind.Pool.lalloc(8);
+                            var data = _malloc(length);
+                            var ptr = result / 4;
+                            HEAPU32[ptr++] = length;
+                            HEAPU32[ptr++] = data;
+                            HEAPU32[ptr++] = new ExternalBuffer(buf, data).register();
+                            HEAPU8.set(getBuffer(buf), data);
+                            return result;
                         }
                         var BufferType = function(_super) {
+                            __extends(BufferType, _super);
                             function BufferType() {
                                 var _this = null !== _super && _super.apply(this, arguments) || this;
-                                return _this.wireWrite = pushBuffer, _this.readResources = [
+                                _this.wireWrite = pushBuffer;
+                                _this.readResources = [
                                     _nbind.resources.pool
-                                ], _this.writeResources = [
+                                ];
+                                _this.writeResources = [
                                     _nbind.resources.pool
-                                ], _this;
+                                ];
+                                return _this;
                             }
-                            return __extends(BufferType, _super), BufferType.prototype.makeWireWrite = function(expr, policyTbl) {
+                            BufferType.prototype.makeWireWrite = function(expr, policyTbl) {
                                 return function(arg) {
                                     return pushBuffer(arg, policyTbl);
                                 };
-                            }, BufferType;
+                            };
+                            return BufferType;
                         }(_nbind.BindType);
+                        _nbind.BufferType = BufferType;
                         function commitBuffer(num, data, length) {
-                            var buf = _nbind.externalList[num].data, NodeBuffer = Buffer;
-                            if ("function" != typeof Buffer && (NodeBuffer = function() {}), buf instanceof Array) ;
+                            var buf = _nbind.externalList[num].data;
+                            var NodeBuffer = Buffer;
+                            if ("function" != typeof Buffer) NodeBuffer = function() {};
+                            if (buf instanceof Array) ;
                             else {
                                 var src = HEAPU8.subarray(data, data + length);
                                 if (buf instanceof NodeBuffer) {
                                     var srcBuf = void 0;
-                                    "function" == typeof Buffer.from && Buffer.from.length, (srcBuf = Buffer.from(src)).copy(buf);
+                                    "function" == typeof Buffer.from && Buffer.from.length >= 3, srcBuf = Buffer.from(src);
+                                    srcBuf.copy(buf);
                                 } else getBuffer(buf).set(src);
                             }
                         }
-                        _nbind.BufferType = BufferType, _nbind.commitBuffer = commitBuffer;
-                        var dirtyList = [], gcTimer = 0;
+                        _nbind.commitBuffer = commitBuffer;
+                        var dirtyList = [];
+                        var gcTimer = 0;
                         function sweep() {
                             for(var _i = 0, dirtyList_1 = dirtyList; _i < dirtyList_1.length; _i++){
                                 var obj = dirtyList_1[_i];
-                                3 & obj.__nbindState || obj.free();
+                                if (!(3 & obj.__nbindState)) obj.free();
                             }
-                            dirtyList = [], gcTimer = 0;
+                            dirtyList = [];
+                            gcTimer = 0;
                         }
+                        _nbind.mark = function(obj) {};
                         function toggleLightGC(enable) {
-                            enable ? _nbind.mark = function(obj) {
-                                dirtyList.push(obj), gcTimer || (gcTimer = setTimeout(sweep, 0));
-                            } : _nbind.mark = function(obj) {};
+                            if (enable) _nbind.mark = function(obj) {
+                                dirtyList.push(obj);
+                                if (!gcTimer) gcTimer = setTimeout(sweep, 0);
+                            };
+                            else _nbind.mark = function(obj) {};
                         }
-                        _nbind.mark = function(obj) {}, _nbind.toggleLightGC = toggleLightGC;
-                    }(_nbind), Module.requestFullScreen = function(lockPointer, resizeCanvas, vrDevice) {
-                        Module.printErr("Module.requestFullScreen is deprecated. Please call Module.requestFullscreen instead."), Module.requestFullScreen = Module.requestFullscreen, Browser.requestFullScreen(lockPointer, resizeCanvas, vrDevice);
-                    }, Module.requestFullscreen = function(lockPointer, resizeCanvas, vrDevice) {
+                        _nbind.toggleLightGC = toggleLightGC;
+                    })(_nbind);
+                    Module["requestFullScreen"] = function Module_requestFullScreen(lockPointer, resizeCanvas, vrDevice) {
+                        Module.printErr("Module.requestFullScreen is deprecated. Please call Module.requestFullscreen instead.");
+                        Module["requestFullScreen"] = Module["requestFullscreen"];
+                        Browser.requestFullScreen(lockPointer, resizeCanvas, vrDevice);
+                    };
+                    Module["requestFullscreen"] = function Module_requestFullscreen(lockPointer, resizeCanvas, vrDevice) {
                         Browser.requestFullscreen(lockPointer, resizeCanvas, vrDevice);
-                    }, Module.requestAnimationFrame = function(func) {
+                    };
+                    Module["requestAnimationFrame"] = function Module_requestAnimationFrame(func) {
                         Browser.requestAnimationFrame(func);
-                    }, Module.setCanvasSize = function(width, height, noUpdates) {
+                    };
+                    Module["setCanvasSize"] = function Module_setCanvasSize(width, height, noUpdates) {
                         Browser.setCanvasSize(width, height, noUpdates);
-                    }, Module.pauseMainLoop = function() {
+                    };
+                    Module["pauseMainLoop"] = function Module_pauseMainLoop() {
                         Browser.mainLoop.pause();
-                    }, Module.resumeMainLoop = function() {
+                    };
+                    Module["resumeMainLoop"] = function Module_resumeMainLoop() {
                         Browser.mainLoop.resume();
-                    }, Module.getUserMedia = function() {
+                    };
+                    Module["getUserMedia"] = function Module_getUserMedia() {
                         Browser.getUserMedia();
-                    }, Module.createContext = function(canvas, useWebGL, setInModule, webGLContextAttributes) {
+                    };
+                    Module["createContext"] = function Module_createContext(canvas, useWebGL, setInModule, webGLContextAttributes) {
                         return Browser.createContext(canvas, useWebGL, setInModule, webGLContextAttributes);
-                    }, _emscripten_get_now = ENVIRONMENT_IS_NODE ? function() {
-                        var t = process.hrtime();
+                    };
+                    _emscripten_get_now = ENVIRONMENT_IS_NODE ? function _emscripten_get_now_actual() {
+                        var t = process["hrtime"]();
                         return 1e3 * t[0] + t[1] / 1e6;
-                    } : "undefined" != typeof dateNow ? dateNow : "object" == typeof self && self.performance && "function" == typeof self.performance.now ? function() {
-                        return self.performance.now();
-                    } : "object" == typeof performance && "function" == typeof performance.now ? function() {
-                        return performance.now();
-                    } : Date.now, __ATEXIT__.push(function() {
-                        var fflush = Module._fflush;
-                        fflush && fflush(0);
+                    } : "undefined" != typeof dateNow ? dateNow : "object" == typeof self && self["performance"] && "function" == typeof self["performance"]["now"] ? function() {
+                        return self["performance"]["now"]();
+                    } : "object" == typeof performance && "function" == typeof performance["now"] ? function() {
+                        return performance["now"]();
+                    } : Date.now;
+                    __ATEXIT__.push(function() {
+                        var fflush = Module["_fflush"];
+                        if (fflush) fflush(0);
                         var printChar = ___syscall146.printChar;
-                        if (printChar) {
-                            var buffers = ___syscall146.buffers;
-                            buffers[1].length && printChar(1, 10), buffers[2].length && printChar(2, 10);
+                        if (!printChar) return;
+                        var buffers = ___syscall146.buffers;
+                        if (buffers[1].length) printChar(1, 10);
+                        if (buffers[2].length) printChar(2, 10);
+                    });
+                    DYNAMICTOP_PTR = allocate(1, "i32", ALLOC_STATIC);
+                    STACK_BASE = STACKTOP = Runtime.alignMemory(STATICTOP);
+                    STACK_MAX = STACK_BASE + TOTAL_STACK;
+                    DYNAMIC_BASE = Runtime.alignMemory(STACK_MAX);
+                    HEAP32[DYNAMICTOP_PTR >> 2] = DYNAMIC_BASE;
+                    staticSealed = true;
+                    function invoke_viiiii(index, a1, a2, a3, a4, a5) {
+                        try {
+                            Module["dynCall_viiiii"](index, a1, a2, a3, a4, a5);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
                         }
-                    }), DYNAMICTOP_PTR = allocate(1, "i32", ALLOC_STATIC), STACK_MAX = (STACK_BASE = STACKTOP = Runtime.alignMemory(STATICTOP)) + TOTAL_STACK, DYNAMIC_BASE = Runtime.alignMemory(STACK_MAX), HEAP32[DYNAMICTOP_PTR >> 2] = DYNAMIC_BASE, staticSealed = !0, Module.asmGlobalArg = {
+                    }
+                    function invoke_vif(index, a1, a2) {
+                        try {
+                            Module["dynCall_vif"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_vid(index, a1, a2) {
+                        try {
+                            Module["dynCall_vid"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_fiff(index, a1, a2, a3) {
+                        try {
+                            return Module["dynCall_fiff"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_vi(index, a1) {
+                        try {
+                            Module["dynCall_vi"](index, a1);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_vii(index, a1, a2) {
+                        try {
+                            Module["dynCall_vii"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_ii(index, a1) {
+                        try {
+                            return Module["dynCall_ii"](index, a1);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viddi(index, a1, a2, a3, a4) {
+                        try {
+                            Module["dynCall_viddi"](index, a1, a2, a3, a4);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_vidd(index, a1, a2, a3) {
+                        try {
+                            Module["dynCall_vidd"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_iiii(index, a1, a2, a3) {
+                        try {
+                            return Module["dynCall_iiii"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_diii(index, a1, a2, a3) {
+                        try {
+                            return Module["dynCall_diii"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_di(index, a1) {
+                        try {
+                            return Module["dynCall_di"](index, a1);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_iid(index, a1, a2) {
+                        try {
+                            return Module["dynCall_iid"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_iii(index, a1, a2) {
+                        try {
+                            return Module["dynCall_iii"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viiddi(index, a1, a2, a3, a4, a5) {
+                        try {
+                            Module["dynCall_viiddi"](index, a1, a2, a3, a4, a5);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viiiiii(index, a1, a2, a3, a4, a5, a6) {
+                        try {
+                            Module["dynCall_viiiiii"](index, a1, a2, a3, a4, a5, a6);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_dii(index, a1, a2) {
+                        try {
+                            return Module["dynCall_dii"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_i(index) {
+                        try {
+                            return Module["dynCall_i"](index);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_iiiiii(index, a1, a2, a3, a4, a5) {
+                        try {
+                            return Module["dynCall_iiiiii"](index, a1, a2, a3, a4, a5);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viiid(index, a1, a2, a3, a4) {
+                        try {
+                            Module["dynCall_viiid"](index, a1, a2, a3, a4);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viififi(index, a1, a2, a3, a4, a5, a6) {
+                        try {
+                            Module["dynCall_viififi"](index, a1, a2, a3, a4, a5, a6);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viii(index, a1, a2, a3) {
+                        try {
+                            Module["dynCall_viii"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_v(index) {
+                        try {
+                            Module["dynCall_v"](index);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viid(index, a1, a2, a3) {
+                        try {
+                            Module["dynCall_viid"](index, a1, a2, a3);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_idd(index, a1, a2) {
+                        try {
+                            return Module["dynCall_idd"](index, a1, a2);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    function invoke_viiii(index, a1, a2, a3, a4) {
+                        try {
+                            Module["dynCall_viiii"](index, a1, a2, a3, a4);
+                        } catch (e) {
+                            if ("number" != typeof e && "longjmp" !== e) throw e;
+                            Module["setThrew"](1, 0);
+                        }
+                    }
+                    Module.asmGlobalArg = {
                         Math: Math,
                         Int8Array: Int8Array,
                         Int16Array: Int16Array,
@@ -10534,7 +11740,8 @@
                         Float64Array: Float64Array,
                         NaN: NaN,
                         Infinity: 1 / 0
-                    }, Module.asmLibraryArg = {
+                    };
+                    Module.asmLibraryArg = {
                         abort: abort,
                         assert: assert,
                         enlargeMemory: enlargeMemory,
@@ -10764,8 +11971,8 @@
                         }
                         function Qb() {
                             var b = 0, d = 0;
-                            BC(8104, 8, 400);
-                            BC(8504, 408, 540);
+                            BC(8104, 8, 400) | 0;
+                            BC(8504, 408, 540) | 0;
                             b = 9044;
                             d = b + 44 | 0;
                             do {
@@ -10777,7 +11984,7 @@
                             c[2273] = 0;
                             c[2274] = 948;
                             c[2275] = 948;
-                            Ha(17, 8104, o | 0);
+                            Ha(17, 8104, o | 0) | 0;
                             return;
                         }
                         function Rb(a) {
@@ -10803,12 +12010,15 @@
                                     case 2:
                                     case 4:
                                     case 5:
-                                        if (c[a + 52 >> 2] | 0) {
-                                            a = a + 48 | 0;
-                                            break a;
+                                        {
+                                            if (c[a + 52 >> 2] | 0) {
+                                                a = a + 48 | 0;
+                                                break a;
+                                            }
+                                            break;
                                         }
-                                        break;
                                     default:
+                                        {}
                                 }
                                 if (!(c[a + 68 >> 2] | 0)) {
                                     a = (b | 1) == 5 ? 948 : d;
@@ -10827,7 +12037,7 @@
                             d = oB(1e3) | 0;
                             Vb(b, (d | 0) != 0, 2456);
                             c[2276] = (c[2276] | 0) + 1;
-                            BC(d | 0, 8104, 1e3);
+                            BC(d | 0, 8104, 1e3) | 0;
                             if (a[b + 2 >> 0] | 0) {
                                 c[d + 4 >> 2] = 2;
                                 c[d + 12 >> 2] = 4;
@@ -10867,7 +12077,7 @@
                             a = a | 0;
                             b = b | 0;
                             var d = 0;
-                            BC(a | 0, b | 0, 948);
+                            BC(a | 0, b | 0, 948) | 0;
                             ie(a + 948 | 0, b + 948 | 0);
                             d = a + 960 | 0;
                             a = b + 960 | 0;
@@ -10885,7 +12095,7 @@
                             b = a + 944 | 0;
                             d = c[b >> 2] | 0;
                             if (d | 0) {
-                                _b(d + 948 | 0, a);
+                                _b(d + 948 | 0, a) | 0;
                                 c[b >> 2] = 0;
                             }
                             d = $b(a) | 0;
@@ -10919,7 +12129,7 @@
                                 h = 4;
                             } else {
                                 a = e;
-                                while(true){
+                                while(1){
                                     if ((c[a >> 2] | 0) == (b | 0)) {
                                         f = a;
                                         h = 4;
@@ -10933,23 +12143,21 @@
                                 }
                             }
                             while (0)
-                            if ((h | 0) == 4) {
-                                if ((f | 0) != (d | 0)) {
-                                    e = f + 4 | 0;
-                                    a = g - e | 0;
-                                    b = a >> 2;
-                                    if (b) {
-                                        GC(f | 0, e | 0, a | 0);
-                                        d = c[i >> 2] | 0;
-                                    }
-                                    a = f + (b << 2) | 0;
-                                    if ((d | 0) == (a | 0)) a = 1;
-                                    else {
-                                        c[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
-                                        a = 1;
-                                    }
-                                } else a = 0;
-                            }
+                            if ((h | 0) == 4) if ((f | 0) != (d | 0)) {
+                                e = f + 4 | 0;
+                                a = g - e | 0;
+                                b = a >> 2;
+                                if (b) {
+                                    GC(f | 0, e | 0, a | 0) | 0;
+                                    d = c[i >> 2] | 0;
+                                }
+                                a = f + (b << 2) | 0;
+                                if ((d | 0) == (a | 0)) a = 1;
+                                else {
+                                    c[i >> 2] = d + (~((d + -4 - a | 0) >>> 2) << 2);
+                                    a = 1;
+                                }
+                            } else a = 0;
                             return a | 0;
                         }
                         function $b(a) {
@@ -10990,7 +12198,7 @@
                             do if (k | 0) {
                                 if ((c[(ac(a, 0) | 0) + 944 >> 2] | 0) == (a | 0)) {
                                     if (!(_b(a + 948 | 0, b) | 0)) break;
-                                    BC(b + 400 | 0, 8504, 540);
+                                    BC(b + 400 | 0, 8504, 540) | 0;
                                     c[b + 944 >> 2] = 0;
                                     nc(a);
                                     break;
@@ -11024,7 +12232,7 @@
                                         b = f >> 2;
                                         if (!b) f = d;
                                         else {
-                                            GC(g | 0, e | 0, f | 0);
+                                            GC(g | 0, e | 0, f | 0) | 0;
                                             d = c[i >> 2] | 0;
                                             f = d;
                                         }
@@ -11053,7 +12261,7 @@
                             bc(d);
                             d = b + 976 | 0;
                             e = c[d >> 2] | 0;
-                            BC(b | 0, 8104, 1e3);
+                            BC(b | 0, 8104, 1e3) | 0;
                             if (a[e + 2 >> 0] | 0) {
                                 c[b + 4 >> 2] = 2;
                                 c[b + 12 >> 2] = 4;
@@ -11143,7 +12351,7 @@
                             b = a + 948 | 0;
                             c[h >> 2] = (c[b >> 2] | 0) + (d << 2);
                             c[g >> 2] = c[h >> 2];
-                            mc(b, g, f);
+                            mc(b, g, f) | 0;
                             c[(c[f >> 2] | 0) + 944 >> 2] = a;
                             nc(a);
                             l = e;
@@ -11250,7 +12458,7 @@
                                     f = j - g | 0;
                                     g = f >> 2;
                                     if (g) {
-                                        GC(i | 0, e | 0, f | 0);
+                                        GC(i | 0, e | 0, f | 0) | 0;
                                         e = c[k >> 2] | 0;
                                     }
                                     t = i + (g << 2) | 0;
@@ -11311,7 +12519,7 @@
                             a = a | 0;
                             b = b | 0;
                             if (BB(a, b, 400) | 0) {
-                                BC(a | 0, b | 0, 400);
+                                BC(a | 0, b | 0, 400) | 0;
                                 nc(a);
                             }
                             return;
@@ -12024,12 +13232,17 @@
                             ec(a, (b | 0) < 6, 2918);
                             switch(b | 0){
                                 case 0:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                                        break;
+                                    }
                                 case 2:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                                        break;
+                                    }
                                 default:
+                                    {}
                             }
                             return T(g[a + 424 + (b << 2) >> 2]);
                         }
@@ -12039,12 +13252,17 @@
                             ec(a, (b | 0) < 6, 2918);
                             switch(b | 0){
                                 case 0:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                                        break;
+                                    }
                                 case 2:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                                        break;
+                                    }
                                 default:
+                                    {}
                             }
                             return T(g[a + 448 + (b << 2) >> 2]);
                         }
@@ -12054,12 +13272,17 @@
                             ec(a, (b | 0) < 6, 2918);
                             switch(b | 0){
                                 case 0:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 5 : 4;
+                                        break;
+                                    }
                                 case 2:
-                                    b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
-                                    break;
+                                    {
+                                        b = (c[a + 496 >> 2] | 0) == 2 ? 4 : 5;
+                                        break;
+                                    }
                                 default:
+                                    {}
                             }
                             return T(g[a + 472 + (b << 2) >> 2]);
                         }
@@ -12267,7 +13490,7 @@
                                 if (!s) w = 21;
                                 else {
                                     r = 0;
-                                    while(true){
+                                    while(1){
                                         q = b + 524 + (r * 24 | 0) | 0;
                                         if (((Ld(T(g[q >> 2]), d) | 0 ? Ld(T(g[b + 524 + (r * 24 | 0) + 4 >> 2]), e) | 0 : 0) ? (c[b + 524 + (r * 24 | 0) + 8 >> 2] | 0) == (i | 0) : 0) ? (c[b + 524 + (r * 24 | 0) + 12 >> 2] | 0) == (j | 0) : 0) {
                                             w = 22;
@@ -12292,7 +13515,7 @@
                                     if (!s) w = 21;
                                     else {
                                         r = 0;
-                                        while(true){
+                                        while(1){
                                             q = b + 524 + (r * 24 | 0) | 0;
                                             H = T(g[q >> 2]);
                                             I = T(g[b + 524 + (r * 24 | 0) + 4 >> 2]);
@@ -12321,14 +13544,12 @@
                                 }
                             } else if ((w | 0) == 22) {
                                 r = (a[11697] | 0) != 0;
-                                if (!((q | 0) != 0 & (F ^ 1))) {
-                                    if (r) {
-                                        w = 28;
-                                        break;
-                                    } else {
-                                        w = 31;
-                                        break;
-                                    }
+                                if (!((q | 0) != 0 & (F ^ 1))) if (r) {
+                                    w = 28;
+                                    break;
+                                } else {
+                                    w = 31;
+                                    break;
                                 }
                                 t = q + 16 | 0;
                                 c[b + 908 >> 2] = c[t >> 2];
@@ -12561,7 +13782,7 @@
                                 a: do if ((D | 0) == 1) {
                                     h = 0;
                                     r = 0;
-                                    while(true){
+                                    while(1){
                                         q = ac(b, r) | 0;
                                         if (!h) {
                                             if (T(Ee(q)) > T(0.0) ? T(Fe(q)) > T(0.0) : 0) h = q;
@@ -12635,7 +13856,7 @@
                                 L = 0;
                                 oa = T(0.0);
                                 da = T(0.0);
-                                while(true){
+                                while(1){
                                     b: do if (G >>> 0 < Ia >>> 0) {
                                         C = c[Ha >> 2] | 0;
                                         s = 0;
@@ -12646,7 +13867,7 @@
                                         r = 0;
                                         q = 0;
                                         t = G;
-                                        while(true){
+                                        while(1){
                                             B = c[C + (t << 2) >> 2] | 0;
                                             if ((c[B + 36 >> 2] | 0) != 1 ? (c[B + 940 >> 2] = L, (c[B + 24 >> 2] | 0) != 1) : 0) {
                                                 x = T(Ud(B, Ja, Ea));
@@ -12842,7 +14063,7 @@
                                                 E = T(g[ea >> 2]);
                                                 Na = c[ha >> 2] | 0;
                                                 Oa = c[ga >> 2] | 0;
-                                                Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p);
+                                                Td(r, Fa ? Ma : E, Fa ? E : Ma, Ga, Fa ? Na : Oa, Fa ? Oa : Na, Ea, sa, o & (q ^ 1), 3488, p) | 0;
                                                 a[Y >> 0] = a[Y >> 0] | a[r + 508 >> 0];
                                                 r = c[r + 960 >> 2] | 0;
                                             }while ((r | 0) != 0)
@@ -12874,48 +14095,61 @@
                                             f = T(0.0);
                                         } else X = 101;
                                     } else X = 101;
-                                    d: if ((X | 0) == 101) {
+                                    d: do if ((X | 0) == 101) {
                                         X = 0;
                                         switch(Z | 0){
                                             case 1:
-                                                q = 0;
-                                                x = T(v * T(.5));
-                                                f = T(0.0);
-                                                break d;
+                                                {
+                                                    q = 0;
+                                                    x = T(v * T(.5));
+                                                    f = T(0.0);
+                                                    break d;
+                                                }
                                             case 2:
-                                                q = 0;
-                                                x = v;
-                                                f = T(0.0);
-                                                break d;
+                                                {
+                                                    q = 0;
+                                                    x = v;
+                                                    f = T(0.0);
+                                                    break d;
+                                                }
                                             case 3:
-                                                if (k >>> 0 <= 1) {
+                                                {
+                                                    if (k >>> 0 <= 1) {
+                                                        q = 0;
+                                                        x = T(0.0);
+                                                        f = T(0.0);
+                                                        break d;
+                                                    }
+                                                    f = T((k + -1 | 0) >>> 0);
+                                                    q = 0;
+                                                    x = T(0.0);
+                                                    f = T(T(cC(v, T(0.0))) / f);
+                                                    break d;
+                                                }
+                                            case 5:
+                                                {
+                                                    f = T(v / T((k + 1 | 0) >>> 0));
+                                                    q = 0;
+                                                    x = f;
+                                                    break d;
+                                                }
+                                            case 4:
+                                                {
+                                                    f = T(v / T(k >>> 0));
+                                                    q = 0;
+                                                    x = T(f * T(.5));
+                                                    break d;
+                                                }
+                                            default:
+                                                {
                                                     q = 0;
                                                     x = T(0.0);
                                                     f = T(0.0);
                                                     break d;
                                                 }
-                                                f = T((k + -1 | 0) >>> 0);
-                                                q = 0;
-                                                x = T(0.0);
-                                                f = T(T(cC(v, T(0.0))) / f);
-                                                break d;
-                                            case 5:
-                                                f = T(v / T((k + 1 | 0) >>> 0));
-                                                q = 0;
-                                                x = f;
-                                                break d;
-                                            case 4:
-                                                f = T(v / T(k >>> 0));
-                                                q = 0;
-                                                x = T(f * T(.5));
-                                                break d;
-                                            default:
-                                                q = 0;
-                                                x = T(0.0);
-                                                f = T(0.0);
-                                                break d;
                                         }
                                     }
+                                    while (0)
                                     e = T($ + x);
                                     if (B) {
                                         w = T(v / T(q | 0));
@@ -12927,37 +14161,42 @@
                                             e: do if ((c[q + 36 >> 2] | 0) != 1) {
                                                 switch(c[q + 24 >> 2] | 0){
                                                     case 1:
-                                                        if (Ne(q, Ja) | 0) {
-                                                            if (!o) break e;
-                                                            Ma = T(Oe(q, Ja, H));
-                                                            Ma = T(Ma + T(se(b, Ja)));
-                                                            Ma = T(Ma + T(me(q, Ja, Ea)));
-                                                            g[q + 400 + (c[S >> 2] << 2) >> 2] = Ma;
-                                                            break e;
+                                                        {
+                                                            if (Ne(q, Ja) | 0) {
+                                                                if (!o) break e;
+                                                                Ma = T(Oe(q, Ja, H));
+                                                                Ma = T(Ma + T(se(b, Ja)));
+                                                                Ma = T(Ma + T(me(q, Ja, Ea)));
+                                                                g[q + 400 + (c[S >> 2] << 2) >> 2] = Ma;
+                                                                break e;
+                                                            }
+                                                            break;
                                                         }
-                                                        break;
                                                     case 0:
-                                                        Oa = (c[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                                        Ma = T(w + e);
-                                                        e = Oa ? Ma : e;
-                                                        if (o) {
-                                                            Oa = q + 400 + (c[S >> 2] << 2) | 0;
-                                                            g[Oa >> 2] = T(e + T(g[Oa >> 2]));
-                                                        }
-                                                        Oa = (c[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
-                                                        Ma = T(w + e);
-                                                        e = Oa ? Ma : e;
-                                                        if (M) {
-                                                            Ma = T(f + T(Ud(q, Ja, Ea)));
-                                                            v = qa;
-                                                            e = T(e + T(Ma + T(g[q + 504 >> 2])));
-                                                            break e;
-                                                        } else {
-                                                            e = T(e + T(f + T(Pe(q, Ja, Ea))));
-                                                            v = T(cC(v, T(Pe(q, Ka, Ea))));
-                                                            break e;
+                                                        {
+                                                            Oa = (c[(Ke(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                                            Ma = T(w + e);
+                                                            e = Oa ? Ma : e;
+                                                            if (o) {
+                                                                Oa = q + 400 + (c[S >> 2] << 2) | 0;
+                                                                g[Oa >> 2] = T(e + T(g[Oa >> 2]));
+                                                            }
+                                                            Oa = (c[(Le(q, Ja) | 0) + 4 >> 2] | 0) == 3;
+                                                            Ma = T(w + e);
+                                                            e = Oa ? Ma : e;
+                                                            if (M) {
+                                                                Ma = T(f + T(Ud(q, Ja, Ea)));
+                                                                v = qa;
+                                                                e = T(e + T(Ma + T(g[q + 504 >> 2])));
+                                                                break e;
+                                                            } else {
+                                                                e = T(e + T(f + T(Pe(q, Ja, Ea))));
+                                                                v = T(cC(v, T(Pe(q, Ka, Ea))));
+                                                                break e;
+                                                            }
                                                         }
                                                     default:
+                                                        {}
                                                 }
                                                 if (o) {
                                                     Ma = T(x + T(se(b, Ja)));
@@ -13028,7 +14267,7 @@
                                                     Ma = Fa ? e : F;
                                                     e = Fa ? F : e;
                                                     Oa = ((Sb(Ma) | 0) ^ 1) & 1;
-                                                    Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p);
+                                                    Td(s, Ma, e, Ga, Oa, ((Sb(e) | 0) ^ 1) & 1, Ea, sa, 1, 3493, p) | 0;
                                                     e = u;
                                                 } else X = 139;
                                                 while (0)
@@ -13051,14 +14290,20 @@
                                                     }
                                                     switch(q | 0){
                                                         case 1:
-                                                            e = u;
-                                                            break f;
+                                                            {
+                                                                e = u;
+                                                                break f;
+                                                            }
                                                         case 2:
-                                                            e = T(u + T(e * T(.5)));
-                                                            break f;
+                                                            {
+                                                                e = T(u + T(e * T(.5)));
+                                                                break f;
+                                                            }
                                                         default:
-                                                            e = T(u + e);
-                                                            break f;
+                                                            {
+                                                                e = T(u + e);
+                                                                break f;
+                                                            }
                                                     }
                                                 }
                                                 while (0)
@@ -13087,17 +14332,23 @@
                                         e = T(qa - oa);
                                         g: do switch(c[b + 12 >> 2] | 0){
                                             case 3:
-                                                u = T(u + e);
-                                                z = T(0.0);
-                                                break;
+                                                {
+                                                    u = T(u + e);
+                                                    z = T(0.0);
+                                                    break;
+                                                }
                                             case 2:
-                                                u = T(u + T(e * T(.5)));
-                                                z = T(0.0);
-                                                break;
+                                                {
+                                                    u = T(u + T(e * T(.5)));
+                                                    z = T(0.0);
+                                                    break;
+                                                }
                                             case 4:
-                                                if (qa > oa) z = T(e / T(k >>> 0));
-                                                else z = T(0.0);
-                                                break;
+                                                {
+                                                    if (qa > oa) z = T(e / T(k >>> 0));
+                                                    else z = T(0.0);
+                                                    break;
+                                                }
                                             case 7:
                                                 if (qa > oa) {
                                                     u = T(u + T(e / T(k << 1 >>> 0)));
@@ -13110,9 +14361,11 @@
                                                     break g;
                                                 }
                                             case 6:
-                                                z = T(e / T(L >>> 0));
-                                                z = qa > oa & q ? z : T(0.0);
-                                                break;
+                                                {
+                                                    z = T(e / T(L >>> 0));
+                                                    z = qa > oa & q ? z : T(0.0);
+                                                    break;
+                                                }
                                             default:
                                                 z = T(0.0);
                                         }
@@ -13122,13 +14375,13 @@
                                             C = 976 + (Ka << 2) | 0;
                                             t = 0;
                                             r = 0;
-                                            while(true){
+                                            while(1){
                                                 h: do if (r >>> 0 < Ia >>> 0) {
                                                     v = T(0.0);
                                                     w = T(0.0);
                                                     e = T(0.0);
                                                     s = r;
-                                                    while(true){
+                                                    while(1){
                                                         q = c[(c[Ha >> 2] | 0) + (s << 2) >> 2] | 0;
                                                         do if ((c[q + 36 >> 2] | 0) != 1 ? (c[q + 24 >> 2] | 0) == 0 : 0) {
                                                             if ((c[q + 940 >> 2] | 0) != (t | 0)) break h;
@@ -13169,42 +14422,53 @@
                                                     q = r;
                                                     do {
                                                         r = c[(c[Ha >> 2] | 0) + (q << 2) >> 2] | 0;
-                                                        i: if ((c[r + 36 >> 2] | 0) != 1 ? (c[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
+                                                        i: do if ((c[r + 36 >> 2] | 0) != 1 ? (c[r + 24 >> 2] | 0) == 0 : 0) switch(Je(b, r) | 0){
                                                             case 1:
-                                                                Ma = T(f + T(me(r, Ka, Ea)));
-                                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                                break i;
-                                                            case 3:
-                                                                Ma = T(T(u - T(ne(r, Ka, Ea))) - T(g[r + 908 + (c[C >> 2] << 2) >> 2]));
-                                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                                break i;
-                                                            case 2:
-                                                                Ma = T(f + T(T(y - T(g[r + 908 + (c[C >> 2] << 2) >> 2])) * T(.5)));
-                                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                                break i;
-                                                            case 4:
-                                                                Ma = T(f + T(me(r, Ka, Ea)));
-                                                                g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
-                                                                if (ae(r, Ka, qa) | 0) break i;
-                                                                if (Fa) {
-                                                                    v = T(g[r + 908 >> 2]);
-                                                                    e = T(v + T(Ud(r, Ja, Ea)));
-                                                                    w = y;
-                                                                } else {
-                                                                    w = T(g[r + 912 >> 2]);
-                                                                    w = T(w + T(Ud(r, Ka, Ea)));
-                                                                    e = y;
-                                                                    v = T(g[r + 908 >> 2]);
+                                                                {
+                                                                    Ma = T(f + T(me(r, Ka, Ea)));
+                                                                    g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                                                    break i;
                                                                 }
-                                                                if (Ld(e, v) | 0 ? Ld(w, T(g[r + 912 >> 2])) | 0 : 0) break i;
-                                                                Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p);
-                                                                break i;
+                                                            case 3:
+                                                                {
+                                                                    Ma = T(T(u - T(ne(r, Ka, Ea))) - T(g[r + 908 + (c[C >> 2] << 2) >> 2]));
+                                                                    g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                                                    break i;
+                                                                }
+                                                            case 2:
+                                                                {
+                                                                    Ma = T(f + T(T(y - T(g[r + 908 + (c[C >> 2] << 2) >> 2])) * T(.5)));
+                                                                    g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                                                    break i;
+                                                                }
+                                                            case 4:
+                                                                {
+                                                                    Ma = T(f + T(me(r, Ka, Ea)));
+                                                                    g[r + 400 + (c[B >> 2] << 2) >> 2] = Ma;
+                                                                    if (ae(r, Ka, qa) | 0) break i;
+                                                                    if (Fa) {
+                                                                        v = T(g[r + 908 >> 2]);
+                                                                        e = T(v + T(Ud(r, Ja, Ea)));
+                                                                        w = y;
+                                                                    } else {
+                                                                        w = T(g[r + 912 >> 2]);
+                                                                        w = T(w + T(Ud(r, Ka, Ea)));
+                                                                        e = y;
+                                                                        v = T(g[r + 908 >> 2]);
+                                                                    }
+                                                                    if (Ld(e, v) | 0 ? Ld(w, T(g[r + 912 >> 2])) | 0 : 0) break i;
+                                                                    Td(r, e, w, Ga, 1, 1, Ea, sa, 1, 3501, p) | 0;
+                                                                    break i;
+                                                                }
                                                             case 5:
-                                                                g[r + 404 >> 2] = T(T(x - T(Se(r))) + T(Oe(r, 0, qa)));
-                                                                break i;
+                                                                {
+                                                                    g[r + 404 >> 2] = T(T(x - T(Se(r))) + T(Oe(r, 0, qa)));
+                                                                    break i;
+                                                                }
                                                             default:
                                                                 break i;
                                                         }
+                                                        while (0)
                                                         q = q + 1 | 0;
                                                     }while ((q | 0) != (s | 0))
                                                 }
@@ -13354,16 +14618,22 @@
                             switch(c[a + 4 >> 2] | 0){
                                 case 0:
                                 case 3:
-                                    a = 0;
-                                    break;
+                                    {
+                                        a = 0;
+                                        break;
+                                    }
                                 case 1:
-                                    if (T(g[a >> 2]) < T(0.0)) a = 0;
-                                    else e = 5;
-                                    break;
+                                    {
+                                        if (T(g[a >> 2]) < T(0.0)) a = 0;
+                                        else e = 5;
+                                        break;
+                                    }
                                 case 2:
-                                    if (T(g[a >> 2]) < T(0.0)) a = 0;
-                                    else a = (Sb(d) | 0) ^ 1;
-                                    break;
+                                    {
+                                        if (T(g[a >> 2]) < T(0.0)) a = 0;
+                                        else a = (Sb(d) | 0) ^ 1;
+                                        break;
+                                    }
                                 default:
                                     e = 5;
                             }
@@ -13375,11 +14645,15 @@
                             b = T(b);
                             switch(c[a + 4 >> 2] | 0){
                                 case 2:
-                                    b = T(T(T(g[a >> 2]) * b) / T(100.0));
-                                    break;
+                                    {
+                                        b = T(T(T(g[a >> 2]) * b) / T(100.0));
+                                        break;
+                                    }
                                 case 1:
-                                    b = T(g[a >> 2]);
-                                    break;
+                                    {
+                                        b = T(g[a >> 2]);
+                                        break;
+                                    }
                                 default:
                                     b = T(t);
                             }
@@ -13459,8 +14733,10 @@
                             switch(d | 0){
                                 case 5:
                                 case 0:
-                                    a = CB(c[489] | 0, e, f) | 0;
-                                    break;
+                                    {
+                                        a = CB(c[489] | 0, e, f) | 0;
+                                        break;
+                                    }
                                 default:
                                     a = iC(e, f) | 0;
                             }
@@ -13487,7 +14763,7 @@
                             e = e | 0;
                             f = f | 0;
                             a = a | 0 ? a : 956;
-                            Bb[c[a + 8 >> 2] & 1](a, b, d, e, f);
+                            Bb[c[a + 8 >> 2] & 1](a, b, d, e, f) | 0;
                             if ((d | 0) == 5) Ta();
                             else return;
                         }
@@ -13535,7 +14811,7 @@
                             e = a + 4 | 0;
                             a = d - b | 0;
                             if ((a | 0) > 0) {
-                                BC(c[e >> 2] | 0, b | 0, a | 0);
+                                BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
                                 c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
                             }
                             return;
@@ -13584,13 +14860,17 @@
                             a: do if ((b | 0) == 2) {
                                 switch(a | 0){
                                     case 2:
-                                        a = 3;
-                                        break a;
+                                        {
+                                            a = 3;
+                                            break a;
+                                        }
                                     case 3:
                                         break;
                                     default:
-                                        c = 4;
-                                        break a;
+                                        {
+                                            c = 4;
+                                            break a;
+                                        }
                                 }
                                 a = 2;
                             } else c = 4;
@@ -13778,7 +15058,7 @@
                         function Ge(b) {
                             b = b | 0;
                             var d = 0, e = 0;
-                            yC(b + 400 | 0, 0, 540);
+                            yC(b + 400 | 0, 0, 540) | 0;
                             a[b + 985 >> 0] = 1;
                             lc(b);
                             e = $b(b) | 0;
@@ -13908,7 +15188,7 @@
                                 Me(b, 0, i, h, D, B);
                                 d = T(g[A >> 2]);
                                 f = T(g[B >> 2]);
-                                Td(b, d, f, k, c[C >> 2] | 0, c[D >> 2] | 0, h, i, 0, 3565, m);
+                                Td(b, d, f, k, c[C >> 2] | 0, c[D >> 2] | 0, h, i, 0, 3565, m) | 0;
                                 i = T(g[b + 908 + (c[976 + (F << 2) >> 2] << 2) >> 2]);
                                 g[b + 504 >> 2] = T(cC(i, T(Ce(b, F, h))));
                             }
@@ -13960,17 +15240,22 @@
                             switch(c[f >> 2] | 0){
                                 case 2:
                                 case 1:
-                                    f = Sb(d) | 0;
-                                    e = T(g[h >> 2]);
-                                    g[h >> 2] = f | e < d ? e : d;
-                                    break;
-                                case 0:
-                                    if (!(Sb(d) | 0)) {
-                                        c[f >> 2] = 2;
-                                        g[h >> 2] = d;
+                                    {
+                                        f = Sb(d) | 0;
+                                        e = T(g[h >> 2]);
+                                        g[h >> 2] = f | e < d ? e : d;
+                                        break;
                                     }
-                                    break;
+                                case 0:
+                                    {
+                                        if (!(Sb(d) | 0)) {
+                                            c[f >> 2] = 2;
+                                            g[h >> 2] = d;
+                                        }
+                                        break;
+                                    }
                                 default:
+                                    {}
                             }
                             return;
                         }
@@ -14015,7 +15300,7 @@
                                     if (!d) b = 0;
                                     else {
                                         b = 0;
-                                        while(true){
+                                        while(1){
                                             e = ac(a, b) | 0;
                                             if ((c[e + 24 >> 2] | 0) == 0 ? (c[e + 20 >> 2] | 0) == 5 : 0) {
                                                 b = 1;
@@ -14049,7 +15334,7 @@
                                 do if (h | 0) {
                                     d = 0;
                                     f = 0;
-                                    while(true){
+                                    while(1){
                                         e = ac(a, f) | 0;
                                         if (c[e + 940 >> 2] | 0) {
                                             i = 8;
@@ -14145,15 +15430,13 @@
                             } else k = T(o + T(be(c[b + 996 >> 2] | 0, f)));
                             l = Sb(j) | 0;
                             m = Sb(k) | 0;
-                            do if (l ^ m ? (p = T(g[b + 396 >> 2]), !(Sb(p) | 0)) : 0) {
-                                if (l) {
-                                    j = T(n + T(T(k - o) * p));
-                                    break;
-                                } else {
-                                    v = T(o + T(T(j - n) / p));
-                                    k = m ? v : k;
-                                    break;
-                                }
+                            do if (l ^ m ? (p = T(g[b + 396 >> 2]), !(Sb(p) | 0)) : 0) if (l) {
+                                j = T(n + T(T(k - o) * p));
+                                break;
+                            } else {
+                                v = T(o + T(T(j - n) / p));
+                                k = m ? v : k;
+                                break;
                             }
                             while (0)
                             m = Sb(j) | 0;
@@ -14162,13 +15445,13 @@
                                 w = (m ^ 1) & 1;
                                 e = d > T(0.0) & ((e | 0) != 0 & m);
                                 j = r ? j : e ? d : j;
-                                Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i);
+                                Td(b, j, k, h, r ? w : e ? 2 : w, m & (l ^ 1) & 1, j, k, 0, 3623, i) | 0;
                                 j = T(g[b + 908 >> 2]);
                                 j = T(j + T(Ud(b, 2, d)));
                                 k = T(g[b + 912 >> 2]);
                                 k = T(k + T(Ud(b, 0, d)));
                             }
-                            Td(b, j, k, h, 1, 1, j, k, 1, 3635, i);
+                            Td(b, j, k, h, 1, 1, j, k, 1, 3635, i) | 0;
                             if (Ze(b, s) | 0 ? !(Ne(b, s) | 0) : 0) {
                                 w = c[976 + (s << 2) >> 2] | 0;
                                 v = T(g[a + 908 + (w << 2) >> 2]);
@@ -14244,10 +15527,12 @@
                             switch(c[b + 56 >> 2] | 0){
                                 case 0:
                                 case 3:
-                                    d = T(g[b + 40 >> 2]);
-                                    if (d > T(0.0) & ((Sb(d) | 0) ^ 1)) b = a[(c[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
-                                    else b = 1056;
-                                    break;
+                                    {
+                                        d = T(g[b + 40 >> 2]);
+                                        if (d > T(0.0) & ((Sb(d) | 0) ^ 1)) b = a[(c[b + 976 >> 2] | 0) + 2 >> 0] | 0 ? 1056 : 992;
+                                        else b = 1056;
+                                        break;
+                                    }
                                 default:
                                     b = b + 52 | 0;
                             }
@@ -14327,7 +15612,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -14377,7 +15662,7 @@
                                     c[h >> 2] = e;
                                 }while (a >>> 0 < d >>> 0)
                             }
-                            if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0);
+                            if (g | 0) GC(i + (0 - g << 2) | 0, b | 0, f | 0) | 0;
                             return;
                         }
                         function ff(a, b, d) {
@@ -14392,12 +15677,12 @@
                             g = h - f | 0;
                             e = j + (0 - (g >> 2) << 2) | 0;
                             c[i >> 2] = e;
-                            if ((g | 0) > 0) BC(e | 0, f | 0, g | 0);
+                            if ((g | 0) > 0) BC(e | 0, f | 0, g | 0) | 0;
                             f = a + 4 | 0;
                             g = b + 8 | 0;
                             e = (c[f >> 2] | 0) - h | 0;
                             if ((e | 0) > 0) {
-                                BC(c[g >> 2] | 0, d | 0, e | 0);
+                                BC(c[g >> 2] | 0, d | 0, e | 0) | 0;
                                 c[g >> 2] = (c[g >> 2] | 0) + (e >>> 2 << 2);
                             }
                             h = c[a >> 2] | 0;
@@ -15144,7 +16429,7 @@
                                 c[a + 12 >> 2] = c[b + 12 >> 2];
                             } else {
                                 Zg(d, 0);
-                                Ja(e | 0, d | 0);
+                                Ja(e | 0, d | 0) | 0;
                                 _g(a, d);
                                 $g(d);
                             }
@@ -15418,419 +16703,419 @@
                             f = b + 8 | 0;
                             e = b;
                             Eh(a, 3646);
-                            Fh(a, 3651, 2);
-                            Gh(a, 3665, 2);
-                            Hh(a, 3682, 18);
+                            Fh(a, 3651, 2) | 0;
+                            Gh(a, 3665, 2) | 0;
+                            Hh(a, 3682, 18) | 0;
                             c[Ga >> 2] = 19;
                             c[Ga + 4 >> 2] = 0;
                             c[d >> 2] = c[Ga >> 2];
                             c[d + 4 >> 2] = c[Ga + 4 >> 2];
-                            Ih(a, 3690, d);
+                            Ih(a, 3690, d) | 0;
                             c[Fa >> 2] = 1;
                             c[Fa + 4 >> 2] = 0;
                             c[d >> 2] = c[Fa >> 2];
                             c[d + 4 >> 2] = c[Fa + 4 >> 2];
-                            Jh(a, 3696, d);
+                            Jh(a, 3696, d) | 0;
                             c[Ea >> 2] = 2;
                             c[Ea + 4 >> 2] = 0;
                             c[d >> 2] = c[Ea >> 2];
                             c[d + 4 >> 2] = c[Ea + 4 >> 2];
-                            Kh(a, 3706, d);
+                            Kh(a, 3706, d) | 0;
                             c[Da >> 2] = 1;
                             c[Da + 4 >> 2] = 0;
                             c[d >> 2] = c[Da >> 2];
                             c[d + 4 >> 2] = c[Da + 4 >> 2];
-                            Lh(a, 3722, d);
+                            Lh(a, 3722, d) | 0;
                             c[Ca >> 2] = 2;
                             c[Ca + 4 >> 2] = 0;
                             c[d >> 2] = c[Ca >> 2];
                             c[d + 4 >> 2] = c[Ca + 4 >> 2];
-                            Lh(a, 3734, d);
+                            Lh(a, 3734, d) | 0;
                             c[Ba >> 2] = 3;
                             c[Ba + 4 >> 2] = 0;
                             c[d >> 2] = c[Ba >> 2];
                             c[d + 4 >> 2] = c[Ba + 4 >> 2];
-                            Kh(a, 3753, d);
+                            Kh(a, 3753, d) | 0;
                             c[Aa >> 2] = 4;
                             c[Aa + 4 >> 2] = 0;
                             c[d >> 2] = c[Aa >> 2];
                             c[d + 4 >> 2] = c[Aa + 4 >> 2];
-                            Kh(a, 3769, d);
+                            Kh(a, 3769, d) | 0;
                             c[za >> 2] = 5;
                             c[za + 4 >> 2] = 0;
                             c[d >> 2] = c[za >> 2];
                             c[d + 4 >> 2] = c[za + 4 >> 2];
-                            Kh(a, 3783, d);
+                            Kh(a, 3783, d) | 0;
                             c[ya >> 2] = 6;
                             c[ya + 4 >> 2] = 0;
                             c[d >> 2] = c[ya >> 2];
                             c[d + 4 >> 2] = c[ya + 4 >> 2];
-                            Kh(a, 3796, d);
+                            Kh(a, 3796, d) | 0;
                             c[xa >> 2] = 7;
                             c[xa + 4 >> 2] = 0;
                             c[d >> 2] = c[xa >> 2];
                             c[d + 4 >> 2] = c[xa + 4 >> 2];
-                            Kh(a, 3813, d);
+                            Kh(a, 3813, d) | 0;
                             c[wa >> 2] = 8;
                             c[wa + 4 >> 2] = 0;
                             c[d >> 2] = c[wa >> 2];
                             c[d + 4 >> 2] = c[wa + 4 >> 2];
-                            Kh(a, 3825, d);
+                            Kh(a, 3825, d) | 0;
                             c[va >> 2] = 3;
                             c[va + 4 >> 2] = 0;
                             c[d >> 2] = c[va >> 2];
                             c[d + 4 >> 2] = c[va + 4 >> 2];
-                            Lh(a, 3843, d);
+                            Lh(a, 3843, d) | 0;
                             c[ua >> 2] = 4;
                             c[ua + 4 >> 2] = 0;
                             c[d >> 2] = c[ua >> 2];
                             c[d + 4 >> 2] = c[ua + 4 >> 2];
-                            Lh(a, 3853, d);
+                            Lh(a, 3853, d) | 0;
                             c[ta >> 2] = 9;
                             c[ta + 4 >> 2] = 0;
                             c[d >> 2] = c[ta >> 2];
                             c[d + 4 >> 2] = c[ta + 4 >> 2];
-                            Kh(a, 3870, d);
+                            Kh(a, 3870, d) | 0;
                             c[sa >> 2] = 10;
                             c[sa + 4 >> 2] = 0;
                             c[d >> 2] = c[sa >> 2];
                             c[d + 4 >> 2] = c[sa + 4 >> 2];
-                            Kh(a, 3884, d);
+                            Kh(a, 3884, d) | 0;
                             c[ra >> 2] = 11;
                             c[ra + 4 >> 2] = 0;
                             c[d >> 2] = c[ra >> 2];
                             c[d + 4 >> 2] = c[ra + 4 >> 2];
-                            Kh(a, 3896, d);
+                            Kh(a, 3896, d) | 0;
                             c[qa >> 2] = 1;
                             c[qa + 4 >> 2] = 0;
                             c[d >> 2] = c[qa >> 2];
                             c[d + 4 >> 2] = c[qa + 4 >> 2];
-                            Mh(a, 3907, d);
+                            Mh(a, 3907, d) | 0;
                             c[pa >> 2] = 2;
                             c[pa + 4 >> 2] = 0;
                             c[d >> 2] = c[pa >> 2];
                             c[d + 4 >> 2] = c[pa + 4 >> 2];
-                            Mh(a, 3915, d);
+                            Mh(a, 3915, d) | 0;
                             c[oa >> 2] = 3;
                             c[oa + 4 >> 2] = 0;
                             c[d >> 2] = c[oa >> 2];
                             c[d + 4 >> 2] = c[oa + 4 >> 2];
-                            Mh(a, 3928, d);
+                            Mh(a, 3928, d) | 0;
                             c[na >> 2] = 4;
                             c[na + 4 >> 2] = 0;
                             c[d >> 2] = c[na >> 2];
                             c[d + 4 >> 2] = c[na + 4 >> 2];
-                            Mh(a, 3948, d);
+                            Mh(a, 3948, d) | 0;
                             c[ma >> 2] = 5;
                             c[ma + 4 >> 2] = 0;
                             c[d >> 2] = c[ma >> 2];
                             c[d + 4 >> 2] = c[ma + 4 >> 2];
-                            Mh(a, 3960, d);
+                            Mh(a, 3960, d) | 0;
                             c[la >> 2] = 6;
                             c[la + 4 >> 2] = 0;
                             c[d >> 2] = c[la >> 2];
                             c[d + 4 >> 2] = c[la + 4 >> 2];
-                            Mh(a, 3974, d);
+                            Mh(a, 3974, d) | 0;
                             c[ka >> 2] = 7;
                             c[ka + 4 >> 2] = 0;
                             c[d >> 2] = c[ka >> 2];
                             c[d + 4 >> 2] = c[ka + 4 >> 2];
-                            Mh(a, 3983, d);
+                            Mh(a, 3983, d) | 0;
                             c[ja >> 2] = 20;
                             c[ja + 4 >> 2] = 0;
                             c[d >> 2] = c[ja >> 2];
                             c[d + 4 >> 2] = c[ja + 4 >> 2];
-                            Ih(a, 3999, d);
+                            Ih(a, 3999, d) | 0;
                             c[ia >> 2] = 8;
                             c[ia + 4 >> 2] = 0;
                             c[d >> 2] = c[ia >> 2];
                             c[d + 4 >> 2] = c[ia + 4 >> 2];
-                            Mh(a, 4012, d);
+                            Mh(a, 4012, d) | 0;
                             c[ha >> 2] = 9;
                             c[ha + 4 >> 2] = 0;
                             c[d >> 2] = c[ha >> 2];
                             c[d + 4 >> 2] = c[ha + 4 >> 2];
-                            Mh(a, 4022, d);
+                            Mh(a, 4022, d) | 0;
                             c[ga >> 2] = 21;
                             c[ga + 4 >> 2] = 0;
                             c[d >> 2] = c[ga >> 2];
                             c[d + 4 >> 2] = c[ga + 4 >> 2];
-                            Ih(a, 4039, d);
+                            Ih(a, 4039, d) | 0;
                             c[fa >> 2] = 10;
                             c[fa + 4 >> 2] = 0;
                             c[d >> 2] = c[fa >> 2];
                             c[d + 4 >> 2] = c[fa + 4 >> 2];
-                            Mh(a, 4053, d);
+                            Mh(a, 4053, d) | 0;
                             c[ea >> 2] = 11;
                             c[ea + 4 >> 2] = 0;
                             c[d >> 2] = c[ea >> 2];
                             c[d + 4 >> 2] = c[ea + 4 >> 2];
-                            Mh(a, 4065, d);
+                            Mh(a, 4065, d) | 0;
                             c[da >> 2] = 12;
                             c[da + 4 >> 2] = 0;
                             c[d >> 2] = c[da >> 2];
                             c[d + 4 >> 2] = c[da + 4 >> 2];
-                            Mh(a, 4084, d);
+                            Mh(a, 4084, d) | 0;
                             c[ca >> 2] = 13;
                             c[ca + 4 >> 2] = 0;
                             c[d >> 2] = c[ca >> 2];
                             c[d + 4 >> 2] = c[ca + 4 >> 2];
-                            Mh(a, 4097, d);
+                            Mh(a, 4097, d) | 0;
                             c[ba >> 2] = 14;
                             c[ba + 4 >> 2] = 0;
                             c[d >> 2] = c[ba >> 2];
                             c[d + 4 >> 2] = c[ba + 4 >> 2];
-                            Mh(a, 4117, d);
+                            Mh(a, 4117, d) | 0;
                             c[aa >> 2] = 15;
                             c[aa + 4 >> 2] = 0;
                             c[d >> 2] = c[aa >> 2];
                             c[d + 4 >> 2] = c[aa + 4 >> 2];
-                            Mh(a, 4129, d);
+                            Mh(a, 4129, d) | 0;
                             c[$ >> 2] = 16;
                             c[$ + 4 >> 2] = 0;
                             c[d >> 2] = c[$ >> 2];
                             c[d + 4 >> 2] = c[$ + 4 >> 2];
-                            Mh(a, 4148, d);
+                            Mh(a, 4148, d) | 0;
                             c[_ >> 2] = 17;
                             c[_ + 4 >> 2] = 0;
                             c[d >> 2] = c[_ >> 2];
                             c[d + 4 >> 2] = c[_ + 4 >> 2];
-                            Mh(a, 4161, d);
+                            Mh(a, 4161, d) | 0;
                             c[Z >> 2] = 18;
                             c[Z + 4 >> 2] = 0;
                             c[d >> 2] = c[Z >> 2];
                             c[d + 4 >> 2] = c[Z + 4 >> 2];
-                            Mh(a, 4181, d);
+                            Mh(a, 4181, d) | 0;
                             c[Y >> 2] = 5;
                             c[Y + 4 >> 2] = 0;
                             c[d >> 2] = c[Y >> 2];
                             c[d + 4 >> 2] = c[Y + 4 >> 2];
-                            Lh(a, 4196, d);
+                            Lh(a, 4196, d) | 0;
                             c[X >> 2] = 6;
                             c[X + 4 >> 2] = 0;
                             c[d >> 2] = c[X >> 2];
                             c[d + 4 >> 2] = c[X + 4 >> 2];
-                            Lh(a, 4206, d);
+                            Lh(a, 4206, d) | 0;
                             c[W >> 2] = 7;
                             c[W + 4 >> 2] = 0;
                             c[d >> 2] = c[W >> 2];
                             c[d + 4 >> 2] = c[W + 4 >> 2];
-                            Lh(a, 4217, d);
+                            Lh(a, 4217, d) | 0;
                             c[V >> 2] = 3;
                             c[V + 4 >> 2] = 0;
                             c[d >> 2] = c[V >> 2];
                             c[d + 4 >> 2] = c[V + 4 >> 2];
-                            Nh(a, 4235, d);
+                            Nh(a, 4235, d) | 0;
                             c[U >> 2] = 1;
                             c[U + 4 >> 2] = 0;
                             c[d >> 2] = c[U >> 2];
                             c[d + 4 >> 2] = c[U + 4 >> 2];
-                            Oh(a, 4251, d);
+                            Oh(a, 4251, d) | 0;
                             c[T >> 2] = 4;
                             c[T + 4 >> 2] = 0;
                             c[d >> 2] = c[T >> 2];
                             c[d + 4 >> 2] = c[T + 4 >> 2];
-                            Nh(a, 4263, d);
+                            Nh(a, 4263, d) | 0;
                             c[S >> 2] = 5;
                             c[S + 4 >> 2] = 0;
                             c[d >> 2] = c[S >> 2];
                             c[d + 4 >> 2] = c[S + 4 >> 2];
-                            Nh(a, 4279, d);
+                            Nh(a, 4279, d) | 0;
                             c[R >> 2] = 6;
                             c[R + 4 >> 2] = 0;
                             c[d >> 2] = c[R >> 2];
                             c[d + 4 >> 2] = c[R + 4 >> 2];
-                            Nh(a, 4293, d);
+                            Nh(a, 4293, d) | 0;
                             c[Q >> 2] = 7;
                             c[Q + 4 >> 2] = 0;
                             c[d >> 2] = c[Q >> 2];
                             c[d + 4 >> 2] = c[Q + 4 >> 2];
-                            Nh(a, 4306, d);
+                            Nh(a, 4306, d) | 0;
                             c[P >> 2] = 8;
                             c[P + 4 >> 2] = 0;
                             c[d >> 2] = c[P >> 2];
                             c[d + 4 >> 2] = c[P + 4 >> 2];
-                            Nh(a, 4323, d);
+                            Nh(a, 4323, d) | 0;
                             c[O >> 2] = 9;
                             c[O + 4 >> 2] = 0;
                             c[d >> 2] = c[O >> 2];
                             c[d + 4 >> 2] = c[O + 4 >> 2];
-                            Nh(a, 4335, d);
+                            Nh(a, 4335, d) | 0;
                             c[N >> 2] = 2;
                             c[N + 4 >> 2] = 0;
                             c[d >> 2] = c[N >> 2];
                             c[d + 4 >> 2] = c[N + 4 >> 2];
-                            Oh(a, 4353, d);
+                            Oh(a, 4353, d) | 0;
                             c[M >> 2] = 12;
                             c[M + 4 >> 2] = 0;
                             c[d >> 2] = c[M >> 2];
                             c[d + 4 >> 2] = c[M + 4 >> 2];
-                            Ph(a, 4363, d);
+                            Ph(a, 4363, d) | 0;
                             c[L >> 2] = 1;
                             c[L + 4 >> 2] = 0;
                             c[d >> 2] = c[L >> 2];
                             c[d + 4 >> 2] = c[L + 4 >> 2];
-                            Qh(a, 4376, d);
+                            Qh(a, 4376, d) | 0;
                             c[K >> 2] = 2;
                             c[K + 4 >> 2] = 0;
                             c[d >> 2] = c[K >> 2];
                             c[d + 4 >> 2] = c[K + 4 >> 2];
-                            Qh(a, 4388, d);
+                            Qh(a, 4388, d) | 0;
                             c[J >> 2] = 13;
                             c[J + 4 >> 2] = 0;
                             c[d >> 2] = c[J >> 2];
                             c[d + 4 >> 2] = c[J + 4 >> 2];
-                            Ph(a, 4402, d);
+                            Ph(a, 4402, d) | 0;
                             c[I >> 2] = 14;
                             c[I + 4 >> 2] = 0;
                             c[d >> 2] = c[I >> 2];
                             c[d + 4 >> 2] = c[I + 4 >> 2];
-                            Ph(a, 4411, d);
+                            Ph(a, 4411, d) | 0;
                             c[H >> 2] = 15;
                             c[H + 4 >> 2] = 0;
                             c[d >> 2] = c[H >> 2];
                             c[d + 4 >> 2] = c[H + 4 >> 2];
-                            Ph(a, 4421, d);
+                            Ph(a, 4421, d) | 0;
                             c[G >> 2] = 16;
                             c[G + 4 >> 2] = 0;
                             c[d >> 2] = c[G >> 2];
                             c[d + 4 >> 2] = c[G + 4 >> 2];
-                            Ph(a, 4433, d);
+                            Ph(a, 4433, d) | 0;
                             c[F >> 2] = 17;
                             c[F + 4 >> 2] = 0;
                             c[d >> 2] = c[F >> 2];
                             c[d + 4 >> 2] = c[F + 4 >> 2];
-                            Ph(a, 4446, d);
+                            Ph(a, 4446, d) | 0;
                             c[E >> 2] = 18;
                             c[E + 4 >> 2] = 0;
                             c[d >> 2] = c[E >> 2];
                             c[d + 4 >> 2] = c[E + 4 >> 2];
-                            Ph(a, 4458, d);
+                            Ph(a, 4458, d) | 0;
                             c[D >> 2] = 3;
                             c[D + 4 >> 2] = 0;
                             c[d >> 2] = c[D >> 2];
                             c[d + 4 >> 2] = c[D + 4 >> 2];
-                            Qh(a, 4471, d);
+                            Qh(a, 4471, d) | 0;
                             c[C >> 2] = 1;
                             c[C + 4 >> 2] = 0;
                             c[d >> 2] = c[C >> 2];
                             c[d + 4 >> 2] = c[C + 4 >> 2];
-                            Rh(a, 4486, d);
+                            Rh(a, 4486, d) | 0;
                             c[B >> 2] = 10;
                             c[B + 4 >> 2] = 0;
                             c[d >> 2] = c[B >> 2];
                             c[d + 4 >> 2] = c[B + 4 >> 2];
-                            Nh(a, 4496, d);
+                            Nh(a, 4496, d) | 0;
                             c[A >> 2] = 11;
                             c[A + 4 >> 2] = 0;
                             c[d >> 2] = c[A >> 2];
                             c[d + 4 >> 2] = c[A + 4 >> 2];
-                            Nh(a, 4508, d);
+                            Nh(a, 4508, d) | 0;
                             c[z >> 2] = 3;
                             c[z + 4 >> 2] = 0;
                             c[d >> 2] = c[z >> 2];
                             c[d + 4 >> 2] = c[z + 4 >> 2];
-                            Oh(a, 4519, d);
+                            Oh(a, 4519, d) | 0;
                             c[y >> 2] = 4;
                             c[y + 4 >> 2] = 0;
                             c[d >> 2] = c[y >> 2];
                             c[d + 4 >> 2] = c[y + 4 >> 2];
-                            Sh(a, 4530, d);
+                            Sh(a, 4530, d) | 0;
                             c[x >> 2] = 19;
                             c[x + 4 >> 2] = 0;
                             c[d >> 2] = c[x >> 2];
                             c[d + 4 >> 2] = c[x + 4 >> 2];
-                            Th(a, 4542, d);
+                            Th(a, 4542, d) | 0;
                             c[w >> 2] = 12;
                             c[w + 4 >> 2] = 0;
                             c[d >> 2] = c[w >> 2];
                             c[d + 4 >> 2] = c[w + 4 >> 2];
-                            Uh(a, 4554, d);
+                            Uh(a, 4554, d) | 0;
                             c[v >> 2] = 13;
                             c[v + 4 >> 2] = 0;
                             c[d >> 2] = c[v >> 2];
                             c[d + 4 >> 2] = c[v + 4 >> 2];
-                            Vh(a, 4568, d);
+                            Vh(a, 4568, d) | 0;
                             c[u >> 2] = 2;
                             c[u + 4 >> 2] = 0;
                             c[d >> 2] = c[u >> 2];
                             c[d + 4 >> 2] = c[u + 4 >> 2];
-                            Wh(a, 4578, d);
+                            Wh(a, 4578, d) | 0;
                             c[t >> 2] = 20;
                             c[t + 4 >> 2] = 0;
                             c[d >> 2] = c[t >> 2];
                             c[d + 4 >> 2] = c[t + 4 >> 2];
-                            Xh(a, 4587, d);
+                            Xh(a, 4587, d) | 0;
                             c[s >> 2] = 22;
                             c[s + 4 >> 2] = 0;
                             c[d >> 2] = c[s >> 2];
                             c[d + 4 >> 2] = c[s + 4 >> 2];
-                            Ih(a, 4602, d);
+                            Ih(a, 4602, d) | 0;
                             c[r >> 2] = 23;
                             c[r + 4 >> 2] = 0;
                             c[d >> 2] = c[r >> 2];
                             c[d + 4 >> 2] = c[r + 4 >> 2];
-                            Ih(a, 4619, d);
+                            Ih(a, 4619, d) | 0;
                             c[q >> 2] = 14;
                             c[q + 4 >> 2] = 0;
                             c[d >> 2] = c[q >> 2];
                             c[d + 4 >> 2] = c[q + 4 >> 2];
-                            Yh(a, 4629, d);
+                            Yh(a, 4629, d) | 0;
                             c[p >> 2] = 1;
                             c[p + 4 >> 2] = 0;
                             c[d >> 2] = c[p >> 2];
                             c[d + 4 >> 2] = c[p + 4 >> 2];
-                            Zh(a, 4637, d);
+                            Zh(a, 4637, d) | 0;
                             c[o >> 2] = 4;
                             c[o + 4 >> 2] = 0;
                             c[d >> 2] = c[o >> 2];
                             c[d + 4 >> 2] = c[o + 4 >> 2];
-                            Qh(a, 4653, d);
+                            Qh(a, 4653, d) | 0;
                             c[n >> 2] = 5;
                             c[n + 4 >> 2] = 0;
                             c[d >> 2] = c[n >> 2];
                             c[d + 4 >> 2] = c[n + 4 >> 2];
-                            Qh(a, 4669, d);
+                            Qh(a, 4669, d) | 0;
                             c[m >> 2] = 6;
                             c[m + 4 >> 2] = 0;
                             c[d >> 2] = c[m >> 2];
                             c[d + 4 >> 2] = c[m + 4 >> 2];
-                            Qh(a, 4686, d);
+                            Qh(a, 4686, d) | 0;
                             c[k >> 2] = 7;
                             c[k + 4 >> 2] = 0;
                             c[d >> 2] = c[k >> 2];
                             c[d + 4 >> 2] = c[k + 4 >> 2];
-                            Qh(a, 4701, d);
+                            Qh(a, 4701, d) | 0;
                             c[j >> 2] = 8;
                             c[j + 4 >> 2] = 0;
                             c[d >> 2] = c[j >> 2];
                             c[d + 4 >> 2] = c[j + 4 >> 2];
-                            Qh(a, 4719, d);
+                            Qh(a, 4719, d) | 0;
                             c[i >> 2] = 9;
                             c[i + 4 >> 2] = 0;
                             c[d >> 2] = c[i >> 2];
                             c[d + 4 >> 2] = c[i + 4 >> 2];
-                            Qh(a, 4736, d);
+                            Qh(a, 4736, d) | 0;
                             c[h >> 2] = 21;
                             c[h + 4 >> 2] = 0;
                             c[d >> 2] = c[h >> 2];
                             c[d + 4 >> 2] = c[h + 4 >> 2];
-                            _h(a, 4754, d);
+                            _h(a, 4754, d) | 0;
                             c[g >> 2] = 2;
                             c[g + 4 >> 2] = 0;
                             c[d >> 2] = c[g >> 2];
                             c[d + 4 >> 2] = c[g + 4 >> 2];
-                            Rh(a, 4772, d);
+                            Rh(a, 4772, d) | 0;
                             c[f >> 2] = 3;
                             c[f + 4 >> 2] = 0;
                             c[d >> 2] = c[f >> 2];
                             c[d + 4 >> 2] = c[f + 4 >> 2];
-                            Rh(a, 4790, d);
+                            Rh(a, 4790, d) | 0;
                             c[e >> 2] = 4;
                             c[e + 4 >> 2] = 0;
                             c[d >> 2] = c[e >> 2];
                             c[d + 4 >> 2] = c[e + 4 >> 2];
-                            Rh(a, 4808, d);
+                            Rh(a, 4808, d) | 0;
                             l = b;
                             return;
                         }
@@ -16263,7 +17548,7 @@
                             var b = 0, d = 0;
                             if (!(a[7616] | 0)) {
                                 qi(9136);
-                                Ha(24, 9136, o | 0);
+                                Ha(24, 9136, o | 0) | 0;
                                 d = 7616;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -16343,7 +17628,7 @@
                             g = a + 28 | 0;
                             c[p >> 2] = c[g >> 2];
                             c[o >> 2] = c[p >> 2];
-                            gi(a + 24 | 0, o, n, m, k, j, i);
+                            gi(a + 24 | 0, o, n, m, k, j, i) | 0;
                             c[g >> 2] = c[c[g >> 2] >> 2];
                             l = h;
                             return;
@@ -16470,7 +17755,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -16617,7 +17902,7 @@
                             var b = 0;
                             if (!(a[7632] | 0)) {
                                 Ti(9184);
-                                Ha(25, 9184, o | 0);
+                                Ha(25, 9184, o | 0) | 0;
                                 b = 7632;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -16647,7 +17932,7 @@
                         function Gi(a, b) {
                             a = a | 0;
                             b = b | 0;
-                            Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0);
+                            Ni(b, a, a + 8 | 0, a + 16 | 0, a + 24 | 0, a + 32 | 0, a + 40 | 0) | 0;
                             return;
                         }
                         function Hi(a) {
@@ -16889,7 +18174,7 @@
                             var b = 0, d = 0;
                             if (!(a[7640] | 0)) {
                                 jj(9232);
-                                Ha(26, 9232, o | 0);
+                                Ha(26, 9232, o | 0) | 0;
                                 d = 7640;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -17028,7 +18313,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -17225,7 +18510,7 @@
                             var b = 0, d = 0;
                             if (!(a[7648] | 0)) {
                                 Ij(9268);
-                                Ha(27, 9268, o | 0);
+                                Ha(27, 9268, o | 0) | 0;
                                 d = 7648;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -17364,7 +18649,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -17518,7 +18803,7 @@
                             var b = 0, d = 0;
                             if (!(a[7656] | 0)) {
                                 ak(9304);
-                                Ha(28, 9304, o | 0);
+                                Ha(28, 9304, o | 0) | 0;
                                 d = 7656;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -17657,7 +18942,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -17845,7 +19130,7 @@
                             var b = 0, d = 0;
                             if (!(a[7664] | 0)) {
                                 yk(9340);
-                                Ha(29, 9340, o | 0);
+                                Ha(29, 9340, o | 0) | 0;
                                 d = 7664;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -17984,7 +19269,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -18161,7 +19446,7 @@
                             var b = 0, d = 0;
                             if (!(a[7672] | 0)) {
                                 Vk(9376);
-                                Ha(30, 9376, o | 0);
+                                Ha(30, 9376, o | 0) | 0;
                                 d = 7672;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -18300,7 +19585,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -18450,7 +19735,7 @@
                             var b = 0, d = 0;
                             if (!(a[7680] | 0)) {
                                 ml(9412);
-                                Ha(31, 9412, o | 0);
+                                Ha(31, 9412, o | 0) | 0;
                                 d = 7680;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -18589,7 +19874,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -18743,7 +20028,7 @@
                             var b = 0, d = 0;
                             if (!(a[7688] | 0)) {
                                 Gl(9448);
-                                Ha(32, 9448, o | 0);
+                                Ha(32, 9448, o | 0) | 0;
                                 d = 7688;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -18882,7 +20167,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -19055,7 +20340,7 @@
                             var b = 0, d = 0;
                             if (!(a[7696] | 0)) {
                                 am(9484);
-                                Ha(33, 9484, o | 0);
+                                Ha(33, 9484, o | 0) | 0;
                                 d = 7696;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -19194,7 +20479,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -19358,7 +20643,7 @@
                             var b = 0, d = 0;
                             if (!(a[7704] | 0)) {
                                 tm(9520);
-                                Ha(34, 9520, o | 0);
+                                Ha(34, 9520, o | 0) | 0;
                                 d = 7704;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -19497,7 +20782,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -19656,7 +20941,7 @@
                             var b = 0, d = 0;
                             if (!(a[7712] | 0)) {
                                 Mm(9556);
-                                Ha(35, 9556, o | 0);
+                                Ha(35, 9556, o | 0) | 0;
                                 d = 7712;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -19795,7 +21080,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -19945,7 +21230,7 @@
                             var b = 0, d = 0;
                             if (!(a[7720] | 0)) {
                                 dn(9592);
-                                Ha(36, 9592, o | 0);
+                                Ha(36, 9592, o | 0) | 0;
                                 d = 7720;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -20084,7 +21369,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -20210,7 +21495,7 @@
                             var b = 0;
                             if (!(a[7736] | 0)) {
                                 An(9640);
-                                Ha(25, 9640, o | 0);
+                                Ha(25, 9640, o | 0) | 0;
                                 b = 7736;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -20220,7 +21505,7 @@
                         function on(a, b) {
                             a = a | 0;
                             b = b | 0;
-                            un(b, a, a + 8 | 0);
+                            un(b, a, a + 8 | 0) | 0;
                             return;
                         }
                         function pn(a) {
@@ -20386,7 +21671,7 @@
                             var b = 0, d = 0;
                             if (!(a[7744] | 0)) {
                                 Mn(9684);
-                                Ha(37, 9684, o | 0);
+                                Ha(37, 9684, o | 0) | 0;
                                 d = 7744;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -20525,7 +21810,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -20686,7 +21971,7 @@
                             var b = 0, d = 0;
                             if (!(a[7752] | 0)) {
                                 eo(9720);
-                                Ha(38, 9720, o | 0);
+                                Ha(38, 9720, o | 0) | 0;
                                 d = 7752;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -20825,7 +22110,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -20975,7 +22260,7 @@
                             var b = 0, d = 0;
                             if (!(a[7760] | 0)) {
                                 xo(9756);
-                                Ha(39, 9756, o | 0);
+                                Ha(39, 9756, o | 0) | 0;
                                 d = 7760;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -21114,7 +22399,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -21273,7 +22558,7 @@
                             var b = 0, d = 0;
                             if (!(a[7768] | 0)) {
                                 Qo(9792);
-                                Ha(40, 9792, o | 0);
+                                Ha(40, 9792, o | 0) | 0;
                                 d = 7768;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -21412,7 +22697,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -21576,7 +22861,7 @@
                             var b = 0, d = 0;
                             if (!(a[7776] | 0)) {
                                 hp(9828);
-                                Ha(41, 9828, o | 0);
+                                Ha(41, 9828, o | 0) | 0;
                                 d = 7776;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -21715,7 +23000,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -21874,7 +23159,7 @@
                             var b = 0, d = 0;
                             if (!(a[7784] | 0)) {
                                 Ap(9864);
-                                Ha(42, 9864, o | 0);
+                                Ha(42, 9864, o | 0) | 0;
                                 d = 7784;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -22013,7 +23298,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -22186,7 +23471,7 @@
                             var b = 0, d = 0;
                             if (!(a[7792] | 0)) {
                                 Wp(9900);
-                                Ha(43, 9900, o | 0);
+                                Ha(43, 9900, o | 0) | 0;
                                 d = 7792;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -22325,7 +23610,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -22440,7 +23725,7 @@
                             var b = 0, d = 0;
                             if (!(a[7800] | 0)) {
                                 mq(9936);
-                                Ha(44, 9936, o | 0);
+                                Ha(44, 9936, o | 0) | 0;
                                 d = 7800;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -22558,7 +23843,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -22660,7 +23945,7 @@
                             var b = 0, d = 0;
                             if (!(a[7808] | 0)) {
                                 Dq(9972);
-                                Ha(45, 9972, o | 0);
+                                Ha(45, 9972, o | 0) | 0;
                                 d = 7808;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -22778,7 +24063,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -22896,7 +24181,7 @@
                             var b = 0, d = 0;
                             if (!(a[7816] | 0)) {
                                 Yq(10008);
-                                Ha(46, 10008, o | 0);
+                                Ha(46, 10008, o | 0) | 0;
                                 d = 7816;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -23014,7 +24299,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -23093,7 +24378,7 @@
                             var b = 0;
                             if (!(a[7832] | 0)) {
                                 nr(10052);
-                                Ha(25, 10052, o | 0);
+                                Ha(25, 10052, o | 0) | 0;
                                 b = 7832;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -23175,23 +24460,23 @@
                             f = b + 8 | 0;
                             e = b;
                             pr(a, 4827);
-                            qr(a, 4834, 3);
-                            rr(a, 3682, 47);
+                            qr(a, 4834, 3) | 0;
+                            rr(a, 3682, 47) | 0;
                             c[g >> 2] = 9;
                             c[g + 4 >> 2] = 0;
                             c[d >> 2] = c[g >> 2];
                             c[d + 4 >> 2] = c[g + 4 >> 2];
-                            sr(a, 4841, d);
+                            sr(a, 4841, d) | 0;
                             c[f >> 2] = 1;
                             c[f + 4 >> 2] = 0;
                             c[d >> 2] = c[f >> 2];
                             c[d + 4 >> 2] = c[f + 4 >> 2];
-                            tr(a, 4871, d);
+                            tr(a, 4871, d) | 0;
                             c[e >> 2] = 10;
                             c[e + 4 >> 2] = 0;
                             c[d >> 2] = c[e >> 2];
                             c[d + 4 >> 2] = c[e + 4 >> 2];
-                            ur(a, 4891, d);
+                            ur(a, 4891, d) | 0;
                             l = b;
                             return;
                         }
@@ -23325,7 +24610,7 @@
                             var b = 0, d = 0;
                             if (!(a[7840] | 0)) {
                                 Gr(10100);
-                                Ha(48, 10100, o | 0);
+                                Ha(48, 10100, o | 0) | 0;
                                 d = 7840;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -23464,7 +24749,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -23623,7 +24908,7 @@
                             var b = 0, d = 0;
                             if (!(a[7848] | 0)) {
                                 Zr(10136);
-                                Ha(49, 10136, o | 0);
+                                Ha(49, 10136, o | 0) | 0;
                                 d = 7848;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -23762,7 +25047,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -23935,7 +25220,7 @@
                             var b = 0, d = 0;
                             if (!(a[7856] | 0)) {
                                 ts(10172);
-                                Ha(50, 10172, o | 0);
+                                Ha(50, 10172, o | 0) | 0;
                                 d = 7856;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -24074,7 +25359,7 @@
                             d = (c[g >> 2] | 0) + (((f | 0) / -12 | 0) * 12 | 0) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -24216,7 +25501,7 @@
                             var b = 0, d = 0;
                             if (!(a[7864] | 0)) {
                                 Os(10208);
-                                Ha(51, 10208, o | 0);
+                                Ha(51, 10208, o | 0) | 0;
                                 d = 7864;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -24334,7 +25619,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -24439,7 +25724,7 @@
                             var b = 0, d = 0;
                             if (!(a[7872] | 0)) {
                                 et(10244);
-                                Ha(52, 10244, o | 0);
+                                Ha(52, 10244, o | 0) | 0;
                                 d = 7872;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -24557,7 +25842,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -24643,7 +25928,7 @@
                             var b = 0;
                             if (!(a[7880] | 0)) {
                                 ut(10280);
-                                Ha(25, 10280, o | 0);
+                                Ha(25, 10280, o | 0) | 0;
                                 b = 7880;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -24699,8 +25984,8 @@
                         function vt(a) {
                             a = a | 0;
                             wt(a, 4920);
-                            xt(a);
-                            yt(a);
+                            xt(a) | 0;
+                            yt(a) | 0;
                             return;
                         }
                         function wt(a, b) {
@@ -24731,7 +26016,7 @@
                             var b = 0;
                             if (!(a[7888] | 0)) {
                                 Bt(10328);
-                                Ha(53, 10328, o | 0);
+                                Ha(53, 10328, o | 0) | 0;
                                 b = 7888;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -24858,7 +26143,7 @@
                             var b = 0;
                             if (!(a[7896] | 0)) {
                                 Nt(10364);
-                                Ha(54, 10364, o | 0);
+                                Ha(54, 10364, o | 0) | 0;
                                 b = 7896;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25004,7 +26289,7 @@
                         function eu(a) {
                             a = a | 0;
                             fu(a, 4926);
-                            gu(a);
+                            gu(a) | 0;
                             return;
                         }
                         function fu(a, b) {
@@ -25028,7 +26313,7 @@
                             var b = 0;
                             if (!(a[7912] | 0)) {
                                 iu(10412);
-                                Ha(56, 10412, o | 0);
+                                Ha(56, 10412, o | 0) | 0;
                                 b = 7912;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25165,8 +26450,8 @@
                         function yu(a) {
                             a = a | 0;
                             zu(a, 4933);
-                            Au(a);
-                            Bu(a);
+                            Au(a) | 0;
+                            Bu(a) | 0;
                             return;
                         }
                         function zu(a, b) {
@@ -25197,7 +26482,7 @@
                             var b = 0;
                             if (!(a[7920] | 0)) {
                                 Du(10452);
-                                Ha(58, 10452, o | 0);
+                                Ha(58, 10452, o | 0) | 0;
                                 b = 7920;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25350,7 +26635,7 @@
                             var b = 0;
                             if (!(a[7928] | 0)) {
                                 Tu(10488);
-                                Ha(59, 10488, o | 0);
+                                Ha(59, 10488, o | 0) | 0;
                                 b = 7928;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25447,7 +26732,7 @@
                             var b = 0;
                             if (!(a[7936] | 0)) {
                                 jv(10524);
-                                Ha(25, 10524, o | 0);
+                                Ha(25, 10524, o | 0) | 0;
                                 b = 7936;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25541,7 +26826,7 @@
                             var b = 0, d = 0;
                             if (!(a[7944] | 0)) {
                                 ov(10568);
-                                Ha(61, 10568, o | 0);
+                                Ha(61, 10568, o | 0) | 0;
                                 d = 7944;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -25674,7 +26959,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -25731,7 +27016,7 @@
                             var b = 0;
                             if (!(a[7952] | 0)) {
                                 Rv(10612);
-                                Ha(25, 10612, o | 0);
+                                Ha(25, 10612, o | 0) | 0;
                                 b = 7952;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -25754,7 +27039,7 @@
                             b = l;
                             l = l + 16 | 0;
                             d = b;
-                            Iv();
+                            Iv() | 0;
                             c[d >> 2] = a;
                             Jv(10608, d);
                             l = b;
@@ -25763,7 +27048,7 @@
                         function Iv() {
                             if (!(a[11714] | 0)) {
                                 c[2652] = 0;
-                                Ha(62, 10608, o | 0);
+                                Ha(62, 10608, o | 0) | 0;
                                 a[11714] = 1;
                             }
                             return 10608;
@@ -25832,10 +27117,10 @@
                             a = a | 0;
                             b = b | 0;
                             var d = 0, e = 0;
-                            Iv();
+                            Iv() | 0;
                             d = c[2652] | 0;
                             a: do if (d | 0) {
-                                while(true){
+                                while(1){
                                     e = c[d + 4 >> 2] | 0;
                                     if (e | 0 ? (AB(Tv(e) | 0, a) | 0) == 0 : 0) break;
                                     d = c[d >> 2] | 0;
@@ -25868,7 +27153,7 @@
                         function Vv() {
                             if (!(a[11716] | 0)) {
                                 c[2664] = 0;
-                                Ha(63, 10656, o | 0);
+                                Ha(63, 10656, o | 0) | 0;
                                 a[11716] = 1;
                             }
                             return 10656;
@@ -25924,7 +27209,7 @@
                             c[j >> 2] = d;
                             c[i >> 2] = e;
                             c[h >> 2] = f;
-                            Vv();
+                            Vv() | 0;
                             _v(10656, m, k, j, i, h);
                             l = g;
                             return;
@@ -25972,7 +27257,7 @@
                                         c[j >> 2] = 0;
                                         e = (cw(i) | 0) + 1 | 0;
                                         dw(q, e);
-                                        if (e | 0) while(true){
+                                        if (e | 0) while(1){
                                             e = e + -1 | 0;
                                             OA(r, c[f >> 2] | 0);
                                             g = c[p >> 2] | 0;
@@ -25987,10 +27272,10 @@
                                         c[r >> 2] = 0;
                                         c[k >> 2] = 0;
                                         c[m >> 2] = 0;
-                                        a: if (c[e >> 2] | 0) {
+                                        a: do if (c[e >> 2] | 0) {
                                             f = 0;
                                             g = 0;
-                                            while(true){
+                                            while(1){
                                                 if ((f | 0) == (g | 0)) gw(r, e);
                                                 else {
                                                     c[f >> 2] = c[e >> 2];
@@ -26002,6 +27287,7 @@
                                                 g = c[n >> 2] | 0;
                                             }
                                         }
+                                        while (0)
                                         c[s >> 2] = hw(h) | 0;
                                         c[t >> 2] = si(i) | 0;
                                         iw(d, a, s, t, q, r);
@@ -26233,7 +27519,7 @@
                             c[n >> 2] = 0;
                             c[m >> 2] = 0;
                             c[g >> 2] = 0;
-                            Ba(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0);
+                            Ba(0, k | 0, a | 0, b | 0, d | 0, e | 0, f | 0, uw(j) | 0) | 0;
                             jw(j);
                             kw(i);
                             l = h;
@@ -26327,7 +27613,7 @@
                             var b = 0;
                             if (!(a[7960] | 0)) {
                                 Fw(10664);
-                                Ha(25, 10664, o | 0);
+                                Ha(25, 10664, o | 0) | 0;
                                 b = 7960;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -26421,7 +27707,7 @@
                             e = a + 4 | 0;
                             a = d - b | 0;
                             if ((a | 0) > 0) {
-                                BC(c[e >> 2] | 0, b | 0, a | 0);
+                                BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
                                 c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
                             }
                             return;
@@ -26452,7 +27738,7 @@
                             e = a + 4 | 0;
                             a = d - b | 0;
                             if ((a | 0) > 0) {
-                                BC(c[e >> 2] | 0, b | 0, a | 0);
+                                BC(c[e >> 2] | 0, b | 0, a | 0) | 0;
                                 c[e >> 2] = (c[e >> 2] | 0) + (a >>> 2 << 2);
                             }
                             return;
@@ -26495,7 +27781,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -26559,7 +27845,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 2) << 2) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -26610,7 +27896,7 @@
                             if (h | 0) {
                                 j = c[i + 8 >> 2] | 0;
                                 i = c[i + 4 >> 2] | 0;
-                                while(true){
+                                while(1){
                                     OA(m, h);
                                     Vw(a, m, i, j);
                                     g = g + 4 | 0;
@@ -26735,7 +28021,7 @@
                                 if (!b) a = e;
                                 else {
                                     b = e;
-                                    while(true){
+                                    while(1){
                                         a = qC(12) | 0;
                                         j = (hx(f) | 0) + 4 | 0;
                                         i = c[j + 4 >> 2] | 0;
@@ -26810,7 +28096,7 @@
                             c[i >> 2] = 0;
                             c[h >> 2] = 0;
                             c[d >> 2] = 0;
-                            xa(0, g | 0, a | 0, b | 0, tw(f) | 0);
+                            xa(0, g | 0, a | 0, b | 0, tw(f) | 0) | 0;
                             kw(f);
                             l = e;
                             return;
@@ -26874,7 +28160,7 @@
                             c[h >> 2] = c[b >> 2];
                             c[g >> 2] = c[h >> 2];
                             b = qw(g) | 0;
-                            xa(0, f | 0, a | 0, b | 0, rw(d) | 0);
+                            xa(0, f | 0, a | 0, b | 0, rw(d) | 0) | 0;
                             l = e;
                             return;
                         }
@@ -26953,7 +28239,7 @@
                             c[h >> 2] = c[i >> 2];
                             b = qw(h) | 0;
                             d = rx(d) | 0;
-                            $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0);
+                            $a(0, g | 0, a | 0, b | 0, d | 0, rx(e) | 0) | 0;
                             l = f;
                             return;
                         }
@@ -27002,50 +28288,58 @@
                             c[j + 8 >> 2] = 0;
                             switch(f << 24 >> 24){
                                 case 0:
-                                    a[m >> 0] = 0;
-                                    wx(k, e, m);
-                                    xx(b, k);
-                                    wf(k);
-                                    break;
-                                case 8:
-                                    o = PA(d) | 0;
-                                    a[m >> 0] = 8;
-                                    OA(n, c[o + 4 >> 2] | 0);
-                                    yx(k, e, m, n, o + 8 | 0);
-                                    xx(b, k);
-                                    wf(k);
-                                    break;
-                                case 9:
-                                    h = PA(d) | 0;
-                                    d = c[h + 4 >> 2] | 0;
-                                    if (d | 0) {
-                                        i = j + 8 | 0;
-                                        g = h + 12 | 0;
-                                        while(true){
-                                            d = d + -1 | 0;
-                                            OA(k, c[g >> 2] | 0);
-                                            f = c[o >> 2] | 0;
-                                            if (f >>> 0 < (c[i >> 2] | 0) >>> 0) {
-                                                c[f >> 2] = c[k >> 2];
-                                                c[o >> 2] = (c[o >> 2] | 0) + 4;
-                                            } else ew(j, k);
-                                            if (!d) break;
-                                            else g = g + 4 | 0;
-                                        }
+                                    {
+                                        a[m >> 0] = 0;
+                                        wx(k, e, m);
+                                        xx(b, k) | 0;
+                                        wf(k);
+                                        break;
                                     }
-                                    a[m >> 0] = 9;
-                                    OA(n, c[h + 8 >> 2] | 0);
-                                    zx(k, e, m, n, j);
-                                    xx(b, k);
-                                    wf(k);
-                                    break;
+                                case 8:
+                                    {
+                                        o = PA(d) | 0;
+                                        a[m >> 0] = 8;
+                                        OA(n, c[o + 4 >> 2] | 0);
+                                        yx(k, e, m, n, o + 8 | 0);
+                                        xx(b, k) | 0;
+                                        wf(k);
+                                        break;
+                                    }
+                                case 9:
+                                    {
+                                        h = PA(d) | 0;
+                                        d = c[h + 4 >> 2] | 0;
+                                        if (d | 0) {
+                                            i = j + 8 | 0;
+                                            g = h + 12 | 0;
+                                            while(1){
+                                                d = d + -1 | 0;
+                                                OA(k, c[g >> 2] | 0);
+                                                f = c[o >> 2] | 0;
+                                                if (f >>> 0 < (c[i >> 2] | 0) >>> 0) {
+                                                    c[f >> 2] = c[k >> 2];
+                                                    c[o >> 2] = (c[o >> 2] | 0) + 4;
+                                                } else ew(j, k);
+                                                if (!d) break;
+                                                else g = g + 4 | 0;
+                                            }
+                                        }
+                                        a[m >> 0] = 9;
+                                        OA(n, c[h + 8 >> 2] | 0);
+                                        zx(k, e, m, n, j);
+                                        xx(b, k) | 0;
+                                        wf(k);
+                                        break;
+                                    }
                                 default:
-                                    o = PA(d) | 0;
-                                    a[m >> 0] = f;
-                                    OA(n, c[o + 4 >> 2] | 0);
-                                    Ax(k, e, m, n);
-                                    xx(b, k);
-                                    wf(k);
+                                    {
+                                        o = PA(d) | 0;
+                                        a[m >> 0] = f;
+                                        OA(n, c[o + 4 >> 2] | 0);
+                                        Ax(k, e, m, n);
+                                        xx(b, k) | 0;
+                                        wf(k);
+                                    }
                             }
                             kw(j);
                             l = p;
@@ -27321,7 +28615,7 @@
                         function Wx(a) {
                             a = a | 0;
                             Xx(a, 5044);
-                            Yx(a);
+                            Yx(a) | 0;
                             return;
                         }
                         function Xx(a, b) {
@@ -27345,7 +28639,7 @@
                             var b = 0;
                             if (!(a[8032] | 0)) {
                                 _x(10820);
-                                Ha(64, 10820, o | 0);
+                                Ha(64, 10820, o | 0) | 0;
                                 b = 8032;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -27507,12 +28801,12 @@
                         function qy(a) {
                             a = a | 0;
                             ry(a, 5052);
-                            sy(a);
-                            ty(a, 5058, 26);
-                            uy(a, 5069, 1);
-                            vy(a, 5077, 10);
-                            wy(a, 5087, 19);
-                            yy(a, 5094, 27);
+                            sy(a) | 0;
+                            ty(a, 5058, 26) | 0;
+                            uy(a, 5069, 1) | 0;
+                            vy(a, 5077, 10) | 0;
+                            wy(a, 5087, 19) | 0;
+                            yy(a, 5094, 27) | 0;
                             return;
                         }
                         function ry(a, b) {
@@ -27564,9 +28858,9 @@
                             a = a | 0;
                             b = b | 0;
                             var d = 0, e = 0;
-                            a: while(true){
+                            a: while(1){
                                 d = c[2703] | 0;
-                                while(true){
+                                while(1){
                                     if ((d | 0) == (b | 0)) break a;
                                     e = c[d >> 2] | 0;
                                     c[2703] = e;
@@ -27601,7 +28895,7 @@
                             var b = 0, d = 0;
                             if (!(a[8040] | 0)) {
                                 Jy(10860);
-                                Ha(65, 10860, o | 0);
+                                Ha(65, 10860, o | 0) | 0;
                                 d = 8040;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -27719,7 +29013,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -27829,7 +29123,7 @@
                             var b = 0, d = 0;
                             if (!(a[8048] | 0)) {
                                 $y(10896);
-                                Ha(66, 10896, o | 0);
+                                Ha(66, 10896, o | 0) | 0;
                                 d = 8048;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -27947,7 +29241,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -28051,7 +29345,7 @@
                             var b = 0, d = 0;
                             if (!(a[8056] | 0)) {
                                 rz(10932);
-                                Ha(67, 10932, o | 0);
+                                Ha(67, 10932, o | 0) | 0;
                                 d = 8056;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -28169,7 +29463,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -28296,7 +29590,7 @@
                             if (!(e & 1)) c[a >> 2] = c[b >> 2];
                             else {
                                 Dz(d, 0);
-                                Ja(e | 0, d | 0);
+                                Ja(e | 0, d | 0) | 0;
                                 Ez(a, d);
                                 Fz(d);
                             }
@@ -28338,7 +29632,7 @@
                             var b = 0, d = 0;
                             if (!(a[8064] | 0)) {
                                 Qz(10968);
-                                Ha(68, 10968, o | 0);
+                                Ha(68, 10968, o | 0) | 0;
                                 d = 8064;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -28456,7 +29750,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -28586,7 +29880,7 @@
                             var b = 0, d = 0;
                             if (!(a[8072] | 0)) {
                                 gA(11004);
-                                Ha(69, 11004, o | 0);
+                                Ha(69, 11004, o | 0) | 0;
                                 d = 8072;
                                 c[d >> 2] = 1;
                                 c[d + 4 >> 2] = 0;
@@ -28704,7 +29998,7 @@
                             d = (c[g >> 2] | 0) + (0 - (f >> 3) << 3) | 0;
                             c[g >> 2] = d;
                             if ((f | 0) > 0) {
-                                BC(d | 0, e | 0, f | 0);
+                                BC(d | 0, e | 0, f | 0) | 0;
                                 e = g;
                                 d = c[g >> 2] | 0;
                             } else e = g;
@@ -28817,7 +30111,7 @@
                             var b = 0;
                             if (!(a[8080] | 0)) {
                                 sA(11040);
-                                Ha(70, 11040, o | 0);
+                                Ha(70, 11040, o | 0) | 0;
                                 b = 8080;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -28933,7 +30227,7 @@
                             var b = 0;
                             if (!(a[8088] | 0)) {
                                 NA(11076);
-                                Ha(25, 11076, o | 0);
+                                Ha(25, 11076, o | 0) | 0;
                                 b = 8088;
                                 c[b >> 2] = 1;
                                 c[b + 4 >> 2] = 0;
@@ -29005,7 +30299,7 @@
                             l = l + 16 | 0;
                             e = d;
                             c[e >> 2] = c[a >> 2];
-                            SA(b, e);
+                            SA(b, e) | 0;
                             l = d;
                             return;
                         }
@@ -29085,7 +30379,7 @@
                             if (b | 0) {
                                 g = c[f + 8 >> 2] | 0;
                                 f = c[f + 4 >> 2] | 0;
-                                while(true){
+                                while(1){
                                     Ma(b | 0, d[f >> 0] | 0, a[g >> 0] | 0);
                                     e = e + 4 | 0;
                                     b = c[e >> 2] | 0;
@@ -29115,14 +30409,14 @@
                                 if (b | 0) {
                                     m = n;
                                     do {
-                                        while(true){
+                                        while(1){
                                             h = b;
                                             b = c[b >> 2] | 0;
                                             h = c[h + 4 >> 2] | 0;
                                             if (!(cB(h) | 0)) break;
                                             c[p >> 2] = m;
                                             c[o >> 2] = c[p >> 2];
-                                            dB(n, o);
+                                            dB(n, o) | 0;
                                             if (!b) break a;
                                         }
                                         eB(h);
@@ -29137,7 +30431,7 @@
                                         if (e | 0) {
                                             f = j;
                                             g = k;
-                                            while(true){
+                                            while(1){
                                                 c[f >> 2] = c[(Xw(c[e + 4 >> 2] | 0) | 0) >> 2];
                                                 c[g >> 2] = c[e + 8 >> 2];
                                                 e = c[e >> 2] | 0;
@@ -29174,48 +30468,55 @@
                                 b = c[b >> 2] | 0;
                             }while ((b | 0) != 0)
                             b = c[(Iv() | 0) >> 2] | 0;
-                            b: if (b | 0) {
-                                c: while(true){
+                            b: do if (b | 0) {
+                                c: while(1){
                                     e = c[b + 4 >> 2] | 0;
                                     if (e | 0 ? (q = c[(Xw(e) | 0) >> 2] | 0, r = c[(ax(e) | 0) >> 2] | 0, r | 0) : 0) {
                                         f = r;
                                         do {
                                             e = f + 4 | 0;
                                             g = aw(e) | 0;
-                                            d: if (g | 0) switch(si(g) | 0){
+                                            d: do if (g | 0) switch(si(g) | 0){
                                                 case 0:
                                                     break c;
                                                 case 4:
                                                 case 3:
                                                 case 2:
-                                                    k = fw(g) | 0;
-                                                    m = bw(g) | 0;
-                                                    n = (cw(g) | 0) + 1 | 0;
-                                                    o = iB(g) | 0;
-                                                    p = si(g) | 0;
-                                                    t = hw(e) | 0;
-                                                    Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                                    break d;
+                                                    {
+                                                        k = fw(g) | 0;
+                                                        m = bw(g) | 0;
+                                                        n = (cw(g) | 0) + 1 | 0;
+                                                        o = iB(g) | 0;
+                                                        p = si(g) | 0;
+                                                        t = hw(e) | 0;
+                                                        Pa(q | 0, k | 0, m | 0, n | 0, o | 0, 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                                        break d;
+                                                    }
                                                 case 1:
-                                                    j = fw(g) | 0;
-                                                    k = bw(g) | 0;
-                                                    m = (cw(g) | 0) + 1 | 0;
-                                                    n = iB(g) | 0;
-                                                    o = jB(e) | 0;
-                                                    p = si(g) | 0;
-                                                    t = hw(e) | 0;
-                                                    Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
-                                                    break d;
+                                                    {
+                                                        j = fw(g) | 0;
+                                                        k = bw(g) | 0;
+                                                        m = (cw(g) | 0) + 1 | 0;
+                                                        n = iB(g) | 0;
+                                                        o = jB(e) | 0;
+                                                        p = si(g) | 0;
+                                                        t = hw(e) | 0;
+                                                        Pa(q | 0, j | 0, k | 0, m | 0, n | 0, o | 0, p | 0, t | 0, kB(e) | 0, lB(e) | 0);
+                                                        break d;
+                                                    }
                                                 case 5:
-                                                    n = fw(g) | 0;
-                                                    o = bw(g) | 0;
-                                                    p = (cw(g) | 0) + 1 | 0;
-                                                    t = iB(g) | 0;
-                                                    Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
-                                                    break d;
+                                                    {
+                                                        n = fw(g) | 0;
+                                                        o = bw(g) | 0;
+                                                        p = (cw(g) | 0) + 1 | 0;
+                                                        t = iB(g) | 0;
+                                                        Pa(q | 0, n | 0, o | 0, p | 0, t | 0, mB(g) | 0, si(g) | 0, 0, 0, 0);
+                                                        break d;
+                                                    }
                                                 default:
                                                     break d;
                                             }
+                                            while (0)
                                             f = c[f >> 2] | 0;
                                         }while ((f | 0) != 0)
                                     }
@@ -29224,6 +30525,7 @@
                                 }
                                 Ta();
                             }
+                            while (0)
                             Sa();
                             l = s;
                             return;
@@ -29423,7 +30725,7 @@
                                                         break;
                                                     }
                                                 }
-                                                while(true){
+                                                while(1){
                                                     d = b + 20 | 0;
                                                     e = c[d >> 2] | 0;
                                                     if (e | 0) {
@@ -29538,19 +30840,17 @@
                                         a = 0;
                                         h = k << ((i | 0) == 31 ? 0 : 25 - (i >>> 1) | 0);
                                         g = 0;
-                                        while(true){
+                                        while(1){
                                             f = (c[d + 4 >> 2] & -8) - k | 0;
-                                            if (f >>> 0 < e >>> 0) {
-                                                if (!f) {
-                                                    a = d;
-                                                    e = 0;
-                                                    f = d;
-                                                    v = 61;
-                                                    break a;
-                                                } else {
-                                                    a = d;
-                                                    e = f;
-                                                }
+                                            if (f >>> 0 < e >>> 0) if (!f) {
+                                                a = d;
+                                                e = 0;
+                                                f = d;
+                                                v = 61;
+                                                break a;
+                                            } else {
+                                                a = d;
+                                                e = f;
                                             }
                                             f = c[d + 20 >> 2] | 0;
                                             d = c[d + 16 + (h >>> 31 << 2) >> 2] | 0;
@@ -29593,7 +30893,7 @@
                                             v = 61;
                                         }
                                     }
-                                    if ((v | 0) == 61) while(true){
+                                    if ((v | 0) == 61) while(1){
                                         v = 0;
                                         d = (c[f + 4 >> 2] & -8) - k | 0;
                                         n = d >>> 0 < e >>> 0;
@@ -29629,7 +30929,7 @@
                                                     break;
                                                 }
                                             }
-                                            while(true){
+                                            while(1){
                                                 d = b + 20 | 0;
                                                 e = c[d >> 2] | 0;
                                                 if (e | 0) {
@@ -29735,7 +31035,7 @@
                                             }
                                             a = h << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                                             d = c[d >> 2] | 0;
-                                            while(true){
+                                            while(1){
                                                 if ((c[d + 4 >> 2] & -8 | 0) == (h | 0)) {
                                                     v = 97;
                                                     break;
@@ -29847,7 +31147,7 @@
                                 d = c[2789] | 0;
                                 c: do if (d) {
                                     e = 11580;
-                                    while(true){
+                                    while(1){
                                         a = c[e >> 2] | 0;
                                         if (a >>> 0 <= d >>> 0 ? (r = e + 4 | 0, (a + (c[r >> 2] | 0) | 0) >>> 0 > d >>> 0) : 0) break;
                                         a = c[e + 8 >> 2] | 0;
@@ -29896,16 +31196,14 @@
                                 while (0)
                                 do if ((v | 0) == 126) {
                                     d = 0 - b | 0;
-                                    if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) {
-                                        if ((e | 0) == -1) {
-                                            b = 0;
-                                            break;
-                                        } else {
-                                            h = b;
-                                            g = e;
-                                            v = 135;
-                                            break b;
-                                        }
+                                    if (!(i >>> 0 > b >>> 0 & (b >>> 0 < 2147483647 & (e | 0) != -1))) if ((e | 0) == -1) {
+                                        b = 0;
+                                        break;
+                                    } else {
+                                        h = b;
+                                        g = e;
+                                        v = 135;
+                                        break b;
                                     }
                                     a = c[2903] | 0;
                                     a = j - b + a & 0 - a;
@@ -29916,7 +31214,7 @@
                                         break b;
                                     }
                                     if ((FC(a | 0) | 0) == -1) {
-                                        FC(d | 0);
+                                        FC(d | 0) | 0;
                                         b = 0;
                                         break;
                                     } else {
@@ -29946,7 +31244,7 @@
                                 j = c[2789] | 0;
                                 do if (j) {
                                     b = 11580;
-                                    while(true){
+                                    while(1){
                                         a = c[b >> 2] | 0;
                                         d = b + 4 | 0;
                                         e = c[d >> 2] | 0;
@@ -29974,7 +31272,7 @@
                                     if (g >>> 0 < (c[2787] | 0) >>> 0) c[2787] = g;
                                     d = g + h | 0;
                                     b = 11580;
-                                    while(true){
+                                    while(1){
                                         if ((c[b >> 2] | 0) == (d | 0)) {
                                             v = 153;
                                             break;
@@ -30032,7 +31330,7 @@
                                                                 break;
                                                             } else d = e;
                                                         }
-                                                        while(true){
+                                                        while(1){
                                                             e = a + 20 | 0;
                                                             f = c[e >> 2] | 0;
                                                             if (f | 0) {
@@ -30140,7 +31438,7 @@
                                             }
                                             a = f << ((b | 0) == 31 ? 0 : 25 - (b >>> 1) | 0);
                                             d = c[e >> 2] | 0;
-                                            while(true){
+                                            while(1){
                                                 if ((c[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                                                     v = 194;
                                                     break;
@@ -30183,7 +31481,7 @@
                                         return w | 0;
                                     }
                                     b = 11580;
-                                    while(true){
+                                    while(1){
                                         a = c[b >> 2] | 0;
                                         if (a >>> 0 <= j >>> 0 ? (w = a + (c[b + 4 >> 2] | 0) | 0, w >>> 0 > j >>> 0) : 0) break;
                                         b = c[b + 8 >> 2] | 0;
@@ -30272,7 +31570,7 @@
                                         }
                                         a = g << ((d | 0) == 31 ? 0 : 25 - (d >>> 1) | 0);
                                         d = c[e >> 2] | 0;
-                                        while(true){
+                                        while(1){
                                             if ((c[d + 4 >> 2] & -8 | 0) == (g | 0)) {
                                                 v = 216;
                                                 break;
@@ -30408,7 +31706,7 @@
                                             break;
                                         } else b = d;
                                     }
-                                    while(true){
+                                    while(1){
                                         d = a + 20 | 0;
                                         e = c[d >> 2] | 0;
                                         if (e | 0) {
@@ -30527,7 +31825,7 @@
                                                 break;
                                             } else b = d;
                                         }
-                                        while(true){
+                                        while(1){
                                             d = a + 20 | 0;
                                             e = c[d >> 2] | 0;
                                             if (e | 0) {
@@ -30633,7 +31931,7 @@
                             do if (b & d) {
                                 b = f << ((a | 0) == 31 ? 0 : 25 - (a >>> 1) | 0);
                                 d = c[e >> 2] | 0;
-                                while(true){
+                                while(1){
                                     if ((c[d + 4 >> 2] & -8 | 0) == (f | 0)) {
                                         a = 73;
                                         break;
@@ -30676,7 +31974,7 @@
                             c[2791] = j;
                             if (!j) a = 11588;
                             else return;
-                            while(true){
+                            while(1){
                                 a = c[a >> 2] | 0;
                                 if (!a) break;
                                 else a = a + 8 | 0;
@@ -30724,7 +32022,7 @@
                             g = uB(gb(146, g | 0) | 0) | 0;
                             a: do if ((e | 0) != (g | 0)) {
                                 b = 2;
-                                while(true){
+                                while(1){
                                     if ((g | 0) < 0) break;
                                     e = e - g | 0;
                                     p = c[f + 4 >> 2] | 0;
@@ -30842,7 +32140,7 @@
                             var e = 0, f = 0;
                             a: do if (!d) b = 0;
                             else {
-                                while(true){
+                                while(1){
                                     e = a[b >> 0] | 0;
                                     f = a[c >> 0] | 0;
                                     if (e << 24 >> 24 != f << 24 >> 24) break;
@@ -30899,7 +32197,7 @@
                                     c[k >> 2] = r + 80;
                                     e = DB(b, d, n, q, o) | 0;
                                     if (h) {
-                                        sb[c[b + 36 >> 2] & 7](b, 0, 0);
+                                        sb[c[b + 36 >> 2] & 7](b, 0, 0) | 0;
                                         e = (c[j >> 2] | 0) == 0 ? -1 : e;
                                         c[g >> 2] = h;
                                         c[f >> 2] = 0;
@@ -30939,16 +32237,14 @@
                             k = 0;
                             j = 0;
                             p = 0;
-                            a: while(true){
-                                do if ((j | 0) > -1) {
-                                    if ((k | 0) > (2147483647 - j | 0)) {
-                                        c[(vB() | 0) >> 2] = 75;
-                                        j = -1;
-                                        break;
-                                    } else {
-                                        j = k + j | 0;
-                                        break;
-                                    }
+                            a: while(1){
+                                do if ((j | 0) > -1) if ((k | 0) > (2147483647 - j | 0)) {
+                                    c[(vB() | 0) >> 2] = 75;
+                                    j = -1;
+                                    break;
+                                } else {
+                                    j = k + j | 0;
+                                    break;
                                 }
                                 while (0)
                                 k = a[e >> 0] | 0;
@@ -30956,23 +32252,28 @@
                                     w = 87;
                                     break;
                                 } else m = e;
-                                b: while(true){
+                                b: while(1){
                                     switch(k << 24 >> 24){
                                         case 37:
-                                            k = m;
-                                            w = 9;
-                                            break b;
+                                            {
+                                                k = m;
+                                                w = 9;
+                                                break b;
+                                            }
                                         case 0:
-                                            k = m;
-                                            break b;
+                                            {
+                                                k = m;
+                                                break b;
+                                            }
                                         default:
+                                            {}
                                     }
                                     v = m + 1 | 0;
                                     c[D >> 2] = v;
                                     k = a[v >> 0] | 0;
                                     m = v;
                                 }
-                                c: do if ((w | 0) == 9) while(true){
+                                c: do if ((w | 0) == 9) while(1){
                                     w = 0;
                                     if ((a[m + 1 >> 0] | 0) != 37) break c;
                                     k = k + 1 | 0;
@@ -31002,7 +32303,7 @@
                                 d: do if (m >>> 0 < 32) {
                                     o = 0;
                                     q = k;
-                                    while(true){
+                                    while(1){
                                         k = 1 << m;
                                         if (!(k & 75913)) {
                                             k = q;
@@ -31085,7 +32386,7 @@
                                 } else m = -1;
                                 while (0)
                                 t = 0;
-                                while(true){
+                                while(1){
                                     if (((a[n >> 0] | 0) + -65 | 0) >>> 0 > 57) {
                                         j = -1;
                                         break a;
@@ -31140,139 +32441,175 @@
                                     case 110:
                                         switch((t & 255) << 24 >> 24){
                                             case 0:
-                                                c[c[E >> 2] >> 2] = j;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    c[c[E >> 2] >> 2] = j;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 1:
-                                                c[c[E >> 2] >> 2] = j;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    c[c[E >> 2] >> 2] = j;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 2:
-                                                k = c[E >> 2] | 0;
-                                                c[k >> 2] = j;
-                                                c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    k = c[E >> 2] | 0;
+                                                    c[k >> 2] = j;
+                                                    c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 3:
-                                                b[c[E >> 2] >> 1] = j;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    b[c[E >> 2] >> 1] = j;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 4:
-                                                a[c[E >> 2] >> 0] = j;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    a[c[E >> 2] >> 0] = j;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 6:
-                                                c[c[E >> 2] >> 2] = j;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    c[c[E >> 2] >> 2] = j;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             case 7:
-                                                k = c[E >> 2] | 0;
-                                                c[k >> 2] = j;
-                                                c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    k = c[E >> 2] | 0;
+                                                    c[k >> 2] = j;
+                                                    c[k + 4 >> 2] = ((j | 0) < 0) << 31 >> 31;
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                             default:
-                                                k = 0;
-                                                e = v;
-                                                continue a;
+                                                {
+                                                    k = 0;
+                                                    e = v;
+                                                    continue a;
+                                                }
                                         }
                                     case 112:
-                                        n = 120;
-                                        m = m >>> 0 > 8 ? m : 8;
-                                        e = u | 8;
-                                        w = 61;
-                                        break;
+                                        {
+                                            n = 120;
+                                            m = m >>> 0 > 8 ? m : 8;
+                                            e = u | 8;
+                                            w = 61;
+                                            break;
+                                        }
                                     case 88:
                                     case 120:
-                                        e = u;
-                                        w = 61;
-                                        break;
+                                        {
+                                            e = u;
+                                            w = 61;
+                                            break;
+                                        }
                                     case 111:
-                                        n = E;
-                                        e = c[n >> 2] | 0;
-                                        n = c[n + 4 >> 2] | 0;
-                                        r = KB(e, n, y) | 0;
-                                        s = z - r | 0;
-                                        o = 0;
-                                        q = 5642;
-                                        m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
-                                        s = u;
-                                        w = 67;
-                                        break;
+                                        {
+                                            n = E;
+                                            e = c[n >> 2] | 0;
+                                            n = c[n + 4 >> 2] | 0;
+                                            r = KB(e, n, y) | 0;
+                                            s = z - r | 0;
+                                            o = 0;
+                                            q = 5642;
+                                            m = (u & 8 | 0) == 0 | (m | 0) > (s | 0) ? m : s + 1 | 0;
+                                            s = u;
+                                            w = 67;
+                                            break;
+                                        }
                                     case 105:
                                     case 100:
-                                        n = E;
-                                        e = c[n >> 2] | 0;
-                                        n = c[n + 4 >> 2] | 0;
-                                        if ((n | 0) < 0) {
-                                            e = wC(0, 0, e | 0, n | 0) | 0;
-                                            n = A;
-                                            o = E;
-                                            c[o >> 2] = e;
-                                            c[o + 4 >> 2] = n;
-                                            o = 1;
-                                            q = 5642;
-                                            w = 66;
-                                            break e;
-                                        } else {
-                                            o = (u & 2049 | 0) != 0 & 1;
-                                            q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
-                                            w = 66;
-                                            break e;
+                                        {
+                                            n = E;
+                                            e = c[n >> 2] | 0;
+                                            n = c[n + 4 >> 2] | 0;
+                                            if ((n | 0) < 0) {
+                                                e = wC(0, 0, e | 0, n | 0) | 0;
+                                                n = A;
+                                                o = E;
+                                                c[o >> 2] = e;
+                                                c[o + 4 >> 2] = n;
+                                                o = 1;
+                                                q = 5642;
+                                                w = 66;
+                                                break e;
+                                            } else {
+                                                o = (u & 2049 | 0) != 0 & 1;
+                                                q = (u & 2048 | 0) == 0 ? (u & 1 | 0) == 0 ? 5642 : 5644 : 5643;
+                                                w = 66;
+                                                break e;
+                                            }
                                         }
                                     case 117:
-                                        n = E;
-                                        o = 0;
-                                        q = 5642;
-                                        e = c[n >> 2] | 0;
-                                        n = c[n + 4 >> 2] | 0;
-                                        w = 66;
-                                        break;
-                                    case 99:
-                                        a[B >> 0] = c[E >> 2];
-                                        e = B;
-                                        o = 0;
-                                        q = 5642;
-                                        r = y;
-                                        n = 1;
-                                        m = s;
-                                        break;
-                                    case 109:
-                                        n = MB(c[(vB() | 0) >> 2] | 0) | 0;
-                                        w = 71;
-                                        break;
-                                    case 115:
-                                        n = c[E >> 2] | 0;
-                                        n = n | 0 ? n : 5652;
-                                        w = 71;
-                                        break;
-                                    case 67:
-                                        c[F >> 2] = c[E >> 2];
-                                        c[C >> 2] = 0;
-                                        c[E >> 2] = F;
-                                        r = -1;
-                                        n = F;
-                                        w = 75;
-                                        break;
-                                    case 83:
-                                        e = c[E >> 2] | 0;
-                                        if (!m) {
-                                            OB(d, 32, k, 0, u);
-                                            e = 0;
-                                            w = 84;
-                                        } else {
-                                            r = m;
-                                            n = e;
-                                            w = 75;
+                                        {
+                                            n = E;
+                                            o = 0;
+                                            q = 5642;
+                                            e = c[n >> 2] | 0;
+                                            n = c[n + 4 >> 2] | 0;
+                                            w = 66;
+                                            break;
                                         }
-                                        break;
+                                    case 99:
+                                        {
+                                            a[B >> 0] = c[E >> 2];
+                                            e = B;
+                                            o = 0;
+                                            q = 5642;
+                                            r = y;
+                                            n = 1;
+                                            m = s;
+                                            break;
+                                        }
+                                    case 109:
+                                        {
+                                            n = MB(c[(vB() | 0) >> 2] | 0) | 0;
+                                            w = 71;
+                                            break;
+                                        }
+                                    case 115:
+                                        {
+                                            n = c[E >> 2] | 0;
+                                            n = n | 0 ? n : 5652;
+                                            w = 71;
+                                            break;
+                                        }
+                                    case 67:
+                                        {
+                                            c[F >> 2] = c[E >> 2];
+                                            c[C >> 2] = 0;
+                                            c[E >> 2] = F;
+                                            r = -1;
+                                            n = F;
+                                            w = 75;
+                                            break;
+                                        }
+                                    case 83:
+                                        {
+                                            e = c[E >> 2] | 0;
+                                            if (!m) {
+                                                OB(d, 32, k, 0, u);
+                                                e = 0;
+                                                w = 84;
+                                            } else {
+                                                r = m;
+                                                n = e;
+                                                w = 75;
+                                            }
+                                            break;
+                                        }
                                     case 65:
                                     case 71:
                                     case 70:
@@ -31281,15 +32618,19 @@
                                     case 103:
                                     case 102:
                                     case 101:
-                                        k = QB(d, +h[E >> 3], k, m, u, n) | 0;
-                                        e = v;
-                                        continue a;
+                                        {
+                                            k = QB(d, +h[E >> 3], k, m, u, n) | 0;
+                                            e = v;
+                                            continue a;
+                                        }
                                     default:
-                                        o = 0;
-                                        q = 5642;
-                                        r = y;
-                                        n = m;
-                                        m = u;
+                                        {
+                                            o = 0;
+                                            q = 5642;
+                                            r = y;
+                                            n = m;
+                                            m = u;
+                                        }
                                 }
                                 while (0)
                                 f: do if ((w | 0) == 61) {
@@ -31323,7 +32664,7 @@
                                     q = n;
                                     e = 0;
                                     m = 0;
-                                    while(true){
+                                    while(1){
                                         o = c[q >> 2] | 0;
                                         if (!o) break;
                                         m = PB(G, o) | 0;
@@ -31342,7 +32683,7 @@
                                         w = 84;
                                     } else {
                                         o = 0;
-                                        while(true){
+                                        while(1){
                                             m = c[n >> 2] | 0;
                                             if (!m) {
                                                 w = 84;
@@ -31392,30 +32733,28 @@
                                 e = v;
                             }
                             g: do if ((w | 0) == 87) {
-                                if (!d) {
-                                    if (!p) j = 0;
-                                    else {
-                                        j = 1;
-                                        while(true){
-                                            e = c[i + (j << 2) >> 2] | 0;
-                                            if (!e) break;
-                                            IB(g + (j << 3) | 0, e, f);
-                                            j = j + 1 | 0;
-                                            if ((j | 0) >= 10) {
-                                                j = 1;
-                                                break g;
-                                            }
+                                if (!d) if (!p) j = 0;
+                                else {
+                                    j = 1;
+                                    while(1){
+                                        e = c[i + (j << 2) >> 2] | 0;
+                                        if (!e) break;
+                                        IB(g + (j << 3) | 0, e, f);
+                                        j = j + 1 | 0;
+                                        if ((j | 0) >= 10) {
+                                            j = 1;
+                                            break g;
                                         }
-                                        while(true){
-                                            if (c[i + (j << 2) >> 2] | 0) {
-                                                j = -1;
-                                                break g;
-                                            }
-                                            j = j + 1 | 0;
-                                            if ((j | 0) >= 10) {
-                                                j = 1;
-                                                break;
-                                            }
+                                    }
+                                    while(1){
+                                        if (c[i + (j << 2) >> 2] | 0) {
+                                            j = -1;
+                                            break g;
+                                        }
+                                        j = j + 1 | 0;
+                                        if ((j | 0) >= 10) {
+                                            j = 1;
+                                            break;
                                         }
                                     }
                                 }
@@ -31436,7 +32775,7 @@
                             a = a | 0;
                             b = b | 0;
                             d = d | 0;
-                            if (!(c[a >> 2] & 32)) aC(b, d, a);
+                            if (!(c[a >> 2] & 32)) aC(b, d, a) | 0;
                             return;
                         }
                         function HB(b) {
@@ -31460,88 +32799,110 @@
                             b = b | 0;
                             d = d | 0;
                             var e = 0, f = 0, g = 0.0;
-                            a: if (b >>> 0 <= 20) switch(b | 0){
+                            a: do if (b >>> 0 <= 20) do switch(b | 0){
                                 case 9:
-                                    e = (c[d >> 2] | 0) + 3 & -4;
-                                    b = c[e >> 2] | 0;
-                                    c[d >> 2] = e + 4;
-                                    c[a >> 2] = b;
-                                    break a;
+                                    {
+                                        e = (c[d >> 2] | 0) + 3 & -4;
+                                        b = c[e >> 2] | 0;
+                                        c[d >> 2] = e + 4;
+                                        c[a >> 2] = b;
+                                        break a;
+                                    }
                                 case 10:
-                                    e = (c[d >> 2] | 0) + 3 & -4;
-                                    b = c[e >> 2] | 0;
-                                    c[d >> 2] = e + 4;
-                                    e = a;
-                                    c[e >> 2] = b;
-                                    c[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
-                                    break a;
+                                    {
+                                        e = (c[d >> 2] | 0) + 3 & -4;
+                                        b = c[e >> 2] | 0;
+                                        c[d >> 2] = e + 4;
+                                        e = a;
+                                        c[e >> 2] = b;
+                                        c[e + 4 >> 2] = ((b | 0) < 0) << 31 >> 31;
+                                        break a;
+                                    }
                                 case 11:
-                                    e = (c[d >> 2] | 0) + 3 & -4;
-                                    b = c[e >> 2] | 0;
-                                    c[d >> 2] = e + 4;
-                                    e = a;
-                                    c[e >> 2] = b;
-                                    c[e + 4 >> 2] = 0;
-                                    break a;
+                                    {
+                                        e = (c[d >> 2] | 0) + 3 & -4;
+                                        b = c[e >> 2] | 0;
+                                        c[d >> 2] = e + 4;
+                                        e = a;
+                                        c[e >> 2] = b;
+                                        c[e + 4 >> 2] = 0;
+                                        break a;
+                                    }
                                 case 12:
-                                    e = (c[d >> 2] | 0) + 7 & -8;
-                                    b = e;
-                                    f = c[b >> 2] | 0;
-                                    b = c[b + 4 >> 2] | 0;
-                                    c[d >> 2] = e + 8;
-                                    e = a;
-                                    c[e >> 2] = f;
-                                    c[e + 4 >> 2] = b;
-                                    break a;
+                                    {
+                                        e = (c[d >> 2] | 0) + 7 & -8;
+                                        b = e;
+                                        f = c[b >> 2] | 0;
+                                        b = c[b + 4 >> 2] | 0;
+                                        c[d >> 2] = e + 8;
+                                        e = a;
+                                        c[e >> 2] = f;
+                                        c[e + 4 >> 2] = b;
+                                        break a;
+                                    }
                                 case 13:
-                                    f = (c[d >> 2] | 0) + 3 & -4;
-                                    e = c[f >> 2] | 0;
-                                    c[d >> 2] = f + 4;
-                                    e = (e & 65535) << 16 >> 16;
-                                    f = a;
-                                    c[f >> 2] = e;
-                                    c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 3 & -4;
+                                        e = c[f >> 2] | 0;
+                                        c[d >> 2] = f + 4;
+                                        e = (e & 65535) << 16 >> 16;
+                                        f = a;
+                                        c[f >> 2] = e;
+                                        c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                                        break a;
+                                    }
                                 case 14:
-                                    f = (c[d >> 2] | 0) + 3 & -4;
-                                    e = c[f >> 2] | 0;
-                                    c[d >> 2] = f + 4;
-                                    f = a;
-                                    c[f >> 2] = e & 65535;
-                                    c[f + 4 >> 2] = 0;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 3 & -4;
+                                        e = c[f >> 2] | 0;
+                                        c[d >> 2] = f + 4;
+                                        f = a;
+                                        c[f >> 2] = e & 65535;
+                                        c[f + 4 >> 2] = 0;
+                                        break a;
+                                    }
                                 case 15:
-                                    f = (c[d >> 2] | 0) + 3 & -4;
-                                    e = c[f >> 2] | 0;
-                                    c[d >> 2] = f + 4;
-                                    e = (e & 255) << 24 >> 24;
-                                    f = a;
-                                    c[f >> 2] = e;
-                                    c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 3 & -4;
+                                        e = c[f >> 2] | 0;
+                                        c[d >> 2] = f + 4;
+                                        e = (e & 255) << 24 >> 24;
+                                        f = a;
+                                        c[f >> 2] = e;
+                                        c[f + 4 >> 2] = ((e | 0) < 0) << 31 >> 31;
+                                        break a;
+                                    }
                                 case 16:
-                                    f = (c[d >> 2] | 0) + 3 & -4;
-                                    e = c[f >> 2] | 0;
-                                    c[d >> 2] = f + 4;
-                                    f = a;
-                                    c[f >> 2] = e & 255;
-                                    c[f + 4 >> 2] = 0;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 3 & -4;
+                                        e = c[f >> 2] | 0;
+                                        c[d >> 2] = f + 4;
+                                        f = a;
+                                        c[f >> 2] = e & 255;
+                                        c[f + 4 >> 2] = 0;
+                                        break a;
+                                    }
                                 case 17:
-                                    f = (c[d >> 2] | 0) + 7 & -8;
-                                    g = +h[f >> 3];
-                                    c[d >> 2] = f + 8;
-                                    h[a >> 3] = g;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 7 & -8;
+                                        g = +h[f >> 3];
+                                        c[d >> 2] = f + 8;
+                                        h[a >> 3] = g;
+                                        break a;
+                                    }
                                 case 18:
-                                    f = (c[d >> 2] | 0) + 7 & -8;
-                                    g = +h[f >> 3];
-                                    c[d >> 2] = f + 8;
-                                    h[a >> 3] = g;
-                                    break a;
+                                    {
+                                        f = (c[d >> 2] | 0) + 7 & -8;
+                                        g = +h[f >> 3];
+                                        c[d >> 2] = f + 8;
+                                        h[a >> 3] = g;
+                                        break a;
+                                    }
                                 default:
                                     break a;
                             }
+                            while (0)
+                            while (0)
                             return;
                         }
                         function JB(b, c, e, f) {
@@ -31575,7 +32936,7 @@
                             d = d | 0;
                             var e = 0;
                             if (c >>> 0 > 0 | (c | 0) == 0 & b >>> 0 > 4294967295) {
-                                while(true){
+                                while(1){
                                     e = HC(b | 0, c | 0, 10, 0) | 0;
                                     d = d + -1 | 0;
                                     a[d >> 0] = e & 255 | 48;
@@ -31586,7 +32947,7 @@
                                 }
                                 c = b;
                             } else c = b;
-                            if (c) while(true){
+                            if (c) while(1){
                                 d = d + -1 | 0;
                                 a[d >> 0] = (c >>> 0) % 10 | 48;
                                 if (c >>> 0 < 10) break;
@@ -31607,7 +32968,7 @@
                             f = (e | 0) != 0;
                             a: do if (f & (b & 3 | 0) != 0) {
                                 g = d & 255;
-                                while(true){
+                                while(1){
                                     if ((a[b >> 0] | 0) == g << 24 >> 24) {
                                         i = 6;
                                         break a;
@@ -31622,15 +32983,13 @@
                                 }
                             } else i = 5;
                             while (0)
-                            if ((i | 0) == 5) {
-                                if (f) i = 6;
-                                else e = 0;
-                            }
+                            if ((i | 0) == 5) if (f) i = 6;
+                            else e = 0;
                             b: do if ((i | 0) == 6) {
                                 g = d & 255;
                                 if ((a[b >> 0] | 0) != g << 24 >> 24) {
                                     f = P(h, 16843009) | 0;
-                                    c: do if (e >>> 0 > 3) while(true){
+                                    c: do if (e >>> 0 > 3) while(1){
                                         h = c[b >> 2] ^ f;
                                         if ((h & -2139062144 ^ -2139062144) & h + -16843009 | 0) break;
                                         b = b + 4 | 0;
@@ -31648,7 +33007,7 @@
                                             break;
                                         }
                                     }
-                                    while(true){
+                                    while(1){
                                         if ((a[b >> 0] | 0) == g << 24 >> 24) break b;
                                         b = b + 1 | 0;
                                         e = e + -1 | 0;
@@ -31674,7 +33033,7 @@
                             f = g;
                             if ((c | 0) > (d | 0) & (e & 73728 | 0) == 0) {
                                 e = c - d | 0;
-                                yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0);
+                                yC(f | 0, b | 0, (e >>> 0 < 256 ? e : 256) | 0) | 0;
                                 if (e >>> 0 > 255) {
                                     b = c - d | 0;
                                     do {
@@ -31712,7 +33071,7 @@
                             n = H + 512 | 0;
                             c[u >> 2] = 0;
                             E = n + 12 | 0;
-                            RB(e);
+                            RB(e) | 0;
                             if ((A | 0) < 0) {
                                 e = -e;
                                 C = 1;
@@ -31721,7 +33080,7 @@
                                 C = (h & 2049 | 0) != 0 & 1;
                                 B = (h & 2048 | 0) == 0 ? (h & 1 | 0) == 0 ? 5660 : 5665 : 5662;
                             }
-                            RB(e);
+                            RB(e) | 0;
                             D = A & 2146435072;
                             do if (D >>> 0 < 2146435072 | (D | 0) == 2146435072 & false) {
                                 r = +SB(e, u) * 2.0;
@@ -31804,7 +33163,7 @@
                                 if ((j | 0) > 0) {
                                     n = D;
                                     p = m;
-                                    while(true){
+                                    while(1){
                                         o = (j | 0) < 29 ? j : 29;
                                         j = p + -4 | 0;
                                         if (j >>> 0 >= n >>> 0) {
@@ -31824,7 +33183,7 @@
                                             }
                                         }
                                         m = p;
-                                        while(true){
+                                        while(1){
                                             if (m >>> 0 <= n >>> 0) break;
                                             j = m + -4 | 0;
                                             if (!(c[j >> 2] | 0)) m = j;
@@ -31922,7 +33281,7 @@
                                             c[s >> 2] = x;
                                             if (x >>> 0 > 999999999) {
                                                 m = s;
-                                                while(true){
+                                                while(1){
                                                     n = m + -4 | 0;
                                                     c[m >> 2] = 0;
                                                     if (n >>> 0 < j >>> 0) {
@@ -31954,7 +33313,7 @@
                                     x = j;
                                 }
                                 w = n;
-                                while(true){
+                                while(1){
                                     if (w >>> 0 <= x >>> 0) {
                                         u = 0;
                                         break;
@@ -32046,7 +33405,7 @@
                                                 m = q;
                                             }
                                         } else if (m >>> 0 > G >>> 0) {
-                                            yC(G | 0, 48, m - F | 0);
+                                            yC(G | 0, 48, m - F | 0) | 0;
                                             do m = m + -1 | 0;
                                             while (m >>> 0 > G >>> 0)
                                         }
@@ -32054,10 +33413,10 @@
                                         n = n + 4 | 0;
                                     }while (n >>> 0 <= D >>> 0)
                                     if (t | 0) GB(b, 5710, 1);
-                                    if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(true){
+                                    if (n >>> 0 < w >>> 0 & (k | 0) > 0) while(1){
                                         m = LB(c[n >> 2] | 0, 0, s) | 0;
                                         if (m >>> 0 > G >>> 0) {
-                                            yC(G | 0, 48, m - F | 0);
+                                            yC(G | 0, 48, m - F | 0) | 0;
                                             do m = m + -1 | 0;
                                             while (m >>> 0 > G >>> 0)
                                         }
@@ -32096,7 +33455,7 @@
                                                 m = n;
                                             } else {
                                                 if (m >>> 0 <= G >>> 0) break;
-                                                yC(G | 0, 48, m + p | 0);
+                                                yC(G | 0, 48, m + p | 0) | 0;
                                                 do m = m + -1 | 0;
                                                 while (m >>> 0 > G >>> 0)
                                             }
@@ -32146,19 +33505,23 @@
                             f = AC(d | 0, e | 0, 52) | 0;
                             switch(f & 2047){
                                 case 0:
-                                    if (a != 0.0) {
-                                        a = +TB(a * 18446744073709551616.0, b);
-                                        d = (c[b >> 2] | 0) + -64 | 0;
-                                    } else d = 0;
-                                    c[b >> 2] = d;
-                                    break;
+                                    {
+                                        if (a != 0.0) {
+                                            a = +TB(a * 18446744073709551616.0, b);
+                                            d = (c[b >> 2] | 0) + -64 | 0;
+                                        } else d = 0;
+                                        c[b >> 2] = d;
+                                        break;
+                                    }
                                 case 2047:
                                     break;
                                 default:
-                                    c[b >> 2] = (f & 2047) + -1022;
-                                    c[j >> 2] = d;
-                                    c[j + 4 >> 2] = e & -2146435073 | 1071644672;
-                                    a = +h[j >> 3];
+                                    {
+                                        c[b >> 2] = (f & 2047) + -1022;
+                                        c[j >> 2] = d;
+                                        c[j + 4 >> 2] = e & -2146435073 | 1071644672;
+                                        a = +h[j >> 3];
+                                    }
                             }
                             return +a;
                         }
@@ -32172,16 +33535,14 @@
                                     b = 1;
                                     break;
                                 }
-                                if (!(c[c[(VB() | 0) + 188 >> 2] >> 2] | 0)) {
-                                    if ((d & -128 | 0) == 57216) {
-                                        a[b >> 0] = d;
-                                        b = 1;
-                                        break;
-                                    } else {
-                                        c[(vB() | 0) >> 2] = 84;
-                                        b = -1;
-                                        break;
-                                    }
+                                if (!(c[c[(VB() | 0) + 188 >> 2] >> 2] | 0)) if ((d & -128 | 0) == 57216) {
+                                    a[b >> 0] = d;
+                                    b = 1;
+                                    break;
+                                } else {
+                                    c[(vB() | 0) >> 2] = 84;
+                                    b = -1;
+                                    break;
                                 }
                                 if (d >>> 0 < 2048) {
                                     a[b >> 0] = d >>> 6 | 192;
@@ -32223,7 +33584,7 @@
                             e = e | 0;
                             var f = 0, g = 0;
                             g = 0;
-                            while(true){
+                            while(1){
                                 if ((d[5712 + g >> 0] | 0) == (b | 0)) {
                                     b = 2;
                                     break;
@@ -32236,14 +33597,12 @@
                                     break;
                                 } else g = f;
                             }
-                            if ((b | 0) == 2) {
-                                if (!g) f = 5800;
-                                else {
-                                    f = 5800;
-                                    b = 5;
-                                }
+                            if ((b | 0) == 2) if (!g) f = 5800;
+                            else {
+                                f = 5800;
+                                b = 5;
                             }
-                            if ((b | 0) == 5) while(true){
+                            if ((b | 0) == 5) while(1){
                                 do {
                                     b = f;
                                     f = f + 1 | 0;
@@ -32279,7 +33638,7 @@
                                 n = f >>> 2;
                                 m = g >>> 2;
                                 l = 0;
-                                while(true){
+                                while(1){
                                     j = h >>> 1;
                                     k = l + j | 0;
                                     i = k << 1;
@@ -32344,7 +33703,7 @@
                                 }
                                 b: do if ((a[e + 75 >> 0] | 0) > -1) {
                                     i = d;
-                                    while(true){
+                                    while(1){
                                         if (!i) {
                                             h = 0;
                                             g = b;
@@ -32365,7 +33724,7 @@
                                     g = b;
                                 }
                                 while (0)
-                                BC(f | 0, g | 0, d | 0);
+                                BC(f | 0, g | 0, d | 0) | 0;
                                 c[j >> 2] = (c[j >> 2] | 0) + d;
                                 f = h + d | 0;
                             }
@@ -32400,14 +33759,12 @@
                             c = dC(a) | 0;
                             do if ((c & 2147483647) >>> 0 <= 2139095040) {
                                 d = dC(b) | 0;
-                                if ((d & 2147483647) >>> 0 <= 2139095040) {
-                                    if ((d ^ c | 0) < 0) {
-                                        a = (c | 0) < 0 ? b : a;
-                                        break;
-                                    } else {
-                                        a = a < b ? b : a;
-                                        break;
-                                    }
+                                if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
+                                    a = (c | 0) < 0 ? b : a;
+                                    break;
+                                } else {
+                                    a = a < b ? b : a;
+                                    break;
                                 }
                             } else a = b;
                             while (0)
@@ -32424,14 +33781,12 @@
                             c = fC(a) | 0;
                             do if ((c & 2147483647) >>> 0 <= 2139095040) {
                                 d = fC(b) | 0;
-                                if ((d & 2147483647) >>> 0 <= 2139095040) {
-                                    if ((d ^ c | 0) < 0) {
-                                        a = (c | 0) < 0 ? a : b;
-                                        break;
-                                    } else {
-                                        a = a < b ? a : b;
-                                        break;
-                                    }
+                                if ((d & 2147483647) >>> 0 <= 2139095040) if ((d ^ c | 0) < 0) {
+                                    a = (c | 0) < 0 ? a : b;
+                                    break;
+                                } else {
+                                    a = a < b ? a : b;
+                                    break;
                                 }
                             } else a = b;
                             while (0)
@@ -32484,11 +33839,9 @@
                                 f = e - k | 0;
                                 h = (f | 0) > -1;
                                 b: do if ((d | 0) > (i | 0)) {
-                                    while(true){
-                                        if (h) {
-                                            if (!f) break;
-                                            else e = f;
-                                        }
+                                    while(1){
+                                        if (h) if (!f) break;
+                                        else e = f;
                                         e = e << 1;
                                         d = d + -1 | 0;
                                         f = e - k | 0;
@@ -32499,12 +33852,10 @@
                                     break a;
                                 }
                                 while (0)
-                                if (h) {
-                                    if (!f) {
-                                        b = T(a * T(0.0));
-                                        break;
-                                    } else e = f;
-                                }
+                                if (h) if (!f) {
+                                    b = T(a * T(0.0));
+                                    break;
+                                } else e = f;
                                 if (e >>> 0 < 8388608) do {
                                     e = e << 1;
                                     d = d + -1 | 0;
@@ -32573,7 +33924,7 @@
                             a = a | 0;
                             var b = 0;
                             b = (a | 0) == 0 ? 1 : a;
-                            while(true){
+                            while(1){
                                 a = oB(b) | 0;
                                 if (a | 0) break;
                                 a = uC() | 0;
@@ -32921,7 +34272,7 @@
                                     g = i | g << 1;
                                     e = a << 1 | e >>> 31 | 0;
                                     n = a >>> 31 | b << 1 | 0;
-                                    wC(k | 0, d | 0, e | 0, n | 0);
+                                    wC(k | 0, d | 0, e | 0, n | 0) | 0;
                                     p = A;
                                     o = p >> 31 | ((p | 0) < 0 ? -1 : 0) << 1;
                                     i = o & 1;
@@ -32955,7 +34306,7 @@
                             b = c[i >> 2] | 0;
                             a = b + d | 0;
                             if ((d | 0) > 0 & (a | 0) < (b | 0) | (a | 0) < 0) {
-                                Y();
+                                Y() | 0;
                                 Qa(12);
                                 return -1;
                             }
@@ -32983,7 +34334,7 @@
                                     a[b >> 0] = a[c >> 0] | 0;
                                 }
                                 b = e;
-                            } else BC(b, c, d);
+                            } else BC(b, c, d) | 0;
                             return b | 0;
                         }
                         function HC(a, b, d, e) {
@@ -32995,7 +34346,7 @@
                             g = l;
                             l = l + 16 | 0;
                             f = g | 0;
-                            DC(a, b, d, e, f);
+                            DC(a, b, d, e, f) | 0;
                             l = g;
                             return (A = c[f + 4 >> 2] | 0, c[f >> 2] | 0) | 0;
                         }
@@ -33806,80 +35157,210 @@
                             dynCall_v: dD
                         };
                     }(Module.asmGlobalArg, Module.asmLibraryArg, buffer);
-                    Module._llvm_bswap_i32 = asm._llvm_bswap_i32, Module.getTempRet0 = asm.getTempRet0, Module.___udivdi3 = asm.___udivdi3, Module.setThrew = asm.setThrew, Module._bitshift64Lshr = asm._bitshift64Lshr, Module._bitshift64Shl = asm._bitshift64Shl, Module._memset = asm._memset, Module._sbrk = asm._sbrk, Module._memcpy = asm._memcpy, Module.stackAlloc = asm.stackAlloc, Module.___uremdi3 = asm.___uremdi3, Module._nbind_init = asm._nbind_init, Module._i64Subtract = asm._i64Subtract, Module.setTempRet0 = asm.setTempRet0, Module._i64Add = asm._i64Add, Module._emscripten_get_global_libc = asm._emscripten_get_global_libc;
-                    var __GLOBAL__sub_I_Yoga_cpp = Module.__GLOBAL__sub_I_Yoga_cpp = asm.__GLOBAL__sub_I_Yoga_cpp, __GLOBAL__sub_I_Binding_cc = Module.__GLOBAL__sub_I_Binding_cc = asm.__GLOBAL__sub_I_Binding_cc;
-                    Module.stackSave = asm.stackSave;
-                    var __GLOBAL__sub_I_nbind_cc = Module.__GLOBAL__sub_I_nbind_cc = asm.__GLOBAL__sub_I_nbind_cc, _free = Module._free = asm._free;
-                    Module.runPostSets = asm.runPostSets, Module.establishStackSpace = asm.establishStackSpace, Module._memmove = asm._memmove, Module.stackRestore = asm.stackRestore;
-                    var _malloc = Module._malloc = asm._malloc, __GLOBAL__sub_I_common_cc = Module.__GLOBAL__sub_I_common_cc = asm.__GLOBAL__sub_I_common_cc;
+                    Module["_llvm_bswap_i32"] = asm["_llvm_bswap_i32"];
+                    Module["getTempRet0"] = asm["getTempRet0"];
+                    Module["___udivdi3"] = asm["___udivdi3"];
+                    Module["setThrew"] = asm["setThrew"];
+                    Module["_bitshift64Lshr"] = asm["_bitshift64Lshr"];
+                    Module["_bitshift64Shl"] = asm["_bitshift64Shl"];
+                    Module["_memset"] = asm["_memset"];
+                    Module["_sbrk"] = asm["_sbrk"];
+                    Module["_memcpy"] = asm["_memcpy"];
+                    Module["stackAlloc"] = asm["stackAlloc"];
+                    Module["___uremdi3"] = asm["___uremdi3"];
+                    Module["_nbind_init"] = asm["_nbind_init"];
+                    Module["_i64Subtract"] = asm["_i64Subtract"];
+                    Module["setTempRet0"] = asm["setTempRet0"];
+                    Module["_i64Add"] = asm["_i64Add"];
+                    Module["_emscripten_get_global_libc"] = asm["_emscripten_get_global_libc"];
+                    var __GLOBAL__sub_I_Yoga_cpp = Module["__GLOBAL__sub_I_Yoga_cpp"] = asm["__GLOBAL__sub_I_Yoga_cpp"];
+                    var __GLOBAL__sub_I_Binding_cc = Module["__GLOBAL__sub_I_Binding_cc"] = asm["__GLOBAL__sub_I_Binding_cc"];
+                    Module["stackSave"] = asm["stackSave"];
+                    var __GLOBAL__sub_I_nbind_cc = Module["__GLOBAL__sub_I_nbind_cc"] = asm["__GLOBAL__sub_I_nbind_cc"];
+                    var _free = Module["_free"] = asm["_free"];
+                    Module["runPostSets"] = asm["runPostSets"];
+                    Module["establishStackSpace"] = asm["establishStackSpace"];
+                    Module["_memmove"] = asm["_memmove"];
+                    Module["stackRestore"] = asm["stackRestore"];
+                    var _malloc = Module["_malloc"] = asm["_malloc"];
+                    var __GLOBAL__sub_I_common_cc = Module["__GLOBAL__sub_I_common_cc"] = asm["__GLOBAL__sub_I_common_cc"];
+                    Module["dynCall_viiiii"] = asm["dynCall_viiiii"];
+                    Module["dynCall_vif"] = asm["dynCall_vif"];
+                    Module["dynCall_vid"] = asm["dynCall_vid"];
+                    Module["dynCall_fiff"] = asm["dynCall_fiff"];
+                    Module["dynCall_vi"] = asm["dynCall_vi"];
+                    Module["dynCall_vii"] = asm["dynCall_vii"];
+                    Module["dynCall_ii"] = asm["dynCall_ii"];
+                    Module["dynCall_viddi"] = asm["dynCall_viddi"];
+                    Module["dynCall_vidd"] = asm["dynCall_vidd"];
+                    Module["dynCall_iiii"] = asm["dynCall_iiii"];
+                    Module["dynCall_diii"] = asm["dynCall_diii"];
+                    Module["dynCall_di"] = asm["dynCall_di"];
+                    Module["dynCall_iid"] = asm["dynCall_iid"];
+                    Module["dynCall_iii"] = asm["dynCall_iii"];
+                    Module["dynCall_viiddi"] = asm["dynCall_viiddi"];
+                    Module["dynCall_viiiiii"] = asm["dynCall_viiiiii"];
+                    Module["dynCall_dii"] = asm["dynCall_dii"];
+                    Module["dynCall_i"] = asm["dynCall_i"];
+                    Module["dynCall_iiiiii"] = asm["dynCall_iiiiii"];
+                    Module["dynCall_viiid"] = asm["dynCall_viiid"];
+                    Module["dynCall_viififi"] = asm["dynCall_viififi"];
+                    Module["dynCall_viii"] = asm["dynCall_viii"];
+                    Module["dynCall_v"] = asm["dynCall_v"];
+                    Module["dynCall_viid"] = asm["dynCall_viid"];
+                    Module["dynCall_idd"] = asm["dynCall_idd"];
+                    Module["dynCall_viiii"] = asm["dynCall_viiii"];
+                    Runtime.stackAlloc = Module["stackAlloc"];
+                    Runtime.stackSave = Module["stackSave"];
+                    Runtime.stackRestore = Module["stackRestore"];
+                    Runtime.establishStackSpace = Module["establishStackSpace"];
+                    Runtime.setTempRet0 = Module["setTempRet0"];
+                    Runtime.getTempRet0 = Module["getTempRet0"];
+                    Module["asm"] = asm;
                     function ExitStatus(status) {
-                        this.name = "ExitStatus", this.message = "Program terminated with exit(" + status + ")", this.status = status;
+                        this.name = "ExitStatus";
+                        this.message = "Program terminated with exit(" + status + ")";
+                        this.status = status;
                     }
-                    function run(args) {
-                        args = args || Module.arguments, runDependencies > 0 || (preRun(), !(runDependencies > 0) && (Module.calledRun || (Module.setStatus ? (Module.setStatus("Running..."), setTimeout(function() {
-                            setTimeout(function() {
-                                Module.setStatus("");
-                            }, 1), doRun();
-                        }, 1)) : doRun())));
-                        function doRun() {
-                            !Module.calledRun && (Module.calledRun = !0, ABORT || (ensureInitRuntime(), preMain(), Module.onRuntimeInitialized && Module.onRuntimeInitialized(), Module._main && shouldRunNow && Module.callMain(args), postRun()));
-                        }
-                    }
-                    function exit(status, implicit) {
-                        implicit && Module.noExitRuntime || (Module.noExitRuntime || (ABORT = !0, STACKTOP = initialStackTop, exitRuntime(), Module.onExit && Module.onExit(status)), ENVIRONMENT_IS_NODE && process.exit(status), Module.quit(status, new ExitStatus(status)));
-                    }
-                    Module.dynCall_viiiii = asm.dynCall_viiiii, Module.dynCall_vif = asm.dynCall_vif, Module.dynCall_vid = asm.dynCall_vid, Module.dynCall_fiff = asm.dynCall_fiff, Module.dynCall_vi = asm.dynCall_vi, Module.dynCall_vii = asm.dynCall_vii, Module.dynCall_ii = asm.dynCall_ii, Module.dynCall_viddi = asm.dynCall_viddi, Module.dynCall_vidd = asm.dynCall_vidd, Module.dynCall_iiii = asm.dynCall_iiii, Module.dynCall_diii = asm.dynCall_diii, Module.dynCall_di = asm.dynCall_di, Module.dynCall_iid = asm.dynCall_iid, Module.dynCall_iii = asm.dynCall_iii, Module.dynCall_viiddi = asm.dynCall_viiddi, Module.dynCall_viiiiii = asm.dynCall_viiiiii, Module.dynCall_dii = asm.dynCall_dii, Module.dynCall_i = asm.dynCall_i, Module.dynCall_iiiiii = asm.dynCall_iiiiii, Module.dynCall_viiid = asm.dynCall_viiid, Module.dynCall_viififi = asm.dynCall_viififi, Module.dynCall_viii = asm.dynCall_viii, Module.dynCall_v = asm.dynCall_v, Module.dynCall_viid = asm.dynCall_viid, Module.dynCall_idd = asm.dynCall_idd, Module.dynCall_viiii = asm.dynCall_viiii, Runtime.stackAlloc = Module.stackAlloc, Runtime.stackSave = Module.stackSave, Runtime.stackRestore = Module.stackRestore, Runtime.establishStackSpace = Module.establishStackSpace, Runtime.setTempRet0 = Module.setTempRet0, Runtime.getTempRet0 = Module.getTempRet0, Module.asm = asm, ExitStatus.prototype = Error(), ExitStatus.prototype.constructor = ExitStatus, dependenciesFulfilled = function runCaller() {
-                        Module.calledRun || run(), Module.calledRun || (dependenciesFulfilled = runCaller);
-                    }, Module.callMain = Module.callMain = function(args) {
-                        args = args || [], ensureInitRuntime();
+                    ExitStatus.prototype = Error();
+                    ExitStatus.prototype.constructor = ExitStatus;
+                    var initialStackTop;
+                    dependenciesFulfilled = function runCaller() {
+                        if (!Module["calledRun"]) run();
+                        if (!Module["calledRun"]) dependenciesFulfilled = runCaller;
+                    };
+                    Module["callMain"] = Module.callMain = function callMain(args) {
+                        args = args || [];
+                        ensureInitRuntime();
                         var argc = args.length + 1;
                         function pad() {
                             for(var i = 0; i < 3; i++)argv.push(0);
                         }
                         var argv = [
-                            allocate(intArrayFromString(Module.thisProgram), "i8", ALLOC_NORMAL)
+                            allocate(intArrayFromString(Module["thisProgram"]), "i8", ALLOC_NORMAL)
                         ];
                         pad();
-                        for(var i = 0; i < argc - 1; i += 1)argv.push(allocate(intArrayFromString(args[i]), "i8", ALLOC_NORMAL)), pad();
-                        argv.push(0), argv = allocate(argv, "i32", ALLOC_NORMAL);
+                        for(var i = 0; i < argc - 1; i += 1){
+                            argv.push(allocate(intArrayFromString(args[i]), "i8", ALLOC_NORMAL));
+                            pad();
+                        }
+                        argv.push(0);
+                        argv = allocate(argv, "i32", ALLOC_NORMAL);
                         try {
-                            var ret = Module._main(argc, argv, 0);
-                            exit(ret, !0);
+                            var ret = Module["_main"](argc, argv, 0);
+                            exit(ret, true);
                         } catch (e) {
-                            if (e instanceof ExitStatus) return;
+                            if (e instanceof ExitStatus) {
+                                return;
+                            }
                             if ("SimulateInfiniteLoop" == e) {
-                                Module.noExitRuntime = !0;
+                                Module["noExitRuntime"] = true;
                                 return;
                             }
                             var toLog = e;
-                            e && "object" == typeof e && e.stack && (toLog = [
+                            if (e && "object" == typeof e && e.stack) toLog = [
                                 e,
                                 e.stack
-                            ]), Module.printErr("exception thrown: " + toLog), Module.quit(1, e);
+                            ];
+                            Module.printErr("exception thrown: " + toLog);
+                            Module["quit"](1, e);
                         } finally{}
-                    }, Module.run = Module.run = run, Module.exit = Module.exit = exit;
+                    };
+                    function run(args) {
+                        args = args || Module["arguments"];
+                        if (runDependencies > 0) {
+                            return;
+                        }
+                        preRun();
+                        if (runDependencies > 0) return;
+                        if (Module["calledRun"]) return;
+                        function doRun() {
+                            if (Module["calledRun"]) return;
+                            Module["calledRun"] = true;
+                            if (ABORT) return;
+                            ensureInitRuntime();
+                            preMain();
+                            if (Module["onRuntimeInitialized"]) Module["onRuntimeInitialized"]();
+                            if (Module["_main"] && shouldRunNow) Module["callMain"](args);
+                            postRun();
+                        }
+                        if (Module["setStatus"]) {
+                            Module["setStatus"]("Running...");
+                            setTimeout(function() {
+                                setTimeout(function() {
+                                    Module["setStatus"]("");
+                                }, 1);
+                                doRun();
+                            }, 1);
+                        } else {
+                            doRun();
+                        }
+                    }
+                    Module["run"] = Module.run = run;
+                    function exit(status, implicit) {
+                        if (implicit && Module["noExitRuntime"]) {
+                            return;
+                        }
+                        if (Module["noExitRuntime"]) ;
+                        else {
+                            ABORT = true;
+                            STACKTOP = initialStackTop;
+                            exitRuntime();
+                            if (Module["onExit"]) Module["onExit"](status);
+                        }
+                        if (ENVIRONMENT_IS_NODE) process["exit"](status);
+                        Module["quit"](status, new ExitStatus(status));
+                    }
+                    Module["exit"] = Module.exit = exit;
                     var abortDecorators = [];
                     function abort(what) {
-                        Module.onAbort && Module.onAbort(what), void 0 !== what ? (Module.print(what), Module.printErr(what), what = JSON.stringify(what)) : what = "", ABORT = !0;
-                        var extra = "\nIf this abort() is unexpected, build with -s ASSERTIONS=1 which can give more information.", output = "abort(" + what + ") at " + stackTrace() + extra;
-                        throw abortDecorators && abortDecorators.forEach(function(decorator) {
+                        if (Module["onAbort"]) Module["onAbort"](what);
+                        if (void 0 !== what) {
+                            Module.print(what);
+                            Module.printErr(what);
+                            what = JSON.stringify(what);
+                        } else {
+                            what = "";
+                        }
+                        ABORT = true;
+                        var extra = "\nIf this abort() is unexpected, build with -s ASSERTIONS=1 which can give more information.";
+                        var output = "abort(" + what + ") at " + stackTrace() + extra;
+                        if (abortDecorators) abortDecorators.forEach(function(decorator) {
                             output = decorator(output, what);
-                        }), output;
+                        });
+                        throw output;
                     }
-                    if (Module.abort = Module.abort = abort, Module.preInit) for("function" == typeof Module.preInit && (Module.preInit = [
-                        Module.preInit
-                    ]); Module.preInit.length > 0;)Module.preInit.pop()();
-                    var shouldRunNow = !0;
-                    Module.noInitialRun && (shouldRunNow = !1), run();
+                    Module["abort"] = Module.abort = abort;
+                    if (Module["preInit"]) {
+                        if ("function" == typeof Module["preInit"]) Module["preInit"] = [
+                            Module["preInit"]
+                        ];
+                        while(Module["preInit"].length > 0){
+                            Module["preInit"].pop()();
+                        }
+                    }
+                    var shouldRunNow = true;
+                    if (Module["noInitialRun"]) shouldRunNow = false;
+                    run();
                 });
-            }(nbind$1);
-            var Yoga = entryCommon, nbind = nbind$1.exports, ran = !1, ret = null;
-            if (nbind({}, function(err, result) {
-                if (!ran) {
-                    if (ran = !0, err) throw err;
-                    ret = result;
+            })(nbind$1);
+            var Yoga = entryCommon;
+            var nbind = nbind$1.exports;
+            var ran = false;
+            var ret = null;
+            nbind({}, function(err, result) {
+                if (ran) {
+                    return;
                 }
-            }), !ran) throw Error("Failed to load the yoga module - it needed to be loaded synchronously, but didn't");
+                ran = true;
+                if (err) {
+                    throw err;
+                }
+                ret = result;
+            });
+            if (!ran) {
+                throw Error("Failed to load the yoga module - it needed to be loaded synchronously, but didn't");
+            }
             var entryBrowser = Yoga(ret.bind, ret.lib);
         }
     }
