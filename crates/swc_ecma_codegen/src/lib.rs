@@ -2019,6 +2019,8 @@ where
 
     #[emitter]
     fn emit_paren_expr(&mut self, node: &ParenExpr) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
