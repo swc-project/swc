@@ -1029,10 +1029,12 @@ where
             self.emit_leading_comments_of_span(node.span(), false)?;
         }
 
-        match node.kind {
-            MetaPropKind::ImportMeta => keyword!(node.span, "import.meta"),
+        srcmap!(node, true);
 
-            MetaPropKind::NewTarget => keyword!(node.span, "new.target"),
+        match node.kind {
+            MetaPropKind::ImportMeta => keyword!("import.meta"),
+
+            MetaPropKind::NewTarget => keyword!("new.target"),
         }
     }
 
