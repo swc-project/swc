@@ -149,8 +149,6 @@ where
             formatting_space!();
             emit!(init);
         }
-
-        srcmap!(node, false);
     }
 }
 
