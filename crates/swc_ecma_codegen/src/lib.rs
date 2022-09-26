@@ -2758,6 +2758,8 @@ where
 
     #[emitter]
     fn emit_return_stmt(&mut self, n: &ReturnStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(n.span, false)?;
 
         srcmap!(n, true);
