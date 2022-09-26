@@ -2891,8 +2891,6 @@ where
         formatting_space!();
 
         emit!(n.body);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -2990,8 +2988,6 @@ where
             // space!();
             emit!(finally);
         }
-
-        srcmap!(n, false);
     }
 
     #[emitter]
