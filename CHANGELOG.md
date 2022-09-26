@@ -8,7 +8,13 @@
 - **(es/codegen)** Align sourcemap with terser (#5657) ([2ba8815](https://github.com/swc-project/swc/commit/2ba88154fced01cb6ad0428207cf88ad7ddee75c))
 
 
+- **(es/minifier)** Fix skipping logic of sequential inliner (#5956) ([9d19742](https://github.com/swc-project/swc/commit/9d1974248dc5424ee20f7c315efadde4c696f720))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
+
+
+- **(es/testing)** Remove cycle ([d0e2e3c](https://github.com/swc-project/swc/commit/d0e2e3c43b01c3e18b2b854213ebc8217f36c73b))
 
 ### Features
 
