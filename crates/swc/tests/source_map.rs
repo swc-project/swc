@@ -365,9 +365,9 @@ fn should_work_with_emit_source_map_columns() {
                     .lookup_token(3, 10)
                     .expect("failed to find token");
                 assert_eq!(token.get_dst_line(), 3);
-                assert_eq!(token.get_dst_col(), 10);
+                assert_eq!(token.get_dst_col(), 9);
                 assert_eq!(token.get_src_line(), 4);
-                assert_eq!(token.get_src_col(), 12);
+                assert_eq!(token.get_src_col(), 11);
             }
             Err(err) => {
                 panic!("Error: {:#?}", err);
