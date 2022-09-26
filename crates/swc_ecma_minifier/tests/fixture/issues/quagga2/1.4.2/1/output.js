@@ -453,8 +453,8 @@
         },
         function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83), _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__), _cv_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8), _array_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10), vec2 = {
-                clone: __webpack_require__(7).clone
+            var _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(83), _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(_babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0__), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(3), _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1__), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(4), _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_2__), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3__), gl_vec2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(7), _cv_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(8), _array_helper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(10), vec2 = {
+                clone: gl_vec2__WEBPACK_IMPORTED_MODULE_4__.clone
             };
             function assertNumberPositive(val) {
                 if (val < 0) throw Error("expected positive number, received ".concat(val));
@@ -581,7 +581,7 @@
                             if (!ctx) throw Error("Unable to get canvas context");
                             for(var frame = ctx.getImageData(from.x, from.y, this.size.x, this.size.y), data = frame.data, length = this.data.length; length--;){
                                 hsv[0] = this.data[length] * adjustedScale, result = hsv[0] <= 0 ? whiteRgb : hsv[0] >= 360 ? blackRgb : Object(_cv_utils__WEBPACK_IMPORTED_MODULE_5__.g)(hsv, rgb);
-                                var pos = 4 * length, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(result, 3);
+                                var pos = 4 * length, _result = result, _result2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_result, 3);
                                 data[pos] = _result2[0], data[pos + 1] = _result2[1], data[pos + 2] = _result2[2], data[pos + 3] = 255;
                             }
                             ctx.putImageData(frame, from.x, from.y);
@@ -1155,7 +1155,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Map1 = __webpack_require__(35)(__webpack_require__(17), "Map");
+            var getNative = __webpack_require__(35), root = __webpack_require__(17), Map1 = getNative(root, "Map");
             module1.exports = Map1;
         },
         function(module1, exports1, __webpack_require__) {
@@ -1259,7 +1259,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var setToString = __webpack_require__(150)(__webpack_require__(148));
+            var baseSetToString = __webpack_require__(148), setToString = __webpack_require__(150)(baseSetToString);
             module1.exports = setToString;
         },
         function(module1, exports1, __webpack_require__) {
@@ -2918,7 +2918,8 @@
         function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), toKey = __webpack_require__(43);
             module1.exports = function(object, path) {
-                for(var index = 0, length = (path = castPath(path, object)).length; null != object && index < length;)object = object[toKey(path[index++])];
+                path = castPath(path, object);
+                for(var index = 0, length = path.length; null != object && index < length;)object = object[toKey(path[index++])];
                 return index && index == length ? object : void 0;
             };
         },
@@ -2931,7 +2932,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = __webpack_require__(234)(function(string) {
+            var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
                 var result = [];
                 return 46 === string.charCodeAt(0) && result.push(""), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
@@ -2989,7 +2990,8 @@
             var assignValue = __webpack_require__(55), castPath = __webpack_require__(32), isIndex = __webpack_require__(31), isObject = __webpack_require__(14), toKey = __webpack_require__(43);
             module1.exports = function(object, path, value, customizer) {
                 if (!isObject(object)) return object;
-                for(var index = -1, length = (path = castPath(path, object)).length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
+                path = castPath(path, object);
+                for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
                     var key = toKey(path[index]), newValue = value;
                     if ("__proto__" === key || "constructor" === key || "prototype" === key) break;
                     if (index != lastIndex) {
@@ -3015,7 +3017,8 @@
         function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isIndex = __webpack_require__(31), isLength = __webpack_require__(40), toKey = __webpack_require__(43);
             module1.exports = function(object, path, hasFunc) {
-                for(var index = -1, length = (path = castPath(path, object)).length, result = !1; ++index < length;){
+                path = castPath(path, object);
+                for(var index = -1, length = path.length, result = !1; ++index < length;){
                     var key = toKey(path[index]);
                     if (!(result = null != object && hasFunc(object, key))) break;
                     object = object[key];
@@ -3375,9 +3378,9 @@
                     var _this;
                     classCallCheck_default()(this, Code128Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "CODE_SHIFT", 98), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_C", 99), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_B", 100), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_A", 101), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_A", 103), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_B", 104), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_C", 105), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_CODE", 106), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_SHIFT", 98), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_C", 99), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_B", 100), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_A", 101), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_A", 103), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_B", 104), defineProperty_default()(assertThisInitialized_default()(_this), "START_CODE_C", 105), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_CODE", 106), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_PATTERN", [
                         [
                             2,
                             1,
@@ -4619,9 +4622,9 @@
                 });
                 function EANReader(config, supplements) {
                     var _this;
-                    return classCallCheck_default()(this, EANReader), defineProperty_default()(assertThisInitialized_default()(_this = _super.call(this, merge_default()({
+                    return classCallCheck_default()(this, EANReader), _this = _super.call(this, merge_default()({
                         supplements: []
-                    }, config), supplements)), "FORMAT", "ean_13"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
+                    }, config), supplements), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_13"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.7), defineProperty_default()(assertThisInitialized_default()(_this), "STOP_PATTERN", [
                         1,
                         1,
                         1
@@ -4870,9 +4873,9 @@
                     var _this;
                     classCallCheck_default()(this, Code39Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "code_39"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39"), _this;
                 }
                 return createClass_default()(Code39Reader, [
                     {
@@ -5000,9 +5003,9 @@
                     var _this;
                     classCallCheck_default()(this, Code39VINReader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "code_39_vin"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_39_vin"), _this;
                 }
                 return createClass_default()(Code39VINReader, [
                     {
@@ -5090,9 +5093,9 @@
                     var _this;
                     classCallCheck_default()(this, NewCodabarReader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "_counters", []), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "codabar"), _this;
                 }
                 return createClass_default()(NewCodabarReader, [
                     {
@@ -5278,9 +5281,9 @@
                     var _this;
                     classCallCheck_default()(this, UPCReader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "upc_a"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "upc_a"), _this;
                 }
                 return createClass_default()(UPCReader, [
                     {
@@ -5313,9 +5316,9 @@
                     var _this;
                     classCallCheck_default()(this, EAN8Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "ean_8"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_8"), _this;
                 }
                 return createClass_default()(EAN8Reader, [
                     {
@@ -5357,9 +5360,9 @@
                     var _this;
                     classCallCheck_default()(this, EAN2Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "ean_2"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_2"), _this;
                 }
                 return createClass_default()(EAN2Reader, [
                     {
@@ -5418,9 +5421,9 @@
                     var _this;
                     classCallCheck_default()(this, EAN5Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "ean_5"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "ean_5"), _this;
                 }
                 return createClass_default()(EAN5Reader, [
                     {
@@ -5486,9 +5489,9 @@
                     var _this;
                     classCallCheck_default()(this, UPCEReader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "CODE_FREQUENCY", [
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "CODE_FREQUENCY", [
                         [
                             56,
                             52,
@@ -5624,9 +5627,9 @@
                 });
                 function I2of5Reader(opts) {
                     var _this;
-                    return classCallCheck_default()(this, I2of5Reader), defineProperty_default()(assertThisInitialized_default()(_this = _super.call(this, merge_default()({
+                    return classCallCheck_default()(this, I2of5Reader), _this = _super.call(this, merge_default()({
                         normalizeBarSpaceWidth: !1
-                    }, opts))), "barSpaceRatio", [
+                    }, opts)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.38), defineProperty_default()(assertThisInitialized_default()(_this), "START_PATTERN", [
@@ -5970,9 +5973,9 @@
                     var _this;
                     classCallCheck_default()(this, TwoOfFiveReader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "barSpaceRatio", [
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "barSpaceRatio", [
                         1,
                         1
                     ]), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "2of5"), defineProperty_default()(assertThisInitialized_default()(_this), "SINGLE_CODE_ERROR", 0.78), defineProperty_default()(assertThisInitialized_default()(_this), "AVG_CODE_ERROR", 0.3), _this;
@@ -6166,9 +6169,9 @@
                     var _this;
                     classCallCheck_default()(this, Code93Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "code_93"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_93"), _this;
                 }
                 return createClass_default()(Code93Reader, [
                     {
@@ -6339,9 +6342,9 @@
                     var _this;
                     classCallCheck_default()(this, Code32Reader);
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    return defineProperty_default()(assertThisInitialized_default()(_this = _super.call.apply(_super, [
+                    return _this = _super.call.apply(_super, [
                         this
-                    ].concat(args))), "FORMAT", "code_32_reader"), _this;
+                    ].concat(args)), defineProperty_default()(assertThisInitialized_default()(_this), "FORMAT", "code_32_reader"), _this;
                 }
                 return createClass_default()(Code32Reader, [
                     {
@@ -6609,7 +6612,7 @@
                 });
                 function Exception(m, code) {
                     var _this;
-                    return classCallCheck_default()(this, Exception), defineProperty_default()(assertThisInitialized_default()(_this = _super.call(this, m)), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
+                    return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
                 }
                 return Exception;
             }(__webpack_require__.n(wrapNativeSuper)()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";

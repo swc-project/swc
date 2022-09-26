@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 //// [react-consumer.tsx]
 "use strict";
-var foo;
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("./test"), (0, require("@swc/helpers/lib/_extends.js").default)({
+});
+var foo, _extends = require("@swc/helpers/lib/_extends.js").default;
+require("./test"), _extends({
     x: ""
 }, foo, {
     y: ""

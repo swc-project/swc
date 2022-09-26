@@ -560,7 +560,7 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, h, s, v, i, f, p, q, t, mod, r, g, b, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -626,25 +626,25 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (rgb = {
-                        r: 255 * bound01(color2.r, 255),
-                        g: 255 * bound01(color2.g, 255),
-                        b: 255 * bound01(color2.b, 255)
-                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r = [
+                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (r = color2.r, g = color2.g, b = color2.b, rgb = {
+                        r: 255 * bound01(r, 255),
+                        g: 255 * bound01(g, 255),
+                        b: 255 * bound01(b, 255)
+                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
                         v,
                         q,
                         p,
                         p,
                         t,
                         v
-                    ][mod = i % 6], g = [
+                    ][mod = i % 6], g1 = [
                         t,
                         v,
                         v,
                         q,
                         p,
                         p
-                    ][mod], b = [
+                    ][mod], b1 = [
                         p,
                         p,
                         t,
@@ -652,9 +652,9 @@
                         v,
                         q
                     ][mod], rgb = {
-                        r: 255 * r,
-                        g: 255 * g,
-                        b: 255 * b
+                        r: 255 * r1,
+                        g: 255 * g1,
+                        b: 255 * b1
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -1387,7 +1387,7 @@
                 negate: _negate
             });
             function chakra_ui_theme_tools_esm_escape(value) {
-                var replaceValue, valueStr = (void 0 === replaceValue && (replaceValue = "-"), value.toString().replace(/\s+/g, replaceValue));
+                var value1, replaceValue, valueStr = (value1 = value.toString(), void 0 === replaceValue && (replaceValue = "-"), value1.replace(/\s+/g, replaceValue));
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
@@ -1397,7 +1397,7 @@
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + ((fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference) ? ", " + fallback : "") + ")"
+                    reference: (fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback ? ", " + fallback : "") + ")")
                 };
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
@@ -1597,7 +1597,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var list, opts, fallback, hex, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1695,8 +1695,8 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", color = "white";
-                "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light") || (color = "gray.800");
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
+                isBgDark || (color = "gray.800");
                 var borderColor = mode("white", "gray.800")(props);
                 return {
                     bg: bg,
@@ -1762,14 +1762,14 @@
                 },
                 variants: {
                     solid: function(props) {
-                        var c = props.colorScheme, dark = transparentize(c + ".500", 0.6)(props.theme);
+                        var c = props.colorScheme, theme = props.theme, dark = transparentize(c + ".500", 0.6)(theme);
                         return {
                             bg: mode(c + ".500", dark)(props),
                             color: mode("white", "whiteAlpha.800")(props)
                         };
                     },
                     subtle: function(props) {
-                        var c = props.colorScheme, darkBg = transparentize(c + ".200", 0.16)(props.theme);
+                        var c = props.colorScheme, theme = props.theme, darkBg = transparentize(c + ".200", 0.16)(theme);
                         return {
                             bg: mode(c + ".100", darkBg)(props),
                             color: mode(c + ".800", c + ".200")(props)
@@ -2260,7 +2260,7 @@
                     }
                 };
             }, variantFilled = function(props) {
-                var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor;
+                var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
                 return {
                     field: {
                         border: "2px solid",
@@ -2278,7 +2278,7 @@
                             cursor: "not-allowed"
                         },
                         _invalid: {
-                            borderColor: getColor(theme, _getDefaults2.errorBorderColor)
+                            borderColor: getColor(theme, ec)
                         },
                         _focusVisible: {
                             bg: "transparent",
@@ -3502,7 +3502,14 @@
                 sm: null != (_Input$sizes$sm$field = Input.sizes.sm.field) ? _Input$sizes$sm$field : {},
                 md: null != (_Input$sizes$md$field = Input.sizes.md.field) ? _Input$sizes$md$field : {},
                 lg: null != (_Input$sizes$lg$field = Input.sizes.lg.field) ? _Input$sizes$lg$field : {}
-            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), baseStyle = function(props) {
+                var _ref, bg = mode("gray.700", "gray.300")(props);
+                return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
+                    $bg.reference
+                ], _ref[$arrowBg.variable] = [
+                    $bg.reference
+                ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
+            }, breakpoints = ((0, chakra_ui_utils_esm.ZK)({
                 condition: !0,
                 message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
             }), chakra_ui_theme_tools_esm_extends({
@@ -4140,14 +4147,7 @@
                         }
                     },
                     Tooltip: {
-                        baseStyle: function(props) {
-                            var _ref, bg = mode("gray.700", "gray.300")(props);
-                            return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
-                                $bg.reference
-                            ], _ref[$arrowBg.variable] = [
-                                $bg.reference
-                            ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-                        }
+                        baseStyle: baseStyle
                     }
                 },
                 styles: {
@@ -4448,7 +4448,7 @@
                         status: options1.status,
                         requestClose: !1,
                         containerStyle: options1.containerStyle
-                    }), position1 = toast.position;
+                    }), position1 = toast.position, id1 = toast.id;
                     return setState(function(prevToasts) {
                         var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position1.includes("top") ? [
                             toast
@@ -4456,7 +4456,7 @@
                             toast
                         ]);
                         return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position1] = toasts, _extends3));
-                    }), toast.id;
+                    }), id1;
                 },
                 update: function(id, options) {
                     id && setState(function(prevState) {
@@ -4604,8 +4604,8 @@
                     containerStyle,
                     toastSpacing
                 ]), toastStyle = react.useMemo(function() {
-                    var alignItems;
-                    return alignItems = "center", position.includes("right") && (alignItems = "flex-end"), position.includes("left") && (alignItems = "flex-start"), {
+                    var isRighty, isLefty, alignItems;
+                    return isRighty = position.includes("right"), isLefty = position.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: alignItems

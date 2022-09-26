@@ -19,5 +19,5 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var fum = require("./vs/fum");
-require("./vs/foo_0").x, fum.y;
+var foo = require("./vs/foo_0"), fum = require("./vs/fum");
+foo.x, fum.y;

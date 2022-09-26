@@ -40,12 +40,12 @@
                     return bytesMatch;
                 }
             });
-            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), toUint8 = function(bytes) {
+            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
                 var obj;
                 return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
-            }, BigInt = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__)().BigInt || Number, BYTE_TABLE = [
+            }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
                 BigInt("0x1"),
                 BigInt("0x100"),
                 BigInt("0x10000"),
@@ -63,7 +63,8 @@
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
-                    return total + BigInt(byte) * BYTE_TABLE[le ? i : Math.abs(i + 1 - bytes.length)];
+                    var exponent = le ? i : Math.abs(i + 1 - bytes.length);
+                    return total + BigInt(byte) * BYTE_TABLE[exponent];
                 }, BigInt(0));
                 if (void 0 !== _ref$signed && _ref$signed) {
                     var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
@@ -166,8 +167,8 @@
                 }) : codec;
             }, parseCodecs = function(codecString) {
                 void 0 === codecString && (codecString = "");
-                var result = [];
-                return codecString.split(",").forEach(function(codec) {
+                var codecs = codecString.split(","), result = [];
+                return codecs.forEach(function(codec) {
                     var codecType;
                     codec = codec.trim(), mediaTypes.forEach(function(name) {
                         var match = regexs[name].exec(codec.toLowerCase());
@@ -3362,8 +3363,8 @@
             }, parseDuration = function(str) {
                 var match = /P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)D)?(?:T(?:(\d*)H)?(?:(\d*)M)?(?:([\d.]*)S)?)?/.exec(str);
                 if (!match) return 0;
-                var _match$slice = match.slice(1);
-                return 31536000 * parseFloat(_match$slice[0] || 0) + 2592000 * parseFloat(_match$slice[1] || 0) + 86400 * parseFloat(_match$slice[2] || 0) + 3600 * parseFloat(_match$slice[3] || 0) + 60 * parseFloat(_match$slice[4] || 0) + parseFloat(_match$slice[5] || 0);
+                var _match$slice = match.slice(1), year = _match$slice[0], month = _match$slice[1], day = _match$slice[2], hour = _match$slice[3], minute = _match$slice[4], second = _match$slice[5];
+                return 31536000 * parseFloat(year || 0) + 2592000 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
             }, parsers = {
                 mediaPresentationDuration: function(value) {
                     return parseDuration(value);

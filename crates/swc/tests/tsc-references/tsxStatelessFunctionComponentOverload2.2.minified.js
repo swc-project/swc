@@ -9,7 +9,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var obj = {
+    var defaultObj, obj = {
         yy: 10,
         yy1: "hello"
     }, obj1 = {
@@ -22,7 +22,7 @@ define([
     }), _extends({}, obj1, {
         yy: 10000,
         yy1: "true"
-    }), _extends({}, void 0, {
+    }), _extends({}, defaultObj, {
         yy: !0
     }, obj), _extends({}, {
         "ignore-prop": 200

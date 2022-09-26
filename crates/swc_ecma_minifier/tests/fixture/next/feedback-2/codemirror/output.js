@@ -857,7 +857,8 @@
         for(var sp = void 0, i = 0; i < line.markedSpans.length; ++i)if ((sp = line.markedSpans[i]).marker.collapsed && !sp.marker.widgetNode && sp.from == span.to && (null == sp.to || sp.to != span.from) && (sp.marker.inclusiveLeft || span.marker.inclusiveRight) && lineIsHiddenInner(doc, line, sp)) return !0;
     }
     function heightAtLine(lineObj) {
-        for(var h = 0, chunk = (lineObj = visualLine(lineObj)).parent, i = 0; i < chunk.lines.length; ++i){
+        lineObj = visualLine(lineObj);
+        for(var h = 0, chunk = lineObj.parent, i = 0; i < chunk.lines.length; ++i){
             var line = chunk.lines[i];
             if (line == lineObj) break;
             h += line.height;
@@ -1243,8 +1244,8 @@
                 ie && ie_version < 11 && (rect = function(measure, rect) {
                     if (!window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI || !function(measure) {
                         if (null != badZoomedRects) return badZoomedRects;
-                        var node = removeChildrenAndAdd(measure, elt("span", "x")), fromRange = range(node, 0, 1).getBoundingClientRect();
-                        return badZoomedRects = Math.abs(node.getBoundingClientRect().left - fromRange.left) > 1;
+                        var node = removeChildrenAndAdd(measure, elt("span", "x")), normal = node.getBoundingClientRect(), fromRange = range(node, 0, 1).getBoundingClientRect();
+                        return badZoomedRects = Math.abs(normal.left - fromRange.left) > 1;
                     }(measure)) return rect;
                     var scaleX = screen.logicalXDPI / screen.deviceXDPI, scaleY = screen.logicalYDPI / screen.deviceYDPI;
                     return {
@@ -3852,13 +3853,13 @@
         },
         delWrappedLineRight: function(cm) {
             return deleteNearSelection(cm, function(range) {
-                var top = cm.charCoords(range.head, "div").top + 5;
+                var top = cm.charCoords(range.head, "div").top + 5, rightPos = cm.coordsChar({
+                    left: cm.display.lineDiv.offsetWidth + 100,
+                    top: top
+                }, "div");
                 return {
                     from: range.from(),
-                    to: cm.coordsChar({
-                        left: cm.display.lineDiv.offsetWidth + 100,
-                        top: top
-                    }, "div")
+                    to: rightPos
                 };
             });
         },
@@ -4183,12 +4184,12 @@
                         var range = rangeForUnit(cm, start, behavior.unit);
                         ourRange = behavior.extend ? extendRange(ourRange, range.anchor, range.head, behavior.extend) : range;
                     }
-                    behavior.addNew ? -1 == ourIndex ? setSelection(doc, normalizeSelection(cm, ranges.concat([
+                    behavior.addNew ? -1 == ourIndex ? (ourIndex = ranges.length, setSelection(doc, normalizeSelection(cm, ranges.concat([
                         ourRange
-                    ]), ourIndex = ranges.length), {
+                    ]), ourIndex), {
                         scroll: !1,
                         origin: "*mouse"
-                    }) : ranges.length > 1 && ranges[ourIndex].empty() && "char" == behavior.unit && !behavior.extend ? (setSelection(doc, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {
+                    })) : ranges.length > 1 && ranges[ourIndex].empty() && "char" == behavior.unit && !behavior.extend ? (setSelection(doc, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {
                         scroll: !1,
                         origin: "*mouse"
                     }), startSel = doc.sel) : replaceOneSelection(doc, ourIndex, ourRange, sel_mouse) : (ourIndex = 0, setSelection(doc, new Selection([

@@ -11,8 +11,8 @@ define([
 }), def(function(hb) {
     return g().Handlebars = hb;
 }), def(function(hb) {
-    return g2()[g1()] = hb;
-}), def(function(hb) {
     var prop = g1();
     return g2()[prop] = hb;
+}), def(function(hb) {
+    return g2()[g1()] = hb;
 });

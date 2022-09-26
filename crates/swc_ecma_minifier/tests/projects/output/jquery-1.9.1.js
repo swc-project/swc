@@ -215,8 +215,8 @@
             return ret;
         },
         map: function(elems, callback, arg) {
-            var value, i = 0, length = elems.length, ret = [];
-            if (isArraylike(elems)) for(; i < length; i++)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
+            var value, i = 0, length = elems.length, isArray = isArraylike(elems), ret = [];
+            if (isArray) for(; i < length; i++)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
             else for(i in elems)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
             return core_concat.apply([], ret);
         },
@@ -2143,8 +2143,8 @@
         return display || ("none" !== (display = actualDisplay(nodeName, doc)) && display || ((doc = ((iframe = (iframe || jQuery("<iframe frameborder='0' width='0' height='0'/>").css("cssText", "display:block !important")).appendTo(doc.documentElement))[0].contentWindow || iframe[0].contentDocument).document).write("<!doctype html><html><body>"), doc.close(), display = actualDisplay(nodeName, doc), iframe.detach()), elemdisplay[nodeName] = display), display;
     }
     function actualDisplay(name1, doc) {
-        var elem = jQuery(doc.createElement(name1)).appendTo(doc.body);
-        return elem.remove(), jQuery.css(elem[0], "display");
+        var elem = jQuery(doc.createElement(name1)).appendTo(doc.body), display = jQuery.css(elem[0], "display");
+        return elem.remove(), display;
     }
     jQuery.fn.extend({
         css: function(name1, value) {
@@ -2952,11 +2952,11 @@
         setOffset: function(elem, options, i) {
             var position = jQuery.css(elem, "position");
             "static" === position && (elem.style.position = "relative");
-            var curTop, curLeft, curElem = jQuery(elem), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), props = {}, curPosition = {};
-            ("absolute" === position || "fixed" === position) && jQuery.inArray("auto", [
+            var curTop, curLeft, curElem = jQuery(elem), curOffset = curElem.offset(), curCSSTop = jQuery.css(elem, "top"), curCSSLeft = jQuery.css(elem, "left"), calculatePosition = ("absolute" === position || "fixed" === position) && jQuery.inArray("auto", [
                 curCSSTop,
                 curCSSLeft
-            ]) > -1 ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop) || 0, curLeft = parseFloat(curCSSLeft) || 0), jQuery.isFunction(options) && (options = options.call(elem, i, curOffset)), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : curElem.css(props);
+            ]) > -1, props = {}, curPosition = {};
+            calculatePosition ? (curTop = (curPosition = curElem.position()).top, curLeft = curPosition.left) : (curTop = parseFloat(curCSSTop) || 0, curLeft = parseFloat(curCSSLeft) || 0), jQuery.isFunction(options) && (options = options.call(elem, i, curOffset)), null != options.top && (props.top = options.top - curOffset.top + curTop), null != options.left && (props.left = options.left - curOffset.left + curLeft), "using" in options ? options.using.call(elem, props) : curElem.css(props);
         }
     }, jQuery.fn.extend({
         position: function() {

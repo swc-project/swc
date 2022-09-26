@@ -1940,8 +1940,9 @@ Elements.prototype = {
         }
     };
     inserters.inside = inserters.bottom, Object.each(inserters, function(inserter, where) {
+        where = where.capitalize();
         var methods = {};
-        methods["inject" + (where = where.capitalize())] = function(el) {
+        methods["inject" + where] = function(el) {
             return inserter(this, document.id(el, !0)), this;
         }, methods["grab" + where] = function(el) {
             return inserter(document.id(el, !0), this), this;

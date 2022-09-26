@@ -4,7 +4,8 @@ var b;
         a++;
     }
     f();
+    var c = f();
     var a = void 0;
-    f() || (b = a);
+    c || (b = a);
 })();
 console.log(b);

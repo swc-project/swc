@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "default", {
     enumerable: !0,
     get: function() {
-        return a;
+        return c;
     }
 });
-var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, r = require("@swc/helpers/lib/_interop_require_default.js").default, i = require("@swc/helpers/lib/_interop_require_wildcard.js").default, n = require("@swc/helpers/lib/_object_spread.js").default, s = require("@swc/helpers/lib/_object_spread_props.js").default, u = require("@swc/helpers/lib/_create_super.js").default, d = require("react/jsx-runtime"), l = r(require("prop-types")), a = function(r) {
+var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@swc/helpers/lib/_inherits.js").default, r = require("@swc/helpers/lib/_interop_require_default.js").default, i = require("@swc/helpers/lib/_interop_require_wildcard.js").default, n = require("@swc/helpers/lib/_object_spread.js").default, s = require("@swc/helpers/lib/_object_spread_props.js").default, u = require("@swc/helpers/lib/_create_super.js").default, d = require("react/jsx-runtime"), l = i(require("react")), a = r(require("prop-types")), c = function(r) {
     "use strict";
     t(l, r);
     var i = u(l);
@@ -44,21 +44,21 @@ var e = require("@swc/helpers/lib/_class_call_check.js").default, t = require("@
             })
         }));
     }, l;
-}(i(require("react")).Component);
-a.propTypes = {
-    items: l.default.array.isRequired,
-    itemProps: l.default.oneOfType([
-        l.default.object,
-        l.default.func
+}(l.Component);
+c.propTypes = {
+    items: a.default.array.isRequired,
+    itemProps: a.default.oneOfType([
+        a.default.object,
+        a.default.func
     ]),
-    renderItem: l.default.func.isRequired,
-    renderItemData: l.default.object.isRequired,
-    sectionIndex: l.default.number,
-    highlightedItemIndex: l.default.number,
-    onHighlightedItemChange: l.default.func.isRequired,
-    getItemId: l.default.func.isRequired,
-    theme: l.default.func.isRequired,
-    keyPrefix: l.default.string.isRequired
-}, a.defaultProps = {
+    renderItem: a.default.func.isRequired,
+    renderItemData: a.default.object.isRequired,
+    sectionIndex: a.default.number,
+    highlightedItemIndex: a.default.number,
+    onHighlightedItemChange: a.default.func.isRequired,
+    getItemId: a.default.func.isRequired,
+    theme: a.default.func.isRequired,
+    keyPrefix: a.default.string.isRequired
+}, c.defaultProps = {
     sectionIndex: null
-}, new a();
+}, new c();

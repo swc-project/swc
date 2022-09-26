@@ -240,7 +240,7 @@ var YUI = function() {
                     success: !0,
                     msg: "not dynamic"
                 }, ret = !0, data = response.data;
-                Y._loading = !1, data && (origMissing = missing, r = [], process1(data), (redo = (missing = []).length) && [].concat(missing).sort().join() == origMissing.sort().join() && (redo = !1)), redo && data ? (Y._loading = !0, Y._use(missing, function() {
+                Y._loading = !1, data && (origMissing = missing, missing = [], r = [], process1(data), (redo = missing.length) && [].concat(missing).sort().join() == origMissing.sort().join() && (redo = !1)), redo && data ? (Y._loading = !0, Y._use(missing, function() {
                     Y._attach(data) && Y._notify(callback, response, data);
                 })) : (data && (ret = Y._attach(data)), ret && Y._notify(callback, response, args)), Y._useQueue && Y._useQueue.size() && !Y._loading && Y._use.apply(Y, Y._useQueue.next());
             };

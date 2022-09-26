@@ -1330,10 +1330,10 @@
                         var compileNode, tempTemplateAttrs, $template, childBoundTranscludeFn;
                         if (content = denormalizeTemplate(content), origAsyncDirective.replace) {
                             if (compileNode = ($template = jqLite("<div>" + trim(content) + "</div>").contents())[0], 1 != $template.length || 1 !== compileNode.nodeType) throw $compileMinErr("tplrt", "Template for directive '{0}' must have exactly one root element. {1}", origAsyncDirective.name, templateUrl);
-                            replaceWith($rootElement, $compileNode, compileNode);
-                            var templateDirectives = collectDirectives(compileNode, [], tempTemplateAttrs = {
+                            tempTemplateAttrs = {
                                 $attr: {}
-                            });
+                            }, replaceWith($rootElement, $compileNode, compileNode);
+                            var templateDirectives = collectDirectives(compileNode, [], tempTemplateAttrs);
                             isObject(origAsyncDirective.scope) && markDirectivesAsIsolate(templateDirectives), directives = templateDirectives.concat(directives), mergeTemplateAttributes(tAttrs, tempTemplateAttrs);
                         } else compileNode = beforeTemplateCompileNode, $compileNode.html(content);
                         for(directives.unshift(derivedSyncDirective), afterTemplateNodeLinkFn = applyDirectivesToNode(directives, compileNode, tAttrs, childTranscludeFn, $compileNode, origAsyncDirective, preLinkFns, postLinkFns, previousCompileContext), forEach($rootElement, function(node, i) {
@@ -1912,7 +1912,8 @@
                             return;
                         }
                         $rootScope.$evalAsync(function() {
-                            $location.$$parse(newUrl), afterLocationChange($location.absUrl());
+                            var oldUrl = $location.absUrl();
+                            $location.$$parse(newUrl), afterLocationChange(oldUrl);
                         }), $rootScope.$$phase || $rootScope.$digest();
                     }
                 });

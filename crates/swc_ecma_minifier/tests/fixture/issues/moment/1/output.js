@@ -359,7 +359,7 @@
         };
     }
     function weekOfYear(mom, dow, doy) {
-        var resWeek, resYear, week = Math.floor((mom.dayOfYear() - firstWeekOffset(mom.year(), dow, doy) - 1) / 7) + 1;
+        var resWeek, resYear, weekOffset = firstWeekOffset(mom.year(), dow, doy), week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1;
         return week < 1 ? resWeek = week + weeksInYear(resYear = mom.year() - 1, dow, doy) : week > weeksInYear(mom.year(), dow, doy) ? (resWeek = week - weeksInYear(mom.year(), dow, doy), resYear = mom.year() + 1) : (resYear = mom.year(), resWeek = week), {
             week: resWeek,
             year: resYear
@@ -759,8 +759,8 @@
                 parseInt(minuteStr, 10)
             ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, !function(weekdayStr, parsedInput, config) {
                 if (weekdayStr) {
-                    var weekdayActual = new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay();
-                    if (defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== weekdayActual) return getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, !1;
+                    var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(weekdayStr), weekdayActual = new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay();
+                    if (weekdayProvided !== weekdayActual) return getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, !1;
                 }
                 return !0;
             }(match[1], parsedArray, config)) return;
@@ -786,7 +786,7 @@
                 nowValue.getFullYear(),
                 nowValue.getMonth(),
                 nowValue.getDate()
-            ], config._w && null == config._a[2] && null == config._a[1] && (null != (w = (config1 = config)._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config1._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (curWeek = weekOfYear(createLocal(), dow = config1._locale._week.dow, doy = config1._locale._week.doy), weekYear = defaults(w.gg, config1._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config1)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config1)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config1._a[0] = temp.year, config1._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
+            ], config._w && null == config._a[2] && null == config._a[1] && (null != (w = (config1 = config)._w).GG || null != w.W || null != w.E ? (dow = 1, doy = 4, weekYear = defaults(w.GG, config1._a[0], weekOfYear(createLocal(), 1, 4).year), week = defaults(w.W, 1), ((weekday = defaults(w.E, 1)) < 1 || weekday > 7) && (weekdayOverflow = !0)) : (dow = config1._locale._week.dow, doy = config1._locale._week.doy, curWeek = weekOfYear(createLocal(), dow, doy), weekYear = defaults(w.gg, config1._a[0], curWeek.year), week = defaults(w.w, curWeek.week), null != w.d ? ((weekday = w.d) < 0 || weekday > 6) && (weekdayOverflow = !0) : null != w.e ? (weekday = w.e + dow, (w.e < 0 || w.e > 6) && (weekdayOverflow = !0)) : weekday = dow), week < 1 || week > weeksInYear(weekYear, dow, doy) ? getParsingFlags(config1)._overflowWeeks = !0 : null != weekdayOverflow ? getParsingFlags(config1)._overflowWeekday = !0 : (temp = dayOfYearFromWeeks(weekYear, week, weekday, dow, doy), config1._a[0] = temp.year, config1._dayOfYear = temp.dayOfYear)), null != config._dayOfYear && (yearToUse = defaults(config._a[0], currentDate[0]), (config._dayOfYear > daysInYear(yearToUse) || 0 === config._dayOfYear) && (getParsingFlags(config)._overflowDayOfYear = !0), date = createUTCDate(yearToUse, 0, config._dayOfYear), config._a[1] = date.getUTCMonth(), config._a[2] = date.getUTCDate()), i = 0; i < 3 && null == config._a[i]; ++i)config._a[i] = input[i] = currentDate[i];
             for(; i < 7; i++)config._a[i] = input[i] = null == config._a[i] ? 2 === i ? 1 : 0 : config._a[i];
             24 === config._a[3] && 0 === config._a[4] && 0 === config._a[5] && 0 === config._a[6] && (config._nextDay = !0, config._a[3] = 0), config._d = (config._useUTC ? createUTCDate : createDate).apply(null, input), expectedWeekday = config._useUTC ? config._d.getUTCDay() : config._d.getDay(), null != config._tzm && config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), config._nextDay && (config._a[3] = 24), config._w && void 0 !== config._w.d && config._w.d !== expectedWeekday && (getParsingFlags(config).weekdayMismatch = !0);
         }
@@ -920,7 +920,7 @@
     }
     function cloneWithOffset(input, model) {
         var res, diff;
-        return model._isUTC ? (diff = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - (res = model.clone()).valueOf(), res._d.setTime(res._d.valueOf() + diff), hooks.updateOffset(res, !1), res) : createLocal(input).local();
+        return model._isUTC ? (res = model.clone(), diff = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - res.valueOf(), res._d.setTime(res._d.valueOf() + diff), hooks.updateOffset(res, !1), res) : createLocal(input).local();
     }
     function getDateOffset(m) {
         return -Math.round(m._d.getTimezoneOffset());
@@ -972,7 +972,7 @@
     }
     function addSubtract(mom, duration, isAdding, updateOffset) {
         var milliseconds = duration._milliseconds, days = absRound(duration._days), months = absRound(duration._months);
-        mom.isValid() && (months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), (updateOffset = null == updateOffset || updateOffset) && hooks.updateOffset(mom, days || months));
+        mom.isValid() && (updateOffset = null == updateOffset || updateOffset, months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), updateOffset && hooks.updateOffset(mom, days || months));
     }
     createDuration.fn = Duration.prototype, createDuration.invalid = function() {
         return createDuration(NaN);
@@ -1326,7 +1326,7 @@
         return !!(this.isValid() && localFrom.isValid() && localTo.isValid()) && ("(" === (inclusivity = inclusivity || "()")[0] ? this.isAfter(localFrom, units) : !this.isBefore(localFrom, units)) && (")" === inclusivity[1] ? this.isBefore(localTo, units) : !this.isAfter(localTo, units));
     }, proto.isSame = function(input, units) {
         var inputMs, localInput = isMoment(input) ? input : createLocal(input);
-        return !!(this.isValid() && localInput.isValid()) && ("millisecond" === (units = normalizeUnits(units) || "millisecond") ? this.valueOf() === localInput.valueOf() : this.clone().startOf(units).valueOf() <= (inputMs = localInput.valueOf()) && inputMs <= this.clone().endOf(units).valueOf());
+        return !!(this.isValid() && localInput.isValid()) && ("millisecond" === (units = normalizeUnits(units) || "millisecond") ? this.valueOf() === localInput.valueOf() : (inputMs = localInput.valueOf(), this.clone().startOf(units).valueOf() <= inputMs && inputMs <= this.clone().endOf(units).valueOf()));
     }, proto.isSameOrAfter = function(input, units) {
         return this.isSame(input, units) || this.isAfter(input, units);
     }, proto.isSameOrBefore = function(input, units) {
@@ -1509,7 +1509,7 @@
         }
         return this;
     }, proto.hasAlignedHourOffset = function(input) {
-        return !!this.isValid() && (this.utcOffset() - (input = input ? createLocal(input).utcOffset() : 0)) % 60 == 0;
+        return !!this.isValid() && (input = input ? createLocal(input).utcOffset() : 0, (this.utcOffset() - input) % 60 == 0);
     }, proto.isDST = function() {
         return this.utcOffset() > this.clone().month(0).utcOffset() || this.utcOffset() > this.clone().month(5).utcOffset();
     }, proto.isLocal = function() {

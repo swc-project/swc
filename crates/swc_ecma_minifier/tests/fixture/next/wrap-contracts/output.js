@@ -2212,25 +2212,27 @@
                     return formatted ? number.toFormat() : number.toFixed(0);
                 }
                 compare(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).comparedTo(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.comparedTo(b);
                 }
                 isEqual(winstonStringA, winstonStringB) {
                     return 0 === this.compare(winstonStringA, winstonStringB);
                 }
                 isLessThan(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).isLessThan(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.isLessThan(b);
                 }
                 isGreaterThan(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).isGreaterThan(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.isGreaterThan(b);
                 }
                 add(winstonStringA, winstonStringB) {
-                    return this.stringToBigNum(winstonStringB), this.stringToBigNum(winstonStringA).plus(winstonStringB).toFixed(0);
+                    let a = this.stringToBigNum(winstonStringA);
+                    return this.stringToBigNum(winstonStringB), a.plus(winstonStringB).toFixed(0);
                 }
                 sub(winstonStringA, winstonStringB) {
-                    return this.stringToBigNum(winstonStringB), this.stringToBigNum(winstonStringA).minus(winstonStringB).toFixed(0);
+                    let a = this.stringToBigNum(winstonStringA);
+                    return this.stringToBigNum(winstonStringB), a.minus(winstonStringB).toFixed(0);
                 }
                 stringToBigNum(stringValue, decimalPlaces = 12) {
                     return this.BigNum(stringValue, decimalPlaces);
@@ -3498,7 +3500,7 @@
             }, __asyncGenerator = this && this.__asyncGenerator || function(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
                 var i, g = generator.apply(thisArg, _arguments || []), q = [];
-                return verb("next"), verb("throw"), verb("return"), (i = {})[Symbol.asyncIterator] = function() {
+                return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
                 function verb(n) {
@@ -3784,25 +3786,27 @@
                     return formatted ? number.toFormat() : number.toFixed(0);
                 }
                 compare(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).comparedTo(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.comparedTo(b);
                 }
                 isEqual(winstonStringA, winstonStringB) {
                     return 0 === this.compare(winstonStringA, winstonStringB);
                 }
                 isLessThan(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).isLessThan(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.isLessThan(b);
                 }
                 isGreaterThan(winstonStringA, winstonStringB) {
-                    let b = this.stringToBigNum(winstonStringB);
-                    return this.stringToBigNum(winstonStringA).isGreaterThan(b);
+                    let a = this.stringToBigNum(winstonStringA), b = this.stringToBigNum(winstonStringB);
+                    return a.isGreaterThan(b);
                 }
                 add(winstonStringA, winstonStringB) {
-                    return this.stringToBigNum(winstonStringB), this.stringToBigNum(winstonStringA).plus(winstonStringB).toFixed(0);
+                    let a = this.stringToBigNum(winstonStringA);
+                    return this.stringToBigNum(winstonStringB), a.plus(winstonStringB).toFixed(0);
                 }
                 sub(winstonStringA, winstonStringB) {
-                    return this.stringToBigNum(winstonStringB), this.stringToBigNum(winstonStringA).minus(winstonStringB).toFixed(0);
+                    let a = this.stringToBigNum(winstonStringA);
+                    return this.stringToBigNum(winstonStringB), a.minus(winstonStringB).toFixed(0);
                 }
                 stringToBigNum(stringValue, decimalPlaces = 12) {
                     return this.BigNum(stringValue, decimalPlaces);
@@ -4823,7 +4827,7 @@
             }, __asyncGenerator = this && this.__asyncGenerator || function(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
                 var i, g = generator.apply(thisArg, _arguments || []), q = [];
-                return verb("next"), verb("throw"), verb("return"), (i = {})[Symbol.asyncIterator] = function() {
+                return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
                 function verb(n) {
@@ -5672,7 +5676,7 @@
                 let result;
                 const identifiers = [];
                 let ident = 0, subident = 0;
-                for(; !buffer.isEmpty();)ident <<= 7, ident |= 0x7f & (subident = buffer.readUInt8()), (0x80 & subident) == 0 && (identifiers.push(ident), ident = 0);
+                for(; !buffer.isEmpty();)subident = buffer.readUInt8(), ident <<= 7, ident |= 0x7f & subident, (0x80 & subident) == 0 && (identifiers.push(ident), ident = 0);
                 0x80 & subident && identifiers.push(ident);
                 const first = identifiers[0] / 40 | 0, second = identifiers[0] % 40;
                 if (result = relative ? identifiers : [
@@ -9721,8 +9725,9 @@
             }, BasePoint.prototype.validate = function() {
                 return this.curve.validate(this);
             }, BaseCurve.prototype.decodePoint = function(bytes, enc) {
+                bytes = utils.toArray(bytes, enc);
                 var len = this.p.byteLength();
-                if ((0x04 === (bytes = utils.toArray(bytes, enc))[0] || 0x06 === bytes[0] || 0x07 === bytes[0]) && bytes.length - 1 == 2 * len) return 0x06 === bytes[0] ? assert(bytes[bytes.length - 1] % 2 == 0) : 0x07 === bytes[0] && assert(bytes[bytes.length - 1] % 2 == 1), this.point(bytes.slice(1, 1 + len), bytes.slice(1 + len, 1 + 2 * len));
+                if ((0x04 === bytes[0] || 0x06 === bytes[0] || 0x07 === bytes[0]) && bytes.length - 1 == 2 * len) return 0x06 === bytes[0] ? assert(bytes[bytes.length - 1] % 2 == 0) : 0x07 === bytes[0] && assert(bytes[bytes.length - 1] % 2 == 1), this.point(bytes.slice(1, 1 + len), bytes.slice(1 + len, 1 + 2 * len));
                 if ((0x02 === bytes[0] || 0x03 === bytes[0]) && bytes.length - 1 === len) return this.pointFromX(bytes.slice(1, 1 + len), 0x03 === bytes[0]);
                 throw Error('Unknown point format');
             }, BasePoint.prototype.encodeCompressed = function(enc) {
@@ -9778,7 +9783,7 @@
         },
         1138: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var BN = __webpack_require__(3550), inherits = __webpack_require__(5717), Base = __webpack_require__(4918), assert = __webpack_require__(953).assert;
+            var utils = __webpack_require__(953), BN = __webpack_require__(3550), inherits = __webpack_require__(5717), Base = __webpack_require__(4918), assert = utils.assert;
             function EdwardsCurve(conf) {
                 this.twisted = (0 | conf.a) != 1, this.mOneA = this.twisted && (0 | conf.a) == -1, this.extended = this.mOneA, Base.call(this, 'edwards', conf), this.a = new BN(conf.a, 16).umod(this.red.m), this.a = this.a.toRed(this.red), this.c = new BN(conf.c, 16).toRed(this.red), this.c2 = this.c.redSqr(), this.d = new BN(conf.d, 16).toRed(this.red), this.dd = this.d.redAdd(this.d), assert(!this.twisted || 0 === this.c.fromRed().cmpn(1)), this.oneC = (0 | conf.c) == 1;
             }
@@ -9940,7 +9945,7 @@
         },
         6673: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var BN = __webpack_require__(3550), inherits = __webpack_require__(5717), Base = __webpack_require__(4918), assert = __webpack_require__(953).assert;
+            var utils = __webpack_require__(953), BN = __webpack_require__(3550), inherits = __webpack_require__(5717), Base = __webpack_require__(4918), assert = utils.assert;
             function ShortCurve(conf) {
                 Base.call(this, 'short', conf), this.a = new BN(conf.a, 16).toRed(this.red), this.b = new BN(conf.b, 16).toRed(this.red), this.tinv = this.two.redInvm(), this.zeroA = 0 === this.a.fromRed().cmpn(0), this.threeA = 0 === this.a.fromRed().sub(this.p).cmpn(-3), this.endo = this._getEndomorphism(conf), this._endoWnafT1 = [
                     ,
@@ -9984,10 +9989,10 @@
                     };
                 }
             }, ShortCurve.prototype._getEndoRoots = function(num) {
-                var red = num === this.p ? this.red : BN.mont(num), tinv = new BN(2).toRed(red).redInvm(), ntinv = tinv.redNeg(), s = new BN(3).toRed(red).redNeg().redSqrt().redMul(tinv);
+                var red = num === this.p ? this.red : BN.mont(num), tinv = new BN(2).toRed(red).redInvm(), ntinv = tinv.redNeg(), s = new BN(3).toRed(red).redNeg().redSqrt().redMul(tinv), l1 = ntinv.redAdd(s).fromRed(), l2 = ntinv.redSub(s).fromRed();
                 return [
-                    ntinv.redAdd(s).fromRed(),
-                    ntinv.redSub(s).fromRed()
+                    l1,
+                    l2
                 ];
             }, ShortCurve.prototype._getEndoBasis = function(lambda) {
                 for(var a0, b0, a1, b1, a2, b2, prevR, r, x, aprxSqrt = this.n.ushrn(Math.floor(this.n.bitLength() / 2)), u = lambda, v = this.n.clone(), x1 = new BN(1), y1 = new BN(0), x2 = new BN(0), y2 = new BN(1), i = 0; 0 !== u.cmpn(0);){
@@ -10220,8 +10225,8 @@
                 } else {
                     var a = this.x.redSqr(), b = this.y.redSqr(), c = b.redSqr(), d = this.x.redAdd(b).redSqr().redISub(a).redISub(c);
                     d = d.redIAdd(d);
-                    var e = a.redAdd(a).redIAdd(a), c8 = c.redIAdd(c);
-                    c8 = (c8 = c8.redIAdd(c8)).redIAdd(c8), nx = e.redSqr().redISub(d).redISub(d), ny = e.redMul(d.redISub(nx)).redISub(c8), nz = (nz = this.y.redMul(this.z)).redIAdd(nz);
+                    var e = a.redAdd(a).redIAdd(a), f = e.redSqr(), c8 = c.redIAdd(c);
+                    c8 = (c8 = c8.redIAdd(c8)).redIAdd(c8), nx = f.redISub(d).redISub(d), ny = e.redMul(d.redISub(nx)).redISub(c8), nz = (nz = this.y.redMul(this.z)).redIAdd(nz);
                 }
                 return this.curve.jpoint(nx, ny, nz);
             }, JPoint.prototype._threeDbl = function() {
@@ -10428,7 +10433,7 @@
         },
         7954: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var BN = __webpack_require__(3550), HmacDRBG = __webpack_require__(2156), curves = __webpack_require__(5427), rand = __webpack_require__(9931), assert = __webpack_require__(953).assert, KeyPair = __webpack_require__(1251), Signature = __webpack_require__(611);
+            var BN = __webpack_require__(3550), HmacDRBG = __webpack_require__(2156), utils = __webpack_require__(953), curves = __webpack_require__(5427), rand = __webpack_require__(9931), assert = utils.assert, KeyPair = __webpack_require__(1251), Signature = __webpack_require__(611);
             function EC(options) {
                 if (!(this instanceof EC)) return new EC(options);
                 'string' == typeof options && (assert(Object.prototype.hasOwnProperty.call(curves, options), 'Unknown curve ' + options), options = curves[options]), options instanceof curves.PresetCurve && (options = {
@@ -14894,7 +14899,7 @@
             exports.Level = __webpack_require__(1708).BrowserLevel;
         },
         8552: function(module, __unused_webpack_exports, __webpack_require__) {
-            var DataView1 = __webpack_require__(852)(__webpack_require__(5639), 'DataView');
+            var getNative = __webpack_require__(852), root = __webpack_require__(5639), DataView1 = getNative(root, 'DataView');
             module.exports = DataView1;
         },
         1989: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14920,7 +14925,7 @@
             ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module.exports = ListCache;
         },
         7071: function(module, __unused_webpack_exports, __webpack_require__) {
-            var Map1 = __webpack_require__(852)(__webpack_require__(5639), 'Map');
+            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Map1 = getNative(root, 'Map');
             module.exports = Map1;
         },
         3369: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14935,11 +14940,11 @@
             MapCache.prototype.clear = mapCacheClear, MapCache.prototype.delete = mapCacheDelete, MapCache.prototype.get = mapCacheGet, MapCache.prototype.has = mapCacheHas, MapCache.prototype.set = mapCacheSet, module.exports = MapCache;
         },
         3818: function(module, __unused_webpack_exports, __webpack_require__) {
-            var Promise1 = __webpack_require__(852)(__webpack_require__(5639), 'Promise');
+            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Promise1 = getNative(root, 'Promise');
             module.exports = Promise1;
         },
         8525: function(module, __unused_webpack_exports, __webpack_require__) {
-            var Set1 = __webpack_require__(852)(__webpack_require__(5639), 'Set');
+            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Set1 = getNative(root, 'Set');
             module.exports = Set1;
         },
         6384: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14959,7 +14964,7 @@
             module.exports = Uint8Array1;
         },
         577: function(module, __unused_webpack_exports, __webpack_require__) {
-            var WeakMap1 = __webpack_require__(852)(__webpack_require__(5639), 'WeakMap');
+            var getNative = __webpack_require__(852), root = __webpack_require__(5639), WeakMap1 = getNative(root, 'WeakMap');
             module.exports = WeakMap1;
         },
         7412: function(module) {
@@ -16363,7 +16368,10 @@
                             t.readingMore || (t.readingMore = !0, process.nextTick(maybeReadMore_, e, t));
                         }
                         function maybeReadMore_(e, t) {
-                            for(; !t.reading && !t.ended && (t.length < t.highWaterMark || t.flowing && 0 === t.length) && (u("maybeReadMore read 0"), e.read(0), t.length != t.length););
+                            for(; !t.reading && !t.ended && (t.length < t.highWaterMark || t.flowing && 0 === t.length);){
+                                var r = t.length;
+                                if (u("maybeReadMore read 0"), e.read(0), r === t.length) break;
+                            }
                             t.readingMore = !1;
                         }
                         function pipeOnDrain(e) {
@@ -18733,7 +18741,7 @@
                         }));
                     }
                 }
-                Array.isArray(tasks) ? (results = [], pending = len = tasks.length) : (results = {}, pending = len = (keys = Object.keys(tasks)).length), next = limit, pending ? keys ? keys.some(function(key, i) {
+                Array.isArray(tasks) ? (results = [], pending = len = tasks.length) : (keys = Object.keys(tasks), results = {}, pending = len = keys.length), next = limit, pending ? keys ? keys.some(function(key, i) {
                     return tasks[key](function(err, result) {
                         each(key, err, result);
                     }), i === limit - 1;
@@ -19084,7 +19092,7 @@
                                         const removedKeys = value.length - maximumBreadth - 1;
                                         res += `${join}"... ${getItemCount(removedKeys)} not stringified"`;
                                     }
-                                    return stack.pop(), `[${res += `\n${originalIndentation}`}]`;
+                                    return res += `\n${originalIndentation}`, stack.pop(), `[${res}]`;
                                 }
                                 let keys = Object.keys(value);
                                 const keyLength = keys.length;

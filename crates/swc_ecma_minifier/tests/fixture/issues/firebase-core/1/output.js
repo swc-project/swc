@@ -1304,14 +1304,14 @@
                 let b1;
                 a: {
                     for(d in c){
-                        var d = !1;
+                        var a1, d = !1;
                         break a;
                     }
                     d = !0;
                 }
-                d || (xa(c, function(c, d) {
+                d || (a1 = c, b1 = "", xa(a1, function(c, d) {
                     b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
-                }), c = b1 = "", "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
+                }), c = b1, "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
             }
             function Hd(a, b, c) {
                 return c && c.internalChannelParams && c.internalChannelParams[a] || b;
@@ -1539,17 +1539,17 @@
                         for(let h = 0; 0 == a && h < d; h++){
                             var e = b[h] || "", f = c[h] || "";
                             do {
-                                if (f = /(\d*)(\D*)(.*)/.exec(f) || [
+                                if (e = /(\d*)(\D*)(.*)/.exec(e) || [
                                     "",
                                     "",
                                     "",
                                     ""
-                                ], 0 == (e = /(\d*)(\D*)(.*)/.exec(e) || [
+                                ], f = /(\d*)(\D*)(.*)/.exec(f) || [
                                     "",
                                     "",
                                     "",
                                     ""
-                                ])[0].length && 0 == f[0].length) break;
+                                ], 0 == e[0].length && 0 == f[0].length) break;
                                 a = ua(0 == e[1].length ? 0 : parseInt(e[1], 10), 0 == f[1].length ? 0 : parseInt(f[1], 10)) || ua(0 == e[2].length, 0 == f[2].length) || ua(e[2], f[2]), e = e[3], f = f[3];
                             }while (0 == a)
                         }
@@ -2039,7 +2039,7 @@
                         }))),
                         kind: "x"
                     };
-                }(width, layout, sizes), widths = ref.widths, kind = ref.kind;
+                }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
                     srcSet: widths.map(function(w, i) {
@@ -2052,7 +2052,7 @@
                     src: loader({
                         src: src,
                         quality: quality,
-                        width: widths[widths.length - 1]
+                        width: widths[last]
                     })
                 };
             }

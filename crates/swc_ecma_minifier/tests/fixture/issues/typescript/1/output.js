@@ -427,7 +427,10 @@ var ts;
         function createAllExportExpressions(name, value, location) {
             var exportedNames = getExports(name);
             if (exportedNames) {
-                for(var expression = ts.isExportName(name) ? value : factory.createAssignment(name, value), _i = 0; _i < exportedNames.length; _i++)ts.setEmitFlags(expression, 4), expression = createExportExpression(exportedNames[_i], expression, location);
+                for(var expression = ts.isExportName(name) ? value : factory.createAssignment(name, value), _i = 0; _i < exportedNames.length; _i++){
+                    var exportName = exportedNames[_i];
+                    ts.setEmitFlags(expression, 4), expression = createExportExpression(exportName, expression, location);
+                }
                 return expression;
             }
             return factory.createAssignment(name, value);

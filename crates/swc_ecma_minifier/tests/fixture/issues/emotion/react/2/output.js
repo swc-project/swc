@@ -91,8 +91,8 @@ function handleInterpolation(mergedProps, registered, interpolation) {
             }(mergedProps, registered, interpolation);
         case "function":
             if (void 0 !== mergedProps) {
-                var result = interpolation(mergedProps);
-                return handleInterpolation(mergedProps, registered, result);
+                var previousCursor = cursor, result = interpolation(mergedProps);
+                return cursor = previousCursor, handleInterpolation(mergedProps, registered, result);
             }
     }
     if (null == registered) return interpolation;

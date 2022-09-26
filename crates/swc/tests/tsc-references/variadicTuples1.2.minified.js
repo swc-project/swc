@@ -10,16 +10,16 @@ function curry(f) {
         return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b)));
     };
 }
-[
+u = [
+    10,
+    !0
+], [
     1
 ].concat(_to_consumable_array([
     "hello"
 ]), [
     2
-], _to_consumable_array([
-    10,
-    !0
-]), [
+], _to_consumable_array(u), [
     3
 ]), concat([], []), concat([
     "hello"
@@ -33,7 +33,7 @@ function curry(f) {
     1,
     2,
     3
-]), u = [
+]), u1 = [
     4,
     5,
     6
@@ -41,7 +41,7 @@ function curry(f) {
     1,
     2,
     3
-]).concat(_to_consumable_array(u)), ft1([
+]).concat(_to_consumable_array(u1)), ft1([
     "hello",
     42
 ]), ft2([
@@ -67,7 +67,7 @@ function curry(f) {
         "def"
     ]
 ]);
-var u, fn1 = function(a1, b, c, d) {
+var u, u1, fn1 = function(a1, b, c, d) {
     return 0;
 };
 curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [

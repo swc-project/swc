@@ -187,7 +187,8 @@
             }, wrapError(this, options), "patch" == (method = this.isNew() ? "create" : options.patch ? "patch" : "update") && (options.attrs = attrs), xhr = this.sync(method, this, options), attrs && options.wait && (this.attributes = attributes), xhr;
         },
         destroy: function(options) {
-            var model = this, success = (options = options ? _.clone(options) : {}).success, destroy = function() {
+            options = options ? _.clone(options) : {};
+            var model = this, success = options.success, destroy = function() {
                 model.trigger("destroy", model, model.collection, options);
             };
             if (options.success = function(resp) {
@@ -266,9 +267,9 @@
         },
         remove: function(models, options) {
             var i, l, index, model, singular = !_.isArray(models);
-            for(options || (options = {}), i = 0, l = (models = singular ? [
+            for(models = singular ? [
                 models
-            ] : _.clone(models)).length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
+            ] : _.clone(models), options || (options = {}), i = 0, l = models.length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
             return singular ? models[0] : models;
         },
         set: function(models, options) {
