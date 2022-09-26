@@ -2779,6 +2779,8 @@ where
 
     #[emitter]
     fn emit_labeled_stmt(&mut self, node: &LabeledStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         emit!(node.label);
 
         // TODO: Comment
@@ -2790,6 +2792,8 @@ where
 
     #[emitter]
     fn emit_break_stmt(&mut self, n: &BreakStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         srcmap!(n, true);
 
         keyword!("break");
@@ -2805,6 +2809,8 @@ where
 
     #[emitter]
     fn emit_continue_stmt(&mut self, n: &ContinueStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         srcmap!(n, true);
 
         keyword!("continue");
