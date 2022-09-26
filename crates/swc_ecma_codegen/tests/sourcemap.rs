@@ -254,8 +254,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "bbffb851469a3f0e.js",
     "bc302492d441d561.js",
     "be2fd5888f434cbd.js",
-    // TODO(kdy1): Fix
-    // "f3260491590325af.js",
+    "f3260491590325af.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
