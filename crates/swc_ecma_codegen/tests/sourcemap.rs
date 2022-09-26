@@ -65,6 +65,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // swc_common issue - `\r` should be treated as a newline
     "be2c3fff6426873e.js",
     "db66e1e8f3f1faef.js",
+    "a7b8ce1d4c0f0bc2.js",
     // TODO: (maybe) fix span of `,`
     "641ac9060a206183.js",
     "e4cef19dab44335a.js",
@@ -135,6 +136,8 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "1cdce2d337e64b4f.js",
     "1f039e0eeb1bc271.js",
     "227118dffd2c9935.js",
+    "250ced8c8e83b389.js",
+    "a2798917405b080b.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
