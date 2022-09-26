@@ -79,6 +79,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "9e98dbfde77e3dfe.js",
     "d9eb39b11bc766f4.js",
     "f9888fa1a1e366e7.js",
+    "78cf02220fb0937c.js",
     // TODO(kdy1): Non-ascii char count
     "58cb05d17f7ec010.js",
     "4d2c7020de650d40.js",
@@ -246,8 +247,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "fd5ea844fcc07d3d.js",
     "6c5f0dd83c417a5a.js",
     // TODO(kdy1): Fix
-    // "78cf02220fb0937c.js",
-    "78eb22badc114b6f.js",
+    // "78eb22badc114b6f.js",
     "7afd38d79e6795a8.js",
     "80950061e291542b.js",
     "8a0fc8ea31727188.module.js",
