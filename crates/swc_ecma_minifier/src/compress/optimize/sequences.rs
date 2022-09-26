@@ -1015,27 +1015,23 @@ where
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.should_preserve_property_access(
+                if !self.should_preserve_property_access(
                     obj,
                     PropertyAccessOpts {
                         allow_getter: false,
                         only_ident: false,
                     },
                 ) {
-                    return false;
-                }
-
-                if !self.is_skippable_for_seq(a, obj) {
-                    return false;
-                }
-
-                if let MemberProp::Computed(prop) = prop {
-                    if !self.is_skippable_for_seq(a, &prop.expr) {
-                        return false;
+                    if let MemberProp::Computed(prop) = prop {
+                        if !self.is_skippable_for_seq(a, &prop.expr) {
+                            return false;
+                        }
                     }
+
+                    return true;
                 }
 
-                true
+                false
             }
 
             Expr::Lit(..) => true,
@@ -1243,27 +1239,23 @@ where
 
             Expr::OptChain(OptChainExpr { base, .. }) => match base {
                 OptChainBase::Member(e) => {
-                    if self.should_preserve_property_access(
+                    if !self.should_preserve_property_access(
                         &e.obj,
                         PropertyAccessOpts {
                             allow_getter: false,
                             only_ident: false,
                         },
                     ) {
-                        return false;
-                    }
-
-                    if !self.is_skippable_for_seq(a, &e.obj) {
-                        return false;
-                    }
-
-                    if let MemberProp::Computed(prop) = &e.prop {
-                        if !self.is_skippable_for_seq(a, &prop.expr) {
-                            return false;
+                        if let MemberProp::Computed(prop) = &e.prop {
+                            if !self.is_skippable_for_seq(a, &prop.expr) {
+                                return false;
+                            }
                         }
+
+                        return true;
                     }
 
-                    true
+                    false
                 }
                 OptChainBase::Call(e) => {
                     if !self.is_skippable_for_seq(a, &e.callee) {
