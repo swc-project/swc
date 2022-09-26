@@ -2599,12 +2599,6 @@ where
 
         emit!(e.expr);
 
-        let span = if expr_span.hi == e.span.hi {
-            Span::new(BytePos(u32::MAX), BytePos(u32::MAX), Default::default())
-        } else {
-            Span::new(expr_span.hi, e.span.hi, Default::default())
-        };
-
         semi!();
     }
 
