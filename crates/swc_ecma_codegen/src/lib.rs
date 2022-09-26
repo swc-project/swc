@@ -526,6 +526,8 @@ where
     #[emitter]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_str_lit(&mut self, node: &Str) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
@@ -841,6 +843,8 @@ where
 
     #[emitter]
     fn emit_call_expr(&mut self, node: &CallExpr) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
@@ -855,6 +859,8 @@ where
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(self, node, true);
