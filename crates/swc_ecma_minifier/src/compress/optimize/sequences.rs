@@ -1025,6 +1025,10 @@ where
                     return false;
                 }
 
+                if !self.is_skippable_for_seq(a, &obj) {
+                    return false;
+                }
+
                 if let MemberProp::Computed(prop) = prop {
                     if !self.is_skippable_for_seq(a, &prop.expr) {
                         return false;
@@ -1221,6 +1225,76 @@ where
             Expr::Tpl(Tpl { exprs, .. }) => {
                 return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
             }
+
+            // Expressions without any effects
+            Expr::This(_)
+            | Expr::Fn(_)
+            | Expr::MetaProp(_)
+            | Expr::Arrow(_)
+            | Expr::PrivateName(_) => return true,
+
+            Expr::Update(e) => return self.is_skippable_for_seq(a, &e.arg),
+            Expr::SuperProp(e) => match &e.prop {
+                SuperProp::Ident(_) => return true,
+                SuperProp::Computed(p) => return self.is_skippable_for_seq(a, &p.expr),
+            },
+            Expr::Class(_) => return e.may_have_side_effects(&self.expr_ctx),
+
+            Expr::Paren(e) => return self.is_skippable_for_seq(a, &e.expr),
+            Expr::Unary(e) => return self.is_skippable_for_seq(a, &e.arg),
+
+            Expr::OptChain(OptChainExpr { base, .. }) => match base {
+                OptChainBase::Member(e) => {
+                    if self.should_preserve_property_access(
+                        &e.obj,
+                        PropertyAccessOpts {
+                            allow_getter: false,
+                            only_ident: false,
+                        },
+                    ) {
+                        return false;
+                    }
+
+                    if !self.is_skippable_for_seq(a, &e.obj) {
+                        return false;
+                    }
+
+                    if let MemberProp::Computed(prop) = &e.prop {
+                        if !self.is_skippable_for_seq(a, &prop.expr) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+                OptChainBase::Call(e) => {
+                    if !self.is_skippable_for_seq(a, &e.callee) {
+                        return false;
+                    }
+
+                    for arg in &e.args {
+                        if !self.is_skippable_for_seq(a, &arg.expr) {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            },
+
+            Expr::Invalid(_) => return true,
+
+            Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::TsTypeAssertion(_)
+            | Expr::TsConstAssertion(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsAs(_)
+            | Expr::TsInstantiation(_)
+            | Expr::TsSatisfaction(_) => unreachable!("jsx/ts is not supported"),
         }
 
         log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
