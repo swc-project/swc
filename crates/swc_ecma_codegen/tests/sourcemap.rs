@@ -141,7 +141,10 @@ fn identity(entry: PathBuf) {
             fm.count_lines()
         );
         let (expected_code, expected_map, visualizer_url_for_expected) =
-            get_expected(&fm.src, is_module);
+            match get_expected(&fm.src, is_module) {
+                Some(v) => v,
+                None => return Ok(()),
+            };
         println!("Expected code:\n{}", expected_code);
         let expected_tokens = print_source_map(&expected_map);
 
@@ -250,7 +253,7 @@ fn identity(entry: PathBuf) {
     .expect("failed to run test");
 }
 
-fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
+fn get_expected(code: &str, is_module: bool) -> Option<(String, SourceMap, String)> {
     let output = exec_node_js(
         include_str!("./srcmap.mjs"),
         JsExecOptions {
@@ -266,7 +269,7 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
             ],
         },
     )
-    .expect("failed to get output");
+    .ok()?;
 
     let v = serde_json::from_str::<serde_json::Map<String, serde_json::Value>>(&output).unwrap();
 
@@ -277,7 +280,7 @@ fn get_expected(code: &str, is_module: bool) -> (String, SourceMap, String) {
 
     let visualizer_url = visualizer_url(code, &map);
 
-    (code.to_string(), map, visualizer_url)
+    Some((code.to_string(), map, visualizer_url))
 }
 
 fn print_source_map(map: &SourceMap) -> Vec<String> {
