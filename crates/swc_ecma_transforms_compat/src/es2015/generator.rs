@@ -1106,7 +1106,15 @@ impl Generator {
                 args: expressions
                     .take()
                     .into_iter()
-                    .map(|expr| ExprOrSpread { spread: None, expr })
+                    .map(|expr| ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(
+                            Expr::Array(ArrayLit {
+                                span: DUMMY_SP,
+                                elems: vec![Some(ExprOrSpread { spread: None, expr })]
+                            })
+                        )
+                    })
                     .collect(),
                 type_args: Default::default(),
             })

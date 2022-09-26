@@ -19,7 +19,11 @@ function _func() {
                         p
                     ];
                 case 1:
-                    b = fn.apply(void 0, _tmp.concat(_state.sent(), a));
+                    b = fn.apply(void 0, _tmp.concat([
+                        _state.sent()
+                    ], [
+                        a
+                    ]));
                     after();
                     return [
                         2
