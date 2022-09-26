@@ -71,6 +71,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "e4cef19dab44335a.js",
     "a6806d6fedbf6759.js",
     "2dc0ded5a1bff643.js",
+    "547fa50af16beca7.js",
+    // TODO(kdy1): Non-ascii char count
+    "4d2c7020de650d40.js",
     // Our one is better
     "1efde9ddd9d6e6ce.module.js",
     "d010d377bcfd5565.js",
