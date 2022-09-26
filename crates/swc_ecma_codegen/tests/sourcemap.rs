@@ -65,9 +65,10 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // swc_common issue - `\r` should be treated as a newline
     "be2c3fff6426873e.js",
     "db66e1e8f3f1faef.js",
-    // TODO: May fix span of `,`
+    // TODO: (maybe) fix span of `,`
     "641ac9060a206183.js",
     "e4cef19dab44335a.js",
+    "a6806d6fedbf6759.js",
     // Our one is better
     "d010d377bcfd5565.js",
     "ce0aaec02d5d4465.js",
