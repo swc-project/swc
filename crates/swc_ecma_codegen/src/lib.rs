@@ -2859,6 +2859,8 @@ where
 
     #[emitter]
     fn emit_switch_stmt(&mut self, n: &SwitchStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         srcmap!(n, true);
@@ -2871,7 +2873,6 @@ where
 
         punct!("{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
-        srcmap!(n, false);
         punct!("}");
     }
 
@@ -2936,8 +2937,6 @@ where
             punct!(":");
         }
         self.emit_list(n.span(), Some(&n.cons), format)?;
-
-        srcmap!(n, false);
     }
 
     #[emitter]
