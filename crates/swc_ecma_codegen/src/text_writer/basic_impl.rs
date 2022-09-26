@@ -44,6 +44,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         }
     }
 
+    #[inline]
     fn write_indent_string(&mut self) -> Result {
         const INDENT: &str = "    ";
 
@@ -54,6 +55,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     fn raw_write(&mut self, data: &str) -> Result {
         #[cfg(debug_assertions)]
         tracing::trace!("Write: `{}`", data);
@@ -66,6 +68,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write(&mut self, span: Option<Span>, data: &str) -> Result {
         if !data.is_empty() {
@@ -92,6 +95,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     fn srcmap(&mut self, byte_pos: BytePos) {
         if byte_pos.is_dummy() && byte_pos != BytePos(u32::MAX) {
             return;
@@ -117,54 +121,63 @@ impl<'a, W: Write> JsWriter<'a, W> {
 }
 
 impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn increase_indent(&mut self) -> Result {
         self.indent += 1;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn decrease_indent(&mut self) -> Result {
         self.indent -= 1;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_semi(&mut self, span: Option<Span>) -> Result {
         self.write(span, ";")?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_space(&mut self) -> Result {
         self.write(None, " ")?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_keyword(&mut self, span: Option<Span>, s: &'static str) -> Result {
         self.write(span, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_operator(&mut self, span: Option<Span>, s: &str) -> Result {
         self.write(span, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_param(&mut self, s: &str) -> Result {
         self.write(None, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_property(&mut self, s: &str) -> Result {
         self.write(None, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_line(&mut self) -> Result {
         let pending = self.pending_srcmap.take();
@@ -182,6 +195,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
@@ -204,6 +218,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_comment(&mut self, s: &str) -> Result {
         self.write(None, s)?;
@@ -218,6 +233,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_str_lit(&mut self, span: Span, s: &str) -> Result {
         if !s.is_empty() {
@@ -239,29 +255,34 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_str(&mut self, s: &str) -> Result {
         self.write(None, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_symbol(&mut self, span: Span, s: &str) -> Result {
         self.write(Some(span), s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result {
         self.write(span, s)?;
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn care_about_srcmap(&self) -> bool {
         self.srcmap.is_some()
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn add_srcmap(&mut self, pos: BytePos) -> Result {
         if self.line_start {
@@ -272,6 +293,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         Ok(())
     }
 
+    #[inline]
     #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn commit_pending_semi(&mut self) -> Result {
         Ok(())
