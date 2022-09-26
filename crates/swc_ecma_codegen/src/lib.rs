@@ -2777,7 +2777,6 @@ where
             }
         }
 
-        srcmap!(n, false);
         semi!();
     }
 
