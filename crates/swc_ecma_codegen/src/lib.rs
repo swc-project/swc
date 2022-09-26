@@ -2647,6 +2647,8 @@ where
 
     #[emitter]
     fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
+        srcmap!(node, true);
+
         keyword!("with");
         formatting_space!();
 
