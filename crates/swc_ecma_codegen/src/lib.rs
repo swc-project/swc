@@ -1175,8 +1175,6 @@ where
         }
 
         self.emit_bin_expr_trailing(node)?;
-
-        srcmap!(node, false);
     }
 
     #[emitter]
