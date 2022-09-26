@@ -1585,6 +1585,8 @@ where
     fn emit_fn_expr(&mut self, n: &FnExpr) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(n, true);
 
         if n.function.is_async {

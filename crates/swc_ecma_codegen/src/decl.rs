@@ -67,6 +67,8 @@ where
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(node, true);
 
         if node.declare {
