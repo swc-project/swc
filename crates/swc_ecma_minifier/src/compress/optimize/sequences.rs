@@ -1192,11 +1192,27 @@ where
                 return true;
             }
 
+            Expr::New(e) => {
+                if !self.is_skippable_for_seq(a, &e.callee) {
+                    return false;
+                }
+
+                if let Some(args) = &e.args {
+                    for arg in args {
+                        if !self.is_skippable_for_seq(a, &arg.expr) {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+
             Expr::Seq(SeqExpr { exprs, .. }) => {
                 return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
             }
 
-            Expr::TaggedTpl(..) | Expr::New(..) => {
+            Expr::TaggedTpl(..) => {
                 // TODO(kdy1): We can optimize some known calls.
 
                 return false;
@@ -1205,12 +1221,6 @@ where
             Expr::Tpl(Tpl { exprs, .. }) => {
                 return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
             }
-
-            _ => {}
-        }
-
-        if !e.may_have_side_effects(&self.expr_ctx) {
-            return true;
         }
 
         log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
