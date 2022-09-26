@@ -1021,8 +1021,6 @@ where
 
         punct!("=>");
         emit!(node.body);
-
-        srcmap!(node, false);
     }
 
     #[emitter]
