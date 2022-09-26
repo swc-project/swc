@@ -1070,8 +1070,6 @@ where
         operator!(node.op.as_str());
         formatting_space!();
         emit!(node.right);
-
-        srcmap!(node, false);
     }
 
     /// Prints operator and right node of a binary expression.
