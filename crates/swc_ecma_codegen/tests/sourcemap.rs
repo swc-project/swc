@@ -76,6 +76,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "547fa50af16beca7.js",
     "8c8a7a2941fb6d64.js",
     "9e98dbfde77e3dfe.js",
+    "d9eb39b11bc766f4.js",
     // TODO(kdy1): Non-ascii char count
     "58cb05d17f7ec010.js",
     "4d2c7020de650d40.js",
@@ -225,12 +226,10 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "a86a29773d1168d3.js",
     "b205355de22689d1.js",
     "b93d116fd0409637.js",
-    // "be2fd5888f434cbd.js",
-    // "c85bc4de504befc7.js",
-    // "c8689b6da6fd227a.js",
-    // "cda499c521ff60c7.js",
-    // "d4b898b45172a637.js",
-    // "d9eb39b11bc766f4.js",
+    "c85bc4de504befc7.js",
+    "c8689b6da6fd227a.js",
+    "cda499c521ff60c7.js",
+    "d4b898b45172a637.js",
     // "dafb7abe5b9b44f5.js",
     // "e2ac0bea41202dc9.js",
     // "f01d9f3c7b2b2717.js",
@@ -257,6 +256,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "af97a3752e579223.js",
     "bbffb851469a3f0e.js",
     "bc302492d441d561.js",
+    "be2fd5888f434cbd.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
