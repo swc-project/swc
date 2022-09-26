@@ -1011,7 +1011,7 @@ where
                     }
                 }
 
-                return true;
+                true
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
