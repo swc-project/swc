@@ -748,6 +748,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_expr(&mut self, node: &Expr) -> Result {
         match node {
             Expr::Array(ref n) => emit!(n),
@@ -1237,6 +1238,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
@@ -1508,6 +1510,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_class_constructor(&mut self, n: &Constructor) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
@@ -2602,6 +2605,7 @@ where
     }
 
     #[emitter]
+    #[cfg_attr(debug_assertions, tracing::instrument(skip_all))]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         let expr_span = e.expr.span();
 
