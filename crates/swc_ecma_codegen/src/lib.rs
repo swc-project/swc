@@ -849,7 +849,7 @@ where
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
         punct!(")");
 
-        srcmap!(node, false);
+        // srcmap!(node, false);
     }
 
     fn emit_new(&mut self, node: &NewExpr, should_ignore_empty_args: bool) -> Result {
@@ -880,7 +880,7 @@ where
             }
         }
 
-        srcmap!(self, node, false);
+        // srcmap!(self, node, false);
 
         // if it's false, it means it doesn't come from emit_expr,
         // we need to compensate that
