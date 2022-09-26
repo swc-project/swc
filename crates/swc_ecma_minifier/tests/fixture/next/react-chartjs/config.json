@@ -1,5 +1,4 @@
 {
     "defaults": true,
-    "toplevel": true,
-    "collapse_vars": false
+    "toplevel": true
 }
