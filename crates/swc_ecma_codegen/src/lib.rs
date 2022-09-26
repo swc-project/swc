@@ -2824,6 +2824,8 @@ where
     fn emit_if_stmt(&mut self, n: &IfStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(n, true);
 
         keyword!("if");
