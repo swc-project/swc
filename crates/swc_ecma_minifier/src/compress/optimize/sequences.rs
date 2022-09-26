@@ -25,6 +25,7 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    DISABLE_BUGGY_PASSES,
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -597,7 +598,7 @@ where
     where
         T: ModuleItemExt,
     {
-        if !self.options.sequences() && !self.options.collapse_vars {
+        if (!self.options.sequences() && !self.options.collapse_vars) || DISABLE_BUGGY_PASSES {
             log_abort!("sequences: [x] Disabled");
             return;
         }

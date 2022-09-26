@@ -34,9 +34,10 @@
                 _update(date = Date.now()) {
                     let remaining = 0;
                     this._charts.forEach((anims, chart)=>{
+                        let item;
                         if (!anims.running || !anims.items.length) return;
                         const items = anims.items;
-                        let i = items.length - 1, draw = !1, item;
+                        let i = items.length - 1, draw = !1;
                         for(; i >= 0; --i)(item = items[i])._active ? (item._total > anims.duration && (anims.duration = item._total), item.tick(date), draw = !0) : (items[i] = items[items.length - 1], items.pop());
                         draw && (chart.draw(), this._notify(chart, anims, date, 'progress')), items.length || (anims.running = !1, this._notify(chart, anims, date, 'complete'), anims.initial = !1), remaining += items.length;
                     }), this._lastDate = date, 0 === remaining && (this._running = !1);
@@ -131,8 +132,8 @@
                     this._active && (this.tick(Date.now()), this._active = !1, this._notify(!1));
                 }
                 tick(date) {
-                    const elapsed = date - this._start, duration = this._duration, prop = this._prop, from = this._from, loop = this._loop, to = this._to;
                     let factor;
+                    const elapsed = date - this._start, duration = this._duration, prop = this._prop, from = this._from, loop = this._loop, to = this._to;
                     if (this._active = from !== to && (loop || elapsed < duration), !this._active) {
                         this._target[prop] = to, this._notify(!0);
                         return;
@@ -274,8 +275,8 @@
                     }, ()=>{}), animations;
                 }
                 _createAnimations(target, values) {
-                    const animatedProps = this._properties, animations = [], running = target.$animations || (target.$animations = {}), props = Object.keys(values), date = Date.now();
                     let i;
+                    const animatedProps = this._properties, animations = [], running = target.$animations || (target.$animations = {}), props = Object.keys(values), date = Date.now();
                     for(i = props.length - 1; i >= 0; --i){
                         const prop = props[i];
                         if ('$' === prop.charAt(0)) continue;
@@ -318,14 +319,14 @@
                 };
             }
             function getSortedDatasetIndices(chart, filterVisible) {
-                const keys = [], metasets = chart._getSortedDatasetMetas(filterVisible);
                 let i, ilen;
+                const keys = [], metasets = chart._getSortedDatasetMetas(filterVisible);
                 for(i = 0, ilen = metasets.length; i < ilen; ++i)keys.push(metasets[i].index);
                 return keys;
             }
             function applyStack(stack, value, dsIndex, options = {}) {
-                const keys = stack.keys, singleMode = 'single' === options.mode;
                 let i, ilen, datasetIndex, otherValue;
+                const keys = stack.keys, singleMode = 'single' === options.mode;
                 if (null !== value) {
                     for(i = 0, ilen = keys.length; i < ilen; ++i){
                         if ((datasetIndex = +keys[i]) === dsIndex) {
@@ -353,8 +354,8 @@
                 return null;
             }
             function updateStacks(controller, parsed) {
-                const { chart , _cachedMeta: meta  } = controller, stacks = chart._stacks || (chart._stacks = {}), { iScale , vScale , index: datasetIndex  } = meta, iAxis = iScale.axis, vAxis = vScale.axis, key = `${iScale.id}.${vScale.id}.${meta.stack || meta.type}`, ilen = parsed.length;
                 let stack;
+                const { chart , _cachedMeta: meta  } = controller, stacks = chart._stacks || (chart._stacks = {}), { iScale , vScale , index: datasetIndex  } = meta, iAxis = iScale.axis, vAxis = vScale.axis, key = `${iScale.id}.${vScale.id}.${meta.stack || meta.type}`, ilen = parsed.length;
                 for(let i = 0; i < ilen; ++i){
                     const item = parsed[i], { [iAxis]: index , [vAxis]: value  } = item, itemStacks = item._stacks || (item._stacks = {});
                     (stack = itemStacks[vAxis] = getOrCreateStack(stacks, key, index))[datasetIndex] = value, stack._top = getLastIndexInStack(stack, vScale, !0, meta.type), stack._bottom = getLastIndexInStack(stack, vScale, !1, meta.type);
@@ -414,8 +415,8 @@
                 _dataCheck() {
                     const dataset = this.getDataset(), data = dataset.data || (dataset.data = []), _data = this._data;
                     if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(data)) this._data = function(data) {
-                        const keys = Object.keys(data), adata = Array(keys.length);
                         let i, ilen, key;
+                        const keys = Object.keys(data), adata = Array(keys.length);
                         for(i = 0, ilen = keys.length; i < ilen; ++i)key = keys[i], adata[i] = {
                             x: key,
                             y: data[key]
@@ -447,8 +448,9 @@
                     this.options = config.createResolver(scopes, this.getContext()), this._parsing = this.options.parsing, this._cachedDataOpts = {};
                 }
                 parse(start, count) {
+                    let i, cur, parsed;
                     const { _cachedMeta: meta , _data: data  } = this, { iScale , _stacked  } = meta, iAxis = iScale.axis;
-                    let sorted = 0 === start && count === data.length || meta._sorted, prev = start > 0 && meta._parsed[start - 1], i, cur, parsed;
+                    let sorted = 0 === start && count === data.length || meta._sorted, prev = start > 0 && meta._parsed[start - 1];
                     if (!1 === this._parsing) meta._parsed = data, meta._sorted = !0, parsed = data;
                     else {
                         parsed = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.b)(data[start]) ? this.parseArrayData(meta, data, start, count) : (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(data[start]) ? this.parseObjectData(meta, data, start, count) : this.parsePrimitiveData(meta, data, start, count);
@@ -459,8 +461,8 @@
                     _stacked && updateStacks(this, parsed);
                 }
                 parsePrimitiveData(meta, data, start, count) {
-                    const { iScale , vScale  } = meta, iAxis = iScale.axis, vAxis = vScale.axis, labels = iScale.getLabels(), singleScale = iScale === vScale, parsed = Array(count);
                     let i, index;
+                    const { iScale , vScale  } = meta, iAxis = iScale.axis, vAxis = vScale.axis, labels = iScale.getLabels(), singleScale = iScale === vScale, parsed = Array(count);
                     for(i = 0; i < count; ++i)index = i + start, parsed[i] = {
                         [iAxis]: singleScale || iScale.parse(labels[index], index),
                         [vAxis]: vScale.parse(data[index], index)
@@ -468,8 +470,8 @@
                     return parsed;
                 }
                 parseArrayData(meta, data, start, count) {
-                    const { xScale , yScale  } = meta, parsed = Array(count);
                     let i, index, item;
+                    const { xScale , yScale  } = meta, parsed = Array(count);
                     for(i = 0; i < count; ++i)item = data[index = i + start], parsed[i] = {
                         x: xScale.parse(item[0], index),
                         y: yScale.parse(item[1], index)
@@ -477,8 +479,8 @@
                     return parsed;
                 }
                 parseObjectData(meta, data, start, count) {
-                    const { xScale , yScale  } = meta, { xAxisKey ='x' , yAxisKey ='y'  } = this._parsing, parsed = Array(count);
                     let i, index, item;
+                    const { xScale , yScale  } = meta, { xAxisKey ='x' , yAxisKey ='y'  } = this._parsing, parsed = Array(count);
                     for(i = 0; i < count; ++i)item = data[index = i + start], parsed[i] = {
                         x: xScale.parse((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.f)(item, xAxisKey), index),
                         y: yScale.parse((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.f)(item, yAxisKey), index)
@@ -507,6 +509,7 @@
                     stack && values && (stack.values = values, value = applyStack(stack, parsedValue, this._cachedMeta.index)), range.min = Math.min(range.min, value), range.max = Math.max(range.max, value);
                 }
                 getMinMax(scale, canStack) {
+                    let i, parsed;
                     const meta = this._cachedMeta, _parsed = meta._parsed, sorted = meta._sorted && scale === meta.iScale, ilen = _parsed.length, otherScale = this._getOtherScale(scale), stack = createStack(canStack, meta, this.chart), range = {
                         min: Number.POSITIVE_INFINITY,
                         max: Number.NEGATIVE_INFINITY
@@ -517,7 +520,6 @@
                             max: maxDefined ? max : Number.POSITIVE_INFINITY
                         };
                     }(otherScale);
-                    let i, parsed;
                     function _skip() {
                         parsed = _parsed[i];
                         const otherValue = parsed[otherScale.axis];
@@ -533,8 +535,8 @@
                     return range;
                 }
                 getAllParsedValues(scale) {
-                    const parsed = this._cachedMeta._parsed, values = [];
                     let i, ilen, value;
+                    const parsed = this._cachedMeta._parsed, values = [];
                     for(i = 0, ilen = parsed.length; i < ilen; ++i)value = parsed[i][scale.axis], (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.g)(value) && values.push(value);
                     return values;
                 }
@@ -549,11 +551,10 @@
                     };
                 }
                 _update(mode) {
-                    const meta = this._cachedMeta;
                     var value;
-                    this.update(mode || 'default');
                     let t, r, b, l;
-                    meta._clip = (value = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(this.options.clip, function(xScale, yScale, allowedOverflow) {
+                    const meta = this._cachedMeta;
+                    this.update(mode || 'default'), meta._clip = (value = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(this.options.clip, function(xScale, yScale, allowedOverflow) {
                         if (!1 === allowedOverflow) return !1;
                         const x = scaleClip(xScale, allowedOverflow), y = scaleClip(yScale, allowedOverflow);
                         return {
@@ -572,8 +573,8 @@
                 }
                 update(mode) {}
                 draw() {
-                    const ctx = this._ctx, chart = this.chart, meta = this._cachedMeta, elements = meta.data || [], area = chart.chartArea, active = [], start = this._drawStart || 0, count = this._drawCount || elements.length - start, drawActiveElementsOnTop = this.options.drawActiveElementsOnTop;
                     let i;
+                    const ctx = this._ctx, chart = this.chart, meta = this._cachedMeta, elements = meta.data || [], area = chart.chartArea, active = [], start = this._drawStart || 0, count = this._drawCount || elements.length - start, drawActiveElementsOnTop = this.options.drawActiveElementsOnTop;
                     for(meta.dataset && meta.dataset.draw(ctx, area, start, count), i = start; i < start + count; ++i){
                         const element = elements[i];
                         element.hidden || (element.active && drawActiveElementsOnTop ? active.push(element) : element.draw(ctx, area));
@@ -585,32 +586,29 @@
                     return void 0 === index && this._cachedMeta.dataset ? this.resolveDatasetElementOptions(mode) : this.resolveDataElementOptions(index || 0, mode);
                 }
                 getContext(index, active, mode) {
-                    const dataset = this.getDataset();
+                    var parent, index1, element, parent1, index2;
                     let context;
+                    const dataset = this.getDataset();
                     if (index >= 0 && index < this._cachedMeta.data.length) {
-                        const element = this._cachedMeta.data[index];
-                        var parent;
-                        (context = element.$context || (element.$context = (parent = this.getContext(), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent, {
+                        const element1 = this._cachedMeta.data[index];
+                        (context = element1.$context || (element1.$context = (parent = this.getContext(), index1 = index, element = element1, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent, {
                             active: !1,
-                            dataIndex: index,
+                            dataIndex: index1,
                             parsed: void 0,
                             raw: void 0,
-                            element: element,
-                            index: index,
+                            element,
+                            index: index1,
                             mode: 'default',
                             type: 'data'
                         })))).parsed = this.getParsed(index), context.raw = dataset.data[index], context.index = context.dataIndex = index;
-                    } else {
-                        var parent1, index1;
-                        (context = this.$context || (this.$context = (parent1 = this.chart.getContext(), index1 = this.index, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent1, {
-                            active: !1,
-                            dataset: void 0,
-                            datasetIndex: index1,
-                            index: index1,
-                            mode: 'default',
-                            type: 'dataset'
-                        })))).dataset = dataset, context.index = context.datasetIndex = this.index;
-                    }
+                    } else (context = this.$context || (this.$context = (parent1 = this.chart.getContext(), index2 = this.index, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent1, {
+                        active: !1,
+                        dataset: void 0,
+                        datasetIndex: index2,
+                        index: index2,
+                        mode: 'default',
+                        type: 'dataset'
+                    })))).dataset = dataset, context.index = context.datasetIndex = this.index;
                     return context.active = !!active, context.mode = mode, context;
                 }
                 resolveDatasetElementOptions(mode) {
@@ -634,9 +632,9 @@
                     return values.$shared && (values.$shared = sharing, cache[cacheKey] = Object.freeze(cloneIfNotShared(values, sharing))), values;
                 }
                 _resolveAnimations(index, transition, active) {
+                    let options;
                     const chart = this.chart, cache = this._cachedDataOpts, cacheKey = `animation-${transition}`, cached = cache[cacheKey];
                     if (cached) return cached;
-                    let options;
                     if (!1 !== chart.options.animation) {
                         const config = this.chart.config, scopeKeys = config.datasetAnimationScopeKeys(this._type, transition), scopes = config.getOptionScopes(this.getDataset(), scopeKeys);
                         options = config.createResolver(scopes, this.getContext(index, active, transition));
@@ -692,9 +690,8 @@
                     count && this.parse(0, count), numData > numMeta ? this._insertElements(numMeta, numData - numMeta, resetNewElements) : numData < numMeta && this._removeElements(numData, numMeta - numData);
                 }
                 _insertElements(start, count, resetNewElements = !0) {
-                    const meta = this._cachedMeta, data = meta.data, end = start + count;
                     let i;
-                    const move = (arr)=>{
+                    const meta = this._cachedMeta, data = meta.data, end = start + count, move = (arr)=>{
                         for(arr.length += count, i = arr.length - 1; i >= end; i--)arr[i] = arr[i - count];
                     };
                     for(move(data), i = start; i < end; ++i)data[i] = new this.dataElementType();
@@ -778,8 +775,8 @@
                 }(entry, item, vScale, i) : item[vScale.axis] = vScale.parse(entry, i), item;
             }
             function parseArrayOrPrimitive(meta, data, start, count) {
-                const iScale = meta.iScale, vScale = meta.vScale, labels = iScale.getLabels(), singleScale = iScale === vScale, parsed = [];
                 let i, ilen, item, entry;
+                const iScale = meta.iScale, vScale = meta.vScale, labels = iScale.getLabels(), singleScale = iScale === vScale, parsed = [];
                 for(i = start, ilen = start + count; i < ilen; ++i)entry = data[i], (item = {})[iScale.axis] = singleScale || iScale.parse(labels[i], i), parsed.push(parseValue(entry, item, vScale, i));
                 return parsed;
             }
@@ -787,7 +784,7 @@
                 return custom && void 0 !== custom.barStart && void 0 !== custom.barEnd;
             }
             function setBorderSkipped(properties, options, stack, index) {
-                let edge = options.borderSkipped;
+                let reverse, start, end, top, bottom, edge = options.borderSkipped;
                 const res = {};
                 if (!edge) {
                     properties.borderSkipped = res;
@@ -802,7 +799,6 @@
                     };
                     return;
                 }
-                let reverse, start, end, top, bottom;
                 const { start: start1 , end: end1 , reverse: reverse1 , top: top1 , bottom: bottom1  } = (properties.horizontal ? (reverse = properties.base > properties.x, start = 'left', end = 'right') : (reverse = properties.base < properties.y, start = 'bottom', end = 'top'), reverse ? (top = 'end', bottom = 'start') : (top = 'start', bottom = 'end'), {
                     start,
                     end,
@@ -831,8 +827,8 @@
                     return parseArrayOrPrimitive(meta, data, start, count);
                 }
                 parseObjectData(meta, data, start, count) {
-                    const { iScale , vScale  } = meta, { xAxisKey ='x' , yAxisKey ='y'  } = this._parsing, iAxisKey = 'x' === iScale.axis ? xAxisKey : yAxisKey, vAxisKey = 'x' === vScale.axis ? xAxisKey : yAxisKey, parsed = [];
                     let i, ilen, item, obj;
+                    const { iScale , vScale  } = meta, { xAxisKey ='x' , yAxisKey ='y'  } = this._parsing, iAxisKey = 'x' === iScale.axis ? xAxisKey : yAxisKey, vAxisKey = 'x' === vScale.axis ? xAxisKey : yAxisKey, parsed = [];
                     for(i = start, ilen = start + count; i < ilen; ++i)obj = data[i], (item = {})[iScale.axis] = iScale.parse((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.f)(obj, iAxisKey), i), parsed.push(parseValue((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.f)(obj, vAxisKey), item, vScale, i));
                     return parsed;
                 }
@@ -896,10 +892,11 @@
                     return -1 === index ? stacks.length - 1 : index;
                 }
                 _getRuler() {
-                    const opts = this.options, meta = this._cachedMeta, iScale = meta.iScale, pixels = [];
                     let i, ilen;
+                    const opts = this.options, meta = this._cachedMeta, iScale = meta.iScale, pixels = [];
                     for(i = 0, ilen = meta.data.length; i < ilen; ++i)pixels.push(iScale.getPixelForValue(this.getParsed(i)[iScale.axis], i));
                     const barThickness = opts.barThickness, min = barThickness || function(meta) {
+                        let i, ilen, curr, prev;
                         const scale = meta.iScale, values = function(scale, type) {
                             if (!scale._cache.$bar) {
                                 const visibleMetas = scale.getMatchingVisibleMetas(type);
@@ -909,7 +906,7 @@
                             }
                             return scale._cache.$bar;
                         }(scale, meta.type);
-                        let min = scale._length, i, ilen, curr, prev;
+                        let min = scale._length;
                         const updateMinAndPrev = ()=>{
                             32767 !== curr && -32768 !== curr && ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.j)(prev) && (min = Math.min(min, Math.abs(curr - prev) || min)), prev = curr);
                         };
@@ -929,8 +926,9 @@
                     };
                 }
                 _calculateBarValuePixels(index) {
+                    let head, size;
                     const { _cachedMeta: { vScale , _stacked  } , options: { base: baseValue , minBarLength  }  } = this, actualBase = baseValue || 0, parsed = this.getParsed(index), custom = parsed._custom, floating = isFloatBar(custom);
-                    let value = parsed[vScale.axis], start = 0, length = _stacked ? this.applyStack(vScale, parsed, _stacked) : value, head, size;
+                    let value = parsed[vScale.axis], start = 0, length = _stacked ? this.applyStack(vScale, parsed, _stacked) : value;
                     length !== value && (start = length - value, length = value), floating && (value = custom.barStart, length = custom.barEnd - custom.barStart, 0 !== value && (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.s)(value) !== (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.s)(custom.barEnd) && (start = 0), start += value);
                     const startValue = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(baseValue) || floating ? start : baseValue;
                     let base = vScale.getPixelForValue(startValue);
@@ -952,8 +950,8 @@
                     };
                 }
                 _calculateBarIndexPixels(index, ruler) {
-                    const scale = ruler.scale, options = this.options, skipNull = options.skipNull, maxBarThickness = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(options.maxBarThickness, 1 / 0);
                     let center, size;
+                    const scale = ruler.scale, options = this.options, skipNull = options.skipNull, maxBarThickness = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(options.maxBarThickness, 1 / 0);
                     if (ruler.grouped) {
                         const stackCount = skipNull ? this._getStackCount(index) : ruler.stackCount, range = 'flex' === options.barThickness ? function(index, ruler, options, stackCount) {
                             const pixels = ruler.pixels, curr = pixels[index];
@@ -967,8 +965,8 @@
                                 start
                             };
                         }(index, ruler, options, stackCount) : function(index, ruler, options, stackCount) {
-                            const thickness = options.barThickness;
                             let size, ratio;
+                            const thickness = options.barThickness;
                             return (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(thickness) ? (size = ruler.min * options.categoryPercentage, ratio = options.barPercentage) : (size = thickness * stackCount, ratio = 1), {
                                 chunk: size / stackCount,
                                 ratio,
@@ -1122,12 +1120,11 @@
                     const data = this.getDataset().data, meta = this._cachedMeta;
                     if (!1 === this._parsing) meta._parsed = data;
                     else {
-                        let getter = (i)=>+data[i];
+                        let i, ilen, getter = (i)=>+data[i];
                         if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(data[start])) {
                             const { key ='value'  } = this._parsing;
                             getter = (i)=>+(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.f)(data[i], key);
                         }
-                        let i, ilen;
                         for(i = start, ilen = start + count; i < ilen; ++i)meta._parsed[i] = getter(i);
                     }
                 }
@@ -1169,8 +1166,9 @@
                     return reset && opts.animation.animateRotate || !this.chart.getDataVisibility(i) || null === meta._parsed[i] || meta.data[i].hidden ? 0 : this.calculateCircumference(meta._parsed[i] * circumference / _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.T);
                 }
                 updateElements(arcs, start, count, mode) {
+                    let i;
                     const reset = 'reset' === mode, chart = this.chart, chartArea = chart.chartArea, opts = chart.options, animationOpts = opts.animation, centerX = (chartArea.left + chartArea.right) / 2, centerY = (chartArea.top + chartArea.bottom) / 2, animateScale = reset && animationOpts.animateScale, innerRadius = animateScale ? 0 : this.innerRadius, outerRadius = animateScale ? 0 : this.outerRadius, { sharedOptions , includeOptions  } = this._getSharedOptions(start, mode);
-                    let startAngle = this._getRotation(), i;
+                    let startAngle = this._getRotation();
                     for(i = 0; i < start; ++i)startAngle += this._circumference(i, reset);
                     for(i = start; i < start + count; ++i){
                         const circumference = this._circumference(i, reset), arc = arcs[i], properties = {
@@ -1186,8 +1184,9 @@
                     }
                 }
                 calculateTotal() {
+                    let i;
                     const meta = this._cachedMeta, metaData = meta.data;
-                    let total = 0, i;
+                    let total = 0;
                     for(i = 0; i < metaData.length; i++){
                         const value = meta._parsed[i];
                         null !== value && !isNaN(value) && this.chart.getDataVisibility(i) && !metaData[i].hidden && (total += Math.abs(value));
@@ -1206,9 +1205,8 @@
                     };
                 }
                 getMaxBorderWidth(arcs) {
-                    let max = 0;
+                    let i, ilen, meta, controller, options, max = 0;
                     const chart = this.chart;
-                    let i, ilen, meta, controller, options;
                     if (!arcs) {
                         for(i = 0, ilen = chart.data.datasets.length; i < ilen; ++i)if (chart.isDatasetVisible(i)) {
                             arcs = (meta = chart.getDatasetMeta(i)).data, controller = meta.controller;
@@ -1394,8 +1392,9 @@
                     this.outerRadius = outerRadius - radiusLength * this.index, this.innerRadius = this.outerRadius - radiusLength;
                 }
                 updateElements(arcs, start, count, mode) {
+                    let i;
                     const reset = 'reset' === mode, chart = this.chart, opts = chart.options, animationOpts = opts.animation, scale = this._cachedMeta.rScale, centerX = scale.xCenter, centerY = scale.yCenter, datasetStartAngle = scale.getIndexAngle(0) - 0.5 * _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.P;
-                    let angle = datasetStartAngle, i;
+                    let angle = datasetStartAngle;
                     const defaultAngle = 360 / this.countVisibleElements();
                     for(i = 0; i < start; ++i)angle += this._computeAngle(i, mode, defaultAngle);
                     for(i = start; i < start + count; i++){
@@ -1594,12 +1593,13 @@
             const formatters = {
                 values: (value)=>(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.b)(value) ? value : '' + value,
                 numeric (tickValue, index, ticks) {
+                    let notation;
                     if (0 === tickValue) return '0';
                     const locale = this.chart.options.locale;
-                    let notation, delta = tickValue;
+                    let delta = tickValue;
                     if (ticks.length > 1) {
-                        const maxTick = Math.max(Math.abs(ticks[0].value), Math.abs(ticks[ticks.length - 1].value));
                         let delta1;
+                        const maxTick = Math.max(Math.abs(ticks[0].value), Math.abs(ticks[ticks.length - 1].value));
                         (maxTick < 1e-4 || maxTick > 1e+15) && (notation = 'scientific'), Math.abs(delta1 = ticks.length > 3 ? ticks[2].value - ticks[1].value : ticks[1].value - ticks[0].value) >= 1 && tickValue !== Math.floor(tickValue) && (delta1 = tickValue - Math.floor(tickValue)), delta = delta1;
                     }
                     const logDelta = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.z)(Math.abs(delta)), numDecimal = Math.max(Math.min(-1 * Math.floor(logDelta), 20), 0), options = {
@@ -1619,8 +1619,9 @@
                 formatters
             };
             function skip(ticks, newTicks, spacing, majorStart, majorEnd) {
+                let length, i, next;
                 const start = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(majorStart, 0), end = Math.min((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(majorEnd, ticks.length), ticks.length);
-                let count = 0, length, i, next;
+                let count = 0;
                 for(spacing = Math.ceil(spacing), majorEnd && (spacing = (length = majorEnd - majorStart) / Math.floor(length / spacing)), next = start; next < 0;)next = Math.round(start + ++count * spacing);
                 for(i = Math.max(start, 0); i < end; i++)i === next && (newTicks.push(ticks[i]), next = Math.round(start + ++count * spacing));
             }
@@ -1691,8 +1692,9 @@
                 return result;
             }
             function getPixelForGridLine(scale, index, offsetGridLines) {
+                let offset;
                 const length = scale.ticks.length, validIndex = Math.min(index, length - 1), start = scale._startPixel, end = scale._endPixel;
-                let lineValue = scale.getPixelForTick(validIndex), offset;
+                let lineValue = scale.getPixelForTick(validIndex);
                 if (!offsetGridLines || (offset = 1 === length ? Math.max(lineValue - start, end - lineValue) : 0 === index ? (scale.getPixelForTick(1) - lineValue) / 2 : (lineValue - scale.getPixelForTick(validIndex - 1)) / 2, !((lineValue += validIndex < index ? offset : -offset) < start - 1e-6) && !(lineValue > end + 1e-6))) return lineValue;
             }
             function getTickMarkLength(options) {
@@ -1728,7 +1730,7 @@
                     };
                 }
                 getMinMax(canStack) {
-                    let { min , max , minDefined , maxDefined  } = this.getUserBounds(), range;
+                    let range, { min , max , minDefined , maxDefined  } = this.getUserBounds();
                     if (minDefined && maxDefined) return {
                         min,
                         max
@@ -1777,19 +1779,19 @@
                             const offset = scale.options.offset, tickLength = scale._tickSize(), maxScale = scale._length / tickLength + (offset ? 0 : 1), maxChart = scale._maxLength / tickLength;
                             return Math.floor(Math.min(maxScale, maxChart));
                         }(scale), majorIndices = tickOpts.major.enabled ? function(ticks) {
-                            const result = [];
                             let i, ilen;
+                            const result = [];
                             for(i = 0, ilen = ticks.length; i < ilen; i++)ticks[i].major && result.push(i);
                             return result;
                         }(ticks) : [], numMajorIndices = majorIndices.length, first = majorIndices[0], last = majorIndices[numMajorIndices - 1], newTicks = [];
                         if (numMajorIndices > ticksLimit) return function(ticks, newTicks, majorIndices, spacing) {
-                            let count = 0, next = majorIndices[0], i;
+                            let i, count = 0, next = majorIndices[0];
                             for(i = 0, spacing = Math.ceil(spacing); i < ticks.length; i++)i === next && (newTicks.push(ticks[i]), next = majorIndices[++count * spacing]);
                         }(ticks, newTicks, majorIndices, numMajorIndices / ticksLimit), newTicks;
                         const spacing = function(majorIndices, ticks, ticksLimit) {
                             const evenMajorSpacing = function(arr) {
-                                const len = arr.length;
                                 let i, diff;
+                                const len = arr.length;
                                 if (len < 2) return !1;
                                 for(diff = arr[0], i = 1; i < len; ++i)if (arr[i] - arr[i - 1] !== diff) return !1;
                                 return diff;
@@ -1812,7 +1814,7 @@
                     }(this, this.ticks), this._labelSizes = null, this.afterAutoSkip()), samplingEnabled && this._convertTicksToLabels(this.ticks), this.beforeFit(), this.fit(), this.afterFit(), this.afterUpdate();
                 }
                 configure() {
-                    let reversePixels = this.options.reverse, startPixel, endPixel;
+                    let startPixel, endPixel, reversePixels = this.options.reverse;
                     this.isHorizontal() ? (startPixel = this.left, endPixel = this.right) : (startPixel = this.top, endPixel = this.bottom, reversePixels = !reversePixels), this._startPixel = startPixel, this._endPixel = endPixel, this._reversePixels = reversePixels, this._length = endPixel - startPixel, this._alignToPixels = this.options.alignToPixels;
                 }
                 afterUpdate() {
@@ -1860,8 +1862,8 @@
                     ]);
                 }
                 generateTickLabels(ticks) {
-                    const tickOpts = this.options.ticks;
                     let i, ilen, tick;
+                    const tickOpts = this.options.ticks;
                     for(i = 0, ilen = ticks.length; i < ilen; i++)(tick = ticks[i]).label = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.C)(tickOpts.callback, [
                         tick.value,
                         i,
@@ -1879,8 +1881,9 @@
                     ]);
                 }
                 calculateLabelRotation() {
+                    let tickWidth, maxHeight, maxLabelDiagonal;
                     const options = this.options, tickOpts = options.ticks, numTicks = this.ticks.length, minRotation = tickOpts.minRotation || 0, maxRotation = tickOpts.maxRotation;
-                    let labelRotation = minRotation, tickWidth, maxHeight, maxLabelDiagonal;
+                    let labelRotation = minRotation;
                     if (!this._isVisible() || !tickOpts.display || minRotation >= maxRotation || numTicks <= 1 || !this.isHorizontal()) {
                         this.labelRotation = minRotation;
                         return;
@@ -1947,9 +1950,8 @@
                     return this.options.fullSize;
                 }
                 _convertTicksToLabels(ticks) {
-                    this.beforeTickToLabelConversion(), this.generateTickLabels(ticks);
                     let i, ilen;
-                    for(i = 0, ilen = ticks.length; i < ilen; i++)(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(ticks[i].label) && (ticks.splice(i, 1), ilen--, i--);
+                    for(this.beforeTickToLabelConversion(), this.generateTickLabels(ticks), i = 0, ilen = ticks.length; i < ilen; i++)(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(ticks[i].label) && (ticks.splice(i, 1), ilen--, i--);
                     this.afterTickToLabelConversion();
                 }
                 _getLabelSizes() {
@@ -1962,8 +1964,9 @@
                     return labelSizes;
                 }
                 _computeLabelSizes(ticks, length) {
+                    let i, j, jlen, label, tickFont, fontString, cache, lineHeight, width, height, nestedLabel;
                     const { ctx , _longestTextCache: caches  } = this, widths = [], heights = [];
-                    let widestLabelSize = 0, highestLabelSize = 0, i, j, jlen, label, tickFont, fontString, cache, lineHeight, width, height, nestedLabel;
+                    let widestLabelSize = 0, highestLabelSize = 0;
                     for(i = 0; i < length; ++i){
                         if (label = ticks[i].label, tickFont = this._resolveTickFontOptions(i), ctx.font = fontString = tickFont.string, cache = caches[fontString] = caches[fontString] || {
                             data: {},
@@ -1974,8 +1977,8 @@
                         widths.push(width), heights.push(height), widestLabelSize = Math.max(width, widestLabelSize), highestLabelSize = Math.max(height, highestLabelSize);
                     }
                     (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(caches, (cache)=>{
-                        const gc = cache.gc, gcLen = gc.length / 2;
                         let i;
+                        const gc = cache.gc, gcLen = gc.length / 2;
                         if (gcLen > length) {
                             for(i = 0; i < gcLen; ++i)delete cache.data[gc[i]];
                             gc.splice(0, gcLen);
@@ -2022,17 +2025,16 @@
                     return min < 0 && max < 0 ? max : min > 0 && max > 0 ? min : 0;
                 }
                 getContext(index) {
+                    var parent, index1, tick, parent1;
                     const ticks = this.ticks || [];
                     if (index >= 0 && index < ticks.length) {
-                        const tick = ticks[index];
-                        var parent;
-                        return tick.$context || (tick.$context = (parent = this.getContext(), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent, {
-                            tick: tick,
-                            index: index,
+                        const tick1 = ticks[index];
+                        return tick1.$context || (tick1.$context = (parent = this.getContext(), index1 = index, tick = tick1, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent, {
+                            tick,
+                            index: index1,
                             type: 'tick'
                         })));
                     }
-                    var parent1;
                     return this.$context || (this.$context = (parent1 = this.chart.getContext(), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent1, {
                         scale: this,
                         type: 'scale'
@@ -2047,10 +2049,10 @@
                     return 'auto' !== display ? !!display : this.getMatchingVisibleMetas().length > 0;
                 }
                 _computeGridLineItems(chartArea) {
+                    let borderValue, i, lineValue, alignedLineValue, tx1, ty1, tx2, ty2, x1, y1, x2, y2;
                     const axis = this.axis, chart = this.chart, options = this.options, { grid , position  } = options, offset = grid.offset, isHorizontal = this.isHorizontal(), ticks = this.ticks, ticksLength = ticks.length + (offset ? 1 : 0), tl = getTickMarkLength(grid), items = [], borderOpts = grid.setContext(this.getContext()), axisWidth = borderOpts.drawBorder ? borderOpts.borderWidth : 0, axisHalfWidth = axisWidth / 2, alignBorderValue = function(pixel) {
                         return (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.J)(chart, pixel, axisWidth);
                     };
-                    let borderValue, i, lineValue, alignedLineValue, tx1, ty1, tx2, ty2, x1, y1, x2, y2;
                     if ('top' === position) borderValue = alignBorderValue(this.bottom), ty1 = this.bottom - tl, ty2 = borderValue - axisHalfWidth, y1 = alignBorderValue(chartArea.top) + axisHalfWidth, y2 = chartArea.bottom;
                     else if ('bottom' === position) borderValue = alignBorderValue(this.top), y1 = chartArea.top, y2 = alignBorderValue(chartArea.bottom) - axisHalfWidth, ty1 = borderValue + axisHalfWidth, ty2 = this.top + tl;
                     else if ('left' === position) borderValue = alignBorderValue(this.right), tx1 = this.right - tl, tx2 = borderValue - axisHalfWidth, x1 = alignBorderValue(chartArea.left) + axisHalfWidth, x2 = chartArea.right;
@@ -2095,8 +2097,9 @@
                     return this._ticksLength = ticksLength, this._borderValue = borderValue, items;
                 }
                 _computeLabelItems(chartArea) {
+                    let i, ilen, label, x, y, textAlign, pixel, font, lineHeight, lineCount, textOffset;
                     const axis = this.axis, options = this.options, { position , ticks: optionTicks  } = options, isHorizontal = this.isHorizontal(), ticks = this.ticks, { align , crossAlign , padding , mirror  } = optionTicks, tl = getTickMarkLength(options.grid), tickAndPadding = tl + padding, hTickAndPadding = mirror ? -padding : tickAndPadding, rotation = -(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.t)(this.labelRotation), items = [];
-                    let i, ilen, label, x, y, textAlign, pixel, font, lineHeight, lineCount, textOffset, textBaseline = 'middle';
+                    let textBaseline = 'middle';
                     if ('top' === position) y = this.bottom - hTickAndPadding, textAlign = this._getXAxisLabelAlignment();
                     else if ('bottom' === position) y = this.top + hTickAndPadding, textAlign = this._getXAxisLabelAlignment();
                     else if ('left' === position) {
@@ -2123,14 +2126,13 @@
                     'y' === axis && ('start' === align ? textBaseline = 'top' : 'end' === align && (textBaseline = 'bottom'));
                     const labelSizes = this._getLabelSizes();
                     for(i = 0, ilen = ticks.length; i < ilen; ++i){
+                        let backdrop;
                         label = ticks[i].label;
                         const optsAtIndex = optionTicks.setContext(this.getContext(i));
                         pixel = this.getPixelForTick(i) + optionTicks.labelOffset, lineHeight = (font = this._resolveTickFontOptions(i)).lineHeight, lineCount = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.b)(label) ? label.length : 1;
                         const halfCount = lineCount / 2, color = optsAtIndex.color, strokeColor = optsAtIndex.textStrokeColor, strokeWidth = optsAtIndex.textStrokeWidth;
                         let tickTextAlign = textAlign;
-                        isHorizontal ? (x = pixel, 'inner' === textAlign && (tickTextAlign = i === ilen - 1 ? this.options.reverse ? 'left' : 'right' : 0 === i ? this.options.reverse ? 'right' : 'left' : 'center'), textOffset = 'top' === position ? 'near' === crossAlign || 0 !== rotation ? -lineCount * lineHeight + lineHeight / 2 : 'center' === crossAlign ? -labelSizes.highest.height / 2 - halfCount * lineHeight + lineHeight : -labelSizes.highest.height + lineHeight / 2 : 'near' === crossAlign || 0 !== rotation ? lineHeight / 2 : 'center' === crossAlign ? labelSizes.highest.height / 2 - halfCount * lineHeight : labelSizes.highest.height - lineCount * lineHeight, mirror && (textOffset *= -1)) : (y = pixel, textOffset = (1 - lineCount) * lineHeight / 2);
-                        let backdrop;
-                        if (optsAtIndex.showLabelBackdrop) {
+                        if (isHorizontal ? (x = pixel, 'inner' === textAlign && (tickTextAlign = i === ilen - 1 ? this.options.reverse ? 'left' : 'right' : 0 === i ? this.options.reverse ? 'right' : 'left' : 'center'), textOffset = 'top' === position ? 'near' === crossAlign || 0 !== rotation ? -lineCount * lineHeight + lineHeight / 2 : 'center' === crossAlign ? -labelSizes.highest.height / 2 - halfCount * lineHeight + lineHeight : -labelSizes.highest.height + lineHeight / 2 : 'near' === crossAlign || 0 !== rotation ? lineHeight / 2 : 'center' === crossAlign ? labelSizes.highest.height / 2 - halfCount * lineHeight : labelSizes.highest.height - lineCount * lineHeight, mirror && (textOffset *= -1)) : (y = pixel, textOffset = (1 - lineCount) * lineHeight / 2), optsAtIndex.showLabelBackdrop) {
                             const labelPadding = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.K)(optsAtIndex.backdropPadding), height = labelSizes.heights[i], width = labelSizes.widths[i];
                             let top = y + textOffset - labelPadding.top, left = x - labelPadding.left;
                             switch(textBaseline){
@@ -2181,8 +2183,8 @@
                     return 'start' === ticks.align ? align = 'left' : 'end' === ticks.align ? align = 'right' : 'inner' === ticks.align && (align = 'inner'), align;
                 }
                 _getYAxisLabelAlignment(tl) {
-                    const { position , ticks: { crossAlign , mirror , padding  }  } = this.options, labelSizes = this._getLabelSizes(), tickAndPadding = tl + padding, widest = labelSizes.widest.width;
                     let textAlign, x;
+                    const { position , ticks: { crossAlign , mirror , padding  }  } = this.options, labelSizes = this._getLabelSizes(), tickAndPadding = tl + padding, widest = labelSizes.widest.width;
                     return 'left' === position ? mirror ? (x = this.right + padding, 'near' === crossAlign ? textAlign = 'left' : 'center' === crossAlign ? (textAlign = 'center', x += widest / 2) : (textAlign = 'right', x += widest)) : (x = this.right - tickAndPadding, 'near' === crossAlign ? textAlign = 'right' : 'center' === crossAlign ? (textAlign = 'center', x -= widest / 2) : (textAlign = 'left', x = this.left)) : 'right' === position ? mirror ? (x = this.left + padding, 'near' === crossAlign ? textAlign = 'right' : 'center' === crossAlign ? (textAlign = 'center', x -= widest / 2) : (textAlign = 'left', x -= widest)) : (x = this.left + tickAndPadding, 'near' === crossAlign ? textAlign = 'left' : 'center' === crossAlign ? (textAlign = 'center', x += widest / 2) : (textAlign = 'right', x = this.right)) : textAlign = 'right', {
                         textAlign,
                         x
@@ -2218,9 +2220,8 @@
                     return 0;
                 }
                 drawGrid(chartArea) {
-                    const grid = this.options.grid, ctx = this.ctx, items = this._gridLineItems || (this._gridLineItems = this._computeGridLineItems(chartArea));
                     let i, ilen;
-                    const drawLine = (p1, p2, style)=>{
+                    const grid = this.options.grid, ctx = this.ctx, items = this._gridLineItems || (this._gridLineItems = this._computeGridLineItems(chartArea)), drawLine = (p1, p2, style)=>{
                         style.width && style.color && (ctx.save(), ctx.lineWidth = style.width, ctx.strokeStyle = style.color, ctx.setLineDash(style.borderDash || []), ctx.lineDashOffset = style.borderDashOffset, ctx.beginPath(), ctx.moveTo(p1.x, p1.y), ctx.lineTo(p2.x, p2.y), ctx.stroke(), ctx.restore());
                     };
                     if (grid.display) for(i = 0, ilen = items.length; i < ilen; ++i){
@@ -2246,19 +2247,19 @@
                     }
                 }
                 drawBorder() {
+                    let x1, x2, y1, y2;
                     const { chart , ctx , options: { grid  }  } = this, borderOpts = grid.setContext(this.getContext()), axisWidth = grid.drawBorder ? borderOpts.borderWidth : 0;
                     if (!axisWidth) return;
                     const lastLineWidth = grid.setContext(this.getContext(0)).lineWidth, borderValue = this._borderValue;
-                    let x1, x2, y1, y2;
                     this.isHorizontal() ? (x1 = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.J)(chart, this.left, axisWidth) - axisWidth / 2, x2 = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.J)(chart, this.right, lastLineWidth) + lastLineWidth / 2, y1 = y2 = borderValue) : (y1 = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.J)(chart, this.top, axisWidth) - axisWidth / 2, y2 = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.J)(chart, this.bottom, lastLineWidth) + lastLineWidth / 2, x1 = x2 = borderValue), ctx.save(), ctx.lineWidth = borderOpts.borderWidth, ctx.strokeStyle = borderOpts.borderColor, ctx.beginPath(), ctx.moveTo(x1, y1), ctx.lineTo(x2, y2), ctx.stroke(), ctx.restore();
                 }
                 drawLabels(chartArea) {
+                    let i, ilen;
                     const optionTicks = this.options.ticks;
                     if (!optionTicks.display) return;
                     const ctx = this.ctx, area = this._computeLabelArea();
                     area && (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.L)(ctx, area);
                     const items = this._labelItems || (this._labelItems = this._computeLabelItems(chartArea));
-                    let i, ilen;
                     for(i = 0, ilen = items.length; i < ilen; ++i){
                         const item = items[i], tickFont = item.font, label = item.label;
                         item.backdrop && (ctx.fillStyle = item.backdrop.color, ctx.fillRect(item.backdrop.left, item.backdrop.top, item.backdrop.width, item.backdrop.height));
@@ -2268,14 +2269,16 @@
                     area && (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.N)(ctx);
                 }
                 drawTitle() {
+                    let ret;
                     const { ctx , options: { position , title , reverse  }  } = this;
                     if (!title.display) return;
                     const font = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(title.font), padding = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.K)(title.padding), align = title.align;
                     let offset = font.lineHeight / 2;
                     'bottom' === position || 'center' === position || (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(position) ? (offset += padding.bottom, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.b)(title.text) && (offset += font.lineHeight * (title.text.length - 1))) : offset += padding.top;
                     const { titleX , titleY , maxWidth , rotation  } = function(scale, offset, position, align) {
+                        let maxWidth, titleX, titleY;
                         const { top , left , bottom , right , chart  } = scale, { chartArea , scales  } = chart;
-                        let rotation = 0, maxWidth, titleX, titleY;
+                        let rotation = 0;
                         const height = bottom - top, width = right - left;
                         if (scale.isHorizontal()) {
                             if (titleX = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.S)(align, left, right), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(position)) {
@@ -2297,7 +2300,6 @@
                             rotation
                         };
                     }(this, offset, position, align);
-                    let ret;
                     (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.M)(ctx, title.text, 0, 0, font, {
                         color: title.color,
                         maxWidth,
@@ -2344,8 +2346,8 @@
                     ];
                 }
                 getMatchingVisibleMetas(type) {
-                    const metas = this.chart.getSortedVisibleDatasetMetas(), axisID = this.axis + 'AxisID', result = [];
                     let i, ilen;
+                    const metas = this.chart.getSortedVisibleDatasetMetas(), axisID = this.axis + 'AxisID', result = [];
                     for(i = 0, ilen = metas.length; i < ilen; ++i){
                         const meta = metas[i];
                         meta[axisID] !== this.id || type && meta.type !== type || result.push(meta);
@@ -2369,8 +2371,8 @@
                     return Object.prototype.isPrototypeOf.call(this.type.prototype, type.prototype);
                 }
                 register(item) {
-                    const proto = Object.getPrototypeOf(item);
                     let parentScope;
+                    const proto = Object.getPrototypeOf(item);
                     'id' in proto && 'defaults' in proto && (parentScope = this.register(proto));
                     const items = this.items, id = item.id, scope = this.scope + '.' + id;
                     if (!id) throw Error('class does not have id: ' + item);
@@ -2634,9 +2636,8 @@
                 return evaluateInteractionItems(chart, axis, position, evaluationFunc, !0), items;
             }
             function getNearestItems(chart, position, axis, intersect, useFinalPosition, includeInvisible) {
-                if (!includeInvisible && !chart.isPointInArea(position)) return [];
                 let items;
-                return 'r' !== axis || intersect ? function(chart, position, axis, intersect, useFinalPosition, includeInvisible) {
+                return includeInvisible || chart.isPointInArea(position) ? 'r' !== axis || intersect ? function(chart, position, axis, intersect, useFinalPosition, includeInvisible) {
                     let items = [];
                     const distanceMetric = function(axis) {
                         const useX = -1 !== axis.indexOf('x'), useY = -1 !== axis.indexOf('y');
@@ -2677,7 +2678,7 @@
                         datasetIndex,
                         index
                     });
-                }), items);
+                }), items) : [];
             }
             function getAxisItems(chart, position, axis, intersect, useFinalPosition) {
                 const items = [], rangeMethod = 'x' === axis ? 'inXRange' : 'inYRange';
@@ -2801,8 +2802,8 @@
                 ]);
             }
             function fitBoxes(boxes, chartArea, params, stacks) {
-                const refitBoxes = [];
                 let i, ilen, layout, box, refit, changed;
+                const refitBoxes = [];
                 for(i = 0, ilen = boxes.length, refit = 0; i < ilen; ++i){
                     (box = (layout = boxes[i]).box).update(layout.width || chartArea.w, layout.height || chartArea.h, getMargins(layout.horizontal, chartArea));
                     const { same , other  } = updateDims(chartArea, params, layout, stacks);
@@ -2865,8 +2866,8 @@
                     if (!chart) return;
                     const padding = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.K)(chart.options.layout.padding), availableWidth = Math.max(width - padding.width, 0), availableHeight = Math.max(height - padding.height, 0), boxes = function(boxes) {
                         const layoutBoxes = function(boxes) {
-                            const layoutBoxes = [];
                             let i, ilen, box, pos, stack, stackWeight;
+                            const layoutBoxes = [];
                             for(i = 0, ilen = (boxes || []).length; i < ilen; ++i)box = boxes[i], ({ position: pos , options: { stack , stackWeight =1  }  } = box), layoutBoxes.push({
                                 index: i,
                                 box,
@@ -2907,6 +2908,7 @@
                         x: padding.left,
                         y: padding.top
                     }, padding), stacks = function(layouts, params) {
+                        let i, ilen, layout;
                         const stacks = function(layouts) {
                             const stacks = {};
                             for (const wrap of layouts){
@@ -2922,7 +2924,6 @@
                             }
                             return stacks;
                         }(layouts), { vBoxMaxWidth , hBoxMaxHeight  } = params;
-                        let i, ilen, layout;
                         for(i = 0, ilen = layouts.length; i < ilen; ++i){
                             layout = layouts[i];
                             const { fullSize  } = layout.box, stack = stacks[layout.stack], factor = stack && layout.stackWeight / stack.weight;
@@ -3224,9 +3225,8 @@
                 return datasetOptions.indexAxis || options.indexAxis || datasetDefaults.indexAxis || 'x';
             }
             function determineAxis(id, scaleOptions) {
-                if ('x' === id || 'y' === id) return id;
                 var position;
-                return scaleOptions.axis || ('top' === (position = scaleOptions.position) || 'bottom' === position ? 'x' : 'left' === position || 'right' === position ? 'y' : void 0) || id.charAt(0).toLowerCase();
+                return 'x' === id || 'y' === id ? id : scaleOptions.axis || ('top' === (position = scaleOptions.position) || 'bottom' === position ? 'x' : 'left' === position || 'right' === position ? 'y' : void 0) || id.charAt(0).toLowerCase();
             }
             function initOptions(config) {
                 const options = config.options || (config.options = {});
@@ -3576,8 +3576,8 @@
                     });
                 }
                 buildOrUpdateControllers() {
-                    const newControllers = [], datasets = this.data.datasets;
                     let i, ilen;
+                    const newControllers = [], datasets = this.data.datasets;
                     for(this._removeUnreferencedMetasets(), i = 0, ilen = datasets.length; i < ilen; i++){
                         const dataset = datasets[i];
                         let meta = this.getDatasetMeta(i);
@@ -3709,8 +3709,8 @@
                     this.notifyPlugins('afterDraw');
                 }
                 _getSortedDatasetMetas(filterVisible) {
-                    const metasets = this._sortedMetasets, result = [];
                     let i, ilen;
+                    const metasets = this._sortedMetasets, result = [];
                     for(i = 0, ilen = metasets.length; i < ilen; ++i){
                         const meta = metasets[i];
                         (!filterVisible || meta.visible) && result.push(meta);
@@ -3831,6 +3831,7 @@
                     (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(this.options.events, (type)=>_add(type, listener));
                 }
                 bindResponsiveEvents() {
+                    let detached;
                     this._responsiveListeners || (this._responsiveListeners = {});
                     const listeners = this._responsiveListeners, platform = this.platform, _add = (type, listener)=>{
                         platform.addEventListener(this, type, listener), listeners[type] = listener;
@@ -3838,9 +3839,7 @@
                         listeners[type] && (platform.removeEventListener(this, type, listener), delete listeners[type]);
                     }, listener = (width, height)=>{
                         this.canvas && this.resize(width, height);
-                    };
-                    let detached;
-                    const attached = ()=>{
+                    }, attached = ()=>{
                         _remove('attach', attached), this.attached = !0, this.resize(), _add('resize', listener), _add('detach', detached);
                     };
                     detached = ()=>{
@@ -3855,8 +3854,8 @@
                     }), this._responsiveListeners = void 0;
                 }
                 updateHoverStyle(items, mode, enabled) {
-                    const prefix = enabled ? 'set' : 'remove';
                     let item, i, ilen;
+                    const prefix = enabled ? 'set' : 'remove';
                     for('dataset' === mode && this.getDatasetMeta(items[0].datasetIndex).controller['_' + prefix + 'DatasetHoverStyle'](), i = 0, ilen = items.length; i < ilen; ++i){
                         item = items[i];
                         const controller = item && this.getDatasetMeta(item.datasetIndex).controller;
@@ -3897,9 +3896,8 @@
                     return args.cancelable = !1, this.notifyPlugins('afterEvent', args, eventFilter), (changed || args.changed) && this.render(), this;
                 }
                 _handleEvent(e, replay, inChartArea) {
-                    const { _active: lastActive = [] , options  } = this, active = this._getActiveElements(e, lastActive, inChartArea, replay), isClick = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aj)(e);
                     var lastEvent;
-                    const lastEvent1 = (lastEvent = this._lastEvent, inChartArea && 'mouseout' !== e.type ? isClick ? lastEvent : e : null);
+                    const { _active: lastActive = [] , options  } = this, active = this._getActiveElements(e, lastActive, inChartArea, replay), isClick = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aj)(e), lastEvent1 = (lastEvent = this._lastEvent, inChartArea && 'mouseout' !== e.type ? isClick ? lastEvent : e : null);
                     inChartArea && (this._lastEvent = null, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.C)(options.onHover, [
                         e,
                         active,
@@ -4076,8 +4074,8 @@
                     !function(ctx, element, offset, spacing, endAngle, circular) {
                         const { options  } = element, { borderWidth , borderJoinStyle  } = options, inner = 'inner' === options.borderAlign;
                         borderWidth && (inner ? (ctx.lineWidth = 2 * borderWidth, ctx.lineJoin = borderJoinStyle || 'round') : (ctx.lineWidth = borderWidth, ctx.lineJoin = borderJoinStyle || 'bevel'), element.fullCircles && function(ctx, element, inner) {
-                            const { x , y , startAngle , pixelMargin , fullCircles  } = element, outerRadius = Math.max(element.outerRadius - pixelMargin, 0), innerRadius = element.innerRadius + pixelMargin;
                             let i;
+                            const { x , y , startAngle , pixelMargin , fullCircles  } = element, outerRadius = Math.max(element.outerRadius - pixelMargin, 0), innerRadius = element.innerRadius + pixelMargin;
                             for(inner && clipArc(ctx, element, startAngle + _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.T), ctx.beginPath(), ctx.arc(x, y, innerRadius, startAngle + _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.T, startAngle, !0), i = 0; i < fullCircles; ++i)ctx.stroke();
                             for(ctx.beginPath(), ctx.arc(x, y, outerRadius, startAngle, startAngle + _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.T), i = 0; i < fullCircles; ++i)ctx.stroke();
                         }(ctx, element, inner), inner && clipArc(ctx, element, endAngle), pathArc(ctx, element, offset, spacing, endAngle, circular), ctx.stroke());
@@ -4100,14 +4098,16 @@
                 };
             }
             function pathSegment(ctx, line, segment, params) {
+                let i, point, prev;
                 const { points , options  } = line, { count , start , loop , ilen  } = pathVars(points, segment, params), lineMethod = options.stepped ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.as : options.tension || 'monotone' === options.cubicInterpolationMode ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.at : lineTo;
-                let { move =!0 , reverse  } = params || {}, i, point, prev;
+                let { move =!0 , reverse  } = params || {};
                 for(i = 0; i <= ilen; ++i)(point = points[(start + (reverse ? ilen - i : i)) % count]).skip || (move ? (ctx.moveTo(point.x, point.y), move = !1) : lineMethod(ctx, prev, point, reverse, options.stepped), prev = point);
                 return loop && (point = points[(start + (reverse ? ilen : 0)) % count], lineMethod(ctx, prev, point, reverse, options.stepped)), !!loop;
             }
             function fastPathSegment(ctx, line, segment, params) {
+                let i, point, prevX, minY, maxY, lastY;
                 const points = line.points, { count , start , ilen  } = pathVars(points, segment, params), { move =!0 , reverse  } = params || {};
-                let avgX = 0, countX = 0, i, point, prevX, minY, maxY, lastY;
+                let avgX = 0, countX = 0;
                 const pointIndex = (index)=>(start + (reverse ? ilen - index : index)) % count, drawX = ()=>{
                     minY !== maxY && (ctx.lineTo(avgX, maxY), ctx.lineTo(avgX, minY), ctx.lineTo(avgX, lastY));
                 };
@@ -4165,6 +4165,7 @@
                     return count && points[segments[count - 1].end];
                 }
                 interpolate(point, property) {
+                    let i, ilen;
                     const options = this.options, value = point[property], points = this.points, segments = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.ao)(this, {
                         property,
                         start: value,
@@ -4172,7 +4173,6 @@
                     });
                     if (!segments.length) return;
                     const result = [], _interpolate = options.stepped ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.ap : options.tension || 'monotone' === options.cubicInterpolationMode ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aq : _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.ar;
-                    let i, ilen;
                     for(i = 0, ilen = segments.length; i < ilen; ++i){
                         const { start , end  } = segments[i], p1 = points[start], p2 = points[end];
                         if (p1 === p2) {
@@ -4283,6 +4283,7 @@
                 }
             }
             function getBarBounds(bar, useFinalPosition) {
+                let left, right, top, bottom, half;
                 const { x , y , base , width , height  } = bar.getProps([
                     'x',
                     'y',
@@ -4290,7 +4291,6 @@
                     'width',
                     'height'
                 ], useFinalPosition);
-                let left, right, top, bottom, half;
                 return bar.horizontal ? (half = height / 2, left = Math.min(x, base), right = Math.max(x, base), top = y - half, bottom = y + half) : (left = x - (half = width / 2), right = x + half, top = Math.min(y, base), bottom = Math.max(y, base)), {
                     left,
                     top,
@@ -4335,6 +4335,7 @@
                     super(), this.options = void 0, this.horizontal = void 0, this.base = void 0, this.width = void 0, this.height = void 0, this.inflateAmount = void 0, cfg && Object.assign(this, cfg);
                 }
                 draw(ctx) {
+                    var radius;
                     const { inflateAmount , options: { borderColor , backgroundColor  }  } = this, { inner , outer  } = function(bar) {
                         const bounds = getBarBounds(bar), width = bounds.right - bounds.left, height = bounds.bottom - bounds.top, border = function(bar, maxW, maxH) {
                             const value = bar.options.borderWidth, skip = bar.borderSkipped, o = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aw)(value);
@@ -4376,9 +4377,7 @@
                                 }
                             }
                         };
-                    }(this);
-                    var radius;
-                    const addRectPath = (radius = outer.radius).topLeft || radius.topRight || radius.bottomLeft || radius.bottomRight ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.av : addNormalRectPath;
+                    }(this), addRectPath = (radius = outer.radius).topLeft || radius.topRight || radius.bottomLeft || radius.bottomRight ? _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.av : addNormalRectPath;
                     ctx.save(), (outer.w !== inner.w || outer.h !== inner.h) && (ctx.beginPath(), addRectPath(ctx, inflateRect(outer, inflateAmount, inner)), ctx.clip(), addRectPath(ctx, inflateRect(inner, -inflateAmount, outer)), ctx.fillStyle = borderColor, ctx.fill('evenodd')), ctx.beginPath(), addRectPath(ctx, inflateRect(inner, inflateAmount)), ctx.fillStyle = backgroundColor, ctx.fill(), ctx.restore();
                 }
                 inRange(mouseX, mouseY, useFinalPosition) {
@@ -4489,12 +4488,12 @@
                 return source && !1 !== source.fill;
             }
             function _resolveTarget(sources, index, propagate) {
+                let target;
                 const source = sources[index];
                 let fill = source.fill;
                 const visited = [
                     index
                 ];
-                let target;
                 if (!propagate) return fill;
                 for(; !1 !== fill && -1 === visited.indexOf(fill);){
                     if (!(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.g)(fill)) return fill;
@@ -4505,15 +4504,15 @@
                 return !1;
             }
             function _decodeFill(line, index, count) {
+                var firstCh, target;
                 const fill = function(line) {
                     const options = line.options, fillOption = options.fill;
                     let fill = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(fillOption && fillOption.target, fillOption);
                     return void 0 === fill && (fill = !!options.backgroundColor), !1 !== fill && null !== fill && (!0 === fill ? 'origin' : fill);
                 }(line);
                 if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(fill)) return !isNaN(fill.value) && fill;
-                let target = parseFloat(fill);
-                var firstCh, target1;
-                return (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.g)(target) && Math.floor(target) === target ? (firstCh = fill[0], target1 = target, ('-' === firstCh || '+' === firstCh) && (target1 = index + target1), target1 !== index && !(target1 < 0) && !(target1 >= count) && target1) : [
+                let target1 = parseFloat(fill);
+                return (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.g)(target1) && Math.floor(target1) === target1 ? (firstCh = fill[0], target = target1, ('-' === firstCh || '+' === firstCh) && (target = index + target), target !== index && !(target < 0) && !(target >= count) && target) : [
                     'origin',
                     'start',
                     'end',
@@ -4616,9 +4615,8 @@
                             for(let i = 0; i < length; ++i)target.push(scale.getPointPositionForValue(i, value));
                             return target;
                         }(source) : function(source) {
-                            const { scale ={} , fill  } = source;
                             let pixel;
-                            const pixel1 = (pixel = null, 'start' === fill ? pixel = scale.bottom : 'end' === fill ? pixel = scale.top : (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(fill) ? pixel = scale.getPixelForValue(fill.value) : scale.getBasePixel && (pixel = scale.getBasePixel()), pixel);
+                            const { scale ={} , fill  } = source, pixel1 = (pixel = null, 'start' === fill ? pixel = scale.bottom : 'end' === fill ? pixel = scale.top : (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.i)(fill) ? pixel = scale.getPixelForValue(fill.value) : scale.getBasePixel && (pixel = scale.getBasePixel()), pixel);
                             if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.g)(pixel1)) {
                                 const horizontal = scale.isHorizontal();
                                 return {
@@ -4701,10 +4699,10 @@
                     return parts;
                 }(line, target, property);
                 for (const { source: src , target: tgt , start , end  } of segments){
+                    let loop;
                     const { style: { backgroundColor =color  } = {}  } = src, notShape = !0 !== target;
                     ctx.save(), ctx.fillStyle = backgroundColor, clipBounds(ctx, scale, notShape && _getBounds(property, start, end)), ctx.beginPath();
                     const lineLoop = !!line.pathSegment(ctx, src);
-                    let loop;
                     if (notShape) {
                         lineLoop ? ctx.closePath() : interpolatedLineTo(ctx, target, end, property);
                         const targetLoop = !!target.pathSegment(ctx, tgt, {
@@ -4750,13 +4748,13 @@
                     labelOpts.filter && (legendItems = legendItems.filter((item)=>labelOpts.filter(item, this.chart.data))), labelOpts.sort && (legendItems = legendItems.sort((a, b)=>labelOpts.sort(a, b, this.chart.data))), this.options.reverse && legendItems.reverse(), this.legendItems = legendItems;
                 }
                 fit() {
+                    let width, height;
                     const { options , ctx  } = this;
                     if (!options.display) {
                         this.width = this.height = 0;
                         return;
                     }
                     const labelOpts = options.labels, labelFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(labelOpts.font), fontSize = labelFont.size, titleHeight = this._computeTitleHeight(), { boxWidth , itemHeight  } = getBoxSize(labelOpts, fontSize);
-                    let width, height;
                     ctx.font = labelFont.string, this.isHorizontal() ? (width = this.maxWidth, height = this._fitRows(titleHeight, fontSize, boxWidth, itemHeight) + 10) : (height = this.maxHeight, width = this._fitCols(titleHeight, fontSize, boxWidth, itemHeight) + 10), this.width = Math.min(width, options.maxWidth || this.maxWidth), this.height = Math.min(height, options.maxHeight || this.maxHeight);
                 }
                 _fitRows(titleHeight, fontSize, boxWidth, itemHeight) {
@@ -4818,8 +4816,8 @@
                     }
                 }
                 _draw() {
-                    const { options: opts , columnSizes , lineWidths , ctx  } = this, { align , labels: labelOpts  } = opts, defaultColor = _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.d.color, rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(opts.rtl, this.left, this.width), labelFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(labelOpts.font), { color: fontColor , padding  } = labelOpts, fontSize = labelFont.size, halfFontSize = fontSize / 2;
                     let cursor;
+                    const { options: opts , columnSizes , lineWidths , ctx  } = this, { align , labels: labelOpts  } = opts, defaultColor = _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.d.color, rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(opts.rtl, this.left, this.width), labelFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(labelOpts.font), { color: fontColor , padding  } = labelOpts, fontSize = labelFont.size, halfFontSize = fontSize / 2;
                     this.drawTitle(), ctx.textAlign = rtlHelper.textAlign('left'), ctx.textBaseline = 'middle', ctx.lineWidth = 0.5, ctx.font = labelFont.string;
                     const { boxWidth , boxHeight , itemHeight  } = getBoxSize(labelOpts, fontSize), drawLegendBox = function(x, y, legendItem) {
                         if (isNaN(boxWidth) || boxWidth <= 0 || isNaN(boxHeight) || boxHeight < 0) return;
@@ -4870,10 +4868,11 @@
                     }), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aD)(this.ctx, opts.textDirection);
                 }
                 drawTitle() {
+                    let y;
                     const opts = this.options, titleOpts = opts.title, titleFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(titleOpts.font), titlePadding = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.K)(titleOpts.padding);
                     if (!titleOpts.display) return;
                     const rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(opts.rtl, this.left, this.width), ctx = this.ctx, position = titleOpts.position, halfFontSize = titleFont.size / 2, topPaddingPlusHalfFontSize = titlePadding.top + halfFontSize;
-                    let y, left = this.left, maxWidth = this.width;
+                    let left = this.left, maxWidth = this.width;
                     if (this.isHorizontal()) maxWidth = Math.max(...this.lineWidths), y = this.top + topPaddingPlusHalfFontSize, left = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.S)(opts.align, left, this.right - maxWidth);
                     else {
                         const maxHeight = this.columnSizes.reduce((acc, size)=>Math.max(acc, size.height), 0);
@@ -4894,8 +4893,8 @@
                     return null;
                 }
                 handleEvent(e) {
-                    const opts = this.options;
                     var type;
+                    const opts = this.options;
                     if (('mousemove' !== (type = e.type) && 'mouseout' !== type || !opts.onHover && !opts.onLeave) && (!opts.onClick || 'click' !== type && 'mouseup' !== type)) return;
                     const hoveredItem = this._getLegendItemAt(e.x, e.y);
                     if ('mousemove' === e.type || 'mouseout' === e.type) {
@@ -4937,8 +4936,9 @@
                     return 'top' === pos || 'bottom' === pos;
                 }
                 _drawArgs(offset) {
+                    let maxWidth, titleX, titleY;
                     const { top , left , bottom , right , options  } = this, align = options.align;
-                    let rotation = 0, maxWidth, titleX, titleY;
+                    let rotation = 0;
                     return this.isHorizontal() ? (titleX = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.S)(align, left, right), titleY = top + offset, maxWidth = right - left) : ('left' === options.position ? (titleX = left + offset, titleY = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.S)(align, bottom, top), rotation = -0.5 * _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.P) : (titleX = right - offset, titleY = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.S)(align, top, bottom), rotation = 0.5 * _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.P), maxWidth = bottom - top), {
                         titleX,
                         titleY,
@@ -4965,8 +4965,9 @@
             }
             const map = new WeakMap(), positioners = {
                 average (items) {
+                    let i, len;
                     if (!items.length) return !1;
-                    let i, len, x = 0, y = 0, count = 0;
+                    let x = 0, y = 0, count = 0;
                     for(i = 0, len = items.length; i < len; ++i){
                         const el = items[i].element;
                         if (el && el.hasValue()) {
@@ -4980,8 +4981,9 @@
                     };
                 },
                 nearest (items, eventPosition) {
+                    let i, len, nearestElement;
                     if (!items.length) return !1;
-                    let x = eventPosition.x, y = eventPosition.y, minDistance = Number.POSITIVE_INFINITY, i, len, nearestElement;
+                    let x = eventPosition.x, y = eventPosition.y, minDistance = Number.POSITIVE_INFINITY;
                     for(i = 0, len = items.length; i < len; ++i){
                         const el = items[i].element;
                         if (el && el.hasValue()) {
@@ -5146,8 +5148,9 @@
                     return lines = pushOrConcat(lines, splitNewlines(beforeFooter)), lines = pushOrConcat(lines, splitNewlines(footer)), lines = pushOrConcat(lines, splitNewlines(afterFooter));
                 }
                 _createItems(options) {
+                    let i, len;
                     const active = this._active, data = this.chart.data, labelColors = [], labelPointStyles = [], labelTextColors = [];
-                    let tooltipItems = [], i, len;
+                    let tooltipItems = [];
                     for(i = 0, len = active.length; i < len; ++i)tooltipItems.push(createTooltipItem(this.chart, active[i]));
                     return options.filter && (tooltipItems = tooltipItems.filter((element, index, array)=>options.filter(element, index, array, data))), options.itemSort && (tooltipItems = tooltipItems.sort((a, b)=>options.itemSort(a, b, data))), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(tooltipItems, (context)=>{
                         const scoped = overrideCallbacks(options.callbacks, context);
@@ -5155,8 +5158,9 @@
                     }), this.labelColors = labelColors, this.labelPointStyles = labelPointStyles, this.labelTextColors = labelTextColors, this.dataPoints = tooltipItems, tooltipItems;
                 }
                 update(changed, replay) {
+                    let properties;
                     const options = this.options.setContext(this.getContext()), active = this._active;
-                    let properties, tooltipItems = [];
+                    let tooltipItems = [];
                     if (active.length) {
                         const position = positioners[options.position].call(this, active, this._eventPosition);
                         tooltipItems = this._createItems(options), this.title = this.getTitle(tooltipItems, options), this.beforeBody = this.getBeforeBody(tooltipItems, options), this.body = this.getBody(tooltipItems, options), this.afterBody = this.getAfterBody(tooltipItems, options), this.footer = this.getFooter(tooltipItems, options);
@@ -5184,8 +5188,8 @@
                     ctx.lineTo(caretPosition.x1, caretPosition.y1), ctx.lineTo(caretPosition.x2, caretPosition.y2), ctx.lineTo(caretPosition.x3, caretPosition.y3);
                 }
                 getCaretPosition(tooltipPoint, size, options) {
-                    const { xAlign , yAlign  } = this, { caretSize , cornerRadius  } = options, { topLeft , topRight , bottomLeft , bottomRight  } = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.ax)(cornerRadius), { x: ptX , y: ptY  } = tooltipPoint, { width , height  } = size;
                     let x1, x2, x3, y1, y2, y3;
+                    const { xAlign , yAlign  } = this, { caretSize , cornerRadius  } = options, { topLeft , topRight , bottomLeft , bottomRight  } = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.ax)(cornerRadius), { x: ptX , y: ptY  } = tooltipPoint, { width , height  } = size;
                     return 'center' === yAlign ? (y2 = ptY + height / 2, 'left' === xAlign ? (x2 = (x1 = ptX) - caretSize, y1 = y2 + caretSize, y3 = y2 - caretSize) : (x2 = (x1 = ptX + width) + caretSize, y1 = y2 - caretSize, y3 = y2 + caretSize), x3 = x1) : (x2 = 'left' === xAlign ? ptX + Math.max(topLeft, bottomLeft) + caretSize : 'right' === xAlign ? ptX + width - Math.max(topRight, bottomRight) - caretSize : this.caretX, 'top' === yAlign ? (y2 = (y1 = ptY) - caretSize, x1 = x2 - caretSize, x3 = x2 + caretSize) : (y2 = (y1 = ptY + height) + caretSize, x1 = x2 + caretSize, x3 = x2 - caretSize), y3 = y1), {
                         x1,
                         x2,
@@ -5196,8 +5200,8 @@
                     };
                 }
                 drawTitle(pt, ctx, options) {
-                    const title = this.title, length = title.length;
                     let titleFont, titleSpacing, i;
+                    const title = this.title, length = title.length;
                     if (length) {
                         const rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(options.rtl, this.x, this.width);
                         for(i = 0, pt.x = getAlignedX(this, options.titleAlign, options), ctx.textAlign = rtlHelper.textAlign(options.titleAlign), ctx.textBaseline = 'middle', titleFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(options.titleFont), titleSpacing = options.titleSpacing, ctx.fillStyle = options.titleColor, ctx.font = titleFont.string; i < length; ++i)ctx.fillText(title[i], rtlHelper.x(pt.x), pt.y + titleFont.lineHeight / 2), pt.y += titleFont.lineHeight + titleSpacing, i + 1 === length && (pt.y += options.titleMarginBottom - titleSpacing);
@@ -5233,12 +5237,12 @@
                     ctx.fillStyle = this.labelTextColors[i];
                 }
                 drawBody(pt, ctx, options) {
+                    let bodyItem, textColor, lines, i, j, ilen, jlen;
                     const { body  } = this, { bodySpacing , bodyAlign , displayColors , boxHeight , boxWidth , boxPadding  } = options, bodyFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(options.bodyFont);
                     let bodyLineHeight = bodyFont.lineHeight, xLinePadding = 0;
                     const rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(options.rtl, this.x, this.width), fillLineOfText = function(line) {
                         ctx.fillText(line, rtlHelper.x(pt.x + xLinePadding), pt.y + bodyLineHeight / 2), pt.y += bodyLineHeight + bodySpacing;
                     }, bodyAlignForCalculation = rtlHelper.textAlign(bodyAlign);
-                    let bodyItem, textColor, lines, i, j, ilen, jlen;
                     for(ctx.textAlign = bodyAlign, ctx.textBaseline = 'middle', ctx.font = bodyFont.string, pt.x = getAlignedX(this, bodyAlignForCalculation, options), ctx.fillStyle = options.bodyColor, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(this.beforeBody, fillLineOfText), xLinePadding = displayColors && 'right' !== bodyAlignForCalculation ? 'center' === bodyAlign ? boxWidth / 2 + boxPadding : boxWidth + 2 + boxPadding : 0, i = 0, ilen = body.length; i < ilen; ++i){
                         for(bodyItem = body[i], textColor = this.labelTextColors[i], ctx.fillStyle = textColor, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(bodyItem.before, fillLineOfText), lines = bodyItem.lines, displayColors && lines.length && (this._drawColorBox(ctx, pt, i, rtlHelper, options), bodyLineHeight = Math.max(bodyFont.lineHeight, boxHeight)), j = 0, jlen = lines.length; j < jlen; ++j)fillLineOfText(lines[j]), bodyLineHeight = bodyFont.lineHeight;
                         (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(bodyItem.after, fillLineOfText);
@@ -5246,8 +5250,8 @@
                     xLinePadding = 0, bodyLineHeight = bodyFont.lineHeight, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Q)(this.afterBody, fillLineOfText), pt.y -= bodySpacing;
                 }
                 drawFooter(pt, ctx, options) {
-                    const footer = this.footer, length = footer.length;
                     let footerFont, i;
+                    const footer = this.footer, length = footer.length;
                     if (length) {
                         const rtlHelper = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aA)(options.rtl, this.x, this.width);
                         for(pt.x = getAlignedX(this, options.footerAlign, options), pt.y += options.footerMarginTop, ctx.textAlign = rtlHelper.textAlign(options.footerAlign), ctx.textBaseline = 'middle', footerFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(options.footerFont), ctx.fillStyle = options.footerColor, ctx.font = footerFont.string, i = 0; i < length; ++i)ctx.fillText(footer[i], rtlHelper.x(pt.x), pt.y + footerFont.lineHeight / 2), pt.y += footerFont.lineHeight + options.footerSpacing;
@@ -5495,6 +5499,7 @@
                         }
                         const availableWidth = chart.width;
                         chart.data.datasets.forEach((dataset, datasetIndex)=>{
+                            let decimated;
                             const { _data , indexAxis  } = dataset, meta = chart.getDatasetMeta(datasetIndex), data = _data || dataset.data;
                             if ('y' === (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.a)([
                                 indexAxis,
@@ -5503,8 +5508,9 @@
                             const xAxis = chart.scales[meta.xAxisID];
                             if ('linear' !== xAxis.type && 'time' !== xAxis.type || chart.options.parsing) return;
                             let { start , count  } = function(meta, points) {
+                                let count;
                                 const pointCount = points.length;
-                                let start = 0, count;
+                                let start = 0;
                                 const { iScale  } = meta, { min , max , minDefined , maxDefined  } = iScale.getUserBounds();
                                 return minDefined && (start = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.E)((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Z)(points, iScale.axis, min).lo, 0, pointCount - 1)), count = maxDefined ? (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.E)((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Z)(points, iScale.axis, max).hi + 1, start, pointCount) - start : pointCount - start, {
                                     start,
@@ -5516,7 +5522,7 @@
                                 cleanDecimatedDataset(dataset);
                                 return;
                             }
-                            (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(_data) && (dataset._data = data, delete dataset.data, Object.defineProperty(dataset, 'data', {
+                            switch((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(_data) && (dataset._data = data, delete dataset.data, Object.defineProperty(dataset, 'data', {
                                 configurable: !0,
                                 enumerable: !0,
                                 get: function() {
@@ -5525,17 +5531,16 @@
                                 set: function(d) {
                                     this._data = d;
                                 }
-                            }));
-                            let decimated;
-                            switch(options.algorithm){
+                            })), options.algorithm){
                                 case 'lttb':
                                     decimated = function(data, start, count, availableWidth, options) {
+                                        let i, maxAreaPoint, maxArea, area, nextA;
                                         const samples = options.samples || availableWidth;
                                         if (samples >= count) return data.slice(start, start + count);
                                         const decimated = [], bucketWidth = (count - 2) / (samples - 2);
-                                        let sampledIndex = 0, a = start, i, maxAreaPoint, maxArea, area, nextA;
+                                        let sampledIndex = 0, a = start;
                                         for(i = 0, decimated[sampledIndex++] = data[a]; i < samples - 2; i++){
-                                            let avgX = 0, avgY = 0, j;
+                                            let j, avgX = 0, avgY = 0;
                                             const avgRangeStart = Math.floor((i + 1) * bucketWidth) + 1 + start, avgRangeEnd = Math.min(Math.floor((i + 2) * bucketWidth) + 1, count) + start, avgRangeLength = avgRangeEnd - avgRangeStart;
                                             for(j = avgRangeStart; j < avgRangeEnd; j++)avgX += data[j].x, avgY += data[j].y;
                                             avgX /= avgRangeLength, avgY /= avgRangeLength;
@@ -5548,7 +5553,7 @@
                                     break;
                                 case 'min-max':
                                     decimated = function(data, start, count, availableWidth) {
-                                        let avgX = 0, countX = 0, i, point, x, y, prevX, minIndex, maxIndex, startIndex, minY, maxY;
+                                        let i, point, x, y, prevX, minIndex, maxIndex, startIndex, minY, maxY, avgX = 0, countX = 0;
                                         const decimated = [], xMin = data[start].x, xMax = data[start + count - 1].x, dx = xMax - xMin;
                                         for(i = start; i < start + count; ++i){
                                             x = ((point = data[i]).x - xMin) / dx * availableWidth, y = point.y;
@@ -5585,8 +5590,8 @@
                 Filler: {
                     id: 'filler',
                     afterDatasetsUpdate (chart, _args, options) {
-                        const count = (chart.data.datasets || []).length, sources = [];
                         let meta, i, line, source;
+                        const count = (chart.data.datasets || []).length, sources = [];
                         for(i = 0; i < count; ++i)line = (meta = chart.getDatasetMeta(i)).dataset, source = null, line && line.options && line instanceof LineElement && (source = {
                             visible: chart.isDatasetVisible(i),
                             index: i,
@@ -5879,8 +5884,9 @@
                     this.min = min, this.max = max;
                 }
                 getTickLimit() {
+                    let maxTicks;
                     const tickOpts = this.options.ticks;
-                    let { maxTicksLimit , stepSize  } = tickOpts, maxTicks;
+                    let { maxTicksLimit , stepSize  } = tickOpts;
                     return stepSize ? (maxTicks = Math.ceil(this.max / stepSize) - Math.floor(this.min / stepSize) + 1) > 1000 && (console.warn(`scales.${this.id}.ticks.stepSize: ${stepSize} would result generating up to ${maxTicks} ticks. Limiting to 1000.`), maxTicks = 1000) : (maxTicks = this.computeTickLimit(), maxTicksLimit = maxTicksLimit || 11), maxTicksLimit && (maxTicks = Math.min(maxTicksLimit, maxTicks)), maxTicks;
                 }
                 computeTickLimit() {
@@ -5903,8 +5909,9 @@
                         minRotation: tickOpts.minRotation || 0,
                         includeBounds: !1 !== tickOpts.includeBounds
                     }, dataRange = this._range || this, ticks = function(generationOptions, dataRange) {
+                        let factor, niceMin, niceMax, numSpaces;
                         const ticks = [], { bounds , step , min , max , precision , count , maxTicks , maxDigits , includeBounds  } = generationOptions, unit = step || 1, maxSpaces = maxTicks - 1, { min: rmin , max: rmax  } = dataRange, minDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(min), maxDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(max), countDefined = !(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(count), minSpacing = (rmax - rmin) / (maxDigits + 1);
-                        let spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)((rmax - rmin) / maxSpaces / unit) * unit, factor, niceMin, niceMax, numSpaces;
+                        let spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)((rmax - rmin) / maxSpaces / unit) * unit;
                         if (spacing < 1e-14 && !minDefined && !maxDefined) return [
                             {
                                 value: rmin
@@ -6166,8 +6173,8 @@
                 getPointLabelContext(index) {
                     const pointLabels = this._pointLabels || [];
                     if (index >= 0 && index < pointLabels.length) {
-                        const pointLabel = pointLabels[index];
                         var parent;
+                        const pointLabel = pointLabels[index];
                         return parent = this.getContext(), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.h)(parent, {
                             label: pointLabel,
                             index: index,
@@ -6206,8 +6213,8 @@
                     }
                 }
                 drawGrid() {
-                    const ctx = this.ctx, opts = this.options, { angleLines , grid  } = opts, labelCount = this._pointLabels.length;
                     let i, offset, position;
+                    const ctx = this.ctx, opts = this.options, { angleLines , grid  } = opts, labelCount = this._pointLabels.length;
                     if (opts.pointLabels.display && function(scale, labelCount) {
                         const { ctx , options: { pointLabels  }  } = scale;
                         for(let i = labelCount - 1; i >= 0; i--){
@@ -6249,10 +6256,10 @@
                 }
                 drawBorder() {}
                 drawLabels() {
+                    let offset, width;
                     const ctx = this.ctx, opts = this.options, tickOpts = opts.ticks;
                     if (!tickOpts.display) return;
                     const startAngle = this.getIndexAngle(0);
-                    let offset, width;
                     ctx.save(), ctx.translate(this.xCenter, this.yCenter), ctx.rotate(startAngle), ctx.textAlign = 'center', ctx.textBaseline = 'middle', this.ticks.forEach((tick, index)=>{
                         if (0 === index && !opts.reverse) return;
                         const optsAtIndex = tickOpts.setContext(this.getContext(index)), tickFont = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.O)(optsAtIndex.font);
@@ -6378,15 +6385,15 @@
                 } else ticks[time] = !0;
             }
             function ticksFromTimestamps(scale, values, majorUnit) {
-                const ticks = [], map = {}, ilen = values.length;
                 let i, value;
+                const ticks = [], map = {}, ilen = values.length;
                 for(i = 0; i < ilen; ++i)map[value = values[i]] = i, ticks.push({
                     value,
                     major: !1
                 });
                 return 0 !== ilen && majorUnit ? function(scale, ticks, map, majorUnit) {
-                    const adapter = scale._adapter, first = +adapter.startOf(ticks[0].value, majorUnit), last = ticks[ticks.length - 1].value;
                     let major, index;
+                    const adapter = scale._adapter, first = +adapter.startOf(ticks[0].value, majorUnit), last = ticks[ticks.length - 1].value;
                     for(major = first; major <= last; major = +adapter.add(major, 1, majorUnit))(index = map[major]) >= 0 && (ticks[index].major = !0);
                     return ticks;
                 }(scale, ticks, map, majorUnit) : ticks;
@@ -6451,7 +6458,7 @@
                     this.options.offsetAfterAutoskip && this.initOffsets(this.ticks.map((tick)=>+tick.value));
                 }
                 initOffsets(timestamps) {
-                    let start = 0, end = 0, first, last;
+                    let first, last, start = 0, end = 0;
                     this.options.offset && timestamps.length && (first = this.getDecimalForValue(timestamps[0]), start = 1 === timestamps.length ? 1 - first : (this.getDecimalForValue(timestamps[1]) - first) / 2, last = this.getDecimalForValue(timestamps[timestamps.length - 1]), end = 1 === timestamps.length ? last : (last - this.getDecimalForValue(timestamps[timestamps.length - 2])) / 2);
                     const limit = timestamps.length < 3 ? 0.5 : 0.25;
                     start = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.E)(start, 0, limit), end = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.E)(end, 0, limit), this._offsets = {
@@ -6461,8 +6468,9 @@
                     };
                 }
                 _generate() {
+                    let time, count;
                     const adapter = this._adapter, min = this.min, max = this.max, options = this.options, timeOpts = options.time, minor = timeOpts.unit || determineUnitForAutoTicks(timeOpts.minUnit, min, max, this._getLabelCapacity(min)), stepSize = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.v)(timeOpts.stepSize, 1), weekday = 'week' === minor && timeOpts.isoWeekday, hasWeekday = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.x)(weekday) || !0 === weekday, ticks = {};
-                    let first = min, time, count;
+                    let first = min;
                     if (hasWeekday && (first = +adapter.startOf(first, 'isoWeek', weekday)), first = +adapter.startOf(first, hasWeekday ? 'day' : minor), adapter.diff(max, min, minor) > 100000 * stepSize) throw Error(min + ' and ' + max + ' are too far apart with stepSize of ' + stepSize + ' ' + minor);
                     const timestamps = 'data' === options.ticks.source && this.getDataTimestamps();
                     for(time = first, count = 0; time < max; time = +adapter.add(time, stepSize, minor), count++)addTick(ticks, time, timestamps);
@@ -6509,7 +6517,7 @@
                     return capacity > 0 ? capacity : 1;
                 }
                 getDataTimestamps() {
-                    let timestamps = this._cache.data || [], i, ilen;
+                    let i, ilen, timestamps = this._cache.data || [];
                     if (timestamps.length) return timestamps;
                     const metas = this.getMatchingVisibleMetas();
                     if (this._normalized && metas.length) return this._cache.data = metas[0].controller.getAllParsedValues(this);
@@ -6517,8 +6525,8 @@
                     return this._cache.data = this.normalize(timestamps);
                 }
                 getLabelTimestamps() {
-                    const timestamps = this._cache.labels || [];
                     let i, ilen;
+                    const timestamps = this._cache.labels || [];
                     if (timestamps.length) return timestamps;
                     const labels = this.getLabels();
                     for(i = 0, ilen = labels.length; i < ilen; ++i)timestamps.push(parse(this, labels[i]));
@@ -6529,7 +6537,7 @@
                 }
             }
             function interpolate(table, val, reverse) {
-                let lo = 0, hi = table.length - 1, prevSource, nextSource, prevTarget, nextTarget;
+                let prevSource, nextSource, prevTarget, nextTarget, lo = 0, hi = table.length - 1;
                 reverse ? (val >= table[lo].pos && val <= table[hi].pos && ({ lo , hi  } = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Z)(table, 'pos', val)), { pos: prevSource , time: prevTarget  } = table[lo], { pos: nextSource , time: nextTarget  } = table[hi]) : (val >= table[lo].time && val <= table[hi].time && ({ lo , hi  } = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.Z)(table, 'time', val)), { time: prevSource , pos: prevTarget  } = table[lo], { time: nextSource , pos: nextTarget  } = table[hi]);
                 const span = nextSource - prevSource;
                 return span ? prevTarget + (nextTarget - prevTarget) * (val - prevSource) / span : prevTarget;
@@ -6561,8 +6569,8 @@
                     this._minPos = interpolate(table, this.min), this._tableRange = interpolate(table, this.max) - this._minPos, super.initOffsets(timestamps);
                 }
                 buildLookupTable(timestamps) {
-                    const { min , max  } = this, items = [], table = [];
                     let i, ilen, curr;
+                    const { min , max  } = this, items = [], table = [];
                     for(i = 0, ilen = timestamps.length; i < ilen; ++i)(curr = timestamps[i]) >= min && curr <= max && items.push(curr);
                     if (items.length < 2) return [
                         {

@@ -94,6 +94,7 @@
         },
         2454: function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
             "use strict";
+            let names, id;
             function noop() {}
             __webpack_require__.d(__webpack_exports__, {
                 $: function() {
@@ -454,7 +455,6 @@
                     return log10;
                 }
             });
-            let id;
             const uid = (id = 0, function() {
                 return id++;
             });
@@ -581,8 +581,8 @@
                 return (fraction <= 1 ? 1 : fraction <= 2 ? 2 : fraction <= 5 ? 5 : 10) * niceRange;
             }
             function _factorize(value) {
-                const result = [], sqrt = Math.sqrt(value);
                 let i;
+                const result = [], sqrt = Math.sqrt(value);
                 for(i = 1; i < sqrt; i++)value % i == 0 && (result.push(i), result.push(value / i));
                 return sqrt === (0 | sqrt) && result.push(sqrt), result.sort((a, b)=>a - b).pop(), result;
             }
@@ -643,8 +643,9 @@
                 return value >= Math.min(start, end) - epsilon && value <= Math.max(start, end) + epsilon;
             }
             function _lookup(table, value, cmp) {
+                let mid;
                 cmp = cmp || ((index)=>table[index] < value);
-                let hi = table.length - 1, lo = 0, mid;
+                let hi = table.length - 1, lo = 0;
                 for(; hi - lo > 1;)cmp(mid = lo + hi >> 1) ? lo = mid : hi = mid;
                 return {
                     lo,
@@ -701,8 +702,8 @@
                 }), delete array._chartjs);
             }
             function _arrayUnique(items) {
-                const set = new Set();
                 let i, ilen;
+                const set = new Set();
                 for(i = 0, ilen = items.length; i < ilen; ++i)set.add(items[i]);
                 return set.size === ilen ? items : Array.from(set);
             }
@@ -843,14 +844,14 @@
                 ];
             }
             function hwb2rgbn(h, w, b) {
-                const rgb = hsl2rgbn(h, 1, 0.5);
                 let i;
+                const rgb = hsl2rgbn(h, 1, 0.5);
                 for(w + b > 1 && (i = 1 / (w + b), w *= i, b *= i), i = 0; i < 3; i++)rgb[i] *= 1 - w - b, rgb[i] += w;
                 return rgb;
             }
             function rgb2hsl(v) {
-                const r = v.r / 255, g = v.g / 255, b = v.b / 255, max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2;
                 let h, s, d;
+                const r = v.r / 255, g = v.g / 255, b = v.b / 255, max = Math.max(r, g, b), min = Math.min(r, g, b), l = (max + min) / 2;
                 if (max !== min) {
                     var d1;
                     d = max - min, s = l > 0.5 ? d / (2 - max - min) : d / (max + min), d1 = d, h = 60 * (h = r === max ? (g - b) / d1 + (g < b ? 6 : 0) : g === max ? (b - r) / d1 + 2 : (r - g) / d1 + 4) + 0.5;
@@ -1047,9 +1048,7 @@
                 wEtesmoke: 'f5f5f5',
                 Lw: 'ffff00',
                 LwgYF: '9acd32'
-            };
-            let names;
-            const RGB_RE = /^rgba?\(\s*([-+.\d]+)(%)?[\s,]+([-+.e\d]+)(%)?[\s,]+([-+.e\d]+)(%)?(?:[\s,/]+([-+.e\d]+)(%)?)?\s*\)$/, to = (v)=>v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1.0 / 2.4) - 0.055, from = (v)=>v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+            }, RGB_RE = /^rgba?\(\s*([-+.\d]+)(%)?[\s,]+([-+.e\d]+)(%)?[\s,]+([-+.e\d]+)(%)?(?:[\s,/]+([-+.e\d]+)(%)?)?\s*\)$/, to = (v)=>v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1.0 / 2.4) - 0.055, from = (v)=>v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
             function modHSL(v, i, ratio) {
                 if (v) {
                     let tmp = rgb2hsl(v);
@@ -1080,12 +1079,12 @@
             }
             class Color {
                 constructor(input){
+                    let v;
                     if (input instanceof Color) return input;
                     const type = typeof input;
-                    let v;
                     if ('object' === type) v = fromObject(input);
                     else if ('string' === type) {
-                        var len, ret;
+                        var ret, len;
                         len = input.length, '#' === input[0] && (4 === len || 5 === len ? ret = {
                             r: 255 & 17 * map$1[input[1]],
                             g: 255 & 17 * map$1[input[2]],
@@ -1098,8 +1097,8 @@
                             a: 9 === len ? map$1[input[7]] << 4 | map$1[input[8]] : 255
                         })), v = ret || function(str) {
                             names || ((names = function() {
-                                const unpacked = {}, keys = Object.keys(names$1), tkeys = Object.keys(map);
                                 let i, j, k, ok, nk;
+                                const unpacked = {}, keys = Object.keys(names$1), tkeys = Object.keys(map);
                                 for(i = 0; i < keys.length; i++){
                                     for(j = 0, ok = nk = keys[i]; j < tkeys.length; j++)k = tkeys[j], nk = nk.replace(k, map[k]);
                                     k = parseInt(names$1[ok], 16), unpacked[nk] = [
@@ -1123,8 +1122,9 @@
                                 a: 4 === a.length ? a[3] : 255
                             };
                         }(input) || ('r' === input.charAt(0) ? function(str) {
+                            let r, g, b;
                             const m = RGB_RE.exec(str);
-                            let a = 255, r, g, b;
+                            let a = 255;
                             if (m) {
                                 if (m[7] !== r) {
                                     const v = +m[7];
@@ -1138,8 +1138,9 @@
                                 };
                             }
                         }(input) : function(str) {
+                            let v;
                             const m = HUE_RE.exec(str);
-                            let a = 255, v;
+                            let a = 255;
                             if (!m) return;
                             m[5] !== v && (a = m[6] ? p2b(+m[5]) : n2b(+m[5]));
                             const h = hue(+m[2]), p1 = +m[3] / 100, p2 = +m[4] / 100;
@@ -1180,9 +1181,8 @@
                 }
                 mix(color, weight) {
                     if (color) {
-                        const c1 = this.rgb, c2 = color.rgb;
                         let w2;
-                        const p = weight === w2 ? 0.5 : weight, w = 2 * p - 1, a = c1.a - c2.a, w1 = ((w * a == -1 ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
+                        const c1 = this.rgb, c2 = color.rgb, p = weight === w2 ? 0.5 : weight, w = 2 * p - 1, a = c1.a - c2.a, w1 = ((w * a == -1 ? w : (w + a) / (1 + w * a)) + 1) / 2.0;
                         w2 = 1 - w1, c1.r = 0xFF & w1 * c1.r + w2 * c2.r + 0.5, c1.g = 0xFF & w1 * c1.g + w2 * c2.g + 0.5, c1.b = 0xFF & w1 * c1.b + w2 * c2.b + 0.5, c1.a = p * c1.a + (1 - p) * c2.a, this.rgb = c1;
                     }
                     return this;
@@ -1333,14 +1333,14 @@
                 return textWidth || (textWidth = data[string] = ctx.measureText(string).width, gc.push(string)), textWidth > longest && (longest = textWidth), longest;
             }
             function _longestText(ctx, font, arrayOfThings, cache) {
+                let i, j, jlen, thing, nestedThing;
                 cache = cache || {};
                 let data = cache.data = cache.data || {}, gc = cache.garbageCollect = cache.garbageCollect || [];
                 cache.font !== font && (data = cache.data = {}, gc = cache.garbageCollect = [], cache.font = font), ctx.save(), ctx.font = font;
                 let longest = 0;
                 const ilen = arrayOfThings.length;
-                let i, j, jlen, thing, nestedThing;
-                for(i = 0; i < ilen; i++)if (void 0 !== (thing = arrayOfThings[i]) && null !== thing && !0 !== isArray(thing)) longest = _measureText(ctx, data, gc, longest, thing);
-                else if (isArray(thing)) for(j = 0, jlen = thing.length; j < jlen; j++)void 0 === (nestedThing = thing[j]) || null === nestedThing || isArray(nestedThing) || (longest = _measureText(ctx, data, gc, longest, nestedThing));
+                for(i = 0; i < ilen; i++)if (null != (thing = arrayOfThings[i]) && !0 !== isArray(thing)) longest = _measureText(ctx, data, gc, longest, thing);
+                else if (isArray(thing)) for(j = 0, jlen = thing.length; j < jlen; j++)null == (nestedThing = thing[j]) || isArray(nestedThing) || (longest = _measureText(ctx, data, gc, longest, nestedThing));
                 ctx.restore();
                 const gcLen = gc.length / 2;
                 if (gcLen > arrayOfThings.length) {
@@ -1426,11 +1426,11 @@
                 ctx.bezierCurveTo(flip ? previous.cp1x : previous.cp2x, flip ? previous.cp1y : previous.cp2y, flip ? target.cp2x : target.cp1x, flip ? target.cp2y : target.cp1y, target.x, target.y);
             }
             function renderText(ctx, text, x, y, font, opts = {}) {
+                var ctx1;
+                let i, line;
                 const lines = isArray(text) ? text : [
                     text
                 ], stroke = opts.strokeWidth > 0 && '' !== opts.strokeColor;
-                let i, line;
-                var ctx1;
                 for(ctx.save(), ctx.font = font.string, ctx1 = ctx, opts.translation && ctx1.translate(opts.translation[0], opts.translation[1]), isNullOrUndef(opts.rotation) || ctx1.rotate(opts.rotation), opts.color && (ctx1.fillStyle = opts.color), opts.textAlign && (ctx1.textAlign = opts.textAlign), opts.textBaseline && (ctx1.textBaseline = opts.textBaseline), i = 0; i < lines.length; ++i)line = lines[i], stroke && (opts.strokeColor && (ctx.strokeStyle = opts.strokeColor), isNullOrUndef(opts.strokeWidth) || (ctx.lineWidth = opts.strokeWidth), ctx.strokeText(line, x, y, opts.maxWidth)), ctx.fillText(line, x, y, opts.maxWidth), decorateText(ctx, x, y, line, opts), y += font.lineHeight;
                 ctx.restore();
             }
@@ -1497,7 +1497,7 @@
                 return font.string = !font || isNullOrUndef(font.size) || isNullOrUndef(font.family) ? null : (font.style ? font.style + ' ' : '') + (font.weight ? font.weight + ' ' : '') + font.size + 'px ' + font.family, font;
             }
             function resolve(inputs, context, index, info) {
-                let cacheable = !0, i, ilen, value;
+                let i, ilen, value, cacheable = !0;
                 for(i = 0, ilen = inputs.length; i < ilen; ++i)if (void 0 !== (value = inputs[i]) && (void 0 !== context && 'function' == typeof value && (value = value(context), cacheable = !1), void 0 !== index && isArray(value) && (value = value[index % value.length], cacheable = !1), void 0 !== value)) return info && !cacheable && (info.cacheable = !1), value;
             }
             function _addGrace(minmax, grace, beginAtZero) {
@@ -1612,8 +1612,8 @@
                 }(target._scopes)), keys;
             }
             function _parseObjectDataRadialScale(meta, data, start, count) {
-                const { iScale  } = meta, { key ='r'  } = this._parsing, parsed = Array(count);
                 let i, index, item;
+                const { iScale  } = meta, { key ='r'  } = this._parsing, parsed = Array(count);
                 for(i = 0; i < count; ++i)item = data[index = i + start], parsed[i] = {
                     r: iScale.parse(resolveObjectKey(item, key), index)
                 };
@@ -1642,8 +1642,9 @@
             function _updateBezierControlPoints(points, options, area, loop, indexAxis) {
                 let i, ilen, point, controlPoints;
                 if (options.spanGaps && (points = points.filter((pt)=>!pt.skip)), 'monotone' === options.cubicInterpolationMode) !function(points, indexAxis = 'x') {
+                    let i, pointBefore, pointCurrent;
                     const valueAxis = getValueAxis(indexAxis), pointsLen = points.length, deltaK = Array(pointsLen).fill(0), mK = Array(pointsLen);
-                    let i, pointBefore, pointCurrent, pointAfter = getPoint(points, 0);
+                    let pointAfter = getPoint(points, 0);
                     for(i = 0; i < pointsLen; ++i)if (pointBefore = pointCurrent, pointCurrent = pointAfter, pointAfter = getPoint(points, i + 1), pointCurrent) {
                         if (pointAfter) {
                             const slopeDelta = pointAfter[indexAxis] - pointCurrent[indexAxis];
@@ -1652,8 +1653,9 @@
                         mK[i] = pointBefore ? pointAfter ? sign(deltaK[i - 1]) !== sign(deltaK[i]) ? 0 : (deltaK[i - 1] + deltaK[i]) / 2 : deltaK[i - 1] : deltaK[i];
                     }
                     !function(points, deltaK, mK) {
+                        let alphaK, betaK, tauK, squaredMagnitude, pointCurrent;
                         const pointsLen = points.length;
-                        let alphaK, betaK, tauK, squaredMagnitude, pointCurrent, pointAfter = getPoint(points, 0);
+                        let pointAfter = getPoint(points, 0);
                         for(let i = 0; i < pointsLen - 1; ++i)if (pointCurrent = pointAfter, pointAfter = getPoint(points, i + 1), pointCurrent && pointAfter) {
                             if (almostEquals(deltaK[i], 0, EPSILON)) {
                                 mK[i] = mK[i + 1] = 0;
@@ -1662,8 +1664,9 @@
                             (squaredMagnitude = Math.pow(alphaK = mK[i] / deltaK[i], 2) + Math.pow(betaK = mK[i + 1] / deltaK[i], 2)) <= 9 || (tauK = 3 / Math.sqrt(squaredMagnitude), mK[i] = alphaK * tauK * deltaK[i], mK[i + 1] = betaK * tauK * deltaK[i]);
                         }
                     }(points, deltaK, mK), function(points, mK, indexAxis = 'x') {
+                        let delta, pointBefore, pointCurrent;
                         const valueAxis = getValueAxis(indexAxis), pointsLen = points.length;
-                        let delta, pointBefore, pointCurrent, pointAfter = getPoint(points, 0);
+                        let pointAfter = getPoint(points, 0);
                         for(let i = 0; i < pointsLen; ++i){
                             if (pointBefore = pointCurrent, pointCurrent = pointAfter, pointAfter = getPoint(points, i + 1), !pointCurrent) continue;
                             const iPixel = pointCurrent[indexAxis], vPixel = pointCurrent[valueAxis];
@@ -1710,8 +1713,9 @@
             function getRelativePosition(evt, chart) {
                 if ('native' in evt) return evt;
                 const { canvas , currentDevicePixelRatio  } = chart, style = getComputedStyle(canvas), borderBox = 'border-box' === style.boxSizing, paddings = getPositionedStyle(style, 'padding'), borders = getPositionedStyle(style, 'border', 'width'), { x , y , box  } = function(e, canvas) {
+                    let x, y;
                     const touches = e.touches, source = touches && touches.length ? touches[0] : e, { offsetX , offsetY  } = source;
-                    let box = !1, x, y;
+                    let box = !1;
                     if (useOffsetPos(offsetX, offsetY, e.target)) x = offsetX, y = offsetY;
                     else {
                         const rect = canvas.getBoundingClientRect();
@@ -1858,12 +1862,14 @@
                 };
             }
             function _boundSegment(segment, points, bounds) {
+                let value, point, prevValue;
                 if (!bounds) return [
                     segment
                 ];
                 const { property , start: startBound , end: endBound  } = bounds, count = points.length, { compare , between , normalize  } = propertyFn(property), { start , end , loop , style  } = function(segment, points, bounds) {
+                    let i, ilen;
                     const { property , start: startBound , end: endBound  } = bounds, { between , normalize  } = propertyFn(property), count = points.length;
-                    let { start , end , loop  } = segment, i, ilen;
+                    let { start , end , loop  } = segment;
                     if (loop) {
                         for(start += count, end += count, i = 0, ilen = count; i < ilen && between(normalize(points[start % count][property]), startBound, endBound); ++i)start--, end--;
                         start %= count, end %= count;
@@ -1875,7 +1881,7 @@
                         style: segment.style
                     };
                 }(segment, points, bounds), result = [];
-                let inside = !1, subStart = null, value, point, prevValue;
+                let inside = !1, subStart = null;
                 const startIsBefore = ()=>between(startBound, prevValue, value) && 0 !== compare(startBound, prevValue), endIsBefore = ()=>0 === compare(endBound, value) || between(endBound, prevValue, value), shouldStart = ()=>inside || startIsBefore(), shouldStop = ()=>!inside || endIsBefore();
                 for(let i = start, prev = start; i <= end; ++i)(point = points[i % count]).skip || (value = normalize(point[property])) === prevValue || (inside = between(value, startBound, endBound), null === subStart && shouldStart() && (subStart = 0 === compare(value, startBound) ? i : prev), null !== subStart && shouldStop() && (result.push(normalizeSegment({
                     start: subStart,
@@ -1922,8 +1928,9 @@
                 ], points, segmentOptions);
                 const completeLoop = !!line._fullLoop && 0 === start && end === count - 1;
                 return splitByStyles(line, function(points, start, max, loop) {
+                    let end;
                     const count = points.length, result = [];
-                    let last = start, prev = points[start], end;
+                    let last = start, prev = points[start];
                     for(end = start + 1; end <= max; ++end){
                         const cur = points[end % count];
                         cur.skip || cur.stop ? prev.skip || (loop = !1, result.push({
@@ -1957,8 +1964,9 @@
                         }
                     }
                     for (const segment of segments){
+                        let style;
                         start = spanGaps ? start : segment.start;
-                        let prev = points[start % count], style;
+                        let prev = points[start % count];
                         for(i = start + 1; i <= segment.end; i++){
                             const pt = points[i % count];
                             styleChanged(style = readStyle(segmentOptions.setContext(createContext(chartContext, {

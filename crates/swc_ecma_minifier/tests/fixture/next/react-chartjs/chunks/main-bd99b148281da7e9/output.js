@@ -23,13 +23,12 @@
         },
         2568: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(arr) {
                 if (Array.isArray(arr)) return _arrayLikeToArrayMjs.default(arr);
             };
-            var _arrayLikeToArrayMjs = (obj = __webpack_require__(5300)) && obj.__esModule ? obj : {
+            var obj, _arrayLikeToArrayMjs = (obj = __webpack_require__(5300)) && obj.__esModule ? obj : {
                 default: obj
             };
         },
@@ -77,13 +76,12 @@
         },
         5317: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(Parent, args, Class) {
                 return construct.apply(null, arguments);
             };
-            var _setPrototypeOfMjs = (obj = __webpack_require__(5814)) && obj.__esModule ? obj : {
+            var obj, _setPrototypeOfMjs = (obj = __webpack_require__(5814)) && obj.__esModule ? obj : {
                 default: obj
             };
             function construct(Parent1, args1, Class1) {
@@ -122,7 +120,7 @@
             exports.Z = function(Derived) {
                 var hasNativeReflectConstruct = _isNativeReflectConstructMjs.default();
                 return function() {
-                    var Super = _getPrototypeOfMjs.default(Derived), result;
+                    var result, Super = _getPrototypeOfMjs.default(Derived);
                     if (hasNativeReflectConstruct) {
                         var NewTarget = _getPrototypeOfMjs.default(this).constructor;
                         result = Reflect.construct(Super, arguments, NewTarget);
@@ -168,7 +166,6 @@
         },
         7788: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj;
             exports.Z = function(subClass, superClass) {
                 if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
                 subClass.prototype = Object.create(superClass && superClass.prototype, {
@@ -179,7 +176,7 @@
                     }
                 }), superClass && _setPrototypeOfMjs.default(subClass, superClass);
             };
-            var _setPrototypeOfMjs = (obj = __webpack_require__(5814)) && obj.__esModule ? obj : {
+            var obj, _setPrototypeOfMjs = (obj = __webpack_require__(5814)) && obj.__esModule ? obj : {
                 default: obj
             };
         },
@@ -271,7 +268,7 @@
             "use strict";
             exports.Z = function(source, excluded) {
                 if (null == source) return {};
-                var target = {}, sourceKeys = Object.keys(source), key, i;
+                var key, i, target = {}, sourceKeys = Object.keys(source);
                 for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                 return target;
             };
@@ -348,7 +345,6 @@
         },
         2149: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(o, minLen) {
@@ -359,7 +355,7 @@
                     if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArrayMjs.default(o, minLen);
                 }
             };
-            var _arrayLikeToArrayMjs = (obj = __webpack_require__(5300)) && obj.__esModule ? obj : {
+            var obj, _arrayLikeToArrayMjs = (obj = __webpack_require__(5300)) && obj.__esModule ? obj : {
                 default: obj
             };
         },
@@ -514,10 +510,7 @@
                             "script"
                         ].forEach(function(type) {
                             (function(type, components) {
-                                for(var headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [], i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null){
-                                    var ref;
-                                    (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
-                                }
+                                for(var ref, headEl = document.getElementsByTagName("head")[0], headCountEl = headEl.querySelector("meta[name=next-head-count]"), headCount = Number(headCountEl.content), oldTags = [], i = 0, j = headCountEl.previousElementSibling; i < headCount; i++, j = (null == j ? void 0 : j.previousElementSibling) || null)(null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 var newTags = components.map(reactElementToDOM).filter(function(newTag) {
                                     for(var k = 0, len = oldTags.length; k < len; k++){
                                         var oldTag = oldTags[k];
@@ -571,7 +564,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             });
-            var _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _inherits = __webpack_require__(7788).Z, _interopRequireWildcard = __webpack_require__(1598).Z, _slicedToArray = __webpack_require__(4941).Z, _createSuper = __webpack_require__(7735).Z, _tsGenerator = __webpack_require__(2401).Z;
+            var router, initialData, asPath, pageLoader, appElement, headManager, lastAppProps, lastRenderReject, CachedApp, onPerfEntry, CachedComponent, RSCComponent, _classCallCheck = __webpack_require__(9658).Z, _createClass = __webpack_require__(7222).Z, _inherits = __webpack_require__(7788).Z, _interopRequireWildcard = __webpack_require__(1598).Z, _slicedToArray = __webpack_require__(4941).Z, _createSuper = __webpack_require__(7735).Z, _tsGenerator = __webpack_require__(2401).Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.initialize = function() {
@@ -581,13 +574,13 @@
             }, exports.emitter = exports.router = exports.version = void 0;
             var _async_to_generator = __webpack_require__(932).Z, _extends = __webpack_require__(6495).Z, _interop_require_default = __webpack_require__(2648).Z;
             __webpack_require__(1598).Z, __webpack_require__(37);
-            var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119), ReactDOM = __webpack_require__(745), router;
+            var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119), ReactDOM = __webpack_require__(745);
             exports.version = "12.3.0", exports.router = router;
             var emitter = _mitt.default();
             exports.emitter = emitter;
             var looseToArray = function(input) {
                 return [].slice.call(input);
-            }, initialData, defaultLocale = void 0, asPath, pageLoader, appElement, headManager, initialMatchesMiddleware = !1, lastAppProps, lastRenderReject, CachedApp, onPerfEntry, CachedComponent;
+            }, defaultLocale = void 0, initialMatchesMiddleware = !1;
             self.__next_require__ = __webpack_require__;
             var Container = function(_Component) {
                 _inherits(Container, _Component);
@@ -664,7 +657,6 @@
                     });
                 })).apply(this, arguments);
             }
-            var RSCComponent;
             function renderApp(App, appProps) {
                 return _react.default.createElement(App, Object.assign({}, appProps));
             }
@@ -744,7 +736,7 @@
                         styleSheets: styleSheets
                     };
                 }).then(function(param) {
-                    var ErrorComponent = param.ErrorComponent, styleSheets = param.styleSheets, ref, AppTree = wrapApp(App), appCtx = {
+                    var ref, ErrorComponent = param.ErrorComponent, styleSheets = param.styleSheets, AppTree = wrapApp(App), appCtx = {
                         Component: ErrorComponent,
                         AppTree: AppTree,
                         router: router,
@@ -813,7 +805,7 @@
                 }, []), children;
             }
             function doRender(input) {
-                var onHeadCommit = function() {
+                var resolvePromise, onHeadCommit = function() {
                     if (styleSheets && !canceled) {
                         for(var desiredHrefs = new Set(styleSheets.map(function(s) {
                             return s.href;
@@ -839,7 +831,7 @@
                     router: router
                 });
                 lastAppProps = appProps;
-                var canceled = !1, resolvePromise, renderPromise = new Promise(function(resolve, reject) {
+                var canceled = !1, renderPromise = new Promise(function(resolve, reject) {
                     lastRenderReject && lastRenderReject(), resolvePromise = function() {
                         lastRenderReject = null, resolve();
                     }, lastRenderReject = function() {
@@ -957,7 +949,7 @@
                             case 2:
                                 if ("error" in (appEntrypoint = _state.sent())) throw appEntrypoint.error;
                                 return app = appEntrypoint.component, mod = appEntrypoint.exports, CachedApp = app, mod && mod.reportWebVitals && (onPerfEntry = function(param) {
-                                    var id = param.id, name = param.name, startTime = param.startTime, value = param.value, duration = param.duration, entryType = param.entryType, entries = param.entries, uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12), perfStartEntry;
+                                    var perfStartEntry, id = param.id, name = param.name, startTime = param.startTime, value = param.value, duration = param.duration, entryType = param.entryType, entries = param.entries, uniqueID = "".concat(Date.now(), "-").concat(Math.floor(Math.random() * (9e12 - 1)) + 1e12);
                                     entries && entries.length && (perfStartEntry = entries[0].startTime);
                                     var webVitals = {
                                         id: id || uniqueID,
@@ -1118,9 +1110,8 @@
                     {
                         key: "getDataHref",
                         value: function(params) {
-                            var asPath = params.asPath, href = params.href, locale = params.locale, ref = _parseRelativeUrl.parseRelativeUrl(href), hrefPathname = ref.pathname, query = ref.query, search = ref.search, ref1 = _parseRelativeUrl.parseRelativeUrl(asPath), asPathname = ref1.pathname, route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
+                            var path, dataRoute, asPath = params.asPath, href = params.href, locale = params.locale, ref = _parseRelativeUrl.parseRelativeUrl(href), hrefPathname = ref.pathname, query = ref.query, search = ref.search, ref1 = _parseRelativeUrl.parseRelativeUrl(asPath), asPathname = ref1.pathname, route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                             if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                            var path, dataRoute;
                             return path = params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route, dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json"), _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
                         }
                     },
@@ -1167,9 +1158,9 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _webVitals = __webpack_require__(8018);
+            var userReportHandler, _webVitals = __webpack_require__(8018);
             location.href;
-            var isRegistered = !1, userReportHandler;
+            var isRegistered = !1;
             function onReport(metric) {
                 userReportHandler && userReportHandler(metric);
             }
@@ -1275,7 +1266,7 @@
                     if (previouslyLoadedPath.current !== asPath) {
                         if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
                         else {
-                            var pageHeader = document.querySelector("h1"), ref, content = null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent;
+                            var ref, pageHeader = document.querySelector("h1"), content = null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent;
                             setRouteAnnouncement(content || asPath);
                         }
                     }
@@ -1300,15 +1291,12 @@
                 return err && ASSET_LOAD_ERROR in err;
             }, exports.getClientBuildManifest = getClientBuildManifest, exports.createRouteLoader = function(assetPrefix) {
                 var maybeExecuteScript = function(src) {
-                    var prom = loadedScripts.get(src.toString());
-                    if (prom) return prom;
-                    if (document.querySelector('script[src^="'.concat(src, '"]'))) return Promise.resolve();
-                    var script;
-                    return loadedScripts.set(src.toString(), prom = new Promise(function(resolve, reject) {
+                    var script, prom = loadedScripts.get(src.toString());
+                    return prom || (document.querySelector('script[src^="'.concat(src, '"]')) ? Promise.resolve() : (loadedScripts.set(src.toString(), prom = new Promise(function(resolve, reject) {
                         (script = document.createElement("script")).onload = resolve, script.onerror = function() {
                             return reject(markAssetError(Error("Failed to load script: ".concat(src))));
                         }, script.crossOrigin = void 0, script.src = src, document.body.appendChild(script);
-                    })), prom;
+                    })), prom));
                 }, fetchStyleSheet = function(href) {
                     var prom = styleSheets.get(href);
                     return prom || styleSheets.set(href, prom = fetch(href).then(function(res) {
@@ -1377,7 +1365,7 @@
                         });
                     },
                     prefetch: function(route) {
-                        var _this = this, cn;
+                        var cn, _this = this;
                         return (cn = navigator.connection) && (cn.saveData || /2g/.test(cn.effectiveType)) ? Promise.resolve() : getFilesForRoute(assetPrefix, route).then(function(output) {
                             return Promise.all(canPrefetch ? output.scripts.map(function(script) {
                                 var href, as, link;
@@ -1399,9 +1387,9 @@
             _interop_require_default(__webpack_require__(3891));
             var _trustedTypes = __webpack_require__(4991), _requestIdleCallback = __webpack_require__(9311);
             function withFuture(key, map, generator) {
-                var entry = map.get(key);
+                var resolver, entry = map.get(key);
                 if (entry) return "future" in entry ? entry.future : Promise.resolve(entry);
-                var resolver, prom = new Promise(function(resolve) {
+                var prom = new Promise(function(resolve) {
                     resolver = resolve;
                 });
                 return map.set(key, entry = {
@@ -1495,7 +1483,7 @@
             }, exports.makePublicRouterInstance = function(router) {
                 var instance = {}, _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
                 try {
-                    for(var _iterator = urlPropertyFields[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+                    for(var _step, _iterator = urlPropertyFields[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
                         var property = _step.value;
                         if ("object" == typeof router[property]) {
                             instance[property] = Object.assign(Array.isArray(router[property]) ? [] : {}, router[property]);
@@ -1580,10 +1568,10 @@
             ].forEach(function(event) {
                 singletonRouter.ready(function() {
                     _router.default.events.on(event, function() {
-                        for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
+                        for(var __singletonRouter, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                         var eventField = "on".concat(event.charAt(0).toUpperCase()).concat(event.substring(1));
                         if (singletonRouter[eventField]) try {
-                            singletonRouter[eventField].apply(singletonRouter, _toConsumableArray(args));
+                            (__singletonRouter = singletonRouter)[eventField].apply(__singletonRouter, _toConsumableArray(args));
                         } catch (err) {
                             console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
                         }
@@ -1635,7 +1623,7 @@
                     dangerouslySetInnerHTML ? (el.innerHTML = dangerouslySetInnerHTML.__html || "", afterLoad()) : children ? (el.textContent = "string" == typeof children ? children : Array.isArray(children) ? children.join("") : "", afterLoad()) : src && (el.src = src, ScriptCache.set(src, loadPromise));
                     var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
                     try {
-                        for(var _iterator = Object.entries(props)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
+                        for(var _step, _iterator = Object.entries(props)[Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0){
                             var _value = _slicedToArray(_step.value, 2), k = _value[0], value = _value[1];
                             if (!(void 0 === value || ignoreProps.includes(k))) {
                                 var attr = _headManager.DOMAttributeNames[k] || k.toLowerCase();
@@ -1962,7 +1950,7 @@
                 "itemProp"
             ];
             function reduceComponents(headChildrenElements, props) {
-                var inAmpMode = props.inAmpMode, keys, tags, metaTypes, metaCategories;
+                var keys, tags, metaTypes, metaCategories, inAmpMode = props.inAmpMode;
                 return headChildrenElements.reduce(onlyReactElement, []).reverse().concat(defaultHead(inAmpMode).reverse()).filter((keys = new Set(), tags = new Set(), metaTypes = new Set(), metaCategories = {}, function(h) {
                     var isUnique = !0, hasKey = !1;
                     if (h.key && "number" != typeof h.key && h.key.indexOf("$") > 0) {
@@ -2290,7 +2278,7 @@
                 }
             }
             function fetchNextData(param) {
-                var dataHref = param.dataHref, inflightCache = param.inflightCache, isPrefetch = param.isPrefetch, hasMiddleware = param.hasMiddleware, isServerRender = param.isServerRender, parseJSON = param.parseJSON, persistCache = param.persistCache, isBackground = param.isBackground, unstable_skipClientCache = param.unstable_skipClientCache, ref = new URL(dataHref, window.location.href), cacheKey = ref.href, ref1, getData = function(params) {
+                var ref1, dataHref = param.dataHref, inflightCache = param.inflightCache, isPrefetch = param.isPrefetch, hasMiddleware = param.hasMiddleware, isServerRender = param.isServerRender, parseJSON = param.parseJSON, persistCache = param.persistCache, isBackground = param.isBackground, unstable_skipClientCache = param.unstable_skipClientCache, ref = new URL(dataHref, window.location.href), cacheKey = ref.href, getData = function(params) {
                     return (function fetchRetry(url, attempts, options) {
                         return fetch(url, {
                             credentials: "same-origin",
@@ -2385,7 +2373,7 @@
                 function Router(pathname1, query1, as1, param) {
                     var initialProps = param.initialProps, pageLoader = param.pageLoader, App = param.App, wrapApp = param.wrapApp, Component = param.Component, err = param.err, subscription = param.subscription, isFallback = param.isFallback, locale = param.locale, isPreview = (param.locales, param.defaultLocale, param.domainLocales, param.isPreview), isRsc = param.isRsc, _this = this;
                     _classCallCheck(this, Router), this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = function(e) {
-                        var isFirstPopStateEvent = _this.isFirstPopStateEvent;
+                        var forcedScroll, isFirstPopStateEvent = _this.isFirstPopStateEvent;
                         _this.isFirstPopStateEvent = !1;
                         var state = e.state;
                         if (!state) {
@@ -2401,7 +2389,7 @@
                             return;
                         }
                         if (state.__N && (!isFirstPopStateEvent || _this.locale !== state.options.locale || state.as !== _this.asPath)) {
-                            var forcedScroll, url = state.url, as = state.as, options = state.options, key = state.key;
+                            var url = state.url, as = state.as, options = state.options, key = state.key;
                             _this._key = key;
                             var pathname1 = _parseRelativeUrl.parseRelativeUrl(url).pathname;
                             (!_this.isSsr || as !== _addBasePath.addBasePath(_this.asPath) || pathname1 !== _addBasePath.addBasePath(_this.pathname)) && (!_this._bps || _this._bps(state)) && _this.change("replaceState", url, as, Object.assign({}, options, {
@@ -2466,14 +2454,14 @@
                     {
                         key: "push",
                         value: function(url, as) {
-                            var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, ref;
+                            var ref, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
                             return url = (ref = prepareUrlAs(this, url, as)).url, as = ref.as, this.change("pushState", url, as, options);
                         }
                     },
                     {
                         key: "replace",
                         value: function(url, as) {
-                            var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, ref;
+                            var ref, options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {};
                             return url = (ref = prepareUrlAs(this, url, as)).url, as = ref.as, this.change("replaceState", url, as, options);
                         }
                     },
@@ -2834,6 +2822,7 @@
                                         case 0:
                                             route = requestedRoute, _state.label = 1;
                                         case 1:
+                                            var options;
                                             if (_state.trys.push([
                                                 1,
                                                 10,
@@ -2846,7 +2835,6 @@
                                                 2,
                                                 existingInfo
                                             ];
-                                            var options;
                                             return hasMiddleware && (existingInfo = void 0), cachedRouteInfo = !existingInfo || "initial" in existingInfo ? void 0 : existingInfo, fetchNextDataParams = {
                                                 dataHref: _this.pageLoader.getDataHref({
                                                     href: _formatUrl.formatWithValidation({
@@ -3696,7 +3684,7 @@
                 };
             }
             function getNamedParametrizedRoute(route) {
-                var segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), routeKeyCharCode, routeKeyCharLength, getSafeRouteKey = (routeKeyCharCode = 97, routeKeyCharLength = 1, function() {
+                var routeKeyCharCode, routeKeyCharLength, segments = _removeTrailingSlash.removeTrailingSlash(route).slice(1).split("/"), getSafeRouteKey = (routeKeyCharCode = 97, routeKeyCharLength = 1, function() {
                     for(var routeKey = "", i = 0; i < routeKeyCharLength; i++)routeKey += String.fromCharCode(routeKeyCharCode), ++routeKeyCharCode > 122 && (routeKeyCharLength++, routeKeyCharCode = 97);
                     return routeKey;
                 }), routeKeys = {};
@@ -3799,11 +3787,10 @@
         },
         8027: function(module, exports) {
             "use strict";
-            var runtimeConfig;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.setConfig = setConfig, exports.default = void 0;
-            var _default = function() {
+            var runtimeConfig, _default = function() {
                 return runtimeConfig;
             };
             function setConfig(configValue) {
@@ -3818,17 +3805,13 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(props) {
-                var emitChange = function() {
+                var ref, emitChange = function() {
                     if (headManager && headManager.mountedInstances) {
                         var headElements = _react.Children.toArray(Array.from(headManager.mountedInstances).filter(Boolean));
                         headManager.updateHead(reduceComponentsToState(headElements, props));
                     }
                 }, headManager = props.headManager, reduceComponentsToState = props.reduceComponentsToState;
-                if (isServer) {
-                    var ref;
-                    null == headManager || null == (ref = headManager.mountedInstances) || ref.add(props.children), emitChange();
-                }
-                return useClientOnlyLayoutEffect(function() {
+                return isServer && (null == headManager || null == (ref = headManager.mountedInstances) || ref.add(props.children), emitChange()), useClientOnlyLayoutEffect(function() {
                     var ref1;
                     return null == headManager || null == (ref1 = headManager.mountedInstances) || ref1.add(props.children), function() {
                         var ref;
@@ -3855,7 +3838,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.execOnce = function(fn) {
-                var used = !1, result;
+                var result, used = !1;
                 return function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     return used || (used = !0, result = fn.apply(void 0, _toConsumableArray(args))), result;
@@ -4168,7 +4151,7 @@
                 }
             }, b = function(n) {
                 if (n.cancelable) {
-                    var y = (n.timeStamp > 1e12 ? new Date : performance.now()) - n.timeStamp, t, r, i;
+                    var t, r, i, y = (n.timeStamp > 1e12 ? new Date : performance.now()) - n.timeStamp;
                     "pointerdown" == n.type ? (t = function() {
                         L(y, n), i();
                     }, r = function() {
@@ -4443,7 +4426,7 @@
                 return t;
             }
             function __decorate(decorators, target, key, desc) {
-                var c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+                var d, c = arguments.length, r = c < 3 ? target : null === desc ? desc = Object.getOwnPropertyDescriptor(target, key) : desc;
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
@@ -4482,7 +4465,7 @@
                 });
             }
             function __generator(thisArg, body) {
-                var _ = {
+                var f, y, t, g, _ = {
                     label: 0,
                     sent: function() {
                         if (1 & t[0]) throw t[1];
@@ -4490,7 +4473,7 @@
                     },
                     trys: [],
                     ops: []
-                }, f, y, t, g;
+                };
                 return g = {
                     next: verb(0),
                     throw: verb(1),
@@ -4597,7 +4580,7 @@
             function __read(o, n) {
                 var m = "function" == typeof Symbol && o[Symbol.iterator];
                 if (!m) return o;
-                var i = m.call(o), r, ar = [], e;
+                var r, e, i = m.call(o), ar = [];
                 try {
                     for(; (void 0 === n || n-- > 0) && !(r = i.next()).done;)ar.push(r.value);
                 } catch (error) {
@@ -4623,7 +4606,7 @@
                 return r;
             }
             function __spreadArray(to, from, pack) {
-                if (pack || 2 === arguments.length) for(var i = 0, l = from.length, ar; i < l; i++)!ar && i in from || (ar || (ar = Array.prototype.slice.call(from, 0, i)), ar[i] = from[i]);
+                if (pack || 2 === arguments.length) for(var ar, i = 0, l = from.length; i < l; i++)!ar && i in from || (ar || (ar = Array.prototype.slice.call(from, 0, i)), ar[i] = from[i]);
                 return to.concat(ar || Array.prototype.slice.call(from));
             }
             function __await(v) {
@@ -4631,7 +4614,7 @@
             }
             function __asyncGenerator(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
-                var g = generator.apply(thisArg, _arguments || []), i, q = [];
+                var i, g = generator.apply(thisArg, _arguments || []), q = [];
                 return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
@@ -4683,7 +4666,7 @@
             }
             function __asyncValues(o) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
-                var m = o[Symbol.asyncIterator], i;
+                var i, m = o[Symbol.asyncIterator];
                 return m ? m.call(o) : (o = __values(o), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
                     return this;
                 }, i);
