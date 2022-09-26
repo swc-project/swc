@@ -1705,7 +1705,7 @@
         },
         function(module1, exports1, __webpack_require__) {
             var Stack = __webpack_require__(91), assignMergeValue = __webpack_require__(48), baseFor = __webpack_require__(121), baseMergeDeep = __webpack_require__(123), isObject = __webpack_require__(14), keysIn = __webpack_require__(56), safeGet = __webpack_require__(54);
-            function baseMerge(object, source, srcIndex, customizer, stack) {
+            module1.exports = function baseMerge(object, source, srcIndex, customizer, stack) {
                 object !== source && baseFor(source, function(srcValue, key) {
                     if (stack || (stack = new Stack()), isObject(srcValue)) baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
                     else {
@@ -1713,8 +1713,7 @@
                         void 0 === newValue && (newValue = srcValue), assignMergeValue(object, key, newValue);
                     }
                 }, keysIn);
-            }
-            module1.exports = baseMerge;
+            };
         },
         function(module1, exports1, __webpack_require__) {
             var ListCache = __webpack_require__(24), stackClear = __webpack_require__(97), stackDelete = __webpack_require__(98), stackGet = __webpack_require__(99), stackHas = __webpack_require__(100), stackSet = __webpack_require__(101);
@@ -2971,14 +2970,13 @@
         },
         function(module1, exports1, __webpack_require__) {
             var Symbol1 = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
-            function baseToString(value) {
+            module1.exports = function baseToString(value) {
                 if ("string" == typeof value) return value;
                 if (isArray(value)) return arrayMap(value, baseToString) + "";
                 if (isSymbol(value)) return symbolToString ? symbolToString.call(value) : "";
                 var result = value + "";
                 return "0" == result && 1 / value == -INFINITY ? "-0" : result;
-            }
-            module1.exports = baseToString;
+            };
         },
         function(module1, exports1) {
             module1.exports = function(array, iteratee) {

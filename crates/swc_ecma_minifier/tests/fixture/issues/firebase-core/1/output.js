@@ -339,13 +339,9 @@
                 if (!b) throw Error("Invalid event type");
                 var h = p(e) ? !!e.capture : !!e, n = jb(a);
                 if (n || (a[cb] = n = new $a(a)), (c = n.add(b, c, d, h, f)).proxy) return c;
-                if (d = function() {
-                    function a(c) {
-                        return b.call(a.src, a.listener, c);
-                    }
-                    var b = mb;
-                    return a;
-                }(), c.proxy = d, d.src = a, d.listener = c, a.addEventListener) Va || (e = h), void 0 === e && (e = !1), a.addEventListener(b.toString(), d, e);
+                if (d = function a(c) {
+                    return mb.call(a.src, a.listener, c);
+                }, c.proxy = d, d.src = a, d.listener = c, a.addEventListener) Va || (e = h), void 0 === e && (e = !1), a.addEventListener(b.toString(), d, e);
                 else if (a.attachEvent) a.attachEvent(lb(b.toString()), d);
                 else if (a.addListener && a.removeListener) a.addListener(d);
                 else throw Error("addEventListener and attachEvent are unavailable.");
@@ -392,7 +388,7 @@
                 else if (b instanceof z) b.target = b.target || a;
                 else {
                     var e = b;
-                    b = new z(d, a), Aa(b, e);
+                    Aa(b = new z(d, a), e);
                 }
                 if (e = !0, c) for(var f = c.length - 1; 0 <= f; f--){
                     var h = b.g = c[f];

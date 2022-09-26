@@ -1863,11 +1863,10 @@
     }, NativeScrollbars.prototype.zeroWidthHack = function() {
         this.horiz.style.height = this.vert.style.width = mac && !mac_geMountainLion ? "12px" : "18px", this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none", this.disableHoriz = new Delayed(), this.disableVert = new Delayed();
     }, NativeScrollbars.prototype.enableZeroWidthBar = function(bar, delay, type) {
-        function maybeDisable() {
+        bar.style.pointerEvents = "auto", delay.set(1000, function maybeDisable() {
             var box = bar.getBoundingClientRect();
             ("vert" == type ? document.elementFromPoint(box.right - 1, (box.top + box.bottom) / 2) : document.elementFromPoint((box.right + box.left) / 2, box.bottom - 1)) != bar ? bar.style.pointerEvents = "none" : delay.set(1000, maybeDisable);
-        }
-        bar.style.pointerEvents = "auto", delay.set(1000, maybeDisable);
+        });
     }, NativeScrollbars.prototype.clear = function() {
         var parent = this.horiz.parentNode;
         parent.removeChild(this.horiz), parent.removeChild(this.vert);
@@ -4818,14 +4817,13 @@
         return !0;
     }, ContentEditableInput.prototype.receivedFocus = function() {
         var this$1 = this, input = this;
-        function poll() {
-            input.cm.state.focused && (input.pollSelection(), input.polling.set(input.cm.options.pollInterval, poll));
-        }
         this.selectionInEditor() ? setTimeout(function() {
             return this$1.pollSelection();
         }, 20) : runInOp(this.cm, function() {
             return input.cm.curOp.selectionChanged = !0;
-        }), this.polling.set(this.cm.options.pollInterval, poll);
+        }), this.polling.set(this.cm.options.pollInterval, function poll() {
+            input.cm.state.focused && (input.pollSelection(), input.polling.set(input.cm.options.pollInterval, poll));
+        });
     }, ContentEditableInput.prototype.selectionChanged = function() {
         var sel = this.getSelection();
         return sel.anchorNode != this.lastAnchorNode || sel.anchorOffset != this.lastAnchorOffset || sel.focusNode != this.lastFocusNode || sel.focusOffset != this.lastFocusOffset;
@@ -5023,10 +5021,9 @@
         });
     }, TextareaInput.prototype.fastPoll = function() {
         var missed = !1, input = this;
-        function p() {
+        input.pollingFast = !0, input.polling.set(20, function p() {
             input.poll() || missed ? (input.pollingFast = !1, input.slowPoll()) : (missed = !0, input.polling.set(60, p));
-        }
-        input.pollingFast = !0, input.polling.set(20, p);
+        });
     }, TextareaInput.prototype.poll = function() {
         var this$1 = this, cm = this.cm, input = this.textarea, prevInput = this.prevInput;
         if (this.contextMenuPending || !cm.state.focused || hasSelection(input) && !prevInput && !this.composing || cm.isReadOnly() || cm.options.disableInput || cm.state.keySeq) return !1;

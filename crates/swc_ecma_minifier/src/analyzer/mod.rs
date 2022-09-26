@@ -135,9 +135,10 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects: Vec<Id>,
 
-    used_by_nested_fn: bool,
-
+    pub used_in_non_child_fn: bool,
     pub accessed_props: Box<AHashMap<JsWord, u32>>,
+
+    pub used_recursively: bool,
 }
 
 impl VarUsageInfo {
@@ -363,6 +364,7 @@ where
                     self.data.report_usage(self.ctx, i, is_assign);
                     self.data.var_or_default(i.to_id()).mark_used_above_decl()
                 }
+                self.data.var_or_default(i.to_id()).mark_used_recursively();
                 return;
             }
         }
@@ -838,12 +840,15 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
-        n.visit_children_with(self);
-
         if let Some(n_id) = &n.ident {
             self.data
                 .var_or_default(n_id.to_id())
                 .mark_declared_as_fn_expr();
+
+            self.used_recursively
+                .insert(n_id.to_id(), RecursiveUsage::FnOrClass);
+
+            n.visit_children_with(self);
 
             {
                 for id in collect_infects_from(
@@ -858,6 +863,9 @@ where
                         .add_infects_to(id.to_id());
                 }
             }
+            self.used_recursively.remove(&n_id.to_id());
+        } else {
+            n.visit_children_with(self);
         }
     }
 

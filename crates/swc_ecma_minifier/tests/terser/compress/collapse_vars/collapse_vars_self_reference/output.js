@@ -1,10 +1,12 @@
 function f1() {
     var self = {
-        inner: function () {
+        inner: function() {
             return self;
-        },
+        }
     };
 }
 function f2() {
-    var self = { inner: self };
+    var self = {
+        inner: self
+    };
 }

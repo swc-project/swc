@@ -735,7 +735,10 @@ where
                 .data
                 .vars
                 .get(&i.to_id())
-                .map(|v| (v.ref_count == 0 && v.usage_count == 0) || v.var_kind.is_some())
+                .map(|v| {
+                    (!v.used_recursively && v.ref_count == 0 && v.usage_count == 0)
+                        || v.var_kind.is_some()
+                })
                 .unwrap_or(false);
 
             if can_remove_ident {
