@@ -63,8 +63,7 @@
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
                 var fn = le ? "reduce" : "reduceRight", number = (bytes[fn] ? bytes[fn] : Array.prototype[fn]).call(bytes, function(total, byte, i) {
-                    var exponent = le ? i : Math.abs(i + 1 - bytes.length);
-                    return total + BigInt(byte) * BYTE_TABLE[exponent];
+                    return total + BigInt(byte) * BYTE_TABLE[le ? i : Math.abs(i + 1 - bytes.length)];
                 }, BigInt(0));
                 if (void 0 !== _ref$signed && _ref$signed) {
                     var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
@@ -72,9 +71,9 @@
                 }
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {
-                var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
+                var x, _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = (x = number, Math.ceil(x.toString(2).length / 8)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -458,7 +457,7 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
-                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
+                paths1 = paths, paths = Array.isArray(paths1) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
@@ -3363,8 +3362,8 @@
             }, parseDuration = function(str) {
                 var match = /P(?:(\d*)Y)?(?:(\d*)M)?(?:(\d*)D)?(?:T(?:(\d*)H)?(?:(\d*)M)?(?:([\d.]*)S)?)?/.exec(str);
                 if (!match) return 0;
-                var _match$slice = match.slice(1), year = _match$slice[0], month = _match$slice[1], day = _match$slice[2], hour = _match$slice[3], minute = _match$slice[4], second = _match$slice[5];
-                return 31536000 * parseFloat(year || 0) + 2592000 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
+                var _match$slice = match.slice(1);
+                return 31536000 * parseFloat(_match$slice[0] || 0) + 2592000 * parseFloat(_match$slice[1] || 0) + 86400 * parseFloat(_match$slice[2] || 0) + 3600 * parseFloat(_match$slice[3] || 0) + 60 * parseFloat(_match$slice[4] || 0) + parseFloat(_match$slice[5] || 0);
             }, parsers = {
                 mediaPresentationDuration: function(value) {
                     return parseDuration(value);
@@ -5159,7 +5158,7 @@
                     var buf;
                     if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                     if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                    return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
+                    return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
                 }(value, encodingOrOffset, length);
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();

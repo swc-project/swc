@@ -2632,7 +2632,7 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context1 = new Context(tryLocsList || []);
+                    var context, state, protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator, generator = Object.create(protoGenerator.prototype), context1 = new Context(tryLocsList || []);
                     return generator._invoke = (context = context1, state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
@@ -2918,8 +2918,7 @@
         function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), toKey = __webpack_require__(43);
             module1.exports = function(object, path) {
-                path = castPath(path, object);
-                for(var index = 0, length = path.length; null != object && index < length;)object = object[toKey(path[index++])];
+                for(var index = 0, length = (path = castPath(path, object)).length; null != object && index < length;)object = object[toKey(path[index++])];
                 return index && index == length ? object : void 0;
             };
         },
@@ -2932,7 +2931,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
+            var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = __webpack_require__(234)(function(string) {
                 var result = [];
                 return 46 === string.charCodeAt(0) && result.push(""), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
@@ -2990,8 +2989,7 @@
             var assignValue = __webpack_require__(55), castPath = __webpack_require__(32), isIndex = __webpack_require__(31), isObject = __webpack_require__(14), toKey = __webpack_require__(43);
             module1.exports = function(object, path, value, customizer) {
                 if (!isObject(object)) return object;
-                path = castPath(path, object);
-                for(var index = -1, length = path.length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
+                for(var index = -1, length = (path = castPath(path, object)).length, lastIndex = length - 1, nested = object; null != nested && ++index < length;){
                     var key = toKey(path[index]), newValue = value;
                     if ("__proto__" === key || "constructor" === key || "prototype" === key) break;
                     if (index != lastIndex) {
@@ -3017,8 +3015,7 @@
         function(module1, exports1, __webpack_require__) {
             var castPath = __webpack_require__(32), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), isIndex = __webpack_require__(31), isLength = __webpack_require__(40), toKey = __webpack_require__(43);
             module1.exports = function(object, path, hasFunc) {
-                path = castPath(path, object);
-                for(var index = -1, length = path.length, result = !1; ++index < length;){
+                for(var index = -1, length = (path = castPath(path, object)).length, result = !1; ++index < length;){
                     var key = toKey(path[index]);
                     if (!(result = null != object && hasFunc(object, key))) break;
                     object = object[key];
@@ -6612,7 +6609,7 @@
                 });
                 function Exception(m, code) {
                     var _this;
-                    return classCallCheck_default()(this, Exception), _this = _super.call(this, m), defineProperty_default()(assertThisInitialized_default()(_this), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
+                    return classCallCheck_default()(this, Exception), defineProperty_default()(assertThisInitialized_default()(_this = _super.call(this, m)), "code", void 0), _this.code = code, Object.setPrototypeOf(assertThisInitialized_default()(_this), Exception.prototype), _this;
                 }
                 return Exception;
             }(__webpack_require__.n(wrapNativeSuper)()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
@@ -6620,14 +6617,16 @@
                 try {
                     return navigator.mediaDevices.enumerateDevices();
                 } catch (err) {
-                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
+                    var error = new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1);
+                    return Promise.reject(error);
                 }
             }
             function getUserMedia(constraints) {
                 try {
                     return navigator.mediaDevices.getUserMedia(constraints);
                 } catch (err) {
-                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
+                    var error = new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1);
+                    return Promise.reject(error);
                 }
             }
             function waitForVideo(video) {

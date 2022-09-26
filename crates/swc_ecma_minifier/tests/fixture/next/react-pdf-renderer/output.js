@@ -120,8 +120,8 @@
                     };
                 }
                 function d(e, t, r, n) {
-                    var i, o, a = Object.create((t && t.prototype instanceof y ? t : y).prototype), u = new k(n || []);
-                    return a._invoke = (i = u, o = "suspendedStart", function(t, n) {
+                    var i, o, a = t && t.prototype instanceof y ? t : y, u = Object.create(a.prototype), l = new k(n || []);
+                    return u._invoke = (i = l, o = "suspendedStart", function(t, n) {
                         if ("executing" === o) throw Error("Generator is already running");
                         if ("completed" === o) {
                             if ("throw" === t) throw n;
@@ -152,7 +152,7 @@
                             }
                             "throw" === l.type && (o = "completed", i.method = "throw", i.arg = l.arg);
                         }
-                    }), a;
+                    }), u;
                 }
                 function p(e, t, r) {
                     try {
@@ -1426,9 +1426,9 @@
                     props: r
                 });
             }, eC = function(e) {
-                var t = e.props || {}, r = Object.assign({}, n.pick(em, t), e.style || {});
+                var t = e.props || {}, r = n.pick(em, t), i = Object.assign({}, r, e.style || {});
                 return Object.assign({}, e, {
-                    style: r
+                    style: i
                 });
             }, eP = function(e) {
                 var t = n.evolve({
@@ -2687,10 +2687,10 @@
                 var n = r.children || [], i = e - rJ(r);
                 return r$(i, t, n);
             }, r1 = function(e, t, r) {
-                var n = td(e, t), i = n[0], o = n[1], a = r0(t, r, e), u = a[0], l = a[1];
+                var n = td(e, t), i = n[0], o = n[1], a = r0(t, r, e);
                 return [
-                    rX(u, i),
-                    rX(l, o)
+                    rX(a[0], i),
+                    rX(a[1], o)
                 ];
             }, r2 = function(e, t, r) {
                 return rZ(e) ? ts(e, t) : r1(e, t, r);
@@ -2764,7 +2764,7 @@
                 if (!e) return [];
                 for(var n = r8(e, t, r), i = [
                     n[0]
-                ], o = n[1]; null !== o;)i.push((n = r8(o, t + i.length, r))[0]), o = n[1];
+                ], o = n[1]; null !== o;)n = r8(o, t + i.length, r), i.push(n[0]), o = n[1];
                 return i;
             }, ne = function(e, t) {
                 for(var r = [], i = 1, o = 0; o < e.children.length; o += 1){
@@ -3211,7 +3211,8 @@
                 if (0 === o || 0 === a) return [];
                 var d = Math.sin(l * k / 360), p = Math.cos(l * k / 360), h = p * (t - n) / 2 + d * (r - i) / 2, y = -d * (t - n) / 2 + p * (r - i) / 2;
                 if (0 === h && 0 === y) return [];
-                var g = Math.pow(h, 2) / Math.pow(o = Math.abs(o), 2) + Math.pow(y, 2) / Math.pow(a = Math.abs(a), 2);
+                o = Math.abs(o), a = Math.abs(a);
+                var g = Math.pow(h, 2) / Math.pow(o, 2) + Math.pow(y, 2) / Math.pow(a, 2);
                 g > 1 && (o *= Math.sqrt(g), a *= Math.sqrt(g));
                 var v = P(t, r, n, i, o, a, void 0 === s ? 0 : s, void 0 === c ? 0 : c, d, p, h, y), b = A(v, 4), m = b[0], D = b[1], w = b[2], E = b[3], _ = Math.abs(E) / (k / 4);
                 0.0000001 > Math.abs(1.0 - _) && (_ = 1.0);
@@ -4043,8 +4044,8 @@
             }, tS = function(e, t) {
                 var r, n = (r = e, function(e, t) {
                     t && (r.info[e] = t);
-                }), i = t.props || {}, o = i.title || null, a = i.author || null, u = i.subject || null, l = i.keywords || null, s = i.creator || "react-pdf", c = i.producer || "react-pdf";
-                n("Title", o), n("Author", a), n("Subject", u), n("Keywords", l), n("Creator", s), n("Producer", c);
+                }), i = t.props || {};
+                n("Title", i.title || null), n("Author", i.author || null), n("Subject", i.subject || null), n("Keywords", i.keywords || null), n("Creator", i.creator || "react-pdf"), n("Producer", i.producer || "react-pdf");
             }, tA = function e(t, r, n, i) {
                 var o, a = null === (o = r.props) || void 0 === o ? void 0 : o.bookmark;
                 if (a) {
@@ -7152,14 +7153,14 @@
         },
         9745: function(e, t, r) {
             "use strict";
-            var n = r(1009), i = r(8575), o = !1, a = null;
-            if (i({}, function(e, t) {
-                if (!o) {
-                    if (o = !0, e) throw e;
-                    a = t;
+            var n = r(1009), i = !1, o = null;
+            if (r(8575)({}, function(e, t) {
+                if (!i) {
+                    if (i = !0, e) throw e;
+                    o = t;
                 }
-            }), !o) throw Error("Failed to load the yoga module - it needed to be loaded synchronously, but didn't");
-            e.exports = n(a.bind, a.lib);
+            }), !i) throw Error("Failed to load the yoga module - it needed to be loaded synchronously, but didn't");
+            e.exports = n(o.bind, o.lib);
         },
         1009: function(e, t, r) {
             "use strict";
@@ -7486,7 +7487,7 @@
                         else if (e.__isDate(o)) f = new Date(o.getTime());
                         else {
                             if (s && n.isBuffer(o)) return f = n.allocUnsafe ? n.allocUnsafe(o.length) : new n(o.length), o.copy(f), f;
-                            void 0 === a ? f = Object.create(d = Object.getPrototypeOf(o)) : (f = Object.create(a), d = a);
+                            void 0 === a ? (d = Object.getPrototypeOf(o), f = Object.create(d)) : (f = Object.create(a), d = a);
                         }
                         if (i) {
                             var f, d, p, h = u.indexOf(o);
@@ -18603,15 +18604,14 @@
                                     d = e;
                                 }), l(this._handle, "zlib binding closed");
                                 do var y = this._handle.writeSync(t, e, a, i, this._buffer, this._offset, o);
-                                while (!this._hadError && b(y[0], y[1]))
+                                while (!this._hadError && v(y[0], y[1]))
                                 if (this._hadError) throw d;
                                 if (h >= s) throw O(this), RangeError(c);
-                                var g = n.concat(p, h);
-                                return O(this), g;
+                                return O(this), n.concat(p, h);
                             }
                             l(this._handle, "zlib binding closed");
-                            var v = this._handle.write(t, e, a, i, this._buffer, this._offset, o);
-                            function b(s, c) {
+                            var g = this._handle.write(t, e, a, i, this._buffer, this._offset, o);
+                            function v(s, c) {
                                 if (this && (this.buffer = null, this.callback = null), !u._hadError) {
                                     var d = o - c;
                                     if (l(d >= 0, "have should not go down"), d > 0) {
@@ -18621,13 +18621,13 @@
                                     if ((0 === c || u._offset >= u._chunkSize) && (o = u._chunkSize, u._offset = 0, u._buffer = n.allocUnsafe(u._chunkSize)), 0 === c) {
                                         if (a += i - s, i = s, !f) return !0;
                                         var g = u._handle.write(t, e, a, i, u._buffer, u._offset, u._chunkSize);
-                                        return g.callback = b, void (g.buffer = e);
+                                        return g.callback = v, void (g.buffer = e);
                                     }
                                     if (!f) return !1;
                                     r();
                                 }
                             }
-                            v.buffer = e, v.callback = b;
+                            g.buffer = e, g.callback = v;
                         }, u.inherits(D, T), u.inherits(w, T), u.inherits(E, T), u.inherits(_, T), u.inherits(x, T), u.inherits(S, T), u.inherits(A, T);
                     },
                     533: function(e, t) {
@@ -20018,7 +20018,7 @@
                                 var n;
                                 if (t < 0 || e.byteLength < t) throw RangeError('"offset" is outside of buffer bounds');
                                 if (e.byteLength < t + (r || 0)) throw RangeError('"length" is outside of buffer bounds');
-                                return Object.setPrototypeOf(n = void 0 === t && void 0 === r ? new Uint8Array(e) : void 0 === r ? new Uint8Array(e, t) : new Uint8Array(e, t, r), u.prototype), n;
+                                return n = void 0 === t && void 0 === r ? new Uint8Array(e) : void 0 === r ? new Uint8Array(e, t) : new Uint8Array(e, t, r), Object.setPrototypeOf(n, u.prototype), n;
                             }(e, t, r);
                             if ("number" == typeof e) throw TypeError('The "value" argument must not be of type number. Received type number');
                             var n = e.valueOf && e.valueOf();
@@ -25113,7 +25113,7 @@
                     return e;
                 }
                 function t5(e, t) {
-                    eM(t3, t, e), eM(t2, e, e), eM(t1, t0, e), t = B(t), eB(t1, e), eM(t1, t, e);
+                    eM(t3, t, e), eM(t2, e, e), eM(t1, t0, e), eB(t1, e), eM(t1, t = B(t), e);
                 }
                 function t8(e) {
                     eB(t1, e), eB(t2, e), eB(t3, e);

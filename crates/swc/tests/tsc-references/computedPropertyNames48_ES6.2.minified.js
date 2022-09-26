@@ -1,9 +1,9 @@
 //// [computedPropertyNames48_ES6.ts]
-var E, a;
+var E;
 !function(E) {
     E[E.x = 0] = "x";
 }(E || (E = {})), extractIndexer({
-    [a]: ""
+    [void 0]: ""
 }), extractIndexer({
     [E.x]: ""
 }), extractIndexer({

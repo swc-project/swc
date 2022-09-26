@@ -560,7 +560,7 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    var color1, color2, h, s, v, i, f, p, q, t, mod, r, g, b, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -626,25 +626,25 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (r = color2.r, g = color2.g, b = color2.b, rgb = {
-                        r: 255 * bound01(r, 255),
-                        g: 255 * bound01(g, 255),
-                        b: 255 * bound01(b, 255)
-                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
+                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (rgb = {
+                        r: 255 * bound01(color2.r, 255),
+                        g: 255 * bound01(color2.g, 255),
+                        b: 255 * bound01(color2.b, 255)
+                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r = [
                         v,
                         q,
                         p,
                         p,
                         t,
                         v
-                    ][mod = i % 6], g1 = [
+                    ][mod = i % 6], g = [
                         t,
                         v,
                         v,
                         q,
                         p,
                         p
-                    ][mod], b1 = [
+                    ][mod], b = [
                         p,
                         p,
                         t,
@@ -652,9 +652,9 @@
                         v,
                         q
                     ][mod], rgb = {
-                        r: 255 * r1,
-                        g: 255 * g1,
-                        b: 255 * b1
+                        r: 255 * r,
+                        g: 255 * g,
+                        b: 255 * b
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -1397,7 +1397,7 @@
                 ].filter(Boolean).join("-")));
                 return {
                     variable: cssVariable,
-                    reference: (fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback ? ", " + fallback : "") + ")")
+                    reference: "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + ((fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference) ? ", " + fallback : "") + ")"
                 };
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
@@ -1597,7 +1597,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, opts, fallback, hex, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1695,8 +1695,8 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
-                isBgDark || (color = "gray.800");
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", color = "white";
+                "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light") || (color = "gray.800");
                 var borderColor = mode("white", "gray.800")(props);
                 return {
                     bg: bg,
@@ -1762,14 +1762,14 @@
                 },
                 variants: {
                     solid: function(props) {
-                        var c = props.colorScheme, theme = props.theme, dark = transparentize(c + ".500", 0.6)(theme);
+                        var c = props.colorScheme, dark = transparentize(c + ".500", 0.6)(props.theme);
                         return {
                             bg: mode(c + ".500", dark)(props),
                             color: mode("white", "whiteAlpha.800")(props)
                         };
                     },
                     subtle: function(props) {
-                        var c = props.colorScheme, theme = props.theme, darkBg = transparentize(c + ".200", 0.16)(theme);
+                        var c = props.colorScheme, darkBg = transparentize(c + ".200", 0.16)(props.theme);
                         return {
                             bg: mode(c + ".100", darkBg)(props),
                             color: mode(c + ".800", c + ".200")(props)
@@ -2260,7 +2260,7 @@
                     }
                 };
             }, variantFilled = function(props) {
-                var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
+                var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor;
                 return {
                     field: {
                         border: "2px solid",
@@ -2278,7 +2278,7 @@
                             cursor: "not-allowed"
                         },
                         _invalid: {
-                            borderColor: getColor(theme, ec)
+                            borderColor: getColor(theme, _getDefaults2.errorBorderColor)
                         },
                         _focusVisible: {
                             bg: "transparent",
@@ -4448,7 +4448,7 @@
                         status: options1.status,
                         requestClose: !1,
                         containerStyle: options1.containerStyle
-                    }), position1 = toast.position, id1 = toast.id;
+                    }), position1 = toast.position;
                     return setState(function(prevToasts) {
                         var _prevToasts$position, _prevToasts$position2, _extends3, toasts = position1.includes("top") ? [
                             toast
@@ -4456,7 +4456,7 @@
                             toast
                         ]);
                         return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position1] = toasts, _extends3));
-                    }), id1;
+                    }), toast.id;
                 },
                 update: function(id, options) {
                     id && setState(function(prevState) {

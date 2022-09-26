@@ -740,7 +740,6 @@
         });
     }
     function initWrapperState$1(element, props) {
-        var node = element;
         !function(props) {
             checkControlledValueProps("select", props);
             for(var i = 0; i < valuePropNames.length; i++){
@@ -750,7 +749,7 @@
                     props.multiple && !isArray ? error("The `%s` prop supplied to <select> must be an array if `multiple` is true.%s", propName, getDeclarationErrorAddendum()) : !props.multiple && isArray && error("The `%s` prop supplied to <select> must be a scalar value if `multiple` is false.%s", propName, getDeclarationErrorAddendum());
                 }
             }
-        }(props), node._wrapperState = {
+        }(props), element._wrapperState = {
             wasMultiple: !!props.multiple
         }, void 0 === props.value || void 0 === props.defaultValue || didWarnValueDefaultValue$1 || (error("Select elements must be either controlled or uncontrolled (specify either the value prop, or the defaultValue prop, but not both). Decide between using a controlled or uncontrolled select element and remove one of these props. More info: https://reactjs.org/link/controlled-components"), didWarnValueDefaultValue$1 = !0);
     }
@@ -8137,10 +8136,7 @@
         }(root, lanes);
         if (a = workInProgressRootIncludedLanes, (a & (b = workInProgressRootUpdatedLanes)) != 0) prepareFreshStack(root, 0);
         else if (0 !== exitStatus) {
-            if (2 === exitStatus && (executionContext |= 64, root.hydrate && (root.hydrate = !1, clearContainer(root.containerInfo)), 0 !== (lanes = getLanesToRetrySynchronouslyOnError(root)) && (exitStatus = renderRootSync(root, lanes))), 1 === exitStatus) {
-                var fatalError = workInProgressRootFatalError;
-                throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
-            }
+            if (2 === exitStatus && (executionContext |= 64, root.hydrate && (root.hydrate = !1, clearContainer(root.containerInfo)), 0 !== (lanes = getLanesToRetrySynchronouslyOnError(root)) && (exitStatus = renderRootSync(root, lanes))), 1 === exitStatus) throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), workInProgressRootFatalError;
             var finishedWork = root.current.alternate;
             root.finishedWork = finishedWork, root.finishedLanes = lanes, function(root, exitStatus, lanes) {
                 switch(exitStatus){
@@ -8203,11 +8199,8 @@
     }
     function performSyncWorkOnRoot(root) {
         if ((48 & executionContext) != 0) throw Error("Should not already be working.");
-        if (flushPassiveEffects(), root === workInProgressRoot && (a = root.expiredLanes, b = workInProgressRootRenderLanes, (a & b) != 0) ? (lanes = workInProgressRootRenderLanes, exitStatus = renderRootSync(root, lanes), a1 = workInProgressRootIncludedLanes, (a1 & (b1 = workInProgressRootUpdatedLanes)) != 0 && (lanes = getNextLanes(root, lanes), exitStatus = renderRootSync(root, lanes))) : (lanes = getNextLanes(root, 0), exitStatus = renderRootSync(root, lanes)), 0 !== root.tag && 2 === exitStatus && (executionContext |= 64, root.hydrate && (root.hydrate = !1, clearContainer(root.containerInfo)), 0 !== (lanes = getLanesToRetrySynchronouslyOnError(root)) && (exitStatus = renderRootSync(root, lanes))), 1 === exitStatus) {
-            var a, b, a1, b1, lanes, exitStatus, fatalError = workInProgressRootFatalError;
-            throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), fatalError;
-        }
-        var finishedWork = root.current.alternate;
+        if (flushPassiveEffects(), root === workInProgressRoot && (a = root.expiredLanes, b = workInProgressRootRenderLanes, (a & b) != 0) ? (lanes = workInProgressRootRenderLanes, exitStatus = renderRootSync(root, lanes), a1 = workInProgressRootIncludedLanes, (a1 & (b1 = workInProgressRootUpdatedLanes)) != 0 && (lanes = getNextLanes(root, lanes), exitStatus = renderRootSync(root, lanes))) : (lanes = getNextLanes(root, 0), exitStatus = renderRootSync(root, lanes)), 0 !== root.tag && 2 === exitStatus && (executionContext |= 64, root.hydrate && (root.hydrate = !1, clearContainer(root.containerInfo)), 0 !== (lanes = getLanesToRetrySynchronouslyOnError(root)) && (exitStatus = renderRootSync(root, lanes))), 1 === exitStatus) throw prepareFreshStack(root, 0), markRootSuspended$1(root, lanes), ensureRootIsScheduled(root, now()), workInProgressRootFatalError;
+        var a, b, a1, b1, lanes, exitStatus, finishedWork = root.current.alternate;
         return root.finishedWork = finishedWork, root.finishedLanes = lanes, commitRoot(root), ensureRootIsScheduled(root, now()), null;
     }
     function batchedUpdates$1(fn, a) {

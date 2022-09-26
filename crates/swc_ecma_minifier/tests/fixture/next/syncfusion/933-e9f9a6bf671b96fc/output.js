@@ -206,7 +206,7 @@
                     var obj1 = arguments_1[i];
                     Object.keys(obj1).forEach(function(key) {
                         var clone, src = result[key], copy = obj1[key];
-                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
+                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? (clone = src || {}, Array.isArray(clone) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep)) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                     });
                 }(i);
                 return result;
@@ -2249,7 +2249,9 @@
                 julilanOffset = (yPrefix = Math.floor((julianNumber - 1867216.25) / 36524.25)) - Math.floor(yPrefix / 4.) + 1;
                 var b = julianNumber + julilanOffset + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c);
                 day = b - d - Math.floor(30.6001 * Math.floor((b - d) / 30.6001)), (month = Math.floor((b - d) / 20.6001)) > 13 && (c += 1, month -= 12), month -= 1, year = c - 4716;
-                var modifiedJulianDate = julianNumber - 2400000, iyear = 10631. / 30., z = julianNumber - 1948084, cyc = Math.floor(z / 10631.), j = Math.floor(((z -= 10631 * cyc) - 0.1335) / iyear), im = Math.floor(((z -= Math.floor(j * iyear + 0.1335)) + 28.5001) / 29.5);
+                var modifiedJulianDate = julianNumber - 2400000, iyear = 10631. / 30., z = julianNumber - 1948084, cyc = Math.floor(z / 10631.), j = Math.floor(((z -= 10631 * cyc) - 0.1335) / iyear);
+                z -= Math.floor(j * iyear + 0.1335);
+                var im = Math.floor((z + 28.5001) / 29.5);
                 13 === im && (im = 12);
                 for(var tempDay = z - Math.floor(29.5001 * im - 29), i = 0; i < dateCorrection.length && !(dateCorrection[i] > modifiedJulianDate); i++);
                 var iln = i + 16260, ii = Math.floor((iln - 1) / 12), hYear = ii + 1, hmonth = iln - 12 * ii, hDate = modifiedJulianDate - dateCorrection[i - 1] + 1;

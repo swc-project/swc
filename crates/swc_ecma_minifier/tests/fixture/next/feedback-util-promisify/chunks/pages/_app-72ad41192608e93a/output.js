@@ -163,7 +163,7 @@
                                 var f;
                                 if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
                                 if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
-                                return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
+                                return f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Object.setPrototypeOf(f, Buffer.prototype), f;
                             }(e, r, t);
                             if ("number" == typeof e) throw TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();

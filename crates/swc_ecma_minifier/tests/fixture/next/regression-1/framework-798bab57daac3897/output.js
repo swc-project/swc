@@ -5452,13 +5452,9 @@
                 el(a, b, null, null);
             }, ll.prototype.unmount = kl.prototype.unmount = function() {
                 var a = this._internalRoot;
-                if (null !== a) {
-                    this._internalRoot = null;
-                    var b = a.containerInfo;
-                    Qk(function() {
-                        el(null, a, null, null);
-                    }), b[tf] = null;
-                }
+                null !== a && (this._internalRoot = null, Qk(function() {
+                    el(null, a, null, null);
+                }), a.containerInfo[tf] = null);
             }, ll.prototype.unstable_scheduleHydration = function(a) {
                 if (a) {
                     var b = Gc();

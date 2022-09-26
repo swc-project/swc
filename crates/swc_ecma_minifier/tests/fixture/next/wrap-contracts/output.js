@@ -3500,7 +3500,7 @@
             }, __asyncGenerator = this && this.__asyncGenerator || function(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
                 var i, g = generator.apply(thisArg, _arguments || []), q = [];
-                return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+                return verb("next"), verb("throw"), verb("return"), (i = {})[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
                 function verb(n) {
@@ -4827,7 +4827,7 @@
             }, __asyncGenerator = this && this.__asyncGenerator || function(thisArg, _arguments, generator) {
                 if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
                 var i, g = generator.apply(thisArg, _arguments || []), q = [];
-                return i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function() {
+                return verb("next"), verb("throw"), verb("return"), (i = {})[Symbol.asyncIterator] = function() {
                     return this;
                 }, i;
                 function verb(n) {
@@ -7408,7 +7408,7 @@
                     if (e < 0) {
                         for(zs = z + '.'; ++e; zs += z);
                         str = zs + str;
-                    } else if (len = str.length, ++e > len) {
+                    } else if (++e > (len = str.length)) {
                         for(zs = z, e -= len; --e; zs += z);
                         str += zs;
                     } else e < len && (str = str.slice(0, e) + '.' + str.slice(e));
@@ -8851,7 +8851,7 @@
                 let buf;
                 if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                 if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
+                return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
             }
             function fromObject(obj) {
                 if (Buffer.isBuffer(obj)) {
@@ -18741,7 +18741,7 @@
                         }));
                     }
                 }
-                Array.isArray(tasks) ? (results = [], pending = len = tasks.length) : (keys = Object.keys(tasks), results = {}, pending = len = keys.length), next = limit, pending ? keys ? keys.some(function(key, i) {
+                Array.isArray(tasks) ? (results = [], pending = len = tasks.length) : (results = {}, pending = len = (keys = Object.keys(tasks)).length), next = limit, pending ? keys ? keys.some(function(key, i) {
                     return tasks[key](function(err, result) {
                         each(key, err, result);
                     }), i === limit - 1;

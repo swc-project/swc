@@ -215,8 +215,8 @@
             return ret;
         },
         map: function(elems, callback, arg) {
-            var value, i = 0, length = elems.length, isArray = isArraylike(elems), ret = [];
-            if (isArray) for(; i < length; i++)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
+            var value, i = 0, length = elems.length, ret = [];
+            if (isArraylike(elems)) for(; i < length; i++)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
             else for(i in elems)null != (value = callback(elems[i], i, arg)) && (ret[ret.length] = value);
             return core_concat.apply([], ret);
         },

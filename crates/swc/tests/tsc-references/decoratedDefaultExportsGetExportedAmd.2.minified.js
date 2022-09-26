@@ -11,10 +11,10 @@ define([
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: ()=>Foo
-    });
+    }), _tsDecorate = _tsDecorate.default;
     let Foo = class {
     };
-    Foo = (_tsDecorate = _tsDecorate.default)([
+    Foo = _tsDecorate([
         decorator
     ], Foo);
 });
@@ -31,10 +31,10 @@ define([
     }), Object.defineProperty(exports, "default", {
         enumerable: !0,
         get: ()=>_class
-    });
+    }), _tsDecorate = _tsDecorate.default;
     let _class = class {
     };
-    _class = (_tsDecorate = _tsDecorate.default)([
+    _class = _tsDecorate([
         decorator
     ], _class);
 });

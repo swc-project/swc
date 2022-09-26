@@ -857,8 +857,7 @@
         for(var sp = void 0, i = 0; i < line.markedSpans.length; ++i)if ((sp = line.markedSpans[i]).marker.collapsed && !sp.marker.widgetNode && sp.from == span.to && (null == sp.to || sp.to != span.from) && (sp.marker.inclusiveLeft || span.marker.inclusiveRight) && lineIsHiddenInner(doc, line, sp)) return !0;
     }
     function heightAtLine(lineObj) {
-        lineObj = visualLine(lineObj);
-        for(var h = 0, chunk = lineObj.parent, i = 0; i < chunk.lines.length; ++i){
+        for(var h = 0, chunk = (lineObj = visualLine(lineObj)).parent, i = 0; i < chunk.lines.length; ++i){
             var line = chunk.lines[i];
             if (line == lineObj) break;
             h += line.height;
@@ -4621,7 +4620,7 @@
     function findPosV(cm, pos, dir, unit) {
         var target, y, doc = cm.doc, x = pos.left;
         if ("page" == unit) {
-            var moveAmount = Math.max(Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight) - 0.5 * textHeight(cm.display), 3);
+            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
         for(; (target = coordsChar(cm, x, y)).outside;){

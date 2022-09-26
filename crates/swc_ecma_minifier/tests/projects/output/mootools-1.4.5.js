@@ -507,7 +507,7 @@ String.implement({
         return Math.min(max, Math.max(min, this));
     },
     round: function(precision) {
-        return Math.round(this * (precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0))) / precision;
+        return precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0), Math.round(this * precision) / precision;
     },
     times: function(fn, bind) {
         for(var i = 0; i < this; i++)fn.call(bind, i, this);

@@ -2066,7 +2066,7 @@
                 if (Array.isArray(src)) {
                     var newsrc = [];
                     src.forEach(function(srcobj) {
-                        Array.isArray(srcobj = filterSource(srcobj)) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
+                        srcobj = filterSource(srcobj), Array.isArray(srcobj) ? newsrc = newsrc.concat(srcobj) : isObject(srcobj) && newsrc.push(srcobj);
                     }), src = newsrc;
                 } else src = "string" == typeof src && src.trim() ? [
                     fixSource({
@@ -5901,10 +5901,10 @@
                 }, _proto.src = function(source) {
                     return this.handleSrc_(source, !1);
                 }, _proto.src_ = function(source) {
-                    var str1, str2, _this15 = this, sourceTech = this.selectSource([
+                    var _this15 = this, sourceTech = this.selectSource([
                         source
                     ]);
-                    return !sourceTech || ((str1 = sourceTech.tech, str2 = this.techName_, toTitleCase$1(str1) !== toTitleCase$1(str2)) ? (this.changingSrc_ = !0, this.loadTech_(sourceTech.tech, sourceTech.source), this.tech_.ready(function() {
+                    return !sourceTech || (toTitleCase$1(sourceTech.tech) !== toTitleCase$1(this.techName_) ? (this.changingSrc_ = !0, this.loadTech_(sourceTech.tech, sourceTech.source), this.tech_.ready(function() {
                         _this15.changingSrc_ = !1;
                     }), !1) : (this.ready(function() {
                         this.tech_.constructor.prototype.hasOwnProperty("setSource") ? this.techCall_("setSource", source) : this.techCall_("src", source.src), this.changingSrc_ = !1;
@@ -8460,8 +8460,8 @@
                         return data;
                     },
                     generateSampleTableForFrame: function(frame, baseDataOffset) {
-                        var samples = [];
-                        return samples.push(sampleForFrame(frame, baseDataOffset || 0)), samples;
+                        var sample, samples = [];
+                        return sample = sampleForFrame(frame, baseDataOffset || 0), samples.push(sample), samples;
                     },
                     concatenateNalDataForFrame: function(frame) {
                         var i, currentNal, dataOffset = 0, nalsByteLength = frame.byteLength, numberOfNals = frame.length, data = new Uint8Array(nalsByteLength + 4 * numberOfNals), view = new DataView(data.buffer);
@@ -8497,7 +8497,7 @@
                 }, silence_1 = function() {
                     if (!silence) {
                         var metaTable;
-                        silence = Object.keys(metaTable = {
+                        metaTable = {
                             96000: [
                                 highPrefix,
                                 [
@@ -8711,7 +8711,7 @@
                                     7
                                 ]
                             ]
-                        }).reduce(function(obj, key) {
+                        }, silence = Object.keys(metaTable).reduce(function(obj, key) {
                             return obj[key] = new Uint8Array(metaTable[key].reduce(function(arr, part) {
                                 return arr.concat(part);
                             }, [])), obj;
@@ -8749,8 +8749,8 @@
                     return sum;
                 }, audioFrameUtils = {
                     prefixWithSilence: function(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime) {
-                        var baseMediaDecodeTimeTs, silentFrame, i, firstFrame, frameDuration = 0, audioFillFrameCount = 0, audioFillDuration = 0;
-                        if (frames.length && (baseMediaDecodeTimeTs = clock.audioTsToVideoTs(track.baseMediaDecodeTime, track.samplerate), frameDuration = Math.ceil(clock.ONE_SECOND_IN_TS / (track.samplerate / 1024)), audioAppendStartTs && videoBaseMediaDecodeTime && (audioFillDuration = (audioFillFrameCount = Math.floor((baseMediaDecodeTimeTs - Math.max(audioAppendStartTs, videoBaseMediaDecodeTime)) / frameDuration)) * frameDuration), !(audioFillFrameCount < 1) && !(audioFillDuration > clock.ONE_SECOND_IN_TS / 2))) {
+                        var baseMediaDecodeTimeTs, silentFrame, i, firstFrame, frameDuration = 0, audioGapDuration = 0, audioFillFrameCount = 0, audioFillDuration = 0;
+                        if (frames.length && (baseMediaDecodeTimeTs = clock.audioTsToVideoTs(track.baseMediaDecodeTime, track.samplerate), frameDuration = Math.ceil(clock.ONE_SECOND_IN_TS / (track.samplerate / 1024)), audioAppendStartTs && videoBaseMediaDecodeTime && (audioGapDuration = baseMediaDecodeTimeTs - Math.max(audioAppendStartTs, videoBaseMediaDecodeTime), audioFillDuration = (audioFillFrameCount = Math.floor(audioGapDuration / frameDuration)) * frameDuration), !(audioFillFrameCount < 1) && !(audioFillDuration > clock.ONE_SECOND_IN_TS / 2))) {
                             for((silentFrame = silence_1()[track.samplerate]) || (silentFrame = frames[0].data), i = 0; i < audioFillFrameCount; i++)firstFrame = frames[0], frames.splice(0, 0, {
                                 data: silentFrame,
                                 dts: firstFrame.dts - frameDuration,
@@ -10345,10 +10345,10 @@
                     var trafs = findBox(segment, [
                         "moof",
                         "traf"
-                    ]), mdats = findBox(segment, [
-                        "mdat"
                     ]), captionNals = {}, mdatTrafPairs = [];
-                    return mdats.forEach(function(mdat, index) {
+                    return findBox(segment, [
+                        "mdat"
+                    ]).forEach(function(mdat, index) {
                         var matchingTraf = trafs[index];
                         mdatTrafPairs.push({
                             mdat: mdat,
@@ -10475,11 +10475,11 @@
                     }
                     return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90e3);
                 }, getVideoTrackIds = function(init) {
-                    var traks = findBox(init, [
+                    var videoTrackIds = [];
+                    return findBox(init, [
                         "moov",
                         "trak"
-                    ]), videoTrackIds = [];
-                    return traks.forEach(function(trak) {
+                    ]).forEach(function(trak) {
                         var hdlrs = findBox(trak, [
                             "mdia",
                             "hdlr"
@@ -10495,11 +10495,11 @@
                     var index = 0 === mdhd[0] ? 12 : 20;
                     return toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
                 }, getTracks = function(init) {
-                    var traks = findBox(init, [
+                    var tracks = [];
+                    return findBox(init, [
                         "moov",
                         "trak"
-                    ]), tracks = [];
-                    return traks.forEach(function(trak) {
+                    ]).forEach(function(trak) {
                         var track = {}, tkhd = findBox(trak, [
                             "tkhd"
                         ])[0];
@@ -11081,10 +11081,10 @@
                     xhr.abort();
                 });
             }, getProgressStats = function(progressEvent) {
-                var request = progressEvent.target, stats = {
+                var stats = {
                     bandwidth: 1 / 0,
                     bytesReceived: 0,
-                    roundTripTime: Date.now() - request.requestTime || 0
+                    roundTripTime: Date.now() - progressEvent.target.requestTime || 0
                 };
                 return stats.bytesReceived = progressEvent.loaded, stats.bandwidth = Math.floor(stats.bytesReceived / stats.roundTripTime * 8000), stats;
             }, handleErrors = function(error, request) {
