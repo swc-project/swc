@@ -166,6 +166,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "4869454dd215468e.js",
     "48b6f8ce65d3b3ee.js",
     "4c71e11fbbc56349.js",
+    "4d833cbc56caaaf9.js",
+    "4e7c58761e24d77c.js",
+    "4e7c58761e24d77c.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
