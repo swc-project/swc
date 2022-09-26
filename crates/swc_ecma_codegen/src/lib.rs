@@ -2763,8 +2763,6 @@ where
         keyword!("return");
 
         if let Some(ref arg) = n.arg {
-            srcmap!(arg, false);
-
             let need_paren = n
                 .arg
                 .as_deref()
