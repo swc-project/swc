@@ -2881,6 +2881,8 @@ where
 
         punct!("{");
         self.emit_list(n.span(), Some(&n.cases), ListFormat::CaseBlockClauses)?;
+
+        srcmap!(n, false, true);
         punct!("}");
     }
 
