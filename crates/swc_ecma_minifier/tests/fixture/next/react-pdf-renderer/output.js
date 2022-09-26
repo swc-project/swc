@@ -3211,7 +3211,8 @@
                 if (0 === o || 0 === a) return [];
                 var d = Math.sin(l * k / 360), p = Math.cos(l * k / 360), h = p * (t - n) / 2 + d * (r - i) / 2, y = -d * (t - n) / 2 + p * (r - i) / 2;
                 if (0 === h && 0 === y) return [];
-                var g = Math.pow(h, 2) / Math.pow(o = Math.abs(o), 2) + Math.pow(y, 2) / Math.pow(a = Math.abs(a), 2);
+                o = Math.abs(o), a = Math.abs(a);
+                var g = Math.pow(h, 2) / Math.pow(o, 2) + Math.pow(y, 2) / Math.pow(a, 2);
                 g > 1 && (o *= Math.sqrt(g), a *= Math.sqrt(g));
                 var v = P(t, r, n, i, o, a, void 0 === s ? 0 : s, void 0 === c ? 0 : c, d, p, h, y), b = A(v, 4), m = b[0], D = b[1], w = b[2], E = b[3], _ = Math.abs(E) / (k / 4);
                 0.0000001 > Math.abs(1.0 - _) && (_ = 1.0);

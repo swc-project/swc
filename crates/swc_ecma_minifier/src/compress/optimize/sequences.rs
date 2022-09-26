@@ -1011,47 +1011,47 @@ where
                     }
                 }
 
-                return true;
+                true
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.should_preserve_property_access(
+                if !self.should_preserve_property_access(
                     obj,
                     PropertyAccessOpts {
                         allow_getter: false,
                         only_ident: false,
                     },
                 ) {
-                    return false;
-                }
-
-                if let MemberProp::Computed(prop) = prop {
-                    if !self.is_skippable_for_seq(a, &prop.expr) {
-                        return false;
+                    if let MemberProp::Computed(prop) = prop {
+                        if !self.is_skippable_for_seq(a, &prop.expr) {
+                            return false;
+                        }
                     }
+
+                    return true;
                 }
 
-                return true;
+                false
             }
 
-            Expr::Lit(..) => return true,
+            Expr::Lit(..) => true,
 
-            Expr::Yield(..) | Expr::Await(..) => return false,
+            Expr::Yield(..) | Expr::Await(..) => false,
 
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof") | op!(unary, "-") | op!(unary, "+"),
                 arg,
                 ..
-            }) => return self.is_skippable_for_seq(a, arg),
+            }) => self.is_skippable_for_seq(a, arg),
 
             Expr::Bin(BinExpr { left, right, .. }) => {
-                return self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
+                self.is_skippable_for_seq(a, left) && self.is_skippable_for_seq(a, right)
             }
 
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
             }) => {
-                return self.is_skippable_for_seq(a, test)
+                self.is_skippable_for_seq(a, test)
                     && self.is_skippable_for_seq(a, cons)
                     && self.is_skippable_for_seq(a, alt)
             }
@@ -1106,7 +1106,7 @@ where
                     return false;
                 }
 
-                return self.is_skippable_for_seq(a, &e.right);
+                self.is_skippable_for_seq(a, &e.right)
             }
 
             Expr::Object(e) => {
@@ -1148,7 +1148,7 @@ where
 
                 // TODO: Check for side effects in object properties.
 
-                return true;
+                true
             }
 
             Expr::Array(e) => {
@@ -1159,7 +1159,7 @@ where
                     }
                 }
 
-                return true;
+                true
             }
 
             Expr::Call(e) => {
@@ -1178,34 +1178,104 @@ where
                     }
                 }
 
-                // TODO(kdy1): We can calculate side effects of call expressions
-                // in some cases.
+                if let Callee::Expr(callee) = &e.callee {
+                    if callee.is_pure_callee(&self.expr_ctx) {
+                        if !self.is_skippable_for_seq(a, callee) {
+                            return false;
+                        }
+
+                        for arg in &e.args {
+                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+                }
+
+                false
             }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
-                return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
+                exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
             }
 
             Expr::TaggedTpl(..) | Expr::New(..) => {
                 // TODO(kdy1): We can optimize some known calls.
 
-                return false;
+                false
             }
 
-            Expr::Tpl(Tpl { exprs, .. }) => {
-                return exprs.iter().all(|e| self.is_skippable_for_seq(a, e));
-            }
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().all(|e| self.is_skippable_for_seq(a, e)),
 
-            _ => {}
+            // Expressions without any effects
+            Expr::This(_)
+            | Expr::Fn(_)
+            | Expr::MetaProp(_)
+            | Expr::Arrow(_)
+            | Expr::PrivateName(_) => true,
+
+            Expr::Update(..) => false,
+            Expr::SuperProp(..) => false,
+            Expr::Class(_) => e.may_have_side_effects(&self.expr_ctx),
+
+            Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
+            Expr::Unary(e) => self.is_skippable_for_seq(a, &e.arg),
+
+            Expr::OptChain(OptChainExpr { base, .. }) => match base {
+                OptChainBase::Member(e) => {
+                    if !self.should_preserve_property_access(
+                        &e.obj,
+                        PropertyAccessOpts {
+                            allow_getter: false,
+                            only_ident: false,
+                        },
+                    ) {
+                        if let MemberProp::Computed(prop) = &e.prop {
+                            if !self.is_skippable_for_seq(a, &prop.expr) {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    false
+                }
+                OptChainBase::Call(e) => {
+                    if e.callee.is_pure_callee(&self.expr_ctx) {
+                        if !self.is_skippable_for_seq(a, &e.callee) {
+                            return false;
+                        }
+
+                        for arg in &e.args {
+                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+
+                    false
+                }
+            },
+
+            Expr::Invalid(_) => true,
+
+            Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::TsTypeAssertion(_)
+            | Expr::TsConstAssertion(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsAs(_)
+            | Expr::TsInstantiation(_)
+            | Expr::TsSatisfaction(_) => unreachable!("jsx/ts is not supported"),
         }
-
-        if !e.may_have_side_effects(&self.expr_ctx) {
-            return true;
-        }
-
-        log_abort!("sequences: skip: Unknown expr: {}", dump(e, true));
-
-        false
     }
 
     /// Returns true if something is modified.

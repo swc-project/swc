@@ -1,5 +1,5 @@
 var b;
-(function () {
+(function() {
     function f() {
         a++;
     }
