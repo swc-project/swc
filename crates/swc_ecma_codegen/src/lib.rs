@@ -1064,8 +1064,6 @@ where
     fn emit_assign_expr(&mut self, node: &AssignExpr) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-
         emit!(node.left);
         formatting_space!();
         operator!(node.op.as_str());
