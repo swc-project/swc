@@ -1183,15 +1183,15 @@ where
                         if !self.is_skippable_for_seq(a, callee) {
                             return false;
                         }
-                    }
 
-                    for arg in &e.args {
-                        if !self.is_skippable_for_seq(a, &arg.expr) {
-                            return false;
+                        for arg in &e.args {
+                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                                return false;
+                            }
                         }
-                    }
 
-                    return true;
+                        return true;
+                    }
                 }
 
                 false
@@ -1244,17 +1244,21 @@ where
                     false
                 }
                 OptChainBase::Call(e) => {
-                    if !self.is_skippable_for_seq(a, &e.callee) {
-                        return false;
-                    }
-
-                    for arg in &e.args {
-                        if !self.is_skippable_for_seq(a, &arg.expr) {
+                    if e.callee.is_pure_callee(&self.expr_ctx) {
+                        if !self.is_skippable_for_seq(a, &e.callee) {
                             return false;
                         }
+
+                        for arg in &e.args {
+                            if !self.is_skippable_for_seq(a, &arg.expr) {
+                                return false;
+                            }
+                        }
+
+                        return true;
                     }
 
-                    true
+                    false
                 }
             },
 
