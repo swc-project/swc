@@ -2383,9 +2383,7 @@ where
     fn emit_rest_pat(&mut self, node: &RestPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        srcmap!(node, true);
-
-        punct!("...");
+        punct!(node.dot3_token, "...");
         emit!(node.arg);
 
         if let Some(type_ann) = &node.type_ann {
@@ -2393,8 +2391,6 @@ where
             formatting_space!();
             emit!(type_ann);
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
