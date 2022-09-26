@@ -62,6 +62,8 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
+    // swc_common issue - `\r` should be treated as a newline
+    "be2c3fff6426873e.js",
     // Our one is better
     "d010d377bcfd5565.js",
     "ce0aaec02d5d4465.js",
@@ -69,8 +71,10 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "290fdc5a2f826ead.js",
     "e71a91c61343cdb1.js",
     "409f30dc7efe75d5.js",
-    // swc_common issue - `\r` should be treated as a newline
-    "be2c3fff6426873e.js",
+    "03608b6e222ae700.js",
+    "e54c1a2fc15cd4b8.js",
+    "e08e181172bad2b1.js",
+    "cc793d44a11617e7.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
