@@ -2075,11 +2075,9 @@ where
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_span(ident.span, false)?;
 
-        srcmap!(ident.span, true);
-
         // TODO: span
         self.wr
-            .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
+            .write_symbol(ident.span, &handle_invalid_unicodes(&ident.sym))?;
         if ident.optional {
             punct!("?");
         }
