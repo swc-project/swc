@@ -1387,7 +1387,7 @@
                 negate: _negate
             });
             function chakra_ui_theme_tools_esm_escape(value) {
-                var value1, replaceValue, valueStr = (value1 = value.toString(), void 0 === replaceValue && (replaceValue = "-"), value1.replace(/\s+/g, replaceValue));
+                var replaceValue, valueStr = (void 0 === replaceValue && (replaceValue = "-"), value.toString().replace(/\s+/g, replaceValue));
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
@@ -3502,14 +3502,7 @@
                 sm: null != (_Input$sizes$sm$field = Input.sizes.sm.field) ? _Input$sizes$sm$field : {},
                 md: null != (_Input$sizes$md$field = Input.sizes.md.field) ? _Input$sizes$md$field : {},
                 lg: null != (_Input$sizes$lg$field = Input.sizes.lg.field) ? _Input$sizes$lg$field : {}
-            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), baseStyle = function(props) {
-                var _ref, bg = mode("gray.700", "gray.300")(props);
-                return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
-                    $bg.reference
-                ], _ref[$arrowBg.variable] = [
-                    $bg.reference
-                ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-            }, breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), breakpoints = ((0, chakra_ui_utils_esm.ZK)({
                 condition: !0,
                 message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
             }), chakra_ui_theme_tools_esm_extends({
@@ -4147,7 +4140,14 @@
                         }
                     },
                     Tooltip: {
-                        baseStyle: baseStyle
+                        baseStyle: function(props) {
+                            var _ref, bg = mode("gray.700", "gray.300")(props);
+                            return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
+                                $bg.reference
+                            ], _ref[$arrowBg.variable] = [
+                                $bg.reference
+                            ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
+                        }
                     }
                 },
                 styles: {
@@ -4604,8 +4604,8 @@
                     containerStyle,
                     toastSpacing
                 ]), toastStyle = react.useMemo(function() {
-                    var isRighty, isLefty, alignItems;
-                    return isRighty = position.includes("right"), isLefty = position.includes("left"), alignItems = "center", isRighty && (alignItems = "flex-end"), isLefty && (alignItems = "flex-start"), {
+                    var alignItems;
+                    return alignItems = "center", position.includes("right") && (alignItems = "flex-end"), position.includes("left") && (alignItems = "flex-start"), {
                         display: "flex",
                         flexDirection: "column",
                         alignItems: alignItems

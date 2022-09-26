@@ -1,5 +1,4 @@
 //// [callNonGenericFunctionWithTypeArguments.ts]
-var i, i2, a, a2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 (void 0)(1), new (function() {
     "use strict";
@@ -9,7 +8,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return C.prototype.f = function(x) {
         return null;
     }, C;
-}())().f(1), i.f(1), new (function() {
+}())().f(1), (void 0).f(1), new (function() {
     "use strict";
     function C2() {
         _class_call_check(this, C2);
@@ -17,4 +16,4 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     return C2.prototype.f = function(x) {
         return null;
     }, C2;
-}())().f(1), i2.f(1), a(), a2();
+}())().f(1), (void 0).f(1), (void 0)(), (void 0)();

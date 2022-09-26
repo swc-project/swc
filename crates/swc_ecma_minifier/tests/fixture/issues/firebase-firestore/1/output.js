@@ -4566,9 +4566,9 @@
                 }
             }
             function ba(t, e, ...n) {
-                if (t = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t), function(t, e, n) {
+                if (function(t, e, n) {
                     if (!n) throw new j(K.INVALID_ARGUMENT, `Function ${t}() cannot be called with an empty ${e}.`);
-                }("collection", "path", e), t instanceof Ta) {
+                }("collection", "path", e), (t = (0, _firebase_util__WEBPACK_IMPORTED_MODULE_3__.m9)(t)) instanceof Ta) {
                     const s = ht.fromString(e, ...n);
                     return _a(s), new Ra(t, null, s);
                 }

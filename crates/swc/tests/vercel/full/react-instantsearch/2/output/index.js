@@ -50,36 +50,36 @@ export default function S(u) {
         }, z), n = G.getWidgets().filter(function(e) {
             return Boolean(e.getSearchParameters);
         }).filter(function(e) {
-            var t = f(e) && m(e, o), r = p(e) && g(e, o);
-            return t || r;
-        }).sort(h).reduce(function(e, t) {
-            return t.getSearchParameters(e);
-        }, a), s = G.getWidgets().filter(function(e) {
-            return Boolean(e.getSearchParameters);
-        }).filter(function(e) {
             var t = f(e) && !m(e, o), r = p(e) && !g(e, o);
             return t || r;
         }).sort(h).reduce(function(a, n) {
             var s = f(n) ? n.props.indexContextValue.targetedIndex : n.props.indexId, c = a[s] || [];
             return r(t({}, a), e({}, s, c.concat(n)));
-        }, {}), c = Object.keys(s).map(function(e) {
+        }, {}), s = Object.keys(n).map(function(e) {
             return {
-                parameters: s[e].reduce(function(e, t) {
+                parameters: n[e].reduce(function(e, t) {
                     return t.getSearchParameters(e);
                 }, a),
                 indexId: e
             };
         });
         return {
-            mainParameters: n,
-            derivedParameters: c
+            mainParameters: G.getWidgets().filter(function(e) {
+                return Boolean(e.getSearchParameters);
+            }).filter(function(e) {
+                var t = f(e) && m(e, o), r = p(e) && g(e, o);
+                return t || r;
+            }).sort(h).reduce(function(e, t) {
+                return t.getSearchParameters(e);
+            }, a),
+            derivedParameters: s
         };
     }, I = function() {
         if (!U) {
-            var e = V(W.state), t = e.mainParameters, r = e.derivedParameters;
+            var e = V(W.state), t = e.mainParameters;
             W.derivedHelpers.slice().forEach(function(e) {
                 e.detach();
-            }), r.forEach(function(e) {
+            }), e.derivedParameters.forEach(function(e) {
                 var t = e.indexId, r = e.parameters;
                 W.derive(function() {
                     return r;

@@ -359,7 +359,7 @@
         };
     }
     function weekOfYear(mom, dow, doy) {
-        var resWeek, resYear, weekOffset = firstWeekOffset(mom.year(), dow, doy), week = Math.floor((mom.dayOfYear() - weekOffset - 1) / 7) + 1;
+        var resWeek, resYear, week = Math.floor((mom.dayOfYear() - firstWeekOffset(mom.year(), dow, doy) - 1) / 7) + 1;
         return week < 1 ? resWeek = week + weeksInYear(resYear = mom.year() - 1, dow, doy) : week > weeksInYear(mom.year(), dow, doy) ? (resWeek = week - weeksInYear(mom.year(), dow, doy), resYear = mom.year() + 1) : (resYear = mom.year(), resWeek = week), {
             week: resWeek,
             year: resYear
@@ -759,8 +759,8 @@
                 parseInt(minuteStr, 10)
             ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, !function(weekdayStr, parsedInput, config) {
                 if (weekdayStr) {
-                    var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(weekdayStr), weekdayActual = new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay();
-                    if (weekdayProvided !== weekdayActual) return getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, !1;
+                    var weekdayActual = new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay();
+                    if (defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== weekdayActual) return getParsingFlags(config).weekdayMismatch = !0, config._isValid = !1, !1;
                 }
                 return !0;
             }(match[1], parsedArray, config)) return;
@@ -920,7 +920,7 @@
     }
     function cloneWithOffset(input, model) {
         var res, diff;
-        return model._isUTC ? (res = model.clone(), diff = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - res.valueOf(), res._d.setTime(res._d.valueOf() + diff), hooks.updateOffset(res, !1), res) : createLocal(input).local();
+        return model._isUTC ? (diff = (isMoment(input) || isDate(input) ? input.valueOf() : createLocal(input).valueOf()) - (res = model.clone()).valueOf(), res._d.setTime(res._d.valueOf() + diff), hooks.updateOffset(res, !1), res) : createLocal(input).local();
     }
     function getDateOffset(m) {
         return -Math.round(m._d.getTimezoneOffset());
@@ -972,7 +972,7 @@
     }
     function addSubtract(mom, duration, isAdding, updateOffset) {
         var milliseconds = duration._milliseconds, days = absRound(duration._days), months = absRound(duration._months);
-        mom.isValid() && (updateOffset = null == updateOffset || updateOffset, months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), updateOffset && hooks.updateOffset(mom, days || months));
+        mom.isValid() && (months && setMonth(mom, get(mom, "Month") + months * isAdding), days && set$1(mom, "Date", get(mom, "Date") + days * isAdding), milliseconds && mom._d.setTime(mom._d.valueOf() + milliseconds * isAdding), (updateOffset = null == updateOffset || updateOffset) && hooks.updateOffset(mom, days || months));
     }
     createDuration.fn = Duration.prototype, createDuration.invalid = function() {
         return createDuration(NaN);
@@ -1326,7 +1326,7 @@
         return !!(this.isValid() && localFrom.isValid() && localTo.isValid()) && ("(" === (inclusivity = inclusivity || "()")[0] ? this.isAfter(localFrom, units) : !this.isBefore(localFrom, units)) && (")" === inclusivity[1] ? this.isBefore(localTo, units) : !this.isAfter(localTo, units));
     }, proto.isSame = function(input, units) {
         var inputMs, localInput = isMoment(input) ? input : createLocal(input);
-        return !!(this.isValid() && localInput.isValid()) && ("millisecond" === (units = normalizeUnits(units) || "millisecond") ? this.valueOf() === localInput.valueOf() : (inputMs = localInput.valueOf(), this.clone().startOf(units).valueOf() <= inputMs && inputMs <= this.clone().endOf(units).valueOf()));
+        return !!(this.isValid() && localInput.isValid()) && ("millisecond" === (units = normalizeUnits(units) || "millisecond") ? this.valueOf() === localInput.valueOf() : this.clone().startOf(units).valueOf() <= (inputMs = localInput.valueOf()) && inputMs <= this.clone().endOf(units).valueOf());
     }, proto.isSameOrAfter = function(input, units) {
         return this.isSame(input, units) || this.isAfter(input, units);
     }, proto.isSameOrBefore = function(input, units) {
@@ -1509,7 +1509,7 @@
         }
         return this;
     }, proto.hasAlignedHourOffset = function(input) {
-        return !!this.isValid() && (input = input ? createLocal(input).utcOffset() : 0, (this.utcOffset() - input) % 60 == 0);
+        return !!this.isValid() && (this.utcOffset() - (input = input ? createLocal(input).utcOffset() : 0)) % 60 == 0;
     }, proto.isDST = function() {
         return this.utcOffset() > this.clone().month(0).utcOffset() || this.utcOffset() > this.clone().month(5).utcOffset();
     }, proto.isLocal = function() {

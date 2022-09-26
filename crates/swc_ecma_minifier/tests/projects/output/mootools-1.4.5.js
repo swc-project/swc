@@ -507,7 +507,7 @@ String.implement({
         return Math.min(max, Math.max(min, this));
     },
     round: function(precision) {
-        return precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0), Math.round(this * precision) / precision;
+        return Math.round(this * (precision = Math.pow(10, precision || 0).toFixed(precision < 0 ? -precision : 0))) / precision;
     },
     times: function(fn, bind) {
         for(var i = 0; i < this; i++)fn.call(bind, i, this);
@@ -1940,9 +1940,8 @@ Elements.prototype = {
         }
     };
     inserters.inside = inserters.bottom, Object.each(inserters, function(inserter, where) {
-        where = where.capitalize();
         var methods = {};
-        methods["inject" + where] = function(el) {
+        methods["inject" + (where = where.capitalize())] = function(el) {
             return inserter(this, document.id(el, !0)), this;
         }, methods["grab" + where] = function(el) {
             return inserter(document.id(el, !0), this), this;

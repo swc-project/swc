@@ -488,7 +488,7 @@
         8837: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), next_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(4652), _components_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9087), Welcome2 = (0, next_dynamic__WEBPACK_IMPORTED_MODULE_1__.default)(function() {
+            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), _components_welcome__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(9087), Welcome2 = (0, __webpack_require__(4652).default)(function() {
                 return Promise.resolve().then(__webpack_require__.bind(__webpack_require__, 9087));
             }, {
                 loadableGenerated: {

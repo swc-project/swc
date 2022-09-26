@@ -203,8 +203,8 @@
             }
         };
     }(jQuery), $2 = jQuery, window1 = this, compensateToolbars = function(page, desiredHeight) {
-        var pageParent = page.parent(), toolbarsAffectingHeight = [], externalHeaders = pageParent.children(":jqmData(role='header')"), internalHeaders = page.children(":jqmData(role='header')"), externalFooters = pageParent.children(":jqmData(role='footer')"), internalFooters = page.children(":jqmData(role='footer')");
-        return 0 === internalHeaders.length && externalHeaders.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalHeaders.toArray())), 0 === internalFooters.length && externalFooters.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalFooters.toArray())), $2.each(toolbarsAffectingHeight, function(index, value) {
+        var pageParent = page.parent(), toolbarsAffectingHeight = [], externalHeaders = pageParent.children(":jqmData(role='header')"), externalFooters = pageParent.children(":jqmData(role='footer')"), internalFooters = page.children(":jqmData(role='footer')");
+        return 0 === page.children(":jqmData(role='header')").length && externalHeaders.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalHeaders.toArray())), 0 === internalFooters.length && externalFooters.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalFooters.toArray())), $2.each(toolbarsAffectingHeight, function(index, value) {
             desiredHeight -= $2(value).outerHeight();
         }), Math.max(0, desiredHeight);
     }, $2.extend($2.mobile, {
@@ -605,10 +605,10 @@
             cssTransform3d: function() {
                 var el, transforms, t, mqProp = "transform-3d", ret = $.mobile.media("(-" + vendors.join("-" + mqProp + "),(-") + "-" + mqProp + "),(" + mqProp + ")");
                 if (ret) return !!ret;
-                for(t in el = document1.createElement("div"), transforms = {
+                for(t in el = document1.createElement("div"), fakeBody.append(el), transforms = {
                     MozTransform: "-moz-transform",
                     transform: "transform"
-                }, fakeBody.append(el), transforms)undefined !== el.style[t] && (el.style[t] = "translate3d( 100px, 1px, 1px )", ret = window.getComputedStyle(el).getPropertyValue(transforms[t]));
+                })undefined !== el.style[t] && (el.style[t] = "translate3d( 100px, 1px, 1px )", ret = window.getComputedStyle(el).getPropertyValue(transforms[t]));
                 return !!ret && "none" !== ret;
             }(),
             boxShadow: !!propExists("boxShadow") && !bb,
@@ -819,7 +819,7 @@
             return this.stack[this.activeIndex - 1];
         },
         add: function(url, data) {
-            data = data || {}, this.getNext() && this.clearForward(), data.hash && -1 === data.hash.indexOf("#") && (data.hash = "#" + data.hash), data.url = url, this.stack.push(data), this.activeIndex = this.stack.length - 1;
+            this.getNext() && this.clearForward(), (data = data || {}).hash && -1 === data.hash.indexOf("#") && (data.hash = "#" + data.hash), data.url = url, this.stack.push(data), this.activeIndex = this.stack.length - 1;
         },
         clearForward: function() {
             this.stack = this.stack.slice(0, this.activeIndex + 1);
@@ -1477,8 +1477,8 @@
         _loadSuccess: function(absUrl, triggerData, settings, deferred) {
             var fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl);
             return $16.proxy(function(html, textStatus, xhr) {
-                var content, pageElemRegex = RegExp("(<[^>]+\\bdata-" + this._getNs() + "role=[\"']?page[\"']?[^>]*>)"), dataUrlRegex = RegExp("\\bdata-" + this._getNs() + "url=[\"']?([^\"'>]*)[\"']?");
-                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = $16.mobile.path.getFilePath($16("<div>" + RegExp.$1 + "</div>").text())), undefined6 === settings.prefetch && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.page = content, triggerData.content = content, this._trigger("load", undefined6, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + $16.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), this.element.trigger("pageload"), deferred.resolve(absUrl, settings, content));
+                var content, dataUrlRegex = RegExp("\\bdata-" + this._getNs() + "url=[\"']?([^\"'>]*)[\"']?");
+                RegExp("(<[^>]+\\bdata-" + this._getNs() + "role=[\"']?page[\"']?[^>]*>)").test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = $16.mobile.path.getFilePath($16("<div>" + RegExp.$1 + "</div>").text())), undefined6 === settings.prefetch && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.page = content, triggerData.content = content, this._trigger("load", undefined6, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + $16.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), this.element.trigger("pageload"), deferred.resolve(absUrl, settings, content));
             }, this);
         },
         _loadDefaults: {
@@ -2047,8 +2047,8 @@
                 this._refresh(!0), this.element.children(childCollapsiblesSelector).filter(":jqmData(collapsed='false')").collapsible("expand");
             },
             _setOptions: function(options) {
-                var ret, hasCorners, elem = this.element, themeClass = this._themeClassFromOption("ui-group-theme-", options.theme);
-                return themeClass && elem.removeClass(this._themeClassFromOption("ui-group-theme-", this.options.theme)).addClass(themeClass), undefined !== options.inset && (hasCorners = !!(options.inset && (options.corners || this.options.corners))), undefined !== options.corners && (hasCorners = !!(options.corners && (options.inset || this.options.inset))), hasCorners !== undefined && elem.toggleClass("ui-corner-all", hasCorners), ret = this._super(options), this.element.children(":mobile-collapsible").collapsible("refresh"), ret;
+                var hasCorners, elem = this.element, themeClass = this._themeClassFromOption("ui-group-theme-", options.theme);
+                return themeClass && elem.removeClass(this._themeClassFromOption("ui-group-theme-", this.options.theme)).addClass(themeClass), undefined !== options.inset && (hasCorners = !!(options.inset && (options.corners || this.options.corners))), undefined !== options.corners && (hasCorners = !!(options.corners && (options.inset || this.options.inset))), hasCorners !== undefined && elem.toggleClass("ui-corner-all", hasCorners), this.element.children(":mobile-collapsible").collapsible("refresh"), this._super(options);
             },
             _destroy: function() {
                 var el = this.element;
@@ -2066,15 +2066,15 @@
         return this.addClass("ui-field-contain");
     }, jQuery.fn.grid = function(options) {
         return this.each(function() {
-            var iterator, letter, $this = jQuery(this), o = jQuery.extend({
-                grid: null
-            }, options), $kids = $this.children(), gridCols = {
+            var iterator, letter, $this = jQuery(this), $kids = $this.children(), gridCols = {
                 solo: 1,
                 a: 2,
                 b: 3,
                 c: 4,
                 d: 5
-            }, grid = o.grid;
+            }, grid = jQuery.extend({
+                grid: null
+            }, options).grid;
             if (!grid) {
                 if ($kids.length <= 5) for(letter in gridCols)gridCols[letter] === $kids.length && (grid = letter);
                 else grid = "a", $this.addClass("ui-grid-duo");
@@ -2460,7 +2460,7 @@
                     for((origTabIndex = control.attr("tabindex")) && handle.attr("tabindex", origTabIndex), control.attr("tabindex", "-1").focus(function() {
                         $(this).blur(), handle.focus();
                     }), (wrapper = document1.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
-                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), options = control.find("option"), i = 0, optionsCount = options.length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
+                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
                         "ui-slider-label ui-slider-label-",
                         side,
                         activeClass
@@ -3451,8 +3451,7 @@
                 }), this);
             },
             _isRebuildRequired: function() {
-                var list = this.list.find("li");
-                return this._selectOptions().not(".ui-screen-hidden").text() !== list.text();
+                return this._selectOptions().not(".ui-screen-hidden").text() !== this.list.find("li").text();
             },
             selected: function() {
                 return this._selectOptions().filter(":selected:not( :jqmData(placeholder='true') )");
@@ -3493,7 +3492,7 @@
             },
             _buildList: function() {
                 var $options, numOptions, select, optGroup, i, option, $option, parent, text, anchor, classes, optLabel, divider, item, self = this, o = this.options, placeholder = this.placeholder, needPlaceholder = !0, dataPrefix = "data-" + $.mobile.ns, dataIndexAttr = dataPrefix + "option-index", dataIconAttr = dataPrefix + "icon", dataRoleAttr = dataPrefix + "role", dataPlaceholderAttr = dataPrefix + "placeholder", fragment = document1.createDocumentFragment(), isPlaceholderItem = !1;
-                for(self.list.empty().filter(".ui-listview").listview("destroy"), numOptions = ($options = this._selectOptions()).length, select = this.select[0], i = 0; i < numOptions; i++, isPlaceholderItem = !1)($option = $(option = $options[i])).hasClass("ui-screen-hidden") || (parent = option.parentNode, text = $option.text(), anchor = document1.createElement("a"), classes = [], anchor.setAttribute("href", "#"), anchor.appendChild(document1.createTextNode(text)), parent !== select && "optgroup" === parent.nodeName.toLowerCase() && (optLabel = parent.getAttribute("label")) !== optGroup && ((divider = document1.createElement("li")).setAttribute(dataRoleAttr, "list-divider"), divider.setAttribute("role", "option"), divider.setAttribute("tabindex", "-1"), divider.appendChild(document1.createTextNode(optLabel)), fragment.appendChild(divider), optGroup = optLabel), needPlaceholder && (!option.getAttribute("value") || 0 === text.length || $option.jqmData("placeholder")) && (needPlaceholder = !1, isPlaceholderItem = !0, null === option.getAttribute(dataPlaceholderAttr) && (this._removePlaceholderAttr = !0), option.setAttribute(dataPlaceholderAttr, !0), o.hidePlaceholderMenuItems && classes.push("ui-screen-hidden"), placeholder !== text && (placeholder = self.placeholder = text)), item = document1.createElement("li"), option.disabled && (classes.push("ui-state-disabled"), item.setAttribute("aria-disabled", !0)), item.setAttribute(dataIndexAttr, i), item.setAttribute(dataIconAttr, "false"), isPlaceholderItem && item.setAttribute(dataPlaceholderAttr, !0), item.className = classes.join(" "), item.setAttribute("role", "option"), anchor.setAttribute("tabindex", "-1"), this.isMultiple && $(anchor).addClass("ui-btn ui-checkbox-off ui-btn-icon-right"), item.appendChild(anchor), fragment.appendChild(item));
+                for(self.list.empty().filter(".ui-listview").listview("destroy"), numOptions = ($options = this._selectOptions()).length, select = this.select[0], i = 0; i < numOptions; i++, isPlaceholderItem = !1)($option = $(option = $options[i])).hasClass("ui-screen-hidden") || (parent = option.parentNode, text = $option.text(), classes = [], (anchor = document1.createElement("a")).setAttribute("href", "#"), anchor.appendChild(document1.createTextNode(text)), parent !== select && "optgroup" === parent.nodeName.toLowerCase() && (optLabel = parent.getAttribute("label")) !== optGroup && ((divider = document1.createElement("li")).setAttribute(dataRoleAttr, "list-divider"), divider.setAttribute("role", "option"), divider.setAttribute("tabindex", "-1"), divider.appendChild(document1.createTextNode(optLabel)), fragment.appendChild(divider), optGroup = optLabel), needPlaceholder && (!option.getAttribute("value") || 0 === text.length || $option.jqmData("placeholder")) && (needPlaceholder = !1, isPlaceholderItem = !0, null === option.getAttribute(dataPlaceholderAttr) && (this._removePlaceholderAttr = !0), option.setAttribute(dataPlaceholderAttr, !0), o.hidePlaceholderMenuItems && classes.push("ui-screen-hidden"), placeholder !== text && (placeholder = self.placeholder = text)), item = document1.createElement("li"), option.disabled && (classes.push("ui-state-disabled"), item.setAttribute("aria-disabled", !0)), item.setAttribute(dataIndexAttr, i), item.setAttribute(dataIconAttr, "false"), isPlaceholderItem && item.setAttribute(dataPlaceholderAttr, !0), item.className = classes.join(" "), item.setAttribute("role", "option"), anchor.setAttribute("tabindex", "-1"), this.isMultiple && $(anchor).addClass("ui-btn ui-checkbox-off ui-btn-icon-right"), item.appendChild(anchor), fragment.appendChild(item));
                 self.list[0].appendChild(fragment), this.isMultiple || placeholder.length ? this.headerTitle.text(this.placeholder) : this.header.addClass("ui-screen-hidden"), self.list.listview();
             },
             _button: function() {
@@ -3610,8 +3609,8 @@
                 this.refresh();
             },
             _setOptions: function(options) {
-                var callRefresh, returnValue, elem = this.element;
-                return undefined !== options.type && (elem.removeClass("ui-controlgroup-horizontal ui-controlgroup-vertical").addClass("ui-controlgroup-" + ("horizontal" === options.type ? "horizontal" : "vertical")), callRefresh = !0), undefined !== options.theme && elem.removeClass(this._themeClassFromOption(this.options.theme)).addClass(this._themeClassFromOption(options.theme)), undefined !== options.corners && elem.toggleClass("ui-corner-all", options.corners), undefined !== options.mini && elem.toggleClass("ui-mini", options.mini), undefined !== options.shadow && this._ui.childWrapper.toggleClass("ui-shadow", options.shadow), undefined !== options.excludeInvisible && (this.options.excludeInvisible = options.excludeInvisible, callRefresh = !0), returnValue = this._super(options), callRefresh && this.refresh(), returnValue;
+                var callRefresh, elem = this.element;
+                return undefined !== options.type && (elem.removeClass("ui-controlgroup-horizontal ui-controlgroup-vertical").addClass("ui-controlgroup-" + ("horizontal" === options.type ? "horizontal" : "vertical")), callRefresh = !0), undefined !== options.theme && elem.removeClass(this._themeClassFromOption(this.options.theme)).addClass(this._themeClassFromOption(options.theme)), undefined !== options.corners && elem.toggleClass("ui-corner-all", options.corners), undefined !== options.mini && elem.toggleClass("ui-mini", options.mini), undefined !== options.shadow && this._ui.childWrapper.toggleClass("ui-shadow", options.shadow), undefined !== options.excludeInvisible && (this.options.excludeInvisible = options.excludeInvisible, callRefresh = !0), callRefresh && this.refresh(), this._super(options);
             },
             container: function() {
                 return this._ui.childWrapper;
@@ -4028,8 +4027,8 @@
                 0 === wrapper.length && (wrapper = this._page().children(".ui-header:not(.ui-header-fixed), .ui-content:not(.ui-popup), .ui-footer:not(.ui-footer-fixed)").wrapAll("<div class='" + this.options.classes.pageWrapper + "'></div>").parent()), this._wrapper = wrapper;
             },
             _getFixedToolbars: function() {
-                var extFixedToolbars = $("body").children(".ui-header-fixed, .ui-footer-fixed"), intFixedToolbars = this._page().find(".ui-header-fixed, .ui-footer-fixed");
-                return extFixedToolbars.add(intFixedToolbars).addClass(this.options.classes.pageFixedToolbar);
+                var intFixedToolbars = this._page().find(".ui-header-fixed, .ui-footer-fixed");
+                return $("body").children(".ui-header-fixed, .ui-footer-fixed").add(intFixedToolbars).addClass(this.options.classes.pageFixedToolbar);
             },
             _getPosDisplayClasses: function(prefix) {
                 return prefix + "-position-" + this.options.position + " " + prefix + "-display-" + this.options.display;
@@ -4267,7 +4266,7 @@
                 var table = this, opts = this.options;
                 $(table.allHeaders.get().reverse()).each(function() {
                     var iteration, filter, cells = $(this).jqmData("cells"), colstart = $.mobile.getAttribute(this, "colstart"), hierarchyClass = cells.not(this).filter("thead th").length && " ui-table-cell-label-top", text = $(this).text();
-                    "" !== text && (hierarchyClass ? (iteration = parseInt(this.getAttribute("colspan"), 10), filter = "", iteration && (filter = "td:nth-child(" + iteration + "n + " + colstart + ")"), table._addLabels(cells.filter(filter), opts.classes.cellLabels + hierarchyClass, text)) : table._addLabels(cells, opts.classes.cellLabels, text));
+                    "" !== text && (hierarchyClass ? (filter = "", (iteration = parseInt(this.getAttribute("colspan"), 10)) && (filter = "td:nth-child(" + iteration + "n + " + colstart + ")"), table._addLabels(cells.filter(filter), opts.classes.cellLabels + hierarchyClass, text)) : table._addLabels(cells, opts.classes.cellLabels, text));
                 });
             },
             _addLabels: function(cells, label, text) {

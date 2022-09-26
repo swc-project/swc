@@ -417,7 +417,7 @@
                         }))),
                         kind: "x"
                     };
-                }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
+                }(width, layout, sizes), widths = ref.widths, kind = ref.kind;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
                     srcSet: widths.map(function(w, i) {
@@ -430,7 +430,7 @@
                     src: loader({
                         src: src,
                         quality: quality,
-                        width: widths[last]
+                        width: widths[widths.length - 1]
                     })
                 };
             }

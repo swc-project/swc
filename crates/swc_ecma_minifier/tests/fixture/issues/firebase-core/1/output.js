@@ -1539,17 +1539,17 @@
                         for(let h = 0; 0 == a && h < d; h++){
                             var e = b[h] || "", f = c[h] || "";
                             do {
-                                if (e = /(\d*)(\D*)(.*)/.exec(e) || [
+                                if (f = /(\d*)(\D*)(.*)/.exec(f) || [
                                     "",
                                     "",
                                     "",
                                     ""
-                                ], f = /(\d*)(\D*)(.*)/.exec(f) || [
+                                ], 0 == (e = /(\d*)(\D*)(.*)/.exec(e) || [
                                     "",
                                     "",
                                     "",
                                     ""
-                                ], 0 == e[0].length && 0 == f[0].length) break;
+                                ])[0].length && 0 == f[0].length) break;
                                 a = ua(0 == e[1].length ? 0 : parseInt(e[1], 10), 0 == f[1].length ? 0 : parseInt(f[1], 10)) || ua(0 == e[2].length, 0 == f[2].length) || ua(e[2], f[2]), e = e[3], f = f[3];
                             }while (0 == a)
                         }
@@ -2039,7 +2039,7 @@
                         }))),
                         kind: "x"
                     };
-                }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
+                }(width, layout, sizes), widths = ref.widths, kind = ref.kind;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
                     srcSet: widths.map(function(w, i) {
@@ -2052,7 +2052,7 @@
                     src: loader({
                         src: src,
                         quality: quality,
-                        width: widths[last]
+                        width: widths[widths.length - 1]
                     })
                 };
             }

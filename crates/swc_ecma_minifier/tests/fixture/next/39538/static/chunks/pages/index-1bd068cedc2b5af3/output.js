@@ -351,7 +351,7 @@
                         }))),
                         kind: "x"
                     };
-                }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
+                }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
                     srcSet: widths.map(function(w, i) {
@@ -366,7 +366,7 @@
                         config: config,
                         src: src,
                         quality: quality,
-                        width: widths[last]
+                        width: widths[widths.length - 1]
                     })
                 };
             }
@@ -468,7 +468,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.useIntersection = function(param) {
-                var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
+                var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0];
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
                         if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
@@ -524,7 +524,7 @@
                     rootRef,
                     visible
                 ]), [
-                    setElement,
+                    ref1[1],
                     visible,
                     _react.useCallback(function() {
                         setVisible(!1);

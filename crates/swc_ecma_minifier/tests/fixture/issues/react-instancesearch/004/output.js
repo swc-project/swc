@@ -43,14 +43,7 @@ export default function createInstantSearchManager(param) {
             return !isMultiIndexContext(widget) && !isIndexWidget(widget);
         }).reduce(function(res, widget) {
             return widget.getSearchParameters(res);
-        }, initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter(function(widget) {
-            return Boolean(widget.getSearchParameters);
-        }).filter(function(widget) {
-            var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
-            return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
-        }).sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
-            return widget.getSearchParameters(res);
-        }, sharedParameters), derivedIndices = widgetsManager.getWidgets().filter(function(widget) {
+        }, initialSearchParameters), derivedIndices = widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getSearchParameters);
         }).filter(function(widget) {
             var targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
@@ -67,15 +60,22 @@ export default function createInstantSearchManager(param) {
             };
         });
         return {
-            mainParameters: mainParameters,
+            mainParameters: widgetsManager.getWidgets().filter(function(widget) {
+                return Boolean(widget.getSearchParameters);
+            }).filter(function(widget) {
+                var targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
+                return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
+            }).sort(sortIndexWidgetsFirst).reduce(function(res, widget) {
+                return widget.getSearchParameters(res);
+            }, sharedParameters),
             derivedParameters: derivedParameters
         };
     }, search = function() {
         if (!skip) {
-            var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters, derivedParameters = ref.derivedParameters;
+            var ref = getSearchParameters(helper.state), mainParameters = ref.mainParameters;
             helper.derivedHelpers.slice().forEach(function(derivedHelper) {
                 derivedHelper.detach();
-            }), derivedParameters.forEach(function(param) {
+            }), ref.derivedParameters.forEach(function(param) {
                 var indexId = param.indexId, parameters = param.parameters;
                 helper.derive(function() {
                     return parameters;

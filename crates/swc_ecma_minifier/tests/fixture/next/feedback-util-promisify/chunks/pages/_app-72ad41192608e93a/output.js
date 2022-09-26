@@ -163,7 +163,7 @@
                                 var f;
                                 if (r < 0 || e.byteLength < r) throw RangeError('"offset" is outside of buffer bounds');
                                 if (e.byteLength < r + (t || 0)) throw RangeError('"length" is outside of buffer bounds');
-                                return f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Object.setPrototypeOf(f, Buffer.prototype), f;
+                                return Object.setPrototypeOf(f = void 0 === r && void 0 === t ? new Uint8Array(e) : void 0 === t ? new Uint8Array(e, r) : new Uint8Array(e, r, t), Buffer.prototype), f;
                             }(e, r, t);
                             if ("number" == typeof e) throw TypeError('The "value" argument must not be of type number. Received type number');
                             var f = e.valueOf && e.valueOf();
@@ -1742,7 +1742,7 @@
                     },
                     234: function(r, t, e) {
                         "use strict";
-                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("Array.prototype.indexOf", !0) || function(r, t) {
+                        var o = e(219), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = e(627)(), u = i("Array.prototype.indexOf", !0) || function(r, t) {
                             for(var e = 0; e < r.length; e += 1)if (r[e] === t) return e;
                             return -1;
                         }, s = i("String.prototype.slice"), c = {}, l = e(982), d = Object.getPrototypeOf;
@@ -1978,7 +1978,7 @@
                         }
                         function formatValue(r, e, o) {
                             if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
-                                var t1, e1, o1, l, n = e.inspect(o, r);
+                                var r1, t1, e1, o1, n = e.inspect(o, r);
                                 return isString(n) || (n = formatValue(r, n, o)), n;
                             }
                             var i = function(r, t) {
@@ -1990,7 +1990,7 @@
                                 return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                             }(r, e);
                             if (i) return i;
-                            var r1, t2, a = Object.keys(e), y = (r1 = a, t2 = {}, r1.forEach(function(r, e) {
+                            var r2, t2, a = Object.keys(e), y = (r2 = a, t2 = {}, r2.forEach(function(r, e) {
                                 t2[r] = !0;
                             }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);
@@ -2010,16 +2010,16 @@
                             return (isArray(e) && (u = !0, s = [
                                 "[",
                                 "]"
-                            ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 !== a.length || u && 0 != e.length) ? o < 0 ? isRegExp(e) ? r.stylize(RegExp.prototype.toString.call(e), "regexp") : r.stylize("[Object]", "special") : (r.seen.push(e), l = u ? function(r, t, e, o, n) {
+                            ]), isFunction(e) && (f = " [Function" + (e.name ? ": " + e.name : "") + "]"), isRegExp(e) && (f = " " + RegExp.prototype.toString.call(e)), isDate(e) && (f = " " + Date.prototype.toUTCString.call(e)), isError(e) && (f = " " + formatError(e)), 0 !== a.length || u && 0 != e.length) ? o < 0 ? isRegExp(e) ? r.stylize(RegExp.prototype.toString.call(e), "regexp") : r.stylize("[Object]", "special") : (r.seen.push(e), r.seen.pop(), r1 = u ? function(r, t, e, o, n) {
                                 for(var i = [], a = 0, y = t.length; a < y; ++a)hasOwnProperty(t, String(a)) ? i.push(formatProperty(r, t, e, o, String(a), !0)) : i.push("");
                                 return n.forEach(function(n) {
                                     n.match(/^\d+$/) || i.push(formatProperty(r, t, e, o, n, !0));
                                 }), i;
                             }(r, e, o, y, a) : a.map(function(t) {
                                 return formatProperty(r, e, o, y, t, u);
-                            }), r.seen.pop(), t1 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
+                            }), t1 = f, e1 = s, o1 = 0, r1.reduce(function(r, t) {
                                 return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
+                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + r1.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + r1.join(", ") + " " + e1[1]) : s[0] + f + s[1];
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";
@@ -2250,7 +2250,7 @@
                     },
                     715: function(r, t, e) {
                         "use strict";
-                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("String.prototype.slice"), s = {}, c = e(850), l = Object.getPrototypeOf;
+                        var o = e(219), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = e(627)(), u = i("String.prototype.slice"), s = {}, c = e(850), l = Object.getPrototypeOf;
                         p && c && l && o(f, function(r) {
                             if ("function" == typeof __webpack_require__.g[r]) {
                                 var t = new __webpack_require__.g[r]();

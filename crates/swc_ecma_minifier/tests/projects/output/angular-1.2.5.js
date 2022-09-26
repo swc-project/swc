@@ -1912,8 +1912,7 @@
                             return;
                         }
                         $rootScope.$evalAsync(function() {
-                            var oldUrl = $location.absUrl();
-                            $location.$$parse(newUrl), afterLocationChange(oldUrl);
+                            $location.$$parse(newUrl), afterLocationChange($location.absUrl());
                         }), $rootScope.$$phase || $rootScope.$digest();
                     }
                 });

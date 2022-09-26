@@ -1243,8 +1243,8 @@
                 ie && ie_version < 11 && (rect = function(measure, rect) {
                     if (!window.screen || null == screen.logicalXDPI || screen.logicalXDPI == screen.deviceXDPI || !function(measure) {
                         if (null != badZoomedRects) return badZoomedRects;
-                        var node = removeChildrenAndAdd(measure, elt("span", "x")), normal = node.getBoundingClientRect(), fromRange = range(node, 0, 1).getBoundingClientRect();
-                        return badZoomedRects = Math.abs(normal.left - fromRange.left) > 1;
+                        var node = removeChildrenAndAdd(measure, elt("span", "x")), fromRange = range(node, 0, 1).getBoundingClientRect();
+                        return badZoomedRects = Math.abs(node.getBoundingClientRect().left - fromRange.left) > 1;
                     }(measure)) return rect;
                     var scaleX = screen.logicalXDPI / screen.deviceXDPI, scaleY = screen.logicalYDPI / screen.deviceYDPI;
                     return {
@@ -3852,13 +3852,13 @@
         },
         delWrappedLineRight: function(cm) {
             return deleteNearSelection(cm, function(range) {
-                var top = cm.charCoords(range.head, "div").top + 5, rightPos = cm.coordsChar({
-                    left: cm.display.lineDiv.offsetWidth + 100,
-                    top: top
-                }, "div");
+                var top = cm.charCoords(range.head, "div").top + 5;
                 return {
                     from: range.from(),
-                    to: rightPos
+                    to: cm.coordsChar({
+                        left: cm.display.lineDiv.offsetWidth + 100,
+                        top: top
+                    }, "div")
                 };
             });
         },
@@ -4183,12 +4183,12 @@
                         var range = rangeForUnit(cm, start, behavior.unit);
                         ourRange = behavior.extend ? extendRange(ourRange, range.anchor, range.head, behavior.extend) : range;
                     }
-                    behavior.addNew ? -1 == ourIndex ? (ourIndex = ranges.length, setSelection(doc, normalizeSelection(cm, ranges.concat([
+                    behavior.addNew ? -1 == ourIndex ? setSelection(doc, normalizeSelection(cm, ranges.concat([
                         ourRange
-                    ]), ourIndex), {
+                    ]), ourIndex = ranges.length), {
                         scroll: !1,
                         origin: "*mouse"
-                    })) : ranges.length > 1 && ranges[ourIndex].empty() && "char" == behavior.unit && !behavior.extend ? (setSelection(doc, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {
+                    }) : ranges.length > 1 && ranges[ourIndex].empty() && "char" == behavior.unit && !behavior.extend ? (setSelection(doc, normalizeSelection(cm, ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)), 0), {
                         scroll: !1,
                         origin: "*mouse"
                     }), startSel = doc.sel) : replaceOneSelection(doc, ourIndex, ourRange, sel_mouse) : (ourIndex = 0, setSelection(doc, new Selection([
@@ -4620,7 +4620,7 @@
     function findPosV(cm, pos, dir, unit) {
         var target, y, doc = cm.doc, x = pos.left;
         if ("page" == unit) {
-            var pageSize = Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight), moveAmount = Math.max(pageSize - 0.5 * textHeight(cm.display), 3);
+            var moveAmount = Math.max(Math.min(cm.display.wrapper.clientHeight, window.innerHeight || document.documentElement.clientHeight) - 0.5 * textHeight(cm.display), 3);
             y = (dir > 0 ? pos.bottom : pos.top) + dir * moveAmount;
         } else "line" == unit && (y = dir > 0 ? pos.bottom + 3 : pos.top - 3);
         for(; (target = coordsChar(cm, x, y)).outside;){

@@ -40,12 +40,12 @@
                     return bytesMatch;
                 }
             });
-            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
+            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), toUint8 = function(bytes) {
                 var obj;
                 return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
-            }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
+            }, BigInt = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__)().BigInt || Number, BYTE_TABLE = [
                 BigInt("0x1"),
                 BigInt("0x100"),
                 BigInt("0x10000"),
@@ -71,9 +71,9 @@
                 }
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {
-                var x, _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
+                var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = (x = number, Math.ceil(x.toString(2).length / 8)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -166,8 +166,8 @@
                 }) : codec;
             }, parseCodecs = function(codecString) {
                 void 0 === codecString && (codecString = "");
-                var codecs = codecString.split(","), result = [];
-                return codecs.forEach(function(codec) {
+                var result = [];
+                return codecString.split(",").forEach(function(codec) {
                     var codecType;
                     codec = codec.trim(), mediaTypes.forEach(function(name) {
                         var match = regexs[name].exec(codec.toLowerCase());
@@ -457,7 +457,7 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
-                paths1 = paths, paths = Array.isArray(paths1) ? paths1.map(function(p) {
+                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
                     return ebml_helpers_normalizePath(p);
                 }) : [
                     ebml_helpers_normalizePath(paths1)
@@ -5158,7 +5158,7 @@
                     var buf;
                     if (byteOffset < 0 || array.byteLength < byteOffset) throw RangeError('"offset" is outside of buffer bounds');
                     if (array.byteLength < byteOffset + (length || 0)) throw RangeError('"length" is outside of buffer bounds');
-                    return buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Object.setPrototypeOf(buf, Buffer.prototype), buf;
+                    return Object.setPrototypeOf(buf = void 0 === byteOffset && void 0 === length ? new Uint8Array(array) : void 0 === length ? new Uint8Array(array, byteOffset) : new Uint8Array(array, byteOffset, length), Buffer.prototype), buf;
                 }(value, encodingOrOffset, length);
                 if ("number" == typeof value) throw TypeError('The "value" argument must not be of type number. Received type number');
                 var valueOf = value.valueOf && value.valueOf();

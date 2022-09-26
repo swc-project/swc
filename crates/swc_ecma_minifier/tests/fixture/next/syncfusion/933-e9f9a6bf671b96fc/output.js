@@ -206,7 +206,7 @@
                     var obj1 = arguments_1[i];
                     Object.keys(obj1).forEach(function(key) {
                         var clone, src = result[key], copy = obj1[key];
-                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? (clone = src || {}, Array.isArray(clone) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep)) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
+                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                     });
                 }(i);
                 return result;
@@ -2249,9 +2249,7 @@
                 julilanOffset = (yPrefix = Math.floor((julianNumber - 1867216.25) / 36524.25)) - Math.floor(yPrefix / 4.) + 1;
                 var b = julianNumber + julilanOffset + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c);
                 day = b - d - Math.floor(30.6001 * Math.floor((b - d) / 30.6001)), (month = Math.floor((b - d) / 20.6001)) > 13 && (c += 1, month -= 12), month -= 1, year = c - 4716;
-                var modifiedJulianDate = julianNumber - 2400000, iyear = 10631. / 30., z = julianNumber - 1948084, cyc = Math.floor(z / 10631.), j = Math.floor(((z -= 10631 * cyc) - 0.1335) / iyear);
-                z -= Math.floor(j * iyear + 0.1335);
-                var im = Math.floor((z + 28.5001) / 29.5);
+                var modifiedJulianDate = julianNumber - 2400000, iyear = 10631. / 30., z = julianNumber - 1948084, cyc = Math.floor(z / 10631.), j = Math.floor(((z -= 10631 * cyc) - 0.1335) / iyear), im = Math.floor(((z -= Math.floor(j * iyear + 0.1335)) + 28.5001) / 29.5);
                 13 === im && (im = 12);
                 for(var tempDay = z - Math.floor(29.5001 * im - 29), i = 0; i < dateCorrection.length && !(dateCorrection[i] > modifiedJulianDate); i++);
                 var iln = i + 16260, ii = Math.floor((iln - 1) / 12), hYear = ii + 1, hmonth = iln - 12 * ii, hDate = modifiedJulianDate - dateCorrection[i - 1] + 1;
@@ -3621,10 +3619,8 @@
                         data.nend = data.nend.replace(aCurrency, iCurrency), data.nlead = data.nlead.replace(aCurrency, iCurrency);
                     }
                 }, IntlBase.getWeekOfYear = function(date) {
-                    var weeknum, newYear = new Date(date.getFullYear(), 0, 1), day = newYear.getDay();
-                    day = day >= 0 ? day : day + 7;
-                    var daynum = Math.floor((date.getTime() - newYear.getTime() - (date.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
-                    if (day < 4) {
+                    var weeknum, newYear = new Date(date.getFullYear(), 0, 1), day = newYear.getDay(), daynum = Math.floor((date.getTime() - newYear.getTime() - (date.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) / 86400000) + 1;
+                    if ((day = day >= 0 ? day : day + 7) < 4) {
                         if ((weeknum = Math.floor((daynum + day - 1) / 7) + 1) > 52) {
                             var nday = new Date(date.getFullYear() + 1, 0, 1).getDay();
                             weeknum = (nday = nday >= 0 ? nday : nday + 7) < 4 ? 1 : 53;
@@ -5552,7 +5548,7 @@
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
                         var helper1, argName, evalExpResult, str, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), helper1 = helper, argName = 'data', ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = (str = templateString).match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        return void 0 === helper && (helper = {}), helper1 = helper, argName = 'data', str = templateString, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], singleSpace = '', (isClass = str.match(/class="([^"]+|)\s{2}/g)) && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), evalExpResult = str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
@@ -5716,9 +5712,7 @@
                     var item = this.beforeSanitize();
                     return this.serializeValue(item, value);
                 }, SanitizeHtmlHelper.serializeValue = function(item, value) {
-                    this.removeAttrs = item.selectors.attributes, this.removeTags = item.selectors.tags, this.wrapElement = document.createElement('div'), this.wrapElement.innerHTML = value, this.removeXssTags(), this.removeJsEvents(), this.removeXssAttrs();
-                    var tempEleValue = this.wrapElement.innerHTML;
-                    return this.removeElement(), tempEleValue.replace('&amp;', '&');
+                    return this.removeAttrs = item.selectors.attributes, this.removeTags = item.selectors.tags, this.wrapElement = document.createElement('div'), this.wrapElement.innerHTML = value, this.removeXssTags(), this.removeJsEvents(), this.removeXssAttrs(), this.removeElement(), this.wrapElement.innerHTML.replace('&amp;', '&');
                 }, SanitizeHtmlHelper.removeElement = function() {
                     for(var nodes = this.wrapElement.children, j = 0; j < nodes.length; j++)for(var attribute = nodes[j].attributes, i = 0; i < attribute.length; i++)this.wrapElement.children[j].removeAttribute(attribute[i].localName);
                 }, SanitizeHtmlHelper.removeXssTags = function() {
@@ -12312,8 +12306,8 @@
                     this.saveSelection = this.parent.nodeSelection.save(range, this.parent.currentDocument);
                     var startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset);
                     this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
-                    var preElement = startNode.previousElementSibling, nextElement = startNode.nextElementSibling, preElemULStart = (0, ej2_base.le)(preElement) ? null : preElement.innerText.trim().substring(0, 1), nextElemULStart = (0, ej2_base.le)(nextElement) ? null : nextElement.innerText.trim().substring(0, 1), startElementOLTest = this.testCurrentList(range), preElementOLTest = this.testList(preElement), nextElementOLTest = this.testList(nextElement);
-                    preElementOLTest || nextElementOLTest || '*' === preElemULStart || '*' === nextElemULStart || (startElementOLTest ? (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
+                    var preElement = startNode.previousElementSibling, nextElement = startNode.nextElementSibling, preElemULStart = (0, ej2_base.le)(preElement) ? null : preElement.innerText.trim().substring(0, 1), nextElemULStart = (0, ej2_base.le)(nextElement) ? null : nextElement.innerText.trim().substring(0, 1), startElementOLTest = this.testCurrentList(range), nextElementOLTest = this.testList(nextElement);
+                    this.testList(preElement) || nextElementOLTest || '*' === preElemULStart || '*' === nextElemULStart || (startElementOLTest ? (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
                         subCommand: 'OL',
                         callBack: e.callBack
                     }), e.event.preventDefault()) : ('*' === range.startContainer.textContent.replace(/\u200B/g, '').slice(0, range.startOffset).trim() || '-' === range.startContainer.textContent.replace(/\u200B/g, '').slice(0, range.startOffset).trim()) && (range.startContainer.textContent = range.startContainer.textContent.slice(range.startOffset, range.startContainer.textContent.length), this.applyListsHandler({
@@ -14603,9 +14597,8 @@
                 }, MsWordPaste.prototype.imageConversion = function(elm, rtfData) {
                     this.checkVShape(elm);
                     for(var imgElem = elm.querySelectorAll('img'), i = 0; i < imgElem.length; i++)!(0, ej2_base.le)(imgElem[i].getAttribute('v:shapes')) && 0 > imgElem[i].getAttribute('v:shapes').indexOf('Picture') && 0 > imgElem[i].getAttribute('v:shapes').indexOf('Image') && (0, ej2_base.og)(imgElem[i]);
-                    imgElem = elm.querySelectorAll('img');
                     var imgSrc = [], base64Src = [], imgName = [], linkRegex = RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
-                    if (imgElem.length > 0) {
+                    if ((imgElem = elm.querySelectorAll('img')).length > 0) {
                         for(var i = 0; i < imgElem.length; i++)imgSrc.push(imgElem[i].getAttribute('src')), imgName.push(imgElem[i].getAttribute('src').split('/')[imgElem[i].getAttribute('src').split('/').length - 1].split('.')[0]);
                         for(var hexValue = this.hexConversion(rtfData), i = 0; i < hexValue.length; i++)base64Src.push(this.convertToBase64(hexValue[i]));
                         for(var i = 0; i < imgElem.length; i++)imgSrc[i].match(linkRegex) ? imgElem[i].setAttribute('src', imgSrc[i]) : imgElem[i].setAttribute('src', base64Src[i]), imgElem[i].setAttribute('id', 'msWordImg-' + imgName[i]);
@@ -14715,7 +14708,7 @@
                 }, MsWordPaste.prototype.findStyleObject = function(styles) {
                     for(var styleClassObject = {}, i = 0; i < styles.length; i++){
                         var tempStyle = styles[i], classNameCollection = tempStyle.replace(/([\S ]+\s+){[\s\S]+?}/gi, '$1'), stylesCollection = tempStyle.replace(/[\S ]+\s+{([\s\S]+?)}/gi, '$1');
-                        classNameCollection = classNameCollection.replace(/^[\s]|[\s]$/gm, ''), stylesCollection = stylesCollection.replace(/^[\s]|[\s]$/gm, ''), classNameCollection = classNameCollection.replace(/\n|\r|\n\r/g, ''), stylesCollection = stylesCollection.replace(/\n|\r|\n\r/g, '');
+                        classNameCollection = (classNameCollection = classNameCollection.replace(/^[\s]|[\s]$/gm, '')).replace(/\n|\r|\n\r/g, ''), stylesCollection = (stylesCollection = stylesCollection.replace(/^[\s]|[\s]$/gm, '')).replace(/\n|\r|\n\r/g, '');
                         for(var classNames = classNameCollection.split(', '), j = 0; j < classNames.length; j++)styleClassObject[classNames[j]] = stylesCollection;
                     }
                     return styleClassObject;
@@ -16227,8 +16220,8 @@
                 return start + change * (6 * timecount * timestamp + -15 * timestamp * timestamp + 10 * timecount);
             }
             function fb_calculate_attributes(radius, innerConainer, trgClass) {
-                var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
-                circle.setAttribute('d', [
+                var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), transformOrigin = diameter / 2 + 'px';
+                svg.querySelector('.e-path-circle').setAttribute('d', [
                     'M',
                     radius,
                     radius,
@@ -16251,7 +16244,7 @@
                     0,
                     -(2 * radius),
                     0
-                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
+                ].join(' ')), svg.querySelector('.e-path-arc').setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
                     'M',
                     start.x,
                     start.y,
@@ -16315,7 +16308,7 @@
                                     function rotation(circle, start, end, series, id) {
                                         var count = 0;
                                         !function boot_animate(radius) {
-                                            globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
+                                            globalTimeOut[id].isAnimate && (circle.setAttribute('r', radius + ''), ++count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
                                     }
                                 }(inner);
@@ -19300,8 +19293,8 @@
                         direction: 'initial'
                     }), this.checkPriority(ele, innerEle, eleWidth, !0), this.enableRtl && this.element.classList.add('e-rtl'), this.element.style.removeProperty('direction'), this.createPopup();
                 }, Toolbar.prototype.pushingPoppedEle = function(tbarObj, popupPri, ele, eleHeight, sepHeight) {
-                    var element = tbarObj.element, poppedEle = [].slice.call((0, ej2_base.td)('.' + CLS_POPUP, element.querySelector('.' + CLS_ITEMS))), nodes = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, ele), nodeIndex = 0, nodePri = 0;
-                    poppedEle.forEach(function(el, index) {
+                    var element = tbarObj.element, nodes = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, ele), nodeIndex = 0, nodePri = 0;
+                    [].slice.call((0, ej2_base.td)('.' + CLS_POPUP, element.querySelector('.' + CLS_ITEMS))).forEach(function(el, index) {
                         nodes = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, ele), el.classList.contains(CLS_TBAROVERFLOW) && nodes.length > 0 ? tbarObj.tbResize && nodes.length > index ? (ele.insertBefore(el, nodes[index]), ++nodePri) : (ele.insertBefore(el, ele.children[nodes.length]), ++nodePri) : el.classList.contains(CLS_TBAROVERFLOW) ? (ele.insertBefore(el, ele.firstChild), ++nodePri) : tbarObj.tbResize && el.classList.contains(CLS_POPOVERFLOW) && ele.children.length > 0 && 0 === nodes.length ? (ele.insertBefore(el, ele.firstChild), ++nodePri) : el.classList.contains(CLS_POPOVERFLOW) ? popupPri.push(el) : tbarObj.tbResize ? (ele.insertBefore(el, ele.childNodes[nodeIndex + nodePri]), ++nodeIndex) : ele.appendChild(el), el.classList.contains(CLS_SEPARATOR) ? (0, ej2_base.V7)(el, {
                             display: '',
                             height: sepHeight + 'px'
@@ -19518,13 +19511,13 @@
                 }, Toolbar.prototype.popupRefresh = function(popupEle, destroy) {
                     var dimension, _this = this, ele = this.element, isVer = this.isVertical, innerEle = ele.querySelector('.' + CLS_ITEMS), popNav = ele.querySelector('.' + CLS_TBARNAV);
                     if (!(0, ej2_base.le)(popNav)) {
-                        innerEle.removeAttribute('style'), popupEle.style.display = 'block', dimension = isVer ? ele.offsetHeight - (popNav.offsetHeight + innerEle.offsetHeight) : ele.offsetWidth - (popNav.offsetWidth + innerEle.offsetWidth);
+                        innerEle.removeAttribute('style'), popupEle.style.display = 'block';
                         var popupEleWidth = 0;
                         [].slice.call(popupEle.children).forEach(function(el) {
                             popupEleWidth += _this.popupEleWidth(el), (0, ej2_base.V7)(el, {
                                 position: ''
                             });
-                        }), dimension + (isVer ? popNav.offsetHeight : popNav.offsetWidth) > popupEleWidth && 0 === this.popupPriCount && (destroy = !0), this.popupEleRefresh(dimension, popupEle, destroy), popupEle.style.display = '', 0 === popupEle.children.length && popNav && this.popObj && ((0, ej2_base.og)(popNav), popNav = null, this.popObj.destroy(), (0, ej2_base.og)(this.popObj.element), this.popObj = null, ele.setAttribute('aria-haspopup', 'false'));
+                        }), (dimension = isVer ? ele.offsetHeight - (popNav.offsetHeight + innerEle.offsetHeight) : ele.offsetWidth - (popNav.offsetWidth + innerEle.offsetWidth)) + (isVer ? popNav.offsetHeight : popNav.offsetWidth) > popupEleWidth && 0 === this.popupPriCount && (destroy = !0), this.popupEleRefresh(dimension, popupEle, destroy), popupEle.style.display = '', 0 === popupEle.children.length && popNav && this.popObj && ((0, ej2_base.og)(popNav), popNav = null, this.popObj.destroy(), (0, ej2_base.og)(this.popObj.element), this.popObj = null, ele.setAttribute('aria-haspopup', 'false'));
                     }
                 }, Toolbar.prototype.ignoreEleFetch = function(index, innerEle) {
                     var ignoreEle = [].slice.call(innerEle.querySelectorAll('.' + CLS_TBARIGNORE)), ignoreInx = [], count = 0;
@@ -19536,9 +19529,7 @@
                 }, Toolbar.prototype.checkPopupRefresh = function(root, popEle) {
                     popEle.style.display = 'block';
                     var elWid = this.popupEleWidth(popEle.firstElementChild);
-                    popEle.firstElementChild.style.removeProperty('Position');
-                    var tbarWidth = root.offsetWidth - root.querySelector('.' + CLS_TBARNAV).offsetWidth, tbarItemsWid = root.querySelector('.' + CLS_ITEMS).offsetWidth;
-                    return popEle.style.removeProperty('display'), tbarWidth > elWid + tbarItemsWid;
+                    return popEle.firstElementChild.style.removeProperty('Position'), popEle.style.removeProperty('display'), root.offsetWidth - root.querySelector('.' + CLS_TBARNAV).offsetWidth > elWid + root.querySelector('.' + CLS_ITEMS).offsetWidth;
                 }, Toolbar.prototype.popupEleWidth = function(el) {
                     el.style.position = 'absolute';
                     var elWidth = this.isVertical ? el.offsetHeight : el.offsetWidth, btnText = el.querySelector(".e-tbar-btn-text");
@@ -20228,10 +20219,9 @@
                             splitButton.isReact && popupElem.childNodes.length < 1 && (splitButton.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
                         } else this.isReact && popupElem.childNodes.length < 1 && (this.appendReactElement(this.getTargetElement(), this.getPopUpElement()), this.renderReactTemplates());
                     } else this.createItems(!0);
-                    var ul = this.getULElement();
                     this.popupWireEvents();
                     var beforeOpenArgs = {
-                        element: ul,
+                        element: this.getULElement(),
                         items: this.items,
                         event: e,
                         cancel: !1
@@ -23390,12 +23380,10 @@
                                 break;
                             case 'cssClass':
                                 this_1.changeCssClassProps(newProp.cssClass, oldProp.cssClass);
-                                var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' '));
-                                props = props.reduce(function(a, b) {
+                                var props = newProp.cssClass.split(' ').concat(oldProp.cssClass.split(' ')), count_1 = 0;
+                                (props = props.reduce(function(a, b) {
                                     return 0 > a.indexOf(b) && a.push(b), a;
-                                }, []);
-                                var count_1 = 0;
-                                props.forEach(function(cls) {
+                                }, [])).forEach(function(cls) {
                                     0 === count_1 && (cls === HIDEVALUE || cls === HIDEVALUESWITCH || cls === SHOWVALUE || cls === HIDEHEX || cls === HIDERGBA) && ((0, ej2_base.Ys)('.' + INPUTWRAPPER, _this.container) && (0, ej2_base.Od)((0, ej2_base.Ys)('.' + INPUTWRAPPER, _this.container)), _this.createInput(), count_1++);
                                 });
                                 break;
@@ -27859,7 +27847,7 @@
                             if (_this.resizeBtnStat.column) {
                                 var width = parseFloat(_this.columnEle.offsetWidth.toString()), cellRow = 'TH' === _this.curTable.rows[0].cells[0].nodeName ? 1 : 0, currentTableWidth = parseFloat(_this.curTable.style.width.split('%')[0]), currentColumnCellWidth = parseFloat(_this.curTable.rows[cellRow].cells[_this.colIndex].style.width.split('%')[0]);
                                 if ('first' === _this.currentColumnResize) {
-                                    if (mouseX -= 0.75, _this.removeResizeElement(), (0 !== mouseX && 5 < currentColumnCellWidth || mouseX < 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare)) {
+                                    if (_this.removeResizeElement(), (0 != (mouseX -= 0.75) && 5 < currentColumnCellWidth || mouseX < 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare)) {
                                         var firstColumnsCell = _this.findFirstLastColCells(_this.curTable, !0);
                                         _this.curTable.style.width = _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare) > 100 ? "100%" : _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare) + '%';
                                         var differenceWidth = currentTableWidth - _this.convertPixelToPercentage(tableWidth - mouseX, widthCompare);
@@ -27867,7 +27855,7 @@
                                         for(var i = 0; i < firstColumnsCell.length; i++)_this.curTable.rows[i].cells[_this.colIndex].style.width = currentColumnCellWidth - differenceWidth + '%';
                                     }
                                 } else if ('last' === _this.currentColumnResize) {
-                                    if (mouseX += 0.75, _this.removeResizeElement(), (0 !== mouseX && 5 < currentColumnCellWidth || mouseX > 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare)) {
+                                    if (_this.removeResizeElement(), (0 !== (mouseX += 0.75) && 5 < currentColumnCellWidth || mouseX > 0) && currentTableWidth <= 100 && 100 >= _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare)) {
                                         var lastColumnsCell = _this.findFirstLastColCells(_this.curTable, !1);
                                         _this.curTable.style.width = _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) > 100 ? "100%" : _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%';
                                         for(var differenceWidth = currentTableWidth - _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare), i = 0; i < lastColumnsCell.length; i++)_this.curTable.rows[i].cells[_this.colIndex].style.width = currentColumnCellWidth - differenceWidth + '%';

@@ -8166,13 +8166,13 @@
                     case 4:
                         if (markRootSuspended$1(root, lanes), (4186112 & lanes) === lanes) break;
                         if (!shouldForceFlushFallbacksInDEV()) {
-                            var timeElapsed, mostRecentEventTime = function(root, lanes) {
+                            var timeElapsed, timeElapsedMs = now() - function(root, lanes) {
                                 for(var eventTimes = root.eventTimes, mostRecentEventTime = -1; lanes > 0;){
                                     var index = pickArbitraryLaneIndex(lanes), lane = 1 << index, eventTime = eventTimes[index];
                                     eventTime > mostRecentEventTime && (mostRecentEventTime = eventTime), lanes &= ~lane;
                                 }
                                 return mostRecentEventTime;
-                            }(root, lanes), timeElapsedMs = now() - mostRecentEventTime, _msUntilTimeout = (timeElapsedMs < 120 ? 120 : timeElapsedMs < 480 ? 480 : timeElapsedMs < 1080 ? 1080 : timeElapsedMs < 1920 ? 1920 : timeElapsedMs < 3000 ? 3000 : timeElapsedMs < 4320 ? 4320 : 1960 * ceil(timeElapsedMs / 1960)) - timeElapsedMs;
+                            }(root, lanes), _msUntilTimeout = (timeElapsedMs < 120 ? 120 : timeElapsedMs < 480 ? 480 : timeElapsedMs < 1080 ? 1080 : timeElapsedMs < 1920 ? 1920 : timeElapsedMs < 3000 ? 3000 : timeElapsedMs < 4320 ? 4320 : 1960 * ceil(timeElapsedMs / 1960)) - timeElapsedMs;
                             if (_msUntilTimeout > 10) {
                                 root.timeoutHandle = scheduleTimeout(commitRoot.bind(null, root), _msUntilTimeout);
                                 break;

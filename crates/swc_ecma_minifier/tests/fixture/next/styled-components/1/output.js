@@ -4321,7 +4321,7 @@
                 }
                 function L(d, c) {
                     var e = d.indexOf(1 === c ? ":" : "{"), h = d.substring(0, 3 !== c ? e : 10);
-                    return e = d.substring(e + 1, d.length - 1), R(2 !== c ? h : h.replace(na, "$1"), e, c);
+                    return R(2 !== c ? h : h.replace(na, "$1"), e = d.substring(e + 1, d.length - 1), c);
                 }
                 function ea(d, c) {
                     var e = P(c, c.charCodeAt(0), c.charCodeAt(1), c.charCodeAt(2));
@@ -4608,10 +4608,10 @@
                             if (void 0 !== s) {
                                 var i = e.names.get(s), a = t.getGroup(o);
                                 if (i && a && i.size) {
-                                    var c = A + ".g" + o + '[id="' + s + '"]', u = "";
+                                    var u = "";
                                     void 0 !== i && i.forEach(function(e) {
                                         e.length > 0 && (u += e + ",");
-                                    }), r += "" + a + c + '{content:"' + u + '"}/*!sc*/\n';
+                                    }), r += "" + a + A + ".g" + o + '[id="' + s + '"]{content:"' + u + '"}/*!sc*/\n';
                                 }
                             }
                         }

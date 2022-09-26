@@ -1548,9 +1548,7 @@
                         touchStartT = t;
                     }, editor), event.addListener(el, "touchend", function(e) {
                         pressed = editor.$mouseHandler.isMousePressed = !1, animationTimer && clearInterval(animationTimer), "zoom" == mode ? (mode = "", animationSteps = 0) : longTouchTimer ? (editor.selection.moveToPosition(pos), animationSteps = 0, showContextMenu()) : "scroll" == mode ? (animationSteps += 60, animationTimer = setInterval(function() {
-                            animationSteps-- <= 0 && (clearInterval(animationTimer), animationTimer = null), 0.01 > Math.abs(vX) && (vX = 0), 0.01 > Math.abs(vY) && (vY = 0), animationSteps < 20 && (vX *= 0.9), animationSteps < 20 && (vY *= 0.9);
-                            var oldScrollTop = editor.session.getScrollTop();
-                            editor.renderer.scrollBy(10 * vX, 10 * vY), oldScrollTop == editor.session.getScrollTop() && (animationSteps = 0);
+                            animationSteps-- <= 0 && (clearInterval(animationTimer), animationTimer = null), 0.01 > Math.abs(vX) && (vX = 0), 0.01 > Math.abs(vY) && (vY = 0), animationSteps < 20 && (vX *= 0.9), animationSteps < 20 && (vY *= 0.9), editor.renderer.scrollBy(10 * vX, 10 * vY), editor.session.getScrollTop() == editor.session.getScrollTop() && (animationSteps = 0);
                         }, 10), hideContextMenu()) : showContextMenu(), clearTimeout(longTouchTimer), longTouchTimer = null;
                     }, editor), event.addListener(el, "touchmove", function(e) {
                         longTouchTimer && (clearTimeout(longTouchTimer), longTouchTimer = null);
@@ -1853,7 +1851,7 @@
                 "ace/config"
             ], function(require, exports, module) {
                 "use strict";
-                var event = require("../lib/event"), useragent = require("../lib/useragent"), DefaultHandlers = require("./default_handlers").DefaultHandlers, DefaultGutterHandler = require("./default_gutter_handler").GutterHandler, MouseEvent = require("./mouse_event").MouseEvent, DragdropHandler = require("./dragdrop_handler").DragdropHandler, addTouchListeners = require("./touch_handler").addTouchListeners, config = require("../config"), MouseHandler = function(editor) {
+                var event = require("../lib/event"), useragent = require("../lib/useragent"), DefaultHandlers = require("./default_handlers").DefaultHandlers, DefaultGutterHandler = require("./default_gutter_handler").GutterHandler, MouseEvent = require("./mouse_event").MouseEvent, DragdropHandler = require("./dragdrop_handler").DragdropHandler, addTouchListeners = require("./touch_handler").addTouchListeners, MouseHandler = function(editor) {
                     var _self = this;
                     this.editor = editor, new DefaultHandlers(this), new DefaultGutterHandler(this), new DragdropHandler(this);
                     var focusEditor = function(e) {
@@ -1922,7 +1920,7 @@
                     }, this.destroy = function() {
                         this.releaseMouse && this.releaseMouse();
                     };
-                }).call(MouseHandler.prototype), config.defineOptions(MouseHandler.prototype, "mouseHandler", {
+                }).call(MouseHandler.prototype), require("../config").defineOptions(MouseHandler.prototype, "mouseHandler", {
                     scrollSpeed: {
                         initialValue: 2
                     },
@@ -4684,9 +4682,8 @@
                         var length = this.getLength();
                         return position.row >= length ? (position.row = Math.max(0, length - 1), position.column = this.getLine(length - 1).length) : (position.row = Math.max(0, position.row), position.column = Math.min(Math.max(position.column, 0), this.getLine(position.row).length)), position;
                     }, this.insertFullLines = function(row, lines) {
-                        row = Math.min(Math.max(row, 0), this.getLength());
                         var column = 0;
-                        row < this.getLength() ? (lines = lines.concat([
+                        (row = Math.min(Math.max(row, 0), this.getLength())) < this.getLength() ? (lines = lines.concat([
                             ""
                         ]), column = 0) : (lines = [
                             ""

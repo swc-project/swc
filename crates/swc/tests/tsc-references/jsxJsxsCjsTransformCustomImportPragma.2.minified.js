@@ -7,6 +7,4 @@ Object.defineProperty(exports, "__esModule", {
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: !0
-});
-var _jsxRuntime = require("react/jsx-runtime");
-require("./preact"), _jsxRuntime.Fragment;
+}), require("./preact"), require("react/jsx-runtime").Fragment;
