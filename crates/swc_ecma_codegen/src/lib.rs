@@ -2973,6 +2973,8 @@ where
     fn emit_try_stmt(&mut self, n: &TryStmt) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(n, true);
 
         keyword!("try");
