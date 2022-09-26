@@ -582,6 +582,8 @@ where
         num: &Number,
         detect_dot: bool,
     ) -> std::result::Result<bool, io::Error> {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(num.span(), false)?;
 
         // Handle infinity
