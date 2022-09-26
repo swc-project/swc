@@ -1,4 +1,5 @@
 {
     "defaults": false,
-    "toplevel": true
+    "toplevel": true,
+    "inline": true
 }
