@@ -36,5 +36,4 @@ jobs:
 
       - name: Check dependencies
         run: |
-          # ./scripts/crev/verify.sh
-          echo 'Disabled'
+          ./scripts/crev/verify.sh
