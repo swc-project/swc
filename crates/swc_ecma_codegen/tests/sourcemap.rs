@@ -62,8 +62,9 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
-    // Terser is wrong here
+    // Our one is better
     "d010d377bcfd5565.js",
+    "ce0aaec02d5d4465.js",
     // swc_common issue - `\r` should be treated as a newline
     "be2c3fff6426873e.js",
 ];
