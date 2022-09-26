@@ -67,6 +67,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "db66e1e8f3f1faef.js",
     "a7b8ce1d4c0f0bc2.js",
     "6498dcc494193cb4.js",
+    "6a240463b40550d2.js",
     // TODO: (maybe) fix span of `,`
     "641ac9060a206183.js",
     "e4cef19dab44335a.js",
@@ -244,8 +245,7 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "fbde237f11796df9.js",
     "fd5ea844fcc07d3d.js",
     // TODO(kdy1): Fix
-    // "6a240463b40550d2.js",
-    "6c5f0dd83c417a5a.js",
+    // "6c5f0dd83c417a5a.js",
     "78cf02220fb0937c.js",
     "78eb22badc114b6f.js",
     "7afd38d79e6795a8.js",
