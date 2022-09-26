@@ -1776,8 +1776,6 @@ where
         }
 
         emit!(n.arg);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
@@ -1794,8 +1792,6 @@ where
             emit!(node.arg);
             operator!(node.op.as_str());
         }
-
-        srcmap!(node, false);
     }
 
     #[emitter]
@@ -1817,8 +1813,6 @@ where
             }
             emit!(node.arg);
         }
-
-        srcmap!(node, false);
     }
 
     fn emit_expr_or_spreads(
@@ -1853,8 +1847,6 @@ where
         space!();
 
         emit!(&n.arg);
-
-        srcmap!(n, false);
     }
 
     #[emitter]
