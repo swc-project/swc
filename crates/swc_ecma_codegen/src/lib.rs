@@ -2636,6 +2636,8 @@ where
 
     #[emitter]
     fn emit_debugger_stmt(&mut self, node: &DebuggerStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         keyword!(node.span, "debugger");
@@ -2644,6 +2646,8 @@ where
 
     #[emitter]
     fn emit_with_stmt(&mut self, node: &WithStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         srcmap!(node, true);
 
         keyword!("with");
@@ -2993,6 +2997,8 @@ where
 
     #[emitter]
     fn emit_while_stmt(&mut self, node: &WhileStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
@@ -3008,6 +3014,8 @@ where
 
     #[emitter]
     fn emit_do_while_stmt(&mut self, node: &DoWhileStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(node.span(), false)?;
 
         srcmap!(node, true);
@@ -3037,6 +3045,8 @@ where
 
     #[emitter]
     fn emit_for_stmt(&mut self, n: &ForStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         srcmap!(n, true);
@@ -3056,6 +3066,8 @@ where
 
     #[emitter]
     fn emit_for_in_stmt(&mut self, n: &ForInStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         srcmap!(n, true);
@@ -3090,6 +3102,8 @@ where
 
     #[emitter]
     fn emit_for_of_stmt(&mut self, n: &ForOfStmt) -> Result {
+        self.wr.commit_pending_semi()?;
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         srcmap!(n, true);
