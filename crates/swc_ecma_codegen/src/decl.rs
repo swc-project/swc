@@ -17,7 +17,7 @@ where
             Decl::Fn(ref n) => emit!(n),
 
             Decl::Var(ref n) => {
-                self.emit_var_decl_inner(n, false)?;
+                self.emit_var_decl_inner(n)?;
                 formatting_semi!();
                 srcmap!(n, false);
             }
@@ -67,6 +67,8 @@ where
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.wr.commit_pending_semi()?;
+
         srcmap!(node, true);
 
         if node.declare {
@@ -94,11 +96,13 @@ where
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_var_decl_inner(node, true)?;
+        self.emit_var_decl_inner(node)?;
     }
 
-    fn emit_var_decl_inner(&mut self, node: &VarDecl, last_source_map: bool) -> Result {
+    fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
+
+        self.wr.commit_pending_semi()?;
 
         srcmap!(self, node, true);
 
@@ -128,10 +132,6 @@ where
             ListFormat::VariableDeclarationList,
         )?;
 
-        if last_source_map {
-            srcmap!(self, node, false);
-        }
-
         Ok(())
     }
 
@@ -149,8 +149,6 @@ where
             formatting_space!();
             emit!(init);
         }
-
-        srcmap!(node, false);
     }
 }
 

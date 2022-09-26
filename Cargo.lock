@@ -3362,18 +3362,21 @@ dependencies = [
 name = "swc_ecma_codegen"
 version = "0.127.1"
 dependencies = [
+ "base64 0.13.0",
  "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
  "rustc-hash",
  "serde",
+ "serde_json",
  "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen_macros",
  "swc_ecma_parser",
+ "swc_ecma_testing",
  "swc_node_base",
  "testing",
  "tracing",

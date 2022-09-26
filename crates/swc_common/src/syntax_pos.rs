@@ -1001,6 +1001,8 @@ impl BytePos {
     /// Dummy position. This is reserved for synthesized spans.
     pub const DUMMY: Self = BytePos(0);
     const MIN_RESERVED: Self = BytePos(DUMMY_RESERVE);
+    /// Synthesized, but should be stored in a source map.
+    pub const SYNTHESIZED: Self = BytePos(u32::MAX);
 
     pub const fn is_reserved_for_comments(self) -> bool {
         self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
@@ -1185,7 +1187,7 @@ pub struct LineInfo {
 }
 
 /// Used to create a `.map` file.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq, Hash)]
 pub struct LineCol {
     pub line: u32,
     pub col: u32,
