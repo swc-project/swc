@@ -66,6 +66,8 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "d010d377bcfd5565.js",
     "ce0aaec02d5d4465.js",
     "edd1f39f90576180.js",
+    "290fdc5a2f826ead.js",
+    "e71a91c61343cdb1.jsjs",
     // swc_common issue - `\r` should be treated as a newline
     "be2c3fff6426873e.js",
 ];
