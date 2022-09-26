@@ -223,10 +223,8 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "a454d2e2ab3484e6.js",
     "a54cca69085ad35a.js",
     "a86a29773d1168d3.js",
-    // "b205355de22689d1.js",
-    // "b93d116fd0409637.js",
-    // "bbffb851469a3f0e.js",
-    // "bc302492d441d561.js",
+    "b205355de22689d1.js",
+    "b93d116fd0409637.js",
     // "be2fd5888f434cbd.js",
     // "c85bc4de504befc7.js",
     // "c8689b6da6fd227a.js",
@@ -257,6 +255,8 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "80950061e291542b.js",
     "8a0fc8ea31727188.module.js",
     "af97a3752e579223.js",
+    "bbffb851469a3f0e.js",
+    "bc302492d441d561.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
