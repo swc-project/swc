@@ -1177,42 +1177,31 @@ where
                         }
                     }
                 }
-                if let Callee::Expr(e) = &e.callee {
-                    if !self.is_skippable_for_seq(a, e) {
-                        return false;
+
+                if let Callee::Expr(callee) = &e.callee {
+                    if callee.is_pure_callee(&self.expr_ctx) {
+                        if !self.is_skippable_for_seq(a, callee) {
+                            return false;
+                        }
                     }
-                }
 
-                for arg in &e.args {
-                    if !self.is_skippable_for_seq(a, &arg.expr) {
-                        return false;
-                    }
-                }
-
-                true
-            }
-
-            Expr::New(e) => {
-                if !self.is_skippable_for_seq(a, &e.callee) {
-                    return false;
-                }
-
-                if let Some(args) = &e.args {
-                    for arg in args {
+                    for arg in &e.args {
                         if !self.is_skippable_for_seq(a, &arg.expr) {
                             return false;
                         }
                     }
+
+                    return true;
                 }
 
-                true
+                false
             }
 
             Expr::Seq(SeqExpr { exprs, .. }) => {
                 exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
             }
 
-            Expr::TaggedTpl(..) => {
+            Expr::TaggedTpl(..) | Expr::New(..) => {
                 // TODO(kdy1): We can optimize some known calls.
 
                 false
@@ -1227,11 +1216,8 @@ where
             | Expr::Arrow(_)
             | Expr::PrivateName(_) => true,
 
-            Expr::Update(e) => self.is_skippable_for_seq(a, &e.arg),
-            Expr::SuperProp(e) => match &e.prop {
-                SuperProp::Ident(_) => true,
-                SuperProp::Computed(p) => self.is_skippable_for_seq(a, &p.expr),
-            },
+            Expr::Update(..) => false,
+            Expr::SuperProp(..) => false,
             Expr::Class(_) => e.may_have_side_effects(&self.expr_ctx),
 
             Expr::Paren(e) => self.is_skippable_for_seq(a, &e.expr),
