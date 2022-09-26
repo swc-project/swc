@@ -2063,6 +2063,9 @@ where
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_span(ident.span, false)?;
 
+        // Source map
+        self.wr.commit_pending_semi()?;
+
         srcmap!(ident, true);
         // TODO: span
         self.wr
