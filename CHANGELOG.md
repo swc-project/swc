@@ -14,6 +14,9 @@
 - **(es/minifier)** Fix analysis of parameters (#5954) ([33a15c8](https://github.com/swc-project/swc/commit/33a15c8d8275ea6c9d4101d7bc77ecba9f420924))
 
 
+- **(es/minifier)** Fix analysis of nested function-like properties (#5963) ([0fb2c1d](https://github.com/swc-project/swc/commit/0fb2c1d5a539d656f337d0ef4c9392f01817986d))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 
