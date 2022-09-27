@@ -1144,6 +1144,24 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.function.decorators.visit_with(self);
+
+        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(a);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..a.ctx
+                };
+                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+            }
+
+            n.function.visit_with(a);
+        });
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_getter_prop(&mut self, n: &GetterProp) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
