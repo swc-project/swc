@@ -1,0 +1,65 @@
+@counter-style my-alpha {}
+
+@counter-style my-alpha {
+    system: fixed;
+    symbols: A B C;
+    suffix: "0";
+}
+
+@COUNTER-STYLE my-alpha {
+    system: fixed;
+    symbols: A B C;
+    suffix: "1";
+}
+
+@counter-style my-alpha-other {
+    system: fixed;
+    symbols: Ⓐ Ⓑ Ⓒ;
+    suffix: "2";
+}
+
+@counter-style my-alpha-one {
+    system: fixed;
+    symbols: Ⓐ Ⓑ Ⓒ;
+    suffix: "2";
+}
+
+@counter-style my-alpha {
+    system: fixed;
+    symbols: A B C;
+    suffix: "0";
+}
+
+@media (max-width: 400px) {
+    @counter-style my-alpha {
+        system: fixed;
+        symbols: A B C;
+        suffix: "media-0";
+    }
+
+    @supports (display: flex) {
+        @counter-style my-alpha {
+            system: fixed;
+            symbols: a b c;
+            suffix: "media-supports-0";
+        }
+    }
+
+    @counter-style my-alpha {
+        system: fixed;
+        symbols: Ⓐ Ⓑ Ⓒ;
+        suffix: "media-1";
+    }
+}
+
+@counter-style my-alpha {
+    system: fixed;
+    symbols: Ⓐ Ⓑ Ⓒ;
+    suffix: "2";
+}
+
+@counter-style my-alpha-other {
+    system: fixed;
+    symbols: Ⓐ Ⓑ Ⓒ;
+    suffix: "2";
+}
