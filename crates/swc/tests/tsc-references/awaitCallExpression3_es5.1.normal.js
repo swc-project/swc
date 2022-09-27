@@ -20,8 +20,7 @@ function _func() {
                     ];
                 case 1:
                     b = fn.apply(void 0, _tmp.concat([
-                        _state.sent()
-                    ], [
+                        _state.sent(),
                         a
                     ]));
                     after();

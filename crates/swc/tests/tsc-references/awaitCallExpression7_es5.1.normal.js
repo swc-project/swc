@@ -21,8 +21,7 @@ function _func() {
                     ];
                 case 1:
                     b = _.apply(o, _tmp.concat([
-                        _state.sent()
-                    ], [
+                        _state.sent(),
                         a
                     ]));
                     after();
