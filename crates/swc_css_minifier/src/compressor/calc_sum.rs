@@ -12,15 +12,13 @@ fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
                 expressions: calc_product_expressions,
                 ..
             }) if calc_product_expressions.len() == 1 => {
-                match calc_product_expressions.get(0).unwrap() {
-                    CalcValueOrOperator::Value(CalcValue::Sum(CalcSum {
-                        expressions: nested_expressions,
-                        span: nested_span,
-                    })) => {
-                        calc_sum.span = *nested_span;
-                        calc_sum.expressions = nested_expressions.to_vec();
-                    }
-                    _ => {}
+                if let CalcValueOrOperator::Value(CalcValue::Sum(CalcSum {
+                    expressions: nested_expressions,
+                    span: nested_span,
+                })) = calc_product_expressions.get(0).unwrap()
+                {
+                    calc_sum.span = *nested_span;
+                    calc_sum.expressions = nested_expressions.to_vec();
                 }
             }
             _ => {}
@@ -48,7 +46,7 @@ fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
 }
 
 fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> ComponentValue {
-    return match &calc_value {
+    match &calc_value {
         CalcValue::Number(n) => ComponentValue::Number(n.clone()),
         CalcValue::Dimension(Dimension::Length(l)) => {
             ComponentValue::Dimension(Dimension::Length(Length {
@@ -112,7 +110,7 @@ fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Componen
         CalcValue::Sum(_) => {
             unreachable!("CalcValue::Sum cannot be transformed into a ComponentValue")
         }
-    };
+    }
 }
 
 fn fold_calc_sum(calc_sum: &mut CalcSum) {
@@ -189,8 +187,8 @@ fn fold_calc_sum(calc_sum: &mut CalcSum) {
         }
     }
 
-    if prev_operand.is_some() {
-        folded_expressions.push(CalcProductOrOperator::Product(prev_operand.unwrap()));
+    if let Some(operand) = prev_operand {
+        folded_expressions.push(CalcProductOrOperator::Product(operand));
     }
 
     calc_sum.expressions = folded_expressions;
@@ -243,19 +241,19 @@ fn try_to_sum_calc_products(
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(l1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(l2))),
-            ) => try_to_sum_lengths(&value1.span, &l1, &l2, sum),
+            ) => try_to_sum_lengths(&value1.span, l1, l2, sum),
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(t1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(t2))),
-            ) => try_to_sum_times(&value1.span, &t1, &t2, sum),
+            ) => try_to_sum_times(&value1.span, t1, t2, sum),
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f2))),
-            ) => try_to_sum_frequencies(&value1.span, &f1, &f2, sum),
+            ) => try_to_sum_frequencies(&value1.span, f1, f2, sum),
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(r1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(r2))),
-            ) => try_to_sum_resolutions(&value1.span, &r1, &r2, sum),
+            ) => try_to_sum_resolutions(&value1.span, r1, r2, sum),
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(a1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(a2))),
@@ -526,7 +524,7 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
         let cur_operand: Option<CalcValue> = match calc_value {
             CalcValueOrOperator::Value(CalcValue::Sum(calc_sum)) => {
                 fold_calc_sum(calc_sum);
-                let single_value = try_to_extract_into_calc_value(&calc_sum);
+                let single_value = try_to_extract_into_calc_value(calc_sum);
                 if single_value.is_some() {
                     single_value
                 } else {
@@ -582,24 +580,24 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
         }
     }
 
-    if prev_operand.is_some() {
-        folded_expressions.push(CalcValueOrOperator::Value(prev_operand.unwrap()));
+    if let Some(operand) = prev_operand {
+        folded_expressions.push(CalcValueOrOperator::Value(operand));
     }
 
     calc_product.expressions = folded_expressions;
 }
 
 fn try_to_multiply_calc_values(value1: &CalcValue, value2: &CalcValue) -> Option<CalcValue> {
-    return match (value1, value2) {
+    match (value1, value2) {
         (CalcValue::Number(n), value) | (value, CalcValue::Number(n)) => {
             multiply_number_by_calc_value(n, value)
         }
         _ => None,
-    };
+    }
 }
 
 fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcValue> {
-    return match value {
+    match value {
         CalcValue::Number(n2) => Some(CalcValue::Number(Number {
             value: n.value * n2.value,
             span: n2.span,
@@ -699,7 +697,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
             // This expression does not represent a simple value... let's do nothing
             None
         }
-    };
+    }
 }
 
 impl Compressor {
