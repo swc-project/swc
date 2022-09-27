@@ -113,6 +113,10 @@ destructuring/mangle_destructuring_decl_collapse_vars/input.js
 destructuring/unused_destructuring_arrow_param/input.js
 destructuring/unused_destructuring_getter_side_effect_2/input.js
 drop_unused/chained_3/input.js
+drop_unused/delete_assign_1/input.js
+drop_unused/delete_assign_2/input.js
+drop_unused/double_assign_1/input.js
+drop_unused/double_assign_2/input.js
 drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
 drop_unused/drop_toplevel_funcs_retain/input.js
