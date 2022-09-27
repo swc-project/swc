@@ -1,2 +1,2 @@
 var a = 2, b;
-a *= (a = 4, 3), console.log(a);
+console.log(a *= (a = 4, 3));

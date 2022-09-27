@@ -15,27 +15,21 @@ export var C;
 }(C || (C = {}));
 export { _default as default };
 //// [/b.ts]
-var a, b;
-console.log(a, b);
+console.log(void 0, void 0);
 export { };
 //// [/c.ts]
-var a, b;
-console.log(a, b);
+console.log(void 0, void 0);
 export { };
 //// [/d.ts]
-var b;
 import { A } from "./a";
-console.log(A, b);
+console.log(A, void 0);
 //// [/e.ts]
 export { };
 //// [/f.ts]
 import { C } from "./a";
-C.One;
-var c = C.Two, d = C.Two;
-console.log(c, d);
+C.One, console.log(C.Two, C.Two);
 //// [/g.ts]
-var c, d;
-console.log(c, d);
+console.log(void 0, void 0);
 export { };
 //// [/h.ts]
 //! 

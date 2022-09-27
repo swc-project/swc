@@ -607,6 +607,11 @@ where
             return;
         }
 
+        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+            log_abort!("sequences: Eval call");
+            return;
+        }
+
         let mut exprs = vec![];
         let mut buf = vec![];
 
@@ -702,6 +707,11 @@ where
 
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
+
+        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+            log_abort!("sequences: Eval call");
+            return;
+        }
 
         #[cfg(feature = "debug")]
         let _tracing = {

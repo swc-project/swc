@@ -13939,12 +13939,12 @@
                     }
                     return method;
                 }, nodeWrap = function(method, is224) {
-                    var crypto = eval("require('crypto')"), Buffer = eval("require('buffer').Buffer"), algorithm = is224 ? 'sha224' : 'sha256';
-                    return function(message) {
+                    var crypto = eval("require('crypto')"), Buffer = eval("require('buffer').Buffer"), algorithm = is224 ? 'sha224' : 'sha256', nodeMethod = function(message) {
                         if ('string' == typeof message) return crypto.createHash(algorithm).update(message, 'utf8').digest('hex');
                         if (null == message) throw Error(ERROR);
                         return message.constructor === ArrayBuffer && (message = new Uint8Array(message)), Array.isArray(message) || ArrayBuffer.isView(message) || message.constructor === Buffer ? crypto.createHash(algorithm).update(new Buffer(message)).digest('hex') : method(message);
                     };
+                    return nodeMethod;
                 }, createHmacOutputMethod = function(outputType, is224) {
                     return function(key, message) {
                         return new HmacSha256(key, is224, !0).update(message)[outputType]();

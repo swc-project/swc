@@ -5,8 +5,7 @@ var _foo = new WeakMap();
 function set_foo(a) {}
 new class {
     bar() {
-        let x = _class_private_field_set(this, _foo, 84);
-        console.log(x);
+        console.log(_class_private_field_set(this, _foo, 84));
     }
     constructor(){
         _class_private_field_init(this, _foo, {

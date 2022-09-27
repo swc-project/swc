@@ -1200,7 +1200,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 for(feature in features)this[feature] = features[feature];
                 return;
             }
-            (features = featuresCache[rootUid] = {}).root = root, features.isXMLDocument = this.isXML(document1), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
+            features = featuresCache[rootUid] = {}, features.root = root, features.isXMLDocument = this.isXML(document1), features.brokenStarGEBTN = features.starSelectsClosedQSA = features.idGetsName = features.brokenMixedCaseQSA = features.brokenGEBCN = features.brokenCheckedQSA = features.brokenEmptyAttributeQSA = features.isHTMLDocument = features.nativeMatchesSelector = !1;
             var starSelectsClosed, starSelectsComments, brokenSecondClassNameGEBCN, cachedGetElementsByClassName, brokenFormAttributeGetter, selected, id = "slick_uniqueid", testNode = document1.createElement("div"), testRoot = document1.body || document1.getElementsByTagName("body")[0] || root;
             testRoot.appendChild(testNode);
             try {
@@ -2121,11 +2121,14 @@ Elements.prototype = {
             var queryString = [];
             return this.getElements("input, select, textarea").each(function(el) {
                 var type = el.type;
-                el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type && Array.from("select" == el.get("tag") ? el.getSelected().map(function(opt) {
-                    return document.id(opt).get("value");
-                }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null).each(function(val) {
-                    void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
-                });
+                if (el.name && !el.disabled && "submit" != type && "reset" != type && "file" != type && "image" != type) {
+                    var value = "select" == el.get("tag") ? el.getSelected().map(function(opt) {
+                        return document.id(opt).get("value");
+                    }) : "radio" != type && "checkbox" != type || el.checked ? el.get("value") : null;
+                    Array.from(value).each(function(val) {
+                        void 0 !== val && queryString.push(encodeURIComponent(el.name) + "=" + encodeURIComponent(val));
+                    });
+                }
             }), queryString.join("&");
         }
     });
@@ -3073,16 +3076,19 @@ Elements.prototype = {
         var to = {}, selectorTest = RegExp("^" + selector.escapeRegExp() + "$");
         return Array.each(document.styleSheets, function(sheet, j) {
             var href = sheet.href;
-            (!(href && href.contains("://")) || href.contains(document.domain)) && Array.each(sheet.rules || sheet.cssRules, function(rule, i) {
-                if (rule.style) {
-                    var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
-                        return m.toLowerCase();
-                    }) : null;
-                    selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
-                        rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
-                    });
-                }
-            });
+            if (!(href && href.contains("://")) || href.contains(document.domain)) {
+                var rules = sheet.rules || sheet.cssRules;
+                Array.each(rules, function(rule, i) {
+                    if (rule.style) {
+                        var selectorText = rule.selectorText ? rule.selectorText.replace(/^\w+/, function(m) {
+                            return m.toLowerCase();
+                        }) : null;
+                        selectorText && selectorTest.test(selectorText) && Object.each(Element.Styles, function(value, style) {
+                            rule.style[style] && !Element.ShortStyles[style] && (value = String(rule.style[style]), to[style] = /^rgb/.test(value) ? value.rgbToHex() : value);
+                        });
+                    }
+                });
+            }
         }), Fx.CSS.Cache[selector] = to;
     }
 }), Fx.CSS.Cache = {}, Fx.CSS.Parsers = {
