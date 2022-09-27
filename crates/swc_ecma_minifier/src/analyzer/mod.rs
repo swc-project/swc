@@ -1144,6 +1144,69 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_method_prop(&mut self, n: &MethodProp) {
+        n.function.decorators.visit_with(self);
+
+        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(a);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..a.ctx
+                };
+                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+            }
+
+            n.function.visit_with(a);
+        });
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_getter_prop(&mut self, n: &GetterProp) {
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(a);
+
+            n.body.visit_with(a);
+        });
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_class_method(&mut self, n: &ClassMethod) {
+        n.function.decorators.visit_with(self);
+
+        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(a);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..a.ctx
+                };
+                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+            }
+
+            n.function.visit_with(a);
+        });
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_private_method(&mut self, n: &PrivateMethod) {
+        n.function.decorators.visit_with(self);
+
+        self.with_child(n.function.span.ctxt, ScopeKind::Fn, |a| {
+            n.key.visit_with(a);
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..a.ctx
+                };
+                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+            }
+
+            n.function.visit_with(a);
+        });
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx {
             in_update_arg: false,
