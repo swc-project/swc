@@ -28,6 +28,9 @@
 
 - **(dbg-swc)** Add a size debugger for next.js (#5945) ([b219fa2](https://github.com/swc-project/swc/commit/b219fa2f015f39e1f3da17ade777a4bc92b6eabe))
 
+
+- **(es/minifier)** Ignore more expressions in sequential inliner (#5961) ([dcd516d](https://github.com/swc-project/swc/commit/dcd516d2bd5e9fcdc11a96c014671958ddede1de))
+
 ### Testing
 
 

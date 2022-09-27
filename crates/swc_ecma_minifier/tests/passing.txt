@@ -410,6 +410,7 @@ drop_unused/global_var/input.js
 drop_unused/iife/input.js
 drop_unused/issue_1539/input.js
 drop_unused/issue_1656/input.js
+drop_unused/issue_1709/input.js
 drop_unused/issue_1715_1/input.js
 drop_unused/issue_1715_2/input.js
 drop_unused/issue_2136_1/input.js

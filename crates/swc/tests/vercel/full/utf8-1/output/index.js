@@ -39,7 +39,7 @@ function p() {
                         5
                     ];
                 case 4:
-                    return c = e.sent(), console.error("Error occurred checking for update", c), document.location.reload(!0), [
+                    return console.error("Error occurred checking for update", e.sent()), document.location.reload(!0), [
                         3,
                         5
                     ];
