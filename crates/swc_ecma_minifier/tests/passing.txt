@@ -567,6 +567,8 @@ functions/function_returning_constant_literal/input.js
 functions/iifes_returning_constants_keep_fargs_false/input.js
 functions/iifes_returning_constants_keep_fargs_true/input.js
 functions/inline_0/input.js
+functions/inline_1/input.js
+functions/inline_2/input.js
 functions/inline_3/input.js
 functions/inline_false/input.js
 functions/inline_function_expressions/input.js
@@ -1304,6 +1306,7 @@ reduce_vars/unsafe_evaluate_object_3/input.js
 reduce_vars/unsafe_evaluate_unknown/input.js
 reduce_vars/use_before_var/input.js
 reduce_vars/var_assign_1/input.js
+reduce_vars/var_assign_2/input.js
 reduce_vars/var_assign_3/input.js
 reduce_vars/var_assign_4/input.js
 reduce_vars/var_assign_5/input.js
@@ -1343,6 +1346,7 @@ sequences/delete_seq_2/input.js
 sequences/delete_seq_3/input.js
 sequences/delete_seq_6/input.js
 sequences/forin/input.js
+sequences/func_def_1/input.js
 sequences/func_def_2/input.js
 sequences/func_def_3/input.js
 sequences/func_def_4/input.js
