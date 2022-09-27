@@ -11,6 +11,9 @@
 - **(es/compat)** Fix the order of initialization for decorators on computed keys (#5964) ([e410102](https://github.com/swc-project/swc/commit/e41010263379fc9a7676925f089aa9913c8f0f04))
 
 
+- **(es/compat)** Fix unrolling of arrays in `generator` (#5965) ([1f892cd](https://github.com/swc-project/swc/commit/1f892cd9798cadcbf7cbfa182e164a358410ee2e))
+
+
 - **(es/minifier)** Fix skipping logic of sequential inliner (#5956) ([9d19742](https://github.com/swc-project/swc/commit/9d1974248dc5424ee20f7c315efadde4c696f720))
 
 
