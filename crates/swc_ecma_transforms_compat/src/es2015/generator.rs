@@ -1110,12 +1110,10 @@ impl Generator {
                         elems: expressions
                             .take()
                             .into_iter()
-                            .map(|expr| Some(ExprOrSpread {
-                                spread: None,
-                                expr
-                            }))
-                            .collect()
-                    }))}],
+                            .map(|expr| Some(ExprOrSpread { spread: None, expr }))
+                            .collect(),
+                    })),
+                }],
                 type_args: Default::default(),
             })
         } else {
