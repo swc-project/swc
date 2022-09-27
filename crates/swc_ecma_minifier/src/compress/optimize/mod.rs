@@ -241,6 +241,12 @@ struct Vars {
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
 
+    /// Literals which are cheap to clone, but not sure if we can inline without
+    /// making output bigger.
+    ///
+    /// https://github.com/swc-project/swc/issues/4415
+    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
