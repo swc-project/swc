@@ -591,12 +591,18 @@
                         }, Buffer.prototype.readDoubleBE = function(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
                         }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
-                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
+                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                                var n = Math.pow(2, 8 * t) - 1;
+                                checkInt(this, e, r, t, n, 0);
+                            }
                             var i = 1, o = 0;
                             for(this[r] = 255 & e; ++o < t && (i *= 256);)this[r + o] = e / i & 255;
                             return r + t;
                         }, Buffer.prototype.writeUIntBE = function(e, r, t, f) {
-                            e = +e, r >>>= 0, t >>>= 0, f || checkInt(this, e, r, t, Math.pow(2, 8 * t) - 1, 0);
+                            if (e = +e, r >>>= 0, t >>>= 0, !f) {
+                                var n = Math.pow(2, 8 * t) - 1;
+                                checkInt(this, e, r, t, n, 0);
+                            }
                             var i = t - 1, o = 1;
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                             return r + t;

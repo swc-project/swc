@@ -152,7 +152,11 @@ impl VarUsageInfo {
     pub fn reassigned(&self) -> bool {
         self.reassigned_with_assignment
             || self.reassigned_with_var_decl
-            || (u32::from(self.var_initialized) + self.assign_count) > 1
+            || (u32::from(self.var_initialized)
+                + u32::from(self.declared_as_catch_param)
+                + u32::from(self.declared_as_fn_param)
+                + self.assign_count)
+                > 1
     }
 }
 

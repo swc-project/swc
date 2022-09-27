@@ -20447,14 +20447,20 @@
                         }, u.prototype.readDoubleBE = function(e, t) {
                             return e >>>= 0, t || O(e, 8, this.length), i.read(this, e, !1, 52, 8);
                         }, u.prototype.writeUIntLE = function(e, t, r, n) {
-                            e = +e, t >>>= 0, r >>>= 0, n || C(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
-                            var i = 1, o = 0;
-                            for(this[t] = 255 & e; ++o < r && (i *= 256);)this[t + o] = e / i & 255;
+                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
+                                var i = Math.pow(2, 8 * r) - 1;
+                                C(this, e, t, r, i, 0);
+                            }
+                            var o = 1, a = 0;
+                            for(this[t] = 255 & e; ++a < r && (o *= 256);)this[t + a] = e / o & 255;
                             return t + r;
                         }, u.prototype.writeUIntBE = function(e, t, r, n) {
-                            e = +e, t >>>= 0, r >>>= 0, n || C(this, e, t, r, Math.pow(2, 8 * r) - 1, 0);
-                            var i = r - 1, o = 1;
-                            for(this[t + i] = 255 & e; --i >= 0 && (o *= 256);)this[t + i] = e / o & 255;
+                            if (e = +e, t >>>= 0, r >>>= 0, !n) {
+                                var i = Math.pow(2, 8 * r) - 1;
+                                C(this, e, t, r, i, 0);
+                            }
+                            var o = r - 1, a = 1;
+                            for(this[t + o] = 255 & e; --o >= 0 && (a *= 256);)this[t + o] = e / a & 255;
                             return t + r;
                         }, u.prototype.writeUInt8 = function(e, t, r) {
                             return e = +e, t >>>= 0, r || C(this, e, t, 1, 255, 0), this[t] = 255 & e, t + 1;
