@@ -1,6 +1,6 @@
 var c = 1;
 !(function c() {
-    c++;
+    o++;
     try {
         x();
     } catch (o) {

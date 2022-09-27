@@ -2777,20 +2777,20 @@
                 };
                 o._prime = function t(e) {
                     if (x[e]) return x[e];
-                    var t;
+                    var r;
                     if (e === 'k256') {
-                        t = new T();
+                        r = new T();
                     } else if (e === 'p224') {
-                        t = new A();
+                        r = new A();
                     } else if (e === 'p192') {
-                        t = new O();
+                        r = new O();
                     } else if (e === 'p25519') {
-                        t = new k();
+                        r = new k();
                     } else {
                         throw new Error('Unknown prime ' + e);
                     }
-                    x[e] = t;
-                    return t;
+                    x[e] = r;
+                    return r;
                 };
                 function I(t) {
                     if (typeof t === 'string') {
@@ -15520,20 +15520,20 @@
                 };
                 o._prime = function t(e) {
                     if (w[e]) return w[e];
-                    var t;
+                    var r;
                     if (e === 'k256') {
-                        t = new S();
+                        r = new S();
                     } else if (e === 'p224') {
-                        t = new E();
+                        r = new E();
                     } else if (e === 'p192') {
-                        t = new x();
+                        r = new x();
                     } else if (e === 'p25519') {
-                        t = new M();
+                        r = new M();
                     } else {
                         throw new Error('Unknown prime ' + e);
                     }
-                    w[e] = t;
-                    return t;
+                    w[e] = r;
+                    return r;
                 };
                 function T(t) {
                     if (typeof t === 'string') {
