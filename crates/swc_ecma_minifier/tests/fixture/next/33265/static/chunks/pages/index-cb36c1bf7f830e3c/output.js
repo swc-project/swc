@@ -2121,7 +2121,7 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
+                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
                         }
                         function appendText(end) {
                             if (end > start) {
@@ -5587,12 +5587,18 @@
             }, Buffer.prototype.readDoubleBE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 8, this.length), ieee754.read(this, offset, !1, 52, 8);
             }, Buffer.prototype.writeUIntLE = function(value, offset, byteLength, noAssert) {
-                value = +value, offset >>>= 0, byteLength >>>= 0, noAssert || checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength) - 1, 0);
+                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
+                    checkInt(this, value, offset, byteLength, maxBytes, 0);
+                }
                 var mul = 1, i = 0;
                 for(this[offset] = 0xff & value; ++i < byteLength && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
             }, Buffer.prototype.writeUIntBE = function(value, offset, byteLength, noAssert) {
-                value = +value, offset >>>= 0, byteLength >>>= 0, noAssert || checkInt(this, value, offset, byteLength, Math.pow(2, 8 * byteLength) - 1, 0);
+                if (value = +value, offset >>>= 0, byteLength >>>= 0, !noAssert) {
+                    var maxBytes = Math.pow(2, 8 * byteLength) - 1;
+                    checkInt(this, value, offset, byteLength, maxBytes, 0);
+                }
                 var i = byteLength - 1, mul = 1;
                 for(this[offset + i] = 0xff & value; --i >= 0 && (mul *= 0x100);)this[offset + i] = value / mul & 0xff;
                 return offset + byteLength;
