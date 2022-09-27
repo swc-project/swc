@@ -11,6 +11,9 @@
 - **(es/minifier)** Fix skipping logic of sequential inliner (#5956) ([9d19742](https://github.com/swc-project/swc/commit/9d1974248dc5424ee20f7c315efadde4c696f720))
 
 
+- **(es/minifier)** Fix analysis of parameters (#5954) ([33a15c8](https://github.com/swc-project/swc/commit/33a15c8d8275ea6c9d4101d7bc77ecba9f420924))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 
