@@ -36,7 +36,7 @@ fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
                 ..
             }) if calc_product_expressions.len() == 1 => {
                 match calc_product_expressions.get(0).unwrap() {
-                    CalcValueOrOperator::Value(calc_value) => Some(copy_calc_value(&calc_value)),
+                    CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
                     _ => None,
                 }
             }
@@ -47,147 +47,66 @@ fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
     None
 }
 
-fn copy_ident(i: &Ident) -> Ident {
-    Ident {
-        span: i.span,
-        value: i.value.clone(),
-        raw: None,
-    }
-}
-
-fn copy_number(n: &Number) -> Number {
-    Number {
-        span: n.span,
-        value: n.value,
-        raw: None,
-    }
-}
-
-fn copy_calc_value(calc_value: &CalcValue) -> CalcValue {
-    return match &calc_value {
-        CalcValue::Number(n) => CalcValue::Number(copy_number(n)),
-        CalcValue::Dimension(Dimension::Length(l)) => {
-            CalcValue::Dimension(Dimension::Length(Length {
-                span: l.span,
-                value: copy_number(&l.value),
-                unit: copy_ident(&l.unit),
-            }))
-        }
-        CalcValue::Dimension(Dimension::Angle(a)) => {
-            CalcValue::Dimension(Dimension::Angle(Angle {
-                span: a.span,
-                value: copy_number(&a.value),
-                unit: copy_ident(&a.unit),
-            }))
-        }
-        CalcValue::Dimension(Dimension::Time(t)) => CalcValue::Dimension(Dimension::Time(Time {
-            span: t.span,
-            value: copy_number(&t.value),
-            unit: copy_ident(&t.unit),
-        })),
-        CalcValue::Dimension(Dimension::Frequency(f)) => {
-            CalcValue::Dimension(Dimension::Frequency(Frequency {
-                span: f.span,
-                value: copy_number(&f.value),
-                unit: copy_ident(&f.unit),
-            }))
-        }
-        CalcValue::Dimension(Dimension::Resolution(r)) => {
-            CalcValue::Dimension(Dimension::Resolution(Resolution {
-                span: r.span,
-                value: copy_number(&r.value),
-                unit: copy_ident(&r.unit),
-            }))
-        }
-        CalcValue::Dimension(Dimension::Flex(f)) => CalcValue::Dimension(Dimension::Flex(Flex {
-            span: f.span,
-            value: copy_number(&f.value),
-            unit: copy_ident(&f.unit),
-        })),
-        CalcValue::Dimension(Dimension::UnknownDimension(u)) => {
-            CalcValue::Dimension(Dimension::UnknownDimension(UnknownDimension {
-                span: u.span,
-                value: copy_number(&u.value),
-                unit: copy_ident(&u.unit),
-            }))
-        }
-        CalcValue::Percentage(p) => CalcValue::Percentage(Percentage {
-            span: p.span,
-            value: copy_number(&p.value),
-        }),
-        CalcValue::Constant(c) => CalcValue::Constant(copy_ident(c)),
-        CalcValue::Function(f) => CalcValue::Function(Function {
-            span: f.span,
-            name: copy_ident(&f.name),
-            value: f.value.to_vec(),
-        }),
-        CalcValue::Sum(s) => CalcValue::Sum(CalcSum {
-            span: s.span,
-            expressions: s.expressions.to_vec(),
-        }),
-    };
-}
-
 fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> ComponentValue {
     return match &calc_value {
-        CalcValue::Number(n) => ComponentValue::Number(copy_number(n)),
+        CalcValue::Number(n) => ComponentValue::Number(n.clone()),
         CalcValue::Dimension(Dimension::Length(l)) => {
             ComponentValue::Dimension(Dimension::Length(Length {
                 span: l.span,
-                value: copy_number(&l.value),
-                unit: copy_ident(&l.unit),
+                value: l.value.clone(),
+                unit: l.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::Angle(a)) => {
             ComponentValue::Dimension(Dimension::Angle(Angle {
                 span: a.span,
-                value: copy_number(&a.value),
-                unit: copy_ident(&a.unit),
+                value: a.value.clone(),
+                unit: a.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::Time(t)) => {
             ComponentValue::Dimension(Dimension::Time(Time {
                 span: t.span,
-                value: copy_number(&t.value),
-                unit: copy_ident(&t.unit),
+                value: t.value.clone(),
+                unit: t.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::Frequency(f)) => {
             ComponentValue::Dimension(Dimension::Frequency(Frequency {
                 span: f.span,
-                value: copy_number(&f.value),
-                unit: copy_ident(&f.unit),
+                value: f.value.clone(),
+                unit: f.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::Resolution(r)) => {
             ComponentValue::Dimension(Dimension::Resolution(Resolution {
                 span: r.span,
-                value: copy_number(&r.value),
-                unit: copy_ident(&r.unit),
+                value: r.value.clone(),
+                unit: r.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::Flex(f)) => {
             ComponentValue::Dimension(Dimension::Flex(Flex {
                 span: f.span,
-                value: copy_number(&f.value),
-                unit: copy_ident(&f.unit),
+                value: f.value.clone(),
+                unit: f.unit.clone(),
             }))
         }
         CalcValue::Dimension(Dimension::UnknownDimension(u)) => {
             ComponentValue::Dimension(Dimension::UnknownDimension(UnknownDimension {
                 span: u.span,
-                value: copy_number(&u.value),
-                unit: copy_ident(&u.unit),
+                value: u.value.clone(),
+                unit: u.unit.clone(),
             }))
         }
         CalcValue::Percentage(p) => ComponentValue::Percentage(Percentage {
             span: p.span,
-            value: copy_number(&p.value),
+            value: p.value.clone(),
         }),
-        CalcValue::Constant(c) => ComponentValue::Ident(copy_ident(c)),
+        CalcValue::Constant(c) => ComponentValue::Ident(c.clone()),
         CalcValue::Function(f) => ComponentValue::Function(Function {
             span: f.span,
-            name: copy_ident(&f.name),
+            name: f.name.clone(),
             value: f.value.to_vec(),
         }),
         CalcValue::Sum(_) => {
@@ -351,7 +270,7 @@ fn try_to_sum_calc_products(
                                 value: sum(a1.value.value, a2.value.value),
                                 raw: None,
                             },
-                            unit: copy_ident(&a1.unit),
+                            unit: a1.unit.clone(),
                         }),
                     ))],
                 })
@@ -370,7 +289,7 @@ fn try_to_sum_calc_products(
                                 value: sum(f1.value.value, f2.value.value),
                                 raw: None,
                             },
-                            unit: copy_ident(&f1.unit),
+                            unit: f1.unit.clone(),
                         }),
                     ))],
                 })
@@ -389,7 +308,7 @@ fn try_to_sum_calc_products(
                                 value: sum(u1.value.value, u2.value.value),
                                 raw: None,
                             },
-                            unit: copy_ident(&u1.unit),
+                            unit: u1.unit.clone(),
                         }),
                     ))],
                 })
@@ -419,61 +338,49 @@ fn try_to_sum_lengths(
         l2.unit.value.to_ascii_lowercase(),
     ) {
         // Same units
-        (u1, u2) if u1 == u2 => Some((copy_ident(&l1.unit), sum(l1.value.value, l2.value.value))),
+        (u1, u2) if u1 == u2 => Some((l1.unit.clone(), sum(l1.value.value, l2.value.value))),
         // mm <-> cm
-        (js_word!("mm"), js_word!("cm")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 10.0),
-        )),
-        (js_word!("cm"), js_word!("mm")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 10.0, l2.value.value),
-        )),
+        (js_word!("mm"), js_word!("cm")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 10.0)))
+        }
+        (js_word!("cm"), js_word!("mm")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 10.0, l2.value.value)))
+        }
         // q <-> cm
-        (js_word!("q"), js_word!("cm")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 40.0),
-        )),
-        (js_word!("cm"), js_word!("q")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 40.0, l2.value.value),
-        )),
+        (js_word!("q"), js_word!("cm")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 40.0)))
+        }
+        (js_word!("cm"), js_word!("q")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 40.0, l2.value.value)))
+        }
         // q <-> mm
-        (js_word!("q"), js_word!("mm")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 4.0),
-        )),
-        (js_word!("mm"), js_word!("q")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 4.0, l2.value.value),
-        )),
+        (js_word!("q"), js_word!("mm")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 4.0)))
+        }
+        (js_word!("mm"), js_word!("q")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 4.0, l2.value.value)))
+        }
         // px <-> in
-        (js_word!("px"), js_word!("in")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 96.0),
-        )),
-        (js_word!("in"), js_word!("px")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 96.0, l2.value.value),
-        )),
+        (js_word!("px"), js_word!("in")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 96.0)))
+        }
+        (js_word!("in"), js_word!("px")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 96.0, l2.value.value)))
+        }
         // pc <-> in
-        (js_word!("pc"), js_word!("in")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 6.0),
-        )),
-        (js_word!("in"), js_word!("pc")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 6.0, l2.value.value),
-        )),
+        (js_word!("pc"), js_word!("in")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 6.0)))
+        }
+        (js_word!("in"), js_word!("pc")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 6.0, l2.value.value)))
+        }
         // pt <-> in
-        (js_word!("pt"), js_word!("in")) => Some((
-            copy_ident(&l1.unit),
-            sum(l1.value.value, l2.value.value * 72.0),
-        )),
-        (js_word!("in"), js_word!("pt")) => Some((
-            copy_ident(&l2.unit),
-            sum(l1.value.value * 72.0, l2.value.value),
-        )),
+        (js_word!("pt"), js_word!("in")) => {
+            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 72.0)))
+        }
+        (js_word!("in"), js_word!("pt")) => {
+            Some((l2.unit.clone(), sum(l1.value.value * 72.0, l2.value.value)))
+        }
         _ => None,
     };
 
@@ -500,14 +407,14 @@ fn try_to_sum_times(span: &Span, t1: &Time, t2: &Time, sum: SumOperation) -> Opt
         t2.unit.value.to_ascii_lowercase(),
     ) {
         // Same units
-        (u1, u2) if u1 == u2 => Some((copy_ident(&t1.unit), sum(t1.value.value, t2.value.value))),
+        (u1, u2) if u1 == u2 => Some((t1.unit.clone(), sum(t1.value.value, t2.value.value))),
         // ms <-> s
         (js_word!("ms"), js_word!("s")) => Some((
-            copy_ident(&t1.unit),
+            t1.unit.clone(),
             sum(t1.value.value, t2.value.value * 1000.0),
         )),
         (js_word!("s"), js_word!("ms")) => Some((
-            copy_ident(&t2.unit),
+            t2.unit.clone(),
             sum(t1.value.value * 1000.0, t2.value.value),
         )),
         _ => None,
@@ -541,14 +448,14 @@ fn try_to_sum_frequencies(
         f2.unit.value.to_ascii_lowercase(),
     ) {
         // Same units
-        (u1, u2) if u1 == u2 => Some((copy_ident(&f1.unit), sum(f1.value.value, f2.value.value))),
+        (u1, u2) if u1 == u2 => Some((f1.unit.clone(), sum(f1.value.value, f2.value.value))),
         // Hz <-> kHz
         (js_word!("hz"), js_word!("khz")) => Some((
-            copy_ident(&f1.unit),
+            f1.unit.clone(),
             sum(f1.value.value, f2.value.value * 1000.0),
         )),
         (js_word!("khz"), js_word!("hz")) => Some((
-            copy_ident(&f2.unit),
+            f2.unit.clone(),
             sum(f1.value.value * 1000.0, f2.value.value),
         )),
         _ => None,
@@ -582,16 +489,14 @@ fn try_to_sum_resolutions(
         r2.unit.value.to_ascii_lowercase(),
     ) {
         // Same units
-        (u1, u2) if u1 == u2 => Some((copy_ident(&r1.unit), sum(r1.value.value, r2.value.value))),
+        (u1, u2) if u1 == u2 => Some((r1.unit.clone(), sum(r1.value.value, r2.value.value))),
         // Hz <-> kHz
-        (js_word!("dpi"), js_word!("dppx")) => Some((
-            copy_ident(&r1.unit),
-            sum(r1.value.value, r2.value.value * 96.0),
-        )),
-        (js_word!("dppx"), js_word!("dpi")) => Some((
-            copy_ident(&r2.unit),
-            sum(r1.value.value * 96.0, r2.value.value),
-        )),
+        (js_word!("dpi"), js_word!("dppx")) => {
+            Some((r1.unit.clone(), sum(r1.value.value, r2.value.value * 96.0)))
+        }
+        (js_word!("dppx"), js_word!("dpi")) => {
+            Some((r2.unit.clone(), sum(r1.value.value * 96.0, r2.value.value)))
+        }
         _ => None,
     };
 
@@ -631,7 +536,7 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
                     }))
                 }
             }
-            CalcValueOrOperator::Value(calc_value) => Some(copy_calc_value(calc_value)),
+            CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
             _ => None,
         };
 
@@ -652,7 +557,7 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
                 if result.is_some() {
                     prev_operand = result;
                 } else {
-                    folded_expressions.push(CalcValueOrOperator::Value(copy_calc_value(operand1)));
+                    folded_expressions.push(CalcValueOrOperator::Value(operand1.clone()));
                     folded_expressions.push(CalcValueOrOperator::Operator(CalcOperator {
                         span: *op_span,
                         value: CalcOperatorType::Mul,
@@ -708,7 +613,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: l.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&l.unit),
+                unit: l.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::Angle(a)) => {
@@ -719,7 +624,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: a.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&a.unit),
+                unit: a.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::Time(t)) => {
@@ -730,7 +635,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: t.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&t.unit),
+                unit: t.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::Frequency(f)) => {
@@ -741,7 +646,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: f.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&f.unit),
+                unit: f.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::Resolution(r)) => {
@@ -752,7 +657,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: r.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&r.unit),
+                unit: r.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::Flex(f)) => {
@@ -763,7 +668,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: f.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&f.unit),
+                unit: f.unit.clone(),
             })))
         }
         CalcValue::Dimension(Dimension::UnknownDimension(u)) => Some(CalcValue::Dimension(
@@ -774,7 +679,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
                     span: u.value.span,
                     raw: None,
                 },
-                unit: copy_ident(&u.unit),
+                unit: u.unit.clone(),
             }),
         )),
         CalcValue::Percentage(p) => Some(CalcValue::Percentage(Percentage {
