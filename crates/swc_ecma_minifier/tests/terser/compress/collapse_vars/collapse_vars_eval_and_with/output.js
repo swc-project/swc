@@ -1,5 +1,6 @@
 (function f0() {
-    console.log(-3);
+    var a = 2;
+    console.log(a - 5);
     eval("console.log(a);");
 })();
 (function f1() {
