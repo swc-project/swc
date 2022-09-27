@@ -17,6 +17,9 @@
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 
+- **(es/resolver)** Use a separate mark for the name of `FnExpr` (#5959) ([573418f](https://github.com/swc-project/swc/commit/573418fc96edbf3f2c5e1a0c4e83a68b4c80b4e1))
+
+
 - **(es/testing)** Remove cycle ([d0e2e3c](https://github.com/swc-project/swc/commit/d0e2e3c43b01c3e18b2b854213ebc8217f36c73b))
 
 ### Features
