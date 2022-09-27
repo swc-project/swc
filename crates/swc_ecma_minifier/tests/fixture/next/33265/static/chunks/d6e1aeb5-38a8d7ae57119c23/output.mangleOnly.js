@@ -75,7 +75,7 @@
                     "fullscreenEnabled",
                     "fullscreenchange",
                     "fullscreenerror",
-                    "fullscreen", 
+                    "fullscreen"
                 ],
                 [
                     "webkitRequestFullscreen",
@@ -84,7 +84,7 @@
                     "webkitFullscreenEnabled",
                     "webkitfullscreenchange",
                     "webkitfullscreenerror",
-                    "-webkit-full-screen", 
+                    "-webkit-full-screen"
                 ],
                 [
                     "mozRequestFullScreen",
@@ -93,7 +93,7 @@
                     "mozFullScreenEnabled",
                     "mozfullscreenchange",
                     "mozfullscreenerror",
-                    "-moz-full-screen", 
+                    "-moz-full-screen"
                 ],
                 [
                     "msRequestFullscreen",
@@ -102,8 +102,8 @@
                     "msFullscreenEnabled",
                     "MSFullscreenChange",
                     "MSFullscreenError",
-                    "-ms-fullscreen", 
-                ], 
+                    "-ms-fullscreen"
+                ]
             ];
             var j = F[0];
             var H;
@@ -537,7 +537,7 @@
                         "left",
                         "right",
                         "top",
-                        "width", 
+                        "width"
                     ].forEach(function(e) {
                         if (t[e] !== undefined) {
                             i[e] = t[e];
@@ -2153,7 +2153,7 @@
                             [
                                 "setIntervalIds_",
                                 "clearInterval"
-                            ], 
+                            ]
                         ].forEach(function(e) {
                             var i = e[0], r = e[1];
                             t[i].forEach(function(e, i) {
@@ -2302,7 +2302,7 @@
                 "MEDIA_ERR_NETWORK",
                 "MEDIA_ERR_DECODE",
                 "MEDIA_ERR_SRC_NOT_SUPPORTED",
-                "MEDIA_ERR_ENCRYPTED", 
+                "MEDIA_ERR_ENCRYPTED"
             ];
             tX.defaultMessages = {
                 1: "You aborted the media playback",
@@ -2331,7 +2331,7 @@
                     "id",
                     "inBandMetadataTrackDispatchType",
                     "mode",
-                    "src", 
+                    "src"
                 ].reduce(function(e, i, r) {
                     if (t[i]) {
                         e[i] = t[i];
@@ -2493,21 +2493,21 @@
                 };
                 i.closeable = function e(t) {
                     if (typeof t === "boolean") {
-                        var e = (this.closeable_ = !!t);
-                        var i = this.getChild("closeButton");
-                        if (e && !i) {
-                            var r = this.contentEl_;
+                        var i = (this.closeable_ = !!t);
+                        var r = this.getChild("closeButton");
+                        if (i && !r) {
+                            var n = this.contentEl_;
                             this.contentEl_ = this.el_;
-                            i = this.addChild("closeButton", {
+                            r = this.addChild("closeButton", {
                                 controlText: "Close Modal Dialog"
                             });
-                            this.contentEl_ = r;
-                            this.on(i, "close", this.close_);
+                            this.contentEl_ = n;
+                            this.on(r, "close", this.close_);
                         }
-                        if (!e && i) {
-                            this.off(i, "close", this.close_);
-                            this.removeChild(i);
-                            i.dispose();
+                        if (!i && r) {
+                            this.off(r, "close", this.close_);
+                            this.removeChild(r);
+                            r.dispose();
                         }
                     }
                     return this.closeable_;
@@ -3034,7 +3034,7 @@
                     "pathname",
                     "search",
                     "hash",
-                    "host", 
+                    "host"
                 ];
                 var r = s().createElement("a");
                 r.href = t;
@@ -4217,7 +4217,7 @@
                     t = [
                         iJ({
                             src: t
-                        }), 
+                        })
                     ];
                 } else if (ee(t) && typeof t.src === "string" && t.src && t.src.trim()) {
                     t = [
@@ -4728,7 +4728,7 @@
                     var n = eL("span", {
                         className: "vjs-control-text",
                         textContent: this.localize("{1} is loading.", [
-                            r, 
+                            r
                         ])
                     });
                     var a = e.prototype.createEl.call(this, "div", {
@@ -5737,7 +5737,7 @@
                         if (r.currentTime_ !== e || r.duration_ !== i) {
                             r.el_.setAttribute("aria-valuetext", r.localize("progress bar timing: currentTime={1} duration={2}", [
                                 ru(e, i),
-                                ru(i, i), 
+                                ru(i, i)
                             ], "{1} of {2}"));
                             r.currentTime_ = e;
                             r.duration_ = i;
@@ -7222,7 +7222,7 @@
                         if ([
                             "captions",
                             "descriptions",
-                            "subtitles", 
+                            "subtitles"
                         ].indexOf(s.kind) > -1 && s.mode === "showing") {
                             r = false;
                             break;
@@ -7870,7 +7870,7 @@
                     "descriptionsButton",
                     "subsCapsButton",
                     "audioTrackButton",
-                    "fullscreenToggle", 
+                    "fullscreenToggle"
                 ]
             };
             if ("exitPictureInPicture" in s()) {
@@ -7962,7 +7962,7 @@
                         ne,
                         ns,
                         nr,
-                        nt, 
+                        nt
                     ]
                 },
                 backgroundOpacity: {
@@ -7987,7 +7987,7 @@
                         ne,
                         ns,
                         nr,
-                        nt, 
+                        nt
                     ]
                 },
                 edgeStyle: {
@@ -8014,7 +8014,7 @@
                         [
                             "dropshadow",
                             "Dropshadow"
-                        ], 
+                        ]
                     ]
                 },
                 fontFamily: {
@@ -8049,7 +8049,7 @@
                         [
                             "small-caps",
                             "Small Caps"
-                        ], 
+                        ]
                     ]
                 },
                 fontPercent: {
@@ -8092,7 +8092,7 @@
                         [
                             "4.00",
                             "400%"
-                        ], 
+                        ]
                     ],
                     default: 2,
                     parser: function e(t) {
@@ -8205,14 +8205,14 @@
                         "<" + r + ' id="' + s + '" class="' + (r === "label" ? "vjs-label" : "") + '">',
                         this.localize(a.label),
                         "</" + r + ">",
-                        '<select aria-labelledby="' + o + '">', 
+                        '<select aria-labelledby="' + o + '">'
                     ].concat(a.options.map(function(e) {
                         var t = s + "-" + e[1].replace(/\W+/g, "");
                         return [
                             '<option id="' + t + '" value="' + e[0] + '" ',
                             'aria-labelledby="' + o + " " + t + '">',
                             n.localize(e[1]),
-                            "</option>", 
+                            "</option>"
                         ].join("");
                     })).concat("</select>").join("");
                 };
@@ -8227,7 +8227,7 @@
                         '<span class="vjs-text-opacity vjs-opacity">',
                         this.createElSelect_("textOpacity", t),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 };
                 i.createElBgColor_ = function e() {
@@ -8241,7 +8241,7 @@
                         '<span class="vjs-bg-opacity vjs-opacity">',
                         this.createElSelect_("backgroundOpacity", t),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 };
                 i.createElWinColor_ = function e() {
@@ -8255,7 +8255,7 @@
                         '<span class="vjs-window-opacity vjs-opacity">',
                         this.createElSelect_("windowOpacity", t),
                         "</span>",
-                        "</fieldset>", 
+                        "</fieldset>"
                     ].join("");
                 };
                 i.createElColors_ = function e() {
@@ -8264,7 +8264,7 @@
                         innerHTML: [
                             this.createElFgColor_(),
                             this.createElBgColor_(),
-                            this.createElWinColor_(), 
+                            this.createElWinColor_()
                         ].join("")
                     });
                 };
@@ -8280,7 +8280,7 @@
                             "</fieldset>",
                             '<fieldset class="vjs-font-family vjs-track-setting">',
                             this.createElSelect_("fontFamily", "", "legend"),
-                            "</fieldset>", 
+                            "</fieldset>"
                         ].join("")
                     });
                 };
@@ -8293,7 +8293,7 @@
                             this.localize("Reset"),
                             '<span class="vjs-control-text"> ' + t + "</span>",
                             "</button>",
-                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>", 
+                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
                         ].join("")
                     });
                 };
@@ -8301,7 +8301,7 @@
                     return [
                         this.createElColors_(),
                         this.createElFont_(),
-                        this.createElControls_(), 
+                        this.createElControls_()
                     ];
                 };
                 i.label = function e() {
@@ -8735,7 +8735,7 @@
                     t.el(),
                     n().HTMLMediaElement.prototype,
                     n().Element.prototype,
-                    ny, 
+                    ny
                 ], "innerHTML");
             };
             var nS = function e(t) {
@@ -8794,7 +8794,7 @@
                 return nT([
                     t.el(),
                     n().HTMLMediaElement.prototype,
-                    nk, 
+                    nk
                 ], "src");
             };
             var nE = function e(t) {
@@ -9095,7 +9095,7 @@
                         "loop",
                         "muted",
                         "playsinline",
-                        "autoplay", 
+                        "autoplay"
                     ];
                     for(var u = 0; u < o.length; u++){
                         var l = o[u];
@@ -9461,7 +9461,7 @@
                 "pause",
                 "ratechange",
                 "resize",
-                "volumechange", 
+                "volumechange"
             ];
             [
                 [
@@ -9491,7 +9491,7 @@
                 [
                     "featuresNativeAudioTracks",
                     "supportsNativeAudioTracks"
-                ], 
+                ]
             ].forEach(function(e) {
                 var t = e[0], i = e[1];
                 nw(nI.prototype, t, function() {
@@ -9566,7 +9566,7 @@
                 "autoplay",
                 "controls",
                 "loop",
-                "playsinline", 
+                "playsinline"
             ].forEach(function(e) {
                 nI.prototype[e] = function() {
                     return this.el_[e] || this.el_.hasAttribute(e);
@@ -9577,7 +9577,7 @@
                 "defaultMuted",
                 "autoplay",
                 "loop",
-                "playsinline", 
+                "playsinline"
             ].forEach(function(e) {
                 nI.prototype["set" + tB(e)] = function(t) {
                     this.el_[e] = t;
@@ -9607,7 +9607,7 @@
                 "readyState",
                 "videoWidth",
                 "videoHeight",
-                "crossOrigin", 
+                "crossOrigin"
             ].forEach(function(e) {
                 nI.prototype[e] = function() {
                     return this.el_[e];
@@ -9621,7 +9621,7 @@
                 "playbackRate",
                 "defaultPlaybackRate",
                 "disablePictureInPicture",
-                "crossOrigin", 
+                "crossOrigin"
             ].forEach(function(e) {
                 nI.prototype["set" + tB(e)] = function(t) {
                     this.el_[e] = t;
@@ -9630,7 +9630,7 @@
             [
                 "pause",
                 "load",
-                "play", 
+                "play"
             ].forEach(function(e) {
                 nI.prototype[e] = function() {
                     return this.el_[e]();
@@ -9671,7 +9671,7 @@
                 "timeupdate",
                 "resize",
                 "volumechange",
-                "texttrackchange", 
+                "texttrackchange"
             ];
             var nA = {
                 canplay: "CanPlay",
@@ -9686,7 +9686,7 @@
                 "medium",
                 "large",
                 "xlarge",
-                "huge", 
+                "huge"
             ];
             var nD = {};
             nL.forEach(function(e) {
@@ -10851,11 +10851,11 @@
                     return (Math.floor(this.duration()) - Math.floor(this.currentTime()));
                 };
                 i.buffered = function e() {
-                    var e = this.techGet_("buffered");
-                    if (!e || !e.length) {
-                        e = tZ(0, 0);
+                    var t = this.techGet_("buffered");
+                    if (!t || !t.length) {
+                        t = tZ(0, 0);
                     }
-                    return e;
+                    return t;
                 };
                 i.bufferedPercent = function e() {
                     return tQ(this.buffered(), this.duration());
@@ -11085,7 +11085,7 @@
                             "hidden",
                             "radio",
                             "reset",
-                            "submit", 
+                            "submit"
                         ];
                         if (i === "input") {
                             return r.indexOf(t.type) === -1;
@@ -11780,7 +11780,7 @@
                             {
                                 src: s,
                                 type: iX(s)
-                            }, 
+                            }
                         ];
                     }
                     if (o) {
@@ -11818,7 +11818,7 @@
                                 {
                                     src: n.poster,
                                     type: iX(n.poster)
-                                }, 
+                                }
                             ];
                         }
                         return n;
@@ -11926,7 +11926,7 @@
                     "controlBar",
                     "errorDisplay",
                     "textTrackSettings",
-                    "resizeManager", 
+                    "resizeManager"
                 ],
                 language: (nR && ((nR.languages && nR.languages[0]) || nR.userLanguage || nR.language)) || "en",
                 languages: {},
@@ -11945,7 +11945,7 @@
                 "seeking",
                 "seekable",
                 "networkState",
-                "readyState", 
+                "readyState"
             ].forEach(function(e) {
                 nM.prototype[e] = function() {
                     return this.techGet_(e);
@@ -12307,7 +12307,7 @@
                 "getAttributes",
                 "emptyEl",
                 "appendContent",
-                "insertContent", 
+                "insertContent"
             ].forEach(function(e) {
                 nZ[e] = function() {
                     K.warn("videojs." + e + "() is deprecated; use videojs.dom." + e + "() instead");
@@ -12344,7 +12344,7 @@
                         if (i(t.start(n), t.end(n))) {
                             r.push([
                                 t.start(n),
-                                t.end(n), 
+                                t.end(n)
                             ]);
                         }
                     }
@@ -12969,7 +12969,7 @@
                         "serverControl",
                         "renditionReports",
                         "partInf",
-                        "partTargetDuration", 
+                        "partTargetDuration"
                     ].forEach(function(e) {
                         if (c.hasOwnProperty(e)) {
                             delete c[e];
@@ -13081,7 +13081,7 @@
                             id: r,
                             resolvedUri: i,
                             attributes: {}
-                        }, 
+                        }
                     ]
                 };
                 a.playlists[r] = a.playlists[0];
@@ -13109,7 +13109,7 @@
                             }
                         }
                         e.playlists = [
-                            (0, o.Z)({}, e), 
+                            (0, o.Z)({}, e)
                         ];
                     }
                     e.playlists.forEach(function(e, i) {
@@ -13769,7 +13769,7 @@
                 return [
                     i.length,
                     i.offset,
-                    t.resolvedUri, 
+                    t.resolvedUri
                 ].join(",");
             };
             var a3 = function e(t) {
@@ -14803,7 +14803,7 @@
                                 e.charCodeAt(0),
                                 e.charCodeAt(1),
                                 e.charCodeAt(2),
-                                e.charCodeAt(3), 
+                                e.charCodeAt(3)
                             ];
                         }
                     }
@@ -14811,13 +14811,13 @@
                         "i".charCodeAt(0),
                         "s".charCodeAt(0),
                         "o".charCodeAt(0),
-                        "m".charCodeAt(0), 
+                        "m".charCodeAt(0)
                     ]);
                     x = new Uint8Array([
                         "a".charCodeAt(0),
                         "v".charCodeAt(0),
                         "c".charCodeAt(0),
-                        "1".charCodeAt(0), 
+                        "1".charCodeAt(0)
                     ]);
                     I = new Uint8Array([
                         0,
@@ -15071,7 +15071,7 @@
                         0x55,
                         0xc4,
                         0x00,
-                        0x00, 
+                        0x00
                     ]);
                     if (t.samplerate) {
                         i[12] = (t.samplerate >>> 24) & 0xff;
@@ -15255,7 +15255,7 @@
                             0x00,
                             0x00,
                             0x00,
-                            0x01, 
+                            0x01
                         ]), n.type === "video" ? e(n) : t(n));
                     };
                     e = function e(t) {
@@ -15376,7 +15376,7 @@
                                 0x2d,
                                 0xc6,
                                 0xc0
-                            ])), 
+                            ]))
                         ];
                         if (t.sarRatio) {
                             var l = t.sarRatio[0], d = t.sarRatio[1];
@@ -15388,7 +15388,7 @@
                                 (d & 0xff000000) >> 24,
                                 (d & 0xff0000) >> 16,
                                 (d & 0xff00) >> 8,
-                                d & 0xff, 
+                                d & 0xff
                             ])));
                         }
                         return r.apply(null, u);
@@ -15557,7 +15557,7 @@
                         (d >>> 24) & 0xff,
                         (d >>> 16) & 0xff,
                         (d >>> 8) & 0xff,
-                        d & 0xff, 
+                        d & 0xff
                     ]));
                     u = 32 + 20 + 8 + 16 + 8 + 8;
                     if (t.type === "audio") {
@@ -15909,7 +15909,7 @@
                     8,
                     17,
                     191,
-                    252, 
+                    252
                 ];
                 var $ = function e(t) {
                     var i = [];
@@ -15939,7 +15939,7 @@
                                 $(154),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             88200: [
                                 X,
@@ -15960,7 +15960,7 @@
                                 $(240),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             48000: [
                                 X,
@@ -15977,7 +15977,7 @@
                                 $(54),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             44100: [
                                 X,
@@ -15994,7 +15994,7 @@
                                 $(84),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             32000: [
                                 X,
@@ -16010,7 +16010,7 @@
                                 $(226),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             24000: [
                                 X,
@@ -16032,7 +16032,7 @@
                                 $(126),
                                 [
                                     224
-                                ], 
+                                ]
                             ],
                             16000: [
                                 X,
@@ -16060,7 +16060,7 @@
                                 [
                                     1,
                                     192
-                                ], 
+                                ]
                             ],
                             12000: [
                                 Y,
@@ -16091,7 +16091,7 @@
                                 $(259),
                                 [
                                     56
-                                ], 
+                                ]
                             ],
                             11025: [
                                 Y,
@@ -16128,7 +16128,7 @@
                                 $(108),
                                 [
                                     112
-                                ], 
+                                ]
                             ],
                             8000: [
                                 Y,
@@ -16141,7 +16141,7 @@
                                 $(47),
                                 [
                                     7
-                                ], 
+                                ]
                             ]
                         };
                         ee = J(t);
@@ -17203,7 +17203,7 @@
                     0x1300,
                     0x1320,
                     0x1400,
-                    0x1420, 
+                    0x1420
                 ];
                 var ej = function e() {
                     var t = [], i = eN + 1;
@@ -17817,7 +17817,7 @@
                             this.packetsWaitingForPmt.push([
                                 e,
                                 r,
-                                i, 
+                                i
                             ]);
                         } else {
                             this.processPes_(e, r, i);
@@ -18034,7 +18034,7 @@
                     12000,
                     11025,
                     8000,
-                    7350, 
+                    7350
                 ];
                 tr = function e(t) {
                     var i, r = 0;
@@ -18559,7 +18559,7 @@
                                         {
                                             _ = [
                                                 (s.readUnsignedByte() << 8) | s.readUnsignedByte(),
-                                                (s.readUnsignedByte() << 8) | s.readUnsignedByte(), 
+                                                (s.readUnsignedByte() << 8) | s.readUnsignedByte()
                                             ];
                                             break;
                                         }
@@ -18597,7 +18597,7 @@
                     12000,
                     11025,
                     8000,
-                    7350, 
+                    7350
                 ];
                 var tf = function e(t, i) {
                     var r = (t[i + 6] << 21) | (t[i + 7] << 14) | (t[i + 8] << 7) | t[i + 9], n = t[i + 5], a = (n & 16) >> 4;
@@ -18772,7 +18772,7 @@
                     "channelcount",
                     "samplerate",
                     "samplingfrequencyindex",
-                    "samplesize", 
+                    "samplesize"
                 ];
                 var tI = tw;
                 var tx = [
@@ -18781,7 +18781,7 @@
                     "profileIdc",
                     "levelIdc",
                     "profileCompatibility",
-                    "sarRatio", 
+                    "sarRatio"
                 ];
                 var tP = tx;
                 var tA = tc.H264Stream;
@@ -20076,13 +20076,13 @@
                             "mdia",
                             "minf",
                             "stbl",
-                            "stsd", 
+                            "stsd"
                         ])[0];
                         if (u) {
                             var l = u.subarray(8);
                             t.codec = tG(l.subarray(4, 8));
                             var d = tQ(l, [
-                                t.codec, 
+                                t.codec
                             ])[0];
                             var c, h;
                             if (d) {
@@ -20600,7 +20600,7 @@
                                 type: "audio",
                                 dts: a + r * 1024 * d,
                                 pts: a + r * 1024 * d
-                            }, 
+                            }
                         ]
                     };
                     return c;
@@ -21124,7 +21124,7 @@
                     a.byteOffset = u ? 0 : t.data.byteOffset;
                     a.byteLength = t.data.byteLength;
                     var l = [
-                        u ? t.data : t.data.buffer, 
+                        u ? t.data : t.data.buffer
                     ];
                     i.postMessage(a, l);
                 } else {
@@ -21215,7 +21215,7 @@
                         o.getUint32(0),
                         o.getUint32(4),
                         o.getUint32(8),
-                        o.getUint32(12), 
+                        o.getUint32(12)
                     ]);
                     for(var l = 0; l < i.length; l++){
                         i[l].bytes = u;
@@ -23686,7 +23686,7 @@
                             0,
                             0,
                             0,
-                            t.mediaIndex + t.playlist.mediaSequence, 
+                            t.mediaIndex + t.playlist.mediaSequence
                         ]);
                         n.key = this.segmentKey(i.key);
                         n.key.iv = s;
@@ -25029,7 +25029,7 @@
                         }
                         return null;
                     }
-                }, 
+                }
             ];
             var o6 = (function(e) {
                 (0, l.Z)(t, e);
@@ -25406,7 +25406,7 @@
                             [],
                             [],
                             []
-                        ], 
+                        ]
                     ];
                     var i = t[0];
                     var r = t[1];
@@ -25457,15 +25457,15 @@
                                 u[0][1].slice(),
                                 u[0][2].slice(),
                                 u[0][3].slice(),
-                                u[0][4].slice(), 
+                                u[0][4].slice()
                             ],
                             [
                                 u[1][0].slice(),
                                 u[1][1].slice(),
                                 u[1][2].slice(),
                                 u[1][3].slice(),
-                                u[1][4].slice(), 
-                            ], 
+                                u[1][4].slice()
+                            ]
                         ];
                         var t;
                         var i;
@@ -25621,7 +25621,7 @@
                                 c(o[l - 4]),
                                 c(o[l - 3]),
                                 c(o[l - 2]),
-                                c(o[l - 1]), 
+                                c(o[l - 1])
                             ]);
                             this.asyncStream_.push(this.decryptChunk_(o.subarray(l, l + a), i, r, u));
                         }
@@ -25642,7 +25642,7 @@
                             get: function e() {
                                 return 32000;
                             }
-                        }, 
+                        }
                     ]);
                     return e;
                 })();
@@ -26190,7 +26190,7 @@
                 "mediaRequestsErrored",
                 "mediaTransferDuration",
                 "mediaBytesTransferred",
-                "mediaAppends", 
+                "mediaAppends"
             ];
             var uy = function e(t) {
                 return (this.audioSegmentLoader_[t] + this.mainSegmentLoader_[t]);
@@ -27013,7 +27013,7 @@
                     if (l.attributes.SUBTITLES !== r.attributes.SUBTITLES) {
                         this.delegateLoaders_("subtitle", [
                             "abort",
-                            "pause", 
+                            "pause"
                         ]);
                     }
                     this.delegateLoaders_("main", [
@@ -27155,8 +27155,8 @@
                         this.seekable_ = nZ.createTimeRanges([
                             [
                                 t.start(0) > a.start(0) ? t.start(0) : a.start(0),
-                                t.end(0) < a.end(0) ? t.end(0) : a.end(0), 
-                            ], 
+                                t.end(0) < a.end(0) ? t.end(0) : a.end(0)
+                            ]
                         ]);
                     }
                     if (this.seekable_ && this.seekable_.length) {
@@ -27512,7 +27512,7 @@
                 "seeked",
                 "pause",
                 "playing",
-                "error", 
+                "error"
             ];
             var uw = (function() {
                 function e(e) {
@@ -28117,7 +28117,7 @@
                 });
                 return Promise.race([
                     Promise.all(u),
-                    Promise.race(l), 
+                    Promise.race(l)
                 ]);
             };
             var uq = function e(t) {
@@ -28181,7 +28181,7 @@
                     "application/x-mpegurl",
                     "video/x-mpegurl",
                     "video/mpegurl",
-                    "application/mpegurl", 
+                    "application/mpegurl"
                 ];
                 return t.some(function(t) {
                     return /maybe|probably/i.test(e.canPlayType(t));
@@ -28272,7 +28272,7 @@
                         "fullscreenchange",
                         "webkitfullscreenchange",
                         "mozfullscreenchange",
-                        "MSFullscreenChange", 
+                        "MSFullscreenChange"
                     ], function(e) {
                         var t = s().fullscreenElement || s().webkitFullscreenElement || s().mozFullScreenElement || s().msFullscreenElement;
                         if (t && t.contains(n.tech_.el())) {
@@ -28360,7 +28360,7 @@
                         "experimentalLLHLS",
                         "useNetworkInformationApi",
                         "experimentalExactManifestTimings",
-                        "experimentalLeastPixelDiffSelector", 
+                        "experimentalLeastPixelDiffSelector"
                     ].forEach(function(e) {
                         if (typeof t.source_[e] !== "undefined") {
                             t.options_[e] = t.source_[e];
@@ -28862,5 +28862,5 @@
             }
             t["Z"] = nZ;
         }
-    }, 
+    }
 ]);

@@ -110,7 +110,7 @@
                 p("0x10000000000"),
                 p("0x1000000000000"),
                 p("0x100000000000000"),
-                p("0x10000000000000000"), 
+                p("0x10000000000000000")
             ];
             var d = (function() {
                 var e = new Uint16Array([
@@ -526,7 +526,7 @@
                 0x48,
                 0x65,
                 0x61,
-                0x64, 
+                0x64
             ]);
             var u = function e(t) {
                 var r = new DataView(t.buffer, t.byteOffset, t.byteLength);
@@ -679,7 +679,7 @@
                             bytes: t
                         };
                     }
-                }, 
+                }
             ];
             var v = function e(t, r, i) {
                 if (i === void 0) {
@@ -985,7 +985,7 @@
                     0x1a,
                     0x45,
                     0xdf,
-                    0xa3, 
+                    0xa3
                 ]),
                 DocType: (0, n.Ki)([
                     0x42,
@@ -995,19 +995,19 @@
                     0x18,
                     0x53,
                     0x80,
-                    0x67, 
+                    0x67
                 ]),
                 SegmentInfo: (0, n.Ki)([
                     0x15,
                     0x49,
                     0xa9,
-                    0x66, 
+                    0x66
                 ]),
                 Tracks: (0, n.Ki)([
                     0x16,
                     0x54,
                     0xae,
-                    0x6b, 
+                    0x6b
                 ]),
                 Track: (0, n.Ki)([
                     0xae
@@ -1018,7 +1018,7 @@
                 DefaultDuration: (0, n.Ki)([
                     0x23,
                     0xe3,
-                    0x83, 
+                    0x83
                 ]),
                 TrackEntry: (0, n.Ki)([
                     0xae
@@ -1046,7 +1046,7 @@
                     0x1f,
                     0x43,
                     0xb6,
-                    0x75, 
+                    0x75
                 ]),
                 Timestamp: (0, n.Ki)([
                     0xe7
@@ -1054,7 +1054,7 @@
                 TimestampScale: (0, n.Ki)([
                     0x2a,
                     0xd7,
-                    0xb1, 
+                    0xb1
                 ]),
                 BlockGroup: (0, n.Ki)([
                     0xa0
@@ -1278,12 +1278,12 @@
                 var n = C(t, [
                     E.Segment,
                     E.Tracks,
-                    E.Track, 
+                    E.Track
                 ]);
                 if (!n.length) {
                     n = C(t, [
                         E.Tracks,
-                        E.Track, 
+                        E.Track
                     ]);
                 }
                 if (!n.length) {
@@ -1314,7 +1314,7 @@
                         ])[0]),
                         type: t,
                         codecPrivate: C(e, [
-                            E.CodecPrivate, 
+                            E.CodecPrivate
                         ])[0],
                         number: bytesToNumber(C(e, [
                             E.TrackNumber
@@ -1359,7 +1359,7 @@
                                 [
                                     0x55,
                                     0xb1
-                                ], 
+                                ]
                             ])[0] || [];
                             var l = C(e, [
                                 0xe0,
@@ -1370,7 +1370,7 @@
                                 [
                                     0x55,
                                     0xb9
-                                ], 
+                                ]
                             ])[0] || [];
                             var h = C(e, [
                                 0xe0,
@@ -1381,7 +1381,7 @@
                                 [
                                     0x55,
                                     0xba
-                                ], 
+                                ]
                             ])[0] || [];
                             var p = C(e, [
                                 0xe0,
@@ -1392,7 +1392,7 @@
                                 [
                                     0x55,
                                     0xbb
-                                ], 
+                                ]
                             ])[0] || [];
                             if (c.length || l.length || h.length || p.length) {
                                 i += "." + padStart(p[0], 2, "0");
@@ -1446,7 +1446,7 @@
                 ])[0];
                 var a = C(i, [
                     E.SegmentInfo,
-                    E.TimestampScale, 
+                    E.TimestampScale
                 ])[0];
                 if (a && a.length) {
                     a = bytesToNumber(a);
@@ -1461,7 +1461,7 @@
                 }
                 o.forEach(function(e, t) {
                     var r = C(e, [
-                        E.SimpleBlock, 
+                        E.SimpleBlock
                     ]).map(function(e) {
                         return {
                             type: "simple",
@@ -1469,7 +1469,7 @@
                         };
                     });
                     var i = C(e, [
-                        E.BlockGroup, 
+                        E.BlockGroup
                     ]).map(function(e) {
                         return {
                             type: "group",
@@ -1500,17 +1500,17 @@
                 0x00,
                 0x00,
                 0x00,
-                0x01, 
+                0x01
             ]);
             var P = (0, n.Ki)([
                 0x00,
                 0x00,
-                0x01, 
+                0x01
             ]);
             var _ = (0, n.Ki)([
                 0x00,
                 0x00,
-                0x03, 
+                0x03
             ]);
             var k = function e(t) {
                 var r = [];
@@ -1585,7 +1585,7 @@
                     0x77,
                     0x65,
                     0x62,
-                    0x6d, 
+                    0x6d
                 ]),
                 matroska: (0, n.Ki)([
                     0x6d,
@@ -1595,19 +1595,19 @@
                     0x6f,
                     0x73,
                     0x6b,
-                    0x61, 
+                    0x61
                 ]),
                 flac: (0, n.Ki)([
                     0x66,
                     0x4c,
                     0x61,
-                    0x43, 
+                    0x43
                 ]),
                 ogg: (0, n.Ki)([
                     0x4f,
                     0x67,
                     0x67,
-                    0x53, 
+                    0x53
                 ]),
                 ac3: (0, n.Ki)([
                     0x0b,
@@ -1617,7 +1617,7 @@
                     0x52,
                     0x49,
                     0x46,
-                    0x46, 
+                    0x46
                 ]),
                 avi: (0, n.Ki)([
                     0x41,
@@ -1628,7 +1628,7 @@
                     0x57,
                     0x41,
                     0x56,
-                    0x45, 
+                    0x45
                 ]),
                 "3gp": (0, n.Ki)([
                     0x66,
@@ -1636,19 +1636,19 @@
                     0x79,
                     0x70,
                     0x33,
-                    0x67, 
+                    0x67
                 ]),
                 mp4: (0, n.Ki)([
                     0x66,
                     0x74,
                     0x79,
-                    0x70, 
+                    0x70
                 ]),
                 fmp4: (0, n.Ki)([
                     0x73,
                     0x74,
                     0x79,
-                    0x70, 
+                    0x70
                 ]),
                 mov: (0, n.Ki)([
                     0x66,
@@ -1656,19 +1656,19 @@
                     0x79,
                     0x70,
                     0x71,
-                    0x74, 
+                    0x74
                 ]),
                 moov: (0, n.Ki)([
                     0x6d,
                     0x6f,
                     0x6f,
-                    0x76, 
+                    0x76
                 ]),
                 moof: (0, n.Ki)([
                     0x6d,
                     0x6f,
                     0x6f,
-                    0x66, 
+                    0x66
                 ])
             };
             var G = {
@@ -1701,14 +1701,14 @@
                 webm: function e(t) {
                     var r = C(t, [
                         E.EBML,
-                        E.DocType, 
+                        E.DocType
                     ])[0];
                     return (0, n.G3)(r, V.webm);
                 },
                 mkv: function e(t) {
                     var r = C(t, [
                         E.EBML,
-                        E.DocType, 
+                        E.DocType
                     ])[0];
                     return (0, n.G3)(r, V.matroska);
                 },
@@ -1852,7 +1852,7 @@
             var i = (0, n.Ki)([
                 0x49,
                 0x44,
-                0x33, 
+                0x33
             ]);
             var a = function e(t, r) {
                 if (r === void 0) {
@@ -5001,7 +5001,7 @@
                             [
                                 "CAN-SKIP-UNTIL",
                                 "PART-HOLD-BACK",
-                                "HOLD-BACK", 
+                                "HOLD-BACK"
                             ].forEach(function(e) {
                                 if (i.attributes.hasOwnProperty(e)) {
                                     i.attributes[e] = parseFloat(i.attributes[e]);
@@ -5227,19 +5227,19 @@
                                         }
                                     },
                                     byterange: function t() {
-                                        var t = {};
+                                        var r = {};
                                         if ("length" in e) {
-                                            i.byterange = t;
-                                            t.length = e.length;
+                                            i.byterange = r;
+                                            r.length = e.length;
                                             if (!("offset" in e)) {
                                                 e.offset = y;
                                             }
                                         }
                                         if ("offset" in e) {
-                                            i.byterange = t;
-                                            t.offset = e.offset;
+                                            i.byterange = r;
+                                            r.offset = e.offset;
                                         }
-                                        y = t.offset + t.length;
+                                        y = r.offset + r.length;
                                     },
                                     endlist: function e() {
                                         this.manifest.endList = true;
@@ -5296,7 +5296,7 @@
                                             var r = [
                                                 "SAMPLE-AES",
                                                 "SAMPLE-AES-CTR",
-                                                "SAMPLE-AES-CENC", 
+                                                "SAMPLE-AES-CENC"
                                             ];
                                             if (r.indexOf(e.attributes.METHOD) === -1) {
                                                 this.trigger("warn", {
@@ -5488,17 +5488,17 @@
                                         var r = this;
                                         l = true;
                                         var n = this.manifest.segments.length;
-                                        var t = d(e.attributes);
+                                        var a = d(e.attributes);
                                         i.parts = i.parts || [];
-                                        i.parts.push(t);
-                                        if (t.byterange) {
-                                            if (!t.byterange.hasOwnProperty("offset")) {
-                                                t.byterange.offset = w;
+                                        i.parts.push(a);
+                                        if (a.byterange) {
+                                            if (!a.byterange.hasOwnProperty("offset")) {
+                                                a.byterange.offset = w;
                                             }
-                                            w = t.byterange.offset + t.byterange.length;
+                                            w = a.byterange.offset + a.byterange.length;
                                         }
-                                        var a = i.parts.length - 1;
-                                        this.warnOnMissingAttributes_("#EXT-X-PART #" + a + " for segment #" + n, e.attributes, [
+                                        var o = i.parts.length - 1;
+                                        this.warnOnMissingAttributes_("#EXT-X-PART #" + o + " for segment #" + n, e.attributes, [
                                             "URI",
                                             "DURATION"
                                         ]);
@@ -5568,7 +5568,7 @@
                                         var n = this.manifest.renditionReports.length - 1;
                                         var i = [
                                             "LAST-MSN",
-                                            "URI", 
+                                            "URI"
                                         ];
                                         if (l) {
                                             i.push("LAST-PART");
@@ -5985,7 +5985,7 @@
                             resolvedUri: n.baseUrl || "",
                             duration: n.sourceDuration,
                             number: 0
-                        }, 
+                        }
                     ];
                     n.duration = n.sourceDuration;
                 }
@@ -6271,7 +6271,7 @@
                             duration: t.sourceDuration,
                             time: 0,
                             timeline: t.periodIndex
-                        }, 
+                        }
                     ];
                 }
                 if (t.duration) {
@@ -6886,7 +6886,7 @@
                 "/",
                 function() {
                     return r(4816);
-                }, 
+                }
             ]);
             if (false) {}
         },
@@ -6953,7 +6953,7 @@
                         {
                             src: "https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8",
                             type: "application/x-mpegurl"
-                        }, 
+                        }
                     ]
                 };
                 var r = function(t) {
@@ -7279,7 +7279,7 @@
                                     n.alt("lineAlign", a[1], [
                                         "start",
                                         "center",
-                                        "end", 
+                                        "end"
                                     ]);
                                 }
                                 break;
@@ -7290,7 +7290,7 @@
                                     n.alt("positionAlign", a[1], [
                                         "start",
                                         "center",
-                                        "end", 
+                                        "end"
                                     ]);
                                 }
                                 break;
@@ -7303,7 +7303,7 @@
                                     "center",
                                     "end",
                                     "left",
-                                    "right", 
+                                    "right"
                                 ]);
                                 break;
                         }
@@ -7888,7 +7888,7 @@
                 [
                     0x10fffd,
                     0x10fffd
-                ], 
+                ]
             ];
             function m(e) {
                 for(var t = 0; t < g.length; t++){
@@ -10513,5 +10513,5 @@
         });
         var r = e.O();
         _N_E = r;
-    }, 
+    }
 ]);

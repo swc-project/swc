@@ -1,13 +1,13 @@
 (function aaa__1() {
-    bbb__1();
-    function bbb__1() {
+    bbb__2();
+    function bbb__2() {
         try {
             console.log(111);
-        } catch (Ic__4) {
-            throw Ic__4;
+        } catch (Ic__5) {
+            throw Ic__5;
         }
-        var jc__2, Ic__2;
-        (Ic__2 = jc__2).PV = "page_view";
+        var jc__3, Ic__3;
+        (Ic__3 = jc__3).PV = "page_view";
     }
-    var Ic__1 = {};
+    var Ic__2 = {};
 })();

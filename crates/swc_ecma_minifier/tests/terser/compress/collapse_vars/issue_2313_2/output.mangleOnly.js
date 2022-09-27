@@ -1,7 +1,7 @@
 var o = 0;
 !(function n() {
-    n && o++;
-    var n = 0;
-    n && o++;
+    a && o++;
+    var a = 0;
+    a && o++;
 })();
 console.log(o);

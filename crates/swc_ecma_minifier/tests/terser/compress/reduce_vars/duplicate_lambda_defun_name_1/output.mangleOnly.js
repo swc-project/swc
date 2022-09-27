@@ -1,6 +1,4 @@
-console.log(
-    (function n(o) {
-        function n() {}
-        return n.length;
-    })()
-);
+console.log((function n(o) {
+    function t() {}
+    return t.length;
+})());

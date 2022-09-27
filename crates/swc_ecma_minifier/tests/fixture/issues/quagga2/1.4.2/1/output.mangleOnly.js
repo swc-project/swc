@@ -276,7 +276,7 @@
                         a.rad = e / n.length;
                         a.vec = o.clone([
                             Math.cos(a.rad),
-                            Math.sin(a.rad), 
+                            Math.sin(a.rad)
                         ]);
                     }
                     function f() {
@@ -578,7 +578,7 @@
                     var i = [];
                     var u = 0;
                     var c = 0;
-                    function t(t, n) {
+                    function f(t, n) {
                         var a;
                         var o;
                         var i;
@@ -616,12 +616,12 @@
                         o = [];
                         c = u;
                         o.push(e[c]);
-                        while((c = t(c, true)) !== null){
+                        while((c = f(c, true)) !== null){
                             o.push(e[c]);
                         }
                         if (u > 0) {
                             c = u;
-                            while((c = t(c, false)) !== null){
+                            while((c = f(c, false)) !== null){
                                 o.push(e[c]);
                             }
                         }
@@ -1082,21 +1082,21 @@
                     return r;
                 },
                 max: function t(e) {
-                    var t = 0;
-                    for(var r = 0; r < e.length; r++){
-                        if (e[r] > t) {
-                            t = e[r];
+                    var r = 0;
+                    for(var n = 0; n < e.length; n++){
+                        if (e[n] > r) {
+                            r = e[n];
                         }
                     }
-                    return t;
+                    return r;
                 },
                 sum: function t(e) {
                     var r = e.length;
-                    var t = 0;
+                    var n = 0;
                     while(r--){
-                        t += e[r];
+                        n += e[r];
                     }
-                    return t;
+                    return n;
                 }
             };
         },
@@ -1280,7 +1280,7 @@
                                     l.rad = x > _ ? x - _ : x;
                                     l.vec = p.clone([
                                         Math.cos(x),
-                                        Math.sin(x), 
+                                        Math.sin(x)
                                     ]);
                                     m.push(l);
                                 }
@@ -1367,7 +1367,7 @@
                             }
                             l.putImageData(v, n.x, n.y);
                         }
-                    }, 
+                    }
                 ]);
                 return t;
             })();
@@ -1516,7 +1516,7 @@
                     [
                         -1,
                         1
-                    ], 
+                    ]
                 ],
                 create: function t(e, r) {
                     var n = e.data;
@@ -1729,7 +1729,7 @@
                         Math.cos(e),
                         Math.sin(e),
                         -Math.sin(e),
-                        Math.cos(e), 
+                        Math.cos(e)
                     ]);
                     for(r = 0; r < t.length; r++){
                         i = t[r];
@@ -1779,7 +1779,7 @@
                         [
                             c,
                             v
-                        ], 
+                        ]
                     ];
                     if (true && d.debug.boxFromPatches.showTransformedBox) {
                         s["a"].drawPath(h, {
@@ -1993,12 +1993,12 @@
                                         ]),
                                         n["clone"]([
                                             r + y.size.x,
-                                            a + y.size.y, 
+                                            a + y.size.y
                                         ]),
                                         n["clone"]([
                                             r,
                                             a + y.size.y
-                                        ]), 
+                                        ])
                                     ],
                                     moments: c,
                                     rad: i,
@@ -4909,7 +4909,7 @@
                     this.tryEntries = [
                         {
                             tryLoc: "root"
-                        }, 
+                        }
                     ];
                     t.forEach(E, this);
                     this.reset(true);
@@ -5971,7 +5971,7 @@
                             }
                             return r;
                         }
-                    }, 
+                    }
                 ], [
                     {
                         key: "Exception",
@@ -5982,7 +5982,7 @@
                                 PatternNotFoundException: "Pattern could not be found!"
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return t;
             })();
@@ -6888,7 +6888,7 @@
                             1,
                             1,
                             2
-                        ], 
+                        ]
                     ]);
                     M()(m()(t), "SINGLE_CODE_ERROR", 0.64);
                     M()(m()(t), "AVG_CODE_ERROR", 0.3);
@@ -7219,7 +7219,7 @@
                             }
                             return i / o;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -7416,7 +7416,7 @@
                     1,
                     1,
                     3
-                ], 
+                ]
             ];
             var G = [
                 0,
@@ -7741,7 +7741,7 @@
                                 format: this.FORMAT
                             });
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -7820,7 +7820,7 @@
                 0x0a8,
                 0x0a2,
                 0x08a,
-                0x02a, 
+                0x02a
             ]);
             var tr = 0x094;
             var tn = (function(t) {
@@ -7853,7 +7853,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]);
                             var a = 0;
                             var o = false;
@@ -7967,7 +7967,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]);
                             var a = [];
                             r = this._findStart();
@@ -8008,7 +8008,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -8089,7 +8089,7 @@
                             a.code = o;
                             return a;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(ta);
@@ -8138,7 +8138,7 @@
                 65,
                 66,
                 67,
-                68, 
+                68
             ];
             var tp = [
                 0x003,
@@ -8160,7 +8160,7 @@
                 0x01a,
                 0x029,
                 0x00b,
-                0x00e, 
+                0x00e
             ];
             var tg = [
                 0x01a,
@@ -8441,7 +8441,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -8496,7 +8496,7 @@
                             }
                             return null;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(Q);
@@ -8568,7 +8568,7 @@
                             }
                             return a;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(Q);
@@ -8656,7 +8656,7 @@
                                 start: s.start
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(Q);
@@ -8695,7 +8695,7 @@
                 3,
                 10,
                 9,
-                5, 
+                5
             ];
             function tL(t) {
                 for(var e = 0; e < 10; e++){
@@ -8780,7 +8780,7 @@
                                 start: s.start
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(Q);
@@ -8875,7 +8875,7 @@
                             21,
                             22,
                             26
-                        ], 
+                        ]
                     ]);
                     M()(m()(t), "STOP_PATTERN", [
                         (1 / 6) * 7,
@@ -8883,7 +8883,7 @@
                         (1 / 6) * 7,
                         (1 / 6) * 7,
                         (1 / 6) * 7,
-                        (1 / 6) * 7, 
+                        (1 / 6) * 7
                     ]);
                     M()(m()(t), "FORMAT", "upc_e");
                     return t;
@@ -8995,7 +8995,7 @@
                             }
                             return null;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(Q);
@@ -9122,7 +9122,7 @@
                             tY,
                             tZ,
                             tY
-                        ], 
+                        ]
                     ]);
                     M()(m()(n), "MAX_CORRECTION_FACTOR", 5);
                     M()(m()(n), "FORMAT", "i2of5");
@@ -9329,7 +9329,7 @@
                                     0,
                                     0,
                                     0
-                                ], 
+                                ]
                             ];
                             var u = null;
                             while(a < o){
@@ -9391,7 +9391,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -9428,14 +9428,14 @@
                 t2,
                 t1,
                 t1,
-                t1, 
+                t1
             ];
             var t4 = [
                 t2,
                 t1,
                 t1,
                 t1,
-                t2, 
+                t2
             ];
             var t5 = [
                 [
@@ -9443,71 +9443,71 @@
                     t1,
                     t2,
                     t2,
-                    t1, 
+                    t1
                 ],
                 [
                     t2,
                     t1,
                     t1,
                     t1,
-                    t2, 
+                    t2
                 ],
                 [
                     t1,
                     t2,
                     t1,
                     t1,
-                    t2, 
+                    t2
                 ],
                 [
                     t2,
                     t2,
                     t1,
                     t1,
-                    t1, 
+                    t1
                 ],
                 [
                     t1,
                     t1,
                     t2,
                     t1,
-                    t2, 
+                    t2
                 ],
                 [
                     t2,
                     t1,
                     t2,
                     t1,
-                    t1, 
+                    t1
                 ],
                 [
                     t1,
                     t2,
                     t2,
                     t1,
-                    t1, 
+                    t1
                 ],
                 [
                     t1,
                     t1,
                     t1,
                     t2,
-                    t2, 
+                    t2
                 ],
                 [
                     t2,
                     t1,
                     t1,
                     t2,
-                    t1, 
+                    t1
                 ],
                 [
                     t1,
                     t2,
                     t1,
                     t2,
-                    t1, 
-                ], 
+                    t1
+                ]
             ];
             var t6 = t3.reduce(function(t, e) {
                 return t + e;
@@ -9737,7 +9737,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -9818,7 +9818,7 @@
                 0x1da,
                 0x1d6,
                 0x132,
-                0x15e, 
+                0x15e
             ]);
             var ea = 0x15e;
             var eo = (function(t) {
@@ -9883,7 +9883,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]);
                             var a = 0;
                             var o = false;
@@ -10025,7 +10025,7 @@
                                 0,
                                 0,
                                 0,
-                                0, 
+                                0
                             ]);
                             var a = [];
                             var o = this._nextSet(this._row, r.end);
@@ -10069,7 +10069,7 @@
                                 format: this.FORMAT
                             };
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(P);
@@ -10164,7 +10164,7 @@
                             a.code = i;
                             return a;
                         }
-                    }, 
+                    }
                 ]);
                 return r;
             })(ta);
@@ -10280,7 +10280,7 @@
                                 {
                                     node: n.dom.pattern,
                                     prop: e.debug.showPattern
-                                }, 
+                                }
                             ];
                             for(t = 0; t < r.length; t++){
                                 if (r[t].prop === true) {
@@ -10318,7 +10318,7 @@
                             {
                                 x: (t[3][0] - t[2][0]) / 2 + t[2][0],
                                 y: (t[3][1] - t[2][1]) / 2 + t[2][1]
-                            }, 
+                            }
                         ];
                     }
                     function l(t) {
@@ -10681,7 +10681,7 @@
                     "height",
                     "facingMode",
                     "aspectRatio",
-                    "deviceId", 
+                    "deviceId"
                 ]);
                 if (typeof t.minAspectRatio !== "undefined" && t.minAspectRatio > 0) {
                     e.aspectRatio = t.minAspectRatio;
@@ -10983,12 +10983,12 @@
                     ]),
                     Object(eJ["clone"])([
                         n.size.x,
-                        n.size.y, 
+                        n.size.y
                     ]),
                     Object(eJ["clone"])([
                         n.size.x,
                         0
-                    ]), 
+                    ])
                 ];
                 e2["a"].init(n, r);
                 return {
@@ -11786,7 +11786,7 @@
                     e = __factorySource__;
                 }
                 t = new Blob([
-                    "(" + rC.toString() + ")(" + e + ");", 
+                    "(" + rC.toString() + ")(" + e + ");"
                 ], {
                     type: "text/javascript"
                 });
@@ -12057,8 +12057,8 @@
                                     Object(eJ["clone"])(this.context.boxSize[0]),
                                     Object(eJ["clone"])(this.context.boxSize[1]),
                                     Object(eJ["clone"])(this.context.boxSize[2]),
-                                    Object(eJ["clone"])(this.context.boxSize[3]), 
-                                ], 
+                                    Object(eJ["clone"])(this.context.boxSize[3])
+                                ]
                             ];
                         }
                     },
@@ -12235,7 +12235,7 @@
                             }
                             rk(e, r);
                         }
-                    }, 
+                    }
                 ]);
                 return t;
             })();

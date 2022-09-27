@@ -839,12 +839,18 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         e.function.decorators.visit_mut_with(self);
 
-        self.with_child(ScopeKind::Fn, |child| {
-            if let Some(ident) = &mut e.ident {
-                child.modify(ident, DeclKind::Function)
-            }
-            e.function.visit_mut_with(child);
-        });
+        if let Some(ident) = &mut e.ident {
+            self.with_child(ScopeKind::Fn, |child| {
+                child.modify(ident, DeclKind::Function);
+                child.with_child(ScopeKind::Fn, |child| {
+                    e.function.visit_mut_with(child);
+                });
+            });
+        } else {
+            self.with_child(ScopeKind::Fn, |child| {
+                e.function.visit_mut_with(child);
+            });
+        }
     }
 
     fn visit_mut_for_in_stmt(&mut self, n: &mut ForInStmt) {

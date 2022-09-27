@@ -51,7 +51,7 @@
                 s.webkit = "webkitFontSmoothing" in document.documentElement.style;
                 s.webkit_version = s.webkit && +(/\bAppleWebKit\/(\d+)/.exec(navigator.userAgent) || [
                     0,
-                    0, 
+                    0
                 ])[1];
             }
             var u = function(e) {
@@ -4644,19 +4644,19 @@
             rc.prototype.locals = function e(t) {
                 var r, n = true;
                 for(var o = 0; o < this.members.length; o++){
-                    var e = this.members[o].localsInner(t);
-                    if (!e.length) {
+                    var i = this.members[o].localsInner(t);
+                    if (!i.length) {
                         continue;
                     }
                     if (!r) {
-                        r = e;
+                        r = i;
                     } else {
                         if (n) {
                             r = r.slice();
                             n = false;
                         }
-                        for(var i = 0; i < e.length; i++){
-                            r.push(e[i]);
+                        for(var s = 0; s < i.length; s++){
+                            r.push(i[s]);
                         }
                     }
                 }
@@ -4866,7 +4866,7 @@
                 });
                 if (e.cursorWrapper) {
                     t.push(ra.create(e.state.doc, [
-                        e.cursorWrapper.deco, 
+                        e.cursorWrapper.deco
                     ]));
                 }
                 return rc.from(t);
@@ -5226,5 +5226,5 @@
                 }
             }
         }
-    }, 
+    }
 ]);
