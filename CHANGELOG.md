@@ -28,6 +28,12 @@
 
 - **(dbg-swc)** Add a size debugger for next.js (#5945) ([b219fa2](https://github.com/swc-project/swc/commit/b219fa2f015f39e1f3da17ade777a4bc92b6eabe))
 
+### Testing
+
+
+
+- **(es/minifier)** Categorize terser tests (#5960) ([48cddc1](https://github.com/swc-project/swc/commit/48cddc16f67ed5ac904a1e67a6ec096da5747cd2))
+
 ### Build
 
 
