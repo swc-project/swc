@@ -145,6 +145,7 @@ button
 ByteLengthQueuingStrategy
 Cache
 CacheStorage
+calc
 calcmode
 calcMode
 call

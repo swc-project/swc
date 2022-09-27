@@ -7,6 +7,7 @@ use self::ctx::Ctx;
 
 mod alpha_value;
 mod angle;
+mod calc_sum;
 mod color;
 mod ctx;
 mod declaration;
@@ -187,10 +188,14 @@ impl VisitMut for Compressor {
             in_math_function: true,
             ..self.ctx
         }));
+
+        self.compress_calc_sum(n);
     }
 
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
         n.visit_mut_children_with(self);
+
+        self.compress_calc_sum_in_component_value(n);
 
         self.compress_alpha_value_in_component_value(n);
 
