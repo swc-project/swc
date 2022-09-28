@@ -1,3 +1,0 @@
-function* i() {
-    yield;
-}

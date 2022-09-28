@@ -1,3 +1,0 @@
-(async () => {
-    await fetch({});
-})();

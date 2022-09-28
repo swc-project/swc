@@ -1,2 +1,0 @@
-function t() {}
-t`test`;

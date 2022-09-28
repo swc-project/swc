@@ -1,4 +1,0 @@
-if (isDevMode()) {
-    greetOverlord();
-}
-doWork();

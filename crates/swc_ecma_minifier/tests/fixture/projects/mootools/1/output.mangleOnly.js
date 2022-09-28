@@ -1,1 +1,0 @@
-var b = object != Object;

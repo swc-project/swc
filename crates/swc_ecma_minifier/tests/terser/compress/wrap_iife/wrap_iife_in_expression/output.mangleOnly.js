@@ -1,3 +1,0 @@
-foo = (function () {
-    return bar();
-})();
