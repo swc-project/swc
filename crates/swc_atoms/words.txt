@@ -554,6 +554,7 @@ Infinity
 inherit
 initial
 inline
+inline-block
 input
 InputEvent
 ins
@@ -894,6 +895,8 @@ repeatcount
 repeatCount
 repeatdur
 repeatDur
+repeat-x
+repeat-y
 Request
 require
 Required
