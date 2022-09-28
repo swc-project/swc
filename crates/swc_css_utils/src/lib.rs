@@ -153,91 +153,76 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
     named_colors
 });
 
-// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L193
-pub fn serialize_ident(mut value: &str) -> String {
-    if value.is_empty() {
-        return String::new();
-    }
+// https://drafts.csswg.org/cssom/#serialize-an-identifier
+pub fn serialize_ident(value: &str) -> String {
+    let mut result = String::with_capacity(value.len());
+    let mut first = None;
 
-    let mut result = String::new();
-
-    if let Some(stripped) = value.strip_prefix("--") {
-        result += "--";
-        result += &*serialize_name(stripped);
-    } else if value == "-" {
-        result += "\\-";
-    } else {
-        if value.as_bytes()[0] == b'-' {
-            result += "-";
-            value = &value[1..];
+    // To serialize an identifier means to create a string represented
+    // by the concatenation of, for each character of the identifier:
+    for (i, c) in value.chars().enumerate() {
+        if i == 0 {
+            first = Some(c);
         }
 
-        if let digit @ b'0'..=b'9' = value.as_bytes()[0] {
-            result += &*hex_escape(digit);
-            value = &value[1..];
+        // If the character is the first character and is a "-" (U+002D),
+        // and there is no second character, then the escaped character.
+        // Note: That's means a single dash string "-" return as escaped dash,
+        // so move the condition out of the main loop
+        if value.len() == 1 && first == Some('-') {
+            result.push_str("\\-");
+
+            return result;
         }
 
-        result += &*serialize_name(value);
-    }
+        let code = c as u32;
 
-    result
-}
+        // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+        if code == 0x0000 {
+            result.push(char::REPLACEMENT_CHARACTER);
 
-// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L220
-fn serialize_name(value: &str) -> String {
-    let mut result = String::new();
-    let mut chunk_start = 0;
+            continue;
+        }
 
-    for (i, b) in value.bytes().enumerate() {
-        let escaped = match b {
-            b'0'..=b'9' | b'A'..=b'Z' | b'a'..=b'z' | b'_' | b'-' => continue,
-            _ if !b.is_ascii() => continue,
-            b'\0' => Some("\u{FFFD}"),
-            _ => None,
-        };
-        result += &value[chunk_start..i];
+        if
+        // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F ...
+        // Note: Do not compare with 0x0001 since 0x0000 is precessed before
+        code <= 0x001F || code == 0x007F ||
+                // [or] ... is in the range [0-9] (U+0030 to U+0039),
+                (c.is_ascii_digit() && (
+                    // If the character is the first character ...
+                    i == 0 ||
+                        // If the character is the second character ... and the first character is a "-" (U+002D)
+                        i == 1 && first == Some('-')
+                ))
+        {
+            // ... then the character escaped as code point.
+            result.push('\\');
+            result.push_str(&format!("{}", c as u16));
+            result.push(' ');
 
-        if let Some(escaped) = escaped {
-            result += escaped;
-        } else if (b'\x01'..=b'\x1F').contains(&b) || b == b'\x7F' {
-            result += &*hex_escape(b);
+            continue;
+        }
+
+        // If the character is not handled by one of the above rules and is greater
+        // than or equal to U+0080, is "-" (U+002D) or "_" (U+005F), or is in one
+        // of the ranges [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to U+005A),
+        // or \[a-z] (U+0061 to U+007A), then the character itself.
+        if is_name(c) {
+            result.push(c);
         } else {
-            result += &*char_escape(b);
-        };
-
-        chunk_start = i + 1;
+            // Otherwise, the escaped character.
+            result.push('\\');
+            result.push(c);
+        }
     }
 
-    result += &value[chunk_start..];
     result
 }
 
-// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
-fn hex_escape(ascii_byte: u8) -> String {
-    static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
-
-    let b3;
-    let b4;
-    let bytes = if ascii_byte > 0x0f {
-        let high = (ascii_byte >> 4) as usize;
-        let low = (ascii_byte & 0x0f) as usize;
-        b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
-        &b4[..]
-    } else {
-        b3 = [b'\\', HEX_DIGITS[ascii_byte as usize], b' '];
-        &b3[..]
-    };
-
-    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
-    // ASCII
-    unsafe { str::from_utf8_unchecked(bytes) }.to_string()
-}
-
-// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L185
-fn char_escape(ascii_byte: u8) -> String {
-    let bytes = [b'\\', ascii_byte];
-
-    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
-    // ASCII
-    unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
+// A name-start code point, a digit, or U+002D HYPHEN-MINUS (-).
+fn is_name(c: char) -> bool {
+    ((c.is_ascii_uppercase() || c.is_ascii_lowercase()) || !c.is_ascii() || c == '_')
+        || c.is_ascii_digit()
+        || c == '-'
 }

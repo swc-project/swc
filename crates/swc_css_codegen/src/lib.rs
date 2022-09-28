@@ -1117,33 +1117,45 @@ where
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
-            write_raw!(self, n.span, &serialize_ident(&n.value));
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
         if self.config.minify {
-            write_raw!(self, n.span, &serialize_ident(&n.value));
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &serialize_ident(&n.value));
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         if self.config.minify {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
