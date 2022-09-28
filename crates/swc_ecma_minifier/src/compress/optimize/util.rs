@@ -4,6 +4,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
@@ -156,10 +157,21 @@ impl VisitMut for Remapper {
     }
 }
 
+#[derive(Clone, Copy)]
 pub(crate) struct CloningMultiReplacer<'a> {
     pub vars: &'a FxHashMap<Id, Box<Expr>>,
     pub worked: bool,
     pub mode: MultiReplacerMode,
+}
+
+impl Parallel for CloningMultiReplacer<'_> {
+    fn create(&self) -> Self {
+        *self
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.worked |= other.worked;
+    }
 }
 
 impl<'a> CloningMultiReplacer<'a> {
