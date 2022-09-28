@@ -3652,7 +3652,11 @@ fn minify_number(num: f64) -> String {
     let mut original = printed.clone();
 
     if num.fract() == 0.0 && (i64::MIN as f64) <= num && num <= (i64::MAX as f64) {
-        let hex = format!("{:#x}", num as i64);
+        let hex = format!(
+            "{}{:#x}",
+            if num.is_sign_negative() { "-" } else { "" },
+            num as i64
+        );
 
         if hex.len() < printed.len() {
             printed = hex;
