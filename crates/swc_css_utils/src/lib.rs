@@ -1,6 +1,6 @@
 #![deny(clippy::all)]
 
-use std::str;
+use std::{char::REPLACEMENT_CHARACTER, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
@@ -154,7 +154,7 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 });
 
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
-pub fn serialize_ident(value: &str, minify: bool) -> String {
+pub fn serialize_ident(value: &str, raw: Option<&str>, minify: bool) -> String {
     let mut result = String::with_capacity(value.len());
     let mut first = None;
 
@@ -182,6 +182,15 @@ pub fn serialize_ident(value: &str, minify: bool) -> String {
             result.push(char::REPLACEMENT_CHARACTER);
 
             continue;
+        }
+
+        // Old browser hacks - IE
+        if c == REPLACEMENT_CHARACTER {
+            if let Some(raw) = raw {
+                result.push_str(raw);
+
+                return result;
+            }
         }
 
         if

@@ -1117,13 +1117,13 @@ where
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
-            let serialized = serialize_ident(&n.value, true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, false);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1132,13 +1132,13 @@ where
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
         if self.config.minify {
-            let serialized = serialize_ident(&n.value, true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, false);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1147,13 +1147,13 @@ where
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         if self.config.minify {
-            let serialized = serialize_ident(&n.value, true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, false);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1944,7 +1944,7 @@ where
                 if self.config.minify {
                     write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
                 } else if let Some(raw) = &prefix.raw {
-                    write_raw!(self, hi_span_offset!(prefix.span, 1), &raw);
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), raw);
                 } else {
                     write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
                 }
