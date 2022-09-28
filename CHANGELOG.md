@@ -46,11 +46,20 @@
 
 - **(es/minifier)** Ignore more expressions in sequential inliner (#5961) ([dcd516d](https://github.com/swc-project/swc/commit/dcd516d2bd5e9fcdc11a96c014671958ddede1de))
 
+
+- **(es/minifier)** Evaluate more literals in comparison (#5976) ([0e69890](https://github.com/swc-project/swc/commit/0e698907641bb74f90fa0fffd157c5fffe1298b6))
+
 ### Miscellaneous Tasks
 
 
 
 - **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
+
+### Performance
+
+
+
+- **(es/minifier)** Optimize `MultiReplacer` (#5977) ([e37bb55](https://github.com/swc-project/swc/commit/e37bb551015b68b108569015a03dc00477f621ee))
 
 ### Testing
 

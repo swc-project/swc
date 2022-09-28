@@ -157,7 +157,16 @@ where
                         .is_some(),
 
                     Expr::Lit(lit) => match lit {
-                        Lit::Str(s) => ref_count == 1 || s.value.len() <= 3,
+                        Lit::Str(s) => {
+                            if ref_count == 1 || s.value.len() <= 3 {
+                                true
+                            } else {
+                                self.vars
+                                    .lits_for_cmp
+                                    .insert(ident.to_id(), init.clone().into());
+                                false
+                            }
+                        }
                         Lit::Bool(_) | Lit::Null(_) | Lit::Num(_) | Lit::BigInt(_) => true,
                         Lit::Regex(_) => self.options.unsafe_regexp,
                         _ => false,

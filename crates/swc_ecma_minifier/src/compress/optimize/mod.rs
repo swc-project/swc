@@ -20,7 +20,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, MultiReplacer, MultiReplacerMode},
+    util::{extract_class_side_effect, CloningMultiReplacer, NormalMultiReplacer},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -241,6 +241,12 @@ struct Vars {
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
 
+    /// Literals which are cheap to clone, but not sure if we can inline without
+    /// making output bigger.
+    ///
+    /// https://github.com/swc-project/swc/issues/4415
+    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
@@ -256,25 +262,24 @@ impl Vars {
     /// Returns true if something is changed.
     fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
     where
-        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+        N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
+        N: for<'aa> VisitMutWith<CloningMultiReplacer<'aa>>,
     {
         let mut changed = false;
-        if !self.simple_functions.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.simple_functions,
-                true,
-                MultiReplacerMode::OnlyCallee,
-                &mut changed,
-            ));
+        if !self.simple_functions.is_empty() || !self.lits_for_cmp.is_empty() {
+            let mut v = CloningMultiReplacer {
+                lits_for_cmp: &self.lits_for_cmp,
+                simple_functions: &self.simple_functions,
+                changed: false,
+            };
+            n.visit_mut_with(&mut v);
+            changed |= v.changed;
         }
 
         if !self.vars_for_inlining.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.vars_for_inlining,
-                false,
-                MultiReplacerMode::Normal,
-                &mut changed,
-            ));
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            n.visit_mut_with(&mut v);
+            changed |= v.changed;
         }
 
         changed
