@@ -55,6 +55,12 @@
 
 - **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
 
+### Performance
+
+
+
+- **(es/minifier)** Optimize `MultiReplacer` (#5977) ([e37bb55](https://github.com/swc-project/swc/commit/e37bb551015b68b108569015a03dc00477f621ee))
+
 ### Testing
 
 
