@@ -1,0 +1,3 @@
+class c {
+    static ["constructor"]() {}
+}

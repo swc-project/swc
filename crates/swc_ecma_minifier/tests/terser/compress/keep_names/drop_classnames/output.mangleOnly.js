@@ -1,0 +1,4 @@
+function c() {
+    class c {
+    }
+}

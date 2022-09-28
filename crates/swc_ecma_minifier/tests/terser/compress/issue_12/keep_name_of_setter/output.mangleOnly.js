@@ -1,0 +1,3 @@
+a = {
+    set foo (<invalid>){}
+};

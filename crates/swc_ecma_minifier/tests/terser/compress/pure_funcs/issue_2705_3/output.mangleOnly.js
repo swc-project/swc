@@ -1,0 +1,14 @@
+new a.x(1).y(2).z(3);
+new b.x(1).y(2).z(3);
+new (c.x(1).y)(2).z(3);
+new (d.x(1).y)(2).z(3);
+new (e.x(1).y(2).z)(3);
+new (f.x(1).y(2).z)(3);
+new (g.x(1).y(2).z(3))();
+new h.x(1).y(2).z(3);
+new i.x(1).y(2).z(3);
+new j.x(1).y(2).z(3);
+new k.x(1).y(2).z(3);
+new l.x(1).y(2).z(3);
+new m.x(1).y(2).z(3);
+new n.x(1).y(2).z(3);

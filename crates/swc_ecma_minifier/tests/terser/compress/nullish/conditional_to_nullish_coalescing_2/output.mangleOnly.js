@@ -1,0 +1,10 @@
+const l = id("something");
+console.log("negative cases");
+l === null || l === null ? bar : l;
+l === undefined || l === undefined ? bar : l;
+l === null || l === undefined ? l : bar;
+some_global === null || some_global === undefined ? bar : some_global;
+console.log("positive cases");
+l === null || l === void 0 ? bar : l;
+l === null || l === undefined ? bar : l;
+l === undefined || l === null ? bar : l;

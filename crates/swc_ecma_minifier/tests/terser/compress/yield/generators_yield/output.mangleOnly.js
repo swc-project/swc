@@ -1,0 +1,3 @@
+function* e() {
+    yield remote();
+}

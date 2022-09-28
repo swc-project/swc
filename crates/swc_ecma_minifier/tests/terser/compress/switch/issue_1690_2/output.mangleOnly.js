@@ -1,0 +1,2 @@
+switch(console.log("PASS")){
+}

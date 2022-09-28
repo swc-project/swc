@@ -1,0 +1,15 @@
+var i = `This is ${undefined}`;
+var s = `This is ${NaN}`;
+var a = `This is ${null}`;
+var r = `This is ${Infinity}`;
+var v = "This is ${1/0}";
+var $ = "This is ${1/0}";
+var h = "This is ${NaN}";
+var T = "This is ${null}";
+var n = `This is ${1 / 0}`;
+var l = `This is ${0 / 0}`;
+var l = "This is ${0/0}";
+var N = "This is ${0/0}";
+var u = `${4 ** 11}`;
+var d = `${4 ** 12}`;
+var e = `${4 ** 14}`;

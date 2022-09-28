@@ -1,0 +1,1 @@
+for(;;)if (foo()) break;
