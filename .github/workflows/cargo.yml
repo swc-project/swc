@@ -569,7 +569,7 @@ jobs:
         env:
           SWC_FORCE_CONCURRENT: "1"
         run: |
-          cargo test -p swc --all-targets --features concurrent
+          cargo test -p swc --features concurrent
 
       - name: Install cargo-hack
         uses: baptiste0928/cargo-install@v1.1.0
