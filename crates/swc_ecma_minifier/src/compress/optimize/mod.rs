@@ -276,8 +276,10 @@ impl Vars {
         }
 
         if !self.lits_for_cmp.is_empty() {
-            let mut v =
-                CloningMultiReplacer::new(&self.lits_for_cmp, MultiReplacerMode::OnlyCallee);
+            let mut v = CloningMultiReplacer::new(
+                &self.lits_for_cmp,
+                MultiReplacerMode::OnlyComparisonWithLit,
+            );
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
