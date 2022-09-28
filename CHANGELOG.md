@@ -53,6 +53,9 @@
 
 
 
+- **(ci)** Fix benchmark action (#5978) ([f7128d2](https://github.com/swc-project/swc/commit/f7128d20f08206a3d4e313af075a2cb28dfdc58b))
+
+
 - **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
 
 ### Performance
