@@ -133,7 +133,7 @@ use swc_common::{
     errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_config::merge::Merge;
@@ -216,10 +216,6 @@ type SwcImportResolver =
 /// The caller should check if the handler contains any errors after calling
 /// method.
 pub struct Compiler {
-    /// swc uses rustc's span interning.
-    ///
-    /// The `Globals` struct contains span interner.
-    globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
@@ -244,22 +240,8 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
-    pub fn globals(&self) -> &Globals {
-        &self.globals
-    }
-
     pub fn comments(&self) -> &SwcComments {
         &self.comments
-    }
-
-    /// Runs `op` in current compiler's context.
-    ///
-    /// Note: Other methods of `Compiler` already uses this internally.
-    pub fn run<R, F>(&self, op: F) -> R
-    where
-        F: FnOnce() -> R,
-    {
-        GLOBALS.set(&self.globals, op)
     }
 
     fn get_orig_src_map(
@@ -268,98 +250,96 @@ impl Compiler {
         input_src_map: &InputSourceMap,
         is_default: bool,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
-        self.run(|| -> Result<_, Error> {
-            let name = &fm.name;
+        let name = &fm.name;
 
-            // Load original source map
-            match input_src_map {
-                InputSourceMap::Bool(false) => Ok(None),
-                InputSourceMap::Bool(true) => {
-                    let s = "sourceMappingURL=";
-                    let idx = fm.src.rfind(s);
-                    let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+        // Load original source map
+        match input_src_map {
+            InputSourceMap::Bool(false) => Ok(None),
+            InputSourceMap::Bool(true) => {
+                let s = "sourceMappingURL=";
+                let idx = fm.src.rfind(s);
+                let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
 
-                    // Load original source map if possible
-                    match &name {
-                        FileName::Real(filename) => {
-                            let dir = match filename.parent() {
-                                Some(v) => v,
-                                None => {
-                                    bail!("unexpected: root directory is given as a input file")
-                                }
-                            };
-
-                            let path = match src_mapping_url {
-                                Some(src_mapping_url) => {
-                                    dir.join(src_mapping_url).display().to_string()
-                                }
-                                None => {
-                                    format!("{}.map", dir.join(filename).display())
-                                }
-                            };
-
-                            let file = File::open(&path)
-                                .or_else(|err| {
-                                    // Old behavior. This check would prevent regressions.
-                                    let f = format!("{}.map", filename.display());
-
-                                    match File::open(&f) {
-                                        Ok(v) => Ok(v),
-                                        Err(_) => Err(err),
-                                    }
-                                })
-                                .context("failed to open input source map file");
-
-                            let file = if !is_default {
-                                file?
-                            } else {
-                                match file {
-                                    Ok(v) => v,
-                                    Err(_) => return Ok(None),
-                                }
-                            };
-
-                            Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                                || format!("failed to read input source map from file at {}", path),
-                            )?))
-                        }
-                        _ => {
-                            tracing::error!("Failed to load source map for non-file input");
-                            Ok(None)
-                        }
-                    }
-                }
-                InputSourceMap::Str(ref s) => {
-                    if s == "inline" {
-                        // Load inline source map by simple string
-                        // operations
-                        let s = "sourceMappingURL=data:application/json;base64,";
-                        let idx = fm.src.rfind(s);
-                        let idx = match idx {
-                            None => bail!(
-                                "failed to parse inline source map: `sourceMappingURL` not found"
-                            ),
+                // Load original source map if possible
+                match &name {
+                    FileName::Real(filename) => {
+                        let dir = match filename.parent() {
                             Some(v) => v,
+                            None => {
+                                bail!("unexpected: root directory is given as a input file")
+                            }
                         };
-                        let encoded = &fm.src[idx + s.len()..];
 
-                        let res = base64::decode(encoded.as_bytes())
-                            .context("failed to decode base64-encoded source map")?;
+                        let path = match src_mapping_url {
+                            Some(src_mapping_url) => {
+                                dir.join(src_mapping_url).display().to_string()
+                            }
+                            None => {
+                                format!("{}.map", dir.join(filename).display())
+                            }
+                        };
 
-                        Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
-                            "failed to read input source map from inlined base64 encoded string",
+                        let file = File::open(&path)
+                            .or_else(|err| {
+                                // Old behavior. This check would prevent regressions.
+                                let f = format!("{}.map", filename.display());
+
+                                match File::open(&f) {
+                                    Ok(v) => Ok(v),
+                                    Err(_) => Err(err),
+                                }
+                            })
+                            .context("failed to open input source map file");
+
+                        let file = if !is_default {
+                            file?
+                        } else {
+                            match file {
+                                Ok(v) => v,
+                                Err(_) => return Ok(None),
+                            }
+                        };
+
+                        Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
+                            || format!("failed to read input source map from file at {}", path),
                         )?))
-                    } else {
-                        // Load source map passed by user
-                        Ok(Some(
-                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
-                                "failed to read input source map from user-provided sourcemap",
-                            )?,
-                        ))
+                    }
+                    _ => {
+                        tracing::error!("Failed to load source map for non-file input");
+                        Ok(None)
                     }
                 }
             }
-        })
+            InputSourceMap::Str(ref s) => {
+                if s == "inline" {
+                    // Load inline source map by simple string
+                    // operations
+                    let s = "sourceMappingURL=data:application/json;base64,";
+                    let idx = fm.src.rfind(s);
+                    let idx = match idx {
+                        None => {
+                            bail!("failed to parse inline source map: `sourceMappingURL` not found")
+                        }
+                        Some(v) => v,
+                    };
+                    let encoded = &fm.src[idx + s.len()..];
+
+                    let res = base64::decode(encoded.as_bytes())
+                        .context("failed to decode base64-encoded source map")?;
+
+                    Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
+                        "failed to read input source map from inlined base64 encoded string",
+                    )?))
+                } else {
+                    // Load source map passed by user
+                    Ok(Some(
+                        sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                            "failed to read input source map from user-provided sourcemap",
+                        )?,
+                    ))
+                }
+            }
+        }
     }
 
     /// This method parses a javascript / typescript file
@@ -646,7 +626,6 @@ impl Compiler {
     pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
-            globals: Globals::new(),
             comments: Default::default(),
         }
     }
