@@ -8,6 +8,12 @@
 - **(es/codegen)** Align sourcemap with terser (#5657) ([2ba8815](https://github.com/swc-project/swc/commit/2ba88154fced01cb6ad0428207cf88ad7ddee75c))
 
 
+- **(es/compat)** Fix the order of initialization for decorators on computed keys (#5964) ([e410102](https://github.com/swc-project/swc/commit/e41010263379fc9a7676925f089aa9913c8f0f04))
+
+
+- **(es/compat)** Fix unrolling of arrays in `generator` (#5965) ([1f892cd](https://github.com/swc-project/swc/commit/1f892cd9798cadcbf7cbfa182e164a358410ee2e))
+
+
 - **(es/minifier)** Fix skipping logic of sequential inliner (#5956) ([9d19742](https://github.com/swc-project/swc/commit/9d1974248dc5424ee20f7c315efadde4c696f720))
 
 
@@ -15,6 +21,9 @@
 
 
 - **(es/minifier)** Fix analysis of nested function-like properties (#5963) ([0fb2c1d](https://github.com/swc-project/swc/commit/0fb2c1d5a539d656f337d0ef4c9392f01817986d))
+
+
+- **(es/minifier)** Preserve exports in DCE (#5973) ([aff4ea5](https://github.com/swc-project/swc/commit/aff4ea5f4412c17c58288459a92a1d9b28ba58c4))
 
 
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
@@ -29,16 +38,28 @@
 
 
 
+- **(css/minifier)** Remove duplicate `@counter-style` at-rules (#5970) ([dfdad69](https://github.com/swc-project/swc/commit/dfdad69c03d13d8950e89358f6587f2bc66d5912))
+
+
 - **(dbg-swc)** Add a size debugger for next.js (#5945) ([b219fa2](https://github.com/swc-project/swc/commit/b219fa2f015f39e1f3da17ade777a4bc92b6eabe))
 
 
 - **(es/minifier)** Ignore more expressions in sequential inliner (#5961) ([dcd516d](https://github.com/swc-project/swc/commit/dcd516d2bd5e9fcdc11a96c014671958ddede1de))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
 
 ### Testing
 
 
 
 - **(es/minifier)** Categorize terser tests (#5960) ([48cddc1](https://github.com/swc-project/swc/commit/48cddc16f67ed5ac904a1e67a6ec096da5747cd2))
+
+
+- **(es/plugin)** Reenable compat test (#5969) ([ca38a70](https://github.com/swc-project/swc/commit/ca38a7027ead28ecb9723d7e99e9123af3c6af14))
 
 ### Build
 

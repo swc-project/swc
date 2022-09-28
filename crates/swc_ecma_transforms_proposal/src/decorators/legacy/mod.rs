@@ -27,6 +27,7 @@ pub(super) fn new(metadata: bool, use_define_for_class_fields: bool) -> TscDecor
         enums: Default::default(),
         vars: Default::default(),
         appended_exprs: Default::default(),
+        prepended_exprs: Default::default(),
         class_name: Default::default(),
         constructor_exprs: Default::default(),
         exports: Default::default(),
@@ -42,6 +43,7 @@ pub(super) struct TscDecorator {
     /// Used for computed keys, and this variables are not initialized.
     vars: Vec<VarDeclarator>,
     appended_exprs: Vec<Box<Expr>>,
+    prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
 
@@ -58,6 +60,7 @@ impl TscDecorator {
     {
         let old_vars = self.vars.take();
         let old_appended_exprs = self.appended_exprs.take();
+        let old_prepended_exprs = self.prepended_exprs.take();
 
         let mut new = vec![];
 
@@ -78,6 +81,19 @@ impl TscDecorator {
                 ));
             }
 
+            new.extend(
+                self.prepended_exprs
+                    .drain(..)
+                    .into_iter()
+                    .map(|expr| {
+                        Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr,
+                        })
+                    })
+                    .map(T::from_stmt),
+            );
+
             new.push(s);
 
             new.extend(
@@ -96,6 +112,7 @@ impl TscDecorator {
 
         *stmts = new;
 
+        self.prepended_exprs = old_prepended_exprs;
         self.appended_exprs = old_appended_exprs;
         self.vars = old_vars;
     }
@@ -114,7 +131,7 @@ impl TscDecorator {
                 });
 
                 // Initialize var
-                self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
+                self.prepended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
                     left: PatOrExpr::Pat(var_name.clone().into()),
