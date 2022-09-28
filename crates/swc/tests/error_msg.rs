@@ -4,7 +4,7 @@ use swc::{
     config::{Config, IsModule, Options},
     try_with_handler, Compiler, HandlerOpts,
 };
-use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap};
+use swc_common::{errors::ColorConfig, sync::Lrc, FilePathMapping, SourceMap, GLOBALS};
 use testing::{NormalizedOutput, Tester};
 
 fn file(f: impl AsRef<Path>) -> NormalizedOutput {
@@ -55,38 +55,40 @@ fn fixture(input: PathBuf) {
     let output_path = input.parent().unwrap().join("output.swc-stderr");
 
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
-    let err = try_with_handler(
-        cm.clone(),
-        HandlerOpts {
-            skip_filename: true,
-            color: ColorConfig::Never,
-        },
-        |handler| {
-            let c = Compiler::new(cm.clone());
+    let err = GLOBALS.set(&Default::default(), || {
+        try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                skip_filename: true,
+                color: ColorConfig::Never,
+            },
+            |handler| {
+                let c = Compiler::new(cm.clone());
 
-            let fm = cm.load_file(&input).expect("failed to load file");
+                let fm = cm.load_file(&input).expect("failed to load file");
 
-            match c.process_js_file(
-                fm,
-                handler,
-                &Options {
-                    config: Config {
-                        is_module: IsModule::Unknown,
+                match c.process_js_file(
+                    fm,
+                    handler,
+                    &Options {
+                        config: Config {
+                            is_module: IsModule::Unknown,
+                            ..Default::default()
+                        },
+                        swcrc: true,
+
                         ..Default::default()
                     },
-                    swcrc: true,
+                ) {
+                    Ok(..) => {}
+                    Err(err) => return Err(err),
+                }
 
-                    ..Default::default()
-                },
-            ) {
-                Ok(..) => {}
-                Err(err) => return Err(err),
-            }
-
-            Ok(())
-        },
-    )
-    .expect_err("should fail");
+                Ok(())
+            },
+        )
+        .expect_err("should fail")
+    });
 
     let output = NormalizedOutput::from(format!("{}", err));
 
