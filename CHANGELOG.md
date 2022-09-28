@@ -35,6 +35,9 @@
 
 
 
+- **(css/minifier)** Remove duplicate `@counter-style` at-rules (#5970) ([dfdad69](https://github.com/swc-project/swc/commit/dfdad69c03d13d8950e89358f6587f2bc66d5912))
+
+
 - **(dbg-swc)** Add a size debugger for next.js (#5945) ([b219fa2](https://github.com/swc-project/swc/commit/b219fa2f015f39e1f3da17ade777a4bc92b6eabe))
 
 
