@@ -52,6 +52,9 @@
 
 - **(es/minifier)** Evaluate more literals in comparison (#5976) ([0e69890](https://github.com/swc-project/swc/commit/0e698907641bb74f90fa0fffd157c5fffe1298b6))
 
+
+- **(es/minifier)** Ignore more return values (#5981) ([08f6e81](https://github.com/swc-project/swc/commit/08f6e81d8e9219e73ea8e312f213aa170ba7acc9))
+
 ### Miscellaneous Tasks
 
 
