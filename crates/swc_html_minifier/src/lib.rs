@@ -1,17 +1,15 @@
 #![deny(clippy::all)]
 #![feature(box_patterns)]
 
-use std::cmp::Ordering;
+use std::{cmp::Ordering, mem::take};
 
 use once_cell::sync::Lazy;
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
-    comments::SingleThreadedComments,
-    sync::Lrc,
-    FileName, FilePathMapping, Mark, SourceMap,
+    collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, FileName, FilePathMapping,
+    Mark, SourceMap,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -22,6 +20,7 @@ use crate::option::{
     CollapseWhitespaces, CssOptions, JsOptions, JsParserOptions, JsonOptions, MinifierType,
     MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions,
 };
+
 pub mod option;
 
 // Global attributes
@@ -2137,39 +2136,56 @@ impl VisitMut for Minifier<'_> {
             self.descendant_of_pre = old_descendant_of_pre;
         }
 
-        let mut already_seen: AHashSet<JsWord> = Default::default();
+        let mut remove_list = vec![];
 
-        n.attributes.retain(|attribute| {
-            if already_seen.contains(&attribute.name) {
-                return false;
-            }
-
-            already_seen.insert(attribute.name.clone());
-
-            if attribute.value.is_none() {
-                return true;
-            }
-
-            if self.options.remove_redundant_attributes
-                && self.is_default_attribute_value(n.namespace, &n.tag_name, attribute)
-            {
-                return false;
-            }
-
-            if self.options.remove_empty_attributes {
-                let value = attribute.value.as_ref().unwrap();
-
-                if (matches!(attribute.name, js_word!("id")) && value.is_empty())
-                    || (matches!(attribute.name, js_word!("class") | js_word!("style"))
-                        && value.is_empty())
-                    || self.is_event_handler_attribute(&attribute.name) && value.is_empty()
+        for (i, i1) in n.attributes.iter().enumerate() {
+            if i1.value.is_some() {
+                if self.options.remove_redundant_attributes
+                    && self.is_default_attribute_value(n.namespace, &n.tag_name, i1)
                 {
-                    return false;
+                    remove_list.push(i);
+
+                    continue;
+                }
+
+                if self.options.remove_empty_attributes {
+                    let value = i1.value.as_ref().unwrap();
+
+                    if (matches!(i1.name, js_word!("id")) && value.is_empty())
+                        || (matches!(i1.name, js_word!("class") | js_word!("style"))
+                            && value.is_empty())
+                        || self.is_event_handler_attribute(&i1.name) && value.is_empty()
+                    {
+                        remove_list.push(i);
+
+                        continue;
+                    }
                 }
             }
 
-            true
-        });
+            for (j, j1) in n.attributes.iter().enumerate() {
+                if i < j && i1.name == j1.name {
+                    remove_list.push(j);
+                }
+            }
+        }
+
+        // Fast path. We don't face real duplicates in most cases.
+        if !remove_list.is_empty() {
+            let new = take(&mut n.attributes)
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, value)| {
+                    if remove_list.contains(&idx) {
+                        None
+                    } else {
+                        Some(value)
+                    }
+                })
+                .collect::<Vec<_>>();
+
+            n.attributes = new;
+        }
 
         if let Some(attribute_name_counter) = &self.attribute_name_counter {
             n.attributes.sort_by(|a, b| {
