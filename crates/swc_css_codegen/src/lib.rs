@@ -1938,7 +1938,21 @@ where
 
     #[emitter]
     fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
-        emit!(self, n.prefix);
+        // TODO avoid usage `Ident` for `*`, because it is not ident
+        if let Some(prefix) = &n.prefix {
+            if prefix.value == js_word!("*") {
+                if self.config.minify {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
+                } else if let Some(raw) = &prefix.raw {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), &raw);
+                } else {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
+                }
+            } else {
+                emit!(self, n.prefix);
+            }
+        }
+
         write_raw!(self, hi_span_offset!(n.span, 1), "|");
     }
 

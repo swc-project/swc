@@ -37,3 +37,9 @@
     transform: rotate(360deg);
   }
 }
+*|* {
+  color: blue;
+}
+\*|* {
+  color: blue;
+}
