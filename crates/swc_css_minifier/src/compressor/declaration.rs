@@ -436,7 +436,7 @@ impl Compressor {
                                 declaration.value.insert(
                                     0,
                                     if let Some(escaped) =
-                                        crate::escape::try_escape_if_shorter(to_be_identify)
+                                        self.try_escape_if_shorter(to_be_identify)
                                     {
                                         ComponentValue::Ident(Ident {
                                             span: ident.span,
@@ -471,7 +471,7 @@ impl Compressor {
                                     }
                                     to_be_identify => {
                                         if let Some(escaped) =
-                                            crate::escape::try_escape_if_shorter(to_be_identify)
+                                            self.try_escape_if_shorter(to_be_identify)
                                         {
                                             ComponentValue::Ident(Ident {
                                                 span: ident.span,
