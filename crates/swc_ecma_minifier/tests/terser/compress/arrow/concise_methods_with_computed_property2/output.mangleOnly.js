@@ -1,6 +1,10 @@
 var o = {
-    [[1]](o) {
+    [[
+        1
+    ]] (o) {
         return o;
-    },
+    }
 };
-console.log(o[[1]]("PASS"));
+console.log(o[[
+    1
+]]("PASS"));

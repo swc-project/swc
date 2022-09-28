@@ -1,6 +1,10 @@
 var e = {
-    [[1]]() {
+    [[
+        1
+    ]] () {
         return "success";
-    },
+    }
 };
-doSomething(e[[1]]());
+doSomething(e[[
+    1
+]]());

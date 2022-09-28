@@ -1,5 +1,5 @@
 var o;
-(function () {
+(function() {
     function n() {
         a++;
     }

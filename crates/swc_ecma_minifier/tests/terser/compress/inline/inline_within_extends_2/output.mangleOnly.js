@@ -1,11 +1,11 @@
 class s extends n(r(Array)) {
-    constructor() {
+    constructor(){
         super(...arguments);
     }
 }
 function n(s) {
     return class extends s {
-        constructor() {
+        constructor(){
             super(...arguments);
         }
         second() {
@@ -15,7 +15,7 @@ function n(s) {
 }
 function r(s) {
     return class extends s {
-        constructor(...s) {
+        constructor(...s){
             super(...s);
         }
     };

@@ -1,5 +1,4 @@
-var n = 1,
-    o = 0;
+var n = 1, o = 0;
 (function a(c) {
     function f() {
         c && (c.a = 0);

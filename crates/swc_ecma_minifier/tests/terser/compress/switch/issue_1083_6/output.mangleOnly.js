@@ -1,5 +1,5 @@
 function e(e, l) {
-    switch (true) {
+    switch(true){
         case e:
             console.log("definitely");
             break;

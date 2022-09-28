@@ -11,7 +11,7 @@ function i() {
         c(2);
     }
 }
-var c = function () {
+var c = function() {
     console.log("init");
 };
 i();

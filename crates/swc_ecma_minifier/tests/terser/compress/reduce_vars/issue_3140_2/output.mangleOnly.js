@@ -1,4 +1,4 @@
-(function () {
+(function() {
     var n;
     function t() {}
     t.g = function t() {
@@ -13,6 +13,4 @@
         return r;
     };
     return t;
-})()
-    .g()
-    .g();
+})().g().g();

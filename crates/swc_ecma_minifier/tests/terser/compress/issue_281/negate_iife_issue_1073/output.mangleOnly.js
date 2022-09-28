@@ -1,4 +1,4 @@
-new ((function (n) {
+new ((function(n) {
     return function o() {
         this.x = n;
         console.log(this);

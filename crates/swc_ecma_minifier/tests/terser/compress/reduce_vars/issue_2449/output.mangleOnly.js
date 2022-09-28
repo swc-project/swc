@@ -5,7 +5,7 @@ function o() {
 function r() {
     return o();
 }
-(function () {
+(function() {
     var n = "FAIL";
     if (n == n) console.log(r());
 })();

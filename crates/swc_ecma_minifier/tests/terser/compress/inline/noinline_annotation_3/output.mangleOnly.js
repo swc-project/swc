@@ -1,4 +1,4 @@
-(function () {
+(function() {
     function n(n) {
         return n;
     }

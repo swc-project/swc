@@ -1,12 +1,12 @@
 var r = {
-    valueOf: function () {
+    valueOf: function() {
         triggeredFirst();
-    },
+    }
 };
 var a = {
-    valueOf: function () {
+    valueOf: function() {
         triggeredSecond();
-    },
+    }
 };
 var v = r <= a;
 var e = r < a;

@@ -1,3 +1,3 @@
 if (0) {
-    var { x: f, y: o } = foo();
+    var { x: f , y: o  } = foo();
 }

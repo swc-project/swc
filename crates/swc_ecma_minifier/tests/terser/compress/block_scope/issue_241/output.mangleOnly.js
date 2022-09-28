@@ -1,11 +1,14 @@
 var n = {};
-(function (n) {
+(function(n) {
     function o(n) {
         var o = {};
         function e() {
-            return r({ one: n.one, two: n.two });
+            return r({
+                one: n.one,
+                two: n.two
+            });
         }
-        o.inner = function () {
+        o.inner = function() {
             return e();
         };
         return o;
@@ -21,5 +24,7 @@ var n = {};
     }
     n.fail = o;
 })(n);
-var o = n.fail({ one: "PASS" });
+var o = n.fail({
+    one: "PASS"
+});
 console.log(o.inner());

@@ -3,5 +3,7 @@ function n(n, o) {
     o.p = "FAIL";
     return r;
 }
-var o = { p: "PASS" };
+var o = {
+    p: "PASS"
+};
 console.log(n(o, o));

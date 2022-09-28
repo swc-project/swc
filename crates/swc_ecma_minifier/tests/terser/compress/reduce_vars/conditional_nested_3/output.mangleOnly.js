@@ -1,5 +1,4 @@
-var n = 2,
-    o = 0;
+var n = 2, o = 0;
 (function c(f) {
     0 < n-- && i((f = 1));
     function i() {

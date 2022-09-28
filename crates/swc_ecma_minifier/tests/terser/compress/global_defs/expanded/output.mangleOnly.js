@@ -2,7 +2,9 @@ function n(n) {
     return n.VALUE;
 }
 function o() {
-    var n = { VALUE: 1 };
+    var n = {
+        VALUE: 1
+    };
     return n.VALUE;
 }
 function r() {

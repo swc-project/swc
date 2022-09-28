@@ -1,4 +1,6 @@
-var n = ["a"];
+var n = [
+    "a"
+];
 function r(r) {
     return n.indexOf(r);
 }

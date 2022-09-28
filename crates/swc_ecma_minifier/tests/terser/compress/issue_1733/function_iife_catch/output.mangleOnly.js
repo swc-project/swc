@@ -1,5 +1,5 @@
 function o(o) {
-    !(function () {
+    !(function() {
         try {
             throw 0;
         } catch (c) {

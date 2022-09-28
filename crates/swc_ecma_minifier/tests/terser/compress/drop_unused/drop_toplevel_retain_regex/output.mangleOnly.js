@@ -1,8 +1,6 @@
-var n,
-    o = 1,
-    c = u;
+var n, o = 1, c = u;
 function t(n) {
-    return function () {
+    return function() {
         c = 2;
     };
 }

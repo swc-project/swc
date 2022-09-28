@@ -29,11 +29,7 @@ function c() {
     o(v, t, n, a);
 }
 function o() {
-    var a = console.log.bind(console),
-        r = 10,
-        c = (r += 2),
-        o = (r += 3),
-        v = (r += 4);
+    var a = console.log.bind(console), r = 10, c = (r += 2), o = (r += 3), v = (r += 4);
     a(c, v, o, r);
 }
 a(), r(), c(), o();

@@ -66,7 +66,6 @@ fn parse_fm(handler: &Handler, fm: Lrc<SourceFile>) -> Result<Module, ()> {
     })
 }
 
-#[testing::fixture("tests/fixture/**/input.js")]
 #[testing::fixture("tests/terser/**/input.js")]
 fn snapshot_compress_fixture(input: PathBuf) {
     let output_path = input.parent().unwrap().join("output.mangleOnly.js");

@@ -2,6 +2,14 @@ class o {
     Quoted() {}
     Unquoted() {}
 }
-f1({ Quoted() {}, Unquoted() {}, Prop: 3 });
-f2({ Quoted: function () {} });
-f3({ Quoted: () => {} });
+f1({
+    Quoted () {},
+    Unquoted () {},
+    Prop: 3
+});
+f2({
+    Quoted: function() {}
+});
+f3({
+    Quoted: ()=>{}
+});

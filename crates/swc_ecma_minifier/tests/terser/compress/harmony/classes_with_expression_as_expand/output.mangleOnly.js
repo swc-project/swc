@@ -1,1 +1,2 @@
-class s extends (calls++, C) {}
+class s extends (calls++, C) {
+}

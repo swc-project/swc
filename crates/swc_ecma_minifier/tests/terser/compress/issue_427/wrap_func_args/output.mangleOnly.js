@@ -1,6 +1,3 @@
-console.log(
-    function () {
-        return "test";
-    },
-    () => null
-);
+console.log(function() {
+    return "test";
+}, ()=>null);

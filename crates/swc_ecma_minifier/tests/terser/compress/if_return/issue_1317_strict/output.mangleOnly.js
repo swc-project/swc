@@ -1,5 +1,5 @@
 "use strict";
-!(function (n) {
+!(function(n) {
     if (n) return;
     let t = 1;
     function e() {

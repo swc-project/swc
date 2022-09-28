@@ -1,5 +1,5 @@
-(function (o) {
-    switch (1) {
+(function(o) {
+    switch(1){
         case o:
             console.log(o);
             break;

@@ -7,9 +7,9 @@ class e {
     }
 }
 var r = {
-    get [a.b]() {
+    get [a.b] () {
         return 42;
-    },
+    }
 };
 class s extends Array {
     get [Symbol.species]() {

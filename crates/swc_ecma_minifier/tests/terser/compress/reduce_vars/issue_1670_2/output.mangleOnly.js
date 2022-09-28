@@ -1,5 +1,5 @@
 (function e() {
-    switch (1) {
+    switch(1){
         case 0:
             var o = true;
             break;

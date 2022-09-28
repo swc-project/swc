@@ -1,7 +1,5 @@
-console.log(
-    {
-        p() {
-            return 42;
-        },
-    }.p()
-);
+console.log({
+    p () {
+        return 42;
+    }
+}.p());

@@ -1,10 +1,10 @@
 var e = console.log;
 var l = 0;
-global.problem = () => {
+global.problem = ()=>{
     var r = l;
     e(r);
 };
-global.increment = () => {
+global.increment = ()=>{
     l++;
 };
 increment();

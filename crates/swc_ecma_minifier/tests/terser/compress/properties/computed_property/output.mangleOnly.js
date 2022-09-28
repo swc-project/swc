@@ -1,1 +1,4 @@
-console.log({ a: "bar", [console.log("foo")]: 42 }.a);
+console.log({
+    a: "bar",
+    [console.log("foo")]: 42
+}.a);

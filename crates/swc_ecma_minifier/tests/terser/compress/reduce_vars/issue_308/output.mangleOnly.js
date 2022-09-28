@@ -7,7 +7,7 @@ function t(t) {
 }
 function n() {
     var n = EXTERNAL();
-    return (function (n) {
+    return (function(n) {
         t(n);
         function e() {}
     })(n);

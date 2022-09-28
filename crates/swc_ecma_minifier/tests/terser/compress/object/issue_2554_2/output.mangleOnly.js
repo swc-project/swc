@@ -1,5 +1,5 @@
 var s = new (class {
-    constructor() {
+    constructor(){
         this.x = 2;
     }
     ["method" + ""]() {

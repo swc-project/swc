@@ -1,7 +1,7 @@
 var n = {
-    u: function () {
+    u: function() {
         return this === this;
     },
-    p: 1,
+    p: 1
 };
 console.log(n.p, n.p);

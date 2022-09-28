@@ -5,7 +5,9 @@ function n(n) {
 }
 function o() {}
 function f() {
-    n({ c: o });
+    n({
+        c: o
+    });
 }
 f();
 f();

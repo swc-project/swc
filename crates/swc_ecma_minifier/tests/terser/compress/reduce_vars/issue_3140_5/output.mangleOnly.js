@@ -1,7 +1,6 @@
-var n = 1,
-    o = 0;
-(function (c) {
-    var i = (function () {
+var n = 1, o = 0;
+(function(c) {
+    var i = (function() {
         this;
         n-- && t();
     })();

@@ -1,8 +1,10 @@
 var e = {
     f: "FAIL",
-    g() {
+    g () {
         return super.f;
-    },
+    }
 };
-Object.setPrototypeOf(e, { f: "PASS" });
+Object.setPrototypeOf(e, {
+    f: "PASS"
+});
 console.log(e.g());

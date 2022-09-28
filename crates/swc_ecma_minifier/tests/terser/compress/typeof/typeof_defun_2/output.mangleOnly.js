@@ -1,4 +1,4 @@
-var o = function () {
+var o = function() {
     console.log(n);
 };
 var n = 0;

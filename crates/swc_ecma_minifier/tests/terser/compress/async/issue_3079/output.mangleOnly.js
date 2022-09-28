@@ -1,6 +1,8 @@
-(o) => 1;
-var o = (o) => o;
+(o)=>1;
+var o = (o)=>o;
 console.log(o(1));
-o = (o) => o;
+o = (o)=>o;
 console.log(o(2));
-console.log({ m: (o) => (o ? "3" : "4") }.m(true));
+console.log({
+    m: (o)=>(o ? "3" : "4")
+}.m(true));

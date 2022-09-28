@@ -5,5 +5,8 @@ class l {
 class t {
     static _ = (s += "SS");
 }
-global.something = [new t(), new l()];
+global.something = [
+    new t(),
+    new l()
+];
 console.log(s);

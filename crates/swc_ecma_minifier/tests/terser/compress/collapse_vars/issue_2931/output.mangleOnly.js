@@ -1,8 +1,6 @@
-console.log(
-    (function () {
-        var n = (function () {
-            return;
-        })();
-        return n;
-    })()
-);
+console.log((function() {
+    var n = (function() {
+        return;
+    })();
+    return n;
+})());

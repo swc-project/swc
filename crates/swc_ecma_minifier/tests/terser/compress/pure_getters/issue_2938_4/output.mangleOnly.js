@@ -5,5 +5,5 @@ o.initialContext = function n() {
     o.y;
     console.log("PASS");
 };
-o.braceIsBlock = function () {};
+o.braceIsBlock = function() {};
 new n().initialContext();

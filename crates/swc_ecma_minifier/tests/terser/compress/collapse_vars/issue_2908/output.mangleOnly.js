@@ -1,5 +1,4 @@
-var n = 0,
-    o = 0;
+var n = 0, o = 0;
 function f(f) {
     if (1 == f) return;
     n++;

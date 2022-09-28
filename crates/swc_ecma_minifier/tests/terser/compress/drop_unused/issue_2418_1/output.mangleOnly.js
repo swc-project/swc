@@ -1,4 +1,6 @@
-class c {}
+class c {
+}
 function n() {}
-(class c {});
+(class c {
+});
 (function c() {});

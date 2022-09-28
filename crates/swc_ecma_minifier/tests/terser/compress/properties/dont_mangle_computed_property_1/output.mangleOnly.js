@@ -13,19 +13,7 @@ const B = {
     undefined: "Undefined",
     Infinity: "infinity",
     NaN: "nan",
-    void: "Void",
+    void: "Void"
 };
-console.log(
-    B[A],
-    B["baz"],
-    B.qux,
-    B[7],
-    B[0],
-    B[1 + 0],
-    B[null],
-    B[undefined],
-    B[1 / 0],
-    B[NaN],
-    B.void
-);
+console.log(B[A], B["baz"], B.qux, B[7], B[0], B[1 + 0], B[null], B[undefined], B[1 / 0], B[NaN], B.void);
 console.log(B.null, B.undefined, B.Infinity, B.NaN);

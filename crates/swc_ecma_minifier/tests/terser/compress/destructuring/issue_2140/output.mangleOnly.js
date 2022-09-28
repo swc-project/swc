@@ -1,4 +1,6 @@
-!(function () {
+!(function() {
     var o = {};
-    console.log(([o.a] = [42])[0]);
+    console.log(([o.a] = [
+        42
+    ])[0]);
 })();

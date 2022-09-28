@@ -1,4 +1,6 @@
 function r() {
-    var r = { "𝒜": true };
+    var r = {
+        "𝒜": true
+    };
     return r["𝒜"];
 }

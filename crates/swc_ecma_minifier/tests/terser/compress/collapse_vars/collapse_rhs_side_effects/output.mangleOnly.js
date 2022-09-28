@@ -1,5 +1,4 @@
-var n = 1,
-    o = 0;
+var n = 1, o = 0;
 new (function c() {
     this[n-- && c()] = 1;
     o += 1;

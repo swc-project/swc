@@ -8,6 +8,8 @@ function c(...n) {
     return n[0];
 }
 function e() {
-    return c(...[o]);
+    return c(...[
+        o
+    ]);
 }
 n();

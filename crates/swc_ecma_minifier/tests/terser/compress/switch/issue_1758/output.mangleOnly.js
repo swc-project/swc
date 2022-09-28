@@ -1,6 +1,5 @@
-var l = 1,
-    o = 2;
-switch (l--) {
+var l = 1, o = 2;
+switch(l--){
     default:
         o++;
 }

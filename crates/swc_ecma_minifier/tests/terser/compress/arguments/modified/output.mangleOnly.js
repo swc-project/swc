@@ -1,4 +1,4 @@
-(function (o, a) {
+(function(o, a) {
     var r = arguments[0];
     var n = arguments[1];
     var o = "foo";

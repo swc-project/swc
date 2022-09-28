@@ -1,5 +1,5 @@
 var o = 8;
-(function (o) {
+(function(o) {
     o.toString();
 })(--o, (o |= 10));
 console.log(o);

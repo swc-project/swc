@@ -2,7 +2,7 @@
 0.0;
 function n() {
     0.0;
-    (function () {
+    (function() {
         0.0;
     });
 }

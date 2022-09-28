@@ -4,6 +4,10 @@ function o(o) {
     n = o;
 }
 function c() {}
-[1, 2, 3].forEach(function () {
+[
+    1,
+    2,
+    3
+].forEach(function() {
     o(c);
 });

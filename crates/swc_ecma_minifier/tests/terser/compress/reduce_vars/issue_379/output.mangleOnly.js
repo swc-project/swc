@@ -1,5 +1,1 @@
-global.a = (
-    (...o) =>
-    (o, a) =>
-        o.foo === a.foo
-)(...args);
+global.a = ((...o)=>(o, a)=>o.foo === a.foo)(...args);
