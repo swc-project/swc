@@ -1116,7 +1116,9 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        if let Some(raw) = &n.raw {
+        if self.config.minify {
+            write_raw!(self, n.span, &serialize_ident(&n.value));
+        } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
             write_raw!(self, n.span, &n.value);
