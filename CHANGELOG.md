@@ -68,6 +68,9 @@
 
 
 
+- **(css/minifier)** Merge all passes (#5971) ([7d7c2d3](https://github.com/swc-project/swc/commit/7d7c2d3a9c75286a4d12d5f1d1b45501f170b512))
+
+
 - **(es)** Don't share `Globals` (#5975) ([19131e1](https://github.com/swc-project/swc/commit/19131e168e65b13a4d4ddf823aec4211a2502ceb))
 
 
