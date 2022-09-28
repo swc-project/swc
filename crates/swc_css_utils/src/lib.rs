@@ -156,81 +156,76 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
 pub fn serialize_ident(value: &str, raw: Option<&str>, minify: bool) -> String {
     let mut result = String::with_capacity(value.len());
-    let mut first = None;
 
+    //
+    // To escape a character means to create a string of "\" (U+005C), followed by
+    // the character.
+    //
+    // To escape a character as code point means to create a string of "\" (U+005C),
+    // followed by the Unicode code point as the smallest possible number of
+    // hexadecimal digits in the range 0-9 a-f (U+0030 to U+0039 and U+0061 to
+    // U+0066) to represent the code point in base 16, followed by a single SPACE
+    // (U+0020).
+    //
     // To serialize an identifier means to create a string represented
     // by the concatenation of, for each character of the identifier:
     for (i, c) in value.chars().enumerate() {
-        if i == 0 {
-            first = Some(c);
-        }
-
-        // If the character is the first character and is a "-" (U+002D),
-        // and there is no second character, then the escaped character.
-        // Note: That's means a single dash string "-" return as escaped dash,
-        // so move the condition out of the main loop
-        if value.len() == 1 && first == Some('-') {
-            result.push_str("\\-");
-
-            return result;
-        }
-
-        let code = c as u32;
-
-        // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
-        if code == 0x0000 {
-            result.push(char::REPLACEMENT_CHARACTER);
-
-            continue;
-        }
-
-        // Old browser hacks - IE
-        if c == REPLACEMENT_CHARACTER {
-            if let Some(raw) = raw {
-                result.push_str(raw);
+        match c {
+            // Old browser hacks with `\0` and other - IE
+            REPLACEMENT_CHARACTER if raw.is_some() => {
+                result.push_str(raw.unwrap());
 
                 return result;
             }
-        }
-
-        if
-        // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F ...
-        // Note: Do not compare with 0x0001 since 0x0000 is precessed before
-        code <= 0x001F || code == 0x007F ||
-                // [or] ... is in the range [0-9] (U+0030 to U+0039),
-                (c.is_ascii_digit() && (
-                    // If the character is the first character ...
-                    i == 0 ||
-                        // If the character is the second character ... and the first character is a "-" (U+002D)
-                        i == 1 && first == Some('-')
-                ))
-        {
-            // ... then the character escaped as code point.
-            result.push_str(&hex_escape(c as u8, minify));
-
-            continue;
-        }
-
-        // If the character is not handled by one of the above rules and is greater
-        // than or equal to U+0080, is "-" (U+002D) or "_" (U+005F), or is in one
-        // of the ranges [0-9] (U+0030 to U+0039), [A-Z] (U+0041 to U+005A),
-        // or \[a-z] (U+0061 to U+007A), then the character itself.
-        if is_name(c) {
-            result.push(c);
-        } else {
+            // If the character is NULL (U+0000), then the REPLACEMENT CHARACTER (U+FFFD).
+            '\x00' => {
+                result.push(char::REPLACEMENT_CHARACTER);
+            }
+            // If the character is in the range [\1-\1f] (U+0001 to U+001F) or is U+007F, then the
+            // character escaped as code point.
+            '\x01'..='\x1f' | '\x7F' => {
+                result.push_str(&hex_escape(c as u8, minify));
+            }
+            // If the character is the first character and is in the range [0-9] (U+0030 to U+0039),
+            // then the character escaped as code point.
+            '0'..='9' if i == 0 => {
+                result.push_str(&hex_escape(c as u8, minify));
+            }
+            // If the character is the second character and is in the range [0-9] (U+0030 to U+0039)
+            // and the first character is a "-" (U+002D), then the character escaped as code point.
+            '0'..='9' if i == 1 && &value[0..1] == "-" => {
+                result.push_str(&hex_escape(c as u8, minify));
+            }
+            // If the character is the first character and is a "-" (U+002D), and there is no second
+            // character, then the escaped character.
+            '-' if i == 0 && value.len() == 1 => {
+                result.push_str(&hex_escape(c as u8, minify));
+            }
+            // If the character is not handled by one of the above rules and is greater than or
+            // equal to U+0080, is "-" (U+002D) or "_" (U+005F), or is in one of the ranges [0-9]
+            // (U+0030 to U+0039), [A-Z] (U+0041 to U+005A), or \[a-z] (U+0061 to U+007A), then the
+            // character itself.
+            _ if !c.is_ascii()
+                || c == '-'
+                || c == '_'
+                || c.is_ascii_digit()
+                || c.is_ascii_uppercase()
+                || c.is_ascii_lowercase() =>
+            {
+                result.push(c);
+            }
             // Otherwise, the escaped character.
-            result.push_str(&char_escape(c as u8));
+            _ => {
+                let bytes = [b'\\', c as u8];
+
+                // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
+                // ASCII
+                result.push_str(unsafe { str::from_utf8_unchecked(&bytes) });
+            }
         }
     }
 
     result
-}
-
-// A name-start code point, a digit, or U+002D HYPHEN-MINUS (-).
-fn is_name(c: char) -> bool {
-    ((c.is_ascii_uppercase() || c.is_ascii_lowercase()) || !c.is_ascii() || c == '_')
-        || c.is_ascii_digit()
-        || c == '-'
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
@@ -254,13 +249,4 @@ fn hex_escape(ascii_byte: u8, minify: bool) -> String {
         unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
             .to_string()
     }
-}
-
-// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L185
-fn char_escape(ascii_byte: u8) -> String {
-    let bytes = [b'\\', ascii_byte];
-
-    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
-    // ASCII
-    unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
 }
