@@ -12,6 +12,7 @@ use self::{compressor::compressor, options::MinifyOptions};
 mod compressor;
 mod escape;
 pub mod options;
+pub(crate) mod util;
 
 pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compressor());

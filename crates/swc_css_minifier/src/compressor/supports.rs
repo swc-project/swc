@@ -1,9 +1,10 @@
 use std::mem::take;
 
-use swc_common::{EqIgnoreSpan, DUMMY_SP};
+use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::Compressor;
+use crate::util::dedup;
 
 impl Compressor {
     fn is_first_supports_in_parens(&self, supports_condition: &SupportsCondition) -> bool {
@@ -200,19 +201,7 @@ impl Compressor {
             _ => {}
         }
 
-        let mut already_seen: Vec<SupportsConditionType> = Vec::with_capacity(n.conditions.len());
-
-        n.conditions.retain(|children| {
-            for already_seen_support_condition_type in &already_seen {
-                if already_seen_support_condition_type.eq_ignore_span(children) {
-                    return false;
-                }
-            }
-
-            already_seen.push(children.clone());
-
-            true
-        });
+        dedup(&mut n.conditions);
     }
 
     pub(super) fn compress_supports_in_parens(&mut self, n: &mut SupportsInParens) {

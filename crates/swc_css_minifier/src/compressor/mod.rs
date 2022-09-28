@@ -44,7 +44,6 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_empty_stylesheet(n);
-        self.compresss_empty_stylesheet(n);
 
         if !self.need_utf8_at_rule {
             match n.rules.get(0) {
