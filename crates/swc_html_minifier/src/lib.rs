@@ -369,8 +369,8 @@ impl Minifier<'_> {
         EVENT_HANDLER_ATTRIBUTES.contains(&&**name)
     }
 
-    fn is_boolean_attribute(&self, element: &Element, name: &str) -> bool {
-        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get("*") {
+    fn is_boolean_attribute(&self, element: &Element, name: &JsWord) -> bool {
+        if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&js_word!("*")) {
             if let Some(element) = global_pseudo_element.other.get(name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
@@ -378,7 +378,7 @@ impl Minifier<'_> {
             }
         }
 
-        if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&*element.tag_name) {
+        if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&element.tag_name) {
             if let Some(element) = element.other.get(name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
@@ -478,7 +478,7 @@ impl Minifier<'_> {
         }
     }
 
-    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &str) -> bool {
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
         match element.namespace {
             Namespace::SVG => {
                 SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
@@ -611,13 +611,13 @@ impl Minifier<'_> {
                     with_namespace.push(':');
                     with_namespace.push_str(&attribute.name);
 
-                    with_namespace
+                    with_namespace.into()
                 } else {
-                    attribute.name.to_string()
+                    attribute.name.clone()
                 };
                 let normalized_value = attribute_value.trim();
 
-                let attributes = match default_attributes.get(&**tag_name) {
+                let attributes = match default_attributes.get(tag_name) {
                     Some(element) => element,
                     None => return false,
                 };

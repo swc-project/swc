@@ -33,14 +33,14 @@ pub fn bench_files_document(c: &mut Criterion) {
         "css_spec",
         Path::new("../swc_html_parser/benches/files/css_2021_spec.html"),
     );
-    bench_file(
-        "github",
-        Path::new("../swc_html_parser/benches/files/github_com_17_05_2022.html"),
-    );
-    bench_file(
-        "stackoverflow",
-        Path::new("../swc_html_parser/benches/files/stackoverflow_com_17_05_2022.html"),
-    );
+    // bench_file(
+    //     "github",
+    //     Path::new("../swc_html_parser/benches/files/github_com_17_05_2022.
+    // html"), );
+    // bench_file(
+    //     "stackoverflow",
+    //     Path::new("../swc_html_parser/benches/files/
+    // stackoverflow_com_17_05_2022.html"), );
 }
 
 pub fn bench_files_document_fragment(c: &mut Criterion) {
@@ -73,8 +73,8 @@ pub fn bench_files_document_fragment(c: &mut Criterion) {
 }
 
 criterion_group!(files_document, bench_files_document);
-criterion_group!(files_document_fragment, bench_files_document_fragment);
-criterion_main!(files_document, files_document_fragment);
+// criterion_group!(files_document_fragment, bench_files_document_fragment);
+criterion_main!(files_document);
 
 fn run_document(src: &str) {
     testing::run_test2(false, |cm, handler| {

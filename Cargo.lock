@@ -4089,6 +4089,7 @@ dependencies = [
  "once_cell",
  "serde",
  "serde_json",
+ "swc_atoms",
  "swc_common",
 ]
 
