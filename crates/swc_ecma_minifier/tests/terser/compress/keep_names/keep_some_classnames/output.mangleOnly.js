@@ -1,4 +1,6 @@
 function s() {
-    class s {}
-    class c {}
+    class s {
+    }
+    class c {
+    }
 }

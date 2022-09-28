@@ -1,6 +1,5 @@
-var r = 1,
-    n = 2;
-(function () {
+var r = 1, n = 2;
+(function() {
     n = r;
     if (r++ + n--) return 1;
     return;

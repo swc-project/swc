@@ -5,7 +5,7 @@ function n(n, r, o) {
     return t(n, r, o);
 }
 var r = 0;
-for (var o = 0; o < 100; ++o) {
+for(var o = 0; o < 100; ++o){
     r += n(o, o + 1, 3 * o);
 }
 console.log(r);

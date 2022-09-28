@@ -1,7 +1,5 @@
-console.log(
-    (function () {
-        n++;
-        return n;
-        var n;
-    })()
-);
+console.log((function() {
+    n++;
+    return n;
+    var n;
+})());

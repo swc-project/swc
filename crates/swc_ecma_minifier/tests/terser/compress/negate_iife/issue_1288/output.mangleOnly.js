@@ -1,14 +1,13 @@
-if (w);
+if (w) ;
 else {
     (function n() {})();
 }
 if (!x) {
-    (function () {
+    (function() {
         x = {};
     })();
 }
-if (y) (function () {})();
-else
-    (function (n) {
-        return n;
-    })(0);
+if (y) (function() {})();
+else (function(n) {
+    return n;
+})(0);

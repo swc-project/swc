@@ -4,8 +4,7 @@ function o() {
 function n() {
     console.log(42);
 }
-var c = 1,
-    i = 2;
+var c = 1, i = 2;
 export function main() {
     n(c);
 }

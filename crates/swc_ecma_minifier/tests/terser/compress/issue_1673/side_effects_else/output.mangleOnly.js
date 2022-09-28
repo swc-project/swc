@@ -1,6 +1,6 @@
 function n(n) {
     function o() {
-        if (n);
+        if (n) ;
         else console.log("PASS");
     }
     o();

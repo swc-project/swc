@@ -1,5 +1,5 @@
 function e(e, l) {
-    switch (true) {
+    switch(true){
         default:
             console.log("definitely");
             break;

@@ -1,5 +1,5 @@
-var e = function (e) {
-    switch (e) {
+var e = function(e) {
+    switch(e){
         case 1:
             let l = e + 1;
             let o = e + 4;

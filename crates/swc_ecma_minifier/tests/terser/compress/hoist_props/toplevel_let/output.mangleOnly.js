@@ -1,2 +1,5 @@
-let c = { b: 1, c: 2 };
+let c = {
+    b: 1,
+    c: 2
+};
 console.log(c.b + c.c);

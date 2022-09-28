@@ -1,5 +1,5 @@
 function e(e, o) {
-    switch (true) {
+    switch(true){
         case e:
         default:
             console.log("PASS");

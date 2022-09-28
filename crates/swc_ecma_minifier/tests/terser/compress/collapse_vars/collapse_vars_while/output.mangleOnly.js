@@ -1,7 +1,6 @@
 function r(r) {
-    var n = r,
-        e = 3 - r;
-    while (e) {
+    var n = r, e = 3 - r;
+    while(e){
         return n;
     }
     var t = r * r;
@@ -9,7 +8,7 @@ function r(r) {
 }
 function n(r) {
     var n = 7;
-    while (r) {
+    while(r){
         return n;
     }
     var e = r * r;
@@ -17,7 +16,7 @@ function n(r) {
 }
 function e(r) {
     var n = 5 - r;
-    while (r) {
+    while(r){
         return n;
     }
     var e = r * r;

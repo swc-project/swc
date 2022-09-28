@@ -6,10 +6,8 @@ function r(r, n, t) {
     function u(r, n) {
         r = r | 0;
         n = n | 0;
-        var t = 0.0,
-            a = 0,
-            u = 0;
-        for (a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0) {
+        var t = 0.0, a = 0, u = 0;
+        for(a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0){
             t = t + +e(o[a >> 3]);
         }
         return +t;
@@ -19,7 +17,9 @@ function r(r, n, t) {
         n = n | 0;
         return +a(+u(r, n) / +((n - r) | 0));
     }
-    return { geometricMean: c };
+    return {
+        geometricMean: c
+    };
 }
 function n(r, n, t) {
     var a = r.Math.exp;
@@ -28,10 +28,8 @@ function n(r, n, t) {
     function u(r, n) {
         r = r | 0;
         n = n | 0;
-        var t = 0,
-            a = 0,
-            u = 0;
-        for (a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0) {
+        var t = 0, a = 0, u = 0;
+        for(a = r << 3, u = n << 3; (a | 0) < (u | 0); a = (a + 8) | 0){
             t = t + +e(o[a >> 3]);
         }
         return +t;
@@ -41,5 +39,7 @@ function n(r, n, t) {
         n = n | 0;
         return +a(+u(r, n) / +((n - r) | 0));
     }
-    return { geometricMean: c };
+    return {
+        geometricMean: c
+    };
 }

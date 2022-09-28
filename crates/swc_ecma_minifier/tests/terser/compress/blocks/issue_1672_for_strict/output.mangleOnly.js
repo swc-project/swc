@@ -1,11 +1,9 @@
 "use strict";
-switch (
-    function () {
-        return xxx;
-    }
-) {
+switch(function() {
+    return xxx;
+}){
     case xxx:
-        for (; console.log("FAIL"); ) {
+        for(; console.log("FAIL");){
             function c() {}
         }
         break;

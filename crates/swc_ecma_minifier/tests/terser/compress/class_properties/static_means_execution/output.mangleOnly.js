@@ -1,5 +1,6 @@
 let s = 0;
-class l {}
+class l {
+}
 class c {
     prop = (s = s === 1 ? "PASS" : "FAIL");
 }

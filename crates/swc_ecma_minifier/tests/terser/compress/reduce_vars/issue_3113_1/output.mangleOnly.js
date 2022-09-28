@@ -1,7 +1,7 @@
 var n = 0;
-(function () {
+(function() {
     function o() {
-        while (i());
+        while(i());
     }
     var c = o();
     function i() {

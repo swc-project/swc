@@ -1,5 +1,5 @@
 function n(n) {
-    var o = (function () {
+    var o = (function() {
         return n;
     })();
     return n++ + o;

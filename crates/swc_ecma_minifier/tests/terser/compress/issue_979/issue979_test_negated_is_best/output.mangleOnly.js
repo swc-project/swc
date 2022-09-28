@@ -4,8 +4,7 @@ function f() {
     }
 }
 function o() {
-    if (!((a == 1) | (b == 2))) {
-    } else {
+    if (!((a == 1) | (b == 2))) {} else {
         foo();
     }
 }
@@ -15,8 +14,7 @@ function n() {
     }
 }
 function i() {
-    if (!(a == 1 && b == 2)) {
-    } else {
+    if (!(a == 1 && b == 2)) {} else {
         foo();
     }
 }

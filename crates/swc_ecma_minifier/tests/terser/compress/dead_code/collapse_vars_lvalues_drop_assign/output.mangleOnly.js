@@ -7,7 +7,6 @@ function r(n) {
     return (n += r);
 }
 function t(n) {
-    var r = n,
-        t = ++r;
+    var r = n, t = ++r;
     return (r += t);
 }

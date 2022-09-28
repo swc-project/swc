@@ -1,6 +1,5 @@
-var a = 100,
-    e = 10;
-switch (e) {
+var a = 100, e = 10;
+switch(e){
     case a--:
         break;
     case e:

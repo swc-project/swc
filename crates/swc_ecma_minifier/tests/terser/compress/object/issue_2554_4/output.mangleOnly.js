@@ -1,5 +1,5 @@
 var s = new (class {
-    constructor() {
+    constructor(){
         this[1] = 2;
     }
     [2 + 0]() {

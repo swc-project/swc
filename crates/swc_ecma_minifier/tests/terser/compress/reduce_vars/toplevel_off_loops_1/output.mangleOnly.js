@@ -4,4 +4,4 @@ function o() {
 var l = 3;
 do {
     o();
-} while (l);
+}while (l)

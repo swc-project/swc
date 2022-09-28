@@ -1,5 +1,3 @@
-console.log(
-    (function () {
-        1 + 1;
-    }.a = 1)
-);
+console.log((function() {
+    1 + 1;
+}.a = 1));

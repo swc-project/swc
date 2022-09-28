@@ -1,5 +1,4 @@
-var e = 0,
-    s = 0;
+var e = 0, s = 0;
 class c {
     get c() {
         e++;

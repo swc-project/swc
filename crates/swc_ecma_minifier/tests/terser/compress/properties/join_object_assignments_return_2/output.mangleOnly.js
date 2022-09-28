@@ -1,6 +1,6 @@
-console.log(
-    (function () {
-        var o = { p: 3 };
-        return (o.q = /foo/), (o.r = "bar");
-    })()
-);
+console.log((function() {
+    var o = {
+        p: 3
+    };
+    return (o.q = /foo/), (o.r = "bar");
+})());

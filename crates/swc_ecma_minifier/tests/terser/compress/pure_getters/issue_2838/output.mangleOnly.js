@@ -1,6 +1,6 @@
 function o(n, c) {
     (n || c).c = "PASS";
-    (function () {
+    (function() {
         return o(n, c);
     }.prototype.foo = "bar");
 }

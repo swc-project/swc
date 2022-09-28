@@ -1,3 +1,4 @@
 var o = "";
-for (o of { prop: "val" }) {
-}
+for (o of {
+    prop: "val"
+}){}

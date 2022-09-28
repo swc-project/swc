@@ -1,5 +1,5 @@
 var n = "FAIL";
-(function () {
+(function() {
     function o(o) {
         var c = (function n(o) {
             o && o();

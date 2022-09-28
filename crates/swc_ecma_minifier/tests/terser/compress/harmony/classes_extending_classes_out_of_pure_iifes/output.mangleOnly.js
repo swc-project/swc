@@ -1,6 +1,8 @@
-let s = (() => {
-    class s {}
+let s = (()=>{
+    class s {
+    }
     s.sub = e;
     return s;
 })();
-class e extends s {}
+class e extends s {
+}

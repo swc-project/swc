@@ -2,8 +2,7 @@ function n() {
     function n() {
         try {
             x();
-        } catch (n) {
-        } finally {
+        } catch (n) {} finally{
             console.log("PASS");
         }
     }

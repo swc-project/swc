@@ -1,2 +1,3 @@
-class l {}
+class l {
+}
 console.log(l.name);

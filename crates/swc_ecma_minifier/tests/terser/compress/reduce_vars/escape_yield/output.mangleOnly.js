@@ -5,7 +5,7 @@ function n() {
 }
 function o() {}
 function* e(n) {
-    for (;;) yield o;
+    for(;;)yield o;
 }
 var l = e();
 n();

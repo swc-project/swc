@@ -1,3 +1,5 @@
-(function ({ d: o }, d) {
+(function({ d: o  }, d) {
     console.log((d = "foo"), arguments[0].d);
-})({ d: "Bar" }, "baz");
+})({
+    d: "Bar"
+}, "baz");

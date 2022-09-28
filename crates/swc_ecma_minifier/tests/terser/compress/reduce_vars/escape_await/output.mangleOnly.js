@@ -1,9 +1,9 @@
 function n() {
     var n;
-    e().then((o) => {
+    e().then((o)=>{
         n = o;
     });
-    e().then((o) => {
+    e().then((o)=>{
         if (n !== (n = o)) console.log("FAIL");
         else console.log("PASS");
     });

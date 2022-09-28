@@ -9,7 +9,7 @@ function e() {
 function a() {
     if (!xhrDesc) {
         var e = new n();
-        var a = function () {};
+        var a = function() {};
         e.onreadystatechange = a;
         var o = e[SYMBOL_FAKE_ONREADYSTATECHANGE_1] === a;
         e.onreadystatechange = null;

@@ -10,8 +10,8 @@ var n = {
     [false]: 8,
     [null]: 9,
     [Infinity]: 10,
-    [NaN]: 11,
+    [NaN]: 11
 };
-for (var a in n) {
+for(var a in n){
     console.log(a, n[a]);
 }

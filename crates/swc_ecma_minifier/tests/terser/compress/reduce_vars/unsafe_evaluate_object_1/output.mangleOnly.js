@@ -5,7 +5,9 @@ function o() {
     console.log(o + 3);
 }
 function n() {
-    var o = { b: 1 };
+    var o = {
+        b: 1
+    };
     o.b = 2;
     console.log(o.b + 3);
 }

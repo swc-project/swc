@@ -5,8 +5,8 @@ function n(n, o) {
 }
 var o = {
     p: "PASS",
-    f: function () {
+    f: function() {
         this.p = "FAIL";
-    },
+    }
 };
 console.log(n(o, o));

@@ -3,11 +3,11 @@ function n(n, e) {
 }
 var e = {
     p: class n {
-        constructor(n) {
+        constructor(n){
             this.value = n * 10;
         }
     },
     x: 1,
-    y: 2,
+    y: 2
 };
 console.log(e.p.name, e.p === e.p, n(e.p, e.x), n(e.p, e.y));

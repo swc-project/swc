@@ -1,5 +1,5 @@
 var n = "FAIL";
-(function (o) {
+(function(o) {
     n = "PASS";
     return;
     o(n);

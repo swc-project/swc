@@ -3,5 +3,5 @@ var o = n.prototype;
 o.initialContext = function n() {
     console.log("PASS");
 };
-o.braceIsBlock = function () {};
+o.braceIsBlock = function() {};
 new n().initialContext();

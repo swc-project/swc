@@ -1,9 +1,9 @@
 function o(o) {
     do {
-        (function () {
+        (function() {
             o && (n = "PASS");
         })();
-    } while ((o = 0));
+    }while ((o = 0))
 }
 var n = "FAIL";
 o(1);

@@ -1,8 +1,10 @@
-(function () {
+(function() {
     var n;
     function t() {}
     t.g = function t() {
-        var o = { p: this };
+        var o = {
+            p: this
+        };
         function r() {
             console.log(n ? "PASS" : "FAIL");
         }
@@ -13,6 +15,4 @@
         return r;
     };
     return t;
-})()
-    .g()
-    .g();
+})().g().g();

@@ -1,2 +1,4 @@
-let [l] = [1];
+let [l] = [
+    1
+];
 console.log(l);

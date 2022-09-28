@@ -3,4 +3,6 @@ function n(n) {
     var c = n.y * 2;
     o("Foo:", c);
 }
-n({ y: 10 });
+n({
+    y: 10
+});

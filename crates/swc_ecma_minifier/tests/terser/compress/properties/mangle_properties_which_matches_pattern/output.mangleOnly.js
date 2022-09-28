@@ -1,7 +1,7 @@
 var s = {
-    get asd() {
+    get asd () {
         return this._asd;
     },
-    _asd: true,
+    _asd: true
 };
 console.log(s);

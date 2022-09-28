@@ -1,10 +1,13 @@
 function o() {
-    this.isFoo = function (s) {
+    this.isFoo = function(s) {
         return s instanceof o;
     };
 }
 function s() {
-    this.foos = [1, 1].map(function () {
+    this.foos = [
+        1,
+        1
+    ].map(function() {
         return new o();
     });
 }

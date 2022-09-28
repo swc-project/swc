@@ -1,4 +1,4 @@
-!(function () {
+!(function() {
     function o(o) {
         console.log("foo", o);
         if (o) n(o - 1);

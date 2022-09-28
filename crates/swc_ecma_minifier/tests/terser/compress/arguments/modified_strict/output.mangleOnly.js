@@ -1,5 +1,5 @@
 "use strict";
-(function (o, r) {
+(function(o, r) {
     var a = arguments[0];
     var c = arguments[1];
     var o = "foo";

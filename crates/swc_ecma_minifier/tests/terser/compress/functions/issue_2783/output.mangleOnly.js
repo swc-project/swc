@@ -1,4 +1,4 @@
-(function () {
+(function() {
     return r;
     function n(n) {
         var r = n.b;
@@ -6,8 +6,10 @@
         return n;
     }
     function r(r, o) {
-        while (o--) {
+        while(o--){
             console.log(n(r));
         }
     }
-})()({ b: "PASS" }, 1);
+})()({
+    b: "PASS"
+}, 1);

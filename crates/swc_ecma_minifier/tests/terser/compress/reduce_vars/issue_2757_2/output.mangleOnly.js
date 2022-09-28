@@ -1,6 +1,6 @@
-(function () {
+(function() {
     let o;
-    const n = function () {
+    const n = function() {
         o = true;
     };
     if (!o) {

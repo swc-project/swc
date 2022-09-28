@@ -1,6 +1,6 @@
 var o = 1;
-!(function () {
-    switch (o++) {
+!(function() {
+    switch(o++){
     }
 })();
 console.log(o);

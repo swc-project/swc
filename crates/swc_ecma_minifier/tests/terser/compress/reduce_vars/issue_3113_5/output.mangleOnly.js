@@ -4,6 +4,6 @@ function n() {
 function o() {
     n();
 }
-while (o());
+while(o());
 var c = 1;
 n();

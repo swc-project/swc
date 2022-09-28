@@ -1,7 +1,9 @@
-var e = { p: "FAIL" };
+var e = {
+    p: "FAIL"
+};
 Object.defineProperty(e, "p", {
-    get: function () {
+    get: function() {
         return "PASS";
-    },
+    }
 });
 console.log(e.p);

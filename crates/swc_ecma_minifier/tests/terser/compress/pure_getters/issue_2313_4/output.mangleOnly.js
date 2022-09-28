@@ -1,10 +1,12 @@
 function o() {
     console.log(1);
     return {
-        y: function () {
+        y: function() {
             console.log(2);
-            return { z: 0 };
-        },
+            return {
+                z: 0
+            };
+        }
     };
 }
 o().y().z++;

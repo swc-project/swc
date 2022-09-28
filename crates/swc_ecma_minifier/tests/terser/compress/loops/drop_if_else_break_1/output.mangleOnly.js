@@ -1,3 +1,2 @@
-for (;;)
-    if (foo()) bar();
-    else break;
+for(;;)if (foo()) bar();
+else break;

@@ -1,4 +1,4 @@
-const o = (o) => {
+const o = (o)=>{
     return o;
     var o;
 };

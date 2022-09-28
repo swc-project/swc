@@ -1,5 +1,4 @@
-var n = 0,
-    r = 1;
+var n = 0, r = 1;
 function o() {
     n = 2;
     return 4;

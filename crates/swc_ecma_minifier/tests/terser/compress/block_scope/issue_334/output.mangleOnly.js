@@ -1,5 +1,5 @@
-(function (o) {
-    (function () {
+(function(o) {
+    (function() {
         c();
     })();
     function c() {

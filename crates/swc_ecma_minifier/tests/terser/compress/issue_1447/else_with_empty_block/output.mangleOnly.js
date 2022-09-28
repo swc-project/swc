@@ -1,3 +1,2 @@
 if (x) yes();
-else {
-}
+else {}

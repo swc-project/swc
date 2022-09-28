@@ -1,7 +1,5 @@
 function o() {
-    var o = 1,
-        l = 2,
-        e = 3;
+    var o = 1, l = 2, e = 3;
     if (o) {
         l = e;
     } else {

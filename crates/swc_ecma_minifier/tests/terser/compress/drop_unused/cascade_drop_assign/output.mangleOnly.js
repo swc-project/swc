@@ -1,3 +1,2 @@
-var o,
-    l = (o = "PASS");
+var o, l = (o = "PASS");
 console.log(l);

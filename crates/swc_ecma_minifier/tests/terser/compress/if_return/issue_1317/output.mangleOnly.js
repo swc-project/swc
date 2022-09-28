@@ -1,4 +1,4 @@
-!(function (n) {
+!(function(n) {
     if (n) return;
     let o = 1;
     function t() {

@@ -1,3 +1,4 @@
 var r = "";
-for (r in { prop: "val" }) {
-}
+for(r in {
+    prop: "val"
+}){}

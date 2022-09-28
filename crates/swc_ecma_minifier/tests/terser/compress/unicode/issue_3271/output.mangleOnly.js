@@ -1,7 +1,5 @@
 function e(e) {
-    var r = 0,
-        n = new Array(2),
-        o = e.charCodeAt(0);
+    var r = 0, n = new Array(2), o = e.charCodeAt(0);
     if (o < 2048) {
         n[r++] = 192 | (o >>> 6);
         n[r++] = 128 | (o & 63);
