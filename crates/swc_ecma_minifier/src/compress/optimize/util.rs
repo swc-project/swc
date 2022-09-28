@@ -169,6 +169,7 @@ pub(crate) struct MultiReplacer<'a> {
 pub enum MultiReplacerMode {
     Normal,
     OnlyCallee,
+    OnlyComparisonWithLit,
 }
 
 impl<'a> MultiReplacer<'a> {
@@ -207,6 +208,17 @@ impl<'a> MultiReplacer<'a> {
             _ => Some(e),
         }
     }
+
+    fn check(&mut self, e: &mut Expr) {
+        if let Expr::Ident(i) = e {
+            if let Some(new) = self.var(&i.to_id()) {
+                debug!("multi-replacer: Replaced `{}`", i);
+                *self.worked = true;
+
+                *e = *new;
+            }
+        }
+    }
 }
 
 impl VisitMut for MultiReplacer<'_> {
@@ -217,14 +229,25 @@ impl VisitMut for MultiReplacer<'_> {
 
         if matches!(self.mode, MultiReplacerMode::OnlyCallee) {
             if let Callee::Expr(e) = e {
-                if let Expr::Ident(i) = &**e {
-                    if let Some(new) = self.var(&i.to_id()) {
-                        debug!("multi-replacer: Replaced `{}`", i);
-                        *self.worked = true;
+                self.check(e);
+            }
+        }
+    }
 
-                        **e = *new;
+    fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        e.visit_mut_children_with(self);
+
+        if let MultiReplacerMode::OnlyComparisonWithLit = self.mode {
+            match e.op {
+                op!("===") | op!("!==") | op!("==") | op!("!=") => {
+                    //
+                    if e.left.is_lit() {
+                        self.check(&mut e.right);
+                    } else if e.right.is_lit() {
+                        self.check(&mut e.left);
                     }
                 }
+                _ => {}
             }
         }
     }
