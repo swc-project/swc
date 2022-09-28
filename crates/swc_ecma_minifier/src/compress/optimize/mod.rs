@@ -684,35 +684,50 @@ where
 
             // We optimize binary expressions if operation is side-effect-free and lhs and rhs is
             // evaluated regardless of value of lhs.
-            //
-            // Div is excluded because of zero.
-            // TODO: Handle
-            Expr::Bin(BinExpr {
-                op:
-                    BinaryOp::EqEq
-                    | BinaryOp::NotEq
-                    | BinaryOp::EqEqEq
-                    | BinaryOp::NotEqEq
-                    | BinaryOp::Lt
-                    | BinaryOp::LtEq
-                    | BinaryOp::Gt
-                    | BinaryOp::GtEq
-                    | BinaryOp::LShift
-                    | BinaryOp::RShift
-                    | BinaryOp::ZeroFillRShift
-                    | BinaryOp::Add
-                    | BinaryOp::Sub
-                    | BinaryOp::Mul
-                    | BinaryOp::Div
-                    | BinaryOp::Mod
-                    | BinaryOp::BitOr
-                    | BinaryOp::BitXor
-                    | BinaryOp::BitAnd
-                    | BinaryOp::In
-                    | BinaryOp::InstanceOf
-                    | BinaryOp::Exp,
-                ..
-            }) => return Some(e.take()),
+            Expr::Bin(
+                bin @ BinExpr {
+                    op:
+                        op!(bin, "+")
+                        | op!(bin, "-")
+                        | op!("*")
+                        | op!("%")
+                        | op!("**")
+                        | op!("^")
+                        | op!("&")
+                        | op!("|")
+                        | op!(">>")
+                        | op!("<<")
+                        | op!(">>>")
+                        | op!("===")
+                        | op!("!==")
+                        | op!("==")
+                        | op!("!=")
+                        | op!("<")
+                        | op!("<=")
+                        | op!(">")
+                        | op!(">="),
+                    ..
+                },
+            ) => {
+                let left = self.ignore_return_value(&mut bin.left);
+                let right = self.ignore_return_value(&mut bin.right);
+                let span = bin.span;
+
+                if left.is_none() && right.is_none() {
+                    return None;
+                } else if right.is_none() {
+                    return left;
+                } else if left.is_none() {
+                    return right;
+                }
+
+                self.changed = true;
+                report_change!("ignore_return_value: Compressing binary as seq");
+                return Some(Expr::Seq(SeqExpr {
+                    span,
+                    exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
+                }));
+            }
 
             // Pure calls can be removed
             Expr::Call(CallExpr {

@@ -894,6 +894,7 @@ issue_597/beautify_off_1/input.js
 issue_597/beautify_off_2/input.js
 issue_597/beautify_on_1/input.js
 issue_597/beautify_on_2/input.js
+issue_597/issue_1724/input.js
 issue_597/issue_1725/input.js
 issue_611/issue_611/input.js
 issue_640/drop_value/input.js
@@ -913,6 +914,7 @@ issue_973/this_binding_collapse_vars/input.js
 issue_973/this_binding_conditionals/input.js
 issue_973/this_binding_sequences/input.js
 issue_973/this_binding_side_effects/input.js
+issue_976/eval_collapse_vars/input.js
 issue_t120/issue_t120_1/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
@@ -1093,6 +1095,7 @@ properties/mangle_define_property_arg/input.js
 properties/mangle_private_properties/input.js
 properties/mangle_properties_which_matches_pattern/input.js
 properties/native_prototype_lhs/input.js
+pure_funcs/arithmetic/input.js
 pure_funcs/array/input.js
 pure_funcs/assign/input.js
 pure_funcs/babel/input.js
@@ -1103,6 +1106,7 @@ pure_funcs/issue_3065_2/input.js
 pure_funcs/issue_3065_2b/input.js
 pure_funcs/issue_3065_3/input.js
 pure_funcs/issue_3065_4/input.js
+pure_funcs/relational/input.js
 pure_funcs/side_effects/input.js
 pure_funcs/unused/input.js
 pure_getters/chained/input.js
@@ -1286,6 +1290,7 @@ reduce_vars/reduce_funcs_in_array_1/input.js
 reduce_vars/reduce_funcs_in_array_2/input.js
 reduce_vars/reduce_funcs_in_object_literal_1/input.js
 reduce_vars/reduce_funcs_in_object_literal_2/input.js
+reduce_vars/side_effects_assign/input.js
 reduce_vars/single_use_class_referenced_in_array/input.js
 reduce_vars/single_use_class_referenced_in_object_literal/input.js
 reduce_vars/toplevel_off/input.js

@@ -8,6 +8,9 @@
 - **(es/codegen)** Align sourcemap with terser (#5657) ([2ba8815](https://github.com/swc-project/swc/commit/2ba88154fced01cb6ad0428207cf88ad7ddee75c))
 
 
+- **(es/codegen)** Fix codegen of a negative number (#5980) ([bc2c0f4](https://github.com/swc-project/swc/commit/bc2c0f413396cc5ab436b1e87e5462f5c2475e4e))
+
+
 - **(es/compat)** Fix the order of initialization for decorators on computed keys (#5964) ([e410102](https://github.com/swc-project/swc/commit/e41010263379fc9a7676925f089aa9913c8f0f04))
 
 
@@ -49,6 +52,9 @@
 
 - **(es/minifier)** Evaluate more literals in comparison (#5976) ([0e69890](https://github.com/swc-project/swc/commit/0e698907641bb74f90fa0fffd157c5fffe1298b6))
 
+
+- **(es/minifier)** Ignore more return values (#5981) ([08f6e81](https://github.com/swc-project/swc/commit/08f6e81d8e9219e73ea8e312f213aa170ba7acc9))
+
 ### Miscellaneous Tasks
 
 
@@ -62,6 +68,9 @@
 
 
 
+- **(css/minifier)** Merge all passes (#5971) ([7d7c2d3](https://github.com/swc-project/swc/commit/7d7c2d3a9c75286a4d12d5f1d1b45501f170b512))
+
+
 - **(es)** Don't share `Globals` (#5975) ([19131e1](https://github.com/swc-project/swc/commit/19131e168e65b13a4d4ddf823aec4211a2502ceb))
 
 
@@ -72,6 +81,9 @@
 
 
 - **(es/minifier)** Categorize terser tests (#5960) ([48cddc1](https://github.com/swc-project/swc/commit/48cddc16f67ed5ac904a1e67a6ec096da5747cd2))
+
+
+- **(es/minifier)** Remove mangle-only snapshots (#5979) ([8c4873f](https://github.com/swc-project/swc/commit/8c4873f81efce53356b2eccdcdc32d5df41a89b2))
 
 
 - **(es/plugin)** Reenable compat test (#5969) ([ca38a70](https://github.com/swc-project/swc/commit/ca38a7027ead28ecb9723d7e99e9123af3c6af14))

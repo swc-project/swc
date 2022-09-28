@@ -16,7 +16,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "s".into(),
+                    value: js_word!("s"),
                     raw: None,
                 };
             }
@@ -30,7 +30,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "ms".into(),
+                    value: js_word!("ms"),
                     raw: None,
                 };
             }

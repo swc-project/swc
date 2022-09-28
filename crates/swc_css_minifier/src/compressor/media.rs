@@ -4,6 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::Compressor;
+use crate::util::dedup;
 
 impl Compressor {
     fn is_first_media_in_parens(&self, media_condition: &MediaCondition) -> bool {
@@ -26,6 +27,10 @@ impl Compressor {
             media_condition.conditions.get(1),
             Some(MediaConditionAllType::And(_))
         )
+    }
+
+    pub(super) fn compress_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
+        dedup(&mut media_query_list.queries);
     }
 
     pub(super) fn compress_media_condition(&mut self, n: &mut MediaCondition) {

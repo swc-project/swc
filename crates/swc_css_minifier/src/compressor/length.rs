@@ -142,7 +142,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "in".into(),
+                        value: js_word!("in"),
                         raw: None,
                     };
                 } else if value <= 0.1 {
@@ -155,7 +155,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "mm".into(),
+                        value: js_word!("mm"),
                         raw: None,
                     };
                 }
@@ -171,7 +171,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "in".into(),
+                        value: js_word!("in"),
                         raw: None,
                     };
                 } else if value % 10.0 == 0.0 {
@@ -184,7 +184,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "cm".into(),
+                        value: js_word!("cm"),
                         raw: None,
                     };
                 }
@@ -200,7 +200,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "cm".into(),
+                        value: js_word!("cm"),
                         raw: None,
                     };
                 } else if value % 101.6 == 0.0 {
@@ -213,7 +213,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "in".into(),
+                        value: js_word!("in"),
                         raw: None,
                     };
                 }
@@ -229,7 +229,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "in".into(),
+                        value: js_word!("in"),
                         raw: None,
                     };
                 }
@@ -245,7 +245,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "in".into(),
+                        value: js_word!("in"),
                         raw: None,
                     };
                 } else if value % 12.0 == 0.0 {
@@ -258,7 +258,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "pc".into(),
+                        value: js_word!("pc"),
                         raw: None,
                     };
                 } else if value % 0.75 == 0.0 {
@@ -271,7 +271,7 @@ impl Compressor {
                     };
                     length.unit = Ident {
                         span: length.unit.span,
-                        value: "px".into(),
+                        value: js_word!("px"),
                         raw: None,
                     };
                 }

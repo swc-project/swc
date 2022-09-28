@@ -158,7 +158,7 @@ macro_rules! make_color {
                     span: $span,
                     name: Ident {
                         span: DUMMY_SP,
-                        value: "rgba".into(),
+                        value: js_word!("rgba"),
                         raw: None,
                     },
                     value: vec![
