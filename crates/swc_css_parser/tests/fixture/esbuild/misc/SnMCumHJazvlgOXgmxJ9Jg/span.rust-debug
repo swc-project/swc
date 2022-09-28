@@ -47,7 +47,7 @@
    :          ^
    `----
 
-  x Ident { value: Atom('x' type=inline), raw: Atom('x' type=inline) }
+  x Ident { value: Atom('x' type=static), raw: Atom('x' type=static) }
    ,-[$DIR/tests/fixture/esbuild/misc/SnMCumHJazvlgOXgmxJ9Jg/input.css:1:1]
  1 | @unknown x;
    :          ^

@@ -18,7 +18,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "khz".into(),
+                    value: js_word!("khz"),
                     raw: None,
                 };
             }
@@ -35,7 +35,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "hz".into(),
+                    value: js_word!("hz"),
                     raw: None,
                 };
             }

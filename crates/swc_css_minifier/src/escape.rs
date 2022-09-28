@@ -15,6 +15,7 @@ use std::str;
 #[inline]
 pub fn try_escape_if_shorter(input: &str) -> Option<String> {
     let escaped = escape_ident(input);
+
     // escaped: without double quotes, so need plus 2 here
     if escaped.len() < input.len() + 2 {
         Some(escaped)
@@ -28,7 +29,8 @@ fn escape_ident(mut value: &str) -> String {
     if value.is_empty() {
         return String::new();
     }
-    let mut result = String::new();
+
+    let mut result = String::with_capacity(value.len());
 
     if let Some(stripped) = value.strip_prefix("--") {
         result += "--";
@@ -44,6 +46,7 @@ fn escape_ident(mut value: &str) -> String {
             result += &*hex_escape(digit);
             value = &value[1..];
         }
+
         result += &*escape_name(value);
     }
 
@@ -52,8 +55,9 @@ fn escape_ident(mut value: &str) -> String {
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L220
 fn escape_name(value: &str) -> String {
-    let mut result = String::new();
+    let mut result = String::with_capacity(value.len());
     let mut chunk_start = 0;
+
     for (i, b) in value.bytes().enumerate() {
         let escaped = match b {
             b'0'..=b'9' | b'A'..=b'Z' | b'a'..=b'z' | b'_' | b'-' => continue,
@@ -62,6 +66,7 @@ fn escape_name(value: &str) -> String {
             _ => None,
         };
         result += &value[chunk_start..i];
+
         if let Some(escaped) = escaped {
             result += escaped;
         } else if (b'\x01'..=b'\x1F').contains(&b) || b == b'\x7F' {
@@ -69,6 +74,7 @@ fn escape_name(value: &str) -> String {
         } else {
             result += &*char_escape(b);
         };
+
         chunk_start = i + 1;
     }
 

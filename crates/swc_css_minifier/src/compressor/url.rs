@@ -16,7 +16,7 @@ impl Compressor {
         }
 
         if let Some(UrlValue::Str(Str { value, span, .. })) = url.value.as_deref() {
-            let mut escaped = String::new();
+            let mut escaped = String::with_capacity(value.len());
             let mut has_escaped = false;
 
             for c in value.chars() {

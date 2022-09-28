@@ -24,7 +24,7 @@ impl Compressor {
     }
 
     fn remove_leading_zeros(&self, value: &str) -> String {
-        let mut result = String::new();
+        let mut result = String::with_capacity(value.len());
         let mut is_leading = true;
 
         for c in value.chars() {

@@ -103,7 +103,7 @@ impl Compressor {
                         {
                             declaration.value = vec![ComponentValue::Ident(Ident {
                                 span: *span,
-                                value: "inline-block".into(),
+                                value: js_word!("inline-block"),
                                 raw: None,
                             })];
                         }
@@ -383,14 +383,14 @@ impl Compressor {
                             (js_word!("repeat"), js_word!("no-repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
-                                    value: "repeat-x".into(),
+                                    value: js_word!("repeat-x"),
                                     raw: None,
                                 })];
                             }
                             (js_word!("no-repeat"), js_word!("repeat")) => {
                                 declaration.value = vec![ComponentValue::Ident(Ident {
                                     span: *span,
-                                    value: "repeat-y".into(),
+                                    value: js_word!("repeat-y"),
                                     raw: None,
                                 })];
                             }

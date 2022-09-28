@@ -27,31 +27,31 @@ impl Compressor {
                     if *first == 0.0 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "linear".into(),
+                            value: js_word!("linear"),
                             raw: None,
                         })
                     } else if *first == 0.25 && *second == 0.1 && *third == 0.25 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "easy".into(),
+                            value: js_word!("ease"),
                             raw: None,
                         })
                     } else if *first == 0.42 && *second == 0.0 && *third == 1.0 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "ease-in".into(),
+                            value: js_word!("ease-in"),
                             raw: None,
                         })
                     } else if *first == 0.0 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "ease-out".into(),
+                            value: js_word!("ease-out"),
                             raw: None,
                         })
                     } else if *first == 0.42 && *second == 0.0 && *third == 0.58 && *fourth == 1.0 {
                         *component_value = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "ease-in-out".into(),
+                            value: js_word!("ease-in-out"),
                             raw: None,
                         })
                     }
@@ -77,14 +77,14 @@ impl Compressor {
                         js_word!("start") | js_word!("jump-start") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
-                                value: "step-start".into(),
+                                value: js_word!("step-start"),
                                 raw: None,
                             })
                         }
                         js_word!("end") | js_word!("jump-end") => {
                             *component_value = ComponentValue::Ident(Ident {
                                 span: *span,
-                                value: "step-end".into(),
+                                value: js_word!("step-end"),
                                 raw: None,
                             })
                         }
@@ -98,7 +98,7 @@ impl Compressor {
                     ) if ident_value.to_ascii_lowercase() == js_word!("jump-start") => {
                         function_value[2] = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "start".into(),
+                            value: js_word!("start"),
                             raw: None,
                         })
                     }
