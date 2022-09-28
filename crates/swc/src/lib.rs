@@ -133,7 +133,7 @@ use swc_common::{
     errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_config::merge::Merge;
@@ -216,6 +216,10 @@ type SwcImportResolver =
 /// The caller should check if the handler contains any errors after calling
 /// method.
 pub struct Compiler {
+    /// swc uses rustc's span interning.
+    ///
+    /// The `Globals` struct contains span interner.
+    globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
@@ -240,8 +244,22 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
+    pub fn globals(&self) -> &Globals {
+        &self.globals
+    }
+
     pub fn comments(&self) -> &SwcComments {
         &self.comments
+    }
+
+    /// Runs `op` in current compiler's context.
+    ///
+    /// Note: Other methods of `Compiler` already uses this internally.
+    pub fn run<R, F>(&self, op: F) -> R
+    where
+        F: FnOnce() -> R,
+    {
+        GLOBALS.set(&self.globals, op)
     }
 
     fn get_orig_src_map(
@@ -250,96 +268,98 @@ impl Compiler {
         input_src_map: &InputSourceMap,
         is_default: bool,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
-        let name = &fm.name;
+        self.run(|| -> Result<_, Error> {
+            let name = &fm.name;
 
-        // Load original source map
-        match input_src_map {
-            InputSourceMap::Bool(false) => Ok(None),
-            InputSourceMap::Bool(true) => {
-                let s = "sourceMappingURL=";
-                let idx = fm.src.rfind(s);
-                let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
-
-                // Load original source map if possible
-                match &name {
-                    FileName::Real(filename) => {
-                        let dir = match filename.parent() {
-                            Some(v) => v,
-                            None => {
-                                bail!("unexpected: root directory is given as a input file")
-                            }
-                        };
-
-                        let path = match src_mapping_url {
-                            Some(src_mapping_url) => {
-                                dir.join(src_mapping_url).display().to_string()
-                            }
-                            None => {
-                                format!("{}.map", dir.join(filename).display())
-                            }
-                        };
-
-                        let file = File::open(&path)
-                            .or_else(|err| {
-                                // Old behavior. This check would prevent regressions.
-                                let f = format!("{}.map", filename.display());
-
-                                match File::open(&f) {
-                                    Ok(v) => Ok(v),
-                                    Err(_) => Err(err),
-                                }
-                            })
-                            .context("failed to open input source map file");
-
-                        let file = if !is_default {
-                            file?
-                        } else {
-                            match file {
-                                Ok(v) => v,
-                                Err(_) => return Ok(None),
-                            }
-                        };
-
-                        Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
-                            || format!("failed to read input source map from file at {}", path),
-                        )?))
-                    }
-                    _ => {
-                        tracing::error!("Failed to load source map for non-file input");
-                        Ok(None)
-                    }
-                }
-            }
-            InputSourceMap::Str(ref s) => {
-                if s == "inline" {
-                    // Load inline source map by simple string
-                    // operations
-                    let s = "sourceMappingURL=data:application/json;base64,";
+            // Load original source map
+            match input_src_map {
+                InputSourceMap::Bool(false) => Ok(None),
+                InputSourceMap::Bool(true) => {
+                    let s = "sourceMappingURL=";
                     let idx = fm.src.rfind(s);
-                    let idx = match idx {
-                        None => {
-                            bail!("failed to parse inline source map: `sourceMappingURL` not found")
+                    let src_mapping_url = idx.map(|idx| &fm.src[idx + s.len()..]);
+
+                    // Load original source map if possible
+                    match &name {
+                        FileName::Real(filename) => {
+                            let dir = match filename.parent() {
+                                Some(v) => v,
+                                None => {
+                                    bail!("unexpected: root directory is given as a input file")
+                                }
+                            };
+
+                            let path = match src_mapping_url {
+                                Some(src_mapping_url) => {
+                                    dir.join(src_mapping_url).display().to_string()
+                                }
+                                None => {
+                                    format!("{}.map", dir.join(filename).display())
+                                }
+                            };
+
+                            let file = File::open(&path)
+                                .or_else(|err| {
+                                    // Old behavior. This check would prevent regressions.
+                                    let f = format!("{}.map", filename.display());
+
+                                    match File::open(&f) {
+                                        Ok(v) => Ok(v),
+                                        Err(_) => Err(err),
+                                    }
+                                })
+                                .context("failed to open input source map file");
+
+                            let file = if !is_default {
+                                file?
+                            } else {
+                                match file {
+                                    Ok(v) => v,
+                                    Err(_) => return Ok(None),
+                                }
+                            };
+
+                            Ok(Some(sourcemap::SourceMap::from_reader(file).with_context(
+                                || format!("failed to read input source map from file at {}", path),
+                            )?))
                         }
-                        Some(v) => v,
-                    };
-                    let encoded = &fm.src[idx + s.len()..];
+                        _ => {
+                            tracing::error!("Failed to load source map for non-file input");
+                            Ok(None)
+                        }
+                    }
+                }
+                InputSourceMap::Str(ref s) => {
+                    if s == "inline" {
+                        // Load inline source map by simple string
+                        // operations
+                        let s = "sourceMappingURL=data:application/json;base64,";
+                        let idx = fm.src.rfind(s);
+                        let idx = match idx {
+                            None => bail!(
+                                "failed to parse inline source map: `sourceMappingURL` not found"
+                            ),
+                            Some(v) => v,
+                        };
+                        let encoded = &fm.src[idx + s.len()..];
 
-                    let res = base64::decode(encoded.as_bytes())
-                        .context("failed to decode base64-encoded source map")?;
+                        let res = base64::decode(encoded.as_bytes())
+                            .context("failed to decode base64-encoded source map")?;
 
-                    Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
-                        "failed to read input source map from inlined base64 encoded string",
-                    )?))
-                } else {
-                    // Load source map passed by user
-                    Ok(Some(
-                        sourcemap::SourceMap::from_slice(s.as_bytes()).context(
-                            "failed to read input source map from user-provided sourcemap",
-                        )?,
-                    ))
+                        Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
+                            "failed to read input source map from inlined base64 encoded string",
+                        )?))
+                    } else {
+                        // Load source map passed by user
+                        Ok(Some(
+                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                                "failed to read input source map from user-provided sourcemap",
+                            )?,
+                        ))
+                    }
                 }
             }
-        }
+        })
     }
 
     /// This method parses a javascript / typescript file
@@ -352,7 +372,7 @@ impl Compiler {
         is_module: IsModule,
         comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
-        let mut res = (|| {
+        let mut res = self.run(|| {
             let mut error = false;
 
             let mut errors = vec![];
@@ -387,7 +407,7 @@ impl Compiler {
             }
 
             Ok(program)
-        })();
+        });
 
         if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
             res = res.with_context(|| format!("Parser config: {:?}", syntax));
@@ -420,59 +440,85 @@ impl Compiler {
     where
         T: Node + VisitWith<IdentCollector>,
     {
-        let _timer = timer!("Compiler.print");
+        self.run(|| {
+            let _timer = timer!("Compiler.print");
 
-        let mut src_map_buf = vec![];
+            let mut src_map_buf = vec![];
 
-        let src = {
-            let mut buf = vec![];
-            {
-                let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                    self.cm.clone(),
-                    "\n",
-                    &mut buf,
-                    if source_map.enabled() {
-                        Some(&mut src_map_buf)
-                    } else {
-                        None
-                    },
-                )) as Box<dyn WriteJs>;
+            let src = {
+                let mut buf = vec![];
+                {
+                    let mut wr = Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        self.cm.clone(),
+                        "\n",
+                        &mut buf,
+                        if source_map.enabled() {
+                            Some(&mut src_map_buf)
+                        } else {
+                            None
+                        },
+                    )) as Box<dyn WriteJs>;
 
-                if minify {
-                    wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+                    if minify {
+                        wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
+                    }
+
+                    let mut emitter = Emitter {
+                        cfg: swc_ecma_codegen::Config {
+                            minify,
+                            target,
+                            ascii_only,
+                            ..Default::default()
+                        },
+                        comments,
+                        cm: self.cm.clone(),
+                        wr,
+                    };
+
+                    node.emit_with(&mut emitter)
+                        .context("failed to emit module")?;
                 }
+                // Invalid utf8 is valid in javascript world.
+                String::from_utf8(buf).expect("invalid utf8 character detected")
+            };
 
-                let mut emitter = Emitter {
-                    cfg: swc_ecma_codegen::Config {
-                        minify,
-                        target,
-                        ascii_only,
-                        ..Default::default()
-                    },
-                    comments,
-                    cm: self.cm.clone(),
-                    wr,
-                };
-
-                node.emit_with(&mut emitter)
-                    .context("failed to emit module")?;
+            if cfg!(debug_assertions)
+                && !src_map_buf.is_empty()
+                && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
+                && src.lines().count() >= 3
+                && option_env!("SWC_DEBUG") == Some("1")
+            {
+                panic!("The module contains only dummy spans\n{}", src);
             }
-            // Invalid utf8 is valid in javascript world.
-            String::from_utf8(buf).expect("invalid utf8 character detected")
-        };
 
-        if cfg!(debug_assertions)
-            && !src_map_buf.is_empty()
-            && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
-            && src.lines().count() >= 3
-            && option_env!("SWC_DEBUG") == Some("1")
-        {
-            panic!("The module contains only dummy spans\n{}", src);
-        }
+            let (code, map) = match source_map {
+                SourceMapsConfig::Bool(v) => {
+                    if v {
+                        let mut buf = vec![];
 
-        let (code, map) = match source_map {
-            SourceMapsConfig::Bool(v) => {
-                if v {
+                        self.cm
+                            .build_source_map_with_config(
+                                &mut src_map_buf,
+                                orig,
+                                SwcSourceMapConfig {
+                                    source_file_name,
+                                    output_path: output_path.as_deref(),
+                                    names: source_map_names,
+                                    inline_sources_content,
+                                    emit_columns: emit_source_map_columns,
+                                },
+                            )
+                            .to_writer(&mut buf)
+                            .context("failed to write source map")?;
+                        let map = String::from_utf8(buf).context("source map is not utf-8")?;
+                        (src, Some(map))
+                    } else {
+                        (src, None)
+                    }
+                }
+                SourceMapsConfig::Str(_) => {
+                    let mut src = src;
+
                     let mut buf = vec![];
 
                     self.cm
@@ -488,45 +534,21 @@ impl Compiler {
                             },
                         )
                         .to_writer(&mut buf)
-                        .context("failed to write source map")?;
+                        .context("failed to write source map file")?;
                     let map = String::from_utf8(buf).context("source map is not utf-8")?;
-                    (src, Some(map))
-                } else {
+
+                    src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
+                    base64::encode_config_buf(
+                        map.as_bytes(),
+                        base64::Config::new(base64::CharacterSet::Standard, true),
+                        &mut src,
+                    );
                     (src, None)
                 }
-            }
-            SourceMapsConfig::Str(_) => {
-                let mut src = src;
+            };
 
-                let mut buf = vec![];
-
-                self.cm
-                    .build_source_map_with_config(
-                        &mut src_map_buf,
-                        orig,
-                        SwcSourceMapConfig {
-                            source_file_name,
-                            output_path: output_path.as_deref(),
-                            names: source_map_names,
-                            inline_sources_content,
-                            emit_columns: emit_source_map_columns,
-                        },
-                    )
-                    .to_writer(&mut buf)
-                    .context("failed to write source map file")?;
-                let map = String::from_utf8(buf).context("source map is not utf-8")?;
-
-                src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
-                base64::encode_config_buf(
-                    map.as_bytes(),
-                    base64::Config::new(base64::CharacterSet::Standard, true),
-                    &mut src,
-                );
-                (src, None)
-            }
-        };
-
-        Ok(TransformOutput { code, map })
+            Ok(TransformOutput { code, map })
+        })
     }
 }
 
@@ -624,6 +646,7 @@ impl Compiler {
     pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
+            globals: Globals::new(),
             comments: Default::default(),
         }
     }
@@ -638,7 +661,7 @@ impl Compiler {
             }
         });
 
-        (|| -> Result<_, Error> {
+        self.run(|| -> Result<_, Error> {
             let Options {
                 ref root,
                 root_mode,
@@ -725,7 +748,7 @@ impl Compiler {
                     bail!("no config matched for file ({})", name)
                 }
             }
-        })()
+        })
         .with_context(|| format!("failed to read swcrc file ({})", name))
     }
 
@@ -748,48 +771,47 @@ impl Compiler {
     where
         P: 'a + swc_ecma_visit::Fold,
     {
-        assert!(
-            GLOBALS.is_set(),
-            "Globals must be set before parsing a file as an input"
-        );
+        self.run(move || {
+            let _timer = timer!("Compiler.parse");
 
-        let _timer = timer!("Compiler.parse");
+            let config = self.read_config(opts, name)?;
+            let config = match config {
+                Some(v) => v,
+                None => return Ok(None),
+            };
 
-        let config = self.read_config(opts, name)?;
-        let config = match config {
-            Some(v) => v,
-            None => return Ok(None),
-        };
-
-        let built = opts.build_as_input(
-            &self.cm,
-            name,
-            move |syntax, target, is_module| match program {
-                Some(v) => Ok(v),
-                _ => self.parse_js(
-                    fm.clone(),
-                    handler,
-                    target,
-                    syntax,
-                    is_module,
-                    comments.as_ref().map(|v| v as _),
-                ),
-            },
-            opts.output_path.as_deref(),
-            opts.source_file_name.clone(),
-            handler,
-            Some(config),
-            comments,
-            before_pass,
-        )?;
-        Ok(Some(built))
+            let built = opts.build_as_input(
+                &self.cm,
+                name,
+                move |syntax, target, is_module| match program {
+                    Some(v) => Ok(v),
+                    _ => self.parse_js(
+                        fm.clone(),
+                        handler,
+                        target,
+                        syntax,
+                        is_module,
+                        comments.as_ref().map(|v| v as _),
+                    ),
+                },
+                opts.output_path.as_deref(),
+                opts.source_file_name.clone(),
+                handler,
+                Some(config),
+                comments,
+                before_pass,
+            )?;
+            Ok(Some(built))
+        })
     }
 
     pub fn run_transform<F, Ret>(&self, handler: &Handler, external_helpers: bool, op: F) -> Ret
     where
         F: FnOnce() -> Ret,
     {
-        helpers::HELPERS.set(&Helpers::new(external_helpers), || HANDLER.set(handler, op))
+        self.run(|| {
+            helpers::HELPERS.set(&Helpers::new(external_helpers), || HANDLER.set(handler, op))
+        })
     }
 
     #[tracing::instrument(level = "info", skip_all)]
@@ -834,10 +856,10 @@ impl Compiler {
         P1: swc_ecma_visit::Fold,
         P2: swc_ecma_visit::Fold,
     {
-        GLOBALS
-            .set(&Default::default(), || -> Result<_, Error> {
-                let comments = SingleThreadedComments::default();
-                let config = self.parse_js_as_input(
+        self.run(|| -> Result<_, Error> {
+            let comments = SingleThreadedComments::default();
+            let config = self.run(|| {
+                self.parse_js_as_input(
                     fm.clone(),
                     program,
                     handler,
@@ -845,44 +867,45 @@ impl Compiler {
                     &fm.name,
                     Some(&comments),
                     |program| custom_before_pass(program, &comments),
-                )?;
-                let config = match config {
-                    Some(v) => v,
-                    None => {
-                        bail!("cannot process file because it's ignored by .swcrc")
-                    }
-                };
+                )
+            })?;
+            let config = match config {
+                Some(v) => v,
+                None => {
+                    bail!("cannot process file because it's ignored by .swcrc")
+                }
+            };
 
-                let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
+            let pass = chain!(config.pass, custom_after_pass(&config.program, &comments));
 
-                let config = BuiltInput {
-                    program: config.program,
-                    pass,
-                    syntax: config.syntax,
-                    target: config.target,
-                    minify: config.minify,
-                    external_helpers: config.external_helpers,
-                    source_maps: config.source_maps,
-                    input_source_map: config.input_source_map,
-                    is_module: config.is_module,
-                    output_path: config.output_path,
-                    source_file_name: config.source_file_name,
-                    preserve_comments: config.preserve_comments,
-                    inline_sources_content: config.inline_sources_content,
-                    comments: config.comments,
-                    emit_source_map_columns: config.emit_source_map_columns,
-                    output: config.output,
-                };
+            let config = BuiltInput {
+                program: config.program,
+                pass,
+                syntax: config.syntax,
+                target: config.target,
+                minify: config.minify,
+                external_helpers: config.external_helpers,
+                source_maps: config.source_maps,
+                input_source_map: config.input_source_map,
+                is_module: config.is_module,
+                output_path: config.output_path,
+                source_file_name: config.source_file_name,
+                preserve_comments: config.preserve_comments,
+                inline_sources_content: config.inline_sources_content,
+                comments: config.comments,
+                emit_source_map_columns: config.emit_source_map_columns,
+                output: config.output,
+            };
 
-                let orig = if config.source_maps.enabled() {
-                    self.get_orig_src_map(&fm, &config.input_source_map, false)?
-                } else {
-                    None
-                };
+            let orig = if config.source_maps.enabled() {
+                self.get_orig_src_map(&fm, &config.input_source_map, false)?
+            } else {
+                None
+            };
 
-                self.process_js_inner(handler, orig.as_ref(), config)
-            })
-            .context("failed to process input file")
+            self.process_js_inner(handler, orig.as_ref(), config)
+        })
+        .context("failed to process input file")
     }
 
     #[tracing::instrument(level = "info", skip(self, handler, opts))]
@@ -902,7 +925,7 @@ impl Compiler {
         handler: &Handler,
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
-        GLOBALS.set(&Default::default(), || {
+        self.run(|| {
             let _timer = timer!("Compiler.minify");
 
             let target = opts.ecma.clone().into();
@@ -1078,49 +1101,51 @@ impl Compiler {
         orig: Option<&sourcemap::SourceMap>,
         config: BuiltInput<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
-        let program = config.program;
-        let source_map_names = if config.source_maps.enabled() {
-            let mut v = IdentCollector {
-                names: Default::default(),
+        self.run(|| {
+            let program = config.program;
+            let source_map_names = if config.source_maps.enabled() {
+                let mut v = IdentCollector {
+                    names: Default::default(),
+                };
+
+                program.visit_with(&mut v);
+
+                v.names
+            } else {
+                Default::default()
             };
 
-            program.visit_with(&mut v);
+            let mut pass = config.pass;
+            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                HANDLER.set(handler, || {
+                    // Fold module
+                    program.fold_with(&mut pass)
+                })
+            });
 
-            v.names
-        } else {
-            Default::default()
-        };
+            if let Some(comments) = &config.comments {
+                minify_file_comments(comments, config.preserve_comments);
+            }
 
-        let mut pass = config.pass;
-        let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-            HANDLER.set(handler, || {
-                // Fold module
-                program.fold_with(&mut pass)
-            })
-        });
-
-        if let Some(comments) = &config.comments {
-            minify_file_comments(comments, config.preserve_comments);
-        }
-
-        self.print(
-            &program,
-            config.source_file_name.as_deref(),
-            config.output_path,
-            config.inline_sources_content,
-            config.target,
-            config.source_maps,
-            &source_map_names,
-            orig,
-            config.minify,
-            config.comments.as_ref().map(|v| v as _),
-            config.emit_source_map_columns,
-            config
-                .output
-                .charset
-                .map(|v| matches!(v, OutputCharset::Ascii))
-                .unwrap_or(false),
-        )
+            self.print(
+                &program,
+                config.source_file_name.as_deref(),
+                config.output_path,
+                config.inline_sources_content,
+                config.target,
+                config.source_maps,
+                &source_map_names,
+                orig,
+                config.minify,
+                config.comments.as_ref().map(|v| v as _),
+                config.emit_source_map_columns,
+                config
+                    .output
+                    .charset
+                    .map(|v| matches!(v, OutputCharset::Ascii))
+                    .unwrap_or(false),
+            )
+        })
     }
 }
 
