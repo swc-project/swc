@@ -1,3 +1,4 @@
+
 *
 a
 abbr
@@ -24,11 +25,13 @@ animatemotion
 animateMotion
 animatetransform
 animateTransform
+animation
 Animation
 AnimationEffectReadOnly
 AnimationEffectTiming
 AnimationEffectTimingReadOnly
 AnimationEvent
+animation-name
 AnimationPlaybackEvent
 AnimationTimeline
 annotation-xml
@@ -143,12 +146,10 @@ CanvasCaptureMediaStreamTrack
 CanvasGradient
 CanvasPattern
 CanvasRenderingContext2D
-cap
 caption
 case
 catch
 center
-ch
 ChannelMergerNode
 ChannelSplitterNode
 CharacterData
@@ -597,7 +598,6 @@ keyTimes
 keywords
 khz
 kHz
-lab
 label
 lang
 language
@@ -809,7 +809,6 @@ PerformanceTiming
 PeriodicWave
 Permissions
 PermissionStatus
-perspective
 PhotoCapabilities
 Pick
 picture
@@ -948,6 +947,7 @@ run-in
 s
 samp
 sandbox
+satisfies
 scale
 scale3d
 scaleX
@@ -1039,7 +1039,6 @@ sup
 super
 surfacescale
 surfaceScale
-svb
 svg
 SVGAElement
 SVGAngle
