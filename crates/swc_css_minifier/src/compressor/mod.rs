@@ -12,6 +12,7 @@ mod declaration;
 mod easing_function;
 mod empty;
 mod frequency;
+mod import;
 mod keyframes;
 mod length;
 mod media;
@@ -29,6 +30,7 @@ pub fn compressor() -> impl VisitMut {
 #[derive(Default)]
 struct Compressor {
     ctx: Ctx,
+    need_utf8_at_rule: bool,
 }
 
 impl VisitMut for Compressor {
@@ -42,6 +44,19 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_empty_stylesheet(n);
+        self.compresss_empty_stylesheet(n);
+
+        if !self.need_utf8_at_rule {
+            match n.rules.get(0) {
+                Some(Rule::AtRule(box AtRule {
+                    prelude: Some(box AtRulePrelude::CharsetPrelude(Str { value, .. })),
+                    ..
+                })) if value.as_ref().eq_ignore_ascii_case("utf-8") => {
+                    n.rules.remove(0);
+                }
+                _ => {}
+            }
+        }
     }
 
     fn visit_mut_simple_block(&mut self, n: &mut SimpleBlock) {
@@ -107,6 +122,18 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_keyframes_at_rule(n);
+    }
+
+    fn visit_mut_import_prelude_href(&mut self, n: &mut ImportPreludeHref) {
+        n.visit_mut_children_with(self);
+
+        self.compress_import_prelude_href(n);
+    }
+
+    fn visit_mut_media_query_list(&mut self, n: &mut MediaQueryList) {
+        n.visit_mut_children_with(self);
+
+        self.compress_media_query_list(n);
     }
 
     fn visit_mut_media_condition(&mut self, n: &mut MediaCondition) {
@@ -280,4 +307,68 @@ impl VisitMut for Compressor {
 
         self.compress_angle(n);
     }
+
+    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+        ident.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            self.need_utf8_at_rule = !contains_only_ascii_characters(&ident.value);
+        }
+    }
+
+    fn visit_mut_custom_ident(&mut self, custom_ident: &mut CustomIdent) {
+        custom_ident.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            self.need_utf8_at_rule = !contains_only_ascii_characters(&custom_ident.value);
+        }
+    }
+
+    fn visit_mut_dashed_ident(&mut self, dashed_ident: &mut DashedIdent) {
+        dashed_ident.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            self.need_utf8_at_rule = !contains_only_ascii_characters(&dashed_ident.value);
+        }
+    }
+
+    fn visit_mut_str(&mut self, string: &mut Str) {
+        string.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            self.need_utf8_at_rule = !contains_only_ascii_characters(&string.value);
+        }
+    }
+
+    fn visit_mut_custom_property_name(&mut self, custom_property_name: &mut CustomPropertyName) {
+        custom_property_name.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            self.need_utf8_at_rule = !contains_only_ascii_characters(&custom_property_name.value);
+        }
+    }
+
+    fn visit_mut_token_and_span(&mut self, token_and_span: &mut TokenAndSpan) {
+        token_and_span.visit_mut_children_with(self);
+
+        if !self.need_utf8_at_rule {
+            match &token_and_span.token {
+                Token::Ident { value, .. }
+                | Token::Function { value, .. }
+                | Token::AtKeyword { value, .. }
+                | Token::String { value, .. }
+                | Token::BadString { value, .. }
+                | Token::Dimension { unit: value, .. }
+                    if !contains_only_ascii_characters(value) =>
+                {
+                    self.need_utf8_at_rule = true;
+                }
+                _ => {}
+            }
+        }
+    }
+}
+
+fn contains_only_ascii_characters(string: &str) -> bool {
+    string.chars().all(|c: char| c.is_ascii())
 }

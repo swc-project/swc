@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -53,36 +53,15 @@ impl Compressor {
                     _ => false,
                 });
 
-                if !need_compress {
-                    return;
-                }
+                if need_compress {
+                    let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
-                let mut new_conditions = Vec::with_capacity(n.conditions.len());
-
-                for item in take(&mut n.conditions) {
-                    match item {
-                        SupportsConditionType::SupportsInParens(
-                            SupportsInParens::SupportsCondition(supports_condition),
-                        ) if self.is_first_or_supports_type(&supports_condition)
-                            && self.is_first_supports_in_parens(&supports_condition) =>
-                        {
-                            let mut iter = supports_condition.conditions.into_iter();
-
-                            if let Some(SupportsConditionType::SupportsInParens(
-                                supports_in_parens,
-                            )) = iter.next()
-                            {
-                                new_conditions.push(SupportsConditionType::SupportsInParens(
-                                    supports_in_parens,
-                                ));
-
-                                new_conditions.extend(iter);
-                            }
-                        }
-                        SupportsConditionType::Or(supports_or) => match *supports_or.condition {
-                            SupportsInParens::SupportsCondition(supports_condition)
-                                if self.is_first_or_supports_type(&supports_condition)
-                                    && self.is_first_supports_in_parens(&supports_condition) =>
+                    for item in take(&mut n.conditions) {
+                        match item {
+                            SupportsConditionType::SupportsInParens(
+                                SupportsInParens::SupportsCondition(supports_condition),
+                            ) if self.is_first_or_supports_type(&supports_condition)
+                                && self.is_first_supports_in_parens(&supports_condition) =>
                             {
                                 let mut iter = supports_condition.conditions.into_iter();
 
@@ -90,26 +69,51 @@ impl Compressor {
                                     supports_in_parens,
                                 )) = iter.next()
                                 {
-                                    new_conditions.push(SupportsConditionType::Or(SupportsOr {
-                                        span: DUMMY_SP,
-                                        keyword: None,
-                                        condition: Box::new(supports_in_parens),
-                                    }));
+                                    new_conditions.push(SupportsConditionType::SupportsInParens(
+                                        supports_in_parens,
+                                    ));
 
                                     new_conditions.extend(iter);
                                 }
                             }
-                            _ => {
-                                new_conditions.push(SupportsConditionType::Or(supports_or));
+                            SupportsConditionType::Or(supports_or) => {
+                                match *supports_or.condition {
+                                    SupportsInParens::SupportsCondition(supports_condition)
+                                        if self.is_first_or_supports_type(&supports_condition)
+                                            && self.is_first_supports_in_parens(
+                                                &supports_condition,
+                                            ) =>
+                                    {
+                                        let mut iter = supports_condition.conditions.into_iter();
+
+                                        if let Some(SupportsConditionType::SupportsInParens(
+                                            supports_in_parens,
+                                        )) = iter.next()
+                                        {
+                                            new_conditions.push(SupportsConditionType::Or(
+                                                SupportsOr {
+                                                    span: DUMMY_SP,
+                                                    keyword: None,
+                                                    condition: Box::new(supports_in_parens),
+                                                },
+                                            ));
+
+                                            new_conditions.extend(iter);
+                                        }
+                                    }
+                                    _ => {
+                                        new_conditions.push(SupportsConditionType::Or(supports_or));
+                                    }
+                                }
                             }
-                        },
-                        _ => {
-                            new_conditions.push(item);
+                            _ => {
+                                new_conditions.push(item);
+                            }
                         }
                     }
-                }
 
-                n.conditions = new_conditions;
+                    n.conditions = new_conditions;
+                }
             }
             Some(SupportsConditionType::And(_)) => {
                 let need_compress = n.conditions.iter().any(|item| match item {
@@ -132,36 +136,15 @@ impl Compressor {
                     _ => false,
                 });
 
-                if !need_compress {
-                    return;
-                }
+                if need_compress {
+                    let mut new_conditions = Vec::with_capacity(n.conditions.len());
 
-                let mut new_conditions = Vec::with_capacity(n.conditions.len());
-
-                for item in take(&mut n.conditions) {
-                    match item {
-                        SupportsConditionType::SupportsInParens(
-                            SupportsInParens::SupportsCondition(supports_condition),
-                        ) if self.is_first_and_supports_type(&supports_condition)
-                            && self.is_first_supports_in_parens(&supports_condition) =>
-                        {
-                            let mut iter = supports_condition.conditions.into_iter();
-
-                            if let Some(SupportsConditionType::SupportsInParens(
-                                supports_in_parens,
-                            )) = iter.next()
-                            {
-                                new_conditions.push(SupportsConditionType::SupportsInParens(
-                                    supports_in_parens,
-                                ));
-
-                                new_conditions.extend(iter);
-                            }
-                        }
-                        SupportsConditionType::And(supports_and) => match *supports_and.condition {
-                            SupportsInParens::SupportsCondition(supports_condition)
-                                if self.is_first_and_supports_type(&supports_condition)
-                                    && self.is_first_supports_in_parens(&supports_condition) =>
+                    for item in take(&mut n.conditions) {
+                        match item {
+                            SupportsConditionType::SupportsInParens(
+                                SupportsInParens::SupportsCondition(supports_condition),
+                            ) if self.is_first_and_supports_type(&supports_condition)
+                                && self.is_first_supports_in_parens(&supports_condition) =>
                             {
                                 let mut iter = supports_condition.conditions.into_iter();
 
@@ -169,29 +152,67 @@ impl Compressor {
                                     supports_in_parens,
                                 )) = iter.next()
                                 {
-                                    new_conditions.push(SupportsConditionType::And(SupportsAnd {
-                                        span: DUMMY_SP,
-                                        keyword: None,
-                                        condition: Box::new(supports_in_parens),
-                                    }));
+                                    new_conditions.push(SupportsConditionType::SupportsInParens(
+                                        supports_in_parens,
+                                    ));
 
                                     new_conditions.extend(iter);
                                 }
                             }
+                            SupportsConditionType::And(supports_and) => match *supports_and
+                                .condition
+                            {
+                                SupportsInParens::SupportsCondition(supports_condition)
+                                    if self.is_first_and_supports_type(&supports_condition)
+                                        && self
+                                            .is_first_supports_in_parens(&supports_condition) =>
+                                {
+                                    let mut iter = supports_condition.conditions.into_iter();
+
+                                    if let Some(SupportsConditionType::SupportsInParens(
+                                        supports_in_parens,
+                                    )) = iter.next()
+                                    {
+                                        new_conditions.push(SupportsConditionType::And(
+                                            SupportsAnd {
+                                                span: DUMMY_SP,
+                                                keyword: None,
+                                                condition: Box::new(supports_in_parens),
+                                            },
+                                        ));
+
+                                        new_conditions.extend(iter);
+                                    }
+                                }
+                                _ => {
+                                    new_conditions.push(SupportsConditionType::And(supports_and));
+                                }
+                            },
                             _ => {
-                                new_conditions.push(SupportsConditionType::And(supports_and));
+                                new_conditions.push(item);
                             }
-                        },
-                        _ => {
-                            new_conditions.push(item);
                         }
                     }
-                }
 
-                n.conditions = new_conditions;
+                    n.conditions = new_conditions;
+                }
             }
             _ => {}
         }
+
+        let mut already_seen: Vec<SupportsConditionType> = Vec::with_capacity(n.conditions.len());
+
+        n.conditions.retain(|children| {
+            for already_seen_support_condition_type in &already_seen {
+                if already_seen_support_condition_type.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.push(children.clone());
+
+            true
+        });
     }
 
     pub(super) fn compress_supports_in_parens(&mut self, n: &mut SupportsInParens) {

@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::DUMMY_SP;
+use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -26,6 +26,22 @@ impl Compressor {
             media_condition.conditions.get(1),
             Some(MediaConditionAllType::And(_))
         )
+    }
+
+    pub(super) fn compress_media_query_list(&mut self, media_query_list: &mut MediaQueryList) {
+        let mut already_seen: Vec<MediaQuery> = Vec::with_capacity(media_query_list.queries.len());
+
+        media_query_list.queries.retain(|children| {
+            for already_seen_complex_selector in &already_seen {
+                if already_seen_complex_selector.eq_ignore_span(children) {
+                    return false;
+                }
+            }
+
+            already_seen.push(children.clone());
+
+            true
+        });
     }
 
     pub(super) fn compress_media_condition(&mut self, n: &mut MediaCondition) {

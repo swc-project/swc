@@ -7,16 +7,14 @@ use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
-use self::{compress::at_rule::compress_at_rule, compressor::compressor, options::MinifyOptions};
+use self::{compressor::compressor, options::MinifyOptions};
 
-mod compress;
 mod compressor;
 mod escape;
 pub mod options;
 
 pub fn minify(stylesheet: &mut Stylesheet, _options: MinifyOptions) {
     stylesheet.visit_mut_with(&mut compressor());
-    stylesheet.visit_mut_with(&mut compress_at_rule());
 }
 
 #[inline]
