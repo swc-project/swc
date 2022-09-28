@@ -269,11 +269,7 @@ impl<'a> NormalMultiReplacer<'a> {
     }
 
     fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
-        let mut e = if self.clone {
-            self.vars.get(i).cloned()?
-        } else {
-            self.vars.remove(i)?
-        };
+        let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
 
