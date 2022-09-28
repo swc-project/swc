@@ -1,0 +1,1 @@
+.class1{width:calc(100% - calc(50% + 25px))}.class2{width:CALC(1px + CALC(2px/2))}.class3{width:calc((1em - calc(10px + 1em))/2)}.class4{width:calc(calc(2.25rem + 2px) - 2px)}.class5{width:calc(100vh - 5rem - calc(10rem + 100px))}.class6{width:calc(100% - calc(10px + 2vw))}.class7{width:calc(100% - calc(10px - 2vw))}.class8{width:calc(100px + calc(200px))}

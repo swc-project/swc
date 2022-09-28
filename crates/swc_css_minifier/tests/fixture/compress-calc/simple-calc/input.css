@@ -1,0 +1,150 @@
+.class1 {
+    width: calc(1px + 1px);
+}
+
+.class2 {
+    width: calc(1px + 1px);
+    height: calc(2px + 3px);
+}
+
+.class3 {
+    width: calc(1rem * 1.5);
+}
+
+.class4 {
+    width: calc(3em - 1em);
+}
+
+.class5 {
+    width: calc(2ex / 2);
+}
+
+.class6 {
+    width: calc(50px - (20px - 30px));
+}
+
+.class7 {
+    width: calc(100px - (100px - 100%));
+}
+
+.class8 {
+    width: calc(100px + (100px - 100%));
+}
+
+.class9 {
+    width: CALC(1px + 1px);
+}
+
+.class10 {
+    width: CALC(1PX + 1PX);
+}
+
+.class11 {
+    width: calc(
+1rem
+* 2
+* 1.5);
+}
+
+.class12 {
+    width: calc(100% + 1px);
+}
+
+.class13 {
+    width: calc(2rem - .14285em);
+}
+
+/* Should not reduce the percentage */
+@supports (width:calc(100% - constant(safe-area-inset-left))){
+    .class14 {
+        width: calc(100% - constant(safe-area-inset-left));
+    }
+}
+
+.class15 {
+    width: calc(100% + (2 * 100px) - ((75.37% - 63.5px) - 900px));
+}
+
+.class16 {
+    width: calc(((((100% + (2 * 30px) + 63.5px) / 0.7537) - (100vw - 60px)) / 2) + 30px);
+}
+
+.class17 {
+    width: calc(((75.37% - 63.5px) - 900px) + (2 * 100px));
+}
+
+.class18 {
+    width: calc((900px - (10% - 63.5px)) + (2 * 100px));
+}
+
+.class19 {
+    width: CALC( (1EM - CALC( 10PX + 1EM)) / 2);
+}
+
+.class20 {
+    width: calc(+100px + +100px);
+}
+
+.class21 {
+    width: calc(+100px - +100px);
+}
+
+.class22 {
+    width: calc(200px * +1);
+}
+
+.class23 {
+    width: calc(200px / +1);
+}
+
+.class24 {
+    width: calc(-100px + -100px);
+}
+
+.class25 {
+    width: calc(-100px - -100px);
+}
+
+.class26 {
+    width: calc(200px * -1);
+}
+
+.class27 {
+    width: calc(200px / -1);
+}
+
+.class28 {
+    width: calc( 100px + 100px );
+}
+
+.class29 {
+    width: calc(/*test*/100px/*test*/ + /*test*/100px/*test*/);
+}
+
+.class30 {
+    width: calc(/*test*/100px/*test*/*/*test*/2/*test*/);
+}
+
+.class31 {
+    width: calc(1.1e+1px + 1.1e+1px);
+}
+
+.class32 {
+    width: calc(10e+1px + 10e+1px);
+}
+
+.class33 {
+    width: calc(1.1e+10px + 1.1e+10px);
+}
+
+.class34 {
+    width: calc(9e+1 * 1px);
+}
+
+.class35 {
+    width: calc(9e+1% + 10%);
+}
+
+.class36 {
+    width: calc(1.1E+1px + 1.1E+1px);
+}

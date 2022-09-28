@@ -1,0 +1,87 @@
+.class1 {
+    width: calc(1cm + 1px);
+}
+
+.class2 {
+    width: calc(1px + 1cm);
+}
+
+.class3 {
+    width: calc(10Q + 10Q);
+}
+
+.class4 {
+    width: calc(100.9q + 10px);
+}
+
+.class5 {
+    width: calc(10px + 100.9q);
+}
+
+.class6 {
+    width: calc(10cm + 1px);
+}
+
+.class7 {
+    width: calc(10mm + 1px);
+}
+
+.class8 {
+    width: calc(10px + 1q);
+}
+
+.class9 {
+    width: calc(10cm + 1q);
+}
+
+.class10 {
+    width: calc(10mm + 1q);
+}
+
+.class11 {
+    width: calc(10in + 1q);
+}
+
+.class12 {
+    width: calc(10pt + 1q);
+}
+
+.class13 {
+    width: calc(10pc + 1q);
+}
+
+.class14 {
+    width: calc(1q + 10px);
+}
+
+.class15 {
+    width: calc(1q + 10cm);
+}
+
+.class16 {
+    width: calc(1q + 10mm);
+}
+
+.class17 {
+    width: calc(1q + 10in);
+}
+
+.class18 {
+    width: calc(1q + 10pt);
+}
+
+.class19 {
+    width: calc(1q + 10pc);
+}
+
+.class20 {
+    width: calc(1unknown + 2unknown);
+}
+
+.class21 {
+    width: calc(1unknown + 2px);
+}
+
+.class22 {
+    width: calc(1px + 2unknown);
+}

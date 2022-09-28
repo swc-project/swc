@@ -1,0 +1,23 @@
+.class1 {
+    width: -webkit-calc(1px + 1px);
+}
+
+.class2 {
+    width: -WEBKIT-CALC(1px + 1px);
+}
+
+.class3 {
+    width: -webkit-calc(100% - -webkit-calc(50% + 25px));
+}
+
+.class4 {
+    width: -WEBKIT-CALC(1px + -WEBKIT-CALC(2px / 2));
+}
+
+.class5 {
+    width: -moz-calc(1px + 1px);
+}
+
+.class6 {
+    width: -webkit-calc(1px + 1px);
+}

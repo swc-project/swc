@@ -1,0 +1,1 @@
+.class1{width:calc(((var(--a) + 4px)/2)/2)}.class2{width:calc(((var(--a) + 4px)/2)/2 + 4px)}.class3{width:calc(100%/(var(--aspect-ratio)))}.class4{width:calc((var(--fluid-screen) - ((var(--fluid-min-width)/16)*1rem))/((var(--fluid-max-width)/16) - (var(--fluid-min-width)/16)))}.class5{width:calc(1/(10/var(--dot-size)))}.class6{width:calc(1/((var(--a) - var(--b))/16))}

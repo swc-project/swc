@@ -1,0 +1,1 @@
+.class1{width:constant(safe-area-inset-left)}.class2{width:env(safe-area-inset-left)}.class3{width:env(safe-area-inset-left,50px 20px)}.class4{width:unknown(safe-area-inset-left)}.class5{width:calc(unknown(#fff) - other-unknown(200px))}.class6{width:calc(unknown(#fff)*other-unknown(200px))}
