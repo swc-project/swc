@@ -197,9 +197,7 @@ pub fn serialize_ident(value: &str) -> String {
                 ))
         {
             // ... then the character escaped as code point.
-            result.push('\\');
-            result.push_str(&format!("{}", c as u16));
-            result.push(' ');
+            result.push_str(&hex_escape(c as u8));
 
             continue;
         }
@@ -212,8 +210,7 @@ pub fn serialize_ident(value: &str) -> String {
             result.push(c);
         } else {
             // Otherwise, the escaped character.
-            result.push('\\');
-            result.push(c);
+            result.push_str(&char_escape(c as u8));
         }
     }
 
@@ -225,4 +222,35 @@ fn is_name(c: char) -> bool {
     ((c.is_ascii_uppercase() || c.is_ascii_lowercase()) || !c.is_ascii() || c == '_')
         || c.is_ascii_digit()
         || c == '-'
+}
+
+// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
+fn hex_escape(ascii_byte: u8) -> String {
+    static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
+
+    let b3;
+    let b4;
+
+    let bytes = if ascii_byte > 0x0f {
+        let high = (ascii_byte >> 4) as usize;
+        let low = (ascii_byte & 0x0f) as usize;
+        b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
+        &b4[..]
+    } else {
+        b3 = [b'\\', HEX_DIGITS[ascii_byte as usize], b' '];
+        &b3[..]
+    };
+
+    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
+    // ASCII
+    unsafe { str::from_utf8_unchecked(bytes) }.to_string()
+}
+
+// https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L185
+fn char_escape(ascii_byte: u8) -> String {
+    let bytes = [b'\\', ascii_byte];
+
+    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
+    // ASCII
+    unsafe { str::from_utf8_unchecked(&bytes) }.to_string()
 }
