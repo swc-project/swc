@@ -69,10 +69,12 @@ fn base_tr_fixer(b: &mut Bencher) {
         let module = as_es(&c);
 
         b.iter(|| {
-            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-            black_box(c.run_transform(&handler, true, || {
-                module.clone().fold_with(&mut fixer(Some(c.comments())))
-            }))
+            GLOBALS.set(&Default::default(), || {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+                black_box(c.run_transform(&handler, true, || {
+                    module.clone().fold_with(&mut fixer(Some(c.comments())))
+                }))
+            })
         });
     });
 }
@@ -83,13 +85,15 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
         let module = as_es(&c);
 
         b.iter(|| {
-            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
-            black_box(c.run_transform(&handler, true, || {
-                module
-                    .clone()
-                    .fold_with(&mut resolver(Mark::new(), Mark::new(), false))
-                    .fold_with(&mut hygiene())
-            }))
+            GLOBALS.set(&Default::default(), || {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+                black_box(c.run_transform(&handler, true, || {
+                    module
+                        .clone()
+                        .fold_with(&mut resolver(Mark::new(), Mark::new(), false))
+                        .fold_with(&mut hygiene())
+                }))
+            })
         });
     })
 }
@@ -105,7 +109,7 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
         //TODO: Use target
 
         b.iter(|| {
-            black_box(
+            black_box(GLOBALS.set(&Default::default(), || {
                 c.print(
                     &module,
                     None,
@@ -120,8 +124,8 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
                     false,
                     false,
                 )
-                .unwrap(),
-            );
+                .unwrap()
+            }));
         })
     });
 }
@@ -150,13 +154,15 @@ fn bench_full(b: &mut Bencher, opts: &Options) {
 
     b.iter(|| {
         for _ in 0..100 {
-            let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
+            GLOBALS.set(&Default::default(), || {
+                let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-            let fm = c.cm.new_source_file(
-                FileName::Real("rxjs/src/internal/Observable.ts".into()),
-                SOURCE.to_string(),
-            );
-            let _ = c.process_js_file(fm, &handler, opts).unwrap();
+                let fm = c.cm.new_source_file(
+                    FileName::Real("rxjs/src/internal/Observable.ts".into()),
+                    SOURCE.to_string(),
+                );
+                let _ = c.process_js_file(fm, &handler, opts).unwrap();
+            })
         }
     });
 }
