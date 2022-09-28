@@ -133,7 +133,7 @@ use swc_common::{
     errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    BytePos, FileName, Globals, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
+    BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_config::merge::Merge;
@@ -216,10 +216,6 @@ type SwcImportResolver =
 /// The caller should check if the handler contains any errors after calling
 /// method.
 pub struct Compiler {
-    /// swc uses rustc's span interning.
-    ///
-    /// The `Globals` struct contains span interner.
-    globals: Globals,
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
@@ -244,10 +240,6 @@ pub struct TransformOutput {
 
 /// These are **low-level** apis.
 impl Compiler {
-    pub fn globals(&self) -> &Globals {
-        &self.globals
-    }
-
     pub fn comments(&self) -> &SwcComments {
         &self.comments
     }
@@ -259,7 +251,12 @@ impl Compiler {
     where
         F: FnOnce() -> R,
     {
-        GLOBALS.set(&self.globals, op)
+        debug_assert!(
+            GLOBALS.is_set(),
+            "`swc_common::GLOBALS` is required for this operation"
+        );
+
+        op()
     }
 
     fn get_orig_src_map(
@@ -646,7 +643,6 @@ impl Compiler {
     pub fn new(cm: Arc<SourceMap>) -> Self {
         Compiler {
             cm,
-            globals: Globals::new(),
             comments: Default::default(),
         }
     }

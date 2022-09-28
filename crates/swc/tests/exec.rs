@@ -12,7 +12,7 @@ use swc::{
     config::{Config, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig},
     try_with_handler, BoolOrDataConfig, Compiler, HandlerOpts,
 };
-use swc_common::{errors::ColorConfig, SourceMap};
+use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -255,61 +255,63 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
-    try_with_handler(
-        cm.clone(),
-        HandlerOpts {
-            color: ColorConfig::Always,
-            skip_filename: true,
-        },
-        |handler| {
-            let fm = cm.load_file(input).context("failed to load file")?;
+    GLOBALS.set(&Default::default(), || {
+        try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Always,
+                skip_filename: true,
+            },
+            |handler| {
+                let fm = cm.load_file(input).context("failed to load file")?;
 
-            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
-                return Ok(output);
-            }
-            if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
-                return Ok(output);
-            }
+                if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
+                    return Ok(output);
+                }
+                if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
+                    return Ok(output);
+                }
 
-            let res = c
-                .process_js_file(
-                    fm,
-                    handler,
-                    &Options {
-                        config: Config {
-                            jsc: JscConfig {
-                                target: Some(EsVersion::Es2021),
-                                syntax: Some(Syntax::Typescript(TsConfig {
-                                    decorators: true,
+                let res = c
+                    .process_js_file(
+                        fm,
+                        handler,
+                        &Options {
+                            config: Config {
+                                jsc: JscConfig {
+                                    target: Some(EsVersion::Es2021),
+                                    syntax: Some(Syntax::Typescript(TsConfig {
+                                        decorators: true,
+                                        ..Default::default()
+                                    })),
                                     ..Default::default()
-                                })),
+                                },
+                                module: match input.extension() {
+                                    Some(ext) if ext == "ts" => {
+                                        Some(ModuleConfig::CommonJs(Default::default()))
+                                    }
+                                    Some(ext) if ext == "mjs" => None,
+                                    _ => None,
+                                },
                                 ..Default::default()
-                            },
-                            module: match input.extension() {
-                                Some(ext) if ext == "ts" => {
-                                    Some(ModuleConfig::CommonJs(Default::default()))
-                                }
-                                Some(ext) if ext == "mjs" => None,
-                                _ => None,
                             },
                             ..Default::default()
                         },
-                        ..Default::default()
+                    )
+                    .context("failed to process file")?;
+
+                let res = stdout_of(
+                    &res.code,
+                    match input.extension() {
+                        Some(ext) if ext == "mjs" => NodeModuleType::Module,
+                        _ => NodeModuleType::CommonJs,
                     },
-                )
-                .context("failed to process file")?;
+                )?;
 
-            let res = stdout_of(
-                &res.code,
-                match input.extension() {
-                    Some(ext) if ext == "mjs" => NodeModuleType::Module,
-                    _ => NodeModuleType::CommonJs,
-                },
-            )?;
-
-            Ok(res)
-        },
-    )
+                Ok(res)
+            },
+        )
+    })
 }
 
 /// Rename `foo/.bar/exec.js` => `foo/bar/exec.js`
@@ -350,51 +352,53 @@ fn test_file_with_opts(
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
-    try_with_handler(
-        cm.clone(),
-        HandlerOpts {
-            color: ColorConfig::Always,
-            ..Default::default()
-        },
-        |handler| {
-            let fm = cm.load_file(entry).context("failed to load file")?;
+    GLOBALS.set(&Default::default(), || {
+        try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Always,
+                ..Default::default()
+            },
+            |handler| {
+                let fm = cm.load_file(entry).context("failed to load file")?;
 
-            let res = c
-                .process_js_file(fm, handler, opts)
-                .context("failed to process file")?;
+                let res = c
+                    .process_js_file(fm, handler, opts)
+                    .context("failed to process file")?;
 
-            println!(
-                "---- {} (#{}) ----\n{}",
-                ansi_term::Color::Green.bold().paint("Code"),
-                idx,
-                res.code
-            );
-            println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
-            println!("target: {:?}", opts.config.jsc.target.unwrap());
+                println!(
+                    "---- {} (#{}) ----\n{}",
+                    ansi_term::Color::Green.bold().paint("Code"),
+                    idx,
+                    res.code
+                );
+                println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
+                println!("target: {:?}", opts.config.jsc.target.unwrap());
 
-            let actual_stdout = stdout_of(
-                &res.code,
-                if entry.extension().unwrap() == "mjs" {
-                    NodeModuleType::Module
-                } else {
-                    NodeModuleType::CommonJs
-                },
-            )?;
+                let actual_stdout = stdout_of(
+                    &res.code,
+                    if entry.extension().unwrap() == "mjs" {
+                        NodeModuleType::Module
+                    } else {
+                        NodeModuleType::CommonJs
+                    },
+                )?;
 
-            assert_eq!(
-                expected_stdout,
-                actual_stdout,
-                "\n---- {} -----\n{}\n---- {} -----\n{:#?}",
-                ansi_term::Color::Red.paint("Actual"),
-                actual_stdout,
-                ansi_term::Color::Blue.paint("Options"),
-                opts
-            );
+                assert_eq!(
+                    expected_stdout,
+                    actual_stdout,
+                    "\n---- {} -----\n{}\n---- {} -----\n{:#?}",
+                    ansi_term::Color::Red.paint("Actual"),
+                    actual_stdout,
+                    ansi_term::Color::Blue.paint("Options"),
+                    opts
+                );
 
-            Ok(())
-        },
-    )
-    .with_context(|| format!("failed to compile with opts: {:#?}", opts))
+                Ok(())
+            },
+        )
+        .with_context(|| format!("failed to compile with opts: {:#?}", opts))
+    })
 }
 
 enum NodeModuleType {

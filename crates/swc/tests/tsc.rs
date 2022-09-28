@@ -19,7 +19,9 @@ use swc::{
     },
     try_with_handler, Compiler,
 };
-use swc_common::{collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap};
+use swc_common::{
+    collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS,
+};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsConfig};
 use testing::NormalizedOutput;
@@ -425,23 +427,25 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
 
         writeln!(result, "//// [{}]", filename).unwrap();
 
-        match try_with_handler(
-            cm.clone(),
-            swc::HandlerOpts {
-                color: ColorConfig::Never,
-                skip_filename: true,
-            },
-            |handler| c.process_js_file(file, handler, &test_unit_data.opts),
-        ) {
-            Ok(res) => {
-                result += &res.code;
-            }
-            Err(ref err) => {
-                for line in err.to_string().lines() {
-                    writeln!(result, "//! {}", line).unwrap();
+        GLOBALS.set(&Default::default(), || {
+            match try_with_handler(
+                cm.clone(),
+                swc::HandlerOpts {
+                    color: ColorConfig::Never,
+                    skip_filename: true,
+                },
+                |handler| c.process_js_file(file, handler, &test_unit_data.opts),
+            ) {
+                Ok(res) => {
+                    result += &res.code;
+                }
+                Err(ref err) => {
+                    for line in err.to_string().lines() {
+                        writeln!(result, "//! {}", line).unwrap();
+                    }
                 }
             }
-        }
+        })
     }
 
     NormalizedOutput::from(result)

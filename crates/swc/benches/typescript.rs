@@ -7,7 +7,9 @@ use std::{
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
-use swc_common::{errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap};
+use swc_common::{
+    errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{Syntax, TsConfig};
 use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
@@ -63,7 +65,7 @@ fn base_tr_group(c: &mut Criterion) {
 
 fn base_tr_fixer(b: &mut Bencher) {
     let c = mk();
-    c.run(|| {
+    GLOBALS.set(&Default::default(), || {
         let module = as_es(&c);
 
         b.iter(|| {
@@ -77,7 +79,7 @@ fn base_tr_fixer(b: &mut Bencher) {
 
 fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
     let c = mk();
-    c.run(|| {
+    GLOBALS.set(&Default::default(), || {
         let module = as_es(&c);
 
         b.iter(|| {
@@ -97,7 +99,7 @@ fn base_tr_resolver_and_hygiene(b: &mut Bencher) {
 fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
     let c = mk();
 
-    c.run(|| {
+    GLOBALS.set(&Default::default(), || {
         let module = as_es(&c);
 
         //TODO: Use target

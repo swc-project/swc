@@ -14,7 +14,7 @@ use serde_json::{Number, Value};
 use swc::{config::IsModule, Compiler};
 use swc_common::{
     errors::{ColorConfig, Handler},
-    FileName, FilePathMapping, SourceMap,
+    FileName, FilePathMapping, SourceMap, GLOBALS,
 };
 use swc_ecma_parser::{EsConfig, Syntax};
 use swc_estree_compat::babelify::{Babelify, Context};
@@ -76,19 +76,21 @@ fn fixtures() -> Result<(), Error> {
                 ignore_message: Default::default(),
             },
             testfn: DynTestFn(Box::alloc().init(move || {
-                let syntax = if is_typescript {
-                    Syntax::Typescript(Default::default())
-                } else if is_jsx {
-                    Syntax::Es(EsConfig {
-                        jsx: true,
-                        ..Default::default()
-                    })
-                } else {
-                    Syntax::Es(EsConfig {
-                        ..Default::default()
-                    })
-                };
-                run_test(input, output, syntax, is_module);
+                GLOBALS.set(&Default::default(), || {
+                    let syntax = if is_typescript {
+                        Syntax::Typescript(Default::default())
+                    } else if is_jsx {
+                        Syntax::Es(EsConfig {
+                            jsx: true,
+                            ..Default::default()
+                        })
+                    } else {
+                        Syntax::Es(EsConfig {
+                            ..Default::default()
+                        })
+                    };
+                    run_test(input, output, syntax, is_module);
+                })
             })),
         })
     }

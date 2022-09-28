@@ -67,7 +67,6 @@ pub const DUMMY_SP: Span = Span {
     ctxt: SyntaxContext::empty(),
 };
 
-#[derive(Default)]
 pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
     #[allow(unused)]
@@ -75,6 +74,12 @@ pub struct Globals {
 }
 
 const DUMMY_RESERVE: u32 = u32::MAX - 2_u32.pow(16);
+
+impl Default for Globals {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl Globals {
     pub fn new() -> Globals {
