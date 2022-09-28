@@ -6805,7 +6805,7 @@
     : ^^
     `----
 
-  x Ident { value: Atom('to' type=inline), raw: Atom('to' type=inline) }
+  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | to {
     : ^^
@@ -8728,7 +8728,7 @@
      : ^^
      `----
 
-  x Ident { value: Atom('to' type=inline), raw: Atom('to' type=inline) }
+  x Ident { value: Atom('to' type=static), raw: Atom('to' type=static) }
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
  127 | to {
      : ^^

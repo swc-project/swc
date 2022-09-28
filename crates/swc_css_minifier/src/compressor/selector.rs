@@ -43,7 +43,7 @@ impl Compressor {
             }) if *a == 2 && (*b == 1 || b % 2 == -1) => {
                 *an_plus_b = AnPlusB::Ident(Ident {
                     span: *span,
-                    value: "odd".into(),
+                    value: js_word!("odd"),
                     raw: None,
                 });
             }
@@ -176,7 +176,7 @@ impl Compressor {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: "last-child".into(),
+                                value: js_word!("last-child"),
                                 raw: None,
                             },
                             children: None,

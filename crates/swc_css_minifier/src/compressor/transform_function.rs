@@ -32,7 +32,7 @@ impl Compressor {
                     ) if *first_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "translateY".into(),
+                            value: js_word!("translateY"),
                             raw: None,
                         };
                         *function_value = vec![second.clone()];
@@ -65,7 +65,7 @@ impl Compressor {
                     ) if *first_number == 0.0 && *second_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "translateZ".into(),
+                            value: js_word!("translateZ"),
                             raw: None,
                         };
                         *function_value = vec![third.clone()];
@@ -104,7 +104,7 @@ impl Compressor {
                     ) if *second_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "scaleX".into(),
+                            value: js_word!("scaleX"),
                             raw: None,
                         };
                         *function_value = vec![first.clone()];
@@ -118,7 +118,7 @@ impl Compressor {
                     ) if *first_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "scaleY".into(),
+                            value: js_word!("scaleY"),
                             raw: None,
                         };
                         *function_value = vec![second.clone()];
@@ -151,7 +151,7 @@ impl Compressor {
                     ) if *second_number == 1.0 && *third_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "scaleX".into(),
+                            value: js_word!("scaleX"),
                             raw: None,
                         };
                         *function_value = vec![first.clone()];
@@ -169,7 +169,7 @@ impl Compressor {
                     ) if *first_number == 1.0 && *third_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "scaleY".into(),
+                            value: js_word!("scaleY"),
                             raw: None,
                         };
                         *function_value = vec![second.clone()];
@@ -187,7 +187,7 @@ impl Compressor {
                     ) if *first_number == 1.0 && *second_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "scaleZ".into(),
+                            value: js_word!("scaleZ"),
                             raw: None,
                         };
                         *function_value = vec![third.clone()];
@@ -290,7 +290,7 @@ impl Compressor {
                     {
                         *name = Ident {
                             span: name.span,
-                            value: "matrix".into(),
+                            value: js_word!("matrix"),
                             raw: None,
                         };
                         *function_value = vec![
@@ -340,7 +340,7 @@ impl Compressor {
                     ) if *first_number == 1.0 && *second_number == 0.0 && *third_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "rotateX".into(),
+                            value: js_word!("rotateX"),
                             raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
@@ -362,7 +362,7 @@ impl Compressor {
                     ) if *first_number == 0.0 && *second_number == 1.0 && *third_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "rotateY".into(),
+                            value: js_word!("rotateY"),
                             raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
@@ -384,7 +384,7 @@ impl Compressor {
                     ) if *first_number == 0.0 && *second_number == 0.0 && *third_number == 1.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "rotate".into(),
+                            value: js_word!("rotate"),
                             raw: None,
                         };
                         *function_value = vec![fourth_value.clone()];
@@ -401,7 +401,7 @@ impl Compressor {
             {
                 *name = Ident {
                     span: name.span,
-                    value: "rotate".into(),
+                    value: js_word!("rotate"),
                     raw: None,
                 };
             }
@@ -423,7 +423,7 @@ impl Compressor {
                     ) if *second_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "skewX".into(),
+                            value: js_word!("skewX"),
                             raw: None,
                         };
                         *function_value = vec![first.clone()];
@@ -438,7 +438,7 @@ impl Compressor {
                     ) if *first_number == 0.0 => {
                         *name = Ident {
                             span: name.span,
-                            value: "skewY".into(),
+                            value: js_word!("skewY"),
                             raw: None,
                         };
                         *function_value = vec![second.clone()];
