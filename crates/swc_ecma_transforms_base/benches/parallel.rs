@@ -63,12 +63,12 @@ fn resolver_with_hygiene(b: &mut Bencher) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("es/parallel/resolver/typescript", resolver);
-    c.bench_function("es/parallel/hygiene/typescript", hygiene);
-    c.bench_function(
-        "es/parallel/resolver_with_hygiene/typescript",
-        resolver_with_hygiene,
-    );
+    let mut group = c.benchmark_group("es/base/parallel");
+    group.sample_size(10);
+
+    group.bench_function("resolver/typescript", resolver);
+    group.bench_function("hygiene/typescript", hygiene);
+    group.bench_function("resolver_with_hygiene/typescript", resolver_with_hygiene);
 }
 
 criterion_group!(benches, bench_cases);
