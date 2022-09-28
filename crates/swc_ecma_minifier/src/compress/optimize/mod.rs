@@ -276,7 +276,7 @@ impl Vars {
 
         if !self.lits_for_cmp.is_empty() {
             n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.simple_functions,
+                &mut self.lits_for_cmp,
                 true,
                 MultiReplacerMode::OnlyComparisonWithLit,
                 &mut changed,
