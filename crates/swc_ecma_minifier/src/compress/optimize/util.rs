@@ -160,7 +160,7 @@ impl VisitMut for Remapper {
 #[derive(Clone, Copy)]
 pub(crate) struct CloningMultiReplacer<'a> {
     pub vars: &'a FxHashMap<Id, Box<Expr>>,
-    pub worked: bool,
+    pub changed: bool,
     pub mode: MultiReplacerMode,
 }
 
@@ -170,7 +170,7 @@ impl Parallel for CloningMultiReplacer<'_> {
     }
 
     fn merge(&mut self, other: Self) {
-        self.worked |= other.worked;
+        self.changed |= other.changed;
     }
 }
 
@@ -180,7 +180,7 @@ impl<'a> CloningMultiReplacer<'a> {
         CloningMultiReplacer {
             vars,
             mode,
-            worked: false,
+            changed: false,
         }
     }
 
@@ -205,7 +205,7 @@ impl<'a> CloningMultiReplacer<'a> {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}`", i);
-                self.worked = true;
+                self.changed = true;
 
                 *e = *new;
             }
@@ -268,7 +268,7 @@ impl VisitMut for CloningMultiReplacer<'_> {
 
 pub(crate) struct NormalMultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
-    pub worked: bool,
+    pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
@@ -276,7 +276,7 @@ impl<'a> NormalMultiReplacer<'a> {
     pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
-            worked: false,
+            changed: false,
         }
     }
 
@@ -314,7 +314,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}`", i);
-                self.worked = true;
+                self.changed = true;
 
                 *e = *new;
             }
@@ -340,7 +340,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(value) = self.var(&i.to_id()) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
-                self.worked = true;
+                self.changed = true;
 
                 *p = Prop::KeyValue(KeyValueProp {
                     key: PropName::Ident(Ident::new(

@@ -20,7 +20,9 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, MultiReplacer, MultiReplacerMode},
+    util::{
+        extract_class_side_effect, CloningMultiReplacer, MultiReplacerMode, NormalMultiReplacer,
+    },
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -262,34 +264,28 @@ impl Vars {
     /// Returns true if something is changed.
     fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
     where
-        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+        N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
+        N: for<'aa> VisitMutWith<CloningMultiReplacer<'aa>>,
     {
         let mut changed = false;
         if !self.simple_functions.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.simple_functions,
-                true,
-                MultiReplacerMode::OnlyCallee,
-                &mut changed,
-            ));
+            let mut v =
+                CloningMultiReplacer::new(&self.simple_functions, MultiReplacerMode::OnlyCallee);
+            n.visit_mut_with(&mut v);
+            changed |= v.changed;
         }
 
         if !self.lits_for_cmp.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.lits_for_cmp,
-                true,
-                MultiReplacerMode::OnlyComparisonWithLit,
-                &mut changed,
-            ));
+            let mut v =
+                CloningMultiReplacer::new(&self.lits_for_cmp, MultiReplacerMode::OnlyCallee);
+            n.visit_mut_with(&mut v);
+            changed |= v.changed;
         }
 
         if !self.vars_for_inlining.is_empty() {
-            n.visit_mut_with(&mut MultiReplacer::new(
-                &mut self.vars_for_inlining,
-                false,
-                MultiReplacerMode::Normal,
-                &mut changed,
-            ));
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            n.visit_mut_with(&mut v);
+            changed |= v.changed;
         }
 
         changed
