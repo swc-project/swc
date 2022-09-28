@@ -59,6 +59,9 @@
 
 
 
+- **(es)** Don't share `Globals` (#5975) ([19131e1](https://github.com/swc-project/swc/commit/19131e168e65b13a4d4ddf823aec4211a2502ceb))
+
+
 - **(es/minifier)** Optimize `MultiReplacer` (#5977) ([e37bb55](https://github.com/swc-project/swc/commit/e37bb551015b68b108569015a03dc00477f621ee))
 
 ### Testing
