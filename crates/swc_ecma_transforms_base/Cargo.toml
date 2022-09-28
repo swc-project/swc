@@ -35,6 +35,7 @@ tracing = "0.1.32"
 
 [dev-dependencies]
 criterion = "0.3"
+rayon = "1"
 swc_ecma_codegen = {version = "0.127.2", path = "../swc_ecma_codegen"}
 swc_ecma_transforms_macros = {version = "0.5.0", path = "../swc_ecma_transforms_macros"}
 swc_node_base = {version = "0.5.5", path = "../swc_node_base"}
@@ -43,6 +44,9 @@ testing = {version = "0.31.1", path = "../testing"}
 [[bench]]
 harness = false
 name = "base"
+[[bench]]
+harness = false
+name = "parallel"
 [[bench]]
 harness = false
 name = "deps"
