@@ -239,14 +239,11 @@ fn hex_escape(ascii_byte: u8, minify: bool) -> String {
             unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' ']) }
                 .to_string()
         }
+    } else if minify {
+        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize]]) }.to_string()
     } else {
-        if minify {
-            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize]]) }
-                .to_string()
-        } else {
-            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
-                .to_string()
-        }
+        unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
+            .to_string()
     }
 }
 

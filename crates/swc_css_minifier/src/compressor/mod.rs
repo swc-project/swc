@@ -36,15 +36,11 @@ struct Compressor {
 
 impl Compressor {
     #[inline]
-    fn try_escape_if_shorter(&self, input: &str) -> Option<String> {
+    fn is_ident_shorter_than_str(&self, input: &str) -> bool {
         let escaped = serialize_ident(input, true);
 
         // escaped: without double quotes, so need plus 2 here
-        if escaped.len() < input.len() + 2 {
-            Some(escaped)
-        } else {
-            None
-        }
+        escaped.len() < input.len() + 2
     }
 }
 

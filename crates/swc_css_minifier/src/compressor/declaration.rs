@@ -435,12 +435,10 @@ impl Compressor {
                             to_be_identify => {
                                 declaration.value.insert(
                                     0,
-                                    if let Some(escaped) =
-                                        self.try_escape_if_shorter(to_be_identify)
-                                    {
+                                    if self.is_ident_shorter_than_str(to_be_identify) {
                                         ComponentValue::Ident(Ident {
                                             span: ident.span,
-                                            value: escaped.into(),
+                                            value: to_be_identify.into(),
                                             raw: None,
                                         })
                                     } else {
@@ -470,12 +468,10 @@ impl Compressor {
                                         node
                                     }
                                     to_be_identify => {
-                                        if let Some(escaped) =
-                                            self.try_escape_if_shorter(to_be_identify)
-                                        {
+                                        if self.is_ident_shorter_than_str(to_be_identify) {
                                             ComponentValue::Ident(Ident {
                                                 span: ident.span,
-                                                value: escaped.into(),
+                                                value: to_be_identify.into(),
                                                 raw: None,
                                             })
                                         } else {
