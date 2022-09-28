@@ -1,0 +1,15 @@
+.class1 {
+    width: a calc(1px + 1px);
+}
+
+.class2 {
+    width: calc(1px + 1px) a;
+}
+
+.class3 {
+    width: a calc(1px + 1px) b;
+}
+
+.class4 {
+    width: a calc(1px + 1px) b calc(1em + 2em) c;
+}

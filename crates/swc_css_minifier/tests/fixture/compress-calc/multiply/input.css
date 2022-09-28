@@ -1,0 +1,7 @@
+.class1 {
+    width: calc(((var(--a) + 4px) * 2) * 2);
+}
+
+.class2 {
+    width: calc(((var(--a) + 4px) * 2) * 2 + 4px);
+}
