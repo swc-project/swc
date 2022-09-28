@@ -2136,26 +2136,22 @@ impl IdentExt for Ident {
 }
 
 /// Finds all **binding** idents of variables.
-pub struct DestructuringFinder<'a, I: IdentLike> {
-    pub found: &'a mut Vec<I>,
+pub struct DestructuringFinder<I: IdentLike> {
+    pub found: Vec<I>,
 }
 
 /// Finds all **binding** idents of `node`.
 pub fn find_pat_ids<T, I: IdentLike>(node: &T) -> Vec<I>
 where
-    T: for<'any> VisitWith<DestructuringFinder<'any, I>>,
+    T: VisitWith<DestructuringFinder<I>>,
 {
-    let mut found = vec![];
+    let mut v = DestructuringFinder { found: Vec::new() };
+    node.visit_with(&mut v);
 
-    {
-        let mut v = DestructuringFinder { found: &mut found };
-        node.visit_with(&mut v);
-    }
-
-    found
+    v.found
 }
 
-impl<'a, I: IdentLike> Visit for DestructuringFinder<'a, I> {
+impl<I: IdentLike> Visit for DestructuringFinder<I> {
     noop_visit_type!();
 
     /// No-op (we don't care about expressions)
