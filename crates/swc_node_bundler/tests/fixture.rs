@@ -10,7 +10,7 @@ use anyhow::Error;
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
 use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
-use swc_common::{errors::HANDLER, FileName, Span, GLOBALS};
+use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
 use swc_ecma_ast::{
     Bool, EsVersion, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
     MetaPropKind, PropName, Str,
@@ -51,8 +51,9 @@ fn pass(input_dir: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         HANDLER.set(&handler, || {
             let compiler = Arc::new(swc::Compiler::new(cm.clone()));
+            let globals = Globals::new();
 
-            GLOBALS.set(compiler.globals(), || {
+            GLOBALS.set(&globals, || {
                 let loader = SwcLoader::new(
                     compiler.clone(),
                     swc::config::Options {
@@ -61,7 +62,7 @@ fn pass(input_dir: PathBuf) {
                     },
                 );
                 let mut bundler = Bundler::new(
-                    compiler.globals(),
+                    &globals,
                     cm.clone(),
                     &loader,
                     environment_resolver(TargetEnv::Node, Default::default(), false),
