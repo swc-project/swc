@@ -709,23 +709,23 @@ where
                     ..
                 },
             ) => {
-                self.ignore_return_value(&mut bin.left);
-                self.ignore_return_value(&mut bin.right);
+                let left = self.ignore_return_value(&mut bin.left);
+                let right = self.ignore_return_value(&mut bin.right);
                 let span = bin.span;
 
-                if bin.left.is_invalid() && bin.right.is_invalid() {
+                if left.is_none() && right.is_none() {
                     return None;
-                } else if bin.right.is_invalid() {
-                    return Some(*bin.left.take());
-                } else if bin.left.is_invalid() {
-                    return Some(*bin.right.take());
+                } else if right.is_none() {
+                    return left;
+                } else if left.is_none() {
+                    return right;
                 }
 
                 self.changed = true;
                 report_change!("ignore_return_value: Compressing binary as seq");
                 return Some(Expr::Seq(SeqExpr {
                     span,
-                    exprs: vec![bin.left.take(), bin.right.take()],
+                    exprs: vec![Box::new(left.unwrap()), Box::new(right.unwrap())],
                 }));
             }
 
