@@ -80,8 +80,7 @@ describe("Published plugins", () => {
                     experimental: {
                         plugins: [
                             ["@swc/plugin-jest", {}],
-                            // Disabled because this plugin is broken
-                            // ["swc-plugin-coverage-instrument", {}],
+                            ["swc-plugin-coverage-instrument", {}],
                         ],
                     },
                 },
@@ -94,7 +93,51 @@ describe("Published plugins", () => {
             );
 
             expect(code).toMatchInlineSnapshot(`
-                "console.log(\\"hello world\\");
+                "function cov_8828012090449151314() {
+                    var path = \\"unknown.js\\";
+                    var hash = \\"7618951444430927811\\";
+                    var global = new ((function(){}).constructor)(\\"return this\\")();
+                    var gcv = \\"__coverage__\\";
+                    var coverageData = {
+                        all: false,
+                        path: \\"unknown.js\\",
+                        statementMap: {
+                            \\"0\\": {
+                                start: {
+                                    line: 1,
+                                    column: 0
+                                },
+                                end: {
+                                    line: 1,
+                                    column: 26
+                                }
+                            }
+                        },
+                        fnMap: {},
+                        branchMap: {},
+                        s: {
+                            \\"0\\": 0
+                        },
+                        f: {},
+                        b: {},
+                        _coverageSchema: \\"11020577277169172593\\",
+                        hash: \\"7618951444430927811\\"
+                    };
+                    var coverage = global[gcv] || (global[gcv] = {});
+                    if (!coverage[path] || coverage[path].hash !== hash) {
+                        coverage[path] = coverageData;
+                    }
+                    var actualCoverage = coverage[path];
+                    {
+                        cov_8828012090449151314 = function cov_8828012090449151314() {
+                            return actualCoverage;
+                        };
+                    }
+                    return actualCoverage;
+                }
+                cov_8828012090449151314();
+                cov_8828012090449151314().s[0]++;
+                console.log(\\"hello world\\");
                 "
             `);
         });

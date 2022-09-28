@@ -46,6 +46,9 @@
 
 - **(es/minifier)** Categorize terser tests (#5960) ([48cddc1](https://github.com/swc-project/swc/commit/48cddc16f67ed5ac904a1e67a6ec096da5747cd2))
 
+
+- **(es/plugin)** Reenable compat test (#5969) ([ca38a70](https://github.com/swc-project/swc/commit/ca38a7027ead28ecb9723d7e99e9123af3c6af14))
+
 ### Build
 
 
