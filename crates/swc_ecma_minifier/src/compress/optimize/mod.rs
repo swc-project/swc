@@ -274,6 +274,15 @@ impl Vars {
             ));
         }
 
+        if !self.lits_for_cmp.is_empty() {
+            n.visit_mut_with(&mut MultiReplacer::new(
+                &mut self.simple_functions,
+                true,
+                MultiReplacerMode::OnlyComparisonWithLit,
+                &mut changed,
+            ));
+        }
+
         if !self.vars_for_inlining.is_empty() {
             n.visit_mut_with(&mut MultiReplacer::new(
                 &mut self.vars_for_inlining,
