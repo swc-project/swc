@@ -20,9 +20,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{
-        extract_class_side_effect, CloningMultiReplacer, MultiReplacerMode, NormalMultiReplacer,
-    },
+    util::{extract_class_side_effect, CloningMultiReplacer, NormalMultiReplacer},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -268,18 +266,12 @@ impl Vars {
         N: for<'aa> VisitMutWith<CloningMultiReplacer<'aa>>,
     {
         let mut changed = false;
-        if !self.simple_functions.is_empty() {
-            let mut v =
-                CloningMultiReplacer::new(&self.simple_functions, MultiReplacerMode::OnlyCallee);
-            n.visit_mut_with(&mut v);
-            changed |= v.changed;
-        }
-
-        if !self.lits_for_cmp.is_empty() {
-            let mut v = CloningMultiReplacer::new(
-                &self.lits_for_cmp,
-                MultiReplacerMode::OnlyComparisonWithLit,
-            );
+        if !self.simple_functions.is_empty() || !self.lits_for_cmp.is_empty() {
+            let mut v = CloningMultiReplacer {
+                lits_for_cmp: &self.lits_for_cmp,
+                simple_functions: &self.simple_functions,
+                changed: false,
+            };
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
