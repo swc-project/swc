@@ -4,13 +4,13 @@ use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
+use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::mode::Mode;
+use crate::{mode::Mode, HEAVY_TASK_PARALLELS};
 
 impl<'b, M> Optimizer<'b, M>
 where
@@ -238,6 +238,42 @@ impl VisitMut for CloningMultiReplacer<'_> {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
     }
 }
 
