@@ -2,7 +2,7 @@ extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use rayon::prelude::*;
-use swc_common::{chain, errors::HANDLER, FileName, Mark, GLOBALS};
+use swc_common::{errors::HANDLER, FileName, Mark, GLOBALS};
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;
 use swc_ecma_visit::FoldWith;
@@ -55,20 +55,12 @@ fn hygiene(b: &mut Bencher) {
     tr!(b, swc_ecma_transforms_base::hygiene::hygiene);
 }
 
-fn resolver_with_hygiene(b: &mut Bencher) {
-    tr!(b, || chain!(
-        swc_ecma_transforms_base::resolver(Mark::new(), Mark::new(), false),
-        swc_ecma_transforms_base::hygiene::hygiene()
-    ));
-}
-
 fn bench_cases(c: &mut Criterion) {
     let mut group = c.benchmark_group("es/base/parallel");
     group.sample_size(10);
 
     group.bench_function("resolver/typescript", resolver);
     group.bench_function("hygiene/typescript", hygiene);
-    group.bench_function("resolver_with_hygiene/typescript", resolver_with_hygiene);
 }
 
 criterion_group!(benches, bench_cases);
