@@ -156,23 +156,153 @@ impl VisitMut for Remapper {
     }
 }
 
-pub(crate) struct MultiReplacer<'a> {
-    vars: &'a mut FxHashMap<Id, Box<Expr>>,
-    clone: bool,
-    mode: MultiReplacerMode,
-    worked: &'a mut bool,
+pub(crate) struct CloningMultiReplacer<'a> {
+    pub vars: &'a FxHashMap<Id, Box<Expr>>,
+    pub worked: bool,
+    pub mode: MultiReplacerMode,
+}
+
+impl<'a> CloningMultiReplacer<'a> {
+    /// `worked` will be changed to `true` if any replacement is done
+    pub fn new(vars: &'a FxHashMap<Id, Box<Expr>>, mode: MultiReplacerMode) -> Self {
+        CloningMultiReplacer {
+            vars,
+            mode,
+            worked: false,
+        }
+    }
+
+    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
+        let mut e = self.vars.get(i).cloned()?;
+
+        e.visit_mut_children_with(self);
+
+        match &*e {
+            Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) => Some(Box::new(Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: vec![0.into(), e],
+            }))),
+            _ => Some(e),
+        }
+    }
+
+    fn check(&mut self, e: &mut Expr) {
+        if let Expr::Ident(i) = e {
+            if let Some(new) = self.var(&i.to_id()) {
+                debug!("multi-replacer: Replaced `{}`", i);
+                self.worked = true;
+
+                *e = *new;
+            }
+        }
+    }
 }
 
 #[repr(u8)]
 #[derive(Debug, Clone, Copy)]
 
 pub enum MultiReplacerMode {
-    Normal,
     OnlyCallee,
     OnlyComparisonWithLit,
 }
 
-impl<'a> MultiReplacer<'a> {
+impl VisitMut for CloningMultiReplacer<'_> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_callee(&mut self, e: &mut Callee) {
+        e.visit_mut_children_with(self);
+
+        if matches!(self.mode, MultiReplacerMode::OnlyCallee) {
+            if let Callee::Expr(e) = e {
+                self.check(e);
+            }
+        }
+    }
+
+    fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
+        e.visit_mut_children_with(self);
+
+        if let MultiReplacerMode::OnlyComparisonWithLit = self.mode {
+            match e.op {
+                op!("===") | op!("!==") | op!("==") | op!("!=") => {
+                    //
+                    if e.left.is_lit() {
+                        self.check(&mut e.right);
+                    } else if e.right.is_lit() {
+                        self.check(&mut e.left);
+                    }
+                }
+                _ => {}
+            }
+        }
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if self.vars.is_empty() {
+            return;
+        }
+        e.visit_mut_children_with(self);
+
+        if self.vars.is_empty() {
+            return;
+        }
+
+        if matches!(self.mode, MultiReplacerMode::Normal) {
+            if let Expr::Ident(i) = e {
+                if let Some(new) = self.var(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}`", i);
+                    *self.worked = true;
+
+                    *e = *new;
+                }
+            }
+        }
+    }
+
+    fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        if self.vars.is_empty() {
+            return;
+        }
+        items.visit_mut_children_with(self);
+
+        #[cfg(feature = "debug")]
+        if !self.vars.is_empty() {
+            let keys = self.vars.iter().map(|(k, _)| k.clone()).collect::<Vec<_>>();
+            debug!("Dropping {:?}", keys);
+        }
+    }
+
+    fn visit_mut_prop(&mut self, p: &mut Prop) {
+        p.visit_mut_children_with(self);
+
+        if matches!(self.mode, MultiReplacerMode::Normal) {
+            if let Prop::Shorthand(i) = p {
+                if let Some(value) = self.var(&i.to_id()) {
+                    debug!("multi-replacer: Replaced `{}` as shorthand", i);
+                    *self.worked = true;
+
+                    *p = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident::new(
+                            i.sym.clone(),
+                            i.span.with_ctxt(Default::default()),
+                        )),
+                        value,
+                    });
+                }
+            }
+        }
+    }
+}
+
+pub(crate) struct NormalMultiReplacer<'a> {
+    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    pub worked: bool,
+}
+
+impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
     pub fn new(
         vars: &'a mut FxHashMap<Id, Box<Expr>>,
@@ -221,7 +351,7 @@ impl<'a> MultiReplacer<'a> {
     }
 }
 
-impl VisitMut for MultiReplacer<'_> {
+impl VisitMut for NormalMultiReplacer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_callee(&mut self, e: &mut Callee) {
