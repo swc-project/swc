@@ -46,6 +46,12 @@
 
 - **(es/minifier)** Ignore more expressions in sequential inliner (#5961) ([dcd516d](https://github.com/swc-project/swc/commit/dcd516d2bd5e9fcdc11a96c014671958ddede1de))
 
+### Miscellaneous Tasks
+
+
+
+- **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
+
 ### Testing
 
 
