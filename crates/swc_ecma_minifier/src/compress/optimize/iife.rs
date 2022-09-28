@@ -9,10 +9,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::VisitMutWith;
 
-use super::{
-    util::{MultiReplacer, MultiReplacerMode},
-    Optimizer,
-};
+use super::{util::NormalMultiReplacer, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
@@ -323,16 +320,13 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
-        N: for<'aa> VisitMutWith<MultiReplacer<'aa>>,
+        N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
         trace_op!("inline: inline_vars_in_node");
 
-        n.visit_mut_with(&mut MultiReplacer::new(
-            &mut vars,
-            false,
-            MultiReplacerMode::Normal,
-            &mut self.changed,
-        ));
+        let mut v = NormalMultiReplacer::new(&mut vars);
+        n.visit_mut_with(&mut v);
+        self.changed |= v.changed;
     }
 
     /// Fully inlines iife.
