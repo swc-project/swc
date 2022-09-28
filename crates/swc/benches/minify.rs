@@ -6,6 +6,7 @@ use std::{path::PathBuf, sync::Arc};
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::{config::JsMinifyOptions, try_with_handler, BoolOrDataConfig};
 use swc_common::{FilePathMapping, SourceMap};
+use swc_ecma_utils::swc_common::GLOBALS;
 
 fn mk() -> swc::Compiler {
     let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
@@ -31,25 +32,27 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
         );
 
         let res = try_with_handler(c.cm.clone(), Default::default(), |handler| {
-            c.minify(
-                fm,
-                handler,
-                &JsMinifyOptions {
-                    compress: BoolOrDataConfig::from_bool(true),
-                    mangle: BoolOrDataConfig::from_bool(true),
-                    format: Default::default(),
-                    ecma: Default::default(),
-                    keep_classnames: Default::default(),
-                    keep_fnames: Default::default(),
-                    module: Default::default(),
-                    safari10: Default::default(),
-                    toplevel: true,
-                    source_map: Default::default(),
-                    output_path: Default::default(),
-                    inline_sources_content: true,
-                    emit_source_map_columns: true,
-                },
-            )
+            GLOBALS.set(&Default::default(), || {
+                c.minify(
+                    fm,
+                    handler,
+                    &JsMinifyOptions {
+                        compress: BoolOrDataConfig::from_bool(true),
+                        mangle: BoolOrDataConfig::from_bool(true),
+                        format: Default::default(),
+                        ecma: Default::default(),
+                        keep_classnames: Default::default(),
+                        keep_fnames: Default::default(),
+                        module: Default::default(),
+                        safari10: Default::default(),
+                        toplevel: true,
+                        source_map: Default::default(),
+                        output_path: Default::default(),
+                        inline_sources_content: true,
+                        emit_source_map_columns: true,
+                    },
+                )
+            })
         })
         .unwrap();
 

@@ -5,6 +5,7 @@ use std::{io::stderr, path::Path};
 use criterion::{criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{Config, IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
+use swc_ecma_utils::swc_common::GLOBALS;
 
 fn mk() -> swc::Compiler {
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
@@ -21,18 +22,20 @@ fn bench_file(b: &mut Bencher, path: &Path) {
         let fm = c.cm.load_file(path).unwrap();
 
         let result = {
-            c.process_js_file(
-                fm,
-                &handler,
-                &Options {
-                    config: Config {
-                        is_module: IsModule::Bool(true),
+            GLOBALS.set(&Default::default(), || {
+                c.process_js_file(
+                    fm,
+                    &handler,
+                    &Options {
+                        config: Config {
+                            is_module: IsModule::Bool(true),
+                            ..Default::default()
+                        },
                         ..Default::default()
                     },
-                    ..Default::default()
-                },
-            )
-            .unwrap()
+                )
+                .unwrap()
+            })
         };
         println!("{}", result.code);
     });
