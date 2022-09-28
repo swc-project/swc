@@ -8,6 +8,9 @@
 - **(es/codegen)** Align sourcemap with terser (#5657) ([2ba8815](https://github.com/swc-project/swc/commit/2ba88154fced01cb6ad0428207cf88ad7ddee75c))
 
 
+- **(es/codegen)** Fix codegen of a negative number (#5980) ([bc2c0f4](https://github.com/swc-project/swc/commit/bc2c0f413396cc5ab436b1e87e5462f5c2475e4e))
+
+
 - **(es/compat)** Fix the order of initialization for decorators on computed keys (#5964) ([e410102](https://github.com/swc-project/swc/commit/e41010263379fc9a7676925f089aa9913c8f0f04))
 
 
