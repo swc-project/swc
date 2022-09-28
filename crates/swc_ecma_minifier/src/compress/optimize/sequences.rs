@@ -1284,7 +1284,7 @@ where
             | Expr::TsNonNull(_)
             | Expr::TsAs(_)
             | Expr::TsInstantiation(_)
-            | Expr::TsSatisfaction(_) => {}
+            | Expr::TsSatisfaction(_) => false,
         }
     }
 
