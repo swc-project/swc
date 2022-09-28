@@ -154,7 +154,7 @@ pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
 });
 
 // https://drafts.csswg.org/cssom/#serialize-an-identifier
-pub fn serialize_ident(value: &str) -> String {
+pub fn serialize_ident(value: &str, minify: bool) -> String {
     let mut result = String::with_capacity(value.len());
     let mut first = None;
 
@@ -197,7 +197,7 @@ pub fn serialize_ident(value: &str) -> String {
                 ))
         {
             // ... then the character escaped as code point.
-            result.push_str(&hex_escape(c as u8));
+            result.push_str(&hex_escape(c as u8, minify));
 
             continue;
         }
@@ -225,25 +225,29 @@ fn is_name(c: char) -> bool {
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L166
-fn hex_escape(ascii_byte: u8) -> String {
+fn hex_escape(ascii_byte: u8, minify: bool) -> String {
     static HEX_DIGITS: &[u8; 16] = b"0123456789abcdef";
 
-    let b3;
-    let b4;
-
-    let bytes = if ascii_byte > 0x0f {
+    if ascii_byte > 0x0f {
         let high = (ascii_byte >> 4) as usize;
         let low = (ascii_byte & 0x0f) as usize;
-        b4 = [b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' '];
-        &b4[..]
-    } else {
-        b3 = [b'\\', HEX_DIGITS[ascii_byte as usize], b' '];
-        &b3[..]
-    };
 
-    // SAFETY: We know it's valid to convert bytes to &str 'cause it's all valid
-    // ASCII
-    unsafe { str::from_utf8_unchecked(bytes) }.to_string()
+        if minify {
+            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low]]) }
+                .to_string()
+        } else {
+            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[high], HEX_DIGITS[low], b' ']) }
+                .to_string()
+        }
+    } else {
+        if minify {
+            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize]]) }
+                .to_string()
+        } else {
+            unsafe { str::from_utf8_unchecked(&[b'\\', HEX_DIGITS[ascii_byte as usize], b' ']) }
+                .to_string()
+        }
+    }
 }
 
 // https://github.com/servo/rust-cssparser/blob/4c5d065798ea1be649412532bde481dbd404f44a/src/serializer.rs#L185
