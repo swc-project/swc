@@ -34,8 +34,7 @@ use crate::{
     mode::Mode,
     option::CompressOptions,
     util::{
-        contains_eval, contains_leaping_continue_with_label, contains_leaping_yield, make_number,
-        ExprOptExt, ModuleItemExt,
+        contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
 };
 
@@ -1152,81 +1151,6 @@ where
         }
 
         Some(e.take())
-    }
-
-    fn merge_var_decls(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.options.join_vars && !self.options.hoist_vars {
-            return;
-        }
-        if self.ctx.in_asm {
-            return;
-        }
-
-        // Merge var declarations fully, if possible.
-        if stmts.windows(2).any(|stmts| match (&stmts[0], &stmts[1]) {
-            (Stmt::Decl(Decl::Var(a)), Stmt::Decl(Decl::Var(b))) => {
-                a.kind == b.kind && !contains_leaping_yield(a) && !contains_leaping_yield(b)
-            }
-            _ => false,
-        }) {
-            self.changed = true;
-
-            report_change!("Merging variable declarations");
-            dump_change_detail!(
-                "[Before]: {}",
-                dump(
-                    &BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: stmts.clone()
-                    },
-                    false
-                )
-            );
-
-            let orig = take(stmts);
-            let mut new = Vec::with_capacity(orig.len());
-
-            let mut var_decl: Option<Box<VarDecl>> = None;
-
-            for stmt in orig {
-                match stmt {
-                    Stmt::Decl(Decl::Var(below)) => {
-                        //
-                        match var_decl.take() {
-                            Some(mut upper) if upper.kind == below.kind => {
-                                upper.decls.extend(below.decls);
-                                var_decl = Some(upper);
-                            }
-                            d => {
-                                new.extend(d.map(Decl::Var).map(Stmt::Decl));
-                                var_decl = Some(below);
-                            }
-                        }
-                    }
-                    _ => {
-                        // If it's not a var decl,
-
-                        new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
-                        new.push(stmt);
-                    }
-                }
-            }
-
-            new.extend(var_decl.take().map(Decl::Var).map(Stmt::Decl));
-
-            dump_change_detail!(
-                "[Change] merged: {}",
-                dump(
-                    &BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: new.clone()
-                    },
-                    false
-                )
-            );
-
-            *stmts = new
-        }
     }
 
     fn try_removing_block(&mut self, s: &mut Stmt, unwrap_more: bool, allow_fn_decl: bool) {
@@ -2526,8 +2450,6 @@ where
         self.with_ctx(ctx).inject_else(stmts);
 
         self.with_ctx(ctx).handle_stmt_likes(stmts);
-
-        self.with_ctx(ctx).merge_var_decls(stmts);
 
         drop_invalid_stmts(stmts);
 

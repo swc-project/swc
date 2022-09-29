@@ -200,6 +200,7 @@ where
     v.found_continue_with_label
 }
 
+#[allow(unused)]
 pub(crate) fn contains_leaping_yield<N>(n: &N) -> bool
 where
     N: VisitWith<LeapFinder>,
