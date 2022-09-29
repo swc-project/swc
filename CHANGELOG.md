@@ -64,6 +64,9 @@
 
 - **(es/minifier)** Drop more variables while invoking IIFE (#5987) ([c411e5d](https://github.com/swc-project/swc/commit/c411e5d55292c83d73f821e3a1e285cf3584b668))
 
+
+- **(es/minifier)** Improve fn-local analysis for better inlining (#5955) ([1a11cfd](https://github.com/swc-project/swc/commit/1a11cfd46fd8269934f33c1128e48a47d5de093e))
+
 ### Miscellaneous Tasks
 
 
