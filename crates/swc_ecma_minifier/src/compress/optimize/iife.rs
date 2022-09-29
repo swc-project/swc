@@ -801,6 +801,7 @@ where
                             )
                         )
                     {
+                        self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
                 }
