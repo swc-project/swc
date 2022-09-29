@@ -23,6 +23,7 @@ mod supports;
 mod time;
 mod transform_function;
 mod unicode_range;
+mod unit;
 mod url;
 
 pub fn compressor() -> impl VisitMut {

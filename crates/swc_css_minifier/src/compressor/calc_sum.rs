@@ -2,7 +2,7 @@ use swc_atoms::js_word;
 use swc_common::Span;
 use swc_css_ast::*;
 
-use super::Compressor;
+use super::{unit::*, Compressor};
 
 fn is_calc_function_name(ident: &Ident) -> bool {
     ident.value.to_ascii_lowercase() == js_word!("calc")
@@ -251,7 +251,7 @@ fn try_to_sum_calc_products(
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(t1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(t2))),
-            ) => try_to_sum_times(&value1.span, t1, t2, sum),
+            ) => try_to_sum_durations(&value1.span, t1, t2, sum),
             (
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f1))),
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f2))),
@@ -336,108 +336,52 @@ fn try_to_sum_lengths(
     l2: &Length,
     sum: SumOperation,
 ) -> Option<CalcProduct> {
-    // See the ratio: https://www.w3.org/TR/css-values-4/#absolute-lengths
-    let result: Option<(Ident, f64)> = match (
-        l1.unit.value.to_ascii_lowercase(),
-        l2.unit.value.to_ascii_lowercase(),
-    ) {
-        // Same units
-        (u1, u2) if u1 == u2 => Some((l1.unit.clone(), sum(l1.value.value, l2.value.value))),
-        // mm <-> cm
-        (js_word!("mm"), js_word!("cm")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 10.0)))
-        }
-        (js_word!("cm"), js_word!("mm")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 10.0, l2.value.value)))
-        }
-        // q <-> cm
-        (js_word!("q"), js_word!("cm")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 40.0)))
-        }
-        (js_word!("cm"), js_word!("q")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 40.0, l2.value.value)))
-        }
-        // q <-> mm
-        (js_word!("q"), js_word!("mm")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 4.0)))
-        }
-        (js_word!("mm"), js_word!("q")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 4.0, l2.value.value)))
-        }
-        // px <-> in
-        (js_word!("px"), js_word!("in")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 96.0)))
-        }
-        (js_word!("in"), js_word!("px")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 96.0, l2.value.value)))
-        }
-        // pc <-> in
-        (js_word!("pc"), js_word!("in")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 6.0)))
-        }
-        (js_word!("in"), js_word!("pc")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 6.0, l2.value.value)))
-        }
-        // pt <-> in
-        (js_word!("pt"), js_word!("in")) => {
-            Some((l1.unit.clone(), sum(l1.value.value, l2.value.value * 72.0)))
-        }
-        (js_word!("in"), js_word!("pt")) => {
-            Some((l2.unit.clone(), sum(l1.value.value * 72.0, l2.value.value)))
-        }
-        _ => None,
-    };
+    let unit1 = l1.unit.value.to_ascii_lowercase();
+    let unit2 = l2.unit.value.to_ascii_lowercase();
 
-    result.map(|res| CalcProduct {
-        span: *span,
-        expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
-            Dimension::Length(Length {
-                span: l1.span,
-                value: Number {
-                    span: l1.value.span,
-                    value: res.1,
-                    raw: None,
-                },
-                unit: res.0,
-            }),
-        ))],
-    })
+    get_length_ratio(&unit1, &unit2)
+        .map(|ratio| sum(l1.value.value, l2.value.value * ratio))
+        .map(|value| CalcProduct {
+            span: *span,
+            expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
+                Dimension::Length(Length {
+                    span: l1.span,
+                    value: Number {
+                        span: l1.value.span,
+                        value,
+                        raw: None,
+                    },
+                    unit: l1.unit.clone(),
+                }),
+            ))],
+        })
 }
 
-fn try_to_sum_times(span: &Span, t1: &Time, t2: &Time, sum: SumOperation) -> Option<CalcProduct> {
-    // See the ratio: https://www.w3.org/TR/css-values-4/#absolute-lengths
-    let result: Option<(Ident, f64)> = match (
-        t1.unit.value.to_ascii_lowercase(),
-        t2.unit.value.to_ascii_lowercase(),
-    ) {
-        // Same units
-        (u1, u2) if u1 == u2 => Some((t1.unit.clone(), sum(t1.value.value, t2.value.value))),
-        // ms <-> s
-        (js_word!("ms"), js_word!("s")) => Some((
-            t1.unit.clone(),
-            sum(t1.value.value, t2.value.value * 1000.0),
-        )),
-        (js_word!("s"), js_word!("ms")) => Some((
-            t2.unit.clone(),
-            sum(t1.value.value * 1000.0, t2.value.value),
-        )),
-        _ => None,
-    };
+fn try_to_sum_durations(
+    span: &Span,
+    t1: &Time,
+    t2: &Time,
+    sum: SumOperation,
+) -> Option<CalcProduct> {
+    let unit1 = t1.unit.value.to_ascii_lowercase();
+    let unit2 = t2.unit.value.to_ascii_lowercase();
 
-    result.map(|res| CalcProduct {
-        span: *span,
-        expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
-            Dimension::Time(Time {
-                span: t1.span,
-                value: Number {
-                    span: t1.value.span,
-                    value: res.1,
-                    raw: None,
-                },
-                unit: res.0,
-            }),
-        ))],
-    })
+    get_duration_ratio(&unit1, &unit2)
+        .map(|ratio| sum(t1.value.value, t2.value.value * ratio))
+        .map(|value| CalcProduct {
+            span: *span,
+            expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
+                Dimension::Time(Time {
+                    span: t1.span,
+                    value: Number {
+                        span: t1.value.span,
+                        value,
+                        raw: None,
+                    },
+                    unit: t1.unit.clone(),
+                }),
+            ))],
+        })
 }
 
 fn try_to_sum_frequencies(
@@ -446,39 +390,25 @@ fn try_to_sum_frequencies(
     f2: &Frequency,
     sum: SumOperation,
 ) -> Option<CalcProduct> {
-    // See the ratio: https://www.w3.org/TR/css-values-4/#absolute-lengths
-    let result: Option<(Ident, f64)> = match (
-        f1.unit.value.to_ascii_lowercase(),
-        f2.unit.value.to_ascii_lowercase(),
-    ) {
-        // Same units
-        (u1, u2) if u1 == u2 => Some((f1.unit.clone(), sum(f1.value.value, f2.value.value))),
-        // Hz <-> kHz
-        (js_word!("hz"), js_word!("khz")) => Some((
-            f1.unit.clone(),
-            sum(f1.value.value, f2.value.value * 1000.0),
-        )),
-        (js_word!("khz"), js_word!("hz")) => Some((
-            f2.unit.clone(),
-            sum(f1.value.value * 1000.0, f2.value.value),
-        )),
-        _ => None,
-    };
+    let unit1 = f1.unit.value.to_ascii_lowercase();
+    let unit2 = f2.unit.value.to_ascii_lowercase();
 
-    result.map(|res| CalcProduct {
-        span: *span,
-        expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
-            Dimension::Frequency(Frequency {
-                span: f1.span,
-                value: Number {
-                    span: f1.value.span,
-                    value: res.1,
-                    raw: None,
-                },
-                unit: res.0,
-            }),
-        ))],
-    })
+    get_frequency_ratio(&unit1, &unit2)
+        .map(|ratio| sum(f1.value.value, f2.value.value * ratio))
+        .map(|value| CalcProduct {
+            span: *span,
+            expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
+                Dimension::Frequency(Frequency {
+                    span: f1.span,
+                    value: Number {
+                        span: f1.value.span,
+                        value,
+                        raw: None,
+                    },
+                    unit: f1.unit.clone(),
+                }),
+            ))],
+        })
 }
 
 fn try_to_sum_resolutions(
@@ -487,37 +417,25 @@ fn try_to_sum_resolutions(
     r2: &Resolution,
     sum: SumOperation,
 ) -> Option<CalcProduct> {
-    // See the ratio: https://www.w3.org/TR/css-values-4/#absolute-lengths
-    let result: Option<(Ident, f64)> = match (
-        r1.unit.value.to_ascii_lowercase(),
-        r2.unit.value.to_ascii_lowercase(),
-    ) {
-        // Same units
-        (u1, u2) if u1 == u2 => Some((r1.unit.clone(), sum(r1.value.value, r2.value.value))),
-        // Hz <-> kHz
-        (js_word!("dpi"), js_word!("dppx")) => {
-            Some((r1.unit.clone(), sum(r1.value.value, r2.value.value * 96.0)))
-        }
-        (js_word!("dppx"), js_word!("dpi")) => {
-            Some((r2.unit.clone(), sum(r1.value.value * 96.0, r2.value.value)))
-        }
-        _ => None,
-    };
+    let unit1 = r1.unit.value.to_ascii_lowercase();
+    let unit2 = r2.unit.value.to_ascii_lowercase();
 
-    result.map(|res| CalcProduct {
-        span: *span,
-        expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
-            Dimension::Resolution(Resolution {
-                span: r1.span,
-                value: Number {
-                    span: r1.value.span,
-                    value: res.1,
-                    raw: None,
-                },
-                unit: res.0,
-            }),
-        ))],
-    })
+    get_resolution_ratio(&unit1, &unit2)
+        .map(|ratio| sum(r1.value.value, r2.value.value * ratio))
+        .map(|value| CalcProduct {
+            span: *span,
+            expressions: vec![CalcValueOrOperator::Value(CalcValue::Dimension(
+                Dimension::Resolution(Resolution {
+                    span: r1.span,
+                    value: Number {
+                        span: r1.value.span,
+                        value,
+                        raw: None,
+                    },
+                    unit: r1.unit.clone(),
+                }),
+            ))],
+        })
 }
 
 fn fold_calc_product(calc_product: &mut CalcProduct) {
