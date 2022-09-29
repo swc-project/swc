@@ -15421,25 +15421,12 @@
                             var e = r(655);
                             i = e.isDeepEqual, o = e.isDeepStrictEqual;
                         }
-                        var D = !1, w = e.exports = A, E = {};
+                        var D = !1, w = e.exports = S, E = {};
                         function _(e) {
                             if (e.message instanceof Error) throw e.message;
                             throw new d(e);
                         }
-                        function x(e, t, r, n, i) {
-                            var o, a = arguments.length;
-                            if (0 === a ? o = "Failed" : 1 === a ? (r = e, e = void 0) : (!1 === D && (D = !0, (process.emitWarning ? process.emitWarning : console.warn.bind(console))("assert.fail() with more than one argument is deprecated. Please use assert.strictEqual() instead or only pass a message.", "DeprecationWarning", "DEP0094")), 2 === a && (n = "!=")), r instanceof Error) throw r;
-                            var u = {
-                                actual: e,
-                                expected: t,
-                                operator: void 0 === n ? "fail" : n,
-                                stackStartFn: i || x
-                            };
-                            void 0 !== r && (u.message = r);
-                            var l = new d(u);
-                            throw o && (l.message = o, l.generatedMessage = !0), l;
-                        }
-                        function S(e, t, r, n) {
+                        function x(e, t, r, n) {
                             if (!r) {
                                 var i = !1;
                                 if (0 === t) i = !0, n = "No value argument passed to `assert.ok()`";
@@ -15454,14 +15441,26 @@
                                 throw o.generatedMessage = i, o;
                             }
                         }
-                        function A() {
+                        function S() {
                             for(var e = arguments.length, t = Array(e), r = 0; r < e; r++)t[r] = arguments[r];
-                            S.apply(void 0, [
-                                A,
+                            x.apply(void 0, [
+                                S,
                                 t.length
                             ].concat(t));
                         }
-                        w.fail = x, w.AssertionError = d, w.ok = A, w.equal = function e(t, r, n) {
+                        w.fail = function e(t, r, n, i, o) {
+                            var a, u = arguments.length;
+                            if (0 === u ? a = "Failed" : 1 === u ? (n = t, t = void 0) : (!1 === D && (D = !0, (process.emitWarning ? process.emitWarning : console.warn.bind(console))("assert.fail() with more than one argument is deprecated. Please use assert.strictEqual() instead or only pass a message.", "DeprecationWarning", "DEP0094")), 2 === u && (i = "!=")), n instanceof Error) throw n;
+                            var l = {
+                                actual: t,
+                                expected: r,
+                                operator: void 0 === i ? "fail" : i,
+                                stackStartFn: o || e
+                            };
+                            void 0 !== n && (l.message = n);
+                            var s = new d(l);
+                            throw a && (s.message = a, s.generatedMessage = !0), s;
+                        }, w.AssertionError = d, w.ok = S, w.equal = function e(t, r, n) {
                             if (arguments.length < 2) throw new f("actual", "expected");
                             t != r && _({
                                 actual: t,
@@ -15534,7 +15533,7 @@
                                 stackStartFn: e
                             });
                         };
-                        var k = function e(t, r, n) {
+                        var A = function e(t, r, n) {
                             var i = this;
                             !function(e, t) {
                                 if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
@@ -15542,7 +15541,7 @@
                                 e in t && (void 0 !== n && "string" == typeof n[e] && g(t[e]) && t[e].test(n[e]) ? i[e] = n[e] : i[e] = t[e]);
                             });
                         };
-                        function T(e, t, r, a) {
+                        function k(e, t, r, a) {
                             if ("function" != typeof t) {
                                 if (g(t)) return t.test(e);
                                 if (2 === arguments.length) throw new l("expected", [
@@ -15566,7 +15565,7 @@
                                     "string" == typeof e[n] && g(t[n]) && t[n].test(e[n]) || function(e, t, r, n, i, a) {
                                         if (!(r in e) || !o(e[r], t[r])) {
                                             if (!n) {
-                                                var u = new k(e, i), l = new k(t, i, e), s = new d({
+                                                var u = new A(e, i), l = new A(t, i, e), s = new d({
                                                     actual: u,
                                                     expected: l,
                                                     operator: "deepStrictEqual",
@@ -15587,7 +15586,7 @@
                             }
                             return void 0 !== t.prototype && e instanceof t || !Error.isPrototypeOf(t) && !0 === t.call({}, e);
                         }
-                        function O(e) {
+                        function T(e) {
                             if ("function" != typeof e) throw new l("fn", "Function", e);
                             try {
                                 e();
@@ -15596,15 +15595,15 @@
                             }
                             return E;
                         }
-                        function C(e) {
+                        function O(e) {
                             return y(e) || null !== e && "object" === n(e) && "function" == typeof e.then && "function" == typeof e.catch;
                         }
-                        function P(e) {
+                        function C(e) {
                             return Promise.resolve().then(function() {
                                 var t;
                                 if ("function" == typeof e) {
-                                    if (!C(t = e())) throw new c("instance of Promise", "promiseFn", t);
-                                } else if (C(e)) t = e;
+                                    if (!O(t = e())) throw new c("instance of Promise", "promiseFn", t);
+                                } else if (O(e)) t = e;
                                 else throw new l("promiseFn", [
                                     "Function",
                                     "Promise"
@@ -15618,7 +15617,7 @@
                                 });
                             });
                         }
-                        function F(e, t, r, i) {
+                        function P(e, t, r, i) {
                             if ("string" == typeof r) {
                                 if (4 === arguments.length) throw new l("error", [
                                     "Object",
@@ -15648,11 +15647,11 @@
                                     stackStartFn: e
                                 });
                             }
-                            if (r && !T(t, r, i, e)) throw t;
+                            if (r && !k(t, r, i, e)) throw t;
                         }
-                        function R(e, t, r, n) {
+                        function F(e, t, r, n) {
                             if (t !== E) {
-                                if ("string" == typeof r && (n = r, r = void 0), !r || T(t, r)) {
+                                if ("string" == typeof r && (n = r, r = void 0), !r || k(t, r)) {
                                     var i = n ? ": ".concat(n) : ".", o = "doesNotReject" === e.name ? "rejection" : "exception";
                                     _({
                                         actual: t,
@@ -15667,28 +15666,28 @@
                         }
                         w.throws = function e(t) {
                             for(var r = arguments.length, n = Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++)n[i - 1] = arguments[i];
-                            F.apply(void 0, [
+                            P.apply(void 0, [
                                 e,
-                                O(t)
+                                T(t)
                             ].concat(n));
                         }, w.rejects = function e(t) {
                             for(var r = arguments.length, n = Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++)n[i - 1] = arguments[i];
-                            return P(t).then(function(t) {
-                                return F.apply(void 0, [
+                            return C(t).then(function(t) {
+                                return P.apply(void 0, [
                                     e,
                                     t
                                 ].concat(n));
                             });
                         }, w.doesNotThrow = function e(t) {
                             for(var r = arguments.length, n = Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++)n[i - 1] = arguments[i];
-                            R.apply(void 0, [
+                            F.apply(void 0, [
                                 e,
-                                O(t)
+                                T(t)
                             ].concat(n));
                         }, w.doesNotReject = function e(t) {
                             for(var r = arguments.length, n = Array(r > 1 ? r - 1 : 0), i = 1; i < r; i++)n[i - 1] = arguments[i];
-                            return P(t).then(function(t) {
-                                return R.apply(void 0, [
+                            return C(t).then(function(t) {
+                                return F.apply(void 0, [
                                     e,
                                     t
                                 ].concat(n));
@@ -15720,7 +15719,7 @@
                             }
                         }, w.strict = v(function e() {
                             for(var t = arguments.length, r = Array(t), n = 0; n < t; n++)r[n] = arguments[n];
-                            S.apply(void 0, [
+                            x.apply(void 0, [
                                 e,
                                 r.length
                             ].concat(r));
@@ -21267,44 +21266,43 @@
                                     i.pipes.push(e);
                             }
                             i.pipesCount += 1, a("pipe count=%d opts=%j", i.pipesCount, t);
-                            var o = t && !1 === t.end || e === n.stdout || e === n.stderr ? g : l;
-                            function u(t, n) {
-                                a("onunpipe"), t === r && n && !1 === n.hasUnpiped && (n.hasUnpiped = !0, a("cleanup"), e.removeListener("close", h), e.removeListener("finish", y), e.removeListener("drain", s), e.removeListener("error", p), e.removeListener("unpipe", u), r.removeListener("end", l), r.removeListener("end", g), r.removeListener("data", d), f = !0, i.awaitDrain && (!e._writableState || e._writableState.needDrain) && s());
-                            }
-                            function l() {
+                            var o = t && !1 === t.end || e === n.stdout || e === n.stderr ? y : u;
+                            function u() {
                                 a("onend"), e.end();
                             }
-                            i.endEmitted ? n.nextTick(o) : r.once("end", o), e.on("unpipe", u);
-                            var s = function() {
+                            i.endEmitted ? n.nextTick(o) : r.once("end", o), e.on("unpipe", function t(n, o) {
+                                a("onunpipe"), n === r && o && !1 === o.hasUnpiped && (o.hasUnpiped = !0, a("cleanup"), e.removeListener("close", p), e.removeListener("finish", h), e.removeListener("drain", l), e.removeListener("error", d), e.removeListener("unpipe", t), r.removeListener("end", u), r.removeListener("end", y), r.removeListener("data", f), s = !0, i.awaitDrain && (!e._writableState || e._writableState.needDrain) && l());
+                            });
+                            var l = function() {
                                 var e = r._readableState;
                                 a("pipeOnDrain", e.awaitDrain), e.awaitDrain && e.awaitDrain--, 0 === e.awaitDrain && c(r, "data") && (e.flowing = !0, M(r));
                             };
-                            e.on("drain", s);
-                            var f = !1;
-                            function d(t) {
+                            e.on("drain", l);
+                            var s = !1;
+                            function f(t) {
                                 a("ondata");
                                 var n = e.write(t);
-                                a("dest.write", n), !1 === n && ((1 === i.pipesCount && i.pipes === e || i.pipesCount > 1 && -1 !== z(i.pipes, e)) && !f && (a("false write response, pause", i.awaitDrain), i.awaitDrain++), r.pause());
+                                a("dest.write", n), !1 === n && ((1 === i.pipesCount && i.pipes === e || i.pipesCount > 1 && -1 !== z(i.pipes, e)) && !s && (a("false write response, pause", i.awaitDrain), i.awaitDrain++), r.pause());
                             }
-                            function p(t) {
-                                a("onerror", t), g(), e.removeListener("error", p), 0 === c(e, "error") && _(e, t);
+                            function d(t) {
+                                a("onerror", t), y(), e.removeListener("error", d), 0 === c(e, "error") && _(e, t);
+                            }
+                            function p() {
+                                e.removeListener("finish", h), y();
                             }
                             function h() {
-                                e.removeListener("finish", y), g();
+                                a("onfinish"), e.removeListener("close", p), y();
                             }
                             function y() {
-                                a("onfinish"), e.removeListener("close", h), g();
-                            }
-                            function g() {
                                 a("unpipe"), r.unpipe(e);
                             }
-                            return r.on("data", d), function(e, t, r) {
+                            return r.on("data", f), function(e, t, r) {
                                 if ("function" == typeof e.prependListener) return e.prependListener(t, r);
                                 e._events && e._events[t] ? Array.isArray(e._events[t]) ? e._events[t].unshift(r) : e._events[t] = [
                                     r,
                                     e._events[t]
                                 ] : e.on(t, r);
-                            }(e, "error", p), e.once("close", h), e.once("finish", y), e.emit("pipe", r), i.flowing || (a("pipe resume"), r.resume()), e;
+                            }(e, "error", d), e.once("close", p), e.once("finish", h), e.emit("pipe", r), i.flowing || (a("pipe resume"), r.resume()), e;
                         }, A.prototype.unpipe = function(e) {
                             var t = this._readableState, r = {
                                 hasUnpiped: !1
@@ -24374,10 +24372,9 @@
                 function r(e) {
                     t.end(e);
                 }
-                function n(i) {
+                this.on("error", r), this.on("end", function n(i) {
                     t.removeListener("error", r), t.removeListener("end", n), e(i, this.results);
-                }
-                this.on("error", r), this.on("end", n);
+                });
             }
             function l(e) {
                 this.session++, this.running = !1, this.emit("end", e);

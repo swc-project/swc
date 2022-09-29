@@ -85,9 +85,10 @@ impl Storage for ProgramData {
 
                     e.get_mut().pure_fn |= var_info.pure_fn;
 
-                    if !var_info.is_fn_local {
-                        e.get_mut().is_fn_local = false;
-                    }
+                    e.get_mut().used_recursively |= var_info.used_recursively;
+
+                    e.get_mut().is_fn_local &= var_info.is_fn_local;
+                    e.get_mut().used_in_non_child_fn |= var_info.used_in_non_child_fn;
 
                     if var_info.var_initialized {
                         if e.get().var_initialized || e.get().ref_count > 0 {
@@ -99,12 +100,14 @@ impl Storage for ProgramData {
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;
-                            e.get_mut().used_by_nested_fn = true;
+                            if !var_info.used_recursively {
+                                e.get_mut().used_in_non_child_fn = true
+                            }
                         }
                         ScopeKind::Block => {
-                            if var_info.used_by_nested_fn {
+                            if var_info.used_in_non_child_fn {
                                 e.get_mut().is_fn_local = false;
-                                e.get_mut().used_by_nested_fn = true;
+                                e.get_mut().used_in_non_child_fn = true;
                             }
                         }
                     }
@@ -112,7 +115,9 @@ impl Storage for ProgramData {
                 Entry::Vacant(e) => {
                     match kind {
                         ScopeKind::Fn => {
-                            var_info.used_by_nested_fn = true;
+                            if !var_info.used_recursively {
+                                var_info.used_in_non_child_fn = true
+                            }
                         }
                         ScopeKind::Block => {}
                     }
@@ -149,7 +154,7 @@ impl Storage for ProgramData {
                     v.assign_count += 1;
                 }
 
-                if v.used_by_nested_fn {
+                if v.used_in_non_child_fn {
                     v.is_fn_local = false;
                 }
             })
@@ -337,5 +342,9 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_above_decl(&mut self) {
         self.used_above_decl = true;
+    }
+
+    fn mark_used_recursively(&mut self) {
+        self.used_recursively = true;
     }
 }

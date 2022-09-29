@@ -7801,10 +7801,9 @@
     function VideoTexture(video, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy) {
         Texture.call(this, video, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy), this.format = void 0 !== format ? format : 1022, this.minFilter = void 0 !== minFilter ? minFilter : 1006, this.magFilter = void 0 !== magFilter ? magFilter : 1006, this.generateMipmaps = !1;
         var scope = this;
-        function updateVideo() {
+        'requestVideoFrameCallback' in video && video.requestVideoFrameCallback(function updateVideo() {
             scope.needsUpdate = !0, video.requestVideoFrameCallback(updateVideo);
-        }
-        'requestVideoFrameCallback' in video && video.requestVideoFrameCallback(updateVideo);
+        });
     }
     function CompressedTexture(mipmaps, width, height, format, type, mapping, wrapS, wrapT, magFilter, minFilter, anisotropy, encoding) {
         Texture.call(this, null, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy, encoding), this.image = {

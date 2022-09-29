@@ -5,7 +5,7 @@ use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory, IdentUsageFinder,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -181,11 +181,16 @@ where
         }
 
         if let Expr::Fn(FnExpr {
-            ident: Some(ident),
-            function,
+            ident: Some(ident), ..
         }) = callee
         {
-            if IdentUsageFinder::find(&ident.to_id(), &*function) {
+            if self
+                .data
+                .vars
+                .get(&ident.to_id())
+                .filter(|usage| usage.used_recursively)
+                .is_some()
+            {
                 return;
             }
         }
@@ -541,7 +546,13 @@ where
                 }
 
                 if let Some(i) = &f.ident {
-                    if IdentUsageFinder::find(&i.to_id(), &f.function.body) {
+                    if self
+                        .data
+                        .vars
+                        .get(&i.to_id())
+                        .filter(|usage| usage.used_recursively)
+                        .is_some()
+                    {
                         log_abort!("iife: [x] Recursive?");
                         return;
                     }

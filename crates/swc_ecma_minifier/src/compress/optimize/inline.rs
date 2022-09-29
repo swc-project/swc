@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt, IdentUsageFinder};
+use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
 
 use super::Optimizer;
 use crate::{
@@ -508,7 +508,7 @@ where
 
                     match &f.function.body {
                         Some(body) => {
-                            if !IdentUsageFinder::find(&i.to_id(), body)
+                            if !usage.used_recursively
                                 && self.is_fn_body_simple_enough_to_inline(
                                     body,
                                     f.function.params.len(),
@@ -570,9 +570,10 @@ where
             // seems like a correct check, but it's way to aggressive.
             // It does not break the code, but everything like _asyncToGenerator is inlined.
             //
+            println!("{} {:#?}", i.sym, usage);
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.is_fn_local || usage.used_as_callee)
+                && (usage.is_fn_local || !usage.used_in_non_child_fn || usage.used_as_callee)
                 && !usage.executed_multiple_time
                 && !usage.inline_prevented
                 && (match decl {
@@ -613,7 +614,7 @@ where
                         class: c.class,
                     })),
                     Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                        ident: if IdentUsageFinder::find(&f.ident.to_id(), &f.function) {
+                        ident: if usage.used_recursively {
                             Some(f.ident)
                         } else {
                             None

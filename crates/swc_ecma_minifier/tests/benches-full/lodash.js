@@ -1416,7 +1416,7 @@
         }
         function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
             var isAry = 128 & bitmask, isBind = 1 & bitmask, isBindKey = 2 & bitmask, isCurried = 24 & bitmask, isFlip = 512 & bitmask, Ctor = isBindKey ? undefined : createCtor(func);
-            function wrapper() {
+            return function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length; index--;)args[index] = arguments[index];
                 if (isCurried) var placeholder = getHolder(wrapper), holdersCount = function(array, placeholder) {
                     for(var length = array.length, result = 0; length--;)array[length] === placeholder && ++result;
@@ -1434,8 +1434,7 @@
                     }
                     return array;
                 }(args, argPos) : isFlip && length > 1 && args.reverse(), isAry && ary < length && (args.length = ary), this && this !== root && this instanceof wrapper && (fn = Ctor || createCtor(fn)), fn.apply(thisBinding, args);
-            }
-            return wrapper;
+            };
         }
         function createInverter(setter, toIteratee) {
             return function(object, iteratee) {
@@ -1564,23 +1563,19 @@
                     data[3] = partials ? composeArgs(partials, value, source[4]) : value, data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
                 }
                 (value = source[5]) && (partials = data[5], data[5] = partials ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
-            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? result = function(func, bitmask, arity) {
-                var Ctor = createCtor(func);
-                function wrapper() {
-                    for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
-                    var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
-                    if ((length -= holders.length) < arity) return createRecurry(func, bitmask, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity - length);
-                    var fn = this && this !== root && this instanceof wrapper ? Ctor : func;
-                    return apply(fn, this, args);
-                }
-                return wrapper;
-            }(func, bitmask, arity) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func1 = func, bitmask1 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask1, Ctor = createCtor(func1), result = function wrapper() {
-                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor : func1; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
+            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
+                for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
+                var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
+                if ((length -= holders.length) < arity1) return createRecurry(func1, bitmask1, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity1 - length);
+                var fn = this && this !== root && this instanceof wrapper ? Ctor : func1;
+                return apply(fn, this, args);
+            }) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func2 = func, bitmask2 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask2, Ctor1 = createCtor(func2), result = function wrapper() {
+                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor1 : func2; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
                 for(; argsLength--;)args[leftIndex++] = arguments[++argsIndex];
                 return apply(fn, isBind ? thisArg1 : this, args);
             });
-            else var func1, bitmask1, thisArg1, partials1, isBind, Ctor, func2, bitmask2, thisArg2, isBind1, Ctor1, result = (func2 = func, bitmask2 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask2, Ctor1 = createCtor(func2), function wrapper() {
-                return (this && this !== root && this instanceof wrapper ? Ctor1 : func2).apply(isBind1 ? thisArg2 : this, arguments);
+            else var func1, bitmask1, arity1, Ctor, func2, bitmask2, thisArg1, partials1, isBind, Ctor1, func3, bitmask3, thisArg2, isBind1, Ctor2, result = (func3 = func, bitmask3 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask3, Ctor2 = createCtor(func3), function wrapper() {
+                return (this && this !== root && this instanceof wrapper ? Ctor2 : func3).apply(isBind1 ? thisArg2 : this, arguments);
             });
             return setWrapToString((data ? baseSetData : setData)(result, newData), func, bitmask);
         }
@@ -2006,16 +2001,6 @@
             }
             return createWrap(key, bitmask, object, partials, holders);
         });
-        function curry(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curry.placeholder, result;
-        }
-        function curryRight(func, arity, guard) {
-            arity = guard ? undefined : arity;
-            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
-            return result.placeholder = curryRight.placeholder, result;
-        }
         function debounce(func, wait, options) {
             var lastArgs, lastThis, maxWait, result, timerId, lastCallTime, lastInvokeTime = 0, leading = !1, maxing = !1, trailing = !0;
             if ('function' != typeof func) throw new TypeError(FUNC_ERROR_TEXT);
@@ -2463,7 +2448,15 @@
         }, lodash.constant = constant, lodash.countBy = countBy, lodash.create = function(prototype, properties) {
             var result = baseCreate(prototype);
             return null == properties ? result : baseAssign(result, properties);
-        }, lodash.curry = curry, lodash.curryRight = curryRight, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = function(array, n, guard) {
+        }, lodash.curry = function curry(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 8, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curry.placeholder, result;
+        }, lodash.curryRight = function curryRight(func, arity, guard) {
+            arity = guard ? undefined : arity;
+            var result = createWrap(func, 16, undefined, undefined, undefined, undefined, undefined, arity);
+            return result.placeholder = curryRight.placeholder, result;
+        }, lodash.debounce = debounce, lodash.defaults = defaults, lodash.defaultsDeep = defaultsDeep, lodash.defer = defer, lodash.delay = delay, lodash.difference = difference, lodash.differenceBy = differenceBy, lodash.differenceWith = differenceWith, lodash.drop = function(array, n, guard) {
             var length = null == array ? 0 : array.length;
             return length ? (n = guard || n === undefined ? 1 : toInteger(n), baseSlice(array, n < 0 ? 0 : n, length)) : [];
         }, lodash.dropRight = function(array, n, guard) {
