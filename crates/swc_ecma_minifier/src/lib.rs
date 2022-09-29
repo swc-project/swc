@@ -177,13 +177,9 @@ pub fn optimize(
         t.section("compress");
     }
     if let Some(options) = &options.compress {
-        {
-            let _timer = timer!("compress ast");
-            {
-                if options.unused {
-                    perform_dce(&mut m, options, extra)
-                }
-            }
+        let _timer = timer!("compress ast");
+        if options.unused {
+            perform_dce(&mut m, options, extra)
         }
     }
 
