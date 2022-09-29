@@ -24,7 +24,6 @@
 #![allow(clippy::match_like_matches_macro)]
 
 use once_cell::sync::Lazy;
-use pass::mangle_names::idents_to_preserve;
 use swc_common::{
     comments::Comments,
     pass::{Repeat, Repeated},
@@ -35,7 +34,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
-use util::base54::CharFreq;
 
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
@@ -44,13 +42,18 @@ use crate::{
     marks::Marks,
     metadata::info_marker,
     mode::{Minification, Mode},
-    option::{ExtraOptions, MinifyOptions},
+    option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
-        expand_names::name_expander, global_defs, mangle_names::name_mangler,
-        mangle_props::mangle_properties, merge_exports::merge_exports,
-        postcompress::postcompress_optimizer, precompress::precompress_optimizer,
+        expand_names::name_expander,
+        global_defs,
+        mangle_names::{idents_to_preserve, name_mangler},
+        mangle_props::mangle_properties,
+        merge_exports::merge_exports,
+        postcompress::postcompress_optimizer,
+        precompress::precompress_optimizer,
     },
     timing::Timings,
+    util::base54::CharFreq,
 };
 
 #[macro_use]
@@ -178,41 +181,7 @@ pub fn optimize(
             let _timer = timer!("compress ast");
             {
                 if options.unused {
-                    let _timer = timer!("remove dead code");
-
-                    let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
-                        swc_ecma_transforms_optimization::simplify::dce::Config {
-                            module_mark: None,
-                            top_level: options.top_level(),
-                            top_retain: options.top_retain.clone(),
-                        },
-                        extra.unresolved_mark,
-                    );
-
-                    loop {
-                        #[cfg(feature = "debug")]
-                        let start = crate::debug::dump(&m, false);
-
-                        m.visit_mut_with(&mut visitor);
-
-                        #[cfg(feature = "debug")]
-                        if visitor.changed() {
-                            let src = crate::debug::dump(&m, false);
-                            tracing::debug!(
-                                "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
-                                start,
-                                src
-                            );
-                        }
-
-                        if !visitor.changed() {
-                            break;
-                        }
-
-                        visitor.reset();
-                    }
-
-                    debug_assert_valid(&m);
+                    perform_dce(&mut m, options, extra)
                 }
             }
         }
@@ -299,4 +268,42 @@ pub fn optimize(
     }
 
     m
+}
+
+fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions) {
+    let _timer = timer!("remove dead code");
+
+    let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
+        swc_ecma_transforms_optimization::simplify::dce::Config {
+            module_mark: None,
+            top_level: options.top_level(),
+            top_retain: options.top_retain.clone(),
+        },
+        extra.unresolved_mark,
+    );
+
+    loop {
+        #[cfg(feature = "debug")]
+        let start = crate::debug::dump(&m, false);
+
+        m.visit_mut_with(&mut visitor);
+
+        #[cfg(feature = "debug")]
+        if visitor.changed() {
+            let src = crate::debug::dump(&m, false);
+            tracing::debug!(
+                "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
+                start,
+                src
+            );
+        }
+
+        if !visitor.changed() {
+            break;
+        }
+
+        visitor.reset();
+    }
+
+    debug_assert_valid(&*m);
 }
