@@ -2040,6 +2040,7 @@ impl Minifier<'_> {
                 context_element: context_element.as_ref(),
                 tag_omission: None,
                 self_closing_void_elements: None,
+                quotes: None,
             },
         );
 
