@@ -391,6 +391,7 @@ fn projects(input: PathBuf) {
     .unwrap()
 }
 
+/// antd and typescript test is way too slow
 #[testing::fixture("benches/full/*.js", exclude("typescript", "antd"))]
 fn projects_bench(input: PathBuf) {
     let dir = input
