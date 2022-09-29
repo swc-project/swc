@@ -24,7 +24,7 @@ var _obj, isMultiIndexContext = function(widget) {
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager(param) {
-    var indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, skipSearch = function() {
+    var state, listeners, indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, skipSearch = function() {
         skip = !0;
     }, updateClient = function(client) {
         addAlgoliaAgents(client), helper.setClient(client), search();
@@ -235,7 +235,7 @@ export default function createInstantSearchManager(param) {
     addAlgoliaAgents(searchClient), helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    var state, listeners, skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
+    var skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = createWidgetsManager(onWidgetsUpdate);
     !function(client, results) {
         if (results && (client.transporter && !client._cacheHydrated || client._useCache && "function" == typeof client.addAlgoliaAgent)) {
             if (client.transporter && !client._cacheHydrated) {

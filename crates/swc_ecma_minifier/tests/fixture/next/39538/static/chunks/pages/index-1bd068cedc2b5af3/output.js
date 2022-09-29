@@ -31,7 +31,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = function(_param) {
-                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
+                var src, sizerSvgUrl, _obj, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -77,15 +77,15 @@
                     }
                     delete all.loader;
                 }
-                var src1, staticSrc = "";
-                if ("object" == typeof (src1 = src) && (isStaticRequire(src1) || void 0 !== src1.src)) {
-                    var staticImageData = isStaticRequire(src) ? src.default : src;
+                var staticSrc = "";
+                if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
+                    var staticImageData = isStaticRequire(src1) ? src1.default : src1;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
-                src = "string" == typeof src ? src : staticSrc;
+                src1 = "string" == typeof src1 ? src1 : staticSrc;
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src.startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                (src1.startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
@@ -148,7 +148,7 @@
                 };
                 isVisible && (imgAttributes = generateImgAttrs({
                     config: config,
-                    src: src,
+                    src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
                     width: widthInt,
@@ -156,18 +156,18 @@
                     sizes: sizes,
                     loader: loader
                 }));
-                var srcString = src, imageSizesPropName = "imagesizes";
+                var srcString = src1, imageSizesPropName = "imagesizes";
                 imageSizesPropName = "imageSizes";
-                var linkProps = (_defineProperty(_obj = {}, "imageSrcSet", imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src);
+                var linkProps = (_defineProperty(_obj = {}, "imageSrcSet", imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src1);
                 _react.useEffect(function() {
                     onLoadingCompleteRef.current = onLoadingComplete;
                 }, [
                     onLoadingComplete
                 ]), useLayoutEffect(function() {
-                    previousImageSrc.current !== src && (resetIntersected(), previousImageSrc.current = src);
+                    previousImageSrc.current !== src1 && (resetIntersected(), previousImageSrc.current = src1);
                 }, [
                     resetIntersected,
-                    src
+                    src1
                 ]);
                 var imgElementArgs = _extends({
                     isLazy: isLazy,

@@ -6648,7 +6648,7 @@
         },
         4867: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var cache, bind = __webpack_require__(1849), toString1 = Object.prototype.toString, kindOf = (cache = Object.create(null), function(thing) {
+            var cache, TypedArray, bind = __webpack_require__(1849), toString1 = Object.prototype.toString, kindOf = (cache = Object.create(null), function(thing) {
                 var str = toString1.call(thing);
                 return cache[str] || (cache[str] = str.slice(8, -1).toLowerCase());
             });
@@ -6750,7 +6750,7 @@
                 for(var arr = Array(i); i-- > 0;)arr[i] = thing[i];
                 return arr;
             }
-            var TypedArray, isTypedArray = (TypedArray = 'undefined' != typeof Uint8Array && Object.getPrototypeOf(Uint8Array), function(thing) {
+            var isTypedArray = (TypedArray = 'undefined' != typeof Uint8Array && Object.getPrototypeOf(Uint8Array), function(thing) {
                 return TypedArray && thing instanceof TypedArray;
             });
             module.exports = {

@@ -9,7 +9,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
         meta.charset ? metaTag.setAttribute(meta.keyword, meta.charset) : (metaTag.setAttribute(meta.keyword, meta[meta.keyword]), metaTag.setAttribute("content", meta.content)), document.head.appendChild(metaTag);
     }
 }, createDispatcher = function() {
-    var lang, timeout, linkQueue = [], scriptQueue = [], titleQueue = [], titleTemplateQueue = [], metaQueue = [], currentTitleIndex = 0, currentTitleTemplateIndex = 0, currentMetaIndex = 0, processQueue = function() {
+    var timeout, lang, linkQueue = [], scriptQueue = [], titleQueue = [], titleTemplateQueue = [], metaQueue = [], currentTitleIndex = 0, currentTitleTemplateIndex = 0, currentMetaIndex = 0, processQueue = function() {
         clearTimeout(timeout), timeout = setTimeout(function() {
             timeout = null;
             var visited = new Set();

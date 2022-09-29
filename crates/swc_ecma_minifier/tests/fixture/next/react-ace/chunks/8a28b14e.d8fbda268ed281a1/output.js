@@ -758,7 +758,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile, TextInput = function(parentNode, host) {
-                    var closeTimeout, text = dom.createElement("textarea");
+                    var typingResetTimeout, typing, detectArrowKeys, closeTimeout, text = dom.createElement("textarea");
                     text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
                     isMobile || (text.style.fontSize = "1px");
@@ -950,7 +950,7 @@
                         };
                         move(e), "mousedown" == e.type && (host.renderer.$isMousePressed = !0, clearTimeout(closeTimeout), useragent.isWin && event.capture(host.container, move, onContextMenuClose));
                     }, this.onContextMenuClose = onContextMenuClose;
-                    var typingResetTimeout, typing, detectArrowKeys, onContextMenu = function(e) {
+                    var onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
                     event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
@@ -11784,9 +11784,9 @@ margin: 0 10px;\
                         }
                         sel.fromOrientedRange(sel.ranges[0]);
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
-                        var session = this.session, range = session.multiSelect.toOrientedRange();
-                        if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var needle = session.getTextRange(range), newRange = (search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session));
+                        var session, needle, dir1, session1 = this.session, range = session1.multiSelect.toOrientedRange();
+                        if (!range.isEmpty() || ((range = session1.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
+                            var needle1 = session1.getTextRange(range), newRange = (session = session1, needle = needle1, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {

@@ -207,7 +207,7 @@ var ts;
                 case 271:
                     return function(node) {
                         if (node.moduleSpecifier) {
-                            var generatedName = factory.getGeneratedNameForNode(node);
+                            var innerExpr, generatedName = factory.getGeneratedNameForNode(node);
                             if (node.exportClause && ts.isNamedExports(node.exportClause)) {
                                 var statements = [];
                                 moduleKind !== ts.ModuleKind.AMD && statements.push(ts.setOriginalNode(ts.setTextRange(factory.createVariableStatement(void 0, factory.createVariableDeclarationList([
@@ -224,7 +224,7 @@ var ts;
                                 return ts.singleOrMany(statements);
                             }
                             if (!node.exportClause) return ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(emitHelpers().createExportStarHelper(moduleKind !== ts.ModuleKind.AMD ? createRequireCall(node) : generatedName)), node), node);
-                            var innerExpr, statements = [];
+                            var statements = [];
                             return statements.push(ts.setOriginalNode(ts.setTextRange(factory.createExpressionStatement(createExportExpression(factory.cloneNode(node.exportClause.name), (innerExpr = moduleKind !== ts.ModuleKind.AMD ? createRequireCall(node) : ts.isExportNamespaceAsDefaultDeclaration(node) ? generatedName : factory.createIdentifier(ts.idText(node.exportClause.name)), !ts.getESModuleInterop(compilerOptions) || 67108864 & ts.getEmitFlags(node) ? innerExpr : ts.getExportNeedsImportStarHelper(node) ? emitHelpers().createImportStarHelper(innerExpr) : innerExpr))), node), node)), ts.singleOrMany(statements);
                         }
                     }(node);

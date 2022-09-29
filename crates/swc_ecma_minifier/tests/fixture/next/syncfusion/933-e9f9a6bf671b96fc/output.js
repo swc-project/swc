@@ -169,7 +169,7 @@
                     return setValue;
                 }
             });
-            var HijriParser, intl_base_IntlBase, lastPageID, instances = 'ej2_instances', uid = 0;
+            var HijriParser, dateCorrection, extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, HijriParser1, intl_base_IntlBase, lastPageID, instances = 'ej2_instances', uid = 0;
             function createInstance(classFunction, params) {
                 return params.unshift(void 0), new (Function.prototype.bind.apply(classFunction, params));
             }
@@ -266,7 +266,7 @@
                 }
                 return null;
             }
-            var HijriParser1, dateCorrection, defaultNumberingSystem = {
+            var defaultNumberingSystem = {
                 latn: {
                     _digits: '0123456789',
                     _type: 'numeric'
@@ -500,7 +500,7 @@
                 VND: '₫',
                 TWD: 'NT$'
             };
-            HijriParser1 = HijriParser || (HijriParser = {}), dateCorrection = [
+            HijriParser = HijriParser1 || (HijriParser1 = {}), dateCorrection = [
                 28607,
                 28636,
                 28665,
@@ -2242,7 +2242,7 @@
                 79930,
                 79960,
                 79990
-            ], HijriParser1.getHijriDate = function(gDate) {
+            ], HijriParser.getHijriDate = function(gDate) {
                 var day = gDate.getDate(), month = gDate.getMonth(), year = gDate.getFullYear(), tMonth = month + 1, tYear = year;
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
@@ -2258,7 +2258,7 @@
                     month: hmonth,
                     date: hDate
                 };
-            }, HijriParser1.toGregorian = function(year, month, day) {
+            }, HijriParser.toGregorian = function(year, month, day) {
                 var z = Math.floor(day + dateCorrection[12 * (year - 1) + 1 + (month - 1) - 16260 - 1] - 1 + 2400000 + 0.5), a = Math.floor((z - 1867216.25) / 36524.25), b = (a = z + 1 + a - Math.floor(a / 4)) + 1524, c = Math.floor((b - 122.1) / 365.25), d = Math.floor(365.25 * c), e = Math.floor((b - d) / 30.6001), gMonth = e - (e > 13.5 ? 13 : 1), gYear = c - (gMonth > 2.5 ? 4716 : 4715);
                 return gYear <= 0 && gMonth--, new Date(gYear + '/' + gMonth + '/' + (b - d - Math.floor(30.6001 * e)));
             };
@@ -2394,7 +2394,7 @@
                     }
                     return ret;
                 }, DateFormat.getCurrentDateValue = function(value, isIslamic) {
-                    return isIslamic ? HijriParser.getHijriDate(value) : {
+                    return isIslamic ? HijriParser1.getHijriDate(value) : {
                         year: value.getFullYear(),
                         month: value.getMonth() + 1,
                         date: value.getDate()
@@ -2584,8 +2584,8 @@
                         if (util_isNullOrUndefined(parsedDateParts) || !Object.keys(parsedDateParts).length) return null;
                         if (parseOptions.isIslamic) {
                             var dobj = {}, tYear = parsedDateParts.year, tDate = parsedDateParts.day, tMonth = parsedDateParts.month, ystrig = tYear ? tYear + '' : '', is2DigitYear = 2 === ystrig.length;
-                            tYear && tMonth && tDate && !is2DigitYear || (dobj = HijriParser.getHijriDate(new Date())), is2DigitYear && (tYear = parseInt((dobj.year + '').slice(0, 2) + ystrig, 10));
-                            var dateObject = HijriParser.toGregorian(tYear || dobj.year, tMonth || dobj.month, tDate || dobj.date);
+                            tYear && tMonth && tDate && !is2DigitYear || (dobj = HijriParser1.getHijriDate(new Date())), is2DigitYear && (tYear = parseInt((dobj.year + '').slice(0, 2) + ystrig, 10));
+                            var dateObject = HijriParser1.toGregorian(tYear || dobj.year, tMonth || dobj.month, tDate || dobj.date);
                             parsedDateParts.year = dateObject.getFullYear(), parsedDateParts.month = dateObject.getMonth() + 1, parsedDateParts.day = dateObject.getDate();
                         }
                         return _this.getDateObject(parsedDateParts);
@@ -4231,7 +4231,7 @@
                     type: type
                 }), target.propList[propertyType + 'Names'].push(key);
             }
-            var extendStatics, __extends = (extendStatics = function(d, b) {
+            var __extends = (extendStatics = function(d, b) {
                 return (extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -4612,7 +4612,7 @@
                 for(var ret = '', _i = 0; _i < cArr.length; _i++)ret += String.fromCharCode(cArr[_i]);
                 return ret;
             }
-            var extendStatics1, extendStatics2, validateLicense = function(key) {
+            var validateLicense = function(key) {
                 key && (licenseValidator = new LicenseValidator(key)), licenseValidator.validate();
             }, component_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
@@ -4768,7 +4768,7 @@
             'undefined' != typeof window && window.addEventListener('popstate', function() {
                 componentCount = 0;
             });
-            var extendStatics3, extendStatics4, draggable_extends = (extendStatics2 = function(d, b) {
+            var draggable_extends = (extendStatics2 = function(d, b) {
                 return (extendStatics2 = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -5233,7 +5233,7 @@
                     NotifyPropertyChanges
                 ], Droppable);
             }(Base);
-            var extendStatics5, keyboard_extends = (extendStatics4 = function(d, b) {
+            var keyboard_extends = (extendStatics4 = function(d, b) {
                 return (extendStatics4 = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -7108,7 +7108,7 @@
                     X: !0,
                     Y: !0
                 }), target && element && positionX && positionY && (axis.X || axis.Y)) {
-                    var elementRect, tEdge = {
+                    var edge, pos, elementRect, elementRect1, tEdge = {
                         TL: null,
                         TR: null,
                         BL: null,
@@ -7121,9 +7121,9 @@
                     };
                     if ('none' === window.getComputedStyle(element).display) {
                         var oldVisibility = element.style.visibility;
-                        element.style.visibility = 'hidden', element.style.display = 'block', elementRect = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
-                    } else elementRect = element.getBoundingClientRect();
-                    var edge, pos, elementRect1, pos1 = {
+                        element.style.visibility = 'hidden', element.style.display = 'block', elementRect1 = element.getBoundingClientRect(), element.style.removeProperty('display'), element.style.visibility = oldVisibility;
+                    } else elementRect1 = element.getBoundingClientRect();
+                    var pos1 = {
                         posX: positionX,
                         posY: positionY,
                         offsetX: offsetX,
@@ -7133,20 +7133,20 @@
                             top: 0
                         }
                     };
-                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, edge = tEdge, pos = pos1, elementRect1 = elementRect, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect1), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect1), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect1), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect1), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect1), setPosition(eEdge, pos1, elementRect), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    targetContainer = viewPortElement, parentDocument = target.ownerDocument, edge = tEdge, pos = pos1, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), edge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), edge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), edge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), edge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos1, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
                         tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos1, elementRect, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
+                    }(target, eEdge, tEdge, pos1, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = topCollideCheck(edge.TL.top, edge.BL.top);
                         tEdge.TL.top - getBodyScrollTop() <= ContainerTop() && (collideSide.topSide = !1), tEdge.BL.top >= ContainerBottom() && target.getBoundingClientRect().bottom < window.innerHeight && (collideSide.bottomSide = !1), (collideSide.topSide && !collideSide.bottomSide || !collideSide.topSide && collideSide.bottomSide) && ('top' === pos.posY ? pos.posY = 'bottom' : pos.posY = 'top', pos.offsetY = pos.offsetY + elementRect.height, pos.offsetY = -1 * pos.offsetY, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1, elementRect), setPosition(edge, pos, elementRect), deepCheck && topFlip(target, edge, tEdge, pos, elementRect, !1));
-                    }(target, eEdge, tEdge, pos1, elementRect, !0), function(element, pos, elementRect) {
+                    }(target, eEdge, tEdge, pos1, elementRect1, !0), function(element, pos, elementRect) {
                         var left = 0, top1 = 0;
                         if (null != element.offsetParent && ('absolute' === getComputedStyle(element.offsetParent).position || 'relative' === getComputedStyle(element.offsetParent).position)) {
                             var data = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(element.offsetParent, 'left', 'top', !1, elementRect);
                             left = data.left, top1 = data.top;
                         }
                         element.style.top = pos.position.top + pos.offsetY - top1 + 'px', element.style.left = pos.position.left + pos.offsetX - left + 'px';
-                    }(element, pos1, elementRect);
+                    }(element, pos1, elementRect1);
                 }
             }
             function setPosition(eStatus, pos, elementRect) {
@@ -7706,7 +7706,7 @@
                     return applyMixins;
                 }
             });
-            var extendStatics, react = __webpack_require__(7294), react_dom = __webpack_require__(3935), ej2_base = __webpack_require__(1807), __extends = (extendStatics = function(d, b) {
+            var extendStatics, extendStatics1, extendStatics2, react = __webpack_require__(7294), react_dom = __webpack_require__(3935), ej2_base = __webpack_require__(1807), __extends = (extendStatics = function(d, b) {
                 return (extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -7984,7 +7984,7 @@
                     });
                 });
             }
-            var extendStatics1, extendStatics2, complex_base_extends = (extendStatics1 = function(d, b) {
+            var complex_base_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -8049,7 +8049,7 @@
                     return RichTextEditorComponent;
                 }
             });
-            var targetElement, selectedHandler, minHeight, maxHeight, minWidth, maxWidth, containerElement, resizeWestWidth, proxy, DialogUtility, extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, extendStatics9, extendStatics10, react = __webpack_require__(7294), ej2_base = __webpack_require__(1807), popup = __webpack_require__(9486), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), Render = function() {
+            var extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, extendStatics9, extendStatics10, extendStatics11, extendStatics12, extendStatics13, targetElement, selectedHandler, minHeight, maxHeight, minWidth, maxWidth, containerElement, resizeWestWidth, proxy, DialogUtility, react = __webpack_require__(7294), ej2_base = __webpack_require__(1807), popup = __webpack_require__(9486), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), Render = function() {
                 function Render(parent, locator) {
                     this.parent = parent, this.locator = locator, this.renderer = this.locator.getService('rendererFactory'), this.addEventListener();
                 }
@@ -9636,7 +9636,7 @@
                 var borderResizers = targetElement.querySelectorAll('.e-dialog-border-resize');
                 if (!(0, ej2_base.le)(borderResizers)) for(var i = 0; i < borderResizers.length; i++)(0, ej2_base.og)(borderResizers[i]);
             }
-            var extendStatics11, dialog_extends = (extendStatics11 = function(d, b) {
+            var dialog_extends = (extendStatics11 = function(d, b) {
                 return (extendStatics11 = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -10412,7 +10412,7 @@
                     return (0, ej2_base.le)(option.text) || (buttonProps.buttonModel.content = option.text), (0, ej2_base.le)(option.icon) || (buttonProps.buttonModel.iconCss = option.icon), (0, ej2_base.le)(option.cssClass) || (buttonProps.buttonModel.cssClass = option.cssClass), (0, ej2_base.le)(option.click) || (buttonProps.click = option.click), buttonProps;
                 }
                 DialogUtility.alert = function(args) {
-                    var alertDialogObj, options, options1, alertButtonModel, dialogElement = (0, ej2_base.az)('div', {
+                    var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_ALERT
                     });
                     return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
@@ -10448,7 +10448,7 @@
                         args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
                     }, alertDialogObj;
                 }, DialogUtility.confirm = function(args) {
-                    var confirmDialogObj, options, options1, okButtonModel, cancelButtonModel, dialogElement = (0, ej2_base.az)('div', {
+                    var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_CONFIRM
                     });
                     return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
@@ -10498,7 +10498,7 @@
                     }, confirmDialogObj;
                 };
             }(DialogUtility || (DialogUtility = {}));
-            var extendStatics12, extendStatics13, DialogRenderer = function() {
+            var DialogRenderer = function() {
                 function DialogRenderer(parent) {
                     this.parent = parent, this.addEventListener();
                 }
@@ -15870,7 +15870,7 @@
                     return PasteCleanup;
                 }
             });
-            var extendStatics, constant = __webpack_require__(3386), popup = __webpack_require__(9486), ej2_base = __webpack_require__(1807), common = __webpack_require__(759), __extends = (extendStatics = function(d, b) {
+            var extendStatics, extendStatics1, constant = __webpack_require__(3386), popup = __webpack_require__(9486), ej2_base = __webpack_require__(1807), common = __webpack_require__(759), __extends = (extendStatics = function(d, b) {
                 return (extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -16333,7 +16333,7 @@
             function hideSpinner(container) {
                 showHideSpinner(container, !0), container = null;
             }
-            var extendStatics1, uploader_extends = (extendStatics1 = function(d, b) {
+            var uploader_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -18505,7 +18505,7 @@
                     return toolbar_Toolbar;
                 }
             });
-            var extendStatics, extendStatics1, extendStatics2, extendStatics3, ej2_base = __webpack_require__(1807), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), util = __webpack_require__(5932), items = __webpack_require__(3276), popup_popup = __webpack_require__(9486), position = __webpack_require__(6216), button_button = __webpack_require__(78), __extends = (extendStatics = function(d, b) {
+            var extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, ej2_base = __webpack_require__(1807), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), util = __webpack_require__(5932), items = __webpack_require__(3276), popup_popup = __webpack_require__(9486), position = __webpack_require__(6216), button_button = __webpack_require__(78), __extends = (extendStatics = function(d, b) {
                 return (extendStatics = Object.setPrototypeOf || ({
                     __proto__: []
                 }) instanceof Array && function(d, b) {
@@ -19943,7 +19943,7 @@
                 }
                 return obj;
             }
-            var extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, common_Item = function(_super) {
+            var common_Item = function(_super) {
                 function Item() {
                     return null !== _super && _super.apply(this, arguments) || this;
                 }

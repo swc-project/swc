@@ -18,10 +18,10 @@ define([
         });
     }(exports, {
         E: function() {
-            return E;
+            return E1;
         },
         D: function() {
-            return D;
+            return D1;
         },
         M: function() {
             return M;
@@ -48,10 +48,10 @@ define([
             return C;
         },
         E1: function() {
-            return E;
+            return E1;
         },
         D1: function() {
-            return D;
+            return D1;
         },
         M1: function() {
             return M;
@@ -60,13 +60,13 @@ define([
             return a;
         }
     }), _classCallCheck = _classCallCheck.default;
-    var E, D, M, v = 1;
+    var E, D, x, E1, D1, M, v = 1;
     function f() {}
-    var E1, D1, x, C = function C() {
+    var C = function C() {
         "use strict";
         _classCallCheck(this, C);
     };
-    (E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B", E1[E1.C = 2] = "C", (D1 = D || (D = {}))[D1.A = 0] = "A", D1[D1.B = 1] = "B", D1[D1.C = 2] = "C", (M || (M = {})).x = x;
+    (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (M || (M = {})).x = x;
     var a = M.x;
 });
 //// [t2.ts]

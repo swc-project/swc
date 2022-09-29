@@ -6,7 +6,7 @@
 }(this, function(exports, MOZ_SourceMap) {
     'use strict';
     let mangle_options;
-    var def_is_string, def_find_defs, e, MOZ_SourceMap__default = MOZ_SourceMap && 'object' == typeof MOZ_SourceMap && 'default' in MOZ_SourceMap ? MOZ_SourceMap : {
+    var e, def_is_string, def_find_defs, MOZ_SourceMap__default = MOZ_SourceMap && 'object' == typeof MOZ_SourceMap && 'default' in MOZ_SourceMap ? MOZ_SourceMap : {
         default: MOZ_SourceMap
     };
     function characters(str) {
@@ -482,7 +482,7 @@
                         case 117:
                             if ("{" == peek()) {
                                 for(next(!0), "}" === peek() && parse_error("Expecting hex-character between {}"); "0" == peek();)next(!0);
-                                var result, code, length = find("}", !0) - S.pos;
+                                var code, result, length = find("}", !0) - S.pos;
                                 return (length > 6 || (result = hex_bytes(length, strict_hex)) > 0x10FFFF) && parse_error("Unicode reference out of bounds"), next(!0), (code = result) > 0xFFFF ? String.fromCharCode(((code -= 0x10000) >> 10) + 0xD800) + String.fromCharCode(code % 0x400 + 0xDC00) : String.fromCharCode(code);
                             }
                             return String.fromCharCode(hex_bytes(4, strict_hex));
@@ -7080,11 +7080,11 @@
             }
             function can_merge_flow(ab) {
                 if (!ab) return !1;
-                for(var j = i + 1, len = statements.length; j < len; j++){
+                for(var value, j = i + 1, len = statements.length; j < len; j++){
                     var stat = statements[j];
                     if (stat instanceof AST_Const || stat instanceof AST_Let) return !1;
                 }
-                var value, lct = ab instanceof AST_LoopControl ? compressor.loopcontrol_target(ab) : null;
+                var lct = ab instanceof AST_LoopControl ? compressor.loopcontrol_target(ab) : null;
                 return ab instanceof AST_Return && in_lambda && (!(value = ab.value) || value instanceof AST_UnaryPrefix && "void" == value.operator) || ab instanceof AST_Continue && self1 === loop_body(lct) || ab instanceof AST_Break && lct instanceof AST_BlockStatement && self1 === lct;
             }
             function extract_functions() {
