@@ -804,27 +804,8 @@ where
 
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
-                    if usage.ref_count == 1
-                        && !usage.reassigned()
-                        && !usage.has_property_mutation
-                        && matches!(
-                            &*arg,
-                            Expr::Lit(
-                                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
-                            ) | Expr::Ident(..)
-                                | Expr::Member(..)
-                                | Expr::Call(CallExpr {
-                                    callee: Callee::Expr(..),
-                                    ..
-                                })
-                                | Expr::New(..)
-                                | Expr::Tpl(..)
-                                | Expr::TaggedTpl(..)
-                                | Expr::OptChain(..)
-                        )
-                    {
-                        // We don't need to create a variable in this case
-
+                    // We don't need to create a variable in some case.
+                    if usage.ref_count == 1 && !usage.reassigned() && !usage.has_property_mutation {
                         // Expressions other than `Ident` are safe because we are modifying
                         //
                         // var a;
