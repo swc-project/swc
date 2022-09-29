@@ -5076,7 +5076,7 @@
         return 'highp' === parameters.precision ? precisionstring += '\n#define HIGH_PRECISION' : 'mediump' === parameters.precision ? precisionstring += '\n#define MEDIUM_PRECISION' : 'lowp' === parameters.precision && (precisionstring += '\n#define LOW_PRECISION'), precisionstring;
     }
     function WebGLProgram(renderer, cacheKey, parameters, bindingStates) {
-        var functionName, encoding, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, parameters1, shadowMapTypeDefine, parameters2, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
+        var encoding, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, parameters1, shadowMapTypeDefine, parameters2, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
             var envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
             if (parameters.envMap) switch(parameters.envMapMode){
                 case 301:
@@ -5298,7 +5298,7 @@
             parameters.envMap ? getTexelDecodingFunction('envMapTexelToLinear', parameters.envMapEncoding) : '',
             parameters.emissiveMap ? getTexelDecodingFunction('emissiveMapTexelToLinear', parameters.emissiveMapEncoding) : '',
             parameters.lightMap ? getTexelDecodingFunction('lightMapTexelToLinear', parameters.lightMapEncoding) : '',
-            (functionName = 'linearToOutputTexel', components = getEncodingComponents(encoding = parameters.outputEncoding), 'vec4 ' + functionName + '( vec4 value ) { return LinearTo' + components[0] + components[1] + '; }'),
+            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(encoding = parameters.outputEncoding))[0] + components[1] + '; }',
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
         ].filter(filterEmptyLine).join('\n')), vertexShader = resolveIncludes(vertexShader), vertexShader = replaceLightNums(vertexShader, parameters), vertexShader = replaceClippingPlaneNums(vertexShader, parameters), fragmentShader = resolveIncludes(fragmentShader), fragmentShader = replaceLightNums(fragmentShader, parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader, parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [

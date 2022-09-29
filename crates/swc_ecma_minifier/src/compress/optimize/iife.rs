@@ -735,11 +735,11 @@ where
 
     fn inline_fn_like(
         &mut self,
-        params: &[Ident],
+        orig_params: &[Ident],
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params, &*body) {
+        if !self.can_inline_fn_like(orig_params, &*body) {
             return None;
         }
 
@@ -750,7 +750,7 @@ where
         let mut remap = HashMap::default();
         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
 
-        let params = params
+        let params = orig_params
             .iter()
             .map(|i| {
                 // As the result of this function comes from `params` and `body`, we only need
@@ -792,6 +792,23 @@ where
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = arg {
+                if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
+                    if usage.ref_count == 1
+                        && !usage.reassigned()
+                        && !usage.has_property_mutation
+                        && matches!(
+                            &*arg,
+                            Expr::Lit(
+                                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
+                            )
+                        )
+                    {
+                        // We don't need to create a variable in this case
+                        self.vars.vars_for_inlining.insert(param.to_id(), arg);
+                        continue;
+                    }
+                }
+
                 exprs.push(
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP.apply_mark(self.marks.non_top_level),

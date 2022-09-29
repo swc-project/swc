@@ -914,8 +914,8 @@
         };
         var pollTimeout, pollFns = [];
         self.addPollFn = function(fn) {
-            var interval, setTimeout2;
-            return isUndefined(pollTimeout) && (interval = 100, setTimeout2 = setTimeout1, function check() {
+            var setTimeout2;
+            return isUndefined(pollTimeout) && (setTimeout2 = setTimeout1, function check() {
                 forEach(pollFns, function(pollFn) {
                     pollFn();
                 }), pollTimeout = setTimeout2(check, 100);
