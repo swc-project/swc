@@ -6338,19 +6338,20 @@
     function updateOffscreenComponent(current, workInProgress, renderLanes) {
         var a, b, _subtreeRenderLanes, nextProps = workInProgress.pendingProps, nextChildren = nextProps.children, prevState = null !== current ? current.memoizedState : null;
         if ("hidden" === nextProps.mode || "unstable-defer-without-hiding" === nextProps.mode) {
-            if ((4 & workInProgress.mode) == 0) workInProgress.memoizedState = {
-                baseLanes: 0
-            }, pushRenderLanes(workInProgress, renderLanes);
-            else {
-                if (a1 = renderLanes, b1 = 1073741824, (1073741824 & a1) != 0) {
+            if ((4 & workInProgress.mode) == 0) {
+                workInProgress.memoizedState = {
+                    baseLanes: 0
+                }, pushRenderLanes(workInProgress, renderLanes);
+            } else {
+                if (a2 = renderLanes, (1073741824 & a2) != 0) {
                     workInProgress.memoizedState = {
                         baseLanes: 0
                     };
-                    var subtreeRenderLanes = null !== prevState ? prevState.baseLanes : renderLanes;
+                    var nextBaseLanes, a1, b1, a2, subtreeRenderLanes = null !== prevState ? prevState.baseLanes : renderLanes;
                     pushRenderLanes(workInProgress, subtreeRenderLanes);
                 } else {
-                    null !== prevState ? (a2 = prevState.baseLanes, nextBaseLanes = a2 | (b2 = renderLanes)) : nextBaseLanes = renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
-                    var a1, b1, nextBaseLanes, a2, b2, lane, _nextState = {
+                    null !== prevState ? (a1 = prevState.baseLanes, nextBaseLanes = a1 | (b1 = renderLanes)) : nextBaseLanes = renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
+                    var _nextState = {
                         baseLanes: nextBaseLanes
                     };
                     return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
@@ -6482,11 +6483,11 @@
         return (set = current.childLanes) & ~renderLanes;
     }
     function updateSuspenseComponent(current, workInProgress, renderLanes) {
-        var parentContext, subtreeContext, parentContext1, fiber, nextProps = workInProgress.pendingProps;
+        var parentContext, parentContext1, fiber, nextProps = workInProgress.pendingProps;
         fiber = workInProgress, shouldSuspendImpl(fiber) && (workInProgress.flags |= 64);
         var suspenseContext = suspenseStackCursor.current, showFallback = !1;
         if ((64 & workInProgress.flags) != 0 || function(suspenseContext, current, workInProgress, renderLanes) {
-            var parentContext, flag;
+            var parentContext;
             return (null === current || null !== current.memoizedState) && (2 & suspenseContext) != 0;
         }(suspenseContext, current) ? (showFallback = !0, workInProgress.flags &= -65) : (null === current || null !== current.memoizedState) && void 0 !== nextProps.fallback && !0 !== nextProps.unstable_avoidThisFallback && (suspenseContext = 1 | (parentContext = suspenseContext)), pushSuspenseContext(workInProgress, suspenseContext = 1 & (parentContext1 = suspenseContext)), null === current) {
             void 0 !== nextProps.fallback && tryToClaimNextHydratableInstance(workInProgress);
@@ -6605,7 +6606,7 @@
                 }
             }
         }(newChildren, revealOrder1), reconcileChildren(current, workInProgress, newChildren, renderLanes);
-        var parentContext, flag, suspenseContext = suspenseStackCursor.current;
+        var parentContext, suspenseContext = suspenseStackCursor.current;
         if ((2 & (parentContext = suspenseContext)) != 0 ? (suspenseContext = 1 & (parentContext1 = suspenseContext) | 2, workInProgress.flags |= 64) : (null !== current && (64 & current.flags) != 0 && function(workInProgress, firstChild, renderLanes) {
             for(var node = firstChild; null !== node;){
                 if (13 === node.tag) null !== node.memoizedState && scheduleWorkOnFiber(node, renderLanes);
@@ -6624,7 +6625,7 @@
         }(workInProgress, workInProgress.child, renderLanes), suspenseContext = 1 & (parentContext2 = suspenseContext)), pushSuspenseContext(workInProgress, suspenseContext), (2 & workInProgress.mode) == 0) workInProgress.memoizedState = null;
         else switch(revealOrder1){
             case "forwards":
-                var parentContext1, shallowContext, parentContext2, tail, lastContentRow = function(firstChild) {
+                var parentContext1, parentContext2, tail, lastContentRow = function(firstChild) {
                     for(var row = firstChild, lastContentRow = null; null !== row;){
                         var currentRow = row.alternate;
                         null !== currentRow && null === findFirstSuspended(currentRow) && (lastContentRow = row), row = row.sibling;
@@ -7210,7 +7211,7 @@
                 return null;
             case 13:
                 popSuspenseContext(workInProgress);
-                var parentContext, flag, nextState = workInProgress.memoizedState;
+                var parentContext, nextState = workInProgress.memoizedState;
                 if ((64 & workInProgress.flags) != 0) return workInProgress.lanes = renderLanes, (8 & workInProgress.mode) != 0 && transferActualDuration(workInProgress), workInProgress;
                 var nextDidTimeout = null !== nextState, prevDidTimeout = !1;
                 return null === current ? void 0 !== workInProgress.memoizedProps.fallback && popHydrationState(workInProgress) : prevDidTimeout = null !== current.memoizedState, nextDidTimeout && !prevDidTimeout && (2 & workInProgress.mode) != 0 && (null === current && !0 !== workInProgress.memoizedProps.unstable_avoidThisFallback || (1 & (parentContext = suspenseStackCursor.current)) != 0 ? 0 === workInProgressRootExitStatus && (workInProgressRootExitStatus = 3) : ((0 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus) && (workInProgressRootExitStatus = 4), null !== workInProgressRoot && (includesNonIdleWork(workInProgressRootSkippedLanes) || includesNonIdleWork(workInProgressRootUpdatedLanes)) && markRootSuspended$1(workInProgressRoot, workInProgressRootRenderLanes))), (nextDidTimeout || prevDidTimeout) && (workInProgress.flags |= 4), null;
@@ -7230,7 +7231,7 @@
                             var suspended = findFirstSuspended(row);
                             if (null !== suspended) {
                                 didSuspendAlready = !0, workInProgress.flags |= 64, cutOffTailIfNeeded(renderState, !1);
-                                var portalInstance, parentContext1, shallowContext, newThennables = suspended.updateQueue;
+                                var portalInstance, parentContext1, newThennables = suspended.updateQueue;
                                 return null !== newThennables && (workInProgress.updateQueue = newThennables, workInProgress.flags |= 4), null === renderState.lastEffect && (workInProgress.firstEffect = null), workInProgress.lastEffect = renderState.lastEffect, resetChildFibers(workInProgress, renderLanes), pushSuspenseContext(workInProgress, 1 & (parentContext1 = suspenseStackCursor.current) | 2), workInProgress.child;
                             }
                             row = row.sibling;
@@ -7256,7 +7257,7 @@
                     }
                 }
                 if (null !== renderState.tail) {
-                    var parentContext2, shallowContext1, parentContext3, next = renderState.tail;
+                    var parentContext2, parentContext3, next = renderState.tail;
                     renderState.rendering = next, renderState.tail = next.sibling, renderState.lastEffect = workInProgress.lastEffect, renderState.renderingStartTime = now(), next.sibling = null;
                     var suspenseContext = suspenseStackCursor.current;
                     return pushSuspenseContext(workInProgress, suspenseContext = didSuspendAlready ? 1 & (parentContext2 = suspenseContext) | 2 : 1 & (parentContext3 = suspenseContext)), next;
@@ -7468,10 +7469,10 @@
             markFailedErrorBoundaryForHotReloading(fiber), "function" != typeof getDerivedStateFromError && (instance = this, null === legacyErrorBoundariesThatAlreadyFailed ? legacyErrorBoundariesThatAlreadyFailed = new Set([
                 instance
             ]) : legacyErrorBoundariesThatAlreadyFailed.add(instance), logCapturedError(fiber, errorInfo));
-            var instance, a, b, error$1 = errorInfo.value, stack = errorInfo.stack;
+            var instance, a, error$1 = errorInfo.value, stack = errorInfo.stack;
             this.componentDidCatch(error$1, {
                 componentStack: null !== stack ? stack : ""
-            }), "function" == typeof getDerivedStateFromError || (a = fiber.lanes, b = 1, (1 & a) != 0) || error("%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.", getComponentName(fiber.type) || "Unknown");
+            }), "function" == typeof getDerivedStateFromError || (a = fiber.lanes, (1 & a) != 0) || error("%s: Error boundaries should implement getDerivedStateFromError(). In that method, return a state update to display an error message or fallback UI.", getComponentName(fiber.type) || "Unknown");
         } : update.callback = function() {
             markFailedErrorBoundaryForHotReloading(fiber);
         }, update;
@@ -7491,7 +7492,7 @@
                 var currentSource = sourceFiber.alternate;
                 currentSource ? (sourceFiber.updateQueue = currentSource.updateQueue, sourceFiber.memoizedState = currentSource.memoizedState, sourceFiber.lanes = currentSource.lanes) : (sourceFiber.updateQueue = null, sourceFiber.memoizedState = null);
             }
-            var parentContext, flag, hasInvisibleParentBoundary = (1 & (parentContext = suspenseStackCursor.current)) != 0, _workInProgress = returnFiber;
+            var parentContext, hasInvisibleParentBoundary = (1 & (parentContext = suspenseStackCursor.current)) != 0, _workInProgress = returnFiber;
             do {
                 if (13 === _workInProgress.tag && shouldCaptureSuspense(_workInProgress, hasInvisibleParentBoundary)) {
                     var wakeables = _workInProgress.updateQueue;
@@ -7503,7 +7504,7 @@
                         if (_workInProgress.flags |= 64, sourceFiber.flags |= 16384, sourceFiber.flags &= -2981, 1 === sourceFiber.tag) {
                             if (null === sourceFiber.alternate) sourceFiber.tag = 17;
                             else {
-                                var a, b, update = createUpdate(-1, 1);
+                                var a, update = createUpdate(-1, 1);
                                 update.tag = 2, enqueueUpdate(sourceFiber, update);
                             }
                         }
@@ -7524,7 +7525,7 @@
                 case 3:
                     var _errorInfo = value;
                     workInProgress.flags |= 4096;
-                    var a1, b1, lane = pickArbitraryLane(rootRenderLanes);
+                    var a1, b, lane = pickArbitraryLane(rootRenderLanes);
                     workInProgress.lanes = (a1 = workInProgress.lanes) | lane;
                     var _update = createRootErrorUpdate(workInProgress, _errorInfo, lane);
                     enqueueCapturedUpdate(workInProgress, _update);
@@ -7533,7 +7534,7 @@
                     var errorInfo = value, ctor = workInProgress.type, instance = workInProgress.stateNode;
                     if ((64 & workInProgress.flags) == 0 && ("function" == typeof ctor.getDerivedStateFromError || null !== instance && "function" == typeof instance.componentDidCatch && !isAlreadyFailedLegacyErrorBoundary(instance))) {
                         workInProgress.flags |= 4096;
-                        var a2, b2, _lane = pickArbitraryLane(rootRenderLanes);
+                        var a2, b1, _lane = pickArbitraryLane(rootRenderLanes);
                         workInProgress.lanes = (a2 = workInProgress.lanes) | _lane;
                         var _update2 = createClassErrorUpdate(workInProgress, errorInfo, _lane);
                         enqueueCapturedUpdate(workInProgress, _update2);
@@ -8375,17 +8376,17 @@
         0 === workInProgressRootExitStatus && (workInProgressRootExitStatus = 5);
     }
     function resetChildLanes(completedWork) {
-        var a, b;
-        if (24 !== completedWork.tag && 23 !== completedWork.tag || null === completedWork.memoizedState || (a = subtreeRenderLanes, b = 1073741824, (1073741824 & a) != 0) || (4 & completedWork.mode) == 0) {
+        var a;
+        if (24 !== completedWork.tag && 23 !== completedWork.tag || null === completedWork.memoizedState || (a = subtreeRenderLanes, (1073741824 & a) != 0) || (4 & completedWork.mode) == 0) {
             var newChildLanes = 0;
             if ((8 & completedWork.mode) != 0) {
-                for(var a1, b1, a2, b2, actualDuration = completedWork.actualDuration, treeBaseDuration = completedWork.selfBaseDuration, shouldBubbleActualDurations = null === completedWork.alternate || completedWork.child !== completedWork.alternate.child, child = completedWork.child; null !== child;)a2 = newChildLanes, newChildLanes = a2 | (b2 = (a1 = child.lanes) | (b1 = child.childLanes)), shouldBubbleActualDurations && (actualDuration += child.actualDuration), treeBaseDuration += child.treeBaseDuration, child = child.sibling;
+                for(var a1, b, a2, b1, actualDuration = completedWork.actualDuration, treeBaseDuration = completedWork.selfBaseDuration, shouldBubbleActualDurations = null === completedWork.alternate || completedWork.child !== completedWork.alternate.child, child = completedWork.child; null !== child;)a2 = newChildLanes, newChildLanes = a2 | (b1 = (a1 = child.lanes) | (b = child.childLanes)), shouldBubbleActualDurations && (actualDuration += child.actualDuration), treeBaseDuration += child.treeBaseDuration, child = child.sibling;
                 if (13 === completedWork.tag && null !== completedWork.memoizedState) {
                     var primaryChildFragment = completedWork.child;
                     null !== primaryChildFragment && (treeBaseDuration -= primaryChildFragment.treeBaseDuration);
                 }
                 completedWork.actualDuration = actualDuration, completedWork.treeBaseDuration = treeBaseDuration;
-            } else for(var a3, b3, a4, b4, _child = completedWork.child; null !== _child;)a4 = newChildLanes, newChildLanes = a4 | (b4 = (a3 = _child.lanes) | (b3 = _child.childLanes)), _child = _child.sibling;
+            } else for(var a3, b2, a4, b3, _child = completedWork.child; null !== _child;)a4 = newChildLanes, newChildLanes = a4 | (b3 = (a3 = _child.lanes) | (b2 = _child.childLanes)), _child = _child.sibling;
             completedWork.childLanes = newChildLanes;
         }
     }
@@ -9300,8 +9301,8 @@
         return container ? 9 === container.nodeType ? container.documentElement : container.firstChild : null;
     }
     function legacyRenderSubtreeIntoContainer(parentComponent, children, container, forceHydrate, callback) {
-        topLevelUpdateWarnings(container), callback1 = void 0 === callback ? null : callback, callerName = "render", null !== callback1 && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", callerName, callback1);
-        var callback1, callerName, fiberRoot, root = container._reactRootContainer;
+        topLevelUpdateWarnings(container), null !== (callback1 = void 0 === callback ? null : callback) && "function" != typeof callback1 && error("%s(...): Expected the last optional `callback` argument to be a function. Instead received: %s.", "render", callback1);
+        var callback1, fiberRoot, root = container._reactRootContainer;
         if (root) {
             if (fiberRoot = root._internalRoot, "function" == typeof callback) {
                 var _originalCallback = callback;

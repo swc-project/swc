@@ -7026,7 +7026,7 @@
             }, itemTooltipOptionObj)
         };
     }
-    name = 'circle', ShapeClass = Circle, _customShapeMap[name] = ShapeClass, name1 = 'ellipse', ShapeClass1 = Ellipse, _customShapeMap[name1] = ShapeClass1, name2 = 'sector', ShapeClass2 = Sector, _customShapeMap[name2] = ShapeClass2, name3 = 'ring', ShapeClass3 = Ring, _customShapeMap[name3] = ShapeClass3, name4 = 'polygon', ShapeClass4 = Polygon, _customShapeMap[name4] = ShapeClass4, name5 = 'polyline', ShapeClass5 = Polyline, _customShapeMap[name5] = ShapeClass5, name6 = 'rect', ShapeClass6 = Rect, _customShapeMap[name6] = ShapeClass6, name7 = 'line', ShapeClass7 = Line, _customShapeMap[name7] = ShapeClass7, name8 = 'bezierCurve', ShapeClass8 = BezierCurve, _customShapeMap[name8] = ShapeClass8, ShapeClass9 = Arc, _customShapeMap.arc = ShapeClass9;
+    ShapeClass = Circle, _customShapeMap.circle = ShapeClass, ShapeClass1 = Ellipse, _customShapeMap.ellipse = ShapeClass1, ShapeClass2 = Sector, _customShapeMap.sector = ShapeClass2, ShapeClass3 = Ring, _customShapeMap.ring = ShapeClass3, ShapeClass4 = Polygon, _customShapeMap.polygon = ShapeClass4, ShapeClass5 = Polyline, _customShapeMap.polyline = ShapeClass5, ShapeClass6 = Rect, _customShapeMap.rect = ShapeClass6, ShapeClass7 = Line, _customShapeMap.line = ShapeClass7, ShapeClass8 = BezierCurve, _customShapeMap.bezierCurve = ShapeClass8, ShapeClass9 = Arc, _customShapeMap.arc = ShapeClass9;
     var graphic = Object.freeze({
         __proto__: null,
         extendShape: extendShape,
@@ -7274,7 +7274,7 @@
             });
         }
     }
-    var name, ShapeClass, name1, ShapeClass1, name2, ShapeClass2, name3, ShapeClass3, name4, ShapeClass4, name5, ShapeClass5, name6, ShapeClass6, name7, ShapeClass7, name8, ShapeClass8, name9, ShapeClass9, target, classAttr, PATH_COLOR = [
+    var ShapeClass, ShapeClass1, ShapeClass2, ShapeClass3, ShapeClass4, ShapeClass5, ShapeClass6, ShapeClass7, ShapeClass8, ShapeClass9, target, classAttr, PATH_COLOR = [
         'textStyle',
         'color'
     ], tmpRichText = new ZRText(), TextStyleMixin = function() {
@@ -11261,7 +11261,7 @@
                 } else label.off('drag'), label.cursor = defaultLabelAttr.cursor;
             }
         }, LabelManager.prototype.layout = function(api) {
-            var list, leftBound, rightBound, width = api.getWidth(), height = api.getHeight(), labelList = function(input) {
+            var list, rightBound, width = api.getWidth(), height = api.getHeight(), labelList = function(input) {
                 for(var list = [], i = 0; i < input.length; i++){
                     var rawItem = input[i];
                     if (!rawItem.defaultAttr.ignore) {
@@ -13896,7 +13896,7 @@
     function registerMap(mapName, geoJson, specialAreas) {
         geoSourceManager.registerMap(mapName, geoJson, specialAreas);
     }
-    var name10, loadingFx, name11, theme1, name12, theme2, registerTransform = function(externalTransform) {
+    var loadingFx, theme1, theme2, registerTransform = function(externalTransform) {
         var type = (externalTransform = clone(externalTransform)).type, errMsg = '';
         type || throwError('Must have a `type` when `registerTransform`.');
         var typeParsed = type.split(':');
@@ -35488,7 +35488,7 @@
             NaN
         ];
     }
-    var idSuffix, DATA_ZOOM_ID_BASE = INTERNAL_COMPONENT_ID_PREFIX + 'toolbox-dataZoom_', DataZoomFeature = function(_super) {
+    var DATA_ZOOM_ID_BASE = INTERNAL_COMPONENT_ID_PREFIX + 'toolbox-dataZoom_', DataZoomFeature = function(_super) {
         function DataZoomFeature() {
             return null !== _super && _super.apply(this, arguments) || this;
         }
@@ -41517,7 +41517,7 @@
     }), use(function(registers) {
         registers.registerComponentModel(GraphicComponentModel), registers.registerComponentView(GraphicComponentView), registers.registerPreprocessor(preprocessor);
     }), use(function(registers) {
-        var name, ctor, name1, ctor1, name2, ctor2, name3, ctor3, name4, ctor4;
+        var ctor, ctor1, ctor2, ctor3, ctor4;
         registers.registerComponentModel(ToolboxModel), registers.registerComponentView(ToolboxView), features.saveAsImage = SaveAsImage, features.magicType = MagicType, features.dataView = DataView, features.dataZoom = DataZoomFeature, features.restore = RestoreOption, use(install$y);
     }), use(function(registers) {
         use(install$s), registers.registerComponentModel(TooltipModel), registers.registerComponentView(TooltipView), registers.registerAction({
@@ -41530,7 +41530,7 @@
             update: 'tooltip:manuallyHideTip'
         }, function() {});
     }), use(install$s), use(function(registers) {
-        var name, ctor;
+        var ctor;
         registers.registerComponentView(BrushView), registers.registerComponentModel(BrushModel), registers.registerPreprocessor(brushPreprocessor), registers.registerVisual(registers.PRIORITY.VISUAL.BRUSH, brushVisual), registers.registerAction({
             type: 'brush',
             event: 'brush',
@@ -41641,7 +41641,7 @@
             postInitFunc(chart);
         }), chart;
     }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = registerCoordinateSystem, exports1.registerLayout = registerLayout, exports1.registerLoading = registerLoading, exports1.registerLocale = registerLocale, exports1.registerMap = registerMap, exports1.registerPostInit = registerPostInit, exports1.registerPostUpdate = registerPostUpdate, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = registerTheme, exports1.registerTransform = registerTransform, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
-        var name, fn;
+        var fn;
         methods.createCanvas = creator;
     }, exports1.throttle = throttle, exports1.time = time, exports1.use = use, exports1.util = util$1, exports1.vector = vector, exports1.version = '5.1.1', exports1.zrUtil = util, exports1.zrender = zrender, Object.defineProperty(exports1, '__esModule', {
         value: !0

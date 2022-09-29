@@ -23145,7 +23145,7 @@
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
-                    var arr, i, eventHandlersArray, _ref2 = function(arr) {
+                    var arr, eventHandlersArray, _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
                     }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
@@ -28427,7 +28427,7 @@
                     {
                         key: "getCachedSharedEvents",
                         value: function(name, cacheValues) {
-                            var arr, i, _ref2 = function(arr) {
+                            var arr, _ref2 = function(arr) {
                                 if (Array.isArray(arr)) return arr;
                             }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
