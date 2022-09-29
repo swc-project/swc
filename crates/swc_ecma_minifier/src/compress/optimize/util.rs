@@ -161,13 +161,14 @@ impl VisitMut for Remapper {
 /// (some) unused variables. Due to the order of visit, the main visitor cannot
 /// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
-pub(crate) struct Finalizder<'a> {
+pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+
     pub changed: bool,
 }
 
-impl Parallel for Finalizder<'_> {
+impl Parallel for Finalizer<'_> {
     fn create(&self) -> Self {
         *self
     }
@@ -177,7 +178,7 @@ impl Parallel for Finalizder<'_> {
     }
 }
 
-impl<'a> Finalizder<'a> {
+impl<'a> Finalizer<'a> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
@@ -216,7 +217,7 @@ enum FinalizerMode {
     OnlyComparisonWithLit,
 }
 
-impl VisitMut for Finalizder<'_> {
+impl VisitMut for Finalizer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_callee(&mut self, e: &mut Callee) {

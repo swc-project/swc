@@ -20,7 +20,7 @@ use Value::Known;
 
 use self::{
     unused::PropertyAccessOpts,
-    util::{extract_class_side_effect, Finalizder, NormalMultiReplacer},
+    util::{extract_class_side_effect, Finalizer, NormalMultiReplacer},
 };
 use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
@@ -262,11 +262,11 @@ impl Vars {
     fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
-        N: for<'aa> VisitMutWith<Finalizder<'aa>>,
+        N: for<'aa> VisitMutWith<Finalizer<'aa>>,
     {
         let mut changed = false;
         if !self.simple_functions.is_empty() || !self.lits_for_cmp.is_empty() {
-            let mut v = Finalizder {
+            let mut v = Finalizer {
                 lits_for_cmp: &self.lits_for_cmp,
                 simple_functions: &self.simple_functions,
                 changed: false,
