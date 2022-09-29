@@ -61,6 +61,9 @@
 
 - **(es/minifier)** Ignore more return values (#5981) ([08f6e81](https://github.com/swc-project/swc/commit/08f6e81d8e9219e73ea8e312f213aa170ba7acc9))
 
+
+- **(es/minifier)** Drop more variables while invoking IIFE (#5987) ([c411e5d](https://github.com/swc-project/swc/commit/c411e5d55292c83d73f821e3a1e285cf3584b668))
+
 ### Miscellaneous Tasks
 
 
