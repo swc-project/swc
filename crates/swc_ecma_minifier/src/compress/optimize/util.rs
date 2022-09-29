@@ -264,6 +264,16 @@ impl VisitMut for Finalizer<'_> {
         }
     }
 
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        n.visit_mut_children_with(self);
+
+        if let Stmt::Decl(Decl::Var(v)) = n {
+            if v.decls.is_empty() {
+                n.take();
+            }
+        }
+    }
+
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
