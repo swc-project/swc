@@ -5,8 +5,8 @@ use std::{
 
 use swc_common::{FileName, Span};
 use swc_css_ast::{
-    AnPlusBNotation, ComponentValue, HexColor, ImportantFlag, Integer, Number, Str, Stylesheet,
-    Token, TokenAndSpan, UrlValueRaw,
+    AnPlusBNotation, ComponentValue, CustomIdent, DashedIdent, HexColor, Ident, ImportantFlag,
+    Integer, Number, Str, Stylesheet, Token, TokenAndSpan, UrlValueRaw,
 };
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -145,6 +145,24 @@ impl VisitMut for NormalizeTest {
             }
             _ => {}
         }
+    }
+
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
+    fn visit_mut_custom_ident(&mut self, n: &mut CustomIdent) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
+    }
+
+    fn visit_mut_dashed_ident(&mut self, n: &mut DashedIdent) {
+        n.visit_mut_children_with(self);
+
+        n.raw = None;
     }
 
     fn visit_mut_integer(&mut self, n: &mut Integer) {
