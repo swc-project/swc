@@ -501,7 +501,7 @@
     }
     function stringToArray(string) {
         var string1, string2;
-        return hasUnicode(string) ? (string2 = string, string2.match(reUnicode) || []) : string.split('');
+        return hasUnicode(string) ? (string2 = string).match(reUnicode) || [] : string.split('');
     }
     function trimmedEndIndex(string) {
         for(var index = string.length; index-- && reWhitespace.test(string.charAt(index)););
@@ -628,7 +628,7 @@
             if (!isObject(value)) return value;
             var isArr = isArray(value);
             if (isArr) {
-                if (length = (array = value).length, result1 = new array.constructor(length), result = (length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result1), !isDeep) return copyArray(value, result);
+                if (length = (array = value).length, result1 = new array.constructor(length), length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result = result1, !isDeep) return copyArray(value, result);
             } else {
                 var array, length, result1, source, object1, source1, object2, object3, source2, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
@@ -1644,7 +1644,7 @@
         }
         function getMapData(map, key) {
             var value, type, data = map.__data__;
-            return (value = key, type = typeof value, 'string' == type || 'number' == type || 'symbol' == type || 'boolean' == type ? '__proto__' !== value : null === value) ? data['string' == typeof key ? 'string' : 'hash'] : data.map;
+            return ('string' == (type = typeof (value = key)) || 'number' == type || 'symbol' == type || 'boolean' == type ? '__proto__' !== value : null === value) ? data['string' == typeof key ? 'string' : 'hash'] : data.map;
         }
         function getMatchData(object) {
             for(var result = keys(object), length = result.length; length--;){
@@ -1788,7 +1788,7 @@
             }
             return array.length = size, array;
         }
-        var stringToPath = (cache = (result = memoize(func = function(string) {
+        var stringToPath = (cache = (result = memoize(function(string) {
             var result = [];
             return 46 === string.charCodeAt(0) && result.push(''), string.replace(rePropName, function(match, number, quote, subString) {
                 result.push(quote ? subString.replace(reEscapeChar, '$1') : number || match);
@@ -2305,7 +2305,7 @@
         function words(string, pattern, guard) {
             if (string = toString(string), undefined === (pattern = guard ? undefined : pattern)) {
                 var string1, string2, string3;
-                return (string1 = string, reHasUnicodeWord.test(string1)) ? (string2 = string).match(reUnicodeWord) || [] : (string3 = string).match(reAsciiWord) || [];
+                return (string1 = string, reHasUnicodeWord.test(string1)) ? string.match(reUnicodeWord) || [] : string.match(reAsciiWord) || [];
             }
             return string.match(pattern) || [];
         }

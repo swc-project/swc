@@ -285,9 +285,9 @@ export default function S(u) {
             B(e, a);
         }
     }(F, _);
-    var K = (v = S = {
+    var K = (v = {
         widgets: void 0 === w ? {} : w,
-        metadata: (o = _, o ? o.metadata.map(function(e) {
+        metadata: (o = _) ? o.metadata.map(function(e) {
             return r(t({
                 value: function() {
                     return {};
@@ -309,7 +309,7 @@ export default function S(u) {
                     });
                 })
             });
-        }) : []),
+        }) : [],
         results: _ ? Array.isArray(_.results) ? _.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
         }, {}) : new s.SearchResults(new s.SearchParameters(_.state), _.rawResults) : null,

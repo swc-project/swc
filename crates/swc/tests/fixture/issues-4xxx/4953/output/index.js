@@ -2,7 +2,7 @@
 function e(e, t) {
     "use strict";
     var r, n;
-    (n = function(e) {
+    (0, function(e) {
         "use strict";
         e.vr = function(e, t, r) {
             return function() {

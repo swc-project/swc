@@ -9422,8 +9422,8 @@
             e.exports = t;
         },
         4756: function(e, t, r) {
-            var n;
-            void 0 !== (n = (function() {
+            var n, i;
+            void 0 !== (i = "function" == typeof (n = function() {
                 var e = "debug", t = "hyphenChar", n = "minWordLength", i = "object" == typeof r.g ? r.g : "object" == typeof window ? window : "object" == typeof this ? this : {};
                 function o(e) {
                     var t = {};
@@ -9556,14 +9556,14 @@
                         }(i, g, d[w], c, m, b, D, f);
                     };
                 };
-            }).apply(t, [])) && (e.exports = n);
+            }) ? n.apply(t, []) : n) && (e.exports = i);
         },
         3202: function(e, t, r) {
             e.exports = r(4756);
         },
         1487: function(e, t) {
-            var r;
-            void 0 !== (r = (function() {
+            var r, n;
+            void 0 !== (n = "function" == typeof (r = function() {
                 return {
                     patterns: [
                         " ",
@@ -14525,7 +14525,7 @@
                         ""
                     ]
                 };
-            }).apply(t, [])) && (e.exports = r);
+            }) ? r.apply(t, []) : r) && (e.exports = n);
         },
         5717: function(e) {
             "function" == typeof Object.create ? e.exports = function(e, t) {
@@ -21537,7 +21537,7 @@
                             _(this, new b());
                         }, A.prototype.write = function(e, t, r) {
                             var i, o, a, u, l, s, d, p = this._writableState, h = !1, g = !p.objectMode && (i = e, c.isBuffer(i) || i instanceof f);
-                            return g && !c.isBuffer(e) && (o = e, e = c.from(o)), ("function" == typeof t && (r = t, t = null), g ? t = "buffer" : t || (t = p.defaultEncoding), "function" != typeof r && (r = x), p.ending) ? (a = r, u = new w(), _(this, u), n.nextTick(a, u)) : (g || (l = e, s = r, null === l ? d = new D() : "string" == typeof l || p.objectMode || (d = new y("chunk", [
+                            return g && !c.isBuffer(e) && (o = e, e = c.from(o)), ("function" == typeof t && (r = t, t = null), g ? t = "buffer" : t || (t = p.defaultEncoding), "function" != typeof r && (r = x), p.ending) ? (a = r, _(this, u = new w()), n.nextTick(a, u)) : (g || (l = e, s = r, null === l ? d = new D() : "string" == typeof l || p.objectMode || (d = new y("chunk", [
                                 "string",
                                 "Buffer"
                             ], l)), !d || (_(this, d), n.nextTick(s, d), 0))) && (p.pendingcb++, h = function(e, t, r, n, i, o) {
