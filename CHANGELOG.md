@@ -35,6 +35,9 @@
 - **(es/minifier)** Remove print ([af8236d](https://github.com/swc-project/swc/commit/af8236d689e29980ef1bc8d7d05ed61e37649b28))
 
 
+- **(es/minifier)** Remove wrong variable joiner pass (#5992) ([f8358fb](https://github.com/swc-project/swc/commit/f8358fbe2bf17de6a04870c58f58768d0966ec18))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 
