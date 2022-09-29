@@ -32,6 +32,9 @@
 - **(es/minifier)** Don't panic on jsx or ts (#5984) ([0067f71](https://github.com/swc-project/swc/commit/0067f719dd0a072ef43e51698f159506287d7f35))
 
 
+- **(es/minifier)** Remove print ([af8236d](https://github.com/swc-project/swc/commit/af8236d689e29980ef1bc8d7d05ed61e37649b28))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 

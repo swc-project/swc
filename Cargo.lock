@@ -2957,7 +2957,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.230.6"
+version = "0.230.7"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3145,7 +3145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.28.7"
+version = "0.28.8"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3465,7 +3465,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.157.19"
+version = "0.157.20"
 dependencies = [
  "ahash",
  "ansi_term",
