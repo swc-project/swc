@@ -802,6 +802,12 @@ where
                                 Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
                             ) | Expr::Member(..)
                                 | Expr::Call(..)
+                                | Expr::Cond(..)
+                                | Expr::New(..)
+                                | Expr::Seq(..)
+                                | Expr::Ident(..)
+                                | Expr::Tpl(..)
+                                | Expr::TaggedTpl(..)
                         )
                     {
                         // We don't need to create a variable in this case
