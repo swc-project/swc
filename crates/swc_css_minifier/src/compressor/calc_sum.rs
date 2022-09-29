@@ -4,6 +4,12 @@ use swc_css_ast::*;
 
 use super::Compressor;
 
+fn is_calc_function_name(ident: &Ident) -> bool {
+    ident.value.to_ascii_lowercase() == js_word!("calc")
+        || ident.value.to_ascii_lowercase() == js_word!("-webkit-calc")
+        || ident.value.to_ascii_lowercase() == js_word!("-moz-calc")
+}
+
 // transform "(simple calc-value)" into "simple calc-value"
 fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
     if calc_sum.expressions.len() == 1 {
@@ -713,7 +719,7 @@ impl Compressor {
             // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
             // expression
             ComponentValue::Function(Function { name, value, .. })
-                if name.value.to_ascii_lowercase() == js_word!("calc") && value.len() == 1 =>
+                if is_calc_function_name(&name) && value.len() == 1 =>
             {
                 match value.get(0).unwrap() {
                     ComponentValue::CalcSum(CalcSum {
