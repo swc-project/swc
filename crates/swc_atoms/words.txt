@@ -1,5 +1,7 @@
 
 *
+-moz-calc
+-webkit-calc
 a
 abbr
 AbortController
