@@ -570,7 +570,6 @@ where
             // seems like a correct check, but it's way to aggressive.
             // It does not break the code, but everything like _asyncToGenerator is inlined.
             //
-            println!("{} {:#?}", i.sym, usage);
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
                 && (usage.is_fn_local || !usage.used_in_non_child_fn || usage.used_as_callee)
