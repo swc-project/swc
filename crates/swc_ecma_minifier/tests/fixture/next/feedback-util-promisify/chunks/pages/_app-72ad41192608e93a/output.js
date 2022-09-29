@@ -38,39 +38,39 @@
                 }) : obj[key] = value, obj;
             }
             __webpack_require__(6774);
-            var fn, _ref, initBranch = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-                return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
-                    for(;;)switch(_ctx.prev = _ctx.next){
-                        case 0:
-                            try {
-                                (function(b, r, a, n, c, h, _, s, d, k) {
-                                    if (!b[n] || !b[n]._q) {
-                                        for(; s < _.length;)c(h, _[s++]);
-                                        (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
-                                    }
-                                })(window, document, "script", "branch", function(b, r) {
-                                    b[r] = function() {
-                                        b._q.push([
-                                            r,
-                                            arguments
-                                        ]);
-                                    };
-                                }, {
-                                    _q: [],
-                                    _v: 1
-                                }, "addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent logEvent disableTracking".split(" "), 0), window.branch.initAsync = util__WEBPACK_IMPORTED_MODULE_3___default().promisify(window.branch.init);
-                            } catch (error) {
-                                console.error(error);
-                            }
-                        case 1:
-                        case "end":
-                            return _ctx.stop();
-                    }
-                }, _callee);
-            }), _ref = function() {
+            var _ref, initBranch = (_ref = function() {
                 var self1 = this, args = arguments;
                 return new Promise(function(resolve, reject) {
-                    var gen = fn.apply(self1, args);
+                    var gen = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+                        return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
+                            for(;;)switch(_ctx.prev = _ctx.next){
+                                case 0:
+                                    try {
+                                        (function(b, r, a, n, c, h, _, s, d, k) {
+                                            if (!b[n] || !b[n]._q) {
+                                                for(; s < _.length;)c(h, _[s++]);
+                                                (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
+                                            }
+                                        })(window, document, "script", "branch", function(b, r) {
+                                            b[r] = function() {
+                                                b._q.push([
+                                                    r,
+                                                    arguments
+                                                ]);
+                                            };
+                                        }, {
+                                            _q: [],
+                                            _v: 1
+                                        }, "addListener applyCode autoAppIndex banner closeBanner closeJourney creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode trackCommerceEvent logEvent disableTracking".split(" "), 0), window.branch.initAsync = util__WEBPACK_IMPORTED_MODULE_3___default().promisify(window.branch.init);
+                                    } catch (error) {
+                                        console.error(error);
+                                    }
+                                case 1:
+                                case "end":
+                                    return _ctx.stop();
+                            }
+                        }, _callee);
+                    }).apply(self1, args);
                     function _next(value) {
                         asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
                     }
@@ -507,7 +507,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var t1, f1, n = this.length - r;
+                            var n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -517,10 +517,9 @@
                                 case "utf-8":
                                     return utf8Write(this, e, r, t);
                                 case "ascii":
-                                    return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return t1 = r, f1 = t, asciiWrite(this, e, t1, f1);
+                                    return asciiWrite(this, e, r, t);
                                 case "base64":
                                     return base64Write(this, e, r, t);
                                 case "ucs2":
@@ -1996,7 +1995,7 @@
                                 return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                             }(r, e);
                             if (i) return i;
-                            var r1, t2, a = Object.keys(e), y = (r1 = a, t2 = {}, r1.forEach(function(r, e) {
+                            var t2, a = Object.keys(e), y = (t2 = {}, a.forEach(function(r, e) {
                                 t2[r] = !0;
                             }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);

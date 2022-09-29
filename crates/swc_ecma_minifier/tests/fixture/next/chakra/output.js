@@ -560,7 +560,7 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    var color1, color2, h, s, v, i, f, p, q, t, mod, r, g, b, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -626,25 +626,25 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (r = color2.r, g = color2.g, b = color2.b, rgb = {
-                        r: 255 * bound01(r, 255),
-                        g: 255 * bound01(g, 255),
-                        b: 255 * bound01(b, 255)
-                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
+                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (rgb = {
+                        r: 255 * bound01(color2.r, 255),
+                        g: 255 * bound01(color2.g, 255),
+                        b: 255 * bound01(color2.b, 255)
+                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r = [
                         v,
                         q,
                         p,
                         p,
                         t,
                         v
-                    ][mod = i % 6], g1 = [
+                    ][mod = i % 6], g = [
                         t,
                         v,
                         v,
                         q,
                         p,
                         p
-                    ][mod], b1 = [
+                    ][mod], b = [
                         p,
                         p,
                         t,
@@ -652,9 +652,9 @@
                         v,
                         q
                     ][mod], rgb = {
-                        r: 255 * r1,
-                        g: 255 * g1,
-                        b: 255 * b1
+                        r: 255 * r,
+                        g: 255 * g,
+                        b: 255 * b
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -717,13 +717,13 @@
                 }, TinyColor.prototype.toHexString = function(allow3Char) {
                     return void 0 === allow3Char && (allow3Char = !1), "#" + this.toHex(allow3Char);
                 }, TinyColor.prototype.toHex8 = function(allow4Char) {
-                    var r, g, b, a, allow4Char1, hex;
-                    return void 0 === allow4Char && (allow4Char = !1), r = this.r, g = this.g, b = this.b, a = this.a, allow4Char1 = allow4Char, hex = [
-                        util_pad2(Math.round(r).toString(16)),
-                        util_pad2(Math.round(g).toString(16)),
-                        util_pad2(Math.round(b).toString(16)),
-                        util_pad2(Math.round(255 * parseFloat(a)).toString(16))
-                    ], allow4Char1 && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
+                    var hex;
+                    return void 0 === allow4Char && (allow4Char = !1), hex = [
+                        util_pad2(Math.round(this.r).toString(16)),
+                        util_pad2(Math.round(this.g).toString(16)),
+                        util_pad2(Math.round(this.b).toString(16)),
+                        util_pad2(Math.round(255 * parseFloat(this.a)).toString(16))
+                    ], allow4Char && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) && hex[3].startsWith(hex[3].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) + hex[3].charAt(0) : hex.join("");
                 }, TinyColor.prototype.toHex8String = function(allow4Char) {
                     return void 0 === allow4Char && (allow4Char = !1), "#" + this.toHex8(allow4Char);
                 }, TinyColor.prototype.toRgb = function() {
@@ -1387,7 +1387,7 @@
                 negate: _negate
             });
             function chakra_ui_theme_tools_esm_escape(value) {
-                var value1, replaceValue, valueStr = (value1 = value.toString(), void 0 === replaceValue && (replaceValue = "-"), value1.replace(/\s+/g, replaceValue));
+                var replaceValue, valueStr = (void 0 === replaceValue && (replaceValue = "-"), value.toString().replace(/\s+/g, replaceValue));
                 return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
             function cssVar(name, options) {
@@ -1597,7 +1597,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, hex, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1605,7 +1605,7 @@
                         for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
                         return options.count = totalColors, colors;
                     }
-                    var hue, seed, hueRange, res, h = (hue = options.hue, seed = options.seed, hueRange = function(colorInput) {
+                    var hueRange, res, h = (hueRange = function(colorInput) {
                         var num = parseInt(colorInput, 10);
                         if (!Number.isNaN(num) && num < 360 && num > 0) return [
                             num,
@@ -1632,7 +1632,7 @@
                             0,
                             360
                         ];
-                    }(hue), (res = randomWithin(hueRange, seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
+                    }(options.hue), (res = randomWithin(hueRange, options.seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
                         if ("monochrome" === options.hue) return 0;
                         if ("random" === options.luminosity) return randomWithin([
                             0,

@@ -16084,12 +16084,12 @@
             }(ej2_base.wA), classes = __webpack_require__(9805), config = __webpack_require__(103), selection = __webpack_require__(8867), common_constant = __webpack_require__(8082), base_enum = __webpack_require__(809), globalTimeOut = {}, CLS_SHOWSPIN = 'e-spin-show', CLS_HIDESPIN = 'e-spin-hide', CLS_MATERIALSPIN = 'e-spin-material', CLS_FABRICSPIN = 'e-spin-fabric', CLS_FLUENTSPIN = 'e-spin-fluent', CLS_TAILWINDSPIN = 'e-spin-tailwind', CLS_BOOT4SPIN = 'e-spin-bootstrap4', CLS_BOOT5SPIN = 'e-spin-bootstrap5', CLS_HIGHCONTRASTSPIN = 'e-spin-high-contrast', CLS_SPINWRAP = 'e-spinner-pane', CLS_SPININWRAP = 'e-spinner-inner', CLS_SPINCIRCLE = 'e-path-circle', CLS_SPINTEMPLATE = 'e-spin-template';
             function createSpinner(args, internalCreateElement) {
                 if (args.target) {
-                    var target, spinnerContainer, spinnerInnerContainer, radius, makeElement = (0, ej2_base.le)(internalCreateElement) ? ej2_base.az : internalCreateElement, container = (target = args.target, spinnerContainer = makeElement('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
+                    var spinnerContainer, spinnerInnerContainer, radius, makeElement = (0, ej2_base.le)(internalCreateElement) ? ej2_base.az : internalCreateElement, container = (spinnerContainer = makeElement('div', {}), spinnerInnerContainer = makeElement('div', {}), spinnerContainer.classList.add(CLS_SPINWRAP), spinnerInnerContainer.classList.add(CLS_SPININWRAP), args.target.appendChild(spinnerContainer), spinnerContainer.appendChild(spinnerInnerContainer), {
                         wrap: spinnerContainer,
                         inner_wrap: spinnerInnerContainer
                     });
                     if ((0, ej2_base.le)(args.cssClass) || container.wrap.classList.add(args.cssClass), (0, ej2_base.le)(args.template) && (0, ej2_base.le)(null)) {
-                        var container1, container2, label, labelEle, theme = (0, ej2_base.le)(args.type) ? (container1 = container.wrap, window.getComputedStyle(container1, ':after').getPropertyValue('content').replace(/['"]+/g, '')) : args.type;
+                        var labelEle, theme = (0, ej2_base.le)(args.type) ? window.getComputedStyle(container.wrap, ':after').getPropertyValue('content').replace(/['"]+/g, '') : args.type;
                         radius = function(width, theme) {
                             var defaultSize;
                             switch(theme){
@@ -16180,10 +16180,10 @@
                                         radius: radius
                                     }, create_fabric_element(innerContainer, uniqueID7, CLS_TAILWINDSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_TAILWINDSPIN);
                             }
-                        }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
+                        }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || ((labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = args.label, container.inner_wrap.appendChild(labelEle));
                     } else {
-                        var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
-                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
+                        var container1, template = (0, ej2_base.le)(args.template) ? null : args.template;
+                        container.wrap.classList.add(CLS_SPINTEMPLATE), container1 = container.wrap, (0, ej2_base.le)(null) || container1.classList.add(null), container1.querySelector('.e-spinner-inner').innerHTML = template;
                     }
                     container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
@@ -16278,13 +16278,13 @@
                 if (container && (spinnerWrap = container.classList.contains(CLS_SPINWRAP) ? container : container.querySelector('.' + CLS_SPINWRAP)), container && spinnerWrap) {
                     var inner = spinnerWrap.querySelector('.' + CLS_SPININWRAP);
                     if (isHide ? !spinnerWrap.classList.contains(CLS_SPINTEMPLATE) && !spinnerWrap.classList.contains(CLS_HIDESPIN) : !spinnerWrap.classList.contains(CLS_SPINTEMPLATE) && !spinnerWrap.classList.contains(CLS_SHOWSPIN)) {
-                        var radius, globalObject, svgEle = spinnerWrap.querySelector('svg');
+                        var globalObject, svgEle = spinnerWrap.querySelector('svg');
                         if ((0, ej2_base.le)(svgEle)) return;
                         var id = svgEle.getAttribute('id');
                         switch(globalTimeOut[id].isAnimate = !isHide, globalTimeOut[id].type){
                             case 'Material':
-                                isHide ? clearTimeout(globalTimeOut[id].timeOut) : (radius = globalTimeOut[id].radius, globalObject = {}, globalTimeOut[id].timeOut = 0, globalObject[id] = {
-                                    radius: radius,
+                                isHide ? clearTimeout(globalTimeOut[id].timeOut) : (globalObject = {}, globalTimeOut[id].timeOut = 0, globalObject[id] = {
+                                    radius: globalTimeOut[id].radius,
                                     count: 0,
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {

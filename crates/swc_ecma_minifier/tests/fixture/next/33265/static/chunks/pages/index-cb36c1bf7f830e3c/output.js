@@ -41,8 +41,7 @@
                 }
             });
             var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                var obj;
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -73,8 +72,8 @@
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
-                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
+                for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -3118,7 +3117,7 @@
                 }, {})).map(function(k) {
                     return o[k];
                 }).map(function(playlist) {
-                    return playlist.discontinuityStarts = (0, playlist.segments).reduce(function(a, e, i) {
+                    return playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
                         return e.discontinuity && a.push(i), a;
                     }, []), playlist;
                 });
@@ -3547,9 +3546,9 @@
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
-                            var adaptationSetAttributes1, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
-                            return flatten(representations.map((adaptationSetAttributes1 = attrs, function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                            var segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
+                            return flatten(representations.map(function(representation) {
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(attrs, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3558,7 +3557,7 @@
                                         })
                                     };
                                 });
-                            })));
+                            }));
                         }));
                     }))
                 };
@@ -3595,7 +3594,7 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = parsedManifestInfo.representationInfo.map(generateSegments);
                 return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
@@ -5503,7 +5502,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var offset1, length1, remaining = this.length - offset;
+                var remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5513,10 +5512,9 @@
                     case "utf-8":
                         return utf8Write(this, string, offset, length);
                     case "ascii":
-                        return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return offset1 = offset, length1 = length, asciiWrite(this, string, offset1, length1);
+                        return asciiWrite(this, string, offset, length);
                     case "base64":
                         return base64Write(this, string, offset, length);
                     case "ucs2":

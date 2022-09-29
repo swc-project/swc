@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, $1, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window2, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window3, $18, $19, $20, defaultGetMaxScrollForTransition, $21, window4, $22, window5, $23, window6, $24, window7, $25, window8, $26, window9, $27, window10, $28, window11, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, $1, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window2, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, $18, $19, $20, defaultGetMaxScrollForTransition, $21, window3, $22, window4, $23, window5, $24, window6, $25, window7, $26, window8, $27, window9, $28, window10, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
     ($ = jQuery).mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -66,7 +66,7 @@
     }, $1.find = function(selector, context, ret, extra) {
         return selector.indexOf(":jqmData") > -1 && (selector = selector.replace(jqmDataRE, "[data-" + ($1.mobile.ns || "") + "$1]")), oldFind.call(this, selector, context, ret, extra);
     }, $1.extend($1.find, oldFind), function($, undefined) {
-        var removeData, orig, uuid = 0, runiqueId = /^ui-id-\d+$/;
+        var removeData, uuid = 0, runiqueId = /^ui-id-\d+$/;
         function focusable(element, isTabIndexNotNaN) {
             var map, mapName, img, nodeName = element.nodeName.toLowerCase();
             return "area" === nodeName ? (mapName = (map = element.parentNode).name, !!element.href && !!mapName && "map" === map.nodeName.toLowerCase() && !!(img = $("img[usemap=#" + mapName + "]")[0]) && visible(img)) : (/input|select|textarea|button|object/.test(nodeName) ? !element.disabled : "a" === nodeName && element.href || isTabIndexNotNaN) && visible(element);
@@ -97,14 +97,14 @@
                 UP: 38
             }
         }), $.fn.extend({
-            focus: (orig = $.fn.focus, function(delay, fn) {
+            focus: function(delay, fn) {
                 return "number" == typeof delay ? this.each(function() {
                     var elem = this;
                     setTimeout(function() {
                         $(elem).focus(), fn && fn.call(elem);
                     }, delay);
-                }) : orig.apply(this, arguments);
-            }),
+                }) : $.fn.focus.apply(this, arguments);
+            },
             scrollParent: function() {
                 var scrollParent;
                 return scrollParent = $.ui.ie && /(static|relative)/.test(this.css("position")) || /absolute/.test(this.css("position")) ? this.parents().filter(function() {
@@ -1240,10 +1240,10 @@
         reset: function() {
             base.element.attr("href", $14.mobile.path.documentBase.hrefNoSearch);
         }
-    }, $14.mobile.base = base, ($15 = jQuery).mobile.widgets = {}, originalWidget = $15.widget, keepNativeFactoryDefault = $15.mobile.keepNative, $15.widget = (orig = $15.widget, function() {
-        var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
+    }, $14.mobile.base = base, ($15 = jQuery).mobile.widgets = {}, originalWidget = $15.widget, keepNativeFactoryDefault = $15.mobile.keepNative, $15.widget = function() {
+        var constructor = $15.widget.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", $15.mobile.widgets[name] = constructor, constructor;
-    }), $15.extend($15.widget, originalWidget), $15.mobile.document.on("create", function(event1) {
+    }, $15.extend($15.widget, originalWidget), $15.mobile.document.on("create", function(event1) {
         $15(event1.target).enhanceWithin();
     }), $15.widget("mobile.page", {
         options: {
@@ -1733,7 +1733,7 @@
         }), $.when(domreadyDeferred, $.mobile.navreadyDeferred).done(function() {
             $.mobile._registerInternalEvents();
         });
-    }(jQuery), $17 = jQuery, window3 = this, $17.mobile.Transition = function() {
+    }(jQuery), ($17 = jQuery).mobile.Transition = function() {
         this.init.apply(this, arguments);
     }, $17.extend($17.mobile.Transition.prototype, {
         toPreClass: " ui-page-pre-in",
@@ -1762,7 +1762,7 @@
             this.$to.css("z-index", -10), callback.call(this), this.$to.css("z-index", "");
         },
         scrollPage: function() {
-            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && window3.scrollTo(0, this.toScroll), setTimeout(function() {
+            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && this.scrollTo(0, this.toScroll), setTimeout(function() {
                 $17.event.special.scrollstart.enabled = !0;
             }, 150);
         },
@@ -4377,13 +4377,9 @@
             this._widget && "mobile-listview" === this._widget.widgetFullName && "beforefilter" === type && this._widget._trigger("beforefilter", event1, data), this._super(type, event1, data);
         },
         _setWidget: function(widget) {
-            if (!this._widget && widget) {
-                var self, orig;
-                this._widget = widget, this._widget._setOptions = (self = this, orig = this._widget._setOptions, function(options) {
-                    orig.call(this, options), self._syncTextInputOptions(options);
-                });
-            }
-            return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
+            return !this._widget && widget && (this._widget = widget, this._widget._setOptions = function(options) {
+                this._widget._setOptions.call(this, options), this._syncTextInputOptions(options);
+            }), this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
         },
         _isSearchInternal: function() {
             return this._search && this._search.jqmData("ui-filterable-" + this.uuid + "-internal");

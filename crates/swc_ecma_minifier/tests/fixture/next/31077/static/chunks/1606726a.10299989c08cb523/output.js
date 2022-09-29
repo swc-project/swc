@@ -1500,7 +1500,7 @@
                 })) return this.setCurSelection(), !0;
             }, DOMObserver.prototype.flush = function() {
                 if (this.view.docView && !(this.flushingSoon > -1)) {
-                    var view, mutations = this.observer ? this.observer.takeRecords() : [];
+                    var mutations = this.observer ? this.observer.takeRecords() : [];
                     this.queue.length && (mutations = this.queue.concat(mutations), this.queue.length = 0);
                     var sel = this.view.root.getSelection(), newSel = !this.suppressingSelectionUpdates && !this.currentSelection.eq(sel) && hasSelection(this.view) && !this.ignoreSelectionChange(sel), from = -1, to = -1, typeOver = !1, added = [];
                     if (this.view.editable) for(var i = 0; i < mutations.length; i++){
@@ -1516,7 +1516,7 @@
                             a.parentNode && a.parentNode.parentNode == b.parentNode ? b.remove() : a.remove();
                         }
                     }
-                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
+                    (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), cssChecked || (cssChecked = !0, "normal" == getComputedStyle(this.view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
                 }
             }, DOMObserver.prototype.registerMutation = function(mut, added) {
                 if (added.indexOf(mut.target) > -1) return null;
@@ -1701,10 +1701,10 @@
                 }), this.view.mouseDown = null;
             }, MouseDown.prototype.up = function(event) {
                 if (this.done(), this.view.dom.contains(3 == event.target.nodeType ? event.target.parentNode : event.target)) {
-                    var view, pos, inside, selectNode, pos1 = this.pos;
-                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event) || view.someProp("handleClick", function(f) {
+                    var view, pos, inside, pos1 = this.pos;
+                    (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : runHandlerOnContext(view = this.view, "handleClickOn", pos = pos1.pos, inside = pos1.inside, event) || view.someProp("handleClick", function(f) {
                         return f(view, pos, event);
-                    }) || (selectNode ? function(view, inside) {
+                    }) || (this.selectNode ? function(view, inside) {
                         if (-1 == inside) return !1;
                         var selectedNode, selectAt, sel = view.state.selection;
                         sel instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection && (selectedNode = sel.node);
@@ -1720,7 +1720,7 @@
                         if (-1 == inside) return !1;
                         var $pos = view.state.doc.resolve(inside), node = $pos.nodeAfter;
                         return !!(node && node.isAtom && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) && (updateSelection(view, new prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection($pos), "pointer"), !0);
-                    }(view, inside))) ? event.preventDefault() : 0 == event.button && (this.flushed || result.safari && this.mightDrag && !this.mightDrag.node.isAtom || result.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
+                    }(view, inside)) ? event.preventDefault() : 0 == event.button && (this.flushed || result.safari && this.mightDrag && !this.mightDrag.node.isAtom || result.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
                 }
             }, MouseDown.prototype.move = function(event) {
                 !this.allowDefault && (Math.abs(this.event.x - event.clientX) > 4 || Math.abs(this.event.y - event.clientY) > 4) && (this.allowDefault = !0), setSelectionOrigin(this.view, "pointer"), 0 == event.buttons && this.done();
@@ -2570,9 +2570,9 @@
                         }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
-                    if (dom = elt, coords1 = coords, elt = (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords1.left < dom.getBoundingClientRect().left ? parent : dom, node) {
+                    if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
                         if (result.gecko && 1 == node.nodeType && (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
-                            var dom, coords1, parent, box$1, next = node.childNodes[offset];
+                            var dom, parent, box$1, next = node.childNodes[offset];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;
                         }
                         node == view.dom && offset == node.childNodes.length - 1 && 1 == node.lastChild.nodeType && coords.top > node.lastChild.getBoundingClientRect().bottom ? pos = view.state.doc.content.size : (0 == offset || 1 != node.nodeType || "BR" != node.childNodes[offset - 1].nodeName) && (pos = function(view, node, offset, coords) {

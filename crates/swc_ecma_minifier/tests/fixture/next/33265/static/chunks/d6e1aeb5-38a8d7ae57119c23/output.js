@@ -4365,12 +4365,10 @@
                 }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function() {
-                    var fn, _this3 = this;
-                    return fn = function(accum, config, key) {
-                        var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
-                        return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
-                        return fn(accum, selectConfigs[key], key);
+                    var _this3 = this;
+                    return keys(selectConfigs).reduce(function(accum, key) {
+                        var accum1, config, el, value;
+                        return accum1 = accum, config = selectConfigs[key], void 0 !== (value = parseOptionValue((el = _this3.$(config.selector)).options[el.options.selectedIndex].value, config.parser)) && (accum1[key] = value), accum1;
                     }, {});
                 }, _proto.setValues = function(values) {
                     var _this4 = this;
@@ -5565,10 +5563,7 @@
                     };
                 }, _proto.techCall_ = function(method, arg) {
                     this.ready(function() {
-                        if (method in allowedSetters) {
-                            var middleware;
-                            return middleware = this.middleware_, (0, this.tech_)[method](middleware.reduce(middlewareIterator(method), arg));
-                        }
+                        if (method in allowedSetters) return this.tech_[method](this.middleware_.reduce(middlewareIterator(method), arg));
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {
                             this.tech_ && this.tech_[method](arg);
@@ -5578,10 +5573,7 @@
                     }, !0);
                 }, _proto.techGet_ = function(method) {
                     if (this.tech_ && this.tech_.isReady_) {
-                        if (method in allowedGetters) {
-                            var middleware, tech;
-                            return middleware = this.middleware_, tech = this.tech_, middleware.reduceRight(middlewareIterator(method), tech[method]());
-                        }
+                        if (method in allowedGetters) return this.middleware_.reduceRight(middlewareIterator(method), this.tech_[method]());
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method);
                         try {
                             return this.tech_[method]();
@@ -5901,10 +5893,10 @@
                 }, _proto.src = function(source) {
                     return this.handleSrc_(source, !1);
                 }, _proto.src_ = function(source) {
-                    var str1, str2, _this15 = this, sourceTech = this.selectSource([
+                    var _this15 = this, sourceTech = this.selectSource([
                         source
                     ]);
-                    return !sourceTech || ((str1 = sourceTech.tech, str2 = this.techName_, toTitleCase$1(str1) !== toTitleCase$1(str2)) ? (this.changingSrc_ = !0, this.loadTech_(sourceTech.tech, sourceTech.source), this.tech_.ready(function() {
+                    return !sourceTech || (toTitleCase$1(sourceTech.tech) !== toTitleCase$1(this.techName_) ? (this.changingSrc_ = !0, this.loadTech_(sourceTech.tech, sourceTech.source), this.tech_.ready(function() {
                         _this15.changingSrc_ = !1;
                     }), !1) : (this.ready(function() {
                         this.tech_.constructor.prototype.hasOwnProperty("setSource") ? this.techCall_("setSource", source) : this.techCall_("src", source.src), this.changingSrc_ = !1;
@@ -9351,9 +9343,9 @@
                         }
                     },
                     PRIV: function(tag) {
-                        var i, bytes, end;
+                        var i;
                         for(i = 0; i < tag.data.length; i++)if (0 === tag.data[i]) {
-                            tag.owner = (bytes = tag.data, end = i, unescape(percentEncode$1(bytes, 0, end)));
+                            tag.owner = unescape(percentEncode$1(tag.data, 0, i));
                             break;
                         }
                         tag.privateData = tag.data.subarray(i + 1), tag.data = tag.privateData;
@@ -12470,7 +12462,7 @@
                 }, _proto.checkAppendsDone_ = function(segmentInfo) {
                     this.checkForAbort_(segmentInfo.requestId) || (segmentInfo.waitingOnAppends--, 0 === segmentInfo.waitingOnAppends && this.handleAppendsDone_());
                 }, _proto.checkForIllegalMediaSwitch = function(trackInfo) {
-                    var loaderType, startingMedia, illegalMediaSwitchError = (loaderType = this.loaderType_, startingMedia = this.getCurrentMediaInfo_(), "main" === loaderType && startingMedia && trackInfo ? trackInfo.hasAudio || trackInfo.hasVideo ? startingMedia.hasVideo && !trackInfo.hasVideo ? "Only audio found in segment when we expected video. We can't switch to audio only from a stream that had video. To get rid of this message, please add codec information to the manifest." : !startingMedia.hasVideo && trackInfo.hasVideo ? "Video found in segment when we expected only audio. We can't switch to a stream with video from an audio only stream. To get rid of this message, please add codec information to the manifest." : null : "Neither audio nor video found in segment." : null);
+                    var startingMedia, illegalMediaSwitchError = (startingMedia = this.getCurrentMediaInfo_(), "main" === this.loaderType_ && startingMedia && trackInfo ? trackInfo.hasAudio || trackInfo.hasVideo ? startingMedia.hasVideo && !trackInfo.hasVideo ? "Only audio found in segment when we expected video. We can't switch to audio only from a stream that had video. To get rid of this message, please add codec information to the manifest." : !startingMedia.hasVideo && trackInfo.hasVideo ? "Video found in segment when we expected only audio. We can't switch to a stream with video from an audio only stream. To get rid of this message, please add codec information to the manifest." : null : "Neither audio nor video found in segment." : null);
                     return !!illegalMediaSwitchError && (this.error({
                         message: illegalMediaSwitchError,
                         blacklistDuration: 1 / 0
@@ -14292,8 +14284,8 @@
                         "video",
                         "audio"
                     ].forEach(function(type) {
-                        var isFmp4, codec;
-                        if (codecs.hasOwnProperty(type) && (isFmp4 = media[type].isFmp4, codec = codecs[type], isFmp4 ? !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)(codec) : !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.Hi)(codec))) {
+                        var codec;
+                        if (codecs.hasOwnProperty(type) && (codec = codecs[type], media[type].isFmp4 ? !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)(codec) : !(0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.Hi)(codec))) {
                             var supporter = media[type].isFmp4 ? "browser" : "muxer";
                             unsupportedCodecs[supporter] = unsupportedCodecs[supporter] || [], unsupportedCodecs[supporter].push(codecs[type]), "audio" === type && (unsupportedAudio = supporter);
                         }
@@ -14385,14 +14377,14 @@
                     return Config.BUFFER_HIGH_WATER_LINE;
                 }, MasterPlaylistController;
             }(videojs.EventTarget), Representation = function(vhsHandler, playlist, id) {
-                var loader, playlistID, mpc = vhsHandler.masterPlaylistController_, qualityChangeFunction = mpc[(vhsHandler.options_.smoothQualityChange ? "smooth" : "fast") + "QualityChange_"].bind(mpc);
+                var loader, mpc = vhsHandler.masterPlaylistController_, qualityChangeFunction = mpc[(vhsHandler.options_.smoothQualityChange ? "smooth" : "fast") + "QualityChange_"].bind(mpc);
                 if (playlist.attributes) {
                     var resolution = playlist.attributes.RESOLUTION;
                     this.width = resolution && resolution.width, this.height = resolution && resolution.height, this.bandwidth = playlist.attributes.BANDWIDTH;
                 }
-                this.codecs = codecsForPlaylist(mpc.master(), playlist), this.playlist = playlist, this.id = id, this.enabled = (loader = vhsHandler.playlists, playlistID = playlist.id, function(enable) {
-                    var playlist = loader.master.playlists[playlistID], incompatible = isIncompatible(playlist), currentlyEnabled = isEnabled(playlist);
-                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist.disabled : playlist.disabled = !0, enable === currentlyEnabled || incompatible || (qualityChangeFunction(), enable ? loader.trigger("renditionenabled") : loader.trigger("renditiondisabled")), enable);
+                this.codecs = codecsForPlaylist(mpc.master(), playlist), this.playlist = playlist, this.id = id, this.enabled = (loader = vhsHandler.playlists, function(enable) {
+                    var playlist1 = loader.master.playlists[playlist.id], incompatible = isIncompatible(playlist1), currentlyEnabled = isEnabled(playlist1);
+                    return void 0 === enable ? currentlyEnabled : (enable ? delete playlist1.disabled : playlist1.disabled = !0, enable === currentlyEnabled || incompatible || (qualityChangeFunction(), enable ? loader.trigger("renditionenabled") : loader.trigger("renditiondisabled")), enable);
                 });
             }, renditionSelectionMixin = function(vhsHandler) {
                 vhsHandler.representations = function() {
@@ -14692,18 +14684,18 @@
             }, waitForKeySessionCreation = function(_ref) {
                 var player = _ref.player, sourceKeySystems = _ref.sourceKeySystems, audioMedia = _ref.audioMedia, mainPlaylists = _ref.mainPlaylists;
                 if (!player.eme.initializeMediaKeys) return Promise.resolve();
-                var playlists, keySystems, keySystemsOptionsArr = (playlists = audioMedia ? mainPlaylists.concat([
+                var keySystemsOptionsArr = (audioMedia ? mainPlaylists.concat([
                     audioMedia
-                ]) : mainPlaylists, keySystems = Object.keys(sourceKeySystems), playlists.reduce(function(keySystemsArr, playlist) {
+                ]) : mainPlaylists).reduce(function(keySystemsArr, playlist) {
                     if (!playlist.contentProtection) return keySystemsArr;
-                    var keySystemsOptions = keySystems.reduce(function(keySystemsObj, keySystem) {
+                    var keySystemsOptions = Object.keys(sourceKeySystems).reduce(function(keySystemsObj, keySystem) {
                         var keySystemOptions = playlist.contentProtection[keySystem];
                         return keySystemOptions && keySystemOptions.pssh && (keySystemsObj[keySystem] = {
                             pssh: keySystemOptions.pssh
                         }), keySystemsObj;
                     }, {});
                     return Object.keys(keySystemsOptions).length && keySystemsArr.push(keySystemsOptions), keySystemsArr;
-                }, [])), initializationFinishedPromises = [], keySessionCreatedPromises = [];
+                }, []), initializationFinishedPromises = [], keySessionCreatedPromises = [];
                 return keySystemsOptionsArr.forEach(function(keySystemsOptions) {
                     keySessionCreatedPromises.push(new Promise(function(resolve, reject) {
                         player.tech_.one("keysessioncreated", resolve);

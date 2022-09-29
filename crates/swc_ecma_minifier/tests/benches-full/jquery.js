@@ -937,10 +937,10 @@
         }
     }
     jQuery.Callbacks = function(options) {
-        options = "string" == typeof options ? (options1 = options, object = {}, jQuery.each(options1.match(rnothtmlwhite) || [], function(_, flag) {
+        options = "string" == typeof options ? (object = {}, jQuery.each(options.match(rnothtmlwhite) || [], function(_, flag) {
             object[flag] = !0;
         }), object) : jQuery.extend({}, options);
-        var options1, object, firing, memory, fired, locked, list = [], queue = [], firingIndex = -1, fire = function() {
+        var object, firing, memory, fired, locked, list = [], queue = [], firingIndex = -1, fire = function() {
             for(locked = locked || options.once, fired = firing = !0; queue.length; firingIndex = -1)for(memory = queue.shift(); ++firingIndex < list.length;)!1 === list[firingIndex].apply(memory[0], memory[1]) && options.stopOnFalse && (firingIndex = list.length, memory = !1);
             options.memory || (memory = !1), firing = !1, locked && (list = memory ? [] : "");
         }, self = {

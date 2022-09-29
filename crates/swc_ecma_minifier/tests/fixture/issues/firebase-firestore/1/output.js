@@ -1899,12 +1899,12 @@
             }
             function Hn(t, e) {
                 var t1;
-                return t1 = t.databaseId, new ht([
+                return (t1 = t.databaseId, new ht([
                     "projects",
                     t1.projectId,
                     "databases",
                     t1.database
-                ]).child("documents").child(e).canonicalString();
+                ])).child("documents").child(e).canonicalString();
             }
             function Yn(t) {
                 return new ht([
@@ -2381,8 +2381,7 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var e1;
-                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
+                            const o = new fe(r.child(s), null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -2529,22 +2528,21 @@
                     return this.Xn.set(e.name, {
                         name: e.name,
                         query: function(t) {
-                            var e;
-                            const e1 = function(t) {
-                                var t1, t2, e, n, s, i, o, c;
-                                let e1, e2 = function(t) {
+                            const e = function(t) {
+                                var t1;
+                                let e, e1 = function(t) {
                                     const e = Wn(t);
                                     return 4 === e.length ? ht.emptyPath() : Xn(e);
                                 }(t.parent);
-                                const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
-                                let i1 = null;
-                                if (s1 > 0) {
-                                    1 === s1 || L();
-                                    const t3 = n1.from[0];
-                                    t3.allDescendants ? i1 = t3.collectionId : e2 = e2.child(t3.collectionId);
+                                const n = t.structuredQuery, s = n.from ? n.from.length : 0;
+                                let i = null;
+                                if (s > 0) {
+                                    1 === s || L();
+                                    const t2 = n.from[0];
+                                    t2.allDescendants ? i = t2.collectionId : e1 = e1.child(t2.collectionId);
                                 }
                                 let r = [];
-                                n1.where && (r = function hs(t) {
+                                n.where && (r = function hs(t) {
                                     return t ? void 0 !== t.unaryFilter ? [
                                         function(t) {
                                             switch(t.unaryFilter.op){
@@ -2600,9 +2598,9 @@
                                             }
                                         }(t.fieldFilter.op), t.fieldFilter.value)
                                     ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                }(n1.where));
-                                let o1 = [];
-                                n1.orderBy && (o1 = n1.orderBy.map((t)=>new ae(ms(t.field), function(t) {
+                                }(n.where));
+                                let o = [];
+                                n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                         switch(t){
                                             case "ASCENDING":
                                                 return "asc";
@@ -2612,17 +2610,17 @@
                                                 return;
                                         }
                                     }(t.direction))));
-                                let c1 = null;
-                                n1.limit && (c1 = At(e1 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e1);
+                                let c = null;
+                                n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
                                 let a = null;
-                                n1.startAt && (a = fs(n1.startAt));
+                                n.startAt && (a = fs(n.startAt));
                                 let u = null;
-                                return n1.endAt && (u = fs(n1.endAt)), t2 = e2, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                                return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F", a, u);
                             }({
                                 parent: t.parent,
                                 structuredQuery: t.structuredQuery
                             });
-                            return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L", e1.startAt, e1.endAt)) : e1;
+                            return "LAST" === t.limitType ? new fe(e.path, e.collectionGroup, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, "L", e.startAt, e.endAt) : e;
                         }(e.bundledQuery),
                         readTime: jn(e.readTime)
                     }), js.resolve();
@@ -2919,8 +2917,7 @@
             }
             class Cr {
                 constructor(t, e){
-                    var t1, e1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, e1 = (t)=>this.referenceDelegate.Ps(t), new Vr(t1, e1)), this.N = new ri(e), this.Je = new Rr(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = new Vr(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -3688,12 +3685,12 @@
                 e ? (t.Wr.delete(2), await ro(t)) : e || (t.Wr.add(2), await oo(t), t.Hr.set("Unknown"));
             }
             function Co(t) {
-                var t1, e, n;
-                return t.Yr || (t.Yr = (t1 = t.datastore, e = t.asyncQueue, n = {
+                var t1;
+                return t.Yr || (t.Yr = ((t1 = t.datastore).$r(), new to(t.asyncQueue, t1.sr, t1.credentials, t1.N, {
                     Si: mo.bind(null, t),
                     Ci: go.bind(null, t),
                     Rr: yo.bind(null, t)
-                }, t1.$r(), new to(e, t1.sr, t1.credentials, t1.N, n)), t.Gr.push(async (e)=>{
+                })), t.Gr.push(async (e)=>{
                     e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown")) : (await t.Yr.stop(), _o(t));
                 })), t.Yr;
             }
@@ -4273,8 +4270,7 @@
                     return null;
                 }
                 Xo(t) {
-                    var t1, e, n, s;
-                    return t1 = this.persistence, e = new cr(), n = t.initialUser, s = this.N, new ar(t1, e, n, s);
+                    return new ar(this.persistence, new cr(), t.initialUser, this.N);
                 }
                 Jo(t) {
                     return new Cr(xr.Ns, this.N);
@@ -4294,9 +4290,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1;
+                    var s;
                     const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, new no(t1, n, e);
+                    return new no(t.credentials, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;
@@ -4672,8 +4668,8 @@
                 }
             }
             function Ma(t) {
-                var e, t1, e1, n;
-                const n1 = t._freezeSettings(), s = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, new ua(t1, e1, n, n1.host, n1.ssl, n1.experimentalForceLongPolling, n1.experimentalAutoDetectLongPolling, n1.useFetchStreams));
+                var e;
+                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             class Ja {

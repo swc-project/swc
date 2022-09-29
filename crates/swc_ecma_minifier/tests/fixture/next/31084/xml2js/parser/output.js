@@ -103,12 +103,11 @@
                 if (this.saxParser.ended) throw err;
             }
         }, Parser.prototype.parseStringPromise = function(str) {
-            var _this;
-            return new Promise((_this = this, function(resolve, reject) {
-                return _this.parseString(str, function(err, value) {
+            return new Promise(function(resolve, reject) {
+                return this.parseString(str, function(err, value) {
                     return err ? reject(err) : resolve(value);
                 });
-            }));
+            });
         }, Parser;
     }(events), exports.parseString = function(str, a, b) {
         var cb, options;

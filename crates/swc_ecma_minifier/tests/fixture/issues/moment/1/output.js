@@ -749,14 +749,14 @@
         } else config._isValid = !1;
     }
     function configFromRFC2822(config) {
-        var yearStr, year, yearStr1, monthStr, dayStr, hourStr, minuteStr, secondStr, result, parsedArray, match = rfc2822.exec((0, config._i).replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
+        var year, secondStr, result, parsedArray, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
         if (match) {
-            if (yearStr1 = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
-                (yearStr = yearStr1, (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year),
-                defaultLocaleMonthsShort.indexOf(monthStr),
-                parseInt(dayStr, 10),
-                parseInt(hourStr, 10),
-                parseInt(minuteStr, 10)
+            if (secondStr = match[7], result = [
+                (year = parseInt(match[4], 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year,
+                defaultLocaleMonthsShort.indexOf(match[3]),
+                parseInt(match[2], 10),
+                parseInt(match[5], 10),
+                parseInt(match[6], 10)
             ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, !function(weekdayStr, parsedInput, config) {
                 if (weekdayStr) {
                     var weekdayProvided = defaultLocaleWeekdaysShort.indexOf(weekdayStr), weekdayActual = new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay();
@@ -776,9 +776,9 @@
         return null != a ? a : null != b ? b : c;
     }
     function configFromArray(config) {
-        var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, config2, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
+        var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
         if (!config._d) {
-            for(config2 = config, nowValue = new Date(hooks.now()), currentDate = config2._useUTC ? [
+            for(nowValue = new Date(hooks.now()), currentDate = config._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
                 nowValue.getUTCDate()
@@ -1475,8 +1475,8 @@
         return weeksInYear(this.isoWeekYear(), 1, 4);
     }, proto.date = getSetDayOfMonth, proto.day = proto.days = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
-        var input1, locale, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
-        return null == input ? day : (input1 = input, locale = this.localeData(), input = "string" != typeof input1 ? input1 : isNaN(input1) ? "number" == typeof (input1 = locale.weekdaysParse(input1)) ? input1 : null : parseInt(input1, 10), this.add(input - day, "d"));
+        var input1, day = this._isUTC ? this._d.getUTCDay() : this._d.getDay();
+        return null == input ? day : (input = "string" != typeof (input1 = input) ? input1 : isNaN(input1) ? "number" == typeof (input1 = this.localeData().weekdaysParse(input1)) ? input1 : null : parseInt(input1, 10), this.add(input - day, "d"));
     }, proto.weekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         var weekday = (this.day() + 7 - this.localeData()._week.dow) % 7;
@@ -1484,7 +1484,7 @@
     }, proto.isoWeekday = function(input) {
         if (!this.isValid()) return null != input ? this : NaN;
         if (null == input) return this.day() || 7;
-        var locale, weekday = (locale = this.localeData(), "string" == typeof input ? locale.weekdaysParse(input) % 7 || 7 : isNaN(input) ? null : input);
+        var weekday = "string" == typeof input ? this.localeData().weekdaysParse(input) % 7 || 7 : isNaN(input) ? null : input;
         return this.day(this.day() % 7 ? weekday : weekday - 7);
     }, proto.dayOfYear = function(input) {
         var dayOfYear = Math.round((this.clone().startOf("day") - this.clone().startOf("year")) / 864e5) + 1;
@@ -1775,8 +1775,8 @@
         return absFloor(this.days() / 7);
     }, proto$2.months = months, proto$2.years = years, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
-        var locale, output, withoutSuffix, thresholds1, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
-        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), withoutSuffix = !withSuffix, thresholds1 = th, duration = createDuration(this).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
+        var locale, output, thresholds1, duration, seconds, minutes, hours, days, months, weeks, years, a, withSuffix = !1, th = thresholds;
+        return "object" == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), "boolean" == typeof argWithSuffix && (withSuffix = argWithSuffix), "object" == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale = this.localeData(), thresholds1 = th, duration = createDuration(this).abs(), seconds = round(duration.as("s")), minutes = round(duration.as("m")), hours = round(duration.as("h")), days = round(duration.as("d")), months = round(duration.as("M")), weeks = round(duration.as("w")), years = round(duration.as("y")), a = seconds <= thresholds1.ss && [
             "s",
             seconds
         ] || seconds < thresholds1.s && [
@@ -1812,7 +1812,7 @@
         ] || [
             "yy",
             years
-        ])[2] = withoutSuffix, a[3] = +this > 0, a[4] = locale, output = substituteTimeAgo.apply(null, a), withSuffix && (output = locale.pastFuture(+this, output)), locale.postformat(output);
+        ])[2] = !withSuffix, a[3] = +this > 0, a[4] = locale, output = substituteTimeAgo.apply(null, a), withSuffix && (output = locale.pastFuture(+this, output)), locale.postformat(output);
     }, proto$2.toISOString = toISOString$1, proto$2.toString = toISOString$1, proto$2.toJSON = toISOString$1, proto$2.locale = locale, proto$2.localeData = localeData, proto$2.toIsoString = deprecate("toIsoString() is deprecated. Please use toISOString() instead (notice the capitals)", toISOString$1), proto$2.lang = lang, addFormatToken("X", 0, 0, "unix"), addFormatToken("x", 0, 0, "valueOf"), addRegexToken("x", matchSigned), addRegexToken("X", /[+-]?\d+(\.\d{1,3})?/), addParseToken("X", function(input, array, config) {
         config._d = new Date(1000 * parseFloat(input));
     }), addParseToken("x", function(input, array, config) {
