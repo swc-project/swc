@@ -264,6 +264,16 @@ impl VisitMut for Finalizer<'_> {
         }
     }
 
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if let Some(VarDeclOrExpr::VarDecl(v)) = n {
+            if v.decls.is_empty() {
+                *n = None;
+            }
+        }
+    }
+
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
         n.visit_mut_children_with(self);
 
