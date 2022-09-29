@@ -496,7 +496,7 @@
                             const represents_null_character = "0" === ch1 && !is_octal(peek());
                             represents_null_character || parse_error("Octal escape sequences are not allowed in template strings");
                         }
-                        return ch = ch1, strict_octal = strict_hex, p = peek(), (p >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_octal && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
+                        return ch = ch1, strict_octal = strict_hex, ((p = peek()) >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_octal && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
                     }
                     return ch1;
                 }
@@ -789,7 +789,7 @@
                         }();
                         return semicolon(), node;
                     }
-                    return is_token(peek(), "punc", ":") ? (label = as_symbol(AST_Label), "await" === label.name && S.in_async === S.in_function && token_error(S.prev, "await cannot be used as label inside async function"), S.labels.some((l)=>l.name === label.name) && croak("Label " + label.name + " defined twice"), expect(":"), S.labels.push(label), stat1 = statement(), S.labels.pop(), stat1 instanceof AST_IterationStatement || label.references.forEach(function(ref) {
+                    return is_token(peek(), "punc", ":") ? ("await" === (label = as_symbol(AST_Label)).name && S.in_async === S.in_function && token_error(S.prev, "await cannot be used as label inside async function"), S.labels.some((l)=>l.name === label.name) && croak("Label " + label.name + " defined twice"), expect(":"), S.labels.push(label), stat1 = statement(), S.labels.pop(), stat1 instanceof AST_IterationStatement || label.references.forEach(function(ref) {
                         ref instanceof AST_Continue && (ref = ref.label.start, croak("Continue label `" + label.name + "` refers to non-IterationStatement.", ref.line, ref.col, ref.pos));
                     }), new AST_LabeledStatement({
                         body: stat1,
@@ -4409,7 +4409,7 @@
             to_utf8: to_utf8,
             print_name: function(name) {
                 var name1;
-                print((name1 = name, name1 = to_utf8(name1 = name1.toString(), !0)));
+                print(to_utf8(name.toString(), !0));
             },
             print_string: function(str, quote, escape_directive) {
                 var encoded = encode_string(str, quote);

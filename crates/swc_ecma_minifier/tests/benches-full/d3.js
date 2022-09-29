@@ -953,7 +953,7 @@
             return arguments.length ? this.property("__data__", value) : this.node().__data__;
         },
         on: function(typename, value, options) {
-            var typenames, i, t, typenames1 = (typenames = typename + "").trim().split(/^|\s+/).map(function(t) {
+            var typenames, i, t, typenames1 = (typename + "").trim().split(/^|\s+/).map(function(t) {
                 var name = "", i = t.indexOf(".");
                 return i >= 0 && (name = t.slice(i + 1), t = t.slice(0, i)), {
                     type: t,
@@ -1535,7 +1535,7 @@
     var interpolateRgb = function rgbGamma(y) {
         var y1, color = 1 == (y1 = +(y1 = y)) ? nogamma : function(a, b) {
             var a1, b1, y;
-            return b - a ? (a1 = a, b1 = b, y = y1, a1 = Math.pow(a1, y), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
+            return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y = y1), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
                 return Math.pow(a1 + t * b1, y);
             }) : constant$3(isNaN(a) ? b : a);
         };
@@ -6104,8 +6104,8 @@
         switch(B.length){
             case 1:
                 var a;
-                return a = B[0], {
-                    x: a.x,
+                return {
+                    x: (a = B[0]).x,
                     y: a.y,
                     r: a.r
                 };
@@ -6712,7 +6712,7 @@
         var transform, untransform, unknown, piecewise, output, input, domain = unit, range = unit, interpolate$1 = interpolate, clamp = identity$6;
         function rescale() {
             var a, b, t, n = Math.min(domain.length, range.length);
-            return clamp !== identity$6 && (a = domain[0], a > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
+            return clamp !== identity$6 && ((a = domain[0]) > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
                 return Math.max(a, Math.min(b, x));
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
@@ -9073,7 +9073,7 @@
             var previousNode, x = 0;
             root.eachAfter(function(node) {
                 var children, children1, children2 = node.children;
-                children2 ? (node.x = (children = children2).reduce(meanXReduce, 0) / children.length, node.y = 1 + (children1 = children2).reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
+                children2 ? (node.x = (children = children2).reduce(meanXReduce, 0) / children.length, node.y = 1 + children2.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
             });
             var left = function(node) {
                 for(var children; children = node.children;)node = children[0];

@@ -560,7 +560,7 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -644,17 +644,17 @@
                         q,
                         p,
                         p
-                    ][mod], b1 = [
-                        p,
-                        p,
-                        t,
-                        v,
-                        v,
-                        q
                     ][mod], rgb = {
                         r: 255 * r1,
                         g: 255 * g1,
-                        b: 255 * b1
+                        b: 255 * [
+                            p,
+                            p,
+                            t,
+                            v,
+                            v,
+                            q
+                        ][mod]
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -4436,10 +4436,10 @@
                     });
                 },
                 notify: function(message, options) {
-                    var options1, _options$id, _options$position, id, position, toast = (void 0 === (options1 = options) && (options1 = {}), counter += 1, id = null != (_options$id = options1.id) ? _options$id : counter, position = null != (_options$position = options1.position) ? _options$position : "bottom", {
-                        id: id,
+                    var options1, _options$id, _options$position, id, position, toast = (void 0 === (options1 = options) && (options1 = {}), counter += 1, {
+                        id: id = null != (_options$id = options1.id) ? _options$id : counter,
                         message: message,
-                        position: position,
+                        position: position = null != (_options$position = options1.position) ? _options$position : "bottom",
                         duration: options1.duration,
                         onCloseComplete: options1.onCloseComplete,
                         onRequestRemove: function() {

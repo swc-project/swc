@@ -111,7 +111,7 @@ var ItemsList = function(_Component) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
-        return self = this, call = result, call && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
+        return self = this, (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     };
     function ItemsList() {
         var _this;

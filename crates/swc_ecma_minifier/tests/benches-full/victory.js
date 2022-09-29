@@ -1898,7 +1898,7 @@
             function gamma(y) {
                 return 1 == (y = +y) ? nogamma : function(a, b) {
                     var a1, b1, y1;
-                    return b - a ? (a1 = a, b1 = b, y1 = y, a1 = Math.pow(a1, y1), b1 = Math.pow(b1, y1) - a1, y1 = 1 / y1, function(t) {
+                    return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y1 = y), b1 = Math.pow(b1, y1) - a1, y1 = 1 / y1, function(t) {
                         return Math.pow(a1 + t * b1, y1);
                     }) : Object(_constant_js__WEBPACK_IMPORTED_MODULE_0__.default)(isNaN(a) ? b : a);
                 };
@@ -6784,7 +6784,7 @@
                     this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
                 }, Delaunator.prototype._hashKey = function(x, y) {
                     var dx, dy, p;
-                    return Math.floor((dx = x - this._cx, dy = y - this._cy, p = dx / (Math.abs(dx) + Math.abs(dy)), (dy > 0 ? 3 - p : 1 + p) / 4 * this._hashSize)) % this._hashSize;
+                    return Math.floor((dx = x - this._cx, p = dx / (Math.abs(dx) + Math.abs(dy = y - this._cy)), (dy > 0 ? 3 - p : 1 + p) / 4 * this._hashSize)) % this._hashSize;
                 }, Delaunator.prototype._legalize = function(a) {
                     for(var triangles = this._triangles, halfedges = this._halfedges, coords = this.coords, i = 0, ar = 0;;){
                         var b = halfedges[a], a0 = a - a % 3;
@@ -6827,9 +6827,9 @@
         "../../../node_modules/delaunay-find/lib/index.js": function(module1, exports1, __webpack_require__) {
             "use strict";
             exports1.__esModule = !0, exports1.default = void 0;
-            var obj, _delaunator = (obj = __webpack_require__("../../../node_modules/delaunator/delaunator.js"), obj && obj.__esModule ? obj : {
+            var obj, _delaunator = (obj = __webpack_require__("../../../node_modules/delaunator/delaunator.js")) && obj.__esModule ? obj : {
                 default: obj
-            });
+            };
             function pointX(p) {
                 return p[0];
             }
@@ -8502,7 +8502,7 @@
                     instanceOf: function(expectedClass) {
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if (!(props[propName] instanceof expectedClass)) {
-                                var propValue, expectedClassName = expectedClass.name || ANONYMOUS, actualClassName = (propValue = props[propName], propValue.constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS);
+                                var propValue, expectedClassName = expectedClass.name || ANONYMOUS, actualClassName = (propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS;
                                 return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `') + componentName + "`, expected instance of `" + expectedClassName + '`.');
                             }
                             return null;
@@ -9051,7 +9051,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryArea, _React$Component), protoProps = [
+                }(VictoryArea, _React$Component), _defineProperties(VictoryArea.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -9067,7 +9067,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryArea.prototype, protoProps), staticProps && _defineProperties(VictoryArea, staticProps), VictoryArea;
+                ]), staticProps && _defineProperties(VictoryArea, staticProps), VictoryArea;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryArea, "animationWhitelist", {
                 configurable: !0,
@@ -10570,7 +10570,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBar, _React$Component), protoProps = [
+                }(VictoryBar, _React$Component), _defineProperties(VictoryBar.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -10586,7 +10586,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBar.prototype, protoProps), staticProps && _defineProperties(VictoryBar, staticProps), VictoryBar;
+                ]), staticProps && _defineProperties(VictoryBar, staticProps), VictoryBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryBar, "animationWhitelist", {
                 configurable: !0,
@@ -11134,7 +11134,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryBoxPlot, _React$Component), protoProps = [
+                }(VictoryBoxPlot, _React$Component), _defineProperties(VictoryBoxPlot.prototype, [
                     {
                         key: "renderBoxPlot",
                         value: function(props) {
@@ -11180,7 +11180,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBoxPlot.prototype, protoProps), staticProps && _defineProperties(VictoryBoxPlot, staticProps), VictoryBoxPlot;
+                ]), staticProps && _defineProperties(VictoryBoxPlot, staticProps), VictoryBoxPlot;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryBoxPlot, "animationWhitelist", {
                 configurable: !0,
@@ -13136,7 +13136,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryCandlestick, _React$Component), protoProps = [
+                }(VictoryCandlestick, _React$Component), _defineProperties(VictoryCandlestick.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -13181,7 +13181,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryCandlestick.prototype, protoProps), staticProps && _defineProperties(VictoryCandlestick, staticProps), VictoryCandlestick;
+                ]), staticProps && _defineProperties(VictoryCandlestick, staticProps), VictoryCandlestick;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryCandlestick, "animationWhitelist", {
                 configurable: !0,
@@ -13656,7 +13656,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryChart, _React$Component), protoProps = [
+                }(VictoryChart, _React$Component), _defineProperties(VictoryChart.prototype, [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -13718,7 +13718,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryChart.prototype, protoProps), staticProps && _defineProperties(VictoryChart, staticProps), VictoryChart;
+                ]), staticProps && _defineProperties(VictoryChart, staticProps), VictoryChart;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryChart, "displayName", {
                 configurable: !0,
@@ -14004,7 +14004,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryAccessibleGroup, _React$Component), protoProps = [
+                }(VictoryAccessibleGroup, _React$Component), _defineProperties(VictoryAccessibleGroup.prototype, [
                     {
                         key: "render",
                         value: function() {
@@ -14024,7 +14024,7 @@
                             }, children);
                         }
                     }
-                ], _defineProperties(VictoryAccessibleGroup.prototype, protoProps), staticProps && _defineProperties(VictoryAccessibleGroup, staticProps), VictoryAccessibleGroup;
+                ]), staticProps && _defineProperties(VictoryAccessibleGroup, staticProps), VictoryAccessibleGroup;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAccessibleGroup, "displayName", {
                 configurable: !0,
@@ -15291,7 +15291,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), protoProps = [
+                }(Portal, _React$Component), _defineProperties(Portal.prototype, [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15328,7 +15328,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ], _defineProperties(Portal.prototype, protoProps), staticProps && _defineProperties(Portal, staticProps), Portal;
+                ]), staticProps && _defineProperties(Portal, staticProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -15381,7 +15381,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPortal, _React$Component), protoProps = [
+                }(VictoryPortal, _React$Component), _defineProperties(VictoryPortal.prototype, [
                     {
                         key: "componentDidMount",
                         value: function() {
@@ -15419,7 +15419,7 @@
                             return this.renderPortal(child);
                         }
                     }
-                ], _defineProperties(VictoryPortal.prototype, protoProps), staticProps && _defineProperties(VictoryPortal, staticProps), VictoryPortal;
+                ]), staticProps && _defineProperties(VictoryPortal, staticProps), VictoryPortal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryPortal, "displayName", {
                 configurable: !0,
@@ -17959,13 +17959,13 @@
             function formatDomain(domain, props, axis) {
                 return function(domain, props, axis) {
                     var dom, almostZero, domainOne, domainTwo;
-                    return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, domainOne = 0 === domain[0] ? almostZero : domain[0], domainTwo = 0 === domain[1] ? almostZero : domain[1], [
-                        domainOne,
-                        domainTwo
+                    return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
+                        domainOne = 0 === domain[0] ? almostZero : domain[0],
+                        0 === domain[1] ? almostZero : domain[1]
                     ]);
                 }(function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
-                    var props1, axis1, formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = (formatPadding = function(padding) {
+                    var props1, axis1, formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = function(padding) {
                         return Array.isArray(padding) ? {
                             left: padding[0],
                             right: padding[1]
@@ -17973,7 +17973,7 @@
                             left: padding,
                             right: padding
                         };
-                    })(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domainPadding) ? props.domainPadding[axis] : props.domainPadding);
+                    }(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domainPadding) ? props.domainPadding[axis] : props.domainPadding);
                     if (!padding.left && !padding.right) return domain;
                     var min = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain), max = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain), currentAxis = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getCurrentAxis(axis, props.horizontal), range = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getRange(props, currentAxis), rangeExtent = Math.abs(range[0] - range[1]), paddedRangeExtent = Math.max(rangeExtent - padding.left - padding.right, 1), paddedDomainExtent = Math.abs(max.valueOf() - min.valueOf()) / paddedRangeExtent * rangeExtent, simplePadding = {
                         left: paddedDomainExtent * padding.left / rangeExtent,
@@ -18569,7 +18569,7 @@
                 return "perpendicular" === labelPlacement || "vertical" === labelPlacement && (90 === degrees || 270 === degrees) ? "middle" : degrees <= 90 || degrees > 270 ? "start" : "end";
             }
             function getPolarVerticalAnchor(props, degrees) {
-                var degrees1, labelPlacement = getLabelPlacement(props), orientation = (degrees1 = degrees, degrees1 < 45 || degrees1 > 315 ? "right" : degrees1 >= 45 && degrees1 <= 135 ? "top" : degrees1 > 135 && degrees1 < 225 ? "left" : "bottom");
+                var degrees1, labelPlacement = getLabelPlacement(props), orientation = (degrees1 = degrees) < 45 || degrees1 > 315 ? "right" : degrees1 >= 45 && degrees1 <= 135 ? "top" : degrees1 > 135 && degrees1 < 225 ? "left" : "bottom";
                 return "parallel" === labelPlacement || "left" === orientation || "right" === orientation ? "middle" : "top" === orientation ? "end" : "start";
             }
             function getDegrees(props, datum) {
@@ -18594,8 +18594,8 @@
                             x: x,
                             y: y
                         };
-                        var polarPadding = (props1 = props, datum1 = datum, style = props1.style, degrees = getDegrees(props1, datum1), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees), {
-                            x: padding * Math.cos(angle),
+                        var polarPadding = (props1 = props, datum1 = datum, style = props1.style, degrees = getDegrees(props1, datum1), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, {
+                            x: padding * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
                         return {
@@ -18869,7 +18869,7 @@
                         y: evt.nativeEvent.locationY
                     };
                     evt = evt.changedTouches && evt.changedTouches.length ? evt.changedTouches[0] : evt;
-                    var svg1, matrix = (svg1 = svg = svg || getParentSVG(evt)).getScreenCTM().inverse();
+                    var svg1, matrix = (svg = svg || getParentSVG(evt)).getScreenCTM().inverse();
                     return {
                         x: transformTarget(evt.clientX, matrix, "x"),
                         y: transformTarget(evt.clientY, matrix, "y")
@@ -22479,7 +22479,7 @@
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
                 var arr, widths = _splitToLines(text).map(function(line, index) {
-                    var fontFamily, len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[(fontFamily = _prepareParams2.fontFamily).split(",").map(function(f) {
+                    var fontFamily, len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[(0, _prepareParams2.fontFamily).split(",").map(function(f) {
                         return f.replace(/'|"/g, "");
                     }).find(function(f) {
                         return fonts[f];
@@ -22676,7 +22676,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
+                                }(lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
                                     duration: exit
                                 } : {
                                     delay: exit
@@ -23164,9 +23164,9 @@
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
                         target: target,
-                        eventHandlers: (eventHandlersArray = eventsArray.map(function(event) {
+                        eventHandlers: eventsArray.map(function(event) {
                             return event.eventHandlers;
-                        })).reduce(function(localHandlers, finalHandlers) {
+                        }).reduce(function(localHandlers, finalHandlers) {
                             return lodash_forOwn__WEBPACK_IMPORTED_MODULE_5___default()(localHandlers, function(localHandler, eventName) {
                                 var existingHandler = finalHandlers[eventName];
                                 existingHandler ? finalHandlers[eventName] = function() {
@@ -23206,7 +23206,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), _defineProperties(VictoryCombinedContainer.prototype, [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23217,7 +23217,7 @@
                                 }, props.children);
                             }
                         }
-                    ], _defineProperties(VictoryCombinedContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
+                    ]), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23927,7 +23927,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryErrorBar, _React$Component), protoProps = [
+                }(VictoryErrorBar, _React$Component), _defineProperties(VictoryErrorBar.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -23943,7 +23943,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryErrorBar.prototype, protoProps), staticProps && _defineProperties(VictoryErrorBar, staticProps), VictoryErrorBar;
+                ]), staticProps && _defineProperties(VictoryErrorBar, staticProps), VictoryErrorBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryErrorBar, "animationWhitelist", {
                 configurable: !0,
@@ -24146,10 +24146,10 @@
             }
             function getChildren(props, childComponents, calculatedProps) {
                 props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.modifyProps(props, fallbackProps, "stack"), childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.toArray(props.children);
-                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, height, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, height = props1.height, {
-                    height: height,
+                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, height, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
+                    height: height = props1.height,
                     width: width,
-                    theme: theme = props1.theme,
+                    theme: props1.theme,
                     polar: props1.polar,
                     origin: origin,
                     categories: categories,
@@ -24251,7 +24251,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryGroup, _React$Component), protoProps = [
+                }(VictoryGroup, _React$Component), _defineProperties(VictoryGroup.prototype, [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -24308,7 +24308,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryGroup.prototype, protoProps), staticProps && _defineProperties(VictoryGroup, staticProps), VictoryGroup;
+                ]), staticProps && _defineProperties(VictoryGroup, staticProps), VictoryGroup;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryGroup, "displayName", {
                 configurable: !0,
@@ -24628,7 +24628,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryHistogram, _React$Component), protoProps = [
+                }(VictoryHistogram, _React$Component), _defineProperties(VictoryHistogram.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -24644,7 +24644,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryHistogram.prototype, protoProps), staticProps && _defineProperties(VictoryHistogram, staticProps), VictoryHistogram;
+                ]), staticProps && _defineProperties(VictoryHistogram, staticProps), VictoryHistogram;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryHistogram, "animationWhitelist", {
                 configurable: !0,
@@ -25881,7 +25881,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLegend, _React$Component), protoProps = [
+                }(VictoryLegend, _React$Component), _defineProperties(VictoryLegend.prototype, [
                     {
                         key: "renderChildren",
                         value: function(props) {
@@ -25918,7 +25918,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryLegend.prototype, protoProps), staticProps && _defineProperties(VictoryLegend, staticProps), VictoryLegend;
+                ]), staticProps && _defineProperties(VictoryLegend, staticProps), VictoryLegend;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryLegend, "displayName", {
                 configurable: !0,
@@ -26322,7 +26322,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryLine, _React$Component), protoProps = [
+                }(VictoryLine, _React$Component), _defineProperties(VictoryLine.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -26338,7 +26338,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryLine.prototype, protoProps), staticProps && _defineProperties(VictoryLine, staticProps), VictoryLine;
+                ]), staticProps && _defineProperties(VictoryLine, staticProps), VictoryLine;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryLine, "animationWhitelist", {
                 configurable: !0,
@@ -26505,7 +26505,7 @@
                 }, style1.data);
             }, getLabelText = function(props, datum, index) {
                 var text, text1;
-                return null == (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
+                return void 0 === (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || null === text1 || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
             }, getLabelArc = function(radius, labelRadius, style) {
                 var padding = style && style.padding || 0, arcRadius = labelRadius || radius + padding;
                 return d3_shape__WEBPACK_IMPORTED_MODULE_5__.arc().outerRadius(arcRadius).innerRadius(arcRadius);
@@ -26530,7 +26530,7 @@
                 }, style.labels), evaluatedStyle = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(labelStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     labelRadius: labelRadius,
                     text: text
-                }, dataProps)), labelArc = getLabelArc(defaultRadius, labelRadius, evaluatedStyle), position = getLabelPosition(labelArc, slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, labelPlacement = labelPlacement2, "perpendicular" === labelPlacement ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
+                }, dataProps)), labelArc = getLabelArc(defaultRadius, labelRadius, evaluatedStyle), position = getLabelPosition(labelArc, slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, "perpendicular" === (labelPlacement = labelPlacement2) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
                     width: width,
                     height: height,
                     index: index,
@@ -26756,7 +26756,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPie, _React$Component), protoProps = [
+                }(VictoryPie, _React$Component), _defineProperties(VictoryPie.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -26772,7 +26772,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPie.prototype, protoProps), staticProps && _defineProperties(VictoryPie, staticProps), VictoryPie;
+                ]), staticProps && _defineProperties(VictoryPie, staticProps), VictoryPie;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryPie, "animationWhitelist", {
                 configurable: !0,
@@ -27361,7 +27361,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryPolarAxis, _React$Component), protoProps = [
+                }(VictoryPolarAxis, _React$Component), _defineProperties(VictoryPolarAxis.prototype, [
                     {
                         key: "renderAxisLine",
                         value: function(props) {
@@ -27428,7 +27428,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPolarAxis.prototype, protoProps), staticProps && _defineProperties(VictoryPolarAxis, staticProps), VictoryPolarAxis;
+                ]), staticProps && _defineProperties(VictoryPolarAxis, staticProps), VictoryPolarAxis;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryPolarAxis, "animationWhitelist", {
                 configurable: !0,
@@ -27786,7 +27786,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryScatter, _React$Component), protoProps = [
+                }(VictoryScatter, _React$Component), _defineProperties(VictoryScatter.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -27802,7 +27802,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryScatter.prototype, protoProps), staticProps && _defineProperties(VictoryScatter, staticProps), VictoryScatter;
+                ]), staticProps && _defineProperties(VictoryScatter, staticProps), VictoryScatter;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryScatter, "animationWhitelist", {
                 configurable: !0,
@@ -28649,13 +28649,13 @@
                     return dataset.filter(function(datum) {
                         return null !== datum._x && null !== datum._y;
                     });
-                }), fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
+                }), (fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
                     return dataset.forEach(function(datum) {
                         prev[datum._x instanceof Date ? datum._x.getTime() : datum._x] = !0;
                     }), prev;
                 }, {}), xKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(xMap).map(function(k) {
                     return +k;
-                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), (datasets1 = filterNullChildData.map(function(dataset) {
+                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets1 = filterNullChildData.map(function(dataset) {
                     var indexOffset = 0, isDate = dataset[0] && dataset[0]._x instanceof Date;
                     return xArr.map(function(x, index) {
                         x = +x;
@@ -28832,7 +28832,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryStack, _React$Component), protoProps = [
+                }(VictoryStack, _React$Component), _defineProperties(VictoryStack.prototype, [
                     {
                         key: "shouldComponentUpdate",
                         value: function(nextProps) {
@@ -28889,7 +28889,7 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryStack.prototype, protoProps), staticProps && _defineProperties(VictoryStack, staticProps), VictoryStack;
+                ]), staticProps && _defineProperties(VictoryStack, staticProps), VictoryStack;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryStack, "displayName", {
                 configurable: !0,
@@ -29330,8 +29330,8 @@
                         value: function(props, labelSize) {
                             var calculatedHeight, calculatedWidth, orientation = props.orientation, pointerLength = props.pointerLength, pointerWidth = props.pointerWidth, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, flyoutPadding = props.flyoutPadding, cornerRadius = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(props.cornerRadius, props);
                             return {
-                                flyoutHeight: flyoutHeight ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutHeight, props) : Math.max("top" === orientation || "bottom" === orientation ? 2 * cornerRadius : 2 * cornerRadius + pointerWidth, calculatedHeight = labelSize.height + flyoutPadding.top + flyoutPadding.bottom),
-                                flyoutWidth: flyoutWidth ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutWidth, props) : Math.max("left" === orientation || "right" === orientation ? 2 * cornerRadius + pointerLength : 2 * cornerRadius, calculatedWidth = labelSize.width + flyoutPadding.left + flyoutPadding.right)
+                                flyoutHeight: flyoutHeight ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutHeight, props) : Math.max("top" === orientation || "bottom" === orientation ? 2 * cornerRadius : 2 * cornerRadius + pointerWidth, labelSize.height + flyoutPadding.top + flyoutPadding.bottom),
+                                flyoutWidth: flyoutWidth ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutWidth, props) : Math.max("left" === orientation || "right" === orientation ? 2 * cornerRadius + pointerLength : 2 * cornerRadius, labelSize.width + flyoutPadding.left + flyoutPadding.right)
                             };
                         }
                     },
@@ -30282,7 +30282,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(VictoryVoronoi, _React$Component), protoProps = [
+                }(VictoryVoronoi, _React$Component), _defineProperties(VictoryVoronoi.prototype, [
                     {
                         key: "shouldAnimate",
                         value: function() {
@@ -30298,7 +30298,7 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryVoronoi.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoi, staticProps), VictoryVoronoi;
+                ]), staticProps && _defineProperties(VictoryVoronoi, staticProps), VictoryVoronoi;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryVoronoi, "animationWhitelist", {
                 configurable: !0,

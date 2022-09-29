@@ -51,11 +51,11 @@ export default function(n, t) {
             }
         }(n);
         if ("number" == typeof n && isFinite(n)) {
-            return (null == t ? void 0 : t.long) ? (o = n, u = Math.abs(o), u >= s ? r(o, u, s, "day") : u >= e ? r(o, u, e, "hour") : u >= 60000 ? r(o, u, 60000, "minute") : u >= 1000 ? r(o, u, 1000, "second") : "".concat(o, " ms")) : (i = n, h = Math.abs(i), h >= s ? "".concat(Math.round(i / s), "d") : h >= e ? "".concat(Math.round(i / e), "h") : h >= 60000 ? "".concat(Math.round(i / 60000), "m") : h >= 1000 ? "".concat(Math.round(i / 1000), "s") : "".concat(i, "ms"));
+            return (null == t ? void 0 : t.long) ? (o = n, (u = Math.abs(o)) >= s ? r(o, u, s, "day") : u >= e ? r(o, u, e, "hour") : u >= 60000 ? r(o, u, 60000, "minute") : u >= 1000 ? r(o, u, 1000, "second") : "".concat(o, " ms")) : (i = n, (h = Math.abs(i)) >= s ? "".concat(Math.round(i / s), "d") : h >= e ? "".concat(Math.round(i / e), "h") : h >= 60000 ? "".concat(Math.round(i / 60000), "m") : h >= 1000 ? "".concat(Math.round(i / 1000), "s") : "".concat(i, "ms"));
         }
         throw Error("Value is not a string or number.");
     } catch (d) {
-        throw Error((m = d, "object" == typeof m && null !== m && "message" in m) ? "".concat(d.message, ". value=").concat(JSON.stringify(n)) : "An unknown error has occurred.");
+        throw Error("object" == typeof (m = d) && null !== m && "message" in m ? "".concat(d.message, ". value=").concat(JSON.stringify(n)) : "An unknown error has occurred.");
     }
 };
 function r(e, s, a, c) {

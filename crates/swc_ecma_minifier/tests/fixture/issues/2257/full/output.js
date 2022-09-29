@@ -7172,7 +7172,7 @@
         },
         8789: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var descriptor, $ = __webpack_require__(35437), getOwnPropertyDescriptor = __webpack_require__(24722).f, toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), notARegExp = __webpack_require__(3974), requireObjectCoercible = __webpack_require__(79602), correctIsRegExpLogic = __webpack_require__(26234), IS_PURE = __webpack_require__(80627), $endsWith = "".endsWith, min = Math.min, CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic("endsWith"), MDN_POLYFILL_BUG = !IS_PURE && !CORRECT_IS_REGEXP_LOGIC && !!(descriptor = getOwnPropertyDescriptor(String.prototype, "endsWith")) && !descriptor.writable;
+            var descriptor, $ = __webpack_require__(35437), getOwnPropertyDescriptor = __webpack_require__(24722).f, toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), notARegExp = __webpack_require__(3974), requireObjectCoercible = __webpack_require__(79602), correctIsRegExpLogic = __webpack_require__(26234), IS_PURE = __webpack_require__(80627), $endsWith = "".endsWith, min = Math.min, CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic("endsWith"), MDN_POLYFILL_BUG = !IS_PURE && !CORRECT_IS_REGEXP_LOGIC && !!((descriptor = getOwnPropertyDescriptor(String.prototype, "endsWith")) && !descriptor.writable);
             $({
                 target: "String",
                 proto: !0,
@@ -7581,7 +7581,7 @@
         },
         24467: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var descriptor, $ = __webpack_require__(35437), getOwnPropertyDescriptor = __webpack_require__(24722).f, toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), notARegExp = __webpack_require__(3974), requireObjectCoercible = __webpack_require__(79602), correctIsRegExpLogic = __webpack_require__(26234), IS_PURE = __webpack_require__(80627), $startsWith = "".startsWith, min = Math.min, CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic("startsWith"), MDN_POLYFILL_BUG = !IS_PURE && !CORRECT_IS_REGEXP_LOGIC && !!(descriptor = getOwnPropertyDescriptor(String.prototype, "startsWith")) && !descriptor.writable;
+            var descriptor, $ = __webpack_require__(35437), getOwnPropertyDescriptor = __webpack_require__(24722).f, toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), notARegExp = __webpack_require__(3974), requireObjectCoercible = __webpack_require__(79602), correctIsRegExpLogic = __webpack_require__(26234), IS_PURE = __webpack_require__(80627), $startsWith = "".startsWith, min = Math.min, CORRECT_IS_REGEXP_LOGIC = correctIsRegExpLogic("startsWith"), MDN_POLYFILL_BUG = !IS_PURE && !CORRECT_IS_REGEXP_LOGIC && !!((descriptor = getOwnPropertyDescriptor(String.prototype, "startsWith")) && !descriptor.writable);
             $({
                 target: "String",
                 proto: !0,
@@ -9611,7 +9611,7 @@
                     (0, esm_extends.Z)(history, nextState), history.length = globalHistory.length, transitionManager.notifyListeners(history.location, history.action);
                 }
                 function handlePopState(event) {
-                    (void 0 !== event.state || -1 !== navigator.userAgent.indexOf("CriOS")) && handlePop(getDOMLocation(event.state));
+                    void 0 === event.state && -1 === navigator.userAgent.indexOf("CriOS") || handlePop(getDOMLocation(event.state));
                 }
                 function handleHashChange() {
                     handlePop(getDOMLocation(getHistoryState()));
