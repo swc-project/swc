@@ -54,7 +54,7 @@ pub enum Child {
 }
 
 #[ast_node("DocumentType")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct DocumentType {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -65,6 +65,14 @@ pub struct DocumentType {
     pub system_id: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
+}
+
+impl EqIgnoreSpan for DocumentType {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.name == other.name
+            && self.public_id == other.public_id
+            && self.system_id == other.system_id
+    }
 }
 
 #[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
@@ -110,7 +118,7 @@ pub struct Element {
 }
 
 #[ast_node("Attribute")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Attribute {
     pub span: Span,
     pub namespace: Option<Namespace>,
@@ -126,8 +134,17 @@ pub struct Attribute {
     pub raw_value: Option<JsWord>,
 }
 
+impl EqIgnoreSpan for Attribute {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.namespace == other.namespace
+            && self.prefix == other.prefix
+            && self.name == other.name
+            && self.value == other.value
+    }
+}
+
 #[ast_node("Text")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Text {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -136,12 +153,24 @@ pub struct Text {
     pub raw: Option<JsWord>,
 }
 
+impl EqIgnoreSpan for Text {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.data == other.data
+    }
+}
+
 #[ast_node("Comment")]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Eq, Hash)]
 pub struct Comment {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<JsWord>,
+}
+
+impl EqIgnoreSpan for Comment {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.data == other.data
+    }
 }

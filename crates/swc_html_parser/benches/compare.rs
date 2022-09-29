@@ -1,6 +1,7 @@
 extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use swc_atoms::js_word;
 use swc_common::{input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
@@ -43,7 +44,7 @@ where
             .parse_document_fragment(
                 Element {
                     span: Default::default(),
-                    tag_name: "template".into(),
+                    tag_name: js_word!("template"),
                     namespace: Namespace::HTML,
                     attributes: vec![],
                     is_self_closing: false,
