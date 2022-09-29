@@ -3567,10 +3567,9 @@
             this._time = time, !notTriggerFrameAndStageUpdate && (this.onframe(delta), this.trigger('frame', delta), this.stage.update && this.stage.update());
         }, Animation.prototype._startLoop = function() {
             var self1 = this;
-            function step() {
+            this._running = !0, requestAnimationFrame(function step() {
                 self1._running && (requestAnimationFrame(step), self1._paused || self1.update());
-            }
-            this._running = !0, requestAnimationFrame(step);
+            });
         }, Animation.prototype.start = function() {
             !this._running && (this._time = new Date().getTime(), this._pausedTime = 0, this._startLoop());
         }, Animation.prototype.stop = function() {
@@ -13811,11 +13810,10 @@
     }(Eventful), echartsProto = ECharts.prototype;
     echartsProto.on = createRegisterEventWithLowercaseECharts('on'), echartsProto.off = createRegisterEventWithLowercaseECharts('off'), echartsProto.one = function(eventName, cb, ctx) {
         var self1 = this;
-        function wrapped() {
+        deprecateLog('ECharts#one is deprecated.'), this.on.call(this, eventName, function wrapped() {
             for(var args2 = [], _i = 0; _i < arguments.length; _i++)args2[_i] = arguments[_i];
             cb && cb.apply && cb.apply(this, args2), self1.off(eventName, wrapped);
-        }
-        deprecateLog('ECharts#one is deprecated.'), this.on.call(this, eventName, wrapped, ctx);
+        }, ctx);
     };
     var MOUSE_EVENT_NAMES = [
         'click',
