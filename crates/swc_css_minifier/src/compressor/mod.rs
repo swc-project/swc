@@ -1,5 +1,6 @@
 use swc_atoms::js_word;
 use swc_css_ast::*;
+use swc_css_utils::serialize_ident;
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 use self::ctx::Ctx;
@@ -31,6 +32,16 @@ pub fn compressor() -> impl VisitMut {
 struct Compressor {
     ctx: Ctx,
     need_utf8_at_rule: bool,
+}
+
+impl Compressor {
+    #[inline]
+    fn is_ident_shorter_than_str(&self, input: &str) -> bool {
+        let escaped = serialize_ident(input, None, true);
+
+        // escaped: without double quotes, so need plus 2 here
+        escaped.len() < input.len() + 2
+    }
 }
 
 impl VisitMut for Compressor {

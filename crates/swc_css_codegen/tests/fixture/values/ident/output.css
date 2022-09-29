@@ -1,0 +1,53 @@
+:root {
+  --fg-c\olor: blue;
+  --fg-\color-other: blue;
+}
+.box {
+  back\ground-color: \rebeccap\urple;
+  back\ground-color: var(--fg-c\olor);
+  border-radius: 10px;
+  width: 100\p\x;
+  height: 100px;
+}
+.b\ox:hover {
+  animation-name: rotate\ rotate;
+  animation-duration: 0.7s;
+}
+@ke\yframes rotate\ rotate {
+  0% {
+    transform: ro\tate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@ke\yframes ro\tate {
+  0% {
+    transform: ro\tate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@ke\yframes rotat\e  {
+  0% {
+    transform: ro\tate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+*|* {
+  color: blue;
+}
+\*|* {
+  color: blue;
+}
+@media screen and (min-width: 0\0) {
+  body {
+    color: red;
+  }
+}
+body {
+  margin: \-\1\p\x;
+}

@@ -2,13 +2,14 @@
 #![allow(clippy::needless_update)]
 
 pub use std::fmt::Result;
-use std::str::from_utf8;
+use std::{str, str::from_utf8};
 
 use serde::{Deserialize, Serialize};
 use swc_atoms::*;
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
+use swc_css_utils::serialize_ident;
 use writer::CssWriter;
 
 pub use self::emit::*;
@@ -1115,28 +1116,46 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        if let Some(raw) = &n.raw {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
     #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
-        if let Some(raw) = &n.raw {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
-        if let Some(raw) = &n.raw {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            write_raw!(self, n.span, &n.value);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
         }
     }
 
@@ -1919,7 +1938,21 @@ where
 
     #[emitter]
     fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
-        emit!(self, n.prefix);
+        // TODO avoid usage `Ident` for `*`, because it is not ident
+        if let Some(prefix) = &n.prefix {
+            if prefix.value == js_word!("*") {
+                if self.config.minify {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
+                } else if let Some(raw) = &prefix.raw {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), raw);
+                } else {
+                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
+                }
+            } else {
+                emit!(self, n.prefix);
+            }
+        }
+
         write_raw!(self, hi_span_offset!(n.span, 1), "|");
     }
 

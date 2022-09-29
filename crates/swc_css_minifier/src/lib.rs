@@ -10,7 +10,6 @@ use swc_css_visit::VisitMutWith;
 use self::{compressor::compressor, options::MinifyOptions};
 
 mod compressor;
-mod escape;
 pub mod options;
 pub(crate) mod util;
 
