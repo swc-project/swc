@@ -73,6 +73,9 @@
 
 - **(es/minifier)** Improve fn-local analysis for better inlining (#5955) ([1a11cfd](https://github.com/swc-project/swc/commit/1a11cfd46fd8269934f33c1128e48a47d5de093e))
 
+
+- **(es/minifier)** Invoke sequential inliner for inlined IIFEs (#5991) ([aeb7f30](https://github.com/swc-project/swc/commit/aeb7f300a814b6303c29eda6124cf4dd333f3936))
+
 ### Miscellaneous Tasks
 
 
