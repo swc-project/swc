@@ -44,6 +44,9 @@
 
 
 
+- **(css/codegen)** Minify idents (#5972) ([b3a05a0](https://github.com/swc-project/swc/commit/b3a05a057ac39d0ceef60b4227f675a2a2c3556d))
+
+
 - **(css/minifier)** Remove duplicate `@counter-style` at-rules (#5970) ([dfdad69](https://github.com/swc-project/swc/commit/dfdad69c03d13d8950e89358f6587f2bc66d5912))
 
 
@@ -87,6 +90,9 @@
 
 
 - **(es/minifier)** Remove mangle-only snapshots (#5979) ([8c4873f](https://github.com/swc-project/swc/commit/8c4873f81efce53356b2eccdcdc32d5df41a89b2))
+
+
+- **(es/minifier)** Add tests for benchmark files (#5986) ([0cfc724](https://github.com/swc-project/swc/commit/0cfc724018374cef591694d5239c519aa97c1622))
 
 
 - **(es/plugin)** Reenable compat test (#5969) ([ca38a70](https://github.com/swc-project/swc/commit/ca38a7027ead28ecb9723d7e99e9123af3c6af14))

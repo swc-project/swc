@@ -1,1 +1,1 @@
-.\10FFF abc:after{content:"\\10FFF abc"}.\10FFFFabc:after{content:"\\10FFFFabc"}.\10FFFF abc:after{content:"\\10FFFF abc"}.\FEFF:after{content:"uFEFF"}
+.𐿿abc:after{content:"\\10FFF abc"}.􏿿abc:after{content:"\\10FFFFabc"}.􏿿abc:after{content:"\\10FFFF abc"}.﻿:after{content:"uFEFF"}
