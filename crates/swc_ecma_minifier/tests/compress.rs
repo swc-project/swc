@@ -399,6 +399,8 @@ fn projects_bench(input: PathBuf) {
         .unwrap()
         .parent()
         .unwrap()
+        .parent()
+        .unwrap()
         .join("tests")
         .join("benches-full");
 
