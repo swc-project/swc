@@ -121,7 +121,7 @@ pub struct MinifyOptions {
     // Remove safe empty elements with metadata content, i.e. the `script` and `style` element
     // without content and attributes, `meta` and `link` elements without attributes and etc
     #[serde(default = "true_by_default")]
-    pub remove_empty_metedata_elements: bool,
+    pub remove_empty_metadata_elements: bool,
     #[serde(default = "true_by_default")]
     pub remove_comments: bool,
     #[serde(default = "default_preserve_comments")]
