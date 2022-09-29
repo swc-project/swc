@@ -806,7 +806,7 @@ where
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     // We don't need to create a variable in some case.
                     if usage.ref_count == 1
-                        && (usage.is_fn_local || matches!(&*arg, Expr::Lit(..) | Expr::Ident(..)))
+                        && (usage.is_fn_local || !matches!(&*arg, Expr::This(..)))
                         && !usage.reassigned()
                         && !usage.has_property_mutation
                     {
