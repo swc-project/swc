@@ -2,7 +2,7 @@ use std::{iter::once, mem::take};
 
 #[allow(unused_imports)]
 use retain_mut::RetainMut;
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
     collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
@@ -251,6 +251,10 @@ struct Vars {
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
     simple_functions: FxHashMap<Id, Box<Expr>>,
     vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+
+    /// Variables which should be removed by [Finalizer] because of the order of
+    /// visit.
+    removed: FxHashSet<Id>,
 }
 
 impl Vars {
@@ -265,10 +269,14 @@ impl Vars {
         N: for<'aa> VisitMutWith<Finalizer<'aa>>,
     {
         let mut changed = false;
-        if !self.simple_functions.is_empty() || !self.lits_for_cmp.is_empty() {
+        if !self.simple_functions.is_empty()
+            || !self.lits_for_cmp.is_empty()
+            || !self.removed.is_empty()
+        {
             let mut v = Finalizer {
-                lits_for_cmp: &self.lits_for_cmp,
                 simple_functions: &self.simple_functions,
+                lits_for_cmp: &self.lits_for_cmp,
+                vars_to_remove: &self.removed,
                 changed: false,
             };
             n.visit_mut_with(&mut v);

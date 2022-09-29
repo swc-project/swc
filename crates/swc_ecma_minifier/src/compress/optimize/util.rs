@@ -1,6 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -164,6 +164,8 @@ impl VisitMut for Remapper {
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+
+    pub vars_to_remove: &'a FxHashSet<Id>,
 
     pub changed: bool,
 }
