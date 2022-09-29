@@ -811,10 +811,29 @@ where
                             &*arg,
                             Expr::Lit(
                                 Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
-                            )
+                            ) | Expr::Ident(..)
+                                | Expr::Member(..)
+                                | Expr::Call(CallExpr {
+                                    callee: Callee::Expr(..),
+                                    ..
+                                })
+                                | Expr::New(..)
+                                | Expr::Tpl(..)
+                                | Expr::TaggedTpl(..)
+                                | Expr::OptChain(..)
                         )
                     {
                         // We don't need to create a variable in this case
+
+                        // Expressions other than `Ident` are safe because we are modifying
+                        //
+                        // var a;
+                        // consol.log(side_effect(), a = init())
+                        //
+                        // to
+                        //
+                        // consol.log(side_effect(), init())
+                        //
                         self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
