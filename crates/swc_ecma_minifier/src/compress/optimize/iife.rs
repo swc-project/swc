@@ -792,6 +792,19 @@ where
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = arg {
+                if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
+                    if usage.ref_count == 1
+                        && matches!(
+                            &*arg,
+                            Expr::Lit(
+                                Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
+                            )
+                        )
+                    {
+                        continue;
+                    }
+                }
+
                 exprs.push(
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP.apply_mark(self.marks.non_top_level),
