@@ -29,6 +29,9 @@
 - **(es/minifier)** Preserve exports in DCE (#5973) ([aff4ea5](https://github.com/swc-project/swc/commit/aff4ea5f4412c17c58288459a92a1d9b28ba58c4))
 
 
+- **(es/minifier)** Don't panic on jsx or ts (#5984) ([0067f71](https://github.com/swc-project/swc/commit/0067f719dd0a072ef43e51698f159506287d7f35))
+
+
 - **(es/parser)** Allow `as` in destructuring assignment (#5948) ([cdd69d0](https://github.com/swc-project/swc/commit/cdd69d0145d22008448f394e8b39ba98291d87fe))
 
 
@@ -84,6 +87,9 @@
 
 
 - **(es/minifier)** Remove mangle-only snapshots (#5979) ([8c4873f](https://github.com/swc-project/swc/commit/8c4873f81efce53356b2eccdcdc32d5df41a89b2))
+
+
+- **(es/minifier)** Add tests for benchmark files (#5986) ([0cfc724](https://github.com/swc-project/swc/commit/0cfc724018374cef591694d5239c519aa97c1622))
 
 
 - **(es/plugin)** Reenable compat test (#5969) ([ca38a70](https://github.com/swc-project/swc/commit/ca38a7027ead28ecb9723d7e99e9123af3c6af14))

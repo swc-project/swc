@@ -5,8 +5,8 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, $1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window1, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window2, $18, $19, $20, defaultGetMaxScrollForTransition, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
-    jQuery.mobile = {}, function($, window, undefined) {
+    var $, $1, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window2, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, orig, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window3, $18, $19, $20, defaultGetMaxScrollForTransition, $21, window4, $22, window5, $23, window6, $24, window7, $25, window8, $26, window9, $27, window10, $28, window11, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
+    ($ = jQuery).mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
             subPageUrlKey: "ui-page",
@@ -202,19 +202,19 @@
                 if (set && (allowDisconnected || instance.element[0].parentNode && 11 !== instance.element[0].parentNode.nodeType)) for(i = 0; i < set.length; i++)instance.options[set[i][0]] && set[i][1].apply(instance.element, args);
             }
         };
-    }(jQuery), $2 = jQuery, window1 = this, compensateToolbars = function(page, desiredHeight) {
+    }(jQuery), $2 = jQuery, window2 = this, compensateToolbars = function(page, desiredHeight) {
         var pageParent = page.parent(), toolbarsAffectingHeight = [], externalHeaders = pageParent.children(":jqmData(role='header')"), internalHeaders = page.children(":jqmData(role='header')"), externalFooters = pageParent.children(":jqmData(role='footer')"), internalFooters = page.children(":jqmData(role='footer')");
         return 0 === internalHeaders.length && externalHeaders.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalHeaders.toArray())), 0 === internalFooters.length && externalFooters.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalFooters.toArray())), $2.each(toolbarsAffectingHeight, function(index, value) {
             desiredHeight -= $2(value).outerHeight();
         }), Math.max(0, desiredHeight);
     }, $2.extend($2.mobile, {
-        window: $2(window1),
+        window: $2(window2),
         document: $2(document1),
         keyCode: $2.ui.keyCode,
         behaviors: {},
         silentScroll: function(ypos) {
             "number" !== $2.type(ypos) && (ypos = $2.mobile.defaultHomeScroll), $2.event.special.scrollstart.enabled = !1, setTimeout(function() {
-                window1.scrollTo(0, ypos), $2.mobile.document.trigger("silentscroll", {
+                window2.scrollTo(0, ypos), $2.mobile.document.trigger("silentscroll", {
                     x: 0,
                     y: ypos
                 });
@@ -241,7 +241,7 @@
         },
         haveParents: function(elements, attr) {
             if (!$2.mobile.ignoreContentEnabled) return elements;
-            var e, $element, excluded, i, count = elements.length, $newSet = $2();
+            var e, $element, excluded, i, c, count = elements.length, $newSet = $2();
             for(i = 0; i < count; i++){
                 for($element = elements.eq(i), excluded = !1, e = elements[i]; e;){
                     if ("false" === (e.getAttribute ? e.getAttribute("data-" + $2.mobile.ns + attr) : "")) {
@@ -255,7 +255,7 @@
             return $newSet;
         },
         getScreenHeight: function() {
-            return window1.innerHeight || $2.mobile.window.height();
+            return window2.innerHeight || $2.mobile.window.height();
         },
         resetActivePageHeight: function(height) {
             var page = $2("." + $2.mobile.activePageClass), pageHeight = page.height(), pageOuterHeight = page.outerHeight(!0);
@@ -585,7 +585,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, link, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -653,7 +653,7 @@
         },
         popstate: function(event1) {
             var newEvent = new $7.Event("navigate"), beforeNavigate = new $7.Event("beforenavigate"), state = event1.originalEvent.state || {};
-            beforeNavigate.originalEvent = event1, $win.trigger(beforeNavigate), beforeNavigate.isDefaultPrevented() || (event1.historyState && $7.extend(state, event1.historyState), newEvent.originalEvent = event1, setTimeout(function() {
+            beforeNavigate.originalEvent = event1, $win.trigger(beforeNavigate), !beforeNavigate.isDefaultPrevented() && (event1.historyState && $7.extend(state, event1.historyState), newEvent.originalEvent = event1, setTimeout(function() {
                 $win.trigger(newEvent, {
                     state: state
                 });
@@ -661,7 +661,7 @@
         },
         hashchange: function(event1) {
             var newEvent = new $7.Event("navigate"), beforeNavigate = new $7.Event("beforenavigate");
-            beforeNavigate.originalEvent = event1, $win.trigger(beforeNavigate), beforeNavigate.isDefaultPrevented() || (newEvent.originalEvent = event1, $win.trigger(newEvent, {
+            beforeNavigate.originalEvent = event1, $win.trigger(beforeNavigate), !beforeNavigate.isDefaultPrevented() && (newEvent.originalEvent = event1, $win.trigger(newEvent, {
                 state: event1.hashchangeState || {}
             }));
         },
@@ -730,8 +730,8 @@
         makeUrlAbsolute: function(relUrl, absUrl) {
             if (!path.isRelativeUrl(relUrl)) return relUrl;
             absUrl === undefined2 && (absUrl = this.documentBase);
-            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname;
-            return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
+            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname, pathname = path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname);
+            return protocol + doubleSlash + authority + pathname + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
             var u = path.parseUrl(url), p = "object" == typeof params ? $8.param(params) : params, s = u.search || "?";
@@ -803,9 +803,9 @@
     }, $8.extend($8.mobile, {
         getDocumentUrl: path.getDocumentUrl,
         getDocumentBase: path.getDocumentBase
-    }), jQuery.mobile.History = function(stack, index) {
+    }), ($9 = jQuery).mobile.History = function(stack, index) {
         this.stack = stack || [], this.activeIndex = index || 0;
-    }, jQuery.extend(jQuery.mobile.History.prototype, {
+    }, $9.extend($9.mobile.History.prototype, {
         getActive: function() {
             return this.stack[this.activeIndex];
         },
@@ -835,7 +835,7 @@
         },
         direct: function(opts) {
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
-            newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
+            newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || $9.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || $9.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
         }
     }), path1 = ($10 = jQuery).mobile.path, initialHref = location.href, $10.mobile.Navigator = function(history1) {
         this.history = history1, this.ignoreInitialHashChange = !0, $10.mobile.window.bind({
@@ -851,7 +851,7 @@
             }, data), window.history.replaceState(state, state.title || document1.title, href), state;
         },
         hash: function(url, href) {
-            var parsed, loc, resolved;
+            var parsed, loc, hash, resolved;
             return parsed = path1.parseUrl(url), (loc = path1.parseLocation()).pathname + loc.search === parsed.pathname + parsed.search ? parsed.hash ? parsed.hash : parsed.pathname + parsed.search : path1.isPath(url) ? (resolved = path1.parseUrl(href)).pathname + resolved.search + (path1.isPreservableHash(resolved.hash) ? resolved.hash.replace("#", "") : "") : url;
         },
         go: function(url, data, noEvents) {
@@ -988,7 +988,7 @@
             touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event1.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event1).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event1, flags), triggerVirtualEvent("vmousedown", event1, flags));
         }
         function handleScroll(event1) {
-            blockTouchTriggers || (didScroll || triggerVirtualEvent("vmousecancel", event1, getVirtualBindingFlags(event1.target)), didScroll = !0, startResetTimer());
+            !blockTouchTriggers && (didScroll || triggerVirtualEvent("vmousecancel", event1, getVirtualBindingFlags(event1.target)), didScroll = !0, startResetTimer());
         }
         function handleTouchMove(event1) {
             if (!blockTouchTriggers) {
@@ -1180,17 +1180,17 @@
                 }
             };
         });
-    }(jQuery, this), jQuery.event.special.throttledresize = {
+    }(jQuery, this), ($13 = jQuery).event.special.throttledresize = {
         setup: function() {
-            jQuery(this).bind("resize", handler);
+            $13(this).bind("resize", handler);
         },
         teardown: function() {
-            jQuery(this).unbind("resize", handler);
+            $13(this).unbind("resize", handler);
         }
     }, handler = function() {
-        (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, jQuery(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
+        (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, $13(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
     }, lastCall = 0, function($, window) {
-        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, win = $(window), event_name = "orientationchange", portrait_map = {
+        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
             0: !0,
             180: !0
         };
@@ -1198,7 +1198,7 @@
             var orientation = get_orientation();
             orientation !== last_orientation && (last_orientation = orientation, win.trigger(event_name));
         }
-        $.support.orientation && (initial_orientation_is_landscape = (ww = window.innerWidth || win.width()) > (wh = window.innerHeight || win.height()) && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
+        $.support.orientation && (ww = window.innerWidth || win.width(), initial_orientation_is_landscape = ww > (wh = window.innerHeight || win.height()) && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
             90: !0
         })), $.event.special.orientationchange = $.extend({}, $.event.special.orientationchange, {
@@ -1217,7 +1217,7 @@
                 };
             }
         }), $.event.special.orientationchange.orientation = get_orientation = function() {
-            var elem = document1.documentElement;
+            var isPortrait = !0, elem = document1.documentElement;
             return ($.support.orientation ? portrait_map[window.orientation] : elem && elem.clientWidth / elem.clientHeight < 1.1) ? "portrait" : "landscape";
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
@@ -1356,7 +1356,7 @@
         },
         _filterNavigateEvents: function(e, data) {
             var url;
-            e.originalEvent && e.originalEvent.isDefaultPrevented() || ((url = e.originalEvent.type.indexOf("hashchange") > -1 ? data.state.hash : data.state.url) || (url = this._getHash()), url && "#" !== url && 0 !== url.indexOf("#" + $16.mobile.path.uiStateKey) || (url = location.href), this._handleNavigate(url, data.state));
+            !(e.originalEvent && e.originalEvent.isDefaultPrevented()) && ((url = e.originalEvent.type.indexOf("hashchange") > -1 ? data.state.hash : data.state.url) || (url = this._getHash()), url && "#" !== url && 0 !== url.indexOf("#" + $16.mobile.path.uiStateKey) || (url = location.href), this._handleNavigate(url, data.state));
         },
         _getHash: function() {
             return $16.mobile.path.parseLocation().hash;
@@ -1413,7 +1413,7 @@
             };
             $16.extend(changePageOptions, data, {
                 transition: (history1.getLast() || {}).transition || transition
-            }), history1.activeIndex > 0 && to.indexOf($16.mobile.dialogHashKey) > -1 && history1.initialDst !== to && !1 === (to = this._handleDialog(changePageOptions, data)) || this._changeContent(this._handleDestination(to), changePageOptions);
+            }), (!(history1.activeIndex > 0 && to.indexOf($16.mobile.dialogHashKey) > -1) || history1.initialDst === to || !1 !== (to = this._handleDialog(changePageOptions, data))) && this._changeContent(this._handleDestination(to), changePageOptions);
         },
         _changeContent: function(to, opts) {
             $16.mobile.changePage(to, opts);
@@ -1440,7 +1440,7 @@
             return $16.mobile.loading();
         },
         _showLoading: function(delay, theme, msg, textonly) {
-            this._loadMsg || (this._loadMsg = setTimeout($16.proxy(function() {
+            !this._loadMsg && (this._loadMsg = setTimeout($16.proxy(function() {
                 this._getLoader().loader("show", theme, msg, textonly), this._loadMsg = 0;
             }, this), delay));
         },
@@ -1526,7 +1526,7 @@
             return $16.proxy(function(xhr, textStatus, errorThrown) {
                 this._getBase().set($16.mobile.path.get()), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.errorThrown = errorThrown;
                 var plfEvent = this._triggerWithDeprecated("loadfailed", triggerData);
-                plfEvent.deprecatedEvent.isDefaultPrevented() || plfEvent.event.isDefaultPrevented() || (settings.showLoadMsg && this._showError(), deferred.reject(absUrl, settings));
+                !(plfEvent.deprecatedEvent.isDefaultPrevented() || plfEvent.event.isDefaultPrevented()) && (settings.showLoadMsg && this._showError(), deferred.reject(absUrl, settings));
             }, this);
         },
         _getTransitionHandler: function(transition) {
@@ -1542,7 +1542,7 @@
             }, to);
         },
         _cssTransition: function(to, from, options) {
-            var promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
+            var TransitionHandler, promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
             this._triggerCssTransitionEvents(to, from, "before"), this._hideLoading(), (promise = new (this._getTransitionHandler(transition))(transition, reverse, to, from).transition()).done(function() {
                 deferred.resolve.apply(deferred, arguments);
             }), promise.done($16.proxy(function() {
@@ -1684,7 +1684,7 @@
                 }
             }), $.mobile.document.bind("click", function(event1) {
                 if (!(!$.mobile.linkBindingEnabled || event1.isDefaultPrevented())) {
-                    var baseUrl, href, transition, reverse, role, link = findClosestLink(event1.target), $link = $(link), httpCleanup = function() {
+                    var baseUrl, href, useDefaultUrlHandling, isExternal, transition, reverse, role, link = findClosestLink(event1.target), $link = $(link), httpCleanup = function() {
                         window.setTimeout(function() {
                             $.mobile.removeActiveLinkClass(!0);
                         }, 200);
@@ -1733,7 +1733,7 @@
         }), $.when(domreadyDeferred, $.mobile.navreadyDeferred).done(function() {
             $.mobile._registerInternalEvents();
         });
-    }(jQuery), $17 = jQuery, window2 = this, $17.mobile.Transition = function() {
+    }(jQuery), $17 = jQuery, window3 = this, $17.mobile.Transition = function() {
         this.init.apply(this, arguments);
     }, $17.extend($17.mobile.Transition.prototype, {
         toPreClass: " ui-page-pre-in",
@@ -1762,7 +1762,7 @@
             this.$to.css("z-index", -10), callback.call(this), this.$to.css("z-index", "");
         },
         scrollPage: function() {
-            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && window2.scrollTo(0, this.toScroll), setTimeout(function() {
+            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && window3.scrollTo(0, this.toScroll), setTimeout(function() {
                 $17.event.special.scrollstart.enabled = !0;
             }, 150);
         },
@@ -1783,21 +1783,21 @@
             var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $17.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $17.mobile.maxTransitionWidth && $17.mobile.window.width() > $17.mobile.maxTransitionWidth;
             return this.toScroll = $17.mobile.navigate.history.getActive().lastScroll || $17.mobile.defaultHomeScroll, none = !$17.support.cssTransitions || !$17.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($17.mobile.window.scrollTop(), this.toScroll) > $17.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
         }
-    }), jQuery.mobile.SerialTransition = function() {
+    }), ($18 = jQuery).mobile.SerialTransition = function() {
         this.init.apply(this, arguments);
-    }, jQuery.extend(jQuery.mobile.SerialTransition.prototype, jQuery.mobile.Transition.prototype, {
+    }, $18.extend($18.mobile.SerialTransition.prototype, $18.mobile.Transition.prototype, {
         sequential: !0,
         beforeDoneOut: function() {
             this.$from && this.cleanFrom();
         },
         beforeStartOut: function(screenHeight, reverseClass, none) {
-            this.$from.animationComplete(jQuery.proxy(function() {
+            this.$from.animationComplete($18.proxy(function() {
                 this.doneOut(screenHeight, reverseClass, none);
             }, this));
         }
-    }), jQuery.mobile.ConcurrentTransition = function() {
+    }), ($19 = jQuery).mobile.ConcurrentTransition = function() {
         this.init.apply(this, arguments);
-    }, jQuery.extend(jQuery.mobile.ConcurrentTransition.prototype, jQuery.mobile.Transition.prototype, {
+    }, $19.extend($19.mobile.ConcurrentTransition.prototype, $19.mobile.Transition.prototype, {
         sequential: !1,
         beforeDoneIn: function() {
             this.$from && this.cleanFrom();
@@ -1812,7 +1812,7 @@
         simultaneous: $20.mobile.ConcurrentTransition
     }, $20.mobile.defaultTransitionHandler = $20.mobile.transitionHandlers.sequential, $20.mobile.transitionFallbacks = {}, $20.mobile._maybeDegradeTransition = function(transition) {
         return transition && !$20.support.cssTransform3d && $20.mobile.transitionFallbacks[transition] && (transition = $20.mobile.transitionFallbacks[transition]), transition;
-    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($24 = jQuery).mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($29 = jQuery).mobile.degradeInputs = {
+    }, $20.mobile.getMaxScrollForTransition = $20.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, ($21 = jQuery).mobile.transitionFallbacks.flip = "fade", ($22 = jQuery).mobile.transitionFallbacks.flow = "fade", ($23 = jQuery).mobile.transitionFallbacks.pop = "fade", ($24 = jQuery).mobile.transitionHandlers.slide = $24.mobile.transitionHandlers.simultaneous, $24.mobile.transitionFallbacks.slide = "fade", ($25 = jQuery).mobile.transitionFallbacks.slidedown = "fade", ($26 = jQuery).mobile.transitionFallbacks.slidefade = "fade", ($27 = jQuery).mobile.transitionFallbacks.slideup = "fade", ($28 = jQuery).mobile.transitionFallbacks.turn = "fade", ($29 = jQuery).mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -1997,7 +1997,7 @@
         },
         _destroy: function() {
             var ui = this._ui;
-            this.options.enhanced || (ui.placeholder ? (ui.originalHeading.insertBefore(ui.placeholder), ui.placeholder.remove(), ui.heading.remove()) : (ui.status.remove(), ui.heading.removeClass("ui-collapsible-heading ui-collapsible-heading-collapsed").children().contents().unwrap()), ui.anchor.contents().unwrap(), ui.content.contents().unwrap(), this.element.removeClass("ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all"));
+            !this.options.enhanced && (ui.placeholder ? (ui.originalHeading.insertBefore(ui.placeholder), ui.placeholder.remove(), ui.heading.remove()) : (ui.status.remove(), ui.heading.removeClass("ui-collapsible-heading ui-collapsible-heading-collapsed").children().contents().unwrap()), ui.anchor.contents().unwrap(), ui.content.contents().unwrap(), this.element.removeClass("ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all"));
         }
     }), $30.mobile.collapsible.defaults = {
         expandCueText: " click to expand contents",
@@ -2010,7 +2010,7 @@
         corners: !0,
         theme: "inherit",
         mini: !1
-    }, jQuery.mobile.behaviors.addFirstLastClasses = {
+    }, ($31 = jQuery).mobile.behaviors.addFirstLastClasses = {
         _getVisibles: function($els, create) {
             var visibles;
             return create ? visibles = $els.not(".ui-screen-hidden") : 0 === (visibles = $els.filter(":visible")).length && (visibles = $els.not(".ui-screen-hidden")), visibles;
@@ -2062,11 +2062,11 @@
                 this._refresh(!1);
             }
         }, $.mobile.behaviors.addFirstLastClasses));
-    }(jQuery), jQuery.fn.fieldcontain = function() {
+    }(jQuery), ($32 = jQuery).fn.fieldcontain = function() {
         return this.addClass("ui-field-contain");
-    }, jQuery.fn.grid = function(options) {
+    }, ($33 = jQuery).fn.grid = function(options) {
         return this.each(function() {
-            var iterator, letter, $this = jQuery(this), o = jQuery.extend({
+            var iterator, letter, $this = $33(this), o = $33.extend({
                 grid: null
             }, options), $kids = $this.children(), gridCols = {
                 solo: 1,
@@ -2142,7 +2142,7 @@
             _beforeListviewRefresh: $.noop,
             _afterListviewRefresh: $.noop,
             refresh: function(create) {
-                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, altButtonClass, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
+                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, spliticon, altButtonClass, dividerTheme, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
                 for(o.theme && $list.addClass("ui-group-theme-" + o.theme), ol && (start || 0 === start) && (startCount = parseInt(start, 10) - 1, $list.css("counter-reset", "listnumbering " + startCount)), this._beforeListviewRefresh(), li = this._getChildrenByTagName($list[0], "li", "LI"), pos = 0, numli = li.length; pos < numli; pos++)item = li.eq(pos), itemClass = "", (create || 0 > item[0].className.search(/\bui-li-static\b|\bui-li-divider\b/)) && (a = this._getChildrenByTagName(item[0], "a", "A"), isDivider = "list-divider" === getAttr(item[0], "role"), value = item.attr("value"), itemTheme = getAttr(item[0], "theme"), a.length && 0 > a[0].className.search(/\bui-btn\b/) && !isDivider ? (icon = !1 !== (itemIcon = getAttr(item[0], "icon")) && (itemIcon || o.icon), a.removeClass("ui-link"), buttonClass = "ui-btn", itemTheme && (buttonClass += " ui-btn-" + itemTheme), a.length > 1 ? (itemClass = "ui-li-has-alt", splitThemeClass = (splittheme = getAttr((last = a.last())[0], "theme") || o.splitTheme || getAttr(item[0], "theme", !0)) ? " ui-btn-" + splittheme : "", altButtonClass = "ui-btn ui-btn-icon-notext ui-icon-" + (getAttr(last[0], "icon") || getAttr(item[0], "icon") || o.splitIcon) + splitThemeClass, last.attr("title", $.trim(last.getEncodedText())).addClass(altButtonClass).empty()) : icon && (buttonClass += " ui-btn-icon-right ui-icon-" + icon), a.first().addClass(buttonClass)) : isDivider ? (itemClass = "ui-li-divider ui-bar-" + (getAttr(item[0], "theme") || o.dividerTheme || o.theme || "inherit"), item.attr("role", "heading")) : a.length <= 0 && (itemClass = "ui-li-static ui-body-" + (itemTheme || "inherit")), ol && value && (newStartCount = parseInt(value, 10) - 1, item.css("counter-reset", "listnumbering " + newStartCount))), itemClassDict[itemClass] || (itemClassDict[itemClass] = []), itemClassDict[itemClass].push(item[0]);
                 for(itemClass in itemClassDict)$(itemClassDict[itemClass]).addClass(itemClass);
                 countBubbles.each(function() {
@@ -2178,9 +2178,9 @@
                 if (this._superApply(arguments), this.options.hideDividers) for(idx = (items = this._getChildrenByTagName(this.element[0], "li", "LI")).length - 1; idx > -1; idx--)(item = items[idx]).className.match(rdivider) ? (hideDivider && (item.className = item.className + " ui-screen-hidden"), hideDivider = !0) : item.className.match(rhidden) || (hideDivider = !1);
             }
         });
-    }(jQuery), jQuery.mobile.nojs = function(target) {
-        jQuery(":jqmData(role='nojs')", target).addClass("ui-nojs");
-    }, jQuery.mobile.behaviors.formReset = {
+    }(jQuery), ($34 = jQuery).mobile.nojs = function(target) {
+        $34(":jqmData(role='nojs')", target).addClass("ui-nojs");
+    }, ($35 = jQuery).mobile.behaviors.formReset = {
         _handleFormReset: function() {
             this._on(this.element.closest("form"), {
                 reset: function() {
@@ -2412,7 +2412,7 @@
                 this._super(options), undefined === options.disabled && undefined === options.mini && undefined === options.corners && undefined === options.theme && undefined === options.wrapperClass || (outer.removeClass(this.classes.join(" ")), this.classes = this._classesFromOptions(), outer.addClass(this.classes.join(" "))), undefined !== options.disabled && this.element.prop("disabled", !!options.disabled);
             },
             _destroy: function() {
-                this.options.enhanced || (this.inputNeedsWrap && this.element.unwrap(), this.element.removeClass("ui-input-text " + this.classes.join(" ")));
+                !this.options.enhanced && (this.inputNeedsWrap && this.element.unwrap(), this.element.removeClass("ui-input-text " + this.classes.join(" ")));
             }
         });
     }(jQuery), function($, undefined) {
@@ -2716,7 +2716,7 @@
                 undefined !== options.onText && this.on.text(options.onText), undefined !== options.offText && this.off.text(options.offText), undefined !== options.disabled && this.widget().toggleClass("ui-state-disabled", options.disabled), undefined !== options.mini && this.widget().toggleClass("ui-mini", options.mini), undefined !== options.corners && this.widget().toggleClass("ui-corner-all", options.corners), this._super(options);
             },
             _destroy: function() {
-                this.options.enhanced || (null != this._originalTabIndex ? this.element.attr("tabindex", this._originalTabIndex) : this.element.removeAttr("tabindex"), this.on.remove(), this.off.remove(), this.element.unwrap(), this.flipswitch.remove(), this.removeClass("ui-flipswitch-input"));
+                !this.options.enhanced && (null != this._originalTabIndex ? this.element.attr("tabindex", this._originalTabIndex) : this.element.removeAttr("tabindex"), this.on.remove(), this.off.remove(), this.element.unwrap(), this.flipswitch.remove(), this.removeClass("ui-flipswitch-input"));
             }
         }, $.mobile.behaviors.formReset));
     }(jQuery), function($, undefined) {
@@ -2914,7 +2914,7 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, paddingBottom, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
+                var paddingTop, paddingBottom, paddingHeight, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
@@ -3051,13 +3051,14 @@
                 this._setDisabled(!1), this.button.removeClass("ui-state-disabled");
             }
         }, $.mobile.behaviors.formReset));
-    }(jQuery), jQuery.mobile.links = function(target) {
-        jQuery(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
+    }(jQuery), ($37 = jQuery).mobile.links = function(target) {
+        $37(target).find("a").jqmEnhanceable().filter(":jqmData(rel='popup')[href][href!='']").each(function() {
             var idref = this.getAttribute("href").substring(1);
             idref && (this.setAttribute("aria-haspopup", !0), this.setAttribute("aria-owns", idref), this.setAttribute("aria-expanded", !1));
         }).end().not(".ui-btn, :jqmData(role='none'), :jqmData(role='nojs')").addClass("ui-link");
     }, function($, undefined) {
         function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
+            var returnValue = desired;
             return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
         }
         function getWindowCoordinates(theWindow) {
@@ -3204,7 +3205,7 @@
                 return this._tolerance = tol, this;
             },
             _clampPopupWidth: function(infoOnly) {
-                var windowCoordinates = getWindowCoordinates(this.window), rectangle = {
+                var menuSize, windowCoordinates = getWindowCoordinates(this.window), rectangle = {
                     x: this._tolerance.l,
                     y: windowCoordinates.y + this._tolerance.t,
                     cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
@@ -3281,7 +3282,7 @@
                 this._ui.container.addClass("ui-popup-active"), this._isOpen = !0, this._resizeScreen(), this._ui.container.attr("tabindex", "0").focus(), this._ignoreResizeEvents(), id && this.document.find("[aria-haspopup='true'][aria-owns='" + id + "']").attr("aria-expanded", !0), this._trigger("afteropen");
             },
             _open: function(options) {
-                var ua, wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = $.extend({}, this.options, options), androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], andversion = !!(androidmatch = ua.match(/Android (\d+(?:\.\d+))/)) && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && wkversion > 534.13 && !chromematch);
+                var ua, wkmatch, wkversion, androidmatch, andversion, chromematch, openOptions = $.extend({}, this.options, options), androidBlacklist = (wkversion = !!(wkmatch = (ua = navigator.userAgent).match(/AppleWebKit\/([0-9\.]+)/)) && wkmatch[1], andversion = !!(androidmatch = ua.match(/Android (\d+(?:\.\d+))/)) && androidmatch[1], chromematch = ua.indexOf("Chrome") > -1, null !== androidmatch && "4.0" === andversion && !!wkversion && !!(wkversion > 534.13) && !chromematch);
                 this._createPrerequisites($.noop, $.noop, $.proxy(this, "_openPrerequisitesComplete")), this._currentTransition = openOptions.transition, this._applyTransition(openOptions.transition), this._ui.screen.removeClass("ui-screen-hidden"), this._ui.container.removeClass("ui-popup-truncate"), this._reposition(openOptions), this._ui.container.removeClass("ui-popup-hidden"), this.options.overlayTheme && androidBlacklist && this.element.closest(".ui-page").addClass("ui-popup-open"), this._animate({
                     additionalCondition: !0,
                     transition: openOptions.transition,
@@ -3314,7 +3315,7 @@
                 });
             },
             _unenhance: function() {
-                this.options.enhanced || (this._setOptions({
+                !this.options.enhanced && (this._setOptions({
                     theme: $.mobile.popup.prototype.options.theme
                 }), this.element.detach().insertAfter(this._ui.placeholder).removeClass("ui-popup ui-overlay-shadow ui-corner-all ui-body-inherit"), this._ui.screen.remove(), this._ui.container.remove(), this._ui.placeholder.remove());
             },
@@ -3323,7 +3324,7 @@
             },
             _closePopup: function(theEvent, data) {
                 var parsedDst, toUrl, currentOptions = this.options, immediate = !1;
-                theEvent && theEvent.isDefaultPrevented() || $.mobile.popup.active !== this || (window.scrollTo(0, this._scrollTop), theEvent && "pagebeforechange" === theEvent.type && data && (parsedDst = "string" == typeof data.toPage ? data.toPage : data.toPage.jqmData("url"), toUrl = (parsedDst = $.mobile.path.parseUrl(parsedDst)).pathname + parsedDst.search + parsedDst.hash, this._myUrl !== $.mobile.path.makeUrlAbsolute(toUrl) ? immediate = !0 : theEvent.preventDefault()), this.window.off(currentOptions.closeEvents), this.element.undelegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents), this._close(immediate));
+                !(theEvent && theEvent.isDefaultPrevented()) && $.mobile.popup.active === this && (window.scrollTo(0, this._scrollTop), theEvent && "pagebeforechange" === theEvent.type && data && (parsedDst = "string" == typeof data.toPage ? data.toPage : data.toPage.jqmData("url"), toUrl = (parsedDst = $.mobile.path.parseUrl(parsedDst)).pathname + parsedDst.search + parsedDst.hash, this._myUrl !== $.mobile.path.makeUrlAbsolute(toUrl) ? immediate = !0 : theEvent.preventDefault()), this.window.off(currentOptions.closeEvents), this.element.undelegate(currentOptions.closeLinkSelector, currentOptions.closeLinkEvents), this._close(immediate));
             },
             _bindContainerClose: function() {
                 this.window.on(this.options.closeEvents, $.proxy(this, "_closePopup"));
@@ -3332,7 +3333,7 @@
                 return this._ui.container;
             },
             open: function(options) {
-                var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
+                var url, hashkey, activePage, currentIsDialog, hasHash, urlHistory, self = this, currentOptions = this.options;
                 return $.mobile.popup.active || currentOptions.disabled ? this : ($.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (urlHistory = $.mobile.navigate.history, hashkey = $.mobile.dialogHashKey, currentIsDialog = !!(activePage = $.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose(), this) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = $.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), this.window.one("beforenavigate", function(theEvent) {
                     theEvent.preventDefault(), self._open(options), self._bindContainerClose();
                 }), this.urlAltered = !0, $.mobile.navigate(url, {
@@ -3374,7 +3375,7 @@
                 this._super(event1), this._handleButtonVclickKeydown(event1);
             },
             _handleButtonVclickKeydown: function(event1) {
-                this.options.disabled || this.isOpen || "vclick" !== event1.type && (!event1.keyCode || event1.keyCode !== $.mobile.keyCode.ENTER && event1.keyCode !== $.mobile.keyCode.SPACE) || (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
+                !this.options.disabled && !this.isOpen && ("vclick" === event1.type || event1.keyCode && (event1.keyCode === $.mobile.keyCode.ENTER || event1.keyCode === $.mobile.keyCode.SPACE)) && (this._decideFormat(), "overlay" === this.menuType ? this.button.attr("href", "#" + this.popupId).attr("data-" + ($.mobile.ns || "") + "rel", "popup") : this.button.attr("href", "#" + this.dialogId).attr("data-" + ($.mobile.ns || "") + "rel", "dialog"), this.isOpen = !0);
             },
             _handleListFocus: function(e) {
                 var params = "focusin" === e.type ? {
@@ -3493,7 +3494,7 @@
             },
             _buildList: function() {
                 var $options, numOptions, select, optGroup, i, option, $option, parent, text, anchor, classes, optLabel, divider, item, self = this, o = this.options, placeholder = this.placeholder, needPlaceholder = !0, dataPrefix = "data-" + $.mobile.ns, dataIndexAttr = dataPrefix + "option-index", dataIconAttr = dataPrefix + "icon", dataRoleAttr = dataPrefix + "role", dataPlaceholderAttr = dataPrefix + "placeholder", fragment = document1.createDocumentFragment(), isPlaceholderItem = !1;
-                for(self.list.empty().filter(".ui-listview").listview("destroy"), numOptions = ($options = this._selectOptions()).length, select = this.select[0], i = 0; i < numOptions; i++, isPlaceholderItem = !1)($option = $(option = $options[i])).hasClass("ui-screen-hidden") || (parent = option.parentNode, text = $option.text(), anchor = document1.createElement("a"), classes = [], anchor.setAttribute("href", "#"), anchor.appendChild(document1.createTextNode(text)), parent !== select && "optgroup" === parent.nodeName.toLowerCase() && (optLabel = parent.getAttribute("label")) !== optGroup && ((divider = document1.createElement("li")).setAttribute(dataRoleAttr, "list-divider"), divider.setAttribute("role", "option"), divider.setAttribute("tabindex", "-1"), divider.appendChild(document1.createTextNode(optLabel)), fragment.appendChild(divider), optGroup = optLabel), needPlaceholder && (!option.getAttribute("value") || 0 === text.length || $option.jqmData("placeholder")) && (needPlaceholder = !1, isPlaceholderItem = !0, null === option.getAttribute(dataPlaceholderAttr) && (this._removePlaceholderAttr = !0), option.setAttribute(dataPlaceholderAttr, !0), o.hidePlaceholderMenuItems && classes.push("ui-screen-hidden"), placeholder !== text && (placeholder = self.placeholder = text)), item = document1.createElement("li"), option.disabled && (classes.push("ui-state-disabled"), item.setAttribute("aria-disabled", !0)), item.setAttribute(dataIndexAttr, i), item.setAttribute(dataIconAttr, "false"), isPlaceholderItem && item.setAttribute(dataPlaceholderAttr, !0), item.className = classes.join(" "), item.setAttribute("role", "option"), anchor.setAttribute("tabindex", "-1"), this.isMultiple && $(anchor).addClass("ui-btn ui-checkbox-off ui-btn-icon-right"), item.appendChild(anchor), fragment.appendChild(item));
+                for(self.list.empty().filter(".ui-listview").listview("destroy"), numOptions = ($options = this._selectOptions()).length, select = this.select[0], i = 0; i < numOptions; i++, isPlaceholderItem = !1)!($option = $(option = $options[i])).hasClass("ui-screen-hidden") && (parent = option.parentNode, text = $option.text(), anchor = document1.createElement("a"), classes = [], anchor.setAttribute("href", "#"), anchor.appendChild(document1.createTextNode(text)), parent !== select && "optgroup" === parent.nodeName.toLowerCase() && (optLabel = parent.getAttribute("label")) !== optGroup && ((divider = document1.createElement("li")).setAttribute(dataRoleAttr, "list-divider"), divider.setAttribute("role", "option"), divider.setAttribute("tabindex", "-1"), divider.appendChild(document1.createTextNode(optLabel)), fragment.appendChild(divider), optGroup = optLabel), needPlaceholder && (!option.getAttribute("value") || 0 === text.length || $option.jqmData("placeholder")) && (needPlaceholder = !1, isPlaceholderItem = !0, null === option.getAttribute(dataPlaceholderAttr) && (this._removePlaceholderAttr = !0), option.setAttribute(dataPlaceholderAttr, !0), o.hidePlaceholderMenuItems && classes.push("ui-screen-hidden"), placeholder !== text && (placeholder = self.placeholder = text)), item = document1.createElement("li"), option.disabled && (classes.push("ui-state-disabled"), item.setAttribute("aria-disabled", !0)), item.setAttribute(dataIndexAttr, i), item.setAttribute(dataIconAttr, "false"), isPlaceholderItem && item.setAttribute(dataPlaceholderAttr, !0), item.className = classes.join(" "), item.setAttribute("role", "option"), anchor.setAttribute("tabindex", "-1"), this.isMultiple && $(anchor).addClass("ui-btn ui-checkbox-off ui-btn-icon-right"), item.appendChild(anchor), fragment.appendChild(item));
                 self.list[0].appendChild(fragment), this.isMultiple || placeholder.length ? this.headerTitle.text(this.placeholder) : this.header.addClass("ui-screen-hidden"), self.list.listview();
             },
             _button: function() {
@@ -3745,7 +3746,7 @@
             _visible: !0,
             updatePagePadding: function(tbPage) {
                 var $el = this.element, header = "header" === this.role, pos = parseFloat($el.css(header ? "top" : "bottom"));
-                this.options.fullscreen || (tbPage = tbPage && undefined === tbPage.type && tbPage || this.page || $el.closest(".ui-page"), $(tbPage = this.page ? this.page : ".ui-page-active").css("padding-" + (header ? "top" : "bottom"), $el.outerHeight() + pos));
+                !this.options.fullscreen && (tbPage = tbPage && undefined === tbPage.type && tbPage || this.page || $el.closest(".ui-page"), $(tbPage = this.page ? this.page : ".ui-page-active").css("padding-" + (header ? "top" : "bottom"), $el.outerHeight() + pos));
             },
             _useTransition: function(notransition) {
                 var $win = this.window, $el = this.element, scroll = $win.scrollTop(), elHeight = $el.height(), pHeight = this.page ? $el.closest(".ui-page").height() : $(".ui-page-active").height(), viewportHeight = $.mobile.getScreenHeight();
@@ -4138,7 +4139,7 @@
                 this[this._open ? "close" : "open"]();
             },
             _destroy: function() {
-                var o = this.options, multiplePanels = $("body > :mobile-panel").length + $.mobile.activePage.find(":mobile-panel").length > 1;
+                var otherPanels, o = this.options, multiplePanels = $("body > :mobile-panel").length + $.mobile.activePage.find(":mobile-panel").length > 1;
                 "overlay" !== o.display && (0 === $("body > :mobile-panel").add($.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([
                     this._getPanelClasses(),
                     o.classes.panelOpen,
@@ -4312,7 +4313,7 @@
                 return 0 === items.length && (items = elem.children()), items;
             },
             _filterItems: function(val) {
-                var idx, callback, length, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
+                var idx, callback, length, dst, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
                 if (null != val) for(idx = 0, callback = opts.filterCallback || defaultFilterCallback, length = filterItems.length; idx < length; idx++)(callback.call(filterItems[idx], idx, val) ? hide : show).push(filterItems[idx]);
                 0 === hide.length ? filterItems[opts.filterReveal ? "addClass" : "removeClass"]("ui-screen-hidden") : ($(hide).addClass("ui-screen-hidden"), $(show).removeClass("ui-screen-hidden")), this._refreshChildWidget(), this._trigger("filter", null, {
                     items: filterItems
@@ -4603,7 +4604,7 @@
                     newTab: collapsing ? $() : tab,
                     newPanel: toShow
                 };
-                event1.preventDefault(), tab.hasClass("ui-state-disabled") || tab.hasClass("ui-tabs-loading") || this.running || clickedIsActive && !options.collapsible || !1 === this._trigger("beforeActivate", event1, eventData) || (options.active = !collapsing && this.tabs.index(tab), this.active = clickedIsActive ? $() : tab, this.xhr && this.xhr.abort(), toHide.length || toShow.length || $.error("jQuery UI Tabs: Mismatching fragment identifier."), toShow.length && this.load(this.tabs.index(tab), event1), this._toggle(event1, eventData));
+                event1.preventDefault(), !(tab.hasClass("ui-state-disabled") || tab.hasClass("ui-tabs-loading")) && !this.running && (!clickedIsActive || options.collapsible) && !1 !== this._trigger("beforeActivate", event1, eventData) && (options.active = !collapsing && this.tabs.index(tab), this.active = clickedIsActive ? $() : tab, this.xhr && this.xhr.abort(), toHide.length || toShow.length || $.error("jQuery UI Tabs: Mismatching fragment identifier."), toShow.length && this.load(this.tabs.index(tab), event1), this._toggle(event1, eventData));
             },
             _toggle: function(event1, eventData) {
                 var that = this, toShow = eventData.newPanel, toHide = eventData.oldPanel;
@@ -4708,7 +4709,7 @@
         });
     }(jQuery), function($, window) {
         $.mobile.iosorientationfixEnabled = !0;
-        var zoom, x, y, z, aig, ua = navigator.userAgent;
+        var zoom, evt, x, y, z, aig, ua = navigator.userAgent;
         if (!(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) {
             $.mobile.iosorientationfixEnabled = !1;
             return;
