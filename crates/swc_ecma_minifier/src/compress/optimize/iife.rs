@@ -801,6 +801,7 @@ where
                             )
                         )
                     {
+                        // We don't need to create a variable in this case
                         self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
