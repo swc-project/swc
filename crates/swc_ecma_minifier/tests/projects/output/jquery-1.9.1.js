@@ -154,7 +154,7 @@
             return window1.JSON && window1.JSON.parse ? window1.JSON.parse(data) : null === data ? data : "string" == typeof data && (data = jQuery.trim(data)) && rvalidchars.test(data.replace(rvalidescape, "@").replace(rvalidtokens, "]").replace(rvalidbraces, "")) ? Function("return " + data)() : void jQuery.error("Invalid JSON: " + data);
         },
         parseXML: function(data) {
-            var xml;
+            var xml, tmp;
             if (!data || "string" != typeof data) return null;
             try {
                 window1.DOMParser ? xml = new DOMParser().parseFromString(data, "text/xml") : ((xml = new ActiveXObject("Microsoft.XMLDOM")).async = "false", xml.loadXML(data));
@@ -176,7 +176,7 @@
             return elem.nodeName && elem.nodeName.toLowerCase() === name1.toLowerCase();
         },
         each: function(obj, callback, args) {
-            var i = 0, length = obj.length, isArray = isArraylike(obj);
+            var value, i = 0, length = obj.length, isArray = isArraylike(obj);
             if (args) {
                 if (isArray) for(; i < length && !1 !== callback.apply(obj[i], args); i++);
                 else for(i in obj)if (!1 === callback.apply(obj[i], args)) break;
@@ -210,7 +210,7 @@
             return first.length = i, first;
         },
         grep: function(elems, callback, inv) {
-            var ret = [], i = 0, length = elems.length;
+            var retVal, ret = [], i = 0, length = elems.length;
             for(inv = !!inv; i < length; i++)!!callback(elems[i], i) !== inv && ret.push(elems[i]);
             return ret;
         },
@@ -641,12 +641,13 @@
         },
         val: function(value) {
             var ret, hooks, isFunction, elem = this[0];
-            return arguments.length ? (isFunction = jQuery.isFunction(value), this.each(function(i) {
+            if (!arguments.length) return elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && undefined !== (ret = hooks.get(elem, "value")) ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
+            return isFunction = jQuery.isFunction(value), this.each(function(i) {
                 var val, self = jQuery(this);
                 1 === this.nodeType && (null == (val = isFunction ? value.call(this, i, self.val()) : value) ? val = "" : "number" == typeof val ? val += "" : jQuery.isArray(val) && (val = jQuery.map(val, function(value) {
                     return null == value ? "" : value + "";
                 })), (hooks = jQuery.valHooks[this.type] || jQuery.valHooks[this.nodeName.toLowerCase()]) && "set" in hooks && undefined !== hooks.set(this, val, "value") || (this.value = val));
-            })) : elem ? (hooks = jQuery.valHooks[elem.type] || jQuery.valHooks[elem.nodeName.toLowerCase()]) && "get" in hooks && undefined !== (ret = hooks.get(elem, "value")) ? ret : "string" == typeof (ret = elem.value) ? ret.replace(rreturn, "") : null == ret ? "" : ret : void 0;
+            });
         }
     }), jQuery.extend({
         valHooks: {
@@ -713,7 +714,7 @@
             contenteditable: "contentEditable"
         },
         prop: function(elem, name1, value) {
-            var ret, hooks, nType = elem.nodeType;
+            var ret, hooks, notxml, nType = elem.nodeType;
             if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name1)) ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
         },
         propHooks: {
@@ -865,24 +866,26 @@
             var handle, ontype, cur, bubbleType, special, tmp, i, eventPath = [
                 elem || document
             ], type = core_hasOwn.call(event, "type") ? event.type : event, namespaces = core_hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
-            if (cur = tmp = elem = elem || document, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered)) && (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
-                event
-            ] : jQuery.makeArray(data, [
-                event
-            ]), special = jQuery.event.special[type] || {}, onlyHandlers || !special.trigger || !1 !== special.trigger.apply(elem, data))) {
-                if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
-                    for(bubbleType = special.delegateType || type, rfocusMorph.test(bubbleType + type) || (cur = cur.parentNode); cur; cur = cur.parentNode)eventPath.push(cur), tmp = cur;
-                    tmp === (elem.ownerDocument || document) && eventPath.push(tmp.defaultView || tmp.parentWindow || window1);
+            if (cur = tmp = elem = elem || document, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered))) {
+                if (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, (event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event)).isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
+                    event
+                ] : jQuery.makeArray(data, [
+                    event
+                ]), special = jQuery.event.special[type] || {}, onlyHandlers || !special.trigger || !1 !== special.trigger.apply(elem, data)) {
+                    if (!onlyHandlers && !special.noBubble && !jQuery.isWindow(elem)) {
+                        for(bubbleType = special.delegateType || type, rfocusMorph.test(bubbleType + type) || (cur = cur.parentNode); cur; cur = cur.parentNode)eventPath.push(cur), tmp = cur;
+                        tmp === (elem.ownerDocument || document) && eventPath.push(tmp.defaultView || tmp.parentWindow || window1);
+                    }
+                    for(i = 0; (cur = eventPath[i++]) && !event.isPropagationStopped();)event.type = i > 1 ? bubbleType : special.bindType || type, (handle = (jQuery._data(cur, "events") || {})[event.type] && jQuery._data(cur, "handle")) && handle.apply(cur, data), (handle = ontype && cur[ontype]) && jQuery.acceptData(cur) && handle.apply && !1 === handle.apply(cur, data) && event.preventDefault();
+                    if (event.type = type, !onlyHandlers && !event.isDefaultPrevented() && (!special._default || !1 === special._default.apply(elem.ownerDocument, data)) && !("click" === type && jQuery.nodeName(elem, "a")) && jQuery.acceptData(elem) && ontype && elem[type] && !jQuery.isWindow(elem)) {
+                        (tmp = elem[ontype]) && (elem[ontype] = null), jQuery.event.triggered = type;
+                        try {
+                            elem[type]();
+                        } catch (e) {}
+                        jQuery.event.triggered = undefined, tmp && (elem[ontype] = tmp);
+                    }
+                    return event.result;
                 }
-                for(i = 0; (cur = eventPath[i++]) && !event.isPropagationStopped();)event.type = i > 1 ? bubbleType : special.bindType || type, (handle = (jQuery._data(cur, "events") || {})[event.type] && jQuery._data(cur, "handle")) && handle.apply(cur, data), (handle = ontype && cur[ontype]) && jQuery.acceptData(cur) && handle.apply && !1 === handle.apply(cur, data) && event.preventDefault();
-                if (event.type = type, !onlyHandlers && !event.isDefaultPrevented() && (!special._default || !1 === special._default.apply(elem.ownerDocument, data)) && !("click" === type && jQuery.nodeName(elem, "a")) && jQuery.acceptData(elem) && ontype && elem[type] && !jQuery.isWindow(elem)) {
-                    (tmp = elem[ontype]) && (elem[ontype] = null), jQuery.event.triggered = type;
-                    try {
-                        elem[type]();
-                    } catch (e) {}
-                    jQuery.event.triggered = undefined, tmp && (elem[ontype] = tmp);
-                }
-                return event.result;
             }
         },
         dispatch: function(event) {
@@ -1303,7 +1306,9 @@
                 return !1;
             }, sortOrder = docElem.compareDocumentPosition ? function(a, b) {
                 var compare;
-                return a === b ? (hasDuplicate = !0, 0) : (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) ? 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1 : a.compareDocumentPosition ? -1 : 1;
+                if (a === b) return hasDuplicate = !0, 0;
+                if (compare = b.compareDocumentPosition && a.compareDocumentPosition && a.compareDocumentPosition(b)) return 1 & compare || a.parentNode && 11 === a.parentNode.nodeType ? a === doc || contains(preferredDoc, a) ? -1 : b === doc || contains(preferredDoc, b) ? 1 : 0 : 4 & compare ? -1 : 1;
+                return a.compareDocumentPosition ? -1 : 1;
             } : function(a, b) {
                 var cur, i = 0, aup = a.parentNode, bup = b.parentNode, ap = [
                     a
@@ -2198,9 +2203,11 @@
             if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {
                 var ret, type, hooks, origName = jQuery.camelCase(name1), style = elem.style;
                 if (name1 = jQuery.cssProps[origName] || (jQuery.cssProps[origName] = vendorPropName(style, origName)), hooks = jQuery.cssHooks[name1] || jQuery.cssHooks[origName], value === undefined) return hooks && "get" in hooks && undefined !== (ret = hooks.get(elem, !1, extra)) ? ret : style[name1];
-                if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name1)), type = "number"), !(null == value || "number" === type && isNaN(value)) && ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name1.indexOf("background") || (style[name1] = "inherit"), !hooks || !("set" in hooks) || undefined !== (value = hooks.set(elem, value, extra)))) try {
-                    style[name1] = value;
-                } catch (e) {}
+                if ("string" == (type = typeof value) && (ret = rrelNum.exec(value)) && (value = (ret[1] + 1) * ret[2] + parseFloat(jQuery.css(elem, name1)), type = "number"), !(null == value || "number" === type && isNaN(value))) {
+                    if ("number" !== type || jQuery.cssNumber[origName] || (value += "px"), jQuery.support.clearCloneStyle || "" !== value || 0 !== name1.indexOf("background") || (style[name1] = "inherit"), !hooks || !("set" in hooks) || undefined !== (value = hooks.set(elem, value, extra))) try {
+                        style[name1] = value;
+                    } catch (e) {}
+                }
             }
         },
         css: function(elem, name1, extra, styles) {
@@ -2244,7 +2251,7 @@
         },
         set: function(elem, value) {
             var style = elem.style, currentStyle = elem.currentStyle, opacity = jQuery.isNumeric(value) ? "alpha(opacity=" + 100 * value + ")" : "", filter = currentStyle && currentStyle.filter || style.filter || "";
-            style.zoom = 1, (value >= 1 || "" === value) && "" === jQuery.trim(filter.replace(ralpha, "")) && style.removeAttribute && (style.removeAttribute("filter"), "" === value || currentStyle && !currentStyle.filter) || (style.filter = ralpha.test(filter) ? filter.replace(ralpha, opacity) : filter + " " + opacity);
+            style.zoom = 1, (!(value >= 1) && "" !== value || "" !== jQuery.trim(filter.replace(ralpha, "")) || !style.removeAttribute || (style.removeAttribute("filter"), "" !== value && (!currentStyle || currentStyle.filter))) && (style.filter = ralpha.test(filter) ? filter.replace(ralpha, opacity) : filter + " " + opacity);
         }
     }), jQuery(function() {
         jQuery.support.reliableMarginRight || (jQuery.cssHooks.marginRight = {
@@ -2737,19 +2744,19 @@
         }), fxNow = jQuery.now();
     }
     function Animation(elem, properties, options) {
-        var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
+        var animation, props, result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
             if (stopped) return !1;
-            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation.startTime + animation.duration - currentTime), percent = 1 - (remaining / animation.duration || 0), index = 0, length = animation.tweens.length; index < length; index++)animation.tweens[index].run(percent);
+            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation1.startTime + animation1.duration - currentTime), percent = 1 - (remaining / animation1.duration || 0), index = 0, length = animation1.tweens.length; index < length; index++)animation1.tweens[index].run(percent);
             return (deferred.notifyWith(elem, [
-                animation,
+                animation1,
                 percent,
                 remaining
             ]), percent < 1 && length) ? remaining : (deferred.resolveWith(elem, [
-                animation
+                animation1
             ]), !1);
-        }, animation = deferred.promise({
+        }, animation1 = deferred.promise({
             elem: elem,
             props: jQuery.extend({}, properties),
             opts: jQuery.extend(!0, {
@@ -2761,34 +2768,34 @@
             duration: options.duration,
             tweens: [],
             createTween: function(prop, end) {
-                var tween = jQuery.Tween(elem, animation.opts, prop, end, animation.opts.specialEasing[prop] || animation.opts.easing);
-                return animation.tweens.push(tween), tween;
+                var tween = jQuery.Tween(elem, animation1.opts, prop, end, animation1.opts.specialEasing[prop] || animation1.opts.easing);
+                return animation1.tweens.push(tween), tween;
             },
             stop: function(gotoEnd) {
-                var index = 0, length = gotoEnd ? animation.tweens.length : 0;
+                var index = 0, length = gotoEnd ? animation1.tweens.length : 0;
                 if (stopped) return this;
-                for(stopped = !0; index < length; index++)animation.tweens[index].run(1);
+                for(stopped = !0; index < length; index++)animation1.tweens[index].run(1);
                 return gotoEnd ? deferred.resolveWith(elem, [
-                    animation,
+                    animation1,
                     gotoEnd
                 ]) : deferred.rejectWith(elem, [
-                    animation,
+                    animation1,
                     gotoEnd
                 ]), this;
             }
-        }), props = animation.props;
+        }), props1 = animation1.props;
         for(function(props, specialEasing) {
             var value, name1, index, easing, hooks;
             for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && ("expand" in hooks)) for(index in value = hooks.expand(value), delete props[name1], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name1] = easing;
-        }(props, animation.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation, elem, props, animation.opts)) return result;
-        return jQuery.each(props, function(prop, value) {
-            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
-        }), jQuery.isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), jQuery.fx.timer(jQuery.extend(tick, {
+        }(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
+        return jQuery.each(props1, function(prop, value) {
+            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation1, prop, value)) return;
+        }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,
-            anim: animation,
-            queue: animation.opts.queue
-        })), animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always);
+            anim: animation1,
+            queue: animation1.opts.queue
+        })), animation1.progress(animation1.opts.progress).done(animation1.opts.done, animation1.opts.complete).fail(animation1.opts.fail).always(animation1.opts.always);
     }
     function Tween(elem, options, prop, end, easing) {
         return new Tween.prototype.init(elem, options, prop, end, easing);
