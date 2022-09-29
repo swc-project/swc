@@ -794,7 +794,6 @@ where
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
-                        && usage.is_fn_local
                         && !usage.reassigned()
                         && !usage.has_property_mutation
                         && matches!(
