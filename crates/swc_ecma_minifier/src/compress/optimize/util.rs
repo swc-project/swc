@@ -157,14 +157,17 @@ impl VisitMut for Remapper {
     }
 }
 
+/// A visitor responsible for inlining special kind of variables and removing
+/// (some) unused variables. Due to the order of visit, the main visitor cannot
+/// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
-pub(crate) struct CloningMultiReplacer<'a> {
+pub(crate) struct Finalizder<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
 }
 
-impl Parallel for CloningMultiReplacer<'_> {
+impl Parallel for Finalizder<'_> {
     fn create(&self) -> Self {
         *self
     }
@@ -174,11 +177,11 @@ impl Parallel for CloningMultiReplacer<'_> {
     }
 }
 
-impl<'a> CloningMultiReplacer<'a> {
-    fn var(&mut self, i: &Id, mode: MultiReplacerMode) -> Option<Box<Expr>> {
+impl<'a> Finalizder<'a> {
+    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
-            MultiReplacerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
-            MultiReplacerMode::OnlyComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
+            FinalizerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
+            FinalizerMode::OnlyComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
         };
 
         e.visit_mut_children_with(self);
@@ -195,7 +198,7 @@ impl<'a> CloningMultiReplacer<'a> {
         }
     }
 
-    fn check(&mut self, e: &mut Expr, mode: MultiReplacerMode) {
+    fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id(), mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
@@ -208,19 +211,19 @@ impl<'a> CloningMultiReplacer<'a> {
 }
 
 #[derive(Debug, Clone, Copy)]
-enum MultiReplacerMode {
+enum FinalizerMode {
     OnlyCallee,
     OnlyComparisonWithLit,
 }
 
-impl VisitMut for CloningMultiReplacer<'_> {
+impl VisitMut for Finalizder<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
 
         if let Callee::Expr(e) = e {
-            self.check(e, MultiReplacerMode::OnlyCallee);
+            self.check(e, FinalizerMode::OnlyCallee);
         }
     }
 
@@ -231,9 +234,9 @@ impl VisitMut for CloningMultiReplacer<'_> {
             op!("===") | op!("!==") | op!("==") | op!("!=") => {
                 //
                 if e.left.is_lit() {
-                    self.check(&mut e.right, MultiReplacerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.right, FinalizerMode::OnlyComparisonWithLit);
                 } else if e.right.is_lit() {
-                    self.check(&mut e.left, MultiReplacerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.left, FinalizerMode::OnlyComparisonWithLit);
                 }
             }
             _ => {}
