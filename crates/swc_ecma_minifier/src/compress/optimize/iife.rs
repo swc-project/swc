@@ -800,7 +800,8 @@ where
                             &*arg,
                             Expr::Lit(
                                 Lit::Num(..) | Lit::Str(..) | Lit::Bool(..) | Lit::BigInt(..)
-                            )
+                            ) | Expr::Member(..)
+                                | Expr::Call(..)
                         )
                     {
                         // We don't need to create a variable in this case
