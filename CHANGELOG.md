@@ -85,6 +85,9 @@
 
 - **(es/minifier)** Optimize `MultiReplacer` (#5977) ([e37bb55](https://github.com/swc-project/swc/commit/e37bb551015b68b108569015a03dc00477f621ee))
 
+
+- **(html/minifier)** Improve performance (#5983) ([6c08971](https://github.com/swc-project/swc/commit/6c08971a53b8ba87b920173539c1165640e7f2a3))
+
 ### Testing
 
 
