@@ -2,7 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{ExprCtx, ExprExt};
@@ -243,6 +243,24 @@ impl VisitMut for Finalizer<'_> {
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| !v.name.is_invalid());
+    }
+
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        n.visit_mut_children_with(self);
+
+        if n.init.is_none() {
+            if let Pat::Ident(i) = &n.name {
+                if self.vars_to_remove.contains(&i.to_id()) {
+                    n.name.take();
+                }
+            }
         }
     }
 
