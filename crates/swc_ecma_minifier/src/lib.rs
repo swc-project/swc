@@ -279,13 +279,13 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions)
 
     loop {
         #[cfg(feature = "debug")]
-        let start = crate::debug::dump(&m, false);
+        let start = crate::debug::dump(&*m, false);
 
         m.visit_mut_with(&mut visitor);
 
         #[cfg(feature = "debug")]
         if visitor.changed() {
-            let src = crate::debug::dump(&m, false);
+            let src = crate::debug::dump(&*m, false);
             tracing::debug!(
                 "===== Before DCE =====\n{}\n===== After DCE =====\n{}",
                 start,
