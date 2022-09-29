@@ -1065,7 +1065,7 @@
                     }, this.selectEnd = this.selectAllEnd = this.selectByWordsEnd = this.selectByLinesEnd = function() {
                         this.$clickSelection = null, this.editor.unsetStyle("ace_selecting"), this.editor.renderer.scroller.releaseCapture && this.editor.renderer.scroller.releaseCapture();
                     }, this.focusWait = function() {
-                        var ax, ay, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, Math.sqrt(Math.pow(this.x - ax, 2) + Math.pow(this.y - ay, 2))), time = Date.now();
+                        var distance = Math.sqrt(Math.pow(this.x - this.mousedownEvent.x, 2) + Math.pow(this.y - this.mousedownEvent.y, 2)), time = Date.now();
                         (distance > 0 || time - this.mousedownEvent.time > this.$focusTimeout) && this.startSelect(this.mousedownEvent.getDocumentPosition());
                     }, this.onDoubleClick = function(ev) {
                         var pos = ev.getDocumentPosition(), editor = this.editor, range = editor.session.getBracketRange(pos);

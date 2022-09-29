@@ -1304,12 +1304,12 @@
                 let b1;
                 a: {
                     for(d in c){
-                        var a1, d = !1;
+                        var d = !1;
                         break a;
                     }
                     d = !0;
                 }
-                d || (a1 = c, b1 = "", xa(a1, function(c, d) {
+                d || (b1 = "", xa(c, function(c, d) {
                     b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
                 }), c = b1, "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
             }

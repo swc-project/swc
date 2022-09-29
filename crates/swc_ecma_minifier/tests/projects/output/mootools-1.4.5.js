@@ -449,7 +449,7 @@
         return array ? hex : "#" + hex.join("");
     }
 }), Array.alias("extend", "append");
-var fireEvent, $pick = function() {
+var $pick = function() {
     return Array.from(arguments).pick();
 };
 String.implement({
@@ -1683,9 +1683,9 @@ var Element = function(tag, props) {
     }
     return document.newElement(tag, props);
 };
-Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = (fireEvent = Element.prototype.fireEvent, function(type, event) {
-    return fireEvent.call(this, type, event);
-})), new Type("Element", Element).mirror(function(name) {
+Browser.Element && (Element.prototype = Browser.Element.prototype, Element.prototype._fireEvent = function(type, event) {
+    return Element.prototype.fireEvent.call(this, type, event);
+}), new Type("Element", Element).mirror(function(name) {
     if (!Array.prototype[name]) {
         var obj = {};
         obj[name] = function() {
@@ -1840,7 +1840,7 @@ Elements.prototype = {
             return document.id(Slick.find(this, expression));
         }
     });
-    var set, translations, contains = {
+    var translations, contains = {
         contains: function(element) {
             return Slick.contains(this, element);
         }
@@ -2232,7 +2232,7 @@ Elements.prototype = {
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
-    tr = null, (!supportsTableInnerHTML || !supportsTRInnerHTML || !supportsHTML5Elements) && (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
+    tr = null, (!supportsTableInnerHTML || !supportsTRInnerHTML || !supportsHTML5Elements) && (Element.Properties.html.set = ((translations = {
         table: [
             1,
             "<table>",
@@ -2259,7 +2259,7 @@ Elements.prototype = {
             0,
             "",
             ""
-        ]), !wrap) return set.call(this, html);
+        ]), !wrap) return Element.Properties.html.set.call(this, html);
         var level = wrap[0], wrapper = document.createElement("div"), target = wrapper;
         for(supportsHTML5Elements || fragment.appendChild(wrapper), wrapper.innerHTML = [
             wrap[1],

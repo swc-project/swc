@@ -356,8 +356,8 @@
                             ], callback);
                         case Enum_RULESET:
                             if (element.length) {
-                                var array, callback1;
-                                return array = element.props, callback1 = function(value) {
+                                var callback1;
+                                return callback1 = function(value) {
                                     var value1;
                                     switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
                                         case ":read-only":
@@ -373,7 +373,7 @@
                                             ], callback);
                                     }
                                     return "";
-                                }, array.map(callback1).join("");
+                                }, element.props.map(callback1).join("");
                             }
                     }
                 }

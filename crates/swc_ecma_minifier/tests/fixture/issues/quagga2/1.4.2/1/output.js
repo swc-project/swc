@@ -7269,7 +7269,7 @@
                         key: "initBuffers",
                         value: function(imageWrapper) {
                             if (this.context.config) {
-                                var inputStream, locator, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, locator = this.context.config.locator, inputImageWrapper = imageWrapper || new image_wrapper.a({
+                                var inputStream, inputImageWrapper, boxSize, _initBuffers2 = (inputStream = this.context.inputStream, inputImageWrapper = imageWrapper || new image_wrapper.a({
                                     x: inputStream.getWidth(),
                                     y: inputStream.getHeight(),
                                     type: "XYSize"
@@ -7290,7 +7290,7 @@
                                         inputImageWrapper.size.x,
                                         0
                                     ])
-                                ], barcode_locator.a.init(inputImageWrapper, locator), {
+                                ], barcode_locator.a.init(inputImageWrapper, this.context.config.locator), {
                                     inputImageWrapper: inputImageWrapper,
                                     boxSize: boxSize
                                 }), inputImageWrapper1 = _initBuffers2.inputImageWrapper, boxSize1 = _initBuffers2.boxSize;

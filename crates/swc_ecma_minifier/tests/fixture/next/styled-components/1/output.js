@@ -4604,7 +4604,7 @@
                 }, t.toString = function() {
                     return function(e) {
                         for(var t = e.getTag(), n = t.length, r = "", o = 0; o < n; o++){
-                            var e1, s = (e1 = o, k.get(e1));
+                            var s = k.get(o);
                             if (void 0 !== s) {
                                 var i = e.names.get(s), a = t.getGroup(o);
                                 if (i && a && i.size) {

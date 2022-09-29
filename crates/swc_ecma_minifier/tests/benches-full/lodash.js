@@ -500,8 +500,7 @@
         }(string) : asciiSize(string);
     }
     function stringToArray(string) {
-        var string1, string2;
-        return hasUnicode(string) ? (string2 = string, string2.match(reUnicode) || []) : string.split('');
+        return hasUnicode(string) ? string.match(reUnicode) || [] : string.split('');
     }
     function trimmedEndIndex(string) {
         for(var index = string.length; index-- && reWhitespace.test(string.charAt(index)););
@@ -630,16 +629,16 @@
             if (isArr) {
                 if (length = (array = value).length, result1 = new array.constructor(length), result = (length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result1), !isDeep) return copyArray(value, result);
             } else {
-                var array, length, result1, source, object1, source1, object2, object3, source2, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+                var array, length, result1, source, source1, object1, source2, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
                     if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) {
-                        return isFlat ? (source = value, object1 = (object3 = result, source2 = value, object3 && copyObject(source2, keysIn(source2), object3)), copyObject(source, getSymbolsIn(source), object1)) : (source1 = value, object2 = baseAssign(result, value), copyObject(source1, getSymbols(source1), object2));
+                        return isFlat ? (source = value, copyObject(source, getSymbolsIn(source), (object1 = result, source2 = value, object1 && copyObject(source2, keysIn(source2), object1)))) : (source1 = value, copyObject(source1, getSymbols(source1), baseAssign(result, value)));
                     }
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
-                        var dataView, isDeep1, buffer, regexp, result, symbol, Ctor = object.constructor;
+                        var dataView, buffer, regexp, result, Ctor = object.constructor;
                         switch(tag){
                             case arrayBufferTag:
                                 return cloneArrayBuffer(object);
@@ -847,7 +846,6 @@
             return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
         }
         function baseGetTag(value) {
-            var value1;
             return null == value ? value === undefined ? '[object Undefined]' : '[object Null]' : symToStringTag && symToStringTag in Object1(value) ? function(value) {
                 var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
                 try {
@@ -856,7 +854,7 @@
                 } catch (e) {}
                 var result = nativeObjectToString.call(value);
                 return unmasked && (isOwn ? value[symToStringTag] = tag : delete value[symToStringTag]), result;
-            }(value) : (value1 = value, nativeObjectToString.call(value1));
+            }(value) : nativeObjectToString.call(value);
         }
         function baseGt(value, other) {
             return value > other;
@@ -990,8 +988,7 @@
             return !0;
         }
         function baseIsNative(value) {
-            var func;
-            return !(!isObject(value) || (func = value, maskSrcKey && maskSrcKey in func)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
+            return !(!isObject(value) || maskSrcKey && maskSrcKey in value) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
         }
         function baseIteratee(value) {
             return 'function' == typeof value ? value : null == value ? identity : 'object' == typeof value ? isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value) : property(value);
@@ -1439,9 +1436,9 @@
         }
         function createInverter(setter, toIteratee) {
             return function(object, iteratee) {
-                var object1, setter1, iteratee1, accumulator;
-                return iteratee1 = toIteratee(iteratee), accumulator = {}, baseForOwn(object, function(value, key, object) {
-                    setter(accumulator, iteratee1(value), key, object);
+                var accumulator;
+                return accumulator = {}, baseForOwn(object, function(value, key, object) {
+                    setter(accumulator, toIteratee(iteratee)(value), key, object);
                 }), accumulator;
             };
         }
@@ -1520,18 +1517,18 @@
         } : noop;
         function createToPairs(keysFunc) {
             return function(object) {
-                var set, index, result, object1, props, tag = getTag(object);
+                var set, index, result, tag = getTag(object);
                 return tag == mapTag ? mapToArray(object) : tag == setTag ? (set = object, index = -1, result = Array(set.size), set.forEach(function(value) {
                     result[++index] = [
                         value,
                         value
                     ];
-                }), result) : (props = keysFunc(object), arrayMap(props, function(key) {
+                }), result) : arrayMap(keysFunc(object), function(key) {
                     return [
                         key,
                         object[key]
                     ];
-                }));
+                });
             };
         }
         function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary, arity) {
@@ -1574,13 +1571,13 @@
                     return apply(fn, this, args);
                 }
                 return wrapper;
-            }(func, bitmask, arity) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func1 = func, bitmask1 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask1, Ctor = createCtor(func1), result = function wrapper() {
+            }(func, bitmask, arity) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func1 = func, partials1 = partials, isBind = 1 & bitmask, Ctor = createCtor(func1), result = function wrapper() {
                 for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor : func1; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
                 for(; argsLength--;)args[leftIndex++] = arguments[++argsIndex];
-                return apply(fn, isBind ? thisArg1 : this, args);
+                return apply(fn, isBind ? thisArg : this, args);
             });
-            else var func1, bitmask1, thisArg1, partials1, isBind, Ctor, func2, bitmask2, thisArg2, isBind1, Ctor1, result = (func2 = func, bitmask2 = bitmask, thisArg2 = thisArg, isBind1 = 1 & bitmask2, Ctor1 = createCtor(func2), function wrapper() {
-                return (this && this !== root && this instanceof wrapper ? Ctor1 : func2).apply(isBind1 ? thisArg2 : this, arguments);
+            else var func1, partials1, isBind, Ctor, func2, isBind1, Ctor1, result = (func2 = func, isBind1 = 1 & bitmask, Ctor1 = createCtor(func2), function wrapper() {
+                return (this && this !== root && this instanceof wrapper ? Ctor1 : func2).apply(isBind1 ? thisArg : this, arguments);
             });
             return setWrapToString((data ? baseSetData : setData)(result, newData), func, bitmask);
         }
@@ -1663,7 +1660,7 @@
             return result;
         }
         function getNative(object, key) {
-            var object1, key1, value = null == object ? undefined : object[key];
+            var object1, value = null == object ? undefined : object[key];
             return baseIsNative(value) ? value : undefined;
         }
         var getSymbols = nativeGetSymbols ? function(object) {
@@ -1764,15 +1761,15 @@
             });
         } : identity);
         function setWrapToString(wrapper, reference, bitmask) {
-            var source, match, details, bitmask1, source1 = reference + '';
+            var match, details, source = reference + '';
             return setToString(wrapper, function(source, details) {
                 var length = details.length;
                 if (!length) return source;
                 var lastIndex = length - 1;
                 return details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex], details = details.join(length > 2 ? ', ' : ' '), source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
-            }(source1, (details = (match = source1.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], bitmask1 = bitmask, arrayEach(wrapFlags, function(pair) {
+            }(source, (details = (match = source.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], arrayEach(wrapFlags, function(pair) {
                 var value = '_.' + pair[0];
-                bitmask1 & pair[1] && !arrayIncludes(details, value) && details.push(value);
+                bitmask & pair[1] && !arrayIncludes(details, value) && details.push(value);
             }), details.sort())));
         }
         function shortOut(func) {
@@ -2277,7 +2274,7 @@
             for(var length = paths.length; length--;)baseUnset(result, paths[length]);
             return result;
         }), pick = flatRest(function(object, paths) {
-            var object1, paths1;
+            var object1;
             return null == object ? {} : basePickBy(object, paths, function(value, path) {
                 return hasIn(object, path);
             });
@@ -2318,11 +2315,7 @@
             return result + (index ? ' ' : '') + word.toUpperCase();
         }), upperFirst = createCaseFirst('toUpperCase');
         function words(string, pattern, guard) {
-            if (string = toString(string), undefined === (pattern = guard ? undefined : pattern)) {
-                var string1, string2, string3;
-                return (string1 = string, reHasUnicodeWord.test(string1)) ? (string2 = string).match(reUnicodeWord) || [] : (string3 = string).match(reAsciiWord) || [];
-            }
-            return string.match(pattern) || [];
+            return (string = toString(string), undefined === (pattern = guard ? undefined : pattern)) ? reHasUnicodeWord.test(string) ? string.match(reUnicodeWord) || [] : string.match(reAsciiWord) || [] : string.match(pattern) || [];
         }
         var attempt = baseRest(function(func, args) {
             try {
@@ -2381,7 +2374,6 @@
         function noop() {}
         var over = createOver(arrayMap), overEvery = createOver(arrayEvery), overSome = createOver(arraySome);
         function property(path) {
-            var path1;
             return isKey(path) ? baseProperty(toKey(path)) : function(object) {
                 return baseGet(object, path);
             };

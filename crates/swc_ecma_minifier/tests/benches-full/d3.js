@@ -8,7 +8,6 @@
         return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
     }
     function bisector(f) {
-        var f1;
         let delta = f, compare = f;
         function left(a, x, lo, hi) {
             for(null == lo && (lo = 0), null == hi && (hi = a.length); lo < hi;){
@@ -17,7 +16,7 @@
             }
             return lo;
         }
-        return 1 === f.length && (delta = (d, x)=>f(d) - x, f1 = f, compare = (d, x)=>ascending(f1(d), x)), {
+        return 1 === f.length && (delta = (d, x)=>f(d) - x, compare = (d, x)=>ascending(f(d), x)), {
             left,
             center: function(a, x, lo, hi) {
                 null == lo && (lo = 0), null == hi && (hi = a.length);
@@ -420,7 +419,7 @@
     Dispatch.prototype = dispatch.prototype = {
         constructor: Dispatch,
         on: function(typename, callback) {
-            var typenames, types, t, _ = this._, T = (typenames = typename + "").trim().split(/^|\s+/).map(function(t) {
+            var typenames, t, _ = this._, T = (typenames = typename + "").trim().split(/^|\s+/).map(function(t) {
                 var name = "", i = t.indexOf(".");
                 if (i >= 0 && (name = t.slice(i + 1), t = t.slice(0, i)), t && !_.hasOwnProperty(t)) throw Error("unknown type: " + t);
                 return {
@@ -698,20 +697,20 @@
     }
     function onAdd(typename, value, options) {
         return function() {
-            var listener, o, on = this.__on, listener1 = function(event) {
+            var o, on = this.__on, listener = function(event) {
                 value.call(this, event, this.__data__);
             };
             if (on) {
                 for(var j = 0, m = on.length; j < m; ++j)if ((o = on[j]).type === typename.type && o.name === typename.name) {
-                    this.removeEventListener(o.type, o.listener, o.options), this.addEventListener(o.type, o.listener = listener1, o.options = options), o.value = value;
+                    this.removeEventListener(o.type, o.listener, o.options), this.addEventListener(o.type, o.listener = listener, o.options = options), o.value = value;
                     return;
                 }
             }
-            this.addEventListener(typename.type, listener1, options), o = {
+            this.addEventListener(typename.type, listener, options), o = {
                 type: typename.type,
                 name: typename.name,
                 value: value,
-                listener: listener1,
+                listener: listener,
                 options: options
             }, on ? on.push(o) : this.__on = [
                 o
@@ -792,27 +791,22 @@
             return new Selection(subgroups, this._parents);
         },
         selectAll: function(select) {
-            if ("function" == typeof select) {
-                var select1;
-                select1 = select, select = function() {
-                    var group = select1.apply(this, arguments);
-                    return null == group ? [] : array$1(group);
-                };
-            } else select = selectorAll(select);
+            select = "function" == typeof select ? function() {
+                var group = select.apply(this, arguments);
+                return null == group ? [] : array$1(group);
+            } : selectorAll(select);
             for(var groups = this._groups, m = groups.length, subgroups = [], parents = [], j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)(node = group[i]) && (subgroups.push(select.call(node, node.__data__, i, group)), parents.push(node));
             return new Selection(subgroups, parents);
         },
         selectChild: function(match) {
-            var match1;
-            return this.select(null == match ? childFirst : (match1 = "function" == typeof match ? match : childMatcher(match), function() {
-                return find.call(this.children, match1);
-            }));
+            return this.select(null == match ? childFirst : function() {
+                return find.call(this.children, "function" == typeof match ? match : childMatcher(match));
+            });
         },
         selectChildren: function(match) {
-            var match1;
-            return this.selectAll(null == match ? children : (match1 = "function" == typeof match ? match : childMatcher(match), function() {
-                return filter$1.call(this.children, match1);
-            }));
+            return this.selectAll(null == match ? children : function() {
+                return filter$1.call(this.children, "function" == typeof match ? match : childMatcher(match));
+            });
         },
         filter: function(match) {
             "function" != typeof match && (match = matcher(match));
@@ -822,13 +816,13 @@
         data: function(value, key) {
             if (!arguments.length) return Array.from(this, datum);
             var bind = key ? bindKey : bindIndex, parents = this._parents, groups = this._groups;
-            "function" != typeof value && (x = value, value = function() {
-                return x;
+            "function" != typeof value && (value = function() {
+                return value;
             });
             for(var m = groups.length, update = Array(m), enter = Array(m), exit = Array(m), j = 0; j < m; ++j){
                 var parent = parents[j], group = groups[j], groupLength = group.length, data = array$1(value.call(parent, parent && parent.__data__, j, parents)), dataLength = data.length, enterGroup = enter[j] = Array(dataLength), updateGroup = update[j] = Array(dataLength), exitGroup = exit[j] = Array(groupLength);
                 bind(parent, group, enterGroup, updateGroup, exitGroup, data, key);
-                for(var x, previous, next, i0 = 0, i1 = 0; i0 < dataLength; ++i0)if (previous = enterGroup[i0]) {
+                for(var previous, next, i0 = 0, i1 = 0; i0 < dataLength; ++i0)if (previous = enterGroup[i0]) {
                     for(i0 >= i1 && (i1 = i0 + 1); !(next = updateGroup[i1]) && ++i1 < dataLength;);
                     previous._next = next || null;
                 }
@@ -1596,16 +1590,16 @@
     }
     var reA = /[-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?/g, reB = RegExp(reA.source, "g");
     function interpolateString(a, b) {
-        var b1, b2, am, bm, bs, bi = reA.lastIndex = reB.lastIndex = 0, i = -1, s = [], q = [];
+        var am, bm, bs, bi = reA.lastIndex = reB.lastIndex = 0, i = -1, s = [], q = [];
         for(a += "", b += ""; (am = reA.exec(a)) && (bm = reB.exec(b));)(bs = bm.index) > bi && (bs = b.slice(bi, bs), s[i] ? s[i] += bs : s[++i] = bs), (am = am[0]) === (bm = bm[0]) ? s[i] ? s[i] += bm : s[++i] = bm : (s[++i] = null, q.push({
             i: i,
             x: interpolateNumber(am, bm)
         })), bi = reB.lastIndex;
-        return bi < b.length && (bs = b.slice(bi), s[i] ? s[i] += bs : s[++i] = bs), s.length < 2 ? q[0] ? (b1 = q[0].x, function(t) {
-            return b1(t) + "";
-        }) : (b2 = b, function() {
-            return b2;
-        }) : (b = q.length, function(t) {
+        return bi < b.length && (bs = b.slice(bi), s[i] ? s[i] += bs : s[++i] = bs), s.length < 2 ? q[0] ? function(t) {
+            return q[0].x(t) + "";
+        } : function() {
+            return b;
+        } : (b = q.length, function(t) {
             for(var o, i = 0; i < b; ++i)s[(o = q[i]).i] = o.x(t);
             return s.join("");
         });
@@ -1643,7 +1637,7 @@
             return s.length ? s.pop() + " " : "";
         }
         return function(a, b) {
-            var a1, b1, s, q, a2, b2, s1, q1, s2 = [], q2 = [];
+            var a1, b1, s, a2, b2, s1, s2 = [], q = [];
             return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                 if (xa !== xb || ya !== yb) {
                     var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -1655,10 +1649,10 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s2.push(pop(s2) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
-            })) : b1 && s2.push(pop(s2) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q2.push({
+            })) : b1 && s2.push(pop(s2) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
                 i: s2.push(pop(s2) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
             }) : b2 && s2.push(pop(s2) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -1672,8 +1666,8 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-            }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q2), a = b = null, function(t) {
-                for(var o, i = -1, n = q2.length; ++i < n;)s2[(o = q2[i]).i] = o.x(t);
+            }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q), a = b = null, function(t) {
+                for(var o, i = -1, n = q.length; ++i < n;)s2[(o = q[i]).i] = o.x(t);
                 return s2.join("");
             };
         };
@@ -1970,8 +1964,8 @@
     function attrTweenNS(fullname, value) {
         var t0, i0;
         function tween() {
-            var fullname1, i, i1 = value.apply(this, arguments);
-            return i1 !== i0 && (t0 = (i0 = i1) && (fullname1 = fullname, i = i1, function(t) {
+            var fullname1, i = value.apply(this, arguments);
+            return i !== i0 && (t0 = (i0 = i) && (fullname1 = fullname, function(t) {
                 this.setAttributeNS(fullname1.space, fullname1.local, i.call(this, t));
             })), t0;
         }
@@ -1980,10 +1974,10 @@
     function attrTween(name, value) {
         var t0, i0;
         function tween() {
-            var name1, i, i1 = value.apply(this, arguments);
-            return i1 !== i0 && (t0 = (i0 = i1) && (name1 = name, i = i1, function(t) {
-                this.setAttribute(name1, i.call(this, t));
-            })), t0;
+            var i = value.apply(this, arguments);
+            return i !== i0 && (t0 = (i0 = i) && function(t) {
+                this.setAttribute(name, i.call(this, t));
+            }), t0;
         }
         return tween._value = value, tween;
     }
@@ -2083,12 +2077,12 @@
         empty: selection_prototype.empty,
         each: selection_prototype.each,
         on: function(name, listener) {
-            var id, name1, listener1, name2, on0, on1, sit, id1 = this._id;
-            return arguments.length < 2 ? get$1(this.node(), id1).on.on(name) : this.each((sit = (name + "").trim().split(/^|\s+/).every(function(t) {
+            var name1, on0, on1, sit, id = this._id;
+            return arguments.length < 2 ? get$1(this.node(), id).on.on(name) : this.each((sit = (name + "").trim().split(/^|\s+/).every(function(t) {
                 var i = t.indexOf(".");
                 return i >= 0 && (t = t.slice(0, i)), !t || "start" === t;
             }) ? init : set$2, function() {
-                var schedule = sit(this, id1), on = schedule.on;
+                var schedule = sit(this, id), on = schedule.on;
                 on !== on0 && (on1 = (on0 = on).copy()).on(name, listener), schedule.on = on1;
             }));
         },
@@ -2105,18 +2099,18 @@
             return this.tween(key, (fullname.local ? attrTweenNS : attrTween)(fullname, value));
         },
         style: function(name, value, priority) {
-            var name1, interpolate, string00, string10, interpolate0, name2, interpolate1, value1, string001, string101, interpolate01, id, name3, on0, on1, listener0, remove, key, event, name4, interpolate2, value11, string002, interpolate02, string1, i = "transform" == (name += "") ? interpolateTransformCss : interpolate$1;
+            var name1, string00, string10, interpolate0, name2, string001, string101, interpolate01, name3, on0, on1, listener0, remove, key, event, value1, string002, interpolate02, string1, i = "transform" == (name += "") ? interpolateTransformCss : interpolate$1;
             return null == value ? this.styleTween(name, (name1 = name, function() {
                 var string0 = styleValue(this, name1), string1 = (this.style.removeProperty(name1), styleValue(this, name1));
                 return string0 === string1 ? null : string0 === string00 && string1 === string10 ? interpolate0 : interpolate0 = i(string00 = string0, string10 = string1);
-            })).on("end.style." + name, styleRemove$1(name)) : "function" == typeof value ? this.styleTween(name, (name2 = name, value1 = tweenValue(this, "style." + name, value), function() {
-                var string0 = styleValue(this, name2), value11 = value1(this), string1 = value11 + "";
-                return null == value11 && (this.style.removeProperty(name2), string1 = value11 = styleValue(this, name2)), string0 === string1 ? null : string0 === string001 && string1 === string101 ? interpolate01 : (string101 = string1, interpolate01 = i(string001 = string0, value11));
-            })).each((id = this._id, event = "end." + (key = "style." + (name3 = name)), function() {
-                var schedule = set$2(this, id), on = schedule.on, listener = null == schedule.value[key] ? remove || (remove = styleRemove$1(name3)) : void 0;
+            })).on("end.style." + name, styleRemove$1(name)) : "function" == typeof value ? this.styleTween(name, (name2 = name, function() {
+                var string0 = styleValue(this, name2), value1 = tweenValue(this, "style." + name, value)(this), string1 = value1 + "";
+                return null == value1 && (this.style.removeProperty(name2), string1 = value1 = styleValue(this, name2)), string0 === string1 ? null : string0 === string001 && string1 === string101 ? interpolate01 : (string101 = string1, interpolate01 = i(string001 = string0, value1));
+            })).each((event = "end." + (key = "style." + (name3 = name)), function() {
+                var schedule = set$2(this, this._id), on = schedule.on, listener = null == schedule.value[key] ? remove || (remove = styleRemove$1(name3)) : void 0;
                 (on !== on0 || listener0 !== listener) && (on1 = (on0 = on).copy()).on(event, listener0 = listener), schedule.on = on1;
-            })) : this.styleTween(name, (name4 = name, string1 = value + "", function() {
-                var string0 = styleValue(this, name4);
+            })) : this.styleTween(name, (string1 = value + "", function() {
+                var string0 = styleValue(this, name);
                 return string0 === string1 ? null : string0 === string002 ? interpolate02 : interpolate02 = i(string002 = string0, value);
             }), priority).on("end.style." + name, null);
         },
@@ -2128,22 +2122,21 @@
             return this.tween(key, function(name, value, priority) {
                 var t, i0;
                 function tween() {
-                    var name1, i, priority1, i1 = value.apply(this, arguments);
-                    return i1 !== i0 && (t = (i0 = i1) && (name1 = name, i = i1, priority1 = priority, function(t) {
-                        this.style.setProperty(name1, i.call(this, t), priority1);
-                    })), t;
+                    var i = value.apply(this, arguments);
+                    return i !== i0 && (t = (i0 = i) && function(t) {
+                        this.style.setProperty(name, i.call(this, t), priority);
+                    }), t;
                 }
                 return tween._value = value, tween;
             }(name, value, null == priority ? "" : priority));
         },
         text: function(value) {
-            var value1, value2;
-            return this.tween("text", "function" == typeof value ? (value1 = tweenValue(this, "text", value), function() {
-                var value11 = value1(this);
-                this.textContent = null == value11 ? "" : value11;
-            }) : (value2 = null == value ? "" : value + "", function() {
-                this.textContent = value2;
-            }));
+            return this.tween("text", "function" == typeof value ? function() {
+                var value1 = tweenValue(this, "text", value)(this);
+                this.textContent = null == value1 ? "" : value1;
+            } : function() {
+                this.textContent = null == value ? "" : value + "";
+            });
         },
         textTween: function(value) {
             var key = "text";
@@ -2153,21 +2146,20 @@
             return this.tween(key, function(value) {
                 var t0, i0;
                 function tween() {
-                    var i, i1 = value.apply(this, arguments);
-                    return i1 !== i0 && (t0 = (i0 = i1) && (i = i1, function(t) {
+                    var i = value.apply(this, arguments);
+                    return i !== i0 && (t0 = (i0 = i) && function(t) {
                         this.textContent = i.call(this, t);
-                    })), t0;
+                    }), t0;
                 }
                 return tween._value = value, tween;
             }(value));
         },
         remove: function() {
-            var id;
-            return this.on("end.remove", (id = this._id, function() {
+            return this.on("end.remove", function() {
                 var parent = this.parentNode;
-                for(var i in this.__transition)if (+i !== id) return;
+                for(var i in this.__transition)if (+i !== this._id) return;
                 parent && parent.removeChild(this);
-            }));
+            });
         },
         tween: function(name, value) {
             var id = this._id;
@@ -2195,13 +2187,12 @@
             }(id, value)) : get$1(this.node(), id).ease;
         },
         easeVarying: function(value) {
-            var id, value1;
             if ("function" != typeof value) throw Error();
-            return this.each((id = this._id, function() {
+            return this.each(function() {
                 var v = value.apply(this, arguments);
                 if ("function" != typeof v) throw Error();
-                set$2(this, id).ease = v;
-            }));
+                set$2(this, this._id).ease = v;
+            });
         },
         end: function() {
             var on0, on1, that = this, id = that._id, size = that.size();
@@ -2849,7 +2840,6 @@
         }, chord.sortSubgroups = function(_) {
             return arguments.length ? (sortSubgroups = _, chord) : sortSubgroups;
         }, chord.sortChords = function(_) {
-            var compare;
             return arguments.length ? (null == _ ? sortChords = null : (sortChords = function(a, b) {
                 return _(a.source.value + a.target.value, b.source.value + b.target.value);
             })._ = _, chord) : sortChords && sortChords._;
@@ -3990,7 +3980,7 @@
         return {
             parse: function(text, f) {
                 var convert, columns, rows = parseRows(text, function(row, i) {
-                    var columns1, f1, object;
+                    var columns1, object;
                     if (convert) return convert(row, i - 1);
                     columns = row, convert = f ? (object = objectConverter(row), function(row1, i) {
                         return f(object(row1), i, row);
@@ -4345,14 +4335,14 @@
         "Y"
     ];
     function formatLocale(locale) {
-        var grouping, thousands, numerals, group = void 0 === locale.grouping || void 0 === locale.thousands ? identity$3 : (grouping = map$1.call(locale.grouping, Number), thousands = locale.thousands + "", function(value, width) {
+        var grouping, thousands, group = void 0 === locale.grouping || void 0 === locale.thousands ? identity$3 : (grouping = map$1.call(locale.grouping, Number), thousands = locale.thousands + "", function(value, width) {
             for(var i = value.length, t = [], j = 0, g = grouping[0], length = 0; i > 0 && g > 0 && (length + g + 1 > width && (g = Math.max(1, width - length)), t.push(value.substring(i -= g, i + g)), !((length += g + 1) > width));)g = grouping[j = (j + 1) % grouping.length];
             return t.reverse().join(thousands);
-        }), currencyPrefix = void 0 === locale.currency ? "" : locale.currency[0] + "", currencySuffix = void 0 === locale.currency ? "" : locale.currency[1] + "", decimal = void 0 === locale.decimal ? "." : locale.decimal + "", numerals1 = void 0 === locale.numerals ? identity$3 : (numerals = map$1.call(locale.numerals, String), function(value) {
+        }), currencyPrefix = void 0 === locale.currency ? "" : locale.currency[0] + "", currencySuffix = void 0 === locale.currency ? "" : locale.currency[1] + "", decimal = void 0 === locale.decimal ? "." : locale.decimal + "", numerals = void 0 === locale.numerals ? identity$3 : function(value) {
             return value.replace(/[0-9]/g, function(i) {
-                return numerals[+i];
+                return map$1.call(locale.numerals, String)[+i];
             });
-        }), percent = void 0 === locale.percent ? "%" : locale.percent + "", minus = void 0 === locale.minus ? "\u2212" : locale.minus + "", nan = void 0 === locale.nan ? "NaN" : locale.nan + "";
+        }, percent = void 0 === locale.percent ? "%" : locale.percent + "", minus = void 0 === locale.minus ? "\u2212" : locale.minus + "", nan = void 0 === locale.nan ? "NaN" : locale.nan + "";
         function newFormat(specifier) {
             var fill = (specifier = formatSpecifier(specifier)).fill, align = specifier.align, sign = specifier.sign, symbol = specifier.symbol, zero = specifier.zero, width = specifier.width, comma = specifier.comma, precision = specifier.precision, trim = specifier.trim, type = specifier.type;
             "n" === type ? (comma = !0, type = "g") : formatTypes[type] || (void 0 === precision && (precision = 12), trim = !0, type = "g"), (zero || "0" === fill && "=" === align) && (zero = !0, fill = "0", align = "=");
@@ -4397,7 +4387,7 @@
                     default:
                         value = padding + valuePrefix + value + valueSuffix;
                 }
-                return numerals1(value);
+                return numerals(value);
             }
             return precision = void 0 === precision ? 6 : /[gprs]/.test(type) ? Math.max(1, Math.min(21, precision)) : Math.max(0, Math.min(20, precision)), format.toString = function() {
                 return specifier + "";
@@ -5598,7 +5588,6 @@
     };
     var cosMinDistance = cos$1(30 * radians$1);
     function resample(project, delta2) {
-        var project1;
         return +delta2 ? function(project, delta2) {
             function resampleLineTo(x0, y0, lambda0, a0, b0, c0, x1, y1, lambda1, a1, b1, c1, depth, stream) {
                 var dx = x1 - x0, dy = y1 - y0, d2 = dx * dx + dy * dy;
@@ -5646,11 +5635,11 @@
                 }
                 return resampleStream;
             };
-        }(project, delta2) : (project1 = project, transformer({
+        }(project, delta2) : transformer({
             point: function(x, y) {
-                x = project1(x, y), this.stream.point(x[0], x[1]);
+                x = project(x, y), this.stream.point(x[0], x[1]);
             }
-        }));
+        });
     }
     var transformRadians = transformer({
         point: function(x, y) {
@@ -5710,13 +5699,12 @@
             return cache = cacheStream = null, projection;
         }
         return projection.stream = function(stream) {
-            var rotate1;
-            return cache && cacheStream === stream ? cache : cache = transformRadians((rotate1 = rotate, transformer({
+            return cache && cacheStream === stream ? cache : cache = transformRadians(transformer({
                 point: function(x, y) {
-                    var r = rotate1(x, y);
+                    var r = rotate(x, y);
                     return this.stream.point(r[0], r[1]);
                 }
-            }))(preclip(projectResample(postclip(cacheStream = stream)))));
+            })(preclip(projectResample(postclip(cacheStream = stream)))));
         }, projection.preclip = function(_) {
             return arguments.length ? (preclip = _, theta = void 0, reset()) : preclip;
         }, projection.postclip = function(_) {
@@ -6682,12 +6670,11 @@
         return x;
     }
     function normalize(a, b) {
-        var x;
         return (b -= a = +a) ? function(x) {
             return (x - a) / b;
-        } : (x = isNaN(b) ? NaN : 0.5, function() {
-            return x;
-        });
+        } : function() {
+            return isNaN(b) ? NaN : 0.5;
+        };
     }
     function bimap(domain, range, interpolate) {
         var d0 = domain[0], d1 = domain[1], r0 = range[0], r1 = range[1];
@@ -9070,8 +9057,8 @@
         function cluster(root) {
             var previousNode, x = 0;
             root.eachAfter(function(node) {
-                var children, children1, children2 = node.children;
-                children2 ? (node.x = (children = children2).reduce(meanXReduce, 0) / children.length, node.y = 1 + (children1 = children2).reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
+                var children, children1 = node.children;
+                children1 ? (node.x = (children = children1).reduce(meanXReduce, 0) / children.length, node.y = 1 + children1.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
             });
             var left = function(node) {
                 for(var children; children = node.children;)node = children[0];
@@ -9208,8 +9195,7 @@
     }, exports1.contours = contours, exports1.count = count, exports1.create = function(name) {
         return select(creator(name).call(document.documentElement));
     }, exports1.creator = creator, exports1.cross = function(...values) {
-        var reduce;
-        const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values));
+        const reduce = "function" == typeof values[values.length - 1] && ((values1)=>values.pop()(...values1));
         values = values.map(arrayify);
         const lengths = values.map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
         if (j < 0 || lengths.some(empty)) return product;
@@ -9217,7 +9203,7 @@
             product.push(index.map((j, i)=>values[i][j]));
             let i = j;
             for(; ++index[i] === lengths[i];){
-                if (0 === i) return reduce1 ? product.map(reduce1) : product;
+                if (0 === i) return reduce ? product.map(reduce) : product;
                 index[i--] = 0;
             }
         }

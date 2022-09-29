@@ -1167,13 +1167,12 @@
                 return "symbol" === _type_of_typeof(key) ? key : String(key);
             }
             function _decorate(decorators, factory, superClass) {
-                var F, elements, proto, r = factory(function(O) {
-                    var elements;
-                    elements = decorated.elements, [
+                var F, proto, r = factory(function(O) {
+                    [
                         "method",
                         "field"
                     ].forEach(function(kind) {
-                        elements.forEach(function(element) {
+                        decorated.elements.forEach(function(element) {
                             element.kind === kind && "own" === element.placement && _defineClassElement(O, element);
                         });
                     });
@@ -1244,11 +1243,11 @@
                     }
                     return newElements;
                 }(r.d.map(_createElementDescriptor)), decorators);
-                return F = r.F, elements = decorated.elements, proto = F.prototype, [
+                return proto = (F = r.F).prototype, [
                     "method",
                     "field"
                 ].forEach(function(kind) {
-                    elements.forEach(function(element) {
+                    decorated.elements.forEach(function(element) {
                         var placement = element.placement;
                         element.kind === kind && ("static" === placement || "prototype" === placement) && _defineClassElement("static" === placement ? F : proto, element);
                     });
@@ -1437,10 +1436,7 @@
                 return getPrototypeOf(o);
             }
             function _superPropBase(object, property) {
-                for(; !Object.prototype.hasOwnProperty.call(object, property);){
-                    var o;
-                    if (o = object, null === (object = getPrototypeOf(o))) break;
-                }
+                for(; !Object.prototype.hasOwnProperty.call(object, property) && null !== (object = getPrototypeOf(object)););
                 return object;
             }
             function get(target, property, receiver) {
@@ -9611,7 +9607,7 @@
                     (0, esm_extends.Z)(history, nextState), history.length = globalHistory.length, transitionManager.notifyListeners(history.location, history.action);
                 }
                 function handlePopState(event) {
-                    (void 0 !== event.state || -1 !== navigator.userAgent.indexOf("CriOS")) && handlePop(getDOMLocation(event.state));
+                    void 0 === event.state && -1 === navigator.userAgent.indexOf("CriOS") || handlePop(getDOMLocation(event.state));
                 }
                 function handleHashChange() {
                     handlePop(getDOMLocation(getHistoryState()));
@@ -9793,8 +9789,8 @@
                             if (ok) {
                                 var path = createPath(location), encodedPath = encodePath(basename + path);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path, path1 = encodedPath, window.location.hash = path1;
-                                    var path1, prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
+                                    ignorePath = path, window.location.hash = encodedPath;
+                                    var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
                                     nextPaths.push(path), allPaths = nextPaths, setState({
                                         action: action,
                                         location: location
@@ -10023,7 +10019,7 @@
         85971: function(module, __unused_webpack_exports, __webpack_require__) {
             var isarray = __webpack_require__(85762);
             module.exports = function pathToRegexp(path, keys, options) {
-                var keys1, options1;
+                var options1;
                 return (isarray(keys) || (options = keys || options, keys = []), options = options || {}, path instanceof RegExp) ? function(path, keys) {
                     var groups = path.source.match(/\((?!\?)/g);
                     if (groups) for(var i = 0; i < groups.length; i++)keys.push({
@@ -10041,7 +10037,7 @@
                     for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
                     var regexp = RegExp("(?:" + parts.join("|") + ")", flags(options));
                     return attachKeys(regexp, keys);
-                }(path, keys, options) : (keys1 = keys, tokensToRegExp(parse(path, options1 = options), keys1, options1));
+                }(path, keys, options) : tokensToRegExp(parse(path, options1 = options), keys, options1);
             }, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
             }, module.exports.tokensToFunction = tokensToFunction, module.exports.tokensToRegExp = tokensToRegExp;
@@ -11076,10 +11072,10 @@
                 ("number" !== b || Xa(a.ownerDocument) !== a) && (null == c ? a.defaultValue = "" + a._wrapperState.initialValue : a.defaultValue !== "" + c && (a.defaultValue = "" + c));
             }
             function eb(a, b) {
-                var a1, b1;
+                var b1;
                 return a = m({
                     children: void 0
-                }, b), a1 = b.children, b1 = "", aa.Children.forEach(a1, function(a) {
+                }, b), b1 = "", aa.Children.forEach(b.children, function(a) {
                     null != a && (b1 += a);
                 }), (b = b1) && (a.children = b), a;
             }
@@ -13809,25 +13805,25 @@
                 retryLane: 0
             };
             function ti(a, b, c) {
-                var g, a1, b1, c1, d, e, f, g1, h, a2, b2, c2, d1, e1, d2 = b.pendingProps, e2 = P.current, f1 = !1;
-                return ((g = 0 != (64 & b.flags)) || (g = (null === a || null !== a.memoizedState) && 0 != (2 & e2)), g ? (f1 = !0, b.flags &= -65) : null !== a && null === a.memoizedState || void 0 === d2.fallback || !0 === d2.unstable_avoidThisFallback || (e2 |= 1), I(P, 1 & e2), null === a) ? (void 0 !== d2.fallback && ph(b), a = d2.children, e2 = d2.fallback, f1) ? (a = ui(b, a, e2, c), b.child.memoizedState = {
+                var g, a1, b1, c1, d, f, g1, h, a2, b2, c2, e, d1 = b.pendingProps, e1 = P.current, f1 = !1;
+                return ((g = 0 != (64 & b.flags)) || (g = (null === a || null !== a.memoizedState) && 0 != (2 & e1)), g ? (f1 = !0, b.flags &= -65) : null !== a && null === a.memoizedState || void 0 === d1.fallback || !0 === d1.unstable_avoidThisFallback || (e1 |= 1), I(P, 1 & e1), null === a) ? (void 0 !== d1.fallback && ph(b), a = d1.children, e1 = d1.fallback, f1) ? (a = ui(b, a, e1, c), b.child.memoizedState = {
                     baseLanes: c
-                }, b.memoizedState = si, a) : "number" == typeof d2.unstable_expectedLoadTime ? (a = ui(b, a, e2, c), b.child.memoizedState = {
+                }, b.memoizedState = si, a) : "number" == typeof d1.unstable_expectedLoadTime ? (a = ui(b, a, e1, c), b.child.memoizedState = {
                     baseLanes: c
                 }, b.memoizedState = si, b.lanes = 33554432, a) : ((c = vi({
                     mode: "visible",
                     children: a
-                }, b.mode, c, null)).return = b, b.child = c) : (a.memoizedState, f1 ? (a1 = a, b1 = b, c1 = d2.children, d = d2.fallback, e = c, f = b1.mode, a1 = (g1 = a1.child).sibling, h = {
+                }, b.mode, c, null)).return = b, b.child = c) : (a.memoizedState, f1 ? (a1 = a, b1 = b, c1 = d1.children, d = d1.fallback, f = b1.mode, a1 = (g1 = a1.child).sibling, h = {
                     mode: "hidden",
                     children: c1
-                }, 0 == (2 & f) && b1.child !== g1 ? ((c1 = b1.child).childLanes = 0, c1.pendingProps = h, null !== (g1 = c1.lastEffect) ? (b1.firstEffect = c1.firstEffect, b1.lastEffect = g1, g1.nextEffect = null) : b1.firstEffect = b1.lastEffect = null) : c1 = Tg(g1, h), null !== a1 ? d = Tg(a1, d) : (d = Xg(d, f, e, null), d.flags |= 2), d.return = b1, c1.return = b1, c1.sibling = d, b1.child = c1, d2 = d, f1 = b.child, e2 = a.child.memoizedState, f1.memoizedState = null === e2 ? {
+                }, 0 == (2 & f) && b1.child !== g1 ? ((c1 = b1.child).childLanes = 0, c1.pendingProps = h, null !== (g1 = c1.lastEffect) ? (b1.firstEffect = c1.firstEffect, b1.lastEffect = g1, g1.nextEffect = null) : b1.firstEffect = b1.lastEffect = null) : c1 = Tg(g1, h), null !== a1 ? d = Tg(a1, d) : (d = Xg(d, f, c, null), d.flags |= 2), d.return = b1, c1.return = b1, c1.sibling = d, b1.child = c1, d1 = d, f1 = b.child, e1 = a.child.memoizedState, f1.memoizedState = null === e1 ? {
                     baseLanes: c
                 } : {
-                    baseLanes: e2.baseLanes | c
-                }, f1.childLanes = a.childLanes & ~c, b.memoizedState = si, d2) : (a2 = a, b2 = b, c2 = d2.children, d1 = c, a2 = (e1 = a2.child).sibling, c2 = Tg(e1, {
+                    baseLanes: e1.baseLanes | c
+                }, f1.childLanes = a.childLanes & ~c, b.memoizedState = si, d1) : (a2 = a, b2 = b, c2 = d1.children, a2 = (e = a2.child).sibling, c2 = Tg(e, {
                     mode: "visible",
                     children: c2
-                }), 0 == (2 & b2.mode) && (c2.lanes = d1), c2.return = b2, c2.sibling = null, null !== a2 && (a2.nextEffect = null, a2.flags = 8, b2.firstEffect = b2.lastEffect = a2), c = b2.child = c2, b.memoizedState = null, c));
+                }), 0 == (2 & b2.mode) && (c2.lanes = c), c2.return = b2, c2.sibling = null, null !== a2 && (a2.nextEffect = null, a2.flags = 8, b2.firstEffect = b2.lastEffect = a2), c = b2.child = c2, b.memoizedState = null, c));
             }
             function ui(a, b, c, d) {
                 var e = a.mode, f = a.child;
@@ -16313,13 +16309,13 @@
                     var _this = this;
                     return _react_17_0_2_react.createElement(context.Consumer, null, function(context$1) {
                         context$1 || (0, tiny_invariant_esm.default)(!1);
-                        var children, location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
+                        var location = _this.props.location || context$1.location, match = _this.props.computedMatch ? _this.props.computedMatch : _this.props.path ? matchPath(location.pathname, _this.props) : context$1.match, props = (0, esm_extends.Z)({}, context$1, {
                             location: location,
                             match: match
-                        }), _this$props = _this.props, children1 = _this$props.children, component = _this$props.component, render = _this$props.render;
-                        return Array.isArray(children1) && (children = children1, 0 === _react_17_0_2_react.Children.count(children)) && (children1 = null), _react_17_0_2_react.createElement(context.Provider, {
+                        }), _this$props = _this.props, children = _this$props.children, component = _this$props.component, render = _this$props.render;
+                        return Array.isArray(children) && 0 === _react_17_0_2_react.Children.count(children) && (children = null), _react_17_0_2_react.createElement(context.Provider, {
                             value: props
-                        }, props.match ? children1 ? "function" == typeof children1 ? children1(props) : children1 : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children1 ? children1(props) : null);
+                        }, props.match ? children ? "function" == typeof children ? children(props) : children : component ? _react_17_0_2_react.createElement(component, props) : render ? render(props) : null : "function" == typeof children ? children(props) : null);
                     });
                 }, Route;
             }(_react_17_0_2_react.Component);

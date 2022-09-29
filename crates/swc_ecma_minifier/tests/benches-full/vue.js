@@ -327,8 +327,8 @@
         });
     });
     var arrayKeys = Object.getOwnPropertyNames(arrayMethods), shouldObserve = !0, Observer = function(value) {
-        var target, src;
-        this.value = value, this.dep = new Dep(), this.vmCount = 0, def(value, '__ob__', this), Array.isArray(value) ? (hasProto ? (target = value, src = arrayMethods, target.__proto__ = src) : function(target, src, keys) {
+        var target;
+        this.value = value, this.dep = new Dep(), this.vmCount = 0, def(value, '__ob__', this), Array.isArray(value) ? (hasProto ? (target = value, target.__proto__ = arrayMethods) : function(target, src, keys) {
             for(var i = 0, l = keys.length; i < l; i++){
                 var key = keys[i];
                 def(target, key, src[key]);
@@ -526,7 +526,7 @@
                     return (isObject(def) && warn('Invalid default value for prop "' + key + '": Props with type Object/Array must use a factory function to return the default value.', vm), vm && vm.$options.propsData && void 0 === vm.$options.propsData[key] && void 0 !== vm._props[key]) ? vm._props[key] : 'function' == typeof def && 'Function' !== getType(prop.type) ? def.call(vm) : def;
                 }
             }(vm, prop, key);
-            var value1, value2, prevShouldObserve = shouldObserve;
+            var value1, prevShouldObserve = shouldObserve;
             shouldObserve = !0, observe(value), shouldObserve = prevShouldObserve;
         }
         return function(prop, name, value, vm, absent) {
@@ -535,7 +535,7 @@
                 return;
             }
             if (null != value || prop.required) {
-                var name1, value1, expectedTypes, message, expectedType, receivedType, expectedValue, receivedValue, type = prop.type, valid = !type || !0 === type, expectedTypes1 = [];
+                var value1, expectedTypes, message, expectedType, receivedType, expectedValue, receivedValue, type = prop.type, valid = !type || !0 === type, expectedTypes1 = [];
                 if (type) {
                     Array.isArray(type) || (type = [
                         type
@@ -546,7 +546,7 @@
                     }
                 }
                 if (!valid) {
-                    warn((name1 = name, value1 = value, expectedTypes = expectedTypes1, message = "Invalid prop: type check failed for prop \"" + name1 + '". Expected ' + expectedTypes.map(capitalize).join(', '), expectedType = expectedTypes[0], receivedType = toRawType(value1), expectedValue = styleValue(value1, expectedType), receivedValue = styleValue(value1, receivedType), 1 === expectedTypes.length && isExplicable(expectedType) && !function() {
+                    warn((value1 = value, expectedTypes = expectedTypes1, message = "Invalid prop: type check failed for prop \"" + name + '". Expected ' + expectedTypes.map(capitalize).join(', '), expectedType = expectedTypes[0], receivedType = toRawType(value1), expectedValue = styleValue(value1, expectedType), receivedValue = styleValue(value1, receivedType), 1 === expectedTypes.length && isExplicable(expectedType) && !function() {
                         for(var args = [], len = arguments.length; len--;)args[len] = arguments[len];
                         return args.some(function(elem) {
                             return 'boolean' === elem.toLowerCase();
@@ -773,8 +773,7 @@
         }(children) : void 0;
     }
     function isTextNode(node) {
-        var v;
-        return isDef(node) && isDef(node.text) && !1 === (v = node.isComment);
+        return isDef(node) && isDef(node.text) && !1 === node.isComment;
     }
     function resolveInject(inject, vm) {
         if (inject) {
@@ -968,11 +967,11 @@
     installRenderHelpers(FunctionalRenderContext.prototype);
     var componentVNodeHooks = {
         init: function(vnode, hydrating) {
-            var vnode1, parent, options, inlineTemplate;
-            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (vnode1 = vnode, parent = activeInstance, options = {
+            var vnode1, options, inlineTemplate;
+            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (vnode1 = vnode, options = {
                 _isComponent: !0,
                 _parentVnode: vnode1,
-                parent: parent
+                parent: activeInstance
             }, inlineTemplate = vnode1.data.inlineTemplate, isDef(inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode1.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
@@ -1010,7 +1009,7 @@
     }, hooksToMerge = Object.keys(componentVNodeHooks);
     function createComponent(Ctor, data, context, children, tag) {
         if (!isUndef(Ctor)) {
-            var factory, data1, context1, children1, tag1, node, options, data2, prop, event, on, existing, callback, asyncFactory, baseCtor = context.$options._base;
+            var node, options, data1, prop, event, on, existing, callback, asyncFactory, baseCtor = context.$options._base;
             if (isObject(Ctor) && (Ctor = baseCtor.extend(Ctor)), 'function' != typeof Ctor) {
                 warn("Invalid Component definition: " + String(Ctor), context);
                 return;
@@ -1042,14 +1041,14 @@
                     }, res.timeout)))), sync = !1, factory.loading ? factory.loadingComp : factory.resolved;
                 }
             }(asyncFactory = Ctor, baseCtor))) {
-                return factory = asyncFactory, data1 = data, context1 = context, children1 = children, tag1 = tag, node = createEmptyVNode(), node.asyncFactory = factory, node.asyncMeta = {
-                    data: data1,
-                    context: context1,
-                    children: children1,
-                    tag: tag1
+                return node = createEmptyVNode(), node.asyncFactory = asyncFactory, node.asyncMeta = {
+                    data: data,
+                    context: context,
+                    children: children,
+                    tag: tag
                 }, node;
             }
-            data = data || {}, resolveConstructorOptions(Ctor), isDef(data.model) && (options = Ctor.options, data2 = data, prop = options.model && options.model.prop || 'value', event = options.model && options.model.event || 'input', (data2.attrs || (data2.attrs = {}))[prop] = data2.model.value, on = data2.on || (data2.on = {}), existing = on[event], callback = data2.model.callback, isDef(existing) ? (Array.isArray(existing) ? -1 === existing.indexOf(callback) : existing !== callback) && (on[event] = [
+            data = data || {}, resolveConstructorOptions(Ctor), isDef(data.model) && (options = Ctor.options, data1 = data, prop = options.model && options.model.prop || 'value', event = options.model && options.model.event || 'input', (data1.attrs || (data1.attrs = {}))[prop] = data1.model.value, on = data1.on || (data1.on = {}), existing = on[event], callback = data1.model.callback, isDef(existing) ? (Array.isArray(existing) ? -1 === existing.indexOf(callback) : existing !== callback) && (on[event] = [
                 callback
             ].concat(existing)) : on[event] = callback);
             var propsData = function(data, Ctor, tag) {
@@ -1762,7 +1761,7 @@
         if (el.tagName.indexOf('-') > -1) baseSetAttr(el, key, value);
         else if (isBooleanAttr(key)) isFalsyAttrValue(value) ? el.removeAttribute(key) : (value = 'allowfullscreen' === key && 'EMBED' === el.tagName ? 'true' : key, el.setAttribute(key, value));
         else if (isEnumeratedAttr(key)) {
-            var key1, value1;
+            var value1;
             el.setAttribute(key, isFalsyAttrValue(value1 = value) || 'false' === value1 ? 'false' : 'contenteditable' === key && isValidContentEditableValue(value1) ? value1 : 'true');
         } else isXlink(key) ? isFalsyAttrValue(value) ? el.removeAttributeNS(xlinkNS, getXlinkProp(key)) : el.setAttributeNS(xlinkNS, key, value) : baseSetAttr(el, key, value);
     }
@@ -2403,9 +2402,9 @@
         }
         var hydrationBailed = !1, isRenderedModule = makeMap('attrs,class,staticClass,staticStyle,key');
         function hydrate(elm, vnode, insertedVnodeQueue, inVPre) {
-            var node, vnode1, inVPre1, i, tag = vnode.tag, data = vnode.data, children = vnode.children;
+            var node, vnode1, i, tag = vnode.tag, data = vnode.data, children = vnode.children;
             if (inVPre = inVPre || data && data.pre, vnode.elm = elm, isTrue(vnode.isComment) && isDef(vnode.asyncFactory)) return vnode.isAsyncPlaceholder = !0, !0;
-            if (node = elm, vnode1 = vnode, inVPre1 = inVPre, isDef(vnode1.tag) ? 0 !== vnode1.tag.indexOf('vue-component') && (!!isUnknownElement$$1(vnode1, inVPre1) || vnode1.tag.toLowerCase() !== (node.tagName && node.tagName.toLowerCase())) : node.nodeType !== (vnode1.isComment ? 8 : 3)) return !1;
+            if (node = elm, vnode1 = vnode, isDef(vnode1.tag) ? 0 !== vnode1.tag.indexOf('vue-component') && (!!isUnknownElement$$1(vnode1, inVPre) || vnode1.tag.toLowerCase() !== (node.tagName && node.tagName.toLowerCase())) : node.nodeType !== (vnode1.isComment ? 8 : 3)) return !1;
             if (isDef(data) && (isDef(i = data.hook) && isDef(i = i.init) && i(vnode, !0), isDef(i = vnode.componentInstance))) return initComponent(vnode, insertedVnodeQueue), !0;
             if (isDef(tag)) {
                 if (isDef(children)) {
@@ -2904,7 +2903,7 @@
     function cloneASTElement(el) {
         return createASTElement(el.tag, el.attrsList.slice(), el.parent);
     }
-    var modules1, modules$1 = [
+    var modules$1 = [
         {
             staticKeys: [
                 'staticClass'
@@ -2965,14 +2964,14 @@
         directives: {
             model: function(el, dir, _warn) {
                 warn$1 = _warn;
-                var el1, value, modifiers, code, el2, value1, modifiers1, number, valueBinding, trueValueBinding, falseValueBinding, el3, value2, modifiers2, number1, valueBinding1, value3 = dir.value, modifiers3 = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
-                if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value3 + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value3, modifiers3), !1;
+                var modifiers, code, el1, value, modifiers1, number, valueBinding, trueValueBinding, falseValueBinding, el2, value1, modifiers2, number1, valueBinding1, value2 = dir.value, modifiers3 = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
+                if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value2 + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value2, modifiers3), !1;
                 if ('select' === tag) {
-                    el1 = el, value = value3, modifiers = modifiers3, code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "});", code = code + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), addHandler(el1, 'change', code, null, !0);
+                    modifiers = modifiers3, code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "});", code = code + " " + genAssignmentCode(value2, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), addHandler(el, 'change', code, null, !0);
                 } else if ('input' === tag && 'checkbox' === type) {
-                    el2 = el, value1 = value3, modifiers1 = modifiers3, number = modifiers1 && modifiers1.number, valueBinding = getBindingAttr(el2, 'value') || 'null', trueValueBinding = getBindingAttr(el2, 'true-value') || 'true', falseValueBinding = getBindingAttr(el2, 'false-value') || 'false', addProp(el2, 'checked', "Array.isArray(" + value1 + ")?_i(" + value1 + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value1 + ")" : ":_q(" + value1 + "," + trueValueBinding + ")")), addHandler(el2, 'change', "var $$a=" + value1 + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value1, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value1, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value1, '$$c') + "}", null, !0);
+                    el1 = el, value = value2, modifiers1 = modifiers3, number = modifiers1 && modifiers1.number, valueBinding = getBindingAttr(el1, 'value') || 'null', trueValueBinding = getBindingAttr(el1, 'true-value') || 'true', falseValueBinding = getBindingAttr(el1, 'false-value') || 'false', addProp(el1, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el1, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 } else if ('input' === tag && 'radio' === type) {
-                    el3 = el, value2 = value3, modifiers2 = modifiers3, number1 = modifiers2 && modifiers2.number, valueBinding1 = getBindingAttr(el3, 'value') || 'null', valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1, addProp(el3, 'checked', "_q(" + value2 + "," + valueBinding1 + ")"), addHandler(el3, 'change', genAssignmentCode(value2, valueBinding1), null, !0);
+                    el2 = el, value1 = value2, modifiers2 = modifiers3, number1 = modifiers2 && modifiers2.number, valueBinding1 = getBindingAttr(el2, 'value') || 'null', valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1, addProp(el2, 'checked', "_q(" + value1 + "," + valueBinding1 + ")"), addHandler(el2, 'change', genAssignmentCode(value1, valueBinding1), null, !0);
                 } else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {
                     var type = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
                     if (value$1 && !typeBinding) {
@@ -2983,10 +2982,10 @@
                     trim && (valueExpression = "$event.target.value.trim()"), number && (valueExpression = "_n(" + valueExpression + ")");
                     var code = genAssignmentCode(value, valueExpression);
                     lazy || 'range' === type || (code = "if($event.target.composing)return;" + code), addProp(el, 'value', "(" + value + ")"), addHandler(el, lazy ? 'change' : 'range' === type ? '__r' : 'input', code, null, !0), (trim || number) && addHandler(el, 'blur', '$forceUpdate()');
-                }(el, value3, modifiers3);
+                }(el, value2, modifiers3);
                 else {
-                    if (!config.isReservedTag(tag)) return genComponentModel(el, value3, modifiers3), !1;
-                    warn$1("<" + el.tag + " v-model=\"" + value3 + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
+                    if (!config.isReservedTag(tag)) return genComponentModel(el, value2, modifiers3), !1;
+                    warn$1("<" + el.tag + " v-model=\"" + value2 + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
                 }
                 return !0;
             },
@@ -3082,8 +3081,8 @@
         }).join(',') + "]";
         var isMethodPath = simplePathRE.test(handler.value), isFunctionExpression = fnExpRE.test(handler.value), isFunctionInvocation = simplePathRE.test(handler.value.replace(fnInvokeRE, ''));
         if (handler.modifiers) {
-            var keys, code = '', genModifierCode = '', keys1 = [];
-            for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys1.push(key);
+            var code = '', genModifierCode = '', keys = [];
+            for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys.push(key);
             else if ('exact' === key) {
                 var modifiers = handler.modifiers;
                 genModifierCode += genGuard([
@@ -3096,8 +3095,8 @@
                 }).map(function(keyModifier) {
                     return "$event." + keyModifier + "Key";
                 }).join('||'));
-            } else keys1.push(key);
-            return keys1.length && (code += (keys = keys1, "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;")), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
+            } else keys.push(key);
+            return keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
         }
         return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
     }
@@ -3140,7 +3139,7 @@
         if (el.if && !el.ifProcessed) return genIf(el, state);
         if ('template' === el.tag && !el.slotTarget && !state.pre) return genChildren(el, state) || 'void 0';
         if ('slot' === el.tag) {
-            return el1 = el, state1 = state, slotName = el1.slotName || '"default"', children = genChildren(el1, state1), res = "_t(" + slotName + (children ? "," + children : ''), attrs = el1.attrs || el1.dynamicAttrs ? genProps((el1.attrs || []).concat(el1.dynamicAttrs || []).map(function(attr) {
+            return el1 = el, slotName = el1.slotName || '"default"', children = genChildren(el1, state), res = "_t(" + slotName + (children ? "," + children : ''), attrs = el1.attrs || el1.dynamicAttrs ? genProps((el1.attrs || []).concat(el1.dynamicAttrs || []).map(function(attr) {
                 return {
                     name: camelize(attr.name),
                     value: attr.value,
@@ -3149,10 +3148,10 @@
             })) : null, bind$$1 = el1.attrsMap['v-bind'], (attrs || bind$$1) && !children && (res += ",null"), attrs && (res += "," + attrs), bind$$1 && (res += (attrs ? '' : ',null') + "," + bind$$1), res + ')';
         }
         if (el.component) {
-            componentName = el.component, el2 = el, state2 = state, children1 = el2.inlineTemplate ? null : genChildren(el2, state2, !0), code = "_c(" + componentName + "," + genData$2(el2, state2) + (children1 ? "," + children1 : '') + ")";
+            el2 = el, state1 = state, children1 = el2.inlineTemplate ? null : genChildren(el2, state1, !0), code = "_c(" + el.component + "," + genData$2(el2, state1) + (children1 ? "," + children1 : '') + ")";
         } else {
             (!el.plain || el.pre && state.maybeComponent(el)) && (data = genData$2(el, state));
-            var el1, state1, slotName, children, res, attrs, bind$$1, code, componentName, el2, state2, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
+            var el1, slotName, children, res, attrs, bind$$1, code, el2, state1, children1, data, children2 = el.inlineTemplate ? null : genChildren(el, state, !0);
             code = "_c('" + el.tag + "'" + (data ? "," + data : '') + (children2 ? "," + children2 : '') + ")";
         }
         for(var i = 0; i < state.transforms.length; i++)code = state.transforms[i](el, code);
@@ -3282,8 +3281,8 @@
         return void 0 !== el.for || 'template' === el.tag || 'slot' === el.tag;
     }
     function genNode(node, state) {
-        var comment, text;
-        return 1 === node.type ? genElement(node, state) : 3 === node.type && node.isComment ? (comment = node, "_e(" + JSON.stringify(comment.text) + ")") : (text = node, "_v(" + (2 === text.type ? text.expression : transformSpecialNewlines(JSON.stringify(text.text))) + ")");
+        var text;
+        return 1 === node.type ? genElement(node, state) : 3 === node.type && node.isComment ? "_e(" + JSON.stringify(node.text) + ")" : (text = node, "_v(" + (2 === text.type ? text.expression : transformSpecialNewlines(JSON.stringify(text.text))) + ")");
     }
     function genProps(props) {
         for(var staticProps = "", dynamicProps = "", i = 0; i < props.length; i++){
@@ -3359,13 +3358,13 @@
                     start: element.start
                 })), currentParent && !element.forbidden) {
                     if (element.elseif || element.else) {
-                        var el, parent, prev;
-                        el = element, parent = currentParent, prev = function(children) {
+                        var el, prev;
+                        el = element, prev = function(children) {
                             for(var i = children.length; i--;){
                                 if (1 === children[i].type) return children[i];
                                 ' ' !== children[i].text && warn$2("text \"" + children[i].text.trim() + '" between v-if and v-else(-if) will be ignored.', children[i]), children.pop();
                             }
-                        }(parent.children), prev && prev.if ? addIfCondition(prev, {
+                        }(currentParent.children), prev && prev.if ? addIfCondition(prev, {
                             exp: el.elseif,
                             block: el
                         }) : warn$2("v-" + (el.elseif ? 'else-if="' + el.elseif + '"' : 'else') + " used on element <" + el.tag + "> without corresponding v-if.", el.rawAttrsMap[el.elseif ? 'v-else-if' : 'v-else']);
@@ -3611,8 +3610,8 @@
             staticRenderFns: code.staticRenderFns
         };
     }, function(baseOptions) {
-        var compile, cache;
-        function compile1(template, options) {
+        var cache;
+        function compile(template, options) {
             var finalOptions = Object.create(baseOptions), errors = [], tips = [], warn = function(msg, range, tip) {
                 (tip ? tips : errors).push(msg);
             };
@@ -3629,8 +3628,8 @@
                 for(var key in options.modules && (finalOptions.modules = (baseOptions.modules || []).concat(options.modules)), options.directives && (finalOptions.directives = extend(Object.create(baseOptions.directives || null), options.directives)), options)'modules' !== key && 'directives' !== key && (finalOptions[key] = options[key]);
             }
             finalOptions.warn = warn;
-            var ast, warn1, compiled = baseCompile(template.trim(), finalOptions);
-            return ast = compiled.ast, warn1 = warn, ast && function checkNode(node, warn) {
+            var ast, compiled = baseCompile(template.trim(), finalOptions);
+            return (ast = compiled.ast) && function checkNode(node, warn) {
                 if (1 === node.type) {
                     for(var name in node.attrsMap)if (dirRE.test(name)) {
                         var value = node.attrsMap[name];
@@ -3641,10 +3640,10 @@
                     }
                     if (node.children) for(var i = 0; i < node.children.length; i++)checkNode(node.children[i], warn);
                 } else 2 === node.type && checkExpression(node.expression, node.text, warn, node);
-            }(ast, warn1), compiled.errors = errors, compiled.tips = tips, compiled;
+            }(ast, warn), compiled.errors = errors, compiled.tips = tips, compiled;
         }
         return {
-            compile: compile1,
+            compile: compile,
             compileToFunctions: (cache = Object.create(null), function(template, options, vm) {
                 var warn$$1 = (options = extend({}, options)).warn || warn;
                 delete options.warn;
@@ -3655,7 +3654,7 @@
                 }
                 var key = options.delimiters ? String(options.delimiters) + template : template;
                 if (cache[key]) return cache[key];
-                var compiled = compile1(template, options);
+                var compiled = compile(template, options);
                 compiled.errors && compiled.errors.length && (options.outputSourceRange ? compiled.errors.forEach(function(e) {
                     warn$$1("Error compiling template:\n\n" + e.msg + "\n\n" + function(source, start, end) {
                         void 0 === start && (start = 0), void 0 === end && (end = source.length);

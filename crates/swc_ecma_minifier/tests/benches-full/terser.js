@@ -463,7 +463,7 @@
                     return ch >= "0" && ch <= "7";
                 }
                 function read_escaped_char(in_string, strict_hex, template_string) {
-                    var ch, strict_octal, p, ch1 = next(!0, in_string);
+                    var ch, p, ch1 = next(!0, in_string);
                     switch(ch1.charCodeAt(0)){
                         case 110:
                             return "\n";
@@ -496,7 +496,7 @@
                             const represents_null_character = "0" === ch1 && !is_octal(peek());
                             represents_null_character || parse_error("Octal escape sequences are not allowed in template strings");
                         }
-                        return ch = ch1, strict_octal = strict_hex, p = peek(), (p >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_octal && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
+                        return ch = ch1, p = peek(), (p >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_hex && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
                     }
                     return ch1;
                 }
@@ -837,23 +837,23 @@
                             });
                         case "for":
                             return next(), function() {
-                                var init, test, step, for_await_error = "`for await` invalid in this context", await_tok = S.token;
+                                var test, step, for_await_error = "`for await` invalid in this context", await_tok = S.token;
                                 "name" == await_tok.type && "await" == await_tok.value ? (can_await() || token_error(await_tok, for_await_error), next()) : await_tok = !1, expect("(");
-                                var init1 = null;
+                                var init = null;
                                 if (is("punc", ";")) await_tok && token_error(await_tok, for_await_error);
                                 else {
-                                    init1 = is("keyword", "var") ? (next(), var_(!0)) : is("keyword", "let") ? (next(), let_(!0)) : is("keyword", "const") ? (next(), const_(!0)) : expression(!0, !0);
-                                    var init2, obj, init3, is_await, lhs, obj1, is_in = is("operator", "in"), is_of = is("name", "of");
+                                    init = is("keyword", "var") ? (next(), var_(!0)) : is("keyword", "let") ? (next(), let_(!0)) : is("keyword", "const") ? (next(), const_(!0)) : expression(!0, !0);
+                                    var obj, init1, is_await, lhs, obj1, is_in = is("operator", "in"), is_of = is("name", "of");
                                     if (await_tok && !is_of && token_error(await_tok, for_await_error), is_in || is_of) {
-                                        return (init1 instanceof AST_Definitions ? init1.definitions.length > 1 && token_error(init1.start, "Only one variable declaration allowed in for..in loop") : is_assignable(init1) || (init1 = to_destructuring(init1)) instanceof AST_Destructuring || token_error(init1.start, "Invalid left-hand side in for..in loop"), next(), is_in) ? (init2 = init1, obj = expression(!0), expect(")"), new AST_ForIn({
-                                            init: init2,
+                                        return (init instanceof AST_Definitions ? init.definitions.length > 1 && token_error(init.start, "Only one variable declaration allowed in for..in loop") : is_assignable(init) || (init = to_destructuring(init)) instanceof AST_Destructuring || token_error(init.start, "Invalid left-hand side in for..in loop"), next(), is_in) ? (obj = expression(!0), expect(")"), new AST_ForIn({
+                                            init: init,
                                             object: obj,
                                             body: in_loop(function() {
                                                 return statement(!1, !0);
                                             })
-                                        })) : (init3 = init1, is_await = !!await_tok, lhs = init3 instanceof AST_Definitions ? init3.definitions[0].name : null, obj1 = expression(!0), expect(")"), new AST_ForOf({
+                                        })) : (init1 = init, is_await = !!await_tok, lhs = init1 instanceof AST_Definitions ? init1.definitions[0].name : null, obj1 = expression(!0), expect(")"), new AST_ForOf({
                                             await: is_await,
-                                            init: init3,
+                                            init: init1,
                                             name: lhs,
                                             object: obj1,
                                             body: in_loop(function() {
@@ -862,7 +862,7 @@
                                         }));
                                     }
                                 }
-                                return init = init1, expect(";"), test = is("punc", ";") ? null : expression(!0), expect(";"), step = is("punc", ")") ? null : expression(!0), expect(")"), new AST_For({
+                                return expect(";"), test = is("punc", ";") ? null : expression(!0), expect(";"), step = is("punc", ")") ? null : expression(!0), expect(")"), new AST_For({
                                     init: init,
                                     condition: test,
                                     step: step,
@@ -1842,7 +1842,7 @@
             }
             return left;
         }, maybe_conditional = function(no_in) {
-            var no_in1, start = S.token, expr = expr_op(maybe_unary(!0, !0), 0, no_in);
+            var start = S.token, expr = expr_op(maybe_unary(!0, !0), 0, no_in);
             if (is("operator", "?")) {
                 next();
                 var yes = expression(!1);
@@ -4323,10 +4323,7 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) {
-                var back;
-                print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
-            }
+            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -7349,8 +7346,8 @@
     }), def_reduce_vars(AST_SymbolCatch, function() {
         this.definition().fixed = !1;
     }), def_reduce_vars(AST_SymbolRef, function(tw, descend, compressor) {
-        var tw1, compressor1, def, value, fixed_value, d = this.definition();
-        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && (tw1 = tw, compressor1 = compressor, def = d, compressor1.option("unused") && !def.scope.pinned() && def.references.length - def.recursive_refs == 1 && tw1.loop_ids.get(def.id) === tw1.in_loop) ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
+        var tw1, def, value, fixed_value, d = this.definition();
+        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && (tw1 = tw, def = d, compressor.option("unused") && !def.scope.pinned() && def.references.length - def.recursive_refs == 1 && tw1.loop_ids.get(def.id) === tw1.in_loop) ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
     }), def_reduce_vars(AST_Toplevel, function(tw, descend, compressor) {
         this.globals.forEach(function(def) {
             reset_def(compressor, def);
@@ -17559,9 +17556,9 @@
         }(cache.props)) : cache.props = new Map());
     }
     function cache_to_json(cache) {
-        var map, obj;
+        var obj;
         return {
-            props: (map = cache.props, obj = Object.create(null), map.forEach(function(value, key) {
+            props: (obj = Object.create(null), cache.props.forEach(function(value, key) {
                 obj["$" + key] = value;
             }), obj)
         };
@@ -17960,9 +17957,9 @@
                         return value.length ? value.map(symdef) : void 0;
                     case "variables":
                     case "globals":
-                        var map, callback, result;
-                        return value.size ? (map = value, callback = symdef, result = [], map.forEach(function(def) {
-                            result.push(callback(def));
+                        var result;
+                        return value.size ? (result = [], value.forEach(function(def) {
+                            result.push(symdef(def));
                         }), result) : void 0;
                 }
                 if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {
