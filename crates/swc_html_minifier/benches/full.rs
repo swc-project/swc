@@ -35,7 +35,7 @@ pub fn bench_files_document(c: &mut Criterion) {
     );
     bench_file(
         "github",
-        Path::new("../swc_html_parser/benches/files/github_com_17_05_2022. html"),
+        Path::new("../swc_html_parser/benches/files/github_com_17_05_2022.html"),
     );
     bench_file(
         "stackoverflow",
