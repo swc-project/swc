@@ -886,10 +886,13 @@ where
                     let val = *stmt.arg.unwrap_or_else(|| undefined(span));
                     exprs.push(Box::new(val));
 
-                    return Some(Expr::Seq(SeqExpr {
+                    let mut e = SeqExpr {
                         span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
                         exprs,
-                    }));
+                    };
+                    self.merge_sequences_in_seq_expr(&mut e);
+
+                    return Some(Expr::Seq(e));
                 }
                 _ => {}
             }
@@ -905,10 +908,13 @@ where
             return Some(*undefined(body.span));
         }
 
-        Some(Expr::Seq(SeqExpr {
+        let mut e = SeqExpr {
             span: DUMMY_SP.apply_mark(self.marks.synthesized_seq),
             exprs,
-        }))
+        };
+        self.merge_sequences_in_seq_expr(&mut e);
+
+        Some(Expr::Seq(e))
     }
 
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
