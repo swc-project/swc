@@ -2232,7 +2232,7 @@ Elements.prototype = {
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
-    tr = null, supportsTableInnerHTML && supportsTRInnerHTML && supportsHTML5Elements || (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
+    tr = null, (!supportsTableInnerHTML || !supportsTRInnerHTML || !supportsHTML5Elements) && (Element.Properties.html.set = (set = Element.Properties.html.set, (translations = {
         table: [
             1,
             "<table>",
