@@ -27983,7 +27983,7 @@
                         this.offsetType = e, this.type = t, this.options = null != r ? r : {}, "void" === this.type && (this.type = null), null == (n = this.options).type && (n.type = "local"), null == (i = this.options).allowNull && (i.allowNull = !0), null == (o = this.options).nullValue && (o.nullValue = 0), null == (a = this.options).lazy && (a.lazy = !1), this.options.relativeTo && (this.relativeToGetter = Function("ctx", "return ctx." + this.options.relativeTo));
                     }
                     return e.prototype.decode = function(e, t) {
-                        var r, n, o, a, u, l;
+                        var r, n, o, a, u, l, s;
                         return (o = this.offsetType.decode(e, t)) === this.options.nullValue && this.options.allowNull ? null : (u = (function() {
                             switch(this.options.type){
                                 case "local":
@@ -27996,9 +27996,9 @@
                                     for(r = t; r.parent;)r = r.parent;
                                     return r._startOffset || 0;
                             }
-                        }).call(this), this.options.relativeTo && (u += this.relativeToGetter(t)), a = o + u, null == this.type) ? a : (l = null, n = function() {
+                        }).call(this), this.options.relativeTo && (u += this.relativeToGetter(t)), a = o + u, null == this.type) ? a : (l = null, s = this, n = function() {
                             var r;
-                            return null != l || (r = e.pos, e.pos = a, l = this.type.decode(e, t), e.pos = r), l;
+                            return null != l || (r = e.pos, e.pos = a, l = s.type.decode(e, t), e.pos = r), l;
                         }, this.options.lazy) ? new i.PropertyDescriptor({
                             get: n
                         }) : n();

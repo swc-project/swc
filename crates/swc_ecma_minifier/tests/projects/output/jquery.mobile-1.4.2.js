@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, $1, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window2, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, $18, $19, $20, defaultGetMaxScrollForTransition, $21, window3, $22, window4, $23, window5, $24, window6, $25, window7, $26, window8, $27, window9, $28, window10, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, $1, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $2, window2, compensateToolbars, $3, undefined1, uuid, slice, _cleanData, $4, rcapitals, replaceFunction, $5, doc, bool, docElem, refNode, fakeBody, div, $6, support, $7, self, $win, dummyFnToInitNavigate, $8, undefined2, path, $base, dialogHashKey, $9, undefined3, $10, path1, initialHref, $11, loc, $12, undefined4, props, testElement, vendorPrefixes, $13, heldCall, curr, diff, handler, lastCall, $14, baseElement, base, $15, undefined5, originalWidget, keepNativeFactoryDefault, $16, undefined6, pageTransitionQueue, isPageTransitioning, $17, window3, $18, $19, $20, defaultGetMaxScrollForTransition, $21, window4, $22, window5, $23, window6, $24, window7, $25, window8, $26, window9, $27, window10, $28, window11, $29, $30, undefined7, rInitialLetter, iconposClass, $31, $32, $33, $34, $35, $36, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $37, $38, undefined8, rDividerListItem, origDefaultFilterCallback;
     ($ = jQuery).mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -1733,7 +1733,7 @@
         }), $.when(domreadyDeferred, $.mobile.navreadyDeferred).done(function() {
             $.mobile._registerInternalEvents();
         });
-    }(jQuery), ($17 = jQuery).mobile.Transition = function() {
+    }(jQuery), $17 = jQuery, window3 = this, $17.mobile.Transition = function() {
         this.init.apply(this, arguments);
     }, $17.extend($17.mobile.Transition.prototype, {
         toPreClass: " ui-page-pre-in",
@@ -1762,7 +1762,7 @@
             this.$to.css("z-index", -10), callback.call(this), this.$to.css("z-index", "");
         },
         scrollPage: function() {
-            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && this.scrollTo(0, this.toScroll), setTimeout(function() {
+            $17.event.special.scrollstart.enabled = !1, ($17.mobile.hideUrlBar || this.toScroll !== $17.mobile.defaultHomeScroll) && window3.scrollTo(0, this.toScroll), setTimeout(function() {
                 $17.event.special.scrollstart.enabled = !0;
             }, 150);
         },
@@ -4377,9 +4377,13 @@
             this._widget && "mobile-listview" === this._widget.widgetFullName && "beforefilter" === type && this._widget._trigger("beforefilter", event1, data), this._super(type, event1, data);
         },
         _setWidget: function(widget) {
-            return !this._widget && widget && (this._widget = widget, this._widget._setOptions = function(options) {
-                this._widget._setOptions.call(this, options), this._syncTextInputOptions(options);
-            }), this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
+            if (!this._widget && widget) {
+                var self;
+                this._widget = widget, this._widget._setOptions = (self = this, function(options) {
+                    this._widget._setOptions.call(this, options), self._syncTextInputOptions(options);
+                });
+            }
+            return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
         },
         _isSearchInternal: function() {
             return this._search && this._search.jqmData("ui-filterable-" + this.uuid + "-internal");
