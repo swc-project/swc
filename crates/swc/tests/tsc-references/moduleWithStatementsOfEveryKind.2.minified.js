@@ -7,7 +7,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
     var Module, Color, Color1;
     Module || (Module = {}), (Color1 = Color || (Color = {}))[Color1.Blue = 0] = "Blue", Color1[Color1.Red = 1] = "Red";
 }(A || (A = {})), function(Y) {
-    var F = function(s) {
+    var Color, F = function(s) {
         return 2;
     }, A = function A() {
         "use strict";
@@ -29,7 +29,7 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
         return B;
     }(AA);
     Y.B = B;
-    var Color, BB = function(A) {
+    var BB = function(A) {
         "use strict";
         _inherits(BB, A);
         var _super = _create_super(BB);

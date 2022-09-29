@@ -6720,13 +6720,13 @@
                     }
                     return new Delaunator(coords);
                 }, Delaunator.prototype.update = function() {
-                    for(var i0, i1, i2, coords = this.coords, hullPrev = this._hullPrev, hullNext = this._hullNext, hullTri = this._hullTri, hullHash = this._hullHash, n = coords.length >> 1, minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, i = 0; i < n; i++){
+                    for(var ax, ay, bx, by, cx, cy, dx, dy, ex, ey, bl, cl, d, i0, i1, i2, coords = this.coords, hullPrev = this._hullPrev, hullNext = this._hullNext, hullTri = this._hullTri, hullHash = this._hullHash, n = coords.length >> 1, minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, i = 0; i < n; i++){
                         var x = coords[2 * i], y = coords[2 * i + 1];
                         x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y), this._ids[i] = i;
                     }
-                    for(var cx = (minX + maxX) / 2, cy = (minY + maxY) / 2, minDist = 1 / 0, i$1 = 0; i$1 < n; i$1++){
-                        var d = dist(cx, cy, coords[2 * i$1], coords[2 * i$1 + 1]);
-                        d < minDist && (i0 = i$1, minDist = d);
+                    for(var cx1 = (minX + maxX) / 2, cy1 = (minY + maxY) / 2, minDist = 1 / 0, i$1 = 0; i$1 < n; i$1++){
+                        var d1 = dist(cx1, cy1, coords[2 * i$1], coords[2 * i$1 + 1]);
+                        d1 < minDist && (i0 = i$1, minDist = d1);
                     }
                     var i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
                     minDist = 1 / 0;
@@ -6753,9 +6753,9 @@
                         var i$6 = i1, x$1 = i1x, y$1 = i1y;
                         i1 = i2, i1x = i2x, i1y = i2y, i2 = i$6, i2x = x$1, i2y = y$1;
                     }
-                    var ax, ay, bx, by, cx1, cy1, dx, dy, ex, ey, bl, cl, d1, center = (ax = i0x, ay = i0y, bx = i1x, by = i1y, cx1 = i2x, cy1 = i2y, dx = bx - ax, dy = by - ay, ex = cx1 - ax, ey = cy1 - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d1 = 0.5 / (dx * ey - dy * ex), {
-                        x: ax + (ey * bl - dy * cl) * d1,
-                        y: ay + (dx * cl - ex * bl) * d1
+                    var center = (ax = i0x, ay = i0y, bx = i1x, by = i1y, cx = i2x, cy = i2y, dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), {
+                        x: ax + (ey * bl - dy * cl) * d,
+                        y: ay + (dx * cl - ex * bl) * d
                     });
                     this._cx = center.x, this._cy = center.y;
                     for(var i$7 = 0; i$7 < n; i$7++)this._dists[i$7] = dist(coords[2 * i$7], coords[2 * i$7 + 1], center.x, center.y);
@@ -9696,9 +9696,9 @@
                     {
                         key: "render",
                         value: function() {
-                            var animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
+                            var arr, animationWhitelist = VictoryAxis.animationWhitelist, props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.modifyProps(this.props, fallbackProps);
                             if (this.shouldAnimate()) return this.animateComponent(props, animationWhitelist);
-                            var arr, gridAndTicks = this.renderGridAndTicks(props), children = [
+                            var gridAndTicks = this.renderGridAndTicks(props), children = [
                                 this.renderLine(props),
                                 this.renderLabel(props)
                             ].concat(function(arr) {
@@ -14097,7 +14097,7 @@
                     };
                 };
             }, interpolateObject = function(a, b) {
-                var x, y, k, keyData = function(val) {
+                var k, x, y, keyData = function(val) {
                     return Array.isArray(val) ? lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(val, "key") : val;
                 }, i = {}, c = {};
                 for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k]), y = keyData(b[k]), x !== y && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y)) : c[k] = b[k];
@@ -17123,18 +17123,18 @@
                 return void 0 !== props.tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(props.tickValues);
             }
             function getTickArray(props) {
-                var tickValues = props.tickValues, tickFormat = props.tickFormat, axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], ticks = tickValues;
-                stringMap && (props1 = props, axis1 = getAxis(props1), stringMap1 = props1.stringMap && props1.stringMap[axis1], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis1]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
-                    return stringMap1[tick];
-                }) : void 0, ticksFromStringMap = stringMap1 && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap1), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap ? tickValues.map(function(tick) {
+                var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
+                stringMap1 && (props1 = props, axis = getAxis(props1), stringMap = props1.stringMap && props1.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
+                }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
+                    return stringMap1[tick];
                 }) : lodash_range__WEBPACK_IMPORTED_MODULE_4___default()(1, tickValues.length + 1));
-                var props1, axis1, stringMap1, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickArray = ticks ? lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(ticks) : function() {
+                var tickArray = ticks ? lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(ticks) : function() {
                     if (tickFormat && Array.isArray(tickFormat)) return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickFormat) ? tickFormat.map(function(t, i) {
                         return i;
                     }) : tickFormat;
                 }(props);
-                return Array.isArray(tickArray) && tickArray.length ? (newTickArray = [], domain = props.domain && props.domain[axis] || props.domain, tickArray ? (tickArray.forEach(function(t, index) {
+                return Array.isArray(tickArray) && tickArray.length ? (newTickArray = [], domain = props.domain && props.domain[axis1] || props.domain, tickArray ? (tickArray.forEach(function(t, index) {
                     Array.isArray(domain) ? t >= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMinValue(domain) && t <= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMaxValue(domain) && newTickArray.push({
                         value: t,
                         index: index
@@ -17651,7 +17651,7 @@
             }
             function formatData(dataset, props, expectedKeys) {
                 if (!(Array.isArray(dataset) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(dataset)) || 1 > getLength(dataset)) return [];
-                var defaultKeys = [
+                var stringMap, props1, data, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
                     "x",
                     "y",
                     "y0"
@@ -17664,7 +17664,7 @@
                     y: -1 !== expectedKeys.indexOf("y") ? createStringMap(props, "y") : void 0,
                     y0: -1 !== expectedKeys.indexOf("y0") ? createStringMap(props, "y") : void 0
                 });
-                var stringMap, props1, data, hasEventKeyAccessor, key, eventKeyAccessor, data1 = preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
+                var data1 = preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
                     datum = parseDatum(datum);
                     var fallbackValues = {
                         x: index,
@@ -18021,9 +18021,9 @@
             }
             function getDomainFromData(props, axis, dataset) {
                 dataset = dataset || _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props);
-                var polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
+                var dataset1, axis1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
-                var dataset1, axis1, min = void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), max = void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"), domain = getDomainFromMinMax(min, max);
+                var min = void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), max = void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"), domain = getDomainFromMinMax(min, max);
                 return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle2 ? 0 : _props$startAngle2) - (void 0 === _props$endAngle2 ? 360 : _props$endAngle2)) ? getSymmetricDomain(domain, (dataset1 = dataset, lodash_flatten__WEBPACK_IMPORTED_MODULE_5___default()(dataset1).map(function(datum) {
                     return datum["_".concat(axis)] && void 0 !== datum["_".concat(axis)][1] ? datum["_".concat(axis)][1] : datum["_".concat(axis)];
                 }))) : domain;
@@ -18589,12 +18589,12 @@
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
                     var props1, datum, style, horizontal, sign, labelStyle, props2, datum1, sign1, labelStyle1, props3, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
-                        var polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
+                        var props1, datum1, style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                         if (!polar) return {
                             x: x,
                             y: y
                         };
-                        var props1, datum1, style, degrees, labelStyle, padding, angle, polarPadding = (props1 = props, datum1 = datum, style = props1.style, degrees = getDegrees(props1, datum1), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees), {
+                        var polarPadding = (props1 = props, datum1 = datum, style = props1.style, degrees = getDegrees(props1, datum1), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees), {
                             x: padding * Math.cos(angle),
                             y: -padding * Math.sin(angle)
                         });
@@ -22889,9 +22889,9 @@
                     return Array.isArray(this.componentEvents) && (events = Array.isArray(props.events) ? (_componentEvents = this.componentEvents).concat.apply(_componentEvents, _toConsumableArray(props.events)) : this.componentEvents), events || [];
                 },
                 getAnimationProps: function(props, child, index) {
-                    var _this = this;
+                    var childrenTransitions, _this = this;
                     if (!props.animate) return child.props.animate;
-                    var childrenTransitions, getTransitions = props.animate && props.animate.getTransitions, state = (childrenTransitions = _this.state && _this.state.childrenTransitions, childrenTransitions = _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[index] : childrenTransitions, lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
+                    var getTransitions = props.animate && props.animate.getTransitions, state = (childrenTransitions = _this.state && _this.state.childrenTransitions, childrenTransitions = _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[index] : childrenTransitions, lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
                         childrenTransitions: childrenTransitions
                     }, _this.state)), parentState = props.animate && props.animate.parentState || state;
                     if (!getTransitions) {
@@ -24398,7 +24398,7 @@
             }), __webpack_require__.d(__webpack_exports__, "getBaseProps", function() {
                 return getBaseProps;
             });
-            var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), victory_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-bar/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_4__), d3_array__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/index.js"), d3_scale__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/index.js");
+            var func, lastArgs, lastReturnVal, called, lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), victory_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-bar/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_4__), d3_array__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/index.js"), d3_scale__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/index.js");
             function _objectSpread(target) {
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
@@ -24418,7 +24418,7 @@
                     writable: !0
                 }) : obj[key] = value, obj;
             }
-            var func, lastArgs, lastReturnVal, called, dataOrBinsContainDates = function(_ref) {
+            var dataOrBinsContainDates = function(_ref) {
                 var data = _ref.data, bins = _ref.bins, x = _ref.x, xAccessor = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.createAccessor(x || "x"), dataIsDates = data.some(function(datum) {
                     return xAccessor(datum) instanceof Date;
                 }), binsHasDates = Array.isArray(bins) && bins.some(function(bin) {
@@ -25008,7 +25008,8 @@
             });
             var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function greatest(values, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
-                let max, defined = !1;
+                let max;
+                let defined = !1;
                 if (1 === compare.length) {
                     let maxValue;
                     for (const element of values){
@@ -25256,7 +25257,8 @@
             });
             var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function least(values, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
-                let min, defined = !1;
+                let min;
+                let defined = !1;
                 if (1 === compare.length) {
                     let minValue;
                     for (const element of values){
@@ -25299,7 +25301,8 @@
         "../../victory-histogram/node_modules/d3-array/src/maxIndex.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function maxIndex(values, valueof) {
-                let max, maxIndex = -1, index = -1;
+                let max;
+                let maxIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1, maxIndex = index);
                 return maxIndex;
@@ -25360,7 +25363,8 @@
         "../../victory-histogram/node_modules/d3-array/src/minIndex.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function minIndex(values, valueof) {
-                let min, minIndex = -1, index = -1;
+                let min;
+                let minIndex = -1, index = -1;
                 if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1, minIndex = index);
                 return minIndex;
@@ -27994,7 +27998,7 @@
                 },
                 onMouseDown: function(evt, targetProps) {
                     evt.preventDefault();
-                    var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
+                    var arr, activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
                     var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], y1 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], x2 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1], y2 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1], mutatedProps = {
                         x1: x1,
@@ -28005,7 +28009,7 @@
                         parentSVG: parentSVG
                     };
                     selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelectionCleared) && targetProps.onSelectionCleared(lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps));
-                    var arr, parentMutation = [
+                    var parentMutation = [
                         {
                             target: "parent",
                             mutation: function() {
@@ -28639,9 +28643,9 @@
             };
             function getCalculatedProps(props, childComponents) {
                 childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children);
-                var role = "stack";
+                var props1, childComponents1, filterNullChildData, props2, datasets, fillInMissingData, xMap, xKeys, xArr, datasets1, role = "stack";
                 props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.modifyProps(props, fallbackProps, role);
-                var props1, childComponents1, filterNullChildData, props2, datasets, fillInMissingData, xMap, xKeys, xArr, datasets1, style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getStyle(props.theme, props.style, role), categories = props.categories || victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getCategories(props, childComponents), datasets2 = props.datasets || (props1 = props, childComponents1 = childComponents, filterNullChildData = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getDataFromChildren(props1, childComponents1).map(function(dataset) {
+                var style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getStyle(props.theme, props.style, role), categories = props.categories || victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getCategories(props, childComponents), datasets2 = props.datasets || (props1 = props, childComponents1 = childComponents, filterNullChildData = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getDataFromChildren(props1, childComponents1).map(function(dataset) {
                     return dataset.filter(function(datum) {
                         return null !== datum._x && null !== datum._y;
                     });

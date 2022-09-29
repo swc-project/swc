@@ -6,7 +6,7 @@
     } : factory(global);
 }("undefined" != typeof window ? window : this, function(window1, noGlobal) {
     "use strict";
-    var arr = [], getProto = Object.getPrototypeOf, slice = arr.slice, flat = arr.flat ? function(array) {
+    var body, arr = [], getProto = Object.getPrototypeOf, slice = arr.slice, flat = arr.flat ? function(array) {
         return arr.flat.call(array);
     } : function(array) {
         return arr.concat.apply([], array);
@@ -1323,7 +1323,7 @@
             });
         }
     });
-    var div, input, rcheckableType = /^(?:checkbox|radio)$/i, rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i, rscriptType = /^$|^module$|\/(?:java|ecma)script/i;
+    var rcheckableType = /^(?:checkbox|radio)$/i, rtagName = /<([a-z][^\/\0>\x20\t\r\n\f]*)/i, rscriptType = /^$|^module$|\/(?:java|ecma)script/i;
     div = document.createDocumentFragment().appendChild(document.createElement("div")), (input = document.createElement("input")).setAttribute("type", "radio"), input.setAttribute("checked", "checked"), input.setAttribute("name", "t"), div.appendChild(input), support.checkClone = div.cloneNode(!0).cloneNode(!0).lastChild.checked, div.innerHTML = "<textarea>x</textarea>", support.noCloneChecked = !!div.cloneNode(!0).lastChild.defaultValue, div.innerHTML = "<option></option>", support.option = !!div.lastChild;
     var wrapMap = {
         thead: [
@@ -2014,7 +2014,7 @@
         },
         _default: "swing"
     }, jQuery.fx = Tween.prototype.init, jQuery.fx.step = {};
-    var fxNow, inProgress, rfxtypes = /^(?:toggle|show|hide)$/, rrun = /queueHooks$/;
+    var div, input, fxNow, inProgress, rfxtypes = /^(?:toggle|show|hide)$/, rrun = /queueHooks$/;
     function createFxNow() {
         return window1.setTimeout(function() {
             fxNow = void 0;
@@ -2904,7 +2904,7 @@
             };
         }
     });
-    var body, oldCallbacks = [], rjsonp = /(=)\?(?=&|$)|\?\?/;
+    var oldCallbacks = [], rjsonp = /(=)\?(?=&|$)|\?\?/;
     jQuery.ajaxSetup({
         jsonp: "callback",
         jsonpCallback: function() {

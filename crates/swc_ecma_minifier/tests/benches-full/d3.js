@@ -259,7 +259,8 @@
         }
     }
     function maxIndex(values, valueof) {
-        let max, maxIndex = -1, index = -1;
+        let max;
+        let maxIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
         else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (max < value1 || void 0 === max && value1 >= value1) && (max = value1, maxIndex = index);
         return maxIndex;
@@ -270,7 +271,8 @@
         }(arrays));
     }
     function minIndex(values, valueof) {
-        let min, minIndex = -1, index = -1;
+        let min;
+        let minIndex = -1, index = -1;
         if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
         else for (let value1 of values)null != (value1 = valueof(value1, ++index, values)) && (min > value1 || void 0 === min && value1 >= value1) && (min = value1, minIndex = index);
         return minIndex;
@@ -3648,7 +3650,7 @@
         }
         _clipFinite(i, points) {
             const n = points.length;
-            let e0, e1, x0, y0, c0, P = null, x1 = points[n - 2], y1 = points[n - 1], c1 = this._regioncode(x1, y1);
+            let P = null, e0, e1, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
             for(let j = 0; j < n; j += 2)if (x0 = x1, y0 = y1, x1 = points[j], y1 = points[j + 1], c0 = c1, c1 = this._regioncode(x1, y1), 0 === c0 && 0 === c1) e0 = e1, e1 = 0, P ? P.push(x1, y1) : P = [
                 x1,
                 y1
@@ -10024,7 +10026,8 @@
     }, exports1.geoTransverseMercatorRaw = transverseMercatorRaw, exports1.gray = function(l, opacity) {
         return new Lab(l, 0, 0, null == opacity ? 1 : opacity);
     }, exports1.greatest = function(values, compare = ascending) {
-        let max, defined = !1;
+        let max;
+        let defined = !1;
         if (1 === compare.length) {
             let maxValue;
             for (const element of values){
@@ -10103,7 +10106,8 @@
     }, exports1.lab = lab, exports1.lch = function(l, c, h, opacity) {
         return 1 === arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
     }, exports1.least = function(values, compare = ascending) {
-        let min, defined = !1;
+        let min;
+        let defined = !1;
         if (1 === compare.length) {
             let minValue;
             for (const element of values){

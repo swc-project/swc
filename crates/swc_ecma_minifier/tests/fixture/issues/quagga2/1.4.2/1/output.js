@@ -3178,7 +3178,7 @@
             }), __webpack_require__.d(__webpack_exports__, "ResultCollector", function() {
                 return result_collector;
             });
-            var BarcodeDirection, streamRef, reader_namespaceObject = {};
+            var BarcodeDirection, BarcodeDirection1, streamRef, reader_namespaceObject = {};
             __webpack_require__.r(reader_namespaceObject), __webpack_require__.d(reader_namespaceObject, "BarcodeReader", function() {
                 return barcode_reader;
             }), __webpack_require__.d(reader_namespaceObject, "TwoOfFiveReader", function() {
@@ -3262,8 +3262,8 @@
                     for(i = 0, canvas.width = line.length, ctx.fillColor = "black"; i < line.length; i++)1 === line[i] && ctx.fillRect(i, 0, 1, 100);
                 }
             };
-            var BarcodeDirection1, image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
-            (BarcodeDirection1 = BarcodeDirection || (BarcodeDirection = {}))[BarcodeDirection1.Forward = 1] = "Forward", BarcodeDirection1[BarcodeDirection1.Reverse = -1] = "Reverse";
+            var image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
+            (BarcodeDirection = BarcodeDirection1 || (BarcodeDirection1 = {}))[BarcodeDirection.Forward = 1] = "Forward", BarcodeDirection[BarcodeDirection.Reverse = -1] = "Reverse";
             var barcode_reader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
@@ -3309,7 +3309,7 @@
                         value: function(pattern) {
                             this._row = pattern;
                             var result = this.decode();
-                            return null === result ? (this._row.reverse(), (result = this.decode()) && (result.direction = BarcodeDirection.Reverse, result.start = this._row.length - result.start, result.end = this._row.length - result.end)) : result.direction = BarcodeDirection.Forward, result && (result.format = this.FORMAT), result;
+                            return null === result ? (this._row.reverse(), (result = this.decode()) && (result.direction = BarcodeDirection1.Reverse, result.start = this._row.length - result.start, result.end = this._row.length - result.end)) : result.direction = BarcodeDirection1.Forward, result && (result.format = this.FORMAT), result;
                         }
                     },
                     {
@@ -6438,7 +6438,7 @@
                         };
                     }
                     function _decodeFromBoundingBox(box) {
-                        var line, result, line1, ctx = _canvas.ctx.overlay;
+                        var line, line1, result, ctx = _canvas.ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -6446,7 +6446,7 @@
                             color: "blue",
                             lineWidth: 2
                         });
-                        var lineLength = Math.sqrt(Math.pow(Math.abs((line1 = line = [
+                        var lineLength = Math.sqrt(Math.pow(Math.abs((line = line1 = [
                             {
                                 x: (box[1][0] - box[0][0]) / 2 + box[0][0],
                                 y: (box[1][1] - box[0][1]) / 2 + box[0][1]
@@ -6455,8 +6455,8 @@
                                 x: (box[3][0] - box[2][0]) / 2 + box[2][0],
                                 y: (box[3][1] - box[2][1]) / 2 + box[2][1]
                             }
-                        ])[1].y - line1[0].y), 2) + Math.pow(Math.abs(line1[1].x - line1[0].x), 2)), lineAngle = Math.atan2(line[1].y - line[0].y, line[1].x - line[0].x);
-                        return null === (line = function(line, angle, ext) {
+                        ])[1].y - line[0].y), 2) + Math.pow(Math.abs(line[1].x - line[0].x), 2)), lineAngle = Math.atan2(line1[1].y - line1[0].y, line1[1].x - line1[0].x);
+                        return null === (line1 = function(line, angle, ext) {
                             function extendLine(amount) {
                                 var extension = {
                                     y: amount * Math.sin(angle),
@@ -6466,14 +6466,14 @@
                             }
                             for(extendLine(ext); ext > 1 && (!inputImageWrapper.inImageWithBorder(line[0]) || !inputImageWrapper.inImageWithBorder(line[1]));)extendLine(-(ext -= Math.ceil(ext / 2)));
                             return line;
-                        }(line, lineAngle, Math.floor(0.1 * lineLength))) ? null : (null === (result = tryDecode(line)) && (result = function(box, line, lineAngle) {
+                        }(line1, lineAngle, Math.floor(0.1 * lineLength))) ? null : (null === (result = tryDecode(line1)) && (result = function(box, line, lineAngle) {
                             var i, dir, extension, sideLength = Math.sqrt(Math.pow(box[1][0] - box[0][0], 2) + Math.pow(box[1][1] - box[0][1], 2)), result = null, xdir = Math.sin(lineAngle), ydir = Math.cos(lineAngle);
                             for(i = 1; i < 16 && null === result; i++)extension = {
                                 y: (dir = sideLength / 16 * i * (i % 2 == 0 ? -1 : 1)) * xdir,
                                 x: dir * ydir
                             }, line[0].y += extension.x, line[0].x -= extension.y, line[1].y += extension.x, line[1].x -= extension.y, result = tryDecode(line);
                             return result;
-                        }(box, line, lineAngle)), null === result) ? null : (result && config.debug.drawScanline && ctx && image_debug.a.drawPath(line, {
+                        }(box, line1, lineAngle)), null === result) ? null : (result && config.debug.drawScanline && ctx && image_debug.a.drawPath(line1, {
                             x: "x",
                             y: "y"
                         }, ctx, {
@@ -6481,7 +6481,7 @@
                             lineWidth: 3
                         }), {
                             codeResult: result.codeResult,
-                            line: line,
+                            line: line1,
                             angle: lineAngle,
                             pattern: result.barcodeLine.line,
                             threshold: result.barcodeLine.threshold

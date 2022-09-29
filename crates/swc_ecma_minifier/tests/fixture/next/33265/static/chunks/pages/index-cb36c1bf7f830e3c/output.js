@@ -3495,9 +3495,9 @@
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map(function(adaptationSet) {
-                            var service, adaptationSetAttributes = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
+                            var service, adaptationSetAttributes, adaptationSetAttributes1 = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
                                 role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes, adaptationSetAttributes, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                            }, attrs = merge(periodAttributes, adaptationSetAttributes1, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
                                 if (language = value, /^CC\d=/.test(value)) {
                                     var channel, language, _value$split = value.split("=");
                                     channel = _value$split[0], language = _value$split[1];
@@ -3547,9 +3547,9 @@
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
-                            var adaptationSetAttributes1, segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
-                            return flatten(representations.map((adaptationSetAttributes1 = attrs, function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes1, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                            var segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
+                            return flatten(representations.map((adaptationSetAttributes = attrs, function(representation) {
+                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
