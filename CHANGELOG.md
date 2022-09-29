@@ -44,6 +44,9 @@
 
 
 
+- **(css/codegen)** Minify idents (#5972) ([b3a05a0](https://github.com/swc-project/swc/commit/b3a05a057ac39d0ceef60b4227f675a2a2c3556d))
+
+
 - **(css/minifier)** Remove duplicate `@counter-style` at-rules (#5970) ([dfdad69](https://github.com/swc-project/swc/commit/dfdad69c03d13d8950e89358f6587f2bc66d5912))
 
 
