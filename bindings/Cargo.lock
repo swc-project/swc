@@ -187,6 +187,7 @@ dependencies = [
 name = "binding_core_wasm"
 version = "1.3.4"
 dependencies = [
+ "anyhow",
  "swc_core",
  "tracing",
  "wasm-bindgen",
