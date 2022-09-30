@@ -1,8 +1,15 @@
-use swc_core::binding_macros::{
-    build_minify, build_minify_sync, build_parse, build_parse_sync, build_print, build_print_sync,
-    build_transform, build_transform_sync,
+use anyhow::Error;
+use swc_core::{
+    base::HandlerOpts,
+    binding_macros::wasm::{
+        compiler, convert_err, future_to_promise,
+        js_sys::{JsString, Promise},
+        noop, Options, ParseOptions, SourceMapsConfig,
+    },
+    common::{comments, errors::Handler, sync::Lrc, FileName, SourceMap, GLOBALS},
+    ecma::ast::{EsVersion, Program},
 };
-use wasm_bindgen::prelude::*;
+use wasm_bindgen::{prelude::*, JsCast};
 mod types;
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
@@ -44,14 +51,169 @@ export function transform(
 export function transformSync(code: string | Program, opts?: Options, experimental_plugin_bytes_resolver?: any): Output;
 "#;
 
-build_minify_sync!(#[wasm_bindgen(js_name = "minifySync", typescript_type = "minifySync", skip_typescript)]);
-build_minify!(#[wasm_bindgen(js_name = "minify", typescript_type = "minify", skip_typescript)]);
+pub fn try_with_handler<F, Ret>(
+    cm: Lrc<SourceMap>,
+    config: HandlerOpts,
+    op: F,
+) -> Result<Ret, Error>
+where
+    F: FnOnce(&Handler) -> Result<Ret, Error>,
+{
+    GLOBALS.set(&Default::default(), || {
+        swc_core::base::try_with_handler(cm, config, op)
+    })
+}
 
-build_parse_sync!(#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync", skip_typescript)]);
-build_parse!(#[wasm_bindgen(js_name = "parse", typescript_type = "parse", skip_typescript)]);
+pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
+    let c = compiler();
+    try_with_handler(c.cm.clone(), Default::default(), |handler| {
+        c.run(|| {
+            let opts = if opts.is_null() || opts.is_undefined() {
+                Default::default()
+            } else {
+                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+            };
+            let fm = c.cm.new_source_file(FileName::Anon, s.into());
+            let program =
+                anyhow::Context::context(c.minify(fm, handler, &opts), "failed to minify file")?;
+            anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+        })
+    })
+    .map_err(|e| convert_err(e, None))
+}
 
-build_transform_sync!(#[wasm_bindgen(js_name = "transformSync", typescript_type = "transformSync", skip_typescript)]);
-build_transform!(#[wasm_bindgen(js_name = "transform", typescript_type = "transform", skip_typescript)]);
+pub fn minify(s: JsString, opts: JsValue) -> Promise {
+    future_to_promise(async { minify_sync(s, opts) })
+}
 
-build_print_sync!(#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]);
-build_print!(#[wasm_bindgen(js_name = "print", typescript_type = "print", skip_typescript)]);
+pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
+    let c = compiler();
+    try_with_handler(c.cm.clone(), Default::default(), |handler| {
+        c.run(|| {
+            let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
+                Default::default()
+            } else {
+                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+            };
+            let fm = c.cm.new_source_file(FileName::Anon, s.into());
+            let cmts = c.comments().clone();
+            let comments = if opts.comments {
+                Some(&cmts as &dyn comments::Comments)
+            } else {
+                None
+            };
+            let program = anyhow::Context::context(
+                c.parse_js(
+                    fm,
+                    handler,
+                    opts.target,
+                    opts.syntax,
+                    opts.is_module,
+                    comments,
+                ),
+                "failed to parse code",
+            )?;
+            anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+        })
+    })
+    .map_err(|e| convert_err(e, None))
+}
+pub fn parse(s: JsString, opts: JsValue) -> Promise {
+    future_to_promise(async { parse_sync(s, opts) })
+}
+
+#[allow(unused_variables)]
+pub fn transform_sync(
+    s: JsValue,
+    opts: JsValue,
+    experimental_plugin_bytes_resolver: JsValue,
+) -> Result<JsValue, JsValue> {
+    let c = compiler();
+    let opts: Options = if opts.is_null() || opts.is_undefined() {
+        Default::default()
+    } else {
+        anyhow::Context::context(opts.into_serde(), "failed to parse options")
+            .map_err(|e| convert_err(e, None))?
+    };
+    let error_format = opts.experimental.error_format.unwrap_or_default();
+    try_with_handler(c.cm.clone(), Default::default(), |handler| {
+        c.run(|| {
+            let s = JsCast::dyn_into::<JsString>(s);
+            let out = match s {
+                Ok(s) => {
+                    let fm = c.cm.new_source_file(
+                        if opts.filename.is_empty() {
+                            FileName::Anon
+                        } else {
+                            FileName::Real(opts.filename.clone().into())
+                        },
+                        s.into(),
+                    );
+                    let cm = c.cm.clone();
+                    let file = fm.clone();
+                    anyhow::Context::context(
+                        c.process_js_with_custom_pass(
+                            fm,
+                            None,
+                            handler,
+                            &opts,
+                            |_, _| noop(),
+                            |_, _| noop(),
+                        ),
+                        "failed to process js file",
+                    )?
+                }
+                Err(v) => unsafe { c.process_js(handler, v.into_serde().expect(""), &opts)? },
+            };
+            anyhow::Context::context(JsValue::from_serde(&out), "failed to serialize json")
+        })
+    })
+    .map_err(|e| convert_err(e, Some(error_format)))
+}
+
+pub fn transform(
+    s: JsValue,
+    opts: JsValue,
+    experimental_plugin_bytes_resolver: JsValue,
+) -> Promise {
+    future_to_promise(async { transform_sync(s, opts, experimental_plugin_bytes_resolver) })
+}
+
+pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
+    let c = compiler();
+    try_with_handler(c.cm.clone(), Default::default(), |_handler| {
+        c.run(|| {
+            let opts: Options = if opts.is_null() || opts.is_undefined() {
+                Default::default()
+            } else {
+                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+            };
+            let program: Program =
+                anyhow::Context::context(s.into_serde(), "failed to deserialize program")?;
+            let s = anyhow::Context::context(
+                c.print(
+                    &program,
+                    None,
+                    None,
+                    true,
+                    opts.codegen_target().unwrap_or(EsVersion::Es2020),
+                    opts.source_maps
+                        .clone()
+                        .unwrap_or(SourceMapsConfig::Bool(false)),
+                    &Default::default(),
+                    None,
+                    opts.config.minify.into(),
+                    None,
+                    opts.config.emit_source_map_columns.into_bool(),
+                    false,
+                ),
+                "failed to print code",
+            )?;
+            anyhow::Context::context(JsValue::from_serde(&s), "failed to serialize json")
+        })
+    })
+    .map_err(|e| convert_err(e, None))
+}
+pub fn print(s: JsValue, opts: JsValue) -> Promise {
+    future_to_promise(async { print_sync(s, opts) })
+}
