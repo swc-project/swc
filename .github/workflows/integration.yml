@@ -7,56 +7,6 @@ env:
   CARGO_TERM_COLOR: "always"
 
 jobs:
-  publish-test:
-    name: node-api - ${{ matrix.os }}
-    if: >-
-      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - windows-latest
-          - macos-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      # We explicitly do this to cache properly.
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: "yarn"
-
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-node-api-test
-
-      - name: Set platform name
-        run: |
-          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
-          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
-        shell: bash
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Prepare
-        run: |
-          rustup target add wasm32-wasi
-          yarn
-
-          yarn build:dev
-          yarn test
-
   integration-test:
     name: swc-cli
     if: >-
