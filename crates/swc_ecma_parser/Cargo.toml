@@ -28,7 +28,7 @@ either         = { version = "1.4" }
 enum_kind      = { version = "0.2.1", path = "../enum_kind" }
 lexical        = { version = "6.1.0", features = ["power-of-two"] }
 num-bigint     = "0.4"
-serde          = { workspace = true, features = ["derive"] }
+serde          = { version = "1", features = ["derive"] }
 smallvec       = "1.8.0"
 swc_atoms      = { version = "0.4.18", path = "../swc_atoms" }
 swc_common     = { version = "0.29.3", path = "../swc_common" }

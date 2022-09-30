@@ -7,11 +7,20 @@
 
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
+
+- **(es/minifier)** Don't inline into nested scope (#6002) ([2ee3ad0](https://github.com/swc-project/swc/commit/2ee3ad00663a515697769cef55ad5606e14943da))
+
 ### Features
 
 
 
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
 
 ### Build
 

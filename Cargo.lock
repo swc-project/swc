@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.18.9"
+version = "0.18.10"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -742,7 +742,7 @@ dependencies = [
 
 [[package]]
 name = "dbg-swc"
-version = "0.56.30"
+version = "0.56.32"
 dependencies = [
  "anyhow",
  "clap 3.1.0",
@@ -2627,9 +2627,9 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.145"
+version = "1.0.140"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "728eb6351430bccb993660dfffc5a72f91ccc1295abaa8ce19b27ebe4f75568b"
+checksum = "fc855a42c7967b7c369eb5860f7164ef1f6f81c20c7cc1141f2a604e18723b03"
 dependencies = [
  "serde_derive",
 ]
@@ -2666,9 +2666,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.145"
+version = "1.0.140"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81fa1584d3d1bcacd84c277a0dfe21f5b0f6accf4a23d04d4c6d61f1af522b4c"
+checksum = "6f2122636b9fe3b81f1cb25099fcf2d3f542cdb1d45940d56c713158884a05da"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2957,7 +2957,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.230.10"
+version = "0.230.11"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3028,7 +3028,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.190.22"
+version = "0.190.23"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3145,7 +3145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.28.11"
+version = "0.28.12"
 dependencies = [
  "binding_macros",
  "once_cell",
@@ -3465,7 +3465,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.157.23"
+version = "0.157.24"
 dependencies = [
  "ahash",
  "ansi_term",
@@ -3891,7 +3891,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.203.22"
+version = "0.203.23"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -3939,7 +3939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.152.9"
+version = "0.152.10"
 dependencies = [
  "ahash",
  "anyhow",
@@ -3987,7 +3987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.78.27"
+version = "0.78.28"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4039,7 +4039,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.75.27"
+version = "0.75.28"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4125,7 +4125,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.16.9"
+version = "0.16.10"
 dependencies = [
  "anyhow",
  "dashmap",

@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.16.9"
+version       = "0.16.10"
 
 [lib]
 bench = false
@@ -23,12 +23,12 @@ dashmap = "5.1.0"
 is-macro = "0.2.0"
 once_cell = "1.10.0"
 regex = "1"
-serde = { workspace = true, features = ["derive"] }
+serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 string_enum = { version = "0.3", path = "../string_enum" }
-swc = { version = "0.230.10", path = "../swc" }
+swc = { version = "0.230.11", path = "../swc" }
 swc_atoms = { version = "0.4.18", path = "../swc_atoms" }
-swc_bundler = { version = "0.190.22", path = "../swc_bundler", features = [
+swc_bundler = { version = "0.190.23", path = "../swc_bundler", features = [
   "concurrent",
 ] }
 swc_common = { version = "0.29.3", path = "../swc_common", features = [
