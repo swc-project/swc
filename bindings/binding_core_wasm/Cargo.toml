@@ -24,6 +24,7 @@ swc_core = { version = "0.28.10", features = [
   "common_perf",
   "binding_macro_wasm",
 ] }
+tracing = { version = "0.1.36", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",
