@@ -425,6 +425,24 @@ where
         })
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_constructor(&mut self, n: &Constructor) {
+        self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
+            {
+                let ctx = Ctx {
+                    in_pat_of_param: true,
+                    ..child.ctx
+                };
+                n.params.visit_with(&mut *child.with_ctx(ctx));
+            }
+
+            // Bypass visit_block_stmt
+            if let Some(body) = &n.body {
+                body.visit_with(child);
+            }
+        })
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         let ctx = Ctx {
