@@ -24,7 +24,7 @@ use crate::{
     },
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    util::{idents_used_by, idents_used_by_ignoring_nested, is_lit, ExprOptExt, ModuleItemExt},
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -1873,6 +1873,7 @@ where
     /// Handle where a: [Expr::Assign] or [Mergable::Var]
     fn replace_seq_assignment(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let mut can_remove = false;
+        let mut can_take_init = false;
 
         let mut right_val;
         let (left_id, a_right) = match a {
@@ -1931,12 +1932,21 @@ where
                 };
 
                 if let Some(usage) = self.data.vars.get(&left.to_id()) {
-                    if usage.ref_count != 1 {
-                        return Ok(false);
+                    let is_lit = match a.init.as_deref() {
+                        Some(e) => is_lit(e),
+                        _ => false,
+                    };
+
+                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                        if is_lit {
+                            can_take_init = false
+                        } else {
+                            return Ok(false);
+                        }
+                    } else {
+                        can_take_init = true;
                     }
-                    if usage.reassigned() || !usage.is_fn_local {
-                        return Ok(false);
-                    }
+
                     if usage.inline_prevented {
                         return Ok(false);
                     }
@@ -2013,7 +2023,12 @@ where
                     }
                 }
 
-                a.init.take().unwrap_or_else(|| undefined(DUMMY_SP))
+                if can_take_init {
+                    a.init.take()
+                } else {
+                    a.init.clone()
+                }
+                .unwrap_or_else(|| undefined(DUMMY_SP))
             }
             Mergable::Expr(a) => {
                 if can_remove {
