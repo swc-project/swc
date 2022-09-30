@@ -25,7 +25,7 @@ swc_xml_ast = { version = "0.4.3", path = "../swc_xml_ast" }
 
 [dev-dependencies]
 criterion     = "0.3"
-serde         = "1.0.127"
+serde         = {workspace = true}
 serde_json    = "1.0.66"
 swc_node_base = { version = "0.5.0", path = "../swc_node_base" }
 swc_xml_visit = { version = "0.4.3", path = "../swc_xml_visit" }

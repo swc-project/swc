@@ -23,7 +23,7 @@ once_cell = "1.10.0"
 phf = {version = "0.10", features = ["macros"]}
 rayon = {version = "1", optional = true}
 rustc-hash = "1.1.0"
-serde = {version = "1", features = ["derive"]}
+serde = {workspace = true, features = ["derive"]}
 smallvec = "1.8.0"
 swc_atoms = {version = "0.4.18", path = "../swc_atoms"}
 swc_common = {version = "0.29.3", path = "../swc_common"}

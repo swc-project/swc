@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Build
+
+
+
+- **(cargo)** Introduce workspace deps (#5997) ([af64217](https://github.com/swc-project/swc/commit/af64217f19107ba654c086470ba3a2d1379eebde))
+
+## [1.3.4] - 2022-09-30
+
 ### Bug Fixes
 
 

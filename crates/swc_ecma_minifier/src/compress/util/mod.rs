@@ -347,20 +347,10 @@ pub(crate) fn negate_cost(
                         return cost(expr_ctx, last, in_bool_ctx, bin_op, is_ret_val_ignored);
                     }
 
-                    if is_ret_val_ignored {
-                        0
-                    } else {
-                        1
-                    }
+                    isize::from(!is_ret_val_ignored)
                 }
 
-                _ => {
-                    if is_ret_val_ignored {
-                        0
-                    } else {
-                        1
-                    }
-                }
+                _ => isize::from(!is_ret_val_ignored),
             }
         })();
 
