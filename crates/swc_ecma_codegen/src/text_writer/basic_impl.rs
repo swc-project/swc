@@ -57,8 +57,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     #[inline]
     fn raw_write(&mut self, data: &str) -> Result {
-        #[cfg(debug_assertions)]
-        tracing::trace!("Write: `{}`", data);
+        // #[cfg(debug_assertions)]
+        // tracing::trace!("Write: `{}`", data);
 
         self.wr.write_all(data.as_bytes())?;
         if self.srcmap.is_some() {
@@ -111,8 +111,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
                     col: self.line_pos as _,
                 };
 
-                #[cfg(debug_assertions)]
-                tracing::trace!("SourceMap: {:?} => {:?}", byte_pos, loc);
+                // #[cfg(debug_assertions)]
+                // tracing::trace!("SourceMap: {:?} => {:?}", byte_pos, loc);
 
                 srcmap.push((byte_pos, loc));
             }
