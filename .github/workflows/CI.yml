@@ -107,7 +107,7 @@ jobs:
           cargo deny check
 
   cargo-check:
-    name: Cargo check
+    name: Check
     runs-on: ${{ matrix.os }}
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
