@@ -705,6 +705,11 @@ jobs:
           node-version: 16
           cache: "yarn"
 
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+
       - name: Cache
         uses: actions/cache@v3
         with:
@@ -759,6 +764,11 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
 
       - name: Prepare
         run: |
