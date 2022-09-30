@@ -106,6 +106,46 @@ jobs:
         run: |
           cargo deny check
 
+  cargo-check:
+    name: Cargo check
+    runs-on: ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          # MSRV is current stable for ES crates and nightly for other languages
+          # toolchain: stable
+          # override: true
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
+      # Ensure that all components are compilable.
+      - name: Run cargo check for all targets
+        run: cargo check --all --all-targets
+
   test-wasm:
     name: Test wasm
     if: >-
