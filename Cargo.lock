@@ -3197,6 +3197,7 @@ dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_minifier",
+ "swc_css_modules",
  "swc_css_parser",
  "swc_css_utils",
  "swc_css_visit",
@@ -3279,6 +3280,10 @@ dependencies = [
  "swc_node_base",
  "testing",
 ]
+
+[[package]]
+name = "swc_css_modules"
+version = "0.1.0"
 
 [[package]]
 name = "swc_css_parser"

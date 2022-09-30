@@ -22,6 +22,7 @@ minifier = ["swc_css_minifier"]
 swc_css_ast = {version = "0.114.5", path = "../swc_css_ast"}
 swc_css_codegen = {version = "0.124.5", path = "../swc_css_codegen"}
 swc_css_minifier = {version = "0.89.6", path = "../swc_css_minifier", optional = true}
+swc_css_modules = {version = "0.1.0", path = "../swc_css_modules"}
 swc_css_parser = {version = "0.123.5", path = "../swc_css_parser"}
 swc_css_utils = {version = "0.111.5", path = "../swc_css_utils/"}
 swc_css_visit = {version = "0.113.5", path = "../swc_css_visit"}
