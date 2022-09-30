@@ -5,6 +5,35 @@
 
 
 
+- **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
+
+### Features
+
+
+
+- **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
+
+### Build
+
+
+
+- **(cargo)** Introduce workspace deps (#5997) ([af64217](https://github.com/swc-project/swc/commit/af64217f19107ba654c086470ba3a2d1379eebde))
+
+
+- **(cargo)** Use workspace deps for internal pkg (#6001) ([3204ac3](https://github.com/swc-project/swc/commit/3204ac3e0c2d04d3e9269655ba3d4dddf3ae74af))
+
+## [1.3.4] - 2022-09-30
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Align sourcemap with terser (#5657) ([2ba8815](https://github.com/swc-project/swc/commit/2ba88154fced01cb6ad0428207cf88ad7ddee75c))
 
 

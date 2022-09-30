@@ -10,7 +10,7 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-serde = {workspace = true}
+serde = "1.0.140"
 # Intentionally referencing published version, known to not contain new AST struct changes.
 # Be careful to change this dependency version. Unless there isn't explicit reason to do so,
 # do not change.
