@@ -1,8 +1,8 @@
 use std::ops::{Deref, DerefMut};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::js_word;
-use swc_common::{Span, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{ExprCtx, ExprExt};
@@ -157,14 +157,20 @@ impl VisitMut for Remapper {
     }
 }
 
+/// A visitor responsible for inlining special kind of variables and removing
+/// (some) unused variables. Due to the order of visit, the main visitor cannot
+/// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
-pub(crate) struct CloningMultiReplacer<'a> {
+pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+
+    pub vars_to_remove: &'a FxHashSet<Id>,
+
     pub changed: bool,
 }
 
-impl Parallel for CloningMultiReplacer<'_> {
+impl Parallel for Finalizer<'_> {
     fn create(&self) -> Self {
         *self
     }
@@ -174,11 +180,11 @@ impl Parallel for CloningMultiReplacer<'_> {
     }
 }
 
-impl<'a> CloningMultiReplacer<'a> {
-    fn var(&mut self, i: &Id, mode: MultiReplacerMode) -> Option<Box<Expr>> {
+impl<'a> Finalizer<'a> {
+    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
-            MultiReplacerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
-            MultiReplacerMode::OnlyComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
+            FinalizerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
+            FinalizerMode::OnlyComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
         };
 
         e.visit_mut_children_with(self);
@@ -195,7 +201,7 @@ impl<'a> CloningMultiReplacer<'a> {
         }
     }
 
-    fn check(&mut self, e: &mut Expr, mode: MultiReplacerMode) {
+    fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
             if let Some(new) = self.var(&i.to_id(), mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
@@ -208,19 +214,19 @@ impl<'a> CloningMultiReplacer<'a> {
 }
 
 #[derive(Debug, Clone, Copy)]
-enum MultiReplacerMode {
+enum FinalizerMode {
     OnlyCallee,
     OnlyComparisonWithLit,
 }
 
-impl VisitMut for CloningMultiReplacer<'_> {
+impl VisitMut for Finalizer<'_> {
     noop_visit_mut_type!();
 
     fn visit_mut_callee(&mut self, e: &mut Callee) {
         e.visit_mut_children_with(self);
 
         if let Callee::Expr(e) = e {
-            self.check(e, MultiReplacerMode::OnlyCallee);
+            self.check(e, FinalizerMode::OnlyCallee);
         }
     }
 
@@ -231,12 +237,50 @@ impl VisitMut for CloningMultiReplacer<'_> {
             op!("===") | op!("!==") | op!("==") | op!("!=") => {
                 //
                 if e.left.is_lit() {
-                    self.check(&mut e.right, MultiReplacerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.right, FinalizerMode::OnlyComparisonWithLit);
                 } else if e.right.is_lit() {
-                    self.check(&mut e.left, MultiReplacerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.left, FinalizerMode::OnlyComparisonWithLit);
                 }
             }
             _ => {}
+        }
+    }
+
+    fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| !v.name.is_invalid());
+    }
+
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        n.visit_mut_children_with(self);
+
+        if n.init.is_none() {
+            if let Pat::Ident(i) = &n.name {
+                if self.vars_to_remove.contains(&i.to_id()) {
+                    n.name.take();
+                }
+            }
+        }
+    }
+
+    fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
+        n.visit_mut_children_with(self);
+
+        if let Some(VarDeclOrExpr::VarDecl(v)) = n {
+            if v.decls.is_empty() {
+                *n = None;
+            }
+        }
+    }
+
+    fn visit_mut_stmt(&mut self, n: &mut Stmt) {
+        n.visit_mut_children_with(self);
+
+        if let Stmt::Decl(Decl::Var(v)) = n {
+            if v.decls.is_empty() {
+                n.take();
+            }
         }
     }
 

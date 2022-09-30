@@ -480,7 +480,7 @@
             case REACT_BLOCK_TYPE:
                 return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var Component, prototype, fn, fn1, payload = type._payload, init = type._init;
+                var prototype, payload = type._payload, init = type._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}
@@ -497,7 +497,7 @@
     }
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
-            var stack, stack1, owner = element._owner;
+            var stack, owner = element._owner;
             currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
         } else currentExtraStackFrame = null;
     }

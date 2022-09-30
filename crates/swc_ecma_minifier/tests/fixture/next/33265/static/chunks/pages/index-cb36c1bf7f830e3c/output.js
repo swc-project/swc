@@ -3118,7 +3118,7 @@
                 }, {})).map(function(k) {
                     return o[k];
                 }).map(function(playlist) {
-                    return playlist.discontinuityStarts = (0, playlist.segments).reduce(function(a, e, i) {
+                    return playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
                         return e.discontinuity && a.push(i), a;
                     }, []), playlist;
                 });
@@ -3595,7 +3595,7 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = (0, parsedManifestInfo.representationInfo).map(generateSegments);
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = parsedManifestInfo.representationInfo.map(generateSegments);
                 return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));

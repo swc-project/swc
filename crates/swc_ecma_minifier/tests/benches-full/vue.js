@@ -2,7 +2,7 @@
     'object' == typeof exports && 'undefined' != typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : (global1 = global1 || self).Vue = factory();
 }(this, function() {
     'use strict';
-    var Vue, Vue1, dataDef, propsDef, Vue2, hookRE, Vue3, Vue4, Vue5, configDef, Vue6, Vue7, Vue8, cid, Vue9, modules, baseCompile, _isServer, _Set, timerFunc, mark, measure, initProxy, target, len, str, chr, index$1, expressionPos, expressionEndPos, warn$1, target$1, svgContainer, emptyStyle, decoder, warn$2, delimiters, transforms, preTransforms, postTransforms, platformIsPreTag, platformMustUseProp, platformGetTagNamespace, maybeComponent, isStaticKey, isPlatformReservedTag, div, emptyObject = Object.freeze({});
+    var Vue, Vue1, cid, Vue2, configDef, Vue3, dataDef, propsDef, Vue4, hookRE, Vue5, Vue6, baseCompile, _isServer, _Set, timerFunc, mark, measure, initProxy, target, len, str, chr, index$1, expressionPos, expressionEndPos, warn$1, target$1, svgContainer, emptyStyle, decoder, warn$2, delimiters, transforms, preTransforms, postTransforms, platformIsPreTag, platformMustUseProp, platformGetTagNamespace, maybeComponent, isStaticKey, isPlatformReservedTag, div, emptyObject = Object.freeze({});
     function isUndef(v) {
         return null == v;
     }
@@ -526,7 +526,7 @@
                     return (isObject(def) && warn('Invalid default value for prop "' + key + '": Props with type Object/Array must use a factory function to return the default value.', vm), vm && vm.$options.propsData && void 0 === vm.$options.propsData[key] && void 0 !== vm._props[key]) ? vm._props[key] : 'function' == typeof def && 'Function' !== getType(prop.type) ? def.call(vm) : def;
                 }
             }(vm, prop, key);
-            var value1, value2, prevShouldObserve = shouldObserve;
+            var prevShouldObserve = shouldObserve;
             shouldObserve = !0, observe(value), shouldObserve = prevShouldObserve;
         }
         return function(prop, name, value, vm, absent) {
@@ -773,7 +773,6 @@
         }(children) : void 0;
     }
     function isTextNode(node) {
-        var v;
         return isDef(node) && isDef(node.text) && !1 === node.isComment;
     }
     function resolveInject(inject, vm) {
@@ -982,7 +981,7 @@
                 var newScopedSlots = parentVnode.data.scopedSlots, oldScopedSlots = vm.$scopedSlots, hasDynamicScopedSlot = !!(newScopedSlots && !newScopedSlots.$stable || oldScopedSlots !== emptyObject && !oldScopedSlots.$stable || newScopedSlots && vm.$scopedSlots.$key !== newScopedSlots.$key), needsForceUpdate = !!(renderChildren || vm.$options._renderChildren || hasDynamicScopedSlot);
                 if (vm.$options._parentVnode = parentVnode, vm.$vnode = parentVnode, vm._vnode && (vm._vnode.parent = parentVnode), vm.$options._renderChildren = renderChildren, vm.$attrs = parentVnode.data.attrs || emptyObject, vm.$listeners = listeners || emptyObject, propsData && vm.$options.props) {
                     shouldObserve = !1;
-                    for(var value, value1, props = vm._props, propKeys = vm.$options._propKeys || [], i = 0; i < propKeys.length; i++){
+                    for(var props = vm._props, propKeys = vm.$options._propKeys || [], i = 0; i < propKeys.length; i++){
                         var key = propKeys[i], propOptions = vm.$options.props;
                         props[key] = validateProp(key, propOptions, propsData, vm);
                     }
@@ -1325,8 +1324,8 @@
         }
         return options;
     }
-    function Vue10(options) {
-        this instanceof Vue10 || warn('Vue is a constructor and should be called with the `new` keyword'), this._init(options);
+    function Vue7(options) {
+        this instanceof Vue7 || warn('Vue is a constructor and should be called with the `new` keyword'), this._init(options);
     }
     function getComponentName(opts) {
         return opts && (opts.Ctor.options.name || opts.tag);
@@ -1348,8 +1347,8 @@
         var cached$$1 = cache[key];
         cached$$1 && (!current || cached$$1.tag !== current.tag) && cached$$1.componentInstance.$destroy(), cache[key] = null, remove(keys, key);
     }
-    Vue10.prototype._init = function(options) {
-        var vm, options1, opts, parentVnode, vnodeComponentOptions, vm1, value, value1, result, vm2, listeners, vm3, options2, parentVnode1, renderContext, parentData, vm4, opts1, vm5, provide, startTag, endTag, vm6 = this;
+    Vue7.prototype._init = function(options) {
+        var vm, options1, opts, parentVnode, vnodeComponentOptions, vm1, result, vm2, listeners, vm3, options2, parentVnode1, renderContext, parentData, vm4, opts1, vm5, provide, startTag, endTag, vm6 = this;
         vm6._uid = uid$3++, config.performance && mark && (startTag = "vue-perf-start:" + vm6._uid, endTag = "vue-perf-end:" + vm6._uid, mark(startTag)), vm6._isVue = !0, options && options._isComponent ? (vm = vm6, options1 = options, opts = vm.$options = Object.create(vm.constructor.options), parentVnode = options1._parentVnode, opts.parent = options1.parent, opts._parentVnode = parentVnode, vnodeComponentOptions = parentVnode.componentOptions, opts.propsData = vnodeComponentOptions.propsData, opts._parentListeners = vnodeComponentOptions.listeners, opts._renderChildren = vnodeComponentOptions.children, opts._componentTag = vnodeComponentOptions.tag, options1.render && (opts.render = options1.render, opts.staticRenderFns = options1.staticRenderFns)) : vm6.$options = mergeOptions(resolveConstructorOptions(vm6.constructor), options || {}, vm6), initProxy(vm6), vm6._self = vm6, function(vm) {
             var options = vm.$options, parent = options.parent;
             if (parent && !options.abstract) {
@@ -1370,7 +1369,7 @@
                 warn('Avoid mutating an injected value directly since the changes will be overwritten whenever the provided component re-renders. injection being mutated: "' + key + "\"", vm1);
             });
         }), shouldObserve = !0), (vm4 = vm6)._watchers = [], (opts1 = vm4.$options).props && function(vm, propsOptions) {
-            var value, value1, propsData = vm.$options.propsData || {}, props = vm._props = {}, keys = vm.$options._propKeys = [], isRoot = !vm.$parent;
+            var propsData = vm.$options.propsData || {}, props = vm._props = {}, keys = vm.$options._propKeys = [], isRoot = !vm.$parent;
             !isRoot && (shouldObserve = !1);
             var loop = function(key) {
                 keys.push(key);
@@ -1414,7 +1413,7 @@
                 else createWatcher(vm, key, handler);
             }
         }(vm4, opts1.watch), (provide = (vm5 = vm6).$options.provide) && (vm5._provided = 'function' == typeof provide ? provide.call(vm5) : provide), callHook(vm6, 'created'), config.performance && mark && (vm6._name = formatComponentName(vm6, !1), mark(endTag), measure("vue " + vm6._name + " init", startTag, endTag)), vm6.$options.el && vm6.$mount(vm6.$options.el);
-    }, Vue1 = Vue10, (dataDef = {}).get = function() {
+    }, Vue3 = Vue7, (dataDef = {}).get = function() {
         return this._data;
     }, (propsDef = {}).get = function() {
         return this._props;
@@ -1422,7 +1421,7 @@
         warn("Avoid replacing instance root $data. Use nested data properties instead.", this);
     }, propsDef.set = function() {
         warn("$props is readonly.", this);
-    }, Object.defineProperty(Vue1.prototype, '$data', dataDef), Object.defineProperty(Vue1.prototype, '$props', propsDef), Vue1.prototype.$set = set, Vue1.prototype.$delete = del, Vue1.prototype.$watch = function(expOrFn, cb, options) {
+    }, Object.defineProperty(Vue3.prototype, '$data', dataDef), Object.defineProperty(Vue3.prototype, '$props', propsDef), Vue3.prototype.$set = set, Vue3.prototype.$delete = del, Vue3.prototype.$watch = function(expOrFn, cb, options) {
         if (isPlainObject(cb)) return createWatcher(this, expOrFn, cb, options);
         (options = options || {}).user = !0;
         var watcher = new Watcher(this, expOrFn, cb, options);
@@ -1434,18 +1433,18 @@
         return function() {
             watcher.teardown();
         };
-    }, Vue2 = Vue10, hookRE = /^hook:/, Vue2.prototype.$on = function(event, fn) {
+    }, Vue4 = Vue7, hookRE = /^hook:/, Vue4.prototype.$on = function(event, fn) {
         var vm = this;
         if (Array.isArray(event)) for(var i = 0, l = event.length; i < l; i++)vm.$on(event[i], fn);
         else (vm._events[event] || (vm._events[event] = [])).push(fn), hookRE.test(event) && (vm._hasHookEvent = !0);
         return vm;
-    }, Vue2.prototype.$once = function(event, fn) {
+    }, Vue4.prototype.$once = function(event, fn) {
         var vm = this;
         function on() {
             vm.$off(event, on), fn.apply(vm, arguments);
         }
         return on.fn = fn, vm.$on(event, on), vm;
-    }, Vue2.prototype.$off = function(event, fn) {
+    }, Vue4.prototype.$off = function(event, fn) {
         var cb, vm = this;
         if (!arguments.length) return vm._events = Object.create(null), vm;
         if (Array.isArray(event)) {
@@ -1460,7 +1459,7 @@
             break;
         }
         return vm;
-    }, Vue2.prototype.$emit = function(event) {
+    }, Vue4.prototype.$emit = function(event) {
         var lowerCaseEvent = event.toLowerCase();
         lowerCaseEvent !== event && this._events[lowerCaseEvent] && tip("Event \"" + lowerCaseEvent + "\" is emitted in component " + formatComponentName(this) + " but the handler is registered for \"" + event + '". Note that HTML attributes are case-insensitive and you cannot use v-on to listen to camelCase events when using in-DOM templates. You should probably use "' + hyphenate(event) + "\" instead of \"" + event + "\".");
         var cbs = this._events[event];
@@ -1469,12 +1468,12 @@
             for(var args = toArray(arguments, 1), info = "event handler for \"" + event + "\"", i = 0, l = cbs.length; i < l; i++)invokeWithErrorHandling(cbs[i], this, args, this, info);
         }
         return this;
-    }, (Vue3 = Vue10).prototype._update = function(vnode, hydrating) {
+    }, (Vue5 = Vue7).prototype._update = function(vnode, hydrating) {
         var vm = this, prevEl = vm.$el, prevVnode = vm._vnode, restoreActiveInstance = setActiveInstance(vm);
         vm._vnode = vnode, prevVnode ? vm.$el = vm.__patch__(prevVnode, vnode) : vm.$el = vm.__patch__(vm.$el, vnode, hydrating, !1), restoreActiveInstance(), prevEl && (prevEl.__vue__ = null), vm.$el && (vm.$el.__vue__ = vm), vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode && (vm.$parent.$el = vm.$el);
-    }, Vue3.prototype.$forceUpdate = function() {
+    }, Vue5.prototype.$forceUpdate = function() {
         this._watcher && this._watcher.update();
-    }, Vue3.prototype.$destroy = function() {
+    }, Vue5.prototype.$destroy = function() {
         var vm = this;
         if (!vm._isBeingDestroyed) {
             callHook(vm, 'beforeDestroy'), vm._isBeingDestroyed = !0;
@@ -1483,9 +1482,9 @@
             for(var i = vm._watchers.length; i--;)vm._watchers[i].teardown();
             vm._data.__ob__ && vm._data.__ob__.vmCount--, vm._isDestroyed = !0, vm.__patch__(vm._vnode, null), callHook(vm, 'destroyed'), vm.$off(), vm.$el && (vm.$el.__vue__ = null), vm.$vnode && (vm.$vnode.parent = null);
         }
-    }, Vue4 = Vue10, installRenderHelpers(Vue4.prototype), Vue4.prototype.$nextTick = function(fn) {
+    }, Vue6 = Vue7, installRenderHelpers(Vue6.prototype), Vue6.prototype.$nextTick = function(fn) {
         return nextTick(fn, this);
-    }, Vue4.prototype._render = function() {
+    }, Vue6.prototype._render = function() {
         var vnode, vm = this, ref = vm.$options, render = ref.render, _parentVnode = ref._parentVnode;
         _parentVnode && (vm.$scopedSlots = normalizeScopedSlots(_parentVnode.data.scopedSlots, vm.$slots, vm.$scopedSlots)), vm.$vnode = _parentVnode;
         try {
@@ -1506,21 +1505,7 @@
         String,
         RegExp,
         Array
-    ];
-    Vue5 = Vue10, (configDef = {}).get = function() {
-        return config;
-    }, configDef.set = function() {
-        warn('Do not replace the Vue.config object, set individual fields instead.');
-    }, Object.defineProperty(Vue5, 'config', configDef), Vue5.util = {
-        warn: warn,
-        extend: extend,
-        mergeOptions: mergeOptions,
-        defineReactive: defineReactive$$1
-    }, Vue5.set = set, Vue5.delete = del, Vue5.nextTick = nextTick, Vue5.observable = function(obj) {
-        return observe(obj), obj;
-    }, Vue5.options = Object.create(null), ASSET_TYPES.forEach(function(type) {
-        Vue5.options[type + 's'] = Object.create(null);
-    }), Vue5.options._base = Vue5, extend(Vue5.options.components, {
+    ], builtInComponents = {
         KeepAlive: {
             name: 'keep-alive',
             abstract: !0,
@@ -1561,14 +1546,28 @@
                 return vnode || slot && slot[0];
             }
         }
-    }), Vue5.use = function(plugin) {
+    };
+    Vue = Vue7, (configDef = {}).get = function() {
+        return config;
+    }, configDef.set = function() {
+        warn('Do not replace the Vue.config object, set individual fields instead.');
+    }, Object.defineProperty(Vue, 'config', configDef), Vue.util = {
+        warn: warn,
+        extend: extend,
+        mergeOptions: mergeOptions,
+        defineReactive: defineReactive$$1
+    }, Vue.set = set, Vue.delete = del, Vue.nextTick = nextTick, Vue.observable = function(obj) {
+        return observe(obj), obj;
+    }, Vue.options = Object.create(null), ASSET_TYPES.forEach(function(type) {
+        Vue.options[type + 's'] = Object.create(null);
+    }), Vue.options._base = Vue, extend(Vue.options.components, builtInComponents), Vue.use = function(plugin) {
         var installedPlugins = this._installedPlugins || (this._installedPlugins = []);
         if (installedPlugins.indexOf(plugin) > -1) return this;
         var args = toArray(arguments, 1);
         return args.unshift(this), 'function' == typeof plugin.install ? plugin.install.apply(plugin, args) : 'function' == typeof plugin && plugin.apply(null, args), installedPlugins.push(plugin), this;
-    }, Vue5.mixin = function(mixin) {
+    }, Vue.mixin = function(mixin) {
         return this.options = mergeOptions(this.options, mixin), this;
-    }, (Vue8 = Vue5).cid = 0, cid = 1, Vue8.extend = function(extendOptions) {
+    }, (Vue1 = Vue).cid = 0, cid = 1, Vue1.extend = function(extendOptions) {
         extendOptions = extendOptions || {};
         var Super = this, SuperId = Super.cid, cachedCtors = extendOptions._Ctor || (extendOptions._Ctor = {});
         if (cachedCtors[SuperId]) return cachedCtors[SuperId];
@@ -1586,22 +1585,22 @@
         }(Sub), Sub.extend = Super.extend, Sub.mixin = Super.mixin, Sub.use = Super.use, ASSET_TYPES.forEach(function(type) {
             Sub[type] = Super[type];
         }), name && (Sub.options.components[name] = Sub), Sub.superOptions = Super.options, Sub.extendOptions = extendOptions, Sub.sealedOptions = extend({}, Sub.options), cachedCtors[SuperId] = Sub, Sub;
-    }, Vue9 = Vue5, ASSET_TYPES.forEach(function(type) {
-        Vue9[type] = function(id, definition) {
+    }, Vue2 = Vue, ASSET_TYPES.forEach(function(type) {
+        Vue2[type] = function(id, definition) {
             return definition ? ('component' === type && validateComponentName(id), 'component' === type && isPlainObject(definition) && (definition.name = definition.name || id, definition = this.options._base.extend(definition)), 'directive' === type && 'function' == typeof definition && (definition = {
                 bind: definition,
                 update: definition
             }), this.options[type + 's'][id] = definition, definition) : this.options[type + 's'][id];
         };
-    }), Object.defineProperty(Vue10.prototype, '$isServer', {
+    }), Object.defineProperty(Vue7.prototype, '$isServer', {
         get: isServerRendering
-    }), Object.defineProperty(Vue10.prototype, '$ssrContext', {
+    }), Object.defineProperty(Vue7.prototype, '$ssrContext', {
         get: function() {
             return this.$vnode && this.$vnode.ssrContext;
         }
-    }), Object.defineProperty(Vue10, 'FunctionalRenderContext', {
+    }), Object.defineProperty(Vue7, 'FunctionalRenderContext', {
         value: FunctionalRenderContext
-    }), Vue10.version = '2.6.12';
+    }), Vue7.version = '2.6.12';
     var isReservedAttr = makeMap('style,class'), acceptValue = makeMap('input,textarea,option,select,progress'), mustUseProp = function(tag, type, attr) {
         return 'value' === attr && acceptValue(tag) && 'button' !== type || 'selected' === attr && 'option' === tag || 'checked' === attr && 'input' === tag || 'muted' === attr && 'video' === tag;
     }, isEnumeratedAttr = makeMap('contenteditable,draggable,spellcheck'), isValidContentEditableValue = makeMap('events,caret,typing,plaintext-only'), isBooleanAttr = makeMap("allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare,default,defaultchecked,defaultmuted,defaultselected,defer,disabled,enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple,muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly,required,reversed,scoped,seamless,selected,sortable,translate,truespeed,typemustmatch,visible"), xlinkNS = 'http://www.w3.org/1999/xlink', isXlink = function(name) {
@@ -2254,7 +2253,7 @@
     function _enter(_, vnode) {
         !0 !== vnode.data.show && enter(vnode);
     }
-    var modules1 = [
+    var modules = [
         {
             create: updateAttrs,
             update: updateAttrs
@@ -2497,7 +2496,7 @@
         };
     }({
         nodeOps: nodeOps,
-        modules: modules1
+        modules: modules
     });
     isIE9 && document.addEventListener('selectionchange', function() {
         var el = document.activeElement;
@@ -2619,13 +2618,13 @@
             s.transform = s.WebkitTransform = "translate(" + dx + "px," + dy + "px)", s.transitionDuration = '0s';
         }
     }
-    delete props.mode, Vue10.config.mustUseProp = mustUseProp, Vue10.config.isReservedTag = isReservedTag, Vue10.config.isReservedAttr = isReservedAttr, Vue10.config.getTagNamespace = getTagNamespace, Vue10.config.isUnknownElement = function(tag) {
+    delete props.mode, Vue7.config.mustUseProp = mustUseProp, Vue7.config.isReservedTag = isReservedTag, Vue7.config.isReservedAttr = isReservedAttr, Vue7.config.getTagNamespace = getTagNamespace, Vue7.config.isUnknownElement = function(tag) {
         if (!inBrowser) return !0;
         if (isReservedTag(tag)) return !1;
         if (null != unknownElementCache[tag = tag.toLowerCase()]) return unknownElementCache[tag];
         var el = document.createElement(tag);
         return tag.indexOf('-') > -1 ? unknownElementCache[tag] = el.constructor === window.HTMLUnknownElement || el.constructor === window.HTMLElement : unknownElementCache[tag] = /HTMLUnknownElement/.test(el.toString());
-    }, extend(Vue10.options.directives, {
+    }, extend(Vue7.options.directives, {
         model: directive,
         show: {
             bind: function(el, ref, vnode) {
@@ -2646,7 +2645,7 @@
                 isDestroy || (el.style.display = el.__vOriginalDisplay);
             }
         }
-    }), extend(Vue10.options.components, {
+    }), extend(Vue7.options.components, {
         Transition: {
             name: 'transition',
             props: transitionProps,
@@ -2739,7 +2738,7 @@
                 }
             }
         }
-    }), Vue10.prototype.__patch__ = inBrowser ? patch : noop, Vue10.prototype.$mount = function(el, hydrating) {
+    }), Vue7.prototype.__patch__ = inBrowser ? patch : noop, Vue7.prototype.$mount = function(el, hydrating) {
         var vm, el1, hydrating1, updateComponent;
         return el = el && inBrowser ? query(el) : void 0, vm = this, el1 = el, hydrating1 = hydrating, vm.$el = el1, vm.$options.render || (vm.$options.render = createEmptyVNode, vm.$options.template && '#' !== vm.$options.template.charAt(0) || vm.$options.el || el1 ? warn("You are using the runtime-only build of Vue where the template compiler is not available. Either pre-compile the templates into render functions, or use the compiler-included build.", vm) : warn('Failed to mount component: template or render function not defined.', vm)), callHook(vm, 'beforeMount'), updateComponent = config.performance && mark ? function() {
             var name = vm._name, id = vm._uid, startTag = "vue-perf-start:" + id, endTag = "vue-perf-end:" + id;
@@ -2754,7 +2753,7 @@
             }
         }, !0), hydrating1 = !1, null == vm.$vnode && (vm._isMounted = !0, callHook(vm, 'mounted')), vm;
     }, inBrowser && setTimeout(function() {
-        config.devtools && (devtools ? devtools.emit('init', Vue10) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
+        config.devtools && (devtools ? devtools.emit('init', Vue7) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
     }, 0);
     var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g, regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g, buildRegex = cached(function(delimiters) {
         var open = delimiters[0].replace(regexEscapeRE, '\\$&'), close = delimiters[1].replace(regexEscapeRE, '\\$&');
@@ -3081,8 +3080,8 @@
         }).join(',') + "]";
         var isMethodPath = simplePathRE.test(handler.value), isFunctionExpression = fnExpRE.test(handler.value), isFunctionInvocation = simplePathRE.test(handler.value.replace(fnInvokeRE, ''));
         if (handler.modifiers) {
-            var keys, code = '', genModifierCode = '', keys1 = [];
-            for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys1.push(key);
+            var code = '', genModifierCode = '', keys = [];
+            for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys.push(key);
             else if ('exact' === key) {
                 var modifiers = handler.modifiers;
                 genModifierCode += genGuard([
@@ -3095,8 +3094,8 @@
                 }).map(function(keyModifier) {
                     return "$event." + keyModifier + "Key";
                 }).join('||'));
-            } else keys1.push(key);
-            return keys1.length && (code += "if(!$event.type.indexOf('key')&&" + (keys = keys1).map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
+            } else keys.push(key);
+            return keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
         }
         return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
     }
@@ -3281,8 +3280,8 @@
         return void 0 !== el.for || 'template' === el.tag || 'slot' === el.tag;
     }
     function genNode(node, state) {
-        var comment, text;
-        return 1 === node.type ? genElement(node, state) : 3 === node.type && node.isComment ? "_e(" + JSON.stringify((comment = node).text) + ")" : "_v(" + (2 === (text = node).type ? text.expression : transformSpecialNewlines(JSON.stringify(text.text))) + ")";
+        var text;
+        return 1 === node.type ? genElement(node, state) : 3 === node.type && node.isComment ? "_e(" + JSON.stringify(node.text) + ")" : "_v(" + (2 === (text = node).type ? text.expression : transformSpecialNewlines(JSON.stringify(text.text))) + ")";
     }
     function genProps(props) {
         for(var staticProps = "", dynamicProps = "", i = 0; i < props.length; i++){
@@ -3358,13 +3357,13 @@
                     start: element.start
                 })), currentParent && !element.forbidden) {
                     if (element.elseif || element.else) {
-                        var el, parent, prev;
+                        var el, prev;
                         el = element, (prev = function(children) {
                             for(var i = children.length; i--;){
                                 if (1 === children[i].type) return children[i];
                                 ' ' !== children[i].text && warn$2("text \"" + children[i].text.trim() + '" between v-if and v-else(-if) will be ignored.', children[i]), children.pop();
                             }
-                        }((parent = currentParent).children)) && prev.if ? addIfCondition(prev, {
+                        }(currentParent.children)) && prev.if ? addIfCondition(prev, {
                             exp: el.elseif,
                             block: el
                         }) : warn$2("v-" + (el.elseif ? 'else-if="' + el.elseif + '"' : 'else') + " used on element <" + el.tag + "> without corresponding v-if.", el.rawAttrsMap[el.elseif ? 'v-else-if' : 'v-else']);
@@ -3702,8 +3701,8 @@
     var shouldDecodeNewlines = !!inBrowser && getShouldDecode(!1), shouldDecodeNewlinesForHref = !!inBrowser && getShouldDecode(!0), idToTemplate = cached(function(id) {
         var el = query(id);
         return el && el.innerHTML;
-    }), mount = Vue10.prototype.$mount;
-    return Vue10.prototype.$mount = function(el, hydrating) {
+    }), mount = Vue7.prototype.$mount;
+    return Vue7.prototype.$mount = function(el, hydrating) {
         if ((el = el && query(el)) === document.body || el === document.documentElement) return warn("Do not mount Vue to <html> or <body> - mount to normal elements instead."), this;
         var options = this.$options;
         if (!options.render) {
@@ -3732,5 +3731,5 @@
             }
         }
         return mount.call(this, el, hydrating);
-    }, Vue10.compile = compileToFunctions, Vue10;
+    }, Vue7.compile = compileToFunctions, Vue7;
 });

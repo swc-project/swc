@@ -4177,7 +4177,7 @@
             setup: function(object, material, program, geometry, index) {
                 var updateBuffers = !1;
                 if (vaoAvailable) {
-                    var geometry1, program1, material1, wireframe, programMap, stateMap, state, state1 = (geometry1 = geometry, program1 = program, wireframe = !0 === (material1 = material).wireframe, void 0 === (programMap = bindingStates[geometry1.id]) && (programMap = {}, bindingStates[geometry1.id] = programMap), void 0 === (stateMap = programMap[program1.id]) && (stateMap = {}, programMap[program1.id] = stateMap), void 0 === (state = stateMap[wireframe]) && (state = createBindingState(capabilities.isWebGL2 ? gl.createVertexArray() : extension.createVertexArrayOES()), stateMap[wireframe] = state), state);
+                    var geometry1, program1, wireframe, programMap, stateMap, state, state1 = (geometry1 = geometry, program1 = program, wireframe = !0 === material.wireframe, void 0 === (programMap = bindingStates[geometry1.id]) && (programMap = {}, bindingStates[geometry1.id] = programMap), void 0 === (stateMap = programMap[program1.id]) && (stateMap = {}, programMap[program1.id] = stateMap), void 0 === (state = stateMap[wireframe]) && (state = createBindingState(capabilities.isWebGL2 ? gl.createVertexArray() : extension.createVertexArrayOES()), stateMap[wireframe] = state), state);
                     currentState !== state1 && bindVertexArrayObject((currentState = state1).object), (updateBuffers = function(geometry, index) {
                         var cachedAttributes = currentState.attributes, geometryAttributes = geometry.attributes, attributesNum = 0;
                         for(var key in geometryAttributes){
@@ -5076,7 +5076,7 @@
         return 'highp' === parameters.precision ? precisionstring += '\n#define HIGH_PRECISION' : 'mediump' === parameters.precision ? precisionstring += '\n#define MEDIUM_PRECISION' : 'lowp' === parameters.precision && (precisionstring += '\n#define LOW_PRECISION'), precisionstring;
     }
     function WebGLProgram(renderer, cacheKey, parameters, bindingStates) {
-        var parameters1, shadowMapTypeDefine, parameters2, encoding, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
+        var parameters1, shadowMapTypeDefine, parameters2, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
             var envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
             if (parameters.envMap) switch(parameters.envMapMode){
                 case 301:
@@ -10872,11 +10872,11 @@
         return this.closed = json.closed, this.curveType = json.curveType, this.tension = json.tension, this;
     };
     function QuadraticBezier(t, p0, p1, p2) {
-        var t1, p, k, t2, p3, t3, p4;
+        var t1, p, k, t2, t3;
         return (k = 1 - t) * k * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
     }
     function CubicBezier(t, p0, p1, p2, p3) {
-        var t1, p, k, t2, p4, k1, t3, p5, t4, p6;
+        var t1, p, k, t2, p4, k1, t3, t4;
         return (k = 1 - t) * k * k * p0 + 3 * (k1 = 1 - t) * k1 * t * p1 + 3 * (1 - t) * t * t * p2 + t * t * t * p3;
     }
     function CubicBezierCurve(v0, v1, v2, v3) {

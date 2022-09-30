@@ -953,21 +953,21 @@
             return arguments.length ? this.property("__data__", value) : this.node().__data__;
         },
         on: function(typename, value, options) {
-            var typenames, i, t, typenames1 = (typename + "").trim().split(/^|\s+/).map(function(t) {
+            var i, t, typenames = (typename + "").trim().split(/^|\s+/).map(function(t) {
                 var name = "", i = t.indexOf(".");
                 return i >= 0 && (name = t.slice(i + 1), t = t.slice(0, i)), {
                     type: t,
                     name: name
                 };
-            }), n = typenames1.length;
+            }), n = typenames.length;
             if (arguments.length < 2) {
                 var on = this.node().__on;
                 if (on) {
-                    for(var o, j = 0, m = on.length; j < m; ++j)for(i = 0, o = on[j]; i < n; ++i)if ((t = typenames1[i]).type === o.type && t.name === o.name) return o.value;
+                    for(var o, j = 0, m = on.length; j < m; ++j)for(i = 0, o = on[j]; i < n; ++i)if ((t = typenames[i]).type === o.type && t.name === o.name) return o.value;
                 }
                 return;
             }
-            for(i = 0, on = value ? onAdd : onRemove; i < n; ++i)this.each(on(typenames1[i], value, options));
+            for(i = 0, on = value ? onAdd : onRemove; i < n; ++i)this.each(on(typenames[i], value, options));
             return this;
         },
         dispatch: function(type, params) {
@@ -2085,13 +2085,13 @@
         empty: selection_prototype.empty,
         each: selection_prototype.each,
         on: function(name, listener) {
-            var id, name1, listener1, name2, on0, on1, sit, id1 = this._id;
-            return arguments.length < 2 ? get$1(this.node(), id1).on.on(name) : this.each((sit = (name + "").trim().split(/^|\s+/).every(function(t) {
+            var id, name1, listener1, on0, on1, sit, id1 = this._id;
+            return arguments.length < 2 ? get$1(this.node(), id1).on.on(name) : this.each((id = id1, name1 = name, listener1 = listener, sit = (name1 + "").trim().split(/^|\s+/).every(function(t) {
                 var i = t.indexOf(".");
                 return i >= 0 && (t = t.slice(0, i)), !t || "start" === t;
             }) ? init : set$2, function() {
-                var schedule = sit(this, id1), on = schedule.on;
-                on !== on0 && (on1 = (on0 = on).copy()).on(name, listener), schedule.on = on1;
+                var schedule = sit(this, id), on = schedule.on;
+                on !== on0 && (on1 = (on0 = on).copy()).on(name1, listener1), schedule.on = on1;
             }));
         },
         attr: function(name, value) {
@@ -9072,8 +9072,8 @@
         function cluster(root) {
             var previousNode, x = 0;
             root.eachAfter(function(node) {
-                var children, children1, children2 = node.children;
-                children2 ? (node.x = (children = children2).reduce(meanXReduce, 0) / children.length, node.y = 1 + children2.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
+                var children, children1 = node.children;
+                children1 ? (node.x = (children = children1).reduce(meanXReduce, 0) / children.length, node.y = 1 + children1.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
             });
             var left = function(node) {
                 for(var children; children = node.children;)node = children[0];

@@ -5391,7 +5391,7 @@
                 var t = e.match(/\S/g);
                 return t ? e.lastIndexOf(t[t.length - 1]) : -1;
             }, a = function(e) {
-                var t = (0, e.string).search(/\S/g), r = o(e.string);
+                var t = e.string.search(/\S/g), r = o(e.string);
                 return (0, i.default)(t, r + 1, e);
             };
             t.default = a;
