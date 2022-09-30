@@ -818,6 +818,9 @@ where
                         self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
+
+                    let usage = usage.clone();
+                    self.data.vars.insert(param.to_id(), usage);
                 }
 
                 exprs.push(
