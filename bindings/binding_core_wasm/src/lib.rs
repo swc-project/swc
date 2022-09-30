@@ -51,11 +51,7 @@ export function transform(
 export function transformSync(code: string | Program, opts?: Options, experimental_plugin_bytes_resolver?: any): Output;
 "#;
 
-pub fn try_with_handler<F, Ret>(
-    cm: Lrc<SourceMap>,
-    config: HandlerOpts,
-    op: F,
-) -> Result<Ret, Error>
+fn try_with_handler<F, Ret>(cm: Lrc<SourceMap>, config: HandlerOpts, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
@@ -64,6 +60,11 @@ where
     })
 }
 
+#[wasm_bindgen(
+    js_name = "minifySync",
+    typescript_type = "minifySync",
+    skip_typescript
+)]
 pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
     let c = compiler();
     try_with_handler(c.cm.clone(), Default::default(), |handler| {
@@ -82,10 +83,12 @@ pub fn minify_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
     .map_err(|e| convert_err(e, None))
 }
 
+#[wasm_bindgen(js_name = "minify", typescript_type = "minify", skip_typescript)]
 pub fn minify(s: JsString, opts: JsValue) -> Promise {
     future_to_promise(async { minify_sync(s, opts) })
 }
 
+#[wasm_bindgen(js_name = "parseSync", typescript_type = "parseSync", skip_typescript)]
 pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
     let c = compiler();
     try_with_handler(c.cm.clone(), Default::default(), |handler| {
@@ -118,10 +121,17 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
     })
     .map_err(|e| convert_err(e, None))
 }
+
+#[wasm_bindgen(js_name = "parse", typescript_type = "parse", skip_typescript)]
 pub fn parse(s: JsString, opts: JsValue) -> Promise {
     future_to_promise(async { parse_sync(s, opts) })
 }
 
+#[wasm_bindgen(
+    js_name = "transformSync",
+    typescript_type = "transformSync",
+    skip_typescript
+)]
 #[allow(unused_variables)]
 pub fn transform_sync(
     s: JsValue,
@@ -171,6 +181,7 @@ pub fn transform_sync(
     .map_err(|e| convert_err(e, Some(error_format)))
 }
 
+#[wasm_bindgen(js_name = "transform", typescript_type = "transform", skip_typescript)]
 pub fn transform(
     s: JsValue,
     opts: JsValue,
@@ -179,6 +190,7 @@ pub fn transform(
     future_to_promise(async { transform_sync(s, opts, experimental_plugin_bytes_resolver) })
 }
 
+#[wasm_bindgen(js_name = "printSync", typescript_type = "printSync", skip_typescript)]
 pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     let c = compiler();
     try_with_handler(c.cm.clone(), Default::default(), |_handler| {
@@ -214,6 +226,8 @@ pub fn print_sync(s: JsValue, opts: JsValue) -> Result<JsValue, JsValue> {
     })
     .map_err(|e| convert_err(e, None))
 }
+
+#[wasm_bindgen(js_name = "print", typescript_type = "print", skip_typescript)]
 pub fn print(s: JsValue, opts: JsValue) -> Promise {
     future_to_promise(async { print_sync(s, opts) })
 }
