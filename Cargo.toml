@@ -41,6 +41,3 @@ opt-level = 3
 
 [profile.test.package.pretty_assertions]
 opt-level = 3
-
-[workspace.dependencies]
-serde = "1.0.145"
