@@ -1861,6 +1861,8 @@ where
 
     /// Handle where a: [Expr::Assign] or [Mergable::Var]
     fn replace_seq_assignment(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        let mut can_remove = false;
+
         let mut right_val;
         let (left_id, a_right) = match a {
             Mergable::Expr(a) => {
@@ -1897,6 +1899,11 @@ where
                                     left_id.span.ctxt
                                 );
                                 return Ok(false);
+                            }
+
+                            // We can remove this variable
+                            if !usage.reassigned() && usage.ref_count == 1 && usage.declared {
+                                can_remove = true;
                             }
                         }
 
@@ -1997,10 +2004,29 @@ where
 
                 a.init.take().unwrap_or_else(|| undefined(DUMMY_SP))
             }
-            Mergable::Expr(a) => Box::new(a.take()),
+            Mergable::Expr(a) => {
+                if can_remove {
+                    if let Expr::Assign(e) = a {
+                        report_change!(
+                            "sequences: Dropping assignment as we are going to drop the variable \
+                             declaration. ({})",
+                            left_id
+                        );
+
+                        **a = *e.right.take();
+                    }
+                }
+
+                Box::new(a.take())
+            }
         };
 
         replace_id_with_expr(b, left_id.to_id(), to);
+
+        if can_remove {
+            report_change!("sequences: Removed variable ({})", left_id);
+            self.vars.removed.insert(left_id.to_id());
+        }
 
         dump_change_detail!("sequences: {}", dump(&*b, false));
 
