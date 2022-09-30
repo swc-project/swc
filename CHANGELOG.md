@@ -85,6 +85,9 @@
 
 - **(es/transforms)** Setup parallel benchmark (#5974) ([8066d8f](https://github.com/swc-project/swc/commit/8066d8f60ece891a555a4c24d63feee85c27da92))
 
+
+- **(html/minifier)** Typo (#5995) ([a716b40](https://github.com/swc-project/swc/commit/a716b40d05a57065e2f5dbaad5f6a17dceee7860))
+
 ### Performance
 
 
