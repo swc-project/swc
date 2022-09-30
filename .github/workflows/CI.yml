@@ -11,7 +11,7 @@ env:
 
 jobs:
   cargo-fmt:
-    name: cargo fmt
+    name: Cargo fmt
     runs-on: ubuntu-latest
     env:
       RUST_LOG: "0"
@@ -27,7 +27,7 @@ jobs:
       - run: cargo fmt --all -- --check
 
   cargo-clippy:
-    name: cargo clippy
+    name: Cargo clippy
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
