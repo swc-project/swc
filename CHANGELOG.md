@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
+
 ### Features
 
 
@@ -12,6 +18,9 @@
 
 
 - **(cargo)** Introduce workspace deps (#5997) ([af64217](https://github.com/swc-project/swc/commit/af64217f19107ba654c086470ba3a2d1379eebde))
+
+
+- **(cargo)** Use workspace deps for internal pkg (#6001) ([3204ac3](https://github.com/swc-project/swc/commit/3204ac3e0c2d04d3e9269655ba3d4dddf3ae74af))
 
 ## [1.3.4] - 2022-09-30
 
