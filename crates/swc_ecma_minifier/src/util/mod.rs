@@ -22,16 +22,6 @@ pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     }))
 }
 
-pub(crate) fn is_lit(e: &Expr) -> bool {
-    match e {
-        Expr::Lit(..) => true,
-        Expr::Paren(e) => is_lit(&e.expr),
-        Expr::Bin(e) => is_lit(&e.left) && is_lit(&e.right),
-        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_lit(&e.arg),
-        _ => false,
-    }
-}
-
 pub trait ModuleItemExt:
     StmtLike + ModuleItemLike + From<Stmt> + Spanned + std::fmt::Debug
 {

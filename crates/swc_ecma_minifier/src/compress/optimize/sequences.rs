@@ -24,7 +24,7 @@ use crate::{
     },
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, is_lit, ExprOptExt, ModuleItemExt},
+    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
@@ -1933,7 +1933,7 @@ where
 
                 if let Some(usage) = self.data.vars.get(&left.to_id()) {
                     let is_lit = match a.init.as_deref() {
-                        Some(e) => is_lit(e),
+                        Some(e) => is_trivial_lit(e),
                         _ => false,
                     };
 
@@ -2160,5 +2160,16 @@ impl Mergable<'_> {
                 _ => None,
             },
         }
+    }
+}
+
+/// Returns true for trivial bool/numeric literals
+pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
+    match e {
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
+        Expr::Paren(e) => is_trivial_lit(&e.expr),
+        Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
+        _ => false,
     }
 }
