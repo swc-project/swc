@@ -5,11 +5,11 @@ var MS_PER_SECOND = 1000,
 
 
 // actual modulo - handles negative numbers (for dates before 1970):
-function mod$1(dividend, divisor) {
+export function mod$1(dividend, divisor) {
     return ((dividend % divisor) + divisor) % divisor;
 }
 
-function localStartOfDate(y, m, d) {
+export function localStartOfDate(y, m, d) {
     // the date constructor remaps years 0-99 to 1900-1999
     if (y < 100 && y >= 0) {
         // preserve leap years using a full 400 year cycle, then reset
@@ -19,7 +19,7 @@ function localStartOfDate(y, m, d) {
     }
 }
 
-function utcStartOfDate(y, m, d) {
+export function utcStartOfDate(y, m, d) {
     // Date.UTC remaps years 0-99 to 1900-1999
     if (y < 100 && y >= 0) {
         // preserve leap years using a full 400 year cycle, then reset
@@ -29,7 +29,7 @@ function utcStartOfDate(y, m, d) {
     }
 }
 
-function startOf(units) {
+export function startOf(units) {
     var time, startOfDate;
     units = normalizeUnits(units);
     if (units === undefined || units === 'millisecond' || !this.isValid()) {
@@ -92,7 +92,7 @@ function startOf(units) {
     return this;
 }
 
-function endOf(units) {
+export function endOf(units) {
     var time, startOfDate;
     units = normalizeUnits(units);
     if (units === undefined || units === 'millisecond' || !this.isValid()) {
@@ -161,15 +161,15 @@ function endOf(units) {
     return this;
 }
 
-function valueOf() {
+export function valueOf() {
     return this._d.valueOf() - (this._offset || 0) * 60000;
 }
 
-function unix() {
+export function unix() {
     return Math.floor(this.valueOf() / 1000);
 }
 
-function toDate() {
+export function toDate() {
     return new Date(this.valueOf());
 }
 
