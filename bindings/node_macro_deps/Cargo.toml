@@ -12,5 +12,5 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1"
-quote       = "1"
+proc-macro2 = "1.0.46"
+quote       = "1.0.21"
