@@ -23621,10 +23621,10 @@
         },
         9925: function(__unused_webpack_module, exports) {
             "use strict";
-            var SmartWeaveErrorType, SmartWeaveErrorType1;
+            var SmartWeaveErrorType;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.SmartWeaveError = exports.SmartWeaveErrorType = void 0, (SmartWeaveErrorType1 = SmartWeaveErrorType = exports.SmartWeaveErrorType || (exports.SmartWeaveErrorType = {})).CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
+            }), exports.SmartWeaveError = exports.SmartWeaveErrorType = void 0, (SmartWeaveErrorType = exports.SmartWeaveErrorType || (exports.SmartWeaveErrorType = {})).CONTRACT_NOT_FOUND = "CONTRACT_NOT_FOUND";
             class SmartWeaveError extends Error {
                 constructor(type, optional = {}){
                     optional.message ? super(optional.message) : super(), this.type = type, this.otherInfo = optional;

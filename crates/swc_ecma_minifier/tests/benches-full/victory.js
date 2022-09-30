@@ -18869,7 +18869,7 @@
                         y: evt.nativeEvent.locationY
                     };
                     evt = evt.changedTouches && evt.changedTouches.length ? evt.changedTouches[0] : evt;
-                    var svg1, matrix = (svg = svg || getParentSVG(evt)).getScreenCTM().inverse();
+                    var matrix = (svg = svg || getParentSVG(evt)).getScreenCTM().inverse();
                     return {
                         x: transformTarget(evt.clientX, matrix, "x"),
                         y: transformTarget(evt.clientY, matrix, "y")
@@ -22464,7 +22464,7 @@
             }, _splitToLines = function(text) {
                 return Array.isArray(text) ? text : text.toString().split(/\r\n|\r|\n/g);
             }, _getSizeWithRotate = function(axisSize, dependentSize, angle) {
-                var angle1, angleInRadian = angle * Math.PI / 180;
+                var angleInRadian = angle * Math.PI / 180;
                 return Math.abs(Math.cos(angleInRadian) * axisSize) + Math.abs(Math.sin(angleInRadian) * dependentSize);
             }, convertLengthToPixels = function(length, fontSize) {
                 var result, attribute = length.match(/[a-zA-Z%]+/) && length.match(/[a-zA-Z%]+/)[0], value = length.match(/[0-9.,]+/);
@@ -22479,7 +22479,7 @@
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
                 var arr, widths = _splitToLines(text).map(function(line, index) {
-                    var fontFamily, len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[(0, _prepareParams2.fontFamily).split(",").map(function(f) {
+                    var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[_prepareParams2.fontFamily.split(",").map(function(f) {
                         return f.replace(/'|"/g, "");
                     }).find(function(f) {
                         return fonts[f];
@@ -22662,7 +22662,7 @@
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var animate1, data1, after, nodes, child1, data2, animate2, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
+                                var animate1, data1, after, nodes, child1, data2, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
                                 return function(animate, child, data, exitingNodes, cb) {
                                     var onExit = animate && animate.onExit;
                                     if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
@@ -22687,8 +22687,8 @@
                                 });
                             }
                             if (nodesWillEnter) {
-                                var nodes1, child2, data3, animate3, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
-                                return animate3 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                var nodes1, child2, data3, animate2, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
+                                return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
                                 }), nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
                                     var onEnter = animate && animate.onEnter;
@@ -22703,7 +22703,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate3, data, enteringNodes, function() {
+                                }(animate2, data, enteringNodes, function() {
                                     setState({
                                         nodesWillEnter: !1
                                     });
@@ -22720,7 +22720,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate3, child, data, enteringNodes, function() {
+                                }(animate2, child, data, enteringNodes, function() {
                                     setState({
                                         nodesShouldEnter: !0
                                     });
@@ -22731,8 +22731,8 @@
                                 })
                             };
                         } else {
-                            var child3, data4, animate4, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
-                            return animate4 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                            var child3, data4, animate3, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
+                            return animate3 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                 duration: load
                             }), nodesShouldLoad ? function(animate, data, cb) {
                                 if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
@@ -22748,7 +22748,7 @@
                                     animate: animate,
                                     data: data
                                 };
-                            }(animate4, data, function() {
+                            }(animate3, data, function() {
                                 setState({
                                     nodesShouldLoad: !1,
                                     nodesDoneLoad: !0
@@ -22768,7 +22768,7 @@
                                     data: data,
                                     clipWidth: 0
                                 };
-                            }(animate4, child, data, function() {
+                            }(animate3, child, data, function() {
                                 setState({
                                     nodesDoneLoad: !0
                                 });
@@ -23143,7 +23143,7 @@
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
-                    var arr, eventHandlersArray, _ref2 = function(arr) {
+                    var arr, _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
                     }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
@@ -24161,13 +24161,13 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, calculatedProps1, range, angularRange, r, props2, calculatedProps2, index1, role, groupLength, width, props3, calculatedProps3, index2, role1, groupLength1, totalWidth, role2 = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps2 = calculatedProps, groupLength = "stack" === role2 ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length, props1 = props2, angularRange = Math.abs((range = (calculatedProps1 = calculatedProps2).range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), (index - (groupLength - 1) / 2) * (width = props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps3 = calculatedProps, groupLength1 = "stack" === role2 ? calculatedProps3.datasets[0].length : calculatedProps3.datasets.length, totalWidth = function(props, axis, calculatedProps) {
+                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, width, props3, calculatedProps2, index2, groupLength1, totalWidth, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, groupLength = "stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length, props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), (index - (groupLength - 1) / 2) * (width = props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, groupLength1 = "stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length, totalWidth = function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis], domainExtent = Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain)), rangeExtent = Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range));
                         return domainExtent / rangeExtent * props.offset;
-                    }(props3, "x", calculatedProps3), (index - (groupLength1 - 1) / 2) * totalWidth), style = "voronoi" === role2 || "tooltip" === role2 || "label" === role2 ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                    }(props3, "x", calculatedProps2), (index - (groupLength1 - 1) / 2) * totalWidth), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
-                    }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role2, "-").concat(index);
+                    }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                         labels: labels,
                         style: style,

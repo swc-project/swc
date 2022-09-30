@@ -1141,7 +1141,7 @@
                     };
                 }
                 function collectDirectives(node, directives, attrs, maxPriority, ignoreDirective) {
-                    var directives1, text, interpolateFn, match, className, nodeType = node.nodeType, attrsMap = attrs.$attr;
+                    var directives1, interpolateFn, match, className, nodeType = node.nodeType, attrsMap = attrs.$attr;
                     switch(nodeType){
                         case 1:
                             addDirective(directives, directiveNormalize(nodeName_(node).toLowerCase()), "E", maxPriority, ignoreDirective);
@@ -1156,7 +1156,7 @@
                             if (isString(className = node.className) && "" !== className) for(; match = CLASS_DIRECTIVE_REGEXP.exec(className);)nName = directiveNormalize(match[2]), addDirective(directives, nName, "C", maxPriority, ignoreDirective) && (attrs[nName] = trim(match[3])), className = className.substr(match.index + match[0].length);
                             break;
                         case 3:
-                            directives1 = directives, (interpolateFn = $interpolate(text = node.nodeValue, !0)) && directives1.push({
+                            directives1 = directives, (interpolateFn = $interpolate(node.nodeValue, !0)) && directives1.push({
                                 priority: 0,
                                 compile: valueFn(function(scope, node) {
                                     var parent = node.parent(), bindings = parent.data("$binding") || [];
@@ -2951,7 +2951,6 @@
             adjustedMatchers.push(function(matcher) {
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
-                    var s;
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
                     return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
@@ -3456,7 +3455,7 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var array, obj, queue = errors[validationToken];
+            var array, queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {

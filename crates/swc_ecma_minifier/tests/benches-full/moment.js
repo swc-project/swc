@@ -80,7 +80,7 @@
         for(i = 0; i < len; i++)if (i in t && fun.call(this, t[i], i, t)) return !0;
         return !1;
     };
-    var callback, token, getSetMillisecond, momentProperties = hooks.momentProperties = [], updateInProgress = !1;
+    var token, getSetMillisecond, momentProperties = hooks.momentProperties = [], updateInProgress = !1;
     function copyConfig(to, from) {
         var i, prop, val;
         if (isUndefined(from._isAMomentObject) || (to._isAMomentObject = from._isAMomentObject), isUndefined(from._i) || (to._i = from._i), isUndefined(from._f) || (to._f = from._f), isUndefined(from._l) || (to._l = from._l), isUndefined(from._strict) || (to._strict = from._strict), isUndefined(from._tzm) || (to._tzm = from._tzm), isUndefined(from._isUTC) || (to._isUTC = from._isUTC), isUndefined(from._offset) || (to._offset = from._offset), isUndefined(from._pf) || (to._pf = getParsingFlags(from)), isUndefined(from._locale) || (to._locale = from._locale), momentProperties.length > 0) for(i = 0; i < momentProperties.length; i++)isUndefined(val = from[prop = momentProperties[i]]) || (to[prop] = val);
@@ -212,8 +212,7 @@
         };
     }
     function getParseRegexForToken(token, config) {
-        var s;
-        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(regexEscape((s = token).replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
+        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(regexEscape(token.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
         })));
     }
@@ -240,7 +239,7 @@
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
-        var n, x, modMonth = (month % 12 + 12) % 12;
+        var x, modMonth = (month % 12 + 12) % 12;
         return year += (month - modMonth) / 12, 1 === modMonth ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
     }
     indexOf = Array.prototype.indexOf ? Array.prototype.indexOf : function(o) {
@@ -750,7 +749,7 @@
         } else config._isValid = !1;
     }
     function configFromRFC2822(config) {
-        var yearStr, year, yearStr1, monthStr, dayStr, hourStr, minuteStr, secondStr, result, s, parsedArray, match = rfc2822.exec((0, config._i).replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
+        var yearStr, year, yearStr1, monthStr, dayStr, hourStr, minuteStr, secondStr, result, parsedArray, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, ' ').replace(/(\s\s+)/g, ' ').replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
         if (match) {
             if (yearStr1 = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
                 (yearStr = yearStr1, (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year),

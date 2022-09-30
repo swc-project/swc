@@ -500,8 +500,7 @@
         }(string) : asciiSize(string);
     }
     function stringToArray(string) {
-        var string1, string2;
-        return hasUnicode(string) ? (string2 = string).match(reUnicode) || [] : string.split('');
+        return hasUnicode(string) ? string.match(reUnicode) || [] : string.split('');
     }
     function trimmedEndIndex(string) {
         for(var index = string.length; index-- && reWhitespace.test(string.charAt(index)););
@@ -514,7 +513,7 @@
         '&quot;': '"',
         '&#39;': "'"
     }), _ = function runInContext(context) {
-        var uid, func, result, cache, source, Array1 = (context = null == context ? root : _.defaults(root.Object(), context, _.pick(root, contextProps))).Array, Date = context.Date, Error = context.Error, Function1 = context.Function, Math = context.Math, Object1 = context.Object, RegExp1 = context.RegExp, String = context.String, TypeError = context.TypeError, arrayProto = Array1.prototype, funcProto = Function1.prototype, objectProto = Object1.prototype, coreJsData = context['__core-js_shared__'], funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, idCounter = 0, maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '', nativeObjectToString = objectProto.toString, objectCtorString = funcToString.call(Object1), oldDash = root._, reIsNative = RegExp1('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'), Buffer = moduleExports ? context.Buffer : undefined, Symbol = context.Symbol, Uint8Array = context.Uint8Array, allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined, getPrototype = overArg(Object1.getPrototypeOf, Object1), objectCreate = Object1.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined, symIterator = Symbol ? Symbol.iterator : undefined, symToStringTag = Symbol ? Symbol.toStringTag : undefined, defineProperty = function() {
+        var uid, result, cache, source, Array1 = (context = null == context ? root : _.defaults(root.Object(), context, _.pick(root, contextProps))).Array, Date = context.Date, Error = context.Error, Function1 = context.Function, Math = context.Math, Object1 = context.Object, RegExp1 = context.RegExp, String = context.String, TypeError = context.TypeError, arrayProto = Array1.prototype, funcProto = Function1.prototype, objectProto = Object1.prototype, coreJsData = context['__core-js_shared__'], funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, idCounter = 0, maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '', nativeObjectToString = objectProto.toString, objectCtorString = funcToString.call(Object1), oldDash = root._, reIsNative = RegExp1('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'), Buffer = moduleExports ? context.Buffer : undefined, Symbol = context.Symbol, Uint8Array = context.Uint8Array, allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined, getPrototype = overArg(Object1.getPrototypeOf, Object1), objectCreate = Object1.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined, symIterator = Symbol ? Symbol.iterator : undefined, symToStringTag = Symbol ? Symbol.toStringTag : undefined, defineProperty = function() {
             try {
                 var func = getNative(Object1, 'defineProperty');
                 return func({}, '', {}), func;
@@ -639,7 +638,7 @@
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
-                        var dataView, isDeep1, buffer, regexp, result, symbol, Ctor = object.constructor;
+                        var dataView, buffer, regexp, result, symbol, Ctor = object.constructor;
                         switch(tag){
                             case arrayBufferTag:
                                 return cloneArrayBuffer(object);
@@ -1759,13 +1758,13 @@
             });
         } : identity);
         function setWrapToString(wrapper, reference, bitmask) {
-            var details, bitmask1, source, match, source1 = reference + '';
+            var details, bitmask1, match, source = reference + '';
             return setToString(wrapper, function(source, details) {
                 var length = details.length;
                 if (!length) return source;
                 var lastIndex = length - 1;
                 return details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex], details = details.join(length > 2 ? ', ' : ' '), source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
-            }(source1, (details = (match = source1.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], bitmask1 = bitmask, arrayEach(wrapFlags, function(pair) {
+            }(source, (details = (match = source.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], bitmask1 = bitmask, arrayEach(wrapFlags, function(pair) {
                 var value = '_.' + pair[0];
                 bitmask1 & pair[1] && !arrayIncludes(details, value) && details.push(value);
             }), details.sort())));
@@ -2262,7 +2261,7 @@
             for(var length = paths.length; length--;)baseUnset(result, paths[length]);
             return result;
         }), pick = flatRest(function(object, paths) {
-            var object1, paths1;
+            var object1;
             return null == object ? {} : basePickBy(object, paths, function(value, path) {
                 return hasIn(object, path);
             });
@@ -2304,7 +2303,7 @@
         }), upperFirst = createCaseFirst('toUpperCase');
         function words(string, pattern, guard) {
             if (string = toString(string), undefined === (pattern = guard ? undefined : pattern)) {
-                var string1, string2, string3;
+                var string1;
                 return (string1 = string, reHasUnicodeWord.test(string1)) ? string.match(reUnicodeWord) || [] : string.match(reAsciiWord) || [];
             }
             return string.match(pattern) || [];
