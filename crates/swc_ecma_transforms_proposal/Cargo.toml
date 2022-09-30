@@ -18,7 +18,7 @@ multi-module = ["swc_ecma_loader"]
 
 [dependencies]
 either                      = "1.6.1"
-serde                       = { workspace = true, features = ["derive"] }
+serde                       = { version = "1.0.118", features = ["derive"] }
 smallvec                    = "1.8.0"
 swc_atoms                   = { version = "0.4.18", path = "../swc_atoms" }
 swc_common                  = { version = "0.29.3", path = "../swc_common" }

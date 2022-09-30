@@ -1,29 +1,90 @@
-name: Cargo
+name: CI
 
-on: [push, pull_request]
-#on:
-#  push:
-#    # Ignore commits created by bors
-#    branches-ignore:
-#      - 'staging'
-#      - 'trying'
-#  pull_request:
-#    branches-ignore:
-#      - 'staging'
-#      - 'trying'
+on:
+  - push
+  - pull_request
 
 env:
+  CI: 1
   CARGO_INCREMENTAL: 0
-  RUST_LOG: "debug"
+  CARGO_TERM_COLOR: "always"
   DIFF: 0
+  # For faster CI
+  RUST_LOG: "off"
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
-  CI: 1
-  CARGO_TERM_COLOR: "always"
 
 jobs:
-  check-license:
-    name: Check license
+  cargo-fmt:
+    name: Cargo fmt
+    runs-on: ubuntu-latest
+    env:
+      RUST_LOG: "0"
+    steps:
+      - uses: actions/checkout@v3
+
+      # We explicitly do this to cache properly.
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: rustfmt
+
+      - run: cargo fmt --all -- --check
+
+  cargo-clippy:
+    name: Cargo clippy
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          components: clippy
+
+      - run: cargo clippy --all
+
+  cargo-crev:
+    name: Cargo crev
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Remove unrelated
+        run: |
+          rm -rf packages
+          rm -rf tests
+          ls -al
+
+      - name: Install cargo-crev
+        uses: baptiste0928/cargo-install@v1.1.0
+        with:
+          crate: cargo-crev
+          version: "0.23.1"
+
+      - name: Configure cargo-crev
+        run: |
+          git config --global user.name 'SWC bot'
+          git config --global user.email 'bot@swc.rs'
+
+          cargo crev trust --level high https://github.com/kdy1/crev-proofs
+          cargo crev repo fetch all
+
+      - name: Check dependencies
+        run: |
+          ./scripts/crev/verify.sh
+
+  cargo-deny:
+    name: Check license of dependencies
     runs-on: ubuntu-latest
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
@@ -45,7 +106,7 @@ jobs:
         run: |
           cargo deny check
 
-  check:
+  cargo-check:
     name: Check
     runs-on: ${{ matrix.os }}
     if: >-
@@ -84,7 +145,43 @@ jobs:
       # Ensure that all components are compilable.
       - name: Run cargo check for all targets
         run: cargo check --all --all-targets
-  test:
+
+  test-wasm:
+    name: Test wasm
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # We explicitly do this to cache properly.
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          cache: "yarn"
+
+      - name: Install node dependencies
+        shell: bash
+        run: |
+          yarn
+
+      - name: Build
+        run: |
+          (cd bindings/binding_core_wasm && yarn)
+          (cd bindings/binding_core_wasm && ./scripts/build.sh --features plugin)
+
+      - name: Test
+        run: |
+          (cd bindings/binding_core_wasm && ./scripts/test.sh)
+
+  cargo-test:
     name: Test - ${{ matrix.settings.crate }} - ${{ matrix.settings.os }}
     runs-on: ${{ matrix.settings.runner }}
     if: >-
@@ -582,3 +679,154 @@ jobs:
         if: matrix.settings.check
         working-directory: "crates/${{ matrix.settings.crate }}"
         run: "${{ matrix.settings.check }}"
+
+  node-test:
+    name: Test node bindings - ${{ matrix.os }}
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      # We explicitly do this to cache properly.
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "yarn"
+
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-node-api-test
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Prepare
+        run: |
+          rustup target add wasm32-wasi
+          yarn
+
+          yarn build:dev
+          yarn test
+
+  integration-test:
+    name: "Test with @swc/cli"
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "yarn"
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-cargo-integration
+
+      - name: Set platform name
+        run: |
+          export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
+          echo "PLATFORM_NAME=$NODE_PLATFORM_NAME" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Patch
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+
+      - name: Prepare
+        run: |
+          rustup target add wasm32-wasi
+          yarn
+
+          yarn build:dev
+
+          # Avoid no space left on device, copyfile
+          cargo clean
+          cargo clean --manifest-path ./bindings/binding_core_node/Cargo.toml
+          cargo clean --manifest-path ./bindings/binding_core_wasm/Cargo.toml
+          cargo clean --manifest-path ./bindings/swc_cli/Cargo.toml
+
+          yarn global add @swc/cli@0.1.56
+          yarn link
+          yarn global add file:$PWD
+
+      - name: Print info
+        run: |
+          yarn global list
+
+      - name: (swc) three.js
+        run: |
+          mkdir -p tests/integration/three-js
+          yarn global add qunit failonlyreporter
+
+          # Download three.js
+          git clone --depth 1 https://github.com/mrdoob/three.js.git -b r117 tests/integration/three-js/repo
+
+          # TODO
+          # swc -C isModule=unknown -C test=\".*.js$\" -C module.type=commonjs --sync tests/integration/three-js/repo/ -d tests/integration/three-js/build/
+
+          # TODO
+          # (cd tests/integration/three-js/build/test && qunit -r failonlyreporter unit/three.source.unit.js)
+
+        # terser: contains with statement in test
+        # Rome.js: I forgot the cause, but it didn't work.
+        # jQuery: browser only (window.document is required)
+      - name: (swc) redux
+        run: |
+          mkdir -p tests/integration/redux
+          yarn global add qunit failonlyreporter
+
+          # Download
+          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
+          # TODO
+          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
+          # echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js
+          # TODO
+          # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/test/
+          # TODO
+          # swc --sync tests/integration/redux/repo/test/ -d tests/integration/redux/repo/test/
+
+          # TODO
+          # (cd tests/integration/redux/repo && yarn)
+          # TODO
+          # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
+      - name: (swcpack) example react app
+        run: |
+          (cd crates/swc_node_bundler/tests/integration/react && yarn && npx spack)
