@@ -4,107 +4,137 @@
     ],
     {
         1209: function(module, __unused_webpack_exports, __webpack_require__) {
-            !function(global, factory) {
-                module.exports = factory();
-            }(this, function() {
+            var factory;
+            factory = function() {
                 'use strict';
-                var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {};
-                function getCjsExportFromNamespace(n) {
-                    return n && n.default || n;
-                }
-                var parser = {
+                var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
                     load: function(received, defaults, onto = {}) {
                         var k, ref, v;
-                        for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
+                        for(k in defaults){
+                            v = defaults[k];
+                            onto[k] = null != (ref = received[k]) ? ref : v;
+                        }
                         return onto;
                     },
                     overwrite: function(received, defaults, onto = {}) {
                         var k, v;
-                        for(k in received)v = received[k], void 0 !== defaults[k] && (onto[k] = v);
-                        return onto;
-                    }
-                }, DLList_1 = class {
-                    constructor(incr, decr){
-                        this.incr = incr, this.decr = decr, this._first = null, this._last = null, this.length = 0;
-                    }
-                    push(value) {
-                        var node;
-                        this.length++, "function" == typeof this.incr && this.incr(), node = {
-                            value,
-                            prev: this._last,
-                            next: null
-                        }, null != this._last ? (this._last.next = node, this._last = node) : this._first = this._last = node;
-                    }
-                    shift() {
-                        var value;
-                        return null == this._first ? void 0 : (this.length--, "function" == typeof this.decr && this.decr(), value = this._first.value, null != (this._first = this._first.next) ? this._first.prev = null : this._last = null, value);
-                    }
-                    first() {
-                        if (null != this._first) return this._first.value;
-                    }
-                    getArray() {
-                        var node, ref, results;
-                        for(node = this._first, results = []; null != node;)results.push((ref = node, node = node.next, ref.value));
-                        return results;
-                    }
-                    forEachShift(cb) {
-                        var node;
-                        for(node = this.shift(); null != node;)cb(node), node = this.shift();
-                    }
-                    debug() {
-                        var node, ref, ref1, ref2, results;
-                        for(node = this._first, results = []; null != node;)results.push((ref = node, node = node.next, {
-                            value: ref.value,
-                            prev: null != (ref1 = ref.prev) ? ref1.value : void 0,
-                            next: null != (ref2 = ref.next) ? ref2.value : void 0
-                        }));
-                        return results;
-                    }
-                }, Events_1 = class {
-                    constructor(instance){
-                        if (this.instance = instance, this._events = {}, null != this.instance.on || null != this.instance.once || null != this.instance.removeAllListeners) throw Error("An Emitter already exists for this object");
-                        this.instance.on = (name, cb)=>this._addListener(name, "many", cb), this.instance.once = (name, cb)=>this._addListener(name, "once", cb), this.instance.removeAllListeners = (name = null)=>null != name ? delete this._events[name] : this._events = {};
-                    }
-                    _addListener(name, status, cb) {
-                        var base;
-                        return null == (base = this._events)[name] && (base[name] = []), this._events[name].push({
-                            cb,
-                            status
-                        }), this.instance;
-                    }
-                    listenerCount(name) {
-                        return null != this._events[name] ? this._events[name].length : 0;
-                    }
-                    async trigger(name, ...args) {
-                        var e;
-                        try {
-                            if ("debug" !== name && this.trigger("debug", `Event triggered: ${name}`, args), null == this._events[name]) return;
-                            return this._events[name] = this._events[name].filter(function(listener) {
-                                return "none" !== listener.status;
-                            }), (await Promise.all(this._events[name].map(async (listener)=>{
-                                var e, returned;
-                                if ("none" !== listener.status) {
-                                    "once" === listener.status && (listener.status = "none");
-                                    try {
-                                        if (returned = "function" == typeof listener.cb ? listener.cb(...args) : void 0, "function" == typeof (null != returned ? returned.then : void 0)) return await returned;
-                                        return returned;
-                                    } catch (error) {
-                                        return e = error, this.trigger("error", e), null;
-                                    }
-                                }
-                            }))).find(function(x) {
-                                return null != x;
-                            });
-                        } catch (error) {
-                            return e = error, this.trigger("error", e), null;
+                        for(k in received){
+                            v = received[k];
+                            void 0 !== defaults[k] && (onto[k] = v);
                         }
+                        return onto;
                     }
                 };
                 Queues = class {
                     constructor(num_priorities){
-                        this.Events = new Events_1(this), this._length = 0, this._lists = (function() {
-                            var j, ref, results;
-                            for(results = [], j = 1, ref = num_priorities; 1 <= ref ? j <= ref : j >= ref; 1 <= ref ? ++j : --j)results.push(new DLList_1(()=>this.incr(), ()=>this.decr()));
+                        this.Events = new (Events = class {
+                            constructor(instance){
+                                this.instance = instance;
+                                this._events = {};
+                                if (null != this.instance.on || null != this.instance.once || null != this.instance.removeAllListeners) throw Error("An Emitter already exists for this object");
+                                this.instance.on = (name, cb)=>this._addListener(name, "many", cb);
+                                this.instance.once = (name, cb)=>this._addListener(name, "once", cb);
+                                this.instance.removeAllListeners = (name = null)=>null != name ? delete this._events[name] : this._events = {};
+                            }
+                            _addListener(name, status, cb) {
+                                var base;
+                                return null == (base = this._events)[name] && (base[name] = []), this._events[name].push({
+                                    cb,
+                                    status
+                                }), this.instance;
+                            }
+                            listenerCount(name) {
+                                return null != this._events[name] ? this._events[name].length : 0;
+                            }
+                            async trigger(name, ...args) {
+                                var e;
+                                try {
+                                    "debug" !== name && this.trigger("debug", `Event triggered: ${name}`, args);
+                                    if (null == this._events[name]) return;
+                                    this._events[name] = this._events[name].filter(function(listener) {
+                                        return "none" !== listener.status;
+                                    });
+                                    return (await Promise.all(this._events[name].map(async (listener)=>{
+                                        var e, returned;
+                                        if ("none" !== listener.status) {
+                                            "once" === listener.status && (listener.status = "none");
+                                            try {
+                                                returned = "function" == typeof listener.cb ? listener.cb(...args) : void 0;
+                                                if ("function" == typeof (null != returned ? returned.then : void 0)) return await returned;
+                                                return returned;
+                                            } catch (error) {
+                                                e = error;
+                                                this.trigger("error", e);
+                                                return null;
+                                            }
+                                        }
+                                    }))).find(function(x) {
+                                        return null != x;
+                                    });
+                                } catch (error) {
+                                    e = error;
+                                    this.trigger("error", e);
+                                    return null;
+                                }
+                            }
+                        })(this);
+                        this._length = 0;
+                        this._lists = (function() {
+                            var j, results;
+                            results = [];
+                            for(j = 1; 1 <= num_priorities ? j <= num_priorities : j >= num_priorities; 1 <= num_priorities ? ++j : --j)results.push(new (DLList = class {
+                                constructor(incr, decr){
+                                    this.incr = incr;
+                                    this.decr = decr;
+                                    this._first = null;
+                                    this._last = null;
+                                    this.length = 0;
+                                }
+                                push(value) {
+                                    var node;
+                                    this.length++;
+                                    "function" == typeof this.incr && this.incr();
+                                    node = {
+                                        value,
+                                        prev: this._last,
+                                        next: null
+                                    };
+                                    if (null != this._last) {
+                                        this._last.next = node;
+                                        this._last = node;
+                                    } else this._first = this._last = node;
+                                }
+                                shift() {
+                                    var value;
+                                    if (null != this._first) return this.length--, "function" == typeof this.decr && this.decr(), value = this._first.value, null != (this._first = this._first.next) ? this._first.prev = null : this._last = null, value;
+                                }
+                                first() {
+                                    if (null != this._first) return this._first.value;
+                                }
+                                getArray() {
+                                    var node, ref, results;
+                                    node = this._first;
+                                    results = [];
+                                    for(; null != node;)results.push((ref = node, node = node.next, ref.value));
+                                    return results;
+                                }
+                                forEachShift(cb) {
+                                    var node;
+                                    node = this.shift();
+                                    for(; null != node;)cb(node), node = this.shift();
+                                }
+                                debug() {
+                                    var node, ref, ref1, ref2, results;
+                                    node = this._first;
+                                    results = [];
+                                    for(; null != node;)results.push((ref = node, node = node.next, {
+                                        value: ref.value,
+                                        prev: null != (ref1 = ref.prev) ? ref1.value : void 0,
+                                        next: null != (ref2 = ref.next) ? ref2.value : void 0
+                                    }));
+                                    return results;
+                                }
+                            })(()=>this.incr(), ()=>this.decr()));
                             return results;
                         }).call(this);
                     }
@@ -127,24 +157,42 @@
                     }
                     getFirst(arr = this._lists) {
                         var j, len, list;
-                        for(j = 0, len = arr.length; j < len; j++)if ((list = arr[j]).length > 0) return list;
+                        for(j = 0, len = arr.length; j < len; j++){
+                            list = arr[j];
+                            if (list.length > 0) return list;
+                        }
                         return [];
                     }
                     shiftLastFrom(priority) {
                         return this.getFirst(this._lists.slice(priority).reverse()).shift();
                     }
                 };
-                var BottleneckError_1 = class extends Error {
+                BottleneckError = class extends Error {
                 };
-                NUM_PRIORITIES = 10, DEFAULT_PRIORITY = 5, parser$1 = parser, BottleneckError$1 = BottleneckError_1, Job = class {
+                NUM_PRIORITIES = 10;
+                DEFAULT_PRIORITY = 5;
+                parser$1 = parser;
+                BottleneckError$1 = BottleneckError;
+                Job = class {
                     constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
-                        this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser$1.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
-                            this._resolve = _resolve, this._reject = _reject;
-                        }), this.retryCount = 0;
+                        this.task = task;
+                        this.args = args;
+                        this.rejectOnDrop = rejectOnDrop;
+                        this.Events = Events;
+                        this._states = _states;
+                        this.Promise = Promise1;
+                        this.options = parser$1.load(options, jobDefaults);
+                        this.options.priority = this._sanitizePriority(this.options.priority);
+                        this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`);
+                        this.promise = new this.Promise((_resolve, _reject)=>{
+                            this._resolve = _resolve;
+                            this._reject = _reject;
+                        });
+                        this.retryCount = 0;
                     }
                     _sanitizePriority(priority) {
                         var sProperty;
-                        return (sProperty = ~~priority !== priority ? DEFAULT_PRIORITY : priority) < 0 ? 0 : sProperty > NUM_PRIORITIES - 1 ? NUM_PRIORITIES - 1 : sProperty;
+                        return (sProperty = ~~priority !== priority ? DEFAULT_PRIORITY : priority, sProperty < 0) ? 0 : sProperty > NUM_PRIORITIES - 1 ? NUM_PRIORITIES - 1 : sProperty;
                     }
                     _randomIndex() {
                         return Math.random().toString(36).slice(2);
@@ -159,7 +207,8 @@
                     }
                     _assertStatus(expected) {
                         var status;
-                        if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError$1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
+                        status = this._states.jobStatus(this.options.id);
+                        if (!(status === expected || "DONE" === expected && null === status)) throw new BottleneckError$1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
                     }
                     doReceive() {
                         return this._states.start(this.options.id), this.Events.trigger("received", {
@@ -176,22 +225,38 @@
                         });
                     }
                     doRun() {
-                        return 0 === this.retryCount ? (this._assertStatus("QUEUED"), this._states.next(this.options.id)) : this._assertStatus("EXECUTING"), this.Events.trigger("scheduled", {
+                        if (0 === this.retryCount) {
+                            this._assertStatus("QUEUED");
+                            this._states.next(this.options.id);
+                        } else this._assertStatus("EXECUTING");
+                        return this.Events.trigger("scheduled", {
                             args: this.args,
                             options: this.options
                         });
                     }
                     async doExecute(chained, clearGlobalState, run, free) {
                         var error, eventInfo, passed;
-                        0 === this.retryCount ? (this._assertStatus("RUNNING"), this._states.next(this.options.id)) : this._assertStatus("EXECUTING"), eventInfo = {
+                        if (0 === this.retryCount) {
+                            this._assertStatus("RUNNING");
+                            this._states.next(this.options.id);
+                        } else this._assertStatus("EXECUTING");
+                        eventInfo = {
                             args: this.args,
                             options: this.options,
                             retryCount: this.retryCount
-                        }, this.Events.trigger("executing", eventInfo);
+                        };
+                        this.Events.trigger("executing", eventInfo);
                         try {
-                            if (passed = await (null != chained ? chained.schedule(this.options, this.task, ...this.args) : this.task(...this.args)), clearGlobalState()) return this.doDone(eventInfo), await free(this.options, eventInfo), this._assertStatus("DONE"), this._resolve(passed);
+                            passed = await (null != chained ? chained.schedule(this.options, this.task, ...this.args) : this.task(...this.args));
+                            if (clearGlobalState()) {
+                                this.doDone(eventInfo);
+                                await free(this.options, eventInfo);
+                                this._assertStatus("DONE");
+                                return this._resolve(passed);
+                            }
                         } catch (error1) {
-                            return error = error1, this._onFailure(error, eventInfo, clearGlobalState, run, free);
+                            error = error1;
+                            return this._onFailure(error, eventInfo, clearGlobalState, run, free);
                         }
                     }
                     doExpire(clearGlobalState, run, free) {
@@ -204,20 +269,43 @@
                     }
                     async _onFailure(error, eventInfo, clearGlobalState, run, free) {
                         var retry, retryAfter;
-                        if (clearGlobalState()) return null != (retry = await this.Events.trigger("failed", error, eventInfo)) ? (retryAfter = ~~retry, this.Events.trigger("retry", `Retrying ${this.options.id} after ${retryAfter} ms`, eventInfo), this.retryCount++, run(retryAfter)) : (this.doDone(eventInfo), await free(this.options, eventInfo), this._assertStatus("DONE"), this._reject(error));
+                        if (clearGlobalState()) return (retry = await this.Events.trigger("failed", error, eventInfo), null != retry) ? (retryAfter = ~~retry, this.Events.trigger("retry", `Retrying ${this.options.id} after ${retryAfter} ms`, eventInfo), this.retryCount++, run(retryAfter)) : (this.doDone(eventInfo), await free(this.options, eventInfo), this._assertStatus("DONE"), this._reject(error));
                     }
                     doDone(eventInfo) {
                         return this._assertStatus("EXECUTING"), this._states.next(this.options.id), this.Events.trigger("done", eventInfo);
                     }
-                }, parser$2 = parser, LocalDatastore = class {
+                };
+                parser$2 = parser;
+                LocalDatastore = class {
                     constructor(instance, storeOptions, storeInstanceOptions){
-                        this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser$2.load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
+                        this.instance = instance;
+                        this.storeOptions = storeOptions;
+                        this.clientId = this.instance._randomIndex();
+                        parser$2.load(storeInstanceOptions, storeInstanceOptions, this);
+                        this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now();
+                        this._running = 0;
+                        this._done = 0;
+                        this._unblockTime = 0;
+                        this.ready = this.Promise.resolve();
+                        this.clients = {};
+                        this._startHeartbeat();
                     }
                     _startHeartbeat() {
                         var base;
                         return null == this.heartbeat && (null != this.storeOptions.reservoirRefreshInterval && null != this.storeOptions.reservoirRefreshAmount || null != this.storeOptions.reservoirIncreaseInterval && null != this.storeOptions.reservoirIncreaseAmount) ? "function" == typeof (base = this.heartbeat = setInterval(()=>{
                             var amount, incr, maximum, now, reservoir;
-                            if (now = Date.now(), null != this.storeOptions.reservoirRefreshInterval && now >= this._lastReservoirRefresh + this.storeOptions.reservoirRefreshInterval && (this._lastReservoirRefresh = now, this.storeOptions.reservoir = this.storeOptions.reservoirRefreshAmount, this.instance._drainAll(this.computeCapacity())), null != this.storeOptions.reservoirIncreaseInterval && now >= this._lastReservoirIncrease + this.storeOptions.reservoirIncreaseInterval && ({ reservoirIncreaseAmount: amount , reservoirIncreaseMaximum: maximum , reservoir  } = this.storeOptions, this._lastReservoirIncrease = now, (incr = null != maximum ? Math.min(amount, maximum - reservoir) : amount) > 0)) return this.storeOptions.reservoir += incr, this.instance._drainAll(this.computeCapacity());
+                            now = Date.now();
+                            if (null != this.storeOptions.reservoirRefreshInterval && now >= this._lastReservoirRefresh + this.storeOptions.reservoirRefreshInterval) {
+                                this._lastReservoirRefresh = now;
+                                this.storeOptions.reservoir = this.storeOptions.reservoirRefreshAmount;
+                                this.instance._drainAll(this.computeCapacity());
+                            }
+                            if (null != this.storeOptions.reservoirIncreaseInterval && now >= this._lastReservoirIncrease + this.storeOptions.reservoirIncreaseInterval) {
+                                ({ reservoirIncreaseAmount: amount , reservoirIncreaseMaximum: maximum , reservoir  } = this.storeOptions);
+                                this._lastReservoirIncrease = now;
+                                incr = null != maximum ? Math.min(amount, maximum - reservoir) : amount;
+                                if (incr > 0) return this.storeOptions.reservoir += incr, this.instance._drainAll(this.computeCapacity());
+                            }
                         }, this.heartbeatInterval)).unref ? base.unref() : void 0 : clearInterval(this.heartbeat);
                     }
                     async __publish__(message) {
@@ -290,8 +378,17 @@
                     }
                     async __submit__(queueLength, weight) {
                         var blocked, now, reachedHWM;
-                        if (await this.yieldLoop(), null != this.storeOptions.maxConcurrent && weight > this.storeOptions.maxConcurrent) throw new BottleneckError_1(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${this.storeOptions.maxConcurrent}`);
-                        return now = Date.now(), reachedHWM = null != this.storeOptions.highWater && queueLength === this.storeOptions.highWater && !this.check(weight, now), (blocked = this.strategyIsBlock() && (reachedHWM || this.isBlocked(now))) && (this._unblockTime = now + this.computePenalty(), this._nextRequest = this._unblockTime + this.storeOptions.minTime, this.instance._dropAllQueued()), {
+                        await this.yieldLoop();
+                        if (null != this.storeOptions.maxConcurrent && weight > this.storeOptions.maxConcurrent) throw new BottleneckError(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${this.storeOptions.maxConcurrent}`);
+                        now = Date.now();
+                        reachedHWM = null != this.storeOptions.highWater && queueLength === this.storeOptions.highWater && !this.check(weight, now);
+                        blocked = this.strategyIsBlock() && (reachedHWM || this.isBlocked(now));
+                        if (blocked) {
+                            this._unblockTime = now + this.computePenalty();
+                            this._nextRequest = this._unblockTime + this.storeOptions.minTime;
+                            this.instance._dropAllQueued();
+                        }
+                        return {
                             reachedHWM,
                             blocked,
                             strategy: this.storeOptions.strategy
@@ -302,9 +399,12 @@
                             running: this._running
                         };
                     }
-                }, States = class {
+                };
+                States = class {
                     constructor(status1){
-                        this.status = status1, this._jobs = {}, this.counts = this.status.map(function() {
+                        this.status = status1;
+                        this._jobs = {};
+                        this.counts = this.status.map(function() {
                             return 0;
                         });
                     }
@@ -313,12 +413,16 @@
                         return (next = (current = this._jobs[id]) + 1, null != current && next < this.status.length) ? (this.counts[current]--, this.counts[next]++, this._jobs[id]++) : null != current ? (this.counts[current]--, delete this._jobs[id]) : void 0;
                     }
                     start(id) {
-                        var initial;
-                        return initial = 0, this._jobs[id] = initial, this.counts[initial]++;
+                        return this._jobs[id] = 0, this.counts[0]++;
                     }
                     remove(id) {
                         var current;
-                        return null != (current = this._jobs[id]) && (this.counts[current]--, delete this._jobs[id]), null != current;
+                        current = this._jobs[id];
+                        if (null != current) {
+                            this.counts[current]--;
+                            delete this._jobs[id];
+                        }
+                        return null != current;
                     }
                     jobStatus(id) {
                         var ref;
@@ -327,16 +431,24 @@
                     statusJobs(status) {
                         var k, pos, ref, results;
                         if (null == status) return Object.keys(this._jobs);
-                        if ((pos = this.status.indexOf(status)) < 0) throw new BottleneckError_1(`status must be one of ${this.status.join(', ')}`);
-                        for(k in ref = this._jobs, results = [], ref)ref[k] === pos && results.push(k);
+                        pos = this.status.indexOf(status);
+                        if (pos < 0) throw new BottleneckError(`status must be one of ${this.status.join(', ')}`);
+                        ref = this._jobs;
+                        results = [];
+                        for(k in ref)ref[k] === pos && results.push(k);
                         return results;
                     }
                     statusCounts() {
                         return this.counts.reduce((acc, v, i)=>(acc[this.status[i]] = v, acc), {});
                     }
-                }, Sync = class {
+                };
+                Sync = class {
                     constructor(name, Promise1){
-                        this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList_1();
+                        this.schedule = this.schedule.bind(this);
+                        this.name = name;
+                        this.Promise = Promise1;
+                        this._running = 0;
+                        this._queue = new DLList();
                     }
                     isEmpty() {
                         return 0 === this._queue.length;
@@ -345,11 +457,13 @@
                         var args, cb, error, reject, resolve, returned, task;
                         if (this._running < 1 && this._queue.length > 0) return this._running++, { task , args , resolve , reject  } = this._queue.shift(), cb = await async function() {
                             try {
-                                return returned = await task(...args), function() {
+                                returned = await task(...args);
+                                return function() {
                                     return resolve(returned);
                                 };
                             } catch (error1) {
-                                return error = error1, function() {
+                                error = error1;
+                                return function() {
                                     return reject(error);
                                 };
                             }
@@ -373,10 +487,23 @@
                         version: version
                     }
                 }), require$$2 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$3 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$4 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.');
-                parser$3 = parser, Events$2 = Events_1, RedisConnection$1 = require$$2, IORedisConnection$1 = require$$3, Scripts$1 = require$$4, Group = (function() {
+                parser$3 = parser;
+                Events$2 = Events;
+                RedisConnection$1 = require$$2;
+                IORedisConnection$1 = require$$3;
+                Scripts$1 = require$$4;
+                Group = (function() {
                     class Group {
                         constructor(limiterOptions = {}){
-                            this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser$3.load(this.limiterOptions, this.defaults, this), this.Events = new Events$2(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new RedisConnection$1(Object.assign({}, this.limiterOptions, {
+                            this.deleteKey = this.deleteKey.bind(this);
+                            this.limiterOptions = limiterOptions;
+                            parser$3.load(this.limiterOptions, this.defaults, this);
+                            this.Events = new Events$2(this);
+                            this.instances = {};
+                            this.Bottleneck = Bottleneck_1;
+                            this._startAutoCleanup();
+                            this.sharedConnection = null != this.connection;
+                            null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new RedisConnection$1(Object.assign({}, this.limiterOptions, {
                                 Events: this.Events
                             })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new IORedisConnection$1(Object.assign({}, this.limiterOptions, {
                                 Events: this.Events
@@ -395,17 +522,28 @@
                         }
                         async deleteKey(key = "") {
                             var deleted, instance;
-                            return instance = this.instances[key], this.connection && (deleted = await this.connection.__runCommand__([
+                            instance = this.instances[key];
+                            this.connection && (deleted = await this.connection.__runCommand__([
                                 'del',
                                 ...Scripts$1.allKeys(`${this.id}-${key}`)
-                            ])), null != instance && (delete this.instances[key], await instance.disconnect()), null != instance || deleted > 0;
+                            ]));
+                            if (null != instance) {
+                                delete this.instances[key];
+                                await instance.disconnect();
+                            }
+                            return null != instance || deleted > 0;
                         }
                         limiters() {
                             var k, ref, results, v;
-                            for(k in ref = this.instances, results = [], ref)v = ref[k], results.push({
-                                key: k,
-                                limiter: v
-                            });
+                            ref = this.instances;
+                            results = [];
+                            for(k in ref){
+                                v = ref[k];
+                                results.push({
+                                    key: k,
+                                    limiter: v
+                                });
+                            }
                             return results;
                         }
                         keys() {
@@ -414,33 +552,49 @@
                         async clusterKeys() {
                             var cursor, found, i, k, keys, len, next, start;
                             if (null == this.connection) return this.Promise.resolve(this.keys());
-                            for(keys = [], cursor = null, start = `b_${this.id}-`.length; 0 !== cursor;)for(i = 0, [next, found] = await this.connection.__runCommand__([
-                                "scan",
-                                null != cursor ? cursor : 0,
-                                "match",
-                                `b_${this.id}-*_settings`,
-                                "count",
-                                10000
-                            ]), cursor = ~~next, len = found.length; i < len; i++)k = found[i], keys.push(k.slice(start, -9));
+                            keys = [];
+                            cursor = null;
+                            start = `b_${this.id}-`.length;
+                            for(; 0 !== cursor;){
+                                [next, found] = await this.connection.__runCommand__([
+                                    "scan",
+                                    null != cursor ? cursor : 0,
+                                    "match",
+                                    `b_${this.id}-*_settings`,
+                                    "count",
+                                    10000
+                                ]);
+                                cursor = ~~next;
+                                for(i = 0, len = found.length; i < len; i++){
+                                    k = found[i];
+                                    keys.push(k.slice(start, -9));
+                                }
+                            }
                             return keys;
                         }
                         _startAutoCleanup() {
                             var base;
                             return clearInterval(this.interval), "function" == typeof (base = this.interval = setInterval(async ()=>{
                                 var e, k, ref, results, time, v;
-                                for(k in time = Date.now(), ref = this.instances, results = [], ref){
+                                time = Date.now();
+                                ref = this.instances;
+                                results = [];
+                                for(k in ref){
                                     v = ref[k];
                                     try {
                                         await v._store.__groupCheck__(time) ? results.push(this.deleteKey(k)) : results.push(void 0);
                                     } catch (error) {
-                                        e = error, results.push(v.Events.trigger("error", e));
+                                        e = error;
+                                        results.push(v.Events.trigger("error", e));
                                     }
                                 }
                                 return results;
                             }, this.timeout / 2)).unref ? base.unref() : void 0;
                         }
                         updateSettings(options = {}) {
-                            if (parser$3.overwrite(options, this.defaults, this), parser$3.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
+                            parser$3.overwrite(options, this.defaults, this);
+                            parser$3.overwrite(options, options, this.limiterOptions);
+                            if (null != options.timeout) return this._startAutoCleanup();
                         }
                         disconnect(flush = !0) {
                             var ref;
@@ -453,10 +607,18 @@
                         Promise: Promise,
                         id: "group-key"
                     }, Group;
-                }).call(commonjsGlobal), parser$4 = parser, Events$3 = Events_1, Batcher = (function() {
+                }).call(commonjsGlobal);
+                parser$4 = parser;
+                Events$3 = Events;
+                Batcher = (function() {
                     class Batcher {
                         constructor(options = {}){
-                            this.options = options, parser$4.load(this.options, this.defaults, this), this.Events = new Events$3(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
+                            this.options = options;
+                            parser$4.load(this.options, this.defaults, this);
+                            this.Events = new Events$3(this);
+                            this._arr = [];
+                            this._resetPromise();
+                            this._lastFlush = Date.now();
                         }
                         _resetPromise() {
                             return this._promise = new this.Promise((res, rej)=>this._resolve = res);
@@ -475,27 +637,38 @@
                         Promise: Promise
                     }, Batcher;
                 }).call(commonjsGlobal);
-                var Queues, BottleneckError$1, DEFAULT_PRIORITY, Job, NUM_PRIORITIES, parser$1, LocalDatastore, parser$2, States, Sync, Events$2, Group, IORedisConnection$1, RedisConnection$1, Scripts$1, parser$3, Batcher, Events$3, parser$4, DEFAULT_PRIORITY$1, Events$4, Job$1, LocalDatastore$1, NUM_PRIORITIES$1, Queues$1, RedisDatastore$1, States$1, Sync$1, parser$5, require$$4$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$8 = getCjsExportFromNamespace(version$2), splice = [].splice;
-                NUM_PRIORITIES$1 = 10, DEFAULT_PRIORITY$1 = 5, parser$5 = parser, Queues$1 = Queues, Job$1 = Job, LocalDatastore$1 = LocalDatastore, RedisDatastore$1 = require$$4$1, Events$4 = Events_1, States$1 = States, Sync$1 = Sync;
-                var Bottleneck_1 = (function() {
+                var DLList, Events, Queues, BottleneckError, BottleneckError$1, DEFAULT_PRIORITY, Job, NUM_PRIORITIES, parser$1, LocalDatastore, parser$2, States, Sync, Events$2, Group, IORedisConnection$1, RedisConnection$1, Scripts$1, parser$3, Batcher, Events$3, parser$4, require$$4$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, Bottleneck_1 = (function() {
                     class Bottleneck {
                         constructor(options = {}, ...invalid){
                             var storeInstanceOptions, storeOptions;
-                            this._addToQueue = this._addToQueue.bind(this), this._validateOptions(options, invalid), parser$5.load(options, this.instanceDefaults, this), this._queues = new Queues$1(NUM_PRIORITIES$1), this._scheduled = {}, this._states = new States$1([
+                            this._addToQueue = this._addToQueue.bind(this);
+                            this._validateOptions(options, invalid);
+                            parser.load(options, this.instanceDefaults, this);
+                            this._queues = new Queues(10);
+                            this._scheduled = {};
+                            this._states = new States([
                                 "RECEIVED",
                                 "QUEUED",
                                 "RUNNING",
                                 "EXECUTING"
                             ].concat(this.trackDoneStatus ? [
                                 "DONE"
-                            ] : [])), this._limiter = null, this.Events = new Events$4(this), this._submitLock = new Sync$1("submit", this.Promise), this._registerLock = new Sync$1("register", this.Promise), storeOptions = parser$5.load(options, this.storeDefaults, {}), this._store = (function() {
-                                if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser$5.load(options, this.redisStoreDefaults, {}), new RedisDatastore$1(this, storeOptions, storeInstanceOptions);
-                                if ("local" === this.datastore) return storeInstanceOptions = parser$5.load(options, this.localStoreDefaults, {}), new LocalDatastore$1(this, storeOptions, storeInstanceOptions);
+                            ] : []));
+                            this._limiter = null;
+                            this.Events = new Events(this);
+                            this._submitLock = new Sync("submit", this.Promise);
+                            this._registerLock = new Sync("register", this.Promise);
+                            storeOptions = parser.load(options, this.storeDefaults, {});
+                            this._store = (function() {
+                                if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {}), new require$$4$1(this, storeOptions, storeInstanceOptions);
+                                if ("local" === this.datastore) return storeInstanceOptions = parser.load(options, this.localStoreDefaults, {}), new LocalDatastore(this, storeOptions, storeInstanceOptions);
                                 throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
-                            }).call(this), this._queues.on("leftzero", ()=>{
+                            }).call(this);
+                            this._queues.on("leftzero", ()=>{
                                 var ref;
                                 return null != (ref = this._store.heartbeat) && "function" == typeof ref.ref ? ref.ref() : void 0;
-                            }), this._queues.on("zero", ()=>{
+                            });
+                            this._queues.on("zero", ()=>{
                                 var ref;
                                 return null != (ref = this._store.heartbeat) && "function" == typeof ref.unref ? ref.unref() : void 0;
                             });
@@ -560,9 +733,12 @@
                         async _free(index, job, options, eventInfo) {
                             var e, running;
                             try {
-                                if ({ running  } = await this._store.__free__(index, options.weight), this.Events.trigger("debug", `Freed ${options.id}`, eventInfo), 0 === running && this.empty()) return this.Events.trigger("idle");
+                                ({ running  } = await this._store.__free__(index, options.weight));
+                                this.Events.trigger("debug", `Freed ${options.id}`, eventInfo);
+                                if (0 === running && this.empty()) return this.Events.trigger("idle");
                             } catch (error1) {
-                                return e = error1, this.Events.trigger("error", e);
+                                e = error1;
+                                return this.Events.trigger("error", e);
                             }
                         }
                         _run(index, job, wait) {
@@ -592,7 +768,7 @@
                             });
                         }
                         _drainAll(capacity, total = 0) {
-                            return this._drainOne(capacity).then((drained)=>null != drained ? this._drainAll(null != capacity ? capacity - drained : capacity, total + drained) : this.Promise.resolve(total)).catch((e)=>this.Events.trigger("error", e));
+                            return this._drainOne(capacity).then((drained)=>null == drained ? this.Promise.resolve(total) : this._drainAll(null != capacity ? capacity - drained : capacity, total + drained)).catch((e)=>this.Events.trigger("error", e));
                         }
                         _dropAllQueued(message) {
                             return this._queues.shiftAll(function(job) {
@@ -603,7 +779,7 @@
                         }
                         stop(options = {}) {
                             var done, waitForExecuting;
-                            return options = parser$5.load(options, this.stopDefaults), waitForExecuting = (at)=>{
+                            return options = parser.load(options, this.stopDefaults), waitForExecuting = (at)=>{
                                 var finished;
                                 return finished = ()=>{
                                     var counts;
@@ -617,12 +793,20 @@
                                 });
                             }, this._drainOne = ()=>this.Promise.resolve(null), this._registerLock.schedule(()=>this._submitLock.schedule(()=>{
                                     var k, ref, v;
-                                    for(k in ref = this._scheduled)v = ref[k], "RUNNING" === this.jobStatus(v.job.options.id) && (clearTimeout(v.timeout), clearTimeout(v.expiration), v.job.doDrop({
-                                        message: options.dropErrorMessage
-                                    }));
+                                    ref = this._scheduled;
+                                    for(k in ref){
+                                        v = ref[k];
+                                        if ("RUNNING" === this.jobStatus(v.job.options.id)) {
+                                            clearTimeout(v.timeout);
+                                            clearTimeout(v.expiration);
+                                            v.job.doDrop({
+                                                message: options.dropErrorMessage
+                                            });
+                                        }
+                                    }
                                     return this._dropAllQueued(options.dropErrorMessage), waitForExecuting(0);
                                 }))) : this.schedule({
-                                priority: NUM_PRIORITIES$1 - 1,
+                                priority: 9,
                                 weight: 0
                             }, ()=>waitForExecuting(1)), this._receive = function(job) {
                                 return job._reject(new Bottleneck.prototype.BottleneckError(options.enqueueErrorMessage));
@@ -634,26 +818,41 @@
                             try {
                                 ({ reachedHWM , blocked , strategy  } = await this._store.__submit__(this.queued(), options.weight));
                             } catch (error1) {
-                                return error = error1, this.Events.trigger("debug", `Could not queue ${options.id}`, {
+                                error = error1;
+                                this.Events.trigger("debug", `Could not queue ${options.id}`, {
                                     args,
                                     options,
                                     error
-                                }), job.doDrop({
+                                });
+                                job.doDrop({
                                     error
-                                }), !1;
+                                });
+                                return !1;
                             }
-                            return blocked ? (job.doDrop(), !0) : reachedHWM && (null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop(), null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) ? (null == shifted && job.doDrop(), reachedHWM) : (job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll(), reachedHWM);
+                            if (blocked) return job.doDrop(), !0;
+                            if (reachedHWM) {
+                                null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop();
+                                if (null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) return null == shifted && job.doDrop(), reachedHWM;
+                            }
+                            return job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll(), reachedHWM;
                         }
                         _receive(job) {
                             return null != this._states.jobStatus(job.options.id) ? (job._reject(new Bottleneck.prototype.BottleneckError(`A job with the same id already exists (id=${job.options.id})`)), !1) : (job.doReceive(), this._submitLock.schedule(this._addToQueue, job));
                         }
                         submit(...args) {
                             var cb, fn, job, options, ref, ref1, task;
-                            return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser$5.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser$5.load(options, this.jobDefaults)), task = (...args)=>new this.Promise(function(resolve, reject) {
+                            if ("function" == typeof args[0]) {
+                                ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1);
+                                options = parser.load({}, this.jobDefaults);
+                            } else {
+                                ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1);
+                                options = parser.load(options, this.jobDefaults);
+                            }
+                            return task = (...args)=>new this.Promise(function(resolve, reject) {
                                     return fn(...args, function(...args) {
                                         return (null != args[0] ? reject : resolve)(args);
                                     });
-                                }), (job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise)).promise.then(function(args) {
+                                }), (job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise)).promise.then(function(args) {
                                 return "function" == typeof cb ? cb(...args) : void 0;
                             }).catch(function(args) {
                                 return Array.isArray(args) ? "function" == typeof cb ? cb(...args) : void 0 : "function" == typeof cb ? cb(args) : void 0;
@@ -661,7 +860,11 @@
                         }
                         schedule(...args) {
                             var job, options, task;
-                            return "function" == typeof args[0] ? ([task, ...args] = args, options = {}) : [options, task, ...args] = args, job = new Job$1(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
+                            if ("function" == typeof args[0]) {
+                                [task, ...args] = args;
+                                options = {};
+                            } else [options, task, ...args] = args;
+                            return job = new Job(task, args, options, this.jobDefaults, this.rejectOnDrop, this.Events, this._states, this.Promise), this._receive(job), job.promise;
                         }
                         wrap(fn) {
                             var schedule, wrapped;
@@ -672,7 +875,7 @@
                             }, wrapped;
                         }
                         async updateSettings(options = {}) {
-                            return await this._store.__updateSettings__(parser$5.overwrite(options, this.storeDefaults)), parser$5.overwrite(options, this.instanceDefaults, this), this;
+                            return await this._store.__updateSettings__(parser.overwrite(options, this.storeDefaults)), parser.overwrite(options, this.instanceDefaults, this), this;
                         }
                         currentReservoir() {
                             return this._store.__currentReservoir__();
@@ -681,13 +884,13 @@
                             return this._store.__incrementReservoir__(incr);
                         }
                     }
-                    return Bottleneck.default = Bottleneck, Bottleneck.Events = Events$4, Bottleneck.version = Bottleneck.prototype.version = require$$8.version, Bottleneck.strategy = Bottleneck.prototype.strategy = {
+                    return Bottleneck.default = Bottleneck, Bottleneck.Events = Events, Bottleneck.version = Bottleneck.prototype.version = require$$8.version, Bottleneck.strategy = Bottleneck.prototype.strategy = {
                         LEAK: 1,
                         OVERFLOW: 2,
                         OVERFLOW_PRIORITY: 4,
                         BLOCK: 3
-                    }, Bottleneck.BottleneckError = Bottleneck.prototype.BottleneckError = BottleneckError_1, Bottleneck.Group = Bottleneck.prototype.Group = Group, Bottleneck.RedisConnection = Bottleneck.prototype.RedisConnection = require$$2, Bottleneck.IORedisConnection = Bottleneck.prototype.IORedisConnection = require$$3, Bottleneck.Batcher = Bottleneck.prototype.Batcher = Batcher, Bottleneck.prototype.jobDefaults = {
-                        priority: DEFAULT_PRIORITY$1,
+                    }, Bottleneck.BottleneckError = Bottleneck.prototype.BottleneckError = BottleneckError, Bottleneck.Group = Bottleneck.prototype.Group = Group, Bottleneck.RedisConnection = Bottleneck.prototype.RedisConnection = require$$2, Bottleneck.IORedisConnection = Bottleneck.prototype.IORedisConnection = require$$3, Bottleneck.Batcher = Bottleneck.prototype.Batcher = Batcher, Bottleneck.prototype.jobDefaults = {
+                        priority: 5,
                         weight: 1,
                         expiration: null,
                         id: "<no-id>"
@@ -731,7 +934,7 @@
                     }, Bottleneck;
                 }).call(commonjsGlobal);
                 return Bottleneck_1;
-            });
+            }, module.exports = factory();
         }
     }
 ]);
