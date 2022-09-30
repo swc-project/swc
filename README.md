@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://swc.rs/">
-    <img alt="babel" src="https://raw.githubusercontent.com/swc-project/logo/master/swc.png" width="546">
+    <img alt="swc" src="https://raw.githubusercontent.com/swc-project/logo/master/swc.png" width="546">
   </a>
 </p>
 
@@ -91,7 +91,3 @@ documentation useful ([ARCHITECTURE.md](ARCHITECTURE.md)).
 SWC is primarily distributed under the terms of the Apache License (Version 2.0).
 
 See [LICENSE](LICENSE) for details.
-
-[babel]: https://github.com/babel/babel
-[closure compiler]: https://github.com/google/closure-compiler
-[rust]: https://www.rust-lang.org
