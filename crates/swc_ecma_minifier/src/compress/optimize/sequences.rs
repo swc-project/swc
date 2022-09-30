@@ -620,6 +620,10 @@ where
                 stmt.as_stmt(),
                 Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..))
             );
+            let can_skip = match stmt.as_stmt() {
+                Some(Stmt::Decl(Decl::Fn(..))) => true,
+                _ => false,
+            };
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
                 self.seq_exprs_of(stmt, self.options)
@@ -630,7 +634,10 @@ where
                 buf.extend(items)
             } else {
                 exprs.push(take(&mut buf));
-                continue;
+
+                if !can_skip {
+                    continue;
+                }
             }
             if is_end {
                 exprs.push(take(&mut buf));
