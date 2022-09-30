@@ -16,7 +16,7 @@ use swc_core::{
         Compiler, TransformOutput,
     },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
-    common::{collections::AHashMap, Span},
+    common::{collections::AHashMap, Globals, Span, GLOBALS},
     ecma::{
         ast::{
             Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
@@ -74,95 +74,98 @@ impl Task for BundleTask {
             .codegen_target()
             .unwrap_or_default();
 
-        let res = catch_unwind(AssertUnwindSafe(|| {
-            let mut bundler = Bundler::new(
-                self.swc.globals(),
-                self.swc.cm.clone(),
-                &self.config.loader,
-                &self.config.resolver,
-                swc_core::bundler::Config {
-                    require: true,
-                    external_modules: builtins
-                        .into_iter()
-                        .chain(
-                            self.config
+        let globals = Globals::default();
+        GLOBALS.set(&globals, || {
+            let res = catch_unwind(AssertUnwindSafe(|| {
+                let mut bundler = Bundler::new(
+                    &globals,
+                    self.swc.cm.clone(),
+                    &self.config.loader,
+                    &self.config.resolver,
+                    swc_core::bundler::Config {
+                        require: true,
+                        external_modules: builtins
+                            .into_iter()
+                            .chain(
+                                self.config
+                                    .static_items
+                                    .config
+                                    .external_modules
+                                    .iter()
+                                    .cloned(),
+                            )
+                            .collect(),
+                        ..Default::default()
+                    },
+                    Box::new(Hook),
+                );
+
+                let result = bundler
+                    .bundle(self.config.static_items.config.entry.clone().into())
+                    .convert_err()?;
+
+                let result = result
+                    .into_iter()
+                    .map(|bundle| match bundle.kind {
+                        BundleKind::Named { name } | BundleKind::Lib { name } => {
+                            Ok((name, bundle.module))
+                        }
+                        BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
+                    })
+                    .map(|res| {
+                        res.and_then(|(k, m)| {
+                            // TODO: Source map
+                            let minify = self
+                                .config
                                 .static_items
                                 .config
-                                .external_modules
-                                .iter()
-                                .cloned(),
-                        )
-                        .collect(),
-                    ..Default::default()
-                },
-                Box::new(Hook),
-            );
+                                .options
+                                .as_ref()
+                                .map(|v| v.config.minify.into_bool())
+                                .unwrap_or(false);
 
-            let result = bundler
-                .bundle(self.config.static_items.config.entry.clone().into())
-                .convert_err()?;
+                            let output = self.swc.print(
+                                &m,
+                                None,
+                                None,
+                                true,
+                                codegen_target,
+                                SourceMapsConfig::Bool(true),
+                                // TODO
+                                &Default::default(),
+                                None,
+                                minify,
+                                None,
+                                true,
+                                false,
+                            )?;
 
-            let result = result
-                .into_iter()
-                .map(|bundle| match bundle.kind {
-                    BundleKind::Named { name } | BundleKind::Lib { name } => {
-                        Ok((name, bundle.module))
-                    }
-                    BundleKind::Dynamic => bail!("unimplemented: dynamic code splitting"),
-                })
-                .map(|res| {
-                    res.and_then(|(k, m)| {
-                        // TODO: Source map
-                        let minify = self
-                            .config
-                            .static_items
-                            .config
-                            .options
-                            .as_ref()
-                            .map(|v| v.config.minify.into_bool())
-                            .unwrap_or(false);
-
-                        let output = self.swc.print(
-                            &m,
-                            None,
-                            None,
-                            true,
-                            codegen_target,
-                            SourceMapsConfig::Bool(true),
-                            // TODO
-                            &Default::default(),
-                            None,
-                            minify,
-                            None,
-                            true,
-                            false,
-                        )?;
-
-                        Ok((k, output))
+                            Ok((k, output))
+                        })
                     })
-                })
-                .collect::<Result<_, _>>()
-                .convert_err()?;
+                    .collect::<Result<_, _>>()
+                    .convert_err()?;
 
-            Ok(result)
-        }));
+                Ok(result)
+            }));
 
-        let err = match res {
-            Ok(v) => return v,
-            Err(err) => err,
-        };
+            let err = match res {
+                Ok(v) => return v,
+                Err(err) => err,
+            };
 
-        if let Some(s) = err.downcast_ref::<String>() {
-            return Err(napi::Error::new(
+            if let Some(s) = err.downcast_ref::<String>() {
+                return Err(napi::Error::new(
+                    Status::GenericFailure,
+                    format!("panic detected: {}", s),
+                ));
+            }
+
+            Err(napi::Error::new(
                 Status::GenericFailure,
-                format!("panic detected: {}", s),
-            ));
-        }
-
-        Err(napi::Error::new(
-            Status::GenericFailure,
-            "panic detected".to_string(),
-        ))
+                "panic detected".to_string(),
+            ))
+        })
     }
 
     fn resolve(&mut self, _env: Env, output: Self::Output) -> napi::Result<Self::JsValue> {
