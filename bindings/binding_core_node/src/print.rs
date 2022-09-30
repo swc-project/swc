@@ -9,6 +9,7 @@ use swc_core::{
         config::{Options, SourceMapsConfig},
         Compiler, TransformOutput,
     },
+    common::GLOBALS,
     ecma::ast::{EsVersion, Program},
     node::{deserialize_json, get_deserialized, MapErr},
 };
@@ -32,25 +33,27 @@ impl Task for PrintTask {
         let program: Program = deserialize_json(&self.program_json)?;
         let options: Options = deserialize_json(&self.options)?;
 
-        self.c
-            .print(
-                &program,
-                None,
-                options.output_path.clone(),
-                true,
-                options.config.jsc.target.unwrap_or(EsVersion::Es2020),
-                options
-                    .source_maps
-                    .clone()
-                    .unwrap_or(SourceMapsConfig::Bool(false)),
-                &Default::default(),
-                None,
-                options.config.minify.into_bool(),
-                None,
-                options.config.emit_source_map_columns.into_bool(),
-                false,
-            )
-            .convert_err()
+        GLOBALS.set(&Default::default(), || {
+            self.c
+                .print(
+                    &program,
+                    None,
+                    options.output_path.clone(),
+                    true,
+                    options.config.jsc.target.unwrap_or(EsVersion::Es2020),
+                    options
+                        .source_maps
+                        .clone()
+                        .unwrap_or(SourceMapsConfig::Bool(false)),
+                    &Default::default(),
+                    None,
+                    options.config.minify.into_bool(),
+                    None,
+                    options.config.emit_source_map_columns.into_bool(),
+                    false,
+                )
+                .convert_err()
+        })
     }
 
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -92,22 +95,24 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
     // Defaults to es3
     let codegen_target = options.codegen_target().unwrap_or_default();
 
-    c.print(
-        &program,
-        None,
-        options.output_path,
-        true,
-        codegen_target,
-        options
-            .source_maps
-            .clone()
-            .unwrap_or(SourceMapsConfig::Bool(false)),
-        &Default::default(),
-        None,
-        options.config.minify.into_bool(),
-        None,
-        options.config.emit_source_map_columns.into_bool(),
-        false,
-    )
-    .convert_err()
+    GLOBALS.set(&Default::default(), || {
+        c.print(
+            &program,
+            None,
+            options.output_path,
+            true,
+            codegen_target,
+            options
+                .source_maps
+                .clone()
+                .unwrap_or(SourceMapsConfig::Bool(false)),
+            &Default::default(),
+            None,
+            options.config.minify.into_bool(),
+            None,
+            options.config.emit_source_map_columns.into_bool(),
+            false,
+        )
+        .convert_err()
+    })
 }
