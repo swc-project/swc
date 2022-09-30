@@ -6,24 +6,6 @@ env:
   CARGO_INCREMENTAL: 0
 
 jobs:
-  fmt:
-    name: fmt
-    runs-on: ubuntu-latest
-    env:
-      RUST_LOG: "0"
-    steps:
-      - uses: actions/checkout@v3
-
-      # We explicitly do this to cache properly.
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          components: rustfmt
-
-      - name: Run cargo fmt
-        run: cargo fmt --all -- --check
-
   clippy:
     name: Clippy
     if: >-

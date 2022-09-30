@@ -6,9 +6,10 @@ on:
 
 env:
   RUST_LOG: "off"
+  CARGO_INCREMENTAL: 0
 
 jobs:
-  fmt:
+  cargo-fmt:
     name: fmt
     runs-on: ubuntu-latest
     env:
