@@ -74,7 +74,6 @@ collapse_vars/issue_315/input.js
 collapse_vars/lvalues_def/input.js
 collapse_vars/noinline_annotation/input.js
 collapse_vars/pure_getters_chain/input.js
-collapse_vars/recursive_function_replacement/input.js
 collapse_vars/ref_scope/input.js
 collapse_vars/replace_all_var_scope/input.js
 collapse_vars/switch_case_1/input.js
@@ -333,7 +332,6 @@ issue_976/eval_mangle/input.js
 issue_976/eval_unused/input.js
 issue_979/issue979_reported/input.js
 issue_979/issue979_test_negated_is_best/input.js
-issue_t120/issue_t120_2/input.js
 issue_t120/issue_t120_3/input.js
 issue_t120/issue_t120_4/input.js
 issue_t120/issue_t120_5/input.js
@@ -395,7 +393,6 @@ reduce_vars/escape_expansion/input.js
 reduce_vars/escape_local_sequence/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
-reduce_vars/func_arg_1/input.js
 reduce_vars/func_arg_2/input.js
 reduce_vars/func_modified/input.js
 reduce_vars/iife/input.js
@@ -425,7 +422,6 @@ reduce_vars/lvalues_def_1/input.js
 reduce_vars/lvalues_def_2/input.js
 reduce_vars/modified/input.js
 reduce_vars/multi_def_3/input.js
-reduce_vars/obj_arg_1/input.js
 reduce_vars/obj_arg_2/input.js
 reduce_vars/obj_for_1/input.js
 reduce_vars/obj_var_2/input.js
