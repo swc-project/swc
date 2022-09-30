@@ -1308,6 +1308,10 @@ where
             )
         };
 
+        if b.is_class() || b.is_fn_expr() || b.is_arrow() {
+            return Ok(false);
+        }
+
         match a {
             Mergable::Var(..) => {}
             Mergable::Expr(a) => {
