@@ -17,7 +17,7 @@ napi = { version = "2", default-features = false, features = [
   "napi3",
   "serde-json",
 ] }
-serde = { version = "1", features = ["derive"] }
+serde = { workspace = true, features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 swc_node_base = { version = "0.5.5", path = "../swc_node_base" }
 tracing = { version = "0.1.32", features = ["release_max_level_info"] }

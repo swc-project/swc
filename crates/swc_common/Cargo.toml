@@ -68,7 +68,7 @@ rkyv              = { version = "=0.7.37", optional = true }
 # cannot be merged.
 rkyv-latest          = { package = "rkyv-test", version = "=0.7.38-test.2", optional = true }
 rustc-hash           = "1.1.0"
-serde                = { version = "1.0.119", features = ["derive"] }
+serde                = { workspace = true, features = ["derive"] }
 siphasher            = "0.3.9"
 sourcemap            = { version = "6", optional = true }
 string_cache         = "0.8.4"

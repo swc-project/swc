@@ -16,3 +16,7 @@ strip = "symbols"
 
 [profile.dev.package."*"]
 debug-assertions = false
+
+[workspace.dependencies]
+swc_core = "0.28.10"
+serde = "1.0.145"

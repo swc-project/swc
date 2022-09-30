@@ -27,7 +27,7 @@ is-macro                    = "0.2.0"
 num-bigint                  = "0.4"
 ordered-float               = "2.0.1"
 rayon                       = { version = "1.5.1", optional = true }
-serde                       = { version = "1.0.118", features = ["derive"] }
+serde                       = { workspace = true, features = ["derive"] }
 smallvec                    = "1.8.0"
 swc_atoms                   = { version = "0.4.18", path = "../swc_atoms" }
 swc_common                  = { version = "0.29.3", path = "../swc_common" }
