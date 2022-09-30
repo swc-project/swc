@@ -1,5 +1,5 @@
 #[cfg(not(feature = "parking_lot"))]
-use std::sync::Mutex;
+use std::sync::RwLock;
 use std::{
     borrow::Cow,
     cmp, fmt,
@@ -10,7 +10,7 @@ use std::{
 };
 
 #[cfg(feature = "parking_lot")]
-use parking_lot::Mutex;
+use parking_lot::RwLock;
 #[cfg(feature = "rkyv-bytecheck-impl")]
 use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
@@ -68,7 +68,7 @@ pub const DUMMY_SP: Span = Span {
 };
 
 pub struct Globals {
-    hygiene_data: Mutex<hygiene::HygieneData>,
+    hygiene_data: RwLock<hygiene::HygieneData>,
     #[allow(unused)]
     dummy_cnt: AtomicU32,
 }
@@ -84,7 +84,7 @@ impl Default for Globals {
 impl Globals {
     pub fn new() -> Globals {
         Globals {
-            hygiene_data: Mutex::new(hygiene::HygieneData::new()),
+            hygiene_data: RwLock::new(hygiene::HygieneData::new()),
             dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
     }

@@ -53,8 +53,6 @@ struct SyntaxContextData {
     prev_ctxt: SyntaxContext,
     // This context, but with all transparent and semi-transparent marks filtered away.
     opaque: SyntaxContext,
-    // This context, but with all transparent marks filtered away.
-    opaque_and_semitransparent: SyntaxContext,
 }
 
 /// A mark is a unique id associated with a macro expansion.
@@ -112,7 +110,7 @@ impl Mark {
         // We loosen conditions here for the cases like running plugin's test without
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with(|data| {
+        return HygieneData::with_write(|data| {
             data.marks.push(MarkData {
                 parent,
                 is_builtin: false,
@@ -144,7 +142,7 @@ impl Mark {
         return Mark(unsafe { __mark_parent_proxy(self.0) });
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with(|data| data.marks[self.0 as usize].parent);
+        return HygieneData::with_read(|data| data.marks[self.0 as usize].parent);
     }
 
     #[inline]
@@ -156,7 +154,7 @@ impl Mark {
         {
             assert_ne!(self, Mark::root());
 
-            HygieneData::with(|data| data.marks[self.0 as usize].is_builtin)
+            HygieneData::with_read(|data| data.marks[self.0 as usize].is_builtin)
         }
     }
 
@@ -170,7 +168,7 @@ impl Mark {
         {
             assert_ne!(self, Mark::root());
 
-            HygieneData::with(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
+            HygieneData::with_write(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
         }
     }
 
@@ -206,7 +204,7 @@ impl Mark {
 
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
-        HygieneData::with(|data| {
+        HygieneData::with_read(|data| {
             while self != ancestor {
                 if self == Mark::root() {
                     return false;
@@ -254,7 +252,7 @@ impl Mark {
     #[allow(unused_mut)]
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
-        HygieneData::with(|data| {
+        HygieneData::with_read(|data| {
             // Compute the path from a to the root
             let mut a_path = HashSet::<Mark>::default();
             while a != Mark::root() {
@@ -299,19 +297,28 @@ impl HygieneData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
                 opaque: SyntaxContext(0),
-                opaque_and_semitransparent: SyntaxContext(0),
             }],
             markings: HashMap::default(),
         }
     }
 
-    fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
+    fn with_write<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
             #[cfg(feature = "parking_lot")]
-            return f(&mut globals.hygiene_data.lock());
+            return f(&mut globals.hygiene_data.write());
 
             #[cfg(not(feature = "parking_lot"))]
-            return f(&mut *globals.hygiene_data.lock().unwrap());
+            return f(&mut *globals.hygiene_data.write().unwrap());
+        })
+    }
+
+    fn with_read<T, F: FnOnce(&HygieneData) -> T>(f: F) -> T {
+        GLOBALS.with(|globals| {
+            #[cfg(feature = "parking_lot")]
+            return f(&mut globals.hygiene_data.read());
+
+            #[cfg(not(feature = "parking_lot"))]
+            return f(&*globals.hygiene_data.read().unwrap());
         })
     }
 }
@@ -377,11 +384,9 @@ impl SyntaxContext {
 
     #[allow(unused)]
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
-        HygieneData::with(|data| {
+        HygieneData::with_write(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
-            let opaque_and_semitransparent =
-                syntax_contexts[self.0 as usize].opaque_and_semitransparent;
 
             let prev_ctxt = opaque;
             opaque = *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
@@ -390,7 +395,6 @@ impl SyntaxContext {
                     outer_mark: mark,
                     prev_ctxt,
                     opaque: new_opaque,
-                    opaque_and_semitransparent: new_opaque,
                 });
                 new_opaque
             });
@@ -403,7 +407,6 @@ impl SyntaxContext {
                     outer_mark: mark,
                     prev_ctxt,
                     opaque,
-                    opaque_and_semitransparent,
                 });
                 new_opaque_and_semitransparent_and_transparent
             })
@@ -452,7 +455,7 @@ impl SyntaxContext {
     /// Returns the mark that was removed.
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn remove_mark(&mut self) -> Mark {
-        HygieneData::with(|data| {
+        HygieneData::with_read(|data| {
             let outer_mark = data.syntax_contexts[self.0 as usize].outer_mark;
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
             outer_mark
@@ -573,7 +576,7 @@ impl SyntaxContext {
         return unsafe { Mark(__syntax_context_outer_proxy(self.0)) };
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)
+        HygieneData::with_read(|data| data.syntax_contexts[self.0 as usize].outer_mark)
     }
 }
 
