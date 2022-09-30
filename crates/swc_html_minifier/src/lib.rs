@@ -1218,7 +1218,7 @@ impl Minifier<'_> {
                         self.is_preserved_comment(&comment.data)
                     }
                     Child::Element(element)
-                        if self.options.remove_empty_metedata_elements
+                        if self.options.remove_empty_metadata_elements
                             && (!self
                                 .is_element_displayed(element.namespace, &element.tag_name)
                                 || (matches!(

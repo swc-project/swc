@@ -12,3 +12,7 @@ members = ["binding_core_node", "binding_core_wasm", "swc_cli"]
 
 # Strip debug symbols
 strip = "symbols"
+
+
+[profile.dev.package."*"]
+debug-assertions = false
