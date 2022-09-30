@@ -455,6 +455,40 @@ fn test_self_closing_void_elements_false(input: PathBuf) {
     );
 }
 
+#[testing::fixture("tests/options/quotes/true/**/input.html")]
+fn test_quotes_true(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: Some(false),
+            self_closing_void_elements: Some(true),
+            quotes: Some(true),
+            ..Default::default()
+        }),
+    );
+}
+
+#[testing::fixture("tests/options/quotes/false/**/input.html")]
+fn test_quotes_false(input: PathBuf) {
+    print_document(
+        &input,
+        None,
+        None,
+        Some(CodegenConfig {
+            scripting_enabled: false,
+            minify: true,
+            tag_omission: Some(false),
+            self_closing_void_elements: Some(true),
+            quotes: Some(false),
+            ..Default::default()
+        }),
+    );
+}
+
 #[testing::fixture("tests/options/indent_type/**/input.html")]
 fn test_indent_type_option(input: PathBuf) {
     print_document(

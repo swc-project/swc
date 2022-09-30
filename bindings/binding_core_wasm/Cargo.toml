@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_core_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.3.3"
+version     = "1.3.4"
 
 [lib]
 bench      = false
@@ -20,10 +20,12 @@ swc_v2  = []
 plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
-swc_core = { version = "0.26.0", features = [
+anyhow = "1"
+swc_core = { workspace = true, features = [
   "common_perf",
   "binding_macro_wasm",
 ] }
+tracing = { version = "0.1.36", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
   "serde-serialize",
   "enable-interning",

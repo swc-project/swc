@@ -28,10 +28,16 @@ pub struct CodegenConfig<'a> {
     pub scripting_enabled: bool,
     /// Should be used only for `DocumentFragment` code generation
     pub context_element: Option<&'a Element>,
+    /// Don't print optional tags (only when `minify` enabled)
     /// By default `true` when `minify` enabled, otherwise `false`
     pub tag_omission: Option<bool>,
-    /// By default `false` when `minify` enabled, otherwise `true`
+    /// Making SVG and MathML elements self-closing where possible (only when
+    /// `minify` enabled) By default `false` when `minify` enabled,
+    /// otherwise `true`
     pub self_closing_void_elements: Option<bool>,
+    /// Always print quotes or remove them where possible (only when `minify`
+    /// enabled) By default `false` when `minify` enabled, otherwise `true`
+    pub quotes: Option<bool>,
 }
 
 enum TagOmissionParent<'a> {
@@ -52,6 +58,7 @@ where
     is_plaintext: bool,
     tag_omission: bool,
     self_closing_void_elements: bool,
+    quotes: bool,
 }
 
 impl<'a, W> CodeGenerator<'a, W>
@@ -61,6 +68,7 @@ where
     pub fn new(wr: W, config: CodegenConfig<'a>) -> Self {
         let tag_omission = config.tag_omission.unwrap_or(config.minify);
         let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
+        let quotes = config.quotes.unwrap_or(!config.minify);
 
         CodeGenerator {
             wr,
@@ -69,6 +77,7 @@ where
             is_plaintext: false,
             tag_omission,
             self_closing_void_elements,
+            quotes,
         }
     }
 
@@ -795,7 +804,7 @@ where
             attribute.push('=');
 
             if self.config.minify {
-                let minifier = minify_attribute_value(value);
+                let minifier = minify_attribute_value(value, self.quotes);
 
                 attribute.push_str(&minifier);
             } else {
@@ -918,7 +927,7 @@ where
 }
 
 #[allow(clippy::unused_peekable)]
-fn minify_attribute_value(value: &str) -> String {
+fn minify_attribute_value(value: &str, quotes: bool) -> String {
     if value.is_empty() {
         return "\"\"".to_string();
     }
@@ -959,7 +968,7 @@ fn minify_attribute_value(value: &str) -> String {
         minified.push(c);
     }
 
-    if unquoted {
+    if !quotes && unquoted {
         return minified;
     }
 
