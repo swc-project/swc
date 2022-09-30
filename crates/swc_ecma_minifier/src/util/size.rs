@@ -162,7 +162,7 @@ impl SizeWithCtxt for Expr {
                         _ => 2 + params.size(unresolved),
                     };
                     let a = if *is_async {
-                        5 + if params.len() == 1 { 0 } else { 1 }
+                        5 + usize::from(params.len() != 1)
                     } else {
                         0
                     };
