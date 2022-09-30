@@ -1084,18 +1084,18 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.145"
+version = "1.0.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "728eb6351430bccb993660dfffc5a72f91ccc1295abaa8ce19b27ebe4f75568b"
+checksum = "0171ebb889e45aa68b44aee0859b3eede84c6f5f5c228e6f140c0b2a0a46cad6"
 dependencies = [
  "serde_derive",
 ]
 
 [[package]]
 name = "serde_derive"
-version = "1.0.145"
+version = "1.0.139"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81fa1584d3d1bcacd84c277a0dfe21f5b0f6accf4a23d04d4c6d61f1af522b4c"
+checksum = "dc1d3230c1de7932af58ad8ffbe1d784bd55efd5a9d84ac24f69c72d83543dfb"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1252,7 +1252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.4.18"
+version = "0.4.17"
 dependencies = [
  "once_cell",
  "rkyv",
@@ -1265,7 +1265,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.29.3"
+version = "0.28.10"
 dependencies = [
  "ahash",
  "anyhow",
@@ -1295,7 +1295,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.28.10"
+version = "0.26.0"
 dependencies = [
  "once_cell",
  "swc_atoms",
@@ -1312,7 +1312,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.94.3"
+version = "0.93.0"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1328,7 +1328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.127.5"
+version = "0.126.0"
 dependencies = [
  "memchr",
  "num-bigint",
@@ -1356,7 +1356,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.122.4"
+version = "0.121.0"
 dependencies = [
  "either",
  "enum_kind",
@@ -1373,7 +1373,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "0.20.4"
+version = "0.19.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1381,13 +1381,14 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_codegen",
  "testing",
  "tracing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.111.8"
+version = "0.110.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -1407,7 +1408,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.113.8"
+version = "0.112.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1429,7 +1430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.105.5"
+version = "0.104.0"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -1444,7 +1445,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.80.3"
+version = "0.79.0"
 dependencies = [
  "num-bigint",
  "swc_atoms",
@@ -1466,7 +1467,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.13.3"
+version = "0.12.10"
 dependencies = [
  "anyhow",
  "miette",
@@ -1511,7 +1512,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.22.3"
+version = "0.21.0"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
@@ -1596,7 +1597,7 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "0.31.3"
+version = "0.30.10"
 dependencies = [
  "ansi_term",
  "difference",
