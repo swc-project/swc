@@ -44,3 +44,5 @@ opt-level = 3
 
 [workspace.dependencies]
 serde = "1.0.145"
+swc_core = { version = "0.28.10", path = "./crates/swc_core" }
+swc_common = { version = "0.29.3", path = "./crates/swc_common" }
