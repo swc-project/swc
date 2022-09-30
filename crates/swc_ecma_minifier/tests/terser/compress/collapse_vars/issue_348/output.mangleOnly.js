@@ -1,8 +1,8 @@
-console.log((function n(o) {
+console.log((function n(n) {
     return (function(n) {
         if (n) {
             const o = n;
             if (o) return o;
         }
-    })(o);
+    })(n);
 })("PASS"));

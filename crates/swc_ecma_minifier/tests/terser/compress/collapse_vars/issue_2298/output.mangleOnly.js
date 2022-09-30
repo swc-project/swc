@@ -3,8 +3,8 @@
         var o = n;
         var n = o++;
         try {
-            !(function o(n) {
-                n[1] = "foo";
+            !(function o(o) {
+                o[1] = "foo";
             })();
             console.log("FAIL");
         } catch (c) {

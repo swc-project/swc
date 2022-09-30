@@ -896,8 +896,8 @@ function search({search}) {
 "#,
     r#"
 var obj = {
-    search: function search({ search: search1 }) {
-        console.log(search1);
+    search: function search({ search }) {
+        console.log(search);
     }
 };
 

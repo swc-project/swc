@@ -20,9 +20,9 @@ console.log((function() {
     n = 6;
     return n;
 })(), (function n() {
-    r = 7;
-    return r;
-    var r;
+    n = 7;
+    return n;
+    var n;
 })(), (function() {
     n = 8;
     return n;

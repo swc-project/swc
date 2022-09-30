@@ -1,7 +1,7 @@
 var c = 0;
 !function a() {
-    a1 && c++;
-    var a1 = 0;
-    a1 && c++;
+    a && c++;
+    var a = 0;
+    a && c++;
 }();
 console.log(c);

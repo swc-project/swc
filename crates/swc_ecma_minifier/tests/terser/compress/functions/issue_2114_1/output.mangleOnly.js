@@ -7,7 +7,7 @@ var n = 0;
         length: (n = 1 + n)
     },
     typeof void (function o() {
-        var t = (function n(o) {})(t && (t.b += ((n = n + 1), 0)));
+        var o = (function n(n) {})(o && (o.b += ((n = n + 1), 0)));
     })()
 ]);
 console.log(n);
