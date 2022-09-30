@@ -761,179 +761,168 @@ where
             )
         };
 
-        loop {
-            let mut changed = false;
+        for idx in 0..exprs.len() {
+            for j in idx..exprs.len() {
+                let (a1, a2) = exprs.split_at_mut(idx);
 
-            for idx in 0..exprs.len() {
-                for j in idx..exprs.len() {
-                    let (a1, a2) = exprs.split_at_mut(idx);
+                if a1.is_empty() || a2.is_empty() {
+                    break;
+                }
 
-                    if a1.is_empty() || a2.is_empty() {
-                        break;
-                    }
+                let a = a1.last_mut().unwrap();
 
-                    let a = a1.last_mut().unwrap();
+                if self.options.unused && self.options.sequences() {
+                    if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
+                        // We try dropping variable assignments first.
 
-                    if self.options.unused && self.options.sequences() {
-                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx])
-                        {
-                            // We try dropping variable assignments first.
+                        // Currently, we only drop variable declarations if they have the same name.
+                        if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
+                            if an.to_id() == bn.to_id() {
+                                // We need to preserve side effect of `av.init`
 
-                            // Currently, we only drop variable declarations if they have the same
-                            // name.
-                            if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
-                                if an.to_id() == bn.to_id() {
-                                    // We need to preserve side effect of `av.init`
-
-                                    match bv.init.as_deref_mut() {
-                                        Some(b_init) => {
-                                            if IdentUsageFinder::find(&an.to_id(), b_init) {
-                                                log_abort!(
-                                                    "We can't duplicated binding because \
-                                                     initializer uses the previous declaration of \
-                                                     the variable"
-                                                );
-                                                break;
-                                            }
-
-                                            if let Some(a_init) = av.init.take() {
-                                                let b_seq = b_init.force_seq();
-                                                b_seq.exprs.insert(0, a_init);
-
-                                                self.changed = true;
-                                                report_change!(
-                                                    "Moving initializer sequentially as they have \
-                                                     a same name"
-                                                );
-                                                av.name.take();
-                                                continue;
-                                            } else {
-                                                self.changed = true;
-                                                report_change!(
-                                                    "Dropping the previous var declaration of {} \
-                                                     which does not have an initializer",
-                                                    an.id
-                                                );
-                                                av.name.take();
-                                                continue;
-                                            }
+                                match bv.init.as_deref_mut() {
+                                    Some(b_init) => {
+                                        if IdentUsageFinder::find(&an.to_id(), b_init) {
+                                            log_abort!(
+                                                "We can't duplicated binding because initializer \
+                                                 uses the previous declaration of the variable"
+                                            );
+                                            break;
                                         }
-                                        None => {
-                                            // As variable name is same, we can move initializer
 
-                                            // Th code below
-                                            //
-                                            //      var a = 5;
-                                            //      var a;
-                                            //
-                                            //      console.log(a)
-                                            //
-                                            // prints 5
-                                            bv.init = av.init.take();
+                                        if let Some(a_init) = av.init.take() {
+                                            let b_seq = b_init.force_seq();
+                                            b_seq.exprs.insert(0, a_init);
+
                                             self.changed = true;
                                             report_change!(
-                                                "Moving initializer to the next variable \
-                                                 declaration as they have the same name"
+                                                "Moving initializer sequentially as they have a \
+                                                 same name"
+                                            );
+                                            av.name.take();
+                                            continue;
+                                        } else {
+                                            self.changed = true;
+                                            report_change!(
+                                                "Dropping the previous var declaration of {} \
+                                                 which does not have an initializer",
+                                                an.id
                                             );
                                             av.name.take();
                                             continue;
                                         }
                                     }
-                                }
-                            }
-                        }
-                    }
+                                    None => {
+                                        // As variable name is same, we can move initializer
 
-                    // Merge sequentially
-
-                    if self.merge_sequential_expr(
-                        a,
-                        match &mut a2[j - idx] {
-                            Mergable::Var(b) => match b.init.as_deref_mut() {
-                                Some(v) => v,
-                                None => continue,
-                            },
-                            Mergable::Expr(e) => e,
-                        },
-                    )? {
-                        changed = true;
-                        break;
-                    }
-
-                    // This logic is required to handle
-                    //
-                    // var b;
-                    // (function () {
-                    //     function f() {
-                    //         a++;
-                    //     }
-                    //     f();
-                    //     var c = f();
-                    //     var a = void 0;
-                    //     c || (b = a);
-                    // })();
-                    // console.log(b);
-                    //
-                    //
-                    // at the code above, c cannot be shifted to `c` in `c || (b = a)`
-                    //
-
-                    match a {
-                        Mergable::Var(VarDeclarator {
-                            init: Some(init), ..
-                        }) => {
-                            if !self.is_skippable_for_seq(None, init) {
-                                break;
-                            }
-                        }
-                        Mergable::Expr(Expr::Assign(a)) => {
-                            if let Some(a) = a.left.as_expr() {
-                                if !self.is_skippable_for_seq(None, a) {
-                                    break;
-                                }
-                            }
-
-                            if !self.is_skippable_for_seq(None, &a.right) {
-                                break;
-                            }
-                        }
-                        _ => {}
-                    }
-
-                    match &a2[j - idx] {
-                        Mergable::Var(e2) => {
-                            if let Some(e2) = &e2.init {
-                                if !self.is_skippable_for_seq(Some(a), e2) {
-                                    break;
-                                }
-                            }
-
-                            if let Some(id) = a1.last_mut().unwrap().id() {
-                                if IdentUsageFinder::find(&id, &**e2) {
-                                    break;
-                                }
-                            }
-                        }
-                        Mergable::Expr(e2) => {
-                            if !self.is_skippable_for_seq(Some(a), e2) {
-                                break;
-                            }
-
-                            if let Some(id) = a1.last_mut().unwrap().id() {
-                                // TODO(kdy1): Optimize
-                                if IdentUsageFinder::find(&id, &**e2) {
-                                    break;
+                                        // Th code below
+                                        //
+                                        //      var a = 5;
+                                        //      var a;
+                                        //
+                                        //      console.log(a)
+                                        //
+                                        // prints 5
+                                        bv.init = av.init.take();
+                                        self.changed = true;
+                                        report_change!(
+                                            "Moving initializer to the next variable declaration \
+                                             as they have the same name"
+                                        );
+                                        av.name.take();
+                                        continue;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-            }
 
-            if !changed {
-                break;
+                // Merge sequentially
+
+                if self.merge_sequential_expr(
+                    a,
+                    match &mut a2[j - idx] {
+                        Mergable::Var(b) => match b.init.as_deref_mut() {
+                            Some(v) => v,
+                            None => continue,
+                        },
+                        Mergable::Expr(e) => e,
+                    },
+                )? {
+                    break;
+                }
+
+                // This logic is required to handle
+                //
+                // var b;
+                // (function () {
+                //     function f() {
+                //         a++;
+                //     }
+                //     f();
+                //     var c = f();
+                //     var a = void 0;
+                //     c || (b = a);
+                // })();
+                // console.log(b);
+                //
+                //
+                // at the code above, c cannot be shifted to `c` in `c || (b = a)`
+                //
+
+                match a {
+                    Mergable::Var(VarDeclarator {
+                        init: Some(init), ..
+                    }) => {
+                        if !self.is_skippable_for_seq(None, init) {
+                            break;
+                        }
+                    }
+                    Mergable::Expr(Expr::Assign(a)) => {
+                        if let Some(a) = a.left.as_expr() {
+                            if !self.is_skippable_for_seq(None, a) {
+                                break;
+                            }
+                        }
+
+                        if !self.is_skippable_for_seq(None, &a.right) {
+                            break;
+                        }
+                    }
+                    _ => {}
+                }
+
+                match &a2[j - idx] {
+                    Mergable::Var(e2) => {
+                        if let Some(e2) = &e2.init {
+                            if !self.is_skippable_for_seq(Some(a), e2) {
+                                break;
+                            }
+                        }
+
+                        if let Some(id) = a1.last_mut().unwrap().id() {
+                            if IdentUsageFinder::find(&id, &**e2) {
+                                break;
+                            }
+                        }
+                    }
+                    Mergable::Expr(e2) => {
+                        if !self.is_skippable_for_seq(Some(a), e2) {
+                            break;
+                        }
+
+                        if let Some(id) = a1.last_mut().unwrap().id() {
+                            // TODO(kdy1): Optimize
+                            if IdentUsageFinder::find(&id, &**e2) {
+                                break;
+                            }
+                        }
+                    }
+                }
             }
         }
+
         Ok(())
     }
 
