@@ -79,7 +79,7 @@ extern "C" {
     // Instead of trying to copy-serialize `Mark`, this fn directly consume
     // inner raw value as well as fn and let each context constructs struct
     // on their side.
-    fn __mark_fresh_proxy(mark: u32) -> u32;
+    fn __mark_fresh_proxy() -> u32;
     fn __mark_is_builtin_proxy(self_mark: u32) -> u32;
     fn __mark_set_builtin_proxy(self_mark: u32, is_builtin: u32);
     fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
@@ -103,7 +103,7 @@ impl Mark {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
         #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        return Mark(unsafe { __mark_fresh_proxy(parent.as_u32()) });
+        return Mark(unsafe { __mark_fresh_proxy() });
 
         // https://github.com/swc-project/swc/pull/3492#discussion_r802224857
         // We loosen conditions here for the cases like running plugin's test without

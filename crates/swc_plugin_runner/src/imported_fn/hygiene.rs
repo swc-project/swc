@@ -7,7 +7,7 @@ use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_me
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not directly called by plugin, instead `impl Mark` will selectively
 /// call this depends on the running context.
-pub fn mark_fresh_proxy(parent: u32) -> u32 {
+pub fn mark_fresh_proxy() -> u32 {
     Mark::fresh().as_u32()
 }
 
