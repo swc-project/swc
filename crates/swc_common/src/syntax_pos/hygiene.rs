@@ -109,7 +109,7 @@ impl Mark {
         // We loosen conditions here for the cases like running plugin's test without
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with_write(|data| {
+        return HygieneData::with(|data| {
             let ret = Mark(data.mark_count);
             data.mark_count += 1;
             ret
@@ -187,23 +187,13 @@ impl HygieneData {
         }
     }
 
-    fn with_write<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
+    fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
             #[cfg(feature = "parking_lot")]
-            return f(&mut globals.hygiene_data.write());
+            return f(&mut globals.hygiene_data.lock());
 
             #[cfg(not(feature = "parking_lot"))]
-            return f(&mut *globals.hygiene_data.write().unwrap());
-        })
-    }
-
-    fn with_read<T, F: FnOnce(&HygieneData) -> T>(f: F) -> T {
-        GLOBALS.with(|globals| {
-            #[cfg(feature = "parking_lot")]
-            return f(&mut globals.hygiene_data.read());
-
-            #[cfg(not(feature = "parking_lot"))]
-            return f(&*globals.hygiene_data.read().unwrap());
+            return f(&mut *globals.hygiene_data.lock().unwrap());
         })
     }
 }
@@ -269,7 +259,7 @@ impl SyntaxContext {
 
     #[allow(unused)]
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
-        HygieneData::with_write(|data| {
+        HygieneData::with(|data| {
             let syntax_contexts = &mut data.syntax_contexts;
             let mut opaque = syntax_contexts[self.0 as usize].opaque;
 
@@ -340,7 +330,7 @@ impl SyntaxContext {
     /// Returns the mark that was removed.
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn remove_mark(&mut self) -> Mark {
-        HygieneData::with_read(|data| {
+        HygieneData::with(|data| {
             let outer_mark = data.syntax_contexts[self.0 as usize].outer_mark;
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
             outer_mark
@@ -353,7 +343,7 @@ impl SyntaxContext {
         return unsafe { Mark(__syntax_context_outer_proxy(self.0)) };
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        HygieneData::with_read(|data| data.syntax_contexts[self.0 as usize].outer_mark)
+        HygieneData::with(|data| data.syntax_contexts[self.0 as usize].outer_mark)
     }
 }
 
