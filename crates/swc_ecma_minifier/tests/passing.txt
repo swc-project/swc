@@ -574,6 +574,8 @@ functions/inline_2/input.js
 functions/inline_3/input.js
 functions/inline_false/input.js
 functions/inline_function_expressions/input.js
+functions/inline_loop_1/input.js
+functions/inline_loop_2/input.js
 functions/inline_loop_3/input.js
 functions/inline_loop_4/input.js
 functions/inline_true/input.js
@@ -584,7 +586,9 @@ functions/issue_2101/input.js
 functions/issue_2428/input.js
 functions/issue_2531_1/input.js
 functions/issue_2531_2/input.js
+functions/issue_2630_1/input.js
 functions/issue_2630_3/input.js
+functions/issue_2630_4/input.js
 functions/issue_2647_1/input.js
 functions/issue_2647_2/input.js
 functions/issue_2647_3/input.js

@@ -185,8 +185,6 @@ export/name_cache_mangle_local_import_and_export_aliases/input.js
 functions/duplicate_arg_var/input.js
 functions/hoist_funs/input.js
 functions/hoist_funs_strict/input.js
-functions/inline_loop_1/input.js
-functions/inline_loop_2/input.js
 functions/inner_ref/input.js
 functions/issue_203/input.js
 functions/issue_2084/input.js
@@ -204,9 +202,7 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
-functions/issue_2630_1/input.js
 functions/issue_2630_2/input.js
-functions/issue_2630_4/input.js
 functions/issue_2630_5/input.js
 functions/issue_2657/input.js
 functions/issue_2663_2/input.js
