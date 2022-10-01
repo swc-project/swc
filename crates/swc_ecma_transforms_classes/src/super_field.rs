@@ -77,7 +77,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
         match n {
             Expr::This(ThisExpr { span }) if self.in_nested_scope => {
                 *n = Expr::Ident(quote_ident!(
-                    span.apply_mark(*self.this_alias_mark.get_or_insert_with(|| Mark::fresh())),
+                    span.apply_mark(*self.this_alias_mark.get_or_insert_with(Mark::fresh)),
                     "_this"
                 ));
             }
