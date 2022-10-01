@@ -71,6 +71,7 @@ pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
     #[allow(unused)]
     dummy_cnt: AtomicU32,
+    mark_count: AtomicU32,
 }
 
 const DUMMY_RESERVE: u32 = u32::MAX - 2_u32.pow(16);
@@ -86,6 +87,7 @@ impl Globals {
         Globals {
             hygiene_data: Mutex::new(hygiene::HygieneData::new()),
             dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
+            mark_count: AtomicU32::new(1),
         }
     }
 }

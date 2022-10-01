@@ -109,11 +109,17 @@ impl Mark {
         // We loosen conditions here for the cases like running plugin's test without
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with(|data| {
-            let ret = Mark(data.mark_count);
-            data.mark_count += 1;
-            ret
+        return GLOBALS.with(|globals| {
+            let count = globals
+                .mark_count
+                .fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+            Mark(count)
         });
+        // return HygieneData::with(|data| {
+        //     // let ret = Mark(data.mark_count);
+        //     // data.mark_count += 1;
+        //     // ret
+        // });
     }
 
     /// The mark of the theoretical expansion that generates freshly parsed,
@@ -165,7 +171,6 @@ impl Mark {
 pub(crate) struct HygieneData {
     syntax_contexts: Vec<SyntaxContextData>,
     markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
-    mark_count: u32,
 }
 
 impl Default for HygieneData {
@@ -183,7 +188,7 @@ impl HygieneData {
                 opaque: SyntaxContext(0),
             }],
             markings: HashMap::default(),
-            mark_count: 1,
+            // mark_count: 1,
         }
     }
 
