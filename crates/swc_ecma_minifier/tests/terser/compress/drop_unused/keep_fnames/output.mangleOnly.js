@@ -1,3 +1,3 @@
 function n() {
-    return function n(t) {};
+    return function n(n) {};
 }

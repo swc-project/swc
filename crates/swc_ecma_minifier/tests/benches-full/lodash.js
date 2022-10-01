@@ -1870,9 +1870,6 @@
         function reverse(array) {
             return null == array ? array : nativeReverse.call(array);
         }
-        function sortedIndex(array, value) {
-            return baseSortedIndex(array, value);
-        }
         var union = baseRest(function(arrays) {
             return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, !0));
         }), unionBy = baseRest(function(arrays) {
@@ -1915,9 +1912,6 @@
         function chain(value) {
             var result = lodash(value);
             return result.__chain__ = !0, result;
-        }
-        function tap(value, interceptor) {
-            return interceptor(value), value;
         }
         function thru(value, interceptor) {
             return interceptor(value);
@@ -2102,9 +2096,6 @@
         var isBuffer = nativeIsBuffer || stubFalse, isDate = nodeIsDate ? baseUnary(nodeIsDate) : function(value) {
             return isObjectLike(value) && baseGetTag(value) == dateTag;
         };
-        function isEqual(value, other) {
-            return baseIsEqual(value, other);
-        }
         function isError(value) {
             if (!isObjectLike(value)) return !1;
             var tag = baseGetTag(value);
@@ -2377,15 +2368,6 @@
         function stubFalse() {
             return !1;
         }
-        function stubObject() {
-            return {};
-        }
-        function stubString() {
-            return '';
-        }
-        function stubTrue() {
-            return !0;
-        }
         var add = createMathOperation(function(augend, addend) {
             return augend + addend;
         }, 0), ceil = createRound('ceil'), divide = createMathOperation(function(dividend, divisor) {
@@ -2583,7 +2565,9 @@
             return array && array.length ? baseWhile(array, getIteratee(predicate, 3), !1, !0) : [];
         }, lodash.takeWhile = function(array, predicate) {
             return array && array.length ? baseWhile(array, getIteratee(predicate, 3)) : [];
-        }, lodash.tap = tap, lodash.throttle = function(func, wait, options) {
+        }, lodash.tap = function(value, interceptor) {
+            return interceptor(value), value;
+        }, lodash.throttle = function(func, wait, options) {
             var leading = !0, trailing = !0;
             if ('function' != typeof func) throw new TypeError(FUNC_ERROR_TEXT);
             return isObject(options) && (leading = 'leading' in options ? !!options.leading : leading, trailing = 'trailing' in options ? !!options.trailing : trailing), debounce(func, wait, {
@@ -2689,7 +2673,9 @@
             if (isPrototype(value)) return !baseKeys(value).length;
             for(var key in value)if (hasOwnProperty.call(value, key)) return !1;
             return !0;
-        }, lodash.isEqual = isEqual, lodash.isEqualWith = function(value, other, customizer) {
+        }, lodash.isEqual = function(value, other) {
+            return baseIsEqual(value, other);
+        }, lodash.isEqualWith = function(value, other, customizer) {
             var result = (customizer = 'function' == typeof customizer ? customizer : undefined) ? customizer(value, other) : undefined;
             return result === undefined ? baseIsEqual(value, other, undefined, customizer) : !!result;
         }, lodash.isError = isError, lodash.isFinite = function(value) {
@@ -2737,7 +2723,13 @@
             return array && array.length ? baseExtremum(array, identity, baseLt) : undefined;
         }, lodash.minBy = function(array, iteratee) {
             return array && array.length ? baseExtremum(array, getIteratee(iteratee, 2), baseLt) : undefined;
-        }, lodash.stubArray = stubArray, lodash.stubFalse = stubFalse, lodash.stubObject = stubObject, lodash.stubString = stubString, lodash.stubTrue = stubTrue, lodash.multiply = multiply, lodash.nth = function(array, n) {
+        }, lodash.stubArray = stubArray, lodash.stubFalse = stubFalse, lodash.stubObject = function() {
+            return {};
+        }, lodash.stubString = function() {
+            return '';
+        }, lodash.stubTrue = function() {
+            return !0;
+        }, lodash.multiply = multiply, lodash.nth = function(array, n) {
             return array && array.length ? baseNth(array, toInteger(n)) : undefined;
         }, lodash.noConflict = function() {
             return root._ === this && (root._ = oldDash), this;
@@ -2796,7 +2788,9 @@
         }, lodash.snakeCase = snakeCase, lodash.some = function(collection, predicate, guard) {
             var func = isArray(collection) ? arraySome : baseSome;
             return guard && isIterateeCall(collection, predicate, guard) && (predicate = undefined), func(collection, getIteratee(predicate, 3));
-        }, lodash.sortedIndex = sortedIndex, lodash.sortedIndexBy = function(array, value, iteratee) {
+        }, lodash.sortedIndex = function(array, value) {
+            return baseSortedIndex(array, value);
+        }, lodash.sortedIndexBy = function(array, value, iteratee) {
             return baseSortedIndexBy(array, value, getIteratee(iteratee, 2));
         }, lodash.sortedIndexOf = function(array, value) {
             var length = null == array ? 0 : array.length;

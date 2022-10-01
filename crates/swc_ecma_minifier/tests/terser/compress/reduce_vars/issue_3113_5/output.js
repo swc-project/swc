@@ -1,9 +1,8 @@
 function f() {
     console.log(a);
 }
-function g() {
+while(function() {
     f();
-}
-while (g());
+}());
 var a = 1;
 f();

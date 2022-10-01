@@ -5,14 +5,6 @@
     {
         2260: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, {
                 default: function() {
                     return _app;
@@ -4693,7 +4685,13 @@
                             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                _defineProperty(target, key, source[key]);
+                                var obj, value;
+                                obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                                    value: value,
+                                    enumerable: !0,
+                                    configurable: !0,
+                                    writable: !0
+                                }) : obj[key] = value;
                             });
                         }
                         return target;

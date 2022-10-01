@@ -1015,7 +1015,11 @@
             return !1;
         }
         function dummyMouseHandler() {}
-        function getSpecialEventObject(eventType) {
+        for(i = 0, $.vmouse = {
+            moveDistanceThreshold: 10,
+            clickDistanceThreshold: 10,
+            resetTimerDuration: 1500
+        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
             var realType = eventType.substr(1);
             return {
                 setup: function() {
@@ -1027,12 +1031,7 @@
                     bindings && (bindings[eventType] = !1), $this.unbind(realType, dummyMouseHandler), hasVirtualBindings(this) || $this.removeData(dataPropertyName);
                 }
             };
-        }
-        for(i = 0, $.vmouse = {
-            moveDistanceThreshold: 10,
-            clickDistanceThreshold: 10,
-            resetTimerDuration: 1500
-        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = getSpecialEventObject(virtualEventNames[i]);
+        }(virtualEventNames[i]);
         eventCaptureSupported && document1.addEventListener("click", function(e) {
             var x, y, ele, i, o, cnt = clickBlockList.length, target = e.target;
             if (cnt) for(x = e.clientX, y = e.clientY, threshold = $.vmouse.clickDistanceThreshold, ele = target; ele;){
@@ -3521,29 +3520,6 @@
             var ret = $.mobile.getAttribute.apply(this, arguments);
             return null == ret ? undefined : ret;
         }, capitalLettersRE = /[A-Z]/g;
-        function optionsToClasses(options, existingClasses) {
-            var classes = existingClasses || [];
-            return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
-                "ui-icon-" + options.icon,
-                "ui-btn-icon-" + options.iconpos
-            ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
-        }
-        function classNameToOptions(classes) {
-            var idx, map, unknownClass, alreadyEnhanced = !1, noIcon = !0, o = {
-                icon: "",
-                inline: !1,
-                shadow: !1,
-                corners: !1,
-                iconshadow: !1,
-                mini: !1
-            }, unknownClasses = [];
-            for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)unknownClass = !0, undefined !== (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
-            return noIcon && (o.icon = ""), {
-                options: o,
-                unknownClasses: unknownClasses,
-                alreadyEnhanced: alreadyEnhanced
-            };
-        }
         function camelCase2Hyphenated(c) {
             return "-" + c.toLowerCase();
         }
@@ -3553,8 +3529,29 @@
                 if (el = this[idx], data = overwriteClasses ? {
                     alreadyEnhanced: !1,
                     unknownClasses: []
-                } : classNameToOptions(el.className), retrievedOptions = $.extend({}, data.alreadyEnhanced ? data.options : {}, options), !data.alreadyEnhanced) for(optionKey in defaults)undefined === retrievedOptions[optionKey] && (retrievedOptions[optionKey] = getAttrFixed(el, optionKey.replace(capitalLettersRE, camelCase2Hyphenated)));
-                el.className = optionsToClasses($.extend({}, defaults, retrievedOptions), data.unknownClasses).join(" "), "button" !== el.tagName.toLowerCase() && el.setAttribute("role", "button");
+                } : function(classes) {
+                    var idx, map, unknownClass, alreadyEnhanced = !1, noIcon = !0, o = {
+                        icon: "",
+                        inline: !1,
+                        shadow: !1,
+                        corners: !1,
+                        iconshadow: !1,
+                        mini: !1
+                    }, unknownClasses = [];
+                    for(idx = 0, classes = classes.split(" "); idx < classes.length; idx++)unknownClass = !0, undefined !== (map = reverseBoolOptionMap[classes[idx]]) ? (unknownClass = !1, o[map] = !0) : 0 === classes[idx].indexOf("ui-btn-icon-") ? (unknownClass = !1, noIcon = !1, o.iconpos = classes[idx].substring(12)) : 0 === classes[idx].indexOf("ui-icon-") ? (unknownClass = !1, o.icon = classes[idx].substring(8)) : 0 === classes[idx].indexOf("ui-btn-") && 8 === classes[idx].length ? (unknownClass = !1, o.theme = classes[idx].substring(7)) : "ui-btn" === classes[idx] && (unknownClass = !1, alreadyEnhanced = !0), unknownClass && unknownClasses.push(classes[idx]);
+                    return noIcon && (o.icon = ""), {
+                        options: o,
+                        unknownClasses: unknownClasses,
+                        alreadyEnhanced: alreadyEnhanced
+                    };
+                }(el.className), retrievedOptions = $.extend({}, data.alreadyEnhanced ? data.options : {}, options), !data.alreadyEnhanced) for(optionKey in defaults)undefined === retrievedOptions[optionKey] && (retrievedOptions[optionKey] = getAttrFixed(el, optionKey.replace(capitalLettersRE, camelCase2Hyphenated)));
+                el.className = (function(options, existingClasses) {
+                    var classes = existingClasses || [];
+                    return classes.push("ui-btn"), options.theme && classes.push("ui-btn-" + options.theme), options.icon && (classes = classes.concat([
+                        "ui-icon-" + options.icon,
+                        "ui-btn-icon-" + options.iconpos
+                    ]), options.iconshadow && classes.push("ui-shadow-icon")), options.inline && classes.push("ui-btn-inline"), options.shadow && classes.push("ui-shadow"), options.corners && classes.push("ui-corner-all"), options.mini && classes.push("ui-mini"), classes;
+                })($.extend({}, defaults, retrievedOptions), data.unknownClasses).join(" "), "button" !== el.tagName.toLowerCase() && el.setAttribute("role", "button");
             }
             return this;
         }, $.fn.buttonMarkup.defaults = {
@@ -4493,11 +4490,7 @@
                 return event1.altKey && event1.keyCode === $.ui.keyCode.PAGE_UP ? (this._activate(this._focusNextTab(this.options.active - 1, !1)), !0) : event1.altKey && event1.keyCode === $.ui.keyCode.PAGE_DOWN ? (this._activate(this._focusNextTab(this.options.active + 1, !0)), !0) : void 0;
             },
             _findNextTab: function(index, goingForward) {
-                var lastTabIndex = this.tabs.length - 1;
-                function constrain() {
-                    return index > lastTabIndex && (index = 0), index < 0 && (index = lastTabIndex), index;
-                }
-                for(; -1 !== $.inArray(constrain(), this.options.disabled);)index = goingForward ? index + 1 : index - 1;
+                for(var lastTabIndex = this.tabs.length - 1; -1 !== $.inArray((index > lastTabIndex && (index = 0), index < 0 && (index = lastTabIndex), index), this.options.disabled);)index = goingForward ? index + 1 : index - 1;
                 return index;
             },
             _focusNextTab: function(index, goingForward) {

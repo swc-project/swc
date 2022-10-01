@@ -1,7 +1,6 @@
 var a;
-function f(b) {
+function g() {}
+for(var i = 3; --i >= 0;)(function(b) {
     console.log(a === b);
     a = b;
-}
-function g() {}
-for (var i = 3; --i >= 0; ) f(g);
+})(g);

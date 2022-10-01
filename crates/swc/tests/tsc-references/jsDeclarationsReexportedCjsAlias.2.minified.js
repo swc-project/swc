@@ -1,8 +1,5 @@
 //// [lib.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-function bar(a) {
-    return a + a;
-}
 var SomeClass = function() {
     "use strict";
     function SomeClass() {
@@ -13,7 +10,9 @@ var SomeClass = function() {
     }, SomeClass;
 }();
 module.exports = {
-    bar: bar,
+    bar: function(a) {
+        return a + a;
+    },
     SomeClass: SomeClass
 };
 //// [main.js]

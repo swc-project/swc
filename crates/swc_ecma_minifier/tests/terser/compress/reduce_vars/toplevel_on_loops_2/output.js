@@ -1,4 +1,3 @@
-function bar() {
+for(;;)(function() {
     console.log("bar:");
-}
-for (;;) bar();
+})();

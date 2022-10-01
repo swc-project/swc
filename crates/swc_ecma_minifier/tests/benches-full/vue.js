@@ -541,7 +541,17 @@
                         type
                     ]);
                     for(var i = 0; i < type.length && !valid; i++){
-                        var assertedType = assertType(value, type[i]);
+                        var assertedType = function(value, type) {
+                            var valid, expectedType = getType(type);
+                            if (simpleCheckRE.test(expectedType)) {
+                                var t = typeof value;
+                                (valid = t === expectedType.toLowerCase()) || 'object' !== t || (valid = value instanceof type);
+                            } else valid = 'Object' === expectedType ? isPlainObject(value) : 'Array' === expectedType ? Array.isArray(value) : value instanceof type;
+                            return {
+                                valid: valid,
+                                expectedType: expectedType
+                            };
+                        }(value, type[i]);
                         expectedTypes1.push(assertedType.expectedType || ''), valid = assertedType.valid;
                     }
                 }
@@ -560,17 +570,6 @@
         }(prop, key, value, vm, absent), value;
     }
     var simpleCheckRE = /^(String|Number|Boolean|Function|Symbol)$/;
-    function assertType(value, type) {
-        var valid, expectedType = getType(type);
-        if (simpleCheckRE.test(expectedType)) {
-            var t = typeof value;
-            (valid = t === expectedType.toLowerCase()) || 'object' !== t || (valid = value instanceof type);
-        } else valid = 'Object' === expectedType ? isPlainObject(value) : 'Array' === expectedType ? Array.isArray(value) : value instanceof type;
-        return {
-            valid: valid,
-            expectedType: expectedType
-        };
-    }
     function getType(fn) {
         var match = fn && fn.toString().match(/^\s*function (\w+)/);
         return match ? match[1] : '';
@@ -818,28 +817,26 @@
         if (slots) {
             if (slots._normalized) return slots._normalized;
             if (isStable && prevSlots && prevSlots !== emptyObject && key === prevSlots.$key && !hasNormalSlots && !prevSlots.$hasNormal) return prevSlots;
-            else for(var key$1 in res = {}, slots)slots[key$1] && '$' !== key$1[0] && (res[key$1] = normalizeScopedSlot(normalSlots, key$1, slots[key$1]));
+            else for(var key$1 in res = {}, slots)slots[key$1] && '$' !== key$1[0] && (res[key$1] = function(normalSlots, key, fn) {
+                var normalized = function() {
+                    var res = arguments.length ? fn.apply(null, arguments) : fn({});
+                    return (res = res && 'object' == typeof res && !Array.isArray(res) ? [
+                        res
+                    ] : normalizeChildren(res)) && (0 === res.length || 1 === res.length && res[0].isComment) ? void 0 : res;
+                };
+                return fn.proxy && Object.defineProperty(normalSlots, key, {
+                    get: normalized,
+                    enumerable: !0,
+                    configurable: !0
+                }), normalized;
+            }(normalSlots, key$1, slots[key$1]));
         } else res = {};
-        for(var key$2 in normalSlots)key$2 in res || (res[key$2] = proxyNormalSlot(normalSlots, key$2));
+        for(var key$2 in normalSlots)key$2 in res || (res[key$2] = function(slots, key) {
+            return function() {
+                return slots[key];
+            };
+        }(normalSlots, key$2));
         return slots && Object.isExtensible(slots) && (slots._normalized = res), def(res, '$stable', isStable), def(res, '$key', key), def(res, '$hasNormal', hasNormalSlots), res;
-    }
-    function normalizeScopedSlot(normalSlots, key, fn) {
-        var normalized = function() {
-            var res = arguments.length ? fn.apply(null, arguments) : fn({});
-            return (res = res && 'object' == typeof res && !Array.isArray(res) ? [
-                res
-            ] : normalizeChildren(res)) && (0 === res.length || 1 === res.length && res[0].isComment) ? void 0 : res;
-        };
-        return fn.proxy && Object.defineProperty(normalSlots, key, {
-            get: normalized,
-            enumerable: !0,
-            configurable: !0
-        }), normalized;
-    }
-    function proxyNormalSlot(slots, key) {
-        return function() {
-            return slots[key];
-        };
     }
     function renderList(val, render) {
         var ret, i, l, keys, key;
@@ -1081,7 +1078,12 @@
             !function(data) {
                 for(var hooks = data.hook || (data.hook = {}), i = 0; i < hooksToMerge.length; i++){
                     var key = hooksToMerge[i], existing = hooks[key], toMerge = componentVNodeHooks[key];
-                    existing === toMerge || existing && existing._merged || (hooks[key] = existing ? mergeHook$1(toMerge, existing) : toMerge);
+                    existing === toMerge || existing && existing._merged || (hooks[key] = existing ? function(f1, f2) {
+                        var merged = function(a, b) {
+                            f1(a, b), f2(a, b);
+                        };
+                        return merged._merged = !0, merged;
+                    }(toMerge, existing) : toMerge);
                 }
             }(data);
             var name = Ctor.options.name || tag;
@@ -1093,12 +1095,6 @@
                 children: children
             }, asyncFactory);
         }
-    }
-    function mergeHook$1(f1, f2) {
-        var merged = function(a, b) {
-            f1(a, b), f2(a, b);
-        };
-        return merged._merged = !0, merged;
     }
     function createElement(context, tag, data, children, normalizationType, alwaysNormalize) {
         var context1, tag1, data1, children1, normalizationType1, vnode, ns, Ctor, data2;
@@ -1711,11 +1707,6 @@
             return typeA === typeB || isTextInputType(typeA) && isTextInputType(typeB);
         }(a, b) || isTrue(a.isAsyncPlaceholder) && a.asyncFactory === b.asyncFactory && isUndef(b.asyncFactory.error));
     }
-    function createKeyToOldIdx(children, beginIdx, endIdx) {
-        var i, key, map = {};
-        for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
-        return map;
-    }
     function updateDirectives(oldVnode, vnode) {
         (oldVnode.data.directives || vnode.data.directives) && function(oldVnode, vnode) {
             var key, oldDir, dir, isCreate = oldVnode === emptyNode, isDestroy = vnode === emptyNode, oldDirs = normalizeDirectives$1(oldVnode.data.directives, oldVnode.context), newDirs = normalizeDirectives$1(vnode.data.directives, vnode.context), dirsWithInsert = [], dirsWithPostpatch = [];
@@ -1733,13 +1724,12 @@
     }
     var emptyModifiers = Object.create(null);
     function normalizeDirectives$1(dirs, vm) {
-        var i, dir, res = Object.create(null);
+        var dir, i, dir1, res = Object.create(null);
         if (!dirs) return res;
-        for(i = 0; i < dirs.length; i++)(dir = dirs[i]).modifiers || (dir.modifiers = emptyModifiers), res[getRawDirName(dir)] = dir, dir.def = resolveAsset(vm.$options, 'directives', dir.name, !0);
+        for(i = 0; i < dirs.length; i++){
+            (dir1 = dirs[i]).modifiers || (dir1.modifiers = emptyModifiers), res[(dir = dir1).rawName || dir.name + "." + Object.keys(dir.modifiers || {}).join('.')] = dir1, dir1.def = resolveAsset(vm.$options, 'directives', dir1.name, !0);
+        }
         return res;
-    }
-    function getRawDirName(dir) {
-        return dir.rawName || dir.name + "." + Object.keys(dir.modifiers || {}).join('.');
     }
     function callHook$1(dir, hook, vnode, oldVnode, isDestroy) {
         var fn = dir.def && dir.def[hook];
@@ -1832,14 +1822,13 @@
         function pushFilter() {
             (filters || (filters = [])).push(exp.slice(lastFilterIndex, i).trim()), lastFilterIndex = i + 1;
         }
-        if (void 0 === expression ? expression = exp.slice(0, i).trim() : 0 !== lastFilterIndex && pushFilter(), filters) for(i = 0; i < filters.length; i++)expression = wrapFilter(expression, filters[i]);
+        if (void 0 === expression ? expression = exp.slice(0, i).trim() : 0 !== lastFilterIndex && pushFilter(), filters) for(i = 0; i < filters.length; i++)expression = function(exp, filter) {
+            var i = filter.indexOf('(');
+            if (i < 0) return "_f(\"" + filter + "\")(" + exp + ")";
+            var name = filter.slice(0, i), args = filter.slice(i + 1);
+            return "_f(\"" + name + "\")(" + exp + (')' !== args ? ',' + args : args);
+        }(expression, filters[i]);
         return expression;
-    }
-    function wrapFilter(exp, filter) {
-        var i = filter.indexOf('(');
-        if (i < 0) return "_f(\"" + filter + "\")(" + exp + ")";
-        var name = filter.slice(0, i), args = filter.slice(i + 1);
-        return "_f(\"" + name + "\")(" + exp + (')' !== args ? ',' + args : args);
     }
     function baseWarn(msg, range) {
         console.error("[Vue compiler]: " + msg);
@@ -1870,16 +1859,6 @@
             name: name,
             value: value
         }, range));
-    }
-    function addDirective(el, name, rawName, value, arg, isDynamicArg, modifiers, range) {
-        (el.directives || (el.directives = [])).push(rangeSetItem({
-            name: name,
-            rawName: rawName,
-            value: value,
-            arg: arg,
-            isDynamicArg: isDynamicArg,
-            modifiers: modifiers
-        }, range)), el.plain = !1;
     }
     function prependModifierMarker(symbol, name, dynamic) {
         return dynamic ? "_p(" + name + ",\"" + symbol + "\")" : symbol + name;
@@ -1949,7 +1928,19 @@
                 exp: val,
                 key: null
             };
-            for(str = val, index$1 = expressionPos = expressionEndPos = 0; !eof();)isStringStart(chr = next()) ? parseString(chr) : 0x5B === chr && parseBracket(chr);
+            for(str = val, index$1 = expressionPos = expressionEndPos = 0; !eof();)isStringStart(chr = next()) ? parseString(chr) : 0x5B === chr && function(chr) {
+                var inBracket = 1;
+                for(expressionPos = index$1; !eof();){
+                    if (isStringStart(chr = next())) {
+                        parseString(chr);
+                        continue;
+                    }
+                    if (0x5B === chr && inBracket++, 0x5D === chr && inBracket--, 0 === inBracket) {
+                        expressionEndPos = index$1;
+                        break;
+                    }
+                }
+            }(chr);
             return {
                 exp: val.slice(0, expressionPos),
                 key: val.slice(expressionPos + 1, expressionEndPos)
@@ -1965,19 +1956,6 @@
     }
     function isStringStart(chr) {
         return 0x22 === chr || 0x27 === chr;
-    }
-    function parseBracket(chr) {
-        var inBracket = 1;
-        for(expressionPos = index$1; !eof();){
-            if (isStringStart(chr = next())) {
-                parseString(chr);
-                continue;
-            }
-            if (0x5B === chr && inBracket++, 0x5D === chr && inBracket--, 0 === inBracket) {
-                expressionEndPos = index$1;
-                break;
-            }
-        }
     }
     function parseString(chr) {
         for(var stringQuote = chr; !eof() && (chr = next()) !== stringQuote;);
@@ -2028,8 +2006,21 @@
                 }
                 if ('value' === key && 'PROGRESS' !== elm.tagName) {
                     elm._value = cur;
-                    var strCur = isUndef(cur) ? '' : String(cur);
-                    shouldUpdateValue(elm, strCur) && (elm.value = strCur);
+                    var elm1, checkVal, strCur = isUndef(cur) ? '' : String(cur);
+                    elm1 = elm, checkVal = strCur, !elm1.composing && ('OPTION' === elm1.tagName || function(elm, checkVal) {
+                        var notInFocus = !0;
+                        try {
+                            notInFocus = document.activeElement !== elm;
+                        } catch (e) {}
+                        return notInFocus && elm.value !== checkVal;
+                    }(elm1, checkVal) || function(elm, newVal) {
+                        var value = elm.value, modifiers = elm._vModifiers;
+                        if (isDef(modifiers)) {
+                            if (modifiers.number) return toNumber(value) !== toNumber(newVal);
+                            if (modifiers.trim) return value.trim() !== newVal.trim();
+                        }
+                        return value !== newVal;
+                    }(elm1, checkVal)) && (elm.value = strCur);
                 } else if ('innerHTML' === key && isSVG(elm.tagName) && isUndef(elm.innerHTML)) {
                     (svgContainer = svgContainer || document.createElement('div')).innerHTML = "<svg>" + cur + "</svg>";
                     for(var svg = svgContainer.firstChild; elm.firstChild;)elm.removeChild(elm.firstChild);
@@ -2039,22 +2030,6 @@
                 } catch (e) {}
             }
         }
-    }
-    function shouldUpdateValue(elm, checkVal) {
-        return !elm.composing && ('OPTION' === elm.tagName || function(elm, checkVal) {
-            var notInFocus = !0;
-            try {
-                notInFocus = document.activeElement !== elm;
-            } catch (e) {}
-            return notInFocus && elm.value !== checkVal;
-        }(elm, checkVal) || function(elm, newVal) {
-            var value = elm.value, modifiers = elm._vModifiers;
-            if (isDef(modifiers)) {
-                if (modifiers.number) return toNumber(value) !== toNumber(newVal);
-                if (modifiers.trim) return value.trim() !== newVal.trim();
-            }
-            return value !== newVal;
-        }(elm, checkVal));
     }
     var parseStyleText = cached(function(cssText) {
         var res = {}, propertyDelimiter = /:(.+)/;
@@ -2369,31 +2344,24 @@
         function removeVnodes(vnodes, startIdx, endIdx) {
             for(; startIdx <= endIdx; ++startIdx){
                 var ch = vnodes[startIdx];
-                isDef(ch) && (isDef(ch.tag) ? (removeAndInvokeRemoveHook(ch), invokeDestroyHook(ch)) : removeNode(ch.elm));
+                isDef(ch) && (isDef(ch.tag) ? (function removeAndInvokeRemoveHook(vnode, rm) {
+                    if (isDef(rm) || isDef(vnode.data)) {
+                        var i, listeners = cbs.remove.length + 1;
+                        for(isDef(rm) ? rm.listeners += listeners : rm = function(childElm, listeners) {
+                            function remove$$1() {
+                                0 == --remove$$1.listeners && removeNode(childElm);
+                            }
+                            return remove$$1.listeners = listeners, remove$$1;
+                        }(vnode.elm, listeners), isDef(i = vnode.componentInstance) && isDef(i = i._vnode) && isDef(i.data) && removeAndInvokeRemoveHook(i, rm), i = 0; i < cbs.remove.length; ++i)cbs.remove[i](vnode, rm);
+                        isDef(i = vnode.data.hook) && isDef(i = i.remove) ? i(vnode, rm) : rm();
+                    } else removeNode(vnode.elm);
+                }(ch), invokeDestroyHook(ch)) : removeNode(ch.elm));
             }
-        }
-        function removeAndInvokeRemoveHook(vnode, rm) {
-            if (isDef(rm) || isDef(vnode.data)) {
-                var i, listeners = cbs.remove.length + 1;
-                for(isDef(rm) ? rm.listeners += listeners : rm = function(childElm, listeners) {
-                    function remove$$1() {
-                        0 == --remove$$1.listeners && removeNode(childElm);
-                    }
-                    return remove$$1.listeners = listeners, remove$$1;
-                }(vnode.elm, listeners), isDef(i = vnode.componentInstance) && isDef(i = i._vnode) && isDef(i.data) && removeAndInvokeRemoveHook(i, rm), i = 0; i < cbs.remove.length; ++i)cbs.remove[i](vnode, rm);
-                isDef(i = vnode.data.hook) && isDef(i = i.remove) ? i(vnode, rm) : rm();
-            } else removeNode(vnode.elm);
         }
         function checkDuplicateKeys(children) {
             for(var seenKeys = {}, i = 0; i < children.length; i++){
                 var vnode = children[i], key = vnode.key;
                 isDef(key) && (seenKeys[key] ? warn("Duplicate keys detected: '" + key + "'. This may cause an update error.", vnode.context) : seenKeys[key] = !0);
-            }
-        }
-        function findIdxInOld(node, oldCh, start, end) {
-            for(var i = start; i < end; i++){
-                var c = oldCh[i];
-                if (isDef(c) && sameVnode(node, c)) return i;
             }
         }
         function invokeInsertHook(vnode, queue, initial) {
@@ -2464,7 +2432,16 @@
                         }
                         isUndef(vnode.text) ? isDef(oldCh) && isDef(ch) ? oldCh !== ch && function(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
                             var oldKeyToIdx, idxInOld, vnodeToMove, refElm, oldStartIdx = 0, newStartIdx = 0, oldEndIdx = oldCh.length - 1, oldStartVnode = oldCh[0], oldEndVnode = oldCh[oldEndIdx], newEndIdx = newCh.length - 1, newStartVnode = newCh[0], newEndVnode = newCh[newEndIdx], canMove = !removeOnly;
-                            for(checkDuplicateKeys(newCh); oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx;)isUndef(oldStartVnode) ? oldStartVnode = oldCh[++oldStartIdx] : isUndef(oldEndVnode) ? oldEndVnode = oldCh[--oldEndIdx] : sameVnode(oldStartVnode, newStartVnode) ? (patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldStartVnode = oldCh[++oldStartIdx], newStartVnode = newCh[++newStartIdx]) : sameVnode(oldEndVnode, newEndVnode) ? (patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), oldEndVnode = oldCh[--oldEndIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldStartVnode, newEndVnode) ? (patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), canMove && nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm)), oldStartVnode = oldCh[++oldStartIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldEndVnode, newStartVnode) ? (patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm), oldEndVnode = oldCh[--oldEndIdx], newStartVnode = newCh[++newStartIdx]) : (isUndef(oldKeyToIdx) && (oldKeyToIdx = createKeyToOldIdx(oldCh, oldStartIdx, oldEndIdx)), idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : findIdxInOld(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
+                            for(checkDuplicateKeys(newCh); oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx;)isUndef(oldStartVnode) ? oldStartVnode = oldCh[++oldStartIdx] : isUndef(oldEndVnode) ? oldEndVnode = oldCh[--oldEndIdx] : sameVnode(oldStartVnode, newStartVnode) ? (patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldStartVnode = oldCh[++oldStartIdx], newStartVnode = newCh[++newStartIdx]) : sameVnode(oldEndVnode, newEndVnode) ? (patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), oldEndVnode = oldCh[--oldEndIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldStartVnode, newEndVnode) ? (patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), canMove && nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm)), oldStartVnode = oldCh[++oldStartIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldEndVnode, newStartVnode) ? (patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm), oldEndVnode = oldCh[--oldEndIdx], newStartVnode = newCh[++newStartIdx]) : (isUndef(oldKeyToIdx) && (oldKeyToIdx = function(children, beginIdx, endIdx) {
+                                var i, key, map = {};
+                                for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
+                                return map;
+                            }(oldCh, oldStartIdx, oldEndIdx)), idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : function(node, oldCh, start, end) {
+                                for(var i = start; i < end; i++){
+                                    var c = oldCh[i];
+                                    if (isDef(c) && sameVnode(node, c)) return i;
+                                }
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
                             oldStartIdx > oldEndIdx ? (refElm = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, addVnodes(parentElm, refElm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue)) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }
@@ -2785,13 +2762,7 @@
         '&#39;': "'"
     }, encodedAttr = /&(?:lt|gt|quot|amp|#39);/g, encodedAttrWithNewLines = /&(?:lt|gt|quot|amp|#39|#10|#9);/g, isIgnoreNewlineTag = makeMap('pre,textarea', !0), shouldIgnoreFirstNewline = function(tag, html) {
         return tag && isIgnoreNewlineTag(tag) && '\n' === html[0];
-    };
-    function decodeAttr(value, shouldDecodeNewlines) {
-        return value.replace(shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr, function(match) {
-            return decodingMap[match];
-        });
-    }
-    var onRE = /^@|^v-on:/, dirRE = /^v-|^@|^:|^#/, forAliasRE = /([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/, forIteratorRE = /,([^,\}\]]*)(?:,([^,\}\]]*))?$/, stripParensRE = /^\(|\)$/g, dynamicArgRE = /^\[.*\]$/, argRE = /:(.*)$/, bindRE = /^:|^\.|^v-bind:/, modifierRE = /\.[^.\]]+(?=[^\]]*$)/g, slotRE = /^v-slot(:|$)|^#/, lineBreakRE = /[\r\n]/, whitespaceRE$1 = /\s+/g, invalidAttributeRE = /[\s"'<>\/=]/, decodeHTMLCached = cached(function(html) {
+    }, onRE = /^@|^v-on:/, dirRE = /^v-|^@|^:|^#/, forAliasRE = /([\s\S]*?)\s+(?:in|of)\s+([\s\S]*)/, forIteratorRE = /,([^,\}\]]*)(?:,([^,\}\]]*))?$/, stripParensRE = /^\(|\)$/g, dynamicArgRE = /^\[.*\]$/, argRE = /:(.*)$/, bindRE = /^:|^\.|^v-bind:/, modifierRE = /\.[^.\]]+(?=[^\]]*$)/g, slotRE = /^v-slot(:|$)|^#/, lineBreakRE = /[\r\n]/, whitespaceRE$1 = /\s+/g, invalidAttributeRE = /[\s"'<>\/=]/, decodeHTMLCached = cached(function(html) {
         return (decoder = decoder || document.createElement('div')).innerHTML = html, decoder.textContent;
     }), emptySlotScopeToken = "_empty_";
     function createASTElement(tag, attrs, parent) {
@@ -2849,11 +2820,28 @@
         return function(el) {
             var i, l, name, rawName, value, modifiers, syncGen, isDynamic, list = el.attrsList;
             for(i = 0, l = list.length; i < l; i++)if (name = rawName = list[i].name, value = list[i].value, dirRE.test(name)) {
-                if (el.hasBindings = !0, (modifiers = parseModifiers(name.replace(dirRE, ''))) && (name = name.replace(modifierRE, '')), bindRE.test(name)) name = name.replace(bindRE, ''), value = parseFilters(value), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), 0 === value.trim().length && warn$2("The value for a v-bind expression cannot be empty. Found in \"v-bind:" + name + "\""), modifiers && (modifiers.prop && !isDynamic && 'innerHtml' === (name = camelize(name)) && (name = 'innerHTML'), modifiers.camel && !isDynamic && (name = camelize(name)), modifiers.sync && (syncGen = genAssignmentCode(value, "$event"), isDynamic ? addHandler(el, "\"update:\"+(" + name + ")", syncGen, null, !1, warn$2, list[i], !0) : (addHandler(el, "update:" + camelize(name), syncGen, null, !1, warn$2, list[i]), hyphenate(name) !== camelize(name) && addHandler(el, "update:" + hyphenate(name), syncGen, null, !1, warn$2, list[i])))), modifiers && modifiers.prop || !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name) ? addProp(el, name, value, list[i], isDynamic) : addAttr(el, name, value, list[i], isDynamic);
+                if (el.hasBindings = !0, (modifiers = function(name) {
+                    var match = name.match(modifierRE);
+                    if (match) {
+                        var ret = {};
+                        return match.forEach(function(m) {
+                            ret[m.slice(1)] = !0;
+                        }), ret;
+                    }
+                }(name.replace(dirRE, ''))) && (name = name.replace(modifierRE, '')), bindRE.test(name)) name = name.replace(bindRE, ''), value = parseFilters(value), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), 0 === value.trim().length && warn$2("The value for a v-bind expression cannot be empty. Found in \"v-bind:" + name + "\""), modifiers && (modifiers.prop && !isDynamic && 'innerHtml' === (name = camelize(name)) && (name = 'innerHTML'), modifiers.camel && !isDynamic && (name = camelize(name)), modifiers.sync && (syncGen = genAssignmentCode(value, "$event"), isDynamic ? addHandler(el, "\"update:\"+(" + name + ")", syncGen, null, !1, warn$2, list[i], !0) : (addHandler(el, "update:" + camelize(name), syncGen, null, !1, warn$2, list[i]), hyphenate(name) !== camelize(name) && addHandler(el, "update:" + hyphenate(name), syncGen, null, !1, warn$2, list[i])))), modifiers && modifiers.prop || !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name) ? addProp(el, name, value, list[i], isDynamic) : addAttr(el, name, value, list[i], isDynamic);
                 else if (onRE.test(name)) name = name.replace(onRE, ''), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), addHandler(el, name, value, modifiers, !1, warn$2, list[i], isDynamic);
                 else {
-                    var argMatch = (name = name.replace(dirRE, '')).match(argRE), arg = argMatch && argMatch[1];
-                    isDynamic = !1, arg && (name = name.slice(0, -(arg.length + 1)), dynamicArgRE.test(arg) && (arg = arg.slice(1, -1), isDynamic = !0)), addDirective(el, name, rawName, value, arg, isDynamic, modifiers, list[i]), 'model' === name && checkForAliasModel(el, value);
+                    var el1, name1, rawName1, value1, arg, isDynamicArg, modifiers1, range, argMatch = (name = name.replace(dirRE, '')).match(argRE), arg1 = argMatch && argMatch[1];
+                    isDynamic = !1, arg1 && (name = name.slice(0, -(arg1.length + 1)), dynamicArgRE.test(arg1) && (arg1 = arg1.slice(1, -1), isDynamic = !0)), el1 = el, name1 = name, value1 = value, arg = arg1, isDynamicArg = isDynamic, modifiers1 = modifiers, range = list[i], (el1.directives || (el1.directives = [])).push(rangeSetItem({
+                        name: name1,
+                        rawName: rawName,
+                        value: value1,
+                        arg: arg,
+                        isDynamicArg: isDynamicArg,
+                        modifiers: modifiers1
+                    }, range)), el1.plain = !1, 'model' === name && function(el, value) {
+                        for(var _el = el; _el;)_el.for && _el.alias === value && warn$2("<" + el.tag + " v-model=\"" + value + '">: You are binding v-model directly to a v-for iteration alias. This will not be able to modify the v-for source array because writing to the alias is like modifying a function local variable. Consider using an array of objects and use v-model on an object property instead.', el.rawAttrsMap['v-model']), _el = _el.parent;
+                    }(el, value);
                 }
             } else parseText(value, delimiters) && warn$2(name + "=\"" + value + '": Interpolation inside attributes has been removed. Use v-bind or the colon shorthand instead. For example, instead of <div id="{{ val }}">, use <div :id="val">.', list[i]), addAttr(el, name, JSON.stringify(value), list[i]), !el.component && 'muted' === name && platformMustUseProp(el.tag, el.attrsMap.type, name) && addProp(el, name, 'true', list[i]);
         }(element), element;
@@ -2886,19 +2874,7 @@
             dynamic: !1
         };
     }
-    function parseModifiers(name) {
-        var match = name.match(modifierRE);
-        if (match) {
-            var ret = {};
-            return match.forEach(function(m) {
-                ret[m.slice(1)] = !0;
-            }), ret;
-        }
-    }
     var ieNSBug = /^xmlns:NS\d+/, ieNSPrefix = /^NS\d+:/;
-    function checkForAliasModel(el, value) {
-        for(var _el = el; _el;)_el.for && _el.alias === value && warn$2("<" + el.tag + " v-model=\"" + value + '">: You are binding v-model directly to a v-for iteration alias. This will not be able to modify the v-for source array because writing to the alias is like modifying a function local variable. Consider using an array of objects and use v-model on an object property instead.', el.rawAttrsMap['v-model']), _el = _el.parent;
-    }
     function cloneASTElement(el) {
         return createASTElement(el.tag, el.attrsList.slice(), el.parent);
     }
@@ -3068,36 +3044,35 @@
     function genHandlers(events, isNative) {
         var prefix = isNative ? 'nativeOn:' : 'on:', staticHandlers = "", dynamicHandlers = "";
         for(var name in events){
-            var handlerCode = genHandler(events[name]);
+            var handlerCode = function genHandler(handler) {
+                if (!handler) return 'function(){}';
+                if (Array.isArray(handler)) return "[" + handler.map(function(handler) {
+                    return genHandler(handler);
+                }).join(',') + "]";
+                var isMethodPath = simplePathRE.test(handler.value), isFunctionExpression = fnExpRE.test(handler.value), isFunctionInvocation = simplePathRE.test(handler.value.replace(fnInvokeRE, ''));
+                if (handler.modifiers) {
+                    var code = '', genModifierCode = '', keys = [];
+                    for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys.push(key);
+                    else if ('exact' === key) {
+                        var modifiers = handler.modifiers;
+                        genModifierCode += genGuard([
+                            'ctrl',
+                            'shift',
+                            'alt',
+                            'meta'
+                        ].filter(function(keyModifier) {
+                            return !modifiers[keyModifier];
+                        }).map(function(keyModifier) {
+                            return "$event." + keyModifier + "Key";
+                        }).join('||'));
+                    } else keys.push(key);
+                    return keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
+                }
+                return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
+            }(events[name]);
             events[name] && events[name].dynamic ? dynamicHandlers += name + "," + handlerCode + "," : staticHandlers += "\"" + name + "\":" + handlerCode + ",";
         }
         return (staticHandlers = "{" + staticHandlers.slice(0, -1) + "}", dynamicHandlers) ? prefix + "_d(" + staticHandlers + ",[" + dynamicHandlers.slice(0, -1) + "])" : prefix + staticHandlers;
-    }
-    function genHandler(handler) {
-        if (!handler) return 'function(){}';
-        if (Array.isArray(handler)) return "[" + handler.map(function(handler) {
-            return genHandler(handler);
-        }).join(',') + "]";
-        var isMethodPath = simplePathRE.test(handler.value), isFunctionExpression = fnExpRE.test(handler.value), isFunctionInvocation = simplePathRE.test(handler.value.replace(fnInvokeRE, ''));
-        if (handler.modifiers) {
-            var code = '', genModifierCode = '', keys = [];
-            for(var key in handler.modifiers)if (modifierCode[key]) genModifierCode += modifierCode[key], keyCodes[key] && keys.push(key);
-            else if ('exact' === key) {
-                var modifiers = handler.modifiers;
-                genModifierCode += genGuard([
-                    'ctrl',
-                    'shift',
-                    'alt',
-                    'meta'
-                ].filter(function(keyModifier) {
-                    return !modifiers[keyModifier];
-                }).map(function(keyModifier) {
-                    return "$event." + keyModifier + "Key";
-                }).join('||'));
-            } else keys.push(key);
-            return keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
-        }
-        return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
     }
     function genFilterCode(key) {
         var keyVal = parseInt(key, 10);
@@ -3294,13 +3269,6 @@
         return text.replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
     }
     var prohibitedKeywordRE = RegExp('\\b' + "do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const,super,throw,while,yield,delete,export,import,return,switch,default,extends,finally,continue,debugger,function,arguments".split(',').join('\\b|\\b') + '\\b'), unaryOperatorsRE = RegExp('\\b' + 'delete,typeof,void'.split(',').join('\\s*\\([^\\)]*\\)|\\b') + '\\s*\\([^\\)]*\\)'), stripStringRE = /'(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*\$\{|\}(?:[^`\\]|\\.)*`|`(?:[^`\\]|\\.)*`/g;
-    function checkEvent(exp, text, warn, range) {
-        var stripped = exp.replace(stripStringRE, ''), keywordMatch = stripped.match(unaryOperatorsRE);
-        keywordMatch && '$' !== stripped.charAt(keywordMatch.index - 1) && warn('avoid using JavaScript unary operator as property name: "' + keywordMatch[0] + "\" in expression " + text.trim(), range), checkExpression(exp, text, warn, range);
-    }
-    function checkFor(node, text, warn, range) {
-        checkExpression(node.for || '', text, warn, range), checkIdentifier(node.alias, 'v-for alias', text, warn, range), checkIdentifier(node.iterator1, 'v-for iterator', text, warn, range), checkIdentifier(node.iterator2, 'v-for iterator', text, warn, range);
-    }
     function checkIdentifier(ident, type, text, warn, range) {
         if ('string' == typeof ident) try {
             Function("var " + ident + "=_");
@@ -3314,13 +3282,6 @@
         } catch (e) {
             var keywordMatch = exp.replace(stripStringRE, '').match(prohibitedKeywordRE);
             warn(keywordMatch ? 'avoid using JavaScript keyword as property name: "' + keywordMatch[0] + "\"\n  Raw expression: " + text.trim() : "invalid expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
-        }
-    }
-    function checkFunctionParameterExpression(exp, text, warn, range) {
-        try {
-            Function(exp, '');
-        } catch (e) {
-            warn("invalid function parameter expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
         }
     }
     function repeat$1(str, n) {
@@ -3423,9 +3384,39 @@
                                 advance(endTagMatch[0].length), parseEndTag(endTagMatch[1], curIndex, index);
                                 continue;
                             }
-                            var startTagMatch = parseStartTag();
+                            var startTagMatch = function() {
+                                var start = html.match(startTagOpen);
+                                if (start) {
+                                    var end, attr, match = {
+                                        tagName: start[1],
+                                        attrs: [],
+                                        start: index
+                                    };
+                                    for(advance(start[0].length); !(end = html.match(startTagClose)) && (attr = html.match(dynamicArgAttribute) || html.match(attribute));)attr.start = index, advance(attr[0].length), attr.end = index, match.attrs.push(attr);
+                                    if (end) return match.unarySlash = end[1], advance(end[0].length), match.end = index, match;
+                                }
+                            }();
                             if (startTagMatch) {
-                                handleStartTag(startTagMatch), shouldIgnoreFirstNewline(startTagMatch.tagName, html) && advance(1);
+                                (function(match) {
+                                    var tagName = match.tagName, unarySlash = match.unarySlash;
+                                    expectHTML && ('p' === lastTag && isNonPhrasingTag(tagName) && parseEndTag(lastTag), canBeLeftOpenTag$$1(tagName) && lastTag === tagName && parseEndTag(tagName));
+                                    for(var unary = isUnaryTag$$1(tagName) || !!unarySlash, l = match.attrs.length, attrs = Array(l), i = 0; i < l; i++){
+                                        var value, shouldDecodeNewlines, args = match.attrs[i], value1 = args[3] || args[4] || args[5] || '', shouldDecodeNewlines1 = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
+                                        attrs[i] = {
+                                            name: args[1],
+                                            value: value1.replace(shouldDecodeNewlines1 ? encodedAttrWithNewLines : encodedAttr, function(match) {
+                                                return decodingMap[match];
+                                            })
+                                        }, options.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
+                                    }
+                                    unary || (stack.push({
+                                        tag: tagName,
+                                        lowerCasedTag: tagName.toLowerCase(),
+                                        attrs: attrs,
+                                        start: match.start,
+                                        end: match.end
+                                    }), lastTag = tagName), options.start && options.start(tagName, attrs, unary, match.start, match.end);
+                                })(startTagMatch), shouldIgnoreFirstNewline(startTagMatch.tagName, html) && advance(1);
                                 continue;
                             }
                         }
@@ -3445,36 +3436,6 @@
                 }
                 function advance(n) {
                     index += n, html = html.substring(n);
-                }
-                function parseStartTag() {
-                    var start = html.match(startTagOpen);
-                    if (start) {
-                        var end, attr, match = {
-                            tagName: start[1],
-                            attrs: [],
-                            start: index
-                        };
-                        for(advance(start[0].length); !(end = html.match(startTagClose)) && (attr = html.match(dynamicArgAttribute) || html.match(attribute));)attr.start = index, advance(attr[0].length), attr.end = index, match.attrs.push(attr);
-                        if (end) return match.unarySlash = end[1], advance(end[0].length), match.end = index, match;
-                    }
-                }
-                function handleStartTag(match) {
-                    var tagName = match.tagName, unarySlash = match.unarySlash;
-                    expectHTML && ('p' === lastTag && isNonPhrasingTag(tagName) && parseEndTag(lastTag), canBeLeftOpenTag$$1(tagName) && lastTag === tagName && parseEndTag(tagName));
-                    for(var unary = isUnaryTag$$1(tagName) || !!unarySlash, l = match.attrs.length, attrs = Array(l), i = 0; i < l; i++){
-                        var args = match.attrs[i], value = args[3] || args[4] || args[5] || '', shouldDecodeNewlines = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
-                        attrs[i] = {
-                            name: args[1],
-                            value: decodeAttr(value, shouldDecodeNewlines)
-                        }, options.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
-                    }
-                    unary || (stack.push({
-                        tag: tagName,
-                        lowerCasedTag: tagName.toLowerCase(),
-                        attrs: attrs,
-                        start: match.start,
-                        end: match.end
-                    }), lastTag = tagName), options.start && options.start(tagName, attrs, unary, match.start, match.end);
                 }
                 function parseEndTag(tagName, start, end) {
                     var pos, lowerCasedTagName;
@@ -3633,8 +3594,17 @@
                     for(var name in node.attrsMap)if (dirRE.test(name)) {
                         var value = node.attrsMap[name];
                         if (value) {
-                            var range = node.rawAttrsMap[name];
-                            'v-for' === name ? checkFor(node, "v-for=\"" + value + "\"", warn, range) : 'v-slot' === name || '#' === name[0] ? checkFunctionParameterExpression(value, name + "=\"" + value + "\"", warn, range) : onRE.test(name) ? checkEvent(value, name + "=\"" + value + "\"", warn, range) : checkExpression(value, name + "=\"" + value + "\"", warn, range);
+                            var node1, text, warn1, range, range1 = node.rawAttrsMap[name];
+                            'v-for' === name ? (node1 = node, text = "v-for=\"" + value + "\"", warn1 = warn, range = range1, checkExpression(node1.for || '', text, warn1, range), checkIdentifier(node1.alias, 'v-for alias', text, warn1, range), checkIdentifier(node1.iterator1, 'v-for iterator', text, warn1, range), checkIdentifier(node1.iterator2, 'v-for iterator', text, warn1, range)) : 'v-slot' === name || '#' === name[0] ? function(exp, text, warn, range) {
+                                try {
+                                    Function(exp, '');
+                                } catch (e) {
+                                    warn("invalid function parameter expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
+                                }
+                            }(value, name + "=\"" + value + "\"", warn, range1) : onRE.test(name) ? function(exp, text, warn, range) {
+                                var stripped = exp.replace(stripStringRE, ''), keywordMatch = stripped.match(unaryOperatorsRE);
+                                keywordMatch && '$' !== stripped.charAt(keywordMatch.index - 1) && warn('avoid using JavaScript unary operator as property name: "' + keywordMatch[0] + "\" in expression " + text.trim(), range), checkExpression(exp, text, warn, range);
+                            }(value, name + "=\"" + value + "\"", warn, range1) : checkExpression(value, name + "=\"" + value + "\"", warn, range1);
                         }
                     }
                     if (node.children) for(var i = 0; i < node.children.length; i++)checkNode(node.children[i], warn);

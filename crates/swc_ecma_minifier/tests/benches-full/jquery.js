@@ -247,17 +247,6 @@
             }
             return a ? 1 : -1;
         }
-        function createInputPseudo(type) {
-            return function(elem) {
-                return "input" === elem.nodeName.toLowerCase() && elem.type === type;
-            };
-        }
-        function createButtonPseudo(type) {
-            return function(elem) {
-                var name = elem.nodeName.toLowerCase();
-                return ("input" === name || "button" === name) && elem.type === type;
-            };
-        }
         function createDisabledPseudo(disabled) {
             return function(elem) {
                 if ("form" in elem) {
@@ -612,11 +601,20 @@
             file: !0,
             password: !0,
             image: !0
-        })Expr.pseudos[i] = createInputPseudo(i);
+        })Expr.pseudos[i] = function(type) {
+            return function(elem) {
+                return "input" === elem.nodeName.toLowerCase() && elem.type === type;
+            };
+        }(i);
         for(i in {
             submit: !0,
             reset: !0
-        })Expr.pseudos[i] = createButtonPseudo(i);
+        })Expr.pseudos[i] = function(type) {
+            return function(elem) {
+                var name = elem.nodeName.toLowerCase();
+                return ("input" === name || "button" === name) && elem.type === type;
+            };
+        }(i);
         function setFilters() {}
         function toSelector(tokens) {
             for(var i = 0, len = tokens.length, selector = ""; i < len; i++)selector += tokens[i].value;
@@ -652,50 +650,6 @@
             for(var elem, newUnmatched = [], i = 0, len = unmatched.length, mapped = null != map; i < len; i++)(elem = unmatched[i]) && (!filter || filter(elem, context, xml)) && (newUnmatched.push(elem), mapped && map.push(i));
             return newUnmatched;
         }
-        function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
-            return postFilter && !postFilter[expando] && (postFilter = setMatcher(postFilter)), postFinder && !postFinder[expando] && (postFinder = setMatcher(postFinder, postSelector)), markFunction(function(seed, results, context, xml) {
-                var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || function(selector, contexts, results) {
-                    for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
-                    return results;
-                }(selector || "*", context.nodeType ? [
-                    context
-                ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
-                if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
-                if (seed) {
-                    if (postFinder || preFilter) {
-                        if (postFinder) {
-                            for(temp = [], i = matcherOut.length; i--;)(elem = matcherOut[i]) && temp.push(matcherIn[i] = elem);
-                            postFinder(null, matcherOut = [], temp, xml);
-                        }
-                        for(i = matcherOut.length; i--;)(elem = matcherOut[i]) && (temp = postFinder ? indexOf(seed, elem) : preMap[i]) > -1 && (seed[temp] = !(results[temp] = elem));
-                    }
-                } else matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut), postFinder ? postFinder(null, results, matcherOut, xml) : push.apply(results, matcherOut);
-            });
-        }
-        function matcherFromTokens(tokens) {
-            for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
-                return elem === checkContext;
-            }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
-                return indexOf(checkContext, elem) > -1;
-            }, implicitRelative, !0), matchers = [
-                function(elem, context, xml) {
-                    var ret = !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
-                    return checkContext = null, ret;
-                }
-            ]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
-                addCombinator(elementMatcher(matchers), matcher)
-            ];
-            else {
-                if ((matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches))[expando]) {
-                    for(j = ++i; j < len && !Expr.relative[tokens[j].type]; j++);
-                    return setMatcher(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1).concat({
-                        value: " " === tokens[i - 2].type ? "*" : ""
-                    })).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
-                }
-                matchers.push(matcher);
-            }
-            return elementMatcher(matchers);
-        }
         return setFilters.prototype = Expr.filters = Expr.pseudos, Expr.setFilters = new setFilters(), tokenize = Sizzle.tokenize = function(selector, parseOnly) {
             var matched, match, tokens, type, soFar, groups, preFilters, cached = tokenCache[selector + " "];
             if (cached) return parseOnly ? 0 : cached.slice(0);
@@ -714,7 +668,49 @@
         }, compile = Sizzle.compile = function(selector, match) {
             var elementMatchers, setMatchers, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
             if (!cached) {
-                for(match || (match = tokenize(selector)), i = match.length; i--;)(cached = matcherFromTokens(match[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
+                for(match || (match = tokenize(selector)), i = match.length; i--;)(cached = function matcherFromTokens(tokens) {
+                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
+                        return elem === checkContext;
+                    }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
+                        return indexOf(checkContext, elem) > -1;
+                    }, implicitRelative, !0), matchers = [
+                        function(elem, context, xml) {
+                            var ret = !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
+                            return checkContext = null, ret;
+                        }
+                    ]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
+                        addCombinator(elementMatcher(matchers), matcher)
+                    ];
+                    else {
+                        if ((matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches))[expando]) {
+                            for(j = ++i; j < len && !Expr.relative[tokens[j].type]; j++);
+                            return function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
+                                return postFilter && !postFilter[expando] && (postFilter = setMatcher(postFilter)), postFinder && !postFinder[expando] && (postFinder = setMatcher(postFinder, postSelector)), markFunction(function(seed, results, context, xml) {
+                                    var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || function(selector, contexts, results) {
+                                        for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
+                                        return results;
+                                    }(selector || "*", context.nodeType ? [
+                                        context
+                                    ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
+                                    if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
+                                    if (seed) {
+                                        if (postFinder || preFilter) {
+                                            if (postFinder) {
+                                                for(temp = [], i = matcherOut.length; i--;)(elem = matcherOut[i]) && temp.push(matcherIn[i] = elem);
+                                                postFinder(null, matcherOut = [], temp, xml);
+                                            }
+                                            for(i = matcherOut.length; i--;)(elem = matcherOut[i]) && (temp = postFinder ? indexOf(seed, elem) : preMap[i]) > -1 && (seed[temp] = !(results[temp] = elem));
+                                        }
+                                    } else matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut), postFinder ? postFinder(null, results, matcherOut, xml) : push.apply(results, matcherOut);
+                                });
+                            }(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1).concat({
+                                value: " " === tokens[i - 2].type ? "*" : ""
+                            })).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
+                        }
+                        matchers.push(matcher);
+                    }
+                    return elementMatcher(matchers);
+                }(match[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
                 (cached = compilerCache(selector, (elementMatchers = elementMatchers1, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
                     var elem, j, matcher, matchedCount = 0, i = "0", unmatched = seed && [], setMatched = [], contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", outermost), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1, len = elems.length;
                     for(outermost && (outermostContext = context == document || context || outermost); i !== len && null != (elem = elems[i]); i++){
@@ -1301,12 +1297,11 @@
         return valueParts && (initialInUnit = +initialInUnit || +initial || 0, adjusted = valueParts[1] ? initialInUnit + (valueParts[1] + 1) * valueParts[2] : +valueParts[2], tween && (tween.unit = unit, tween.start = initialInUnit, tween.end = adjusted)), adjusted;
     }
     var defaultDisplayMap = {};
-    function getDefaultDisplay(elem) {
-        var temp, doc = elem.ownerDocument, nodeName = elem.nodeName, display = defaultDisplayMap[nodeName];
-        return display || (temp = doc.body.appendChild(doc.createElement(nodeName)), display = jQuery.css(temp, "display"), temp.parentNode.removeChild(temp), "none" === display && (display = "block"), defaultDisplayMap[nodeName] = display), display;
-    }
     function showHide(elements, show) {
-        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" !== display || (values[index] = dataPriv.get(elem, "display") || null, values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = getDefaultDisplay(elem))) : "none" !== display && (values[index] = "none", dataPriv.set(elem, "display", display)));
+        for(var display, elem, values = [], index = 0, length = elements.length; index < length; index++)(elem = elements[index]).style && (display = elem.style.display, show ? ("none" !== display || (values[index] = dataPriv.get(elem, "display") || null, values[index] || (elem.style.display = "")), "" === elem.style.display && isHiddenWithinTree(elem) && (values[index] = function(elem) {
+            var temp, doc = elem.ownerDocument, nodeName = elem.nodeName, display = defaultDisplayMap[nodeName];
+            return display || (temp = doc.body.appendChild(doc.createElement(nodeName)), display = jQuery.css(temp, "display"), temp.parentNode.removeChild(temp), "none" === display && (display = "block"), defaultDisplayMap[nodeName] = display), display;
+        }(elem))) : "none" !== display && (values[index] = "none", dataPriv.set(elem, "display", display)));
         for(index = 0; index < length; index++)null != values[index] && (elements[index].style.display = values[index]);
         return elements;
     }
@@ -1663,10 +1658,6 @@
             dataUser.hasData(src) && (udataOld = dataUser.access(src), udataCur = jQuery.extend({}, udataOld), dataUser.set(dest, udataCur));
         }
     }
-    function fixInput(src, dest) {
-        var nodeName = dest.nodeName.toLowerCase();
-        "input" === nodeName && rcheckableType.test(src.type) ? dest.checked = src.checked : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
-    }
     function domManip(collection, args, callback, ignored) {
         args = flat(args);
         var fragment, first, scripts, hasScripts, node, doc, i = 0, l = collection.length, iNoClone = l - 1, value = args[0], valueIsFunction = isFunction(value);
@@ -1692,7 +1683,10 @@
         },
         clone: function(elem, dataAndEvents, deepDataAndEvents) {
             var i, l, srcElements, destElements, clone = elem.cloneNode(!0), inPage = isAttached(elem);
-            if (!support.noCloneChecked && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, destElements = getAll(clone), l = (srcElements = getAll(elem)).length; i < l; i++)fixInput(srcElements[i], destElements[i]);
+            if (!support.noCloneChecked && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, destElements = getAll(clone), l = (srcElements = getAll(elem)).length; i < l; i++)!function(src, dest) {
+                var nodeName = dest.nodeName.toLowerCase();
+                "input" === nodeName && rcheckableType.test(src.type) ? dest.checked = src.checked : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
+            }(srcElements[i], destElements[i]);
             if (dataAndEvents) {
                 if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone), l = srcElements.length; i < l; i++)cloneCopyEvent(srcElements[i], destElements[i]);
                 else cloneCopyEvent(elem, clone);
@@ -2512,14 +2506,6 @@
         return (!xml || xml.getElementsByTagName("parsererror").length) && jQuery.error("Invalid XML: " + data), xml;
     };
     var rbracket = /\[\]$/, rCRLF = /\r?\n/g, rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i, rsubmittable = /^(?:input|select|textarea|keygen)/i;
-    function buildParams(prefix, obj, traditional, add) {
-        var name;
-        if (Array.isArray(obj)) jQuery.each(obj, function(i, v) {
-            traditional || rbracket.test(prefix) ? add(prefix, v) : buildParams(prefix + "[" + ("object" == typeof v && null != v ? i : "") + "]", v, traditional, add);
-        });
-        else if (traditional || "object" !== toType(obj)) add(prefix, obj);
-        else for(name in obj)buildParams(prefix + "[" + name + "]", obj[name], traditional, add);
-    }
     jQuery.param = function(a, traditional) {
         var prefix, s = [], add = function(key, valueOrFunction) {
             var value = isFunction(valueOrFunction) ? valueOrFunction() : valueOrFunction;
@@ -2529,7 +2515,14 @@
         if (Array.isArray(a) || a.jquery && !jQuery.isPlainObject(a)) jQuery.each(a, function() {
             add(this.name, this.value);
         });
-        else for(prefix in a)buildParams(prefix, a[prefix], traditional, add);
+        else for(prefix in a)!function buildParams(prefix, obj, traditional, add) {
+            var name;
+            if (Array.isArray(obj)) jQuery.each(obj, function(i, v) {
+                traditional || rbracket.test(prefix) ? add(prefix, v) : buildParams(prefix + "[" + ("object" == typeof v && null != v ? i : "") + "]", v, traditional, add);
+            });
+            else if (traditional || "object" !== toType(obj)) add(prefix, obj);
+            else for(name in obj)buildParams(prefix + "[" + name + "]", obj[name], traditional, add);
+        }(prefix, a[prefix], traditional, add);
         return s.join("&");
     }, jQuery.fn.extend({
         serialize: function() {

@@ -30,10 +30,7 @@ var A, Point = function() {
             };
         }, Point;
     }();
-    A.Point = Point, function(Point) {
-        function Origin() {
-            return "";
-        }
-        Point.Origin = Origin;
-    }(Point = A.Point || (A.Point = {}));
+    A.Point = Point, (Point = A.Point || (A.Point = {})).Origin = function() {
+        return "";
+    };
 }(A || (A = {}));

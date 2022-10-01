@@ -4287,10 +4287,9 @@
     }
     function WebGLBufferRenderer(gl, extensions, info, capabilities) {
         var mode, isWebGL2 = capabilities.isWebGL2;
-        function setMode(value) {
+        this.setMode = function(value) {
             mode = value;
-        }
-        this.setMode = setMode, this.render = function(start, count) {
+        }, this.render = function(start, count) {
             gl.drawArrays(mode, start, count), info.update(count, mode, 1);
         }, this.renderInstances = function(start, count, primcount) {
             var extension, methodName;
@@ -4489,10 +4488,9 @@
     }
     function WebGLIndexedBufferRenderer(gl, extensions, info, capabilities) {
         var mode, type, bytesPerElement, isWebGL2 = capabilities.isWebGL2;
-        function setMode(value) {
+        this.setMode = function(value) {
             mode = value;
-        }
-        this.setMode = setMode, this.setIndex = function(value) {
+        }, this.setIndex = function(value) {
             type = value.type, bytesPerElement = value.bytesPerElement;
         }, this.render = function(start, count) {
             gl.drawElements(mode, count, type, start * bytesPerElement), info.update(count, mode, 1);
@@ -4938,23 +4936,22 @@
     function addUniform(container, uniformObject) {
         container.seq.push(uniformObject), container.map[uniformObject.id] = uniformObject;
     }
-    function parseUniform(activeInfo, addr, container) {
-        var path = activeInfo.name, pathLength = path.length;
-        for(RePathPart.lastIndex = 0;;){
-            var match = RePathPart.exec(path), matchEnd = RePathPart.lastIndex, id = match[1], idIsIndex = ']' === match[2], subscript = match[3];
-            if (idIsIndex && (id |= 0), void 0 === subscript || '[' === subscript && matchEnd + 2 === pathLength) {
-                addUniform(container, void 0 === subscript ? new SingleUniform(id, activeInfo, addr) : new PureArrayUniform(id, activeInfo, addr));
-                break;
-            }
-            var next = container.map[id];
-            void 0 === next && (next = new StructuredUniform(id), addUniform(container, next)), container = next;
-        }
-    }
     function WebGLUniforms(gl, program) {
         this.seq = [], this.map = {};
         for(var n = gl.getProgramParameter(program, 35718), i = 0; i < n; ++i){
             var info = gl.getActiveUniform(program, i), addr = gl.getUniformLocation(program, info.name);
-            parseUniform(info, addr, this);
+            !function(activeInfo, addr, container) {
+                var path = activeInfo.name, pathLength = path.length;
+                for(RePathPart.lastIndex = 0;;){
+                    var match = RePathPart.exec(path), matchEnd = RePathPart.lastIndex, id = match[1], idIsIndex = ']' === match[2], subscript = match[3];
+                    if (idIsIndex && (id |= 0), void 0 === subscript || '[' === subscript && matchEnd + 2 === pathLength) {
+                        addUniform(container, void 0 === subscript ? new SingleUniform(id, activeInfo, addr) : new PureArrayUniform(id, activeInfo, addr));
+                        break;
+                    }
+                    var next = container.map[id];
+                    void 0 === next && (next = new StructuredUniform(id), addUniform(container, next)), container = next;
+                }
+            }(info, addr, this);
         }
     }
     function WebGLShader(gl, type, string) {
@@ -5933,10 +5930,6 @@
             0.5
         ]), 3));
         var fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical), scope = this;
-        function VSMPass(shadow, camera) {
-            var geometry = _objects.update(fullScreenMesh);
-            shadowMaterialVertical.uniforms.shadow_pass.value = shadow.map.texture, shadowMaterialVertical.uniforms.resolution.value = shadow.mapSize, shadowMaterialVertical.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.mapPass), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialVertical, fullScreenMesh, null), shadowMaterialHorizontal.uniforms.shadow_pass.value = shadow.mapPass.texture, shadowMaterialHorizontal.uniforms.resolution.value = shadow.mapSize, shadowMaterialHorizontal.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.map), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
-        }
         function getDepthMaterialVariant(useMorphing, useSkinning, useInstancing) {
             var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
             return void 0 === material && (material = new MeshDepthMaterial({
@@ -5967,26 +5960,6 @@
                 void 0 === cachedMaterial && (cachedMaterial = result.clone(), materialsForVariant[keyB] = cachedMaterial), result = cachedMaterial;
             }
             return result.visible = material.visible, result.wireframe = material.wireframe, 3 === type ? result.side = null !== material.shadowSide ? material.shadowSide : material.side : result.side = null !== material.shadowSide ? material.shadowSide : shadowSide[material.side], result.clipShadows = material.clipShadows, result.clippingPlanes = material.clippingPlanes, result.clipIntersection = material.clipIntersection, result.wireframeLinewidth = material.wireframeLinewidth, result.linewidth = material.linewidth, !0 === light.isPointLight && !0 === result.isMeshDistanceMaterial && (result.referencePosition.setFromMatrixPosition(light.matrixWorld), result.nearDistance = shadowCameraNear, result.farDistance = shadowCameraFar), result;
-        }
-        function renderObject(object, camera, shadowCamera, light, type) {
-            if (!1 !== object.visible) {
-                if (object.layers.test(camera.layers) && (object.isMesh || object.isLine || object.isPoints) && (object.castShadow || object.receiveShadow && 3 === type) && (!object.frustumCulled || _frustum.intersectsObject(object))) {
-                    object.modelViewMatrix.multiplyMatrices(shadowCamera.matrixWorldInverse, object.matrixWorld);
-                    var geometry = _objects.update(object), material = object.material;
-                    if (Array.isArray(material)) for(var groups = geometry.groups, k = 0, kl = groups.length; k < kl; k++){
-                        var group = groups[k], groupMaterial = material[group.materialIndex];
-                        if (groupMaterial && groupMaterial.visible) {
-                            var depthMaterial = getDepthMaterial(object, geometry, groupMaterial, light, shadowCamera.near, shadowCamera.far, type);
-                            _renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, group);
-                        }
-                    }
-                    else if (material.visible) {
-                        var _depthMaterial = getDepthMaterial(object, geometry, material, light, shadowCamera.near, shadowCamera.far, type);
-                        _renderer.renderBufferDirect(shadowCamera, null, geometry, _depthMaterial, object, null);
-                    }
-                }
-                for(var children = object.children, i = 0, l = children.length; i < l; i++)renderObject(children[i], camera, shadowCamera, light, type);
-            }
         }
         this.enabled = !1, this.autoUpdate = !0, this.needsUpdate = !1, this.type = 1, this.render = function(lights, scene, camera) {
             if (!1 !== scope.enabled && (!1 !== scope.autoUpdate || !1 !== scope.needsUpdate) && 0 !== lights.length) {
@@ -6020,9 +5993,31 @@
                         _renderer.setRenderTarget(shadow.map), _renderer.clear();
                         for(var viewportCount = shadow.getViewportCount(), vp = 0; vp < viewportCount; vp++){
                             var viewport = shadow.getViewport(vp);
-                            _viewport.set(_viewportSize.x * viewport.x, _viewportSize.y * viewport.y, _viewportSize.x * viewport.z, _viewportSize.y * viewport.w), _state.viewport(_viewport), shadow.updateMatrices(light, vp), _frustum = shadow.getFrustum(), renderObject(scene, camera, shadow.camera, light, this.type);
+                            _viewport.set(_viewportSize.x * viewport.x, _viewportSize.y * viewport.y, _viewportSize.x * viewport.z, _viewportSize.y * viewport.w), _state.viewport(_viewport), shadow.updateMatrices(light, vp), _frustum = shadow.getFrustum(), function renderObject(object, camera, shadowCamera, light, type) {
+                                if (!1 !== object.visible) {
+                                    if (object.layers.test(camera.layers) && (object.isMesh || object.isLine || object.isPoints) && (object.castShadow || object.receiveShadow && 3 === type) && (!object.frustumCulled || _frustum.intersectsObject(object))) {
+                                        object.modelViewMatrix.multiplyMatrices(shadowCamera.matrixWorldInverse, object.matrixWorld);
+                                        var geometry = _objects.update(object), material = object.material;
+                                        if (Array.isArray(material)) for(var groups = geometry.groups, k = 0, kl = groups.length; k < kl; k++){
+                                            var group = groups[k], groupMaterial = material[group.materialIndex];
+                                            if (groupMaterial && groupMaterial.visible) {
+                                                var depthMaterial = getDepthMaterial(object, geometry, groupMaterial, light, shadowCamera.near, shadowCamera.far, type);
+                                                _renderer.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, group);
+                                            }
+                                        }
+                                        else if (material.visible) {
+                                            var _depthMaterial = getDepthMaterial(object, geometry, material, light, shadowCamera.near, shadowCamera.far, type);
+                                            _renderer.renderBufferDirect(shadowCamera, null, geometry, _depthMaterial, object, null);
+                                        }
+                                    }
+                                    for(var children = object.children, i = 0, l = children.length; i < l; i++)renderObject(children[i], camera, shadowCamera, light, type);
+                                }
+                            }(scene, camera, shadow.camera, light, this.type);
                         }
-                        shadow.isPointLightShadow || 3 !== this.type || VSMPass(shadow, camera), shadow.needsUpdate = !1;
+                        shadow.isPointLightShadow || 3 !== this.type || function(shadow, camera) {
+                            var geometry = _objects.update(fullScreenMesh);
+                            shadowMaterialVertical.uniforms.shadow_pass.value = shadow.map.texture, shadowMaterialVertical.uniforms.resolution.value = shadow.mapSize, shadowMaterialVertical.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.mapPass), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialVertical, fullScreenMesh, null), shadowMaterialHorizontal.uniforms.shadow_pass.value = shadow.mapPass.texture, shadowMaterialHorizontal.uniforms.resolution.value = shadow.mapSize, shadowMaterialHorizontal.uniforms.radius.value = shadow.radius, _renderer.setRenderTarget(shadow.map), _renderer.clear(), _renderer.renderBufferDirect(camera, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
+                        }(shadow, camera), shadow.needsUpdate = !1;
                     }
                 }
                 scope.needsUpdate = !1, _renderer.setRenderTarget(currentRenderTarget, activeCubeFace, activeMipmapLevel);
@@ -8356,16 +8351,6 @@
                 detail: detail
             };
             var _this, vertexBuffer = [], uvBuffer = [];
-            function subdivideFace(a, b, c, detail) {
-                for(var cols = detail + 1, v = [], i = 0; i <= cols; i++){
-                    v[i] = [];
-                    for(var aj = a.clone().lerp(c, i / cols), bj = b.clone().lerp(c, i / cols), rows = cols - i, j = 0; j <= rows; j++)0 === j && i === cols ? v[i][j] = aj : v[i][j] = aj.clone().lerp(bj, j / rows);
-                }
-                for(var _i = 0; _i < cols; _i++)for(var _j = 0; _j < 2 * (cols - _i) - 1; _j++){
-                    var k = Math.floor(_j / 2);
-                    _j % 2 == 0 ? (pushVertex(v[_i][k + 1]), pushVertex(v[_i + 1][k]), pushVertex(v[_i][k])) : (pushVertex(v[_i][k + 1]), pushVertex(v[_i + 1][k + 1]), pushVertex(v[_i + 1][k]));
-                }
-            }
             function pushVertex(vertex) {
                 vertexBuffer.push(vertex.x, vertex.y, vertex.z);
             }
@@ -8379,17 +8364,23 @@
             function azimuth(vector) {
                 return Math.atan2(vector.z, -vector.x);
             }
-            function inclination(vector) {
-                return Math.atan2(-vector.y, Math.sqrt(vector.x * vector.x + vector.z * vector.z));
-            }
             return function(detail) {
-                for(var a = new Vector3(), b = new Vector3(), c = new Vector3(), i = 0; i < indices.length; i += 3)getVertexByIndex(indices[i + 0], a), getVertexByIndex(indices[i + 1], b), getVertexByIndex(indices[i + 2], c), subdivideFace(a, b, c, detail);
+                for(var a = new Vector3(), b = new Vector3(), c = new Vector3(), i = 0; i < indices.length; i += 3)getVertexByIndex(indices[i + 0], a), getVertexByIndex(indices[i + 1], b), getVertexByIndex(indices[i + 2], c), function(a, b, c, detail) {
+                    for(var cols = detail + 1, v = [], i = 0; i <= cols; i++){
+                        v[i] = [];
+                        for(var aj = a.clone().lerp(c, i / cols), bj = b.clone().lerp(c, i / cols), rows = cols - i, j = 0; j <= rows; j++)0 === j && i === cols ? v[i][j] = aj : v[i][j] = aj.clone().lerp(bj, j / rows);
+                    }
+                    for(var _i = 0; _i < cols; _i++)for(var _j = 0; _j < 2 * (cols - _i) - 1; _j++){
+                        var k = Math.floor(_j / 2);
+                        _j % 2 == 0 ? (pushVertex(v[_i][k + 1]), pushVertex(v[_i + 1][k]), pushVertex(v[_i][k])) : (pushVertex(v[_i][k + 1]), pushVertex(v[_i + 1][k + 1]), pushVertex(v[_i + 1][k]));
+                    }
+                }(a, b, c, detail);
             }(detail), function(radius) {
                 for(var vertex = new Vector3(), i = 0; i < vertexBuffer.length; i += 3)vertex.x = vertexBuffer[i + 0], vertex.y = vertexBuffer[i + 1], vertex.z = vertexBuffer[i + 2], vertex.normalize().multiplyScalar(radius), vertexBuffer[i + 0] = vertex.x, vertexBuffer[i + 1] = vertex.y, vertexBuffer[i + 2] = vertex.z;
             }(radius), function() {
                 for(var vertex = new Vector3(), i = 0; i < vertexBuffer.length; i += 3){
                     vertex.x = vertexBuffer[i + 0], vertex.y = vertexBuffer[i + 1], vertex.z = vertexBuffer[i + 2];
-                    var u = azimuth(vertex) / 2 / Math.PI + 0.5, v = inclination(vertex) / Math.PI + 0.5;
+                    var vector, u = azimuth(vertex) / 2 / Math.PI + 0.5, v = Math.atan2(-(vector = vertex).y, Math.sqrt(vector.x * vector.x + vector.z * vector.z)) / Math.PI + 0.5;
                     uvBuffer.push(u, 1 - v);
                 }
                 (function() {
@@ -8639,15 +8630,133 @@
             if (!outerNode || outerNode.next === outerNode.prev) return triangles;
             if (hasHoles && (outerNode = function(data, holeIndices, outerNode, dim) {
                 var i, len, start, end, list, queue = [];
-                for(i = 0, len = holeIndices.length; i < len; i++)start = holeIndices[i] * dim, end = i < len - 1 ? holeIndices[i + 1] * dim : data.length, (list = linkedList(data, start, end, dim, !1)) === list.next && (list.steiner = !0), queue.push(getLeftmost(list));
-                for(queue.sort(compareX), i = 0; i < queue.length; i++)eliminateHole(queue[i], outerNode), outerNode = filterPoints(outerNode, outerNode.next);
+                for(i = 0, len = holeIndices.length; i < len; i++)start = holeIndices[i] * dim, end = i < len - 1 ? holeIndices[i + 1] * dim : data.length, (list = linkedList(data, start, end, dim, !1)) === list.next && (list.steiner = !0), queue.push(function(start) {
+                    var p = start, leftmost = start;
+                    do (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y) && (leftmost = p), p = p.next;
+                    while (p !== start)
+                    return leftmost;
+                }(list));
+                for(queue.sort(compareX), i = 0; i < queue.length; i++)(function(hole, outerNode) {
+                    if (outerNode = function(hole, outerNode) {
+                        var m, p, m1, p1 = outerNode, hx = hole.x, hy = hole.y, qx = -1 / 0;
+                        do {
+                            if (hy <= p1.y && hy >= p1.next.y && p1.next.y !== p1.y) {
+                                var x = p1.x + (hy - p1.y) * (p1.next.x - p1.x) / (p1.next.y - p1.y);
+                                if (x <= hx && x > qx) {
+                                    if (qx = x, x === hx) {
+                                        if (hy === p1.y) return p1;
+                                        if (hy === p1.next.y) return p1.next;
+                                    }
+                                    m1 = p1.x < p1.next.x ? p1 : p1.next;
+                                }
+                            }
+                            p1 = p1.next;
+                        }while (p1 !== outerNode)
+                        if (!m1) return null;
+                        if (hx === qx) return m1;
+                        var tan, stop = m1, mx = m1.x, my = m1.y, tanMin = 1 / 0;
+                        p1 = m1;
+                        do {
+                            hx >= p1.x && p1.x >= mx && hx !== p1.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p1.x, p1.y) && (tan = Math.abs(hy - p1.y) / (hx - p1.x), locallyInside(p1, hole) && (tan < tanMin || tan === tanMin && (p1.x > m1.x || p1.x === m1.x && (m = m1, p = p1, 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next)))) && (m1 = p1, tanMin = tan)), p1 = p1.next;
+                        }while (p1 !== stop)
+                        return m1;
+                    }(hole, outerNode)) {
+                        var b = splitPolygon(outerNode, hole);
+                        filterPoints(outerNode, outerNode.next), filterPoints(b, b.next);
+                    }
+                })(queue[i], outerNode), outerNode = filterPoints(outerNode, outerNode.next);
                 return outerNode;
             }(data, holeIndices, outerNode, dim)), data.length > 80 * dim) {
                 minX = maxX = data[0], minY = maxY = data[1];
                 for(var i = dim; i < outerLen; i += dim)x = data[i], y = data[i + 1], x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y);
                 invSize = 0 !== (invSize = Math.max(maxX - minX, maxY - minY)) ? 1 / invSize : 0;
             }
-            return earcutLinked(outerNode, triangles, dim, minX, minY, invSize), triangles;
+            return function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
+                if (ear) {
+                    !pass && invSize && function(start, minX, minY, invSize) {
+                        var p = start;
+                        do null === p.z && (p.z = zOrder(p.x, p.y, minX, minY, invSize)), p.prevZ = p.prev, p.nextZ = p.next, p = p.next;
+                        while (p !== start)
+                        p.prevZ.nextZ = null, p.prevZ = null, function(list) {
+                            var i, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
+                            do {
+                                for(p = list, list = null, tail = null, numMerges = 0; p;){
+                                    for(numMerges++, q = p, pSize = 0, i = 0; i < inSize && (pSize++, q = q.nextZ); i++);
+                                    for(qSize = inSize; pSize > 0 || qSize > 0 && q;)0 !== pSize && (0 === qSize || !q || p.z <= q.z) ? (e = p, p = p.nextZ, pSize--) : (e = q, q = q.nextZ, qSize--), tail ? tail.nextZ = e : list = e, e.prevZ = tail, tail = e;
+                                    p = q;
+                                }
+                                tail.nextZ = null, inSize *= 2;
+                            }while (numMerges > 1)
+                        }(p);
+                    }(ear, minX, minY, invSize);
+                    for(var prev, next, stop = ear; ear.prev !== ear.next;){
+                        if (prev = ear.prev, next = ear.next, invSize ? function(ear, minX, minY, invSize) {
+                            var a = ear.prev, c = ear.next;
+                            if (area(a, ear, c) >= 0) return !1;
+                            for(var minTX = a.x < ear.x ? a.x < c.x ? a.x : c.x : ear.x < c.x ? ear.x : c.x, minTY = a.y < ear.y ? a.y < c.y ? a.y : c.y : ear.y < c.y ? ear.y : c.y, maxTX = a.x > ear.x ? a.x > c.x ? a.x : c.x : ear.x > c.x ? ear.x : c.x, maxTY = a.y > ear.y ? a.y > c.y ? a.y : c.y : ear.y > c.y ? ear.y : c.y, minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize), p = ear.prevZ, n = ear.nextZ; p && p.z >= minZ && n && n.z <= maxZ;){
+                                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0 || (p = p.prevZ, n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)) return !1;
+                                n = n.nextZ;
+                            }
+                            for(; p && p.z >= minZ;){
+                                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
+                                p = p.prevZ;
+                            }
+                            for(; n && n.z <= maxZ;){
+                                if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0) return !1;
+                                n = n.nextZ;
+                            }
+                            return !0;
+                        }(ear, minX, minY, invSize) : function(ear) {
+                            var a = ear.prev, c = ear.next;
+                            if (area(a, ear, c) >= 0) return !1;
+                            for(var p = ear.next.next; p !== ear.prev;){
+                                if (pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
+                                p = p.next;
+                            }
+                            return !0;
+                        }(ear)) {
+                            triangles.push(prev.i / dim), triangles.push(ear.i / dim), triangles.push(next.i / dim), removeNode(ear), ear = next.next, stop = next.next;
+                            continue;
+                        }
+                        if ((ear = next) === stop) {
+                            pass ? 1 === pass ? (ear = function(start, triangles, dim) {
+                                var p = start;
+                                do {
+                                    var a = p.prev, b = p.next.next;
+                                    !equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a) && (triangles.push(a.i / dim), triangles.push(p.i / dim), triangles.push(b.i / dim), removeNode(p), removeNode(p.next), p = start = b), p = p.next;
+                                }while (p !== start)
+                                return filterPoints(p);
+                            }(filterPoints(ear), triangles, dim), earcutLinked(ear, triangles, dim, minX, minY, invSize, 2)) : 2 === pass && function(start, triangles, dim, minX, minY, invSize) {
+                                var a = start;
+                                do {
+                                    for(var a1, b, b1 = a.next.next; b1 !== a.prev;){
+                                        if (a.i !== b1.i && (a1 = a, b = b1, a1.next.i !== b.i && a1.prev.i !== b.i && !function(a, b) {
+                                            var p = a;
+                                            do {
+                                                if (p.i !== a.i && p.next.i !== a.i && p.i !== b.i && p.next.i !== b.i && intersects(p, p.next, a, b)) return !0;
+                                                p = p.next;
+                                            }while (p !== a)
+                                            return !1;
+                                        }(a1, b) && (locallyInside(a1, b) && locallyInside(b, a1) && function(a, b) {
+                                            var p = a, inside = !1, px = (a.x + b.x) / 2, py = (a.y + b.y) / 2;
+                                            do p.y > py != p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x && (inside = !inside), p = p.next;
+                                            while (p !== a)
+                                            return inside;
+                                        }(a1, b) && (area(a1.prev, a1, b.prev) || area(a1, b.prev, b)) || equals(a1, b) && area(a1.prev, a1, a1.next) > 0 && area(b.prev, b, b.next) > 0))) {
+                                            var c = splitPolygon(a, b1);
+                                            a = filterPoints(a, a.next), c = filterPoints(c, c.next), earcutLinked(a, triangles, dim, minX, minY, invSize), earcutLinked(c, triangles, dim, minX, minY, invSize);
+                                            return;
+                                        }
+                                        b1 = b1.next;
+                                    }
+                                    a = a.next;
+                                }while (a !== start)
+                            }(ear, triangles, dim, minX, minY, invSize) : earcutLinked(filterPoints(ear), triangles, dim, minX, minY, invSize, 1);
+                            break;
+                        }
+                    }
+                }
+            }(outerNode, triangles, dim, minX, minY, invSize), triangles;
         }
     };
     function linkedList(data, start, end, dim, clockwise) {
@@ -8670,144 +8779,14 @@
         while (again || p !== end)
         return end;
     }
-    function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
-        if (ear) {
-            !pass && invSize && function(start, minX, minY, invSize) {
-                var p = start;
-                do null === p.z && (p.z = zOrder(p.x, p.y, minX, minY, invSize)), p.prevZ = p.prev, p.nextZ = p.next, p = p.next;
-                while (p !== start)
-                p.prevZ.nextZ = null, p.prevZ = null, function(list) {
-                    var i, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
-                    do {
-                        for(p = list, list = null, tail = null, numMerges = 0; p;){
-                            for(numMerges++, q = p, pSize = 0, i = 0; i < inSize && (pSize++, q = q.nextZ); i++);
-                            for(qSize = inSize; pSize > 0 || qSize > 0 && q;)0 !== pSize && (0 === qSize || !q || p.z <= q.z) ? (e = p, p = p.nextZ, pSize--) : (e = q, q = q.nextZ, qSize--), tail ? tail.nextZ = e : list = e, e.prevZ = tail, tail = e;
-                            p = q;
-                        }
-                        tail.nextZ = null, inSize *= 2;
-                    }while (numMerges > 1)
-                }(p);
-            }(ear, minX, minY, invSize);
-            for(var prev, next, stop = ear; ear.prev !== ear.next;){
-                if (prev = ear.prev, next = ear.next, invSize ? isEarHashed(ear, minX, minY, invSize) : isEar(ear)) {
-                    triangles.push(prev.i / dim), triangles.push(ear.i / dim), triangles.push(next.i / dim), removeNode(ear), ear = next.next, stop = next.next;
-                    continue;
-                }
-                if ((ear = next) === stop) {
-                    pass ? 1 === pass ? (ear = cureLocalIntersections(filterPoints(ear), triangles, dim), earcutLinked(ear, triangles, dim, minX, minY, invSize, 2)) : 2 === pass && splitEarcut(ear, triangles, dim, minX, minY, invSize) : earcutLinked(filterPoints(ear), triangles, dim, minX, minY, invSize, 1);
-                    break;
-                }
-            }
-        }
-    }
-    function isEar(ear) {
-        var a = ear.prev, c = ear.next;
-        if (area(a, ear, c) >= 0) return !1;
-        for(var p = ear.next.next; p !== ear.prev;){
-            if (pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
-            p = p.next;
-        }
-        return !0;
-    }
-    function isEarHashed(ear, minX, minY, invSize) {
-        var a = ear.prev, c = ear.next;
-        if (area(a, ear, c) >= 0) return !1;
-        for(var minTX = a.x < ear.x ? a.x < c.x ? a.x : c.x : ear.x < c.x ? ear.x : c.x, minTY = a.y < ear.y ? a.y < c.y ? a.y : c.y : ear.y < c.y ? ear.y : c.y, maxTX = a.x > ear.x ? a.x > c.x ? a.x : c.x : ear.x > c.x ? ear.x : c.x, maxTY = a.y > ear.y ? a.y > c.y ? a.y : c.y : ear.y > c.y ? ear.y : c.y, minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize), p = ear.prevZ, n = ear.nextZ; p && p.z >= minZ && n && n.z <= maxZ;){
-            if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0 || (p = p.prevZ, n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)) return !1;
-            n = n.nextZ;
-        }
-        for(; p && p.z >= minZ;){
-            if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
-            p = p.prevZ;
-        }
-        for(; n && n.z <= maxZ;){
-            if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0) return !1;
-            n = n.nextZ;
-        }
-        return !0;
-    }
-    function cureLocalIntersections(start, triangles, dim) {
-        var p = start;
-        do {
-            var a = p.prev, b = p.next.next;
-            !equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a) && (triangles.push(a.i / dim), triangles.push(p.i / dim), triangles.push(b.i / dim), removeNode(p), removeNode(p.next), p = start = b), p = p.next;
-        }while (p !== start)
-        return filterPoints(p);
-    }
-    function splitEarcut(start, triangles, dim, minX, minY, invSize) {
-        var a = start;
-        do {
-            for(var b = a.next.next; b !== a.prev;){
-                if (a.i !== b.i && isValidDiagonal(a, b)) {
-                    var c = splitPolygon(a, b);
-                    a = filterPoints(a, a.next), c = filterPoints(c, c.next), earcutLinked(a, triangles, dim, minX, minY, invSize), earcutLinked(c, triangles, dim, minX, minY, invSize);
-                    return;
-                }
-                b = b.next;
-            }
-            a = a.next;
-        }while (a !== start)
-    }
     function compareX(a, b) {
         return a.x - b.x;
-    }
-    function eliminateHole(hole, outerNode) {
-        if (outerNode = function(hole, outerNode) {
-            var m, p = outerNode, hx = hole.x, hy = hole.y, qx = -1 / 0;
-            do {
-                if (hy <= p.y && hy >= p.next.y && p.next.y !== p.y) {
-                    var x = p.x + (hy - p.y) * (p.next.x - p.x) / (p.next.y - p.y);
-                    if (x <= hx && x > qx) {
-                        if (qx = x, x === hx) {
-                            if (hy === p.y) return p;
-                            if (hy === p.next.y) return p.next;
-                        }
-                        m = p.x < p.next.x ? p : p.next;
-                    }
-                }
-                p = p.next;
-            }while (p !== outerNode)
-            if (!m) return null;
-            if (hx === qx) return m;
-            var tan, stop = m, mx = m.x, my = m.y, tanMin = 1 / 0;
-            p = m;
-            do hx >= p.x && p.x >= mx && hx !== p.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p.x, p.y) && (tan = Math.abs(hy - p.y) / (hx - p.x), locallyInside(p, hole) && (tan < tanMin || tan === tanMin && (p.x > m.x || p.x === m.x && sectorContainsSector(m, p))) && (m = p, tanMin = tan)), p = p.next;
-            while (p !== stop)
-            return m;
-        }(hole, outerNode)) {
-            var b = splitPolygon(outerNode, hole);
-            filterPoints(outerNode, outerNode.next), filterPoints(b, b.next);
-        }
-    }
-    function sectorContainsSector(m, p) {
-        return 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next);
     }
     function zOrder(x, y, minX, minY, invSize) {
         return (x = ((x = ((x = ((x = ((x = 32767 * (x - minX) * invSize) | x << 8) & 0x00FF00FF) | x << 4) & 0x0F0F0F0F) | x << 2) & 0x33333333) | x << 1) & 0x55555555) | (y = ((y = ((y = ((y = ((y = 32767 * (y - minY) * invSize) | y << 8) & 0x00FF00FF) | y << 4) & 0x0F0F0F0F) | y << 2) & 0x33333333) | y << 1) & 0x55555555) << 1;
     }
-    function getLeftmost(start) {
-        var p = start, leftmost = start;
-        do (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y) && (leftmost = p), p = p.next;
-        while (p !== start)
-        return leftmost;
-    }
     function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
         return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 && (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 && (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
-    }
-    function isValidDiagonal(a, b) {
-        return a.next.i !== b.i && a.prev.i !== b.i && !function(a, b) {
-            var p = a;
-            do {
-                if (p.i !== a.i && p.next.i !== a.i && p.i !== b.i && p.next.i !== b.i && intersects(p, p.next, a, b)) return !0;
-                p = p.next;
-            }while (p !== a)
-            return !1;
-        }(a, b) && (locallyInside(a, b) && locallyInside(b, a) && function(a, b) {
-            var p = a, inside = !1, px = (a.x + b.x) / 2, py = (a.y + b.y) / 2;
-            do p.y > py != p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x && (inside = !inside), p = p.next;
-            while (p !== a)
-            return inside;
-        }(a, b) && (area(a.prev, a, b.prev) || area(a, b.prev, b)) || equals(a, b) && area(a.prev, a, a.next) > 0 && area(b.prev, b, b.next) > 0);
     }
     function area(p, q, r) {
         return (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y);
@@ -8875,8 +8854,7 @@
             }, shapes = Array.isArray(shapes) ? shapes : [
                 shapes
             ];
-            for(var _this, scope = _assertThisInitialized(_this), verticesArray = [], uvArray = [], i = 0, l = shapes.length; i < l; i++)addShape(shapes[i]);
-            function addShape(shape) {
+            for(var _this, scope = _assertThisInitialized(_this), verticesArray = [], uvArray = [], i = 0, l = shapes.length; i < l; i++)!function(shape) {
                 var placeholder = [], curveSegments = void 0 !== options.curveSegments ? options.curveSegments : 12, steps = void 0 !== options.steps ? options.steps : 1, depth = void 0 !== options.depth ? options.depth : 100, bevelEnabled = void 0 === options.bevelEnabled || options.bevelEnabled, bevelThickness = void 0 !== options.bevelThickness ? options.bevelThickness : 6, bevelSize = void 0 !== options.bevelSize ? options.bevelSize : bevelThickness - 2, bevelOffset = void 0 !== options.bevelOffset ? options.bevelOffset : 0, bevelSegments = void 0 !== options.bevelSegments ? options.bevelSegments : 3, extrudePath = options.extrudePath, uvgen = void 0 !== options.UVGenerator ? options.UVGenerator : WorldUVGenerator;
                 void 0 !== options.amount && (console.warn('THREE.ExtrudeBufferGeometry: amount has been renamed to depth.'), depth = options.amount);
                 var extrudePts, extrudeByPath = !1;
@@ -8958,7 +8936,11 @@
                         _k2 < 0 && (_k2 = contour.length - 1);
                         for(var _s = 0, sl = steps + 2 * bevelSegments; _s < sl; _s++){
                             var slen1 = vlen * _s, slen2 = vlen * (_s + 1), a = layeroffset + _j2 + slen1, _b2 = layeroffset + _k2 + slen1;
-                            f4(a, _b2, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
+                            !function(a, b, c, d) {
+                                addVertex(a), addVertex(b), addVertex(d), addVertex(b), addVertex(c), addVertex(d);
+                                var nextIndex = verticesArray.length / 3, uvs = uvgen.generateSideWallUV(scope, verticesArray, nextIndex - 6, nextIndex - 3, nextIndex - 2, nextIndex - 1);
+                                addUV(uvs[0]), addUV(uvs[1]), addUV(uvs[3]), addUV(uvs[1]), addUV(uvs[2]), addUV(uvs[3]);
+                            }(a, _b2, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
                         }
                     }
                 }
@@ -8969,11 +8951,6 @@
                     addVertex(a), addVertex(b), addVertex(c);
                     var nextIndex = verticesArray.length / 3, uvs = uvgen.generateTopUV(scope, verticesArray, nextIndex - 3, nextIndex - 2, nextIndex - 1);
                     addUV(uvs[0]), addUV(uvs[1]), addUV(uvs[2]);
-                }
-                function f4(a, b, c, d) {
-                    addVertex(a), addVertex(b), addVertex(d), addVertex(b), addVertex(c), addVertex(d);
-                    var nextIndex = verticesArray.length / 3, uvs = uvgen.generateSideWallUV(scope, verticesArray, nextIndex - 6, nextIndex - 3, nextIndex - 2, nextIndex - 1);
-                    addUV(uvs[0]), addUV(uvs[1]), addUV(uvs[3]), addUV(uvs[1]), addUV(uvs[2]), addUV(uvs[3]);
                 }
                 function addVertex(index) {
                     verticesArray.push(placeholder[3 * index + 0]), verticesArray.push(placeholder[3 * index + 1]), verticesArray.push(placeholder[3 * index + 2]);
@@ -9013,7 +8990,7 @@
                     }
                     scope.addGroup(start, verticesArray.length / 3 - start, 1);
                 }();
-            }
+            }(shapes[i]);
             return _this.setAttribute('position', new Float32BufferAttribute(verticesArray, 3)), _this.setAttribute('uv', new Float32BufferAttribute(uvArray, 2)), _this.computeVertexNormals(), _this;
         }
         return _inheritsLoose(ExtrudeBufferGeometry, _BufferGeometry), ExtrudeBufferGeometry.prototype.toJSON = function() {
@@ -9972,39 +9949,6 @@
     function AnimationClip(name, duration, tracks, blendMode) {
         void 0 === duration && (duration = -1), void 0 === blendMode && (blendMode = 2500), this.name = name, this.tracks = tracks, this.duration = duration, this.blendMode = blendMode, this.uuid = MathUtils.generateUUID(), this.duration < 0 && this.resetDuration();
     }
-    function parseKeyframeTrack(json) {
-        if (void 0 === json.type) throw Error('THREE.KeyframeTrack: track type undefined, can not parse');
-        var trackType = function(typeName) {
-            switch(typeName.toLowerCase()){
-                case 'scalar':
-                case 'double':
-                case 'float':
-                case 'number':
-                case 'integer':
-                    return NumberKeyframeTrack;
-                case 'vector':
-                case 'vector2':
-                case 'vector3':
-                case 'vector4':
-                    return VectorKeyframeTrack;
-                case 'color':
-                    return ColorKeyframeTrack;
-                case 'quaternion':
-                    return QuaternionKeyframeTrack;
-                case 'bool':
-                case 'boolean':
-                    return BooleanKeyframeTrack;
-                case 'string':
-                    return StringKeyframeTrack;
-            }
-            throw Error('THREE.KeyframeTrack: Unsupported typeName: ' + typeName);
-        }(json.type);
-        if (void 0 === json.times) {
-            var times = [], values = [];
-            AnimationUtils.flattenJSON(json.keys, times, values, 'value'), json.times = times, json.values = values;
-        }
-        return void 0 !== trackType.parse ? trackType.parse(json) : new trackType(json.name, json.times, json.values, json.interpolation);
-    }
     Object.assign(Interpolant.prototype, {
         evaluate: function(t) {
             var right, pp = this.parameterPositions, i1 = this._cachedIndex, t1 = pp[i1], t0 = pp[i1 - 1];
@@ -10288,7 +10232,39 @@
         ValueTypeName: 'vector'
     }), Object.assign(AnimationClip, {
         parse: function(json) {
-            for(var tracks = [], jsonTracks = json.tracks, frameTime = 1.0 / (json.fps || 1.0), i = 0, n = jsonTracks.length; i !== n; ++i)tracks.push(parseKeyframeTrack(jsonTracks[i]).scale(frameTime));
+            for(var tracks = [], jsonTracks = json.tracks, frameTime = 1.0 / (json.fps || 1.0), i = 0, n = jsonTracks.length; i !== n; ++i)tracks.push((function(json) {
+                if (void 0 === json.type) throw Error('THREE.KeyframeTrack: track type undefined, can not parse');
+                var trackType = function(typeName) {
+                    switch(typeName.toLowerCase()){
+                        case 'scalar':
+                        case 'double':
+                        case 'float':
+                        case 'number':
+                        case 'integer':
+                            return NumberKeyframeTrack;
+                        case 'vector':
+                        case 'vector2':
+                        case 'vector3':
+                        case 'vector4':
+                            return VectorKeyframeTrack;
+                        case 'color':
+                            return ColorKeyframeTrack;
+                        case 'quaternion':
+                            return QuaternionKeyframeTrack;
+                        case 'bool':
+                        case 'boolean':
+                            return BooleanKeyframeTrack;
+                        case 'string':
+                            return StringKeyframeTrack;
+                    }
+                    throw Error('THREE.KeyframeTrack: Unsupported typeName: ' + typeName);
+                }(json.type);
+                if (void 0 === json.times) {
+                    var times = [], values = [];
+                    AnimationUtils.flattenJSON(json.keys, times, values, 'value'), json.times = times, json.values = values;
+                }
+                return void 0 !== trackType.parse ? trackType.parse(json) : new trackType(json.name, json.times, json.values, json.interpolation);
+            })(jsonTracks[i]).scale(frameTime));
             var clip = new AnimationClip(json.name, json.duration, tracks, json.blendMode);
             return clip.uuid = json.uuid, clip;
         },
@@ -10633,7 +10609,7 @@
             var scope = this, images = [], texture = new CompressedTexture(), loader = new FileLoader(this.manager);
             loader.setPath(this.path), loader.setResponseType('arraybuffer'), loader.setRequestHeader(this.requestHeader), loader.setWithCredentials(scope.withCredentials);
             var loaded = 0;
-            function loadTexture(i) {
+            if (Array.isArray(url)) for(var i = 0, il = url.length; i < il; ++i)!function(i) {
                 loader.load(url[i], function(buffer) {
                     var texDatas = scope.parse(buffer, !0);
                     images[i] = {
@@ -10643,8 +10619,7 @@
                         mipmaps: texDatas.mipmaps
                     }, 6 === (loaded += 1) && (1 === texDatas.mipmapCount && (texture.minFilter = 1006), texture.image = images, texture.format = texDatas.format, texture.needsUpdate = !0, onLoad && onLoad(texture));
                 }, onProgress, onError);
-            }
-            if (Array.isArray(url)) for(var i = 0, il = url.length; i < il; ++i)loadTexture(i);
+            }(i);
             else loader.load(url, function(buffer) {
                 var texDatas = scope.parse(buffer, !0);
                 if (texDatas.isCubemap) {
@@ -10682,13 +10657,11 @@
         load: function(urls, onLoad, onProgress, onError) {
             var texture = new CubeTexture(), loader = new ImageLoader(this.manager);
             loader.setCrossOrigin(this.crossOrigin), loader.setPath(this.path);
-            var loaded = 0;
-            function loadTexture(i) {
+            for(var loaded = 0, i = 0; i < urls.length; ++i)!function(i) {
                 loader.load(urls[i], function(image) {
                     texture.images[i] = image, 6 == ++loaded && (texture.needsUpdate = !0, onLoad && onLoad(texture));
                 }, void 0, onError);
-            }
-            for(var i = 0; i < urls.length; ++i)loadTexture(i);
+            }(i);
             return texture;
         }
     }), DataTextureLoader.prototype = Object.assign(Object.create(Loader.prototype), {
@@ -12000,34 +11973,6 @@
     function Font(data) {
         this.type = 'Font', this.data = data;
     }
-    function createPath(char, scale, offsetX, offsetY, data) {
-        var x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2, glyph = data.glyphs[char] || data.glyphs['?'];
-        if (!glyph) {
-            console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
-            return;
-        }
-        var path = new ShapePath();
-        if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;){
-            var action = outline[i++];
-            switch(action){
-                case 'm':
-                    x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.moveTo(x, y);
-                    break;
-                case 'l':
-                    x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.lineTo(x, y);
-                    break;
-                case 'q':
-                    cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, path.quadraticCurveTo(cpx1, cpy1, cpx, cpy);
-                    break;
-                case 'b':
-                    cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, cpx2 = outline[i++] * scale + offsetX, cpy2 = outline[i++] * scale + offsetY, path.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, cpx, cpy);
-            }
-        }
-        return {
-            offsetX: glyph.ha * scale,
-            path: path
-        };
-    }
     function FontLoader(manager) {
         Loader.call(this, manager);
     }
@@ -12078,26 +12023,6 @@
                 }
                 return shapes;
             }
-            function isPointInsidePolygon(inPt, inPolygon) {
-                for(var polyLen = inPolygon.length, inside = !1, p = polyLen - 1, q = 0; q < polyLen; p = q++){
-                    var edgeLowPt = inPolygon[p], edgeHighPt = inPolygon[q], edgeDx = edgeHighPt.x - edgeLowPt.x, edgeDy = edgeHighPt.y - edgeLowPt.y;
-                    if (Math.abs(edgeDy) > Number.EPSILON) {
-                        if (edgeDy < 0 && (edgeLowPt = inPolygon[q], edgeDx = -edgeDx, edgeHighPt = inPolygon[p], edgeDy = -edgeDy), inPt.y < edgeLowPt.y || inPt.y > edgeHighPt.y) continue;
-                        if (inPt.y === edgeLowPt.y) {
-                            if (inPt.x === edgeLowPt.x) return !0;
-                        } else {
-                            var perpEdge = edgeDy * (inPt.x - edgeLowPt.x) - edgeDx * (inPt.y - edgeLowPt.y);
-                            if (0 === perpEdge) return !0;
-                            if (perpEdge < 0) continue;
-                            inside = !inside;
-                        }
-                    } else {
-                        if (inPt.y !== edgeLowPt.y) continue;
-                        if (edgeHighPt.x <= inPt.x && inPt.x <= edgeLowPt.x || edgeLowPt.x <= inPt.x && inPt.x <= edgeHighPt.x) return !0;
-                    }
-                }
-                return inside;
-            }
             var solid, tmpPath, tmpShape, tmpPoints, tmpHoles, isClockWise = ShapeUtils.isClockWise, subPaths = this.subPaths;
             if (0 === subPaths.length) return [];
             if (!0 === noHoles) return toShapesNoHoles(subPaths);
@@ -12118,7 +12043,26 @@
             if (newShapes.length > 1) {
                 for(var ambiguous = !1, toChange = [], sIdx = 0, sLen = newShapes.length; sIdx < sLen; sIdx++)betterShapeHoles[sIdx] = [];
                 for(var _sIdx = 0, _sLen = newShapes.length; _sIdx < _sLen; _sIdx++)for(var sho = newShapeHoles[_sIdx], hIdx = 0; hIdx < sho.length; hIdx++){
-                    for(var ho = sho[hIdx], hole_unassigned = !0, s2Idx = 0; s2Idx < newShapes.length; s2Idx++)isPointInsidePolygon(ho.p, newShapes[s2Idx].p) && (_sIdx !== s2Idx && toChange.push({
+                    for(var ho = sho[hIdx], hole_unassigned = !0, s2Idx = 0; s2Idx < newShapes.length; s2Idx++)(function(inPt, inPolygon) {
+                        for(var polyLen = inPolygon.length, inside = !1, p = polyLen - 1, q = 0; q < polyLen; p = q++){
+                            var edgeLowPt = inPolygon[p], edgeHighPt = inPolygon[q], edgeDx = edgeHighPt.x - edgeLowPt.x, edgeDy = edgeHighPt.y - edgeLowPt.y;
+                            if (Math.abs(edgeDy) > Number.EPSILON) {
+                                if (edgeDy < 0 && (edgeLowPt = inPolygon[q], edgeDx = -edgeDx, edgeHighPt = inPolygon[p], edgeDy = -edgeDy), inPt.y < edgeLowPt.y || inPt.y > edgeHighPt.y) continue;
+                                if (inPt.y === edgeLowPt.y) {
+                                    if (inPt.x === edgeLowPt.x) return !0;
+                                } else {
+                                    var perpEdge = edgeDy * (inPt.x - edgeLowPt.x) - edgeDx * (inPt.y - edgeLowPt.y);
+                                    if (0 === perpEdge) return !0;
+                                    if (perpEdge < 0) continue;
+                                    inside = !inside;
+                                }
+                            } else {
+                                if (inPt.y !== edgeLowPt.y) continue;
+                                if (edgeHighPt.x <= inPt.x && inPt.x <= edgeLowPt.x || edgeLowPt.x <= inPt.x && inPt.x <= edgeHighPt.x) return !0;
+                            }
+                        }
+                        return inside;
+                    })(ho.p, newShapes[s2Idx].p) && (_sIdx !== s2Idx && toChange.push({
                         froms: _sIdx,
                         tos: s2Idx,
                         hole: hIdx
@@ -12142,7 +12086,34 @@
                     var char = chars[i];
                     if ('\n' === char) offsetX = 0, offsetY -= line_height;
                     else {
-                        var ret = createPath(char, scale, offsetX, offsetY, data);
+                        var ret = function(char, scale, offsetX, offsetY, data) {
+                            var x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2, glyph = data.glyphs[char] || data.glyphs['?'];
+                            if (!glyph) {
+                                console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
+                                return;
+                            }
+                            var path = new ShapePath();
+                            if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;){
+                                var action = outline[i++];
+                                switch(action){
+                                    case 'm':
+                                        x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.moveTo(x, y);
+                                        break;
+                                    case 'l':
+                                        x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.lineTo(x, y);
+                                        break;
+                                    case 'q':
+                                        cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, path.quadraticCurveTo(cpx1, cpy1, cpx, cpy);
+                                        break;
+                                    case 'b':
+                                        cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, cpx2 = outline[i++] * scale + offsetX, cpy2 = outline[i++] * scale + offsetY, path.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, cpx, cpy);
+                                }
+                            }
+                            return {
+                                offsetX: glyph.ha * scale,
+                                path: path
+                            };
+                        }(char, scale, offsetX, offsetY, data);
                         offsetX += ret.offsetX, paths.push(ret.path);
                     }
                 }

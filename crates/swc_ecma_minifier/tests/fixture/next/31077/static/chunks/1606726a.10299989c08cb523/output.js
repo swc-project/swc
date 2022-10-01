@@ -54,7 +54,10 @@
                     if (node == targetNode && off == targetOff) return !0;
                     if (off == (dir < 0 ? 0 : nodeSize(node))) {
                         var parent = node.parentNode;
-                        if (1 != parent.nodeType || hasBlockDesc(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
+                        if (1 != parent.nodeType || function(dom) {
+                            for(var desc, cur = dom; cur && !(desc = cur.pmViewDesc); cur = cur.parentNode);
+                            return desc && desc.node && desc.node.isBlock && (desc.dom == dom || desc.contentDOM == dom);
+                        }(node) || atomElements.test(node.nodeName) || "false" == node.contentEditable) return !1;
                         off = domIndex(node) + (dir < 0 ? 0 : 1), node = parent;
                     } else {
                         if (1 != node.nodeType || "false" == (node = node.childNodes[off + (dir < 0 ? -1 : 0)]).contentEditable) return !1;
@@ -65,10 +68,6 @@
             function nodeSize(node) {
                 return 3 == node.nodeType ? node.nodeValue.length : node.childNodes.length;
             }
-            function hasBlockDesc(dom) {
-                for(var desc, cur = dom; cur && !(desc = cur.pmViewDesc); cur = cur.parentNode);
-                return desc && desc.node && desc.node.isBlock && (desc.dom == dom || desc.contentDOM == dom);
-            }
             var selectionCollapsed = function(domSel) {
                 var collapsed = domSel.isCollapsed;
                 return collapsed && result.chrome && domSel.rangeCount && !domSel.getRangeAt(0).collapsed && (collapsed = !1), collapsed;
@@ -77,29 +76,25 @@
                 var event = document.createEvent("Event");
                 return event.initEvent("keydown", !0, !0), event.keyCode = keyCode, event.key = event.code = key, event;
             }
-            function windowRect(doc) {
-                return {
-                    left: 0,
-                    right: doc.documentElement.clientWidth,
-                    top: 0,
-                    bottom: doc.documentElement.clientHeight
-                };
-            }
             function getSide(value, side) {
                 return "number" == typeof value ? value : value[side];
             }
-            function clientRect(node) {
-                var rect = node.getBoundingClientRect(), scaleX = rect.width / node.offsetWidth || 1, scaleY = rect.height / node.offsetHeight || 1;
-                return {
-                    left: rect.left,
-                    right: rect.left + node.clientWidth * scaleX,
-                    top: rect.top,
-                    bottom: rect.top + node.clientHeight * scaleY
-                };
-            }
             function scrollRectIntoView(view, rect, startDOM) {
                 for(var scrollThreshold = view.someProp("scrollThreshold") || 0, scrollMargin = view.someProp("scrollMargin") || 5, doc = view.dom.ownerDocument, parent = startDOM || view.dom; parent; parent = parentNode(parent))if (1 == parent.nodeType) {
-                    var atTop = parent == doc.body || 1 != parent.nodeType, bounding = atTop ? windowRect(doc) : clientRect(parent), moveX = 0, moveY = 0;
+                    var atTop = parent == doc.body || 1 != parent.nodeType, bounding = atTop ? {
+                        left: 0,
+                        right: doc.documentElement.clientWidth,
+                        top: 0,
+                        bottom: doc.documentElement.clientHeight
+                    } : function(node) {
+                        var rect = node.getBoundingClientRect(), scaleX = rect.width / node.offsetWidth || 1, scaleY = rect.height / node.offsetHeight || 1;
+                        return {
+                            left: rect.left,
+                            right: rect.left + node.clientWidth * scaleX,
+                            top: rect.top,
+                            bottom: rect.top + node.clientHeight * scaleY
+                        };
+                    }(parent), moveX = 0, moveY = 0;
                     if (rect.top < bounding.top + getSide(scrollThreshold, "top") ? moveY = -(bounding.top - rect.top + getSide(scrollMargin, "top")) : rect.bottom > bounding.bottom - getSide(scrollThreshold, "bottom") && (moveY = rect.bottom - bounding.bottom + getSide(scrollMargin, "bottom")), rect.left < bounding.left + getSide(scrollThreshold, "left") ? moveX = -(bounding.left - rect.left + getSide(scrollMargin, "left")) : rect.right > bounding.right - getSide(scrollThreshold, "right") && (moveX = rect.right - bounding.right + getSide(scrollMargin, "right")), moveX || moveY) {
                         if (atTop) doc.defaultView.scrollBy(moveX, moveY);
                         else {
@@ -874,21 +869,20 @@
                         var parent = void 0;
                         prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
-                    patchAttributes(curDOM, prev || noDeco[0], deco);
+                    !function(dom, prev, cur) {
+                        for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);
+                        for(var name$1 in cur)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && cur[name$1] != prev[name$1] && dom.setAttribute(name$1, cur[name$1]);
+                        if (prev.class != cur.class) {
+                            for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)-1 == curList.indexOf(prevList[i]) && dom.classList.remove(prevList[i]);
+                            for(var i$1 = 0; i$1 < curList.length; i$1++)-1 == prevList.indexOf(curList[i$1]) && dom.classList.add(curList[i$1]);
+                        }
+                        if (prev.style != cur.style) {
+                            if (prev.style) for(var m, prop = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g; m = prop.exec(prev.style);)dom.style.removeProperty(m[1]);
+                            cur.style && (dom.style.cssText += cur.style);
+                        }
+                    }(curDOM, prev || noDeco[0], deco);
                 }
                 return curDOM;
-            }
-            function patchAttributes(dom, prev, cur) {
-                for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);
-                for(var name$1 in cur)"class" != name$1 && "style" != name$1 && "nodeName" != name$1 && cur[name$1] != prev[name$1] && dom.setAttribute(name$1, cur[name$1]);
-                if (prev.class != cur.class) {
-                    for(var prevList = prev.class ? prev.class.split(" ").filter(Boolean) : nothing, curList = cur.class ? cur.class.split(" ").filter(Boolean) : nothing, i = 0; i < prevList.length; i++)-1 == curList.indexOf(prevList[i]) && dom.classList.remove(prevList[i]);
-                    for(var i$1 = 0; i$1 < curList.length; i$1++)-1 == prevList.indexOf(curList[i$1]) && dom.classList.add(curList[i$1]);
-                }
-                if (prev.style != cur.style) {
-                    if (prev.style) for(var m, prop = /\s*([\w\-\xa1-\uffff]+)\s*:(?:"(?:\\.|[^"])*"|'(?:\\.|[^'])*'|\(.*?\)|[^;])*/g; m = prop.exec(prev.style);)dom.style.removeProperty(m[1]);
-                    cur.style && (dom.style.cssText += cur.style);
-                }
             }
             function applyOuterDeco(dom, deco, node) {
                 return patchOuterDeco(dom, dom, noDeco, computeOuterDeco(deco, node, 1 != dom.nodeType));
@@ -2002,14 +1996,13 @@
                     }
                     if (mustRebuild) {
                         var decorations = function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
-                            function gather(set, oldOffset) {
+                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && function gather(set, oldOffset) {
                                 for(var i = 0; i < set.local.length; i++){
                                     var mapped = set.local[i].map(mapping, offset, oldOffset);
                                     mapped ? decorations.push(mapped) : options.onRemove && options.onRemove(set.local[i].spec);
                                 }
                                 for(var i$1 = 0; i$1 < set.children.length; i$1 += 3)gather(set.children[i$1 + 2], set.children[i$1] + oldOffset + 1);
-                            }
-                            for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && gather(children[i + 2], oldChildren[i] + oldOffset + 1);
+                            }(children[i + 2], oldChildren[i] + oldOffset + 1);
                             return decorations;
                         }(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
                         newLocal = built.local;

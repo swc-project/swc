@@ -509,6 +509,8 @@ where
                     match &f.function.body {
                         Some(body) => {
                             if !usage.used_recursively
+                            // only callees can be inlined multiple times
+                                && usage.used_as_callee
                                 && self.is_fn_body_simple_enough_to_inline(
                                     body,
                                     f.function.params.len(),
@@ -572,8 +574,9 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.is_fn_local || !usage.used_in_non_child_fn || usage.used_as_callee)
-                && !usage.executed_multiple_time
+                && (usage.used_as_callee
+                    || !usage.executed_multiple_time
+                        && (usage.is_fn_local || !usage.used_in_non_child_fn))
                 && !usage.inline_prevented
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,

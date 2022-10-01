@@ -4,7 +4,7 @@
 console.log((function n() {
     return "okay";
 })());
-console.log((function n(o, r, t) {
+console.log((function n(n, o, r) {
     return 123;
 })());
 console.log((function(n, o, r) {

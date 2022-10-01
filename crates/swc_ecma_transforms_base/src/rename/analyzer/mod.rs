@@ -161,13 +161,18 @@ impl Visit for Analyzer {
     }
 
     fn visit_fn_expr(&mut self, f: &FnExpr) {
-        self.with_scope(|v| {
-            if let Some(id) = &f.ident {
+        if let Some(id) = &f.ident {
+            self.with_scope(|v| {
                 v.add_decl(id.to_id());
-            }
-
-            f.function.visit_with(v);
-        })
+                v.with_scope(|v| {
+                    f.function.visit_with(v);
+                });
+            })
+        } else {
+            self.with_scope(|v| {
+                f.function.visit_with(v);
+            })
+        }
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {

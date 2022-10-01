@@ -321,20 +321,6 @@
                 return -1 < h ? (b = a[h], c || (b.fa = !1)) : ((b = new Ya(b, this.src, f, !!d, e)).fa = c, a.push(b)), b;
             };
             var cb = "closure_lm_" + (1e6 * Math.random() | 0), db = {};
-            function fb(a, b, c, d, e) {
-                if (d && d.once) return function gb(a, b, c, d, e) {
-                    if (Array.isArray(b)) {
-                        for(var f = 0; f < b.length; f++)gb(a, b[f], c, d, e);
-                        return null;
-                    }
-                    return c = hb(c), a && a[B] ? a.O(b, c, p(d) ? !!d.capture : !!d, e) : ib(a, b, c, !0, d, e);
-                }(a, b, c, d, e);
-                if (Array.isArray(b)) {
-                    for(var f = 0; f < b.length; f++)fb(a, b[f], c, d, e);
-                    return null;
-                }
-                return c = hb(c), a && a[B] ? a.N(b, c, p(d) ? !!d.capture : !!d, e) : ib(a, b, c, !1, d, e);
-            }
             function ib(a, b, c, d, e, f) {
                 if (!b) throw Error("Invalid event type");
                 var h = p(e) ? !!e.capture : !!e, n = jb(a);
@@ -427,13 +413,7 @@
             }, C.prototype.O = function(a, b, c, d) {
                 return this.i.add(String(a), b, !0, c, d);
             };
-            var rb = l.JSON.stringify;
-            function sb() {
-                var a = tb;
-                let b = null;
-                return a.g && (b = a.g, a.g = a.g.next, a.g || (a.h = null), b.next = null), b;
-            }
-            var vb = new class {
+            var rb = l.JSON.stringify, vb = new class {
                 constructor(a, b){
                     this.i = a, this.j = b, this.h = 0, this.g = null;
                 }
@@ -453,11 +433,6 @@
                     this.next = this.g = this.h = null;
                 }
             }
-            function yb(a) {
-                l.setTimeout(()=>{
-                    throw a;
-                }, 0);
-            }
             function zb(a, b) {
                 var a1;
                 Ab || (a1 = l.Promise.resolve(void 0), Ab = function() {
@@ -474,14 +449,19 @@
                 }
             }();
             function Db() {
-                for(var a; a = sb();){
+                let b;
+                for(; b = null, (a = tb).g && (b = a.g, a.g = a.g.next, a.g || (a.h = null), b.next = null), a1 = b;){
                     try {
-                        a.h.call(a.g);
+                        a1.h.call(a1.g);
                     } catch (c) {
-                        yb(c);
+                        !function(a) {
+                            l.setTimeout(()=>{
+                                throw a;
+                            }, 0);
+                        }(c);
                     }
-                    var b = vb;
-                    b.j(a), 100 > b.h && (b.h++, a.next = b.g, b.g = a);
+                    var a, a1, b1 = vb;
+                    b1.j(a1), 100 > b1.h && (b1.h++, a1.next = b1.g, b1.g = a1);
                 }
                 Cb = !1;
             }
@@ -532,7 +512,20 @@
             function Kb(a, b, c, d) {
                 Array.isArray(c) || (c && (Jb[0] = c.toString()), c = Jb);
                 for(var e = 0; e < c.length; e++){
-                    var f = fb(b, c[e], d || a.handleEvent, !1, a.h || a);
+                    var f = function fb(a, b, c, d, e) {
+                        if (d && d.once) return function gb(a, b, c, d, e) {
+                            if (Array.isArray(b)) {
+                                for(var f = 0; f < b.length; f++)gb(a, b[f], c, d, e);
+                                return null;
+                            }
+                            return c = hb(c), a && a[B] ? a.O(b, c, p(d) ? !!d.capture : !!d, e) : ib(a, b, c, !0, d, e);
+                        }(a, b, c, d, e);
+                        if (Array.isArray(b)) {
+                            for(var f = 0; f < b.length; f++)fb(a, b[f], c, d, e);
+                            return null;
+                        }
+                        return c = hb(c), a && a[B] ? a.N(b, c, p(d) ? !!d.capture : !!d, e) : ib(a, b, c, !1, d, e);
+                    }(b, c[e], d || a.handleEvent, !1, a.h || a);
                     if (!f) break;
                     a.g[f.key] = f;
                 }
@@ -692,7 +685,10 @@
             }
             function tc(a, b, c) {
                 let d = !0, e;
-                for(; !a.I && a.C < c.length;)if ((e = vc(a, c)) == hc) {
+                for(; !a.I && a.C < c.length;)if ((e = function(a, b) {
+                    var c = a.C, d = b.indexOf("\n", c);
+                    return -1 == d ? hc : isNaN(c = Number(b.substring(c, d))) ? gc : (d += 1) + c > b.length ? hc : (b = b.substr(d, c), a.C = d + c, b);
+                }(a, c)) == hc) {
                     4 == b && (a.o = 4, J(14), d = !1), F(a.j, a.m, null, "[Incomplete Response]");
                     break;
                 } else if (e == gc) {
@@ -700,10 +696,6 @@
                     break;
                 } else F(a.j, a.m, e, null), sc(a, e);
                 qc(a) && e != hc && e != gc && (a.h.g = "", a.C = 0), 4 != b || 0 != c.length || a.h.h || (a.o = 1, J(16), d = !1), a.i = a.i && d, d ? 0 < c.length && !a.aa && (a.aa = !0, (b = a.l).g == a && b.$ && !b.L && (b.h.info("Great, no buffering proxy detected. Bytes received: " + c.length), wc(b), b.L = !0, J(11))) : (F(a.j, a.m, c, "[Invalid Chunked Response]"), P(a), rc(a));
-            }
-            function vc(a, b) {
-                var c = a.C, d = b.indexOf("\n", c);
-                return -1 == d ? hc : isNaN(c = Number(b.substring(c, d))) ? gc : (d += 1) + c > b.length ? hc : (b = b.substr(d, c), a.C = d + c, b);
             }
             function lc(a) {
                 a.Y = Date.now() + a.P, xc(a, a.P);
@@ -1092,17 +1084,6 @@
             function ld() {
                 this.g = new kd();
             }
-            function md(a, b, c) {
-                const d = c || "";
-                try {
-                    Kc(a, function(e, f) {
-                        let h = e;
-                        p(e) && (h = rb(e)), b.push(d + f + "=" + encodeURIComponent(h));
-                    });
-                } catch (e) {
-                    throw b.push(d + "type=" + encodeURIComponent("_badmap")), e;
-                }
-            }
             function od(a, b, c, d, e) {
                 try {
                     b.onload = null, b.onerror = null, b.onabort = null, b.ontimeout = null, e(d);
@@ -1362,7 +1343,17 @@
                             const r = e[u].g;
                             if (0 > (m -= f)) f = Math.max(0, e[u].h - 100), n = !1;
                             else try {
-                                md(r, h, "req" + m + "_");
+                                !function(a, b, c) {
+                                    const d = c || "";
+                                    try {
+                                        Kc(a, function(e, f) {
+                                            let h = e;
+                                            p(e) && (h = rb(e)), b.push(d + f + "=" + encodeURIComponent(h));
+                                        });
+                                    } catch (e) {
+                                        throw b.push(d + "type=" + encodeURIComponent("_badmap")), e;
+                                    }
+                                }(r, h, "req" + m + "_");
                             } catch (G) {
                                 d && d(r);
                             }
@@ -2255,17 +2246,16 @@
                 "fire-js": "fire-js",
                 firebase: "fire-js-all"
             }, _apps = new Map(), _components = new Map();
-            function _addComponent(app, component) {
-                try {
-                    app.container.addComponent(component);
-                } catch (e) {
-                    logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
-                }
-            }
             function _registerComponent(component) {
                 const componentName = component.name;
                 if (_components.has(componentName)) return logger.debug(`There were multiple attempts to register component ${componentName}.`), !1;
-                for (const app of (_components.set(componentName, component), _apps.values()))_addComponent(app, component);
+                for (const app of (_components.set(componentName, component), _apps.values()))!function(app, component) {
+                    try {
+                        app.container.addComponent(component);
+                    } catch (e) {
+                        logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
+                    }
+                }(app, component);
                 return !0;
             }
             new _firebase_util__WEBPACK_IMPORTED_MODULE_2__.LL("app", "Firebase", {
