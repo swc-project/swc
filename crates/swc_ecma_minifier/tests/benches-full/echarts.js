@@ -5189,7 +5189,7 @@
         -1
     ];
     function containPath(path, lineWidth, isStroke, x, y) {
-        for(var a, x1, y1, data = path.data, len = path.len(), w = 0, xi = 0, yi = 0, x0 = 0, y0 = 0, i = 0; i < len;){
+        for(var x1, y1, data = path.data, len = path.len(), w = 0, xi = 0, yi = 0, x0 = 0, y0 = 0, i = 0; i < len;){
             var x01, y01, x11, y11, x2, y2, x3, y3, lineWidth1, x4, y4, cmd = data[i++], isFirst = 1 === i;
             switch(cmd === CMD$1.M && i > 1 && !isStroke && (w += windingLine(xi, yi, x0, y0, x, y)), isFirst && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi), cmd){
                 case CMD$1.M:
@@ -5318,7 +5318,7 @@
                     xi = x0, yi = y0;
             }
         }
-        return !isStroke && !(1e-4 > Math.abs((a = yi) - y0)) && (w += windingLine(xi, yi, x0, y0, x, y) || 0), 0 !== w;
+        return !isStroke && !(1e-4 > Math.abs(yi - y0)) && (w += windingLine(xi, yi, x0, y0, x, y) || 0), 0 !== w;
     }
     var DEFAULT_PATH_STYLE = defaults({
         fill: '#000',
@@ -5446,12 +5446,12 @@
         }, Path.prototype.contain = function(x, y) {
             var localPos = this.transformCoordToLocal(x, y), rect = this.getBoundingRect(), style = this.style;
             if (x = localPos[0], y = localPos[1], rect.contain(x, y)) {
-                var pathProxy, x1, pathProxy1 = this.path;
+                var pathProxy = this.path;
                 if (this.hasStroke()) {
-                    var pathProxy2, lineWidth, x2, lineWidth1 = style.lineWidth, lineScale = style.strokeNoScale ? this.getLineScale() : 1;
-                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth1 = Math.max(lineWidth1, this.strokeContainThreshold)), pathProxy2 = pathProxy1, lineWidth = lineWidth1 / lineScale, containPath(pathProxy2, lineWidth, !0, x2 = x, y))) return !0;
+                    var lineWidth = style.lineWidth, lineScale = style.strokeNoScale ? this.getLineScale() : 1;
+                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth = Math.max(lineWidth, this.strokeContainThreshold)), containPath(pathProxy, lineWidth / lineScale, !0, x, y))) return !0;
                 }
-                if (this.hasFill()) return pathProxy = pathProxy1, containPath(pathProxy, 0, !1, x1 = x, y);
+                if (this.hasFill()) return containPath(pathProxy, 0, !1, x, y);
             }
             return !1;
         }, Path.prototype.dirtyShape = function() {
@@ -5930,9 +5930,7 @@
         el.selected = !1;
     }
     function traverseUpdateState(el, updater, commonParam) {
-        var el1, updater1;
         updater(el, commonParam), el.isGroup && el.traverse(function(child) {
-            var el, updater1;
             updater(child, commonParam);
         });
     }
@@ -9898,7 +9896,7 @@
             build: function(ctx, fragment, topMarginForOuterGap, toolTipTextStyle) {
                 var renderMode = ctx.renderMode, noName = fragment.noName, noValue = fragment.noValue, noMarker = !fragment.markerType, name = fragment.name, value = fragment.value, useUTC = ctx.useUTC;
                 if (!noName || !noValue) {
-                    var ctx1, valueList, alignRight, valueCloseToMarker, styles, name1, leftHasMarker, valueList1, alignRight1, valueCloseToMarker1, markerStr = noMarker ? '' : ctx.markupStyleCreator.makeTooltipMarker(fragment.markerType, fragment.markerColor || '#333', renderMode), readableName = noName ? '' : makeValueReadable(name, 'ordinal', useUTC), valueTypeOption = fragment.valueType, readableValueList = noValue ? [] : isArray(value) ? map(value, function(val, idx) {
+                    var ctx1, valueList, alignRight, valueCloseToMarker, styles, name1, valueList1, alignRight1, valueCloseToMarker1, markerStr = noMarker ? '' : ctx.markupStyleCreator.makeTooltipMarker(fragment.markerType, fragment.markerColor || '#333', renderMode), readableName = noName ? '' : makeValueReadable(name, 'ordinal', useUTC), valueTypeOption = fragment.valueType, readableValueList = noValue ? [] : isArray(value) ? map(value, function(val, idx) {
                         return makeValueReadable(val, isArray(valueTypeOption) ? valueTypeOption[idx] : valueTypeOption, useUTC);
                     }) : [
                         makeValueReadable(value, isArray(valueTypeOption) ? valueTypeOption[0] : valueTypeOption, useUTC)
@@ -9913,7 +9911,7 @@
                             valueCloseToMarker ? 10 : 20
                         ],
                         align: 'right'
-                    }), ctx1.markupStyleCreator.wrapRichTextStyle(valueList.join('  '), styles))) : wrapBlockHTML((noMarker ? '' : markerStr) + (noName ? '' : (name1 = readableName, leftHasMarker = !noMarker, "<span style=\"" + nameStyle + ";" + (leftHasMarker ? 'margin-left:2px' : '') + "\">" + encodeHTML(name1) + '</span>')) + (noValue ? '' : (valueList1 = readableValueList, alignRight1 = valueAlignRight, valueCloseToMarker1 = valueCloseToMarker2, "<span style=\"" + (alignRight1 ? "float:right;margin-left:" + (valueCloseToMarker1 ? '10px' : '20px') : '') + ";" + valueStyle + "\">" + map(valueList1, function(value) {
+                    }), ctx1.markupStyleCreator.wrapRichTextStyle(valueList.join('  '), styles))) : wrapBlockHTML((noMarker ? '' : markerStr) + (noName ? '' : (name1 = readableName, "<span style=\"" + nameStyle + ";" + (noMarker ? '' : 'margin-left:2px') + "\">" + encodeHTML(name1) + '</span>')) + (noValue ? '' : (valueList1 = readableValueList, alignRight1 = valueAlignRight, valueCloseToMarker1 = valueCloseToMarker2, "<span style=\"" + (alignRight1 ? "float:right;margin-left:" + (valueCloseToMarker1 ? '10px' : '20px') : '') + ";" + valueStyle + "\">" + map(valueList1, function(value) {
                         return encodeHTML(value);
                     }).join('&nbsp;&nbsp;') + '</span>')), topMarginForOuterGap);
                 }
@@ -27514,8 +27512,8 @@
             });
             var iterations1 = 0 !== filter(nodes3, function(node) {
                 return 0 === node.getLayout().value;
-            }).length ? 0 : seriesModel.get('layoutIterations'), orient1 = seriesModel.get('orient');
-            nodes1 = nodes3, edges = edges1, nodeWidth = nodeWidth1, nodeGap = nodeGap1, width = width1, height = height1, iterations = iterations1, orient = orient1, function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
+            }).length ? 0 : seriesModel.get('layoutIterations');
+            nodes1 = nodes3, edges = edges1, nodeWidth = nodeWidth1, nodeGap = nodeGap1, width = width1, height = height1, iterations = iterations1, orient = seriesModel.get('orient'), function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
                 for(var nodes1, kx, orient1, remainEdges = [], indegreeArr = [], zeroIndegrees = [], nextTargetNode = [], x = 0, i = 0; i < edges.length; i++)remainEdges[i] = 1;
                 for(var i = 0; i < nodes.length; i++)indegreeArr[i] = nodes[i].inEdges.length, 0 === indegreeArr[i] && zeroIndegrees.push(nodes[i]);
                 for(var maxNodeDepth = -1; zeroIndegrees.length;){
@@ -35619,8 +35617,8 @@
     function makeStyleCoord(out, zr, appendToBody, zrX, zrY) {
         var zrPainter = zr && zr.painter;
         if (appendToBody) {
-            var out1, elFrom, elTarget, inX, zrViewportRoot = zrPainter && zrPainter.getViewportRoot();
-            zrViewportRoot && (out1 = out, elFrom = zrViewportRoot, elTarget = document.body, transformCoordWithViewport(_calcOut, elFrom, inX = zrX, zrY, !0) && transformCoordWithViewport(out1, elTarget, _calcOut[0], _calcOut[1]));
+            var out1, elFrom, elTarget, zrViewportRoot = zrPainter && zrPainter.getViewportRoot();
+            zrViewportRoot && (out1 = out, elFrom = zrViewportRoot, elTarget = document.body, transformCoordWithViewport(_calcOut, elFrom, zrX, zrY, !0) && transformCoordWithViewport(out1, elTarget, _calcOut[0], _calcOut[1]));
         } else {
             out[0] = zrX, out[1] = zrY;
             var viewportRootOffset = zrPainter && zrPainter.getViewportRootOffset();

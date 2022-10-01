@@ -12863,10 +12863,10 @@
                     computedType: type || "labels",
                     candleWidth: candleWidth,
                     orientation: orientation
-                }), yValue = _calculatePlotValues.yValue, xValue = _calculatePlotValues.xValue, labelProps = {
+                }), labelProps = {
                     style: labelStyle,
-                    y: yValue,
-                    x: xValue,
+                    y: _calculatePlotValues.yValue,
+                    x: _calculatePlotValues.xValue,
                     dx: _calculatePlotValues.dx,
                     dy: _calculatePlotValues.dy,
                     text: text,
@@ -13462,32 +13462,27 @@
                 childComponents = childComponents || getChildComponents(props);
                 var baseStyle = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).style.parent, height = props.height, polar = props.polar, theme = props.theme, width = props.width, _calculatedProps = calculatedProps, origin = _calculatedProps.origin, horizontal = _calculatedProps.horizontal, parentName = props.name || "chart";
                 return childComponents.map(function(child, index) {
-                    var role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
+                    var child1, props1, calculatedProps1, child2, props2, calculatedProps2, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
-                    }), childProps = function(child, props, calculatedProps) {
-                        var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
-                            child
-                        ]);
-                        if (axisChild.length > 0) return axisChild[0], props1 = props, domain = (calculatedProps1 = calculatedProps).domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
-                            stringMap: stringMap,
-                            horizontal: calculatedProps1.horizontal,
-                            categories: categories,
-                            startAngle: props1.startAngle,
-                            endAngle: props1.endAngle,
-                            innerRadius: props1.innerRadius,
-                            domain: domain,
-                            scale: scale
-                        };
-                        var categories1 = calculatedProps.categories, domain1 = calculatedProps.domain, range = calculatedProps.range, scale1 = calculatedProps.scale;
-                        return {
-                            categories: categories1,
-                            domain: domain1,
-                            range: range,
-                            scale: scale1,
-                            stringMap: calculatedProps.stringMap,
-                            horizontal: calculatedProps.horizontal
-                        };
-                    }(child, props, calculatedProps), name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index), newProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({
+                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                        child1
+                    ])).length > 0 ? (axisChild[0], props2 = props1, domain = (calculatedProps2 = calculatedProps1).domain, scale = calculatedProps2.scale, stringMap = calculatedProps2.stringMap, categories = calculatedProps2.categories, {
+                        stringMap: stringMap,
+                        horizontal: calculatedProps2.horizontal,
+                        categories: categories,
+                        startAngle: props2.startAngle,
+                        endAngle: props2.endAngle,
+                        innerRadius: props2.innerRadius,
+                        domain: domain,
+                        scale: scale
+                    }) : {
+                        categories: calculatedProps1.categories,
+                        domain: calculatedProps1.domain,
+                        range: calculatedProps1.range,
+                        scale: calculatedProps1.scale,
+                        stringMap: calculatedProps1.stringMap,
+                        horizontal: calculatedProps1.horizontal
+                    }), name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index), newProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({
                         horizontal: horizontal,
                         height: height,
                         polar: polar,
@@ -15985,8 +15980,8 @@
                     tabIndex: tabIndex
                 });
             }, Whisker = function(props) {
-                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, baseProps = _objectSpread({}, events, {
-                    style: style,
+                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, baseProps = _objectSpread({}, events, {
+                    style: _props.style,
                     desc: _props.desc,
                     tabIndex: _props.tabIndex,
                     className: className,
@@ -16619,10 +16614,10 @@
                                 oldProps: animate.parentState.nodesWillExit ? props : null,
                                 nextProps: nextProps
                             };
-                            var oldChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(nextProps.children), _Transitions$getIniti = _victory_util_transitions__WEBPACK_IMPORTED_MODULE_10__.default.getInitialTransitionState(oldChildren, nextChildren), nodesWillExit = _Transitions$getIniti.nodesWillExit, nodesWillEnter = _Transitions$getIniti.nodesWillEnter;
+                            var oldChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(nextProps.children), _Transitions$getIniti = _victory_util_transitions__WEBPACK_IMPORTED_MODULE_10__.default.getInitialTransitionState(oldChildren, nextChildren), nodesWillExit = _Transitions$getIniti.nodesWillExit;
                             return {
                                 nodesWillExit: nodesWillExit,
-                                nodesWillEnter: nodesWillEnter,
+                                nodesWillEnter: _Transitions$getIniti.nodesWillEnter,
                                 childrenTransitions: _Transitions$getIniti.childrenTransitions,
                                 nodesShouldEnter: _Transitions$getIniti.nodesShouldEnter,
                                 oldProps: nodesWillExit ? props : null,
@@ -22894,11 +22889,11 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, parentProps = {
-                        polar: polar,
-                        startAngle: startAngle,
-                        endAngle: endAngle,
-                        categories: categories,
+                    var parentProps = {
+                        polar: props.polar,
+                        startAngle: props.startAngle,
+                        endAngle: props.endAngle,
+                        categories: props.categories,
                         minDomain: props.minDomain,
                         maxDomain: props.maxDomain
                     }, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
@@ -24061,8 +24056,8 @@
             }
             function getChildren(props, childComponents, calculatedProps) {
                 props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.modifyProps(props, fallbackProps, "stack"), childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.toArray(props.children);
-                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, height, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
-                    height: height = props1.height,
+                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
+                    height: props1.height,
                     width: width,
                     theme: props1.theme,
                     polar: props1.polar,

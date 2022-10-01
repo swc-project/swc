@@ -3362,7 +3362,7 @@
                 var descending = !1, get = predicate || identity;
                 return isString(predicate) && (("+" == predicate.charAt(0) || "-" == predicate.charAt(0)) && (descending = "-" == predicate.charAt(0), predicate = predicate.substring(1)), get = $parse(predicate)), reverseComparator(function(a, b) {
                     var v1, v2, t1, t2;
-                    return v1 = get(a), v2 = get(b), t1 = typeof v1, t1 != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
+                    return v1 = get(a), v2 = get(b), (t1 = typeof v1) != (t2 = typeof v2) ? t1 < t2 ? -1 : 1 : ("string" == t1 && (v1 = v1.toLowerCase(), v2 = v2.toLowerCase()), v1 === v2) ? 0 : v1 < v2 ? -1 : 1;
                 }, descending);
             }, results = [], forEach(obj, function(value, index, list) {
                 results.push(iterator.call(void 0, value, index, list));
