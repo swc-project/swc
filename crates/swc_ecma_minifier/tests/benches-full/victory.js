@@ -6090,7 +6090,12 @@
             }
             function addBeach(site) {
                 for(var lArc, rArc, dxl, dxr, x = site[0], directrix = site[1], node = _Diagram__WEBPACK_IMPORTED_MODULE_4__.beaches._; node;)if ((dxl = leftBreakPoint(node, directrix) - x) > _Diagram__WEBPACK_IMPORTED_MODULE_4__.epsilon) node = node.L;
-                else if ((dxr = x - rightBreakPoint(node, directrix)) > _Diagram__WEBPACK_IMPORTED_MODULE_4__.epsilon) {
+                else if ((dxr = x - function(arc, directrix) {
+                    var rArc = arc.N;
+                    if (rArc) return leftBreakPoint(rArc, directrix);
+                    var site = arc.site;
+                    return site[1] === directrix ? site[0] : 1 / 0;
+                }(node, directrix)) > _Diagram__WEBPACK_IMPORTED_MODULE_4__.epsilon) {
                     if (!node.R) {
                         lArc = node;
                         break;
@@ -6129,12 +6134,6 @@
                 var hl = lfocx - rfocx, aby2 = 1 / pby2 - 1 / plby2, b = hl / plby2;
                 return aby2 ? (-b + Math.sqrt(b * b - 2 * aby2 * (hl * hl / (-2 * plby2) - lfocy + plby2 / 2 + rfocy - pby2 / 2))) / aby2 + rfocx : (rfocx + lfocx) / 2;
             }
-            function rightBreakPoint(arc, directrix) {
-                var rArc = arc.N;
-                if (rArc) return leftBreakPoint(rArc, directrix);
-                var site = arc.site;
-                return site[1] === directrix ? site[0] : 1 / 0;
-            }
         },
         "../../../node_modules/d3-voronoi/src/Cell.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -6156,10 +6155,6 @@
                     halfedges: []
                 };
             }
-            function cellHalfedgeAngle(cell, edge) {
-                var site = cell.site, va = edge.left, vb = edge.right;
-                return (site === vb && (vb = va, va = site), vb) ? Math.atan2(vb[1] - va[1], vb[0] - va[0]) : (site === va ? (va = edge[1], vb = edge[0]) : (va = edge[0], vb = edge[1]), Math.atan2(va[0] - vb[0], vb[1] - va[1]));
-            }
             function cellHalfedgeStart(cell, edge) {
                 return edge[+(edge.left !== cell.site)];
             }
@@ -6169,7 +6164,10 @@
             function sortCellHalfedges() {
                 for(var cell, halfedges, j, m, i = 0, n = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells.length; i < n; ++i)if ((cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[i]) && (m = (halfedges = cell.halfedges).length)) {
                     var index = Array(m), array = Array(m);
-                    for(j = 0; j < m; ++j)index[j] = j, array[j] = cellHalfedgeAngle(cell, _Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[j]]);
+                    for(j = 0; j < m; ++j)index[j] = j, array[j] = function(cell, edge) {
+                        var site = cell.site, va = edge.left, vb = edge.right;
+                        return (site === vb && (vb = va, va = site), vb) ? Math.atan2(vb[1] - va[1], vb[0] - va[0]) : (site === va ? (va = edge[1], vb = edge[0]) : (va = edge[0], vb = edge[1]), Math.atan2(va[0] - vb[0], vb[1] - va[1]));
+                    }(cell, _Diagram__WEBPACK_IMPORTED_MODULE_1__.edges[halfedges[j]]);
                     for(index.sort(function(i, j) {
                         return array[j] - array[i];
                     }), j = 0; j < m; ++j)array[j] = halfedges[index[j]];
@@ -6279,9 +6277,6 @@
                 return Diagram;
             });
             var beaches, cells, circles, edges, _Beach__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-voronoi/src/Beach.js"), _Cell__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-voronoi/src/Cell.js"), _Circle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-voronoi/src/Circle.js"), _Edge__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/d3-voronoi/src/Edge.js"), _RedBlackTree__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/d3-voronoi/src/RedBlackTree.js"), epsilon = 1e-6, epsilon2 = 1e-12;
-            function triangleArea(a, b, c) {
-                return (a[0] - c[0]) * (b[1] - a[1]) - (a[0] - b[0]) * (c[1] - a[1]);
-            }
             function lexicographic(a, b) {
                 return b[1] - a[1] || b[0] - a[0];
             }
@@ -6310,7 +6305,7 @@
                 triangles: function() {
                     var triangles = [], edges = this.edges;
                     return this.cells.forEach(function(cell, i) {
-                        if (m = (halfedges = cell.halfedges).length) for(var halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > triangleArea(site, s0, s1) && triangles.push([
+                        if (m = (halfedges = cell.halfedges).length) for(var a, b, c, halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > (a = site, b = s0, c = s1, (a[0] - c[0]) * (b[1] - a[1]) - (a[0] - b[0]) * (c[1] - a[1])) && triangles.push([
                             site.data,
                             s0.data,
                             s1.data
@@ -6371,132 +6366,130 @@
             function setEdgeEnd(edge, left, right, vertex) {
                 edge[0] || edge[1] ? edge.left === right ? edge[1] = vertex : edge[0] = vertex : (edge[0] = vertex, edge.left = left, edge.right = right);
             }
-            function clipEdge(edge, x0, y0, x1, y1) {
-                var r, a = edge[0], b = edge[1], ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
-                if (r = x0 - ax, dx || !(r > 0)) {
-                    if (r /= dx, dx < 0) {
-                        if (r < t0) return;
-                        r < t1 && (t1 = r);
-                    } else if (dx > 0) {
-                        if (r > t1) return;
-                        r > t0 && (t0 = r);
+            function clipEdges(x0, y0, x1, y1) {
+                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)(function(edge, x0, y0, x1, y1) {
+                    var v1 = edge[1];
+                    if (v1) return !0;
+                    var fm, fb, v0 = edge[0], left = edge.left, right = edge.right, lx = left[0], ly = left[1], rx = right[0], ry = right[1], fx = (lx + rx) / 2;
+                    if (ry === ly) {
+                        if (fx < x0 || fx >= x1) return;
+                        if (lx > rx) {
+                            if (v0) {
+                                if (v0[1] >= y1) return;
+                            } else v0 = [
+                                fx,
+                                y0
+                            ];
+                            v1 = [
+                                fx,
+                                y1
+                            ];
+                        } else {
+                            if (v0) {
+                                if (v0[1] < y0) return;
+                            } else v0 = [
+                                fx,
+                                y1
+                            ];
+                            v1 = [
+                                fx,
+                                y0
+                            ];
+                        }
+                    } else if (fm = (lx - rx) / (ry - ly), fb = (ly + ry) / 2 - fm * fx, fm < -1 || fm > 1) {
+                        if (lx > rx) {
+                            if (v0) {
+                                if (v0[1] >= y1) return;
+                            } else v0 = [
+                                (y0 - fb) / fm,
+                                y0
+                            ];
+                            v1 = [
+                                (y1 - fb) / fm,
+                                y1
+                            ];
+                        } else {
+                            if (v0) {
+                                if (v0[1] < y0) return;
+                            } else v0 = [
+                                (y1 - fb) / fm,
+                                y1
+                            ];
+                            v1 = [
+                                (y0 - fb) / fm,
+                                y0
+                            ];
+                        }
+                    } else if (ly < ry) {
+                        if (v0) {
+                            if (v0[0] >= x1) return;
+                        } else v0 = [
+                            x0,
+                            fm * x0 + fb
+                        ];
+                        v1 = [
+                            x1,
+                            fm * x1 + fb
+                        ];
+                    } else {
+                        if (v0) {
+                            if (v0[0] < x0) return;
+                        } else v0 = [
+                            x1,
+                            fm * x1 + fb
+                        ];
+                        v1 = [
+                            x0,
+                            fm * x0 + fb
+                        ];
                     }
-                    if (r = x1 - ax, dx || !(r < 0)) {
+                    return edge[0] = v0, edge[1] = v1, !0;
+                })(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) && function(edge, x0, y0, x1, y1) {
+                    var r, a = edge[0], b = edge[1], ax = a[0], ay = a[1], bx = b[0], by = b[1], t0 = 0, t1 = 1, dx = bx - ax, dy = by - ay;
+                    if (r = x0 - ax, dx || !(r > 0)) {
                         if (r /= dx, dx < 0) {
-                            if (r > t1) return;
-                            r > t0 && (t0 = r);
-                        } else if (dx > 0) {
                             if (r < t0) return;
                             r < t1 && (t1 = r);
+                        } else if (dx > 0) {
+                            if (r > t1) return;
+                            r > t0 && (t0 = r);
                         }
-                        if (r = y0 - ay, dy || !(r > 0)) {
-                            if (r /= dy, dy < 0) {
-                                if (r < t0) return;
-                                r < t1 && (t1 = r);
-                            } else if (dy > 0) {
+                        if (r = x1 - ax, dx || !(r < 0)) {
+                            if (r /= dx, dx < 0) {
                                 if (r > t1) return;
                                 r > t0 && (t0 = r);
+                            } else if (dx > 0) {
+                                if (r < t0) return;
+                                r < t1 && (t1 = r);
                             }
-                            if (r = y1 - ay, dy || !(r < 0)) {
+                            if (r = y0 - ay, dy || !(r > 0)) {
                                 if (r /= dy, dy < 0) {
-                                    if (r > t1) return;
-                                    r > t0 && (t0 = r);
-                                } else if (dy > 0) {
                                     if (r < t0) return;
                                     r < t1 && (t1 = r);
+                                } else if (dy > 0) {
+                                    if (r > t1) return;
+                                    r > t0 && (t0 = r);
                                 }
-                                return !(t0 > 0) && !(t1 < 1) || (t0 > 0 && (edge[0] = [
-                                    ax + t0 * dx,
-                                    ay + t0 * dy
-                                ]), t1 < 1 && (edge[1] = [
-                                    ax + t1 * dx,
-                                    ay + t1 * dy
-                                ]), !0);
+                                if (r = y1 - ay, dy || !(r < 0)) {
+                                    if (r /= dy, dy < 0) {
+                                        if (r > t1) return;
+                                        r > t0 && (t0 = r);
+                                    } else if (dy > 0) {
+                                        if (r < t0) return;
+                                        r < t1 && (t1 = r);
+                                    }
+                                    return !(t0 > 0) && !(t1 < 1) || (t0 > 0 && (edge[0] = [
+                                        ax + t0 * dx,
+                                        ay + t0 * dy
+                                    ]), t1 < 1 && (edge[1] = [
+                                        ax + t1 * dx,
+                                        ay + t1 * dy
+                                    ]), !0);
+                                }
                             }
                         }
                     }
-                }
-            }
-            function connectEdge(edge, x0, y0, x1, y1) {
-                var v1 = edge[1];
-                if (v1) return !0;
-                var fm, fb, v0 = edge[0], left = edge.left, right = edge.right, lx = left[0], ly = left[1], rx = right[0], ry = right[1], fx = (lx + rx) / 2;
-                if (ry === ly) {
-                    if (fx < x0 || fx >= x1) return;
-                    if (lx > rx) {
-                        if (v0) {
-                            if (v0[1] >= y1) return;
-                        } else v0 = [
-                            fx,
-                            y0
-                        ];
-                        v1 = [
-                            fx,
-                            y1
-                        ];
-                    } else {
-                        if (v0) {
-                            if (v0[1] < y0) return;
-                        } else v0 = [
-                            fx,
-                            y1
-                        ];
-                        v1 = [
-                            fx,
-                            y0
-                        ];
-                    }
-                } else if (fm = (lx - rx) / (ry - ly), fb = (ly + ry) / 2 - fm * fx, fm < -1 || fm > 1) {
-                    if (lx > rx) {
-                        if (v0) {
-                            if (v0[1] >= y1) return;
-                        } else v0 = [
-                            (y0 - fb) / fm,
-                            y0
-                        ];
-                        v1 = [
-                            (y1 - fb) / fm,
-                            y1
-                        ];
-                    } else {
-                        if (v0) {
-                            if (v0[1] < y0) return;
-                        } else v0 = [
-                            (y1 - fb) / fm,
-                            y1
-                        ];
-                        v1 = [
-                            (y0 - fb) / fm,
-                            y0
-                        ];
-                    }
-                } else if (ly < ry) {
-                    if (v0) {
-                        if (v0[0] >= x1) return;
-                    } else v0 = [
-                        x0,
-                        fm * x0 + fb
-                    ];
-                    v1 = [
-                        x1,
-                        fm * x1 + fb
-                    ];
-                } else {
-                    if (v0) {
-                        if (v0[0] < x0) return;
-                    } else v0 = [
-                        x1,
-                        fm * x1 + fb
-                    ];
-                    v1 = [
-                        x0,
-                        fm * x0 + fb
-                    ];
-                }
-                return edge[0] = v0, edge[1] = v1, !0;
-            }
-            function clipEdges(x0, y0, x1, y1) {
-                for(var edge, i = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges.length; i--;)connectEdge(edge = _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i], x0, y0, x1, y1) && clipEdge(edge, x0, y0, x1, y1) && (Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon) || delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
+                }(edge, x0, y0, x1, y1) && (Math.abs(edge[0][0] - edge[1][0]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon || Math.abs(edge[0][1] - edge[1][1]) > _Diagram__WEBPACK_IMPORTED_MODULE_0__.epsilon) || delete _Diagram__WEBPACK_IMPORTED_MODULE_0__.edges[i];
             }
         },
         "../../../node_modules/d3-voronoi/src/RedBlackTree.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -6675,14 +6668,6 @@
                 function orient(rx, ry, qx, qy, px, py) {
                     return 0 > (orientIfSure(px, py, rx, ry, qx, qy) || orientIfSure(rx, ry, qx, qy, px, py) || orientIfSure(qx, qy, px, py, rx, ry));
                 }
-                function inCircle(ax, ay, bx, by, cx, cy, px, py) {
-                    var dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
-                    return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
-                }
-                function circumradius(ax, ay, bx, by, cx, cy) {
-                    var dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
-                    return x * x + y * y;
-                }
                 function quicksort(ids, dists, left, right) {
                     if (right - left <= 20) for(var i = left + 1; i <= right; i++){
                         for(var temp = ids[i], tempDist = dists[temp], j = i - 1; j >= left && dists[ids[j]] > tempDist;)ids[j + 1] = ids[j--];
@@ -6735,7 +6720,10 @@
                         d$1 < minDist && d$1 > 0 && (i1 = i$2, minDist = d$1);
                     }
                     for(var i1x = coords[2 * i1], i1y = coords[2 * i1 + 1], minRadius = 1 / 0, i$3 = 0; i$3 < n; i$3++)if (i$3 !== i0 && i$3 !== i1) {
-                        var r = circumradius(i0x, i0y, i1x, i1y, coords[2 * i$3], coords[2 * i$3 + 1]);
+                        var r = function(ax, ay, bx, by, cx, cy) {
+                            var dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
+                            return x * x + y * y;
+                        }(i0x, i0y, i1x, i1y, coords[2 * i$3], coords[2 * i$3 + 1]);
                         r < minRadius && (i2 = i$3, minRadius = r);
                     }
                     var i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
@@ -6794,7 +6782,10 @@
                             continue;
                         }
                         var b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl];
-                        if (inCircle(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1])) {
+                        if (function(ax, ay, bx, by, cx, cy, px, py) {
+                            var dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
+                            return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
+                        }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1])) {
                             triangles[a] = p1, triangles[b] = p0;
                             var hbl = halfedges[bl];
                             if (-1 === hbl) {
@@ -6836,12 +6827,6 @@
             function pointY(p) {
                 return p[1];
             }
-            function jitter(x, y, r) {
-                return [
-                    x + Math.sin(x + y) * r,
-                    y + Math.cos(x - y) * r
-                ];
-            }
             var Delaunay = function() {
                 function Delaunay(points) {
                     var delaunator = new _delaunator.default(points);
@@ -6870,7 +6855,10 @@
                             points[2 * f],
                             points[2 * f + 1]
                         ], r = 1e-8 * Math.sqrt(Math.pow(bounds[3] - bounds[1], 2) + Math.pow(bounds[2] - bounds[0], 2)), i = 0, n = points.length / 2; i < n; ++i){
-                            var p = jitter(points[2 * i], points[2 * i + 1], r);
+                            var x, y, r1, p = (x = points[2 * i], [
+                                x + Math.sin(x + (y = points[2 * i + 1])) * r,
+                                y + Math.cos(x - y) * r
+                            ]);
                             points[2 * i] = p[0], points[2 * i + 1] = p[1];
                         }
                         delaunator = new _delaunator.default(points);
@@ -7424,10 +7412,9 @@
             };
         },
         "../../../node_modules/lodash/_castFunction.js": function(module1, exports1) {
-            function identity(value) {
+            module1.exports = function(value) {
                 return value;
-            }
-            module1.exports = identity;
+            };
         },
         "../../../node_modules/lodash/_castPath.js": function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isKey = __webpack_require__("../../../node_modules/lodash/_isKey.js"), stringToPath = __webpack_require__("../../../node_modules/lodash/_stringToPath.js"), toString = __webpack_require__("../../../node_modules/lodash/toString.js");
@@ -7674,10 +7661,9 @@
             module1.exports = function() {};
         },
         "../../../node_modules/lodash/_getFuncName.js": function(module1, exports1) {
-            function stubString() {
+            module1.exports = function() {
                 return '';
-            }
-            module1.exports = stubString;
+            };
         },
         "../../../node_modules/lodash/_getMatchData.js": function(module1, exports1, __webpack_require__) {
             var isStrictComparable = __webpack_require__("../../../node_modules/lodash/_isStrictComparable.js"), keys = __webpack_require__("../../../node_modules/lodash/keys.js");
@@ -7734,10 +7720,9 @@
             };
         },
         "../../../node_modules/lodash/_isIterateeCall.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/_isKey.js": function(module1, exports1, __webpack_require__) {
             var isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__("../../../node_modules/lodash/isSymbol.js"), reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, reIsPlainProp = /^\w*$/;
@@ -7748,16 +7733,14 @@
             };
         },
         "../../../node_modules/lodash/_isLaziable.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/_isPrototype.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/_isStrictComparable.js": function(module1, exports1, __webpack_require__) {
             var isObject = __webpack_require__("../../../node_modules/lodash/isObject.js");
@@ -7801,10 +7784,9 @@
             };
         },
         "../../../node_modules/lodash/_mapToArray.js": function(module1, exports1) {
-            function stubArray() {
+            module1.exports = function() {
                 return [];
-            }
-            module1.exports = stubArray;
+            };
         },
         "../../../node_modules/lodash/_matchesStrictComparable.js": function(module1, exports1) {
             module1.exports = function(key, srcValue) {
@@ -7814,10 +7796,9 @@
             };
         },
         "../../../node_modules/lodash/_memoizeCapped.js": function(module1, exports1) {
-            function identity(value) {
+            module1.exports = function(value) {
                 return value;
-            }
-            module1.exports = identity;
+            };
         },
         "../../../node_modules/lodash/_nodeUtil.js": function(module1, exports1, __webpack_require__) {
             (function(module1) {
@@ -7854,22 +7835,19 @@
             module1.exports = root;
         },
         "../../../node_modules/lodash/_setToArray.js": function(module1, exports1) {
-            function stubArray() {
+            module1.exports = function() {
                 return [];
-            }
-            module1.exports = stubArray;
+            };
         },
         "../../../node_modules/lodash/_setToPairs.js": function(module1, exports1) {
-            function stubArray() {
+            module1.exports = function() {
                 return [];
-            }
-            module1.exports = stubArray;
+            };
         },
         "../../../node_modules/lodash/_setToString.js": function(module1, exports1) {
-            function identity(value) {
+            module1.exports = function(value) {
                 return value;
-            }
-            module1.exports = identity;
+            };
         },
         "../../../node_modules/lodash/_stringToPath.js": function(module1, exports1, __webpack_require__) {
             var memoizeCapped = __webpack_require__("../../../node_modules/lodash/_memoizeCapped.js"), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
@@ -8037,10 +8015,9 @@
             };
         },
         "../../../node_modules/lodash/identity.js": function(module1, exports1) {
-            function identity(value) {
+            module1.exports = function(value) {
                 return value;
-            }
-            module1.exports = identity;
+            };
         },
         "../../../node_modules/lodash/includes.js": function(module1, exports1, __webpack_require__) {
             var baseIndexOf = __webpack_require__("../../../node_modules/lodash/_baseIndexOf.js");
@@ -8055,10 +8032,9 @@
             module1.exports = invert;
         },
         "../../../node_modules/lodash/isArguments.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/isArray.js": function(module1, exports1) {
             var isArray = Array.isArray;
@@ -8077,10 +8053,9 @@
             };
         },
         "../../../node_modules/lodash/isBuffer.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/isDate.js": function(module1, exports1, __webpack_require__) {
             var baseIsDate = __webpack_require__("../../../node_modules/lodash/_baseIsDate.js"), baseUnary = __webpack_require__("../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__("../../../node_modules/lodash/_nodeUtil.js"), nodeIsDate = nodeUtil && nodeUtil.isDate, isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
@@ -8100,10 +8075,9 @@
         },
         "../../../node_modules/lodash/isEqual.js": function(module1, exports1, __webpack_require__) {
             var baseIsEqual = __webpack_require__("../../../node_modules/lodash/_baseIsEqual.js");
-            function isEqual(value, other) {
+            module1.exports = function(value, other) {
                 return baseIsEqual(value, other);
-            }
-            module1.exports = isEqual;
+            };
         },
         "../../../node_modules/lodash/isFunction.js": function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__("../../../node_modules/lodash/_baseGetTag.js"), isObject = __webpack_require__("../../../node_modules/lodash/isObject.js");
@@ -8167,16 +8141,14 @@
             };
         },
         "../../../node_modules/lodash/isSymbol.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/isTypedArray.js": function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         "../../../node_modules/lodash/isUndefined.js": function(module1, exports1) {
             module1.exports = function(value) {
@@ -8552,7 +8524,7 @@
                     },
                     oneOf: function(expectedValues) {
                         return Array.isArray(expectedValues) ? createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                            for(var propValue = props[propName], i = 0; i < expectedValues.length; i++)if (is(propValue, expectedValues[i])) return null;
+                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if ((x = propValue) === (y = expectedValues[i]) ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
@@ -8563,7 +8535,20 @@
                         if (!Array.isArray(arrayOfTypeCheckers)) return printWarning('Invalid argument supplied to oneOfType, expected an instance of array.'), emptyFunctionThatReturnsNull;
                         for(var i = 0; i < arrayOfTypeCheckers.length; i++){
                             var checker = arrayOfTypeCheckers[i];
-                            if ('function' != typeof checker) return printWarning("Invalid argument supplied to oneOfType. Expected an array of check functions, but received " + getPostfixForTypeWarning(checker) + ' at index ' + i + '.'), emptyFunctionThatReturnsNull;
+                            if ('function' != typeof checker) return printWarning("Invalid argument supplied to oneOfType. Expected an array of check functions, but received " + function(value) {
+                                var type = getPreciseType(value);
+                                switch(type){
+                                    case 'array':
+                                    case 'object':
+                                        return 'an ' + type;
+                                    case 'boolean':
+                                    case 'date':
+                                    case 'regexp':
+                                        return 'a ' + type;
+                                    default:
+                                        return type;
+                                }
+                            }(checker) + ' at index ' + i + '.'), emptyFunctionThatReturnsNull;
                         }
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             for(var i = 0; i < arrayOfTypeCheckers.length; i++)if (null == (0, arrayOfTypeCheckers[i])(props, propName, componentName, location, propFullName, ReactPropTypesSecret)) return null;
@@ -8599,9 +8584,6 @@
                         });
                     }
                 };
-                function is(x, y) {
-                    return x === y ? 0 !== x || 1 / x == 1 / y : x != x && y != y;
-                }
                 function PropTypeError(message) {
                     this.message = message, this.stack = '';
                 }
@@ -8645,20 +8627,6 @@
                         if (propValue instanceof RegExp) return 'regexp';
                     }
                     return propType;
-                }
-                function getPostfixForTypeWarning(value) {
-                    var type = getPreciseType(value);
-                    switch(type){
-                        case 'array':
-                        case 'object':
-                            return 'an ' + type;
-                        case 'boolean':
-                        case 'date':
-                        case 'regexp':
-                            return 'a ' + type;
-                        default:
-                            return type;
-                    }
                 }
                 return PropTypeError.prototype = Error.prototype, ReactPropTypes.checkPropTypes = checkPropTypes, ReactPropTypes.resetWarningCache = checkPropTypes.resetWarningCache, ReactPropTypes.PropTypes = ReactPropTypes, ReactPropTypes;
             };
@@ -8817,18 +8785,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var defined = function(d) {
                 var y = void 0 !== d._y1 ? d._y1 : d._y;
@@ -9011,14 +8977,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-area/es/helper-methods.js"), _area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-area/es/area.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -9091,7 +9049,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -9571,14 +9535,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-axis/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -9764,7 +9720,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -9932,18 +9894,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getBarWidth = function(barWidth, props) {
                 var scale = props.scale, data = props.data, defaultBarWidth = props.defaultBarWidth, style = props.style;
@@ -10252,14 +10212,6 @@
                 return getVerticalPolarBarPath;
             });
             var d3_shape__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-shape/src/index.js"), _geometry_helper_methods__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../victory-bar/es/geometry-helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -10300,7 +10252,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -10531,14 +10489,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/helper-methods.js"), _bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-bar/es/bar.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -10669,7 +10619,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -11078,14 +11034,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__), lodash_flatten__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/flatten.js"), lodash_flatten__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_flatten__WEBPACK_IMPORTED_MODULE_1__), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-box-plot/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -11219,7 +11167,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -11517,18 +11471,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _toConsumableArray(arr) {
                 return function(arr) {
@@ -11886,18 +11838,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _toConsumableArray(arr) {
                 return function(arr) {
@@ -12655,18 +12605,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getCandleWidth = function(candleWidth, props) {
                 var style = props.style;
@@ -13022,14 +12970,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_flatten__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/flatten.js"), lodash_flatten__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_flatten__WEBPACK_IMPORTED_MODULE_0__), lodash_isNil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _candle__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-candlestick/es/candle.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-candlestick/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -13222,7 +13162,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -13612,14 +13558,6 @@
                 return VictoryChart;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), lodash_defaults__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), victory_axis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-axis/es/index.js"), victory_polar_axis__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../victory-polar-axis/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../victory-chart/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_10__);
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -13735,7 +13673,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -14337,14 +14281,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -14403,7 +14339,13 @@
                                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                                     }))), ownKeys.forEach(function(key) {
-                                        _defineProperty(target, key, source[key]);
+                                        var obj, key1, value;
+                                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                            value: value,
+                                            enumerable: !0,
+                                            configurable: !0,
+                                            writable: !0
+                                        }) : obj[key1] = value;
                                     });
                                 }
                                 return target;
@@ -14576,18 +14518,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
@@ -14820,14 +14760,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__), _victory_portal_victory_portal__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/victory-portal/victory-portal.js"), _victory_primitives_rect__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-core/es/victory-primitives/rect.js"), _victory_util_prop_types__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-core/es/victory-util/prop-types.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../victory-core/es/victory-util/helpers.js"), _victory_util_label_helpers__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../victory-core/es/victory-util/label-helpers.js"), _victory_util_style__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("../../victory-core/es/victory-util/style.js"), _victory_util_log__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("../../victory-core/es/victory-util/log.js"), _victory_util_textsize__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__("../../victory-core/es/victory-util/textsize.js"), _victory_primitives_tspan__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__("../../victory-core/es/victory-primitives/tspan.js"), _victory_primitives_text__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__("../../victory-core/es/victory-primitives/text.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -15059,7 +14991,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -15463,18 +15401,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getArcPath = function(props) {
                 var cx = props.cx, cy = props.cy, r = props.r, startAngle = props.startAngle, endAngle = props.endAngle, closedPath = props.closedPath, halfAngle = Math.abs(endAngle - startAngle) / 2 + startAngle, x1 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), y1 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(startAngle)), x2 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), y2 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(halfAngle)), x3 = cx + r * Math.cos(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), y3 = cy - r * Math.sin(_victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.degreesToRadians(endAngle)), arcStart = closedPath ? " M ".concat(cx, ", ").concat(cy, " L ").concat(x1, ", ").concat(y1) : "M ".concat(x1, ", ").concat(y1), arc1 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(halfAngle - startAngle <= 180 ? 0 : 1, ", 0, ").concat(x2, ", ").concat(y2), arc2 = "A ".concat(r, ", ").concat(r, ", 0, ").concat(endAngle - halfAngle <= 180 ? 0 : 1, ", 0, ").concat(x3, ", ").concat(y3);
@@ -15530,18 +15466,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var evaluateProps = function(props) {
                 var id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props);
@@ -15596,18 +15530,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var evaluateProps = function(props) {
                 var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -15712,18 +15644,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var evaluateProps = function(props) {
                 var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -15875,18 +15805,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getPath = function(props) {
                 var x = props.x, y = props.y, size = props.size, symbol = props.symbol;
@@ -16036,18 +15964,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var evaluateProps = function(props) {
                 var ariaLabel = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.ariaLabel, props), desc = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.desc, props), id = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.id, props), style = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateStyle(props.style, props), tabIndex = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_3__.default.evaluateProp(props.tabIndex, props);
@@ -22786,14 +22712,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_0__), lodash_values__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/values.js"), lodash_values__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_values__WEBPACK_IMPORTED_MODULE_1__), lodash_uniqBy__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/uniqBy.js"), lodash_uniqBy__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_uniqBy__WEBPACK_IMPORTED_MODULE_2__), lodash_groupBy__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/groupBy.js"), lodash_groupBy__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_groupBy__WEBPACK_IMPORTED_MODULE_3__), lodash_some__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/some.js"), lodash_some__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_some__WEBPACK_IMPORTED_MODULE_4__), lodash_uniq__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/lodash/uniq.js"), lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(lodash_uniq__WEBPACK_IMPORTED_MODULE_5__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_6__), lodash_flatten__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../../node_modules/lodash/flatten.js"), lodash_flatten__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(lodash_flatten__WEBPACK_IMPORTED_MODULE_7__), lodash_defaults__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_8__), lodash_assign__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_9___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_9__), react__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_10__), _axis__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("../../victory-core/es/victory-util/axis.js"), _style__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__("../../victory-core/es/victory-util/style.js"), _transitions__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__("../../victory-core/es/victory-util/transitions.js"), _data__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__("../../victory-core/es/victory-util/data.js"), _domain__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__("../../victory-core/es/victory-util/domain.js"), _events__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__("../../victory-core/es/victory-util/events.js"), _collection__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__("../../victory-core/es/victory-util/collection.js"), _helpers__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__("../../victory-core/es/victory-util/helpers.js"), _scale__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__("../../victory-core/es/victory-util/scale.js"), _log__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__("../../victory-core/es/victory-util/log.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -22961,7 +22879,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                _defineProperty(target, key, source[key]);
+                                var obj, key1, value;
+                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                    value: value,
+                                    enumerable: !0,
+                                    configurable: !0,
+                                    writable: !0
+                                }) : obj[key1] = value;
                             });
                         }
                         return target;
@@ -23117,18 +23041,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
@@ -23290,16 +23212,7 @@
         "../../victory-cursor-container/es/cursor-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/mapValues.js"), lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
-            var CursorHelpers = {
+            var lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/mapValues.js"), lodash_mapValues__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_mapValues__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), CursorHelpers = {
                 getDimension: function(props) {
                     var horizontal = props.horizontal, cursorDimension = props.cursorDimension;
                     return horizontal && cursorDimension ? "x" === cursorDimension ? "y" : "x" : cursorDimension;
@@ -23349,7 +23262,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -23611,18 +23530,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var renderBorder = function(props, error, type) {
                 var vertical = "right" === type || "left" === type;
@@ -23888,14 +23805,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _error_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-errorbar/es/error-bar.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-errorbar/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -23986,7 +23895,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -24206,14 +24121,6 @@
                 return VictoryGroup;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-group/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -24330,7 +24237,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -24405,18 +24318,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var dataOrBinsContainDates = function(_ref) {
                 var data = _ref.data, bins = _ref.bins, x = _ref.x, xAccessor = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.createAccessor(x || "x"), dataIsDates = data.some(function(datum) {
@@ -24589,14 +24500,6 @@
                 return VictoryHistogram;
             });
             var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-histogram/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -24732,7 +24635,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -25617,14 +25526,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             var getColorScale = function(props) {
                 var colorScale = props.colorScale;
                 return "string" == typeof colorScale ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Style.getColorScale(colorScale) : colorScale || [];
@@ -25676,7 +25577,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                _defineProperty(target, key, source[key]);
+                                var obj, key1, value;
+                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                    value: value,
+                                    enumerable: !0,
+                                    configurable: !0,
+                                    writable: !0
+                                }) : obj[key1] = value;
                             });
                         }
                         return target;
@@ -26131,18 +26038,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var defined = function(d) {
                 var y = void 0 !== d._y1 ? d._y1 : d._y;
@@ -26282,14 +26187,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-line/es/helper-methods.js"), _curve__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-line/es/curve.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -26388,7 +26285,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -26614,18 +26517,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getPath = function(props) {
                 var slice = props.slice, radius = props.radius, innerRadius = props.innerRadius, cornerRadius = props.cornerRadius;
@@ -27310,14 +27211,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-polar-axis/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -27476,7 +27369,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -27745,14 +27644,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-scatter/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -27844,7 +27735,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -27931,16 +27828,7 @@
         "../../victory-selection-container/es/selection-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var lodash_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/includes.js"), lodash_includes__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_includes__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__);
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
-            var SelectionHelpers = {
+            var lodash_includes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/includes.js"), lodash_includes__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_includes__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_throttle__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/throttle.js"), lodash_throttle__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), react__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_6__), SelectionHelpers = {
                 getDimension: function(props) {
                     var horizontal = props.horizontal, selectionDimension = props.selectionDimension;
                     return horizontal && selectionDimension ? "x" === selectionDimension ? "y" : "x" : selectionDimension;
@@ -28105,7 +27993,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
@@ -28130,18 +28024,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
@@ -28788,14 +28680,6 @@
                 return VictoryStack;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-stack/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -28911,7 +28795,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -28998,18 +28888,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getVerticalPath = function(props) {
                 var pointerWidth = props.pointerWidth, cornerRadius = props.cornerRadius, orientation = props.orientation, width = props.width, height = props.height, center = props.center, sign = "bottom" === orientation ? 1 : -1, x = props.x + (props.dx || 0), y = props.y + (props.dy || 0), centerX = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.x, centerY = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.y, pointerEdge = centerY + sign * (height / 2), oppositeEdge = centerY - sign * (height / 2), rightEdge = centerX + width / 2, leftEdge = centerX - width / 2, pointerLength = sign * (y - pointerEdge) < 0 ? 0 : props.pointerLength, arc = "".concat(cornerRadius, " ").concat(cornerRadius, " ").concat("bottom" === orientation ? "0 0 0" : "0 0 1");
@@ -29690,18 +29578,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
@@ -30243,14 +30129,6 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__);
             var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), victory_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../victory-core/es/index.js"), _voronoi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-voronoi/es/voronoi.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-voronoi/es/helper-methods.js");
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -30339,7 +30217,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, key1, value;
+                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key1] = value;
                         });
                     }
                     return target;
@@ -30401,18 +30285,16 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, key1, value;
+                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key1] = value;
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             var getVoronoiPath = function(props) {
                 var polygon = props.polygon;

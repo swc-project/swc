@@ -596,20 +596,18 @@
                 for(var i = 1; i < arguments.length; i++){
                     var source = null != arguments[i] ? arguments[i] : {};
                     i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
-                        _defineProperty(target, key, source[key]);
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                            value: value,
+                            enumerable: !0,
+                            configurable: !0,
+                            writable: !0
+                        }) : obj[key] = value;
                     }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function(key) {
                         Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
                     });
                 }
                 return target;
-            }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
             }
             function _extends() {
                 return (_extends = Object.assign || function(target) {

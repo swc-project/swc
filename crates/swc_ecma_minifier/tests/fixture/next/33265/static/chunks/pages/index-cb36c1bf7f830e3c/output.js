@@ -1957,97 +1957,6 @@
             function copyLocator(f, t) {
                 return t.lineNumber = f.lineNumber, t.columnNumber = f.columnNumber, t;
             }
-            function parseElementStartPart(source, start, el, currentNSMap, entityReplacer, errorHandler) {
-                function addAttribute(qname, value, startIndex) {
-                    el.attributeNames.hasOwnProperty(qname) && errorHandler.fatalError("Attribute " + qname + " redefined"), el.addValue(qname, value, startIndex);
-                }
-                for(var attrName, value, p = ++start, s = 0;;){
-                    var c = source.charAt(p);
-                    switch(c){
-                        case "=":
-                            if (1 === s) attrName = source.slice(start, p), s = 3;
-                            else if (2 === s) s = 3;
-                            else throw Error("attribute equal must after attrName");
-                            break;
-                        case "'":
-                        case '"':
-                            if (3 === s || 1 === s) {
-                                if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start - 1), s = 5;
-                                else throw Error("attribute value no end '" + c + "' match");
-                            } else if (4 == s) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
-                            else throw Error('attribute value must after "="');
-                            break;
-                        case "/":
-                            switch(s){
-                                case 0:
-                                    el.setTagName(source.slice(start, p));
-                                case 5:
-                                case 6:
-                                case 7:
-                                    s = 7, el.closed = !0;
-                                case 4:
-                                case 1:
-                                case 2:
-                                    break;
-                                default:
-                                    throw Error("attribute invalid close char('/')");
-                            }
-                            break;
-                        case "":
-                            return errorHandler.error("unexpected end of input"), 0 == s && el.setTagName(source.slice(start, p)), p;
-                        case ">":
-                            switch(s){
-                                case 0:
-                                    el.setTagName(source.slice(start, p));
-                                case 5:
-                                case 6:
-                                case 7:
-                                    break;
-                                case 4:
-                                case 1:
-                                    "/" === (value = source.slice(start, p)).slice(-1) && (el.closed = !0, value = value.slice(0, -1));
-                                case 2:
-                                    2 === s && (value = attrName), 4 == s ? (errorHandler.warning('attribute "' + value + '" missed quot(")!'), addAttribute(attrName, value.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!'), addAttribute(value, value, start));
-                                    break;
-                                case 3:
-                                    throw Error("attribute value missed!!");
-                            }
-                            return p;
-                        case "\u0080":
-                            c = " ";
-                        default:
-                            if (c <= " ") switch(s){
-                                case 0:
-                                    el.setTagName(source.slice(start, p)), s = 6;
-                                    break;
-                                case 1:
-                                    attrName = source.slice(start, p), s = 2;
-                                    break;
-                                case 4:
-                                    var value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
-                                    errorHandler.warning('attribute "' + value + '" missed quot(")!!'), addAttribute(attrName, value, start);
-                                case 5:
-                                    s = 6;
-                            }
-                            else switch(s){
-                                case 2:
-                                    el.tagName, NAMESPACE.isHTML(currentNSMap[""]) && attrName.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!'), addAttribute(attrName, attrName, start), start = p, s = 1;
-                                    break;
-                                case 5:
-                                    errorHandler.warning('attribute space is required"' + attrName + '"!!');
-                                case 6:
-                                    s = 1, start = p;
-                                    break;
-                                case 3:
-                                    s = 4, start = p;
-                                    break;
-                                case 7:
-                                    throw Error("elements closed character '/' and '>' must be connected to");
-                            }
-                    }
-                    p++;
-                }
-            }
             function appendElement(el, domBuilder, currentNSMap) {
                 for(var tagName = el.tagName, localNSMap = null, i = el.length; i--;){
                     var a = el[i], qName = a.qName, value = a.value, nsp = qName.indexOf(":");
@@ -2065,52 +1974,8 @@
                 if (domBuilder.startElement(ns, localName, tagName, el), !el.closed) return el.currentNSMap = currentNSMap, el.localNSMap = localNSMap, !0;
                 if (domBuilder.endElement(ns, localName, tagName), localNSMap) for(prefix in localNSMap)domBuilder.endPrefixMapping(prefix);
             }
-            function parseHtmlSpecialContent(source, elStartEnd, tagName, entityReplacer, domBuilder) {
-                if (/^(?:script|textarea)$/i.test(tagName)) {
-                    var elEndStart = source.indexOf("</" + tagName + ">", elStartEnd), text = source.substring(elStartEnd + 1, elEndStart);
-                    if (/[&<]/.test(text)) return /^script$/i.test(tagName) ? (domBuilder.characters(text, 0, text.length), elEndStart) : (text = text.replace(/&#?\w+;/g, entityReplacer), domBuilder.characters(text, 0, text.length), elEndStart);
-                }
-                return elStartEnd + 1;
-            }
-            function fixSelfClosed(source, elStartEnd, tagName, closeMap) {
-                var pos = closeMap[tagName];
-                return null == pos && ((pos = source.lastIndexOf("</" + tagName + ">")) < elStartEnd && (pos = source.lastIndexOf("</" + tagName)), closeMap[tagName] = pos), pos < elStartEnd;
-            }
             function _copy(source, target) {
                 for(var n in source)target[n] = source[n];
-            }
-            function parseDCC(source, start, domBuilder, errorHandler) {
-                if ("-" === source.charAt(start + 2)) {
-                    if ("-" === source.charAt(start + 3)) {
-                        var end = source.indexOf("-->", start + 4);
-                        if (end > start) return domBuilder.comment(source, start + 4, end - start - 4), end + 3;
-                        errorHandler.error("Unclosed comment");
-                    }
-                } else {
-                    if ("CDATA[" == source.substr(start + 3, 6)) {
-                        var end = source.indexOf("]]>", start + 9);
-                        return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
-                    }
-                    var matchs = function(source, start) {
-                        var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
-                        for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
-                    }(source, start), len = matchs.length;
-                    if (len > 1 && /!doctype/i.test(matchs[0][0])) {
-                        var name = matchs[1][0], pubid = !1, sysid = !1;
-                        len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
-                        var lastMatch = matchs[len - 1];
-                        return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
-                    }
-                }
-                return -1;
-            }
-            function parseInstruction(source, start, domBuilder) {
-                var end = source.indexOf("?>", start);
-                if (end) {
-                    var match = source.substring(start, end).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);
-                    if (match) return match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2;
-                }
-                return -1;
             }
             function ElementAttributes() {
                 this.attributeNames = {};
@@ -2159,22 +2024,152 @@
                                         end++;
                                         break;
                                     case "?":
-                                        locator && position(tagStart), end = parseInstruction(source, tagStart, domBuilder);
+                                        locator && position(tagStart), end = function(source, start, domBuilder) {
+                                            var end = source.indexOf("?>", start);
+                                            if (end) {
+                                                var match = source.substring(start, end).match(/^<\?(\S*)\s*([\s\S]*?)\s*$/);
+                                                if (match) return match[0].length, domBuilder.processingInstruction(match[1], match[2]), end + 2;
+                                            }
+                                            return -1;
+                                        }(source, tagStart, domBuilder);
                                         break;
                                     case "!":
-                                        locator && position(tagStart), end = parseDCC(source, tagStart, domBuilder, errorHandler);
+                                        locator && position(tagStart), end = function(source, start, domBuilder, errorHandler) {
+                                            if ("-" === source.charAt(start + 2)) {
+                                                if ("-" === source.charAt(start + 3)) {
+                                                    var end = source.indexOf("-->", start + 4);
+                                                    if (end > start) return domBuilder.comment(source, start + 4, end - start - 4), end + 3;
+                                                    errorHandler.error("Unclosed comment");
+                                                }
+                                            } else {
+                                                if ("CDATA[" == source.substr(start + 3, 6)) {
+                                                    var end = source.indexOf("]]>", start + 9);
+                                                    return domBuilder.startCDATA(), domBuilder.characters(source, start + 9, end - start - 9), domBuilder.endCDATA(), end + 3;
+                                                }
+                                                var matchs = function(source, start) {
+                                                    var match, buf = [], reg = /'[^']+'|"[^"]+"|[^\s<>\/=]+=?|(\/?\s*>|<)/g;
+                                                    for(reg.lastIndex = start, reg.exec(source); match = reg.exec(source);)if (buf.push(match), match[1]) return buf;
+                                                }(source, start), len = matchs.length;
+                                                if (len > 1 && /!doctype/i.test(matchs[0][0])) {
+                                                    var name = matchs[1][0], pubid = !1, sysid = !1;
+                                                    len > 3 && (/^public$/i.test(matchs[2][0]) ? (pubid = matchs[3][0], sysid = len > 4 && matchs[4][0]) : /^system$/i.test(matchs[2][0]) && (sysid = matchs[3][0]));
+                                                    var lastMatch = matchs[len - 1];
+                                                    return domBuilder.startDTD(name, pubid, sysid), domBuilder.endDTD(), lastMatch.index + lastMatch[0].length;
+                                                }
+                                            }
+                                            return -1;
+                                        }(source, tagStart, domBuilder, errorHandler);
                                         break;
                                     default:
                                         locator && position(tagStart);
-                                        var el = new ElementAttributes(), currentNSMap = parseStack[parseStack.length - 1].currentNSMap, end = parseElementStartPart(source, tagStart, el, currentNSMap, entityReplacer, errorHandler), len = el.length;
-                                        if (!el.closed && fixSelfClosed(source, end, el.tagName, closeMap) && (el.closed = !0, entityMap.nbsp || errorHandler.warning("unclosed xml attribute")), locator && len) {
+                                        var el = new ElementAttributes(), currentNSMap = parseStack[parseStack.length - 1].currentNSMap, end = function(source, start, el, currentNSMap, entityReplacer, errorHandler) {
+                                            function addAttribute(qname, value, startIndex) {
+                                                el.attributeNames.hasOwnProperty(qname) && errorHandler.fatalError("Attribute " + qname + " redefined"), el.addValue(qname, value, startIndex);
+                                            }
+                                            for(var attrName, value, p = ++start, s = 0;;){
+                                                var c = source.charAt(p);
+                                                switch(c){
+                                                    case "=":
+                                                        if (1 === s) attrName = source.slice(start, p), s = 3;
+                                                        else if (2 === s) s = 3;
+                                                        else throw Error("attribute equal must after attrName");
+                                                        break;
+                                                    case "'":
+                                                    case '"':
+                                                        if (3 === s || 1 === s) {
+                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start - 1), s = 5;
+                                                            else throw Error("attribute value no end '" + c + "' match");
+                                                        } else if (4 == s) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
+                                                        else throw Error('attribute value must after "="');
+                                                        break;
+                                                    case "/":
+                                                        switch(s){
+                                                            case 0:
+                                                                el.setTagName(source.slice(start, p));
+                                                            case 5:
+                                                            case 6:
+                                                            case 7:
+                                                                s = 7, el.closed = !0;
+                                                            case 4:
+                                                            case 1:
+                                                            case 2:
+                                                                break;
+                                                            default:
+                                                                throw Error("attribute invalid close char('/')");
+                                                        }
+                                                        break;
+                                                    case "":
+                                                        return errorHandler.error("unexpected end of input"), 0 == s && el.setTagName(source.slice(start, p)), p;
+                                                    case ">":
+                                                        switch(s){
+                                                            case 0:
+                                                                el.setTagName(source.slice(start, p));
+                                                            case 5:
+                                                            case 6:
+                                                            case 7:
+                                                                break;
+                                                            case 4:
+                                                            case 1:
+                                                                "/" === (value = source.slice(start, p)).slice(-1) && (el.closed = !0, value = value.slice(0, -1));
+                                                            case 2:
+                                                                2 === s && (value = attrName), 4 == s ? (errorHandler.warning('attribute "' + value + '" missed quot(")!'), addAttribute(attrName, value.replace(/&#?\w+;/g, entityReplacer), start)) : (NAMESPACE.isHTML(currentNSMap[""]) && value.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + value + '" missed value!! "' + value + '" instead!!'), addAttribute(value, value, start));
+                                                                break;
+                                                            case 3:
+                                                                throw Error("attribute value missed!!");
+                                                        }
+                                                        return p;
+                                                    case "\u0080":
+                                                        c = " ";
+                                                    default:
+                                                        if (c <= " ") switch(s){
+                                                            case 0:
+                                                                el.setTagName(source.slice(start, p)), s = 6;
+                                                                break;
+                                                            case 1:
+                                                                attrName = source.slice(start, p), s = 2;
+                                                                break;
+                                                            case 4:
+                                                                var value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer);
+                                                                errorHandler.warning('attribute "' + value + '" missed quot(")!!'), addAttribute(attrName, value, start);
+                                                            case 5:
+                                                                s = 6;
+                                                        }
+                                                        else switch(s){
+                                                            case 2:
+                                                                el.tagName, NAMESPACE.isHTML(currentNSMap[""]) && attrName.match(/^(?:disabled|checked|selected)$/i) || errorHandler.warning('attribute "' + attrName + '" missed value!! "' + attrName + '" instead2!!'), addAttribute(attrName, attrName, start), start = p, s = 1;
+                                                                break;
+                                                            case 5:
+                                                                errorHandler.warning('attribute space is required"' + attrName + '"!!');
+                                                            case 6:
+                                                                s = 1, start = p;
+                                                                break;
+                                                            case 3:
+                                                                s = 4, start = p;
+                                                                break;
+                                                            case 7:
+                                                                throw Error("elements closed character '/' and '>' must be connected to");
+                                                        }
+                                                }
+                                                p++;
+                                            }
+                                        }(source, tagStart, el, currentNSMap, entityReplacer, errorHandler), len = el.length;
+                                        if (!el.closed && function(source, elStartEnd, tagName, closeMap) {
+                                            var pos = closeMap[tagName];
+                                            return null == pos && ((pos = source.lastIndexOf("</" + tagName + ">")) < elStartEnd && (pos = source.lastIndexOf("</" + tagName)), closeMap[tagName] = pos), pos < elStartEnd;
+                                        }(source, end, el.tagName, closeMap) && (el.closed = !0, entityMap.nbsp || errorHandler.warning("unclosed xml attribute")), locator && len) {
                                             for(var locator2 = copyLocator(locator, {}), i = 0; i < len; i++){
                                                 var a = el[i];
                                                 position(a.offset), a.locator = copyLocator(locator, {});
                                             }
                                             domBuilder.locator = locator2, appendElement(el, domBuilder, currentNSMap) && parseStack.push(el), domBuilder.locator = locator;
                                         } else appendElement(el, domBuilder, currentNSMap) && parseStack.push(el);
-                                        NAMESPACE.isHTML(el.uri) && !el.closed ? end = parseHtmlSpecialContent(source, end, el.tagName, entityReplacer, domBuilder) : end++;
+                                        NAMESPACE.isHTML(el.uri) && !el.closed ? end = function(source, elStartEnd, tagName, entityReplacer, domBuilder) {
+                                            if (/^(?:script|textarea)$/i.test(tagName)) {
+                                                var elEndStart = source.indexOf("</" + tagName + ">", elStartEnd), text = source.substring(elStartEnd + 1, elEndStart);
+                                                if (/[&<]/.test(text)) return /^script$/i.test(tagName) ? (domBuilder.characters(text, 0, text.length), elEndStart) : (text = text.replace(/&#?\w+;/g, entityReplacer), domBuilder.characters(text, 0, text.length), elEndStart);
+                                            }
+                                            return elStartEnd + 1;
+                                        }(source, end, el.tagName, entityReplacer, domBuilder) : end++;
                                 }
                             } catch (e) {
                                 if (e instanceof ParseError) throw e;
@@ -3855,94 +3850,6 @@
                     2 === kv.length && callback(kv[0], kv[1]);
                 }
             }
-            function parseCue(input, cue, regionList) {
-                var oInput = input;
-                function consumeTimeStamp() {
-                    var ts = parseTimeStamp(input);
-                    if (null === ts) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed timestamp: " + oInput);
-                    return input = input.replace(/^[^\sa-zA-Z-]+/, ""), ts;
-                }
-                function skipWhitespace() {
-                    input = input.replace(/^\s+/, "");
-                }
-                if (skipWhitespace(), cue.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
-                input = input.substr(3), skipWhitespace(), cue.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
-                    var settings = new Settings();
-                    parseOptions(input, function(k, v) {
-                        switch(k){
-                            case "region":
-                                for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
-                                    settings.set(k, regionList[i].region);
-                                    break;
-                                }
-                                break;
-                            case "vertical":
-                                settings.alt(k, v, [
-                                    "rl",
-                                    "lr"
-                                ]);
-                                break;
-                            case "line":
-                                var vals = v.split(","), vals0 = vals[0];
-                                settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
-                                    "auto"
-                                ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
-                                    "start",
-                                    "center",
-                                    "end"
-                                ]);
-                                break;
-                            case "position":
-                                vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
-                                    "start",
-                                    "center",
-                                    "end"
-                                ]);
-                                break;
-                            case "size":
-                                settings.percent(k, v);
-                                break;
-                            case "align":
-                                settings.alt(k, v, [
-                                    "start",
-                                    "center",
-                                    "end",
-                                    "left",
-                                    "right"
-                                ]);
-                        }
-                    }, /:/, /\s/), cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
-                    try {
-                        cue.line = settings.get("line", "auto");
-                    } catch (e) {}
-                    cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
-                    try {
-                        cue.align = settings.get("align", "center");
-                    } catch (e1) {
-                        cue.align = settings.get("align", "middle");
-                    }
-                    try {
-                        cue.position = settings.get("position", "auto");
-                    } catch (e2) {
-                        cue.position = settings.get("position", {
-                            start: 0,
-                            left: 0,
-                            center: 50,
-                            middle: 50,
-                            end: 100,
-                            right: 100
-                        }, cue.align);
-                    }
-                    cue.positionAlign = settings.get("positionAlign", {
-                        start: "start",
-                        left: "start",
-                        center: "center",
-                        middle: "center",
-                        end: "end",
-                        right: "end"
-                    }, cue.align);
-                }(input, cue);
-            }
             ParsingError.prototype = _objCreate(Error.prototype), ParsingError.prototype.constructor = ParsingError, ParsingError.Errors = {
                 BadSignature: {
                     code: 0,
@@ -4000,36 +3907,28 @@
                 rt: "ruby"
             };
             function parseContent(window1, input) {
-                function nextToken() {
+                for(var t, rootDiv = window1.document.createElement("div"), current = rootDiv, tagStack = []; null !== (t = function() {
                     if (!input) return null;
                     var result, m = input.match(/^([^<]*)(<[^>]*>?)?/);
                     return result = m[1] ? m[1] : m[2], input = input.substr(result.length), result;
-                }
-                function unescape1(s) {
-                    return TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s;
-                }
-                function shouldAdd(current, element) {
-                    return !NEEDS_PARENT[element.localName] || NEEDS_PARENT[element.localName] === current.localName;
-                }
-                function createElement(type, annotation) {
-                    var tagName = TAG_NAME[type];
-                    if (!tagName) return null;
-                    var element = window1.document.createElement(tagName), name = TAG_ANNOTATION[type];
-                    return name && annotation && (element[name] = annotation.trim()), element;
-                }
-                for(var t, rootDiv = window1.document.createElement("div"), current = rootDiv, tagStack = []; null !== (t = nextToken());){
+                }());){
                     if ("<" === t[0]) {
                         if ("/" === t[1]) {
                             tagStack.length && tagStack[tagStack.length - 1] === t.substr(2).replace(">", "") && (tagStack.pop(), current = current.parentNode);
                             continue;
                         }
-                        var node, ts = parseTimeStamp(t.substr(1, t.length - 2));
+                        var s, current1, element, node, ts = parseTimeStamp(t.substr(1, t.length - 2));
                         if (ts) {
                             node = window1.document.createProcessingInstruction("timestamp", ts), current.appendChild(node);
                             continue;
                         }
                         var m = t.match(/^<([^.\s/0-9>]+)(\.[^\s\\>]+)?([^>\\]+)?(\\?)>?$/);
-                        if (!m || !(node = createElement(m[1], m[3])) || !shouldAdd(current, node)) continue;
+                        if (!m || !(node = function(type, annotation) {
+                            var tagName = TAG_NAME[type];
+                            if (!tagName) return null;
+                            var element = window1.document.createElement(tagName), name = TAG_ANNOTATION[type];
+                            return name && annotation && (element[name] = annotation.trim()), element;
+                        }(m[1], m[3])) || (current1 = current, NEEDS_PARENT[(element = node).localName] && NEEDS_PARENT[element.localName] !== current1.localName)) continue;
                         if (m[2]) {
                             var classes = m[2].split(".");
                             classes.forEach(function(cl) {
@@ -4043,7 +3942,7 @@
                         tagStack.push(m[1]), current.appendChild(node), current = node;
                         continue;
                     }
-                    current.appendChild(window1.document.createTextNode(unescape1(t)));
+                    current.appendChild(window1.document.createTextNode((s = t, TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
                 }
                 return rootDiv;
             }
@@ -4469,13 +4368,6 @@
                     0x10fffd
                 ]
             ];
-            function isStrongRTLChar(charCode) {
-                for(var i = 0; i < strongRTLRanges.length; i++){
-                    var currentRange = strongRTLRanges[i];
-                    if (charCode >= currentRange[0] && charCode <= currentRange[1]) return !0;
-                }
-                return !1;
-            }
             function StyleBox() {}
             function CueStyleBox(window1, cue, styleOptions) {
                 StyleBox.call(this), this.cue = cue, this.cueDiv = parseContent(window1, cue.text);
@@ -4498,7 +4390,7 @@
                         function pushNodes(nodeStack, node) {
                             for(var i = node.childNodes.length - 1; i >= 0; i--)nodeStack.push(node.childNodes[i]);
                         }
-                        function nextTextNode(nodeStack) {
+                        for(pushNodes(nodeStack, cueDiv); text = function nextTextNode(nodeStack) {
                             if (!nodeStack || !nodeStack.length) return null;
                             var node = nodeStack.pop(), text = node.textContent || node.innerText;
                             if (text) {
@@ -4506,8 +4398,13 @@
                                 return m ? (nodeStack.length = 0, m[0]) : text;
                             }
                             return "ruby" === node.tagName ? nextTextNode(nodeStack) : node.childNodes ? (pushNodes(nodeStack, node), nextTextNode(nodeStack)) : void 0;
-                        }
-                        for(pushNodes(nodeStack, cueDiv); text = nextTextNode(nodeStack);)for(var i = 0; i < text.length; i++)if (isStrongRTLChar(text.charCodeAt(i))) return "rtl";
+                        }(nodeStack);)for(var i = 0; i < text.length; i++)if (function(charCode) {
+                            for(var i = 0; i < strongRTLRanges.length; i++){
+                                var currentRange = strongRTLRanges[i];
+                                if (charCode >= currentRange[0] && charCode <= currentRange[1]) return !0;
+                            }
+                            return !1;
+                        }(text.charCodeAt(i))) return "rtl";
                         return "ltr";
                     }(this.cueDiv),
                     writingMode: "" === cue.vertical ? "horizontal-tb" : "lr" === cue.vertical ? "vertical-lr" : "vertical-rl",
@@ -4553,78 +4450,6 @@
                     obj = obj.div.getBoundingClientRect(), lh = rects ? Math.max(rects[0] && rects[0].height || 0, obj.height / rects.length) : 0;
                 }
                 this.left = obj.left, this.right = obj.right, this.top = obj.top || top, this.height = obj.height || height, this.bottom = obj.bottom || top + (obj.height || height), this.width = obj.width || width, this.lineHeight = void 0 !== lh ? lh : obj.lineHeight;
-            }
-            function moveBoxToLinePosition(window1, styleBox, containerBox, boxPositions) {
-                var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
-                    if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
-                    if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
-                    for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
-                    return -1 * ++count;
-                }(cue), axis = [];
-                if (cue.snapToLines) {
-                    switch(cue.vertical){
-                        case "":
-                            axis = [
-                                "+y",
-                                "-y"
-                            ], size = "height";
-                            break;
-                        case "rl":
-                            axis = [
-                                "+x",
-                                "-x"
-                            ], size = "width";
-                            break;
-                        case "lr":
-                            axis = [
-                                "-x",
-                                "+x"
-                            ], size = "width";
-                    }
-                    var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                    Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
-                } else {
-                    var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
-                    switch(cue.lineAlign){
-                        case "center":
-                            linePos -= calculatedPercentage / 2;
-                            break;
-                        case "end":
-                            linePos -= calculatedPercentage;
-                    }
-                    switch(cue.vertical){
-                        case "":
-                            styleBox.applyStyles({
-                                top: styleBox.formatStyle(linePos, "%")
-                            });
-                            break;
-                        case "rl":
-                            styleBox.applyStyles({
-                                left: styleBox.formatStyle(linePos, "%")
-                            });
-                            break;
-                        case "lr":
-                            styleBox.applyStyles({
-                                right: styleBox.formatStyle(linePos, "%")
-                            });
-                    }
-                    axis = [
-                        "+y",
-                        "-x",
-                        "+x",
-                        "-y"
-                    ], boxPosition = new BoxPosition(styleBox);
-                }
-                var bestPosition = function(b, axis) {
-                    for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
-                        for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
-                        if (b.within(containerBox)) return b;
-                        var p = b.intersectPercentage(containerBox);
-                        percentage > p && (bestPosition = new BoxPosition(b), percentage = p), b = new BoxPosition(specifiedPosition);
-                    }
-                    return bestPosition || specifiedPosition;
-                }(boxPosition, axis);
-                styleBox.move(bestPosition.toCSSCompatValues(containerBox));
             }
             function WebVTT1() {}
             StyleBox.prototype.applyStyles = function(styles, div) {
@@ -4709,7 +4534,78 @@
                     font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
                 };
                 !function() {
-                    for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), moveBoxToLinePosition(window1, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
+                    for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
+                        var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
+                            if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
+                            if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
+                            for(var track = cue.track, trackList = track.textTrackList, count = 0, i = 0; i < trackList.length && trackList[i] !== track; i++)"showing" === trackList[i].mode && count++;
+                            return -1 * ++count;
+                        }(cue), axis = [];
+                        if (cue.snapToLines) {
+                            switch(cue.vertical){
+                                case "":
+                                    axis = [
+                                        "+y",
+                                        "-y"
+                                    ], size = "height";
+                                    break;
+                                case "rl":
+                                    axis = [
+                                        "+x",
+                                        "-x"
+                                    ], size = "width";
+                                    break;
+                                case "lr":
+                                    axis = [
+                                        "-x",
+                                        "+x"
+                                    ], size = "width";
+                            }
+                            var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
+                            Math.abs(position) > maxPosition && (position = position < 0 ? -1 : 1, position *= Math.ceil(maxPosition / step) * step), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
+                        } else {
+                            var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
+                            switch(cue.lineAlign){
+                                case "center":
+                                    linePos -= calculatedPercentage / 2;
+                                    break;
+                                case "end":
+                                    linePos -= calculatedPercentage;
+                            }
+                            switch(cue.vertical){
+                                case "":
+                                    styleBox.applyStyles({
+                                        top: styleBox.formatStyle(linePos, "%")
+                                    });
+                                    break;
+                                case "rl":
+                                    styleBox.applyStyles({
+                                        left: styleBox.formatStyle(linePos, "%")
+                                    });
+                                    break;
+                                case "lr":
+                                    styleBox.applyStyles({
+                                        right: styleBox.formatStyle(linePos, "%")
+                                    });
+                            }
+                            axis = [
+                                "+y",
+                                "-x",
+                                "+x",
+                                "-y"
+                            ], boxPosition = new BoxPosition(styleBox);
+                        }
+                        var bestPosition = function(b, axis) {
+                            for(var bestPosition, specifiedPosition = new BoxPosition(b), percentage = 1, i = 0; i < axis.length; i++){
+                                for(; b.overlapsOppositeAxis(containerBox, axis[i]) || b.within(containerBox) && b.overlapsAny(boxPositions);)b.move(axis[i]);
+                                if (b.within(containerBox)) return b;
+                                var p = b.intersectPercentage(containerBox);
+                                percentage > p && (bestPosition = new BoxPosition(b), percentage = p), b = new BoxPosition(specifiedPosition);
+                            }
+                            return bestPosition || specifiedPosition;
+                        }(boxPosition, axis);
+                        styleBox.move(bestPosition.toCSSCompatValues(containerBox));
+                    }(window1, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
                 }();
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
                 decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
@@ -4725,73 +4621,70 @@
                         var line = buffer.substr(0, pos);
                         return "\r" === buffer[pos] && ++pos, "\n" === buffer[pos] && ++pos, self1.buffer = buffer.substr(pos), line;
                     }
-                    function parseHeader(input) {
-                        input.match(/X-TIMESTAMP-MAP/) ? parseOptions(input, function(k, v) {
-                            if ("X-TIMESTAMP-MAP" === k) {
-                                var settings;
-                                settings = new Settings(), parseOptions(v, function(k, v) {
-                                    switch(k){
-                                        case "MPEGT":
-                                            settings.integer(k + "S", v);
-                                            break;
-                                        case "LOCA":
-                                            settings.set(k + "L", parseTimeStamp(v));
-                                    }
-                                }, /[^\d]:/, /,/), self1.ontimestampmap && self1.ontimestampmap({
-                                    MPEGTS: settings.get("MPEGTS"),
-                                    LOCAL: settings.get("LOCAL")
-                                });
-                            }
-                        }, /=/) : parseOptions(input, function(k, v) {
-                            "Region" === k && function(input) {
-                                var settings = new Settings();
-                                if (parseOptions(input, function(k, v) {
-                                    switch(k){
-                                        case "id":
-                                            settings.set(k, v);
-                                            break;
-                                        case "width":
-                                            settings.percent(k, v);
-                                            break;
-                                        case "lines":
-                                            settings.integer(k, v);
-                                            break;
-                                        case "regionanchor":
-                                        case "viewportanchor":
-                                            var xy = v.split(",");
-                                            if (2 !== xy.length) break;
-                                            var anchor = new Settings();
-                                            if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
-                                            settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
-                                            break;
-                                        case "scroll":
-                                            settings.alt(k, v, [
-                                                "up"
-                                            ]);
-                                    }
-                                }, /=/, /\s/), settings.has("id")) {
-                                    var region = new (self1.vttjs.VTTRegion || self1.window.VTTRegion)();
-                                    region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self1.onregion && self1.onregion(region), self1.regionList.push({
-                                        id: settings.get("id"),
-                                        region: region
-                                    });
-                                }
-                            }(v);
-                        }, /:/);
-                    }
                     data && (self1.buffer += self1.decoder.decode(data, {
                         stream: !0
                     }));
                     try {
                         if ("INITIAL" === self1.state) {
                             if (!/\r\n|\n/.test(self1.buffer)) return this;
-                            var line, m = (line = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
+                            var input, line, m = (line = collectNextLine()).match(/^WEBVTT([ \t].*)?$/);
                             if (!m || !m[0]) throw new ParsingError(ParsingError.Errors.BadSignature);
                             self1.state = "HEADER";
                         }
                         for(var alreadyCollectedLine = !1; self1.buffer && /\r\n|\n/.test(self1.buffer);)switch(alreadyCollectedLine ? alreadyCollectedLine = !1 : line = collectNextLine(), self1.state){
                             case "HEADER":
-                                /:/.test(line) ? parseHeader(line) : line || (self1.state = "ID");
+                                /:/.test(line) ? (input = line).match(/X-TIMESTAMP-MAP/) ? parseOptions(input, function(k, v) {
+                                    if ("X-TIMESTAMP-MAP" === k) {
+                                        var settings;
+                                        settings = new Settings(), parseOptions(v, function(k, v) {
+                                            switch(k){
+                                                case "MPEGT":
+                                                    settings.integer(k + "S", v);
+                                                    break;
+                                                case "LOCA":
+                                                    settings.set(k + "L", parseTimeStamp(v));
+                                            }
+                                        }, /[^\d]:/, /,/), self1.ontimestampmap && self1.ontimestampmap({
+                                            MPEGTS: settings.get("MPEGTS"),
+                                            LOCAL: settings.get("LOCAL")
+                                        });
+                                    }
+                                }, /=/) : parseOptions(input, function(k, v) {
+                                    "Region" === k && function(input) {
+                                        var settings = new Settings();
+                                        if (parseOptions(input, function(k, v) {
+                                            switch(k){
+                                                case "id":
+                                                    settings.set(k, v);
+                                                    break;
+                                                case "width":
+                                                    settings.percent(k, v);
+                                                    break;
+                                                case "lines":
+                                                    settings.integer(k, v);
+                                                    break;
+                                                case "regionanchor":
+                                                case "viewportanchor":
+                                                    var xy = v.split(",");
+                                                    if (2 !== xy.length) break;
+                                                    var anchor = new Settings();
+                                                    if (anchor.percent("x", xy[0]), anchor.percent("y", xy[1]), !anchor.has("x") || !anchor.has("y")) break;
+                                                    settings.set(k + "X", anchor.get("x")), settings.set(k + "Y", anchor.get("y"));
+                                                    break;
+                                                case "scroll":
+                                                    settings.alt(k, v, [
+                                                        "up"
+                                                    ]);
+                                            }
+                                        }, /=/, /\s/), settings.has("id")) {
+                                            var region = new (self1.vttjs.VTTRegion || self1.window.VTTRegion)();
+                                            region.width = settings.get("width", 100), region.lines = settings.get("lines", 3), region.regionAnchorX = settings.get("regionanchorX", 0), region.regionAnchorY = settings.get("regionanchorY", 100), region.viewportAnchorX = settings.get("viewportanchorX", 0), region.viewportAnchorY = settings.get("viewportanchorY", 100), region.scroll = settings.get("scroll", ""), self1.onregion && self1.onregion(region), self1.regionList.push({
+                                                id: settings.get("id"),
+                                                region: region
+                                            });
+                                        }
+                                    }(v);
+                                }, /:/) : line || (self1.state = "ID");
                                 continue;
                             case "NOTE":
                                 line || (self1.state = "ID");
@@ -4814,7 +4707,94 @@
                                 }
                             case "CUE":
                                 try {
-                                    parseCue(line, self1.cue, self1.regionList);
+                                    !function(input, cue, regionList) {
+                                        var oInput = input;
+                                        function consumeTimeStamp() {
+                                            var ts = parseTimeStamp(input);
+                                            if (null === ts) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed timestamp: " + oInput);
+                                            return input = input.replace(/^[^\sa-zA-Z-]+/, ""), ts;
+                                        }
+                                        function skipWhitespace() {
+                                            input = input.replace(/^\s+/, "");
+                                        }
+                                        if (skipWhitespace(), cue.startTime = consumeTimeStamp(), skipWhitespace(), "-->" !== input.substr(0, 3)) throw new ParsingError(ParsingError.Errors.BadTimeStamp, "Malformed time stamp (time stamps must be separated by '-->'): " + oInput);
+                                        input = input.substr(3), skipWhitespace(), cue.endTime = consumeTimeStamp(), skipWhitespace(), function(input, cue) {
+                                            var settings = new Settings();
+                                            parseOptions(input, function(k, v) {
+                                                switch(k){
+                                                    case "region":
+                                                        for(var i = regionList.length - 1; i >= 0; i--)if (regionList[i].id === v) {
+                                                            settings.set(k, regionList[i].region);
+                                                            break;
+                                                        }
+                                                        break;
+                                                    case "vertical":
+                                                        settings.alt(k, v, [
+                                                            "rl",
+                                                            "lr"
+                                                        ]);
+                                                        break;
+                                                    case "line":
+                                                        var vals = v.split(","), vals0 = vals[0];
+                                                        settings.integer(k, vals0), settings.percent(k, vals0) && settings.set("snapToLines", !1), settings.alt(k, vals0, [
+                                                            "auto"
+                                                        ]), 2 === vals.length && settings.alt("lineAlign", vals[1], [
+                                                            "start",
+                                                            "center",
+                                                            "end"
+                                                        ]);
+                                                        break;
+                                                    case "position":
+                                                        vals = v.split(","), settings.percent(k, vals[0]), 2 === vals.length && settings.alt("positionAlign", vals[1], [
+                                                            "start",
+                                                            "center",
+                                                            "end"
+                                                        ]);
+                                                        break;
+                                                    case "size":
+                                                        settings.percent(k, v);
+                                                        break;
+                                                    case "align":
+                                                        settings.alt(k, v, [
+                                                            "start",
+                                                            "center",
+                                                            "end",
+                                                            "left",
+                                                            "right"
+                                                        ]);
+                                                }
+                                            }, /:/, /\s/), cue.region = settings.get("region", null), cue.vertical = settings.get("vertical", "");
+                                            try {
+                                                cue.line = settings.get("line", "auto");
+                                            } catch (e) {}
+                                            cue.lineAlign = settings.get("lineAlign", "start"), cue.snapToLines = settings.get("snapToLines", !0), cue.size = settings.get("size", 100);
+                                            try {
+                                                cue.align = settings.get("align", "center");
+                                            } catch (e1) {
+                                                cue.align = settings.get("align", "middle");
+                                            }
+                                            try {
+                                                cue.position = settings.get("position", "auto");
+                                            } catch (e2) {
+                                                cue.position = settings.get("position", {
+                                                    start: 0,
+                                                    left: 0,
+                                                    center: 50,
+                                                    middle: 50,
+                                                    end: 100,
+                                                    right: 100
+                                                }, cue.align);
+                                            }
+                                            cue.positionAlign = settings.get("positionAlign", {
+                                                start: "start",
+                                                left: "start",
+                                                center: "center",
+                                                middle: "center",
+                                                end: "end",
+                                                right: "end"
+                                            }, cue.align);
+                                        }(input, cue);
+                                    }(line, self1.cue, self1.regionList);
                                 } catch (e1) {
                                     self1.reportOrThrowError(e1), self1.cue = null, self1.state = "BADCUE";
                                     continue;
@@ -5108,7 +5088,10 @@
                 for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
                 return 2 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
-                for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(encodeChunk(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
+                for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(function(uint8, start, end) {
+                    for(var tmp, output = [], i = start; i < end; i += 3)output.push(lookup[(tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])) >> 18 & 0x3f] + lookup[tmp >> 12 & 0x3f] + lookup[tmp >> 6 & 0x3f] + lookup[0x3f & tmp]);
+                    return output.join("");
+                }(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
                 return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
             };
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
@@ -5122,13 +5105,6 @@
                     validLen,
                     placeHoldersLen
                 ];
-            }
-            function tripletToBase64(num) {
-                return lookup[num >> 18 & 0x3f] + lookup[num >> 12 & 0x3f] + lookup[num >> 6 & 0x3f] + lookup[0x3f & num];
-            }
-            function encodeChunk(uint8, start, end) {
-                for(var output = [], i = start; i < end; i += 3)output.push(tripletToBase64((uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])));
-                return output.join("");
             }
             revLookup["-".charCodeAt(0)] = 62, revLookup["_".charCodeAt(0)] = 63;
         },
@@ -5219,26 +5195,44 @@
                 }
             }
             function slowToString(encoding, start, end) {
-                var loweredCase = !1;
+                var start1, end1, loweredCase = !1;
                 if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || (end >>>= 0) <= (start >>>= 0))) return "";
                 for(encoding || (encoding = "utf8");;)switch(encoding){
                     case "hex":
-                        return hexSlice(this, start, end);
+                        return function(buf, start, end) {
+                            var len = buf.length;
+                            (!start || start < 0) && (start = 0), (!end || end < 0 || end > len) && (end = len);
+                            for(var out = "", i = start; i < end; ++i)out += hexSliceLookupTable[buf[i]];
+                            return out;
+                        }(this, start, end);
                     case "utf8":
                     case "utf-8":
                         return utf8Slice(this, start, end);
                     case "ascii":
-                        return asciiSlice(this, start, end);
+                        return function(buf, start, end) {
+                            var ret = "";
+                            end = Math.min(buf.length, end);
+                            for(var i = start; i < end; ++i)ret += String.fromCharCode(0x7f & buf[i]);
+                            return ret;
+                        }(this, start, end);
                     case "latin1":
                     case "binary":
-                        return latin1Slice(this, start, end);
+                        return function(buf, start, end) {
+                            var ret = "";
+                            end = Math.min(buf.length, end);
+                            for(var i = start; i < end; ++i)ret += String.fromCharCode(buf[i]);
+                            return ret;
+                        }(this, start, end);
                     case "base64":
-                        return base64Slice(this, start, end);
+                        return start1 = start, end1 = end, 0 === start1 && end1 === this.length ? base64.fromByteArray(this) : base64.fromByteArray(this.slice(start1, end1));
                     case "ucs2":
                     case "ucs-2":
                     case "utf16le":
                     case "utf-16le":
-                        return utf16leSlice(this, start, end);
+                        return function(buf, start, end) {
+                            for(var bytes = buf.slice(start, end), res = "", i = 0; i < bytes.length; i += 2)res += String.fromCharCode(bytes[i] + 256 * bytes[i + 1]);
+                            return res;
+                        }(this, start, end);
                     default:
                         if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = (encoding + "").toLowerCase(), loweredCase = !0;
@@ -5287,39 +5281,11 @@
                 }
                 return -1;
             }
-            function hexWrite(buf, string, offset, length) {
-                offset = Number(offset) || 0;
-                var remaining = buf.length - offset;
-                length ? (length = Number(length)) > remaining && (length = remaining) : length = remaining;
-                var strLen = string.length;
-                length > strLen / 2 && (length = strLen / 2);
-                for(var i = 0; i < length; ++i){
-                    var parsed = parseInt(string.substr(2 * i, 2), 16);
-                    if (parsed != parsed) break;
-                    buf[offset + i] = parsed;
-                }
-                return i;
-            }
-            function utf8Write(buf, string, offset, length) {
-                return blitBuffer(utf8ToBytes(string, buf.length - offset), buf, offset, length);
-            }
             function asciiWrite(buf, string, offset, length) {
                 return blitBuffer(function(str) {
                     for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
                     return byteArray;
                 }(string), buf, offset, length);
-            }
-            function base64Write(buf, string, offset, length) {
-                return blitBuffer(base64ToBytes(string), buf, offset, length);
-            }
-            function ucs2Write(buf, string, offset, length) {
-                return blitBuffer(function(str, units) {
-                    for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
-                    return byteArray;
-                }(string, buf.length - offset), buf, offset, length);
-            }
-            function base64Slice(buf, start, end) {
-                return 0 === start && end === buf.length ? base64.fromByteArray(buf) : base64.fromByteArray(buf.slice(start, end));
             }
             function utf8Slice(buf, start, end) {
                 end = Math.min(buf.length, end);
@@ -5346,28 +5312,6 @@
                     for(var res = "", i = 0; i < len;)res += String.fromCharCode.apply(String, codePoints.slice(i, i += 0x1000));
                     return res;
                 }(res);
-            }
-            function asciiSlice(buf, start, end) {
-                var ret = "";
-                end = Math.min(buf.length, end);
-                for(var i = start; i < end; ++i)ret += String.fromCharCode(0x7f & buf[i]);
-                return ret;
-            }
-            function latin1Slice(buf, start, end) {
-                var ret = "";
-                end = Math.min(buf.length, end);
-                for(var i = start; i < end; ++i)ret += String.fromCharCode(buf[i]);
-                return ret;
-            }
-            function hexSlice(buf, start, end) {
-                var len = buf.length;
-                (!start || start < 0) && (start = 0), (!end || end < 0 || end > len) && (end = len);
-                for(var out = "", i = start; i < end; ++i)out += hexSliceLookupTable[buf[i]];
-                return out;
-            }
-            function utf16leSlice(buf, start, end) {
-                for(var bytes = buf.slice(start, end), res = "", i = 0; i < bytes.length; i += 2)res += String.fromCharCode(bytes[i] + 256 * bytes[i + 1]);
-                return res;
             }
             function checkOffset(offset, ext, length) {
                 if (offset % 1 != 0 || offset < 0) throw RangeError("offset is not uint");
@@ -5503,27 +5447,42 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var offset1, length1, remaining = this.length - offset;
+                var offset1, length1, offset2, length2, offset3, length3, offset4, length4, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
                     case "hex":
-                        return hexWrite(this, string, offset, length);
+                        return function(buf, string, offset, length) {
+                            offset = Number(offset) || 0;
+                            var remaining = buf.length - offset;
+                            length ? (length = Number(length)) > remaining && (length = remaining) : length = remaining;
+                            var strLen = string.length;
+                            length > strLen / 2 && (length = strLen / 2);
+                            for(var i = 0; i < length; ++i){
+                                var parsed = parseInt(string.substr(2 * i, 2), 16);
+                                if (parsed != parsed) break;
+                                buf[offset + i] = parsed;
+                            }
+                            return i;
+                        }(this, string, offset, length);
                     case "utf8":
                     case "utf-8":
-                        return utf8Write(this, string, offset, length);
+                        return offset1 = offset, length1 = length, blitBuffer(utf8ToBytes(string, this.length - offset1), this, offset1, length1);
                     case "ascii":
                         return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return offset1 = offset, length1 = length, asciiWrite(this, string, offset1, length1);
+                        return offset2 = offset, length2 = length, asciiWrite(this, string, offset2, length2);
                     case "base64":
-                        return base64Write(this, string, offset, length);
+                        return offset3 = offset, length3 = length, blitBuffer(base64ToBytes(string), this, offset3, length3);
                     case "ucs2":
                     case "ucs-2":
                     case "utf16le":
                     case "utf-16le":
-                        return ucs2Write(this, string, offset, length);
+                        return offset4 = offset, length4 = length, blitBuffer(function(str, units) {
+                            for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
+                            return byteArray;
+                        }(string, this.length - offset4), this, offset4, length4);
                     default:
                         if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = ("" + encoding).toLowerCase(), loweredCase = !0;

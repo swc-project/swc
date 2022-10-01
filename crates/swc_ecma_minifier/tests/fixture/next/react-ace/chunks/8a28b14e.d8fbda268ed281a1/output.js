@@ -1824,7 +1824,9 @@
                             if (src) {
                                 for(var attributes = script.attributes, j = 0, l = attributes.length; j < l; j++){
                                     var attr = attributes[j];
-                                    0 === attr.name.indexOf("data-ace-") && (scriptOptions[deHyphenate(attr.name.replace(/^data-ace-/, ""))] = attr.value);
+                                    0 === attr.name.indexOf("data-ace-") && (scriptOptions[attr.name.replace(/^data-ace-/, "").replace(/-(.)/g, function(m, m1) {
+                                        return m1.toUpperCase();
+                                    })] = attr.value);
                                 }
                                 var m = src.match(/^(.*)\/ace(\-\w+)?\.js(\?|$)/);
                                 m && (scriptUrl = m[1]);
@@ -1832,11 +1834,6 @@
                         }
                         for(var key in scriptUrl && (scriptOptions.base = scriptOptions.base || scriptUrl, scriptOptions.packaged = !0), scriptOptions.basePath = scriptOptions.base, scriptOptions.workerPath = scriptOptions.workerPath || scriptOptions.base, scriptOptions.modePath = scriptOptions.modePath || scriptOptions.base, scriptOptions.themePath = scriptOptions.themePath || scriptOptions.base, delete scriptOptions.base, scriptOptions)void 0 !== scriptOptions[key] && exports.set(key, scriptOptions[key]);
                     }
-                }
-                function deHyphenate(str) {
-                    return str.replace(/-(.)/g, function(m, m1) {
-                        return m1.toUpperCase();
-                    });
                 }
                 init(!0), exports.init = init, exports.version = "1.4.13";
             }), ace.define("ace/mouse/mouse_handler", [
@@ -2428,55 +2425,6 @@
                         }
                     }
                 }
-                function _getCharClass(chars, types, classes, ix) {
-                    var wType, nType, len, i, cType = types[ix];
-                    switch(cType){
-                        case 0:
-                        case 1:
-                            lastArabic = !1;
-                        case 4:
-                        case 3:
-                            return cType;
-                        case 2:
-                            return lastArabic ? 3 : 2;
-                        case 7:
-                            return lastArabic = !0, 1;
-                        case 8:
-                            return 4;
-                        case 9:
-                            if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
-                            return lastArabic && (nType = 3), nType == wType ? nType : 4;
-                        case 10:
-                            if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
-                            return 4;
-                        case 11:
-                            if (ix > 0 && 2 == classes[ix - 1]) return 2;
-                            if (lastArabic) return 4;
-                            for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
-                            if (i < len && 2 == types[i]) return 2;
-                            return 4;
-                        case 12:
-                            for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
-                            if (i < len) {
-                                var c = chars[ix];
-                                if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
-                            }
-                            if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
-                            return classes[ix - 1];
-                        case 5:
-                            return lastArabic = !1, hasUBAT_B = !0, dir;
-                        case 6:
-                            return hasUBAT_S = !0, 4;
-                        case 13:
-                        case 14:
-                        case 16:
-                        case 17:
-                        case 15:
-                            lastArabic = !1;
-                        case 18:
-                            return 4;
-                    }
-                }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
                     return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
@@ -2488,7 +2436,55 @@
                         var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
                         if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
                         for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
-                            if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
+                            if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
+                                var wType, nType, len, i, cType = types[ix];
+                                switch(cType){
+                                    case 0:
+                                    case 1:
+                                        lastArabic = !1;
+                                    case 4:
+                                    case 3:
+                                        return cType;
+                                    case 2:
+                                        return lastArabic ? 3 : 2;
+                                    case 7:
+                                        return lastArabic = !0, 1;
+                                    case 8:
+                                        return 4;
+                                    case 9:
+                                        if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
+                                        return lastArabic && (nType = 3), nType == wType ? nType : 4;
+                                    case 10:
+                                        if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
+                                        return 4;
+                                    case 11:
+                                        if (ix > 0 && 2 == classes[ix - 1]) return 2;
+                                        if (lastArabic) return 4;
+                                        for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
+                                        if (i < len && 2 == types[i]) return 2;
+                                        return 4;
+                                    case 12:
+                                        for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
+                                        if (i < len) {
+                                            var c = chars[ix];
+                                            if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
+                                        }
+                                        if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
+                                        return classes[ix - 1];
+                                    case 5:
+                                        return lastArabic = !1, hasUBAT_B = !0, dir;
+                                    case 6:
+                                        return hasUBAT_S = !0, 4;
+                                    case 13:
+                                    case 14:
+                                    case 16:
+                                    case 17:
+                                    case 15:
+                                        lastArabic = !1;
+                                    case 18:
+                                        return 4;
+                                }
+                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
                                 if (0x10 == action) {
                                     for(i = condPos; i < ix; i++)levels[i] = 1;
                                     condPos = -1;
@@ -8932,7 +8928,22 @@
                                 var deltaSet = stack[i];
                                 if (deltaSet && !deltaSet[0].ignore) {
                                     for(; i < pos - 1;){
-                                        var swapped = swapGroups(stack[i], stack[i + 1]);
+                                        var swapped = function(ds1, ds2) {
+                                            for(var i = ds1.length; i--;)for(var j = 0; j < ds2.length; j++)if (!swap(ds1[i], ds2[j])) {
+                                                for(; i < ds1.length;){
+                                                    for(; j--;)swap(ds2[j], ds1[i]);
+                                                    j = ds2.length, i++;
+                                                }
+                                                return [
+                                                    ds1,
+                                                    ds2
+                                                ];
+                                            }
+                                            return ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null, [
+                                                ds2,
+                                                ds1
+                                            ];
+                                        }(stack[i], stack[i + 1]);
                                         stack[i] = swapped[0], stack[i + 1] = swapped[1], i++;
                                     }
                                     return !0;
@@ -8947,7 +8958,42 @@
                         if (this.lastDeltas = null, session || (session = this.$session), this.$fromUndo = !0, this.$redoStackBaseRev != this.$rev) {
                             var diff = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
                             (function(redoStack, deltaSets) {
-                                for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)moveDeltasByOne(redoStack, deltas[j]);
+                                for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)!function(redoStack, d) {
+                                    var d1;
+                                    d1 = d, d = {
+                                        start: clonePos(d1.start),
+                                        end: clonePos(d1.end),
+                                        action: d1.action,
+                                        lines: d1.lines.slice()
+                                    };
+                                    for(var j = redoStack.length; j--;){
+                                        for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
+                                            var xformed = function(d1, c1) {
+                                                var before, after, i1 = "insert" == d1.action, i2 = "insert" == c1.action;
+                                                if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
+                                                else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
+                                                else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
+                                                else if (!i1 && !i2) {
+                                                    if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
+                                                    else {
+                                                        if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
+                                                            c1,
+                                                            before,
+                                                            after
+                                                        ].filter(Boolean);
+                                                        shift(d1, c1, -1);
+                                                    }
+                                                }
+                                                return [
+                                                    c1,
+                                                    d1
+                                                ];
+                                            }(deltaSet[i], d);
+                                            d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
+                                        }
+                                        deltaSet.length || redoStack.splice(j, 1);
+                                    }
+                                }(redoStack, deltas[j]);
                             })(this.$redoStack, diff), this.$redoStackBaseRev = this.$rev, this.$redoStack.forEach(function(x) {
                                 x[0].id = ++this.$maxRev;
                             }, this);
@@ -9018,43 +9064,6 @@
                         d1
                     ];
                 }
-                function swapGroups(ds1, ds2) {
-                    for(var i = ds1.length; i--;)for(var j = 0; j < ds2.length; j++)if (!swap(ds1[i], ds2[j])) {
-                        for(; i < ds1.length;){
-                            for(; j--;)swap(ds2[j], ds1[i]);
-                            j = ds2.length, i++;
-                        }
-                        return [
-                            ds1,
-                            ds2
-                        ];
-                    }
-                    return ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null, [
-                        ds2,
-                        ds1
-                    ];
-                }
-                function xform(d1, c1) {
-                    var before, after, i1 = "insert" == d1.action, i2 = "insert" == c1.action;
-                    if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
-                    else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
-                    else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
-                    else if (!i1 && !i2) {
-                        if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
-                        else {
-                            if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
-                                c1,
-                                before,
-                                after
-                            ].filter(Boolean);
-                            shift(d1, c1, -1);
-                        }
-                    }
-                    return [
-                        c1,
-                        d1
-                    ];
-                }
                 function shift(d1, d2, dir) {
                     shiftPos(d1.start, d2.start, d2.end, dir), shiftPos(d1.end, d2.start, d2.end, dir);
                 }
@@ -9071,23 +9080,6 @@
                         lines: otherLines,
                         action: c.action
                     };
-                }
-                function moveDeltasByOne(redoStack, d) {
-                    var d1;
-                    d1 = d, d = {
-                        start: clonePos(d1.start),
-                        end: clonePos(d1.end),
-                        action: d1.action,
-                        lines: d1.lines.slice()
-                    };
-                    for(var j = redoStack.length; j--;){
-                        for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
-                            var xformed = xform(deltaSet[i], d);
-                            d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
-                        }
-                        deltaSet.length || redoStack.splice(j, 1);
-                    }
-                    return redoStack;
                 }
                 Range.comparePoints, exports.UndoManager = UndoManager;
             }), ace.define("ace/layer/lines", [
@@ -9309,9 +9301,6 @@
                     this.element = dom.createElement("div"), this.element.className = "ace_layer ace_marker-layer", parentEl.appendChild(this.element);
                 };
                 (function() {
-                    function getBorderClass(tl, tr, br, bl) {
-                        return (tl ? 1 : 0) | (tr ? 2 : 0) | (br ? 4 : 0) | (bl ? 8 : 0);
-                    }
                     this.$padding = 0, this.setPadding = function(padding) {
                         this.$padding = padding;
                     }, this.setSession = function(session) {
@@ -9342,7 +9331,7 @@
                     }, this.$getTop = function(row, layerConfig) {
                         return (row - layerConfig.firstRowScreen) * layerConfig.lineHeight;
                     }, this.drawTextMarker = function(stringBuilder, range, clazz, layerConfig, extraStyle) {
-                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + getBorderClass(row == start || row == start + 1 && range.start.column, prev < curr, curr > next, row == end), layerConfig, row == end ? 0 : 1, extraStyle);
+                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + ((row == start || row == start + 1 && range.start.column ? 1 : 0) | (prev < curr ? 2 : 0) | (curr > next ? 4 : 0) | (row == end ? 8 : 0)), layerConfig, row == end ? 0 : 1, extraStyle);
                     }, this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
                         var padding = this.$padding, height = config.lineHeight, top = this.$getTop(range.start.row, config), left = padding + range.start.column * config.characterWidth;
                         if (extraStyle = extraStyle || "", this.session.$bidiHandler.isBidiRow(range.start.row)) {
@@ -11625,9 +11614,9 @@ margin: 0 10px;\
                         else var startRow = screenAnchor.row, endRow = screenCursor.row;
                         startColumn < 0 && (startColumn = 0), startRow < 0 && (startRow = 0), startRow == endRow && (includeEmptyLines = !0);
                         for(var row = startRow; row <= endRow; row++){
-                            var range = Range.fromPoints(this.session.screenToDocumentPosition(row, startColumn, startOffsetX), this.session.screenToDocumentPosition(row, endColumn, endOffsetX));
+                            var p1, p2, range = Range.fromPoints(this.session.screenToDocumentPosition(row, startColumn, startOffsetX), this.session.screenToDocumentPosition(row, endColumn, endOffsetX));
                             if (range.isEmpty()) {
-                                if (docEnd && isSamePoint(range.end, docEnd)) break;
+                                if (docEnd && (p1 = range.end, p2 = docEnd, p1.row == p2.row && p1.column == p2.column)) break;
                                 docEnd = range.end;
                             }
                             range.cursor = xBackwards ? range.start : range.end, rectSel.push(range);
@@ -11641,9 +11630,6 @@ margin: 0 10px;\
                     };
                 }).call(Selection.prototype);
                 var Editor = require("./editor").Editor;
-                function isSamePoint(p1, p2) {
-                    return p1.row == p2.row && p1.column == p2.column;
-                }
                 function MultiSelect(editor) {
                     editor.$multiselectOnSessionChange || (editor.$onAddRange = editor.$onAddRange.bind(editor), editor.$onRemoveRange = editor.$onRemoveRange.bind(editor), editor.$onMultiSelect = editor.$onMultiSelect.bind(editor), editor.$onSingleSelect = editor.$onSingleSelect.bind(editor), editor.$multiselectOnSessionChange = exports.onSessionChange.bind(editor), editor.$checkMultiselectChange = editor.$checkMultiselectChange.bind(editor), editor.$multiselectOnSessionChange(editor), editor.on("changeSession", editor.$multiselectOnSessionChange), editor.on("mousedown", onMouseDown), editor.commands.addCommands(commands.defaultCommands), function(editor) {
                         if (editor.textInput) {

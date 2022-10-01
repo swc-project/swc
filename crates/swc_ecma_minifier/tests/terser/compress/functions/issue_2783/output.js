@@ -1,10 +1,5 @@
-(function() {
-    return function(o, i) {
-        while(i--)console.log(f(o));
-    };
-    function f(a) {
-        return a.b || a;
-    }
-})()({
+(function(o, i) {
+    while(i--)console.log(o.b || o);
+})({
     b: "PASS"
 }, 1);

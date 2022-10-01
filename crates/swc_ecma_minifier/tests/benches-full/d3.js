@@ -331,9 +331,6 @@
         }
         return !0;
     }
-    function subset(values, other) {
-        return superset(other, values);
-    }
     var slice$1 = Array.prototype.slice;
     function identity$1(x) {
         return x;
@@ -406,9 +403,6 @@
     function Dispatch(_) {
         this._ = _;
     }
-    function get(type, name) {
-        for(var c, i = 0, n = type.length; i < n; ++i)if ((c = type[i]).name === name) return c.value;
-    }
     function set$1(type, name, callback) {
         for(var i = 0, n = type.length; i < n; ++i)if (type[i].name === name) {
             type[i] = noop, type = type.slice(0, i).concat(type.slice(i + 1));
@@ -431,7 +425,9 @@
                 };
             }), i = -1, n = T.length;
             if (arguments.length < 2) {
-                for(; ++i < n;)if ((t = (typename = T[i]).type) && (t = get(_[t], typename.name))) return t;
+                for(; ++i < n;)if ((t = (typename = T[i]).type) && (t = function(type, name) {
+                    for(var c, i = 0, n = type.length; i < n; ++i)if ((c = type[i]).name === name) return c.value;
+                }(_[t], typename.name))) return t;
                 return;
             }
             if (null != callback && "function" != typeof callback) throw Error("invalid callback: " + callback);
@@ -2026,9 +2022,6 @@
         return ++id;
     }
     var selection_prototype = selection.prototype;
-    function quadIn(t) {
-        return t * t;
-    }
     function quadInOut(t) {
         return ((t *= 2) <= 1 ? t * t : --t * (2 - t) + 1) / 2;
     }
@@ -2306,10 +2299,6 @@
         duration: 250,
         ease: cubicInOut
     };
-    function inherit(node, id) {
-        for(var timing; !(timing = node.__transition) || !(timing = timing[id]);)if (!(node = node.parentNode)) throw Error(`transition ${id} not found`);
-        return timing;
-    }
     selection.prototype.interrupt = function(name) {
         return this.each(function() {
             interrupt(this, name);
@@ -2317,7 +2306,10 @@
     }, selection.prototype.transition = function(name) {
         var id, timing;
         name instanceof Transition ? (id = name._id, name = name._name) : (id = newId(), (timing = defaultTiming).time = now(), name = null == name ? null : name + "");
-        for(var groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)(node = group[i]) && schedule(node, name, id, i, group, timing || inherit(node, id));
+        for(var groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)(node = group[i]) && schedule(node, name, id, i, group, timing || function(node, id) {
+            for(var timing; !(timing = node.__transition) || !(timing = timing[id]);)if (!(node = node.parentNode)) throw Error(`transition ${id} not found`);
+            return timing;
+        }(node, id));
         return new Transition(groups, this._parents, name, id);
     };
     var root$1 = [
@@ -2972,22 +2964,6 @@
         return a - b;
     }
     var constant$6 = (x)=>()=>x;
-    function contains(ring, hole) {
-        for(var c, i = -1, n = hole.length; ++i < n;)if (c = ringContains(ring, hole[i])) return c;
-        return 0;
-    }
-    function ringContains(ring, point) {
-        for(var x = point[0], y = point[1], contains = -1, i = 0, n = ring.length, j = n - 1; i < n; j = i++){
-            var pi = ring[i], xi = pi[0], yi = pi[1], pj = ring[j], xj = pj[0], yj = pj[1];
-            if (segmentContains(pi, pj, point)) return 0;
-            yi > y != yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi && (contains = -contains);
-        }
-        return contains;
-    }
-    function segmentContains(a, b, c) {
-        var i, a1, b1, c1, p, q, r;
-        return a1 = a, b1 = b, c1 = c, (b1[0] - a1[0]) * (c1[1] - a1[1]) == (c1[0] - a1[0]) * (b1[1] - a1[1]) && (p = a[i = +(a[0] === b[0])], q = c[i], r = b[i], p <= q && q <= r || r <= q && q <= p);
-    }
     function noop$1() {}
     var cases = [
         [],
@@ -3238,7 +3214,20 @@
                     ring
                 ]) : holes.push(ring);
             }), holes.forEach(function(hole) {
-                for(var polygon, i = 0, n = polygons.length; i < n; ++i)if (-1 !== contains((polygon = polygons[i])[0], hole)) {
+                for(var polygon, i = 0, n = polygons.length; i < n; ++i)if (-1 !== function(ring, hole) {
+                    for(var c, i = -1, n = hole.length; ++i < n;)if (c = function(ring, point) {
+                        for(var x = point[0], y = point[1], contains = -1, i = 0, n = ring.length, j = n - 1; i < n; j = i++){
+                            var pi = ring[i], xi = pi[0], yi = pi[1], pj = ring[j], xj = pj[0], yj = pj[1];
+                            if (function(a, b, c) {
+                                var i, a1, b1, c1, p, q, r;
+                                return a1 = a, b1 = b, c1 = c, (b1[0] - a1[0]) * (c1[1] - a1[1]) == (c1[0] - a1[0]) * (b1[1] - a1[1]) && (p = a[i = +(a[0] === b[0])], q = c[i], r = b[i], p <= q && q <= r || r <= q && q <= p);
+                            }(pi, pj, point)) return 0;
+                            yi > y != yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi && (contains = -contains);
+                        }
+                        return contains;
+                    }(ring, hole[i])) return c;
+                    return 0;
+                }((polygon = polygons[i])[0], hole)) {
                     polygon.push(hole);
                     return;
                 }
@@ -3326,7 +3315,10 @@
             let i1x = coords[2 * i11], i1y = coords[2 * i11 + 1], minRadius = 1 / 0;
             for(let i3 = 0; i3 < n; i3++){
                 if (i3 === i0 || i3 === i11) continue;
-                const r = circumradius(i0x, i0y, i1x, i1y, coords[2 * i3], coords[2 * i3 + 1]);
+                const r = function(ax, ay, bx, by, cx, cy) {
+                    const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
+                    return x * x + y * y;
+                }(i0x, i0y, i1x, i1y, coords[2 * i3], coords[2 * i3 + 1]);
                 r < minRadius && (i21 = i3, minRadius = r);
             }
             let i2x = coords[2 * i21], i2y = coords[2 * i21 + 1];
@@ -3396,7 +3388,10 @@
                     a = EDGE_STACK[--i];
                     continue;
                 }
-                const b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl], illegal = inCircle(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1]);
+                const b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl], illegal = function(ax, ay, bx, by, cx, cy, px, py) {
+                    const dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
+                    return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
+                }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1]);
                 if (illegal) {
                     triangles[a] = p1, triangles[b] = p0;
                     const hbl = halfedges[bl];
@@ -3439,14 +3434,6 @@
     function orient(rx, ry, qx, qy, px, py) {
         const sign = orientIfSure(px, py, rx, ry, qx, qy) || orientIfSure(rx, ry, qx, qy, px, py) || orientIfSure(qx, qy, px, py, rx, ry);
         return sign < 0;
-    }
-    function inCircle(ax, ay, bx, by, cx, cy, px, py) {
-        const dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
-        return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
-    }
-    function circumradius(ax, ay, bx, by, cx, cy) {
-        const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
-        return x * x + y * y;
     }
     function quicksort(ids, dists, left, right) {
         if (right - left <= 20) for(let i = left + 1; i <= right; i++){
@@ -3784,12 +3771,6 @@
     function pointY(p) {
         return p[1];
     }
-    function jitter(x, y, r) {
-        return [
-            x + Math.sin(x + y) * r,
-            y + Math.cos(x - y) * r
-        ];
-    }
     class Delaunay {
         static from(points, fx = pointX, fy = pointY, that) {
             return new Delaunay("length" in points ? function(points, fx, fy, that) {
@@ -3830,7 +3811,11 @@
                     points[2 * f + 1]
                 ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
                 for(let i = 0, n = points.length / 2; i < n; ++i){
-                    const p = jitter(points[2 * i], points[2 * i + 1], r);
+                    var x, y, r1;
+                    const p = (x = points[2 * i], [
+                        x + Math.sin(x + (y = points[2 * i + 1])) * r,
+                        y + Math.cos(x - y) * r
+                    ]);
                     points[2 * i] = p[0], points[2 * i + 1] = p[1];
                 }
                 this._delaunator = new Delaunator(points);
@@ -6069,24 +6054,37 @@
         for(var p, e, i = 0, n = (circles = function(array) {
             for(var t, i, m = array.length; m;)i = Math.random() * m-- | 0, t = array[m], array[m] = array[i], array[i] = t;
             return array;
-        }(Array.from(circles))).length, B = []; i < n;)p = circles[i], e && enclosesWeak(e, p) ? ++i : (e = encloseBasis(B = extendBasis(B, p)), i = 0);
+        }(Array.from(circles))).length, B = []; i < n;)p = circles[i], e && enclosesWeak(e, p) ? ++i : (e = function(B) {
+            switch(B.length){
+                case 1:
+                    var a;
+                    return {
+                        x: (a = B[0]).x,
+                        y: a.y,
+                        r: a.r
+                    };
+                case 2:
+                    return encloseBasis2(B[0], B[1]);
+                case 3:
+                    return encloseBasis3(B[0], B[1], B[2]);
+            }
+        }(B = function(B, p) {
+            var i, j;
+            if (enclosesWeakAll(p, B)) return [
+                p
+            ];
+            for(i = 0; i < B.length; ++i)if (enclosesNot(p, B[i]) && enclosesWeakAll(encloseBasis2(B[i], p), B)) return [
+                B[i],
+                p
+            ];
+            for(i = 0; i < B.length - 1; ++i)for(j = i + 1; j < B.length; ++j)if (enclosesNot(encloseBasis2(B[i], B[j]), p) && enclosesNot(encloseBasis2(B[i], p), B[j]) && enclosesNot(encloseBasis2(B[j], p), B[i]) && enclosesWeakAll(encloseBasis3(B[i], B[j], p), B)) return [
+                B[i],
+                B[j],
+                p
+            ];
+            throw Error();
+        }(B, p)), i = 0);
         return e;
-    }
-    function extendBasis(B, p) {
-        var i, j;
-        if (enclosesWeakAll(p, B)) return [
-            p
-        ];
-        for(i = 0; i < B.length; ++i)if (enclosesNot(p, B[i]) && enclosesWeakAll(encloseBasis2(B[i], p), B)) return [
-            B[i],
-            p
-        ];
-        for(i = 0; i < B.length - 1; ++i)for(j = i + 1; j < B.length; ++j)if (enclosesNot(encloseBasis2(B[i], B[j]), p) && enclosesNot(encloseBasis2(B[i], p), B[j]) && enclosesNot(encloseBasis2(B[j], p), B[i]) && enclosesWeakAll(encloseBasis3(B[i], B[j], p), B)) return [
-            B[i],
-            B[j],
-            p
-        ];
-        throw Error();
     }
     function enclosesNot(a, b) {
         var dr = a.r - b.r, dx = b.x - a.x, dy = b.y - a.y;
@@ -6099,21 +6097,6 @@
     function enclosesWeakAll(a, B) {
         for(var i = 0; i < B.length; ++i)if (!enclosesWeak(a, B[i])) return !1;
         return !0;
-    }
-    function encloseBasis(B) {
-        switch(B.length){
-            case 1:
-                var a;
-                return {
-                    x: (a = B[0]).x,
-                    y: a.y,
-                    r: a.r
-                };
-            case 2:
-                return encloseBasis2(B[0], B[1]);
-            case 3:
-                return encloseBasis3(B[0], B[1], B[2]);
-        }
     }
     function encloseBasis2(a, b) {
         var x1 = a.x, y1 = a.y, r1 = a.r, x2 = b.x, y2 = b.y, r2 = b.r, x21 = x2 - x1, y21 = y2 - y1, r21 = r2 - r1, l = Math.sqrt(x21 * x21 + y21 * y21);
@@ -6347,13 +6330,6 @@
         var children = v.children;
         return children ? children[children.length - 1] : v.t;
     }
-    function moveSubtree(wm, wp, shift) {
-        var change = shift / (wp.i - wm.i);
-        wp.c -= change, wp.s += shift, wm.c += change, wp.z += shift, wp.m += shift;
-    }
-    function nextAncestor(vim, v, ancestor) {
-        return vim.a.parent === v.parent ? vim.a : ancestor;
-    }
     function TreeNode(node, i) {
         this._ = node, this.parent = null, this.children = null, this.A = null, this.a = this, this.z = 0, this.m = 0, this.c = 0, this.s = 0, this.t = null, this.i = i;
     }
@@ -6401,9 +6377,6 @@
             return custom((x = +x) > 1 ? x : 1);
         }, resquarify;
     }(phi);
-    function cross$1(a, b, c) {
-        return (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
-    }
     function lexicographicOrder(a, b) {
         return a[0] - b[0] || a[1] - b[1];
     }
@@ -6414,7 +6387,7 @@
         ];
         let size = 2, i;
         for(i = 2; i < n; ++i){
-            for(; size > 1 && 0 >= cross$1(points[indexes[size - 2]], points[indexes[size - 1]], points[i]);)--size;
+            for(var a, b, c; size > 1 && 0 >= (a = points[indexes[size - 2]], b = points[indexes[size - 1]], c = points[i], (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));)--size;
             indexes[size++] = i;
         }
         return indexes.slice(0, size);
@@ -9372,7 +9345,9 @@
         return tpmt(1 - +t);
     }, exports1.easeExpInOut = expInOut, exports1.easeExpOut = function(t) {
         return 1 - tpmt(t);
-    }, exports1.easeLinear = (t)=>+t, exports1.easePoly = polyInOut, exports1.easePolyIn = polyIn, exports1.easePolyInOut = polyInOut, exports1.easePolyOut = polyOut, exports1.easeQuad = quadInOut, exports1.easeQuadIn = quadIn, exports1.easeQuadInOut = quadInOut, exports1.easeQuadOut = function(t) {
+    }, exports1.easeLinear = (t)=>+t, exports1.easePoly = polyInOut, exports1.easePolyIn = polyIn, exports1.easePolyInOut = polyInOut, exports1.easePolyOut = polyOut, exports1.easeQuad = quadInOut, exports1.easeQuadIn = function(t) {
+        return t * t;
+    }, exports1.easeQuadInOut = quadInOut, exports1.easeQuadOut = function(t) {
         return t * (2 - t);
     }, exports1.easeSin = sinInOut, exports1.easeSinIn = function(t) {
         return 1 == +t ? 1 : 1 - Math.cos(t * halfPi);
@@ -10623,7 +10598,9 @@
         }, stratify.parentId = function(x) {
             return arguments.length ? (parentId = required(x), stratify) : parentId;
         }, stratify;
-    }, exports1.style = styleValue, exports1.subset = subset, exports1.sum = function(values, valueof) {
+    }, exports1.style = styleValue, exports1.subset = function(values, other) {
+        return superset(other, values);
+    }, exports1.sum = function(values, valueof) {
         let sum = 0;
         if (void 0 === valueof) for (let value of values)(value = +value) && (sum += value);
         else {
@@ -10691,8 +10668,11 @@
             } else w && (v.z = w.z + separation(v._, w._));
             v.parent.A = function(v, w, ancestor) {
                 if (w) {
-                    for(var shift, vip = v, vop = v, vim = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim.m, som = vom.m; vim = nextRight(vim), vip = nextLeft(vip), vim && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim.z + sim - vip.z - sip + separation(vim._, vip._)) > 0 && (moveSubtree(nextAncestor(vim, v, ancestor), v, shift), sip += shift, sop += shift), sim += vim.m, sip += vip.m, som += vom.m, sop += vop.m;
-                    vim && !nextRight(vop) && (vop.t = vim, vop.m += sim - sop), vip && !nextLeft(vom) && (vom.t = vip, vom.m += sip - som, ancestor = v);
+                    for(var vim, v1, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (function(wm, wp, shift) {
+                        var change = shift / (wp.i - wm.i);
+                        wp.c -= change, wp.s += shift, wm.c += change, wp.z += shift, wp.m += shift;
+                    }((vim = vim1, v1 = v, ancestor1 = ancestor, vim.a.parent === v1.parent ? vim.a : ancestor1), v, shift), sip += shift, sop += shift), sim += vim1.m, sip += vip.m, som += vom.m, sop += vop.m;
+                    vim1 && !nextRight(vop) && (vop.t = vim1, vop.m += sim - sop), vip && !nextLeft(vom) && (vom.t = vip, vom.m += sip - som, ancestor = v);
                 }
                 return ancestor;
             }(v, w, v.parent.A || siblings[0]);

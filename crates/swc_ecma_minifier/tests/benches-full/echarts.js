@@ -55,11 +55,7 @@
         '[object Uint32Array]': !0,
         '[object Float32Array]': !0,
         '[object Float64Array]': !0
-    }, objToString = Object.prototype.toString, arrayProto = Array.prototype, nativeForEach = arrayProto.forEach, nativeFilter = arrayProto.filter, nativeSlice = arrayProto.slice, nativeMap = arrayProto.map, ctorFunction = (function() {}).constructor, protoFunction = ctorFunction ? ctorFunction.prototype : null, methods = {};
-    function $override(name, fn) {
-        methods[name] = fn;
-    }
-    var idStart = 0x0907;
+    }, objToString = Object.prototype.toString, arrayProto = Array.prototype, nativeForEach = arrayProto.forEach, nativeFilter = arrayProto.filter, nativeSlice = arrayProto.slice, nativeMap = arrayProto.map, ctorFunction = (function() {}).constructor, protoFunction = ctorFunction ? ctorFunction.prototype : null, methods = {}, idStart = 0x0907;
     function guid() {
         return idStart++;
     }
@@ -230,9 +226,6 @@
     function isRegExp(value) {
         return '[object RegExp]' === objToString.call(value);
     }
-    function eqNaN(value) {
-        return value != value;
-    }
     function retrieve() {
         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
         for(var i = 0, len = args.length; i < len; i++)if (null != args[i]) return args[i];
@@ -276,9 +269,6 @@
     var primitiveKey = '__ec_primitive__';
     function setAsPrimitive(obj) {
         obj[primitiveKey] = !0;
-    }
-    function isPrimitive(obj) {
-        return obj[primitiveKey];
     }
     var HashMap = function() {
         function HashMap(obj) {
@@ -326,7 +316,9 @@
     function noop() {}
     var util = Object.freeze({
         __proto__: null,
-        $override: $override,
+        $override: function(name, fn) {
+            methods[name] = fn;
+        },
         guid: guid,
         logError: logError,
         clone: clone,
@@ -359,7 +351,9 @@
         isGradientObject: isGradientObject,
         isPatternObject: isPatternObject,
         isRegExp: isRegExp,
-        eqNaN: eqNaN,
+        eqNaN: function(value) {
+            return value != value;
+        },
         retrieve: retrieve,
         retrieve2: retrieve2,
         retrieve3: retrieve3,
@@ -368,7 +362,9 @@
         assert: assert,
         trim: trim,
         setAsPrimitive: setAsPrimitive,
-        isPrimitive: isPrimitive,
+        isPrimitive: function(obj) {
+            return obj[primitiveKey];
+        },
         HashMap: HashMap,
         createHashMap: createHashMap,
         concatArray: concatArray,
@@ -759,9 +755,6 @@
     function addEventListener(el, name, handler, opt) {
         isDomLevel2 ? el.addEventListener(name, handler, opt) : el.attachEvent('on' + name, handler);
     }
-    function removeEventListener(el, name, handler, opt) {
-        isDomLevel2 ? el.removeEventListener(name, handler, opt) : el.detachEvent('on' + name, handler);
-    }
     var stop = isDomLevel2 ? function(e) {
         e.preventDefault(), e.stopPropagation(), e.cancelBubble = !0;
     } : function(e) {
@@ -904,7 +897,20 @@
         }, Handler.prototype.findHover = function(x, y, exclude) {
             for(var list = this.storage.getDisplayList(), out = new HoveredResult(x, y), i = list.length - 1; i >= 0; i--){
                 var hoverCheckResult = void 0;
-                if (list[i] !== exclude && !list[i].ignore && (hoverCheckResult = isHover(list[i], x, y)) && (out.topTarget || (out.topTarget = list[i]), hoverCheckResult !== SILENT)) {
+                if (list[i] !== exclude && !list[i].ignore && (hoverCheckResult = function(displayable, x, y) {
+                    if (displayable[displayable.rectHover ? 'rectContain' : 'contain'](x, y)) {
+                        for(var el = displayable, isSilent = void 0, ignoreClip = !1; el;){
+                            if (el.ignoreClip && (ignoreClip = !0), !ignoreClip) {
+                                var clipPath = el.getClipPath();
+                                if (clipPath && !clipPath.contain(x, y)) return !1;
+                                el.silent && (isSilent = !0);
+                            }
+                            el = el.__hostTarget || el.parent;
+                        }
+                        return !isSilent || SILENT;
+                    }
+                    return !1;
+                }(list[i], x, y)) && (out.topTarget || (out.topTarget = list[i]), hoverCheckResult !== SILENT)) {
                     out.target = list[i];
                     break;
                 }
@@ -923,20 +929,6 @@
             }
         }, Handler;
     }(Eventful);
-    function isHover(displayable, x, y) {
-        if (displayable[displayable.rectHover ? 'rectContain' : 'contain'](x, y)) {
-            for(var el = displayable, isSilent = void 0, ignoreClip = !1; el;){
-                if (el.ignoreClip && (ignoreClip = !0), !ignoreClip) {
-                    var clipPath = el.getClipPath();
-                    if (clipPath && !clipPath.contain(x, y)) return !1;
-                    el.silent && (isSilent = !0);
-                }
-                el = el.__hostTarget || el.parent;
-            }
-            return !isSilent || SILENT;
-        }
-        return !1;
-    }
     function isOutsideBoundary(handlerInstance, x, y) {
         var painter = handlerInstance.painter;
         return x < 0 || x > painter.getWidth() || y < 0 || y > painter.getHeight();
@@ -2328,18 +2320,6 @@
         }
         return out;
     }
-    function fillArray(val0, val1, arrDim) {
-        var arr0 = val0;
-        if (arr0.push && val1.push) {
-            var arr0Len = arr0.length, arr1Len = val1.length;
-            if (arr0Len !== arr1Len) {
-                if (arr0Len > arr1Len) arr0.length = arr1Len;
-                else for(var i = arr0Len; i < arr1Len; i++)arr0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
-            }
-            for(var len2 = arr0[0] && arr0[0].length, i = 0; i < arr0.length; i++)if (1 === arrDim) isNaN(arr0[i]) && (arr0[i] = val1[i]);
-            else for(var j = 0; j < len2; j++)isNaN(arr0[i][j]) && (arr0[i][j] = val1[i][j]);
-        }
-    }
     function is1DArraySame(arr0, arr1) {
         var len = arr0.length;
         if (len !== arr1.length) return !1;
@@ -2428,7 +2408,18 @@
             this._needsSort && kfs.sort(function(a, b) {
                 return a.time - b.time;
             });
-            for(var arrDim = this.arrDim, kfsLen = kfs.length, lastKf = kfs[kfsLen - 1], i = 0; i < kfsLen; i++)kfs[i].percent = kfs[i].time / this.maxTime, arrDim > 0 && i !== kfsLen - 1 && fillArray(kfs[i].value, lastKf.value, arrDim);
+            for(var arrDim = this.arrDim, kfsLen = kfs.length, lastKf = kfs[kfsLen - 1], i = 0; i < kfsLen; i++)kfs[i].percent = kfs[i].time / this.maxTime, arrDim > 0 && i !== kfsLen - 1 && function(val0, val1, arrDim) {
+                var arr0 = val0;
+                if (arr0.push && val1.push) {
+                    var arr0Len = arr0.length, arr1Len = val1.length;
+                    if (arr0Len !== arr1Len) {
+                        if (arr0Len > arr1Len) arr0.length = arr1Len;
+                        else for(var i = arr0Len; i < arr1Len; i++)arr0.push(1 === arrDim ? val1[i] : arraySlice.call(val1[i]));
+                    }
+                    for(var len2 = arr0[0] && arr0[0].length, i = 0; i < arr0.length; i++)if (1 === arrDim) isNaN(arr0[i]) && (arr0[i] = val1[i]);
+                    else for(var j = 0; j < len2; j++)isNaN(arr0[i][j]) && (arr0[i][j] = val1[i][j]);
+                }
+            }(kfs[i].value, lastKf.value, arrDim);
             if (additiveTrack && this.needsAnimate() && additiveTrack.needsAnimate() && arrDim === additiveTrack.arrDim && this.isValueColor === additiveTrack.isValueColor && !additiveTrack._finished) {
                 this._additiveTrack = additiveTrack;
                 for(var startValue = kfs[0].value, i = 0; i < kfsLen; i++)0 === arrDim ? this.isValueColor ? kfs[i].additiveValue = add1DArray([], kfs[i].value, startValue, -1) : kfs[i].additiveValue = kfs[i].value - startValue : 1 === arrDim ? kfs[i].additiveValue = add1DArray([], kfs[i].value, startValue, -1) : 2 === arrDim && (kfs[i].additiveValue = add2DArray([], kfs[i].value, startValue, -1));
@@ -3199,7 +3190,19 @@
                     sourceClone = {};
                     for(var i = 0; i < keyLen; i++){
                         var innerKey = animatableKeys[i];
-                        sourceClone[innerKey] = cloneValue(source[innerKey]), copyValue(source, target, innerKey);
+                        sourceClone[innerKey] = cloneValue(source[innerKey]), function(target, source, key) {
+                            if (isArrayLike(source[key])) {
+                                if (isArrayLike(target[key]) || (target[key] = []), isTypedArray(source[key])) {
+                                    var len = source[key].length;
+                                    target[key].length !== len && (target[key] = new source[key].constructor(len), copyArrShallow(target[key], source[key], len));
+                                } else {
+                                    var sourceArr = source[key], targetArr = target[key], len0 = sourceArr.length;
+                                    if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i = 0; i < len0; i++)targetArr[i] ? copyArrShallow(targetArr[i], sourceArr[i], len1) : targetArr[i] = Array.prototype.slice.call(sourceArr[i]);
+                                    else copyArrShallow(targetArr, sourceArr, len0);
+                                    targetArr.length = sourceArr.length;
+                                }
+                            } else target[key] = source[key];
+                        }(source, target, innerKey);
                     }
                 }
                 var animator = new Animator(source, !1, additive ? existsAnimatorsOnSameTarget : null);
@@ -3222,19 +3225,6 @@
     }
     function copyArrShallow(source, target, len) {
         for(var i = 0; i < len; i++)source[i] = target[i];
-    }
-    function copyValue(target, source, key) {
-        if (isArrayLike(source[key])) {
-            if (isArrayLike(target[key]) || (target[key] = []), isTypedArray(source[key])) {
-                var len = source[key].length;
-                target[key].length !== len && (target[key] = new source[key].constructor(len), copyArrShallow(target[key], source[key], len));
-            } else {
-                var sourceArr = source[key], targetArr = target[key], len0 = sourceArr.length;
-                if (isArrayLike(sourceArr[0])) for(var len1 = sourceArr[0].length, i = 0; i < len0; i++)targetArr[i] ? copyArrShallow(targetArr[i], sourceArr[i], len1) : targetArr[i] = Array.prototype.slice.call(sourceArr[i]);
-                else copyArrShallow(targetArr, sourceArr, len0);
-                targetArr.length = sourceArr.length;
-            }
-        } else target[key] = source[key];
     }
     function makeAscendingRun(array, lo, hi, compare) {
         var runHi = lo + 1;
@@ -3715,8 +3705,8 @@
         scope.mounted[nativeEventName] = listener, scope.listenerOpts[nativeEventName] = opt, addEventListener(scope.domTarget, nativeEventName, listener, opt);
     }
     function unmountDOMEventListeners(scope) {
-        var mounted = scope.mounted;
-        for(var nativeEventName in mounted)mounted.hasOwnProperty(nativeEventName) && removeEventListener(scope.domTarget, nativeEventName, mounted[nativeEventName], scope.listenerOpts[nativeEventName]);
+        var el, name, handler, opt, mounted = scope.mounted;
+        for(var nativeEventName in mounted)mounted.hasOwnProperty(nativeEventName) && (el = scope.domTarget, name = nativeEventName, handler = mounted[nativeEventName], opt = scope.listenerOpts[nativeEventName], isDomLevel2 ? el.removeEventListener(name, handler, opt) : el.detachEvent('on' + name, handler));
         scope.mounted = {};
     }
     var DOMHandlerScope = function(domTarget, domHandlers) {
@@ -3932,12 +3922,6 @@
         var zr = new ZRender(guid(), dom, opts);
         return instances[zr.id] = zr, zr;
     }
-    function getInstance(id) {
-        return instances[id];
-    }
-    function registerPainter(name, Ctor) {
-        painterCtors[name] = Ctor;
-    }
     var zrender = Object.freeze({
         __proto__: null,
         init: init,
@@ -3948,8 +3932,12 @@
             for(var key in instances)instances.hasOwnProperty(key) && instances[key].dispose();
             instances = {};
         },
-        getInstance: getInstance,
-        registerPainter: registerPainter,
+        getInstance: function(id) {
+            return instances[id];
+        },
+        registerPainter: function(name, Ctor) {
+            painterCtors[name] = Ctor;
+        },
         version: '5.1.0'
     });
     function linearMap(val, domain, range, clamp) {
@@ -4494,11 +4482,6 @@
             return getAreaStyle(this, excludes, includes);
         }, AreaStyleMixin;
     }(), globalImageCache = new LRU(50);
-    function findExistImage(newImageOrSrc) {
-        if ('string' != typeof newImageOrSrc) return newImageOrSrc;
-        var cachedImgObj = globalImageCache.get(newImageOrSrc);
-        return cachedImgObj && cachedImgObj.image;
-    }
     function createOrUpdateImage(newImageOrSrc, image, hostEl, onload, cbPayload) {
         if (!newImageOrSrc) return image;
         if ('string' != typeof newImageOrSrc) return newImageOrSrc;
@@ -4557,17 +4540,16 @@
                 textLine += options.ellipsis;
                 break;
             }
-            var subLength = 0 === j ? estimateLength(textLine, contentWidth, options.ascCharWidth, options.cnCharWidth) : lineWidth > 0 ? Math.floor(textLine.length * contentWidth / lineWidth) : 0;
+            var subLength = 0 === j ? function(text, contentWidth, ascCharWidth, cnCharWidth) {
+                for(var width = 0, i = 0, len = text.length; i < len && width < contentWidth; i++){
+                    var charCode = text.charCodeAt(i);
+                    width += 0 <= charCode && charCode <= 127 ? ascCharWidth : cnCharWidth;
+                }
+                return i;
+            }(textLine, contentWidth, options.ascCharWidth, options.cnCharWidth) : lineWidth > 0 ? Math.floor(textLine.length * contentWidth / lineWidth) : 0;
             textLine = textLine.substr(0, subLength), lineWidth = getWidth(textLine, font);
         }
         return '' === textLine && (textLine = options.placeholder), textLine;
-    }
-    function estimateLength(text, contentWidth, ascCharWidth, cnCharWidth) {
-        for(var width = 0, i = 0, len = text.length; i < len && width < contentWidth; i++){
-            var charCode = text.charCodeAt(i);
-            width += 0 <= charCode && charCode <= 127 ? ascCharWidth : cnCharWidth;
-        }
-        return i;
     }
     var RichTextToken = function() {}, RichTextLine = function(tokens) {
         this.tokens = [], tokens && (this.tokens = tokens);
@@ -4600,10 +4582,6 @@
     var breakCharMap = reduce(',&?/;] '.split(''), function(obj, ch) {
         return obj[ch] = !0, obj;
     }, {});
-    function isWordBreakChar(ch) {
-        var code;
-        return !((code = ch.charCodeAt(0)) >= 0x21) || !(code <= 0xFF) || !!breakCharMap[ch];
-    }
     function wrapText(text, font, lineWidth, isBreakAll, lastAccumWidth) {
         for(var lines = [], linesWidths = [], line = '', currentWord = '', currentWordWidth = 0, accumWidth = 0, i = 0; i < text.length; i++){
             var ch = text.charAt(i);
@@ -4611,7 +4589,10 @@
                 currentWord && (line += currentWord, accumWidth += currentWordWidth), lines.push(line), linesWidths.push(accumWidth), line = '', currentWord = '', currentWordWidth = 0, accumWidth = 0;
                 continue;
             }
-            var chWidth = getWidth(ch, font), inWord = !isBreakAll && !isWordBreakChar(ch);
+            var chWidth = getWidth(ch, font), inWord = !isBreakAll && !function(ch) {
+                var code;
+                return !((code = ch.charCodeAt(0)) >= 0x21) || !(code <= 0xFF) || !!breakCharMap[ch];
+            }(ch);
             if (lines.length ? accumWidth + chWidth > lineWidth : lastAccumWidth + accumWidth + chWidth > lineWidth) {
                 accumWidth ? (line || currentWord) && (inWord ? (line || (line = currentWord, currentWord = '', accumWidth = currentWordWidth = 0), lines.push(line), linesWidths.push(accumWidth - currentWordWidth), currentWord += ch, currentWordWidth += chWidth, line = '', accumWidth = currentWordWidth) : (currentWord && (line += currentWord, accumWidth += currentWordWidth, currentWord = '', currentWordWidth = 0), lines.push(line), linesWidths.push(accumWidth), line = ch, accumWidth = chWidth)) : inWord ? (lines.push(currentWord), linesWidths.push(currentWordWidth), currentWord = ch, currentWordWidth = chWidth) : (lines.push(ch), linesWidths.push(chWidth));
                 continue;
@@ -4816,13 +4797,6 @@
         for(var i = 0; i < 32 && !(interval < 1e-4); i++)prev = t - interval, next = t + interval, _v1[0] = cubicAt(x0, x1, x2, x3, prev), _v1[1] = cubicAt(y0, y1, y2, y3, prev), d1 = distanceSquare(_v1, _v0), prev >= 0 && d1 < d ? (t = prev, d = d1) : (_v2[0] = cubicAt(x0, x1, x2, x3, next), _v2[1] = cubicAt(y0, y1, y2, y3, next), d2 = distanceSquare(_v2, _v0), next <= 1 && d2 < d ? (t = next, d = d2) : interval *= 0.5);
         return out && (out[0] = cubicAt(x0, x1, x2, x3, t), out[1] = cubicAt(y0, y1, y2, y3, t)), mathSqrt(d);
     }
-    function cubicLength(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
-        for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
-            var t = i * step, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
-            d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
-        }
-        return d;
-    }
     function quadraticAt(p0, p1, p2, t) {
         var onet = 1 - t;
         return onet * (onet * p0 + 2 * t * p1) + t * t * p2;
@@ -4860,13 +4834,6 @@
         }
         return out && (out[0] = quadraticAt(x0, x1, x2, t), out[1] = quadraticAt(y0, y1, y2, t)), mathSqrt(d);
     }
-    function quadraticLength(x0, y0, x1, y1, x2, y2, iteration) {
-        for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
-            var t = i * step, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
-            d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
-        }
-        return d;
-    }
     var mathMin$1 = Math.min, mathMax$1 = Math.max, mathSin = Math.sin, mathCos = Math.cos, PI2 = 2 * Math.PI, start = create(), end = create(), extremity = create();
     function fromPoints(points, min, max) {
         if (0 !== points.length) {
@@ -4877,38 +4844,7 @@
     function fromLine(x0, y0, x1, y1, min, max) {
         min[0] = mathMin$1(x0, x1), min[1] = mathMin$1(y0, y1), max[0] = mathMax$1(x0, x1), max[1] = mathMax$1(y0, y1);
     }
-    var xDim = [], yDim = [];
-    function fromCubic(x0, y0, x1, y1, x2, y2, x3, y3, min, max) {
-        var n = cubicExtrema(x0, x1, x2, x3, xDim);
-        min[0] = 1 / 0, min[1] = 1 / 0, max[0] = -1 / 0, max[1] = -1 / 0;
-        for(var i = 0; i < n; i++){
-            var x = cubicAt(x0, x1, x2, x3, xDim[i]);
-            min[0] = mathMin$1(x, min[0]), max[0] = mathMax$1(x, max[0]);
-        }
-        n = cubicExtrema(y0, y1, y2, y3, yDim);
-        for(var i = 0; i < n; i++){
-            var y = cubicAt(y0, y1, y2, y3, yDim[i]);
-            min[1] = mathMin$1(y, min[1]), max[1] = mathMax$1(y, max[1]);
-        }
-        min[0] = mathMin$1(x0, min[0]), max[0] = mathMax$1(x0, max[0]), min[0] = mathMin$1(x3, min[0]), max[0] = mathMax$1(x3, max[0]), min[1] = mathMin$1(y0, min[1]), max[1] = mathMax$1(y0, max[1]), min[1] = mathMin$1(y3, min[1]), max[1] = mathMax$1(y3, max[1]);
-    }
-    function fromQuadratic(x0, y0, x1, y1, x2, y2, min, max) {
-        var tx = mathMax$1(mathMin$1(quadraticExtremum(x0, x1, x2), 1), 0), ty = mathMax$1(mathMin$1(quadraticExtremum(y0, y1, y2), 1), 0), x = quadraticAt(x0, x1, x2, tx), y = quadraticAt(y0, y1, y2, ty);
-        min[0] = mathMin$1(x0, x2, x), min[1] = mathMin$1(y0, y2, y), max[0] = mathMax$1(x0, x2, x), max[1] = mathMax$1(y0, y2, y);
-    }
-    function fromArc(x, y, rx, ry, startAngle, endAngle, anticlockwise, min$1, max$1) {
-        var diff = Math.abs(startAngle - endAngle);
-        if (diff % PI2 < 1e-4 && diff > 1e-4) {
-            min$1[0] = x - rx, min$1[1] = y - ry, max$1[0] = x + rx, max$1[1] = y + ry;
-            return;
-        }
-        if (start[0] = mathCos(startAngle) * rx + x, start[1] = mathSin(startAngle) * ry + y, end[0] = mathCos(endAngle) * rx + x, end[1] = mathSin(endAngle) * ry + y, min(min$1, start, end), max(max$1, start, end), (startAngle %= PI2) < 0 && (startAngle += PI2), (endAngle %= PI2) < 0 && (endAngle += PI2), startAngle > endAngle && !anticlockwise ? endAngle += PI2 : startAngle < endAngle && anticlockwise && (startAngle += PI2), anticlockwise) {
-            var tmp = endAngle;
-            endAngle = startAngle, startAngle = tmp;
-        }
-        for(var angle = 0; angle < endAngle; angle += Math.PI / 2)angle > startAngle && (extremity[0] = mathCos(angle) * rx + x, extremity[1] = mathSin(angle) * ry + y, min(min$1, extremity, min$1), max(max$1, extremity, max$1));
-    }
-    var CMD = {
+    var xDim = [], yDim = [], CMD = {
         M: 1,
         L: 2,
         C: 3,
@@ -5038,16 +4974,43 @@
                         fromLine(xi, yi, data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.C:
-                        fromCubic(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
+                        (function(x0, y0, x1, y1, x2, y2, x3, y3, min, max) {
+                            var n = cubicExtrema(x0, x1, x2, x3, xDim);
+                            min[0] = 1 / 0, min[1] = 1 / 0, max[0] = -1 / 0, max[1] = -1 / 0;
+                            for(var i = 0; i < n; i++){
+                                var x = cubicAt(x0, x1, x2, x3, xDim[i]);
+                                min[0] = mathMin$1(x, min[0]), max[0] = mathMax$1(x, max[0]);
+                            }
+                            n = cubicExtrema(y0, y1, y2, y3, yDim);
+                            for(var i = 0; i < n; i++){
+                                var y = cubicAt(y0, y1, y2, y3, yDim[i]);
+                                min[1] = mathMin$1(y, min[1]), max[1] = mathMax$1(y, max[1]);
+                            }
+                            min[0] = mathMin$1(x0, min[0]), max[0] = mathMax$1(x0, max[0]), min[0] = mathMin$1(x3, min[0]), max[0] = mathMax$1(x3, max[0]), min[1] = mathMin$1(y0, min[1]), max[1] = mathMax$1(y0, max[1]), min[1] = mathMin$1(y3, min[1]), max[1] = mathMax$1(y3, max[1]);
+                        })(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.Q:
-                        fromQuadratic(xi, yi, data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
+                        (function(x0, y0, x1, y1, x2, y2, min, max) {
+                            var tx = mathMax$1(mathMin$1(quadraticExtremum(x0, x1, x2), 1), 0), ty = mathMax$1(mathMin$1(quadraticExtremum(y0, y1, y2), 1), 0), x = quadraticAt(x0, x1, x2, tx), y = quadraticAt(y0, y1, y2, ty);
+                            min[0] = mathMin$1(x0, x2, x), min[1] = mathMin$1(y0, y2, y), max[0] = mathMax$1(x0, x2, x), max[1] = mathMax$1(y0, y2, y);
+                        })(xi, yi, data[i++], data[i++], data[i], data[i + 1], min2, max2), xi = data[i++], yi = data[i++];
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], endAngle = data[i++] + startAngle;
                         i += 1;
                         var anticlockwise = !data[i++];
-                        isFirst && (x0 = mathCos$1(startAngle) * rx + cx, y0 = mathSin$1(startAngle) * ry + cy), fromArc(cx, cy, rx, ry, startAngle, endAngle, anticlockwise, min2, max2), xi = mathCos$1(endAngle) * rx + cx, yi = mathSin$1(endAngle) * ry + cy;
+                        isFirst && (x0 = mathCos$1(startAngle) * rx + cx, y0 = mathSin$1(startAngle) * ry + cy), function(x, y, rx, ry, startAngle, endAngle, anticlockwise, min$1, max$1) {
+                            var diff = Math.abs(startAngle - endAngle);
+                            if (diff % PI2 < 1e-4 && diff > 1e-4) {
+                                min$1[0] = x - rx, min$1[1] = y - ry, max$1[0] = x + rx, max$1[1] = y + ry;
+                                return;
+                            }
+                            if (start[0] = mathCos(startAngle) * rx + x, start[1] = mathSin(startAngle) * ry + y, end[0] = mathCos(endAngle) * rx + x, end[1] = mathSin(endAngle) * ry + y, min(min$1, start, end), max(max$1, start, end), (startAngle %= PI2) < 0 && (startAngle += PI2), (endAngle %= PI2) < 0 && (endAngle += PI2), startAngle > endAngle && !anticlockwise ? endAngle += PI2 : startAngle < endAngle && anticlockwise && (startAngle += PI2), anticlockwise) {
+                                var tmp = endAngle;
+                                endAngle = startAngle, startAngle = tmp;
+                            }
+                            for(var angle = 0; angle < endAngle; angle += Math.PI / 2)angle > startAngle && (extremity[0] = mathCos(angle) * rx + x, extremity[1] = mathSin(angle) * ry + y, min(min$1, extremity, min$1), max(max$1, extremity, max$1));
+                        }(cx, cy, rx, ry, startAngle, endAngle, anticlockwise, min2, max2), xi = mathCos$1(endAngle) * rx + cx, yi = mathSin$1(endAngle) * ry + cy;
                         break;
                     case CMD.R:
                         x0 = xi = data[i++], y0 = yi = data[i++], fromLine(x0, y0, x0 + data[i++], y0 + data[i++], min2, max2);
@@ -5075,11 +5038,23 @@
                         break;
                     case CMD.C:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i++], y3 = data[i++];
-                        l = cubicLength(xi, yi, x1, y1, x2, y2, x3, y3, 10), xi = x3, yi = y3;
+                        l = function(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
+                            for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
+                                var t = i * step, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
+                                d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
+                            }
+                            return d;
+                        }(xi, yi, x1, y1, x2, y2, x3, y3, 10), xi = x3, yi = y3;
                         break;
                     case CMD.Q:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++];
-                        l = quadraticLength(xi, yi, x1, y1, x2, y2, 10), xi = x2, yi = y2;
+                        l = function(x0, y0, x1, y1, x2, y2, iteration) {
+                            for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
+                                var t = i * step, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
+                                d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
+                            }
+                            return d;
+                        }(xi, yi, x1, y1, x2, y2, 10), xi = x2, yi = y2;
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], delta = data[i++], endAngle = delta + startAngle;
@@ -5190,9 +5165,6 @@
         var tmp = _a * x - y + (_b = (x0 * y1 - x1 * y0) / (x0 - x1));
         return tmp * tmp / (_a * _a + 1) <= lineWidth / 2 * lineWidth / 2;
     }
-    function containStroke$1(x0, y0, x1, y1, x2, y2, x3, y3, lineWidth, x, y) {
-        return 0 !== lineWidth && (!(y > y0 + lineWidth) || !(y > y1 + lineWidth) || !(y > y2 + lineWidth) || !(y > y3 + lineWidth)) && (!(y < y0 - lineWidth) || !(y < y1 - lineWidth) || !(y < y2 - lineWidth) || !(y < y3 - lineWidth)) && (!(x > x0 + lineWidth) || !(x > x1 + lineWidth) || !(x > x2 + lineWidth) || !(x > x3 + lineWidth)) && (!(x < x0 - lineWidth) || !(x < x1 - lineWidth) || !(x < x2 - lineWidth) || !(x < x3 - lineWidth)) && cubicProjectPoint(x0, y0, x1, y1, x2, y2, x3, y3, x, y, null) <= lineWidth / 2;
-    }
     function containStroke$2(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
         return 0 !== lineWidth && (!(y > y0 + lineWidth) || !(y > y1 + lineWidth) || !(y > y2 + lineWidth)) && (!(y < y0 - lineWidth) || !(y < y1 - lineWidth) || !(y < y2 - lineWidth)) && (!(x > x0 + lineWidth) || !(x > x1 + lineWidth) || !(x > x2 + lineWidth)) && (!(x < x0 - lineWidth) || !(x < x1 - lineWidth) || !(x < x2 - lineWidth)) && quadraticProjectPoint(x0, y0, x1, y1, x2, y2, x, y, null) <= lineWidth / 2;
     }
@@ -5201,19 +5173,6 @@
         return (angle %= PI2$2) < 0 && (angle += PI2$2), angle;
     }
     var PI2$3 = 2 * Math.PI;
-    function containStroke$3(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
-        if (0 === lineWidth) return !1;
-        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y);
-        if (d - lineWidth > r || d + lineWidth < r) return !1;
-        if (Math.abs(startAngle - endAngle) % PI2$3 < 1e-4) return !0;
-        if (anticlockwise) {
-            var tmp = startAngle;
-            startAngle = normalizeRadian(endAngle), endAngle = normalizeRadian(tmp);
-        } else startAngle = normalizeRadian(startAngle), endAngle = normalizeRadian(endAngle);
-        startAngle > endAngle && (endAngle += PI2$3);
-        var angle = Math.atan2(y, x);
-        return angle < 0 && (angle += PI2$3), angle >= startAngle && angle <= endAngle || angle + PI2$3 >= startAngle && angle + PI2$3 <= endAngle;
-    }
     function windingLine(x0, y0, x1, y1, x, y) {
         if (y > y0 && y > y1 || y < y0 && y < y1 || y1 === y0) return 0;
         var t = (y - y0) / (y1 - y0), dir = y1 < y0 ? 1 : -1;
@@ -5229,81 +5188,9 @@
         -1,
         -1
     ];
-    function swapExtrema() {
-        var tmp = extrema[0];
-        extrema[0] = extrema[1], extrema[1] = tmp;
-    }
-    function windingCubic(x0, y0, x1, y1, x2, y2, x3, y3, x, y) {
-        if (y > y0 && y > y1 && y > y2 && y > y3 || y < y0 && y < y1 && y < y2 && y < y3) return 0;
-        var nRoots = cubicRootAt(y0, y1, y2, y3, y, roots);
-        if (0 === nRoots) return 0;
-        for(var w = 0, nExtrema = -1, y0_ = void 0, y1_ = void 0, i = 0; i < nRoots; i++){
-            var t = roots[i], unit = 0 === t || 1 === t ? 0.5 : 1;
-            !(cubicAt(x0, x1, x2, x3, t) < x) && (nExtrema < 0 && (nExtrema = cubicExtrema(y0, y1, y2, y3, extrema), extrema[1] < extrema[0] && nExtrema > 1 && swapExtrema(), y0_ = cubicAt(y0, y1, y2, y3, extrema[0]), nExtrema > 1 && (y1_ = cubicAt(y0, y1, y2, y3, extrema[1]))), 2 === nExtrema ? t < extrema[0] ? w += y0_ < y0 ? unit : -unit : t < extrema[1] ? w += y1_ < y0_ ? unit : -unit : w += y3 < y1_ ? unit : -unit : t < extrema[0] ? w += y0_ < y0 ? unit : -unit : w += y3 < y0_ ? unit : -unit);
-        }
-        return w;
-    }
-    function windingQuadratic(x0, y0, x1, y1, x2, y2, x, y) {
-        if (y > y0 && y > y1 && y > y2 || y < y0 && y < y1 && y < y2) return 0;
-        var nRoots = function(p0, p1, p2, val, roots) {
-            var a = p0 - 2 * p1 + p2, b = 2 * (p1 - p0), c = p0 - val, n = 0;
-            if (isAroundZero(a)) {
-                if (isNotAroundZero$1(b)) {
-                    var t1 = -c / b;
-                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
-                }
-            } else {
-                var disc = b * b - 4 * a * c;
-                if (isAroundZero(disc)) {
-                    var t1 = -b / (2 * a);
-                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
-                } else if (disc > 0) {
-                    var discSqrt = mathSqrt(disc), t1 = (-b + discSqrt) / (2 * a), t2 = (-b - discSqrt) / (2 * a);
-                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1), t2 >= 0 && t2 <= 1 && (roots[n++] = t2);
-                }
-            }
-            return n;
-        }(y0, y1, y2, y, roots);
-        if (0 === nRoots) return 0;
-        var t = quadraticExtremum(y0, y1, y2);
-        if (t >= 0 && t <= 1) {
-            for(var w = 0, y_ = quadraticAt(y0, y1, y2, t), i = 0; i < nRoots; i++){
-                var unit = 0 === roots[i] || 1 === roots[i] ? 0.5 : 1, x_ = quadraticAt(x0, x1, x2, roots[i]);
-                !(x_ < x) && (roots[i] < t ? w += y_ < y0 ? unit : -unit : w += y2 < y_ ? unit : -unit);
-            }
-            return w;
-        }
-        var unit = 0 === roots[0] || 1 === roots[0] ? 0.5 : 1, x_ = quadraticAt(x0, x1, x2, roots[0]);
-        return x_ < x ? 0 : y2 < y0 ? unit : -unit;
-    }
-    function windingArc(cx, cy, r, startAngle, endAngle, anticlockwise, x, y) {
-        if ((y -= cy) > r || y < -r) return 0;
-        var tmp = Math.sqrt(r * r - y * y);
-        roots[0] = -tmp, roots[1] = tmp;
-        var dTheta = Math.abs(startAngle - endAngle);
-        if (dTheta < 1e-4) return 0;
-        if (dTheta >= PI2$4 - 1e-4) {
-            startAngle = 0, endAngle = PI2$4;
-            var dir = anticlockwise ? 1 : -1;
-            return x >= roots[0] + cx && x <= roots[1] + cx ? dir : 0;
-        }
-        if (startAngle > endAngle) {
-            var tmp_1 = startAngle;
-            startAngle = endAngle, endAngle = tmp_1;
-        }
-        startAngle < 0 && (startAngle += PI2$4, endAngle += PI2$4);
-        for(var w = 0, i = 0; i < 2; i++){
-            var x_ = roots[i];
-            if (x_ + cx > x) {
-                var angle = Math.atan2(y, x_), dir = anticlockwise ? 1 : -1;
-                angle < 0 && (angle = PI2$4 + angle), (angle >= startAngle && angle <= endAngle || angle + PI2$4 >= startAngle && angle + PI2$4 <= endAngle) && (angle > Math.PI / 2 && angle < 1.5 * Math.PI && (dir = -dir), w += dir);
-            }
-        }
-        return w;
-    }
     function containPath(path, lineWidth, isStroke, x, y) {
         for(var a, x1, y1, data = path.data, len = path.len(), w = 0, xi = 0, yi = 0, x0 = 0, y0 = 0, i = 0; i < len;){
-            var cmd = data[i++], isFirst = 1 === i;
+            var x01, y01, x11, y11, x2, y2, x3, y3, lineWidth1, x4, y4, cmd = data[i++], isFirst = 1 === i;
             switch(cmd === CMD$1.M && i > 1 && !isStroke && (w += windingLine(xi, yi, x0, y0, x, y)), isFirst && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi), cmd){
                 case CMD$1.M:
                     x0 = data[i++], y0 = data[i++], xi = x0, yi = y0;
@@ -5316,14 +5203,58 @@
                     break;
                 case CMD$1.C:
                     if (isStroke) {
-                        if (containStroke$1(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], lineWidth, x, y)) return !0;
-                    } else w += windingCubic(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
+                        if (x01 = xi, y01 = yi, x11 = data[i++], y11 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i], y3 = data[i + 1], lineWidth1 = lineWidth, x4 = x, y4 = y, 0 !== lineWidth1 && (!(y4 > y01 + lineWidth1) || !(y4 > y11 + lineWidth1) || !(y4 > y2 + lineWidth1) || !(y4 > y3 + lineWidth1)) && (!(y4 < y01 - lineWidth1) || !(y4 < y11 - lineWidth1) || !(y4 < y2 - lineWidth1) || !(y4 < y3 - lineWidth1)) && (!(x4 > x01 + lineWidth1) || !(x4 > x11 + lineWidth1) || !(x4 > x2 + lineWidth1) || !(x4 > x3 + lineWidth1)) && (!(x4 < x01 - lineWidth1) || !(x4 < x11 - lineWidth1) || !(x4 < x2 - lineWidth1) || !(x4 < x3 - lineWidth1)) && cubicProjectPoint(x01, y01, x11, y11, x2, y2, x3, y3, x4, y4, null) <= lineWidth1 / 2) return !0;
+                    } else w += function(x0, y0, x1, y1, x2, y2, x3, y3, x, y) {
+                        if (y > y0 && y > y1 && y > y2 && y > y3 || y < y0 && y < y1 && y < y2 && y < y3) return 0;
+                        var nRoots = cubicRootAt(y0, y1, y2, y3, y, roots);
+                        if (0 === nRoots) return 0;
+                        for(var w = 0, nExtrema = -1, y0_ = void 0, y1_ = void 0, i = 0; i < nRoots; i++){
+                            var t = roots[i], unit = 0 === t || 1 === t ? 0.5 : 1;
+                            !(cubicAt(x0, x1, x2, x3, t) < x) && (nExtrema < 0 && (nExtrema = cubicExtrema(y0, y1, y2, y3, extrema), extrema[1] < extrema[0] && nExtrema > 1 && function() {
+                                var tmp = extrema[0];
+                                extrema[0] = extrema[1], extrema[1] = tmp;
+                            }(), y0_ = cubicAt(y0, y1, y2, y3, extrema[0]), nExtrema > 1 && (y1_ = cubicAt(y0, y1, y2, y3, extrema[1]))), 2 === nExtrema ? t < extrema[0] ? w += y0_ < y0 ? unit : -unit : t < extrema[1] ? w += y1_ < y0_ ? unit : -unit : w += y3 < y1_ ? unit : -unit : t < extrema[0] ? w += y0_ < y0 ? unit : -unit : w += y3 < y0_ ? unit : -unit);
+                        }
+                        return w;
+                    }(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
                     xi = data[i++], yi = data[i++];
                     break;
                 case CMD$1.Q:
                     if (isStroke) {
                         if (containStroke$2(xi, yi, data[i++], data[i++], data[i], data[i + 1], lineWidth, x, y)) return !0;
-                    } else w += windingQuadratic(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
+                    } else w += function(x0, y0, x1, y1, x2, y2, x, y) {
+                        if (y > y0 && y > y1 && y > y2 || y < y0 && y < y1 && y < y2) return 0;
+                        var nRoots = function(p0, p1, p2, val, roots) {
+                            var a = p0 - 2 * p1 + p2, b = 2 * (p1 - p0), c = p0 - val, n = 0;
+                            if (isAroundZero(a)) {
+                                if (isNotAroundZero$1(b)) {
+                                    var t1 = -c / b;
+                                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
+                                }
+                            } else {
+                                var disc = b * b - 4 * a * c;
+                                if (isAroundZero(disc)) {
+                                    var t1 = -b / (2 * a);
+                                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
+                                } else if (disc > 0) {
+                                    var discSqrt = mathSqrt(disc), t1 = (-b + discSqrt) / (2 * a), t2 = (-b - discSqrt) / (2 * a);
+                                    t1 >= 0 && t1 <= 1 && (roots[n++] = t1), t2 >= 0 && t2 <= 1 && (roots[n++] = t2);
+                                }
+                            }
+                            return n;
+                        }(y0, y1, y2, y, roots);
+                        if (0 === nRoots) return 0;
+                        var t = quadraticExtremum(y0, y1, y2);
+                        if (t >= 0 && t <= 1) {
+                            for(var w = 0, y_ = quadraticAt(y0, y1, y2, t), i = 0; i < nRoots; i++){
+                                var unit = 0 === roots[i] || 1 === roots[i] ? 0.5 : 1, x_ = quadraticAt(x0, x1, x2, roots[i]);
+                                !(x_ < x) && (roots[i] < t ? w += y_ < y0 ? unit : -unit : w += y2 < y_ ? unit : -unit);
+                            }
+                            return w;
+                        }
+                        var unit = 0 === roots[0] || 1 === roots[0] ? 0.5 : 1, x_ = quadraticAt(x0, x1, x2, roots[0]);
+                        return x_ < x ? 0 : y2 < y0 ? unit : -unit;
+                    }(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y) || 0;
                     xi = data[i++], yi = data[i++];
                     break;
                 case CMD$1.A:
@@ -5333,8 +5264,44 @@
                     x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, isFirst ? (x0 = x1, y0 = y1) : w += windingLine(xi, yi, x1, y1, x, y);
                     var _x = (x - cx) * ry / rx + cx;
                     if (isStroke) {
-                        if (containStroke$3(cx, cy, ry, theta, theta + dTheta, anticlockwise, lineWidth, _x, y)) return !0;
-                    } else w += windingArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y);
+                        if (function(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
+                            if (0 === lineWidth) return !1;
+                            var d = Math.sqrt((x -= cx) * x + (y -= cy) * y);
+                            if (d - lineWidth > r || d + lineWidth < r) return !1;
+                            if (Math.abs(startAngle - endAngle) % PI2$3 < 1e-4) return !0;
+                            if (anticlockwise) {
+                                var tmp = startAngle;
+                                startAngle = normalizeRadian(endAngle), endAngle = normalizeRadian(tmp);
+                            } else startAngle = normalizeRadian(startAngle), endAngle = normalizeRadian(endAngle);
+                            startAngle > endAngle && (endAngle += PI2$3);
+                            var angle = Math.atan2(y, x);
+                            return angle < 0 && (angle += PI2$3), angle >= startAngle && angle <= endAngle || angle + PI2$3 >= startAngle && angle + PI2$3 <= endAngle;
+                        }(cx, cy, ry, theta, theta + dTheta, anticlockwise, lineWidth, _x, y)) return !0;
+                    } else w += function(cx, cy, r, startAngle, endAngle, anticlockwise, x, y) {
+                        if ((y -= cy) > r || y < -r) return 0;
+                        var tmp = Math.sqrt(r * r - y * y);
+                        roots[0] = -tmp, roots[1] = tmp;
+                        var dTheta = Math.abs(startAngle - endAngle);
+                        if (dTheta < 1e-4) return 0;
+                        if (dTheta >= PI2$4 - 1e-4) {
+                            startAngle = 0, endAngle = PI2$4;
+                            var dir = anticlockwise ? 1 : -1;
+                            return x >= roots[0] + cx && x <= roots[1] + cx ? dir : 0;
+                        }
+                        if (startAngle > endAngle) {
+                            var tmp_1 = startAngle;
+                            startAngle = endAngle, endAngle = tmp_1;
+                        }
+                        startAngle < 0 && (startAngle += PI2$4, endAngle += PI2$4);
+                        for(var w = 0, i = 0; i < 2; i++){
+                            var x_ = roots[i];
+                            if (x_ + cx > x) {
+                                var angle = Math.atan2(y, x_), dir = anticlockwise ? 1 : -1;
+                                angle < 0 && (angle = PI2$4 + angle), (angle >= startAngle && angle <= endAngle || angle + PI2$4 >= startAngle && angle + PI2$4 <= endAngle) && (angle > Math.PI / 2 && angle < 1.5 * Math.PI && (dir = -dir), w += dir);
+                            }
+                        }
+                        return w;
+                    }(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y);
                     xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
                     break;
                 case CMD$1.R:
@@ -5811,7 +5778,11 @@
                         else {
                             if (tokenWidthNotSpecified) {
                                 var textBackgroundColor = tokenStyle.backgroundColor, bgImg = textBackgroundColor && textBackgroundColor.image;
-                                bgImg && isImageReady(bgImg = findExistImage(bgImg)) && (token.width = Math.max(token.width, bgImg.width * tokenHeight / bgImg.height));
+                                bgImg && isImageReady(bgImg = function(newImageOrSrc) {
+                                    if ('string' != typeof newImageOrSrc) return newImageOrSrc;
+                                    var cachedImgObj = globalImageCache.get(newImageOrSrc);
+                                    return cachedImgObj && cachedImgObj.image;
+                                }(bgImg)) && (token.width = Math.max(token.width, bgImg.width * tokenHeight / bgImg.height));
                             }
                             var remainTruncWidth = truncate && null != topWidth ? topWidth - lineWidth : null;
                             null != remainTruncWidth && remainTruncWidth < token.width ? !tokenWidthNotSpecified || remainTruncWidth < paddingH ? (token.text = '', token.width = token.contentWidth = 0) : (token.text = truncateText(token.text, remainTruncWidth - paddingH, font, style.ellipsis, {
@@ -7828,9 +7799,6 @@
                 return timeUnit;
         }
     }
-    function isPrimaryTimeUnit(timeUnit) {
-        return timeUnit === getPrimaryTimeUnit(timeUnit);
-    }
     function format(time, template, isUTC, lang) {
         var date = parseDate(time), y = date[fullYearGetterName(isUTC)](), M = date[monthGetterName(isUTC)]() + 1, d = date[dateGetterName(isUTC)](), e = date['get' + (isUTC ? 'UTC' : '') + 'Day'](), H = date[hoursGetterName(isUTC)](), h = (H - 1) % 12 + 1, m = date[minutesGetterName(isUTC)](), s = date[secondsGetterName(isUTC)](), S = date[millisecondsGetterName(isUTC)](), timeModel = (lang instanceof Model ? lang : localeModels[lang || SYSTEM_LANG] || localeModels.EN).getModel('time'), month = timeModel.get('month'), monthAbbr = timeModel.get('monthAbbr'), dayOfWeek = timeModel.get('dayOfWeek'), dayOfWeekAbbr = timeModel.get('dayOfWeekAbbr');
         return (template || '').replace(/{yyyy}/g, y + '').replace(/{yy}/g, y % 100 + '').replace(/{Q}/g, Math.floor((M - 1) / 4) + 1 + '').replace(/{MMMM}/g, month[M - 1]).replace(/{MMM}/g, monthAbbr[M - 1]).replace(/{MM}/g, pad(M, 2)).replace(/{M}/g, M + '').replace(/{dd}/g, pad(d, 2)).replace(/{d}/g, d + '').replace(/{eeee}/g, dayOfWeek[e]).replace(/{ee}/g, dayOfWeekAbbr[e]).replace(/{e}/g, e + '').replace(/{HH}/g, pad(H, 2)).replace(/{H}/g, H + '').replace(/{hh}/g, pad(h + '', 2)).replace(/{h}/g, h + '').replace(/{mm}/g, pad(m, 2)).replace(/{m}/g, m + '').replace(/{ss}/g, pad(s, 2)).replace(/{s}/g, s + '').replace(/{SSS}/g, pad(S, 3)).replace(/{S}/g, S + '');
@@ -7890,9 +7858,6 @@
     }
     function millisecondsGetterName(isUTC) {
         return isUTC ? 'getUTCSeconds' : 'getSeconds';
-    }
-    function fullYearSetterName(isUTC) {
-        return isUTC ? 'setUTCFullYear' : 'setFullYear';
     }
     function monthSetterName(isUTC) {
         return isUTC ? 'setUTCMonth' : 'setMonth';
@@ -8472,9 +8437,6 @@
             id: seriesModel.get('datasetId', !0)
         }, SINGLE_REFERRING).models[0];
     }
-    function guessOrdinal(source, dimIndex) {
-        return doGuessOrdinal(source.data, source.sourceFormat, source.seriesLayoutBy, source.dimensionsDefine, source.startIndex, dimIndex);
-    }
     function doGuessOrdinal(data, sourceFormat, seriesLayoutBy, dimensionsDefine, startIndex, dimIndex) {
         var result, dimName, dimType;
         if (isTypedArray(data)) return BE_ORDINAL.Not;
@@ -8913,29 +8875,27 @@
         }, OptionManager.prototype.getMediaOption = function(ecModel) {
             var indices1, indices2, ecWidth = this._api.getWidth(), ecHeight = this._api.getHeight(), mediaList = this._mediaList, mediaDefault = this._mediaDefault, indices = [], result = [];
             if (!mediaList.length && !mediaDefault) return result;
-            for(var i = 0, len = mediaList.length; i < len; i++)applyMediaQuery(mediaList[i].query, ecWidth, ecHeight) && indices.push(i);
+            for(var i = 0, len = mediaList.length; i < len; i++)(function(query, ecWidth, ecHeight) {
+                var realMap = {
+                    width: ecWidth,
+                    height: ecHeight,
+                    aspectratio: ecWidth / ecHeight
+                }, applicatable = !0;
+                return each(query, function(value, attr) {
+                    var matched = attr.match(QUERY_REG);
+                    if (matched && matched[1] && matched[2]) {
+                        var real, expect, operator, operator1 = matched[1];
+                        real = realMap[matched[2].toLowerCase()], expect = value, ('min' === (operator = operator1) ? real >= expect : 'max' === operator ? real <= expect : real === expect) || (applicatable = !1);
+                    }
+                }), applicatable;
+            })(mediaList[i].query, ecWidth, ecHeight) && indices.push(i);
             return !indices.length && mediaDefault && (indices = [
                 -1
             ]), indices.length && (indices1 = indices, indices2 = this._currentMediaIndices, indices1.join(',') !== indices2.join(',')) && (result = map(indices, function(index) {
                 return clone(-1 === index ? mediaDefault.option : mediaList[index].option);
             })), this._currentMediaIndices = indices, result;
         }, OptionManager;
-    }();
-    function applyMediaQuery(query, ecWidth, ecHeight) {
-        var realMap = {
-            width: ecWidth,
-            height: ecHeight,
-            aspectratio: ecWidth / ecHeight
-        }, applicatable = !0;
-        return each(query, function(value, attr) {
-            var matched = attr.match(QUERY_REG);
-            if (matched && matched[1] && matched[2]) {
-                var real, expect, operator, operator1 = matched[1];
-                real = realMap[matched[2].toLowerCase()], expect = value, ('min' === (operator = operator1) ? real >= expect : 'max' === operator ? real <= expect : real === expect) || (applicatable = !1);
-            }
-        }), applicatable;
-    }
-    var POSSIBLE_STYLES = [
+    }(), POSSIBLE_STYLES = [
         'areaStyle',
         'lineStyle',
         'nodeStyle',
@@ -9624,11 +9584,7 @@
             }
             return this._isEQ ? eqResult : !eqResult;
         }, FilterEqualityComparator;
-    }();
-    function createFilterComparator(op, rval) {
-        return 'eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, rval) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, rval) : null;
-    }
-    var ExternalSource = function() {
+    }(), ExternalSource = function() {
         function ExternalSource() {}
         return ExternalSource.prototype.getRawData = function() {
             throw Error('not supported');
@@ -9668,86 +9624,6 @@
         return clone(dimensions);
     }
     var externalTransformMap = createHashMap();
-    function applySingleDataTransform(transOption, upSourceList, infoForPrint, pipeIndex) {
-        var errMsg = '';
-        upSourceList.length || throwError('Must have at least one upstream dataset.'), isObject(transOption) || throwError('transform declaration must be an object rather than ' + typeof transOption + '.');
-        var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
-        externalTransform || throwError('Can not find transform on type "' + transType + '".');
-        var extUpSourceList = map(upSourceList, function(upSource) {
-            return function(internalSource, externalTransform) {
-                var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex, errMsg = '';
-                internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
-                var dimensions = [], dimsByName = {}, dimsDef = internalSource.dimensionsDefine;
-                if (dimsDef) each(dimsDef, function(dimDef, idx) {
-                    var name = dimDef.name, dimDefExt = {
-                        index: idx,
-                        name: name,
-                        displayName: dimDef.displayName
-                    };
-                    if (dimensions.push(dimDefExt), null != name) {
-                        var errMsg_1 = '';
-                        hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt;
-                    }
-                });
-                else for(var i = 0; i < internalSource.dimensionsDetectedCount; i++)dimensions.push({
-                    index: i
-                });
-                var rawItemGetter = getRawSourceItemGetter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
-                externalTransform.__isBuiltIn && (extSource.getRawDataItem = function(dataIndex) {
-                    return rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
-                }, extSource.getRawData = bind(getRawData, null, internalSource)), extSource.cloneRawData = bind(cloneRawData, null, internalSource);
-                var rawCounter = getRawSourceDataCounter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
-                extSource.count = bind(rawCounter, null, data, sourceHeaderCount, dimensions);
-                var rawValueGetter = getRawSourceValueGetter(sourceFormat);
-                extSource.retrieveValue = function(dataIndex, dimIndex) {
-                    var rawItem = rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
-                    return retrieveValueFromItem(rawItem, dimIndex);
-                };
-                var retrieveValueFromItem = extSource.retrieveValueFromItem = function(dataItem, dimIndex) {
-                    if (null != dataItem) {
-                        var dimDef = dimensions[dimIndex];
-                        if (dimDef) return rawValueGetter(dataItem, dimIndex, dimDef.name);
-                    }
-                };
-                return extSource.getDimensionInfo = bind(getDimensionInfo, null, dimensions, dimsByName), extSource.cloneAllDimensionInfo = bind(cloneAllDimensionInfo, null, dimensions), extSource;
-            }(upSource, externalTransform);
-        }), resultList = normalizeToArray(externalTransform.transform({
-            upstream: extUpSourceList[0],
-            upstreamList: extUpSourceList,
-            config: clone(transOption.config)
-        }));
-        return transOption.print && function() {
-            for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
-            'undefined' != typeof console && console.log && console.log.apply(console, args);
-        }(map(resultList, function(extSource) {
-            return [
-                '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
-                '- transform result data:',
-                makePrintable(extSource.data),
-                '- transform result dimensions:',
-                makePrintable(extSource.dimensions)
-            ].join('\n');
-        }).join('\n')), map(resultList, function(result, resultIndex) {
-            var resultMetaRawOption, errMsg = '';
-            isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined');
-            var sourceFormat = detectSourceFormat(result.data);
-            isSupportedSourceFormat(sourceFormat) || throwError('Transform result data should be array rows or object rows.');
-            var firstUpSource = upSourceList[0];
-            if (firstUpSource && 0 === resultIndex && !result.dimensions) {
-                var startIndex = firstUpSource.startIndex;
-                startIndex && (result.data = firstUpSource.data.slice(0, startIndex).concat(result.data)), resultMetaRawOption = {
-                    seriesLayoutBy: SERIES_LAYOUT_BY_COLUMN,
-                    sourceHeader: startIndex,
-                    dimensions: firstUpSource.metaRawOption.dimensions
-                };
-            } else resultMetaRawOption = {
-                seriesLayoutBy: SERIES_LAYOUT_BY_COLUMN,
-                sourceHeader: 0,
-                dimensions: result.dimensions
-            };
-            return createSource(result.data, resultMetaRawOption, null, null);
-        });
-    }
     function isSupportedSourceFormat(sourceFormat) {
         return sourceFormat === SOURCE_FORMAT_ARRAY_ROWS || sourceFormat === SOURCE_FORMAT_OBJECT_ROWS;
     }
@@ -9803,7 +9679,86 @@
             }), transformOption) ? sourceList = function(rawTransOption, sourceList, infoForPrint) {
                 var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length, errMsg = '';
                 pipeLen || throwError('If `transform` declared, it should at least contain one transform.');
-                for(var i = 0; i < pipeLen; i++)sourceList = applySingleDataTransform(pipedTransOption[i], sourceList, infoForPrint, 1 === pipeLen ? null : i), i !== pipeLen - 1 && (sourceList.length = Math.max(sourceList.length, 1));
+                for(var i = 0; i < pipeLen; i++)sourceList = function(transOption, upSourceList, infoForPrint, pipeIndex) {
+                    var errMsg = '';
+                    upSourceList.length || throwError('Must have at least one upstream dataset.'), isObject(transOption) || throwError('transform declaration must be an object rather than ' + typeof transOption + '.');
+                    var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
+                    externalTransform || throwError('Can not find transform on type "' + transType + '".');
+                    var extUpSourceList = map(upSourceList, function(upSource) {
+                        return function(internalSource, externalTransform) {
+                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex, errMsg = '';
+                            internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
+                            var dimensions = [], dimsByName = {}, dimsDef = internalSource.dimensionsDefine;
+                            if (dimsDef) each(dimsDef, function(dimDef, idx) {
+                                var name = dimDef.name, dimDefExt = {
+                                    index: idx,
+                                    name: name,
+                                    displayName: dimDef.displayName
+                                };
+                                if (dimensions.push(dimDefExt), null != name) {
+                                    var errMsg_1 = '';
+                                    hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt;
+                                }
+                            });
+                            else for(var i = 0; i < internalSource.dimensionsDetectedCount; i++)dimensions.push({
+                                index: i
+                            });
+                            var rawItemGetter = getRawSourceItemGetter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
+                            externalTransform.__isBuiltIn && (extSource.getRawDataItem = function(dataIndex) {
+                                return rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
+                            }, extSource.getRawData = bind(getRawData, null, internalSource)), extSource.cloneRawData = bind(cloneRawData, null, internalSource);
+                            var rawCounter = getRawSourceDataCounter(sourceFormat, SERIES_LAYOUT_BY_COLUMN);
+                            extSource.count = bind(rawCounter, null, data, sourceHeaderCount, dimensions);
+                            var rawValueGetter = getRawSourceValueGetter(sourceFormat);
+                            extSource.retrieveValue = function(dataIndex, dimIndex) {
+                                var rawItem = rawItemGetter(data, sourceHeaderCount, dimensions, dataIndex);
+                                return retrieveValueFromItem(rawItem, dimIndex);
+                            };
+                            var retrieveValueFromItem = extSource.retrieveValueFromItem = function(dataItem, dimIndex) {
+                                if (null != dataItem) {
+                                    var dimDef = dimensions[dimIndex];
+                                    if (dimDef) return rawValueGetter(dataItem, dimIndex, dimDef.name);
+                                }
+                            };
+                            return extSource.getDimensionInfo = bind(getDimensionInfo, null, dimensions, dimsByName), extSource.cloneAllDimensionInfo = bind(cloneAllDimensionInfo, null, dimensions), extSource;
+                        }(upSource, externalTransform);
+                    }), resultList = normalizeToArray(externalTransform.transform({
+                        upstream: extUpSourceList[0],
+                        upstreamList: extUpSourceList,
+                        config: clone(transOption.config)
+                    }));
+                    return transOption.print && function() {
+                        for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
+                        'undefined' != typeof console && console.log && console.log.apply(console, args);
+                    }(map(resultList, function(extSource) {
+                        return [
+                            '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
+                            '- transform result data:',
+                            makePrintable(extSource.data),
+                            '- transform result dimensions:',
+                            makePrintable(extSource.dimensions)
+                        ].join('\n');
+                    }).join('\n')), map(resultList, function(result, resultIndex) {
+                        var resultMetaRawOption, errMsg = '';
+                        isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined');
+                        var sourceFormat = detectSourceFormat(result.data);
+                        isSupportedSourceFormat(sourceFormat) || throwError('Transform result data should be array rows or object rows.');
+                        var firstUpSource = upSourceList[0];
+                        if (firstUpSource && 0 === resultIndex && !result.dimensions) {
+                            var startIndex = firstUpSource.startIndex;
+                            startIndex && (result.data = firstUpSource.data.slice(0, startIndex).concat(result.data)), resultMetaRawOption = {
+                                seriesLayoutBy: SERIES_LAYOUT_BY_COLUMN,
+                                sourceHeader: startIndex,
+                                dimensions: firstUpSource.metaRawOption.dimensions
+                            };
+                        } else resultMetaRawOption = {
+                            seriesLayoutBy: SERIES_LAYOUT_BY_COLUMN,
+                            sourceHeader: 0,
+                            dimensions: result.dimensions
+                        };
+                        return createSource(result.data, resultMetaRawOption, null, null);
+                    });
+                }(pipedTransOption[i], sourceList, infoForPrint, 1 === pipeLen ? null : i), i !== pipeLen - 1 && (sourceList.length = Math.max(sourceList.length, 1));
                 return sourceList;
             }(transformOption, upSourceList, {
                 datasetIndex: datasetModel.componentIndex
@@ -10853,35 +10808,6 @@
         'bottom',
         'left'
     ];
-    function getCandidateAnchor(pos, distance, rect, outPt, outDir) {
-        var width = rect.width, height = rect.height;
-        switch(pos){
-            case 'top':
-                outPt.set(rect.x + width / 2, rect.y - distance), outDir.set(0, -1);
-                break;
-            case 'bottom':
-                outPt.set(rect.x + width / 2, rect.y + height + distance), outDir.set(0, 1);
-                break;
-            case 'left':
-                outPt.set(rect.x - distance, rect.y + height / 2), outDir.set(-1, 0);
-                break;
-            case 'right':
-                outPt.set(rect.x + width + distance, rect.y + height / 2), outDir.set(1, 0);
-        }
-    }
-    function projectPointToArc(cx, cy, r, startAngle, endAngle, anticlockwise, x, y, out) {
-        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y), ox = (x /= d) * r + cx, oy = (y /= d) * r + cy;
-        if (Math.abs(startAngle - endAngle) % PI2$6 < 1e-4) return out[0] = ox, out[1] = oy, d - r;
-        if (anticlockwise) {
-            var tmp = startAngle;
-            startAngle = normalizeRadian(endAngle), endAngle = normalizeRadian(tmp);
-        } else startAngle = normalizeRadian(startAngle), endAngle = normalizeRadian(endAngle);
-        startAngle > endAngle && (endAngle += PI2$6);
-        var angle = Math.atan2(y, x);
-        if (angle < 0 && (angle += PI2$6), angle >= startAngle && angle <= endAngle || angle + PI2$6 >= startAngle && angle + PI2$6 <= endAngle) return out[0] = ox, out[1] = oy, d - r;
-        var x1 = r * Math.cos(startAngle) + cx, y1 = r * Math.sin(startAngle) + cy, x2 = r * Math.cos(endAngle) + cx, y2 = r * Math.sin(endAngle) + cy, d1 = (x1 - x) * (x1 - x) + (y1 - y) * (y1 - y), d2 = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
-        return d1 < d2 ? (out[0] = x1, out[1] = y1, Math.sqrt(d1)) : (out[0] = x2, out[1] = y2, Math.sqrt(d2));
-    }
     function projectPointToLine(x1, y1, x2, y2, x, y, out, limitToEnds) {
         var dx1 = x2 - x1, dy1 = y2 - y1, lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1), t = ((x - x1) * (dx1 /= lineLen) + (y - y1) * (dy1 /= lineLen)) / lineLen;
         limitToEnds && (t = Math.min(Math.max(t, 0), 1)), t *= lineLen;
@@ -10893,48 +10819,7 @@
         var x2 = x1 + width, y2 = y1 + height, ox = out[0] = Math.min(Math.max(x, x1), x2), oy = out[1] = Math.min(Math.max(y, y1), y2);
         return Math.sqrt((ox - x) * (ox - x) + (oy - y) * (oy - y));
     }
-    var tmpPt = [];
-    function nearestPointOnRect(pt, rect, out) {
-        var dist = projectPointToRect(rect.x, rect.y, rect.width, rect.height, pt.x, pt.y, tmpPt);
-        return out.set(tmpPt[0], tmpPt[1]), dist;
-    }
-    function nearestPointOnPath(pt, path, out) {
-        for(var x1, y1, xi = 0, yi = 0, x0 = 0, y0 = 0, minDist = 1 / 0, data = path.data, x = pt.x, y = pt.y, i = 0; i < data.length;){
-            var cmd = data[i++];
-            1 === i && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi);
-            var d = minDist;
-            switch(cmd){
-                case CMD$3.M:
-                    x0 = data[i++], y0 = data[i++], xi = x0, yi = y0;
-                    break;
-                case CMD$3.L:
-                    d = projectPointToLine(xi, yi, data[i], data[i + 1], x, y, tmpPt, !0), xi = data[i++], yi = data[i++];
-                    break;
-                case CMD$3.C:
-                    d = cubicProjectPoint(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt), xi = data[i++], yi = data[i++];
-                    break;
-                case CMD$3.Q:
-                    d = quadraticProjectPoint(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt), xi = data[i++], yi = data[i++];
-                    break;
-                case CMD$3.A:
-                    var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], theta = data[i++], dTheta = data[i++];
-                    i += 1;
-                    var anticlockwise = !!(1 - data[i++]);
-                    x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, i <= 1 && (x0 = x1, y0 = y1);
-                    var _x = (x - cx) * ry / rx + cx;
-                    d = projectPointToArc(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt), xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
-                    break;
-                case CMD$3.R:
-                    x0 = xi = data[i++], y0 = yi = data[i++], d = projectPointToRect(x0, y0, data[i++], data[i++], x, y, tmpPt);
-                    break;
-                case CMD$3.Z:
-                    d = projectPointToLine(xi, yi, x0, y0, x, y, tmpPt, !0), xi = x0, yi = y0;
-            }
-            d < minDist && (minDist = d, out.set(tmpPt[0], tmpPt[1]));
-        }
-        return minDist;
-    }
-    var pt0 = new Point(), pt1 = new Point(), pt2 = new Point(), dir = new Point(), dir2 = new Point();
+    var tmpPt = [], pt0 = new Point(), pt1 = new Point(), pt2 = new Point(), dir = new Point(), dir2 = new Point();
     function updateLabelLinePoints(target, labelLineModel) {
         if (target) {
             var labelLine = target.getTextGuideLine(), label = target.getTextContent();
@@ -10957,8 +10842,73 @@
                 var minDist = 1 / 0, anchorPoint = labelGuideConfig.anchor, targetTransform = target.getComputedTransform(), targetInversedTransform = targetTransform && invert([], targetTransform), len = labelLineModel.get('length2') || 0;
                 anchorPoint && pt2.copy(anchorPoint);
                 for(var i = 0; i < searchSpace.length; i++){
-                    getCandidateAnchor(searchSpace[i], 0, labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
-                    var boundingRect = target.getBoundingRect(), dist = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path ? nearestPointOnPath(pt1, target.path, pt2) : nearestPointOnRect(pt1, boundingRect, pt2);
+                    !function(pos, distance, rect, outPt, outDir) {
+                        var width = rect.width, height = rect.height;
+                        switch(pos){
+                            case 'top':
+                                outPt.set(rect.x + width / 2, rect.y - distance), outDir.set(0, -1);
+                                break;
+                            case 'bottom':
+                                outPt.set(rect.x + width / 2, rect.y + height + distance), outDir.set(0, 1);
+                                break;
+                            case 'left':
+                                outPt.set(rect.x - distance, rect.y + height / 2), outDir.set(-1, 0);
+                                break;
+                            case 'right':
+                                outPt.set(rect.x + width + distance, rect.y + height / 2), outDir.set(1, 0);
+                        }
+                    }(searchSpace[i], 0, labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
+                    var boundingRect = target.getBoundingRect(), dist = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path ? function(pt, path, out) {
+                        for(var x1, y1, xi = 0, yi = 0, x0 = 0, y0 = 0, minDist = 1 / 0, data = path.data, x = pt.x, y = pt.y, i = 0; i < data.length;){
+                            var cmd = data[i++];
+                            1 === i && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi);
+                            var d = minDist;
+                            switch(cmd){
+                                case CMD$3.M:
+                                    x0 = data[i++], y0 = data[i++], xi = x0, yi = y0;
+                                    break;
+                                case CMD$3.L:
+                                    d = projectPointToLine(xi, yi, data[i], data[i + 1], x, y, tmpPt, !0), xi = data[i++], yi = data[i++];
+                                    break;
+                                case CMD$3.C:
+                                    d = cubicProjectPoint(xi, yi, data[i++], data[i++], data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt), xi = data[i++], yi = data[i++];
+                                    break;
+                                case CMD$3.Q:
+                                    d = quadraticProjectPoint(xi, yi, data[i++], data[i++], data[i], data[i + 1], x, y, tmpPt), xi = data[i++], yi = data[i++];
+                                    break;
+                                case CMD$3.A:
+                                    var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], theta = data[i++], dTheta = data[i++];
+                                    i += 1;
+                                    var anticlockwise = !!(1 - data[i++]);
+                                    x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, i <= 1 && (x0 = x1, y0 = y1);
+                                    var _x = (x - cx) * ry / rx + cx;
+                                    d = function(cx, cy, r, startAngle, endAngle, anticlockwise, x, y, out) {
+                                        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y), ox = (x /= d) * r + cx, oy = (y /= d) * r + cy;
+                                        if (Math.abs(startAngle - endAngle) % PI2$6 < 1e-4) return out[0] = ox, out[1] = oy, d - r;
+                                        if (anticlockwise) {
+                                            var tmp = startAngle;
+                                            startAngle = normalizeRadian(endAngle), endAngle = normalizeRadian(tmp);
+                                        } else startAngle = normalizeRadian(startAngle), endAngle = normalizeRadian(endAngle);
+                                        startAngle > endAngle && (endAngle += PI2$6);
+                                        var angle = Math.atan2(y, x);
+                                        if (angle < 0 && (angle += PI2$6), angle >= startAngle && angle <= endAngle || angle + PI2$6 >= startAngle && angle + PI2$6 <= endAngle) return out[0] = ox, out[1] = oy, d - r;
+                                        var x1 = r * Math.cos(startAngle) + cx, y1 = r * Math.sin(startAngle) + cy, x2 = r * Math.cos(endAngle) + cx, y2 = r * Math.sin(endAngle) + cy, d1 = (x1 - x) * (x1 - x) + (y1 - y) * (y1 - y), d2 = (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
+                                        return d1 < d2 ? (out[0] = x1, out[1] = y1, Math.sqrt(d1)) : (out[0] = x2, out[1] = y2, Math.sqrt(d2));
+                                    }(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt), xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
+                                    break;
+                                case CMD$3.R:
+                                    x0 = xi = data[i++], y0 = yi = data[i++], d = projectPointToRect(x0, y0, data[i++], data[i++], x, y, tmpPt);
+                                    break;
+                                case CMD$3.Z:
+                                    d = projectPointToLine(xi, yi, x0, y0, x, y, tmpPt, !0), xi = x0, yi = y0;
+                            }
+                            d < minDist && (minDist = d, out.set(tmpPt[0], tmpPt[1]));
+                        }
+                        return minDist;
+                    }(pt1, target.path, pt2) : function(pt, rect, out) {
+                        var dist = projectPointToRect(rect.x, rect.y, rect.width, rect.height, pt.x, pt.y, tmpPt);
+                        return out.set(tmpPt[0], tmpPt[1]), dist;
+                    }(pt1, boundingRect, pt2);
                     dist < minDist && (minDist = dist, pt1.transform(targetTransform), pt2.transform(targetTransform), pt2.toArray(points[0]), pt1.toArray(points[1]), pt0.toArray(points[2]));
                 }
                 limitTurnAngle(points, labelLineModel.get('minTurnAngle')), labelLine.setShape({
@@ -10982,25 +10932,6 @@
                     if (isNaN(t)) return;
                     t < 0 ? Point.copy(tmpProjPoint, pt1) : t > 1 && Point.copy(tmpProjPoint, pt2), tmpProjPoint.toArray(linePoints[1]);
                 }
-            }
-        }
-    }
-    function limitSurfaceAngle(linePoints, surfaceNormal, maxSurfaceAngle) {
-        if (maxSurfaceAngle <= 180 && maxSurfaceAngle > 0) {
-            maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI, pt0.fromArray(linePoints[0]), pt1.fromArray(linePoints[1]), pt2.fromArray(linePoints[2]), Point.sub(dir, pt1, pt0), Point.sub(dir2, pt2, pt1);
-            var len1 = dir.len(), len2 = dir2.len();
-            if (!(len1 < 1e-3) && !(len2 < 1e-3) && (dir.scale(1 / len1), dir2.scale(1 / len2), dir.dot(surfaceNormal) < Math.cos(maxSurfaceAngle))) {
-                var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, !1);
-                tmpProjPoint.fromArray(tmpArr);
-                var HALF_PI = Math.PI / 2, newAngle = HALF_PI + Math.acos(dir2.dot(surfaceNormal)) - maxSurfaceAngle;
-                if (newAngle >= HALF_PI) Point.copy(tmpProjPoint, pt2);
-                else {
-                    tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle));
-                    var t = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
-                    if (isNaN(t)) return;
-                    t < 0 ? Point.copy(tmpProjPoint, pt1) : t > 1 && Point.copy(tmpProjPoint, pt2);
-                }
-                tmpProjPoint.toArray(linePoints[1]);
             }
         }
     }
@@ -11121,25 +11052,6 @@
     function shiftLayoutOnY(list, topBound, bottomBound, balanceShift) {
         return shiftLayout(list, 'y', 'height', topBound, bottomBound, balanceShift);
     }
-    function prepareLayoutCallbackParams(labelItem, hostEl) {
-        var label = labelItem.label, labelLine = hostEl && hostEl.getTextGuideLine();
-        return {
-            dataIndex: labelItem.dataIndex,
-            dataType: labelItem.dataType,
-            seriesIndex: labelItem.seriesModel.seriesIndex,
-            text: labelItem.label.style.text,
-            rect: labelItem.hostRect,
-            labelRect: labelItem.rect,
-            align: label.style.align,
-            verticalAlign: label.style.verticalAlign,
-            labelLinePoints: function(points) {
-                if (points) {
-                    for(var newPoints = [], i = 0; i < points.length; i++)newPoints.push(points[i].slice());
-                    return newPoints;
-                }
-            }(labelLine && labelLine.shape.points)
-        };
-    }
     var LABEL_OPTION_TO_STYLE_KEYS = [
         'align',
         'verticalAlign',
@@ -11216,15 +11128,27 @@
                 textEl && !textEl.disableLabelLayout && _this._addLabel(ecData.dataIndex, ecData.dataType, seriesModel, textEl, layoutOption);
             });
         }, LabelManager.prototype.updateLayoutConfig = function(api) {
-            var width = api.getWidth(), height = api.getHeight();
-            function createDragHandler(el, labelLineModel) {
-                return function() {
-                    updateLabelLinePoints(el, labelLineModel);
-                };
-            }
-            for(var i = 0; i < this._labelList.length; i++){
+            for(var width = api.getWidth(), height = api.getHeight(), i = 0; i < this._labelList.length; i++){
                 var labelItem = this._labelList[i], label = labelItem.label, hostEl = label.__hostTarget, defaultLabelAttr = labelItem.defaultAttr, layoutOption = void 0;
-                layoutOption = (layoutOption = 'function' == typeof labelItem.layoutOption ? labelItem.layoutOption(prepareLayoutCallbackParams(labelItem, hostEl)) : labelItem.layoutOption) || {}, labelItem.computedLayoutOption = layoutOption;
+                layoutOption = (layoutOption = 'function' == typeof labelItem.layoutOption ? labelItem.layoutOption(function(labelItem, hostEl) {
+                    var label = labelItem.label, labelLine = hostEl && hostEl.getTextGuideLine();
+                    return {
+                        dataIndex: labelItem.dataIndex,
+                        dataType: labelItem.dataType,
+                        seriesIndex: labelItem.seriesModel.seriesIndex,
+                        text: labelItem.label.style.text,
+                        rect: labelItem.hostRect,
+                        labelRect: labelItem.rect,
+                        align: label.style.align,
+                        verticalAlign: label.style.verticalAlign,
+                        labelLinePoints: function(points) {
+                            if (points) {
+                                for(var newPoints = [], i = 0; i < points.length; i++)newPoints.push(points[i].slice());
+                                return newPoints;
+                            }
+                        }(labelLine && labelLine.shape.points)
+                    };
+                }(labelItem, hostEl)) : labelItem.layoutOption) || {}, labelItem.computedLayoutOption = layoutOption;
                 var degreeToRadian = Math.PI / 180;
                 hostEl && hostEl.setTextConfig({
                     local: !1,
@@ -11250,7 +11174,11 @@
                 if (layoutOption.draggable) {
                     if (label.draggable = !0, label.cursor = 'move', hostEl) {
                         var hostModel = labelItem.seriesModel;
-                        null != labelItem.dataIndex && (hostModel = labelItem.seriesModel.getData(labelItem.dataType).getItemModel(labelItem.dataIndex)), label.on('drag', createDragHandler(hostEl, hostModel.getModel('labelLine')));
+                        null != labelItem.dataIndex && (hostModel = labelItem.seriesModel.getData(labelItem.dataType).getItemModel(labelItem.dataIndex)), label.on('drag', function(el, labelLineModel) {
+                            return function() {
+                                updateLabelLinePoints(el, labelLineModel);
+                            };
+                        }(hostEl, hostModel.getModel('labelLine')));
                     }
                 } else label.off('drag'), label.cursor = defaultLabelAttr.cursor;
             }
@@ -11929,17 +11857,16 @@
                             if (xSum <= 0) break;
                             if (xId1 % 2 == 0) {
                                 var size = (1 - decalOpt.symbolSize) * 0.5, left = x + dashArrayX[xId0][xId1] * size, top_1 = y + dashArrayY[yId] * size, width = dashArrayX[xId0][xId1] * decalOpt.symbolSize, height = dashArrayY[yId] * decalOpt.symbolSize, symbolXId = xId1Total / 2 % symbolArray[symbolYId].length;
-                                brushSymbol(left, top_1, width, height, symbolArray[symbolYId][symbolXId]);
+                                (function(x, y, width, height, symbolType) {
+                                    var scale = isSVG ? 1 : dpr, symbol = createSymbol(symbolType, x * scale, y * scale, width * scale, height * scale, decalOpt.color, decalOpt.symbolKeepAspect);
+                                    isSVG ? svgRoot.appendChild(zr.painter.paintOne(symbol)) : brushSingle(ctx, symbol);
+                                })(left, top_1, width, height, symbolArray[symbolYId][symbolXId]);
                             }
                             x += dashArrayX[xId0][xId1], ++xId1Total, ++xId1 === dashArrayX[xId0].length && (xId1 = 0);
                         }
                         ++xId0 === dashArrayX.length && (xId0 = 0);
                     }
                     y += dashArrayY[yId], ++yIdTotal, ++yId === dashArrayY.length && (yId = 0);
-                }
-                function brushSymbol(x, y, width, height, symbolType) {
-                    var scale = isSVG ? 1 : dpr, symbol = createSymbol(symbolType, x * scale, y * scale, width * scale, height * scale, decalOpt.color, decalOpt.symbolKeepAspect);
-                    isSVG ? svgRoot.appendChild(zr.painter.paintOne(symbol)) : brushSingle(ctx, symbol);
                 }
             }(), isValidKey && decalCache.put(cacheKey, canvas || svgRoot), pattern.image = canvas, pattern.svgElement = svgRoot, pattern.svgWidth = pSize.width, pattern.svgHeight = pSize.height;
         }(pattern), pattern.rotation = decalOpt.rotation, pattern.scaleX = pattern.scaleY = isSVG ? 1 : 1 / dpr, decalMap.set(decalObject, pattern), decalObject.dirty = !1, pattern;
@@ -13832,12 +13759,6 @@
         var dom1, key;
         return instances$1[dom.getAttribute ? dom.getAttribute(DOM_ATTRIBUTE_KEY) : dom[DOM_ATTRIBUTE_KEY]];
     }
-    function getInstanceById(key) {
-        return instances$1[key];
-    }
-    function registerTheme(name, theme) {
-        themeStorage[name] = theme;
-    }
     function registerPreprocessor(preprocessorFunc) {
         0 > indexOf(optionPreprocessorFuncs, preprocessorFunc) && optionPreprocessorFuncs.push(preprocessorFunc);
     }
@@ -14759,10 +14680,6 @@
             function getDimValueSimply(dataItem, dimName, dataIndex, dimIndex) {
                 return parseDataValue(dataItem[dimIndex], this._dimensionInfos[dimName]);
             }
-            function cloneChunk(originalChunk) {
-                var Ctor = originalChunk.constructor;
-                return Ctor === Array ? originalChunk.slice() : new Ctor(originalChunk);
-            }
             defaultDimValueGetters = {
                 arrayRows: getDimValueSimply,
                 objectRows: function(dataItem, dimName, dataIndex, dimIndex) {
@@ -14818,7 +14735,10 @@
                 transferProperties(list, original);
                 for(var storage = list._storage = {}, originalStorage = original._storage, storageArr = list._storageArr = [], i = 0; i < allDimensions.length; i++){
                     var dim = allDimensions[i];
-                    originalStorage[dim] && (indexOf(excludeDimensions, dim) >= 0 ? (storage[dim] = cloneChunk(originalStorage[dim]), list._rawExtent[dim] = getInitialExtent(), list._extent[dim] = null) : storage[dim] = originalStorage[dim], storageArr.push(storage[dim]));
+                    originalStorage[dim] && (indexOf(excludeDimensions, dim) >= 0 ? (storage[dim] = function(originalChunk) {
+                        var Ctor = originalChunk.constructor;
+                        return Ctor === Array ? originalChunk.slice() : new Ctor(originalChunk);
+                    }(originalStorage[dim]), list._rawExtent[dim] = getInitialExtent(), list._extent[dim] = null) : storage[dim] = originalStorage[dim], storageArr.push(storage[dim]));
                 }
                 return list;
             }, getInitialExtent = function() {
@@ -14854,17 +14774,17 @@
     function createDimensions(source, opt) {
         return function(sysDims, source, opt) {
             isSourceInstance(source) || (source = createSourceFromSeriesDataOption(source)), opt = opt || {}, sysDims = (sysDims || []).slice();
-            for(var source1, sysDims1, dimsDef, optDimCount, dimCount, dimsDef1 = (opt.dimsDef || []).slice(), dataDimNameMap = createHashMap(), coordDimNameMap = createHashMap(), result = [], dimCount1 = (source1 = source, sysDims1 = sysDims, dimsDef = dimsDef1, optDimCount = opt.dimCount, dimCount = Math.max(source1.dimensionsDetectedCount || 1, sysDims1.length, dimsDef.length, optDimCount || 0), each(sysDims1, function(sysDimItem) {
+            for(var dimsDef = (opt.dimsDef || []).slice(), dataDimNameMap = createHashMap(), coordDimNameMap = createHashMap(), result = [], dimCount = (source1 = source, sysDims1 = sysDims, dimsDef1 = dimsDef, optDimCount = opt.dimCount, dimCount1 = Math.max(source1.dimensionsDetectedCount || 1, sysDims1.length, dimsDef1.length, optDimCount || 0), each(sysDims1, function(sysDimItem) {
                 var sysDimItemDimsDef;
-                isObject(sysDimItem) && (sysDimItemDimsDef = sysDimItem.dimsDef) && (dimCount = Math.max(dimCount, sysDimItemDimsDef.length));
-            }), dimCount), i = 0; i < dimCount1; i++){
-                var dimDefItemRaw = dimsDef1[i], dimDefItem = dimsDef1[i] = extend({}, isObject(dimDefItemRaw) ? dimDefItemRaw : {
+                isObject(sysDimItem) && (sysDimItemDimsDef = sysDimItem.dimsDef) && (dimCount1 = Math.max(dimCount1, sysDimItemDimsDef.length));
+            }), dimCount1), i = 0; i < dimCount; i++){
+                var dimDefItemRaw = dimsDef[i], dimDefItem = dimsDef[i] = extend({}, isObject(dimDefItemRaw) ? dimDefItemRaw : {
                     name: dimDefItemRaw
                 }), userDimName = dimDefItem.name, resultItem = result[i] = new DataDimensionInfo();
                 null != userDimName && null == dataDimNameMap.get(userDimName) && (resultItem.name = resultItem.displayName = userDimName, dataDimNameMap.set(userDimName, i)), null != dimDefItem.type && (resultItem.type = dimDefItem.type), null != dimDefItem.displayName && (resultItem.displayName = dimDefItem.displayName);
             }
             var encodeDef = opt.encodeDef;
-            !encodeDef && opt.encodeDefaulter && (encodeDef = opt.encodeDefaulter(source, dimCount1));
+            !encodeDef && opt.encodeDefaulter && (encodeDef = opt.encodeDefaulter(source, dimCount));
             var encodeDefMap = createHashMap(encodeDef);
             encodeDefMap.each(function(dataDimsRaw, coordDim) {
                 var dataDims = normalizeToArray(dataDimsRaw).slice();
@@ -14875,7 +14795,7 @@
                 var validDataDims = encodeDefMap.set(coordDim, []);
                 each(dataDims, function(resultDimIdxOrName, idx) {
                     var resultDimIdx = isString(resultDimIdxOrName) ? dataDimNameMap.get(resultDimIdxOrName) : resultDimIdxOrName;
-                    null != resultDimIdx && resultDimIdx < dimCount1 && (validDataDims[idx] = resultDimIdx, applyDim(result[resultDimIdx], coordDim, idx));
+                    null != resultDimIdx && resultDimIdx < dimCount && (validDataDims[idx] = resultDimIdx, applyDim(result[resultDimIdx], coordDim, idx));
                 });
             });
             var availDimIdx = 0;
@@ -14909,9 +14829,9 @@
             });
             var generateCoord = opt.generateCoord, generateCoordCount = opt.generateCoordCount, fromZero = null != generateCoordCount;
             generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
-            for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount1; resultDimIdx++){
-                var resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
-                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (guessOrdinal(source, resultDimIdx) === BE_ORDINAL.Must || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
+            for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++){
+                var source1, sysDims1, dimsDef1, optDimCount, dimCount1, source2, dimIndex, resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
+                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) === BE_ORDINAL.Must || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
             }
             return result;
         }((opt = opt || {}).coordDimensions || [], source, {
@@ -15522,120 +15442,116 @@
                 level: 0
             });
             var useUTC = this.getSetting('useUTC'), innerTicks = function(bottomUnitName, approxInterval, isUTC, extent) {
-                var iter = 0;
-                function addTicksInSpan(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
-                    for(var date = new Date(minTimestamp), dateTime = minTimestamp, d = date[getMethodName](); dateTime < maxTimestamp && dateTime <= extent[1];)out.push({
-                        value: dateTime
-                    }), d += interval, date[setMethodName](d), dateTime = date.getTime();
-                    out.push({
-                        value: dateTime,
-                        notAdd: !0
-                    });
-                }
-                function addLevelTicks(unitName, lastLevelTicks, levelTicks) {
-                    var newAddedTicks = [], isFirstLevel = !lastLevelTicks.length;
-                    if (!function(unit, valueA, valueB, isUTC) {
-                        var dateA = parseDate(valueA), dateB = parseDate(valueB), isSame = function(unit) {
-                            return getUnitValue(dateA, unit, isUTC) === getUnitValue(dateB, unit, isUTC);
-                        }, isSameYear = function() {
-                            return isSame('year');
-                        }, isSameMonth = function() {
-                            return isSameYear() && isSame('month');
-                        }, isSameDay = function() {
-                            return isSameMonth() && isSame('day');
-                        }, isSameHour = function() {
-                            return isSameDay() && isSame('hour');
-                        }, isSameMinute = function() {
-                            return isSameHour() && isSame('minute');
-                        }, isSameSecond = function() {
-                            return isSameMinute() && isSame('second');
-                        };
-                        switch(unit){
-                            case 'year':
-                                return isSameYear();
-                            case 'month':
-                                return isSameMonth();
-                            case 'day':
-                                return isSameDay();
-                            case 'hour':
-                                return isSameHour();
-                            case 'minute':
-                                return isSameMinute();
-                            case 'second':
-                                return isSameSecond();
-                            case 'millisecond':
-                                return isSameSecond() && isSame('millisecond');
-                        }
-                    }(getPrimaryTimeUnit(unitName), extent[0], extent[1], isUTC)) {
-                        isFirstLevel && (lastLevelTicks = [
-                            {
-                                value: function(date, unitName, isUTC) {
-                                    var outDate = new Date(date);
-                                    switch(getPrimaryTimeUnit(unitName)){
-                                        case 'year':
-                                        case 'month':
-                                            outDate[monthSetterName(isUTC)](0);
-                                        case 'day':
-                                            outDate[dateSetterName(isUTC)](1);
-                                        case 'hour':
-                                            outDate[hoursSetterName(isUTC)](0);
-                                        case 'minute':
-                                            outDate[minutesSetterName(isUTC)](0);
-                                        case 'second':
-                                            outDate[secondsSetterName(isUTC)](0), outDate[millisecondsSetterName(isUTC)](0);
-                                    }
-                                    return outDate.getTime();
-                                }(new Date(extent[0]), unitName, isUTC)
-                            },
-                            {
-                                value: extent[1]
-                            }
-                        ]);
-                        for(var i = 0; i < lastLevelTicks.length - 1; i++){
-                            var startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
-                            if (startTick !== endTick) {
-                                var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
-                                switch(unitName){
+                for(var iter = 0, levelsTicks = [], currentLevelTicks = [], tickCount = 0, lastLevelTickCount = 0, i = 0; i < timeUnits.length && iter++ < 10000; ++i){
+                    var timeUnit, primaryTimeUnit = getPrimaryTimeUnit(timeUnits[i]);
+                    if ((timeUnit = timeUnits[i]) === getPrimaryTimeUnit(timeUnit)) {
+                        !function(unitName, lastLevelTicks, levelTicks) {
+                            var newAddedTicks = [], isFirstLevel = !lastLevelTicks.length;
+                            if (!function(unit, valueA, valueB, isUTC) {
+                                var dateA = parseDate(valueA), dateB = parseDate(valueB), isSame = function(unit) {
+                                    return getUnitValue(dateA, unit, isUTC) === getUnitValue(dateB, unit, isUTC);
+                                }, isSameYear = function() {
+                                    return isSame('year');
+                                }, isSameMonth = function() {
+                                    return isSameYear() && isSame('month');
+                                }, isSameDay = function() {
+                                    return isSameMonth() && isSame('day');
+                                }, isSameHour = function() {
+                                    return isSameDay() && isSame('hour');
+                                }, isSameMinute = function() {
+                                    return isSameHour() && isSame('minute');
+                                }, isSameSecond = function() {
+                                    return isSameMinute() && isSame('second');
+                                };
+                                switch(unit){
                                     case 'year':
-                                        interval = Math.max(1, Math.round(approxInterval / ONE_DAY / 365)), getterName = fullYearGetterName(isUTC), setterName = fullYearSetterName(isUTC);
-                                        break;
-                                    case 'half-year':
-                                    case 'quarter':
+                                        return isSameYear();
                                     case 'month':
-                                        interval = getMonthInterval(approxInterval), getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
-                                        break;
-                                    case 'week':
-                                    case 'half-week':
+                                        return isSameMonth();
                                     case 'day':
-                                        interval = getDateInterval(approxInterval), getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
-                                        break;
-                                    case 'half-day':
-                                    case 'quarter-day':
+                                        return isSameDay();
                                     case 'hour':
-                                        interval = getHourInterval(approxInterval), getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
-                                        break;
+                                        return isSameHour();
                                     case 'minute':
-                                        interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
-                                        break;
+                                        return isSameMinute();
                                     case 'second':
-                                        interval = getMinutesAndSecondsInterval(approxInterval, !1), getterName = secondsGetterName(isUTC), setterName = secondsSetterName(isUTC);
-                                        break;
+                                        return isSameSecond();
                                     case 'millisecond':
-                                        interval = getMillisecondsInterval(approxInterval), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
+                                        return isSameSecond() && isSame('millisecond');
                                 }
-                                addTicksInSpan(interval, startTick, endTick, getterName, setterName, isDate, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
-                                    value: levelTicks[0].value - interval
-                                });
+                            }(getPrimaryTimeUnit(unitName), extent[0], extent[1], isUTC)) {
+                                isFirstLevel && (lastLevelTicks = [
+                                    {
+                                        value: function(date, unitName, isUTC) {
+                                            var outDate = new Date(date);
+                                            switch(getPrimaryTimeUnit(unitName)){
+                                                case 'year':
+                                                case 'month':
+                                                    outDate[monthSetterName(isUTC)](0);
+                                                case 'day':
+                                                    outDate[dateSetterName(isUTC)](1);
+                                                case 'hour':
+                                                    outDate[hoursSetterName(isUTC)](0);
+                                                case 'minute':
+                                                    outDate[minutesSetterName(isUTC)](0);
+                                                case 'second':
+                                                    outDate[secondsSetterName(isUTC)](0), outDate[millisecondsSetterName(isUTC)](0);
+                                            }
+                                            return outDate.getTime();
+                                        }(new Date(extent[0]), unitName, isUTC)
+                                    },
+                                    {
+                                        value: extent[1]
+                                    }
+                                ]);
+                                for(var i = 0; i < lastLevelTicks.length - 1; i++){
+                                    var approxInterval1, approxInterval2, approxInterval3, approxInterval4, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
+                                    if (startTick !== endTick) {
+                                        var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
+                                        switch(unitName){
+                                            case 'year':
+                                                interval = Math.max(1, Math.round(approxInterval / ONE_DAY / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
+                                                break;
+                                            case 'half-year':
+                                            case 'quarter':
+                                            case 'month':
+                                                approxInterval1 = approxInterval, interval = (approxInterval1 /= 30 * ONE_DAY) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
+                                                break;
+                                            case 'week':
+                                            case 'half-week':
+                                            case 'day':
+                                                approxInterval2 = approxInterval, interval = (approxInterval2 /= ONE_DAY) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
+                                                break;
+                                            case 'half-day':
+                                            case 'quarter-day':
+                                            case 'hour':
+                                                approxInterval3 = approxInterval, interval = (approxInterval3 /= ONE_HOUR) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
+                                                break;
+                                            case 'minute':
+                                                interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
+                                                break;
+                                            case 'second':
+                                                interval = getMinutesAndSecondsInterval(approxInterval, !1), getterName = secondsGetterName(isUTC), setterName = secondsSetterName(isUTC);
+                                                break;
+                                            case 'millisecond':
+                                                approxInterval4 = approxInterval, interval = nice(approxInterval4, !0), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
+                                        }
+                                        (function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
+                                            for(var date = new Date(minTimestamp), dateTime = minTimestamp, d = date[getMethodName](); dateTime < maxTimestamp && dateTime <= extent[1];)out.push({
+                                                value: dateTime
+                                            }), d += interval, date[setMethodName](d), dateTime = date.getTime();
+                                            out.push({
+                                                value: dateTime,
+                                                notAdd: !0
+                                            });
+                                        })(interval, startTick, endTick, getterName, setterName, isDate, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
+                                            value: levelTicks[0].value - interval
+                                        });
+                                    }
+                                }
+                                for(var i = 0; i < newAddedTicks.length; i++)levelTicks.push(newAddedTicks[i]);
                             }
-                        }
-                        for(var i = 0; i < newAddedTicks.length; i++)levelTicks.push(newAddedTicks[i]);
-                        return newAddedTicks;
-                    }
-                }
-                for(var levelsTicks = [], currentLevelTicks = [], tickCount = 0, lastLevelTickCount = 0, i = 0; i < timeUnits.length && iter++ < 10000; ++i){
-                    var primaryTimeUnit = getPrimaryTimeUnit(timeUnits[i]);
-                    if (isPrimaryTimeUnit(timeUnits[i])) {
-                        addLevelTicks(timeUnits[i], levelsTicks[levelsTicks.length - 1] || [], currentLevelTicks);
+                        }(timeUnits[i], levelsTicks[levelsTicks.length - 1] || [], currentLevelTicks);
                         var nextPrimaryTimeUnit = timeUnits[i + 1] ? getPrimaryTimeUnit(timeUnits[i + 1]) : null;
                         if (primaryTimeUnit !== nextPrimaryTimeUnit) {
                             if (currentLevelTicks.length) {
@@ -15746,20 +15662,8 @@
             ONE_YEAR
         ]
     ];
-    function getDateInterval(approxInterval, daysInMonth) {
-        return (approxInterval /= ONE_DAY) > 16 ? 16 : approxInterval > 7.5 ? 7 : approxInterval > 3.5 ? 4 : approxInterval > 1.5 ? 2 : 1;
-    }
-    function getMonthInterval(approxInterval) {
-        return (approxInterval /= 30 * ONE_DAY) > 6 ? 6 : approxInterval > 3 ? 3 : approxInterval > 2 ? 2 : 1;
-    }
-    function getHourInterval(approxInterval) {
-        return (approxInterval /= ONE_HOUR) > 12 ? 12 : approxInterval > 6 ? 6 : approxInterval > 3.5 ? 4 : approxInterval > 2 ? 2 : 1;
-    }
     function getMinutesAndSecondsInterval(approxInterval, isMinutes) {
         return (approxInterval /= isMinutes ? 60000 : 1000) > 30 ? 30 : approxInterval > 20 ? 20 : approxInterval > 15 ? 15 : approxInterval > 10 ? 10 : approxInterval > 5 ? 5 : approxInterval > 2 ? 2 : 1;
-    }
-    function getMillisecondsInterval(approxInterval) {
-        return nice(approxInterval, !0);
     }
     Scale.registerClass(TimeScale);
     var scaleProto = Scale.prototype, intervalScaleProto = IntervalScale.prototype, mathFloor$1 = Math.floor, mathCeil = Math.ceil, mathPow$1 = Math.pow, mathLog = Math.log, LogScale = function(_super) {
@@ -15978,10 +15882,6 @@
     }
     function getAxisRawValue(axis, tick) {
         return 'category' === axis.type ? axis.scale.getLabel(tick) : tick.value;
-    }
-    function rotateTextRect(textRect, rotate) {
-        var rotateRadians = rotate * Math.PI / 180, beforeWidth = textRect.width, beforeHeight = textRect.height;
-        return new BoundingRect(textRect.x, textRect.y, beforeWidth * Math.abs(Math.cos(rotateRadians)) + Math.abs(beforeHeight * Math.sin(rotateRadians)), beforeWidth * Math.abs(Math.sin(rotateRadians)) + Math.abs(beforeHeight * Math.cos(rotateRadians)));
     }
     function getOptionCategoryInterval(model) {
         var interval = model.get('interval');
@@ -16349,25 +16249,6 @@
             removed: removed,
             indices: []
         });
-    }
-    function buildValues(components) {
-        for(var componentPos = 0, componentLen = components.length, newPos = 0, oldPos = 0; componentPos < componentLen; componentPos++){
-            var component = components[componentPos];
-            if (component.removed) {
-                for(var i = oldPos; i < oldPos + component.count; i++)component.indices.push(i);
-                oldPos += component.count;
-            } else {
-                for(var indices = [], i = newPos; i < newPos + component.count; i++)indices.push(i);
-                component.indices = indices, newPos += component.count, component.added || (oldPos += component.count);
-            }
-        }
-        return components;
-    }
-    function clonePath(path) {
-        return {
-            newPos: path.newPos,
-            components: path.components.slice(0)
-        };
     }
     var NONE = 'none', mathRound = Math.round, mathSin$4 = Math.sin, mathCos$4 = Math.cos, PI$4 = Math.PI, PI2$7 = 2 * Math.PI, degree = 180 / PI$4;
     function round3(val) {
@@ -16816,12 +16697,6 @@
             firstChild ? parent.insertBefore(child, firstChild) : parent.appendChild(child);
         }
     }
-    function remove(parent, child) {
-        child && parent && child.parentNode === parent && parent.removeChild(child);
-    }
-    function removeFromMyParent(child) {
-        child && child.parentNode && child.parentNode.removeChild(child);
-    }
     function getSvgElement(displayable) {
         return displayable.__svgEl;
     }
@@ -16864,13 +16739,13 @@
             var svgProxy = getSvgProxy(el);
             return svgProxy && svgProxy.brush(el), getSvgElement(el);
         }, SVGPainter.prototype._paintList = function(list) {
-            var oldArr, newArr, prevSvgElement, topPrevSvgElement, prevDisplayable, currentClipGroup, gradientManager = this._gradientManager, patternManager = this._patternManager, clipPathManager = this._clipPathManager, shadowManager = this._shadowManager;
+            var prevSvgElement, topPrevSvgElement, prevDisplayable, currentClipGroup, gradientManager = this._gradientManager, patternManager = this._patternManager, clipPathManager = this._clipPathManager, shadowManager = this._shadowManager;
             gradientManager.markAllUnused(), patternManager.markAllUnused(), clipPathManager.markAllUnused(), shadowManager.markAllUnused();
             for(var svgRoot = this._svgRoot, visibleList = this._visibleList, listLen = list.length, newVisibleList = [], i = 0; i < listLen; i++){
                 var displayable = list[i], svgProxy = getSvgProxy(displayable), svgElement = getSvgElement(displayable);
                 !displayable.invisible && ((displayable.__dirty || !svgElement) && (svgProxy && svgProxy.brush(displayable), (svgElement = getSvgElement(displayable)) && displayable.style && (gradientManager.update(displayable.style.fill), gradientManager.update(displayable.style.stroke), patternManager.update(displayable.style.fill), patternManager.update(displayable.style.stroke), shadowManager.update(svgElement, displayable)), displayable.__dirty = 0), svgElement && newVisibleList.push(displayable));
             }
-            for(var diff = function(oldArr, newArr, equals) {
+            for(var diff = (oldArr = visibleList, newArr = newVisibleList, function(oldArr, newArr, equals) {
                 equals || (equals = function(a, b) {
                     return a === b;
                 }), oldArr = oldArr.slice();
@@ -16891,29 +16766,43 @@
                         }
                     ];
                 }
-                function execEditLength() {
-                    for(var diagonalPath = -1 * editLength; diagonalPath <= editLength; diagonalPath += 2){
-                        var basePath, addPath = bestPath[diagonalPath - 1], removePath = bestPath[diagonalPath + 1], oldPos = (removePath ? removePath.newPos : 0) - diagonalPath;
-                        addPath && (bestPath[diagonalPath - 1] = void 0);
-                        var canAdd = addPath && addPath.newPos + 1 < newLen, canRemove = removePath && 0 <= oldPos && oldPos < oldLen;
-                        if (!canAdd && !canRemove) {
-                            bestPath[diagonalPath] = void 0;
-                            continue;
-                        }
-                        if (!canAdd || canRemove && addPath.newPos < removePath.newPos ? pushComponent((basePath = clonePath(removePath)).components, !1, !0) : (basePath = addPath, basePath.newPos++, pushComponent(basePath.components, !0, !1)), oldPos = extractCommon(basePath, newArr, oldArr, diagonalPath, equals), basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) return buildValues(basePath.components);
-                        bestPath[diagonalPath] = basePath;
-                    }
-                    editLength++;
-                }
                 for(; editLength <= maxEditLength;){
-                    var ret = execEditLength();
+                    var ret = function() {
+                        for(var diagonalPath = -1 * editLength; diagonalPath <= editLength; diagonalPath += 2){
+                            var path, basePath, addPath = bestPath[diagonalPath - 1], removePath = bestPath[diagonalPath + 1], oldPos = (removePath ? removePath.newPos : 0) - diagonalPath;
+                            addPath && (bestPath[diagonalPath - 1] = void 0);
+                            var canAdd = addPath && addPath.newPos + 1 < newLen, canRemove = removePath && 0 <= oldPos && oldPos < oldLen;
+                            if (!canAdd && !canRemove) {
+                                bestPath[diagonalPath] = void 0;
+                                continue;
+                            }
+                            if (!canAdd || canRemove && addPath.newPos < removePath.newPos ? pushComponent((basePath = {
+                                newPos: (path = removePath).newPos,
+                                components: path.components.slice(0)
+                            }).components, !1, !0) : (basePath = addPath, basePath.newPos++, pushComponent(basePath.components, !0, !1)), oldPos = extractCommon(basePath, newArr, oldArr, diagonalPath, equals), basePath.newPos + 1 >= newLen && oldPos + 1 >= oldLen) return function(components) {
+                                for(var componentPos = 0, componentLen = components.length, newPos = 0, oldPos = 0; componentPos < componentLen; componentPos++){
+                                    var component = components[componentPos];
+                                    if (component.removed) {
+                                        for(var i = oldPos; i < oldPos + component.count; i++)component.indices.push(i);
+                                        oldPos += component.count;
+                                    } else {
+                                        for(var indices = [], i = newPos; i < newPos + component.count; i++)indices.push(i);
+                                        component.indices = indices, newPos += component.count, component.added || (oldPos += component.count);
+                                    }
+                                }
+                                return components;
+                            }(basePath.components);
+                            bestPath[diagonalPath] = basePath;
+                        }
+                        editLength++;
+                    }();
                     if (ret) return ret;
                 }
-            }(visibleList, newVisibleList, void 0), i = 0; i < diff.length; i++){
+            }(oldArr, newArr, void 0)), i = 0; i < diff.length; i++){
                 var item = diff[i];
                 if (item.removed) for(var k = 0; k < item.count; k++){
-                    var displayable = visibleList[item.indices[k]], svgElement = getSvgElement(displayable);
-                    hasClipPath(displayable) ? removeFromMyParent(svgElement) : remove(svgRoot, svgElement);
+                    var oldArr, newArr, child, parent, child1, displayable = visibleList[item.indices[k]], svgElement = getSvgElement(displayable);
+                    hasClipPath(displayable) ? (child = svgElement) && child.parentNode && child.parentNode.removeChild(child) : (child1 = svgElement) && svgRoot && child1.parentNode === svgRoot && svgRoot.removeChild(child1);
                 }
             }
             for(var i = 0; i < diff.length; i++){
@@ -17973,9 +17862,6 @@
         }
         return stepPoints.push(points[i++], points[i++]), stepPoints;
     }
-    function isPointNull$1(x, y) {
-        return isNaN(x) || isNaN(y);
-    }
     function getPointAtIndex(points, idx) {
         return [
             points[2 * idx],
@@ -18238,7 +18124,7 @@
                     z2: 200
                 })).ignoreClip = !0, polyline.setTextContent(this._endLabel), polyline.disableLabelAnimation = !0);
                 var dataIndex = function(points) {
-                    for(var len = points.length / 2; len > 0 && isPointNull$1(points[2 * len - 2], points[2 * len - 1]); len--);
+                    for(var x, y, len = points.length / 2; len > 0 && (x = points[2 * len - 2], y = points[2 * len - 1], isNaN(x) || isNaN(y)); len--);
                     return len - 1;
                 }(data_2.getLayout('points'));
                 dataIndex >= 0 && (setLabelStyle(polyline, getLabelStatesModels(seriesModel, 'endLabel'), {
@@ -19290,7 +19176,25 @@
                     }
                     if (labelLine) {
                         var linePoints = layout.linePoints;
-                        notShowLabel || !linePoints ? (each(labelLine.states, setNotShow), labelLine.ignore = !0) : (limitTurnAngle(linePoints, layout.minTurnAngle), limitSurfaceAngle(linePoints, layout.surfaceNormal, layout.maxSurfaceAngle), labelLine.setShape({
+                        notShowLabel || !linePoints ? (each(labelLine.states, setNotShow), labelLine.ignore = !0) : (limitTurnAngle(linePoints, layout.minTurnAngle), function(linePoints, surfaceNormal, maxSurfaceAngle) {
+                            if (maxSurfaceAngle <= 180 && maxSurfaceAngle > 0) {
+                                maxSurfaceAngle = maxSurfaceAngle / 180 * Math.PI, pt0.fromArray(linePoints[0]), pt1.fromArray(linePoints[1]), pt2.fromArray(linePoints[2]), Point.sub(dir, pt1, pt0), Point.sub(dir2, pt2, pt1);
+                                var len1 = dir.len(), len2 = dir2.len();
+                                if (!(len1 < 1e-3) && !(len2 < 1e-3) && (dir.scale(1 / len1), dir2.scale(1 / len2), dir.dot(surfaceNormal) < Math.cos(maxSurfaceAngle))) {
+                                    var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, !1);
+                                    tmpProjPoint.fromArray(tmpArr);
+                                    var HALF_PI = Math.PI / 2, newAngle = HALF_PI + Math.acos(dir2.dot(surfaceNormal)) - maxSurfaceAngle;
+                                    if (newAngle >= HALF_PI) Point.copy(tmpProjPoint, pt2);
+                                    else {
+                                        tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle));
+                                        var t = pt2.x !== pt1.x ? (tmpProjPoint.x - pt1.x) / (pt2.x - pt1.x) : (tmpProjPoint.y - pt1.y) / (pt2.y - pt1.y);
+                                        if (isNaN(t)) return;
+                                        t < 0 ? Point.copy(tmpProjPoint, pt1) : t > 1 && Point.copy(tmpProjPoint, pt2);
+                                    }
+                                    tmpProjPoint.toArray(linePoints[1]);
+                                }
+                            }
+                        }(linePoints, layout.surfaceNormal, layout.maxSurfaceAngle), labelLine.setShape({
                             points: linePoints
                         }), label.__hostTarget.textGuideLineConfig = {
                             anchor: new Point(linePoints[0][0], linePoints[0][1])
@@ -20018,7 +19922,10 @@
                             for(var i = 0; i < tickCount; i += step){
                                 var label = labelFormatter(realNumberScaleTicks ? realNumberScaleTicks[i] : {
                                     value: categoryScaleExtent[0] + i
-                                }, i), unrotatedSingleRect = axisLabelModel.getTextRect(label), singleRect = rotateTextRect(unrotatedSingleRect, axisLabelModel.get('rotate') || 0);
+                                }, i), singleRect = function(textRect, rotate) {
+                                    var rotateRadians = rotate * Math.PI / 180, beforeWidth = textRect.width, beforeHeight = textRect.height;
+                                    return new BoundingRect(textRect.x, textRect.y, beforeWidth * Math.abs(Math.cos(rotateRadians)) + Math.abs(beforeHeight * Math.sin(rotateRadians)), beforeWidth * Math.abs(Math.sin(rotateRadians)) + Math.abs(beforeHeight * Math.cos(rotateRadians)));
+                                }(axisLabelModel.getTextRect(label), axisLabelModel.get('rotate') || 0);
                                 rect ? rect.union(singleRect) : rect = singleRect;
                             }
                             return rect;
@@ -20737,28 +20644,27 @@
         }
         return __extends(RadarView, _super), RadarView.prototype.render = function(seriesModel, ecModel, api) {
             var polar = seriesModel.coordinateSystem, group = this.group, data = seriesModel.getData(), oldData = this._data;
-            function createSymbol$1(data, idx) {
-                var symbolSize, symbolType = data.getItemVisual(idx, 'symbol') || 'circle';
-                if ('none' !== symbolType) {
-                    var symbolSize1 = (symbolSize = data.getItemVisual(idx, 'symbolSize'), isArray(symbolSize) || (symbolSize = [
-                        +symbolSize,
-                        +symbolSize
-                    ]), symbolSize), symbolPath = createSymbol(symbolType, -1, -1, 2, 2), symbolRotate = data.getItemVisual(idx, 'symbolRotate') || 0;
-                    return symbolPath.attr({
-                        style: {
-                            strokeNoScale: !0
-                        },
-                        z2: 100,
-                        scaleX: symbolSize1[0] / 2,
-                        scaleY: symbolSize1[1] / 2,
-                        rotation: symbolRotate * Math.PI / 180 || 0
-                    }), symbolPath;
-                }
-            }
             function updateSymbols(oldPoints, newPoints, symbolGroup, data, idx, isInit) {
                 symbolGroup.removeAll();
                 for(var i = 0; i < newPoints.length - 1; i++){
-                    var symbolPath = createSymbol$1(data, idx);
+                    var symbolPath = function(data, idx) {
+                        var symbolSize, symbolType = data.getItemVisual(idx, 'symbol') || 'circle';
+                        if ('none' !== symbolType) {
+                            var symbolSize1 = (symbolSize = data.getItemVisual(idx, 'symbolSize'), isArray(symbolSize) || (symbolSize = [
+                                +symbolSize,
+                                +symbolSize
+                            ]), symbolSize), symbolPath = createSymbol(symbolType, -1, -1, 2, 2), symbolRotate = data.getItemVisual(idx, 'symbolRotate') || 0;
+                            return symbolPath.attr({
+                                style: {
+                                    strokeNoScale: !0
+                                },
+                                z2: 100,
+                                scaleX: symbolSize1[0] / 2,
+                                scaleY: symbolSize1[1] / 2,
+                                rotation: symbolRotate * Math.PI / 180 || 0
+                            }), symbolPath;
+                        }
+                    }(data, idx);
                     symbolPath && (symbolPath.__dimIdx = i, oldPoints[i] ? (symbolPath.setPosition(oldPoints[i]), graphic[isInit ? 'initProps' : 'updateProps'](symbolPath, {
                         x: newPoints[i][0],
                         y: newPoints[i][1]
@@ -22190,8 +22096,11 @@
             if (subtreeW) {
                 for(var nodeOutRight = subtreeV, nodeInRight = subtreeV, nodeOutLeft = nodeInRight.parentNode.children[0], nodeInLeft = subtreeW, sumOutRight = nodeOutRight.hierNode.modifier, sumInRight = nodeInRight.hierNode.modifier, sumOutLeft = nodeOutLeft.hierNode.modifier, sumInLeft = nodeInLeft.hierNode.modifier; nodeInLeft = nextRight(nodeInLeft), nodeInRight = nextLeft(nodeInRight), nodeInLeft && nodeInRight;){
                     nodeOutRight = nextRight(nodeOutRight), nodeOutLeft = nextLeft(nodeOutLeft), nodeOutRight.hierNode.ancestor = subtreeV;
-                    var shift = nodeInLeft.hierNode.prelim + sumInLeft - nodeInRight.hierNode.prelim - sumInRight + separation(nodeInLeft, nodeInRight);
-                    shift > 0 && (moveSubtree(nextAncestor(nodeInLeft, subtreeV, ancestor), subtreeV, shift), sumInRight += shift, sumOutRight += shift), sumInLeft += nodeInLeft.hierNode.modifier, sumInRight += nodeInRight.hierNode.modifier, sumOutRight += nodeOutRight.hierNode.modifier, sumOutLeft += nodeOutLeft.hierNode.modifier;
+                    var nodeInLeft1, node, ancestor1, shift = nodeInLeft.hierNode.prelim + sumInLeft - nodeInRight.hierNode.prelim - sumInRight + separation(nodeInLeft, nodeInRight);
+                    shift > 0 && (function(wl, wr, shift) {
+                        var change = shift / (wr.hierNode.i - wl.hierNode.i);
+                        wr.hierNode.change -= change, wr.hierNode.shift += shift, wr.hierNode.modifier += shift, wr.hierNode.prelim += shift, wl.hierNode.change += change;
+                    }((nodeInLeft1 = nodeInLeft, node = subtreeV, ancestor1 = ancestor, nodeInLeft1.hierNode.ancestor.parentNode === node.parentNode ? nodeInLeft1.hierNode.ancestor : ancestor1), subtreeV, shift), sumInRight += shift, sumOutRight += shift), sumInLeft += nodeInLeft.hierNode.modifier, sumInRight += nodeInRight.hierNode.modifier, sumOutRight += nodeOutRight.hierNode.modifier, sumOutLeft += nodeOutLeft.hierNode.modifier;
                 }
                 nodeInLeft && !nextRight(nodeOutRight) && (nodeOutRight.hierNode.thread = nodeInLeft, nodeOutRight.hierNode.modifier += sumInLeft - sumOutRight), nodeInRight && !nextLeft(nodeOutLeft) && (nodeOutLeft.hierNode.thread = nodeInRight, nodeOutLeft.hierNode.modifier += sumInRight - sumOutLeft, ancestor = subtreeV);
             }
@@ -22220,13 +22129,6 @@
     function nextLeft(node) {
         var children = node.children;
         return children.length && node.isExpand ? children[0] : node.hierNode.thread;
-    }
-    function nextAncestor(nodeInLeft, node, ancestor) {
-        return nodeInLeft.hierNode.ancestor.parentNode === node.parentNode ? nodeInLeft.hierNode.ancestor : ancestor;
-    }
-    function moveSubtree(wl, wr, shift) {
-        var change = shift / (wr.hierNode.i - wl.hierNode.i);
-        wr.hierNode.change -= change, wr.hierNode.shift += shift, wr.hierNode.modifier += shift, wr.hierNode.prelim += shift, wl.hierNode.change += change;
     }
     function defaultSeparation(node1, node2) {
         return node1.parentNode === node2.parentNode ? 1 : 2;
@@ -23113,11 +23015,37 @@
                 width: Math.max(x2 - x - margin[1] - margin[3], 0),
                 height: Math.max(y2 - y - margin[0] - margin[2], 0)
             }), totalWidth = layoutParam.totalWidth, renderList = layoutParam.renderList, i = renderList.length - 1; i >= 0; i--){
-                var item = renderList[i], itemNode = item.node, itemWidth = item.width, text = item.text;
+                var el, seriesModel1, itemNode, item = renderList[i], itemNode1 = item.node, itemWidth = item.width, text = item.text;
                 totalWidth > availableSize.width && (totalWidth -= itemWidth - emptyItemWidth, itemWidth = emptyItemWidth, text = null);
-                var el = new Polygon({
+                var el1 = new Polygon({
                     shape: {
-                        points: makeItemPoints(lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
+                        points: function(x, y, itemWidth, itemHeight, head, tail) {
+                            var points = [
+                                [
+                                    head ? x : x - 5,
+                                    y
+                                ],
+                                [
+                                    x + itemWidth,
+                                    y
+                                ],
+                                [
+                                    x + itemWidth,
+                                    y + itemHeight
+                                ],
+                                [
+                                    head ? x : x - 5,
+                                    y + itemHeight
+                                ]
+                            ];
+                            return tail || points.splice(2, 0, [
+                                x + itemWidth + 5,
+                                y + itemHeight / 2
+                            ]), head || points.push([
+                                x,
+                                y + itemHeight / 2
+                            ]), points;
+                        }(lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
                     },
                     style: defaults(normalStyleModel.getItemStyle(), {
                         lineJoin: 'bevel'
@@ -23133,58 +23061,27 @@
                         position: 'inside'
                     },
                     z2: 100000,
-                    onclick: curry(onSelect, itemNode)
+                    onclick: curry(onSelect, itemNode1)
                 });
-                el.disableLabelAnimation = !0, this.group.add(el), packEventData(el, seriesModel, itemNode), lastX += itemWidth + 8;
+                el1.disableLabelAnimation = !0, this.group.add(el1), el = el1, seriesModel1 = seriesModel, itemNode = itemNode1, getECData(el).eventData = {
+                    componentType: 'series',
+                    componentSubType: 'treemap',
+                    componentIndex: seriesModel1.componentIndex,
+                    seriesIndex: seriesModel1.componentIndex,
+                    seriesName: seriesModel1.name,
+                    seriesType: 'treemap',
+                    selfType: 'breadcrumb',
+                    nodeData: {
+                        dataIndex: itemNode && itemNode.dataIndex,
+                        name: itemNode && itemNode.name
+                    },
+                    treePathInfo: itemNode && wrapTreePathInfo(itemNode, seriesModel1)
+                }, lastX += itemWidth + 8;
             }
         }, Breadcrumb.prototype.remove = function() {
             this.group.removeAll();
         }, Breadcrumb;
-    }();
-    function makeItemPoints(x, y, itemWidth, itemHeight, head, tail) {
-        var points = [
-            [
-                head ? x : x - 5,
-                y
-            ],
-            [
-                x + itemWidth,
-                y
-            ],
-            [
-                x + itemWidth,
-                y + itemHeight
-            ],
-            [
-                head ? x : x - 5,
-                y + itemHeight
-            ]
-        ];
-        return tail || points.splice(2, 0, [
-            x + itemWidth + 5,
-            y + itemHeight / 2
-        ]), head || points.push([
-            x,
-            y + itemHeight / 2
-        ]), points;
-    }
-    function packEventData(el, seriesModel, itemNode) {
-        getECData(el).eventData = {
-            componentType: 'series',
-            componentSubType: 'treemap',
-            componentIndex: seriesModel.componentIndex,
-            seriesIndex: seriesModel.componentIndex,
-            seriesName: seriesModel.name,
-            seriesType: 'treemap',
-            selfType: 'breadcrumb',
-            nodeData: {
-                dataIndex: itemNode && itemNode.dataIndex,
-                name: itemNode && itemNode.name
-            },
-            treePathInfo: itemNode && wrapTreePathInfo(itemNode, seriesModel)
-        };
-    }
-    var AnimationWrap = function() {
+    }(), AnimationWrap = function() {
         function AnimationWrap() {
             this._storage = [], this._elExistsMap = {};
         }
@@ -24091,7 +23988,11 @@
                             for(var i = 0, len = viewChildren.length; i < len;){
                                 var child = viewChildren[i];
                                 row.push(child), row.area += child.getLayout().area;
-                                var score = worst(row, rowFixedLength, options.squareRatio);
+                                var score = function(row, rowFixedLength, ratio) {
+                                    for(var areaMax = 0, areaMin = 1 / 0, i = 0, area = void 0, len = row.length; i < len; i++)(area = row[i].getLayout().area) && (area < areaMin && (areaMin = area), area > areaMax && (areaMax = area));
+                                    var squareArea = row.area * row.area, f = rowFixedLength * rowFixedLength * ratio;
+                                    return squareArea ? mathMax$7(f * areaMax / squareArea, squareArea / (f * areaMin)) : 1 / 0;
+                                }(row, rowFixedLength, options.squareRatio);
                                 score <= best ? (i++, best = score) : (row.area -= row.pop().getLayout().area, position(row, rowFixedLength, rect, halfGapWidth, !1), rowFixedLength = mathMin$7(rect.width, rect.height), row.length = row.area = 0, best = 1 / 0);
                             }
                             if (row.length && position(row, rowFixedLength, rect, halfGapWidth, !0), !hideChildren) {
@@ -24153,11 +24054,6 @@
             }(treeRoot, new BoundingRect(-layoutInfo.x, -layoutInfo.y, ecWidth, ecHeight), viewAbovePath, viewRoot, 0);
         }
     };
-    function worst(row, rowFixedLength, ratio) {
-        for(var areaMax = 0, areaMin = 1 / 0, i = 0, area = void 0, len = row.length; i < len; i++)(area = row[i].getLayout().area) && (area < areaMin && (areaMin = area), area > areaMax && (areaMax = area));
-        var squareArea = row.area * row.area, f = rowFixedLength * rowFixedLength * ratio;
-        return squareArea ? mathMax$7(f * areaMax / squareArea, squareArea / (f * areaMin)) : 1 / 0;
-    }
     function position(row, rowFixedLength, rect, halfGapWidth, flush) {
         var idx0WhenH = rowFixedLength === rect.width ? 0 : 1, idx1WhenH = 1 - idx0WhenH, xy = [
             'x',
@@ -26179,8 +26075,8 @@
     }(ChartView);
     function createLinePoints(data, dataIndex, dimensions, coordSys) {
         for(var points = [], i = 0; i < dimensions.length; i++){
-            var dimName = dimensions[i], value = data.get(data.mapDimension(dimName), dataIndex);
-            isEmptyValue(value, coordSys.getAxis(dimName).type) || points.push(coordSys.dataToPoint(value, dimName));
+            var val, dimName = dimensions[i], value = data.get(data.mapDimension(dimName), dataIndex);
+            val = value, ('category' === coordSys.getAxis(dimName).type ? null == val : null == val || isNaN(val)) || points.push(coordSys.dataToPoint(value, dimName));
         }
         return points;
     }
@@ -26203,9 +26099,6 @@
         el.useStyle(data.getItemVisual(dataIndex, 'style')), el.style.fill = null, el.setShape('smooth', seriesScope.smooth);
         var itemModel = data.getItemModel(dataIndex), emphasisModel = itemModel.getModel('emphasis');
         setStatesStylesFromModel(el, itemModel, 'lineStyle'), enableHoverEmphasis(el, emphasisModel.get('focus'), emphasisModel.get('blurScope'));
-    }
-    function isEmptyValue(val, axisType) {
-        return 'category' === axisType ? null == val : null == val || isNaN(val);
     }
     var ParallelSeriesModel = function(_super) {
         function ParallelSeriesModel() {
@@ -27715,7 +27608,53 @@
                         dy: edgeDy
                     }, !0);
                 }), resolveCollisions(nodesByBreadth2, nodeGap, height, width, orient);
-                for(var alpha = 1; iterations > 0; iterations--)relaxRightToLeft(nodesByBreadth2, alpha *= 0.99, orient), resolveCollisions(nodesByBreadth2, nodeGap, height, width, orient), relaxLeftToRight(nodesByBreadth2, alpha, orient), resolveCollisions(nodesByBreadth2, nodeGap, height, width, orient);
+                for(var alpha = 1; iterations > 0; iterations--)(function(nodesByBreadth, alpha, orient) {
+                    each(nodesByBreadth.slice().reverse(), function(nodes) {
+                        each(nodes, function(node) {
+                            if (node.outEdges.length) {
+                                var y = sum(node.outEdges, weightedTarget, orient) / sum(node.outEdges, getEdgeValue);
+                                if (isNaN(y)) {
+                                    var len = node.outEdges.length;
+                                    y = len ? sum(node.outEdges, centerTarget, orient) / len : 0;
+                                }
+                                if ('vertical' === orient) {
+                                    var nodeX = node.getLayout().x + (y - center$1(node, orient)) * alpha;
+                                    node.setLayout({
+                                        x: nodeX
+                                    }, !0);
+                                } else {
+                                    var nodeY = node.getLayout().y + (y - center$1(node, orient)) * alpha;
+                                    node.setLayout({
+                                        y: nodeY
+                                    }, !0);
+                                }
+                            }
+                        });
+                    });
+                })(nodesByBreadth2, alpha *= 0.99, orient), resolveCollisions(nodesByBreadth2, nodeGap, height, width, orient), function(nodesByBreadth, alpha, orient) {
+                    each(nodesByBreadth, function(nodes) {
+                        each(nodes, function(node) {
+                            if (node.inEdges.length) {
+                                var y = sum(node.inEdges, weightedSource, orient) / sum(node.inEdges, getEdgeValue);
+                                if (isNaN(y)) {
+                                    var len = node.inEdges.length;
+                                    y = len ? sum(node.inEdges, centerSource, orient) / len : 0;
+                                }
+                                if ('vertical' === orient) {
+                                    var nodeX = node.getLayout().x + (y - center$1(node, orient)) * alpha;
+                                    node.setLayout({
+                                        x: nodeX
+                                    }, !0);
+                                } else {
+                                    var nodeY = node.getLayout().y + (y - center$1(node, orient)) * alpha;
+                                    node.setLayout({
+                                        y: nodeY
+                                    }, !0);
+                                }
+                            }
+                        });
+                    });
+                }(nodesByBreadth2, alpha, orient), resolveCollisions(nodesByBreadth2, nodeGap, height, width, orient);
             }(nodes1, edges, height, width, nodeGap, iterations, orient), nodes2 = nodes1, keyAttr = 'vertical' === orient ? 'x' : 'y', each(nodes2, function(node) {
                 node.outEdges.sort(function(a, b) {
                     return a.node2.getLayout()[keyAttr] - b.node2.getLayout()[keyAttr];
@@ -27765,30 +27704,6 @@
             }
         });
     }
-    function relaxRightToLeft(nodesByBreadth, alpha, orient) {
-        each(nodesByBreadth.slice().reverse(), function(nodes) {
-            each(nodes, function(node) {
-                if (node.outEdges.length) {
-                    var y = sum(node.outEdges, weightedTarget, orient) / sum(node.outEdges, getEdgeValue);
-                    if (isNaN(y)) {
-                        var len = node.outEdges.length;
-                        y = len ? sum(node.outEdges, centerTarget, orient) / len : 0;
-                    }
-                    if ('vertical' === orient) {
-                        var nodeX = node.getLayout().x + (y - center$1(node, orient)) * alpha;
-                        node.setLayout({
-                            x: nodeX
-                        }, !0);
-                    } else {
-                        var nodeY = node.getLayout().y + (y - center$1(node, orient)) * alpha;
-                        node.setLayout({
-                            y: nodeY
-                        }, !0);
-                    }
-                }
-            });
-        });
-    }
     function weightedTarget(edge, orient) {
         return center$1(edge.node2, orient) * edge.getValue();
     }
@@ -27813,30 +27728,6 @@
             isNaN(value) || (sum += value);
         }
         return sum;
-    }
-    function relaxLeftToRight(nodesByBreadth, alpha, orient) {
-        each(nodesByBreadth, function(nodes) {
-            each(nodes, function(node) {
-                if (node.inEdges.length) {
-                    var y = sum(node.inEdges, weightedSource, orient) / sum(node.inEdges, getEdgeValue);
-                    if (isNaN(y)) {
-                        var len = node.inEdges.length;
-                        y = len ? sum(node.inEdges, centerSource, orient) / len : 0;
-                    }
-                    if ('vertical' === orient) {
-                        var nodeX = node.getLayout().x + (y - center$1(node, orient)) * alpha;
-                        node.setLayout({
-                            x: nodeX
-                        }, !0);
-                    } else {
-                        var nodeY = node.getLayout().y + (y - center$1(node, orient)) * alpha;
-                        node.setLayout({
-                            y: nodeY
-                        }, !0);
-                    }
-                }
-            });
-        });
     }
     function sankeyVisual(ecModel) {
         ecModel.eachSeriesByType('sankey', function(seriesModel) {
@@ -28391,17 +28282,11 @@
         plan: createRenderPlanner(),
         performRawSeries: !0,
         reset: function(seriesModel, ecModel) {
-            function getColor(sign, model) {
-                return model.get(sign > 0 ? positiveColorQuery : negativeColorQuery);
-            }
-            function getBorderColor(sign, model) {
-                return model.get(sign > 0 ? positiveBorderColorQuery : negativeBorderColorQuery);
-            }
             if (seriesModel.getData(), !ecModel.isSeriesFiltered(seriesModel)) return !seriesModel.pipelineContext.large && {
                 progress: function(params, data) {
                     for(var dataIndex; null != (dataIndex = params.next());){
-                        var itemModel = data.getItemModel(dataIndex), sign = data.getItemLayout(dataIndex).sign, style = itemModel.getItemStyle();
-                        style.fill = getColor(sign, itemModel), style.stroke = getBorderColor(sign, itemModel) || style.fill;
+                        var sign, sign1, itemModel = data.getItemModel(dataIndex), sign2 = data.getItemLayout(dataIndex).sign, style = itemModel.getItemStyle();
+                        style.fill = itemModel.get(sign2 > 0 ? positiveColorQuery : negativeColorQuery), style.stroke = itemModel.get(sign2 > 0 ? positiveBorderColorQuery : negativeBorderColorQuery) || style.fill;
                         var existsStyle = data.ensureUniqueItemVisual(dataIndex, 'style');
                         extend(existsStyle, style);
                     }
@@ -28437,7 +28322,15 @@
                             sign: getSign(data, dataIndex, openVal, closeVal, closeDim),
                             initBaseline: openVal > closeVal ? ocHighPoint[1] : ocLowPoint[1],
                             ends: ends,
-                            brushRect: makeBrushRect(lowestVal, highestVal, axisDimVal)
+                            brushRect: function(lowestVal, highestVal, axisDimVal) {
+                                var pmin = getPoint(lowestVal, axisDimVal), pmax = getPoint(highestVal, axisDimVal);
+                                return pmin[0] -= candleWidth / 2, pmax[0] -= candleWidth / 2, {
+                                    x: pmin[0],
+                                    y: pmin[1],
+                                    width: candleWidth,
+                                    height: pmax[1] - pmin[1]
+                                };
+                            }(lowestVal, highestVal, axisDimVal)
                         });
                     }
                     function getPoint(val, axisDimVal) {
@@ -28450,15 +28343,6 @@
                     function addBodyEnd(ends, point, start) {
                         var point1 = point.slice(), point2 = point.slice();
                         point1[0] = subPixelOptimize(point1[0] + candleWidth / 2, 1, !1), point2[0] = subPixelOptimize(point2[0] - candleWidth / 2, 1, !0), start ? ends.push(point1, point2) : ends.push(point2, point1);
-                    }
-                    function makeBrushRect(lowestVal, highestVal, axisDimVal) {
-                        var pmin = getPoint(lowestVal, axisDimVal), pmax = getPoint(highestVal, axisDimVal);
-                        return pmin[0] -= candleWidth / 2, pmax[0] -= candleWidth / 2, {
-                            x: pmin[0],
-                            y: pmin[1],
-                            width: candleWidth,
-                            height: pmax[1] - pmin[1]
-                        };
                     }
                     function subPixelOptimizePoint(point) {
                         return point[0] = subPixelOptimize(point[0], 1), point;
@@ -30360,10 +30244,6 @@
         function addLine(x0, y0, x1, y1) {
             aroundEqual(x0, x1) && aroundEqual(y0, y1) || currentSubpath.push(x0, y0, x1, y1, x1, y1);
         }
-        function addArc(startAngle, endAngle, cx, cy, rx, ry) {
-            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
-            currentSubpath.push(c1 * rx + cx - hx * s1, s1 * ry + cy + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
-        }
         for(var i = 0; i < len;){
             var cmd = data[i++], isFirst = 1 === i;
             switch(isFirst && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi, (cmd === CMD$4.L || cmd === CMD$4.C || cmd === CMD$4.Q) && (currentSubpath = [
@@ -30389,7 +30269,10 @@
                     x1 = Math.cos(startAngle) * rx + cx, y1 = Math.sin(startAngle) * ry + cy, isFirst ? (x0 = x1, y0 = y1, createNewSubpath(x0, y0)) : addLine(xi, yi, x1, y1), xi = Math.cos(endAngle) * rx + cx, yi = Math.sin(endAngle) * ry + cy;
                     for(var step = (anticlockwise ? -1 : 1) * Math.PI / 2, angle = startAngle; anticlockwise ? angle > endAngle : angle < endAngle; angle += step){
                         var nextAngle = anticlockwise ? Math.max(angle + step, endAngle) : Math.min(angle + step, endAngle);
-                        addArc(angle, nextAngle, cx, cy, rx, ry);
+                        !function(startAngle, endAngle, cx, cy, rx, ry) {
+                            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
+                            currentSubpath.push(c1 * rx + cx - hx * s1, s1 * ry + cy + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
+                        }(angle, nextAngle, cx, cy, rx, ry);
                     }
                     break;
                 case CMD$4.R:
@@ -30400,35 +30283,6 @@
             }
         }
         return currentSubpath && currentSubpath.length > 2 && bezierArray.push(currentSubpath), bezierArray;
-    }
-    function alignSubpath(subpath1, subpath2) {
-        var len1 = subpath1.length, len2 = subpath2.length;
-        if (len1 === len2) return [
-            subpath1,
-            subpath2
-        ];
-        for(var shorterPath = len1 < len2 ? subpath1 : subpath2, shorterLen = Math.min(len1, len2), diff = Math.abs(len2 - len1) / 6, eachCurveSubDivCount = Math.ceil(diff / ((shorterLen - 2) / 6)) + 1, newSubpath = [
-            shorterPath[0],
-            shorterPath[1]
-        ], remained = diff, tmpSegX = [], tmpSegY = [], i = 2; i < shorterLen;){
-            var x0 = shorterPath[i - 2], y0 = shorterPath[i - 1], x1 = shorterPath[i++], y1 = shorterPath[i++], x2 = shorterPath[i++], y2 = shorterPath[i++], x3 = shorterPath[i++], y3 = shorterPath[i++];
-            if (remained <= 0) {
-                newSubpath.push(x1, y1, x2, y2, x3, y3);
-                continue;
-            }
-            for(var actualSubDivCount = Math.min(remained, eachCurveSubDivCount - 1) + 1, k = 1; k <= actualSubDivCount; k++){
-                var p = k / actualSubDivCount;
-                cubicSubdivide(x0, x1, x2, x3, p, tmpSegX), cubicSubdivide(y0, y1, y2, y3, p, tmpSegY), x0 = tmpSegX[3], y0 = tmpSegY[3], newSubpath.push(tmpSegX[1], tmpSegY[1], tmpSegX[2], tmpSegY[2], x0, y0), x1 = tmpSegX[5], y1 = tmpSegY[5], x2 = tmpSegX[6], y2 = tmpSegY[6];
-            }
-            remained -= actualSubDivCount - 1;
-        }
-        return shorterPath === subpath1 ? [
-            newSubpath,
-            subpath2
-        ] : [
-            subpath1,
-            newSubpath
-        ];
     }
     function createSubpath(lastSubpathSubpath, otherSubpath) {
         for(var len = lastSubpathSubpath.length, lastX = lastSubpathSubpath[len - 2], lastY = lastSubpathSubpath[len - 1], newSubpath = [], i = 0; i < otherSubpath.length;)newSubpath[i++] = lastX, newSubpath[i++] = lastY;
@@ -30448,27 +30302,41 @@
             signedArea
         ];
     }
-    function findBestRingOffset(fromSubBeziers, toSubBeziers, fromCp, toCp) {
-        for(var bezierCount = (fromSubBeziers.length - 2) / 6, bestScore = 1 / 0, bestOffset = 0, len = fromSubBeziers.length, len2 = len - 2, offset = 0; offset < bezierCount; offset++){
-            for(var cursorOffset = 6 * offset, score = 0, k = 0; k < len; k += 2){
-                var idx = 0 === k ? cursorOffset : (cursorOffset + k - 2) % len2 + 2, x0 = fromSubBeziers[idx] - fromCp[0], y0 = fromSubBeziers[idx + 1] - fromCp[1], x1 = toSubBeziers[k] - toCp[0], y1 = toSubBeziers[k + 1] - toCp[1], dx = x1 - x0, dy = y1 - y0;
-                score += dx * dx + dy * dy;
-            }
-            score < bestScore && (bestScore = score, bestOffset = offset);
-        }
-        return bestOffset;
-    }
-    function reverse(array) {
-        for(var newArr = [], len = array.length, i = 0; i < len; i += 2)newArr[i] = array[len - i - 2], newArr[i + 1] = array[len - i - 1];
-        return newArr;
-    }
     function morphPath(fromPath, toPath, animationOpts) {
         if (!fromPath || !toPath) return toPath;
         fromPath.path || fromPath.createPathProxy(), (fromPathProxy = fromPath.path).beginPath(), fromPath.buildPath(fromPathProxy, fromPath.shape), toPath.path || toPath.createPathProxy(), (toPathProxy = toPath.path) === fromPathProxy && (toPathProxy = new PathProxy(!1)), toPathProxy.beginPath(), isIndividualMorphingPath(toPath) ? toPath.__oldBuildPath(toPathProxy, toPath.shape) : toPath.buildPath(toPathProxy, toPath.shape);
         var fromPathProxy, toPathProxy, _a = function(array1, array2) {
             for(var _a, lastSubpath1, lastSubpath2, newArray1 = [], newArray2 = [], i = 0; i < Math.max(array1.length, array2.length); i++){
                 var subpath1 = array1[i], subpath2 = array2[i], newSubpath1 = void 0, newSubpath2 = void 0;
-                subpath1 ? subpath2 ? (newSubpath1 = (_a = alignSubpath(subpath1, subpath2))[0], newSubpath2 = _a[1], lastSubpath1 = newSubpath1, lastSubpath2 = newSubpath2) : (newSubpath2 = createSubpath(lastSubpath2 || subpath1, subpath1), newSubpath1 = subpath1) : (newSubpath1 = createSubpath(lastSubpath1 || subpath2, subpath2), newSubpath2 = subpath2), newArray1.push(newSubpath1), newArray2.push(newSubpath2);
+                subpath1 ? subpath2 ? (newSubpath1 = (_a = function(subpath1, subpath2) {
+                    var len1 = subpath1.length, len2 = subpath2.length;
+                    if (len1 === len2) return [
+                        subpath1,
+                        subpath2
+                    ];
+                    for(var shorterPath = len1 < len2 ? subpath1 : subpath2, shorterLen = Math.min(len1, len2), diff = Math.abs(len2 - len1) / 6, eachCurveSubDivCount = Math.ceil(diff / ((shorterLen - 2) / 6)) + 1, newSubpath = [
+                        shorterPath[0],
+                        shorterPath[1]
+                    ], remained = diff, tmpSegX = [], tmpSegY = [], i = 2; i < shorterLen;){
+                        var x0 = shorterPath[i - 2], y0 = shorterPath[i - 1], x1 = shorterPath[i++], y1 = shorterPath[i++], x2 = shorterPath[i++], y2 = shorterPath[i++], x3 = shorterPath[i++], y3 = shorterPath[i++];
+                        if (remained <= 0) {
+                            newSubpath.push(x1, y1, x2, y2, x3, y3);
+                            continue;
+                        }
+                        for(var actualSubDivCount = Math.min(remained, eachCurveSubDivCount - 1) + 1, k = 1; k <= actualSubDivCount; k++){
+                            var p = k / actualSubDivCount;
+                            cubicSubdivide(x0, x1, x2, x3, p, tmpSegX), cubicSubdivide(y0, y1, y2, y3, p, tmpSegY), x0 = tmpSegX[3], y0 = tmpSegY[3], newSubpath.push(tmpSegX[1], tmpSegY[1], tmpSegX[2], tmpSegY[2], x0, y0), x1 = tmpSegX[5], y1 = tmpSegY[5], x2 = tmpSegX[6], y2 = tmpSegY[6];
+                        }
+                        remained -= actualSubDivCount - 1;
+                    }
+                    return shorterPath === subpath1 ? [
+                        newSubpath,
+                        subpath2
+                    ] : [
+                        subpath1,
+                        newSubpath
+                    ];
+                }(subpath1, subpath2))[0], newSubpath2 = _a[1], lastSubpath1 = newSubpath1, lastSubpath2 = newSubpath2) : (newSubpath2 = createSubpath(lastSubpath2 || subpath1, subpath1), newSubpath1 = subpath1) : (newSubpath1 = createSubpath(lastSubpath1 || subpath2, subpath2), newSubpath2 = subpath2), newArray1.push(newSubpath1), newArray2.push(newSubpath2);
             }
             return [
                 newArray1,
@@ -30487,8 +30355,20 @@
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
                 null == fromNeedsReverse && (fromNeedsReverse = fromCp[2] < 0 != toCp[2] < 0);
                 var newFromSubpathBezier = [], newToSubpathBezier = [], bestAngle = 0, bestScore = 1 / 0, tmpArr_1 = [], len = fromSubpathBezier.length;
-                fromNeedsReverse && (fromSubpathBezier = reverse(fromSubpathBezier));
-                for(var offset = 6 * findBestRingOffset(fromSubpathBezier, toSubpathBezier, fromCp, toCp), len2 = len - 2, k = 0; k < len2; k += 2){
+                fromNeedsReverse && (fromSubpathBezier = function(array) {
+                    for(var newArr = [], len = array.length, i = 0; i < len; i += 2)newArr[i] = array[len - i - 2], newArr[i + 1] = array[len - i - 1];
+                    return newArr;
+                }(fromSubpathBezier));
+                for(var offset = 6 * function(fromSubBeziers, toSubBeziers, fromCp, toCp) {
+                    for(var bezierCount = (fromSubBeziers.length - 2) / 6, bestScore = 1 / 0, bestOffset = 0, len = fromSubBeziers.length, len2 = len - 2, offset = 0; offset < bezierCount; offset++){
+                        for(var cursorOffset = 6 * offset, score = 0, k = 0; k < len; k += 2){
+                            var idx = 0 === k ? cursorOffset : (cursorOffset + k - 2) % len2 + 2, x0 = fromSubBeziers[idx] - fromCp[0], y0 = fromSubBeziers[idx + 1] - fromCp[1], x1 = toSubBeziers[k] - toCp[0], y1 = toSubBeziers[k + 1] - toCp[1], dx = x1 - x0, dy = y1 - y0;
+                            score += dx * dx + dy * dy;
+                        }
+                        score < bestScore && (bestScore = score, bestOffset = offset);
+                    }
+                    return bestOffset;
+                }(fromSubpathBezier, toSubpathBezier, fromCp, toCp), len2 = len - 2, k = 0; k < len2; k += 2){
                     var idx = (offset + k) % len2 + 2;
                     newFromSubpathBezier[k + 2] = fromSubpathBezier[idx] - fromCp[0], newFromSubpathBezier[k + 3] = fromSubpathBezier[idx + 1] - fromCp[1];
                 }
@@ -30635,14 +30515,14 @@
             }
             else {
                 if (!(path instanceof Sector)) return duplicateShape(path, separateCount);
-                for(var toPathShape = path.shape, clockwise = toPathShape.clockwise, startAngle = toPathShape.startAngle, endAngle = toPathShape.endAngle, step = (normalizeRadian$1(startAngle, toPathShape.endAngle, clockwise) - startAngle) / separateCount, angleCurr = startAngle, i = 0; i < separateCount; i++, angleCurr += step){
+                for(var start, end, clockwise, toPathShape = path.shape, clockwise1 = toPathShape.clockwise, startAngle = toPathShape.startAngle, endAngle = toPathShape.endAngle, step = (start = startAngle, end = toPathShape.endAngle, clockwise = clockwise1, (end + PI2$a * Math[clockwise ? 'ceil' : 'floor']((start - end) / PI2$a) - startAngle) / separateCount), angleCurr = startAngle, i = 0; i < separateCount; i++, angleCurr += step){
                     var splitted = new Sector({
                         shape: {
                             cx: toPathShape.cx,
                             cy: toPathShape.cy,
                             r: toPathShape.r,
                             r0: toPathShape.r0,
-                            clockwise: clockwise,
+                            clockwise: clockwise1,
                             startAngle: angleCurr,
                             endAngle: i === separateCount - 1 ? endAngle : angleCurr + step
                         }
@@ -30663,9 +30543,6 @@
             resultPaths.push(sub);
         }
         return resultPaths;
-    }
-    function normalizeRadian$1(start, end, clockwise) {
-        return end + PI2$a * Math[clockwise ? 'ceil' : 'floor']((start - end) / PI2$a);
     }
     var inner$9 = makeInner(), TRANSFORM_PROPS = {
         x: 1,
@@ -31026,8 +30903,8 @@
                 } else if (indexOf(elOption.transition, mainAttr) >= 0) {
                     transFromPropsInAttr || (transFromPropsInAttr = transFromProps[mainAttr] = {});
                     for(var elPropsInAttrKeys = keys(elPropsInAttr), i = 0; i < elPropsInAttrKeys.length; i++){
-                        var key = elPropsInAttrKeys[i], elVal = elPropsInAttr[key];
-                        isNonStyleTransitionEnabled(attrOpt[key], elVal) && (transFromPropsInAttr[key] = elVal);
+                        var optVal, elVal1, key = elPropsInAttrKeys[i], elVal = elPropsInAttr[key];
+                        optVal = attrOpt[key], elVal1 = elVal, (isArrayLike(optVal) ? optVal !== elVal1 : null != optVal && isFinite(optVal)) && (transFromPropsInAttr[key] = elVal);
                     }
                 }
             }
@@ -31116,9 +30993,6 @@
             }
         }
     }
-    function isNonStyleTransitionEnabled(optVal, elVal) {
-        return isArrayLike(optVal) ? optVal !== elVal : null != optVal && isFinite(optVal);
-    }
     function getOrCreateLeaveToPropsFromEl(el) {
         var innerEl = inner$9(el);
         return innerEl.leaveToProps || (innerEl.leaveToProps = {});
@@ -31186,10 +31060,6 @@
             } else stateObj.style = styleOpt || null;
             txCfgOpt && (stateObj.textConfig = txCfgOpt), setDefaultStateProxy(elDisplayable);
         }
-    }
-    function updateZForEachState(elDisplayable, elOption, state) {
-        var stateObj, isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
-        null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
     }
     function setLagecyTransformProp(elOption, targetProps, legacyName, fromTransformable) {
         var legacyArr = elOption[legacyName], xyName = LEGACY_TRANSFORM_PROPS[legacyName];
@@ -31372,7 +31242,10 @@
                 elDisplayable.z = currentZ, elDisplayable.zlevel = currentZLevel;
                 var optZ2 = elOption.z2;
                 null != optZ2 && (elDisplayable.z2 = optZ2 || 0);
-                for(var i = 0; i < STATES.length; i++)updateZForEachState(elDisplayable, elOption, STATES[i]);
+                for(var i = 0; i < STATES.length; i++)(function(elDisplayable, elOption, state) {
+                    var stateObj, isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
+                    null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
+                })(elDisplayable, elOption, STATES[i]);
             }
         }(el, elOption, seriesModel), 'group' === elOption.type && function(api, el, dataIndex, elOption, seriesModel, morphPreparation) {
             var newChildren = elOption.children, newLen = newChildren ? newChildren.length : 0, mergeChildren = elOption.$mergeChildren, byName = 'byName' === mergeChildren || elOption.diffChildrenByName, notMerge = !1 === mergeChildren;
@@ -39224,30 +39097,29 @@
                         ]), thisCoord += step, lastIsEmpty = isEmpty;
                     });
                     for(var dataZoomModel = this.dataZoomModel, i = 0; i < 3; i++){
-                        var group = createDataShadowGroup(1 === i);
+                        var group = function(isSelectedArea) {
+                            var model = dataZoomModel.getModel(isSelectedArea ? 'selectedDataBackground' : 'dataBackground'), group = new Group(), polygon = new Polygon({
+                                shape: {
+                                    points: areaPoints
+                                },
+                                segmentIgnoreThreshold: 1,
+                                style: model.getModel('areaStyle').getAreaStyle(),
+                                silent: !0,
+                                z2: -20
+                            }), polyline = new Polyline({
+                                shape: {
+                                    points: linePoints
+                                },
+                                segmentIgnoreThreshold: 1,
+                                style: model.getModel('lineStyle').getLineStyle(),
+                                silent: !0,
+                                z2: -19
+                            });
+                            return group.add(polygon), group.add(polyline), group;
+                        }(1 === i);
                         this._displayables.sliderGroup.add(group), this._displayables.dataShadowSegs.push(group);
                     }
                 }
-            }
-            function createDataShadowGroup(isSelectedArea) {
-                var model = dataZoomModel.getModel(isSelectedArea ? 'selectedDataBackground' : 'dataBackground'), group = new Group(), polygon = new Polygon({
-                    shape: {
-                        points: areaPoints
-                    },
-                    segmentIgnoreThreshold: 1,
-                    style: model.getModel('areaStyle').getAreaStyle(),
-                    silent: !0,
-                    z2: -20
-                }), polyline = new Polyline({
-                    shape: {
-                        points: linePoints
-                    },
-                    segmentIgnoreThreshold: 1,
-                    style: model.getModel('lineStyle').getLineStyle(),
-                    silent: !0,
-                    z2: -19
-                });
-                return group.add(polygon), group.add(polyline), group;
             }
         }, SliderZoomView.prototype._prepareDataShadowInfo = function() {
             var result, dataZoomModel = this.dataZoomModel, showDataShadow = dataZoomModel.get('showDataShadow');
@@ -41157,9 +41029,9 @@
         }
         return function(exprOption, getters) {
             for(var errMsg = '', valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? getRawValueParser(parserName) : null, i = 0; i < exprKeys.length; i++){
-                var keyRaw = exprKeys[i];
+                var op, rval, keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
-                    var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = createFilterComparator(op, condValueParsed) || 'reg' === op && new RegExpEvaluator(condValueParsed);
+                    var op1 = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = (op = op1, rval = condValueParsed, ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, rval) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, rval) : null) || 'reg' === op1 && new RegExpEvaluator(condValueParsed));
                     evaluator || (errMsg = makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption), throwError(errMsg)), subCondList.push(evaluator);
                 }
             }
@@ -41616,7 +41488,9 @@
     }, exports1.format = format$1, exports1.getCoordinateSystemDimensions = function(type) {
         var coordSysCreator = CoordinateSystemManager.get(type);
         if (coordSysCreator) return coordSysCreator.getDimensionsInfo ? coordSysCreator.getDimensionsInfo() : coordSysCreator.dimensions.slice();
-    }, exports1.getInstanceByDom = getInstanceByDom, exports1.getInstanceById = getInstanceById, exports1.getMap = function(mapName) {
+    }, exports1.getInstanceByDom = getInstanceByDom, exports1.getInstanceById = function(key) {
+        return instances$1[key];
+    }, exports1.getMap = function(mapName) {
         return geoSourceManager.getMapForUser(mapName);
     }, exports1.graphic = graphic$1, exports1.helper = helper, exports1.init = function(dom, theme, opts) {
         if (!dom) throw Error('Initialize failed: invalid dom.');
@@ -41627,7 +41501,9 @@
         return chart.id = 'ec_' + idBase++, instances$1[chart.id] = chart, setAttribute(dom, DOM_ATTRIBUTE_KEY, chart.id), enableConnect(chart), each(postInitFuncs, function(postInitFunc) {
             postInitFunc(chart);
         }), chart;
-    }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = registerCoordinateSystem, exports1.registerLayout = registerLayout, exports1.registerLoading = registerLoading, exports1.registerLocale = registerLocale, exports1.registerMap = registerMap, exports1.registerPostInit = registerPostInit, exports1.registerPostUpdate = registerPostUpdate, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = registerTheme, exports1.registerTransform = registerTransform, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
+    }, exports1.innerDrawElementOnCanvas = brushSingle, exports1.matrix = matrix, exports1.number = number, exports1.parseGeoJSON = parseGeoJSON, exports1.parseGeoJson = parseGeoJSON, exports1.registerAction = registerAction, exports1.registerCoordinateSystem = registerCoordinateSystem, exports1.registerLayout = registerLayout, exports1.registerLoading = registerLoading, exports1.registerLocale = registerLocale, exports1.registerMap = registerMap, exports1.registerPostInit = registerPostInit, exports1.registerPostUpdate = registerPostUpdate, exports1.registerPreprocessor = registerPreprocessor, exports1.registerProcessor = registerProcessor, exports1.registerTheme = function(name, theme) {
+        themeStorage[name] = theme;
+    }, exports1.registerTransform = registerTransform, exports1.registerVisual = registerVisual, exports1.setCanvasCreator = function(creator) {
         var fn;
         methods.createCanvas = creator;
     }, exports1.throttle = throttle, exports1.time = time, exports1.use = use, exports1.util = util$1, exports1.vector = vector, exports1.version = '5.1.1', exports1.zrUtil = util, exports1.zrender = zrender, Object.defineProperty(exports1, '__esModule', {

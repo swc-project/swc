@@ -279,12 +279,11 @@
             }
             function cv_utils_cluster(points, threshold, property) {
                 var i, k, thisCluster, point, clusters = [];
-                function addToCluster(newPoint) {
+                for(property || (property = "rad"), i = 0; i < points.length; i++)!function(newPoint) {
                     var found = !1;
                     for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
                     return found;
-                }
-                for(property || (property = "rad"), i = 0; i < points.length; i++)addToCluster(point = cluster.createPoint(points[i], i, property)) || clusters.push(cluster.create(point, threshold));
+                }(point = cluster.createPoint(points[i], i, property)) && clusters.push(cluster.create(point, threshold));
                 return clusters;
             }
             function topGeneric(list, top, scoreFunc) {
@@ -768,113 +767,6 @@
                     x: 0,
                     y: 0
                 };
-                function boxFromPatches(patches) {
-                    var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
-                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
-                        color: "red"
-                    });
-                    for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
-                        Math.cos(overAvg),
-                        Math.sin(overAvg),
-                        -Math.sin(overAvg),
-                        Math.cos(overAvg)
-                    ]), i = 0; i < patches.length; i++){
-                        for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
-                        _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(patch.box, {
-                            x: 0,
-                            y: 1
-                        }, _canvasContainer.ctx.binary, {
-                            color: "#99ff00",
-                            lineWidth: 2
-                        });
-                    }
-                    for(i = 0; i < patches.length; i++)for(j = 0, patch = patches[i]; j < 4; j++)patch.box[j][0] < minx && (minx = patch.box[j][0]), patch.box[j][0] > maxx && (maxx = patch.box[j][0]), patch.box[j][1] < miny && (miny = patch.box[j][1]), patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
-                    for(box = [
-                        [
-                            minx,
-                            miny
-                        ],
-                        [
-                            maxx,
-                            miny
-                        ],
-                        [
-                            maxx,
-                            maxy
-                        ],
-                        [
-                            minx,
-                            maxy
-                        ]
-                    ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
-                        x: 0,
-                        y: 1
-                    }, _canvasContainer.ctx.binary, {
-                        color: "#ff0000",
-                        lineWidth: 2
-                    }), scale = _config.halfSample ? 2 : 1, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
-                    for(_config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
-                        x: 0,
-                        y: 1
-                    }, _canvasContainer.ctx.binary, {
-                        color: "#ff0000",
-                        lineWidth: 2
-                    }), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
-                    return box;
-                }
-                function skeletonize(x, y) {
-                    _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y));
-                }
-                function describePatch(moments, patchPos, x, y) {
-                    var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
-                    if (moments.length >= 2) {
-                        for(k = 0; k < moments.length; k++)moments[k].m00 > minComponentWeight && eligibleMoments.push(moments[k]);
-                        if (eligibleMoments.length >= 2) {
-                            for(k = 0, matchingMoments = function(moments) {
-                                var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
-                                    return e.getPoints().length;
-                                }), points = [], result = [];
-                                if (1 === topCluster.length) {
-                                    points = topCluster[0].item.getPoints();
-                                    for(var i = 0; i < points.length; i++)result.push(points[i].point);
-                                }
-                                return result;
-                            }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
-                            matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4 && (avg /= matchingMoments.length, patch = {
-                                index: patchPos[1] * _numPatches.x + patchPos[0],
-                                pos: {
-                                    x: x,
-                                    y: y
-                                },
-                                box: [
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x,
-                                        y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x + _subImageWrapper.size.x,
-                                        y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x + _subImageWrapper.size.x,
-                                        y + _subImageWrapper.size.y
-                                    ]),
-                                    gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                        x,
-                                        y + _subImageWrapper.size.y
-                                    ])
-                                ],
-                                moments: matchingMoments,
-                                rad: avg,
-                                vec: gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
-                                    Math.cos(avg),
-                                    Math.sin(avg)
-                                ])
-                            }, patchesFound.push(patch));
-                        }
-                    }
-                    return patchesFound;
-                }
                 __webpack_exports__.a = {
                     init: function(inputImageWrapper, config) {
                         var skeletonImageData;
@@ -891,14 +783,63 @@
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
                         var patchesFound = function() {
-                            var i, j, x, y, moments, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)skeletonize(x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
-                                x: x,
-                                y: y
-                            }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(describePatch(moments, [
+                            var x, y, i, j, x1, y1, moments, rasterResult, patch, patchesFound = [];
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = x1 = _subImageWrapper.size.x * i, y = y1 = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                                x: x1,
+                                y: y1
+                            }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(function(moments, patchPos, x, y) {
+                                var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
+                                if (moments.length >= 2) {
+                                    for(k = 0; k < moments.length; k++)moments[k].m00 > minComponentWeight && eligibleMoments.push(moments[k]);
+                                    if (eligibleMoments.length >= 2) {
+                                        for(k = 0, matchingMoments = function(moments) {
+                                            var clusters = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.b)(moments, 0.9), topCluster = Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.j)(clusters, 1, function(e) {
+                                                return e.getPoints().length;
+                                            }), points = [], result = [];
+                                            if (1 === topCluster.length) {
+                                                points = topCluster[0].item.getPoints();
+                                                for(var i = 0; i < points.length; i++)result.push(points[i].point);
+                                            }
+                                            return result;
+                                        }(eligibleMoments), avg = 0; k < matchingMoments.length; k++)avg += matchingMoments[k].rad;
+                                        matchingMoments.length > 1 && matchingMoments.length >= eligibleMoments.length / 4 * 3 && matchingMoments.length > moments.length / 4 && (avg /= matchingMoments.length, patch = {
+                                            index: patchPos[1] * _numPatches.x + patchPos[0],
+                                            pos: {
+                                                x: x,
+                                                y: y
+                                            },
+                                            box: [
+                                                gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                                    x,
+                                                    y
+                                                ]),
+                                                gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                                    x + _subImageWrapper.size.x,
+                                                    y
+                                                ]),
+                                                gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                                    x + _subImageWrapper.size.x,
+                                                    y + _subImageWrapper.size.y
+                                                ]),
+                                                gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                                    x,
+                                                    y + _subImageWrapper.size.y
+                                                ])
+                                            ],
+                                            moments: matchingMoments,
+                                            rad: avg,
+                                            vec: gl_vec2__WEBPACK_IMPORTED_MODULE_0__.clone([
+                                                Math.cos(avg),
+                                                Math.sin(avg)
+                                            ])
+                                        }, patchesFound.push(patch));
+                                    }
+                                }
+                                return patchesFound;
+                            }(moments, [
                                 i,
                                 j
-                            ], x, y));
+                            ], x1, y1));
                             if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                 color: "#99ff00",
                                 lineWidth: 2
@@ -916,12 +857,12 @@
                                 0,
                                 0
                             ];
-                            function notYetProcessed() {
+                            for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
+                            for(_patchGrid.zeroBorder(); (currIdx = function() {
                                 var i;
                                 for(i = 0; i < _patchLabelGrid.data.length; i++)if (0 === _patchLabelGrid.data[i] && 1 === _patchGrid.data[i]) return i;
                                 return _patchLabelGrid.length;
-                            }
-                            function trace(currentIdx) {
+                            }()) < _patchLabelGrid.data.length;)label++, function trace(currentIdx) {
                                 var x, y, currentPatch, idx, dir, current = {
                                     x: currentIdx % _patchLabelGrid.size.x,
                                     y: currentIdx / _patchLabelGrid.size.x | 0
@@ -933,9 +874,7 @@
                                     }
                                     0 === _patchLabelGrid.data[idx] && Math.abs(gl_vec2__WEBPACK_IMPORTED_MODULE_0__.dot(_imageToPatchGrid.data[idx].vec, currentPatch.vec)) > 0.95 && trace(idx);
                                 }
-                            }
-                            for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
-                            for(_patchGrid.zeroBorder(); (currIdx = notYetProcessed()) < _patchLabelGrid.data.length;)label++, trace(currIdx);
+                            }(currIdx);
                             if (_config.debug.showPatchLabels) for(j = 0; j < _patchLabelGrid.data.length; j++)_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label && (patch = _imageToPatchGrid.data[j], hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                 color: "rgb(".concat(rgb.join(","), ")"),
                                 lineWidth: 2
@@ -970,7 +909,60 @@
                             ];
                             for(i = 0; i < topLabels.length; i++){
                                 for(sum = _patchLabelGrid.data.length, patches.length = 0; sum--;)_patchLabelGrid.data[sum] === topLabels[i].label && (patch = _imageToPatchGrid.data[sum], patches.push(patch));
-                                if ((box = boxFromPatches(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                if ((box = function(patches) {
+                                    var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
+                                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                        color: "red"
+                                    });
+                                    for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
+                                        Math.cos(overAvg),
+                                        Math.sin(overAvg),
+                                        -Math.sin(overAvg),
+                                        Math.cos(overAvg)
+                                    ]), i = 0; i < patches.length; i++){
+                                        for(j = 0, patch = patches[i]; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(patch.box[j], patch.box[j], transMat);
+                                        _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(patch.box, {
+                                            x: 0,
+                                            y: 1
+                                        }, _canvasContainer.ctx.binary, {
+                                            color: "#99ff00",
+                                            lineWidth: 2
+                                        });
+                                    }
+                                    for(i = 0; i < patches.length; i++)for(j = 0, patch = patches[i]; j < 4; j++)patch.box[j][0] < minx && (minx = patch.box[j][0]), patch.box[j][0] > maxx && (maxx = patch.box[j][0]), patch.box[j][1] < miny && (miny = patch.box[j][1]), patch.box[j][1] > maxy && (maxy = patch.box[j][1]);
+                                    for(box = [
+                                        [
+                                            minx,
+                                            miny
+                                        ],
+                                        [
+                                            maxx,
+                                            miny
+                                        ],
+                                        [
+                                            maxx,
+                                            maxy
+                                        ],
+                                        [
+                                            minx,
+                                            maxy
+                                        ]
+                                    ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
+                                        x: 0,
+                                        y: 1
+                                    }, _canvasContainer.ctx.binary, {
+                                        color: "#ff0000",
+                                        lineWidth: 2
+                                    }), scale = _config.halfSample ? 2 : 1, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
+                                    for(_config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawPath(box, {
+                                        x: 0,
+                                        y: 1
+                                    }, _canvasContainer.ctx.binary, {
+                                        color: "#ff0000",
+                                        lineWidth: 2
+                                    }), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
+                                    return box;
+                                }(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                     color: "rgb(".concat(rgb.join(","), ")"),
                                     lineWidth: 2
                                 });
@@ -1242,10 +1234,9 @@
             };
         },
         function(module1, exports1) {
-            function identity(value) {
+            module1.exports = function(value) {
                 return value;
-            }
-            module1.exports = identity;
+            };
         },
         function(module1, exports1, __webpack_require__) {
             var apply = __webpack_require__(147), nativeMax = Math.max;
@@ -2043,10 +2034,9 @@
             };
         },
         function(module1, exports1) {
-            function stubFalse() {
+            module1.exports = function() {
                 return !1;
-            }
-            module1.exports = stubFalse;
+            };
         },
         function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__(22), getPrototype = __webpack_require__(50), isObjectLike = __webpack_require__(18), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
@@ -2641,7 +2631,20 @@
                         for(context.method = method, context.arg = arg;;){
                             var delegate = context.delegate;
                             if (delegate) {
-                                var delegateResult = maybeInvokeDelegate(delegate, context);
+                                var delegateResult = function maybeInvokeDelegate(delegate, context) {
+                                    var method = delegate.iterator[context.method];
+                                    if (method === undefined) {
+                                        if (context.delegate = null, "throw" === context.method) {
+                                            if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
+                                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
+                                        }
+                                        return ContinueSentinel;
+                                    }
+                                    var record = tryCatch(method, delegate.iterator, context.arg);
+                                    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
+                                    var info = record.arg;
+                                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
+                                }(delegate, context);
                                 if (delegateResult) {
                                     if (delegateResult === ContinueSentinel) continue;
                                     return delegateResult;
@@ -2726,20 +2729,6 @@
                         }
                         return previousPromise = previousPromise ? previousPromise.then(callInvokeWithMethodAndArg, callInvokeWithMethodAndArg) : callInvokeWithMethodAndArg();
                     };
-                }
-                function maybeInvokeDelegate(delegate, context) {
-                    var method = delegate.iterator[context.method];
-                    if (method === undefined) {
-                        if (context.delegate = null, "throw" === context.method) {
-                            if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
-                            context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
-                        }
-                        return ContinueSentinel;
-                    }
-                    var record = tryCatch(method, delegate.iterator, context.arg);
-                    if ("throw" === record.type) return context.method = "throw", context.arg = record.arg, context.delegate = null, ContinueSentinel;
-                    var info = record.arg;
-                    return info ? info.done ? (context[delegate.resultName] = info.value, context.next = delegate.nextLoc, "return" !== context.method && (context.method = "next", context.arg = undefined), context.delegate = null, ContinueSentinel) : info : (context.method = "throw", context.arg = TypeError("iterator result is not an object"), context.delegate = null, ContinueSentinel);
                 }
                 function pushTryEntry(locs) {
                     var entry = {
@@ -6614,38 +6603,19 @@
                 }
                 return Exception;
             }(__webpack_require__.n(wrapNativeSuper)()(Error)), ERROR_DESC = "This may mean that the user has declined camera access, or the browser does not support media APIs. If you are running in iOS, you must use Safari.";
-            function enumerateDevices() {
-                try {
-                    return navigator.mediaDevices.enumerateDevices();
-                } catch (err) {
-                    return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
-                }
-            }
-            function getUserMedia(constraints) {
-                try {
-                    return navigator.mediaDevices.getUserMedia(constraints);
-                } catch (err) {
-                    return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
-                }
-            }
-            function waitForVideo(video) {
-                return new Promise(function(resolve, reject) {
-                    var attempts = 10;
-                    !function checkVideo() {
-                        attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
-                    }();
-                });
-            }
-            function initCamera(_x, _x2) {
-                return _initCamera.apply(this, arguments);
-            }
             function _initCamera() {
                 return (_initCamera = asyncToGenerator_default()(regenerator_default.a.mark(function _callee2(video, constraints) {
                     var stream;
                     return regenerator_default.a.wrap(function(_context2) {
                         for(;;)switch(_context2.prev = _context2.next){
                             case 0:
-                                return _context2.next = 2, getUserMedia(constraints);
+                                return _context2.next = 2, function(constraints) {
+                                    try {
+                                        return navigator.mediaDevices.getUserMedia(constraints);
+                                    } catch (err) {
+                                        return Promise.reject(new Exception_Exception("getUserMedia is not defined. ".concat(ERROR_DESC), -1));
+                                    }
+                                }(constraints);
                             case 2:
                                 if (streamRef = stream = _context2.sent, !video) {
                                     _context2.next = 11;
@@ -6653,7 +6623,14 @@
                                 }
                                 return video.setAttribute("autoplay", "true"), video.setAttribute("muted", "true"), video.setAttribute("playsinline", "true"), video.srcObject = stream, video.addEventListener("loadedmetadata", function() {
                                     video.play();
-                                }), _context2.abrupt("return", waitForVideo(video));
+                                }), _context2.abrupt("return", function(video) {
+                                    return new Promise(function(resolve, reject) {
+                                        var attempts = 10;
+                                        !function checkVideo() {
+                                            attempts > 0 ? video.videoWidth > 10 && video.videoHeight > 10 ? (console.log("* dev: checkVideo found ".concat(video.videoWidth, "px x ").concat(video.videoHeight, "px")), resolve()) : window.setTimeout(checkVideo, 500) : reject(new Exception_Exception("Unable to play video stream. Is webcam working?", -1)), attempts--;
+                                        }();
+                                    });
+                                }(video));
                             case 11:
                                 return _context2.abrupt("return", Promise.resolve());
                             case 12:
@@ -6663,26 +6640,19 @@
                     }, _callee2);
                 }))).apply(this, arguments);
             }
-            function pickConstraints() {
-                var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
-                    "width",
-                    "height",
-                    "facingMode",
-                    "aspectRatio",
-                    "deviceId"
-                ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
-                return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
-                    audio: !1,
-                    video: video
-                });
-            }
             function _enumerateVideoDevices() {
                 return (_enumerateVideoDevices = asyncToGenerator_default()(regenerator_default.a.mark(function _callee3() {
                     var devices;
                     return regenerator_default.a.wrap(function(_context3) {
                         for(;;)switch(_context3.prev = _context3.next){
                             case 0:
-                                return _context3.next = 2, enumerateDevices();
+                                return _context3.next = 2, function() {
+                                    try {
+                                        return navigator.mediaDevices.enumerateDevices();
+                                    } catch (err) {
+                                        return Promise.reject(new Exception_Exception("enumerateDevices is not defined. ".concat(ERROR_DESC), -1));
+                                    }
+                                }();
                             case 2:
                                 return devices = _context3.sent, _context3.abrupt("return", devices.filter(function(device) {
                                     return "videoinput" === device.kind;
@@ -6707,9 +6677,23 @@
                         return regenerator_default.a.wrap(function(_context) {
                             for(;;)switch(_context.prev = _context.next){
                                 case 0:
-                                    return QuaggaJSCameraAccess.requestedVideoElement = video, _context.next = 3, pickConstraints(videoConstraints);
+                                    return QuaggaJSCameraAccess.requestedVideoElement = video, _context.next = 3, function() {
+                                        var normalized, videoConstraints = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, video = (normalized = pick_default()(videoConstraints, [
+                                            "width",
+                                            "height",
+                                            "facingMode",
+                                            "aspectRatio",
+                                            "deviceId"
+                                        ]), void 0 !== videoConstraints.minAspectRatio && videoConstraints.minAspectRatio > 0 && (normalized.aspectRatio = videoConstraints.minAspectRatio, console.log("WARNING: Constraint 'minAspectRatio' is deprecated; Use 'aspectRatio' instead")), void 0 !== videoConstraints.facing && (normalized.facingMode = videoConstraints.facing, console.log("WARNING: Constraint 'facing' is deprecated. Use 'facingMode' instead'")), normalized);
+                                        return video && video.deviceId && video.facingMode && delete video.facingMode, Promise.resolve({
+                                            audio: !1,
+                                            video: video
+                                        });
+                                    }(videoConstraints);
                                 case 3:
-                                    return newConstraints = _context.sent, _context.abrupt("return", initCamera(video, newConstraints));
+                                    return newConstraints = _context.sent, _context.abrupt("return", function(_x, _x2) {
+                                        return _initCamera.apply(this, arguments);
+                                    }(video, newConstraints));
                                 case 5:
                                 case "end":
                                     return _context.stop();
@@ -6828,37 +6812,7 @@
                     }, fileReader.readAsArrayBuffer(blob);
                 });
             }
-            function readEXIFData(file, start, exifTags) {
-                if ("Exif" !== function(buffer, start, length) {
-                    for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
-                    return outstr;
-                }(file, start, 4)) return !1;
-                var bigEnd, tiffOffset = start + 6;
-                if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
-                else {
-                    if (0x4d4d !== file.getUint16(tiffOffset)) return !1;
-                    bigEnd = !0;
-                }
-                if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
-                var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
-                return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
-                    for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
-                        var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
-                        tag && (tags[tag] = readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd));
-                    }
-                    return tags;
-                }(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
-            }
-            function readTagValue(file, entryOffset, tiffStart, dirStart, bigEnd) {
-                var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
-                return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
-            }
             var ImageLoader = {};
-            function addOnloadHandler(img, htmlImagesArray) {
-                img.onload = function() {
-                    htmlImagesArray.loaded(this);
-                };
-            }
             ImageLoader.load = function(directory, callback, offset, size, sequence) {
                 var i, img, num, htmlImagesSrcArray = Array(size), htmlImagesArray = Array(htmlImagesSrcArray.length);
                 if (!1 === sequence) htmlImagesSrcArray[0] = directory;
@@ -6896,7 +6850,30 @@
                                 }, {}), offset = 2;
                                 if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length && 0xff === dataView.getUint8(offset);){
-                                    if (0xe1 === dataView.getUint8(offset + 1)) return readEXIFData(dataView, offset + 4, exifTags);
+                                    if (0xe1 === dataView.getUint8(offset + 1)) return function(file, start, exifTags) {
+                                        if ("Exif" !== function(buffer, start, length) {
+                                            for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
+                                            return outstr;
+                                        }(file, start, 4)) return !1;
+                                        var bigEnd, tiffOffset = start + 6;
+                                        if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
+                                        else {
+                                            if (0x4d4d !== file.getUint16(tiffOffset)) return !1;
+                                            bigEnd = !0;
+                                        }
+                                        if (0x002a !== file.getUint16(tiffOffset + 2, !bigEnd)) return !1;
+                                        var firstIFDOffset = file.getUint32(tiffOffset + 4, !bigEnd);
+                                        return !(firstIFDOffset < 0x00000008) && function(file, tiffStart, dirStart, strings, bigEnd) {
+                                            for(var entries = file.getUint16(dirStart, !bigEnd), tags = {}, i = 0; i < entries; i++){
+                                                var entryOffset = dirStart + 12 * i + 2, tag = strings[file.getUint16(entryOffset, !bigEnd)];
+                                                tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
+                                                    var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
+                                                    return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
+                                                }(file, entryOffset, tiffStart, dirStart, bigEnd));
+                                            }
+                                            return tags;
+                                        }(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                                    }(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
                                 return !1;
@@ -6909,7 +6886,11 @@
                     }).catch(function(e) {
                         console.log(e), callback(htmlImagesArray);
                     }) : callback(htmlImagesArray));
-                }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), addOnloadHandler(img, htmlImagesArray), img.src = htmlImagesSrcArray[i];
+                }; i < htmlImagesSrcArray.length; i++)img = new Image(), htmlImagesArray.addImage(img), function(img, htmlImagesArray) {
+                    img.onload = function() {
+                        htmlImagesArray.loaded(this);
+                    };
+                }(img, htmlImagesArray), img.src = htmlImagesSrcArray[i];
             };
             var inputStreamFactory = {
                 createVideoStream: function(video) {
@@ -7194,34 +7175,6 @@
                     } else "process" === e.data.cmd ? (imageWrapper.data = new Uint8Array(e.data.imageData), Quagga.start()) : "setReaders" === e.data.cmd ? Quagga.setReaders(e.data.readers) : "registerReader" === e.data.cmd && Quagga.registerReader(e.data.name, e.data.reader);
                 };
             }
-            function initWorker(config, inputStream, cb) {
-                var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
-                    "(" + workerInterface.toString() + ")(" + factorySource + ");"
-                ], {
-                    type: "text/javascript"
-                }), window.URL.createObjectURL(blob)), workerThread = {
-                    worker: new Worker(blobURL),
-                    imageData: new Uint8Array(inputStream.getWidth() * inputStream.getHeight()),
-                    busy: !0
-                };
-                workerThread.worker.onmessage = function(e) {
-                    "initialized" === e.data.event ? (URL.revokeObjectURL(blobURL), workerThread.busy = !1, workerThread.imageData = new Uint8Array(e.data.imageData), console.log("Worker initialized"), cb(workerThread)) : "processed" === e.data.event ? (workerThread.imageData = new Uint8Array(e.data.imageData), workerThread.busy = !1) : "error" === e.data.event && console.log("Worker error: " + e.data.message);
-                }, workerThread.worker.postMessage({
-                    cmd: "init",
-                    size: {
-                        x: inputStream.getWidth(),
-                        y: inputStream.getHeight()
-                    },
-                    imageData: workerThread.imageData,
-                    config: qworker_objectSpread(qworker_objectSpread({}, config), {}, {
-                        inputStream: qworker_objectSpread(qworker_objectSpread({}, config.inputStream), {}, {
-                            target: null
-                        })
-                    })
-                }, [
-                    workerThread.imageData.buffer
-                ]);
-            }
             function adjustWorkerPool(capacity, config, inputStream, cb) {
                 var increaseBy = capacity - workerPool.length;
                 if (0 === increaseBy && cb) cb();
@@ -7232,7 +7185,34 @@
                     var workerInitialized = function(workerThread) {
                         workerPool.push(workerThread), workerPool.length >= capacity && cb && cb();
                     };
-                    if (config) for(var i = 0; i < increaseBy; i++)initWorker(config, inputStream, workerInitialized);
+                    if (config) for(var i = 0; i < increaseBy; i++)!function(config, inputStream, cb) {
+                        var blob, factorySource, blobURL = ("undefined" != typeof __factorySource__ && (factorySource = __factorySource__), blob = new Blob([
+                            "(" + workerInterface.toString() + ")(" + factorySource + ");"
+                        ], {
+                            type: "text/javascript"
+                        }), window.URL.createObjectURL(blob)), workerThread = {
+                            worker: new Worker(blobURL),
+                            imageData: new Uint8Array(inputStream.getWidth() * inputStream.getHeight()),
+                            busy: !0
+                        };
+                        workerThread.worker.onmessage = function(e) {
+                            "initialized" === e.data.event ? (URL.revokeObjectURL(blobURL), workerThread.busy = !1, workerThread.imageData = new Uint8Array(e.data.imageData), console.log("Worker initialized"), cb(workerThread)) : "processed" === e.data.event ? (workerThread.imageData = new Uint8Array(e.data.imageData), workerThread.busy = !1) : "error" === e.data.event && console.log("Worker error: " + e.data.message);
+                        }, workerThread.worker.postMessage({
+                            cmd: "init",
+                            size: {
+                                x: inputStream.getWidth(),
+                                y: inputStream.getHeight()
+                            },
+                            imageData: workerThread.imageData,
+                            config: qworker_objectSpread(qworker_objectSpread({}, config), {}, {
+                                inputStream: qworker_objectSpread(qworker_objectSpread({}, config.inputStream), {}, {
+                                    target: null
+                                })
+                            })
+                        }, [
+                            workerThread.imageData.buffer
+                        ]);
+                    }(config, inputStream, workerInitialized);
                 }
             }
             function moveBox(box, xOffset, yOffset) {

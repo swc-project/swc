@@ -1206,17 +1206,6 @@
             }
             return a ? 1 : -1;
         }
-        function createInputPseudo(type) {
-            return function(elem) {
-                return "input" === elem.nodeName.toLowerCase() && elem.type === type;
-            };
-        }
-        function createButtonPseudo(type) {
-            return function(elem) {
-                var name1 = elem.nodeName.toLowerCase();
-                return ("input" === name1 || "button" === name1) && elem.type === type;
-            };
-        }
         function createPositionalPseudo(fn) {
             return markFunction(function(argument) {
                 return argument = +argument, markFunction(function(seed, matches) {
@@ -1569,11 +1558,20 @@
             file: !0,
             password: !0,
             image: !0
-        })Expr.pseudos[i] = createInputPseudo(i);
+        })Expr.pseudos[i] = function(type) {
+            return function(elem) {
+                return "input" === elem.nodeName.toLowerCase() && elem.type === type;
+            };
+        }(i);
         for(i in {
             submit: !0,
             reset: !0
-        })Expr.pseudos[i] = createButtonPseudo(i);
+        })Expr.pseudos[i] = function(type) {
+            return function(elem) {
+                var name1 = elem.nodeName.toLowerCase();
+                return ("input" === name1 || "button" === name1) && elem.type === type;
+            };
+        }(i);
         function tokenize(selector, parseOnly) {
             var matched, match, tokens, type, soFar, groups, preFilters, cached = tokenCache[selector + " "];
             if (cached) return parseOnly ? 0 : cached.slice(0);
@@ -1621,52 +1619,50 @@
             for(var elem, newUnmatched = [], i = 0, len = unmatched.length, mapped = null != map; i < len; i++)(elem = unmatched[i]) && (!filter || filter(elem, context, xml)) && (newUnmatched.push(elem), mapped && map.push(i));
             return newUnmatched;
         }
-        function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
-            return postFilter && !postFilter[expando] && (postFilter = setMatcher(postFilter)), postFinder && !postFinder[expando] && (postFinder = setMatcher(postFinder, postSelector)), markFunction(function(seed, results, context, xml) {
-                var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || function(selector, contexts, results) {
-                    for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
-                    return results;
-                }(selector || "*", context.nodeType ? [
-                    context
-                ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
-                if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
-                if (seed) {
-                    if (postFinder || preFilter) {
-                        if (postFinder) {
-                            for(temp = [], i = matcherOut.length; i--;)(elem = matcherOut[i]) && temp.push(matcherIn[i] = elem);
-                            postFinder(null, matcherOut = [], temp, xml);
-                        }
-                        for(i = matcherOut.length; i--;)(elem = matcherOut[i]) && (temp = postFinder ? indexOf.call(seed, elem) : preMap[i]) > -1 && (seed[temp] = !(results[temp] = elem));
-                    }
-                } else matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut), postFinder ? postFinder(null, results, matcherOut, xml) : push.apply(results, matcherOut);
-            });
-        }
-        function matcherFromTokens(tokens) {
-            for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
-                return elem === checkContext;
-            }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
-                return indexOf.call(checkContext, elem) > -1;
-            }, implicitRelative, !0), matchers = [
-                function(elem, context, xml) {
-                    return !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
-                }
-            ]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
-                addCombinator(elementMatcher(matchers), matcher)
-            ];
-            else {
-                if ((matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches))[expando]) {
-                    for(j = ++i; j < len && !Expr.relative[tokens[j].type]; j++);
-                    return setMatcher(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1)).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
-                }
-                matchers.push(matcher);
-            }
-            return elementMatcher(matchers);
-        }
         function setFilters() {}
         compile = Sizzle.compile = function(selector, group) {
             var elementMatchers, setMatchers, matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
             if (!cached) {
-                for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = matcherFromTokens(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
+                for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = function matcherFromTokens(tokens) {
+                    for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
+                        return elem === checkContext;
+                    }, implicitRelative, !0), matchAnyContext = addCombinator(function(elem) {
+                        return indexOf.call(checkContext, elem) > -1;
+                    }, implicitRelative, !0), matchers = [
+                        function(elem, context, xml) {
+                            return !leadingRelative && (xml || context !== outermostContext) || ((checkContext = context).nodeType ? matchContext(elem, context, xml) : matchAnyContext(elem, context, xml));
+                        }
+                    ]; i < len; i++)if (matcher = Expr.relative[tokens[i].type]) matchers = [
+                        addCombinator(elementMatcher(matchers), matcher)
+                    ];
+                    else {
+                        if ((matcher = Expr.filter[tokens[i].type].apply(null, tokens[i].matches))[expando]) {
+                            for(j = ++i; j < len && !Expr.relative[tokens[j].type]; j++);
+                            return function setMatcher(preFilter, selector, matcher, postFilter, postFinder, postSelector) {
+                                return postFilter && !postFilter[expando] && (postFilter = setMatcher(postFilter)), postFinder && !postFinder[expando] && (postFinder = setMatcher(postFinder, postSelector)), markFunction(function(seed, results, context, xml) {
+                                    var temp, i, elem, preMap = [], postMap = [], preexisting = results.length, elems = seed || function(selector, contexts, results) {
+                                        for(var i = 0, len = contexts.length; i < len; i++)Sizzle(selector, contexts[i], results);
+                                        return results;
+                                    }(selector || "*", context.nodeType ? [
+                                        context
+                                    ] : context, []), matcherIn = preFilter && (seed || !selector) ? condense(elems, preMap, preFilter, context, xml) : elems, matcherOut = matcher ? postFinder || (seed ? preFilter : preexisting || postFilter) ? [] : results : matcherIn;
+                                    if (matcher && matcher(matcherIn, matcherOut, context, xml), postFilter) for(temp = condense(matcherOut, postMap), postFilter(temp, [], context, xml), i = temp.length; i--;)(elem = temp[i]) && (matcherOut[postMap[i]] = !(matcherIn[postMap[i]] = elem));
+                                    if (seed) {
+                                        if (postFinder || preFilter) {
+                                            if (postFinder) {
+                                                for(temp = [], i = matcherOut.length; i--;)(elem = matcherOut[i]) && temp.push(matcherIn[i] = elem);
+                                                postFinder(null, matcherOut = [], temp, xml);
+                                            }
+                                            for(i = matcherOut.length; i--;)(elem = matcherOut[i]) && (temp = postFinder ? indexOf.call(seed, elem) : preMap[i]) > -1 && (seed[temp] = !(results[temp] = elem));
+                                        }
+                                    } else matcherOut = condense(matcherOut === results ? matcherOut.splice(preexisting, matcherOut.length) : matcherOut), postFinder ? postFinder(null, results, matcherOut, xml) : push.apply(results, matcherOut);
+                                });
+                            }(i > 1 && elementMatcher(matchers), i > 1 && toSelector(tokens.slice(0, i - 1)).replace(rtrim, "$1"), matcher, i < j && matcherFromTokens(tokens.slice(i, j)), j < len && matcherFromTokens(tokens = tokens.slice(j)), j < len && toSelector(tokens));
+                        }
+                        matchers.push(matcher);
+                    }
+                    return elementMatcher(matchers);
+                }(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
                 cached = compilerCache(selector, (elementMatchers = elementMatchers1, setMatchers = setMatchers1, matcherCachedRuns = 0, bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
@@ -1882,9 +1878,6 @@
             "</div>"
         ]
     }, fragmentDiv = createSafeFragment(document).appendChild(document.createElement("div"));
-    function findOrAppend(elem, tag) {
-        return elem.getElementsByTagName(tag)[0] || elem.appendChild(elem.ownerDocument.createElement(tag));
-    }
     function disableScript(elem) {
         var attr = elem.getAttributeNode("type");
         return elem.type = (attr && attr.specified) + "/" + elem.type, elem;
@@ -1901,16 +1894,6 @@
             var type, i, l, oldData = jQuery._data(src), curData = jQuery._data(dest, oldData), events = oldData.events;
             if (events) for(type in delete curData.handle, curData.events = {}, events)for(i = 0, l = events[type].length; i < l; i++)jQuery.event.add(dest, type, events[type][i]);
             curData.data && (curData.data = jQuery.extend({}, curData.data));
-        }
-    }
-    function fixCloneNodeIssues(src, dest) {
-        var nodeName, e, data;
-        if (1 === dest.nodeType) {
-            if (nodeName = dest.nodeName.toLowerCase(), !jQuery.support.noCloneEvent && dest[jQuery.expando]) {
-                for(e in (data = jQuery._data(dest)).events)jQuery.removeEvent(dest, e, data.handle);
-                dest.removeAttribute(jQuery.expando);
-            }
-            "script" === nodeName && dest.text !== src.text ? (disableScript(dest).text = src.text, restoreScript(dest)) : "object" === nodeName ? (dest.parentNode && (dest.outerHTML = src.outerHTML), jQuery.support.html5Clone && src.innerHTML && !jQuery.trim(dest.innerHTML) && (dest.innerHTML = src.innerHTML)) : "input" === nodeName && manipulation_rcheckableType.test(src.type) ? (dest.defaultChecked = dest.checked = src.checked, dest.value !== src.value && (dest.value = src.value)) : "option" === nodeName ? dest.defaultSelected = dest.selected = src.defaultSelected : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
         }
     }
     function getAll(context, tag) {
@@ -2029,13 +2012,15 @@
         },
         domManip: function(args, table, callback) {
             args = core_concat.apply([], args);
-            var first, node, hasScripts, scripts, doc, fragment, i = 0, l = this.length, set = this, iNoClone = l - 1, value = args[0], isFunction = jQuery.isFunction(value);
+            var elem, tag, first, node, hasScripts, scripts, doc, fragment, i = 0, l = this.length, set = this, iNoClone = l - 1, value = args[0], isFunction = jQuery.isFunction(value);
             if (isFunction || !(l <= 1 || "string" != typeof value || jQuery.support.checkClone || !rchecked.test(value))) return this.each(function(index) {
                 var self = set.eq(index);
                 isFunction && (args[0] = value.call(this, index, table ? self.html() : undefined)), self.domManip(args, table, callback);
             });
             if (l && (first = (fragment = jQuery.buildFragment(args, this[0].ownerDocument, !1, this)).firstChild, 1 === fragment.childNodes.length && (fragment = first), first)) {
-                for(table = table && jQuery.nodeName(first, "tr"), hasScripts = (scripts = jQuery.map(getAll(fragment, "script"), disableScript)).length; i < l; i++)node = fragment, i !== iNoClone && (node = jQuery.clone(node, !0, !0), hasScripts && jQuery.merge(scripts, getAll(node, "script"))), callback.call(table && jQuery.nodeName(this[i], "table") ? findOrAppend(this[i], "tbody") : this[i], node, i);
+                for(table = table && jQuery.nodeName(first, "tr"), hasScripts = (scripts = jQuery.map(getAll(fragment, "script"), disableScript)).length; i < l; i++){
+                    node = fragment, i !== iNoClone && (node = jQuery.clone(node, !0, !0), hasScripts && jQuery.merge(scripts, getAll(node, "script"))), callback.call(table && jQuery.nodeName(this[i], "table") ? (elem = this[i], tag = "tbody", elem.getElementsByTagName(tag)[0] || elem.appendChild(elem.ownerDocument.createElement(tag))) : this[i], node, i);
+                }
                 if (hasScripts) for(doc = scripts[scripts.length - 1].ownerDocument, jQuery.map(scripts, restoreScript), i = 0; i < hasScripts; i++)node = scripts[i], rscriptType.test(node.type || "") && !jQuery._data(node, "globalEval") && jQuery.contains(doc, node) && (node.src ? jQuery.ajax({
                     url: node.src,
                     type: "GET",
@@ -2062,7 +2047,16 @@
     }), jQuery.extend({
         clone: function(elem, dataAndEvents, deepDataAndEvents) {
             var destElements, node, clone, i, srcElements, inPage = jQuery.contains(elem.ownerDocument, elem);
-            if (jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test("<" + elem.nodeName + ">") ? clone = elem.cloneNode(!0) : (fragmentDiv.innerHTML = elem.outerHTML, fragmentDiv.removeChild(clone = fragmentDiv.firstChild)), (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, destElements = getAll(clone), srcElements = getAll(elem); null != (node = srcElements[i]); ++i)destElements[i] && fixCloneNodeIssues(node, destElements[i]);
+            if (jQuery.support.html5Clone || jQuery.isXMLDoc(elem) || !rnoshimcache.test("<" + elem.nodeName + ">") ? clone = elem.cloneNode(!0) : (fragmentDiv.innerHTML = elem.outerHTML, fragmentDiv.removeChild(clone = fragmentDiv.firstChild)), (!jQuery.support.noCloneEvent || !jQuery.support.noCloneChecked) && (1 === elem.nodeType || 11 === elem.nodeType) && !jQuery.isXMLDoc(elem)) for(i = 0, destElements = getAll(clone), srcElements = getAll(elem); null != (node = srcElements[i]); ++i)destElements[i] && function(src, dest) {
+                var nodeName, e, data;
+                if (1 === dest.nodeType) {
+                    if (nodeName = dest.nodeName.toLowerCase(), !jQuery.support.noCloneEvent && dest[jQuery.expando]) {
+                        for(e in (data = jQuery._data(dest)).events)jQuery.removeEvent(dest, e, data.handle);
+                        dest.removeAttribute(jQuery.expando);
+                    }
+                    "script" === nodeName && dest.text !== src.text ? (disableScript(dest).text = src.text, restoreScript(dest)) : "object" === nodeName ? (dest.parentNode && (dest.outerHTML = src.outerHTML), jQuery.support.html5Clone && src.innerHTML && !jQuery.trim(dest.innerHTML) && (dest.innerHTML = src.innerHTML)) : "input" === nodeName && manipulation_rcheckableType.test(src.type) ? (dest.defaultChecked = dest.checked = src.checked, dest.value !== src.value && (dest.value = src.value)) : "option" === nodeName ? dest.defaultSelected = dest.selected = src.defaultSelected : ("input" === nodeName || "textarea" === nodeName) && (dest.defaultValue = src.defaultValue);
+                }
+            }(node, destElements[i]);
             if (dataAndEvents) {
                 if (deepDataAndEvents) for(i = 0, srcElements = srcElements || getAll(elem), destElements = destElements || getAll(clone); null != (node = srcElements[i]); i++)cloneCopyEvent(node, destElements[i]);
                 else cloneCopyEvent(elem, clone);
@@ -2292,14 +2286,6 @@
         }, rmargin.test(prefix) || (jQuery.cssHooks[prefix + suffix].set = setPositiveNumber);
     });
     var r20 = /%20/g, rbracket = /\[\]$/, rCRLF = /\r?\n/g, rsubmitterTypes = /^(?:submit|button|image|reset|file)$/i, rsubmittable = /^(?:input|select|textarea|keygen)/i;
-    function buildParams(prefix, obj, traditional, add) {
-        var name1;
-        if (jQuery.isArray(obj)) jQuery.each(obj, function(i, v) {
-            traditional || rbracket.test(prefix) ? add(prefix, v) : buildParams(prefix + "[" + ("object" == typeof v ? i : "") + "]", v, traditional, add);
-        });
-        else if (traditional || "object" !== jQuery.type(obj)) add(prefix, obj);
-        else for(name1 in obj)buildParams(prefix + "[" + name1 + "]", obj[name1], traditional, add);
-    }
     jQuery.fn.extend({
         serialize: function() {
             return jQuery.param(this.serializeArray());
@@ -2331,7 +2317,14 @@
         if (traditional === undefined && (traditional = jQuery.ajaxSettings && jQuery.ajaxSettings.traditional), jQuery.isArray(a) || a.jquery && !jQuery.isPlainObject(a)) jQuery.each(a, function() {
             add(this.name, this.value);
         });
-        else for(prefix in a)buildParams(prefix, a[prefix], traditional, add);
+        else for(prefix in a)(function buildParams(prefix, obj, traditional, add) {
+            var name1;
+            if (jQuery.isArray(obj)) jQuery.each(obj, function(i, v) {
+                traditional || rbracket.test(prefix) ? add(prefix, v) : buildParams(prefix + "[" + ("object" == typeof v ? i : "") + "]", v, traditional, add);
+            });
+            else if (traditional || "object" !== jQuery.type(obj)) add(prefix, obj);
+            else for(name1 in obj)buildParams(prefix + "[" + name1 + "]", obj[name1], traditional, add);
+        })(prefix, a[prefix], traditional, add);
         return s.join("&").replace(r20, "+");
     }, jQuery.each("blur focus focusin focusout load resize scroll unload click dblclick mousedown mouseup mousemove mouseover mouseout mouseenter mouseleave change select submit keydown keypress keyup error contextmenu".split(" "), function(i, name1) {
         jQuery.fn[name1] = function(data, fn) {
