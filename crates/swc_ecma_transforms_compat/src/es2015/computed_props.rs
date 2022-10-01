@@ -73,7 +73,7 @@ impl VisitMut for ComputedProps {
                 return;
             }
 
-            let mark = Mark::fresh(Mark::root());
+            let mark = Mark::fresh();
             let obj_ident = quote_ident!(span.apply_mark(mark), "_obj");
 
             let mut exprs = Vec::with_capacity(props.len() + 2);

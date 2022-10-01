@@ -74,7 +74,7 @@ fn test_resolver(input: PathBuf) {
         }),
         &input,
         || {
-            let unresolved_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::fresh();
 
             chain!(
                 resolver(unresolved_mark, Mark::new(), false),
@@ -94,7 +94,7 @@ fn test_ts_resolver(input: PathBuf) {
         }),
         &input,
         || {
-            let unresolved_mark = Mark::fresh(Mark::root());
+            let unresolved_mark = Mark::fresh();
 
             chain!(
                 resolver(unresolved_mark, Mark::new(), true),

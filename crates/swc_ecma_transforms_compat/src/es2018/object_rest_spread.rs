@@ -240,7 +240,7 @@ impl VisitMut for ObjectRest {
         }) = expr
         {
             let mut var_ident = alias_ident_for(right, "_tmp");
-            var_ident.span = var_ident.span.apply_mark(Mark::fresh(Mark::root()));
+            var_ident.span = var_ident.span.apply_mark(Mark::fresh());
 
             // println!("Var: var_ident = None");
             self.mutable_vars.push(VarDeclarator {

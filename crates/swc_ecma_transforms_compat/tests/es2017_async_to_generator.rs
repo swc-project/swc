@@ -665,11 +665,7 @@ test_exec!(
     syntax(),
     |t| chain!(
         tr(),
-        es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        )
+        es2015(Mark::fresh(), Some(t.comments.clone()), Default::default())
     ),
     issue_400_1,
     "class A {
@@ -2456,7 +2452,7 @@ test_exec!(
 test_exec!(
     Syntax::default(),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             generator(mark, t.comments.clone())
@@ -2608,7 +2604,7 @@ test!(
 test!(
     Syntax::default(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
@@ -2759,7 +2755,7 @@ expect(tmp.fun()).resolves.toEqual({ foo: 'bar' });
 test!(
     Syntax::default(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
@@ -2847,7 +2843,7 @@ expect(myclass.init(2)).resolves.toEqual(true);
 test!(
     Syntax::default(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
@@ -2918,7 +2914,7 @@ test!(
 test!(
     Syntax::default(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             generator(unresolved_mark, t.comments.clone())
@@ -3001,7 +2997,7 @@ export default async function someCall() {
 test!(
     Syntax::default(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
             generator(unresolved_mark, t.comments.clone())

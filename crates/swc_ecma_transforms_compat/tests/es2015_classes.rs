@@ -6534,7 +6534,7 @@ test!(
 test!(
     syntax(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
 
         chain!(
             es2022::es2022(Some(t.comments.clone()), Default::default()),
@@ -6579,7 +6579,7 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let global_mark = Mark::fresh();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -6662,7 +6662,7 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let global_mark = Mark::fresh();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -6709,7 +6709,7 @@ var Extended = function(Base) {
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let global_mark = Mark::fresh();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),

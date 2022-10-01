@@ -3868,7 +3868,7 @@ test!(
     |t| chain!(
         decorators(Default::default()),
         common_js(
-            Mark::fresh(Mark::root()),
+            Mark::fresh(),
             common_js::Config {
                 strict: false,
                 strict_mode: true,
@@ -3914,7 +3914,7 @@ test!(
     |t| chain!(
         decorators(Default::default()),
         common_js::common_js(
-            Mark::fresh(Mark::root()),
+            Mark::fresh(),
             common_js::Config {
                 strict: false,
                 strict_mode: true,
@@ -4285,7 +4285,7 @@ test!(
             classes(Some(t.comments.clone()), Default::default()),
             function_name(),
             common_js(
-                Mark::fresh(Mark::root()),
+                Mark::fresh(),
                 Default::default(),
                 Default::default(),
                 Some(t.comments.clone())

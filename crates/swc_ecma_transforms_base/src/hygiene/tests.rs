@@ -113,8 +113,8 @@ where
 fn simple() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -140,8 +140,8 @@ fn simple() {
 fn block_scoping_with_usage() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = vec![
                 tester
@@ -170,8 +170,8 @@ fn block_scoping_with_usage() {
 fn block_scoping_no_usage() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = vec![
                 tester
@@ -196,8 +196,8 @@ fn block_scoping_no_usage() {
 fn fn_binding_ident() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -221,9 +221,9 @@ fn fn_binding_ident() {
 fn fn_binding_ident_in_call() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
-            let mark3 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            let mark3 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -251,8 +251,8 @@ fn fn_binding_ident_in_call() {
 fn member_expr() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -272,8 +272,8 @@ fn member_expr() {
 fn const_then_fn_param() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -295,9 +295,9 @@ fn const_then_fn_param() {
 fn for_loop() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
-            let mark3 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            let mark3 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -323,9 +323,9 @@ fn for_loop() {
 fn try_for_loop() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
-            let mark3 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            let mark3 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -354,8 +354,8 @@ fn try_for_loop() {
 fn shorthand() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -386,7 +386,7 @@ fn shorthand() {
 fn same_mark() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -408,7 +408,7 @@ fn same_mark() {
 fn mark_root() {
     test(
         |tester| {
-            let mark2 = Mark::fresh(Mark::root());
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester.parse_stmt("actual1.js", "var foo = 'bar';")?,
@@ -476,10 +476,7 @@ fn var_class_decl_2() {
                 }())
                 ",
                 )?
-                .fold_with(&mut marker(&[(
-                    "Foo",
-                    Mark::fresh(Mark::root()),
-                )]))])
+                .fold_with(&mut marker(&[("Foo", Mark::fresh())]))])
         },
         "
         var Foo = (function(){
@@ -496,8 +493,8 @@ fn var_class_decl_2() {
 fn fn_args() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -537,8 +534,8 @@ fn fn_args() {
 fn block_in_fn() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -590,8 +587,8 @@ fn block_in_fn() {
 fn flat_in_fn() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -632,8 +629,8 @@ fn flat_in_fn() {
 fn params_in_fn() {
     test(
         |_tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![Stmt::Decl(Decl::Fn(FnDecl {
                 ident: quote_ident!("Foo"),
@@ -673,8 +670,8 @@ fn params_in_fn() {
 fn next_fn() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -696,10 +693,10 @@ fn next_fn() {
 fn for_x() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(mark1);
-            let mark3 = Mark::fresh(mark1);
-            let mark4 = Mark::fresh(mark3);
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            // let mark3 = Mark::fresh();
+            let mark4 = Mark::fresh();
 
             Ok(vec![
                 tester
@@ -751,8 +748,8 @@ fn for_x() {
 fn fn_param_same_name() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![tester
                 .parse_stmt("actual1.js", "function foo(param, param){}")?
@@ -769,8 +766,8 @@ fn fn_param_same_name() {
 fn fn_param_same_name_in_arg() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![tester
                 .parse_stmt("actual1.js", "use(function (param, param){})")?
@@ -787,8 +784,8 @@ fn fn_param_same_name_in_arg() {
 fn nested_fn_param_with_same_name() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![tester
                 .parse_stmt(
@@ -820,10 +817,10 @@ fn nested_fn_param_with_same_name() {
 fn regression_001() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
-            let mark3 = Mark::fresh(Mark::root());
-            let mark4 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            let mark3 = Mark::fresh();
+            let mark4 = Mark::fresh();
 
             Ok(vec![tester
                 .parse_stmt(
@@ -879,8 +876,8 @@ fn regression_001() {
 fn regression_002() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(vec![tester
                 .parse_stmt(
@@ -916,8 +913,8 @@ fn regression_002() {
 fn regression_003() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_stmts(
@@ -945,8 +942,8 @@ fn regression_003() {
 fn regression_004() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_stmts(
@@ -965,8 +962,8 @@ fn regression_004() {
 fn regression_005() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_stmts(
@@ -985,8 +982,8 @@ fn regression_005() {
 fn module_01() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1006,8 +1003,8 @@ fn module_01() {
 fn module_02() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1027,8 +1024,8 @@ fn module_02() {
 fn module_03() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1050,7 +1047,7 @@ fn module_03() {
 fn issue_281_01() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1072,9 +1069,9 @@ fn issue_281_01() {
 fn issue_281_02() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
-            let mark3 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
+            let mark3 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1111,7 +1108,7 @@ fn issue_281_02() {
 fn issue_295_01() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1143,8 +1140,8 @@ fn issue_295_01() {
 fn issue_295_02() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1177,8 +1174,8 @@ fn issue_295_02() {
 fn exported_function() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1199,8 +1196,8 @@ fn exported_function() {
 fn exported_class_1() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1221,8 +1218,8 @@ fn exported_class_1() {
 fn issue_1279() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1256,8 +1253,8 @@ fn issue_1279() {
 fn issue_1507() {
     test_module(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             Ok(tester
                 .parse_module(
@@ -1295,8 +1292,8 @@ fn issue_1507() {
 fn opt_1() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1333,11 +1330,11 @@ fn opt_1() {
 fn opt_2() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
-            let mark3 = Mark::fresh(Mark::root());
-            let mark4 = Mark::fresh(Mark::root());
+            let mark3 = Mark::fresh();
+            let mark4 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1378,8 +1375,8 @@ fn opt_2() {
 fn opt_3() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1411,8 +1408,8 @@ fn opt_3() {
 fn opt_4() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1448,8 +1445,8 @@ fn opt_4() {
 fn opt_5() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1485,8 +1482,8 @@ fn opt_5() {
 fn opt_6() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1529,8 +1526,8 @@ fn opt_6() {
 fn issue_2211_1() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1569,8 +1566,8 @@ fn issue_2211_1() {
 fn issue_2211_2() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1609,8 +1606,8 @@ fn issue_2211_2() {
 fn issue_2297_1() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1650,8 +1647,8 @@ fn issue_2297_1() {
 fn var_awareness_1() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1682,8 +1679,8 @@ fn var_awareness_1() {
 fn var_awareness_2() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(
@@ -1715,8 +1712,8 @@ fn var_awareness_2() {
 fn issue_2539() {
     test(
         |tester| {
-            let mark1 = Mark::fresh(Mark::root());
-            let mark2 = Mark::fresh(Mark::root());
+            let mark1 = Mark::fresh();
+            let mark2 = Mark::fresh();
 
             let stmts = tester
                 .parse_stmts(

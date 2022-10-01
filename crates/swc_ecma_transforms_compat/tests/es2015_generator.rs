@@ -1721,7 +1721,7 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::<SingleThreadedComments>(mark, None, Default::default())
@@ -1763,7 +1763,7 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2016(),
@@ -1806,7 +1806,7 @@ test!(
 test!(
     Syntax::default(),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         chain!(
             es2022(Some(t.comments.clone()), Default::default()),
             es2021(),
@@ -2059,7 +2059,7 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         es2015::<SingleThreadedComments>(mark, None, Default::default())
     },
     issue_2024_1,
@@ -2102,7 +2102,7 @@ test!(
 test_exec!(
     Syntax::default(),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let mark = Mark::fresh();
         chain!(
             async_to_generator::<SingleThreadedComments>(Default::default(), None, mark),
             es2015::for_of(Default::default()),

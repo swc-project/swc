@@ -442,7 +442,7 @@ where
                         // For arrow expressions this is required because we copy simple arrow
                         // expressions.
                         let mut remap = HashMap::default();
-                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
 
                         for p in param_ids.iter() {
                             remap.insert(p.to_id(), new_ctxt);
@@ -759,7 +759,7 @@ where
 
         // We remap variables.
         let mut remap = HashMap::default();
-        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
 
         let params = orig_params
             .iter()
@@ -779,12 +779,10 @@ where
                     for decl in &var.decls {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
-                        remap.extend(ids.into_iter().map(|id| {
-                            (
-                                id,
-                                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
-                            )
-                        }));
+                        remap.extend(
+                            ids.into_iter()
+                                .map(|id| (id, SyntaxContext::empty().apply_mark(Mark::fresh()))),
+                        );
                     }
                 }
             }

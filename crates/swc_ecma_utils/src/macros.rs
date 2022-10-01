@@ -1,11 +1,11 @@
-/// Shortcut for `quote_ident!(span.apply_mark(Mark::fresh(Mark::root())), s)`
+/// Shortcut for `quote_ident!(span.apply_mark(Mark::fresh()), s)`
 #[macro_export]
 macro_rules! private_ident {
     ($s:expr) => {
         private_ident!($crate::swc_common::DUMMY_SP, $s)
     };
     ($span:expr, $s:expr) => {{
-        let mark = $crate::swc_common::Mark::fresh($crate::swc_common::Mark::root());
+        let mark = $crate::swc_common::Mark::fresh();
         let span = $span.apply_mark(mark);
         $crate::swc_ecma_ast::Ident::new($s.into(), span)
     }};

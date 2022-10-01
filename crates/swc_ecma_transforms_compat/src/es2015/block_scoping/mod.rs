@@ -582,10 +582,8 @@ enum Label {
 impl<'a> FlowHelper<'a> {
     fn check(&mut self, i: Id) {
         if self.all.contains(&i) {
-            self.mutated.insert(
-                i,
-                SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root())),
-            );
+            self.mutated
+                .insert(i, SyntaxContext::empty().apply_mark(Mark::fresh()));
         }
     }
 

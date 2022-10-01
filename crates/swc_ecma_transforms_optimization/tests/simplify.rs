@@ -591,7 +591,7 @@ test!(
             import_analyzer(false.into(), false),
             inject_helpers(),
             common_js(
-                Mark::fresh(Mark::root()),
+                Mark::fresh(),
                 Default::default(),
                 Default::default(),
                 Some(t.comments.clone())
@@ -621,7 +621,7 @@ _foo.default.bar = true;
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh();
 
         expr_simplifier(top_level_mark, Default::default())
     },
@@ -642,7 +642,7 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh();
 
         dead_branch_remover(top_level_mark)
     },
@@ -672,7 +672,7 @@ test!(
 test!(
     Syntax::default(),
     |_| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh();
 
         dead_branch_remover(top_level_mark)
     },

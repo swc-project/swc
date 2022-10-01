@@ -11,7 +11,7 @@
 // fn assert_standalone(src: &str, expected: usize) {
 //     testing::run_test(false, |cm, _handler| {
 //         let marks = Marks::new();
-//         let top_level_mark = Mark::fresh(Mark::root());
+//         let top_level_mark = Mark::fresh();
 //         let fm = cm.new_source_file(FileName::Anon, src.to_string());
 
 //         let lexer = Lexer::new(

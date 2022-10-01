@@ -2170,7 +2170,7 @@ test!(
     }),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh();
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             simple_strip(top_level_mark),

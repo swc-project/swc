@@ -130,11 +130,7 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_169,
         r#"
 export class Foo {
@@ -166,11 +162,7 @@ export var Foo = function() {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_189,
         r#"
 class HomePage extends React.Component {}
@@ -195,11 +187,7 @@ class HomePage extends React.Component {}
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
@@ -248,7 +236,7 @@ function foo(scope) {
     //             // Optional::new(compat::es2018(), target <= EsVersion::Es2018),
     //             // Optional::new(compat::es2017(), target <= EsVersion::Es2017),
     //             // Optional::new(compat::es2016(), target <= EsVersion::Es2016),
-    //             // Optional::new(compat::es2015(Mark::fresh(Mark::root()),
+    //             // Optional::new(compat::es2015(Mark::fresh(),
     // Default::default()), target <= EsVersion::Es2015),             //
     // Optional::new(compat::es3(), target <= EsVersion::Es3),
     // hygiene(),             fixer(),
@@ -269,11 +257,7 @@ function foo(scope) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_413,
         r#"
 export const getBadgeBorderRadius = (text, color) => {
@@ -289,11 +273,7 @@ export var getBadgeBorderRadius = function(text, color) {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_400_1,
         "class A {
     constructor() {
@@ -355,11 +335,7 @@ var B = function(A) {
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_400_2,
         "class A {
     constructor() {
@@ -388,11 +364,7 @@ return new B(20).print()"
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_1660_1,
         "
         console.log(class {run(){}});
@@ -417,11 +389,7 @@ return new B(20).print()"
 
     test_exec!(
         ::swc_ecma_parser::Syntax::default(),
-        |t| es2015(
-            Mark::fresh(Mark::root()),
-            Some(t.comments.clone()),
-            Default::default()
-        ),
+        |t| es2015(Mark::fresh(), Some(t.comments.clone()), Default::default()),
         issue_2682,
         "class MyObject extends null {
             constructor() {
@@ -436,7 +404,7 @@ return new B(20).print()"
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |t| es2015(
-            Mark::fresh(Mark::root()),
+            Mark::fresh(),
             Some(t.comments.clone()),
             Config {
                 classes: classes::Config {

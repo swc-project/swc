@@ -13,7 +13,7 @@ struct UniqueScope;
 
 impl UniqueScope {
     fn make_unique(&self, span: &mut Span) {
-        span.ctxt = span.ctxt.apply_mark(Mark::fresh(Mark::root()));
+        span.ctxt = span.ctxt.apply_mark(Mark::fresh());
     }
 }
 

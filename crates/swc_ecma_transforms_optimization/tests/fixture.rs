@@ -77,7 +77,7 @@ fn expr(input: PathBuf) {
             ..Default::default()
         }),
         &|t| {
-            let top_level_mark = Mark::fresh(Mark::root());
+            let top_level_mark = Mark::fresh();
 
             chain!(
                 remover(t),

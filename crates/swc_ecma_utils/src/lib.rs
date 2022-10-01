@@ -1898,7 +1898,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
         }
     }
 
-    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
+    let span = expr.span().apply_mark(Mark::fresh());
     quote_ident!(span, sym(expr, default))
 }
 
@@ -2129,7 +2129,7 @@ impl IdentExt for Ident {
     }
 
     fn private(self) -> Ident {
-        let span = self.span.apply_mark(Mark::fresh(Mark::root()));
+        let span = self.span.apply_mark(Mark::fresh());
 
         Ident::new(self.sym, span)
     }

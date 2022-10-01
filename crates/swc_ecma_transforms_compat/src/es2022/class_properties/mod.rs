@@ -429,7 +429,7 @@ impl<C: Comments> ClassProperties<C> {
     ) -> (ClassDecl, ClassExtra) {
         // Create one mark per class
         let private = Private {
-            mark: Mark::fresh(Mark::root()),
+            mark: Mark::fresh(),
             class_name: class_ident.clone(),
             ident: {
                 let mut private_map = AHashMap::default();

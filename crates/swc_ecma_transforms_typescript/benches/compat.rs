@@ -27,8 +27,8 @@ where
 {
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let unresolved_mark = Mark::fresh(Mark::root());
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
+        let top_level_mark = Mark::fresh();
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
             .fold_with(&mut strip(top_level_mark));
@@ -70,8 +70,8 @@ fn base(b: &mut Bencher) {
 fn common_typescript(b: &mut Bencher) {
     let _ = ::testing::run_test(false, |cm, _| {
         let module = module(cm);
-        let unresolved_mark = Mark::fresh(Mark::root());
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
+        let top_level_mark = Mark::fresh();
         let module = module
             .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
             .fold_with(&mut strip(top_level_mark));
@@ -212,7 +212,7 @@ fn es2016_exponentiation(b: &mut Bencher) {
 fn es2015(b: &mut Bencher) {
     run(b, || {
         swc_ecma_transforms_compat::es2015(
-            Mark::fresh(Mark::root()),
+            Mark::fresh(),
             Some(SingleThreadedComments::default()),
             Default::default(),
         )

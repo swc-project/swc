@@ -191,8 +191,8 @@ fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
 
         let m = parse_fm(&handler, fm)?;
 
-        let unresolved_mark = Mark::fresh(Mark::root());
-        let top_level_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::fresh();
+        let top_level_mark = Mark::fresh();
 
         let m = optimize(
             m.into(),

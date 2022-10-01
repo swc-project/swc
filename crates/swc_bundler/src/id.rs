@@ -39,8 +39,8 @@ impl ModuleIdGenerator {
         }
 
         let id = ModuleId(self.v.fetch_add(1, SeqCst));
-        let local_mark = Mark::fresh(Mark::root());
-        let export_mark = Mark::fresh(Mark::root());
+        let local_mark = Mark::fresh();
+        let export_mark = Mark::fresh();
         let v = (id, local_mark, export_mark);
         w.insert(file_name.clone(), v);
         (id, local_mark, export_mark)

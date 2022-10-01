@@ -122,11 +122,11 @@ where
         hook: Box<dyn 'a + Hook>,
     ) -> Self {
         GLOBALS.set(globals, || {
-            let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            let helper_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
             tracing::debug!("Helper ctxt: {:?}", helper_ctxt);
-            let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            let synthesized_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
             tracing::debug!("Synthesized ctxt: {:?}", synthesized_ctxt);
-            let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            let injected_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
             tracing::debug!("Injected ctxt: {:?}", injected_ctxt);
 
             Bundler {

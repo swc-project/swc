@@ -129,7 +129,7 @@ impl Helpers {
 struct HelperMark(Mark);
 impl Default for HelperMark {
     fn default() -> Self {
-        HelperMark(Mark::fresh(Mark::root()))
+        HelperMark(Mark::fresh())
     }
 }
 

@@ -192,7 +192,7 @@ impl VisitMut for PrivateInObject {
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         let old_cls = take(&mut self.cls);
 
-        self.cls.mark = Mark::fresh(Mark::root());
+        self.cls.mark = Mark::fresh();
         self.cls.ident = Some(n.ident.clone());
         self.cls.vars = Mode::ClassDecl {
             vars: Default::default(),
@@ -215,7 +215,7 @@ impl VisitMut for PrivateInObject {
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         let old_cls = take(&mut self.cls);
 
-        self.cls.mark = Mark::fresh(Mark::root());
+        self.cls.mark = Mark::fresh();
         self.cls.ident = n.ident.clone();
         self.cls.vars = Mode::ClassExpr {
             vars: Default::default(),

@@ -212,7 +212,7 @@ impl Scope {
             //
             // We can avoid this by detecting variable names, but using different syntax
             // context is much easier.
-            let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+            let ctxt = SyntaxContext::empty().apply_mark(Mark::fresh());
 
             rename_map.insert(id.clone(), (sym.into(), ctxt));
         }

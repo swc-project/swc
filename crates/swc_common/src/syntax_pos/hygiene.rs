@@ -80,7 +80,6 @@ extern "C" {
     // inner raw value as well as fn and let each context constructs struct
     // on their side.
     fn __mark_fresh_proxy(mark: u32) -> u32;
-    fn __mark_parent_proxy(self_mark: u32) -> u32;
     fn __mark_is_builtin_proxy(self_mark: u32) -> u32;
     fn __mark_set_builtin_proxy(self_mark: u32, is_builtin: u32);
     fn __syntax_context_apply_mark_proxy(self_syntax_context: u32, mark: u32) -> u32;
@@ -94,13 +93,13 @@ extern "C" {
 }
 
 impl Mark {
-    /// Shortcut for `Mark::fresh(Mark::root())`
+    /// Shortcut for `Mark::fresh()`
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
-        Mark::fresh(Mark::root())
+        Mark::fresh()
     }
 
-    pub fn fresh(parent: Mark) -> Self {
+    pub fn fresh() -> Self {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
         #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
@@ -111,18 +110,16 @@ impl Mark {
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
         return HygieneData::with_write(|data| {
-            data.marks.push(MarkData {
-                parent,
-                is_builtin: false,
-            });
-            Mark(data.marks.len() as u32 - 1)
+            let ret = Mark(data.mark_count);
+            data.mark_count += 1;
+            ret
         });
     }
 
     /// The mark of the theoretical expansion that generates freshly parsed,
     /// unexpanded AST.
     #[inline]
-    pub fn root() -> Self {
+    pub const fn root() -> Self {
         Mark(0)
     }
 
@@ -134,85 +131,6 @@ impl Mark {
     #[inline]
     pub fn from_u32(raw: u32) -> Mark {
         Mark(raw)
-    }
-
-    #[inline]
-    pub fn parent(self) -> Mark {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        return Mark(unsafe { __mark_parent_proxy(self.0) });
-
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with_read(|data| data.marks[self.0 as usize].parent);
-    }
-
-    #[inline]
-    pub fn is_builtin(self) -> bool {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        return unsafe { __mark_is_builtin_proxy(self.0) != 0 };
-
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            HygieneData::with_read(|data| data.marks[self.0 as usize].is_builtin)
-        }
-    }
-
-    #[inline]
-    pub fn set_is_builtin(self, is_builtin: bool) {
-        #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-        unsafe {
-            __mark_set_builtin_proxy(self.0, is_builtin as u32)
-        }
-        #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        {
-            assert_ne!(self, Mark::root());
-
-            HygieneData::with_write(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
-        }
-    }
-
-    #[allow(unused_assignments)]
-    #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
-    pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
-        // This code path executed inside of the guest memory context.
-        // In here, preallocate memory for the context.
-        let serialized = crate::plugin::serialized::PluginSerializedBytes::try_serialize(
-            &MutableMarkContext(0, 0, 0),
-        )
-        .expect("Should be serializable");
-        let (ptr, len) = serialized.as_ptr();
-
-        // Calling host proxy fn. Inside of host proxy, host will
-        // write the result into allocated context in the guest memory space.
-        unsafe {
-            __mark_is_descendant_of_proxy(self.0, ancestor.0, ptr as _);
-        }
-
-        // Deserialize result, assign / return values as needed.
-        let context: MutableMarkContext = unsafe {
-            crate::plugin::serialized::deserialize_from_ptr(
-                ptr,
-                len.try_into().expect("Should able to convert ptr length"),
-            )
-            .expect("Should able to deserialize")
-        };
-        self = Mark::from_u32(context.0);
-
-        return context.2 != 0;
-    }
-
-    #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-    pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
-        HygieneData::with_read(|data| {
-            while self != ancestor {
-                if self == Mark::root() {
-                    return false;
-                }
-                self = data.marks[self.0 as usize].parent;
-            }
-            true
-        })
     }
 
     #[allow(unused_mut, unused_assignments)]
@@ -240,42 +158,14 @@ impl Mark {
 
         return Mark(context.2);
     }
-
-    /// Computes a mark such that both input marks are descendants of (or equal
-    /// to) the returned mark. That is, the following holds:
-    ///
-    /// ```rust,ignore
-    /// let la = least_ancestor(a, b);
-    /// assert!(a.is_descendant_of(la))
-    /// assert!(b.is_descendant_of(la))
-    /// ```
-    #[allow(unused_mut)]
-    #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-    pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
-        HygieneData::with_read(|data| {
-            // Compute the path from a to the root
-            let mut a_path = HashSet::<Mark>::default();
-            while a != Mark::root() {
-                a_path.insert(a);
-                a = data.marks[a.0 as usize].parent;
-            }
-
-            // While the path from b to the root hasn't intersected, move up the tree
-            while !a_path.contains(&b) {
-                b = data.marks[b.0 as usize].parent;
-            }
-
-            b
-        })
-    }
 }
 
 #[allow(unused)]
 #[derive(Debug)]
 pub(crate) struct HygieneData {
-    marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
     markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
+    mark_count: u32,
 }
 
 impl Default for HygieneData {
@@ -287,18 +177,13 @@ impl Default for HygieneData {
 impl HygieneData {
     pub(crate) fn new() -> Self {
         HygieneData {
-            marks: vec![MarkData {
-                parent: Mark::root(),
-                // If the root is opaque, then loops searching for an opaque mark
-                // will automatically stop after reaching it.
-                is_builtin: true,
-            }],
             syntax_contexts: vec![SyntaxContextData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
                 opaque: SyntaxContext(0),
             }],
             markings: HashMap::default(),
+            mark_count: 1,
         }
     }
 
@@ -460,114 +345,6 @@ impl SyntaxContext {
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
             outer_mark
         })
-    }
-
-    /// Adjust this context for resolution in a scope created by the given
-    /// expansion. For example, consider the following three resolutions of
-    /// `f`:
-    ///
-    /// ```rust,ignore
-    /// mod foo {
-    ///     pub fn f() {}
-    /// } // `f`'s `SyntaxContext` is empty.
-    /// m!(f);
-    /// macro m($f:ident) {
-    ///     mod bar {
-    ///         pub fn f() {} // `f`'s `SyntaxContext` has a single `Mark` from `m`.
-    ///         pub fn $f() {} // `$f`'s `SyntaxContext` is empty.
-    ///     }
-    ///     foo::f(); // `f`'s `SyntaxContext` has a single `Mark` from `m`
-    ///               //^ Since `mod foo` is outside this expansion, `adjust` removes the mark from `f`,
-    ///               //| and it resolves to `::foo::f`.
-    ///     bar::f(); // `f`'s `SyntaxContext` has a single `Mark` from `m`
-    ///               //^ Since `mod bar` not outside this expansion, `adjust` does not change `f`,
-    ///               //| and it resolves to `::bar::f`.
-    ///     bar::$f(); // `f`'s `SyntaxContext` is empty.
-    ///                //^ Since `mod bar` is not outside this expansion, `adjust` does not change `$f`,
-    ///                //| and it resolves to `::bar::$f`.
-    /// }
-    /// ```
-    /// This returns the expansion whose definition scope we use to privacy
-    /// check the resolution, or `None` if we privacy check as usual (i.e.
-    /// not w.r.t. a macro definition scope).
-    pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
-        let mut scope = None;
-        while !expansion.is_descendant_of(self.outer()) {
-            scope = Some(self.remove_mark());
-        }
-        scope
-    }
-
-    /// Adjust this context for resolution in a scope created by the given
-    /// expansion via a glob import with the given `SyntaxContext`.
-    /// For example:
-    ///
-    /// ```rust,ignore
-    /// m!(f);
-    /// macro m($i:ident) {
-    ///     mod foo {
-    ///         pub fn f() {} // `f`'s `SyntaxContext` has a single `Mark` from `m`.
-    ///         pub fn $i() {} // `$i`'s `SyntaxContext` is empty.
-    ///     }
-    ///     n(f);
-    ///     macro n($j:ident) {
-    ///         use foo::*;
-    ///         f(); // `f`'s `SyntaxContext` has a mark from `m` and a mark from `n`
-    ///              //^ `glob_adjust` removes the mark from `n`, so this resolves to `foo::f`.
-    ///         $i(); // `$i`'s `SyntaxContext` has a mark from `n`
-    ///               //^ `glob_adjust` removes the mark from `n`, so this resolves to `foo::$i`.
-    ///         $j(); // `$j`'s `SyntaxContext` has a mark from `m`
-    ///               //^ This cannot be glob-adjusted, so this is a resolution error.
-    ///     }
-    /// }
-    /// ```
-    /// This returns `None` if the context cannot be glob-adjusted.
-    /// Otherwise, it returns the scope to use when privacy checking (see
-    /// `adjust` for details).
-    pub fn glob_adjust(
-        &mut self,
-        expansion: Mark,
-        mut glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut scope = None;
-        while !expansion.is_descendant_of(glob_ctxt.outer()) {
-            scope = Some(glob_ctxt.remove_mark());
-            if self.remove_mark() != scope.unwrap() {
-                return None;
-            }
-        }
-        if self.adjust(expansion).is_some() {
-            return None;
-        }
-        Some(scope)
-    }
-
-    /// Undo `glob_adjust` if possible:
-    ///
-    /// ```rust,ignore
-    /// if let Some(privacy_checking_scope) = self.reverse_glob_adjust(expansion, glob_ctxt) {
-    ///     assert!(self.glob_adjust(expansion, glob_ctxt) == Some(privacy_checking_scope));
-    /// }
-    /// ```
-    pub fn reverse_glob_adjust(
-        &mut self,
-        expansion: Mark,
-        mut glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        if self.adjust(expansion).is_some() {
-            return None;
-        }
-
-        let mut marks = Vec::new();
-        while !expansion.is_descendant_of(glob_ctxt.outer()) {
-            marks.push(glob_ctxt.remove_mark());
-        }
-
-        let scope = marks.last().cloned();
-        while let Some(mark) = marks.pop() {
-            *self = self.apply_mark(mark);
-        }
-        Some(scope)
     }
 
     #[inline]

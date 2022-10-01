@@ -123,7 +123,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
         .print_errors(|cm, handler| {
             let mut pass = chain!(
                 preset_env(
-                    Mark::fresh(Mark::root()),
+                    Mark::fresh(),
                     Some(SingleThreadedComments::default()),
                     Config {
                         debug: c.debug,

@@ -505,39 +505,7 @@ impl Span {
 
     #[inline]
     pub fn private(self) -> Span {
-        self.apply_mark(Mark::fresh(Mark::root()))
-    }
-
-    #[inline]
-    pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
-        let mut span = *self;
-        let mark = span.ctxt.adjust(expansion);
-        *self = Span::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    #[inline]
-    pub fn glob_adjust(
-        &mut self,
-        expansion: Mark,
-        glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut span = *self;
-        let mark = span.ctxt.glob_adjust(expansion, glob_ctxt);
-        *self = Span::new(span.lo, span.hi, span.ctxt);
-        mark
-    }
-
-    #[inline]
-    pub fn reverse_glob_adjust(
-        &mut self,
-        expansion: Mark,
-        glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut span = *self;
-        let mark = span.ctxt.reverse_glob_adjust(expansion, glob_ctxt);
-        *self = Span::new(span.lo, span.hi, span.ctxt);
-        mark
+        self.apply_mark(Mark::fresh())
     }
 
     /// Returns `true` if `self` is marked with `mark`.

@@ -199,7 +199,7 @@ impl ForOf {
             };
         }
 
-        let var_span = left.span().apply_mark(Mark::fresh(Mark::root()));
+        let var_span = left.span().apply_mark(Mark::fresh());
 
         let mut body = match *body {
             Stmt::Block(block) => block,

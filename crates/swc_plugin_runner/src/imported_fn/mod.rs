@@ -148,17 +148,6 @@ pub(crate) fn build_import_object(
 
     // hygiene
     let mark_fresh_fn_decl = Function::new_native(store, mark_fresh_proxy);
-    let mark_parent_fn_decl = Function::new_native(store, mark_parent_proxy);
-    let mark_is_builtin_fn_decl = Function::new_native(store, mark_is_builtin_proxy);
-    let mark_set_builtin_fn_decl = Function::new_native(store, mark_set_builtin_proxy);
-    let mark_is_descendant_of_fn_decl = Function::new_native_with_env(
-        store,
-        BaseHostEnvironment::new(),
-        mark_is_descendant_of_proxy,
-    );
-
-    let mark_least_ancestor_fn_decl =
-        Function::new_native_with_env(store, BaseHostEnvironment::new(), mark_least_ancestor_proxy);
 
     let syntax_context_apply_mark_fn_decl =
         Function::new_native(store, syntax_context_apply_mark_proxy);
@@ -308,11 +297,6 @@ pub(crate) fn build_import_object(
             "__emit_diagnostics" => emit_diagnostics_fn_decl,
             // hygiene
             "__mark_fresh_proxy" => mark_fresh_fn_decl,
-            "__mark_parent_proxy" => mark_parent_fn_decl,
-            "__mark_is_builtin_proxy" => mark_is_builtin_fn_decl,
-            "__mark_set_builtin_proxy" => mark_set_builtin_fn_decl,
-            "__mark_is_descendant_of_proxy" => mark_is_descendant_of_fn_decl,
-            "__mark_least_ancestor" => mark_least_ancestor_fn_decl,
             "__syntax_context_apply_mark_proxy" => syntax_context_apply_mark_fn_decl,
             "__syntax_context_remove_mark_proxy" => syntax_context_remove_mark_fn_decl,
             "__syntax_context_outer_proxy" => syntax_context_outer_fn_decl,

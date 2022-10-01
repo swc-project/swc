@@ -1,4 +1,5 @@
 use std::{env::args, io, path::Path};
+
 use swc_common::{input::SourceFileInput, sync::Lrc, FilePathMapping, Mark, SourceMap};
 use swc_ecma_ast::Module;
 use swc_ecma_codegen::text_writer::JsWriter;
@@ -44,7 +45,7 @@ fn run_cli(filename: String) -> Result<(), ParseError> {
     swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
         let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
 
-        let top_level_mark = Mark::fresh(Mark::root());
+        let top_level_mark = Mark::fresh();
         let program = parse_js(&cm, filename)?.fold_with(&mut resolver_with_mark(top_level_mark));
 
         let output = optimize(

@@ -57,23 +57,23 @@ fn run_test_with_config<F, V>(
 #[test]
 fn test_mark_for() {
     ::testing::run_test(false, |_, _| {
-        let mark1 = Mark::fresh(Mark::root());
-        let mark2 = Mark::fresh(mark1);
-        let mark3 = Mark::fresh(mark2);
-        let mark4 = Mark::fresh(mark3);
+        let mark1 = Mark::fresh();
+        let mark2 = Mark::fresh();
+        let mark3 = Mark::fresh();
+        let mark4 = Mark::fresh();
 
         let folder1 = Resolver::new(
             Scope::new(ScopeKind::Block, mark1, None),
             InnerConfig {
                 handle_types: true,
-                unresolved_mark: Mark::fresh(Mark::root()),
+                unresolved_mark: Mark::fresh(),
             },
         );
         let mut folder2 = Resolver::new(
             Scope::new(ScopeKind::Block, mark2, Some(&folder1.current)),
             InnerConfig {
                 handle_types: true,
-                unresolved_mark: Mark::fresh(Mark::root()),
+                unresolved_mark: Mark::fresh(),
             },
         );
         folder2
@@ -85,7 +85,7 @@ fn test_mark_for() {
             Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
             InnerConfig {
                 handle_types: true,
-                unresolved_mark: Mark::fresh(Mark::root()),
+                unresolved_mark: Mark::fresh(),
             },
         );
         folder3
@@ -98,7 +98,7 @@ fn test_mark_for() {
             Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
             InnerConfig {
                 handle_types: true,
-                unresolved_mark: Mark::fresh(Mark::root()),
+                unresolved_mark: Mark::fresh(),
             },
         );
         folder4

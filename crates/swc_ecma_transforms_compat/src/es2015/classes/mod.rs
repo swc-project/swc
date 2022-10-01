@@ -621,7 +621,7 @@ where
         });
 
         // Marker for `_this`
-        let this_mark = Mark::fresh(Mark::root());
+        let this_mark = Mark::fresh();
 
         {
             // Process constructor
@@ -632,7 +632,7 @@ where
             // Rename variables to avoid conflicting with class name
             // TODO: bring it back once we have a proper private ident
             // constructor.body.visit_mut_with(&mut VarRenamer {
-            //     mark: Mark::fresh(Mark::root()),
+            //     mark: Mark::fresh(),
             //     class_name: &class_name.sym,
             // });
 
