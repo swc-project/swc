@@ -71,6 +71,7 @@ pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
     #[allow(unused)]
     dummy_cnt: AtomicU32,
+    #[allow(unused)]
     mark_count: AtomicU32,
 }
 
