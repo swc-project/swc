@@ -1,11 +1,11 @@
 "use strict";
 console.log((function n() {
-    return r;
-    function t(n) {
+    return t;
+    function n(n) {
         return n || n();
     }
-    function r(n) {
-        t(n);
-        return n;
+    function t(t) {
+        n(t);
+        return t;
     }
 })()(42));

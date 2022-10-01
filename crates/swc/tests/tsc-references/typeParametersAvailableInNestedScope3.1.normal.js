@@ -1,7 +1,7 @@
 //// [typeParametersAvailableInNestedScope3.ts]
 function foo(v) {
-    var a = function a(a1) {
-        return a1;
+    var a = function a(a) {
+        return a;
     };
     var b = function b() {
         return v;

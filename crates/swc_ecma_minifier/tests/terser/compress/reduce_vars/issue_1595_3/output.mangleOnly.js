@@ -1,3 +1,3 @@
-(function n(r) {
-    return g(r + 1);
+(function n(n) {
+    return g(n + 1);
 })(2);

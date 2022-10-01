@@ -1,10 +1,10 @@
 console.log((function n() {
-    var o = 1;
-    return o;
+    var n = 1;
+    return n;
 })(), (function n() {
-    const o = 2;
-    return o;
+    const n = 2;
+    return n;
 })(), (function n() {
-    function o() {}
-    return o;
+    function n() {}
+    return n;
 })());

@@ -1,10 +1,10 @@
 var c = 1;
 !(function c() {
-    o++;
+    c++;
     try {
         x();
-    } catch (o) {
-        var o;
+    } catch (c) {
+        var c;
     }
 })();
 console.log(c);

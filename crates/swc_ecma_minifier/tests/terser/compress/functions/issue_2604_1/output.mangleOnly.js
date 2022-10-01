@@ -3,8 +3,8 @@ var o = "FAIL";
     try {
         throw 1;
     } catch (c) {
-        (function o(c) {
-            c && c();
+        (function o(o) {
+            o && o();
         })();
         c && (o = "PASS");
     }

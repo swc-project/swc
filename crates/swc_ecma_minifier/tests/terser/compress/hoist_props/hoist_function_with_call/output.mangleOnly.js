@@ -1,6 +1,6 @@
 var p = {
-    p: function p(n) {
-        return 10 * n;
+    p: function p(p) {
+        return 10 * p;
     },
     x: 1,
     y: 2
