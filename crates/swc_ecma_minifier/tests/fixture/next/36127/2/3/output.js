@@ -189,16 +189,15 @@ class e extends Text {
             return new t(l, i);
         }
         let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1, c = [], a = 0, g = -1, p = [];
-        function d(n) {
-            let i;
-            if (n.lines > f && n instanceof e) for (let s of n.children)d(s);
-            else n.lines > u && (a > u || !a) ? (x(), c.push(n)) : n instanceof t && a && (i = p[p.length - 1]) instanceof t && n.lines + i.lines <= 32 ? (a += n.lines, g += n.length + 1, p[p.length - 1] = new t(i.text.concat(n.text), i.length + 1 + n.length)) : (a + n.lines > o && x(), a += n.lines, g += n.length + 1, p.push(n));
-        }
-        function x() {
+        function d() {
             0 != a && (c.push(1 == p.length ? p[0] : e.from(p, g)), g = -1, a = p.length = 0);
         }
-        for (let m of n)d(m);
-        return x(), 1 == c.length ? c[0] : new e(c, i);
+        for (let x of n)!function n(i) {
+            let s;
+            if (i.lines > f && i instanceof e) for (let h of i.children)n(h);
+            else i.lines > u && (a > u || !a) ? (d(), c.push(i)) : i instanceof t && a && (s = p[p.length - 1]) instanceof t && i.lines + s.lines <= 32 ? (a += i.lines, g += i.length + 1, p[p.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (a + i.lines > o && d(), a += i.lines, g += i.length + 1, p.push(i));
+        }(x);
+        return d(), 1 == c.length ? c[0] : new e(c, i);
     }
 }
 function n(t, e, n = 0, i = 1e9) {

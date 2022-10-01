@@ -9,14 +9,6 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _defineProperty(obj, key, value) {
-    return key in obj ? Object.defineProperty(obj, key, {
-        value: value,
-        enumerable: !0,
-        configurable: !0,
-        writable: !0
-    }) : obj[key] = value, obj;
-}
 function _getPrototypeOf(o) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -28,7 +20,13 @@ function _objectSpread(target) {
         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
         }))), ownKeys.forEach(function(key) {
-            _defineProperty(target, key, source[key]);
+            var obj, value;
+            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: !0,
+                configurable: !0,
+                writable: !0
+            }) : obj[key] = value;
         });
     }
     return target;

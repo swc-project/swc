@@ -22,16 +22,6 @@
                     table[i + end] = new HuffmanCode(code.bits, code.value);
                 }while (end > 0)
             }
-            function NextTableBitSize(count, len, root_bits) {
-                var left = 1 << len - root_bits;
-                while(len < 15){
-                    left -= count[len];
-                    if (left <= 0) break;
-                    ++len;
-                    left <<= 1;
-                }
-                return len - root_bits;
-            }
             exports.g = function(root_table, table, root_bits, code_lengths, code_lengths_size) {
                 var start_table = table;
                 var code;
@@ -74,7 +64,16 @@
                     for(; count[len] > 0; --count[len]){
                         if ((key & mask) !== low) {
                             table += table_size;
-                            table_bits = NextTableBitSize(count, len, root_bits);
+                            table_bits = function(count, len, root_bits) {
+                                var left = 1 << len - root_bits;
+                                while(len < 15){
+                                    left -= count[len];
+                                    if (left <= 0) break;
+                                    ++len;
+                                    left <<= 1;
+                                }
+                                return len - root_bits;
+                            }(count, len, root_bits);
                             table_size = 1 << table_bits;
                             total_size += table_size;
                             low = key & mask;

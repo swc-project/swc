@@ -85,9 +85,6 @@
             function copy(value, root, type) {
                 return node(value, root.root, root.parent, type, root.props, root.children, 0);
             }
-            function prev() {
-                return character = position > 0 ? Utility_charat(characters, --position) : 0, column--, 10 === character && (column = 1, line--), character;
-            }
             function next() {
                 return character = position < Tokenizer_length ? Utility_charat(characters, position++) : 0, column++, 10 === character && (column = 1, line++), character;
             }
@@ -152,24 +149,6 @@
                     return position;
                 }(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
             }
-            function whitespace(type) {
-                for(; character = peek();)if (character < 33) next();
-                else break;
-                return token(type) > 2 || token(character) > 3 ? "" : " ";
-            }
-            function escaping(index, count) {
-                for(; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
-                return slice(index, position + (count < 6 && 32 == peek() && 32 == next()));
-            }
-            function commenter(type, index) {
-                for(; next();)if (type + character === 57) break;
-                else if (type + character === 84 && 47 === peek()) break;
-                return "/*" + slice(index, position - 1) + "*" + Utility_from(47 === type ? type : next());
-            }
-            function identifier(index) {
-                for(; !token(peek());)next();
-                return slice(index, position);
-            }
             var MS = "-ms-", MOZ = "-moz-", WEBKIT = "-webkit-", COMMENT = "comm", Enum_RULESET = "rule", DECLARATION = "decl";
             function serialize(children, callback) {
                 for(var output = "", length = Utility_sizeof(children), i = 0; i < length; i++)output += callback(children[i], i, children, callback) || "";
@@ -192,9 +171,6 @@
                     ""
                 ], size = Utility_sizeof(rule), i = 0, j = 0, k = 0; i < index; ++i)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)(z = trim(j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x]))) && (props[k++] = z);
                 return node(value, root, parent, 0 === offset ? Enum_RULESET : type, props, children, length);
-            }
-            function comment(value, root, parent) {
-                return node(value, root, parent, COMMENT, Utility_from(character), Utility_substr(value, 2, -2), 0);
             }
             function declaration(value, root, parent, length) {
                 return node(value, root, parent, DECLARATION, Utility_substr(value, 0, length), Utility_substr(value, length + 1, -1), length);
@@ -553,49 +529,60 @@
                 }), stylis = function(styles) {
                     var value;
                     return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
-                        for(var index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character = 0, type = "", props = rules, children = rulesets, reference = rule, characters = type; scanning;)switch(previous = character, character = next()){
+                        for(var value1, index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character1 = 0, type = "", props = rules, children = rulesets, reference = rule, characters1 = type; scanning;)switch(previous = character1, character1 = next()){
                             case 34:
                             case 39:
                             case 91:
                             case 40:
-                                characters += delimit(character);
+                                characters1 += delimit(character1);
                                 break;
                             case 9:
                             case 10:
                             case 13:
                             case 32:
-                                characters += whitespace(previous);
+                                characters1 += function(type) {
+                                    for(; character = peek();)if (character < 33) next();
+                                    else break;
+                                    return token(type) > 2 || token(character) > 3 ? "" : " ";
+                                }(previous);
                                 break;
                             case 92:
-                                characters += escaping(position - 1, 7);
+                                characters1 += function(index, count) {
+                                    for(; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
+                                    return slice(index, position + (count < 6 && 32 == peek() && 32 == next()));
+                                }(position - 1, 7);
                                 continue;
                             case 47:
                                 switch(peek()){
                                     case 42:
                                     case 47:
-                                        Utility_append(comment(commenter(next(), position), root, parent), declarations);
+                                        Utility_append((value1 = function(type, index) {
+                                            for(; next();)if (type + character === 57) break;
+                                            else if (type + character === 84 && 47 === peek()) break;
+                                            return "/*" + slice(index, position - 1) + "*" + Utility_from(47 === type ? type : next());
+                                        }(next(), position), node(value1, root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0)), declarations);
                                         break;
                                     default:
-                                        characters += "/";
+                                        characters1 += "/";
                                 }
                                 break;
                             case 123 * variable:
-                                points[index++] = Utility_strlen(characters) * ampersand;
+                                points[index++] = Utility_strlen(characters1) * ampersand;
                             case 125 * variable:
                             case 59:
                             case 0:
-                                switch(character){
+                                switch(character1){
                                     case 0:
                                     case 125:
                                         scanning = 0;
                                     case 59 + offset:
-                                        property > 0 && Utility_strlen(characters) - length && Utility_append(property > 32 ? declaration(characters + ";", rule, parent, length - 1) : declaration(replace(characters, " ", "") + ";", rule, parent, length - 2), declarations);
+                                        property > 0 && Utility_strlen(characters1) - length && Utility_append(property > 32 ? declaration(characters1 + ";", rule, parent, length - 1) : declaration(replace(characters1, " ", "") + ";", rule, parent, length - 2), declarations);
                                         break;
                                     case 59:
-                                        characters += ";";
+                                        characters1 += ";";
                                     default:
-                                        if (Utility_append(reference = ruleset(characters, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character) {
-                                            if (0 === offset) parse(characters, root, reference, reference, props, rulesets, length, points, children);
+                                        if (Utility_append(reference = ruleset(characters1, root, parent, index, offset, rules, points, type, props = [], children = [], length), rulesets), 123 === character1) {
+                                            if (0 === offset) parse(characters1, root, reference, reference, props, rulesets, length, points, children);
                                             else switch(atrule){
                                                 case 100:
                                                 case 109:
@@ -603,33 +590,36 @@
                                                     parse(value, reference, reference, rule && Utility_append(ruleset(value, reference, reference, 0, 0, rules, points, type, rules, props = [], length), children), rules, children, length, points, rule ? props : children);
                                                     break;
                                                 default:
-                                                    parse(characters, reference, reference, reference, [
+                                                    parse(characters1, reference, reference, reference, [
                                                         ""
                                                     ], children, length, points, children);
                                             }
                                         }
                                 }
-                                index = offset = property = 0, variable = ampersand = 1, type = characters = "", length = pseudo;
+                                index = offset = property = 0, variable = ampersand = 1, type = characters1 = "", length = pseudo;
                                 break;
                             case 58:
-                                length = 1 + Utility_strlen(characters), property = previous;
+                                length = 1 + Utility_strlen(characters1), property = previous;
                             default:
                                 if (variable < 1) {
-                                    if (123 == character) --variable;
-                                    else if (125 == character && 0 == variable++ && 125 == prev()) continue;
+                                    if (123 == character1) --variable;
+                                    else if (125 == character1 && 0 == variable++ && 125 == (character = position > 0 ? Utility_charat(characters, --position) : 0, column--, 10 === character && (column = 1, line--), character)) continue;
                                 }
-                                switch(characters += Utility_from(character), character * variable){
+                                switch(characters1 += Utility_from(character1), character1 * variable){
                                     case 38:
-                                        ampersand = offset > 0 ? 1 : (characters += "\f", -1);
+                                        ampersand = offset > 0 ? 1 : (characters1 += "\f", -1);
                                         break;
                                     case 44:
-                                        points[index++] = (Utility_strlen(characters) - 1) * ampersand, ampersand = 1;
+                                        points[index++] = (Utility_strlen(characters1) - 1) * ampersand, ampersand = 1;
                                         break;
                                     case 64:
-                                        45 === peek() && (characters += delimit(next())), atrule = peek(), offset = Utility_strlen(type = characters += identifier(position)), character++;
+                                        45 === peek() && (characters1 += delimit(next())), atrule = peek(), offset = Utility_strlen(type = characters1 += function(index) {
+                                            for(; !token(peek());)next();
+                                            return slice(index, position);
+                                        }(position)), character1++;
                                         break;
                                     case 45:
-                                        45 === previous && 2 == Utility_strlen(characters) && (variable = 0);
+                                        45 === previous && 2 == Utility_strlen(characters1) && (variable = 0);
                                 }
                         }
                         return rulesets;

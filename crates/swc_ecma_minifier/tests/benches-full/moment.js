@@ -148,13 +148,10 @@
             return this.localeData().ordinal(func.apply(this, arguments), token);
         });
     }
-    function removeFormattingTokens(input) {
-        return input.match(/\[[\s\S]/) ? input.replace(/^\[|\]$/g, '') : input.replace(/\\/g, '');
-    }
     function formatMoment(m, format) {
         return m.isValid() ? (formatFunctions[format = expandFormat(format, m.localeData())] = formatFunctions[format] || function(format) {
-            var i, length, array = format.match(formattingTokens);
-            for(i = 0, length = array.length; i < length; i++)formatTokenFunctions[array[i]] ? array[i] = formatTokenFunctions[array[i]] : array[i] = removeFormattingTokens(array[i]);
+            var input, i, length, array = format.match(formattingTokens);
+            for(i = 0, length = array.length; i < length; i++)formatTokenFunctions[array[i]] ? array[i] = formatTokenFunctions[array[i]] : array[i] = (input = array[i]).match(/\[[\s\S]/) ? input.replace(/^\[|\]$/g, '') : input.replace(/\\/g, '');
             return function(mom) {
                 var i, output = '';
                 for(i = 0; i < length; i++)output += isFunction(array[i]) ? array[i].call(mom, format) : array[i];
@@ -211,11 +208,6 @@
             return isStrict && strictRegex ? strictRegex : regex;
         };
     }
-    function getParseRegexForToken(token, config) {
-        return hasOwnProp(regexes, token) ? regexes[token](config._strict, config._locale) : RegExp(regexEscape(token.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
-            return p1 || p2 || p3 || p4;
-        })));
-    }
     function regexEscape(s) {
         return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
     }
@@ -233,9 +225,6 @@
         addParseToken(token, function(input, array, config, token) {
             config._w = config._w || {}, callback(input, config._w, config, token);
         });
-    }
-    function addTimeToArrayFromToken(token, input, config) {
-        null != input && hasOwnProp(tokens, token) && tokens[token](input, config._a, config, token);
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
@@ -542,11 +531,6 @@
         weekdaysShort: defaultLocaleWeekdaysShort,
         meridiemParse: /[ap]\.?m?\.?/i
     }, locales = {}, localeFamilies = {};
-    function commonPrefix(arr1, arr2) {
-        var i, minl = Math.min(arr1.length, arr2.length);
-        for(i = 0; i < minl; i += 1)if (arr1[i] !== arr2[i]) return i;
-        return minl;
-    }
     function normalizeLocale(key) {
         return key ? key.toLowerCase().replace('_', '-') : key;
     }
@@ -594,7 +578,11 @@
             for(var j, next, locale, split, i = 0; i < names.length;){
                 for(j = (split = normalizeLocale(names[i]).split('-')).length, next = (next = normalizeLocale(names[i + 1])) ? next.split('-') : null; j > 0;){
                     if (locale = loadLocale(split.slice(0, j).join('-'))) return locale;
-                    if (next && next.length >= j && commonPrefix(split, next) >= j - 1) break;
+                    if (next && next.length >= j && function(arr1, arr2) {
+                        var i, minl = Math.min(arr1.length, arr2.length);
+                        for(i = 0; i < minl; i += 1)if (arr1[i] !== arr2[i]) return i;
+                        return minl;
+                    }(split, next) >= j - 1) break;
                     j--;
                 }
                 i++;
@@ -801,8 +789,13 @@
             return;
         }
         config._a = [], getParsingFlags(config).empty = !0;
-        var locale, hour, meridiem, isPm, i, parsedInput, tokens, token, skipped, era, string = '' + config._i, stringLength = string.length, totalParsedInputLength = 0;
-        for(i = 0, tokens = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens.length; i++)token = tokens[i], (parsedInput = (string.match(getParseRegexForToken(token, config)) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token] ? (parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token), addTimeToArrayFromToken(token, parsedInput, config)) : config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token);
+        var s, locale, hour, meridiem, isPm, token, config1, token1, input, config2, i, parsedInput, tokens1, token2, skipped, era, string = '' + config._i, stringLength = string.length, totalParsedInputLength = 0;
+        for(i = 0, tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens1.length; i++){
+            if (token2 = tokens1[i], (parsedInput = (string.match((token = token2, config1 = config, hasOwnProp(regexes, token) ? regexes[token](config1._strict, config1._locale) : RegExp((s = token, regexEscape(s.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
+                return p1 || p2 || p3 || p4;
+            })))))) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token2]) parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token2), token1 = token2, input = parsedInput, config2 = config, null != input && hasOwnProp(tokens, token1) && tokens[token1](input, config2._a, config2, token1);
+            else config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token2);
+        }
         getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength, string.length > 0 && getParsingFlags(config).unusedInput.push(string), config._a[3] <= 12 && !0 === getParsingFlags(config).bigHour && config._a[3] > 0 && (getParsingFlags(config).bigHour = void 0), getParsingFlags(config).parsedDateParts = config._a.slice(0), getParsingFlags(config).meridiem = config._meridiem, config._a[3] = (locale = config._locale, hour = config._a[3], null == (meridiem = config._meridiem) ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && ((isPm = locale.isPM(meridiem)) && hour < 12 && (hour += 12), isPm || 12 !== hour || (hour = 0)), hour)), null !== (era = getParsingFlags(config).era) && (config._a[0] = config._locale.erasConvertYear(era, config._a[0])), configFromArray(config), checkOverflow(config);
     }
     function prepareConfig(config) {

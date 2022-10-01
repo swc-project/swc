@@ -249,7 +249,7 @@ var ts;
                                     if (!ts.isBindingPattern(variable.name) && (ts.isArrowFunction(variable.initializer) || ts.isFunctionExpression(variable.initializer) || ts.isClassExpression(variable.initializer))) {
                                         var expression = factory.createAssignment(ts.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), variable.name), factory.createIdentifier(ts.getTextOfIdentifierOrLiteral(variable.name))), updatedVariable = factory.createVariableDeclaration(variable.name, variable.exclamationToken, variable.type, ts.visitNode(variable.initializer, visitor));
                                         variables = ts.append(variables, updatedVariable), expressions = ts.append(expressions, expression), removeCommentsOnExpressions = !0;
-                                    } else expressions = ts.append(expressions, transformInitializedVariable(variable));
+                                    } else expressions = ts.append(expressions, ts.isBindingPattern(variable.name) ? ts.flattenDestructuringAssignment(ts.visitNode(variable, visitor), void 0, context, 0, !1, createAllExportExpressions) : factory.createAssignment(ts.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), variable.name), variable.name), variable.initializer ? ts.visitNode(variable.initializer, visitor) : factory.createVoidZero()));
                                 }
                             }
                             if (variables && (statements = ts.append(statements, factory.updateVariableStatement(node, modifiers, factory.updateVariableDeclarationList(node.declarationList, variables)))), expressions) {
@@ -435,9 +435,6 @@ var ts;
             }
             return factory.createAssignment(name, value);
         }
-        function transformInitializedVariable(node) {
-            return ts.isBindingPattern(node.name) ? ts.flattenDestructuringAssignment(ts.visitNode(node, visitor), void 0, context, 0, !1, createAllExportExpressions) : factory.createAssignment(ts.setTextRange(factory.createPropertyAccessExpression(factory.createIdentifier("exports"), node.name), node.name), node.initializer ? ts.visitNode(node.initializer, visitor) : factory.createVoidZero());
-        }
         function hasAssociatedEndOfDeclarationMarker(node) {
             return (4194304 & ts.getEmitFlags(node)) != 0;
         }
@@ -461,16 +458,15 @@ var ts;
         }
         function appendExportsOfVariableStatement(statements, node) {
             if (currentModuleInfo.exportEquals) return statements;
-            for(var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++)statements = appendExportsOfBindingElement(statements, _a[_i]);
-            return statements;
-        }
-        function appendExportsOfBindingElement(statements, decl) {
-            if (currentModuleInfo.exportEquals) return statements;
-            if (ts.isBindingPattern(decl.name)) for(var _i = 0, _a = decl.name.elements; _i < _a.length; _i++){
-                var element = _a[_i];
-                ts.isOmittedExpression(element) || (statements = appendExportsOfBindingElement(statements, element));
-            }
-            else ts.isGeneratedIdentifier(decl.name) || (statements = appendExportsOfDeclaration(statements, decl));
+            for(var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++)statements = function appendExportsOfBindingElement(statements, decl) {
+                if (currentModuleInfo.exportEquals) return statements;
+                if (ts.isBindingPattern(decl.name)) for(var _i = 0, _a = decl.name.elements; _i < _a.length; _i++){
+                    var element = _a[_i];
+                    ts.isOmittedExpression(element) || (statements = appendExportsOfBindingElement(statements, element));
+                }
+                else ts.isGeneratedIdentifier(decl.name) || (statements = appendExportsOfDeclaration(statements, decl));
+                return statements;
+            }(statements, _a[_i]);
             return statements;
         }
         function appendExportsOfHoistedDeclaration(statements, decl) {

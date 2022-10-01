@@ -719,12 +719,11 @@
         },
         5776: function(module, exports, __webpack_require__) {
             "use strict";
-            function removeLocale(path, locale) {
-                return path;
-            }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.removeLocale = removeLocale, __webpack_require__(4943), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }), exports.removeLocale = function(path, locale) {
+                return path;
+            }, __webpack_require__(4943), ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -2424,7 +2423,9 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.formatUrl = formatUrl, exports.formatWithValidation = formatWithValidation, exports.urlObjectKeys = void 0;
+            }), exports.formatUrl = formatUrl, exports.formatWithValidation = function(url) {
+                return formatUrl(url);
+            }, exports.urlObjectKeys = void 0;
             var querystring = (0, __webpack_require__(1598).Z)(__webpack_require__(466));
             const slashedProtocols = /https?|ftp|gopher|file/;
             function formatUrl(urlObj) {
@@ -2432,9 +2433,6 @@
                 auth = auth ? encodeURIComponent(auth).replace(/%3A/i, ":") + "@" : "", urlObj.host ? host = auth + urlObj.host : hostname && (host = auth + (~hostname.indexOf(":") ? "[".concat(hostname, "]") : hostname), urlObj.port && (host += ":" + urlObj.port)), query && "object" == typeof query && (query = String(querystring.urlQueryToSearchParams(query)));
                 let search = urlObj.search || query && "?".concat(query) || "";
                 return protocol && !protocol.endsWith(":") && (protocol += ":"), urlObj.slashes || (!protocol || slashedProtocols.test(protocol)) && !1 !== host ? (host = "//" + (host || ""), pathname && "/" !== pathname[0] && (pathname = "/" + pathname)) : host || (host = ""), hash && "#" !== hash[0] && (hash = "#" + hash), search && "?" !== search[0] && (search = "?" + search), pathname = pathname.replace(/[?#]/g, encodeURIComponent), search = search.replace("#", "%23"), "".concat(protocol).concat(host).concat(pathname).concat(search).concat(hash);
-            }
-            function formatWithValidation(url) {
-                return formatUrl(url);
             }
             exports.urlObjectKeys = [
                 "auth",
@@ -2786,12 +2784,11 @@
         8027: function(module, exports) {
             "use strict";
             let runtimeConfig;
-            function setConfig(configValue) {
-                runtimeConfig = configValue;
-            }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.setConfig = setConfig, exports.default = void 0, exports.default = ()=>runtimeConfig, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }), exports.setConfig = function(configValue) {
+                runtimeConfig = configValue;
+            }, exports.default = void 0, exports.default = ()=>runtimeConfig, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },

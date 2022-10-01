@@ -192,19 +192,18 @@
                     return this.p && this.p(t), t;
                 }
             }
-            function Z(t) {
-                const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
-                if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
-                else for(let e1 = 0; e1 < t; e1++)n[e1] = Math.floor(256 * Math.random());
-                return n;
-            }
             X.T = -1;
             class tt {
                 static I() {
                     const t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", e = Math.floor(256 / t.length) * t.length;
                     let n = "";
                     for(; n.length < 20;){
-                        const s = Z(40);
+                        const s = function(t) {
+                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
+                            if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
+                            else for(let e1 = 0; e1 < t; e1++)n[e1] = Math.floor(256 * Math.random());
+                            return n;
+                        }(40);
                         for(let i = 0; i < s.length; ++i)n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
                     }
                     return n;
@@ -845,9 +844,9 @@
                 return e.A;
             }
             function zt(t, e) {
-                var n, s;
+                var n, s, t1, e1;
                 if (t.limit !== e.limit || t.orderBy.length !== e.orderBy.length) return !1;
-                for(let n1 = 0; n1 < t.orderBy.length; n1++)if (!ue(t.orderBy[n1], e.orderBy[n1])) return !1;
+                for(let n1 = 0; n1 < t.orderBy.length; n1++)if (t1 = t.orderBy[n1], e1 = e.orderBy[n1], !(t1.dir === e1.dir && t1.field.isEqual(e1.field))) return !1;
                 if (t.filters.length !== e.filters.length) return !1;
                 for(let i = 0; i < t.filters.length; i++)if (n = t.filters[i], s = e.filters[i], n.op !== s.op || !n.field.isEqual(s.field) || !Vt(n.value, s.value)) return !1;
                 return t.collectionGroup === e.collectionGroup && !!t.path.isEqual(e.path) && !!le(t.startAt, e.startAt) && le(t.endAt, e.endAt);
@@ -980,9 +979,6 @@
                     this.field = t, this.dir = e;
                 }
             }
-            function ue(t, e) {
-                return t.dir === e.dir && t.field.isEqual(e.field);
-            }
             function he(t, e, n) {
                 let s = 0;
                 for(let i = 0; i < t.position.length; i++){
@@ -1075,76 +1071,30 @@
                 return (e, n)=>{
                     let s = !1;
                     for (const i of Te(t)){
-                        const t1 = Ve(i, e, n);
+                        const t1 = function(t, e, n) {
+                            const s = t.field.isKeyField() ? Pt.comparator(e.key, n.key) : function(t, e, n) {
+                                const s = e.data.field(t), i = n.data.field(t);
+                                return null !== s && null !== i ? Dt(s, i) : L();
+                            }(t.field, e, n);
+                            switch(t.dir){
+                                case "asc":
+                                    return s;
+                                case "desc":
+                                    return -1 * s;
+                                default:
+                                    return L();
+                            }
+                        }(i, e, n);
                         if (0 !== t1) return t1;
                         s = s || i.field.isKeyField();
                     }
                     return 0;
                 };
             }
-            function Ve(t, e, n) {
-                const s = t.field.isKeyField() ? Pt.comparator(e.key, n.key) : function(t, e, n) {
-                    const s = e.data.field(t), i = n.data.field(t);
-                    return null !== s && null !== i ? Dt(s, i) : L();
-                }(t.field, e, n);
-                switch(t.dir){
-                    case "asc":
-                        return s;
-                    case "desc":
-                        return -1 * s;
-                    default:
-                        return L();
-                }
-            }
             class Ne {
                 constructor(){
                     this._ = void 0;
                 }
-            }
-            function xe(t, e, n) {
-                return t instanceof Oe ? function(t, e) {
-                    const n = {
-                        fields: {
-                            __type__: {
-                                stringValue: "server_timestamp"
-                            },
-                            __local_write_time__: {
-                                timestampValue: {
-                                    seconds: t.seconds,
-                                    nanos: t.nanoseconds
-                                }
-                            }
-                        }
-                    };
-                    return e && (n.fields.__previous_value__ = e), {
-                        mapValue: n
-                    };
-                }(n, e) : t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : function(t, e) {
-                    const n = t instanceof Ue ? $t(e) || e && "doubleValue" in e ? e : {
-                        integerValue: 0
-                    } : null, s = qe(n) + qe(t.C);
-                    return $t(n) && $t(t.C) ? {
-                        integerValue: "" + s
-                    } : function(t, e) {
-                        if (t.D) {
-                            if (isNaN(e)) return {
-                                doubleValue: "NaN"
-                            };
-                            if (e === 1 / 0) return {
-                                doubleValue: "Infinity"
-                            };
-                            if (e === -1 / 0) return {
-                                doubleValue: "-Infinity"
-                            };
-                        }
-                        return {
-                            doubleValue: Rt(e) ? "-0" : e
-                        };
-                    }(t.N, s);
-                }(t, e);
-            }
-            function ke(t, e, n) {
-                return t instanceof Fe ? Me(t, e) : t instanceof Le ? Be(t, e) : n;
             }
             class Oe extends Ne {
             }
@@ -1192,18 +1142,6 @@
             }
             class He {
             }
-            function Je(t, e, n) {
-                t instanceof en ? function(t, e, n) {
-                    const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
-                    s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                }(t, e, n) : t instanceof nn ? function(t, e, n) {
-                    if (!ze(t.precondition, e)) return void e.convertToUnknownDocument(n.version);
-                    const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
-                    i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                }(t, e, n) : function(t, e, n) {
-                    e.convertToNoDocument(n.version).setHasCommittedMutations();
-                }(0, e, n);
-            }
             function Ye(t, e, n) {
                 t instanceof en ? function(t, e, n) {
                     if (!ze(t.precondition, e)) return;
@@ -1245,11 +1183,12 @@
                 }), e;
             }
             function rn(t, e, n) {
+                var t1, e1, n1;
                 const s = new Map();
                 t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
                     const r = t[i], o = r.transform, c = e.data.field(r.field);
-                    s.set(r.field, ke(o, c, n[i]));
+                    s.set(r.field, (t1 = o, e1 = c, n1 = n[i], t1 instanceof Fe ? Me(t1, e1) : t1 instanceof Le ? Be(t1, e1) : n1));
                 }
                 return s;
             }
@@ -1257,7 +1196,46 @@
                 const s = new Map();
                 for (const i of t){
                     const t1 = i.transform, r = n.data.field(i.field);
-                    s.set(i.field, xe(t1, r, e));
+                    s.set(i.field, t1 instanceof Oe ? function(t, e) {
+                        const n = {
+                            fields: {
+                                __type__: {
+                                    stringValue: "server_timestamp"
+                                },
+                                __local_write_time__: {
+                                    timestampValue: {
+                                        seconds: t.seconds,
+                                        nanos: t.nanoseconds
+                                    }
+                                }
+                            }
+                        };
+                        return e && (n.fields.__previous_value__ = e), {
+                            mapValue: n
+                        };
+                    }(e, r) : t1 instanceof Fe ? Me(t1, r) : t1 instanceof Le ? Be(t1, r) : function(t, e) {
+                        const n = t instanceof Ue ? $t(e) || e && "doubleValue" in e ? e : {
+                            integerValue: 0
+                        } : null, s = qe(n) + qe(t.C);
+                        return $t(n) && $t(t.C) ? {
+                            integerValue: "" + s
+                        } : function(t, e) {
+                            if (t.D) {
+                                if (isNaN(e)) return {
+                                    doubleValue: "NaN"
+                                };
+                                if (e === 1 / 0) return {
+                                    doubleValue: "Infinity"
+                                };
+                                if (e === -1 / 0) return {
+                                    doubleValue: "-Infinity"
+                                };
+                            }
+                            return {
+                                doubleValue: Rt(e) ? "-0" : e
+                            };
+                        }(t.N, s);
+                    }(t1, r));
                 }
                 return s;
             }
@@ -1940,26 +1918,25 @@
             }
             function Es(t) {
                 let e = "";
-                for(let n = 0; n < t.length; n++)e.length > 0 && (e = As(e)), e = Is(t.get(n), e);
-                return As(e);
-            }
-            function Is(t, e) {
-                let n = e;
-                const s = t.length;
-                for(let e1 = 0; e1 < s; e1++){
-                    const s1 = t.charAt(e1);
-                    switch(s1){
-                        case "\0":
-                            n += "";
-                            break;
-                        case "":
-                            n += "";
-                            break;
-                        default:
-                            n += s1;
+                for(let n = 0; n < t.length; n++)e.length > 0 && (e = As(e)), e = function(t, e) {
+                    let n = e;
+                    const s = t.length;
+                    for(let e1 = 0; e1 < s; e1++){
+                        const s1 = t.charAt(e1);
+                        switch(s1){
+                            case "\0":
+                                n += "";
+                                break;
+                            case "":
+                                n += "";
+                                break;
+                            default:
+                                n += s1;
+                        }
                     }
-                }
-                return n;
+                    return n;
+                }(t.get(n), e);
+                return As(e);
             }
             function As(t) {
                 return t + "";
@@ -2169,7 +2146,19 @@
                     const n = e.mutationResults;
                     for(let e1 = 0; e1 < this.mutations.length; e1++){
                         const s = this.mutations[e1];
-                        s.key.isEqual(t.key) && Je(s, t, n[e1]);
+                        if (s.key.isEqual(t.key)) {
+                            var n1;
+                            n1 = n[e1], s instanceof en ? function(t, e, n) {
+                                const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
+                                s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
+                            }(s, t, n1) : s instanceof nn ? function(t, e, n) {
+                                if (!ze(t.precondition, e)) return void e.convertToUnknownDocument(n.version);
+                                const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
+                                i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
+                            }(s, t, n1) : function(t, e, n) {
+                                e.convertToNoDocument(n.version).setHasCommittedMutations();
+                            }(0, t, n1);
+                        }
                     }
                 }
                 applyToLocalView(t) {
@@ -4194,11 +4183,10 @@
                 null !== n && (ao(t.remoteStore, n), t.Lo = t.Lo.remove(e), t.Bo.delete(n), yc(t));
             }
             function mc(t, e, n) {
-                for (const s of n)s instanceof Jo ? (t.Uo.addReference(s.key, e), gc(t, s)) : s instanceof Yo ? ($("SyncEngine", "Document no longer in limbo: " + s.key), t.Uo.removeReference(s.key, e), t.Uo.containsKey(s.key) || _c(t, s.key)) : L();
-            }
-            function gc(t, e) {
-                const n = e.key, s = n.path.canonicalString();
-                t.Lo.get(n) || t.Mo.has(s) || ($("SyncEngine", "New document in limbo: " + n), t.Mo.add(s), yc(t));
+                for (const s of n)s instanceof Jo ? (t.Uo.addReference(s.key, e), function(t, e) {
+                    const n = e.key, s = n.path.canonicalString();
+                    t.Lo.get(n) || t.Mo.has(s) || ($("SyncEngine", "New document in limbo: " + n), t.Mo.add(s), yc(t));
+                }(t, s)) : s instanceof Yo ? ($("SyncEngine", "Document no longer in limbo: " + s.key), t.Uo.removeReference(s.key, e), t.Uo.containsKey(s.key) || _c(t, s.key)) : L();
             }
             function yc(t) {
                 for(; t.Mo.size > 0 && t.Lo.size < t.maxConcurrentLimboResolutions;){
