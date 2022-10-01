@@ -20,6 +20,9 @@
 - **(es/minifier)** Drop vars from sequential inliner (#5993) ([286334c](https://github.com/swc-project/swc/commit/286334c4d0b15d92347c6e51e05a3c3bf506e982))
 
 
+- **(es/minifier)** Inline function calls in more cases (#6010) ([61807ab](https://github.com/swc-project/swc/commit/61807abf6e482df5f34d24955c8fa56d6857659c))
+
+
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
 
 ### Miscellaneous Tasks
