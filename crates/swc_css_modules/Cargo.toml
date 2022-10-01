@@ -15,5 +15,6 @@ bench = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_css_ast   = { version = "0.114.4", path = "../swc_css_ast" }
-swc_css_visit = { version = "0.113.4", path = "../swc_css_visit" }
+swc_css_ast     = { version = "0.114.4", path = "../swc_css_ast" }
+swc_css_visit   = { version = "0.113.4", path = "../swc_css_visit" }
+swc_ecma_loader = { version = "0.41.3", path = "../swc_ecma_loader" }
