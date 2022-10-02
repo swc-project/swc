@@ -63,9 +63,9 @@ pub struct Mark(u32);
 
 #[allow(unused)]
 #[derive(Clone, Debug)]
-pub struct MarkData {
-    pub parent: Mark,
-    pub is_builtin: bool,
+pub(crate) struct MarkData {
+    pub(crate) parent: Mark,
+    pub(crate) is_builtin: bool,
 }
 
 #[cfg_attr(
@@ -309,6 +309,7 @@ impl HygieneData {
     }
 }
 
+#[allow(unused)]
 pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
     GLOBALS.with(|globals| {
         #[cfg(feature = "parking_lot")]
