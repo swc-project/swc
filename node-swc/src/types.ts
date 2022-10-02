@@ -350,7 +350,7 @@ export interface TerserCompressOptions {
 export interface TerserMangleOptions {
   props?: TerserManglePropertiesOptions,
 
-  top_level?: boolean,
+  toplevel?: boolean,
 
   keep_class_names?: boolean,
 
