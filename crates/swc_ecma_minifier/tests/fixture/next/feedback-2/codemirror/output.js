@@ -776,12 +776,6 @@
         if (sps) for(var sp = void 0, i = 0; i < sps.length; ++i)(sp = sps[i]).marker.collapsed && (start ? sp.from : sp.to) == null && (!found || 0 > compareCollapsedMarkers(found, sp.marker)) && (found = sp.marker);
         return found;
     }
-    function collapsedSpanAtStart(line) {
-        return collapsedSpanAtSide(line, !0);
-    }
-    function collapsedSpanAtEnd(line) {
-        return collapsedSpanAtSide(line, !1);
-    }
     function conflictingCollapsedRange(doc, lineNo, from, to, marker) {
         var line = getLine(doc, lineNo), sps = sawCollapsedSpans && line.markedSpans;
         if (sps) for(var i = 0; i < sps.length; ++i){
@@ -793,7 +787,7 @@
         }
     }
     function visualLine(line) {
-        for(var merged; merged = collapsedSpanAtStart(line);)line = merged.find(-1, !0).line;
+        for(var merged; merged = collapsedSpanAtSide(line, !0);)line = merged.find(-1, !0).line;
         return line;
     }
     function visualLineNo(doc, lineN) {
@@ -804,7 +798,7 @@
         if (lineN > doc.lastLine()) return lineN;
         var merged, line = getLine(doc, lineN);
         if (!lineIsHidden(doc, line)) return lineN;
-        for(; merged = collapsedSpanAtEnd(line);)line = merged.find(1, !0).line;
+        for(; merged = collapsedSpanAtSide(line, !1);)line = merged.find(1, !0).line;
         return lineNo(line) + 1;
     }
     function lineIsHidden(doc, line) {
@@ -836,11 +830,11 @@
     }
     function lineLength(line) {
         if (0 == line.height) return 0;
-        for(var merged, len = line.text.length, cur = line; merged = collapsedSpanAtStart(cur);){
+        for(var merged, len = line.text.length, cur = line; merged = collapsedSpanAtSide(cur, !0);){
             var found = merged.find(0, !0);
             cur = found.from.line, len += found.from.ch - found.to.ch;
         }
-        for(cur = line; merged = collapsedSpanAtEnd(cur);){
+        for(cur = line; merged = collapsedSpanAtSide(cur, !1);){
             var found$1 = merged.find(0, !0);
             len -= cur.text.length - found$1.from.ch, len += (cur = found$1.to.line).text.length - found$1.to.ch;
         }
@@ -1009,7 +1003,7 @@
     }
     function LineView(doc, line, lineN) {
         this.line = line, this.rest = function(line) {
-            for(var merged, lines; merged = collapsedSpanAtEnd(line);)line = merged.find(1, !0).line, (lines || (lines = [])).push(line);
+            for(var merged, lines; merged = collapsedSpanAtSide(line, !1);)line = merged.find(1, !0).line, (lines || (lines = [])).push(line);
             return lines;
         }(line), this.size = this.rest ? lineNo(lst(this.rest)) - lineN + 1 : 1, this.node = this.text = null, this.hidden = lineIsHidden(doc, line);
     }
@@ -1159,9 +1153,6 @@
                 before: !0
             };
         }
-    }
-    function measureChar(cm, line, ch, bias) {
-        return measureCharPrepared(cm, prepareMeasureForLine(cm, line), ch, bias);
     }
     function findViewForLine(cm, lineN) {
         if (lineN >= cm.display.viewFrom && lineN < cm.display.viewTo) return cm.display.view[findViewIndex(cm, lineN)];
@@ -1324,7 +1315,8 @@
         };
     }
     function charCoords(cm, pos, context, lineObj, bias) {
-        return lineObj || (lineObj = getLine(cm.doc, pos.line)), intoCoordSystem(cm, lineObj, measureChar(cm, lineObj, pos.ch, bias), context);
+        var line, ch;
+        return lineObj || (lineObj = getLine(cm.doc, pos.line)), intoCoordSystem(cm, lineObj, (line = lineObj, ch = pos.ch, measureCharPrepared(cm, prepareMeasureForLine(cm, line), ch, bias)), context);
     }
     function cursorCoords(cm, pos, context, lineObj, preparedMeasure, varHeight) {
         function get(ch, right) {
@@ -1934,8 +1926,8 @@
                 }(ops[i]);
                 for(var i$1 = 0; i$1 < ops.length; i$1++)(op = ops[i$1]).updatedDisplay = op.mustUpdate && updateDisplayIfNeeded(op.cm, op.update);
                 for(var i$2 = 0; i$2 < ops.length; i$2++)!function(op) {
-                    var cm = op.cm, display = cm.display;
-                    op.updatedDisplay && updateHeightsInViewport(cm), op.barMeasure = measureForScrollbars(cm), display.maxLineChanged && !cm.options.lineWrapping && (op.adjustWidthTo = measureChar(cm, display.maxLine, display.maxLine.text.length).left + 3, cm.display.sizerWidth = op.adjustWidthTo, op.barMeasure.scrollWidth = Math.max(display.scroller.clientWidth, display.sizer.offsetLeft + op.adjustWidthTo + scrollGap(cm) + cm.display.barWidth), op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo - displayWidth(cm))), (op.updatedDisplay || op.selectionChanged) && (op.preparedSelection = display.input.prepareSelection());
+                    var line, ch, cm = op.cm, display = cm.display;
+                    op.updatedDisplay && updateHeightsInViewport(cm), op.barMeasure = measureForScrollbars(cm), display.maxLineChanged && !cm.options.lineWrapping && (op.adjustWidthTo = (line = display.maxLine, ch = display.maxLine.text.length, measureCharPrepared(cm, prepareMeasureForLine(cm, line), ch, void 0)).left + 3, cm.display.sizerWidth = op.adjustWidthTo, op.barMeasure.scrollWidth = Math.max(display.scroller.clientWidth, display.sizer.offsetLeft + op.adjustWidthTo + scrollGap(cm) + cm.display.barWidth), op.maxScrollLeft = Math.max(0, display.sizer.offsetLeft + op.adjustWidthTo - displayWidth(cm))), (op.updatedDisplay || op.selectionChanged) && (op.preparedSelection = display.input.prepareSelection());
                 }(ops[i$2]);
                 for(var i$3 = 0; i$3 < ops.length; i$3++)!function(op) {
                     var cm = op.cm;
@@ -2489,9 +2481,6 @@
     function replaceOneSelection(doc, i, range, options) {
         var ranges = doc.sel.ranges.slice(0);
         ranges[i] = range, setSelection(doc, normalizeSelection(doc.cm, ranges, doc.sel.primIndex), options);
-    }
-    function setSimpleSelection(doc, anchor, head, options) {
-        setSelection(doc, simpleSelection(anchor, head), options);
     }
     function setSelectionReplaceHistory(doc, sel, options) {
         var done = doc.history.done, last = lst(done);
@@ -3136,10 +3125,10 @@
             return this.sel.somethingSelected();
         },
         setCursor: docMethodOp(function(line, ch, options) {
-            setSimpleSelection(this, clipPos(this, "number" == typeof line ? Pos(line, ch || 0) : line), null, options);
+            setSelection(this, simpleSelection(clipPos(this, "number" == typeof line ? Pos(line, ch || 0) : line), null), options);
         }),
         setSelection: docMethodOp(function(anchor, head, options) {
-            setSimpleSelection(this, clipPos(this, anchor), clipPos(this, head || anchor), options);
+            setSelection(this, simpleSelection(clipPos(this, anchor), clipPos(this, head || anchor)), options);
         }),
         extendSelection: docMethodOp(function(head, other, options) {
             extendSelection(this, clipPos(this, head), other && clipPos(this, other), options);
@@ -3871,7 +3860,7 @@
             return cm.extendSelectionsBy(function(range) {
                 var lineN, line, visual;
                 return lineN = range.head.line, (visual = function(line) {
-                    for(var merged; merged = collapsedSpanAtEnd(line);)line = merged.find(1, !0).line;
+                    for(var merged; merged = collapsedSpanAtSide(line, !1);)line = merged.find(1, !0).line;
                     return line;
                 }(line = getLine(cm.doc, lineN))) != line && (lineN = lineNo(visual)), endOfLine(!0, cm, line, lineN, -1);
             }, {

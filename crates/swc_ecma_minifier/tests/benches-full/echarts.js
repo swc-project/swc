@@ -4167,11 +4167,12 @@
         existings = existings || [], newCmptOptions = (newCmptOptions || []).slice();
         var existingIdIdxMap = createHashMap();
         each(newCmptOptions, function(cmptOption, index) {
+            var idOrName, idOrName1;
             if (!isObject(cmptOption)) {
                 newCmptOptions[index] = null;
                 return;
             }
-            null == cmptOption.id || isValidIdOrName(cmptOption.id) || warnInvalidateIdOrName(cmptOption.id), null == cmptOption.name || isValidIdOrName(cmptOption.name) || warnInvalidateIdOrName(cmptOption.name);
+            null == cmptOption.id || isStringSafe(idOrName = cmptOption.id) || isNumeric(idOrName) || warnInvalidateIdOrName(cmptOption.id), null == cmptOption.name || isStringSafe(idOrName1 = cmptOption.name) || isNumeric(idOrName1) || warnInvalidateIdOrName(cmptOption.name);
         });
         var result1 = function(existings, existingIdIdxMap, mode) {
             var result = [];
@@ -4255,9 +4256,6 @@
     }
     function warnInvalidateIdOrName(idOrName) {
         warn('`' + idOrName + '` is invalid id or name. Must be a string or number.');
-    }
-    function isValidIdOrName(idOrName) {
-        return isStringSafe(idOrName) || isNumeric(idOrName);
     }
     function isNameSpecified(componentModel) {
         var name = componentModel.name;
@@ -6005,18 +6003,6 @@
     function leaveEmphasis(el, highlightDigit) {
         (el.__highByOuter &= ~(1 << (highlightDigit || 0))) || traverseUpdateState(el, singleLeaveEmphasis);
     }
-    function enterBlur(el) {
-        traverseUpdateState(el, singleEnterBlur);
-    }
-    function leaveBlur(el) {
-        traverseUpdateState(el, singleLeaveBlur);
-    }
-    function enterSelect(el) {
-        traverseUpdateState(el, singleEnterSelect);
-    }
-    function leaveSelect(el) {
-        traverseUpdateState(el, singleLeaveSelect);
-    }
     function shouldSilent(el, e) {
         return el.__highDownSilentOnTouch && e.zrByTouch;
     }
@@ -6032,7 +6018,7 @@
         function leaveBlurOfIndices(data, dataIndices) {
             for(var i = 0; i < dataIndices.length; i++){
                 var itemEl = data.getItemGraphicEl(dataIndices[i]);
-                itemEl && leaveBlur(itemEl);
+                itemEl && traverseUpdateState(itemEl, singleLeaveBlur);
             }
         }
         if (blurScope = blurScope || 'coordinateSystem', null != targetSeriesIndex && focus && 'none' !== focus) {
@@ -6092,7 +6078,7 @@
         each(seriesModel.getAllData(), function(_a) {
             var data = _a.data, type = _a.type;
             data.eachItemGraphicEl(function(el, idx) {
-                seriesModel.isSelected(idx, type) ? enterSelect(el) : leaveSelect(el);
+                seriesModel.isSelected(idx, type) ? traverseUpdateState(el, singleEnterSelect) : traverseUpdateState(el, singleLeaveSelect);
             });
         });
     }
@@ -6291,9 +6277,6 @@
                 path.increaseVersion();
             })(pathProxy, m), this.dirtyShape();
         }, innerOpts;
-    }
-    function createFromString(str, opts) {
-        return new SVGPath(createPathOptions(str, opts));
     }
     var CircleShape = function() {
         this.cx = 0, this.cy = 0, this.r = 0;
@@ -6755,7 +6738,7 @@
         if (_customShapeMap.hasOwnProperty(name)) return _customShapeMap[name];
     }
     function makePath(pathData, opts, rect, layout) {
-        var path = createFromString(pathData, opts);
+        var path = new SVGPath(createPathOptions(pathData, opts));
         return rect && ('center' === layout && (rect = centerGraphic(rect, path.getBoundingRect())), resizePath(path, rect)), path;
     }
     function makeImage(imageUrl, rect, layout) {
@@ -6882,16 +6865,13 @@
         ];
         return Math.abs((vertex = applyTransform$1(vertex, transform, invert))[0]) > Math.abs(vertex[1]) ? vertex[0] > 0 ? 'right' : 'left' : vertex[1] > 0 ? 'bottom' : 'top';
     }
-    function isNotGroup(el) {
-        return !el.isGroup;
-    }
     function groupTransition(g1, g2, animatableModel) {
         if (g1 && g2) {
             var elMap, elMap1 = (elMap = {}, g1.traverse(function(el) {
-                isNotGroup(el) && el.anid && (elMap[el.anid] = el);
+                !el.isGroup && el.anid && (elMap[el.anid] = el);
             }), elMap);
             g2.traverse(function(el) {
-                if (isNotGroup(el) && el.anid) {
+                if (!el.isGroup && el.anid) {
                     var oldEl = elMap1[el.anid];
                     if (oldEl) {
                         var newProp = getAnimatableProps(el);
@@ -9157,7 +9137,7 @@
             dimensionsDefine: determined.dimensionsDefine,
             startIndex: determined.startIndex,
             dimensionsDetectedCount: determined.dimensionsDetectedCount,
-            encodeDefine: makeEncodeDefine(encodeDefine),
+            encodeDefine: encodeDefine ? createHashMap(encodeDefine) : null,
             metaRawOption: clone(thisMetaRawOption)
         });
     }
@@ -9166,9 +9146,6 @@
             data: data,
             sourceFormat: isTypedArray(data) ? SOURCE_FORMAT_TYPED_ARRAY : SOURCE_FORMAT_ORIGINAL
         });
-    }
-    function makeEncodeDefine(encodeDefine) {
-        return encodeDefine ? createHashMap(encodeDefine) : null;
     }
     function detectSourceFormat(data) {
         var sourceFormat = SOURCE_FORMAT_UNKNOWN;
@@ -9426,16 +9403,13 @@
             define1 = define1 || {}, this._reset = define1.reset, this._plan = define1.plan, this._count = define1.count, this._onDirty = define1.onDirty, this._dirty = !0;
         }
         return Task.prototype.perform = function(performArgs) {
-            var planResult, forceFirstProgress, upTask = this._upstream, skip = performArgs && performArgs.skip;
+            var val, val1, planResult, forceFirstProgress, upTask = this._upstream, skip = performArgs && performArgs.skip;
             if (this._dirty && upTask) {
                 var context = this.context;
                 context.data = context.outputData = upTask.context.outputData;
             }
             this.__pipeline && (this.__pipeline.currentTask = this), this._plan && !skip && (planResult = this._plan(this.context));
-            var lastModBy = normalizeModBy(this._modBy), lastModDataCount = this._modDataCount || 0, modBy = normalizeModBy(performArgs && performArgs.modBy), modDataCount = performArgs && performArgs.modDataCount || 0;
-            function normalizeModBy(val) {
-                return val >= 1 || (val = 1), val;
-            }
+            var lastModBy = ((val = this._modBy) >= 1 || (val = 1), val), lastModDataCount = this._modDataCount || 0, modBy = ((val1 = performArgs && performArgs.modBy) >= 1 || (val1 = 1), val1), modDataCount = performArgs && performArgs.modDataCount || 0;
             (lastModBy !== modBy || lastModDataCount !== modDataCount) && (planResult = 'reset'), (this._dirty || 'reset' === planResult) && (this._dirty = !1, forceFirstProgress = this._doReset(skip)), this._modBy = modBy, this._modDataCount = modDataCount;
             var step = performArgs && performArgs.step;
             if (upTask ? (assert(null != upTask._outputDueEnd), this._dueEnd = upTask._outputDueEnd) : (assert(!this._progress || this._count), this._dueEnd = this._count ? this._count(this.context) : 1 / 0), this._progress) {
@@ -9509,11 +9483,7 @@
         trim: function(val) {
             return 'string' == typeof val ? trim(val) : val;
         }
-    });
-    function getRawValueParser(type) {
-        return valueParserMap.get(type);
-    }
-    var ORDER_COMPARISON_OP_MAP = {
+    }), ORDER_COMPARISON_OP_MAP = {
         lt: function(lval, rval) {
             return lval < rval;
         },
@@ -9632,7 +9602,7 @@
             ], upstreamSignList = [];
             assert(resultSourceList && upstreamSignList), this._setLocalSource(resultSourceList, upstreamSignList);
         }, SourceManager.prototype._applyTransform = function(upMgrList) {
-            var source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
+            var encodeDefine, source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
             assert(null != fromTransformResult || null != transformOption), null != fromTransformResult && 1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
             var upSourceList = [], upstreamSignList = [];
             return (each(upMgrList, function(upMgr) {
@@ -9725,7 +9695,7 @@
                     dimensionsDefine: clone(source.dimensionsDefine),
                     startIndex: source.startIndex,
                     dimensionsDetectedCount: source.dimensionsDetectedCount,
-                    encodeDefine: makeEncodeDefine(source.encodeDefine)
+                    encodeDefine: (encodeDefine = source.encodeDefine) ? createHashMap(encodeDefine) : null
                 }))
             ]), {
                 sourceList: sourceList,
@@ -12054,7 +12024,7 @@
                 return inheritStyle(parentGroup, g), parseAttributes(xmlNode, g, this._defsUsePending, !1, !0), this._textX += parseFloat(dx), this._textY += parseFloat(dy), g;
             },
             path: function(xmlNode, parentGroup) {
-                var path = createFromString(xmlNode.getAttribute('d') || '');
+                var str, path = (str = xmlNode.getAttribute('d') || '', new SVGPath(createPathOptions(str, void 0)));
                 return inheritStyle(parentGroup, path), parseAttributes(xmlNode, path, this._defsUsePending, !1, !1), path.silent = !0, path;
             }
         }), SVGParser;
@@ -13625,13 +13595,13 @@
                     }, class_1.prototype.leaveEmphasis = function(el, highlightDigit) {
                         leaveEmphasis(el, highlightDigit), markStatusToUpdate(ecIns);
                     }, class_1.prototype.enterBlur = function(el) {
-                        enterBlur(el), markStatusToUpdate(ecIns);
+                        traverseUpdateState(el, singleEnterBlur), markStatusToUpdate(ecIns);
                     }, class_1.prototype.leaveBlur = function(el) {
-                        leaveBlur(el), markStatusToUpdate(ecIns);
+                        traverseUpdateState(el, singleLeaveBlur), markStatusToUpdate(ecIns);
                     }, class_1.prototype.enterSelect = function(el) {
-                        enterSelect(el), markStatusToUpdate(ecIns);
+                        traverseUpdateState(el, singleEnterSelect), markStatusToUpdate(ecIns);
                     }, class_1.prototype.leaveSelect = function(el) {
-                        leaveSelect(el), markStatusToUpdate(ecIns);
+                        traverseUpdateState(el, singleLeaveSelect), markStatusToUpdate(ecIns);
                     }, class_1.prototype.getModel = function() {
                         return ecIns.getModel();
                     }, class_1.prototype.getViewOfComponentModel = function(componentModel) {
@@ -14971,9 +14941,6 @@
     function getName(obj) {
         return isObject(obj) && null != obj.value ? obj.value : obj + '';
     }
-    function getIntervalPrecision(interval) {
-        return getPrecisionSafe(interval) + 2;
-    }
     function clamp(niceTickExtent, idx, extent) {
         niceTickExtent[idx] = Math.max(Math.min(niceTickExtent[idx], extent[1]), extent[0]);
     }
@@ -15070,7 +15037,7 @@
         }, IntervalScale.prototype.getInterval = function() {
             return this._interval;
         }, IntervalScale.prototype.setInterval = function(interval) {
-            this._interval = interval, this._niceExtent = this._extent.slice(), this._intervalPrecision = getIntervalPrecision(interval);
+            this._interval = interval, this._niceExtent = this._extent.slice(), this._intervalPrecision = getPrecisionSafe(interval) + 2;
         }, IntervalScale.prototype.getTicks = function(expandToNicedExtent) {
             var interval = this._interval, extent = this._extent, niceTickExtent = this._niceExtent, intervalPrecision = this._intervalPrecision, ticks = [];
             if (!interval) return ticks;
@@ -15106,7 +15073,7 @@
             var splitNumber1, result, span, interval, precision, extent = this._extent, span1 = extent[1] - extent[0];
             if (isFinite(span1)) {
                 span1 < 0 && (span1 = -span1, extent.reverse());
-                var niceTickExtent, result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getIntervalPrecision(interval), isFinite((niceTickExtent = result.niceTickExtent = [
+                var interval1, niceTickExtent, result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
                     round(Math.ceil(extent[0] / interval) * interval, precision),
                     round(Math.floor(extent[1] / interval) * interval, precision)
                 ])[0]) || (niceTickExtent[0] = extent[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent[1]), clamp(niceTickExtent, 0, extent), clamp(niceTickExtent, 1, extent), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
@@ -15613,19 +15580,19 @@
         return __extends(LogScale, _super), LogScale.prototype.getTicks = function(expandToNicedExtent) {
             var originalScale = this._originalScale, extent = this._extent, originalExtent = originalScale.getExtent();
             return map(intervalScaleProto.getTicks.call(this, expandToNicedExtent), function(tick) {
-                var val = tick.value, powVal = round(mathPow$1(this.base, val));
-                return powVal = val === extent[0] && this._fixMin ? fixRoundingError(powVal, originalExtent[0]) : powVal, {
-                    value: powVal = val === extent[1] && this._fixMax ? fixRoundingError(powVal, originalExtent[1]) : powVal
+                var originalVal, originalVal1, val = tick.value, powVal = round(mathPow$1(this.base, val));
+                return powVal = val === extent[0] && this._fixMin ? round(powVal, getPrecisionSafe(originalExtent[0])) : powVal, {
+                    value: powVal = val === extent[1] && this._fixMax ? round(powVal, getPrecisionSafe(originalExtent[1])) : powVal
                 };
             }, this);
         }, LogScale.prototype.setExtent = function(start, end) {
             var base = this.base;
             start = mathLog(start) / mathLog(base), end = mathLog(end) / mathLog(base), intervalScaleProto.setExtent.call(this, start, end);
         }, LogScale.prototype.getExtent = function() {
-            var base = this.base, extent = scaleProto.getExtent.call(this);
+            var originalVal, originalVal1, base = this.base, extent = scaleProto.getExtent.call(this);
             extent[0] = mathPow$1(base, extent[0]), extent[1] = mathPow$1(base, extent[1]);
             var originalExtent = this._originalScale.getExtent();
-            return this._fixMin && (extent[0] = fixRoundingError(extent[0], originalExtent[0])), this._fixMax && (extent[1] = fixRoundingError(extent[1], originalExtent[1])), extent;
+            return this._fixMin && (extent[0] = round(extent[0], getPrecisionSafe(originalExtent[0]))), this._fixMax && (extent[1] = round(extent[1], getPrecisionSafe(originalExtent[1]))), extent;
         }, LogScale.prototype.unionExtent = function(extent) {
             this._originalScale.unionExtent(extent);
             var base = this.base;
@@ -15656,9 +15623,6 @@
             return val = scale$2(val, this._extent), mathPow$1(this.base, val);
         }, LogScale.type = 'log', LogScale;
     }(Scale), proto = LogScale.prototype;
-    function fixRoundingError(val, originalVal) {
-        return round(val, getPrecisionSafe(originalVal));
-    }
     proto.getMinorTicks = intervalScaleProto.getMinorTicks, proto.getLabel = intervalScaleProto.getLabel, Scale.registerClass(LogScale);
     var ScaleRawExtentInfo = function() {
         function ScaleRawExtentInfo(scale, model, originalExtent) {
@@ -20531,12 +20495,18 @@
                     data.each(data.mapDimension(axes[axisIndex].dim), function(val, dataIndex) {
                         points[dataIndex] = points[dataIndex] || [];
                         var point = coordSys.dataToPoint(val, axisIndex);
-                        points[dataIndex][axisIndex] = isValidPoint(point) ? point : getValueMissingPoint(coordSys);
+                        points[dataIndex][axisIndex] = isValidPoint(point) ? point : [
+                            coordSys.cx,
+                            coordSys.cy
+                        ];
                     });
                 }), data.each(function(idx) {
                     var firstPoint = find(points[idx], function(point) {
                         return isValidPoint(point);
-                    }) || getValueMissingPoint(coordSys);
+                    }) || [
+                        coordSys.cx,
+                        coordSys.cy
+                    ];
                     points[idx].push(firstPoint.slice()), data.setItemLayout(idx, points[idx]);
                 });
             }
@@ -20544,12 +20514,6 @@
     }
     function isValidPoint(point) {
         return !isNaN(point[0]) && !isNaN(point[1]);
-    }
-    function getValueMissingPoint(coordSys) {
-        return [
-            coordSys.cx,
-            coordSys.cy
-        ];
     }
     function radarBackwardCompat(option) {
         var polarOptArr = option.polar;
@@ -21030,9 +20994,6 @@
         });
     }
     var ATTR = '\0_ec_interaction_mutex';
-    function isTaken(zr, resourceKey) {
-        return !!getStore(zr)[resourceKey];
-    }
     function getStore(zr) {
         return zr[ATTR] || (zr[ATTR] = {});
     }
@@ -21071,7 +21032,7 @@
                 this.pointerChecker && this.pointerChecker(e, x, y) && (this._x = x, this._y = y, this._dragging = !0);
             }
         }, RoamController.prototype._mousemoveHandler = function(e) {
-            if (!(!this._dragging || !isAvailableBehavior('moveOnMouseMove', e, this._opt) || 'pinch' === e.gestureEvent || isTaken(this._zr, 'globalPan'))) {
+            if (this._dragging && isAvailableBehavior('moveOnMouseMove', e, this._opt) && 'pinch' !== e.gestureEvent && !getStore(this._zr).globalPan) {
                 var x = e.offsetX, y = e.offsetY, oldX = this._x, oldY = this._y;
                 this._x = x, this._y = y, this._opt.preventDefaultMouseMove && stop(e.event), trigger(this, 'pan', 'moveOnMouseMove', e, {
                     dx: x - oldX,
@@ -21108,7 +21069,7 @@
                 }
             }
         }, RoamController.prototype._pinchHandler = function(e) {
-            if (!isTaken(this._zr, 'globalPan')) {
+            if (!getStore(this._zr).globalPan) {
                 var scale = e.pinchScale > 1 ? 1.1 : 1 / 1.1;
                 checkPointerAndTrigger(this, 'zoom', null, e, {
                     scale: scale,
@@ -23206,8 +23167,8 @@
                             }
                         }
                         function giveGraphic(storageName, Ctor, depth, z) {
-                            var depth1, lasts, element, lastCfg, element1 = null != oldRawIndex && oldStorage[storageName][oldRawIndex], lasts1 = lastsForAnimation[storageName];
-                            return element1 ? (oldStorage[storageName][oldRawIndex] = null, lasts = lasts1, element = element1, lastCfg = lasts[thisRawIndex] = {}, element instanceof Group ? (lastCfg.oldX = element.x, lastCfg.oldY = element.y) : lastCfg.oldShape = extend({}, element.shape)) : thisInvisible || ((element1 = new Ctor()) instanceof Displayable && (element1.z2 = (depth1 = depth, 100 * depth1 + z)), function(lasts, element) {
+                            var lasts, element, lastCfg, element1 = null != oldRawIndex && oldStorage[storageName][oldRawIndex], lasts1 = lastsForAnimation[storageName];
+                            return element1 ? (oldStorage[storageName][oldRawIndex] = null, lasts = lasts1, element = element1, lastCfg = lasts[thisRawIndex] = {}, element instanceof Group ? (lastCfg.oldX = element.x, lastCfg.oldY = element.y) : lastCfg.oldShape = extend({}, element.shape)) : thisInvisible || ((element1 = new Ctor()) instanceof Displayable && (element1.z2 = 100 * depth + z), function(lasts, element) {
                                 var lastCfg = lasts[thisRawIndex] = {}, parentNode = thisNode.parentNode, isGroup = element instanceof Group;
                                 if (parentNode && (!reRoot || 'drillDown' === reRoot.direction)) {
                                     var parentOldX = 0, parentOldY = 0, parentOldBg = lastsForAnimation.background[parentNode.getRawIndex()];
@@ -23510,13 +23471,13 @@
                 }
             }
             for(var i = 0, len = pieceList.length; i < len; i++){
-                var piece = pieceList[i], interval = piece.interval, close_1 = piece.close;
+                var close, b, close1, a, close2, a1, close3, b1, piece = pieceList[i], interval = piece.interval, close_1 = piece.close;
                 if (interval) {
                     if (interval[0] === -1 / 0) {
-                        if (littleThan(close_1[1], value, interval[1])) return i;
+                        if (close = close_1[1], b = interval[1], close ? value <= b : value < b) return i;
                     } else if (interval[1] === 1 / 0) {
-                        if (littleThan(close_1[0], interval[0], value)) return i;
-                    } else if (littleThan(close_1[0], interval[0], value) && littleThan(close_1[1], value, interval[1])) return i;
+                        if (close1 = close_1[0], a = interval[0], close1 ? a <= value : a < value) return i;
+                    } else if (close2 = close_1[0], a1 = interval[0], (close2 ? a1 <= value : a1 < value) && (close3 = close_1[1], b1 = interval[1], close3 ? value <= b1 : value < b1)) return i;
                     findClosestWhenOutside && updatePossible(interval[0], i), findClosestWhenOutside && updatePossible(interval[1], i);
                 }
             }
@@ -23699,11 +23660,7 @@
             return null == index ? -1 : index;
         },
         fixed: noop
-    };
-    function littleThan(close, a, b) {
-        return close ? a <= b : a < b;
-    }
-    var inner$8 = makeInner(), treemapVisual = {
+    }, inner$8 = makeInner(), treemapVisual = {
         seriesType: 'treemap',
         reset: function(seriesModel) {
             var root = seriesModel.getData().tree.root;
@@ -37383,7 +37340,7 @@
             each(seriesModelList, function(seriesModel) {
                 var markerModel = MarkerModel.getMarkerModelFromSeries(seriesModel, _this.type);
                 markerModel && markerModel.getData().eachItemGraphicEl(function(el) {
-                    el && enterBlur(el);
+                    el && traverseUpdateState(el, singleEnterBlur);
                 });
             });
         }, MarkerView.type = 'marker', MarkerView;
@@ -40891,12 +40848,17 @@
     }();
     function parseOption(exprOption, getters) {
         if (!0 === exprOption || !1 === exprOption) {
-            var subOption, errMsg, cond, cond1 = new ConstConditionInternal();
+            var val, subOption, errMsg, cond, cond1 = new ConstConditionInternal();
             return cond1.value = exprOption, cond1;
         }
-        return (isObjectNotArray(exprOption) || throwError(makePrintable('Illegal config. Expect a plain object but actually', exprOption)), exprOption.and) ? parseAndOrOption('and', exprOption, getters) : exprOption.or ? parseAndOrOption('or', exprOption, getters) : exprOption.not ? (subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObjectNotArray(subOption) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond) : function(exprOption, getters) {
-            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? getRawValueParser(parserName) : null, i = 0; i < exprKeys.length; i++){
-                var keyRaw = exprKeys[i];
+        if (isObject(exprOption) && !isArrayLike(exprOption) || throwError(makePrintable('Illegal config. Expect a plain object but actually', exprOption)), exprOption.and) return parseAndOrOption('and', exprOption, getters);
+        if (exprOption.or) return parseAndOrOption('or', exprOption, getters);
+        if (exprOption.not) {
+            return subOption = exprOption.not, errMsg = '', errMsg = makePrintable('"not" condition should only be `not: {}`.', 'Illegal condition:', exprOption), isObject(val = subOption) && !isArrayLike(val) || throwError(errMsg), (cond = new NotConditionInternal()).child = parseOption(subOption, getters), cond.child || throwError(errMsg), cond;
+        }
+        return function(exprOption, getters) {
+            for(var valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? (type = parserName, valueParserMap.get(type)) : null, i = 0; i < exprKeys.length; i++){
+                var type, keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
                     var op = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, condValueParsed) : null) || 'reg' === op && new RegExpEvaluator(condValueParsed);
                     evaluator || throwError(makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption)), subCondList.push(evaluator);
@@ -40914,9 +40876,6 @@
         return cond.children = map(subOptionArr, function(subOption) {
             return parseOption(subOption, getters);
         }), cond.children.length || throwError(errMsg), cond;
-    }
-    function isObjectNotArray(val) {
-        return isObject(val) && !isArrayLike(val);
     }
     var ConditionalExpressionParsed = function() {
         function ConditionalExpressionParsed(exprOption, getters) {
@@ -40961,7 +40920,7 @@
                 null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable && throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".'), 'asc' !== order && 'desc' !== order && throwError('order must be "asc" or "desc" rather than "' + order + '".');
                 var dimInfo = upstream.getDimensionInfo(dimLoose);
                 dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal config:', orderExpr, '.\n'));
-                var parser = parserName ? getRawValueParser(parserName) : null;
+                var parser = parserName ? valueParserMap.get(parserName) : null;
                 parserName && !parser && throwError(makePrintable('Invalid parser name ' + parserName + '.\n', 'Illegal config:', orderExpr, '.\n')), orderDefList.push({
                     dimIdx: dimInfo.index,
                     parser: parser,

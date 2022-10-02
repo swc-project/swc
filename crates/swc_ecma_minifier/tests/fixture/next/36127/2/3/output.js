@@ -22,17 +22,17 @@ export class Text {
     eq(t) {
         if (t == this) return !0;
         if (t.length != this.length || t.lines != this.lines) return !1;
-        let e = this.scanIdentical(t, 1), n = this.length - this.scanIdentical(t, -1), i = new s(this), h = new s(t);
+        let e = this.scanIdentical(t, 1), n = this.length - this.scanIdentical(t, -1), s = new i(this), h = new i(t);
         for(let l = e, r = e;;){
-            if (i.next(l), h.next(l), l = 0, i.lineBreak != h.lineBreak || i.done != h.done || i.value != h.value) return !1;
-            if (r += i.value.length, i.done || r >= n) return !0;
+            if (s.next(l), h.next(l), l = 0, s.lineBreak != h.lineBreak || s.done != h.done || s.value != h.value) return !1;
+            if (r += s.value.length, s.done || r >= n) return !0;
         }
     }
     iter(t = 1) {
-        return new s(this, t);
+        return new i(this, t);
     }
     iterRange(t, e = this.length) {
-        return new h(this, t, e);
+        return new s(this, t, e);
     }
     iterLines(t, e) {
         let n;
@@ -42,7 +42,7 @@ export class Text {
             let i = this.line(t).from;
             n = this.iterRange(i, Math.max(i, e == this.lines + 1 ? this.length : e <= 1 ? 0 : this.line(e - 1).to));
         }
-        return new l(n);
+        return new h(n);
     }
     toString() {
         return this.sliceString(0);
@@ -77,21 +77,25 @@ class t extends Text {
             i = l + 1, n++;
         }
     }
-    decompose(e, s, h, l) {
-        let r = e <= 0 && s >= this.length ? this : new t(i(this.text, e, s), Math.min(s, this.length) - Math.max(0, e));
-        if (1 & l) {
-            let o = h.pop(), f = n(r.text, o.text.slice(), 0, r.length);
-            if (f.length <= 32) h.push(new t(f, o.length + r.length));
+    decompose(e, i, s, h) {
+        let l = e <= 0 && i >= this.length ? this : new t(n(this.text, [
+            ""
+        ], e, i), Math.min(i, this.length) - Math.max(0, e));
+        if (1 & h) {
+            let r = s.pop(), o = n(l.text, r.text.slice(), 0, l.length);
+            if (o.length <= 32) s.push(new t(o, r.length + l.length));
             else {
-                let u = f.length >> 1;
-                h.push(new t(f.slice(0, u)), new t(f.slice(u)));
+                let f = o.length >> 1;
+                s.push(new t(o.slice(0, f)), new t(o.slice(f)));
             }
-        } else h.push(r);
+        } else s.push(l);
     }
-    replace(s, h, l) {
-        if (!(l instanceof t)) return super.replace(s, h, l);
-        let r = n(this.text, n(l.text, i(this.text, 0, s)), h), o = this.length + l.length - (h - s);
-        return r.length <= 32 ? new t(r, o) : e.from(t.split(r, []), o);
+    replace(i, s, h) {
+        if (!(h instanceof t)) return super.replace(i, s, h);
+        let l = n(this.text, n(h.text, n(this.text, [
+            ""
+        ], 0, i)), s), r = this.length + h.length - (s - i);
+        return l.length <= 32 ? new t(l, r) : e.from(t.split(l, []), r);
     }
     sliceString(t, e = this.length, n = "\n") {
         let i = "";
@@ -140,8 +144,8 @@ class e extends Text {
             if (t >= h && n <= r) {
                 let o = l.replace(t - h, n - h, i), f = this.lines - l.lines + o.lines;
                 if (o.lines < f >> 4 && o.lines > f >> 6) {
-                    let u = this.children.slice();
-                    return u[s] = o, new e(u, this.length - (n - t) + i.length);
+                    let c = this.children.slice();
+                    return c[s] = o, new e(c, this.length - (n - t) + i.length);
                 }
                 return super.replace(h, r, o);
             }
@@ -188,16 +192,16 @@ class e extends Text {
             for (let r of n)r.flatten(l);
             return new t(l, i);
         }
-        let o = Math.max(32, s >> 5), f = o << 1, u = o >> 1, c = [], a = 0, g = -1, p = [];
+        let o = Math.max(32, s >> 5), f = o << 1, c = o >> 1, u = [], a = 0, g = -1, p = [];
         function d() {
-            0 != a && (c.push(1 == p.length ? p[0] : e.from(p, g)), g = -1, a = p.length = 0);
+            0 != a && (u.push(1 == p.length ? p[0] : e.from(p, g)), g = -1, a = p.length = 0);
         }
         for (let x of n)!function n(i) {
             let s;
             if (i.lines > f && i instanceof e) for (let h of i.children)n(h);
-            else i.lines > u && (a > u || !a) ? (d(), c.push(i)) : i instanceof t && a && (s = p[p.length - 1]) instanceof t && i.lines + s.lines <= 32 ? (a += i.lines, g += i.length + 1, p[p.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (a + i.lines > o && d(), a += i.lines, g += i.length + 1, p.push(i));
+            else i.lines > c && (a > c || !a) ? (d(), u.push(i)) : i instanceof t && a && (s = p[p.length - 1]) instanceof t && i.lines + s.lines <= 32 ? (a += i.lines, g += i.length + 1, p[p.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (a + i.lines > o && d(), a += i.lines, g += i.length + 1, p.push(i));
         }(x);
-        return d(), 1 == c.length ? c[0] : new e(c, i);
+        return d(), 1 == u.length ? u[0] : new e(u, i);
     }
 }
 function n(t, e, n = 0, i = 1e9) {
@@ -207,15 +211,10 @@ function n(t, e, n = 0, i = 1e9) {
     }
     return e;
 }
-function i(t, e, i) {
-    return n(t, [
-        ""
-    ], e, i);
-}
 Text.empty = new t([
     ""
 ], 0);
-class s {
+class i {
     constructor(e, n = 1){
         this.dir = n, this.done = !1, this.lineBreak = !1, this.value = "", this.nodes = [
             e
@@ -246,9 +245,9 @@ class s {
         return t < 0 && (this.nextInner(-t, -this.dir), t = this.value.length), this.nextInner(t, this.dir);
     }
 }
-class h {
+class s {
     constructor(t, e, n){
-        this.value = "", this.done = !1, this.cursor = new s(t, e > n ? -1 : 1), this.pos = e > n ? t.length : 0, this.from = Math.min(e, n), this.to = Math.max(e, n);
+        this.value = "", this.done = !1, this.cursor = new i(t, e > n ? -1 : 1), this.pos = e > n ? t.length : 0, this.from = Math.min(e, n), this.to = Math.max(e, n);
     }
     nextInner(t, e) {
         if (e < 0 ? this.pos <= this.from : this.pos >= this.to) return this.value = "", this.done = !0, this;
@@ -265,7 +264,7 @@ class h {
         return this.cursor.lineBreak && "" != this.value;
     }
 }
-class l {
+class h {
     constructor(t){
         this.inner = t, this.afterBreak = !0, this.value = "", this.done = !1;
     }
@@ -279,7 +278,7 @@ class l {
 }
 "undefined" != typeof Symbol && (Text.prototype[Symbol.iterator] = function() {
     return this.iter();
-}, s.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = l.prototype[Symbol.iterator] = function() {
+}, i.prototype[Symbol.iterator] = s.prototype[Symbol.iterator] = h.prototype[Symbol.iterator] = function() {
     return this;
 });
 export class Line {

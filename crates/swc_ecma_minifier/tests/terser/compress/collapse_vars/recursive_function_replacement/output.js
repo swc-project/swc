@@ -1,4 +1,5 @@
-console.log(function n(o) {
-    var r;
-    return x((r = o, y(n(r))));
-}(c));
+var a;
+function g(n) {
+    return y(x(g(n)));
+}
+console.log((a = c, x(g(a))));

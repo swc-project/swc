@@ -93,7 +93,7 @@ impl Storage for ProgramData {
                         e.get_mut().no_side_effect_for_member_access
                             && var_info.no_side_effect_for_member_access;
 
-                    e.get_mut().used_as_callee |= var_info.used_as_callee;
+                    e.get_mut().callee_count += var_info.callee_count;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
                     e.get_mut().indexed_with_dynamic_key |= var_info.indexed_with_dynamic_key;
 
@@ -315,7 +315,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_used_as_callee(&mut self) {
-        self.used_as_callee = true;
+        self.callee_count += 1;
     }
 
     fn mark_used_as_arg(&mut self) {

@@ -124,7 +124,7 @@ pub(crate) struct VarUsageInfo {
 
     pub no_side_effect_for_member_access: bool,
 
-    pub used_as_callee: bool,
+    pub callee_count: u32,
 
     pub used_as_arg: bool,
 
