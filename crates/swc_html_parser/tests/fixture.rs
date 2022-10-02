@@ -4,7 +4,11 @@
 #![allow(clippy::redundant_clone)]
 #![allow(clippy::while_let_on_iterator)]
 
-use std::{fs, mem::take, path::PathBuf};
+use std::{
+    fs,
+    mem::take,
+    path::{Path, PathBuf},
+};
 
 use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
@@ -121,16 +125,14 @@ fn document_recovery_test(input: PathBuf, config: ParserConfig) {
     stderr.compare_to_file(&stderr_path).unwrap();
 }
 
-fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
-    let dir = input.parent().unwrap().to_path_buf();
-
+fn document_span_visualizer(input: &Path, output_path: &Path, config: ParserConfig) {
     let output = testing::run_test2(false, |cm, handler| {
         // Type annotation
         if false {
             return Ok(());
         }
 
-        let fm = cm.load_file(&input).unwrap();
+        let fm = cm.load_file(input).unwrap();
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let mut parser = Parser::new(lexer, config);
 
@@ -154,9 +156,7 @@ fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     })
     .unwrap_err();
 
-    output
-        .compare_to_file(&dir.join("span.rust-debug"))
-        .unwrap();
+    output.compare_to_file(output_path).unwrap();
 }
 
 fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
@@ -434,10 +434,28 @@ fn recovery(input: PathBuf) {
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
-// #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
+    let dir = input.parent().unwrap();
+
     document_span_visualizer(
-        input,
+        &input,
+        &dir.join("span.rust-debug"),
+        ParserConfig {
+            ..Default::default()
+        },
+    )
+}
+
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
+fn span_visualizer_html5lib(input: PathBuf) {
+    let dir = input.parent().unwrap();
+
+    document_span_visualizer(
+        &input,
+        &dir.join(format!(
+            "{}_span.rust-debug",
+            input.file_stem().unwrap().to_str().unwrap()
+        )),
         ParserConfig {
             ..Default::default()
         },
