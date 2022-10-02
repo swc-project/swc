@@ -37,6 +37,12 @@
 
 - **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
 
+### Performance
+
+
+
+- **(common)** Split the mutex for the hygiene system (#6019) ([5ea2d81](https://github.com/swc-project/swc/commit/5ea2d81aa3cd7ce46d92582fc88e50676c54c202))
+
 ### Testing
 
 
