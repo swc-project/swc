@@ -1,0 +1,4 @@
+(1:1) Missing doctype
+10: HTML end tag “p” in a foreign namespace context.
+(1:7) Unexpected </p> from in body insertion mode
+(1:16) Unexpected EOF

@@ -1,0 +1,4 @@
+(1,5): incorrect-comment
+(1,10): expected-doctype-but-got-start-tag
+(1,17): incorrect-comment
+(1,17): expected-closing-tag-but-got-eof

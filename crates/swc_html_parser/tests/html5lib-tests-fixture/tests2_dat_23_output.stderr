@@ -1,0 +1,2 @@
+(1,4): numeric-entity-without-semicolon
+(1,4): expected-doctype-but-got-chars

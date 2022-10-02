@@ -1,0 +1,4 @@
+(1:1) Missing doctype
+11: HTML end tag “br” in a foreign namespace context.
+(1:7) Unexpected </br> from in body insertion mode
+(1:17) Unexpected EOF

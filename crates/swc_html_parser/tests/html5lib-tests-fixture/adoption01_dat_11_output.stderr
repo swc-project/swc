@@ -1,0 +1,4 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,8): unexpected-character-implies-table-voodoo
+(1,12): unexpected-cell-in-table-body
+(1,22): unexpected-character-implies-table-voodoo

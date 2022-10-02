@@ -1,0 +1,2 @@
+10: Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”.
+10: End of file seen and there were open elements.

@@ -1,0 +1,3 @@
+(1,5): expected-doctype-but-got-start-tag
+(1,27): expected-dashes-or-doctype
+(1,40): expected-closing-tag-but-got-eof

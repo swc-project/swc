@@ -1,0 +1,3 @@
+(1,4): expected-doctype-but-got-start-tag
+(1,23): non-void-element-with-trailing-solidus
+(1,29): end-tag-too-early

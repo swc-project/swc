@@ -1,0 +1,2 @@
+(1,4): expected-doctype-but-got-chars
+(1,9): named-entity-without-semicolon

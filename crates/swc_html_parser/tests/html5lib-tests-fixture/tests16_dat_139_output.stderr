@@ -1,0 +1,3 @@
+(1,8): expected-doctype-but-got-start-tag
+(1,29): expected-named-closing-tag-but-got-eof
+(1,29): unexpected-eof-in-text-mode

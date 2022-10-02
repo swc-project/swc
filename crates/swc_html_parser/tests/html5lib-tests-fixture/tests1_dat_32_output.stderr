@@ -1,0 +1,15 @@
+(1,14): expected-doctype-but-got-start-tag
+(1,41): unexpected-start-tag-implies-table-voodoo
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): foster-parenting-character-in-table
+(1,48): unexpected-cell-in-table-body
+(1,63): unexpected-cell-end-tag
+(1,71): eof-in-table

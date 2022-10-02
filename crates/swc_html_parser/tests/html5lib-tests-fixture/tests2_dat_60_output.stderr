@@ -1,0 +1,3 @@
+(1,20): expected-space-or-right-bracket-in-doctype
+(1,25): unknown-doctype
+(1,35): unexpected-char-in-comment

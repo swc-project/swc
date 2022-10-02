@@ -1,0 +1,2 @@
+(1,34): expected-named-closing-tag-but-got-eof
+(1,34): unexpected-eof-in-text-mode

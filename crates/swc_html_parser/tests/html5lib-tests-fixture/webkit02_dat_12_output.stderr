@@ -1,0 +1,4 @@
+(1,3): expected-doctype-but-got-start-tag
+(1,28): adoption-agency-9
+(1,33): adoption-agency-9
+(1,34): expected-closing-tag-but-got-eof

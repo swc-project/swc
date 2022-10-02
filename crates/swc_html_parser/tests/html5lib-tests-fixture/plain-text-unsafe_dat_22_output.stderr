@@ -1,0 +1,4 @@
+(1, 5) expected-doctype-but-got-start-tag
+(1, 8) unexpected-html-element-in-foreign-content
+(1, 18) unexpected-start-tag
+(1, 18) eof-in-frameset

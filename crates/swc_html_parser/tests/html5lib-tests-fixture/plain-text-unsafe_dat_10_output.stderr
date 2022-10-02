@@ -1,0 +1,5 @@
+(1,5): expected-doctype-but-got-start-tag
+(1,30): invalid-codepoint
+(1,30): invalid-codepoint
+(1,30): invalid-codepoint
+(1,30): expected-closing-tag-but-got-eof

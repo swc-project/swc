@@ -1,0 +1,3 @@
+Line: 1 Col: 6 Unexpected start tag (head). Expected DOCTYPE.
+Line: 1 Col: 19 Element p not allowed in a inhead-noscript context
+Line: 1 Col: 40 Unexpected end tag (noscript). Ignored.

@@ -1,0 +1,3 @@
+(1,3): expected-doctype-but-got-chars
+(1,16): numeric-entity-without-semicolon
+(1,16): illegal-codepoint-for-numeric-entity

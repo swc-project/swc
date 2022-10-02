@@ -1,0 +1,4 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,15): invalid-codepoint
+(1,15): invalid-codepoint-in-select
+(1,15): eof-in-select

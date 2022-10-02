@@ -1,0 +1,2 @@
+(1,30): expected-body-in-scope
+(1,30): expected-closing-tag-but-got-eof

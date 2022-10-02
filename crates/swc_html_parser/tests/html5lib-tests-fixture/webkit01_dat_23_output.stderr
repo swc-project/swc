@@ -1,0 +1,2 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,27): expected-eof-but-got-char

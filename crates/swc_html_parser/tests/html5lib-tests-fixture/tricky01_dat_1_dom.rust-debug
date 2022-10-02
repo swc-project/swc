@@ -1,0 +1,44 @@
+| <html>
+|   <head>
+|   <body>
+|     <font>
+|       color="red"
+|       <i>
+|         "Italic and Red"
+|     <i>
+|       <p>
+|         <font>
+|           color="red"
+|           "Italic and Red "
+|         " Just italic."
+|       " Italic only."
+|     " Plain
+"
+|     <p>
+|       "I should not be red. "
+|       <font>
+|         color="red"
+|         "Red. "
+|         <i>
+|           "Italic and red."
+|     <font>
+|       color="red"
+|       <i>
+|         "
+"
+|     <p>
+|       <font>
+|         color="red"
+|         <i>
+|           "Italic and red. "
+|         " Red."
+|       " I should not be red."
+|     "
+"
+|     <b>
+|       "Bold "
+|       <i>
+|         "Bold and italic"
+|     <i>
+|       " Only Italic "
+|     " Plain"

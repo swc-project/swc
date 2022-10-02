@@ -1,0 +1,2 @@
+<head></head>
+<body></body>

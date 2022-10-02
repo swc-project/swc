@@ -1,0 +1,10 @@
+| <!DOCTYPE html>
+| <html>
+|   <head>
+|   <body>
+|     <p>
+|       "foo"
+|     <nav>
+|       "bar"
+|       <p>
+|         "baz"

@@ -1,0 +1,18 @@
+| <html>
+|   <head>
+|   <body>
+|     "
+"
+|     <b>
+|       <nobr>
+|     <div>
+|       <b>
+|         <nobr>
+|           "This text is in a div inside a nobr"
+|         "More text that should not be in the nobr, i.e., the
+nobr should have closed the div inside it implicitly. "
+|       <pre>
+|         "A pre tag outside everything else."
+|       "
+
+"

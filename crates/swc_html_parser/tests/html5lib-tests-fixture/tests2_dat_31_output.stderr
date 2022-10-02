@@ -1,0 +1,2 @@
+(1,3): expected-named-entity
+(1,3): expected-doctype-but-got-chars

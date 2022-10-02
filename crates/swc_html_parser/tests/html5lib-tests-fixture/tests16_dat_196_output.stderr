@@ -1,0 +1,5 @@
+(1,35): unexpected-end-tag-implies-table-voodoo
+(1,35): unexpected-end-tag
+(1,41): unexpected-form-in-table
+(1,56): unexpected-end-tag
+(1,56): expected-closing-tag-but-got-eof

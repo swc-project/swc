@@ -1,0 +1,7 @@
+(1,7): expected-doctype-but-got-start-tag
+(1,7): unexpected-start-tag-ignored
+(1,15): unexpected-end-tag
+(1,23): unexpected-end-tag
+(1,33): unexpected-start-tag
+(1,99): expected-named-closing-tag-but-got-eof
+(1,99): eof-in-frameset

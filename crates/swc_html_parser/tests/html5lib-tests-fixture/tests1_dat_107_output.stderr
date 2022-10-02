@@ -1,0 +1,5 @@
+(1,4): expected-doctype-but-got-start-tag
+(1,15): unexpected-cell-in-table-body
+(1,27): unexpected-cell-end-tag
+(1,31): unexpected-start-tag
+(1,36): end-tag-too-early

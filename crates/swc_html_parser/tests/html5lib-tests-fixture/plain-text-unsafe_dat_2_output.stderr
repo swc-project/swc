@@ -1,0 +1,4 @@
+(1,6): expected-doctype-but-got-start-tag
+(1,8): invalid-codepoint
+(1,8): invalid-codepoint-in-body
+(1,19): unexpected-start-tag
