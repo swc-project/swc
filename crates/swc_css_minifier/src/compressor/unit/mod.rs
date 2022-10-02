@@ -75,7 +75,7 @@ static PX: RatioMap = phf_map! {
     "px" => 1.0,
 };
 
-static LENGTH_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
+static ABSOLUTE_LENGTH_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
     "cm" => &CM,
     "mm" => &MM,
     "q" => &Q,
@@ -92,7 +92,7 @@ static MS: RatioMap = phf_map! {
 };
 
 static S: RatioMap = phf_map! {
-    "ms" => 0.0001,
+    "ms" => 0.001,
     "s" => 1.0,
 };
 
@@ -108,7 +108,7 @@ static HZ: RatioMap = phf_map! {
 };
 
 static KHZ: RatioMap = phf_map! {
-    "hz" => 0.0001,
+    "hz" => 0.001,
     "khz" => 1.0,
 };
 
@@ -170,10 +170,14 @@ pub fn get_frequency_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64
     get_ratio(&FREQUENCY_RATIO, &unit1, &unit2)
 }
 
-pub fn get_length_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&LENGTH_RATIO, &unit1, &unit2)
+pub fn get_absolute_length_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
+    get_ratio(&ABSOLUTE_LENGTH_RATIO, &unit1, &unit2)
 }
 
 pub fn get_resolution_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
     get_ratio(&RESOLUTION_RATIO, &unit1, &unit2)
+}
+
+pub fn is_absolute_length(unit: &str) -> bool {
+    ABSOLUTE_LENGTH_RATIO.contains_key(unit)
 }
