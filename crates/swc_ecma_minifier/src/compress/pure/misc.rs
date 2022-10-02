@@ -657,6 +657,10 @@ impl Pure<'_> {
                 if let Some(arg) = &mut s.arg {
                     self.ignore_return_value(arg, opts);
                     if arg.is_invalid() {
+                        report_change!(
+                            "Dropped the argument of a return statement because the return value \
+                             is ignored"
+                        );
                         s.arg = None;
                     }
                 }
