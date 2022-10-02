@@ -679,6 +679,14 @@ impl Pure<'_> {
                 }
             }
 
+            Stmt::Switch(s) => {
+                for case in &mut s.cases {
+                    for stmt in &mut case.cons {
+                        self.ignore_return_value_of_return_stmt(stmt, opts);
+                    }
+                }
+            }
+
             _ => {}
         }
     }
