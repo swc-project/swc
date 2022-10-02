@@ -647,6 +647,50 @@ impl Pure<'_> {
         }))
     }
 
+    /// Calls [`Self::ignore_return_value`] on the arguments of return
+    /// statemetns.
+    ///
+    /// This function is recursive but does not go into nested scopes.
+    pub(super) fn ignore_return_value_of_return_stmt(&mut self, s: &mut Stmt, opts: DropOpts) {
+        match s {
+            Stmt::Return(s) => {
+                if let Some(arg) = &mut s.arg {
+                    self.ignore_return_value(arg, opts);
+                    if arg.is_invalid() {
+                        report_change!(
+                            "Dropped the argument of a return statement because the return value \
+                             is ignored"
+                        );
+                        s.arg = None;
+                    }
+                }
+            }
+
+            Stmt::Block(s) => {
+                for stmt in &mut s.stmts {
+                    self.ignore_return_value_of_return_stmt(stmt, opts);
+                }
+            }
+
+            Stmt::If(s) => {
+                self.ignore_return_value_of_return_stmt(&mut s.cons, opts);
+                if let Some(alt) = &mut s.alt {
+                    self.ignore_return_value_of_return_stmt(alt, opts);
+                }
+            }
+
+            Stmt::Switch(s) => {
+                for case in &mut s.cases {
+                    for stmt in &mut case.cons {
+                        self.ignore_return_value_of_return_stmt(stmt, opts);
+                    }
+                }
+            }
+
+            _ => {}
+        }
+    }
+
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
         self.optimize_expr_in_bool_ctx(e, true);
 
@@ -1000,6 +1044,40 @@ impl Pure<'_> {
             },
 
             _ => {}
+        }
+
+        if self.options.side_effects {
+            if let Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                ..
+            }) = e
+            {
+                match &mut **callee {
+                    Expr::Fn(callee) => {
+                        if let Some(body) = &mut callee.function.body {
+                            for stmt in &mut body.stmts {
+                                self.ignore_return_value_of_return_stmt(stmt, opts);
+                            }
+                        }
+                    }
+                    Expr::Arrow(callee) => match &mut callee.body {
+                        BlockStmtOrExpr::BlockStmt(body) => {
+                            for stmt in &mut body.stmts {
+                                self.ignore_return_value_of_return_stmt(stmt, opts);
+                            }
+                        }
+                        BlockStmtOrExpr::Expr(body) => {
+                            self.ignore_return_value(body, opts);
+
+                            if body.is_invalid() {
+                                *body = 0.into();
+                                return;
+                            }
+                        }
+                    },
+                    _ => {}
+                }
+            }
         }
 
         if self.options.side_effects && self.options.pristine_globals {

@@ -5,6 +5,9 @@
 
 
 
+- **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
+
+
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
@@ -23,13 +26,16 @@
 - **(es/minifier)** Inline function calls in more cases (#6010) ([61807ab](https://github.com/swc-project/swc/commit/61807abf6e482df5f34d24955c8fa56d6857659c))
 
 
+- **(es/minifier)** Ignore return values of ignored IIFEs (#6020) ([2b62752](https://github.com/swc-project/swc/commit/2b627524acaeb555988a9537d84fe51033e7f8fd))
+
+
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
 
 ### Miscellaneous Tasks
 
 
 
-- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
 
 ### Testing
 
