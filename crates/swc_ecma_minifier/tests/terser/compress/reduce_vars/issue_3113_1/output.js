@@ -1,12 +1,11 @@
 var c = 0;
-(function () {
-    function f() {
-        while (g());
-    }
-    var a = f();
+(function() {
+    var a = function() {
+        while(g());
+    }();
     function g() {
         a && a[c++];
     }
-    g((a = 1));
+    g(a = 1);
 })();
 console.log(c);
