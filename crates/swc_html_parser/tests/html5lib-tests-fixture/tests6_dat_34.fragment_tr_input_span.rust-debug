@@ -1,0 +1,10 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat_34.fragment_tr_input.html:1:1]
+ 1 | </tbody></tfoot></thead><td>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element

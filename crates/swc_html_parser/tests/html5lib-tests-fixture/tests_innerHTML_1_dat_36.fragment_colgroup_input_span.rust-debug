@@ -1,0 +1,10 @@
+
+  x Document
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat_36.fragment_colgroup_input.html:1:1]
+ 1 | </colgroup><col>
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+
+  x Element
