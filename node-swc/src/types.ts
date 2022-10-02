@@ -893,7 +893,7 @@ export interface GlobalPassOption {
   envs?: string[];
 }
 
-export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig;
+export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig | SystemjsConfig;
 
 export interface BaseModuleConfig {
   /**
@@ -1054,6 +1054,8 @@ export interface BaseModuleConfig {
    * If set to true, dynamic imports will be preserved.
    */
   ignoreDynamic?: boolean;
+  allowTopLevelThis?: boolean;
+  preserveImportMeta?: boolean;
 }
 
 export interface Es6Config extends BaseModuleConfig {
@@ -1077,7 +1079,10 @@ export interface AmdConfig extends BaseModuleConfig {
   type: "amd";
   moduleId?: string;
 }
-
+export interface SystemjsConfig {
+  type: "systemjs";
+  allowTopLevelThis?: boolean;
+}
 export interface Output {
   /**
    * Transformed code
