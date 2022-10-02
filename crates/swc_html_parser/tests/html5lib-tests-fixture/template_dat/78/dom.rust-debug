@@ -1,9 +1,0 @@
-| <html>
-|   <head>
-|   <body>
-|     <template>
-|       content
-|         <div>
-|           "Foo"
-|         <template>
-|           content

@@ -1,7 +1,0 @@
-| <template>
-|   content
-|     <form>
-|       <input>
-|         name="q"
-|     <div>
-|       "second"
