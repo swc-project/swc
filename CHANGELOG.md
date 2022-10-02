@@ -31,6 +31,12 @@
 
 - **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
 
+### Testing
+
+
+
+- **(es/minifier)** Organize terser tests (#6015) ([1aae503](https://github.com/swc-project/swc/commit/1aae503913da14134b758527fa5049a1e46352ef))
+
 ### Build
 
 
