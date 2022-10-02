@@ -1,3 +1,5 @@
 function x(a = 6) {}
-function x(a = 6 + 5) {}
-function x({ foo } = {}, [bar] = [1]) {}
+function x(a = 11) {}
+function x({ foo  } = {}, [bar] = [
+    1
+]) {}
