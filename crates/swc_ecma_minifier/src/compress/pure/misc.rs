@@ -1066,7 +1066,14 @@ impl Pure<'_> {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
                             }
                         }
-                        BlockStmtOrExpr::Expr(_) => {}
+                        BlockStmtOrExpr::Expr(body) => {
+                            self.ignore_return_value(body, opts);
+
+                            if body.is_invalid() {
+                                *body = 0.into();
+                                return;
+                            }
+                        }
                     },
                     _ => {}
                 }
