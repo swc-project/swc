@@ -434,7 +434,7 @@ fn recovery(input: PathBuf) {
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
 #[testing::fixture("tests/iframe_srcdoc/**/*.html")]
-#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
+// #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
         input,
@@ -966,7 +966,7 @@ enum DocumentOrDocumentFragment {
 }
 
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
-#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
+// #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
     if input.extension().unwrap() == "dat" {
         let mut tree_construction_base = None;
@@ -994,9 +994,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             .replace(['/', '.'], "_");
         let tests_base = tests_base.unwrap();
 
-        let dir = tests_base
-            .join("html5lib-tests-fixture")
-            .join(&relative_path_to_test);
+        let dir = tests_base.join("html5lib-tests-fixture");
 
         fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
 
@@ -1095,17 +1093,18 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 file_stem += ".script_on";
             }
 
-            let test_case_dir = dir.join(file_stem);
-
-            fs::create_dir_all(test_case_dir.clone())
-                .expect("failed to create directory for fixtures");
-
-            let html_path = test_case_dir.join("input.html");
+            let html_path = dir.join(format!(
+                "{}_{}_input.html",
+                relative_path_to_test, file_stem
+            ));
 
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = test_case_dir.join("dom.rust-debug");
+            let dom_snapshot_path = dir.join(format!(
+                "{}_{}_dom.rust-debug",
+                relative_path_to_test, file_stem
+            ));
 
             let mut dom = document.join("\n");
 
@@ -1117,7 +1116,10 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .expect("Something went wrong when writing to the file");
 
             let errors = errors.join("\n");
-            let errors_snapshot_path = test_case_dir.join("output.stderr");
+            let errors_snapshot_path = dir.join(format!(
+                "{}_{}_output.stderr",
+                relative_path_to_test, file_stem
+            ));
 
             fs::write(errors_snapshot_path, errors)
                 .expect("Something went wrong when writing to the file");
