@@ -352,11 +352,11 @@ export interface TerserMangleOptions {
 
   toplevel?: boolean,
 
-  keepClassNames?: boolean,
+  keep_classnames?: boolean,
 
-  keepFnNames?: boolean,
+  keep_fnames?: boolean,
 
-  keepPrivateProps?: boolean,
+  keep_private_props?: boolean,
 
   ie8?: boolean,
 
