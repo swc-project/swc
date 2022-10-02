@@ -1,7 +1,7 @@
 class Foo {
-    t = "bar";
-    static o = "zzz";
+    z = "bar";
+    static r = "zzz";
     toString() {
-        return this.t + Foo.o;
+        return this.z + Foo.r;
     }
 }

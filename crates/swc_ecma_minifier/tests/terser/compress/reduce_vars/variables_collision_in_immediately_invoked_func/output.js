@@ -1,10 +1,7 @@
-!(function () {
-    window.used = function () {
-        return (
-            window.foo,
-            (function (A, c) {
-                return -1 === c ? A : $(A, c);
-            })(window.bar, window.foobar)
-        );
-    }.call(this);
-})();
+!function() {
+    window.used = (function() {
+        window.foo;
+        var B = window.bar, C = window.foobar;
+        return -1 === C ? B : $(B, C);
+    }).call(this);
+}();
