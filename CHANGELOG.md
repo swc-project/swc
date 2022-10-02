@@ -26,6 +26,9 @@
 - **(es/minifier)** Inline function calls in more cases (#6010) ([61807ab](https://github.com/swc-project/swc/commit/61807abf6e482df5f34d24955c8fa56d6857659c))
 
 
+- **(es/minifier)** Ignore return values of ignored IIFEs (#6020) ([2b62752](https://github.com/swc-project/swc/commit/2b627524acaeb555988a9537d84fe51033e7f8fd))
+
+
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
 
 ### Miscellaneous Tasks
