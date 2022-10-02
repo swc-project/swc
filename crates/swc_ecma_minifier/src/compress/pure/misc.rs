@@ -647,6 +647,10 @@ impl Pure<'_> {
         }))
     }
 
+    /// Calls [`Self::ignore_return_value`] on the arguments of return
+    /// statemetns.
+    ///
+    /// This function is recursive but does not go into nested scopes.
     pub(super) fn ignore_return_value_of_return_stmt(&mut self, s: &mut Stmt, opts: DropOpts) {
         match s {
             Stmt::Return(s) => {
