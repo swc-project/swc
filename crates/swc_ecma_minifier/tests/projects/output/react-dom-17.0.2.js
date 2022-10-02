@@ -3400,22 +3400,23 @@
                             var domEventName1, nativeEvent1;
                             "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
                         }
-                        if (!eventType) return null;
-                        useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
-                        var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
-                            if (dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), fallbackData) event.data = fallbackData;
-                            else {
-                                var customData = getDataFromCustomEvent(nativeEvent);
-                                null !== customData && (event.data = customData);
+                        if (eventType) {
+                            useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
+                            var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
+                                if (dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), fallbackData) event.data = fallbackData;
+                                else {
+                                    var customData = getDataFromCustomEvent(nativeEvent);
+                                    null !== customData && (event.data = customData);
+                                }
                             }
                         }
                     }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget), function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget) {
-                        if (!(chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
+                        if (chars = canUseTextInputEvent ? function(domEventName, nativeEvent) {
                             switch(domEventName){
                                 case "compositionend":
                                     return getDataFromCustomEvent(nativeEvent);
@@ -3450,14 +3451,15 @@
                                 case "compositionend":
                                     return useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) ? null : nativeEvent.data;
                             }
-                        }(domEventName, nativeEvent))) return null;
-                        var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
-                        if (listeners.length > 0) {
-                            var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
-                            dispatchQueue.push({
-                                event: event,
-                                listeners: listeners
-                            }), event.data = chars;
+                        }(domEventName, nativeEvent)) {
+                            var chars, listeners = accumulateTwoPhaseListeners(targetInst, "onBeforeInput");
+                            if (listeners.length > 0) {
+                                var event = new SyntheticCompositionEvent("onBeforeInput", "beforeinput", null, nativeEvent, nativeEventTarget);
+                                dispatchQueue.push({
+                                    event: event,
+                                    listeners: listeners
+                                }), event.data = chars;
+                            }
                         }
                     }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget);
                 }

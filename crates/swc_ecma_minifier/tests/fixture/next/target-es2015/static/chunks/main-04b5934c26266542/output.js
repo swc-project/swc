@@ -461,7 +461,7 @@
                     resolvePromise();
                 }
                 !function() {
-                    if (!styleSheets) return !1;
+                    if (!styleSheets) return;
                     const currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = new Set(currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
                     styleSheets.forEach((param)=>{
                         let { href , text  } = param;

@@ -202,12 +202,13 @@
                 var result = copied && 'object' == typeof copied ? copied : {}, length = arguments.length;
                 deep && (length -= 1);
                 for(var arguments_1 = arguments, i = 1; i < length; i++)!function(i) {
-                    if (!arguments_1[i]) return "continue";
-                    var obj1 = arguments_1[i];
-                    Object.keys(obj1).forEach(function(key) {
-                        var clone, src = result[key], copy = obj1[key];
-                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
-                    });
+                    if (arguments_1[i]) {
+                        var obj1 = arguments_1[i];
+                        Object.keys(obj1).forEach(function(key) {
+                            var clone, src = result[key], copy = obj1[key];
+                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
+                        });
+                    }
                 }(i);
                 return result;
             }

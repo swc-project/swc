@@ -3,8 +3,6 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 var co2, cnd1, or1, or2, or3, and1, and3, propAcc1, M2, varInit = varInit;
 !function fnReturn1() {
     return fnReturn1();
-}(), function fnReturn2() {
-    return fnReturn2;
 }();
 var co2 = co2, cnd1 = cnd1 ? 0 : 1, or1 = or1 || "", or2 = or2, or3 = or3 || or3, and1 = and1 && "", and3 = and3 && and3;
 !function fnCall() {

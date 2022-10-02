@@ -16544,14 +16544,13 @@
                         ref: a1.ref,
                         props: a1.props,
                         _owner: a1._owner
-                    }), b.push(d)), 1;
+                    }), b.push(d));
                     if (h = 0, e = "" === e ? "." : e + ":", Array.isArray(a)) for(var g = 0; g < a.length; g++){
                         var f = e + N(k = a[g], g);
                         h += O(k, b, c, f, d);
                     }
                     else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
                     else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
-                    return h;
                 }(a, e, "", "", function(a) {
                     return b.call(c, a, d++);
                 }), e;
