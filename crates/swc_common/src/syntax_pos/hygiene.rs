@@ -309,7 +309,7 @@ impl HygieneData {
     }
 }
 
-pub fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
+pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
     GLOBALS.with(|globals| {
         #[cfg(feature = "parking_lot")]
         return f(&mut globals.marks.lock());
