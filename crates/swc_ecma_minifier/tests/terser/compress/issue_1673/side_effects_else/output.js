@@ -1,7 +1,6 @@
 function f(x) {
-    (function () {
-        if (x);
-        else console.log("PASS");
+    (function() {
+        x || console.log("PASS");
     })();
 }
 f(0);
