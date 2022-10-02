@@ -1,8 +1,5 @@
 //// [bestCommonTypeOfTuple.ts]
 var E1, E2, t1, t2, t3, t4;
-function f2(x) {
-    return 10;
-}
 !function(E1) {
     E1[E1.one = 0] = "one";
 }(E1 || (E1 = {})), function(E2) {
@@ -11,7 +8,9 @@ function f2(x) {
     function(x) {
         return "foo";
     },
-    f2
+    function(x) {
+        return 10;
+    }
 ], t2 = [
     E1.one,
     E2.two

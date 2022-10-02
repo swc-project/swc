@@ -29,14 +29,6 @@
                 }
                 info.done ? resolve(value) : Promise.resolve(value).then(_next, _throw);
             }
-            function _defineProperty(obj, key, value) {
-                return key in obj ? Object.defineProperty(obj, key, {
-                    value: value,
-                    enumerable: !0,
-                    configurable: !0,
-                    writable: !0
-                }) : obj[key] = value, obj;
-            }
             __webpack_require__(6774);
             var initBranch = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
                 return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
@@ -92,7 +84,13 @@
                         "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            _defineProperty(target, key, source[key]);
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                                value: value,
+                                enumerable: !0,
+                                configurable: !0,
+                                writable: !0
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -112,7 +110,10 @@
                             for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
                             return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
-                            for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(encodeChunk(e, u, u + 16383 > a ? a : u + 16383));
+                            for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(function(e, r, t1) {
+                                for(var f, n = [], i = r; i < t1; i += 3)n.push(t[(f = (e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2])) >> 18 & 63] + t[f >> 12 & 63] + t[f >> 6 & 63] + t[63 & f]);
+                                return n.join("");
+                            }(e, u, u + 16383 > a ? a : u + 16383));
                             return 1 === n ? i.push(t[(r = e[f - 1]) >> 2] + t[r << 4 & 63] + "==") : 2 === n && i.push(t[(r = (e[f - 2] << 8) + e[f - 1]) >> 10] + t[r >> 4 & 63] + t[r << 2 & 63] + "="), i.join("");
                         };
                         for(var t = [], f = [], n = "undefined" != typeof Uint8Array ? Uint8Array : Array, i = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", o = 0, u = i.length; o < u; ++o)t[o] = i[o], f[i.charCodeAt(o)] = o;
@@ -126,13 +127,6 @@
                                 t,
                                 f
                             ];
-                        }
-                        function tripletToBase64(e) {
-                            return t[e >> 18 & 63] + t[e >> 12 & 63] + t[e >> 6 & 63] + t[63 & e];
-                        }
-                        function encodeChunk(e, r, t) {
-                            for(var n = [], i = r; i < t; i += 3)n.push(tripletToBase64((e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2])));
-                            return n.join("");
                         }
                         f["-".charCodeAt(0)] = 62, f["_".charCodeAt(0)] = 63;
                     },
@@ -223,29 +217,47 @@
                             }
                         }
                         function slowToString(e, r, t) {
-                            var f = !1;
+                            var r1, t1, f1 = !1;
                             if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0 || (t >>>= 0) <= (r >>>= 0))) return "";
                             for(e || (e = "utf8");;)switch(e){
                                 case "hex":
-                                    return hexSlice(this, r, t);
+                                    return function(e, r, t) {
+                                        var f = e.length;
+                                        (!r || r < 0) && (r = 0), (!t || t < 0 || t > f) && (t = f);
+                                        for(var n = "", i = r; i < t; ++i)n += s[e[i]];
+                                        return n;
+                                    }(this, r, t);
                                 case "utf8":
                                 case "utf-8":
                                     return utf8Slice(this, r, t);
                                 case "ascii":
-                                    return asciiSlice(this, r, t);
+                                    return function(e, r, t) {
+                                        var f = "";
+                                        t = Math.min(e.length, t);
+                                        for(var n = r; n < t; ++n)f += String.fromCharCode(127 & e[n]);
+                                        return f;
+                                    }(this, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return latin1Slice(this, r, t);
+                                    return function(e, r, t) {
+                                        var f = "";
+                                        t = Math.min(e.length, t);
+                                        for(var n = r; n < t; ++n)f += String.fromCharCode(e[n]);
+                                        return f;
+                                    }(this, r, t);
                                 case "base64":
-                                    return base64Slice(this, r, t);
+                                    return r1 = r, t1 = t, 0 === r1 && t1 === this.length ? f.fromByteArray(this) : f.fromByteArray(this.slice(r1, t1));
                                 case "ucs2":
                                 case "ucs-2":
                                 case "utf16le":
                                 case "utf-16le":
-                                    return utf16leSlice(this, r, t);
+                                    return function(e, r, t) {
+                                        for(var f = e.slice(r, t), n = "", i = 0; i < f.length; i += 2)n += String.fromCharCode(f[i] + 256 * f[i + 1]);
+                                        return n;
+                                    }(this, r, t);
                                 default:
-                                    if (f) throw TypeError("Unknown encoding: " + e);
-                                    e = (e + "").toLowerCase(), f = !0;
+                                    if (f1) throw TypeError("Unknown encoding: " + e);
+                                    e = (e + "").toLowerCase(), f1 = !0;
                             }
                         }
                         function swap(e, r, t) {
@@ -291,39 +303,11 @@
                             }
                             return -1;
                         }
-                        function hexWrite(e, r, t, f) {
-                            t = Number(t) || 0;
-                            var n = e.length - t;
-                            f ? (f = Number(f)) > n && (f = n) : f = n;
-                            var i = r.length;
-                            f > i / 2 && (f = i / 2);
-                            for(var o = 0; o < f; ++o){
-                                var u = parseInt(r.substr(2 * o, 2), 16);
-                                if (u != u) break;
-                                e[t + o] = u;
-                            }
-                            return o;
-                        }
-                        function utf8Write(e, r, t, f) {
-                            return blitBuffer(utf8ToBytes(r, e.length - t), e, t, f);
-                        }
                         function asciiWrite(e, r, t, f) {
                             return blitBuffer(function(e) {
                                 for(var r = [], t = 0; t < e.length; ++t)r.push(255 & e.charCodeAt(t));
                                 return r;
                             }(r), e, t, f);
-                        }
-                        function base64Write(e, r, t, f) {
-                            return blitBuffer(base64ToBytes(r), e, t, f);
-                        }
-                        function ucs2Write(e, r, t, f) {
-                            return blitBuffer(function(e, r) {
-                                for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
-                                return i;
-                            }(r, e.length - t), e, t, f);
-                        }
-                        function base64Slice(e, r, t) {
-                            return 0 === r && t === e.length ? f.fromByteArray(e) : f.fromByteArray(e.slice(r, t));
                         }
                         function utf8Slice(e, r, t) {
                             t = Math.min(e.length, t);
@@ -350,28 +334,6 @@
                                 for(var t = "", f = 0; f < r;)t += String.fromCharCode.apply(String, e.slice(f, f += 4096));
                                 return t;
                             }(f);
-                        }
-                        function asciiSlice(e, r, t) {
-                            var f = "";
-                            t = Math.min(e.length, t);
-                            for(var n = r; n < t; ++n)f += String.fromCharCode(127 & e[n]);
-                            return f;
-                        }
-                        function latin1Slice(e, r, t) {
-                            var f = "";
-                            t = Math.min(e.length, t);
-                            for(var n = r; n < t; ++n)f += String.fromCharCode(e[n]);
-                            return f;
-                        }
-                        function hexSlice(e, r, t) {
-                            var f = e.length;
-                            (!r || r < 0) && (r = 0), (!t || t < 0 || t > f) && (t = f);
-                            for(var n = "", i = r; i < t; ++i)n += s[e[i]];
-                            return n;
-                        }
-                        function utf16leSlice(e, r, t) {
-                            for(var f = e.slice(r, t), n = "", i = 0; i < f.length; i += 2)n += String.fromCharCode(f[i] + 256 * f[i + 1]);
-                            return n;
                         }
                         function checkOffset(e, r, t) {
                             if (e % 1 != 0 || e < 0) throw RangeError("offset is not uint");
@@ -507,27 +469,42 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var t1, f1, n = this.length - r;
+                            var t1, f1, t2, f2, t3, f3, t4, f4, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
                                 case "hex":
-                                    return hexWrite(this, e, r, t);
+                                    return function(e, r, t, f) {
+                                        t = Number(t) || 0;
+                                        var n = e.length - t;
+                                        f ? (f = Number(f)) > n && (f = n) : f = n;
+                                        var i = r.length;
+                                        f > i / 2 && (f = i / 2);
+                                        for(var o = 0; o < f; ++o){
+                                            var u = parseInt(r.substr(2 * o, 2), 16);
+                                            if (u != u) break;
+                                            e[t + o] = u;
+                                        }
+                                        return o;
+                                    }(this, e, r, t);
                                 case "utf8":
                                 case "utf-8":
-                                    return utf8Write(this, e, r, t);
+                                    return t1 = r, f1 = t, blitBuffer(utf8ToBytes(e, this.length - t1), this, t1, f1);
                                 case "ascii":
                                     return asciiWrite(this, e, r, t);
                                 case "latin1":
                                 case "binary":
-                                    return t1 = r, f1 = t, asciiWrite(this, e, t1, f1);
+                                    return t2 = r, f2 = t, asciiWrite(this, e, t2, f2);
                                 case "base64":
-                                    return base64Write(this, e, r, t);
+                                    return t3 = r, f3 = t, blitBuffer(base64ToBytes(e), this, t3, f3);
                                 case "ucs2":
                                 case "ucs-2":
                                 case "utf16le":
                                 case "utf-16le":
-                                    return ucs2Write(this, e, r, t);
+                                    return t4 = r, f4 = t, blitBuffer(function(e, r) {
+                                        for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
+                                        return i;
+                                    }(e, this.length - t4), this, t4, f4);
                                 default:
                                     if (i) throw TypeError("Unknown encoding: " + f);
                                     f = ("" + f).toLowerCase(), i = !0;
@@ -1823,9 +1800,6 @@
                         function isWeakSetToString(r) {
                             return "[object WeakSet]" === f(r);
                         }
-                        function isWeakSet(r) {
-                            return isWeakSetToString(r);
-                        }
                         function isArrayBufferToString(r) {
                             return "[object ArrayBuffer]" === f(r);
                         }
@@ -1870,7 +1844,9 @@
                             return "undefined" != typeof Set && (isSetToString.working ? isSetToString(r) : r instanceof Set);
                         }, isWeakMapToString.working = "undefined" != typeof WeakMap && isWeakMapToString(new WeakMap()), t.isWeakMap = function(r) {
                             return "undefined" != typeof WeakMap && (isWeakMapToString.working ? isWeakMapToString(r) : r instanceof WeakMap);
-                        }, isWeakSetToString.working = "undefined" != typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = isWeakSet, isArrayBufferToString.working = "undefined" != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "undefined" != typeof ArrayBuffer && "undefined" != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
+                        }, isWeakSetToString.working = "undefined" != typeof WeakSet && isWeakSetToString(new WeakSet()), t.isWeakSet = function(r) {
+                            return isWeakSetToString(r);
+                        }, isArrayBufferToString.working = "undefined" != typeof ArrayBuffer && isArrayBufferToString(new ArrayBuffer()), t.isArrayBuffer = isArrayBuffer, isDataViewToString.working = "undefined" != typeof ArrayBuffer && "undefined" != typeof DataView && isDataViewToString(new DataView(new ArrayBuffer(1), 0, 1)), t.isDataView = isDataView;
                         var g = "undefined" != typeof SharedArrayBuffer ? SharedArrayBuffer : void 0;
                         function isSharedArrayBufferToString(r) {
                             return "[object SharedArrayBuffer]" === f(r);

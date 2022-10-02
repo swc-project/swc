@@ -120,12 +120,12 @@ var TypeScript;
         }
         var _proto = AstPath.prototype;
         _proto.clone = function clone() {
-            var clone1 = new AstPath();
-            clone1.asts = this.asts.map(function(value) {
+            var clone = new AstPath();
+            clone.asts = this.asts.map(function(value) {
                 return value;
             });
-            clone1.top = this.top;
-            return clone1;
+            clone.top = this.top;
+            return clone;
         };
         _proto.pop = function pop() {
             var head = this.ast();

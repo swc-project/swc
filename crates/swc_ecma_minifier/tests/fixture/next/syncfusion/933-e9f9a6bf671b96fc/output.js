@@ -4493,25 +4493,21 @@
                 100
             ], LicenseValidator = function() {
                 function LicenseValidator(key) {
+                    var licKey;
                     this.isValidated = !1, this.version = '20.2', this.platform = /JavaScript|ASPNET|ASPNETCORE|ASPNETMVC|FileFormats/i, this.errors = {
                         noLicense: 'This application was built using a trial version of Syncfusion Essential Studio. Please include a valid license to permanently remove this license validation message. You can also obtain a free 30 day evaluation license to temporarily remove this message during the evaluation period. Please refer to this <a class="e-license"href="https://help.syncfusion.com/common/essential-studio/licensing">help topic</a> for more information.',
                         trailExpired: 'Your Syncfusion trial license has expired. Please refer to this <a class="e-license"href="https://help.syncfusion.com/common/essential-studio/licensing/licensing-errors#trial-expired">help topic</a> for more information.',
                         versionMismatched: 'The included Syncfusion license (v##LicenseVersion) is invalid for version ##Requireversion. Please refer to this <a class="e-license" href="https://help.syncfusion.com/es/licensing/version-mismatch/">help topic</a> for more information.',
                         platformMismatched: 'The included Syncfusion license is invalid (Platform mismatch). Please refer to this <a class="e-license" href="https://help.syncfusion.com/common/essential-studio/licensing/licensing-errors#platform-mismatch">help topic</a> for more information.',
                         invalidKey: 'The included Syncfusion license is invalid. Please refer to this <a class="e-license" href="https://help.syncfusion.com/common/essential-studio/licensing/licensing-errors#invalid-key">help topic</a> for more information.'
-                    }, this.manager = function() {
-                        var licKey = null;
-                        function set(key) {
+                    }, this.manager = (licKey = null, {
+                        setKey: function(key) {
                             licKey = key;
-                        }
-                        function get() {
+                        },
+                        getKey: function() {
                             return licKey;
                         }
-                        return {
-                            setKey: set,
-                            getKey: get
-                        };
-                    }(), this.npxManager = {
+                    }), this.npxManager = {
                         getKey: function() {
                             return 'npxKeyReplace';
                         }
@@ -9487,16 +9483,6 @@
                 'east',
                 'south'
             ], originalWidth = 0, originalHeight = 0, originalX = 0, originalY = 0, originalMouseX = 0, originalMouseY = 0, resizeStart = null, resize = null, resizeEnd = null, setLeft = !0, previousWidth = 0, setWidth = !0;
-            function setBorderResizeElm(direction) {
-                calculateValues();
-                var borderBottom = (0, ej2_base.az)('span', {
-                    attrs: {
-                        unselectable: 'on',
-                        contenteditable: 'false'
-                    }
-                });
-                borderBottom.setAttribute('class', 'e-dialog-border-resize e-' + direction), 'south' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.bottom = '0px', borderBottom.style.left = '0px'), 'north' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.top = '0px', borderBottom.style.left = '0px'), 'east' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.right = '0px', borderBottom.style.top = '0px'), 'west' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.left = '0px', borderBottom.style.top = '0px'), targetElement.appendChild(borderBottom);
-            }
             function getDOMElement(element) {
                 var domElement;
                 return (0, ej2_base.le)(element) || (domElement = 'string' == typeof element ? document.querySelector(element) : element), domElement;
@@ -9768,7 +9754,16 @@
                             }
                             this.enableRtl && 'south-east' === direction.trim() ? direction = 'south-west' : this.enableRtl && 'south-west' === direction.trim() && (direction = 'south-east'), this.isModal && this.enableRtl ? this.element.classList.add(DLG_RESTRICT_LEFT_VALUE) : this.isModal && this.target === document.body && this.element.classList.add(DLG_RESTRICT_WIDTH_VALUE), function(args) {
                                 resizeStart = args.resizeBegin, resize = args.resizing, resizeEnd = args.resizeComplete, targetElement = getDOMElement(args.element), containerElement = getDOMElement(args.boundary);
-                                for(var directions = args.direction.split(' '), i = 0; i < directions.length; i++)if (dialogBorderResize.indexOf(directions[i]) >= 0 && directions[i]) setBorderResizeElm(directions[i]);
+                                for(var directions = args.direction.split(' '), i = 0; i < directions.length; i++)if (dialogBorderResize.indexOf(directions[i]) >= 0 && directions[i]) (function(direction) {
+                                    calculateValues();
+                                    var borderBottom = (0, ej2_base.az)('span', {
+                                        attrs: {
+                                            unselectable: 'on',
+                                            contenteditable: 'false'
+                                        }
+                                    });
+                                    borderBottom.setAttribute('class', 'e-dialog-border-resize e-' + direction), 'south' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.bottom = '0px', borderBottom.style.left = '0px'), 'north' === direction && (borderBottom.style.height = '2px', borderBottom.style.width = '100%', borderBottom.style.top = '0px', borderBottom.style.left = '0px'), 'east' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.right = '0px', borderBottom.style.top = '0px'), 'west' === direction && (borderBottom.style.height = '100%', borderBottom.style.width = '2px', borderBottom.style.left = '0px', borderBottom.style.top = '0px'), targetElement.appendChild(borderBottom);
+                                })(directions[i]);
                                 else if ('' !== directions[i].trim()) {
                                     var resizeHandler = (0, ej2_base.az)('div', {
                                         className: 'e-icons ' + RESIZE_HANDLER + " e-" + directions[i]
@@ -16188,12 +16183,6 @@
                     container.wrap.classList.add(CLS_HIDESPIN), container = null;
                 }
             }
-            function generateSeries(begin, stop) {
-                var series = [], increment = !1, count = 1;
-                return function formSeries(i) {
-                    series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
-                }(begin), series;
-            }
             function random_generator() {
                 for(var random = '', combine = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', i = 0; i < 5; i++)random += combine.charAt(Math.floor(Math.random() * combine.length));
                 return random;
@@ -16309,13 +16298,17 @@
                                 break;
                             case 'Bootstrap':
                                 isHide ? clearTimeout(globalTimeOut[id].timeOut) : function(innerContainer) {
-                                    for(var id = innerContainer.querySelector('svg.e-spin-bootstrap').getAttribute('id'), i = 1; i <= 8; i++)rotation(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, i, generateSeries(i, i), id);
-                                    function rotation(circle, start, end, series, id) {
+                                    for(var id = innerContainer.querySelector('svg.e-spin-bootstrap').getAttribute('id'), i = 1; i <= 8; i++)!function(circle, start, end, series, id) {
                                         var count = 0;
                                         !function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, i, function(begin, stop) {
+                                        var series = [], increment = !1, count = 1;
+                                        return function formSeries(i) {
+                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
+                                        }(begin), series;
+                                    }(i, i), id);
                                 }(inner);
                         }
                     }

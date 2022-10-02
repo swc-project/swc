@@ -1,6 +1,5 @@
-function bar() {
-    console.log("bar:", --x);
-}
 var x = 3;
-do bar();
-while (x);
+do (function() {
+    console.log("bar:", --x);
+})();
+while (x)

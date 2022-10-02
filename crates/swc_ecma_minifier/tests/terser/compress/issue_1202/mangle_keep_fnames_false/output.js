@@ -1,6 +1,6 @@
 "use strict";
 function total() {
-    return function t(n, r, u) {
-        return n + r + u;
+    return function t(t, n, r) {
+        return t + n + r;
     };
 }

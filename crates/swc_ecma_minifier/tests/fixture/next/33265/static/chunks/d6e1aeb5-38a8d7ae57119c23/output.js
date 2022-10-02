@@ -2451,9 +2451,6 @@
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600);
                 return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
             }, implementation = defaultImplementation;
-            function setFormatTime(customImplementation) {
-                implementation = customImplementation;
-            }
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
             }
@@ -6370,7 +6367,9 @@
             }, videojs.getPlugins = Plugin.getPlugins, videojs.getPlugin = Plugin.getPlugin, videojs.getPluginVersion = Plugin.getPluginVersion, videojs.addLanguage = function(code, data) {
                 var _mergeOptions;
                 return code = ("" + code).toLowerCase(), videojs.options.languages = mergeOptions$3(videojs.options.languages, ((_mergeOptions = {})[code] = data, _mergeOptions)), videojs.options.languages[code];
-            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = function() {
+            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = function(customImplementation) {
+                implementation = customImplementation;
+            }, videojs.resetFormatTime = function() {
                 implementation = defaultImplementation;
             }, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack, videojs.AudioTrack = AudioTrack, videojs.VideoTrack = VideoTrack, [
                 "isEl",
