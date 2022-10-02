@@ -6917,8 +6917,7 @@
             }
             statements.length = j + 1;
         }(statements), compressor.option("collapse_vars") && function(statements, compressor) {
-            if (scope.pinned()) return statements;
-            for(var args, candidates = [], stat_index = statements.length, scanner = new TreeTransformer(function(node) {
+            if (!scope.pinned()) for(var args, candidates = [], stat_index = statements.length, scanner = new TreeTransformer(function(node) {
                 if (abort) return node;
                 if (!hit) return node !== hit_stack[hit_index] ? node : ++hit_index < hit_stack.length ? handle_custom_scan_order(node) : (hit = !0, (stop_after = function find_stop(node, level, write_only) {
                     var parent = scanner.parent(level);
