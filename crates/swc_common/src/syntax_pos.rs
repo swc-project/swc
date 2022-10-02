@@ -16,6 +16,7 @@ use rkyv_latest as rkyv;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
+use self::hygiene::MarkData;
 pub use self::hygiene::{Mark, SyntaxContext};
 use crate::{rustc_data_structures::stable_hasher::StableHasher, sync::Lrc};
 
@@ -71,6 +72,8 @@ pub struct Globals {
     hygiene_data: Mutex<hygiene::HygieneData>,
     #[allow(unused)]
     dummy_cnt: AtomicU32,
+    #[allow(unused)]
+    marks: Mutex<Vec<MarkData>>,
 }
 
 const DUMMY_RESERVE: u32 = u32::MAX - 2_u32.pow(16);
@@ -85,6 +88,12 @@ impl Globals {
     pub fn new() -> Globals {
         Globals {
             hygiene_data: Mutex::new(hygiene::HygieneData::new()),
+            marks: Mutex::new(vec![MarkData {
+                parent: Mark::root(),
+                // If the root is opaque, then loops searching for an opaque mark
+                // will automatically stop after reaching it.
+                is_builtin: true,
+            }]),
             dummy_cnt: AtomicU32::new(DUMMY_RESERVE),
         }
     }
