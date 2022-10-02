@@ -984,7 +984,7 @@ enum DocumentOrDocumentFragment {
 }
 
 #[testing::fixture("tests/html5lib-tests/tree-construction/**/*.dat")]
-// #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn html5lib_test_tree_construction(input: PathBuf) {
     if input.extension().unwrap() == "dat" {
         let mut tree_construction_base = None;
