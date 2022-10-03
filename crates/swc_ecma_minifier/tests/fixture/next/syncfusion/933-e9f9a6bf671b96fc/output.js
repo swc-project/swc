@@ -13164,7 +13164,7 @@
                         finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
                     }
                     var j = 0;
-                    anchorNodes[j] = this.createAchorNode(e);
+                    anchorNodes[0] = this.createAchorNode(e);
                     for(var i = 0; i < finalinlineNodes.length; i++)if (0 === i && (cloneNode = finalinlineNodes[i].cloneNode(!0), anchorNodes[i].appendChild(cloneNode)), i < finalinlineNodes.length - 1) {
                         if (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode) {
                             var cln = finalinlineNodes[i + 1].cloneNode(!0);

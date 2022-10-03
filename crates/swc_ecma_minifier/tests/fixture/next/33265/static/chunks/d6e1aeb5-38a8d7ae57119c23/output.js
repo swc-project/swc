@@ -6395,7 +6395,7 @@
                 return handleManifestRedirect && req && req.responseURL && url !== req.responseURL ? req.responseURL : url;
             }, logger = function(source) {
                 return videojs.log.debug ? videojs.log.debug.bind(videojs, "VHS:", source + " >") : function() {};
-            }, TIME_FUDGE_FACTOR = 1 / 30, SAFE_TIME_DELTA = 3 * TIME_FUDGE_FACTOR, filterRanges = function(timeRanges, predicate) {
+            }, TIME_FUDGE_FACTOR = 1 / 30, SAFE_TIME_DELTA = 3 * (1 / 30), filterRanges = function(timeRanges, predicate) {
                 var i, results = [];
                 if (timeRanges && timeRanges.length) for(i = 0; i < timeRanges.length; i++)predicate(timeRanges.start(i), timeRanges.end(i)) && results.push([
                     timeRanges.start(i),

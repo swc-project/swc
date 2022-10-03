@@ -1105,7 +1105,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -7055,7 +7055,7 @@
                         return maxOrMin(arguments, P.lt);
                     }, BigNumber.minimum = BigNumber.min = function() {
                         return maxOrMin(arguments, P.gt);
-                    }, BigNumber.random = (random53bitInt = Math.random() * (pow2_53 = 0x20000000000000) & 0x1fffff ? function() {
+                    }, BigNumber.random = (pow2_53 = 0x20000000000000, random53bitInt = 0x20000000000000 * Math.random() & 0x1fffff ? function() {
                         return mathfloor(Math.random() * pow2_53);
                     } : function() {
                         return (0x40000000 * Math.random() | 0) * 0x800000 + (0x800000 * Math.random() | 0);
@@ -8383,7 +8383,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
