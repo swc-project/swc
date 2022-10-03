@@ -4417,7 +4417,7 @@
         target.registerClass = function(clz) {
             var componentFullType = clz.type || clz.prototype.type;
             if (componentFullType) {
-                componentType = componentFullType, assert(/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)?$/.test(componentType), 'componentType "' + componentType + '" illegal'), clz.prototype.type = componentFullType;
+                assert(/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)?$/.test(componentFullType), 'componentType "' + componentFullType + '" illegal'), clz.prototype.type = componentFullType;
                 var componentTypeInfo, container, componentType, componentTypeInfo1 = parseClassType(componentFullType);
                 componentTypeInfo1.sub ? componentTypeInfo1.sub !== IS_CONTAINER && (((container = storage[(componentTypeInfo = componentTypeInfo1).main]) && container[IS_CONTAINER] || ((container = storage[componentTypeInfo.main] = {})[IS_CONTAINER] = !0), container)[componentTypeInfo1.sub] = clz) : (storage[componentTypeInfo1.main] && console.warn(componentTypeInfo1.main + ' exists.'), storage[componentTypeInfo1.main] = clz);
             }
@@ -16744,7 +16744,7 @@
                 var displayable = list[i], svgProxy = getSvgProxy(displayable), svgElement = getSvgElement(displayable);
                 !displayable.invisible && ((displayable.__dirty || !svgElement) && (svgProxy && svgProxy.brush(displayable), (svgElement = getSvgElement(displayable)) && displayable.style && (gradientManager.update(displayable.style.fill), gradientManager.update(displayable.style.stroke), patternManager.update(displayable.style.fill), patternManager.update(displayable.style.stroke), shadowManager.update(svgElement, displayable)), displayable.__dirty = 0), svgElement && newVisibleList.push(displayable));
             }
-            for(var diff = (oldArr = visibleList, newArr = newVisibleList, function(oldArr, newArr, equals) {
+            for(var diff = function(oldArr, newArr, equals) {
                 equals || (equals = function(a, b) {
                     return a === b;
                 }), oldArr = oldArr.slice();
@@ -16797,7 +16797,7 @@
                     }();
                     if (ret) return ret;
                 }
-            }(oldArr, newArr, void 0)), i = 0; i < diff.length; i++){
+            }(visibleList, newVisibleList, void 0), i = 0; i < diff.length; i++){
                 var item = diff[i];
                 if (item.removed) for(var k = 0; k < item.count; k++){
                     var oldArr, newArr, child, parent, child1, displayable = visibleList[item.indices[k]], svgElement = getSvgElement(displayable);

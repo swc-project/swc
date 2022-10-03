@@ -9783,8 +9783,8 @@
                             if (ok) {
                                 var path = createPath(location), encodedPath = encodePath(basename + path);
                                 if (getHashPath() !== encodedPath) {
-                                    ignorePath = path, path1 = encodedPath, window.location.hash = path1;
-                                    var path1, prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
+                                    ignorePath = path, window.location.hash = encodedPath;
+                                    var prevIndex = allPaths.lastIndexOf(createPath(history.location)), nextPaths = allPaths.slice(0, prevIndex + 1);
                                     nextPaths.push(path), allPaths = nextPaths, setState({
                                         action: action,
                                         location: location

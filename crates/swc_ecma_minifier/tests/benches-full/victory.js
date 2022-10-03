@@ -16569,7 +16569,7 @@
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTransition), self1 = this, (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(self1)).state = {
+                    }(this, VictoryTransition), (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
@@ -16783,7 +16783,7 @@
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, addEvents), self1 = this, _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(self1);
+                        }(this, addEvents), _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this);
                         var self1, call, _this, getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
                         _this.state = {}, _this.getEvents = function(p, target, eventKey) {
                             return boundGetEvents(p, target, eventKey, getScopedEvents);
