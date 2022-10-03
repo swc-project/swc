@@ -990,15 +990,14 @@
     function localeData() {
         return this._locale;
     }
-    var MS_PER_HOUR = 3600000, MS_PER_400_YEARS = 3506328 * MS_PER_HOUR;
     function mod$1(dividend, divisor) {
         return (dividend % divisor + divisor) % divisor;
     }
     function localStartOfDate(y, m, d) {
-        return y < 100 && y >= 0 ? new Date(y + 400, m, d) - MS_PER_400_YEARS : new Date(y, m, d).valueOf();
+        return y < 100 && y >= 0 ? new Date(y + 400, m, d) - 12622780800000 : new Date(y, m, d).valueOf();
     }
     function utcStartOfDate(y, m, d) {
-        return y < 100 && y >= 0 ? Date.UTC(y + 400, m, d) - MS_PER_400_YEARS : Date.UTC(y, m, d);
+        return y < 100 && y >= 0 ? Date.UTC(y + 400, m, d) - 12622780800000 : Date.UTC(y, m, d);
     }
     function matchEraAbbr(isStrict, locale) {
         return locale.erasAbbrRegex(isStrict);
@@ -1279,7 +1278,7 @@
                 time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
                 break;
             case 'hour':
-                time = this._d.valueOf(), time += MS_PER_HOUR - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), MS_PER_HOUR) - 1;
+                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
                 break;
             case 'minute':
                 time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
@@ -1369,7 +1368,7 @@
                 time = startOfDate(this.year(), this.month(), this.date());
                 break;
             case 'hour':
-                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), MS_PER_HOUR);
+                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
                 break;
             case 'minute':
                 time = this._d.valueOf(), time -= mod$1(time, 60000);

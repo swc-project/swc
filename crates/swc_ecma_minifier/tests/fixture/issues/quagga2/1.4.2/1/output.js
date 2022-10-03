@@ -3313,7 +3313,7 @@
                         key: "_fillCounters",
                         value: function() {
                             var offset = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this._nextUnset(this._row), end = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : this._row.length, isWhite = !(arguments.length > 2) || void 0 === arguments[2] || arguments[2], counters = [], counterPos = 0;
-                            counters[counterPos] = 0;
+                            counters[0] = 0;
                             for(var i = offset; i < end; i++)this._row[i] ^ (isWhite ? 1 : 0) ? counters[counterPos]++ : (counters[++counterPos] = 1, isWhite = !isWhite);
                             return counters;
                         }
@@ -4343,7 +4343,7 @@
                                     default:
                                         return null;
                                 }
-                            }(code.code), done = !1, shiftNext = !1, unshift = shiftNext, removeLastCharacter = !0, multiplier = 0, rawResult = [], result = []; !done;){
+                            }(code.code), done = !1, shiftNext = !1, unshift = !1, removeLastCharacter = !0, multiplier = 0, rawResult = [], result = []; !done;){
                                 if (unshift = shiftNext, shiftNext = !1, null !== (code = this._decodeCode(code.end, code.correction))) switch(code.code !== this.STOP_CODE && (removeLastCharacter = !0), code.code !== this.STOP_CODE && (rawResult.push(code.code), checksum += ++multiplier * code.code), decodedCodes.push(code), codeset){
                                     case this.CODE_A:
                                         if (code.code < 64) result.push(String.fromCharCode(32 + code.code));

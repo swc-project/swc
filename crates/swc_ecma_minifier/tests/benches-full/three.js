@@ -8120,7 +8120,7 @@
             }
             for(var faces = [], normals = [], normalsHash = {}, colors = [], colorsHash = {}, uvs = [], uvsHash = {}, _i12 = 0; _i12 < this.faces.length; _i12++){
                 var face = this.faces[_i12], hasFaceVertexUv = void 0 !== this.faceVertexUvs[0][_i12], hasFaceNormal = face.normal.length() > 0, hasFaceVertexNormal = face.vertexNormals.length > 0, hasFaceColor = 1 !== face.color.r || 1 !== face.color.g || 1 !== face.color.b, hasFaceVertexColor = face.vertexColors.length > 0, faceType = 0;
-                if (faceType = setBit(faceType, 0, 0), faceType = setBit(faceType, 1, !0), faceType = setBit(faceType, 2, !1), faceType = setBit(faceType, 3, hasFaceVertexUv), faceType = setBit(faceType, 4, hasFaceNormal), faceType = setBit(faceType, 5, hasFaceVertexNormal), faceType = setBit(faceType, 6, hasFaceColor), faceType = setBit(faceType, 7, hasFaceVertexColor), faces.push(faceType), faces.push(face.a, face.b, face.c), faces.push(face.materialIndex), hasFaceVertexUv) {
+                if (faceType = setBit(0, 0, 0), faceType = setBit(faceType, 1, !0), faceType = setBit(faceType, 2, !1), faceType = setBit(faceType, 3, hasFaceVertexUv), faceType = setBit(faceType, 4, hasFaceNormal), faceType = setBit(faceType, 5, hasFaceVertexNormal), faceType = setBit(faceType, 6, hasFaceColor), faceType = setBit(faceType, 7, hasFaceVertexColor), faces.push(faceType), faces.push(face.a, face.b, face.c), faces.push(face.materialIndex), hasFaceVertexUv) {
                     var faceVertexUvs = this.faceVertexUvs[0][_i12];
                     faces.push(getUvIndex(faceVertexUvs[0]), getUvIndex(faceVertexUvs[1]), getUvIndex(faceVertexUvs[2]));
                 }
@@ -8961,11 +8961,11 @@
                 (function() {
                     var start = verticesArray.length / 3;
                     if (bevelEnabled) {
-                        for(var layer = 0, offset = vlen * layer, _i9 = 0; _i9 < flen; _i9++){
+                        for(var layer = 0, offset = 0 * vlen, _i9 = 0; _i9 < flen; _i9++){
                             var face = faces[_i9];
                             f3(face[2] + offset, face[1] + offset, face[0] + offset);
                         }
-                        offset = vlen * (layer = steps + 2 * bevelSegments);
+                        offset = vlen * (steps + 2 * bevelSegments);
                         for(var _i10 = 0; _i10 < flen; _i10++){
                             var _face = faces[_i10];
                             f3(_face[0] + offset, _face[1] + offset, _face[2] + offset);
@@ -8983,7 +8983,7 @@
                     scope.addGroup(start, verticesArray.length / 3 - start, 0);
                 })(), function() {
                     var start = verticesArray.length / 3, layeroffset = 0;
-                    sidewalls(contour, layeroffset), layeroffset += contour.length;
+                    sidewalls(contour, 0), layeroffset += contour.length;
                     for(var _h5 = 0, _hl5 = holes.length; _h5 < _hl5; _h5++){
                         var _ahole5 = holes[_h5];
                         sidewalls(_ahole5, layeroffset), layeroffset += _ahole5.length;
@@ -12031,7 +12031,7 @@
             var holesFirst = !isClockWise(subPaths[0].getPoints());
             holesFirst = isCCW ? !holesFirst : holesFirst;
             var betterShapeHoles = [], newShapes = [], newShapeHoles = [], mainIdx = 0;
-            newShapes[mainIdx] = void 0, newShapeHoles[mainIdx] = [];
+            newShapes[0] = void 0, newShapeHoles[mainIdx] = [];
             for(var i = 0, l = subPaths.length; i < l; i++)solid = isClockWise(tmpPoints = (tmpPath = subPaths[i]).getPoints()), (solid = isCCW ? !solid : solid) ? (!holesFirst && newShapes[mainIdx] && mainIdx++, newShapes[mainIdx] = {
                 s: new Shape(),
                 p: tmpPoints

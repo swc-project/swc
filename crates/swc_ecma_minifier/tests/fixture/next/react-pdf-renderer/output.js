@@ -18836,7 +18836,7 @@
                         n = [
                             new D(0, 0, 0, 0, function(e, t) {
                                 var r = 65535;
-                                for(r > e.pending_buf_size - 5 && (r = e.pending_buf_size - 5);;){
+                                for(65535 > e.pending_buf_size - 5 && (r = e.pending_buf_size - 5);;){
                                     if (e.lookahead <= 1) {
                                         if (v(e), 0 === e.lookahead && 0 === t) return 1;
                                         if (0 === e.lookahead) break;
