@@ -32,6 +32,9 @@
 - **(es/minifier)** Clone trivial literals in sequential inliner (#6005) ([877936f](https://github.com/swc-project/swc/commit/877936f626882e7fe139a97e3d0ea53f93d56344))
 
 
+- **(es/minifier)** Inline vars initialized before the declaration (#6027) ([c485099](https://github.com/swc-project/swc/commit/c4850997a292f9bc6c057b28e002d427db6587c8))
+
+
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
 
 ### Miscellaneous Tasks
