@@ -17,7 +17,9 @@ impl Visit for Analyzer {
         d.visit_children_with(self);
 
         if let DeclarationName::Ident(name) = &d.name {
-            if &*name.value == "compose" {}
+            if &*name.value == "compose" {
+                dbg!(&d.value)
+            }
         }
     }
 }
