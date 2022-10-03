@@ -18,7 +18,7 @@ impl Visit for Analyzer {
 
         if let DeclarationName::Ident(name) = &d.name {
             if &*name.value == "compose" {
-                dbg!(&d.value)
+                dbg!(&d.value);
             }
         }
     }
