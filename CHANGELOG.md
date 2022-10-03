@@ -29,6 +29,9 @@
 - **(es/minifier)** Ignore return values of ignored IIFEs (#6020) ([2b62752](https://github.com/swc-project/swc/commit/2b627524acaeb555988a9537d84fe51033e7f8fd))
 
 
+- **(es/minifier)** Clone trivial literals in sequential inliner (#6005) ([877936f](https://github.com/swc-project/swc/commit/877936f626882e7fe139a97e3d0ea53f93d56344))
+
+
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
 
 ### Miscellaneous Tasks
