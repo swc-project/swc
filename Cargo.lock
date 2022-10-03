@@ -3287,6 +3287,7 @@ version = "0.1.0"
 dependencies = [
  "swc_atoms",
  "swc_css_ast",
+ "swc_css_parser",
  "swc_css_visit",
  "swc_ecma_loader",
  "testing",
