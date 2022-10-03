@@ -15,7 +15,7 @@ pub use pretty_assertions::{assert_eq, assert_ne};
 use regex::Regex;
 use swc_common::{
     collections::AHashMap,
-    errors::{Diagnostic, Handler},
+    errors::{Diagnostic, Handler, HANDLER},
     sync::Lrc,
     FilePathMapping, SourceMap,
 };
@@ -90,7 +90,9 @@ where
 
     let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
     let (handler, errors) = self::string_errors::new_handler(cm.clone(), treat_err_as_bug);
-    let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || op(cm, &handler));
+    let result = swc_common::GLOBALS.set(&swc_common::Globals::new(), || {
+        HANDLER.set(&handler, || op(cm, &handler))
+    });
 
     match result {
         Ok(res) => Ok(res),
