@@ -3285,6 +3285,7 @@ dependencies = [
 name = "swc_css_modules"
 version = "0.1.0"
 dependencies = [
+ "serde_json",
  "swc_atoms",
  "swc_css_ast",
  "swc_css_parser",
