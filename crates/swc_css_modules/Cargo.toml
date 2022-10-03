@@ -1,13 +1,13 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "CSS modules"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "CSS modules"
 documentation = "https://rustdoc.swc.rs/swc_css_modules/"
-edition       = "2021"
-include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
-name          = "swc_css_modules"
-repository    = "https://github.com/swc-project/swc.git"
-version       = "0.1.0"
+edition = "2021"
+include = ["Cargo.toml", "src/**/*.rs"]
+license = "Apache-2.0"
+name = "swc_css_modules"
+repository = "https://github.com/swc-project/swc.git"
+version = "0.1.0"
 
 [lib]
 bench = false
@@ -15,7 +15,10 @@ bench = false
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-swc_atoms       = { version = "0.4.18", path = "../swc_atoms" }
-swc_css_ast     = { version = "0.114.4", path = "../swc_css_ast" }
-swc_css_visit   = { version = "0.113.4", path = "../swc_css_visit" }
-swc_ecma_loader = { version = "0.41.3", path = "../swc_ecma_loader" }
+swc_atoms = {version = "0.4.18", path = "../swc_atoms"}
+swc_css_ast = {version = "0.114.4", path = "../swc_css_ast"}
+swc_css_visit = {version = "0.113.4", path = "../swc_css_visit"}
+swc_ecma_loader = {version = "0.41.3", path = "../swc_ecma_loader"}
+
+[dev-dependencies]
+testing = {version = "0.31.4", path = "../testing"}

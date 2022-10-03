@@ -3289,6 +3289,7 @@ dependencies = [
  "swc_css_ast",
  "swc_css_visit",
  "swc_ecma_loader",
+ "testing",
 ]
 
 [[package]]
