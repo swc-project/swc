@@ -5,7 +5,11 @@ use swc_css_ast::{Declaration, DeclarationName, Stylesheet};
 use swc_css_visit::{Visit, VisitWith};
 
 pub fn analyze_imports(ss: &Stylesheet) -> Vec<JsWord> {
-    todo!()
+    let mut v = Analyzer {
+        imports: Default::default(),
+    };
+    ss.visit_with(&mut v);
+    v.imports
 }
 
 struct Analyzer {
