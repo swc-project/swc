@@ -1,7 +1,10 @@
 //! Import/export analyzer
 
 use swc_atoms::{js_word, JsWord};
-use swc_css_ast::{CombinatorValue, ComponentValue, Declaration, DeclarationName, Stylesheet};
+use swc_css_ast::{
+    ComponentValue, Declaration, DeclarationName, ImportPrelude, ImportPreludeHref, Stylesheet,
+    UrlValue,
+};
 use swc_css_visit::{Visit, VisitWith};
 
 pub fn analyze_imports(ss: &Stylesheet) -> Vec<JsWord> {
@@ -17,6 +20,28 @@ struct Analyzer {
 }
 
 impl Visit for Analyzer {
+    fn visit_import_prelude(&mut self, n: &ImportPrelude) {
+        n.visit_children_with(self);
+
+        match &*n.href {
+            ImportPreludeHref::Url(u) => {
+                if let Some(s) = &u.value {
+                    match &**s {
+                        UrlValue::Str(s) => {
+                            self.imports.push(s.value.clone());
+                        }
+                        UrlValue::Raw(v) => {
+                            self.imports.push(v.value.clone());
+                        }
+                    }
+                }
+            }
+            ImportPreludeHref::Str(s) => {
+                self.imports.push(s.value.clone());
+            }
+        }
+    }
+
     fn visit_declaration(&mut self, d: &Declaration) {
         d.visit_children_with(self);
 
