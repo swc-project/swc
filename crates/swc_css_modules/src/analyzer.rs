@@ -27,9 +27,9 @@ impl Visit for Analyzer {
                     match (&d.value[0], &d.value[1], &d.value[2]) {
                         (
                             ComponentValue::Ident(..),
-                            ComponentValue::Ident(ident2),
+                            ComponentValue::Ident(from),
                             ComponentValue::Str(s),
-                        ) if ident2.value == js_word!("from") => {
+                        ) if from.value == js_word!("from") => {
                             self.imports.push(s.value.clone());
                         }
                         _ => {}
