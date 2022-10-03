@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+@import './imported.css';
+
+/* Comment */
+
+.class {
+  color: red;
+  background: url("./img.png");
+}

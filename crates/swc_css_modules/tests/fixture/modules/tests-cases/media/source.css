@@ -1,0 +1,7 @@
+@value small: (max-width: 599px);
+
+@media small {
+  .header {
+    box-shadow: 0 0 4px #1F4F7F;
+  }
+}

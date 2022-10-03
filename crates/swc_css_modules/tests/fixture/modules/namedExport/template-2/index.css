@@ -1,0 +1,11 @@
+:local(.header-baz) {
+  color: red;
+}
+
+:local(.body) {
+  color: coral;
+}
+
+:local(.footer) {
+  color: blue;
+}

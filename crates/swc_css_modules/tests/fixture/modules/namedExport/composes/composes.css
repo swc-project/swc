@@ -1,0 +1,24 @@
+@value v_def from './values.css';
+@value v_other-other from './values.css';
+@value s-white from './values.css';
+@value m-small from './values.css';
+
+.ghi {
+  color: v_def;
+}
+
+.my-class {
+  color: s-white;
+}
+
+.other {
+  display: m-small;
+}
+
+.other-other {
+  width: v_def;
+}
+
+.green {
+  color: v_other-other;
+}

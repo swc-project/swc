@@ -1,0 +1,10 @@
+@value v-url: url('./img.png');
+@value v-url-other from './shared.css';
+
+a {
+  background: v-url;
+}
+
+body {
+  background: v-url-other;
+}

@@ -1,0 +1,7 @@
+.classNameGlobalFile {
+  color: black;
+}
+
+:local(.otherClassGlobalFile) {
+  color: coral;
+}

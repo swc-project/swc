@@ -1,0 +1,11 @@
+:import("./unknown.css") {
+  IMPORTED_NAME: primary-color;
+}
+
+.className {
+  color: IMPORTED_NAME;
+}
+
+:export {
+  primary-color: IMPORTED_NAME
+}

@@ -1,0 +1,39 @@
+.foo {
+  color: red;
+}
+
+h1 .foo-1 {
+  color: green;
+}
+
+.foo-2 h1 {
+  color: blue;
+}
+
+.foo-3 h1 .foo-4 {
+  color: red;
+}
+
+#foo-5 {
+  color: red;
+}
+
+h1 #foo-6 {
+  color: green;
+}
+
+#foo-7 h1 {
+  color: blue;
+}
+
+#foo-8 h1 #foo-9 {
+  color: red;
+}
+
+.bar-1 :global(.bar) .bar-2 {
+  color: white;
+}
+
+.baz-3 :local(.baz) .bar-4 {
+  color: black;
+}

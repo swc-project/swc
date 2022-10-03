@@ -1,0 +1,6 @@
+@import url('./order-4-1.css') (min-width: 1000px);
+@import url('./order-4-2.css') (min-width: 2000px);
+
+.order-4 {
+  color: red;
+}
