@@ -11,10 +11,12 @@ fn imports(input: PathBuf) {
         let result = swc_css_modules::analyzer::analyze_imports(&ss);
 
         let s = serde_json::to_string_pretty(&result).unwrap();
-        NormalizedOutput::from(s).compare_to_file(input.with_file_name(format!(
-            "{}.imports.json",
-            input.file_stem().unwrap().to_string_lossy()
-        )));
+        NormalizedOutput::from(s)
+            .compare_to_file(input.with_file_name(format!(
+                "{}.imports.json",
+                input.file_stem().unwrap().to_string_lossy()
+            )))
+            .unwrap();
 
         Ok(())
     })
