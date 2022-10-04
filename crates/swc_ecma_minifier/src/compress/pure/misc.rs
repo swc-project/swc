@@ -296,6 +296,8 @@ impl Pure<'_> {
             })
             .unwrap_or_default();
 
+        report_change!("Optimized regex");
+
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
             exp: pattern.into(),
