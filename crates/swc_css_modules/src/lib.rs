@@ -4,8 +4,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, Ident, PseudoClassSelector, QualifiedRule, QualifiedRulePrelude, SelectorList,
-    Stylesheet, SubclassSelector,
+    DeclarationName, DeclarationOrAtRule, Ident, PseudoClassSelector, QualifiedRule,
+    QualifiedRulePrelude, SelectorList, Stylesheet, SubclassSelector,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -127,18 +127,14 @@ where
         n.visit_mut_children_with(self);
 
         n.retain(|v| match v {
-            ComponentValue::DeclarationOrAtRule(v) => {
-                if let swc_css_ast::DeclarationOrAtRule::Declaration(d) = v {
-                    if let DeclarationName::Ident(ident) = &d.name {
-                        if &*ident.value == "composes" {
-                            return false;
-                        }
+            ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(d)) => {
+                if let DeclarationName::Ident(ident) = &d.name {
+                    if &*ident.value == "composes" {
+                        return false;
                     }
-
-                    true
-                } else {
-                    true
                 }
+
+                true
             }
             _ => true,
         });
