@@ -4,6 +4,7 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
 };
+use swc_css_modules::Segment;
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
@@ -39,7 +40,16 @@ fn compile(input: PathBuf) {
         let mut ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
         let result = swc_css_modules::imports::analyze_imports(&ss);
 
-        swc_css_modules::compile(&mut ss, TestConfig {});
+        swc_css_modules::compile(
+            &mut ss,
+            TestConfig {
+                pattern: vec![
+                    Segment::Literal("test".into()),
+                    Segment::Hash,
+                    Segment::Local,
+                ],
+            },
+        );
 
         let mut buf = String::new();
         {
@@ -73,6 +83,12 @@ fn compile(input: PathBuf) {
     .unwrap();
 }
 
-struct TestConfig {}
+struct TestConfig {
+    pattern: Vec<Segment>,
+}
 
-impl swc_css_modules::Config for TestConfig {}
+impl swc_css_modules::Config for TestConfig {
+    fn pattern(&self) -> &[Segment] {
+        &self.pattern
+    }
+}

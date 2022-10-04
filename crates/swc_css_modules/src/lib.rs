@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, CompoundSelector, Declaration, PseudoClassSelector, SelectorList, Stylesheet,
@@ -10,11 +10,22 @@ use util::to_tokens::to_tokens_vec;
 pub mod imports;
 mod util;
 
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum Segment {
+    Literal(JsWord),
+    Name,
+    Local,
+    Hash,
+}
+
 /// Various configurations for the css modules.
 ///
 /// This is a trait rather than a struct because api like `fn() -> String` is
 /// too restricted and `Box<Fn() -> String` is (needlessly) slow.
-pub trait Config {}
+pub trait Config {
+    /// Pattern for the class names.
+    fn pattern(&self) -> &[Segment];
+}
 
 pub fn compile(ss: &mut Stylesheet, config: impl Config) {
     let mut compiler = Compiler {
