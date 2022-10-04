@@ -91,4 +91,12 @@ impl swc_css_modules::Config for TestConfig {
     fn pattern(&self) -> &[Segment] {
         &self.pattern
     }
+
+    fn write_file_name(&self, to: &mut String) {
+        to.push_str("test_file");
+    }
+
+    fn write_hash_of_file_name(&self, to: &mut String) {
+        to.push_str("__hash__");
+    }
 }

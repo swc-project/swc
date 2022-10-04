@@ -14,7 +14,7 @@ where
     let lo = n.first().span().lo();
     let hi = n.last().span().lo();
 
-    let tokens = n.iter().map(|n| to_tokens(n).tokens).flatten().collect();
+    let tokens = n.iter().flat_map(|n| to_tokens(n).tokens).collect();
 
     Tokens {
         span: Span::new(lo, hi, Default::default()),
@@ -31,7 +31,7 @@ where
 
     let mut buf = String::new();
     {
-        let mut wr = BasicCssWriter::new(
+        let wr = BasicCssWriter::new(
             &mut buf,
             None,
             BasicCssWriterConfig {
@@ -49,7 +49,7 @@ where
         g.emit(n).unwrap();
     }
 
-    let mut lexer = Lexer::new(
+    let lexer = Lexer::new(
         StringInput::new(&buf, span.lo, span.hi),
         ParserConfig {
             allow_wrong_line_comments: true,
