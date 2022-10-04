@@ -1,3 +1,4 @@
+use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, CompoundSelector, Declaration, PseudoClassSelector, SelectorList, Stylesheet,
 };
@@ -48,12 +49,24 @@ where
     }
 
     fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
+        let mut new = Vec::with_capacity(n.children.len());
+
         for sel in &mut n.children {
             let old = self.data.current_selectors.take();
             self.data.current_selectors = Some(vec![]);
             sel.visit_mut_with(self);
+
+            new.push(sel.take());
+
+            let cur = self.data.current_selectors.take();
+            if let Some(cur) = cur {
+                new.extend(cur);
+            }
+
             self.data.current_selectors = old;
         }
+
+        n.children = new;
     }
 
     /// Handle :local and :global
