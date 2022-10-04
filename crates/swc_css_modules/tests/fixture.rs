@@ -70,15 +70,17 @@ fn compile(input: PathBuf) {
             )))
             .unwrap();
 
-        let transformed_classes = serde_json::to_string_pretty(&transform_result.classes).unwrap();
+        if !transform_result.classes.is_empty() {
+            let transformed_classes =
+                serde_json::to_string_pretty(&transform_result.classes).unwrap();
 
-        NormalizedOutput::from(transformed_classes)
-            .compare_to_file(input.with_file_name(format!(
-                "{}.transform.json",
-                input.file_stem().unwrap().to_string_lossy()
-            )))
-            .unwrap();
-
+            NormalizedOutput::from(transformed_classes)
+                .compare_to_file(input.with_file_name(format!(
+                    "{}.transform.json",
+                    input.file_stem().unwrap().to_string_lossy()
+                )))
+                .unwrap();
+        }
         Ok(())
     })
     .unwrap();
