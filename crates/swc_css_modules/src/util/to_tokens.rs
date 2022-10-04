@@ -1,33 +1,20 @@
 use swc_common::{input::StringInput, Spanned};
-use swc_css_ast::{Declaration, PseudoClassSelector, SelectorList, Stylesheet, TokenAndSpan};
+use swc_css_ast::TokenAndSpan;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
 };
 use swc_css_parser::{lexer::Lexer, parser::ParserConfig};
-use swc_css_visit::{VisitMut, VisitMutWith};
 
-pub(crate) trait ToTokens: Spanned + Sized {
-    fn append_tokens(&self, buf: &mut Vec<TokenAndSpan>)
-    where
-        for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>:
-            swc_css_codegen::Emit<Self>,
-    {
-        buf.extend(to_tokens_using_codegen(self))
-    }
-
-    fn to_tokens(&self) -> Vec<TokenAndSpan>
-    where
-        for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>:
-            swc_css_codegen::Emit<Self>,
-    {
-        let mut buf = vec![];
-        self.append_tokens(&mut buf);
-        buf
-    }
+pub(crate) fn to_tokens_vec<N>(n: &[N]) -> Vec<TokenAndSpan>
+where
+    N: Spanned,
+    for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>: swc_css_codegen::Emit<N>,
+{
+    n.iter().map(|n| to_tokens(n)).flatten().collect()
 }
 
-fn to_tokens_using_codegen<N>(n: &N) -> Vec<TokenAndSpan>
+pub(crate) fn to_tokens<N>(n: &N) -> Vec<TokenAndSpan>
 where
     N: Spanned,
     for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>: swc_css_codegen::Emit<N>,

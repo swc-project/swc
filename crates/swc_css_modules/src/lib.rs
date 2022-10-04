@@ -1,13 +1,9 @@
-use swc_common::{input::StringInput, Spanned};
-use swc_css_ast::{Declaration, PseudoClassSelector, SelectorList, Stylesheet, TokenAndSpan};
-use swc_css_codegen::{
-    writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
-    CodeGenerator, CodegenConfig, Emit,
-};
-use swc_css_parser::{lexer::Lexer, parser::ParserConfig};
+use swc_css_ast::{Declaration, PseudoClassSelector, Stylesheet};
 use swc_css_visit::{VisitMut, VisitMutWith};
+use util::to_tokens::to_tokens_vec;
 
 pub mod imports;
+mod util;
 
 /// Various configurations for the css modules.
 ///
@@ -46,8 +42,7 @@ where
         match &*n.name.value {
             "local" => {
                 if let Some(children) = &mut n.children {
-                    let tokens = children.to_tokens();
-                    for s in children {}
+                    let tokens = to_tokens_vec(&*children);
                 }
             }
             "global" => {}
