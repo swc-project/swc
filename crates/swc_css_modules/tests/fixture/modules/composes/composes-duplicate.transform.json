@@ -1,0 +1,24 @@
+{
+  "simple-foo": [
+    {
+      "type": "local",
+      "name": "__local__simple-foo"
+    },
+    {
+      "type": "import",
+      "name": "imported-simple",
+      "from": "./imported-simple.css"
+    }
+  ],
+  "simple-bar": [
+    {
+      "type": "local",
+      "name": "__local__simple-bar"
+    },
+    {
+      "type": "import",
+      "name": "imported-simple",
+      "from": "./imported-simple.css"
+    }
+  ]
+}
