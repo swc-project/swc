@@ -21,6 +21,7 @@ swc_css_visit   = { version = "0.113.4", path = "../swc_css_visit" }
 swc_ecma_loader = { version = "0.41.3", path = "../swc_ecma_loader" }
 
 [dev-dependencies]
-serde_json     = "1"
-swc_css_parser = { version = "0.123.5", path = "../swc_css_parser" }
-testing        = { version = "0.31.4", path = "../testing" }
+serde_json      = "1"
+swc_css_codegen = { version = "0.124.5", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.123.5", path = "../swc_css_parser" }
+testing         = { version = "0.31.4", path = "../testing" }
