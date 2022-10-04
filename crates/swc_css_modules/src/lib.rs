@@ -79,7 +79,7 @@ where
 #[derive(Default)]
 struct Data {
     /// Context for `composes`
-    current_class_name: Option<JsWord>,
+    composes_for_current: Option<Vec<CssClassName>>,
 
     current_selectors: Option<Vec<ComplexSelector>>,
 }
@@ -89,40 +89,38 @@ where
     C: TransformConfig,
 {
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
-        let old_class_name = self.data.current_class_name.take();
+        let old_compose_stack = self.data.composes_for_current.take();
 
-        match &n.prelude {
-            QualifiedRulePrelude::ListOfComponentValues(_) => {}
-            QualifiedRulePrelude::SelectorList(sel) => {
-                //
-                if sel.children.len() == 1 && sel.children[0].children.len() == 1 {
-                    match &sel.children[0].children[0] {
-                        ComplexSelectorChildren::CompoundSelector(sel) => {
-                            if sel.subclass_selectors.len() == 1 {
-                                if let SubclassSelector::Class(class_sel) =
-                                    &sel.subclass_selectors[0]
-                                {
-                                    self.data.current_class_name =
-                                        Some(class_sel.text.value.clone());
-                                }
+        n.visit_mut_children_with(self);
+
+        if let QualifiedRulePrelude::SelectorList(sel) = &n.prelude {
+            //
+            if sel.children.len() == 1 && sel.children[0].children.len() == 1 {
+                if let ComplexSelectorChildren::CompoundSelector(sel) = &sel.children[0].children[0]
+                {
+                    if sel.subclass_selectors.len() == 1 {
+                        if let SubclassSelector::Class(class_sel) = &sel.subclass_selectors[0] {
+                            if let Some(composes) = self.data.composes_for_current.take() {
+                                self.result
+                                    .classes
+                                    .entry(class_sel.text.value.clone())
+                                    .or_default()
+                                    .extend(composes);
                             }
                         }
-                        ComplexSelectorChildren::Combinator(_) => {}
                     }
                 }
             }
         }
 
-        n.visit_mut_children_with(self);
-
-        self.data.current_class_name = old_class_name;
+        self.data.composes_for_current = old_compose_stack;
     }
 
     /// Handles `composes`
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        if let Some(current_class_name) = self.data.current_class_name.clone() {
+        if let Some(composes_for_current) = &mut self.data.composes_for_current {
             if let DeclarationName::Ident(name) = &n.name {
                 if &*name.value == "composes" {
                     // comoses: name from 'foo.css'
@@ -137,14 +135,10 @@ where
                             ) => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(Ident { value, .. }) = class_name {
-                                        self.result
-                                            .classes
-                                            .entry(current_class_name.clone())
-                                            .or_default()
-                                            .push(CssClassName::Import {
-                                                name: value.clone(),
-                                                from: import_source.value.clone(),
-                                            });
+                                        composes_for_current.push(CssClassName::Import {
+                                            name: value.clone(),
+                                            from: import_source.value.clone(),
+                                        });
                                     }
                                 }
                             }
@@ -160,13 +154,9 @@ where
                             ) => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(Ident { value, .. }) = class_name {
-                                        self.result
-                                            .classes
-                                            .entry(current_class_name.clone())
-                                            .or_default()
-                                            .push(CssClassName::Global {
-                                                name: value.clone(),
-                                            });
+                                        composes_for_current.push(CssClassName::Global {
+                                            name: value.clone(),
+                                        });
                                     }
                                 }
                             }
