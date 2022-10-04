@@ -51,17 +51,17 @@ pub enum CssClassName {
 }
 
 #[derive(Debug, Clone)]
-pub struct CompileResult {
+pub struct TransformResult {
     /// A map of js class name to css class names.
     pub classes: FxHashMap<JsWord, Vec<CssClassName>>,
 }
 
 /// Returns a map from local name to exported name.
-pub fn compile(ss: &mut Stylesheet, config: impl TransformConfig) -> CompileResult {
+pub fn compile(ss: &mut Stylesheet, config: impl TransformConfig) -> TransformResult {
     let mut compiler = Compiler {
         config,
         data: Default::default(),
-        result: CompileResult {
+        result: TransformResult {
             classes: Default::default(),
         },
     };
@@ -77,7 +77,7 @@ where
 {
     config: C,
     data: Data,
-    result: CompileResult,
+    result: TransformResult,
 }
 
 #[derive(Default)]
