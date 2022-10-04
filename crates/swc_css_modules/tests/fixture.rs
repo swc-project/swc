@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_atoms::JsWord;
-use swc_css_ast::Declaration;
+use swc_css_ast::{Declaration, Ident};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
