@@ -75,7 +75,7 @@ where
         n.visit_mut_children_with(self);
 
         n.subclass_selectors.retain(|s| match s {
-            swc_css_ast::SubclassSelector::PseudoClass(s) => s.name.value == js_word!(""),
+            swc_css_ast::SubclassSelector::PseudoClass(s) => s.name.value != js_word!(""),
             _ => true,
         });
     }
