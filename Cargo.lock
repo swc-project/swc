@@ -3286,6 +3286,7 @@ name = "swc_css_modules"
 version = "0.1.0"
 dependencies = [
  "rustc-hash",
+ "serde",
  "serde_json",
  "swc_atoms",
  "swc_common",
