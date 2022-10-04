@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
@@ -11,14 +12,6 @@ use util::to_tokens::to_tokens_vec;
 
 pub mod imports;
 mod util;
-
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum Segment {
-    Literal(JsWord),
-    Name,
-    Local,
-    Hash,
-}
 
 /// Various configurations for the css modules.
 ///
@@ -35,7 +28,7 @@ pub trait TransformConfig {
     // ComponentValue;
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
 pub enum CssClassName {
     Local {
         name: JsWord,
