@@ -23,6 +23,9 @@
 
 
 
+- **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
+
+
 - **(es/minifier)** Drop vars from sequential inliner (#5993) ([286334c](https://github.com/swc-project/swc/commit/286334c4d0b15d92347c6e51e05a3c3bf506e982))
 
 

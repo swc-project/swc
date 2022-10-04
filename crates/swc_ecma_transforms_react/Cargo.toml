@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_react"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.153.12"
+version       = "0.154.0"
 
 [lib]
 bench = false
@@ -38,7 +38,7 @@ swc_ecma_visit             = { version = "0.80.4", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_codegen            = { version = "0.127.7", path = "../swc_ecma_codegen/" }
-swc_ecma_transforms_compat  = { version = "0.134.12", path = "../swc_ecma_transforms_compat/" }
-swc_ecma_transforms_module  = { version = "0.151.12", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_compat  = { version = "0.135.0", path = "../swc_ecma_transforms_compat/" }
+swc_ecma_transforms_module  = { version = "0.152.0", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_testing = { version = "0.113.11", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "0.31.4", path = "../testing" }
