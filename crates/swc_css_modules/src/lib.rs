@@ -142,7 +142,24 @@ where
                         current.push(sel);
                     }
                 }
-                "global" => {}
+                "global" => {
+                    if let Some(children) = &mut n.children {
+                        let tokens = to_tokens_vec(&*children);
+
+                        let sel = swc_css_parser::parse_tokens(
+                            &tokens,
+                            ParserConfig {
+                                ..Default::default()
+                            },
+                            &mut vec![],
+                        )
+                        .unwrap();
+
+                        n.name.take();
+
+                        current.push(sel);
+                    }
+                }
 
                 _ => {}
             }
