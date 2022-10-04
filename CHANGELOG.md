@@ -14,6 +14,9 @@
 - **(es/compat)** Fix handling of deep array pattern of object rest pass (#6035) ([0c67a3a](https://github.com/swc-project/swc/commit/0c67a3adbaec69d72016fe7c525223888d34ef3e))
 
 
+- **(es/compat)** Fix handling of op-assignment in `generator` (#6036) ([7554482](https://github.com/swc-project/swc/commit/755448220529f82e82b56624e5a431c256c172ba))
+
+
 - **(es/minifier)** Don't inline into nested scope (#6002) ([2ee3ad0](https://github.com/swc-project/swc/commit/2ee3ad00663a515697769cef55ad5606e14943da))
 
 
