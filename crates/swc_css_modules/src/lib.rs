@@ -33,13 +33,14 @@ pub trait TransformConfig {
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum CssClassName {
     Local {
+        /// Tranformed css class name
         name: JsWord,
     },
     Global {
         name: JsWord,
     },
     Import {
-        /// The exported class name
+        /// The exported class name. This is the value specified by the user.
         name: JsWord,
         /// The module specifier.
         from: JsWord,
