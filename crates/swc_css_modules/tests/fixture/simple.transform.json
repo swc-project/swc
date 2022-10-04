@@ -1,0 +1,8 @@
+{
+  "some-class": [
+    {
+      "type": "local",
+      "name": "__local__some-class"
+    }
+  ]
+}
