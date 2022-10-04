@@ -1,4 +1,4 @@
-use swc_css_ast::{Declaration, PseudoClassSelector, Stylesheet};
+use swc_css_ast::{Declaration, PseudoClassSelector, SelectorList, Stylesheet};
 use swc_css_visit::{VisitMut, VisitMutWith};
 use util::to_tokens::to_tokens_vec;
 
@@ -33,6 +33,14 @@ where
         n.visit_mut_children_with(self);
 
         // TODO: Handle composes
+    }
+
+    fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
+        n.visit_mut_children_with(self);
+
+        for sel in &mut n.children {
+            dbg!(&*sel);
+        }
     }
 
     /// Handle :local and :global
