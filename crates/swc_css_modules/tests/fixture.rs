@@ -92,7 +92,7 @@ struct TestConfig {
 
 impl swc_css_modules::Config for TestConfig {
     fn get_class_name(&self, local: &JsWord) -> JsWord {
-        format!("local__{}", local).into()
+        format!("__local__{}", local).into()
     }
 
     fn load_composes(&mut self, class_name: &JsWord, import_source: &JsWord) -> Vec<Declaration> {
