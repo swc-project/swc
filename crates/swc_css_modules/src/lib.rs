@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, CompoundSelector, Declaration, PseudoClassSelector, SelectorList, Stylesheet,
@@ -56,6 +57,7 @@ where
             self.data.current_selectors = Some(vec![]);
             sel.visit_mut_with(self);
 
+            dbg!(&sel);
             new.push(sel.take());
 
             let cur = self.data.current_selectors.take();
@@ -67,6 +69,15 @@ where
         }
 
         n.children = new;
+    }
+
+    fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
+        n.visit_mut_children_with(self);
+
+        n.subclass_selectors.retain(|s| match s {
+            swc_css_ast::SubclassSelector::PseudoClass(s) => s.name.value == js_word!(""),
+            _ => true,
+        });
     }
 
     /// Handle :local and :global
@@ -87,6 +98,8 @@ where
                             &mut vec![],
                         )
                         .unwrap();
+
+                        n.name.take();
 
                         current.push(sel);
                     }
