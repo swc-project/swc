@@ -72,6 +72,11 @@ where
                         ComponentValue::Str(import_source),
                     ) = (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1])
                     {
+                        for class_name in n.value.iter().take(n.value.len() - 2) {
+                            if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                                self.config.load_composes(value, &import_source.value);
+                            }
+                        }
                     }
                 }
             }
