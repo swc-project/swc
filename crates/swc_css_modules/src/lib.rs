@@ -30,8 +30,9 @@ pub trait TransformConfig {
     /// Creates a class name for the given `local_name`.
     fn get_class_name(&self, local: &JsWord) -> JsWord;
 
-    /// Used for `@value` imports.
-    fn get_value(&self, import_source: &str, value_name: &JsWord) -> ComponentValue;
+    // /// Used for `@value` imports.
+    // fn get_value(&self, import_source: &str, value_name: &JsWord) ->
+    // ComponentValue;
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
