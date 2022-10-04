@@ -1,20 +1,28 @@
-use swc_common::{input::StringInput, Spanned};
-use swc_css_ast::TokenAndSpan;
+use swc_common::{input::StringInput, Span, Spanned};
+use swc_css_ast::Tokens;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
 };
 use swc_css_parser::{lexer::Lexer, parser::ParserConfig};
 
-pub(crate) fn to_tokens_vec<N>(n: &[N]) -> Vec<TokenAndSpan>
+pub(crate) fn to_tokens_vec<N>(n: &[N]) -> Tokens
 where
     N: Spanned,
     for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>: swc_css_codegen::Emit<N>,
 {
-    n.iter().map(|n| to_tokens(n)).flatten().collect()
+    let lo = n.first().span().lo();
+    let hi = n.last().span().lo();
+
+    let tokens = n.iter().map(|n| to_tokens(n).tokens).flatten().collect();
+
+    Tokens {
+        span: Span::new(lo, hi, Default::default()),
+        tokens,
+    }
 }
 
-pub(crate) fn to_tokens<N>(n: &N) -> Vec<TokenAndSpan>
+pub(crate) fn to_tokens<N>(n: &N) -> Tokens
 where
     N: Spanned,
     for<'aa, 'ab> CodeGenerator<BasicCssWriter<'aa, &'ab mut String>>: swc_css_codegen::Emit<N>,
@@ -48,5 +56,8 @@ where
         },
     );
 
-    lexer.collect()
+    Tokens {
+        span,
+        tokens: lexer.collect(),
+    }
 }
