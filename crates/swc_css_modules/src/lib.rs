@@ -183,7 +183,7 @@ where
             ComplexSelectorChildren::Combinator(..) => true,
         });
 
-        process_local(&mut self.config, n);
+        process_local(&mut self.config, &mut self.result, n);
     }
 
     fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
@@ -220,7 +220,7 @@ where
                         )
                         .unwrap();
 
-                        process_local(&mut self.config, &mut sel);
+                        process_local(&mut self.config, &mut self.result, &mut sel);
 
                         n.name.take();
 
@@ -252,7 +252,7 @@ where
     }
 }
 
-fn process_local<C>(config: &mut C, sel: &mut ComplexSelector)
+fn process_local<C>(config: &mut C, result: &mut TransformResult, sel: &mut ComplexSelector)
 where
     C: TransformConfig,
 {
@@ -261,6 +261,12 @@ where
             for sel in &mut sel.subclass_selectors {
                 if let swc_css_ast::SubclassSelector::Class(sel) = sel {
                     let new = config.get_class_name(&sel.text.value);
+
+                    result
+                        .classes
+                        .entry(sel.text.value.clone())
+                        .or_default()
+                        .push(CssClassName::Local { name: new.clone() });
 
                     sel.text.raw = None;
                     sel.text.value = new;
