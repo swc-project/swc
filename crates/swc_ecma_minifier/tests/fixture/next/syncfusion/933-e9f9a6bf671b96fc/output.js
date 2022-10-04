@@ -10793,7 +10793,7 @@
                     }), this.restrict(e), 'HTML' === this.editorMode && this.cleanList(e), 'HTML' === this.editorMode && (8 === e.which && 'Backspace' === e.code || 46 === e.which && 'Delete' === e.code)) {
                         var range = this.getRange(), startNode = '#text' === range.startContainer.nodeName ? range.startContainer.parentElement : range.startContainer;
                         if ((0, ej2_base.oq)(startNode, 'pre') && 8 === e.which && 8203 === range.startContainer.textContent.charCodeAt(range.startOffset - 1) || 46 === e.which && 8203 === range.startContainer.textContent.charCodeAt(range.startOffset)) {
-                            var regEx = RegExp("​", 'g'), pointer = 8 === e.which ? range.startOffset - 1 : range.startOffset;
+                            var regEx = RegExp(String.fromCharCode(8203), 'g'), pointer = 8 === e.which ? range.startOffset - 1 : range.startOffset;
                             range.startContainer.textContent = range.startContainer.textContent.replace(regEx, ''), this.formatter.editorManager.nodeSelection.setCursorPoint(this.contentModule.getDocument(), range.startContainer, pointer);
                         } else if ('Backspace' === e.code && 8 === e.which && 8203 === range.startContainer.textContent.charCodeAt(0) && range.collapsed) {
                             var parentEle = range.startContainer.parentElement, index = void 0, i = void 0;
@@ -12783,7 +12783,7 @@
                         }
                     }
                 }, Formats.prototype.removeCodeContent = function(range) {
-                    var regEx = RegExp("\uFEFF", 'g');
+                    var regEx = RegExp(String.fromCharCode(65279), 'g');
                     if (!(0, ej2_base.le)(range.endContainer.textContent.match(regEx))) {
                         var pointer = 65279 === range.endContainer.textContent.charCodeAt(range.endOffset - 1) ? range.endOffset - 2 : range.endOffset;
                         range.endContainer.textContent = range.endContainer.textContent.replace(regEx, ''), '' === range.endContainer.textContent ? this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, range.endContainer.parentElement, 0) : this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, range.endContainer, pointer);
@@ -14023,7 +14023,7 @@
                         if (range.collapsed) {
                             var currentFormatNode = isFormatted.getFormattedNode(range.startContainer, format, endNode), currentSelector = (0, ej2_base.le)(currentFormatNode) ? null : null === currentFormatNode.getAttribute('style') ? currentFormatNode.nodeName : currentFormatNode.nodeName + "[style='" + currentFormatNode.getAttribute('style') + "']";
                             if (nodes.length > 0) isCollapsed = !0, range = nodeCutter.GetCursorRange(docElement, range, nodes[0]);
-                            else if (3 === range.startContainer.nodeType && (range.startContainer.parentElement.childElementCount > 0 && range.startOffset > 0 && 'br' !== range.startContainer.parentElement.firstElementChild.tagName.toLowerCase() || !(0, ej2_base.le)(currentFormatNode) && currentFormatNode === range.startContainer.parentElement.closest(currentSelector) && 0 != range.startContainer.parentElement.closest(currentSelector).textContent.replace(RegExp("​", 'g'), '').trim().length)) isCollapsed = !0, range = nodeCutter.GetCursorRange(docElement, range, range.startContainer), nodes.push(range.startContainer);
+                            else if (3 === range.startContainer.nodeType && (range.startContainer.parentElement.childElementCount > 0 && range.startOffset > 0 && 'br' !== range.startContainer.parentElement.firstElementChild.tagName.toLowerCase() || !(0, ej2_base.le)(currentFormatNode) && currentFormatNode === range.startContainer.parentElement.closest(currentSelector) && 0 != range.startContainer.parentElement.closest(currentSelector).textContent.replace(RegExp(String.fromCharCode(8203), 'g'), '').trim().length)) isCollapsed = !0, range = nodeCutter.GetCursorRange(docElement, range, range.startContainer), nodes.push(range.startContainer);
                             else {
                                 var cursorNode = this.insertCursorNode(docElement, domSelection, range, isFormatted, nodeCutter, format, value, endNode);
                                 domSelection.endContainer = domSelection.startContainer = domSelection.getNodeArray(cursorNode, !0);
@@ -14042,7 +14042,7 @@
                     var cursorNodes = domSelection.getNodeCollection(range), domNode = new DOMNode(endNode, docElement), cursorFormat = cursorNodes.length > 0 ? cursorNodes.length > 1 && range.startContainer === range.endContainer ? this.getCursorFormat(isFormatted, cursorNodes, format, endNode) : isFormatted.getFormattedNode(cursorNodes[0], format, endNode) : null, cursorNode = null;
                     if (cursorFormat) {
                         if (cursorNode = cursorNodes[0], 8203 === cursorFormat.firstChild.textContent.charCodeAt(0) && 3 === cursorFormat.firstChild.nodeType) {
-                            var regEx = RegExp("​", 'g'), emptySpaceNode = void 0;
+                            var regEx = RegExp(String.fromCharCode(8203), 'g'), emptySpaceNode = void 0;
                             cursorFormat.firstChild === cursorNode ? (cursorNode.textContent = cursorFormat.parentElement && (domNode.isBlockNode(cursorFormat.parentElement) && cursorFormat.parentElement.textContent.length <= 1 ? cursorFormat.parentElement.childElementCount > 1 : 0 === cursorFormat.childElementCount) && (cursorFormat.parentElement.textContent.length > 1 || cursorFormat.parentElement.firstChild && 1 === cursorFormat.parentElement.firstChild.nodeType) ? cursorNode.textContent : cursorNode.textContent.replace(regEx, ''), emptySpaceNode = cursorNode) : (cursorFormat.firstChild.textContent = cursorFormat.firstChild.textContent.replace(regEx, ''), emptySpaceNode = cursorFormat.firstChild);
                             var pointer = void 0;
                             if (0 === emptySpaceNode.textContent.length) {
@@ -15517,7 +15517,7 @@
                 }, HtmlEditor.prototype.onSelectionRestore = function(e) {
                     this.parent.isBlur = !1, this.contentRenderer.getEditPanel().focus(), ((0, ej2_base.le)(e.items) || e.items) && this.saveSelection.restore();
                 }, HtmlEditor.prototype.onKeyUp = function(e) {
-                    var pointer, args = e.args, range = this.parent.getRange(), regEx = RegExp("​", 'g');
+                    var pointer, args = e.args, range = this.parent.getRange(), regEx = RegExp(String.fromCharCode(8203), 'g');
                     !(0 > [
                         8,
                         9,
@@ -28330,11 +28330,11 @@
                     return this.getSelectionNodesBr(this.getNodeCollection(range));
                 }, NodeSelection.prototype.getSelectionNodes = function(nodeCollection) {
                     nodeCollection = nodeCollection.reverse();
-                    for(var regEx = RegExp("​", 'g'), index = 0; index < nodeCollection.length; index++)(3 !== nodeCollection[index].nodeType || '' === nodeCollection[index].textContent.trim() || 1 === nodeCollection[index].textContent.length && nodeCollection[index].textContent.match(regEx)) && (nodeCollection.splice(index, 1), index--);
+                    for(var regEx = RegExp(String.fromCharCode(8203), 'g'), index = 0; index < nodeCollection.length; index++)(3 !== nodeCollection[index].nodeType || '' === nodeCollection[index].textContent.trim() || 1 === nodeCollection[index].textContent.length && nodeCollection[index].textContent.match(regEx)) && (nodeCollection.splice(index, 1), index--);
                     return nodeCollection.reverse();
                 }, NodeSelection.prototype.getSelectionNodesBr = function(nodeCollection) {
                     nodeCollection = nodeCollection.reverse();
-                    for(var regEx = RegExp("​", 'g'), index = 0; index < nodeCollection.length; index++)'BR' !== nodeCollection[index].nodeName && (3 !== nodeCollection[index].nodeType || '' === nodeCollection[index].textContent.trim() || 1 === nodeCollection[index].textContent.length && nodeCollection[index].textContent.match(regEx)) && (nodeCollection.splice(index, 1), index--);
+                    for(var regEx = RegExp(String.fromCharCode(8203), 'g'), index = 0; index < nodeCollection.length; index++)'BR' !== nodeCollection[index].nodeName && (3 !== nodeCollection[index].nodeType || '' === nodeCollection[index].textContent.trim() || 1 === nodeCollection[index].textContent.length && nodeCollection[index].textContent.match(regEx)) && (nodeCollection.splice(index, 1), index--);
                     return nodeCollection.reverse();
                 }, NodeSelection.prototype.getInsertNodeCollection = function(range) {
                     return this.getInsertNodes(this.getNodeCollection(range));
