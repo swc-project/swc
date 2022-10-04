@@ -65,7 +65,10 @@ fn esm_to_cjs(input: PathBuf) {
 test!(
     syntax(),
     |tester| chain!(
-        for_of(for_of::Config { assume_array: true }),
+        for_of(for_of::Config {
+            assume_array: true,
+            ..Default::default()
+        }),
         tr(Default::default(), false, tester.comments.clone())
     ),
     for_of_as_array_for_of_import_commonjs,
