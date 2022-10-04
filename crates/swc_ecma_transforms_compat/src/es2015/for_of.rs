@@ -60,6 +60,7 @@ pub fn for_of(c: Config) -> impl Fold + VisitMut {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    pub loose: bool,
     pub assume_array: bool,
 }
 
@@ -87,7 +88,7 @@ impl ForOf {
             ..
         }: ForOfStmt,
     ) -> Stmt {
-        if right.is_array() {
+        if right.is_array() || self.c.assume_array {
             // Convert to normal for loop if rhs is array
             //
             // babel's output:
@@ -203,11 +204,11 @@ impl ForOf {
         }
 
         // Loose mode
-        if self.c.assume_array {
+        if self.c.loose {
             let iterator = private_ident!("_iterator");
             let step = private_ident!("_step");
 
-            let mut decls = vec![
+            let decls = vec![
                 VarDeclarator {
                     span: DUMMY_SP,
                     name: iterator.clone().into(),
