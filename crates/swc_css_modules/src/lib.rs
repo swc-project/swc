@@ -90,6 +90,7 @@ where
 {
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         let old_compose_stack = self.data.composes_for_current.take();
+        self.data.composes_for_current = Some(Default::default());
 
         n.visit_mut_children_with(self);
 
