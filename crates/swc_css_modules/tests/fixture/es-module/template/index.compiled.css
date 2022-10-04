@@ -1,9 +1,9 @@
-.test__file_hash__header-baz {
+.__local__header-baz {
   color: red;
 }
-.test__file_hash__body {
+.__local__body {
   color: coral;
 }
-.test__file_hash__footer {
+.__local__footer {
   color: blue;
 }

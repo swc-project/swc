@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @import './imported.css';
-.test__file_hash__class {
+.__local__class {
   color: red;
   background: url("./img.png");
 }
