@@ -1,4 +1,4 @@
-use swc_css_ast::{Declaration, Stylesheet};
+use swc_css_ast::{Declaration, SelectorList, Stylesheet};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub mod imports;
@@ -27,5 +27,11 @@ where
         n.visit_mut_children_with(self);
 
         // TODO: Handle composes
+    }
+
+    fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
+        n.visit_mut_children_with(self);
+
+        // Handle :local and :global
     }
 }
