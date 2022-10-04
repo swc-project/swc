@@ -93,10 +93,10 @@ impl swc_css_modules::Config for TestConfig {
     }
 
     fn write_file_name(&self, to: &mut String) {
-        to.push_str("test_file");
+        to.push_str("__file_name__");
     }
 
     fn write_hash_of_file_name(&self, to: &mut String) {
-        to.push_str("__hash__");
+        to.push_str("__file_hash__");
     }
 }
