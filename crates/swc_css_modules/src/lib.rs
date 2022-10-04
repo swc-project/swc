@@ -29,6 +29,7 @@ pub trait TransformConfig {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize)]
+#[serde(tag = "type", rename_all = "camelCase")]
 pub enum CssClassName {
     Local {
         name: JsWord,
