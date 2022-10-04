@@ -30,6 +30,13 @@ pub trait Config {
 
     /// Pattern for the class names.
     fn pattern(&self) -> &[Segment];
+
+    fn load_composes(
+        &mut self,
+        class_name: &JsWord,
+        import_source: &JsWord,
+        to: &mut Vec<Declaration>,
+    );
 }
 
 pub fn compile(ss: &mut Stylesheet, config: impl Config) {
