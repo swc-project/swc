@@ -119,7 +119,6 @@ where
                 }
             }
         }
-        dbg!(&*n);
 
         self.data.composes_for_current = old_compose_stack;
     }
