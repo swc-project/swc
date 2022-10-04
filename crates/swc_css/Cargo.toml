@@ -1,28 +1,29 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "CSS apis for rust"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "CSS apis for rust"
 documentation = "https://rustdoc.swc.rs/swc_css/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_css"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.127.6"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_css"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.127.6"
 
-[package.metadata.docs.rs]
-all-features = true
-rustdoc-args = ["--cfg", "docsrs"]
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
 
 [features]
 minifier = ["swc_css_minifier"]
+modules  = ["swc_css_modules"]
 
 [dependencies]
-swc_css_ast = {version = "0.114.5", path = "../swc_css_ast"}
-swc_css_codegen = {version = "0.124.5", path = "../swc_css_codegen"}
-swc_css_minifier = {version = "0.89.6", path = "../swc_css_minifier", optional = true}
-swc_css_modules = {version = "0.1.0", path = "../swc_css_modules"}
-swc_css_parser = {version = "0.123.5", path = "../swc_css_parser"}
-swc_css_utils = {version = "0.111.5", path = "../swc_css_utils/"}
-swc_css_visit = {version = "0.113.5", path = "../swc_css_visit"}
+swc_css_ast      = { version = "0.114.5", path = "../swc_css_ast" }
+swc_css_codegen  = { version = "0.124.5", path = "../swc_css_codegen" }
+swc_css_minifier = { version = "0.89.6", path = "../swc_css_minifier", optional = true }
+swc_css_modules  = { version = "0.1.0", path = "../swc_css_modules", optional = true }
+swc_css_parser   = { version = "0.123.5", path = "../swc_css_parser" }
+swc_css_utils    = { version = "0.111.5", path = "../swc_css_utils/" }
+swc_css_visit    = { version = "0.113.5", path = "../swc_css_visit" }
