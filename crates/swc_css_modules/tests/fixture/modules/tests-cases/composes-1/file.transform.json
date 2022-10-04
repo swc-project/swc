@@ -1,0 +1,20 @@
+{
+  "c2": [
+    {
+      "type": "local",
+      "name": "__local__c2"
+    }
+  ],
+  "c4": [
+    {
+      "type": "local",
+      "name": "__local__c4"
+    }
+  ],
+  "test": [
+    {
+      "type": "local",
+      "name": "__local__test"
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+{
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    },
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "local",
+      "name": "__local__class"
+    }
+  ],
+  "qqq": [
+    {
+      "type": "local",
+      "name": "__local__qqq"
+    },
+    {
+      "type": "local",
+      "name": "__local__qqq"
+    }
+  ],
+  "www": [
+    {
+      "type": "local",
+      "name": "__local__www"
+    }
+  ],
+  "above-below": [
+    {
+      "type": "local",
+      "name": "__local__above-below"
+    }
+  ],
+  "foo": [
+    {
+      "type": "local",
+      "name": "__local__foo"
+    }
+  ],
+  "bar": [
+    {
+      "type": "local",
+      "name": "__local__bar"
+    }
+  ],
+  "class-class-class": [
+    {
+      "type": "local",
+      "name": "__local__class-class-class"
+    }
+  ],
+  "root-relative": [
+    {
+      "type": "local",
+      "name": "__local__root-relative"
+    }
+  ],
+  "my-background": [
+    {
+      "type": "local",
+      "name": "__local__my-background"
+    }
+  ],
+  "aliases": [
+    {
+      "type": "local",
+      "name": "__local__aliases"
+    }
+  ],
+  "strange": [
+    {
+      "type": "local",
+      "name": "__local__strange"
+    }
+  ],
+  "other-test-case": [
+    {
+      "type": "local",
+      "name": "__local__other-test-case"
+    }
+  ],
+  "button": [
+    {
+      "type": "local",
+      "name": "__local__button"
+    }
+  ],
+  "tilde": [
+    {
+      "type": "local",
+      "name": "__local__tilde"
+    }
+  ],
+  "base": [
+    {
+      "type": "local",
+      "name": "__local__base"
+    }
+  ],
+  "pure-url": [
+    {
+      "type": "local",
+      "name": "__local__pure-url"
+    }
+  ],
+  "highlight": [
+    {
+      "type": "local",
+      "name": "__local__highlight"
+    },
+    {
+      "type": "local",
+      "name": "__local__highlight"
+    }
+  ]
+}

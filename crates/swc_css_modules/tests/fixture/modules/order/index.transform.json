@@ -1,0 +1,39 @@
+{
+  "simple": [
+    {
+      "type": "local",
+      "name": "__local__simple"
+    },
+    {
+      "type": "import",
+      "name": "order-1",
+      "from": "./order-1.css"
+    },
+    {
+      "type": "import",
+      "name": "order-2",
+      "from": "./order-2.css"
+    },
+    {
+      "type": "import",
+      "name": "order-1-1",
+      "from": "./order-1.css"
+    },
+    {
+      "type": "import",
+      "name": "order-2-2",
+      "from": "./order-2.css"
+    }
+  ],
+  "simple-other": [
+    {
+      "type": "local",
+      "name": "__local__simple-other"
+    },
+    {
+      "type": "import",
+      "name": "order-1",
+      "from": "./order-1.css"
+    }
+  ]
+}

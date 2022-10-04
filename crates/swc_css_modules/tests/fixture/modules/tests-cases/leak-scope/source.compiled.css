@@ -1,0 +1,42 @@
+.__local__a {
+  color: green;
+  animation: a;
+}
+@keyframes b {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+.__local__b {
+  animation: b;
+}
+@keyframes :global(c) {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+.__local__c {
+  animation: c1;
+  animation: c2, c3, c4;
+}
+@keyframes :global(d) {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+:global .__local__d1 {
+  animation: d1;
+  animation: d2, d3, d4;
+}
+.d2 {
+  animation: d2;
+}

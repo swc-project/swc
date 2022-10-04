@@ -1,0 +1,20 @@
+{
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    }
+  ],
+  "foo": [
+    {
+      "type": "local",
+      "name": "__local__foo"
+    }
+  ],
+  "background": [
+    {
+      "type": "local",
+      "name": "__local__background"
+    }
+  ]
+}

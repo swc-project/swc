@@ -1,0 +1,294 @@
+{
+  "⌘⌥": [
+    {
+      "type": "local",
+      "name": "__local__⌘⌥"
+    }
+  ],
+  "☺☃": [
+    {
+      "type": "local",
+      "name": "__local__☺☃"
+    }
+  ],
+  "f+o+o": [
+    {
+      "type": "local",
+      "name": "__local__f+o+o"
+    }
+  ],
+  ":`(": [
+    {
+      "type": "local",
+      "name": "__local__:`("
+    },
+    {
+      "type": "local",
+      "name": "__local__:`("
+    }
+  ],
+  "className": [
+    {
+      "type": "local",
+      "name": "__local__className"
+    },
+    {
+      "type": "local",
+      "name": "__local__className"
+    }
+  ],
+  "♥": [
+    {
+      "type": "local",
+      "name": "__local__♥"
+    }
+  ],
+  "💩": [
+    {
+      "type": "local",
+      "name": "__local__💩"
+    }
+  ],
+  "123": [
+    {
+      "type": "local",
+      "name": "__local__123"
+    }
+  ],
+  "_test": [
+    {
+      "type": "local",
+      "name": "__local___test"
+    }
+  ],
+  "<p>": [
+    {
+      "type": "local",
+      "name": "__local__<p>"
+    }
+  ],
+  "foo.bar": [
+    {
+      "type": "local",
+      "name": "__local__foo.bar"
+    }
+  ],
+  "f\\o\\o": [
+    {
+      "type": "local",
+      "name": "__local__f\\o\\o"
+    }
+  ],
+  "𝄞♪♩♫♬": [
+    {
+      "type": "local",
+      "name": "__local__𝄞♪♩♫♬"
+    }
+  ],
+  "B&W?": [
+    {
+      "type": "local",
+      "name": "__local__B&W?"
+    }
+  ],
+  "[attr=value]": [
+    {
+      "type": "local",
+      "name": "__local__[attr=value]"
+    }
+  ],
+  "f/o/o": [
+    {
+      "type": "local",
+      "name": "__local__f/o/o"
+    }
+  ],
+  "test": [
+    {
+      "type": "local",
+      "name": "__local__test"
+    }
+  ],
+  "f*o*o": [
+    {
+      "type": "local",
+      "name": "__local__f*o*o"
+    }
+  ],
+  ":hover:focus:active": [
+    {
+      "type": "local",
+      "name": "__local__:hover:focus:active"
+    }
+  ],
+  "f~o~o": [
+    {
+      "type": "local",
+      "name": "__local__f~o~o"
+    }
+  ],
+  "foo/bar/baz": [
+    {
+      "type": "local",
+      "name": "__local__foo/bar/baz"
+    }
+  ],
+  "-a0-34a___f": [
+    {
+      "type": "local",
+      "name": "__local__-a0-34a___f"
+    }
+  ],
+  ":hover": [
+    {
+      "type": "local",
+      "name": "__local__:hover"
+    }
+  ],
+  "?": [
+    {
+      "type": "local",
+      "name": "__local__?"
+    }
+  ],
+  "m_x_@": [
+    {
+      "type": "local",
+      "name": "__local__m_x_@"
+    }
+  ],
+  "@": [
+    {
+      "type": "local",
+      "name": "__local__@"
+    }
+  ],
+  ".": [
+    {
+      "type": "local",
+      "name": "__local__."
+    }
+  ],
+  "<><<<>><>": [
+    {
+      "type": "local",
+      "name": "__local__<><<<>><>"
+    }
+  ],
+  "“‘’”": [
+    {
+      "type": "local",
+      "name": "__local__“‘’”"
+    }
+  ],
+  "#.#.#": [
+    {
+      "type": "local",
+      "name": "__local__#.#.#"
+    }
+  ],
+  "#": [
+    {
+      "type": "local",
+      "name": "__local__#"
+    }
+  ],
+  "subClass": [
+    {
+      "type": "local",
+      "name": "__local__subClass"
+    },
+    {
+      "type": "local",
+      "name": "__local__subClass"
+    }
+  ],
+  "_": [
+    {
+      "type": "local",
+      "name": "__local___"
+    }
+  ],
+  "#fake-id": [
+    {
+      "type": "local",
+      "name": "__local__#fake-id"
+    }
+  ],
+  "f!o!o": [
+    {
+      "type": "local",
+      "name": "__local__f!o!o"
+    }
+  ],
+  "f'o'o": [
+    {
+      "type": "local",
+      "name": "__local__f'o'o"
+    }
+  ],
+  "foo\\bar": [
+    {
+      "type": "local",
+      "name": "__local__foo\\bar"
+    }
+  ],
+  "©": [
+    {
+      "type": "local",
+      "name": "__local__©"
+    }
+  ],
+  ":)": [
+    {
+      "type": "local",
+      "name": "__local__:)"
+    }
+  ],
+  "##": [
+    {
+      "type": "local",
+      "name": "__local__##"
+    }
+  ],
+  "{}": [
+    {
+      "type": "local",
+      "name": "__local__{}"
+    }
+  ],
+  "foo/bar": [
+    {
+      "type": "local",
+      "name": "__local__foo/bar"
+    }
+  ],
+  "++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.": [
+    {
+      "type": "local",
+      "name": "__local__++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>."
+    }
+  ],
+  "foo\\bar\\baz": [
+    {
+      "type": "local",
+      "name": "__local__foo\\bar\\baz"
+    }
+  ],
+  "😍": [
+    {
+      "type": "local",
+      "name": "__local__😍"
+    }
+  ],
+  "1a2b3c": [
+    {
+      "type": "local",
+      "name": "__local__1a2b3c"
+    },
+    {
+      "type": "local",
+      "name": "__local__1a2b3c"
+    }
+  ]
+}

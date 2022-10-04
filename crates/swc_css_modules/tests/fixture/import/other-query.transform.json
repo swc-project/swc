@@ -1,0 +1,8 @@
+{
+  "other-query": [
+    {
+      "type": "local",
+      "name": "__local__other-query"
+    }
+  ]
+}

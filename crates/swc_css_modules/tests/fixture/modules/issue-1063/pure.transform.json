@@ -1,0 +1,14 @@
+{
+  "bar": [
+    {
+      "type": "local",
+      "name": "__local__bar"
+    }
+  ],
+  "foo": [
+    {
+      "type": "local",
+      "name": "__local__foo"
+    }
+  ]
+}

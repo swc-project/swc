@@ -1,0 +1,26 @@
+{
+  "btn-info_is-disabled": [
+    {
+      "type": "local",
+      "name": "__local__btn-info_is-disabled"
+    }
+  ],
+  "btn--info_is-disabled_1": [
+    {
+      "type": "local",
+      "name": "__local__btn--info_is-disabled_1"
+    }
+  ],
+  "simple": [
+    {
+      "type": "local",
+      "name": "__local__simple"
+    }
+  ],
+  "foo_bar": [
+    {
+      "type": "local",
+      "name": "__local__foo_bar"
+    }
+  ]
+}

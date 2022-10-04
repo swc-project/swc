@@ -1,0 +1,6 @@
+@import url("./import-with-layer.css") layer(form);
+@layer form {
+  .__local__bar {
+    color: red;
+  }
+}

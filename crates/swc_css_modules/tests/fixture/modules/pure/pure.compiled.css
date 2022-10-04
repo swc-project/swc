@@ -1,0 +1,32 @@
+.__local__foo {
+  color: red;
+}
+h1 .__local__foo-1 {
+  color: green;
+}
+.__local__foo-2 h1 {
+  color: blue;
+}
+.__local__foo-3 h1 .__local__foo-4 {
+  color: red;
+}
+#foo-5 {
+  color: red;
+}
+h1 #foo-6 {
+  color: green;
+}
+#foo-7 h1 {
+  color: blue;
+}
+#foo-8 h1 #foo-9 {
+  color: red;
+}
+.__local__bar-1  .__local__bar-2, 
+.bar {
+  color: white;
+}
+.__local__baz-3  .__local__bar-4, 
+.__local__baz {
+  color: black;
+}

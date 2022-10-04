@@ -1,0 +1,20 @@
+{
+  "class-10": [
+    {
+      "type": "local",
+      "name": "__local__class-10"
+    }
+  ],
+  "bar-1": [
+    {
+      "type": "local",
+      "name": "__local__bar-1"
+    }
+  ],
+  "class-1": [
+    {
+      "type": "local",
+      "name": "__local__class-1"
+    }
+  ]
+}

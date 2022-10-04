@@ -1,0 +1,15 @@
+.__local__foo-class {
+  color: red;
+}
+.__local__bar-class {
+  color: red;
+}
+.__local__baz-class {
+  color: red;
+}
+.__local__fooBaz-class {
+  color: red;
+}
+.__local__some.__local__class {
+  color: red;
+}

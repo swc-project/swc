@@ -1,0 +1,8 @@
+{
+  "my-box": [
+    {
+      "type": "local",
+      "name": "__local__my-box"
+    }
+  ]
+}

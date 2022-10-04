@@ -1,0 +1,8 @@
+{
+  "bar": [
+    {
+      "type": "local",
+      "name": "__local__bar"
+    }
+  ]
+}

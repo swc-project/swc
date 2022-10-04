@@ -1,0 +1,8 @@
+@value aaa: red;
+@value bbb: green;
+@value ccc: aaa;
+.__local__a {
+  background: aaa;
+  background: bbb;
+  background: ccc;
+}

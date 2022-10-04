@@ -1,0 +1,9 @@
+:import("./vars.icss.css") {
+  IMPORTED_NAME: primary-color;
+}
+.__local__className {
+  color: IMPORTED_NAME;
+}
+:export {
+  primary-color: IMPORTED_NAME;
+}

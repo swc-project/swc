@@ -1,0 +1,17 @@
+.__local__a {
+  animation: 3s animationName;
+}
+.__local__b {
+  animation: animationName 3s;
+}
+.__local__c {
+  animation-name: animationName;
+}
+@keyframes animationName {
+  0% {
+    background: white;
+  }
+  100% {
+    background: red;
+  }
+}

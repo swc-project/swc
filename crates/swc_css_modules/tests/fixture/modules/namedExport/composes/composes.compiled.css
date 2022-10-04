@@ -1,0 +1,19 @@
+@value v_def from './values.css';
+@value v_other-other from './values.css';
+@value s-white from './values.css';
+@value m-small from './values.css';
+.__local__ghi {
+  color: v_def;
+}
+.__local__my-class {
+  color: s-white;
+}
+.__local__other {
+  display: m-small;
+}
+.__local__other-other {
+  width: v_def;
+}
+.__local__green {
+  color: v_other-other;
+}

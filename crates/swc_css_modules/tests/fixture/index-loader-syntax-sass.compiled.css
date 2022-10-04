@@ -1,0 +1,5 @@
+// Uses Sass syntax
+$width: 1px + 4px;
+.__local__baz {
+  width: $width;
+}

@@ -1,0 +1,18 @@
+@value v-def from './values.css';
+@value v-foo from './less-file.less';
+@value v-bar from './scss-file.scss';
+.globalClassName {
+  color: orange;
+}
+.__local__ghi {
+  color: v-def;
+}
+.__local__class {
+  color: v-foo;
+}
+.__local__other {
+  color: v-bar;
+}
+.__local__otherClassName {
+  background: #000;
+}

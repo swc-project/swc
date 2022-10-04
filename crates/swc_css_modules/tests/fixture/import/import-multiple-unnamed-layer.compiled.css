@@ -1,0 +1,5 @@
+@import url("./test.css") layer;
+@import url("./relative.css") layer;
+.__local__foo {
+  color: red;
+}

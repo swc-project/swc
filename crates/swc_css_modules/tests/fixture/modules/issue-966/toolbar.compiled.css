@@ -1,0 +1,4 @@
+@value btn from './button.css';
+.__local__toolbar > btn {
+  color: red;
+}

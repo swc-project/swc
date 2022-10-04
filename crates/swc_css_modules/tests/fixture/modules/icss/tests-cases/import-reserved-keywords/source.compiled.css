@@ -1,0 +1,12 @@
+:import("./vars.css") {
+  constructor: primary-color;
+  toString: secondary-color;
+}
+.__local__className {
+  color: constructor;
+  display: toString;
+}
+:export {
+  primary-color: constructor;
+  secondary-color: toString;
+}
