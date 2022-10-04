@@ -3287,6 +3287,7 @@ version = "0.1.0"
 dependencies = [
  "serde_json",
  "swc_atoms",
+ "swc_common",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_parser",
