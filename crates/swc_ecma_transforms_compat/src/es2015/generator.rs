@@ -617,15 +617,14 @@ impl VisitMut for Generator {
                     if node.op != op!("=") {
                         let left_of_right = self.cache_expression(node.left.take().expect_expr());
 
-                        let op = node.op.to_update().unwrap();
                         node.right.visit_mut_with(self);
 
-                        node.right = Box::new(Expr::Bin(BinExpr {
+                        *e = Expr::Assign(AssignExpr {
                             span: node.right.span(),
-                            op,
-                            left: Box::new(Expr::Ident(left_of_right)),
+                            op: node.op,
+                            left: left_of_right.into(),
                             right: node.right.take(),
-                        }));
+                        });
                     } else {
                         node.right.visit_mut_with(self);
                     }
