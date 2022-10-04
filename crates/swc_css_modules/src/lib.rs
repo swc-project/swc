@@ -1,5 +1,5 @@
-use swc_css_ast::Stylesheet;
-use swc_css_visit::VisitMut;
+use swc_css_ast::{Declaration, Stylesheet};
+use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub mod imports;
 
@@ -18,4 +18,14 @@ where
     config: C,
 }
 
-impl<C> VisitMut for Compiler<C> where C: Config {}
+impl<C> VisitMut for Compiler<C>
+where
+    C: Config,
+{
+    /// Handles `composes`
+    fn visit_mut_declaration(&mut self, n: &mut Declaration) {
+        n.visit_mut_children_with(self);
+
+        // TODO: Handle composes
+    }
+}
