@@ -24,12 +24,8 @@ pub enum Segment {
 /// This is a trait rather than a struct because api like `fn() -> String` is
 /// too restricted and `Box<Fn() -> String` is (needlessly) slow.
 pub trait Config {
-    fn write_file_name(&self, to: &mut String);
-
-    fn write_hash_of_file_name(&self, to: &mut String);
-
-    /// Pattern for the class names.
-    fn pattern(&self) -> &[Segment];
+    /// Creates a class name for the given `local_name`.
+    fn get_class_name(&self, local: &JsWord) -> JsWord;
 
     fn load_composes(
         &mut self,
@@ -199,21 +195,10 @@ where
         if let ComplexSelectorChildren::CompoundSelector(sel) = children {
             for sel in &mut sel.subclass_selectors {
                 if let swc_css_ast::SubclassSelector::Class(sel) = sel {
-                    let pattern = config.pattern();
-
-                    let mut buf = String::new();
-
-                    for segment in pattern {
-                        match segment {
-                            Segment::Literal(lit) => buf.push_str(lit),
-                            Segment::Name => config.write_file_name(&mut buf),
-                            Segment::Local => buf.push_str(&sel.text.value),
-                            Segment::Hash => config.write_hash_of_file_name(&mut buf),
-                        }
-                    }
+                    let new = config.get_class_name(&sel.text.value);
 
                     sel.text.raw = None;
-                    sel.text.value = buf.into();
+                    sel.text.value = new;
                 }
             }
         }
