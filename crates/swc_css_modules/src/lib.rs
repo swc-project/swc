@@ -63,16 +63,16 @@ where
         if let DeclarationName::Ident(name) = &n.name {
             if &*name.value == "composes" {
                 // comoses: name from 'foo.css'
-                if n.value.len() == 3 {
+                if n.value.len() >= 3 {
                     if let (
-                        ComponentValue::Ident(class_name),
                         ComponentValue::Ident(Ident {
                             value: js_word!("from"),
                             ..
                         }),
                         ComponentValue::Str(import_source),
-                    ) = (&n.value[0], &n.value[1], &n.value[2])
-                    {}
+                    ) = (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1])
+                    {
+                    }
                 }
             }
         }

@@ -2,8 +2,8 @@
 
 use swc_atoms::{js_word, JsWord};
 use swc_css_ast::{
-    ComponentValue, Declaration, DeclarationName, ImportPrelude, ImportPreludeHref, Stylesheet,
-    UrlValue,
+    ComponentValue, Declaration, DeclarationName, Ident, ImportPrelude, ImportPreludeHref,
+    Stylesheet, UrlValue,
 };
 use swc_css_visit::{Visit, VisitWith};
 
@@ -48,16 +48,16 @@ impl Visit for Analyzer {
         if let DeclarationName::Ident(name) = &d.name {
             if &*name.value == "composes" {
                 // comoses: name from 'foo.css'
-                if d.value.len() == 3 {
-                    match (&d.value[0], &d.value[1], &d.value[2]) {
-                        (
-                            ComponentValue::Ident(..),
-                            ComponentValue::Ident(from),
-                            ComponentValue::Str(s),
-                        ) if from.value == js_word!("from") => {
-                            self.imports.push(s.value.clone());
-                        }
-                        _ => {}
+                if d.value.len() >= 3 {
+                    if let (
+                        ComponentValue::Ident(Ident {
+                            value: js_word!("from"),
+                            ..
+                        }),
+                        ComponentValue::Str(s),
+                    ) = (&d.value[d.value.len() - 2], &d.value[d.value.len() - 1])
+                    {
+                        self.imports.push(s.value.clone());
                     }
                 }
             }
