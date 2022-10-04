@@ -1,6 +1,7 @@
 use swc_css_ast::{
     ComplexSelector, CompoundSelector, Declaration, PseudoClassSelector, SelectorList, Stylesheet,
 };
+use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
 use util::to_tokens::to_tokens_vec;
 
@@ -59,15 +60,28 @@ where
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         n.visit_mut_children_with(self);
 
-        match &*n.name.value {
-            "local" => {
-                if let Some(children) = &mut n.children {
-                    let tokens = to_tokens_vec(&*children);
-                }
-            }
-            "global" => {}
+        if let Some(current) = &mut self.data.current_selectors {
+            match &*n.name.value {
+                "local" => {
+                    if let Some(children) = &mut n.children {
+                        let tokens = to_tokens_vec(&*children);
 
-            _ => {}
+                        let sel = swc_css_parser::parse_tokens(
+                            &tokens,
+                            ParserConfig {
+                                ..Default::default()
+                            },
+                            &mut vec![],
+                        )
+                        .unwrap();
+
+                        current.push(sel);
+                    }
+                }
+                "global" => {}
+
+                _ => {}
+            }
         }
     }
 }
