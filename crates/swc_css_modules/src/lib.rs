@@ -123,6 +123,27 @@ where
         self.data.composes_for_current = old_compose_stack;
     }
 
+    fn visit_mut_component_values(&mut self, n: &mut Vec<ComponentValue>) {
+        n.visit_mut_children_with(self);
+
+        n.retain(|v| match v {
+            ComponentValue::DeclarationOrAtRule(v) => {
+                if let swc_css_ast::DeclarationOrAtRule::Declaration(d) = v {
+                    if let DeclarationName::Ident(ident) = &d.name {
+                        if &*ident.value == "composes" {
+                            return false;
+                        }
+                    }
+
+                    true
+                } else {
+                    true
+                }
+            }
+            _ => true,
+        });
+    }
+
     /// Handles `composes`
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
