@@ -37,10 +37,17 @@ where
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         n.visit_mut_children_with(self);
 
-        if &*n.name.value == "local" {
-            for s in &mut n.children {
-                dbg!(&*s);
+        match &*n.name.value {
+            "local" => {
+                if let Some(children) = &mut n.children {
+                    for s in children {
+                        match s {}
+                    }
+                }
             }
+            "global" => {}
+
+            _ => {}
         }
     }
 }
