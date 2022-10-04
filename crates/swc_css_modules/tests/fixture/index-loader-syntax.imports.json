@@ -1,0 +1,8 @@
+[
+  "other.modules.css!=!./index-loader-syntax.modules.css",
+  "plain.scss!=!./index-loader-syntax-sass.css",
+  "other.modules.scss!=!./index-loader-syntax-sass.modules.css",
+  "other.modules.css!=!./my-inline-loader!./index-loader-syntax.modules.css",
+  "plain.scss!=!./my-inline-loader!./index-loader-syntax.modules.css",
+  "other.modules.scss!=!./my-inline-loader!./index-loader-syntax-sass.modules.css"
+]

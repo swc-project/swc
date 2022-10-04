@@ -1,0 +1,10 @@
+[
+  "./test-other.css",
+  "./imported-simple.css",
+  "./relative.css",
+  "./top-relative.css",
+  "../issue-861/node_modules/package/style.css",
+  "~aliasesComposes/alias.css",
+  "./alias.css",
+  "sass-loader!./scss-file.scss"
+]
