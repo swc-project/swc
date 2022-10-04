@@ -82,6 +82,8 @@ struct Data {
     composes_for_current: Option<Vec<CssClassName>>,
 
     current_selectors: Option<Vec<ComplexSelector>>,
+
+    renamed_to_orig: FxHashMap<JsWord, JsWord>,
 }
 
 impl<C> VisitMut for Compiler<C>
@@ -102,11 +104,15 @@ where
                     if sel.subclass_selectors.len() == 1 {
                         if let SubclassSelector::Class(class_sel) = &sel.subclass_selectors[0] {
                             if let Some(composes) = self.data.composes_for_current.take() {
-                                self.result
-                                    .classes
-                                    .entry(class_sel.text.value.clone())
-                                    .or_default()
-                                    .extend(composes);
+                                let key = self
+                                    .data
+                                    .renamed_to_orig
+                                    .get(&class_sel.text.value)
+                                    .cloned();
+
+                                if let Some(key) = key {
+                                    self.result.classes.entry(key).or_default().extend(composes);
+                                }
                             }
                         }
                     }
@@ -204,7 +210,12 @@ where
             ComplexSelectorChildren::Combinator(..) => true,
         });
 
-        process_local(&mut self.config, &mut self.result, n);
+        process_local(
+            &mut self.config,
+            &mut self.result,
+            &mut self.data.renamed_to_orig,
+            n,
+        );
     }
 
     fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
@@ -241,7 +252,12 @@ where
                         )
                         .unwrap();
 
-                        process_local(&mut self.config, &mut self.result, &mut sel);
+                        process_local(
+                            &mut self.config,
+                            &mut self.result,
+                            &mut self.data.renamed_to_orig,
+                            &mut sel,
+                        );
 
                         n.name.take();
 
@@ -273,8 +289,12 @@ where
     }
 }
 
-fn process_local<C>(config: &mut C, result: &mut TransformResult, sel: &mut ComplexSelector)
-where
+fn process_local<C>(
+    config: &mut C,
+    result: &mut TransformResult,
+    renamed_to_orig: &mut FxHashMap<JsWord, JsWord>,
+    sel: &mut ComplexSelector,
+) where
     C: TransformConfig,
 {
     for children in &mut sel.children {
@@ -288,6 +308,8 @@ where
                         .entry(sel.text.value.clone())
                         .or_default()
                         .push(CssClassName::Local { name: new.clone() });
+
+                    renamed_to_orig.insert(new.clone(), sel.text.value.clone());
 
                     sel.text.raw = None;
                     sel.text.value = new;
