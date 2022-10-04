@@ -9,7 +9,11 @@ pub mod imports;
 /// too restricted and `Box<Fn() -> String` is (needlessly) slow.
 pub trait Config {}
 
-pub fn compile(ss: &mut Stylesheet, config: impl Config) {}
+pub fn compile(ss: &mut Stylesheet, config: impl Config) {
+    let mut compiler = Compiler { config };
+
+    ss.visit_mut_with(&mut compiler);
+}
 
 struct Compiler<C>
 where
@@ -29,9 +33,12 @@ where
         // TODO: Handle composes
     }
 
+    /// Handle :local and :global
     fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
         n.visit_mut_children_with(self);
 
-        // Handle :local and :global
+        for s in &mut n.children {
+            dbg!(&*s);
+        }
     }
 }
