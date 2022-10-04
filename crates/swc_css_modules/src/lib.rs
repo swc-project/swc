@@ -27,12 +27,7 @@ pub trait Config {
     /// Creates a class name for the given `local_name`.
     fn get_class_name(&self, local: &JsWord) -> JsWord;
 
-    fn load_composes(
-        &mut self,
-        class_name: &JsWord,
-        import_source: &JsWord,
-        to: &mut Vec<Declaration>,
-    );
+    fn load_composes(&mut self, class_name: &JsWord, import_source: &JsWord) -> Vec<Declaration>;
 }
 
 pub fn compile(ss: &mut Stylesheet, config: impl Config) {
