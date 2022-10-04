@@ -230,6 +230,50 @@ impl ForOf {
                 },
             ];
 
+            let mut body = match *body {
+                Stmt::Block(b) => b,
+                _ => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![*body],
+                },
+            };
+
+            match left {
+                VarDeclOrPat::VarDecl(var) => {
+                    assert_eq!(
+                        var.decls.len(),
+                        1,
+                        "Variable declarator of for of loop cannot contain multiple entries"
+                    );
+                    prepend_stmt(
+                        &mut body.stmts,
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: var.kind,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: var.decls.into_iter().next().unwrap().name,
+                                init: Some(step.clone().make_member(quote_ident!("value")).into()),
+                                definite: false,
+                            }],
+                        }
+                        .into(),
+                    )
+                }
+
+                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                    &mut body.stmts,
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: pat.into(),
+                        op: op!("="),
+                        right: step.clone().make_member(quote_ident!("value")).into(),
+                    }
+                    .into_stmt(),
+                ),
+            }
+
             // !(_step = _iterator()).done;
             let test = Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
@@ -237,10 +281,10 @@ impl ForOf {
                 arg: AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: step.clone().into(),
+                    left: step.into(),
                     right: CallExpr {
                         span: DUMMY_SP,
-                        callee: iterator.clone().as_callee(),
+                        callee: iterator.as_callee(),
                         args: vec![],
                         type_args: Default::default(),
                     }
@@ -263,7 +307,7 @@ impl ForOf {
                 ),
                 test: Some(test),
                 update: None,
-                body,
+                body: Box::new(Stmt::Block(body)),
             });
             return match label {
                 Some(label) => LabeledStmt {
