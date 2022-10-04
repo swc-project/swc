@@ -10125,6 +10125,7 @@ fn feedback_regex_range() {
             ']'
             /* eslint-enable prettier/prettier */
         );
+        console.log('PASS')
     "###;
 
     run_default_exec_test(src);
