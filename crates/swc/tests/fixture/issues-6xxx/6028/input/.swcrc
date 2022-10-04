@@ -7,8 +7,5 @@
         "target": "es5",
         "loose": true
     },
-    "module": {
-        "type": "commonjs"
-    },
     "isModule": false
 }
