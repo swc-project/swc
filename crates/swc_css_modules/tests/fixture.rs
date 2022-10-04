@@ -1,12 +1,10 @@
 use std::path::PathBuf;
 
 use swc_atoms::JsWord;
-use swc_css_ast::{ComponentValue, Declaration, Ident};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
 };
-use swc_css_modules::Segment;
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
@@ -42,16 +40,7 @@ fn compile(input: PathBuf) {
         let mut ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
         let result = swc_css_modules::imports::analyze_imports(&ss);
 
-        swc_css_modules::compile(
-            &mut ss,
-            TestConfig {
-                pattern: vec![
-                    Segment::Literal("test".into()),
-                    Segment::Hash,
-                    Segment::Local,
-                ],
-            },
-        );
+        let transform_result = swc_css_modules::compile(&mut ss, TestConfig {});
 
         let mut buf = String::new();
         {
@@ -81,21 +70,24 @@ fn compile(input: PathBuf) {
             )))
             .unwrap();
 
+        let transformed_classes = serde_json::to_string_pretty(&transform_result.classes).unwrap();
+
+        NormalizedOutput::from(transformed_classes)
+            .compare_to_file(input.with_file_name(format!(
+                "{}.transform.json",
+                input.file_stem().unwrap().to_string_lossy()
+            )))
+            .unwrap();
+
         Ok(())
     })
     .unwrap();
 }
 
-struct TestConfig {
-    pattern: Vec<Segment>,
-}
+struct TestConfig {}
 
 impl swc_css_modules::TransformConfig for TestConfig {
     fn get_class_name(&self, local: &JsWord) -> JsWord {
         format!("__local__{}", local).into()
-    }
-
-    fn get_value(&self, import_source: &str, value_name: &JsWord) -> ComponentValue {
-        todo!()
     }
 }
