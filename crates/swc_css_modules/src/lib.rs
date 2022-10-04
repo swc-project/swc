@@ -57,8 +57,9 @@ where
             self.data.current_selectors = Some(vec![]);
             sel.visit_mut_with(self);
 
-            dbg!(&sel);
-            new.push(sel.take());
+            if !sel.children.is_empty() {
+                new.push(sel.take());
+            }
 
             let cur = self.data.current_selectors.take();
             if let Some(cur) = cur {
@@ -80,7 +81,7 @@ where
                     || !s.subclass_selectors.is_empty()
                     || s.type_selector.is_some()
             }
-            swc_css_ast::ComplexSelectorChildren::Combinator(s) => true,
+            swc_css_ast::ComplexSelectorChildren::Combinator(..) => true,
         });
     }
 
