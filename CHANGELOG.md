@@ -11,6 +11,9 @@
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
+- **(es/compat)** Fix handling of deep array pattern of object rest pass (#6035) ([0c67a3a](https://github.com/swc-project/swc/commit/0c67a3adbaec69d72016fe7c525223888d34ef3e))
+
+
 - **(es/minifier)** Don't inline into nested scope (#6002) ([2ee3ad0](https://github.com/swc-project/swc/commit/2ee3ad00663a515697769cef55ad5606e14943da))
 
 

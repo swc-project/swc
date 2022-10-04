@@ -1,7 +1,8 @@
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::spread,
+    es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
 use swc_ecma_transforms_testing::{test, test_exec};
@@ -3100,4 +3101,45 @@ expect(counter).toEqual(0);
 a.c;a.c;
 expect(counter).toEqual(2);
 "#
+);
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_6029_1,
+    r#"
+  function thing({ queryKey: [{ url, ...query }] }) {
+      expect(url).toEqual('https://www.google.com')
+      expect(query).toEqual({ id: '1' })
+  }
+
+  thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
+  "#
+);
+
+test_exec!(
+    syntax(),
+    |t| {
+        //
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(Default::default()),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
+        )
+    },
+    issue_6029_2,
+    r#"
+    function thing({ queryKey: [{ url, ...query }] }) {
+        expect(url).toEqual('https://www.google.com')
+        expect(query).toEqual({ id: '1' })
+    }
+
+    thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
+    "#
 );
