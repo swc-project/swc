@@ -2,7 +2,7 @@ use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
-    es2015::{self, destructuring, spread},
+    es2015::{self, spread},
     es2018::{object_rest_spread, object_rest_spread::Config},
 };
 use swc_ecma_transforms_testing::{test, test_exec};
