@@ -3109,8 +3109,8 @@ test_exec!(
     issue_6029_1,
     r#"
   function thing({ queryKey: [{ url, ...query }] }) {
-    console.log(url);
-    console.log(query);
+      expect(url).toEqual('https://www.google.com')
+      expect(query).toEqual({ id: 1 })
   }
 
   thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
@@ -3136,8 +3136,8 @@ test_exec!(
     issue_6029_2,
     r#"
     function thing({ queryKey: [{ url, ...query }] }) {
-      console.log(url);
-      console.log(query);
+        expect(url).toEqual('https://www.google.com')
+        expect(query).toEqual({ id: 1 })
     }
 
     thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
