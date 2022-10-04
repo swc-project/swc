@@ -12,6 +12,8 @@ pub fn analyze_imports(ss: &Stylesheet) -> Vec<JsWord> {
         imports: Default::default(),
     };
     ss.visit_with(&mut v);
+    v.imports.sort();
+    v.imports.dedup();
     v.imports
 }
 
