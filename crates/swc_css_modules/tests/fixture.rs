@@ -10,6 +10,10 @@ fn imports(input: PathBuf) {
         let ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
         let result = swc_css_modules::analyzer::analyze_imports(&ss);
 
+        if result.is_empty() {
+            return Ok(());
+        }
+
         let s = serde_json::to_string_pretty(&result).unwrap();
         NormalizedOutput::from(s)
             .compare_to_file(input.with_file_name(format!(
