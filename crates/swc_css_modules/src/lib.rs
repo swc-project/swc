@@ -5,7 +5,7 @@ use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
     DeclarationName, DeclarationOrAtRule, Ident, PseudoClassSelector, QualifiedRule,
-    QualifiedRulePrelude, SelectorList, Stylesheet, SubclassSelector,
+    QualifiedRulePrelude, SelectorList, StyleBlock, Stylesheet, SubclassSelector,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -119,6 +119,7 @@ where
                 }
             }
         }
+        dbg!(&*n);
 
         self.data.composes_for_current = old_compose_stack;
     }
@@ -127,7 +128,8 @@ where
         n.visit_mut_children_with(self);
 
         n.retain(|v| match v {
-            ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(d)) => {
+            ComponentValue::StyleBlock(StyleBlock::Declaration(d))
+            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::Declaration(d)) => {
                 if let DeclarationName::Ident(ident) = &d.name {
                     if &*ident.value == "composes" {
                         return false;
