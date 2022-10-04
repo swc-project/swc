@@ -1,4 +1,6 @@
-use swc_css_ast::{Declaration, PseudoClassSelector, SelectorList, Stylesheet};
+use swc_css_ast::{
+    ComplexSelector, CompoundSelector, Declaration, PseudoClassSelector, SelectorList, Stylesheet,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 use util::to_tokens::to_tokens_vec;
 
@@ -12,7 +14,10 @@ mod util;
 pub trait Config {}
 
 pub fn compile(ss: &mut Stylesheet, config: impl Config) {
-    let mut compiler = Compiler { config };
+    let mut compiler = Compiler {
+        config,
+        data: Default::default(),
+    };
 
     ss.visit_mut_with(&mut compiler);
 }
@@ -22,6 +27,12 @@ where
     C: Config,
 {
     config: C,
+    data: Data,
+}
+
+#[derive(Default)]
+struct Data {
+    current_selectors: Option<Vec<ComplexSelector>>,
 }
 
 impl<C> VisitMut for Compiler<C>
@@ -36,10 +47,11 @@ where
     }
 
     fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
-        n.visit_mut_children_with(self);
-
         for sel in &mut n.children {
-            dbg!(&*sel);
+            let old = self.data.current_selectors.take();
+            self.data.current_selectors = Some(vec![]);
+            sel.visit_mut_with(self);
+            self.data.current_selectors = old;
         }
     }
 
