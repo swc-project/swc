@@ -84,7 +84,7 @@ impl ForOf {
             ..
         }: ForOfStmt,
     ) -> Stmt {
-        if right.is_array() || self.c.assume_array {
+        if right.is_array() {
             // Convert to normal for loop if rhs is array
             //
             // babel's output:
@@ -188,6 +188,57 @@ impl ForOf {
                 body: Box::new(Stmt::Block(body)),
             });
 
+            return match label {
+                Some(label) => LabeledStmt {
+                    span,
+                    label,
+                    body: Box::new(stmt),
+                }
+                .into(),
+                _ => stmt,
+            };
+        }
+
+        // Loose mode
+        if self.c.assume_array {
+            let iterator = private_ident!("_iterator");
+            let step = private_ident!("_step");
+
+            // !(_step = _iterator()).done;
+            let test = Box::new(Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("!"),
+                arg: AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: step.clone().into(),
+                    right: CallExpr {
+                        span: DUMMY_SP,
+                        callee: iterator.clone().as_callee(),
+                        args: vec![],
+                        type_args: Default::default(),
+                    }
+                    .into(),
+                }
+                .make_member(quote_ident!("done"))
+                .into(),
+            }));
+
+            let stmt = Stmt::For(ForStmt {
+                span,
+                init: Some(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls,
+                    }
+                    .into(),
+                ),
+                test: Some(test),
+                update: None,
+                body: Box::new(Stmt::Block(body)),
+            });
             return match label {
                 Some(label) => LabeledStmt {
                     span,
