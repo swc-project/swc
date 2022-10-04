@@ -4,7 +4,10 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
+use swc_ecma_transforms_base::{
+    helper,
+    perf::{ParExplode, Parallel},
+};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
@@ -204,6 +207,29 @@ impl ForOf {
             let iterator = private_ident!("_iterator");
             let step = private_ident!("_step");
 
+            let mut decls = vec![
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: iterator.clone().into(),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(
+                            create_for_of_iterator_helper_loose,
+                            "createForOfIteratorHelperLoose"
+                        ),
+                        args: vec![right.as_arg()],
+                        type_args: Default::default(),
+                    }))),
+                    definite: Default::default(),
+                },
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: step.clone().into(),
+                    init: None,
+                    definite: Default::default(),
+                },
+            ];
+
             // !(_step = _iterator()).done;
             let test = Box::new(Expr::Unary(UnaryExpr {
                 span: DUMMY_SP,
@@ -237,7 +263,7 @@ impl ForOf {
                 ),
                 test: Some(test),
                 update: None,
-                body: Box::new(Stmt::Block(body)),
+                body,
             });
             return match label {
                 Some(label) => LabeledStmt {
