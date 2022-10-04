@@ -110,7 +110,7 @@ where
                     if let Some(children) = &mut n.children {
                         let tokens = to_tokens_vec(&*children);
 
-                        let sel = swc_css_parser::parse_tokens(
+                        let mut sel = swc_css_parser::parse_tokens(
                             &tokens,
                             ParserConfig {
                                 ..Default::default()
@@ -118,6 +118,8 @@ where
                             &mut vec![],
                         )
                         .unwrap();
+
+                        process_local(&mut self.config, &mut sel);
 
                         n.name.take();
 
@@ -130,4 +132,10 @@ where
             }
         }
     }
+}
+
+fn process_local<C>(config: &mut C, sel: &mut ComplexSelector)
+where
+    C: Config,
+{
 }
