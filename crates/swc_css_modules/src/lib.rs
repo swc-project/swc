@@ -4,7 +4,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, Ident, PseudoClassSelector, SelectorList, Stylesheet,
+    DeclarationName, Ident, PseudoClassSelector, QualifiedRule, QualifiedRulePrelude, SelectorList,
+    Stylesheet, SubclassSelector,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -77,6 +78,9 @@ where
 
 #[derive(Default)]
 struct Data {
+    /// Context for `composes`
+    current_class_name: Option<JsWord>,
+
     current_selectors: Option<Vec<ComplexSelector>>,
 }
 
@@ -84,6 +88,36 @@ impl<C> VisitMut for Compiler<C>
 where
     C: TransformConfig,
 {
+    fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
+        let old_class_name = self.data.current_class_name.take();
+
+        match &n.prelude {
+            QualifiedRulePrelude::ListOfComponentValues(_) => {}
+            QualifiedRulePrelude::SelectorList(sel) => {
+                //
+                if sel.children.len() == 1 && sel.children[0].children.len() == 1 {
+                    match &sel.children[0].children[0] {
+                        ComplexSelectorChildren::CompoundSelector(sel) => {
+                            if sel.subclass_selectors.len() == 1 {
+                                if let SubclassSelector::Class(class_sel) =
+                                    &sel.subclass_selectors[0]
+                                {
+                                    self.data.current_class_name =
+                                        Some(class_sel.text.value.clone());
+                                }
+                            }
+                        }
+                        ComplexSelectorChildren::Combinator(_) => {}
+                    }
+                }
+            }
+        }
+
+        n.visit_mut_children_with(self);
+
+        self.data.current_class_name = old_class_name;
+    }
+
     /// Handles `composes`
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
