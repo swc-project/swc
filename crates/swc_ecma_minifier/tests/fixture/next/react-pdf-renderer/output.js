@@ -1557,7 +1557,7 @@
                     for(var n = e[r], i = void 0, o = 0; i = eL.exec(n.string);){
                         var a = i.index, u = i[0], l = n.attributes.fontSize, s = n.string.slice(o, a + i[0].length);
                         eN[u] && eN[u].data ? t.push({
-                            string: s.replace(i, "￼"),
+                            string: s.replace(i, String.fromCharCode(0xfffc)),
                             attributes: U.default({}, n.attributes, {
                                 attachment: {
                                     width: l,
@@ -2233,7 +2233,7 @@
                 }, k = 0; k < r.children.length; k += 1){
                     var O, C, P, F = r.children[k];
                     F.type === T.Image ? o.push({
-                        string: "￼",
+                        string: String.fromCharCode(0xfffc),
                         attributes: U.default({}, A, {
                             attachment: {
                                 width: F.style.width || h,
@@ -5422,15 +5422,19 @@
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
-            var i = r(4354), o = n(r(4573)), a = n(r(9845)), u = function(e) {
-                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (u = (0, i.last)(t)) || void 0 === u ? void 0 : null === (l = u.attributes) || void 0 === l ? void 0 : l.font;
+            var i = r(4354), o = n(r(4573)), a = n(r(9845)), u = String.fromCharCode(8230), l = function(e) {
+                if (!e.encode) return 8230;
+                var t = e.encode(u)[0];
+                return parseInt(t[0], 16);
+            }, s = function(e) {
+                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (u = (0, i.last)(t)) || void 0 === u ? void 0 : null === (s = u.attributes) || void 0 === s ? void 0 : s.font;
                 if (r) {
-                    var n, u, l, s, c = e.length - 1, f = r.encode ? parseInt(r.encode("…")[0][0], 16) : 8230, d = r.glyphForCodePoint(f), p = (0, a.default)(d, (0, o.default)(e[c]));
-                    return Object.assign([], e, ((s = {})[c] = p, s));
+                    var n, u, s, c, f = e.length - 1, d = l(r), p = r.glyphForCodePoint(d), h = (0, a.default)(p, (0, o.default)(e[f]));
+                    return Object.assign([], e, ((c = {})[f] = h, c));
                 }
                 return e;
             };
-            t.default = u;
+            t.default = s;
         },
         7518: function(e, t) {
             "use strict";
