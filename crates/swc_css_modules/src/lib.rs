@@ -34,18 +34,26 @@ pub trait TransformConfig {
     fn get_value(&self, import_source: &str, value_name: &JsWord) -> ComponentValue;
 }
 
-/// A class name for use in ECMAScript.
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub enum EsClassName {
-    Local { name: JsWord },
-    Global { name: JsWord },
-    Import { name: JsWord, from: JsWord },
+pub enum CssClassName {
+    Local {
+        name: JsWord,
+    },
+    Global {
+        name: JsWord,
+    },
+    Import {
+        /// The exported class name
+        name: JsWord,
+        /// The module specifier.
+        from: JsWord,
+    },
 }
 
 #[derive(Debug, Clone)]
 pub struct CompileResult {
     /// A map of js class name to css class names.
-    pub classes: FxHashMap<JsWord, Vec<EsClassName>>,
+    pub classes: FxHashMap<JsWord, Vec<CssClassName>>,
 }
 
 /// Returns a map from local name to exported name.
@@ -103,7 +111,7 @@ where
                                         .classes
                                         .entry(name.value.clone())
                                         .or_default()
-                                        .push(EsClassName::Import {
+                                        .push(CssClassName::Import {
                                             name: value.clone(),
                                             from: import_source.value.clone(),
                                         });
@@ -126,7 +134,7 @@ where
                                         .classes
                                         .entry(name.value.clone())
                                         .or_default()
-                                        .push(EsClassName::Global {
+                                        .push(CssClassName::Global {
                                             name: value.clone(),
                                         });
                                 }
