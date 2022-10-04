@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_atoms::JsWord;
-use swc_css_ast::{Declaration, Ident};
+use swc_css_ast::{ComponentValue, Declaration, Ident};
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
@@ -90,12 +90,12 @@ struct TestConfig {
     pattern: Vec<Segment>,
 }
 
-impl swc_css_modules::Config for TestConfig {
+impl swc_css_modules::TransformConfig for TestConfig {
     fn get_class_name(&self, local: &JsWord) -> JsWord {
         format!("__local__{}", local).into()
     }
 
-    fn load_composes(&mut self, class_name: &JsWord, import_source: &JsWord) -> Ident {
+    fn get_value(&self, import_source: &str, value_name: &JsWord) -> ComponentValue {
         todo!()
     }
 }

@@ -22,11 +22,16 @@ pub enum Segment {
 
 /// Various configurations for the css modules.
 ///
+/// # Note
+///
 /// This is a trait rather than a struct because api like `fn() -> String` is
 /// too restricted and `Box<Fn() -> String` is (needlessly) slow.
-pub trait Config {
+pub trait TransformConfig {
     /// Creates a class name for the given `local_name`.
     fn get_class_name(&self, local: &JsWord) -> JsWord;
+
+    /// Used for `@value` imports.
+    fn get_value(&self, import_source: &str, value_name: &JsWord) -> ComponentValue;
 }
 
 /// A class name for use in ECMAScript.
@@ -37,27 +42,34 @@ pub enum EsClassName {
     Import { name: JsWord, from: JsWord },
 }
 
+#[derive(Debug, Clone)]
 pub struct CompileResult {
     /// A map of js class name to css class names.
     pub classes: FxHashMap<JsWord, Vec<EsClassName>>,
 }
 
 /// Returns a map from local name to exported name.
-pub fn compile(ss: &mut Stylesheet, config: impl Config) -> CompileResult {
+pub fn compile(ss: &mut Stylesheet, config: impl TransformConfig) -> CompileResult {
     let mut compiler = Compiler {
         config,
         data: Default::default(),
+        result: CompileResult {
+            classes: Default::default(),
+        },
     };
 
     ss.visit_mut_with(&mut compiler);
+
+    compiler.result
 }
 
 struct Compiler<C>
 where
-    C: Config,
+    C: TransformConfig,
 {
     config: C,
     data: Data,
+    result: CompileResult,
 }
 
 #[derive(Default)]
@@ -67,7 +79,7 @@ struct Data {
 
 impl<C> VisitMut for Compiler<C>
 where
-    C: Config,
+    C: TransformConfig,
 {
     /// Handles `composes`
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
@@ -77,19 +89,50 @@ where
             if &*name.value == "composes" {
                 // comoses: name from 'foo.css'
                 if n.value.len() >= 3 {
-                    if let (
-                        ComponentValue::Ident(Ident {
-                            value: js_word!("from"),
-                            ..
-                        }),
-                        ComponentValue::Str(import_source),
-                    ) = (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1])
-                    {
-                        for class_name in n.value.iter().take(n.value.len() - 2) {
-                            if let ComponentValue::Ident(Ident { value, .. }) = class_name {
-                                self.config.load_composes(value, &import_source.value);
+                    match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
+                        (
+                            ComponentValue::Ident(Ident {
+                                value: js_word!("from"),
+                                ..
+                            }),
+                            ComponentValue::Str(import_source),
+                        ) => {
+                            for class_name in n.value.iter().take(n.value.len() - 2) {
+                                if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                                    self.result
+                                        .classes
+                                        .entry(name.value.clone())
+                                        .or_default()
+                                        .push(EsClassName::Import {
+                                            name: value.clone(),
+                                            from: import_source.value.clone(),
+                                        });
+                                }
                             }
                         }
+                        (
+                            ComponentValue::Ident(Ident {
+                                value: js_word!("from"),
+                                ..
+                            }),
+                            ComponentValue::Ident(Ident {
+                                value: js_word!("global"),
+                                ..
+                            }),
+                        ) => {
+                            for class_name in n.value.iter().take(n.value.len() - 2) {
+                                if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                                    self.result
+                                        .classes
+                                        .entry(name.value.clone())
+                                        .or_default()
+                                        .push(EsClassName::Global {
+                                            name: value.clone(),
+                                        });
+                                }
+                            }
+                        }
+                        _ => (),
                     }
                 }
             }
@@ -202,7 +245,7 @@ where
 
 fn process_local<C>(config: &mut C, sel: &mut ComplexSelector)
 where
-    C: Config,
+    C: TransformConfig,
 {
     for children in &mut sel.children {
         if let ComplexSelectorChildren::CompoundSelector(sel) = children {
