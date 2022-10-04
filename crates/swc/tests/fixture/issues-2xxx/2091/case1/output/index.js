@@ -1,1 +1,1 @@
-export function test(list){var cur=list.findIndex(function(p){return 1==p});~cur||(cur=list.findIndex(function(p){return 0!==p}));for(var _i=0;_i<list.length;_i++)cur+=list[_i].value;return cur}
+import _create_for_of_iterator_helper_loose from"@swc/helpers/src/_create_for_of_iterator_helper_loose.mjs";export function test(list){var cur=list.findIndex(function(p){return 1==p});~cur||(cur=list.findIndex(function(p){return 0!==p}));for(var _step,_iterator=_create_for_of_iterator_helper_loose(list);!(_step=_iterator()).done;)cur+=_step.value.value;return cur}
