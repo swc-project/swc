@@ -1,13 +1,7 @@
 [
   "./order-1.css",
-  "http://example.com/style.css",
   "./order-2.css",
-  "http://example.com/style.css",
-  "./order-1.css",
-  "http://example.com/style.css",
-  "./order-2.css",
-  "http://example.com/style.css",
   "./order-3.css",
-  "http://example.com/style.css",
-  "./order-4.css"
+  "./order-4.css",
+  "http://example.com/style.css"
 ]
