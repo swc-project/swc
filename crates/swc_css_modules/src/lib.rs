@@ -1,4 +1,4 @@
-use swc_css_ast::{Declaration, SelectorList, Stylesheet};
+use swc_css_ast::{Declaration, PseudoClassSelector, SelectorList, Stylesheet};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub mod imports;
@@ -34,11 +34,13 @@ where
     }
 
     /// Handle :local and :global
-    fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
         n.visit_mut_children_with(self);
 
-        for s in &mut n.children {
-            dbg!(&*s);
+        if &*n.name.value == "local" {
+            for s in &mut n.children {
+                dbg!(&*s);
+            }
         }
     }
 }
