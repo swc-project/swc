@@ -6,7 +6,7 @@ use swc_css_codegen::{
 };
 use testing::NormalizedOutput;
 
-#[testing::fixture("tests/fixture/**/*.css")]
+#[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
 fn imports(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
@@ -31,7 +31,7 @@ fn imports(input: PathBuf) {
     .unwrap();
 }
 
-#[testing::fixture("tests/fixture/**/*.css")]
+#[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
 fn compile(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
