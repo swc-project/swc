@@ -122,54 +122,56 @@ where
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        if let DeclarationName::Ident(name) = &n.name {
-            if &*name.value == "composes" {
-                // comoses: name from 'foo.css'
-                if n.value.len() >= 3 {
-                    match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
-                        (
-                            ComponentValue::Ident(Ident {
-                                value: js_word!("from"),
-                                ..
-                            }),
-                            ComponentValue::Str(import_source),
-                        ) => {
-                            for class_name in n.value.iter().take(n.value.len() - 2) {
-                                if let ComponentValue::Ident(Ident { value, .. }) = class_name {
-                                    self.result
-                                        .classes
-                                        .entry(name.value.clone())
-                                        .or_default()
-                                        .push(CssClassName::Import {
-                                            name: value.clone(),
-                                            from: import_source.value.clone(),
-                                        });
+        if let Some(current_class_name) = self.data.current_class_name.clone() {
+            if let DeclarationName::Ident(name) = &n.name {
+                if &*name.value == "composes" {
+                    // comoses: name from 'foo.css'
+                    if n.value.len() >= 3 {
+                        match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
+                            (
+                                ComponentValue::Ident(Ident {
+                                    value: js_word!("from"),
+                                    ..
+                                }),
+                                ComponentValue::Str(import_source),
+                            ) => {
+                                for class_name in n.value.iter().take(n.value.len() - 2) {
+                                    if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                                        self.result
+                                            .classes
+                                            .entry(current_class_name.clone())
+                                            .or_default()
+                                            .push(CssClassName::Import {
+                                                name: value.clone(),
+                                                from: import_source.value.clone(),
+                                            });
+                                    }
                                 }
                             }
-                        }
-                        (
-                            ComponentValue::Ident(Ident {
-                                value: js_word!("from"),
-                                ..
-                            }),
-                            ComponentValue::Ident(Ident {
-                                value: js_word!("global"),
-                                ..
-                            }),
-                        ) => {
-                            for class_name in n.value.iter().take(n.value.len() - 2) {
-                                if let ComponentValue::Ident(Ident { value, .. }) = class_name {
-                                    self.result
-                                        .classes
-                                        .entry(name.value.clone())
-                                        .or_default()
-                                        .push(CssClassName::Global {
-                                            name: value.clone(),
-                                        });
+                            (
+                                ComponentValue::Ident(Ident {
+                                    value: js_word!("from"),
+                                    ..
+                                }),
+                                ComponentValue::Ident(Ident {
+                                    value: js_word!("global"),
+                                    ..
+                                }),
+                            ) => {
+                                for class_name in n.value.iter().take(n.value.len() - 2) {
+                                    if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                                        self.result
+                                            .classes
+                                            .entry(current_class_name.clone())
+                                            .or_default()
+                                            .push(CssClassName::Global {
+                                                name: value.clone(),
+                                            });
+                                    }
                                 }
                             }
+                            _ => (),
                         }
-                        _ => (),
                     }
                 }
             }
