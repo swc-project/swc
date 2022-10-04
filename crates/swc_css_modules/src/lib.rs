@@ -1,3 +1,4 @@
+use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
@@ -26,12 +27,23 @@ pub enum Segment {
 pub trait Config {
     /// Creates a class name for the given `local_name`.
     fn get_class_name(&self, local: &JsWord) -> JsWord;
-
-    /// Get the **export name** of `class_name` in `import_source`.
-    fn load_composes(&mut self, class_name: &JsWord, import_source: &JsWord) -> Ident;
 }
 
-pub fn compile(ss: &mut Stylesheet, config: impl Config) {
+/// A class name for use in ECMAScript.
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub enum EsClassName {
+    Local { name: JsWord },
+    Global { name: JsWord },
+    Import { name: JsWord, from: JsWord },
+}
+
+pub struct CompileResult {
+    /// A map of js class name to css class names.
+    pub classes: FxHashMap<JsWord, Vec<EsClassName>>,
+}
+
+/// Returns a map from local name to exported name.
+pub fn compile(ss: &mut Stylesheet, config: impl Config) -> CompileResult {
     let mut compiler = Compiler {
         config,
         data: Default::default(),
