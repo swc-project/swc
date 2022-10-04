@@ -1,6 +1,0 @@
-// Uses Sass syntax
-$width: 1px + 4px;
-
-.baz {
-    width: $width
-}

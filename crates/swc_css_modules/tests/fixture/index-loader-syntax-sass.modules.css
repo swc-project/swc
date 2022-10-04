@@ -1,8 +1,0 @@
-$color: red;
-
-// Uses Sass syntax
-.foo {
-    > .bar {
-        color: $color;
-    }
-}
