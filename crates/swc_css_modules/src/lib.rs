@@ -1,4 +1,4 @@
-pub mod analyzer;
+pub mod imports;
 
 /// Various configurations for the css modules.
 ///

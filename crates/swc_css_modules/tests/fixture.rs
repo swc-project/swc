@@ -8,7 +8,7 @@ fn imports(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
-        let result = swc_css_modules::analyzer::analyze_imports(&ss);
+        let result = swc_css_modules::imports::analyze_imports(&ss);
 
         if result.is_empty() {
             return Ok(());
