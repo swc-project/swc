@@ -1,0 +1,13 @@
+{
+  "secondaryButton": [
+    {
+      "type": "local",
+      "name": "__local__secondaryButton"
+    },
+    {
+      "type": "import",
+      "name": "button",
+      "from": "./button.css"
+    }
+  ]
+}

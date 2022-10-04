@@ -1,0 +1,13 @@
+{
+  "primaryButton": [
+    {
+      "type": "local",
+      "name": "__local__primaryButton"
+    },
+    {
+      "type": "import",
+      "name": "button",
+      "from": "./button.css"
+    }
+  ]
+}

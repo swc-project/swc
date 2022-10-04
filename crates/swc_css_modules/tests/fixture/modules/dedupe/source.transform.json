@@ -1,0 +1,24 @@
+{
+  "backButton": [
+    {
+      "type": "local",
+      "name": "__local__backButton"
+    },
+    {
+      "type": "import",
+      "name": "secondaryButton",
+      "from": "./buttons/secondary-button.css"
+    }
+  ],
+  "nextButton": [
+    {
+      "type": "local",
+      "name": "__local__nextButton"
+    },
+    {
+      "type": "import",
+      "name": "primaryButton",
+      "from": "./buttons/primary-button.css"
+    }
+  ]
+}
