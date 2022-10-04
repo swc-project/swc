@@ -1,8 +1,8 @@
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, CompoundSelector, Declaration, PseudoClassSelector,
-    SelectorList, Stylesheet,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
+    DeclarationName, Ident, PseudoClassSelector, SelectorList, Stylesheet,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -62,7 +62,22 @@ where
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        // TODO: Handle composes
+        if let DeclarationName::Ident(name) = &n.name {
+            if &*name.value == "composes" {
+                // comoses: name from 'foo.css'
+                if n.value.len() == 3 {
+                    if let (
+                        ComponentValue::Ident(class_name),
+                        ComponentValue::Ident(Ident {
+                            value: js_word!("from"),
+                            ..
+                        }),
+                        ComponentValue::Str(import_source),
+                    ) = (&n.value[0], &n.value[1], &n.value[2])
+                    {}
+                }
+            }
+        }
     }
 
     fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
