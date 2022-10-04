@@ -5,7 +5,7 @@
             "jsx": false
         },
         "target": "es5",
-        "loose": true,
+        "loose": true
     },
     "module": {
         "type": "commonjs"
