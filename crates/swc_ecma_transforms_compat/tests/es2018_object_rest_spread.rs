@@ -3110,7 +3110,7 @@ test_exec!(
     r#"
   function thing({ queryKey: [{ url, ...query }] }) {
       expect(url).toEqual('https://www.google.com')
-      expect(query).toEqual({ id: 1 })
+      expect(query).toEqual({ id: '1' })
   }
 
   thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
@@ -3137,7 +3137,7 @@ test_exec!(
     r#"
     function thing({ queryKey: [{ url, ...query }] }) {
         expect(url).toEqual('https://www.google.com')
-        expect(query).toEqual({ id: 1 })
+        expect(query).toEqual({ id: '1' })
     }
 
     thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
