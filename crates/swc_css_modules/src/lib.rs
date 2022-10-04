@@ -71,6 +71,19 @@ where
         n.children = new;
     }
 
+    fn visit_mut_complex_selector(&mut self, n: &mut ComplexSelector) {
+        n.visit_mut_children_with(self);
+
+        n.children.retain(|s| match s {
+            swc_css_ast::ComplexSelectorChildren::CompoundSelector(s) => {
+                s.nesting_selector.is_some()
+                    || !s.subclass_selectors.is_empty()
+                    || s.type_selector.is_some()
+            }
+            swc_css_ast::ComplexSelectorChildren::Combinator(s) => true,
+        });
+    }
+
     fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
         n.visit_mut_children_with(self);
 
@@ -78,6 +91,12 @@ where
             swc_css_ast::SubclassSelector::PseudoClass(s) => s.name.value != js_word!(""),
             _ => true,
         });
+    }
+
+    fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
+        n.visit_mut_children_with(self);
+
+        n.retain_mut(|s| !s.children.is_empty());
     }
 
     /// Handle :local and :global
