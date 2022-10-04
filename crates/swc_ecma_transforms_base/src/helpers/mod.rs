@@ -356,6 +356,8 @@ define_helpers!(Helpers {
         possible_constructor_return
     ),
 
+    create_for_of_iterator_helper_loose: (unsupported_iterable_to_array),
+
     ts_decorate: (),
     ts_generator: (),
     ts_metadata: (),
