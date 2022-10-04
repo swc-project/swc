@@ -57,7 +57,8 @@ fn compile(input: PathBuf) {
                 &mut buf,
                 None,
                 BasicCssWriterConfig {
-                    indent_type: IndentType::Tab,
+                    indent_type: IndentType::Space,
+                    indent_width: 2,
                     ..Default::default()
                 },
             );
