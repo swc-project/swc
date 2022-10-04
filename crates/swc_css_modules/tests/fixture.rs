@@ -1,5 +1,7 @@
 use std::path::PathBuf;
 
+use swc_atoms::JsWord;
+use swc_css_ast::Declaration;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
@@ -89,15 +91,16 @@ struct TestConfig {
 }
 
 impl swc_css_modules::Config for TestConfig {
-    fn pattern(&self) -> &[Segment] {
-        &self.pattern
+    fn get_class_name(&self, local: &JsWord) -> JsWord {
+        format!("local__{}", local).into()
     }
 
-    fn write_file_name(&self, to: &mut String) {
-        to.push_str("__file_name__");
-    }
-
-    fn write_hash_of_file_name(&self, to: &mut String) {
-        to.push_str("__file_hash__");
+    fn load_composes(
+        &mut self,
+        class_name: &JsWord,
+        import_source: &JsWord,
+        to: &mut Vec<Declaration>,
+    ) {
+        todo!()
     }
 }
