@@ -99,6 +99,8 @@ where
             }
             ComplexSelectorChildren::Combinator(..) => true,
         });
+
+        process_local(&mut self.config, n);
     }
 
     fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
