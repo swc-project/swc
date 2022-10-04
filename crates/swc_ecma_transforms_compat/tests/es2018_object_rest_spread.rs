@@ -3101,3 +3101,17 @@ a.c;a.c;
 expect(counter).toEqual(2);
 "#
 );
+
+test_exec!(
+    syntax(),
+    |_| tr(Default::default()),
+    issue_6029,
+    r#"
+    function thing({ queryKey: [{ url, ...query }] }) {
+      console.log(url);
+      console.log(query);
+    }
+
+    thing({ queryKey: [{ url: 'https://www.google.com', id: '1' }] })
+    "#
+);
