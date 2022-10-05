@@ -995,6 +995,7 @@ where
                                 AliasConfig {
                                     marks: Some(self.marks),
                                     ignore_nested: true,
+                                    need_all: true,
                                 },
                             )
                         }),
@@ -1011,6 +1012,7 @@ where
                                         AliasConfig {
                                             marks: Some(self.marks),
                                             ignore_nested: true,
+                                            need_all: true,
                                         },
                                     ))
                                 } else {
