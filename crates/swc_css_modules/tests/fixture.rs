@@ -70,9 +70,9 @@ fn compile(input: PathBuf) {
             )))
             .unwrap();
 
-        if !transform_result.classes.is_empty() {
+        if !transform_result.renamed.is_empty() {
             let transformed_classes =
-                serde_json::to_string_pretty(&transform_result.classes).unwrap();
+                serde_json::to_string_pretty(&transform_result.renamed).unwrap();
 
             NormalizedOutput::from(transformed_classes)
                 .compare_to_file(input.with_file_name(format!(

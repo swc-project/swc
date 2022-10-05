@@ -4,8 +4,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, DeclarationOrAtRule, Ident, QualifiedRule, QualifiedRulePrelude, StyleBlock,
-    Stylesheet, SubclassSelector,
+    DeclarationName, DeclarationOrAtRule, Ident, KeyframesName, QualifiedRule,
+    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -50,7 +50,7 @@ pub enum CssClassName {
 #[derive(Debug, Clone)]
 pub struct TransformResult {
     /// A map of js class name to css class names.
-    pub classes: FxHashMap<JsWord, Vec<CssClassName>>,
+    pub renamed: FxHashMap<JsWord, Vec<CssClassName>>,
 }
 
 /// Returns a map from local name to exported name.
@@ -59,7 +59,7 @@ pub fn compile(ss: &mut Stylesheet, config: impl TransformConfig) -> TransformRe
         config,
         data: Default::default(),
         result: TransformResult {
-            classes: Default::default(),
+            renamed: Default::default(),
         },
     };
 
@@ -111,7 +111,7 @@ where
                                     .cloned();
 
                                 if let Some(key) = key {
-                                    self.result.classes.entry(key).or_default().extend(composes);
+                                    self.result.renamed.entry(key).or_default().extend(composes);
                                 }
                             }
                         }
@@ -304,6 +304,22 @@ where
     }
 }
 
+fn rename<C>(
+    config: &mut C,
+    orig_to_renamed: &mut FxHashMap<JsWord, JsWord>,
+    renamed_to_orig: &mut FxHashMap<JsWord, JsWord>,
+    name: &mut JsWord,
+) where
+    C: TransformConfig,
+{
+    let new = config.new_name_for(&name);
+
+    orig_to_renamed.insert(name.clone(), new.clone());
+    renamed_to_orig.insert(new.clone(), name.clone());
+
+    *name = new;
+}
+
 fn process_local<C>(
     config: &mut C,
     result: &mut TransformResult,
@@ -315,34 +331,42 @@ fn process_local<C>(
 {
     match sel {
         SubclassSelector::Id(sel) => {
-            let new = config.new_name_for(&sel.text.value);
+            let orig = sel.text.value.clone();
+            sel.text.raw = None;
+
+            rename(
+                config,
+                orig_to_renamed,
+                renamed_to_orig,
+                &mut sel.text.value,
+            );
 
             result
-                .classes
-                .entry(sel.text.value.clone())
+                .renamed
+                .entry(orig)
                 .or_default()
-                .push(CssClassName::Local { name: new.clone() });
-
-            orig_to_renamed.insert(sel.text.value.clone(), new.clone());
-            renamed_to_orig.insert(new.clone(), sel.text.value.clone());
-
-            sel.text.raw = None;
-            sel.text.value = new;
+                .push(CssClassName::Local {
+                    name: sel.text.value.clone(),
+                });
         }
         SubclassSelector::Class(sel) => {
-            let new = config.new_name_for(&sel.text.value);
+            let orig = sel.text.value.clone();
+            sel.text.raw = None;
+
+            rename(
+                config,
+                orig_to_renamed,
+                renamed_to_orig,
+                &mut sel.text.value,
+            );
 
             result
-                .classes
-                .entry(sel.text.value.clone())
+                .renamed
+                .entry(orig)
                 .or_default()
-                .push(CssClassName::Local { name: new.clone() });
-
-            orig_to_renamed.insert(sel.text.value.clone(), new.clone());
-            renamed_to_orig.insert(new.clone(), sel.text.value.clone());
-
-            sel.text.raw = None;
-            sel.text.value = new;
+                .push(CssClassName::Local {
+                    name: sel.text.value.clone(),
+                });
         }
         SubclassSelector::Attribute(_) => {}
         SubclassSelector::PseudoClass(_) => {}
