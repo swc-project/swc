@@ -35,6 +35,9 @@
 - **(css/modules)** Support `:local` and `:global` (#6045) ([10d0f8e](https://github.com/swc-project/swc/commit/10d0f8e0011fc9e02769cde49fcfd8f8730ca15e))
 
 
+- **(css/modules)** Support `:global` in `@keyframes` (#6046) ([51e935e](https://github.com/swc-project/swc/commit/51e935eb4abd8911b2568f1598b20a9c0db7dbbf))
+
+
 - **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
 
 
