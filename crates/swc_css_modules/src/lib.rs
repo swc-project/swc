@@ -202,35 +202,38 @@ where
                         }
                     }
                 }
-                match name.value.to_ascii_lowercase() {
-                    js_word!("animation") => {
-                        if let Some(first) = n.value.first_mut() {
-                            if let ComponentValue::Ident(Ident { value, .. }) = first {
-                                rename(
-                                    &mut self.config,
-                                    &mut self.result,
-                                    &mut self.data.orig_to_renamed,
-                                    &mut self.data.renamed_to_orig,
-                                    value,
-                                );
-                            }
+            }
+        }
+
+        if let DeclarationName::Ident(name) = &n.name {
+            match name.value.to_ascii_lowercase() {
+                js_word!("animation") => {
+                    if let Some(first) = n.value.first_mut() {
+                        if let ComponentValue::Ident(Ident { value, .. }) = first {
+                            rename(
+                                &mut self.config,
+                                &mut self.result,
+                                &mut self.data.orig_to_renamed,
+                                &mut self.data.renamed_to_orig,
+                                value,
+                            );
                         }
                     }
-                    js_word!("animation-name") => {
-                        if let Some(first) = n.value.first_mut() {
-                            if let ComponentValue::Ident(Ident { value, .. }) = first {
-                                rename(
-                                    &mut self.config,
-                                    &mut self.result,
-                                    &mut self.data.orig_to_renamed,
-                                    &mut self.data.renamed_to_orig,
-                                    value,
-                                );
-                            }
-                        }
-                    }
-                    _ => {}
                 }
+                js_word!("animation-name") => {
+                    if let Some(first) = n.value.first_mut() {
+                        if let ComponentValue::Ident(Ident { value, .. }) = first {
+                            rename(
+                                &mut self.config,
+                                &mut self.result,
+                                &mut self.data.orig_to_renamed,
+                                &mut self.data.renamed_to_orig,
+                                value,
+                            );
+                        }
+                    }
+                }
+                _ => {}
             }
         }
     }
