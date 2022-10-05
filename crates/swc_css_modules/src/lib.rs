@@ -208,8 +208,10 @@ where
         if let DeclarationName::Ident(name) = &n.name {
             match name.value.to_ascii_lowercase() {
                 js_word!("animation") => {
-                    if let Some(first) = n.value.first_mut() {
-                        if let ComponentValue::Ident(Ident { value, .. }) = first {
+                    for v in &mut n.value {
+                        if let ComponentValue::Ident(Ident { value, raw, .. }) = v {
+                            *raw = None;
+
                             rename(
                                 &mut self.config,
                                 &mut self.result,
@@ -217,12 +219,15 @@ where
                                 &mut self.data.renamed_to_orig,
                                 value,
                             );
+                            break;
                         }
                     }
                 }
                 js_word!("animation-name") => {
                     if let Some(first) = n.value.first_mut() {
-                        if let ComponentValue::Ident(Ident { value, .. }) = first {
+                        if let ComponentValue::Ident(Ident { value, raw, .. }) = first {
+                            *raw = None;
+
                             rename(
                                 &mut self.config,
                                 &mut self.result,
