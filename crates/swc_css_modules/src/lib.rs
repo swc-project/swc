@@ -248,7 +248,7 @@ where
 
         let mut new_children = Vec::with_capacity(n.children.len());
 
-        for mut n in n.children.take() {
+        'complex: for mut n in n.children.take() {
             match &mut n {
                 ComplexSelectorChildren::CompoundSelector(sel) => {
                     //
@@ -301,7 +301,7 @@ where
                                             }
                                             new_children.extend(sel.children);
 
-                                            continue;
+                                            continue 'complex;
                                         }
                                     }
                                     "global" => {
@@ -319,7 +319,7 @@ where
 
                                             new_children.extend(sel.children);
 
-                                            continue;
+                                            continue 'complex;
                                         }
                                     }
 
