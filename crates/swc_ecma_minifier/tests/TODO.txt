@@ -39,7 +39,6 @@ collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
-collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
 collapse_vars/cond_branch_1/input.js

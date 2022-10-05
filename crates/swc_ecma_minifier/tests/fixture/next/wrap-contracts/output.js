@@ -15119,7 +15119,7 @@
             module.exports = baseIsMap;
         },
         8458: function(module, __unused_webpack_exports, __webpack_require__) {
-            var isFunction = __webpack_require__(3560), isMasked = __webpack_require__(5346), isObject = __webpack_require__(3218), toSource = __webpack_require__(346), reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+            var isFunction = __webpack_require__(3560), isMasked = __webpack_require__(5346), isObject = __webpack_require__(3218), toSource = __webpack_require__(346), reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reIsHostCtor = /^\[object .+?Constructor\]$/, objectProto = Object.prototype, funcToString = Function.prototype.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
             function baseIsNative(value) {
                 return !(!isObject(value) || isMasked(value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
             }

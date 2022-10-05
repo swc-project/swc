@@ -148,6 +148,7 @@ collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/collapse_vars_seq/input.js
+collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_throw/input.js
 collapse_vars/collapse_vars_try/input.js
 collapse_vars/collapse_vars_unary_2/input.js
