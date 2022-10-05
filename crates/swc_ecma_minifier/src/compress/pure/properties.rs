@@ -95,7 +95,7 @@ impl Pure<'_> {
                 return;
             }
 
-            if !s.value.starts_with('0') && s.value.len() > 1 {
+            if !s.value.starts_with('0') || s.value.len() <= 1 {
                 if let Ok(v) = s.value.parse::<u32>() {
                     self.changed = true;
                     report_change!("misc: Optimizing numeric property name");
