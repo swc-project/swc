@@ -9,7 +9,7 @@ use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
 fn imports(input: PathBuf) {
-    testing::run_test(false, |cm, handler| {
+    testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
@@ -38,13 +38,13 @@ fn compile(input: PathBuf) {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let mut ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
-        let result = swc_css_modules::imports::analyze_imports(&ss);
+        let _result = swc_css_modules::imports::analyze_imports(&ss);
 
         let transform_result = swc_css_modules::compile(&mut ss, TestConfig {});
 
         let mut buf = String::new();
         {
-            let mut wr = BasicCssWriter::new(
+            let wr = BasicCssWriter::new(
                 &mut buf,
                 None,
                 BasicCssWriterConfig {
