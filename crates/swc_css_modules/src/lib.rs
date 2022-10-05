@@ -4,8 +4,8 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
-    DeclarationOrAtRule, Ident, KeyframesName, QualifiedRule, QualifiedRulePrelude, StyleBlock,
-    Stylesheet, SubclassSelector,
+    DeclarationOrAtRule, Delimiter, DelimiterValue, Ident, KeyframesName, QualifiedRule,
+    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector,
 };
 use swc_css_parser::{parse_tokens, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -208,18 +208,30 @@ where
         if let DeclarationName::Ident(name) = &n.name {
             match name.value.to_ascii_lowercase() {
                 js_word!("animation") => {
-                    for v in &mut n.value {
-                        if let ComponentValue::Ident(Ident { value, raw, .. }) = v {
-                            *raw = None;
+                    let mut can_change = true;
 
-                            rename(
-                                &mut self.config,
-                                &mut self.result,
-                                &mut self.data.orig_to_renamed,
-                                &mut self.data.renamed_to_orig,
-                                value,
-                            );
-                            break;
+                    for v in &mut n.value {
+                        if can_change {
+                            if let ComponentValue::Ident(Ident { value, raw, .. }) = v {
+                                *raw = None;
+
+                                rename(
+                                    &mut self.config,
+                                    &mut self.result,
+                                    &mut self.data.orig_to_renamed,
+                                    &mut self.data.renamed_to_orig,
+                                    value,
+                                );
+                                can_change = false;
+                            }
+                        } else {
+                            if let ComponentValue::Delimiter(Delimiter {
+                                value: DelimiterValue::Comma,
+                                ..
+                            }) = v
+                            {
+                                can_change = true;
+                            }
                         }
                     }
                 }
