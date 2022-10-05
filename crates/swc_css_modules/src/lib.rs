@@ -344,20 +344,26 @@ where
         n.visit_mut_children_with(self);
 
         match n {
-            KeyframesName::CustomIdent(n) => rename(
-                &mut self.config,
-                &mut self.result,
-                &mut self.data.orig_to_renamed,
-                &mut self.data.renamed_to_orig,
-                &mut n.value,
-            ),
-            KeyframesName::Str(n) => rename(
-                &mut self.config,
-                &mut self.result,
-                &mut self.data.orig_to_renamed,
-                &mut self.data.renamed_to_orig,
-                &mut n.value,
-            ),
+            KeyframesName::CustomIdent(n) => {
+                n.raw = None;
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                )
+            }
+            KeyframesName::Str(n) => {
+                n.raw = None;
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                )
+            }
         }
     }
 }
