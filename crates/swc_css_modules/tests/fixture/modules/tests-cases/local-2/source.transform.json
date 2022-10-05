@@ -1,0 +1,20 @@
+{
+  "someId": [
+    {
+      "type": "local",
+      "name": "__local__someId"
+    }
+  ],
+  "subClass": [
+    {
+      "type": "local",
+      "name": "__local__subClass"
+    }
+  ],
+  "className": [
+    {
+      "type": "local",
+      "name": "__local__className"
+    }
+  ]
+}

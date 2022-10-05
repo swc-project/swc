@@ -6,7 +6,7 @@ use std::{
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::Function;
 
@@ -23,6 +23,16 @@ pub struct Ident {
 impl EqIgnoreSpan for Ident {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
+    }
+}
+
+impl Take for Ident {
+    fn dummy() -> Self {
+        Self {
+            span: Default::default(),
+            value: Default::default(),
+            raw: Default::default(),
+        }
     }
 }
 

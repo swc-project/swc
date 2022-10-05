@@ -1,0 +1,7 @@
+:local(.bar-baz) {
+  color: red;
+}
+
+:global(.bar) {
+  color: red;
+}

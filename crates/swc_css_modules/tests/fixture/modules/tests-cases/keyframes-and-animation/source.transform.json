@@ -1,0 +1,38 @@
+{
+  "b": [
+    {
+      "type": "local",
+      "name": "__local__b"
+    }
+  ],
+  "bounce": [
+    {
+      "type": "local",
+      "name": "__local__bounce"
+    }
+  ],
+  "bounce2": [
+    {
+      "type": "local",
+      "name": "__local__bounce2"
+    }
+  ],
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
+  "bounce3": [
+    {
+      "type": "local",
+      "name": "__local__bounce3"
+    }
+  ],
+  "bounce4": [
+    {
+      "type": "local",
+      "name": "__local__bounce4"
+    }
+  ]
+}

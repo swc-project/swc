@@ -1,0 +1,7 @@
+@import "./imported-by-postcss.css";
+.__local__postcss {
+  color: rgb(0 0 100% / 90%);
+  &:hover {
+    color: rebeccapurple;
+  }
+}

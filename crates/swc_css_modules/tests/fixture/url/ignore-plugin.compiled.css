@@ -1,0 +1,45 @@
+div {
+  background: url("/assets/unknown.png");
+}
+div {
+  background: url("./assets/unknown.png");
+}
+div {
+  background: url("assets/unknown.png");
+}
+div {
+  background: url("/unknwon.png");
+}
+div {
+  background: url("./unknwon.png");
+}
+div {
+  background: url("unknwon.png");
+}
+div {
+  background: url("/nested/img.png");
+}
+div {
+  background: url("./nested/img.png");
+}
+div {
+  background: url("./nested/img.png");
+}
+div {
+  background: url("/img.png");
+}
+div {
+  background: url("./img.png");
+}
+div {
+  background: url("img.png");
+}
+div {
+  background: url("/directory/unknown.png");
+}
+div {
+  background: url("./directory/unknown.png");
+}
+div {
+  background: url("directory/unknown.png");
+}

@@ -1,0 +1,20 @@
+{
+  "body": [
+    {
+      "type": "local",
+      "name": "__local__body"
+    }
+  ],
+  "footer": [
+    {
+      "type": "local",
+      "name": "__local__footer"
+    }
+  ],
+  "header-baz": [
+    {
+      "type": "local",
+      "name": "__local__header-baz"
+    }
+  ]
+}

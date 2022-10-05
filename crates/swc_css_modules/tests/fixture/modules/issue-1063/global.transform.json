@@ -1,0 +1,14 @@
+{
+  "classNameGlobalFile": [
+    {
+      "type": "local",
+      "name": "__local__classNameGlobalFile"
+    }
+  ],
+  "otherClassGlobalFile": [
+    {
+      "type": "local",
+      "name": "__local__otherClassGlobalFile"
+    }
+  ]
+}

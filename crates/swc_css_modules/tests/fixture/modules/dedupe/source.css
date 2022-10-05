@@ -1,0 +1,9 @@
+.nextButton
+{
+  composes:primaryButton from './buttons/primary-button.css';
+}
+
+.backButton
+{
+  composes:secondaryButton from './buttons/secondary-button.css';
+}

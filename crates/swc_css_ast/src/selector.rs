@@ -1,7 +1,7 @@
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::JsWord;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 use crate::{Delimiter, Ident, ListOfComponentValues, Str, TokenAndSpan};
 
@@ -63,6 +63,15 @@ pub enum ForgivingRelativeSelector {
 pub struct ComplexSelector {
     pub span: Span,
     pub children: Vec<ComplexSelectorChildren>,
+}
+
+impl Take for ComplexSelector {
+    fn dummy() -> Self {
+        Self {
+            span: Take::dummy(),
+            children: Take::dummy(),
+        }
+    }
 }
 
 #[ast_node]

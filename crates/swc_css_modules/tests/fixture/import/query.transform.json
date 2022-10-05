@@ -1,0 +1,8 @@
+{
+  "query": [
+    {
+      "type": "local",
+      "name": "__local__query"
+    }
+  ]
+}

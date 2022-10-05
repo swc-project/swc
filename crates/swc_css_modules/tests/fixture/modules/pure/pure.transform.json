@@ -1,0 +1,92 @@
+{
+  "foo": [
+    {
+      "type": "local",
+      "name": "__local__foo"
+    }
+  ],
+  "baz": [
+    {
+      "type": "local",
+      "name": "__local__baz"
+    }
+  ],
+  "foo-2": [
+    {
+      "type": "local",
+      "name": "__local__foo-2"
+    }
+  ],
+  "foo-3": [
+    {
+      "type": "local",
+      "name": "__local__foo-3"
+    }
+  ],
+  "foo-7": [
+    {
+      "type": "local",
+      "name": "__local__foo-7"
+    }
+  ],
+  "foo-8": [
+    {
+      "type": "local",
+      "name": "__local__foo-8"
+    }
+  ],
+  "foo-9": [
+    {
+      "type": "local",
+      "name": "__local__foo-9"
+    }
+  ],
+  "bar-1": [
+    {
+      "type": "local",
+      "name": "__local__bar-1"
+    }
+  ],
+  "bar-2": [
+    {
+      "type": "local",
+      "name": "__local__bar-2"
+    }
+  ],
+  "baz-3": [
+    {
+      "type": "local",
+      "name": "__local__baz-3"
+    }
+  ],
+  "foo-4": [
+    {
+      "type": "local",
+      "name": "__local__foo-4"
+    }
+  ],
+  "foo-5": [
+    {
+      "type": "local",
+      "name": "__local__foo-5"
+    }
+  ],
+  "foo-6": [
+    {
+      "type": "local",
+      "name": "__local__foo-6"
+    }
+  ],
+  "foo-1": [
+    {
+      "type": "local",
+      "name": "__local__foo-1"
+    }
+  ],
+  "bar-4": [
+    {
+      "type": "local",
+      "name": "__local__bar-4"
+    }
+  ]
+}

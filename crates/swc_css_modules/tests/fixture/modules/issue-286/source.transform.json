@@ -1,0 +1,13 @@
+{
+  "main": [
+    {
+      "type": "local",
+      "name": "__local__main"
+    },
+    {
+      "type": "import",
+      "name": "red",
+      "from": "./dep.css"
+    }
+  ]
+}

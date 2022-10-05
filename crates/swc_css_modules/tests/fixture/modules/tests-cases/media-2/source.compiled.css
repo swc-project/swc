@@ -1,0 +1,6 @@
+@value small from './file.css';
+@media small {
+  .__local__header {
+    box-shadow: 0 0 4px #1F4F7F;
+  }
+}

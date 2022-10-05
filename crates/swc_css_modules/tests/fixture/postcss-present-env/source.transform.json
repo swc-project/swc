@@ -1,0 +1,14 @@
+{
+  "hero": [
+    {
+      "type": "local",
+      "name": "__local__hero"
+    }
+  ],
+  "main": [
+    {
+      "type": "local",
+      "name": "__local__main"
+    }
+  ]
+}

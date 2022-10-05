@@ -1,0 +1,7 @@
+.abc :local(.def) {
+  color: red;
+}
+
+:local .ghi .jkl {
+  color: blue;
+}

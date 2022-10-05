@@ -1,0 +1,11 @@
+@import url(circular.css);
+@import url(circular.css);
+/*
+  // TODO fixed nested circular `@import`
+  @import url(circular-nested.css);
+*/
+@import url("relative.css");
+
+a {
+    color: red;
+}

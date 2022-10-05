@@ -1,0 +1,4 @@
+@value v-def: red;
+@value v-other: green;
+@value s-white: white;
+@value m-small: (min-width: 320px);

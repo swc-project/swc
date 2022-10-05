@@ -275,6 +275,9 @@ jobs:
           - crate: swc_css_minifier
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_css_modules
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_parser
             os: ubuntu-latest
             runner: ubuntu-latest

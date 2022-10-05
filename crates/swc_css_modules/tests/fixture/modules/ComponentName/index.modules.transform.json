@@ -1,0 +1,20 @@
+{
+  "footer": [
+    {
+      "type": "local",
+      "name": "__local__footer"
+    }
+  ],
+  "header": [
+    {
+      "type": "local",
+      "name": "__local__header"
+    }
+  ],
+  "body": [
+    {
+      "type": "local",
+      "name": "__local__body"
+    }
+  ]
+}

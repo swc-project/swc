@@ -1,0 +1,11 @@
+.foo {
+  background-color: red;
+}
+
+:local(.bar) {
+  background-color: green;
+}
+
+:global(.baz) {
+  background-color: blue;
+}

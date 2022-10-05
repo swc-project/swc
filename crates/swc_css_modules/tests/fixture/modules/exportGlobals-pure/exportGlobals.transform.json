@@ -1,0 +1,26 @@
+{
+  "two": [
+    {
+      "type": "local",
+      "name": "__local__two"
+    }
+  ],
+  "foo": [
+    {
+      "type": "local",
+      "name": "__local__foo"
+    }
+  ],
+  "one": [
+    {
+      "type": "local",
+      "name": "__local__one"
+    }
+  ],
+  "bar": [
+    {
+      "type": "local",
+      "name": "__local__bar"
+    }
+  ]
+}

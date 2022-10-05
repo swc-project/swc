@@ -1,0 +1,4 @@
+@import "./nested/nested.css";
+.__local__class {
+  color: red;
+}

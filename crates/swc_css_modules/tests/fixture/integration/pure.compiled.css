@@ -1,0 +1,4 @@
+@import "./imported-by-pure.css";
+.__local__pure {
+  color: red;
+}

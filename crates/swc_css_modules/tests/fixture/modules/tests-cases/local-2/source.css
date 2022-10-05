@@ -1,0 +1,4 @@
+:local(.className) { background: red; }
+:local(#someId) { background: green; }
+:local(.className .subClass) { color: green; }
+:local(#someId .subClass) { color: blue; }

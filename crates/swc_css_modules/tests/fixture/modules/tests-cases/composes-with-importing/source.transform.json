@@ -1,0 +1,13 @@
+{
+  "abc": [
+    {
+      "type": "local",
+      "name": "__local__abc"
+    },
+    {
+      "type": "import",
+      "name": "def",
+      "from": "./file.css"
+    }
+  ]
+}

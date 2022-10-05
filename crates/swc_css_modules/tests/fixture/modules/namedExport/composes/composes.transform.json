@@ -1,0 +1,32 @@
+{
+  "my-class": [
+    {
+      "type": "local",
+      "name": "__local__my-class"
+    }
+  ],
+  "other": [
+    {
+      "type": "local",
+      "name": "__local__other"
+    }
+  ],
+  "ghi": [
+    {
+      "type": "local",
+      "name": "__local__ghi"
+    }
+  ],
+  "other-other": [
+    {
+      "type": "local",
+      "name": "__local__other-other"
+    }
+  ],
+  "green": [
+    {
+      "type": "local",
+      "name": "__local__green"
+    }
+  ]
+}

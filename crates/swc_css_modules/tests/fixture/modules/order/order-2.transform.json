@@ -1,0 +1,14 @@
+{
+  "order-2": [
+    {
+      "type": "local",
+      "name": "__local__order-2"
+    }
+  ],
+  "order-2-2": [
+    {
+      "type": "local",
+      "name": "__local__order-2-2"
+    }
+  ]
+}

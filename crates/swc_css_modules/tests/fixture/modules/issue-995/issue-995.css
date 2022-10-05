@@ -1,0 +1,93 @@
+/* class="😀" */
+.a {
+  color: red;
+}
+
+/* class="😀 😓" */
+.a.b {
+  color: red;
+}
+
+/* class="😀" > class="😓" */
+.a .b {
+  color: red;
+}
+
+/* class="😀" */
+.😀 {
+  color: red;
+}
+
+/* class="😀 😓" */
+.😀.😓 {
+  color: red;
+}
+
+/* class="😀" > class="😓" */
+.😀 .😓 {
+  color: red;
+}
+
+/* class="😀" */
+.\1F600 {
+  color: red;
+}
+
+/* class="😀 😓" */
+.\1F600.\1F613 {
+  color: red;
+}
+
+/* class="😀" > class="😓" */
+.\1F600  .\1F613 {
+  color: red;
+}
+
+/* Local */
+
+/* class="😀" */
+:local(.a) {
+  color: red;
+}
+
+/* class="😀 😓" */
+:local(.a.b) {
+  color: red;
+}
+
+/* class="😀" > class="😓" */
+:local(.a .b) {
+  color: red;
+}
+
+.\1F600  .a .\1F600 {
+  color: red;
+}
+
+:local(.a .b .a) {
+  color: red;
+}
+
+div:not(:local(.a)) {
+  color: red;
+}
+
+:local(.a) .b {
+  color: red;
+}
+
+.b :local(.a) {
+  color: red;
+}
+
+.\1F613  :local(.a) {
+  color: red;
+}
+
+.\1F613 :local(.a) {
+  color: red;
+}
+
+:local(.a) > :local(.b) > :local(.c) {
+  color: red;
+}

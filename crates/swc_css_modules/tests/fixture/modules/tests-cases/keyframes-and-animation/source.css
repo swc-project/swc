@@ -1,0 +1,48 @@
+.a {
+	color: green;
+}
+
+@keyframes bounce {
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	5% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes bounce2 {
+	0% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	5% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+
+.bounce {
+	animation-name: bounce;
+	animation: bounce2 1s ease;
+}
+
+.bounce2 {
+	color: green;
+	animation: bounce 1s ease;
+	animation-name: bounce2;
+}
+
+.bounce3 {
+	animation: bounce 1s ease, bounce2
+}
+
+.bounce4 {
+	animation: bounce 1s ease, bounce2;
+}
+
+.b {
+	color: green;
+}
