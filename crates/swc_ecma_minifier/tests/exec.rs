@@ -10126,7 +10126,28 @@ fn feedback_regex_range() {
             /* eslint-enable prettier/prettier */
         );
         console.log('PASS')
-    "###;
+        "###;
 
     run_default_exec_test(src);
+}
+
+#[test]
+fn issue_6047() {
+    run_default_exec_test(
+        r###"
+        let foo = () => 1;
+
+        const obj = {
+            get 0() {
+                foo = () => 2;
+                return 40;
+            },
+        };
+        console.log(obj)
+
+        var c = obj[0];
+
+        console.log(foo(c));
+        "###,
+    );
 }
