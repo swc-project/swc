@@ -1,4 +1,10 @@
 {
+  "c4": [
+    {
+      "type": "local",
+      "name": "__local__c4"
+    }
+  ],
   "c5": [
     {
       "type": "local",
@@ -17,12 +23,6 @@
       "name": "__local__c7"
     }
   ],
-  "c8": [
-    {
-      "type": "local",
-      "name": "__local__c8"
-    }
-  ],
   "c1": [
     {
       "type": "local",
@@ -39,6 +39,12 @@
     {
       "type": "local",
       "name": "__local__c3"
+    }
+  ],
+  "c8": [
+    {
+      "type": "local",
+      "name": "__local__c8"
     }
   ]
 }

@@ -33,7 +33,7 @@
     left: 20px;
   }
 }
- .d1 {
+:global .__local__d1 {
   animation: __local__d1;
   animation: __local__d2, d3, d4;
 }

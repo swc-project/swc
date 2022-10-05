@@ -1,6 +1,6 @@
 .__local__abc .__local__def {
   color: red;
 }
- .__local__ghi .__local__jkl {
+:local .__local__ghi .__local__jkl {
   color: blue;
 }
