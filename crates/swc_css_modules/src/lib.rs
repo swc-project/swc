@@ -313,19 +313,39 @@ fn process_local<C>(
 ) where
     C: TransformConfig,
 {
-    if let swc_css_ast::SubclassSelector::Class(sel) = sel {
-        let new = config.new_name_for(&sel.text.value);
+    match sel {
+        SubclassSelector::Id(sel) => {
+            let new = config.new_name_for(&sel.text.value);
 
-        result
-            .classes
-            .entry(sel.text.value.clone())
-            .or_default()
-            .push(CssClassName::Local { name: new.clone() });
+            result
+                .classes
+                .entry(sel.text.value.clone())
+                .or_default()
+                .push(CssClassName::Local { name: new.clone() });
 
-        orig_to_renamed.insert(sel.text.value.clone(), new.clone());
-        renamed_to_orig.insert(new.clone(), sel.text.value.clone());
+            orig_to_renamed.insert(sel.text.value.clone(), new.clone());
+            renamed_to_orig.insert(new.clone(), sel.text.value.clone());
 
-        sel.text.raw = None;
-        sel.text.value = new;
+            sel.text.raw = None;
+            sel.text.value = new;
+        }
+        SubclassSelector::Class(sel) => {
+            let new = config.new_name_for(&sel.text.value);
+
+            result
+                .classes
+                .entry(sel.text.value.clone())
+                .or_default()
+                .push(CssClassName::Local { name: new.clone() });
+
+            orig_to_renamed.insert(sel.text.value.clone(), new.clone());
+            renamed_to_orig.insert(new.clone(), sel.text.value.clone());
+
+            sel.text.raw = None;
+            sel.text.value = new;
+        }
+        SubclassSelector::Attribute(_) => {}
+        SubclassSelector::PseudoClass(_) => {}
+        SubclassSelector::PseudoElement(_) => {}
     }
 }
