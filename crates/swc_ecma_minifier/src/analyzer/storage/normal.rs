@@ -288,7 +288,6 @@ impl ProgramData {
 impl VarDataLike for VarUsageInfo {
     fn mark_declared_as_fn_param(&mut self) {
         self.declared_as_fn_param = true;
-        self.declared_count += 1;
     }
 
     fn mark_declared_as_fn_expr(&mut self) {
