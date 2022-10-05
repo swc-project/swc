@@ -1,0 +1,13 @@
+{
+  "one": [
+    {
+      "type": "local",
+      "name": "__local__one"
+    },
+    {
+      "type": "import",
+      "name": "imported-relative",
+      "from": "imported"
+    }
+  ]
+}

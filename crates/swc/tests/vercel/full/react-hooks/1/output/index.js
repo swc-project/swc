@@ -4,5 +4,7 @@ import { useProject as o } from "@swr/use-project";
 import a from "@swr/use-team";
 export default function m() {
     var m = e().query.project, u = o(m).data;
-    return a().teamSlug, useProjectBranches(null == u ? void 0 : u.id).data, r(t, {});
+    a().teamSlug;
+    var s = null == u ? void 0 : u.id;
+    return useProjectBranches(s).data, r(t, {});
 }

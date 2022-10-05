@@ -1,0 +1,32 @@
+{
+  "b": [
+    {
+      "type": "local",
+      "name": "__local__b"
+    }
+  ],
+  "😓": [
+    {
+      "type": "local",
+      "name": "__local__😓"
+    }
+  ],
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
+  "😀": [
+    {
+      "type": "local",
+      "name": "__local__😀"
+    }
+  ],
+  "c": [
+    {
+      "type": "local",
+      "name": "__local__c"
+    }
+  ]
+}

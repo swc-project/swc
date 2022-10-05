@@ -1,0 +1,8 @@
+{
+  "test": [
+    {
+      "type": "local",
+      "name": "__local__test"
+    }
+  ]
+}

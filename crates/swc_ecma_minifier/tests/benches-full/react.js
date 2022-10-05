@@ -291,7 +291,7 @@
                         return c;
                     });
                 } else null != mappedChild && (isValidElement(mappedChild) && (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey('' + mappedChild.key) + '/' : '') + childKey, mappedChild = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props)), array.push(mappedChild));
-                return 1;
+                return;
             }
             var subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + ':';
             if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
@@ -306,7 +306,6 @@
                     throw Error("Objects are not valid as a React child (found: " + ('[object Object]' === childrenString ? 'object with keys {' + Object.keys(children).join(', ') + '}' : childrenString) + "). If you meant to render a collection of children, use an array instead.");
                 }
             }
-            return subtreeCount;
         }(children, result, '', '', function(child) {
             return func.call(context, child, count++);
         }), result;

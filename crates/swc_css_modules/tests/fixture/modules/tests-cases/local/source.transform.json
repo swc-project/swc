@@ -1,0 +1,26 @@
+{
+  "jkl": [
+    {
+      "type": "local",
+      "name": "__local__jkl"
+    }
+  ],
+  "abc": [
+    {
+      "type": "local",
+      "name": "__local__abc"
+    }
+  ],
+  "def": [
+    {
+      "type": "local",
+      "name": "__local__def"
+    }
+  ],
+  "ghi": [
+    {
+      "type": "local",
+      "name": "__local__ghi"
+    }
+  ]
+}

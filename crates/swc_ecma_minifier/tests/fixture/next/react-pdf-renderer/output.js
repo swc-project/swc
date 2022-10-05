@@ -1557,7 +1557,7 @@
                     for(var n = e[r], i = void 0, o = 0; i = eL.exec(n.string);){
                         var a = i.index, u = i[0], l = n.attributes.fontSize, s = n.string.slice(o, a + i[0].length);
                         eN[u] && eN[u].data ? t.push({
-                            string: s.replace(i, "￼"),
+                            string: s.replace(i, String.fromCharCode(0xfffc)),
                             attributes: U.default({}, n.attributes, {
                                 attachment: {
                                     width: l,
@@ -2233,7 +2233,7 @@
                 }, k = 0; k < r.children.length; k += 1){
                     var O, C, P, F = r.children[k];
                     F.type === T.Image ? o.push({
-                        string: "￼",
+                        string: String.fromCharCode(0xfffc),
                         attributes: U.default({}, A, {
                             attachment: {
                                 width: F.style.width || h,
@@ -2291,17 +2291,17 @@
                     return t.type === e;
                 };
             }, tL = tN(T.Svg), tU = tN(T.Text), tz = function e(t, r) {
-                if (n = t, tU(n) && !n.lines) {
-                    var n, i = t.box.width - (t.box.paddingRight + t.box.paddingLeft), o = t.box.height - (t.box.paddingTop + t.box.paddingBottom);
-                    t.lines = tM(t, i, o, r);
+                if (tU(t) && !t.lines) {
+                    var n = t.box.width - (t.box.paddingRight + t.box.paddingLeft), i = t.box.height - (t.box.paddingTop + t.box.paddingBottom);
+                    t.lines = tM(t, n, i, r);
                 }
                 if (!tL(t) && !tU(t)) {
                     if (!t.children) return t;
-                    var a = function(t) {
+                    var o = function(t) {
                         return e(t, r);
-                    }, u = t.children.map(a);
+                    }, a = t.children.map(o);
                     return Object.assign({}, t, {
-                        children: u
+                        children: a
                     });
                 }
                 return t;
@@ -2605,11 +2605,11 @@
                 return a.isNil(e) ? null : a.compose(rG, rq, rW, rz, function e(t, r) {
                     return function(n) {
                         var i = q.default.Node.createWithConfig(rO), o = Object.assign({}, n);
-                        if (o[rT] = i, rL(o), u = n, !rF(u) && !rR(u) && !rP(u) && n.children) {
-                            var u, l = a.compose(function(e) {
+                        if (o[rT] = i, rL(o), !rF(n) && !rR(n) && !rP(n) && n.children) {
+                            var u = a.compose(function(e) {
                                 return i.insertChild(e[rT], i.getChildCount()), e;
                             }, e(t, r));
-                            o.children = n.children.map(l);
+                            o.children = n.children.map(u);
                         }
                         return rU(o, t, r), o;
                     };
@@ -5422,15 +5422,19 @@
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
-            var i = r(4354), o = n(r(4573)), a = n(r(9845)), u = function(e) {
-                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (u = (0, i.last)(t)) || void 0 === u ? void 0 : null === (l = u.attributes) || void 0 === l ? void 0 : l.font;
+            var i = r(4354), o = n(r(4573)), a = n(r(9845)), u = String.fromCharCode(8230), l = function(e) {
+                if (!e.encode) return 8230;
+                var t = e.encode(u)[0];
+                return parseInt(t[0], 16);
+            }, s = function(e) {
+                var t = (null === (n = (0, i.last)(e)) || void 0 === n ? void 0 : n.runs) || [], r = null === (u = (0, i.last)(t)) || void 0 === u ? void 0 : null === (s = u.attributes) || void 0 === s ? void 0 : s.font;
                 if (r) {
-                    var n, u, l, s, c = e.length - 1, f = r.encode ? parseInt(r.encode("…")[0][0], 16) : 8230, d = r.glyphForCodePoint(f), p = (0, a.default)(d, (0, o.default)(e[c]));
-                    return Object.assign([], e, ((s = {})[c] = p, s));
+                    var n, u, s, c, f = e.length - 1, d = l(r), p = r.glyphForCodePoint(d), h = (0, a.default)(p, (0, o.default)(e[f]));
+                    return Object.assign([], e, ((c = {})[f] = h, c));
                 }
                 return e;
             };
-            t.default = u;
+            t.default = s;
         },
         7518: function(e, t) {
             "use strict";
@@ -15994,12 +15998,12 @@
                             }), r > 2) ? "one of ".concat(t, " ").concat(e.slice(0, r - 1).join(", "), ", or ") + e[r - 1] : 2 === r ? "one of ".concat(t, " ").concat(e[0], " or ").concat(e[1]) : "of ".concat(t, " ").concat(e[0]);
                         }
                         s("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), s("ERR_INVALID_ARG_TYPE", function(e, t, i) {
-                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (p = "must not be", t = t.replace(/^not /, "")) : p = "must be", l = e, s = " argument", (void 0 === f || f > l.length) && (f = l.length), l.substring(f - s.length, f) === s) h = "The ".concat(e, " ").concat(p, " ").concat(c(t, "type"));
+                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be", l = " argument", (void 0 === s || s > e.length) && (s = e.length), e.substring(s - l.length, s) === l) p = "The ".concat(e, " ").concat(d, " ").concat(c(t, "type"));
                             else {
-                                var o, u, l, s, f, d, p, h, y = ("number" != typeof d && (d = 0), d + 1 > e.length || -1 === e.indexOf(".", d)) ? "argument" : "property";
-                                h = 'The "'.concat(e, '" ').concat(y, " ").concat(p, " ").concat(c(t, "type"));
+                                var o, u, l, s, f, d, p, h = ("number" != typeof f && (f = 0), f + 1 > e.length || -1 === e.indexOf(".", f)) ? "argument" : "property";
+                                p = 'The "'.concat(e, '" ').concat(h, " ").concat(d, " ").concat(c(t, "type"));
                             }
-                            return h + ". Received type ".concat(n(i));
+                            return p + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
                             var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                             void 0 === u && (u = r(650));
@@ -18836,7 +18840,7 @@
                         n = [
                             new D(0, 0, 0, 0, function(e, t) {
                                 var r = 65535;
-                                for(r > e.pending_buf_size - 5 && (r = e.pending_buf_size - 5);;){
+                                for(65535 > e.pending_buf_size - 5 && (r = e.pending_buf_size - 5);;){
                                     if (e.lookahead <= 1) {
                                         if (v(e), 0 === e.lookahead && 0 === t) return 1;
                                         if (0 === e.lookahead) break;

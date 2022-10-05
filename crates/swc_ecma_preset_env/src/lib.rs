@@ -246,6 +246,7 @@ where
         pass,
         ForOf,
         es2015::for_of(es2015::for_of::Config {
+            loose,
             assume_array: loose || assumptions.iterable_is_array
         }),
         true

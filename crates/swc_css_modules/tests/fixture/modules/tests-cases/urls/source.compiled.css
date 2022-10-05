@@ -1,0 +1,14 @@
+.__local__a {
+  background: url(./img.png);
+  background: url("./img.png");
+  background: url("./img img.png");
+  background: url('./img img.png');
+  background: url('./img.png');
+  background: url("./img.png#?iefix");
+  background: url("#hash");
+  background: url("#");
+  background: url(data:image/png;base64,AAA);
+  background: url(http://example.com/image.jpg);
+  background: url(//example.com/image.png);
+  background: green url(data:image/png;base64,AAA) url(http://example.com/image.jpg) url(//example.com/image.png) url(./img.png) url('./img img.png') xyz;
+}

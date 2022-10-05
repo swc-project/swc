@@ -1,0 +1,3 @@
+:local(.abc) {
+  composes: def from "./file.css";
+}

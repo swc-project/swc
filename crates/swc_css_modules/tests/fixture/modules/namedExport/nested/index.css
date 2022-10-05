@@ -1,0 +1,20 @@
+@value v-def from '../../composes/values.css';
+@value v-primary: #BF4040;
+@value s-black: black-selector;
+@value m-large: (min-width: 960px);
+
+.header {
+  color: v-primary;
+  padding: 0 10px;
+}
+
+.s-black {
+  color: black;
+}
+
+@media m-large and (max-width: 1024px) {
+  .header {
+    color: v-def;
+    padding: 0 20px;
+  }
+}

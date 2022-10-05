@@ -1,0 +1,24 @@
+{
+  "one": [
+    {
+      "type": "local",
+      "name": "__local__one"
+    },
+    {
+      "type": "import",
+      "name": "imported-relative",
+      "from": "package/one.css"
+    }
+  ],
+  "two": [
+    {
+      "type": "local",
+      "name": "__local__two"
+    },
+    {
+      "type": "import",
+      "name": "imported-relative",
+      "from": "package/two.css"
+    }
+  ]
+}

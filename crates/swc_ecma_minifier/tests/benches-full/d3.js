@@ -2244,7 +2244,7 @@
     function circleInOut(t) {
         return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
     }
-    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / b1 / b1;
+    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
     function bounceOut(t) {
         return (t = +t) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
     }
@@ -5221,7 +5221,7 @@
         };
     }
     function graticule() {
-        var x1, x0, X1, X0, y1, y0, Y1, Y0, x, y, X, Y, dx = 10, dy = dx, DX = 90, DY = 360, precision = 2.5;
+        var x1, x0, X1, X0, y1, y0, Y1, Y0, x, y, X, Y, dx = 10, dy = 10, DX = 90, DY = 360, precision = 2.5;
         function graticule() {
             return {
                 type: "MultiLineString",
@@ -5334,7 +5334,7 @@
     function areaRingEnd$1() {
         areaPoint$1(x00, y00);
     }
-    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = x0$2, x1 = -x0$2, y1 = x1, boundsStream$1 = {
+    var x00$1, y00$1, x0$3, y0$3, x0$2 = 1 / 0, y0$2 = 1 / 0, x1 = -1 / 0, y1 = x1, boundsStream$1 = {
         point: function(x, y) {
             x < x0$2 && (x0$2 = x), x > x1 && (x1 = x), y < y0$2 && (y0$2 = y), y > y1 && (y1 = y);
         },
@@ -6839,7 +6839,7 @@
         };
     }
     function symlogish(transform) {
-        var c = 1, scale = transform(transformSymlog(c), transformSymexp(c));
+        var c = 1, scale = transform(transformSymlog(1), transformSymexp(c));
         return scale.constant = function(_) {
             return arguments.length ? transform(transformSymlog(c = +_), transformSymexp(c)) : c;
         }, linearish(scale);
@@ -7567,7 +7567,7 @@
     } : exports1.utcFormat(isoSpecifier), parseIso = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
         var date = new Date(string);
         return isNaN(date) ? null : date;
-    } : exports1.utcParse(isoSpecifier), durationHour$1 = 3600000, durationDay$1 = 24 * durationHour$1, durationWeek$1 = 7 * durationDay$1, durationMonth = 30 * durationDay$1, durationYear = 365 * durationDay$1;
+    } : exports1.utcParse(isoSpecifier), durationMonth = 2592000000, durationYear = 31536000000;
     function date$1(t) {
         return new Date(t);
     }
@@ -7619,37 +7619,37 @@
             [
                 hour,
                 1,
-                durationHour$1
+                3600000
             ],
             [
                 hour,
                 3,
-                3 * durationHour$1
+                10800000
             ],
             [
                 hour,
                 6,
-                6 * durationHour$1
+                21600000
             ],
             [
                 hour,
                 12,
-                12 * durationHour$1
+                43200000
             ],
             [
                 day,
                 1,
-                durationDay$1
+                86400000
             ],
             [
                 day,
                 2,
-                2 * durationDay$1
+                172800000
             ],
             [
                 week,
                 1,
-                durationWeek$1
+                604800000
             ],
             [
                 month,
@@ -9075,7 +9075,7 @@
             ] : null;
         }, cluster;
     }, exports1.color = color, exports1.contourDensity = function() {
-        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 3 * r, n = dx + 2 * o >> k, m = dy + 2 * o >> k, threshold = constant$6(20);
+        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 60, n = 270, m = 155, threshold = constant$6(20);
         function density(data) {
             var values0 = new Float32Array(n * m), values1 = new Float32Array(n * m);
             data.forEach(function(d, i, data) {
@@ -9524,7 +9524,7 @@
         }, force;
     }, exports1.forceSimulation = function(nodes) {
         let s;
-        var simulation, alpha = 1, alphaMin = 0.001, alphaDecay = 1 - Math.pow(alphaMin, 1 / 300), alphaTarget = 0, velocityDecay = 0.6, forces = new Map(), stepper = timer(step), event = dispatch("tick", "end"), random = (s = 1, ()=>(s = (1664525 * s + 1013904223) % 4294967296) / 4294967296);
+        var simulation, alpha = 1, alphaMin = 0.001, alphaDecay = 1 - Math.pow(0.001, 1 / 300), alphaTarget = 0, velocityDecay = 0.6, forces = new Map(), stepper = timer(step), event = dispatch("tick", "end"), random = (s = 1, ()=>(s = (1664525 * s + 1013904223) % 4294967296) / 4294967296);
         function step() {
             tick(), event.call("tick", simulation), alpha < alphaMin && (stepper.stop(), event.call("end", simulation));
         }

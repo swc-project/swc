@@ -6395,7 +6395,7 @@
                 return handleManifestRedirect && req && req.responseURL && url !== req.responseURL ? req.responseURL : url;
             }, logger = function(source) {
                 return videojs.log.debug ? videojs.log.debug.bind(videojs, "VHS:", source + " >") : function() {};
-            }, TIME_FUDGE_FACTOR = 1 / 30, SAFE_TIME_DELTA = 3 * TIME_FUDGE_FACTOR, filterRanges = function(timeRanges, predicate) {
+            }, TIME_FUDGE_FACTOR = 1 / 30, SAFE_TIME_DELTA = 3 * (1 / 30), filterRanges = function(timeRanges, predicate) {
                 var i, results = [];
                 if (timeRanges && timeRanges.length) for(i = 0; i < timeRanges.length; i++)predicate(timeRanges.start(i), timeRanges.end(i)) && results.push([
                     timeRanges.start(i),
@@ -7842,46 +7842,8 @@
                     for(i = payload.length; i--;)size += payload[i].byteLength;
                     for(result = new Uint8Array(size + 8), new DataView(result.buffer, result.byteOffset, result.byteLength).setUint32(0, result.byteLength), result.set(type, 4), i = 0, size = 8; i < payload.length; i++)result.set(payload[i], size), size += payload[i].byteLength;
                     return result;
-                }, dinf = function() {
-                    return box(types.dinf, box(types.dref, DREF));
-                }, esds = function(track) {
-                    return box(types.esds, new Uint8Array([
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x03,
-                        0x19,
-                        0x00,
-                        0x00,
-                        0x00,
-                        0x04,
-                        0x11,
-                        0x40,
-                        0x15,
-                        0x00,
-                        0x06,
-                        0x00,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        0x00,
-                        0x00,
-                        0xda,
-                        0xc0,
-                        0x05,
-                        0x02,
-                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
-                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
-                        0x06,
-                        0x01,
-                        0x02
-                    ]));
                 }, ftyp = function() {
                     return box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND);
-                }, hdlr = function(type) {
-                    return box(types.hdlr, HDLR_TYPES[type]);
                 }, mdat = function(data) {
                     return box(types.mdat, data);
                 }, mdhd = function(track) {
@@ -7913,7 +7875,8 @@
                     ]);
                     return track.samplerate && (result[12] = track.samplerate >>> 24 & 0xff, result[13] = track.samplerate >>> 16 & 0xff, result[14] = track.samplerate >>> 8 & 0xff, result[15] = 0xff & track.samplerate), box(types.mdhd, result);
                 }, mdia = function(track) {
-                    return box(types.mdia, mdhd(track), hdlr(track.type), minf(track));
+                    var type;
+                    return box(types.mdia, mdhd(track), (type = track.type, box(types.hdlr, HDLR_TYPES[type])), minf(track));
                 }, mfhd = function(sequenceNumber) {
                     return box(types.mfhd, new Uint8Array([
                         0x00,
@@ -7926,7 +7889,7 @@
                         0xff & sequenceNumber
                     ]));
                 }, minf = function(track) {
-                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), dinf(), stbl(track));
+                    return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), box(types.dinf, box(types.dref, DREF)), stbl(track));
                 }, moof = function(sequenceNumber, tracks) {
                     for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
                     return box.apply(null, [
@@ -8220,7 +8183,39 @@
                         0xff & track.samplerate,
                         0x00,
                         0x00
-                    ]), esds(track));
+                    ]), box(types.esds, new Uint8Array([
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x03,
+                        0x19,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0x04,
+                        0x11,
+                        0x40,
+                        0x15,
+                        0x00,
+                        0x06,
+                        0x00,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        0x00,
+                        0x00,
+                        0xda,
+                        0xc0,
+                        0x05,
+                        0x02,
+                        track.audioobjecttype << 3 | track.samplingfrequencyindex >>> 1,
+                        track.samplingfrequencyindex << 7 | track.channelcount << 3,
+                        0x06,
+                        0x01,
+                        0x02
+                    ])));
                 }, tkhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
@@ -9318,7 +9313,7 @@
                     };
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
-                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, dinf, esds, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, hdlr, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, VIDEO_HDLR, AUDIO_HDLR, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, timestampRolloverStream = {
+                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, VIDEO_HDLR, AUDIO_HDLR, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, timestampRolloverStream = {
                     TimestampRolloverStream: TimestampRolloverStream$1,
                     handleRollover: handleRollover$1
                 }, percentEncode$1 = function(bytes, start, end) {

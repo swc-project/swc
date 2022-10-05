@@ -1,0 +1,4 @@
+:local(.abc) {
+  composes: def1 from "./file1.css";
+  composes: def2 from "./file2.css";
+}

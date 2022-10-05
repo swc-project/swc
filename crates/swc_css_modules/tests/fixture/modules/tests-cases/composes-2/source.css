@@ -1,0 +1,3 @@
+:local(.c1) { composes: c-2 from "./file.css"; b: 1; }
+:local(.c3) { composes: c1; b: 3; }
+:local(.c5) { composes: c-2 c4 from "./file.css"; b: 5; }

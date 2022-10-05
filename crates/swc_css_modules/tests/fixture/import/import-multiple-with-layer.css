@@ -1,0 +1,8 @@
+@import url('./test.css') layer(base);
+@import url('./relative.css') layer(base);
+
+@layer base {
+   .foo {
+       color: red;
+   }
+}

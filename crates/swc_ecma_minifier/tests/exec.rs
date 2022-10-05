@@ -10110,3 +10110,33 @@ fn issue_5914() {
 
     run_exec_test(src, config, false);
 }
+
+#[test]
+fn feedback_regex_range() {
+    let src = r###"
+        const rtlRegEx = new RegExp(
+            /* eslint-disable prettier/prettier */
+            '[' +
+            String.fromCharCode(0x00591) + '-' + String.fromCharCode(0x008ff) +
+            String.fromCharCode(0x0fb1d) + '-' + String.fromCharCode(0x0fdff) +
+            String.fromCharCode(0x0fe70) + '-' + String.fromCharCode(0x0fefc) +
+            String.fromCharCode(0x10800) + '-' + String.fromCharCode(0x10fff) +
+            String.fromCharCode(0x1e800) + '-' + String.fromCharCode(0x1efff) +
+            ']'
+            /* eslint-enable prettier/prettier */
+        );
+        console.log('PASS')
+    "###;
+
+    run_default_exec_test(src);
+}
+
+#[test]
+fn issue_6051() {
+    run_default_exec_test(
+        r###"
+        const o = { '010': '', '123': 'bar' }
+        console.log(o)
+        "###,
+    );
+}

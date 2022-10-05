@@ -16,7 +16,6 @@ asm/asm_mixed/input.js
 async/async_inline/input.js
 block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
-class_properties/mangle_class_properties/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
 classes/pure_prop_assignment_for_classes/input.js
@@ -40,7 +39,6 @@ collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
-collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_switch/input.js
 collapse_vars/collapse_vars_unary/input.js
 collapse_vars/cond_branch_1/input.js
@@ -126,11 +124,9 @@ drop_unused/drop_toplevel_vars_retain/input.js
 drop_unused/drop_var/input.js
 drop_unused/issue_1583/input.js
 drop_unused/issue_1715_3/input.js
-drop_unused/issue_1715_4/input.js
 drop_unused/issue_1830_1/input.js
 drop_unused/issue_1830_2/input.js
 drop_unused/issue_1838/input.js
-drop_unused/issue_1968/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_2105_1/input.js
 drop_unused/issue_2105_2/input.js
@@ -168,7 +164,6 @@ evaluate/self_comparison_1/input.js
 evaluate/self_comparison_2/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
-export/issue_2126/input.js
 export/module_mangle_export_default_class/input.js
 export/module_mangle_export_default_function/input.js
 export/name_cache_do_not_mangle_export_class_name/input.js
@@ -185,8 +180,6 @@ export/name_cache_mangle_local_import_and_export_aliases/input.js
 functions/duplicate_arg_var/input.js
 functions/hoist_funs/input.js
 functions/hoist_funs_strict/input.js
-functions/inline_loop_1/input.js
-functions/inline_loop_2/input.js
 functions/inner_ref/input.js
 functions/issue_203/input.js
 functions/issue_2084/input.js
@@ -204,9 +197,7 @@ functions/issue_2620_1/input.js
 functions/issue_2620_2/input.js
 functions/issue_2620_3/input.js
 functions/issue_2620_4/input.js
-functions/issue_2630_1/input.js
 functions/issue_2630_2/input.js
-functions/issue_2630_4/input.js
 functions/issue_2630_5/input.js
 functions/issue_2657/input.js
 functions/issue_2663_2/input.js
@@ -289,9 +280,6 @@ issue_1466/same_variable_in_multiple_forOf_sequences_let/input.js
 issue_1466/same_variable_in_multiple_for_loop/input.js
 issue_1569/inner_reference/input.js
 issue_1639/issue_1639_1/input.js
-issue_1639/issue_1639_2/input.js
-issue_1673/side_effects_else/input.js
-issue_1733/function_catch_catch/input.js
 issue_1750/case_1/input.js
 issue_1770/mangle_props/input.js
 issue_1770/numeric_literal/input.js
@@ -372,7 +360,6 @@ object/prop_arrow_with_this/input.js
 object/prop_func_to_async_concise_method/input.js
 object/prop_func_to_concise_method/input.js
 object/prop_func_to_concise_method_various/input.js
-parameters/default_arguments/input.js
 parameters/destructuring_arguments_3/input.js
 reduce_vars/array_forin_1/input.js
 reduce_vars/chained_assignments/input.js
@@ -388,9 +375,7 @@ reduce_vars/defun_reference/input.js
 reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def/input.js
-reduce_vars/duplicate_lambda_defun_name_1/input.js
 reduce_vars/escape_expansion/input.js
-reduce_vars/escape_local_sequence/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/func_arg_2/input.js
@@ -406,7 +391,6 @@ reduce_vars/issue_1670_5/input.js
 reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2449/input.js
 reduce_vars/issue_2485/input.js
-reduce_vars/issue_2669/input.js
 reduce_vars/issue_2757_1/input.js
 reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_2/input.js
@@ -414,14 +398,8 @@ reduce_vars/issue_2836/input.js
 reduce_vars/issue_2860_2/input.js
 reduce_vars/issue_294/input.js
 reduce_vars/issue_308/input.js
-reduce_vars/issue_3110_3/input.js
-reduce_vars/issue_3113_1/input.js
-reduce_vars/issue_3113_2/input.js
 reduce_vars/issue_3140_4/input.js
-reduce_vars/lvalues_def_1/input.js
-reduce_vars/lvalues_def_2/input.js
 reduce_vars/modified/input.js
-reduce_vars/multi_def_3/input.js
 reduce_vars/obj_arg_2/input.js
 reduce_vars/obj_for_1/input.js
 reduce_vars/obj_var_2/input.js
@@ -437,7 +415,6 @@ reduce_vars/redefine_farg_3/input.js
 reduce_vars/reduce_vars/input.js
 reduce_vars/regex_loop/input.js
 reduce_vars/unused_modified/input.js
-reduce_vars/variables_collision_in_immediately_invoked_func/input.js
 return_undefined/return_undefined/input.js
 sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js

@@ -63,9 +63,9 @@ pub struct Mark(u32);
 
 #[allow(unused)]
 #[derive(Clone, Debug)]
-struct MarkData {
-    parent: Mark,
-    is_builtin: bool,
+pub(crate) struct MarkData {
+    pub(crate) parent: Mark,
+    pub(crate) is_builtin: bool,
 }
 
 #[cfg_attr(
@@ -112,12 +112,12 @@ impl Mark {
         // We loosen conditions here for the cases like running plugin's test without
         // targeting wasm32-*.
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with(|data| {
-            data.marks.push(MarkData {
+        return with_marks(|marks| {
+            marks.push(MarkData {
                 parent,
                 is_builtin: false,
             });
-            Mark(data.marks.len() as u32 - 1)
+            Mark(marks.len() as u32 - 1)
         });
     }
 
@@ -144,7 +144,7 @@ impl Mark {
         return Mark(unsafe { __mark_parent_proxy(self.0) });
 
         #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
-        return HygieneData::with(|data| data.marks[self.0 as usize].parent);
+        return with_marks(|marks| marks[self.0 as usize].parent);
     }
 
     #[inline]
@@ -156,7 +156,7 @@ impl Mark {
         {
             assert_ne!(self, Mark::root());
 
-            HygieneData::with(|data| data.marks[self.0 as usize].is_builtin)
+            with_marks(|marks| marks[self.0 as usize].is_builtin)
         }
     }
 
@@ -170,7 +170,7 @@ impl Mark {
         {
             assert_ne!(self, Mark::root());
 
-            HygieneData::with(|data| data.marks[self.0 as usize].is_builtin = is_builtin)
+            with_marks(|marks| marks[self.0 as usize].is_builtin = is_builtin)
         }
     }
 
@@ -206,12 +206,12 @@ impl Mark {
 
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn is_descendant_of(mut self, ancestor: Mark) -> bool {
-        HygieneData::with(|data| {
+        with_marks(|marks| {
             while self != ancestor {
                 if self == Mark::root() {
                     return false;
                 }
-                self = data.marks[self.0 as usize].parent;
+                self = marks[self.0 as usize].parent;
             }
             true
         })
@@ -254,17 +254,17 @@ impl Mark {
     #[allow(unused_mut)]
     #[cfg(not(all(feature = "__plugin_mode", target_arch = "wasm32")))]
     pub fn least_ancestor(mut a: Mark, mut b: Mark) -> Mark {
-        HygieneData::with(|data| {
+        with_marks(|marks| {
             // Compute the path from a to the root
             let mut a_path = HashSet::<Mark>::default();
             while a != Mark::root() {
                 a_path.insert(a);
-                a = data.marks[a.0 as usize].parent;
+                a = marks[a.0 as usize].parent;
             }
 
             // While the path from b to the root hasn't intersected, move up the tree
             while !a_path.contains(&b) {
-                b = data.marks[b.0 as usize].parent;
+                b = marks[b.0 as usize].parent;
             }
 
             b
@@ -275,7 +275,6 @@ impl Mark {
 #[allow(unused)]
 #[derive(Debug)]
 pub(crate) struct HygieneData {
-    marks: Vec<MarkData>,
     syntax_contexts: Vec<SyntaxContextData>,
     markings: AHashMap<(SyntaxContext, Mark), SyntaxContext>,
 }
@@ -289,12 +288,6 @@ impl Default for HygieneData {
 impl HygieneData {
     pub(crate) fn new() -> Self {
         HygieneData {
-            marks: vec![MarkData {
-                parent: Mark::root(),
-                // If the root is opaque, then loops searching for an opaque mark
-                // will automatically stop after reaching it.
-                is_builtin: true,
-            }],
             syntax_contexts: vec![SyntaxContextData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
@@ -314,6 +307,17 @@ impl HygieneData {
             return f(&mut *globals.hygiene_data.lock().unwrap());
         })
     }
+}
+
+#[allow(unused)]
+pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
+    GLOBALS.with(|globals| {
+        #[cfg(feature = "parking_lot")]
+        return f(&mut globals.marks.lock());
+
+        #[cfg(not(feature = "parking_lot"))]
+        return f(&mut *globals.marks.lock().unwrap());
+    })
 }
 
 // pub fn clear_markings() {

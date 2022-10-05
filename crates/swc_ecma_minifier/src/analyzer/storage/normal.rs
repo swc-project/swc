@@ -146,7 +146,7 @@ impl Storage for ProgramData {
             .vars
             .entry(i.to_id())
             .and_modify(|v| {
-                if has_init && v.declared {
+                if has_init && (v.declared || v.var_initialized) {
                     trace_op!("declare_decl(`{}`): Already declared", i);
 
                     v.mutated = true;
@@ -224,9 +224,11 @@ impl ProgramData {
         let e = self.vars.entry(i.clone()).or_insert_with(|| {
             // trace!("insert({}{:?})", i.0, i.1);
 
+            let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+
             VarUsageInfo {
                 is_fn_local: true,
-                used_above_decl: true,
+                used_above_decl: !simple_assign,
                 ..Default::default()
             }
         });

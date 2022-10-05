@@ -1,0 +1,9 @@
+.simple-foo {
+  color: red;
+  composes: imported-simple from './imported-simple.css';
+}
+
+.simple-bar {
+  color: red;
+  composes: imported-simple from './imported-simple.css';
+}

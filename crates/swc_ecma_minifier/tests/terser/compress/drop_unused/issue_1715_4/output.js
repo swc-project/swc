@@ -1,10 +1,9 @@
 var a = 1;
-!(function () {
-    a++;
+!function() {
     try {
         x();
     } catch (a) {
         var a;
     }
-})();
+}();
 console.log(a);

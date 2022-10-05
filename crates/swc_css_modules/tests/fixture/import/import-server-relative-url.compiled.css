@@ -1,0 +1,5 @@
+@import url(/import/test.css);
+@import "/import/test.css";
+.__local__class {
+  a: b c d;
+}

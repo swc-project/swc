@@ -405,7 +405,7 @@
             var _ascending__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/ascending.js");
             __webpack_exports__.default = function(values, compare) {
                 if (n = values.length) {
-                    var n, xi, i = 0, j = 0, xj = values[j];
+                    var n, xi, i = 0, j = 0, xj = values[0];
                     for(null == compare && (compare = _ascending__WEBPACK_IMPORTED_MODULE_0__.default); ++i < n;)(0 > compare(xi = values[i], xj) || 0 !== compare(xj, xj)) && (xj = xi, j = i);
                     if (0 === compare(xj, xj)) return j;
                 }
@@ -750,7 +750,7 @@
             });
             var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js");
             function Color() {}
-            var darker = 0.7, brighter = 1 / darker, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
+            var darker = 0.7, brighter = 1.4285714285714286, reI = "\\s*([+-]?\\d+)\\s*", reN = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)\\s*", reP = "\\s*([+-]?\\d*\\.?\\d+(?:[eE][+-]?\\d+)?)%\\s*", reHex = /^#([0-9a-f]{3,8})$/, reRgbInteger = RegExp("^rgb\\(" + [
                 reI,
                 reI,
                 reI
@@ -1118,7 +1118,7 @@
             }), __webpack_require__.d(__webpack_exports__, "Hcl", function() {
                 return Hcl;
             });
-            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * t1 * t1, t3 = t1 * t1 * t1;
+            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = t1 * t1 * t1;
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
@@ -1234,7 +1234,7 @@
             }), __webpack_require__.d(__webpack_exports__, "bounceInOut", function() {
                 return bounceInOut;
             });
-            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / b1 / b1;
+            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
             function bounceIn(t) {
                 return 1 - bounceOut(1 - t);
             }
@@ -3097,7 +3097,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "calendar", function() {
                 return calendar;
             });
-            var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/src/nice.js"), durationHour = 3600000, durationDay = 24 * durationHour, durationWeek = 7 * durationDay, durationMonth = 30 * durationDay, durationYear = 365 * durationDay;
+            var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/src/nice.js"), durationMonth = 2592000000, durationYear = 31536000000;
             function date(t) {
                 return new Date(t);
             }
@@ -3149,37 +3149,37 @@
                     [
                         hour,
                         1,
-                        durationHour
+                        3600000
                     ],
                     [
                         hour,
                         3,
-                        3 * durationHour
+                        10800000
                     ],
                     [
                         hour,
                         6,
-                        6 * durationHour
+                        21600000
                     ],
                     [
                         hour,
                         12,
-                        12 * durationHour
+                        43200000
                     ],
                     [
                         day,
                         1,
-                        durationDay
+                        86400000
                     ],
                     [
                         day,
                         2,
-                        2 * durationDay
+                        172800000
                     ],
                     [
                         week,
                         1,
-                        durationWeek
+                        604800000
                     ],
                     [
                         month,
@@ -8121,7 +8121,7 @@
             };
         },
         "../../../node_modules/lodash/isPlainObject.js": function(module1, exports1, __webpack_require__) {
-            var baseGetTag = __webpack_require__("../../../node_modules/lodash/_baseGetTag.js"), getPrototype = __webpack_require__("../../../node_modules/lodash/_getPrototype.js"), isObjectLike = __webpack_require__("../../../node_modules/lodash/isObjectLike.js"), funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
+            var baseGetTag = __webpack_require__("../../../node_modules/lodash/_baseGetTag.js"), getPrototype = __webpack_require__("../../../node_modules/lodash/_getPrototype.js"), isObjectLike = __webpack_require__("../../../node_modules/lodash/isObjectLike.js"), objectProto = Object.prototype, funcToString = Function.prototype.toString, hasOwnProperty = objectProto.hasOwnProperty, objectCtorString = funcToString.call(Object);
             module1.exports = function(value) {
                 if (!isObjectLike(value) || '[object Object]' != baseGetTag(value)) return !1;
                 var proto = getPrototype(value);
@@ -16569,7 +16569,7 @@
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTransition), self1 = this, (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(self1)).state = {
+                    }(this, VictoryTransition), (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
@@ -16783,7 +16783,7 @@
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                        }(this, addEvents), self1 = this, _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(self1);
+                        }(this, addEvents), _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this);
                         var self1, call, _this, getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
                         _this.state = {}, _this.getEvents = function(p, target, eventKey) {
                             return boundGetEvents(p, target, eventKey, getScopedEvents);

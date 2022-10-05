@@ -1,0 +1,42 @@
+.__local__a {
+  color: green;
+  animation: __local__a;
+}
+@keyframes __local__b {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+.__local__b {
+  animation: __local__b;
+}
+@keyframes c {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+.__local__c {
+  animation: __local__c1;
+  animation: __local__c2, __local__c3, __local__c4;
+}
+@keyframes d {
+  0% {
+    left: 10px;
+  }
+  100% {
+    left: 20px;
+  }
+}
+ .d1 {
+  animation: __local__d1;
+  animation: __local__d2, __local__d3, __local__d4;
+}
+.d2 {
+  animation: __local__d2;
+}

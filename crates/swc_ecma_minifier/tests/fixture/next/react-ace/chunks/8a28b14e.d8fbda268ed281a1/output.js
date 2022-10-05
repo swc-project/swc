@@ -5111,8 +5111,8 @@
                         }), fold.collapseChildren = this.collapseChildren, fold;
                     }, this.addSubFold = function(fold) {
                         if (!this.range.isEqual(fold)) {
-                            range = fold, anchor = this.start, consumePoint(range.start, anchor), consumePoint(range.end, anchor);
-                            for(var range, anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
+                            anchor = this.start, consumePoint(fold.start, anchor), consumePoint(fold.end, anchor);
+                            for(var anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
                             var afterStart = this.subFolds[i], firstConsumed = 0;
                             if (0 == cmp) {
                                 if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);

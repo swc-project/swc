@@ -5,10 +5,28 @@
 
 
 
+- **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
+
+
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
+- **(es/compat)** Fix handling of deep array pattern of object rest pass (#6035) ([0c67a3a](https://github.com/swc-project/swc/commit/0c67a3adbaec69d72016fe7c525223888d34ef3e))
+
+
+- **(es/compat)** Fix handling of op-assignment in `generator` (#6036) ([7554482](https://github.com/swc-project/swc/commit/755448220529f82e82b56624e5a431c256c172ba))
+
+
 - **(es/minifier)** Don't inline into nested scope (#6002) ([2ee3ad0](https://github.com/swc-project/swc/commit/2ee3ad00663a515697769cef55ad5606e14943da))
+
+
+- **(es/minifier)** Don't evaluate `String.fromCharCode` for non-ascii values (#6033) ([197c4e2](https://github.com/swc-project/swc/commit/197c4e269d639a188bc3cca01f8618a61fed8d58))
+
+
+- **(es/minifier)** Don't skip unresolved identifiers (#6050) ([c5fb774](https://github.com/swc-project/swc/commit/c5fb7744870dd2ba9ec606513c4e17142035ed14))
+
+
+- **(es/minifier)** Fix optimization of numeric keys (#6052) ([e3b55e4](https://github.com/swc-project/swc/commit/e3b55e4bcf2bc12bbcc0fb2cb65e0931622d5dcb))
 
 
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
@@ -17,10 +35,31 @@
 
 
 
+- **(css/modules)** Implement css modules (#6000) ([2cce1c8](https://github.com/swc-project/swc/commit/2cce1c82b2a72e69668c170e1b9a0bc78b2b4afd))
+
+
+- **(css/modules)** Support `:local` and `:global` (#6045) ([10d0f8e](https://github.com/swc-project/swc/commit/10d0f8e0011fc9e02769cde49fcfd8f8730ca15e))
+
+
+- **(css/modules)** Support `:global` in `@keyframes` (#6046) ([51e935e](https://github.com/swc-project/swc/commit/51e935eb4abd8911b2568f1598b20a9c0db7dbbf))
+
+
+- **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
+
+
 - **(es/minifier)** Drop vars from sequential inliner (#5993) ([286334c](https://github.com/swc-project/swc/commit/286334c4d0b15d92347c6e51e05a3c3bf506e982))
 
 
 - **(es/minifier)** Inline function calls in more cases (#6010) ([61807ab](https://github.com/swc-project/swc/commit/61807abf6e482df5f34d24955c8fa56d6857659c))
+
+
+- **(es/minifier)** Ignore return values of ignored IIFEs (#6020) ([2b62752](https://github.com/swc-project/swc/commit/2b627524acaeb555988a9537d84fe51033e7f8fd))
+
+
+- **(es/minifier)** Clone trivial literals in sequential inliner (#6005) ([877936f](https://github.com/swc-project/swc/commit/877936f626882e7fe139a97e3d0ea53f93d56344))
+
+
+- **(es/minifier)** Inline vars initialized before the declaration (#6027) ([c485099](https://github.com/swc-project/swc/commit/c4850997a292f9bc6c057b28e002d427db6587c8))
 
 
 - **(html/codegen)** Add an option to keep quotes while minifying (#5996) ([35da762](https://github.com/swc-project/swc/commit/35da76241dd9e456a9124717cc8ddba82c97a2b2))
@@ -29,7 +68,19 @@
 
 
 
-- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
+
+### Performance
+
+
+
+- **(common)** Split the mutex for the hygiene system (#6019) ([5ea2d81](https://github.com/swc-project/swc/commit/5ea2d81aa3cd7ce46d92582fc88e50676c54c202))
+
+### Testing
+
+
+
+- **(es/minifier)** Organize terser tests (#6015) ([1aae503](https://github.com/swc-project/swc/commit/1aae503913da14134b758527fa5049a1e46352ef))
 
 ### Build
 

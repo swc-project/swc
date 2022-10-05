@@ -95,11 +95,11 @@
                             return e = error, this.trigger("error", e), null;
                         }
                     }
-                }, DLList$1 = DLList, Events$1 = Events, Queues = class {
+                }, Queues = class {
                     constructor(num_priorities){
-                        this.Events = new Events$1(this), this._length = 0, this._lists = (function() {
+                        this.Events = new Events(this), this._length = 0, this._lists = (function() {
                             var j, results;
-                            for(results = [], j = 1; 1 <= num_priorities ? j <= num_priorities : j >= num_priorities; 1 <= num_priorities ? ++j : --j)results.push(new DLList$1(()=>this.incr(), ()=>this.decr()));
+                            for(results = [], j = 1; 1 <= num_priorities ? j <= num_priorities : j >= num_priorities; 1 <= num_priorities ? ++j : --j)results.push(new DLList(()=>this.incr(), ()=>this.decr()));
                             return results;
                         }).call(this);
                     }
@@ -129,21 +129,21 @@
                         return this.getFirst(this._lists.slice(priority).reverse()).shift();
                     }
                 }, BottleneckError = class extends Error {
-                }, NUM_PRIORITIES = 10, DEFAULT_PRIORITY = 5, parser$1 = parser, BottleneckError$1 = BottleneckError, Job = class {
+                }, Job = class {
                     constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
-                        this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser$1.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
+                        this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
                             this._resolve = _resolve, this._reject = _reject;
                         }), this.retryCount = 0;
                     }
                     _sanitizePriority(priority) {
                         var sProperty;
-                        return (sProperty = ~~priority !== priority ? DEFAULT_PRIORITY : priority) < 0 ? 0 : sProperty > NUM_PRIORITIES - 1 ? NUM_PRIORITIES - 1 : sProperty;
+                        return (sProperty = ~~priority !== priority ? 5 : priority) < 0 ? 0 : sProperty > 9 ? 9 : sProperty;
                     }
                     _randomIndex() {
                         return Math.random().toString(36).slice(2);
                     }
                     doDrop({ error , message ="This job has been dropped by Bottleneck"  } = {}) {
-                        return !!this._states.remove(this.options.id) && (this.rejectOnDrop && this._reject(null != error ? error : new BottleneckError$1(message)), this.Events.trigger("dropped", {
+                        return !!this._states.remove(this.options.id) && (this.rejectOnDrop && this._reject(null != error ? error : new BottleneckError(message)), this.Events.trigger("dropped", {
                             args: this.args,
                             options: this.options,
                             task: this.task,
@@ -152,7 +152,7 @@
                     }
                     _assertStatus(expected) {
                         var status;
-                        if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError$1(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
+                        if (!((status = this._states.jobStatus(this.options.id)) === expected || "DONE" === expected && null === status)) throw new BottleneckError(`Invalid job status ${status}, expected ${expected}. Please open an issue at https://github.com/SGrondin/bottleneck/issues`);
                     }
                     doReceive() {
                         return this._states.start(this.options.id), this.Events.trigger("received", {
@@ -193,7 +193,7 @@
                             args: this.args,
                             options: this.options,
                             retryCount: this.retryCount
-                        }, error = new BottleneckError$1(`This job timed out after ${this.options.expiration} ms.`), this._onFailure(error, eventInfo, clearGlobalState, run, free);
+                        }, error = new BottleneckError(`This job timed out after ${this.options.expiration} ms.`), this._onFailure(error, eventInfo, clearGlobalState, run, free);
                     }
                     async _onFailure(error, eventInfo, clearGlobalState, run, free) {
                         var retry, retryAfter;
@@ -202,9 +202,9 @@
                     doDone(eventInfo) {
                         return this._assertStatus("EXECUTING"), this._states.next(this.options.id), this.Events.trigger("done", eventInfo);
                     }
-                }, parser$2 = parser, BottleneckError$2 = BottleneckError, LocalDatastore = class {
+                }, LocalDatastore = class {
                     constructor(instance, storeOptions, storeInstanceOptions){
-                        this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser$2.load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
+                        this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser.load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
                     }
                     _startHeartbeat() {
                         var base;
@@ -229,7 +229,7 @@
                         return null != (ref = this.storeOptions.penalty) ? ref : 15 * this.storeOptions.minTime || 5000;
                     }
                     async __updateSettings__(options) {
-                        return await this.yieldLoop(), parser$2.overwrite(options, options, this.storeOptions), this._startHeartbeat(), this.instance._drainAll(this.computeCapacity()), !0;
+                        return await this.yieldLoop(), parser.overwrite(options, options, this.storeOptions), this._startHeartbeat(), this.instance._drainAll(this.computeCapacity()), !0;
                     }
                     async __running__() {
                         return await this.yieldLoop(), this._running;
@@ -283,7 +283,7 @@
                     }
                     async __submit__(queueLength, weight) {
                         var blocked, now, reachedHWM;
-                        if (await this.yieldLoop(), null != this.storeOptions.maxConcurrent && weight > this.storeOptions.maxConcurrent) throw new BottleneckError$2(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${this.storeOptions.maxConcurrent}`);
+                        if (await this.yieldLoop(), null != this.storeOptions.maxConcurrent && weight > this.storeOptions.maxConcurrent) throw new BottleneckError(`Impossible to add a job having a weight of ${weight} to a limiter having a maxConcurrent setting of ${this.storeOptions.maxConcurrent}`);
                         return now = Date.now(), reachedHWM = null != this.storeOptions.highWater && queueLength === this.storeOptions.highWater && !this.check(weight, now), (blocked = this.strategyIsBlock() && (reachedHWM || this.isBlocked(now))) && (this._unblockTime = now + this.computePenalty(), this._nextRequest = this._unblockTime + this.storeOptions.minTime, this.instance._dropAllQueued()), {
                             reachedHWM,
                             blocked,
@@ -295,7 +295,7 @@
                             running: this._running
                         };
                     }
-                }, BottleneckError$3 = BottleneckError, States = class {
+                }, States = class {
                     constructor(status1){
                         this.status = status1, this._jobs = {}, this.counts = this.status.map(function() {
                             return 0;
@@ -319,16 +319,16 @@
                     statusJobs(status) {
                         var k, pos, ref, results;
                         if (null == status) return Object.keys(this._jobs);
-                        if ((pos = this.status.indexOf(status)) < 0) throw new BottleneckError$3(`status must be one of ${this.status.join(', ')}`);
+                        if ((pos = this.status.indexOf(status)) < 0) throw new BottleneckError(`status must be one of ${this.status.join(', ')}`);
                         for(k in ref = this._jobs, results = [], ref)ref[k] === pos && results.push(k);
                         return results;
                     }
                     statusCounts() {
                         return this.counts.reduce((acc, v, i)=>(acc[this.status[i]] = v, acc), {});
                     }
-                }, DLList$2 = DLList, Sync = class {
+                }, Sync = class {
                     constructor(name, Promise1){
-                        this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList$2();
+                        this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList();
                     }
                     isEmpty() {
                         return 0 === this._queue.length;
@@ -365,12 +365,12 @@
                         version: version
                     }
                 }), require$$2 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$3 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$4 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.');
-                parser$3 = parser, Events$2 = Events, RedisConnection$1 = require$$2, IORedisConnection$1 = require$$3, Scripts$1 = require$$4, Group = (function() {
+                Group = (function() {
                     class Group {
                         constructor(limiterOptions = {}){
-                            this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser$3.load(this.limiterOptions, this.defaults, this), this.Events = new Events$2(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new RedisConnection$1(Object.assign({}, this.limiterOptions, {
+                            this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser.load(this.limiterOptions, this.defaults, this), this.Events = new Events(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new require$$2(Object.assign({}, this.limiterOptions, {
                                 Events: this.Events
-                            })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new IORedisConnection$1(Object.assign({}, this.limiterOptions, {
+                            })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new require$$3(Object.assign({}, this.limiterOptions, {
                                 Events: this.Events
                             }))));
                         }
@@ -389,7 +389,7 @@
                             var deleted, instance;
                             return instance = this.instances[key], this.connection && (deleted = await this.connection.__runCommand__([
                                 'del',
-                                ...Scripts$1.allKeys(`${this.id}-${key}`)
+                                ...require$$4.allKeys(`${this.id}-${key}`)
                             ])), null != instance && (delete this.instances[key], await instance.disconnect()), null != instance || deleted > 0;
                         }
                         limiters() {
@@ -432,7 +432,7 @@
                             }, this.timeout / 2)).unref ? base.unref() : void 0;
                         }
                         updateSettings(options = {}) {
-                            if (parser$3.overwrite(options, this.defaults, this), parser$3.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
+                            if (parser.overwrite(options, this.defaults, this), parser.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
                         }
                         disconnect(flush = !0) {
                             var ref;
@@ -445,10 +445,10 @@
                         Promise: Promise,
                         id: "group-key"
                     }, Group;
-                }).call(commonjsGlobal), parser$4 = parser, Events$3 = Events, Batcher = (function() {
+                }).call(commonjsGlobal), Batcher = (function() {
                     class Batcher {
                         constructor(options = {}){
-                            this.options = options, parser$4.load(this.options, this.defaults, this), this.Events = new Events$3(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
+                            this.options = options, parser.load(this.options, this.defaults, this), this.Events = new Events(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
                         }
                         _resetPromise() {
                             return this._promise = new this.Promise((res, rej)=>this._resolve = res);
@@ -467,7 +467,7 @@
                         Promise: Promise
                     }, Batcher;
                 }).call(commonjsGlobal);
-                var DLList, Events, DLList$1, Events$1, Queues, BottleneckError, BottleneckError$1, DEFAULT_PRIORITY, Job, NUM_PRIORITIES, parser$1, BottleneckError$2, LocalDatastore, parser$2, BottleneckError$3, States, DLList$2, Sync, Events$2, Group, IORedisConnection$1, RedisConnection$1, Scripts$1, parser$3, Batcher, Events$3, parser$4, require$$4$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, Bottleneck_1 = (function() {
+                var DLList, Events, Queues, BottleneckError, Job, LocalDatastore, States, Sync, Group, Batcher, require$$4$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, Bottleneck_1 = (function() {
                     class Bottleneck {
                         constructor(options = {}, ...invalid){
                             var storeInstanceOptions, storeOptions;

@@ -1,0 +1,26 @@
+@value v-def from './values.css';
+@value v-foo from './less-file.less';
+@value v-bar from './scss-file.scss';
+
+:global(.globalClassName) {
+  color: orange;
+}
+
+.ghi {
+  color: v-def;
+}
+
+.class {
+  color: v-foo;
+  composes: lessClass from "less-file.less";
+}
+
+.other {
+  color: v-bar;
+  composes: scssClass from "scss-file.scss";
+}
+
+.otherClassName {
+  composes: globalClassName from global;
+  background: #000;
+}

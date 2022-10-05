@@ -1,0 +1,19 @@
+.__local__btn-info_is-disabled {
+  color: blue;
+}
+.__local__btn--info_is-disabled_1 {
+  color: blue;
+}
+.__local__simple {
+  color: red;
+}
+a {
+  color: yellow;
+}
+:export {
+  foo: bar;
+  my-btn-info_is-disabled: value;
+}
+.__local__foo_bar {
+  color: red;
+}

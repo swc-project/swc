@@ -4,7 +4,10 @@ use serde::Deserialize;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
+use swc_ecma_transforms_base::{
+    helper,
+    perf::{ParExplode, Parallel},
+};
 use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     alias_if_required, member_expr, prepend_stmt, private_ident, quote_ident, ExprFactory,
@@ -57,6 +60,7 @@ pub fn for_of(c: Config) -> impl Fold + VisitMut {
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
+    pub loose: bool,
     pub assume_array: bool,
 }
 
@@ -84,7 +88,7 @@ impl ForOf {
             ..
         }: ForOfStmt,
     ) -> Stmt {
-        if right.is_array() || self.c.assume_array {
+        if right.is_array() || (self.c.assume_array && !self.c.loose) {
             // Convert to normal for loop if rhs is array
             //
             // babel's output:
@@ -188,6 +192,124 @@ impl ForOf {
                 body: Box::new(Stmt::Block(body)),
             });
 
+            return match label {
+                Some(label) => LabeledStmt {
+                    span,
+                    label,
+                    body: Box::new(stmt),
+                }
+                .into(),
+                _ => stmt,
+            };
+        }
+
+        // Loose mode
+        if self.c.loose {
+            let iterator = private_ident!("_iterator");
+            let step = private_ident!("_step");
+
+            let decls = vec![
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: iterator.clone().into(),
+                    init: Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(
+                            create_for_of_iterator_helper_loose,
+                            "createForOfIteratorHelperLoose"
+                        ),
+                        args: vec![right.as_arg()],
+                        type_args: Default::default(),
+                    }))),
+                    definite: Default::default(),
+                },
+                VarDeclarator {
+                    span: DUMMY_SP,
+                    name: step.clone().into(),
+                    init: None,
+                    definite: Default::default(),
+                },
+            ];
+
+            let mut body = match *body {
+                Stmt::Block(b) => b,
+                _ => BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![*body],
+                },
+            };
+
+            match left {
+                VarDeclOrPat::VarDecl(var) => {
+                    assert_eq!(
+                        var.decls.len(),
+                        1,
+                        "Variable declarator of for of loop cannot contain multiple entries"
+                    );
+                    prepend_stmt(
+                        &mut body.stmts,
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: var.kind,
+                            declare: false,
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: var.decls.into_iter().next().unwrap().name,
+                                init: Some(step.clone().make_member(quote_ident!("value")).into()),
+                                definite: false,
+                            }],
+                        }
+                        .into(),
+                    )
+                }
+
+                VarDeclOrPat::Pat(pat) => prepend_stmt(
+                    &mut body.stmts,
+                    AssignExpr {
+                        span: DUMMY_SP,
+                        left: pat.into(),
+                        op: op!("="),
+                        right: step.clone().make_member(quote_ident!("value")).into(),
+                    }
+                    .into_stmt(),
+                ),
+            }
+
+            // !(_step = _iterator()).done;
+            let test = Box::new(Expr::Unary(UnaryExpr {
+                span: DUMMY_SP,
+                op: op!("!"),
+                arg: AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: step.into(),
+                    right: CallExpr {
+                        span: DUMMY_SP,
+                        callee: iterator.as_callee(),
+                        args: vec![],
+                        type_args: Default::default(),
+                    }
+                    .into(),
+                }
+                .make_member(quote_ident!("done"))
+                .into(),
+            }));
+
+            let stmt = Stmt::For(ForStmt {
+                span,
+                init: Some(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        declare: false,
+                        decls,
+                    }
+                    .into(),
+                ),
+                test: Some(test),
+                update: None,
+                body: Box::new(Stmt::Block(body)),
+            });
             return match label {
                 Some(label) => LabeledStmt {
                     span,

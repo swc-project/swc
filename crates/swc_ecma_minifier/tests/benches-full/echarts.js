@@ -4417,7 +4417,7 @@
         target.registerClass = function(clz) {
             var componentFullType = clz.type || clz.prototype.type;
             if (componentFullType) {
-                componentType = componentFullType, assert(/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)?$/.test(componentType), 'componentType "' + componentType + '" illegal'), clz.prototype.type = componentFullType;
+                assert(/^[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)?$/.test(componentFullType), 'componentType "' + componentFullType + '" illegal'), clz.prototype.type = componentFullType;
                 var componentTypeInfo, container, componentType, componentTypeInfo1 = parseClassType(componentFullType);
                 componentTypeInfo1.sub ? componentTypeInfo1.sub !== IS_CONTAINER && (((container = storage[(componentTypeInfo = componentTypeInfo1).main]) && container[IS_CONTAINER] || ((container = storage[componentTypeInfo.main] = {})[IS_CONTAINER] = !0), container)[componentTypeInfo1.sub] = clz) : (storage[componentTypeInfo1.main] && console.warn(componentTypeInfo1.main + ' exists.'), storage[componentTypeInfo1.main] = clz);
             }
@@ -6196,7 +6196,7 @@
         var pathProxy = function(data) {
             var prevCmd, path = new PathProxy();
             if (!data) return path;
-            var cpx = 0, cpy = 0, subpathX = cpx, subpathY = cpy, CMD = PathProxy.CMD, cmdList = data.match(commandReg);
+            var cpx = 0, cpy = 0, subpathX = 0, subpathY = 0, CMD = PathProxy.CMD, cmdList = data.match(commandReg);
             if (!cmdList) return path;
             for(var l = 0; l < cmdList.length; l++){
                 for(var cmdText = cmdList[l], cmdStr = cmdText.charAt(0), cmd = void 0, p = cmdText.match(numberReg) || [], pLen = p.length, i = 0; i < pLen; i++)p[i] = parseFloat(p[i]);
@@ -7741,7 +7741,7 @@
             }
         }
     });
-    var ONE_HOUR = 3600000, ONE_DAY = 24 * ONE_HOUR, ONE_YEAR = 365 * ONE_DAY, defaultLeveledFormatter = {
+    var defaultLeveledFormatter = {
         year: '{yyyy}',
         month: '{MMM}',
         day: '{d}',
@@ -13321,7 +13321,6 @@
                         var textGuideLineConfig = el.textGuideLineConfig;
                         labelLine.z = z, labelLine.zlevel = zlevel, isFinite(maxZ2) && (labelLine.z2 = maxZ2 + (textGuideLineConfig && textGuideLineConfig.showAbove ? 1 : -1));
                     }
-                    return maxZ2;
                 }(view.group, model.get('z') || 0, model.get('zlevel') || 0, -1 / 0);
             }
             function clearStates(model, view) {
@@ -15510,22 +15509,22 @@
                                         var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
                                         switch(unitName){
                                             case 'year':
-                                                interval = Math.max(1, Math.round(approxInterval / ONE_DAY / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
+                                                interval = Math.max(1, Math.round(approxInterval / 86400000 / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
                                                 break;
                                             case 'half-year':
                                             case 'quarter':
                                             case 'month':
-                                                approxInterval1 = approxInterval, interval = (approxInterval1 /= 30 * ONE_DAY) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
+                                                approxInterval1 = approxInterval, interval = (approxInterval1 /= 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
                                                 break;
                                             case 'week':
                                             case 'half-week':
                                             case 'day':
-                                                approxInterval2 = approxInterval, interval = (approxInterval2 /= ONE_DAY) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
+                                                approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
                                                 break;
                                             case 'half-day':
                                             case 'quarter-day':
                                             case 'hour':
-                                                approxInterval3 = approxInterval, interval = (approxInterval3 /= ONE_HOUR) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
+                                                approxInterval3 = approxInterval, interval = (approxInterval3 /= 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
                                                 break;
                                             case 'minute':
                                                 interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
@@ -15592,9 +15591,9 @@
             }), ticks;
         }, TimeScale.prototype.niceExtent = function(opt) {
             var extent = this._extent;
-            if (extent[0] === extent[1] && (extent[0] -= ONE_DAY, extent[1] += ONE_DAY), extent[1] === -1 / 0 && extent[0] === 1 / 0) {
+            if (extent[0] === extent[1] && (extent[0] -= 86400000, extent[1] += 86400000), extent[1] === -1 / 0 && extent[0] === 1 / 0) {
                 var d = new Date();
-                extent[1] = +new Date(d.getFullYear(), d.getMonth(), d.getDate()), extent[0] = extent[1] - ONE_DAY;
+                extent[1] = +new Date(d.getFullYear(), d.getMonth(), d.getDate()), extent[0] = extent[1] - 86400000;
             }
             this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
         }, TimeScale.prototype.niceTicks = function(approxTickNum, minInterval, maxInterval) {
@@ -15623,43 +15622,43 @@
         ],
         [
             'hour',
-            ONE_HOUR
+            3600000
         ],
         [
             'quarter-day',
-            6 * ONE_HOUR
+            21600000
         ],
         [
             'half-day',
-            12 * ONE_HOUR
+            43200000
         ],
         [
             'day',
-            1.2 * ONE_DAY
+            103680000
         ],
         [
             'half-week',
-            3.5 * ONE_DAY
+            302400000
         ],
         [
             'week',
-            7 * ONE_DAY
+            604800000
         ],
         [
             'month',
-            31 * ONE_DAY
+            2678400000
         ],
         [
             'quarter',
-            95 * ONE_DAY
+            8208000000
         ],
         [
             'half-year',
-            ONE_YEAR / 2
+            15768000000
         ],
         [
             'year',
-            ONE_YEAR
+            31536000000
         ]
     ];
     function getMinutesAndSecondsInterval(approxInterval, isMinutes) {
@@ -16745,7 +16744,7 @@
                 var displayable = list[i], svgProxy = getSvgProxy(displayable), svgElement = getSvgElement(displayable);
                 !displayable.invisible && ((displayable.__dirty || !svgElement) && (svgProxy && svgProxy.brush(displayable), (svgElement = getSvgElement(displayable)) && displayable.style && (gradientManager.update(displayable.style.fill), gradientManager.update(displayable.style.stroke), patternManager.update(displayable.style.fill), patternManager.update(displayable.style.stroke), shadowManager.update(svgElement, displayable)), displayable.__dirty = 0), svgElement && newVisibleList.push(displayable));
             }
-            for(var diff = (oldArr = visibleList, newArr = newVisibleList, function(oldArr, newArr, equals) {
+            for(var diff = function(oldArr, newArr, equals) {
                 equals || (equals = function(a, b) {
                     return a === b;
                 }), oldArr = oldArr.slice();
@@ -16798,7 +16797,7 @@
                     }();
                     if (ret) return ret;
                 }
-            }(oldArr, newArr, void 0)), i = 0; i < diff.length; i++){
+            }(visibleList, newVisibleList, void 0), i = 0; i < diff.length; i++){
                 var item = diff[i];
                 if (item.removed) for(var k = 0; k < item.count; k++){
                     var oldArr, newArr, child, parent, child1, displayable = visibleList[item.indices[k]], svgElement = getSvgElement(displayable);
@@ -34105,14 +34104,10 @@
                 }
             }, this), hasAxisSpecified;
         }, DataZoomModel.prototype._fillAutoTargetAxisByOrient = function(targetAxisIndexMap, orient) {
-            var ecModel = this.ecModel, needAuto = !0;
-            if (needAuto) {
-                var axisDim = 'vertical' === orient ? 'y' : 'x', axisModels = ecModel.findComponents({
-                    mainType: axisDim + 'Axis'
-                });
-                setParallelAxis(axisModels, axisDim);
-            }
-            if (needAuto) {
+            var ecModel = this.ecModel, needAuto = !0, axisDim = 'vertical' === orient ? 'y' : 'x', axisModels = ecModel.findComponents({
+                mainType: axisDim + 'Axis'
+            });
+            if (setParallelAxis(axisModels, axisDim), needAuto) {
                 var axisModels = ecModel.findComponents({
                     mainType: 'singleAxis',
                     filter: function(axisModel) {

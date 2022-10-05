@@ -1,0 +1,38 @@
+{
+  "bar-class": [
+    {
+      "type": "local",
+      "name": "__local__bar-class"
+    }
+  ],
+  "fooBaz-class": [
+    {
+      "type": "local",
+      "name": "__local__fooBaz-class"
+    }
+  ],
+  "foo-class": [
+    {
+      "type": "local",
+      "name": "__local__foo-class"
+    }
+  ],
+  "some": [
+    {
+      "type": "local",
+      "name": "__local__some"
+    }
+  ],
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    }
+  ],
+  "baz-class": [
+    {
+      "type": "local",
+      "name": "__local__baz-class"
+    }
+  ]
+}

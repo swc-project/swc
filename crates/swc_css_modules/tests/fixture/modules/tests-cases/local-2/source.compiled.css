@@ -1,0 +1,12 @@
+.__local__className {
+  background: red;
+}
+#__local__someId {
+  background: green;
+}
+.__local__className .__local__subClass {
+  color: green;
+}
+#__local__someId .__local__subClass {
+  color: blue;
+}

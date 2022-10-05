@@ -1,0 +1,40 @@
+{
+  "otherClassName": [
+    {
+      "type": "local",
+      "name": "__local__otherClassName"
+    },
+    {
+      "type": "global",
+      "name": "globalClassName"
+    }
+  ],
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    },
+    {
+      "type": "import",
+      "name": "lessClass",
+      "from": "less-file.less"
+    }
+  ],
+  "ghi": [
+    {
+      "type": "local",
+      "name": "__local__ghi"
+    }
+  ],
+  "other": [
+    {
+      "type": "local",
+      "name": "__local__other"
+    },
+    {
+      "type": "import",
+      "name": "scssClass",
+      "from": "scss-file.scss"
+    }
+  ]
+}

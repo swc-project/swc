@@ -1105,7 +1105,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -7055,7 +7055,7 @@
                         return maxOrMin(arguments, P.lt);
                     }, BigNumber.minimum = BigNumber.min = function() {
                         return maxOrMin(arguments, P.gt);
-                    }, BigNumber.random = (random53bitInt = Math.random() * (pow2_53 = 0x20000000000000) & 0x1fffff ? function() {
+                    }, BigNumber.random = (pow2_53 = 0x20000000000000, random53bitInt = 0x20000000000000 * Math.random() & 0x1fffff ? function() {
                         return mathfloor(Math.random() * pow2_53);
                     } : function() {
                         return (0x40000000 * Math.random() | 0) * 0x800000 + (0x800000 * Math.random() | 0);
@@ -8383,7 +8383,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -15119,7 +15119,7 @@
             module.exports = baseIsMap;
         },
         8458: function(module, __unused_webpack_exports, __webpack_require__) {
-            var isFunction = __webpack_require__(3560), isMasked = __webpack_require__(5346), isObject = __webpack_require__(3218), toSource = __webpack_require__(346), reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reIsHostCtor = /^\[object .+?Constructor\]$/, funcProto = Function.prototype, objectProto = Object.prototype, funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+            var isFunction = __webpack_require__(3560), isMasked = __webpack_require__(5346), isObject = __webpack_require__(3218), toSource = __webpack_require__(346), reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reIsHostCtor = /^\[object .+?Constructor\]$/, objectProto = Object.prototype, funcToString = Function.prototype.toString, hasOwnProperty = objectProto.hasOwnProperty, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
             function baseIsNative(value) {
                 return !(!isObject(value) || isMasked(value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
             }

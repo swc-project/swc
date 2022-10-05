@@ -1,0 +1,50 @@
+{
+  "b": [
+    {
+      "type": "local",
+      "name": "__local__b"
+    }
+  ],
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
+  "c": [
+    {
+      "type": "local",
+      "name": "__local__c"
+    }
+  ],
+  "d": [
+    {
+      "type": "local",
+      "name": "__local__d"
+    }
+  ],
+  "y": [
+    {
+      "type": "local",
+      "name": "__local__y"
+    }
+  ],
+  "z": [
+    {
+      "type": "local",
+      "name": "__local__z"
+    }
+  ],
+  "id": [
+    {
+      "type": "local",
+      "name": "__local__id"
+    }
+  ],
+  "x": [
+    {
+      "type": "local",
+      "name": "__local__x"
+    }
+  ]
+}

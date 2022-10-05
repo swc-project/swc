@@ -1,0 +1,7 @@
+:local(.abc) {
+  color: red;
+}
+:local(.def) {
+  composes: abc;
+  background: green;
+}

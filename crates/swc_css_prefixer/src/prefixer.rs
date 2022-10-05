@@ -1867,18 +1867,11 @@ impl VisitMut for Prefixer {
             }
 
             "flex-flow" => {
-                let is_single_flex_wrap = match n.value.get(0) {
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if n.value.len() == 1
-                            && matches!(
-                                &*value.to_lowercase(),
-                                "wrap" | "nowrap" | "wrap-reverse"
-                            ) =>
-                    {
-                        true
-                    }
-                    _ => false,
-                };
+                let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(Ident { value, .. })) if n.value.len() == 1
+                && matches!(
+                    &*value.to_lowercase(),
+                    "wrap" | "nowrap" | "wrap-reverse"
+                ));
 
                 let old_values = match is_single_flex_wrap {
                     true => None,
@@ -1943,14 +1936,7 @@ impl VisitMut for Prefixer {
             }
 
             "justify-content" => {
-                let need_old_spec = match n.value.get(0) {
-                    Some(ComponentValue::Ident(Ident { value, .. }))
-                        if value.as_ref().eq_ignore_ascii_case("space-around") =>
-                    {
-                        false
-                    }
-                    _ => true,
-                };
+                let need_old_spec = !matches!(n.value.get(0), Some(ComponentValue::Ident(Ident { value, .. })) if value.as_ref().eq_ignore_ascii_case("space-around"));
 
                 if need_old_spec {
                     add_declaration!(

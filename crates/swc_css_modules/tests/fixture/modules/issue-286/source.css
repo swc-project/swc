@@ -1,0 +1,1 @@
+.main { composes: red from './dep.css'; }

@@ -1,0 +1,7 @@
+@import url('./test.css') layer(base);
+
+@layer base {
+   .foo {
+       color: red;
+   }
+}

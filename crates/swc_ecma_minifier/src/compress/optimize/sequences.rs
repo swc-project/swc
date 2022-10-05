@@ -20,7 +20,9 @@ use crate::{
     alias::{collect_infects_from, AliasConfig},
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
-        util::{is_directive, is_ident_used_by, replace_expr},
+        util::{
+            is_directive, is_global_var_with_pure_property_access, is_ident_used_by, replace_expr,
+        },
     },
     mode::Mode,
     option::CompressOptions,
@@ -620,6 +622,10 @@ where
                 stmt.as_stmt(),
                 Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..))
             );
+            let can_skip = match stmt.as_stmt() {
+                Some(Stmt::Decl(Decl::Fn(..))) => true,
+                _ => false,
+            };
 
             let items = if let Some(stmt) = stmt.as_stmt_mut() {
                 self.seq_exprs_of(stmt, self.options)
@@ -630,7 +636,10 @@ where
                 buf.extend(items)
             } else {
                 exprs.push(take(&mut buf));
-                continue;
+
+                if !can_skip {
+                    continue;
+                }
             }
             if is_end {
                 exprs.push(take(&mut buf));
@@ -937,6 +946,13 @@ where
 
         match e {
             Expr::Ident(e) => {
+                if e.span.ctxt == self.expr_ctx.unresolved_ctxt
+                    && !is_global_var_with_pure_property_access(&e.sym)
+                {
+                    log_abort!("Undeclared");
+                    return false;
+                }
+
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
@@ -1866,6 +1882,7 @@ where
     /// Handle where a: [Expr::Assign] or [Mergable::Var]
     fn replace_seq_assignment(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
         let mut can_remove = false;
+        let mut can_take_init = false;
 
         let mut right_val;
         let (left_id, a_right) = match a {
@@ -1924,12 +1941,21 @@ where
                 };
 
                 if let Some(usage) = self.data.vars.get(&left.to_id()) {
-                    if usage.ref_count != 1 {
-                        return Ok(false);
+                    let is_lit = match a.init.as_deref() {
+                        Some(e) => is_trivial_lit(e),
+                        _ => false,
+                    };
+
+                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                        if is_lit {
+                            can_take_init = false
+                        } else {
+                            return Ok(false);
+                        }
+                    } else {
+                        can_take_init = true;
                     }
-                    if usage.reassigned() || !usage.is_fn_local {
-                        return Ok(false);
-                    }
+
                     if usage.inline_prevented {
                         return Ok(false);
                     }
@@ -2006,7 +2032,12 @@ where
                     }
                 }
 
-                a.init.take().unwrap_or_else(|| undefined(DUMMY_SP))
+                if can_take_init {
+                    a.init.take()
+                } else {
+                    a.init.clone()
+                }
+                .unwrap_or_else(|| undefined(DUMMY_SP))
             }
             Mergable::Expr(a) => {
                 if can_remove {
@@ -2138,5 +2169,16 @@ impl Mergable<'_> {
                 _ => None,
             },
         }
+    }
+}
+
+/// Returns true for trivial bool/numeric literals
+pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
+    match e {
+        Expr::Lit(Lit::Bool(..) | Lit::Num(..) | Lit::Null(..)) => true,
+        Expr::Paren(e) => is_trivial_lit(&e.expr),
+        Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
+        Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
+        _ => false,
     }
 }

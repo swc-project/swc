@@ -1,0 +1,44 @@
+{
+  "c5": [
+    {
+      "type": "local",
+      "name": "__local__c5"
+    }
+  ],
+  "c6": [
+    {
+      "type": "local",
+      "name": "__local__c6"
+    }
+  ],
+  "c7": [
+    {
+      "type": "local",
+      "name": "__local__c7"
+    }
+  ],
+  "c8": [
+    {
+      "type": "local",
+      "name": "__local__c8"
+    }
+  ],
+  "c1": [
+    {
+      "type": "local",
+      "name": "__local__c1"
+    }
+  ],
+  "c2": [
+    {
+      "type": "local",
+      "name": "__local__c2"
+    }
+  ],
+  "c3": [
+    {
+      "type": "local",
+      "name": "__local__c3"
+    }
+  ]
+}

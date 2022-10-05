@@ -1,0 +1,11 @@
+:local(.c2) {
+  color: red;
+}
+
+:local(.c4) {
+  color: blue;
+}
+
+.test{
+  c: d
+}

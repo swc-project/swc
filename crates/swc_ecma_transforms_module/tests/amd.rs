@@ -63,7 +63,10 @@ fn esm_to_amd(input: PathBuf) {
 test!(
     syntax(),
     |t| chain!(
-        for_of(for_of::Config { assume_array: true }),
+        for_of(for_of::Config {
+            assume_array: true,
+            ..Default::default()
+        }),
         tr(Default::default(), false, t.comments.clone())
     ),
     for_of_as_array_for_of_import_amd,

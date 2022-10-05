@@ -1,0 +1,37 @@
+.a {
+	color: green;
+	animation: a;
+}
+
+@keyframes b {
+	0% { left: 10px; }
+	100% { left: 20px; }
+}
+
+.b {
+	animation: b;
+}
+
+@keyframes :global(c) {
+	0% { left: 10px; }
+	100% { left: 20px; }
+}
+
+.c {
+	animation: c1;
+	animation: c2, c3, c4;
+}
+
+@keyframes :global(d) {
+	0% { left: 10px; }
+	100% { left: 20px; }
+}
+
+:global .d1 {
+	animation: d1;
+	animation: d2, d3, d4;
+}
+
+:global(.d2) {
+	animation: d2;
+}

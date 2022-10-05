@@ -1,0 +1,134 @@
+{
+  "bulb": [
+    {
+      "type": "local",
+      "name": "__local__bulb"
+    }
+  ],
+  "class": [
+    {
+      "type": "local",
+      "name": "__local__class"
+    }
+  ],
+  "class-duplicate-url": [
+    {
+      "type": "local",
+      "name": "__local__class-duplicate-url"
+    }
+  ],
+  "two": [
+    {
+      "type": "local",
+      "name": "__local__two"
+    }
+  ],
+  "grid": [
+    {
+      "type": "local",
+      "name": "__local__grid"
+    }
+  ],
+  "-top": [
+    {
+      "type": "local",
+      "name": "__local__-top"
+    }
+  ],
+  "-bottom": [
+    {
+      "type": "local",
+      "name": "__local__-bottom"
+    }
+  ],
+  "#test": [
+    {
+      "type": "local",
+      "name": "__local__#test"
+    }
+  ],
+  "myStyle": [
+    {
+      "type": "local",
+      "name": "__local__myStyle"
+    }
+  ],
+  "♫": [
+    {
+      "type": "local",
+      "name": "__local__♫"
+    }
+  ],
+  ":`(": [
+    {
+      "type": "local",
+      "name": "__local__:`("
+    }
+  ],
+  "#fake-id": [
+    {
+      "type": "local",
+      "name": "__local__#fake-id"
+    }
+  ],
+  "-a-b-c-": [
+    {
+      "type": "local",
+      "name": "__local__-a-b-c-"
+    }
+  ],
+  "light": [
+    {
+      "type": "local",
+      "name": "__local__light"
+    }
+  ],
+  "u-m+": [
+    {
+      "type": "local",
+      "name": "__local__u-m+"
+    }
+  ],
+  "base64": [
+    {
+      "type": "local",
+      "name": "__local__base64"
+    }
+  ],
+  "©": [
+    {
+      "type": "local",
+      "name": "__local__©"
+    }
+  ],
+  "on": [
+    {
+      "type": "local",
+      "name": "__local__on"
+    }
+  ],
+  "-middle": [
+    {
+      "type": "local",
+      "name": "__local__-middle"
+    }
+  ],
+  "u-m00002b": [
+    {
+      "type": "local",
+      "name": "__local__u-m00002b"
+    }
+  ],
+  "test": [
+    {
+      "type": "local",
+      "name": "__local__test"
+    }
+  ],
+  "1a2b3c": [
+    {
+      "type": "local",
+      "name": "__local__1a2b3c"
+    }
+  ]
+}

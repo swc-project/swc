@@ -1,0 +1,4 @@
+@value foo from './unresolved.css';
+.__local__className {
+  color: foo;
+}
