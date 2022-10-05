@@ -3,13 +3,14 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
-    DeclarationOrAtRule, Delimiter, DelimiterValue, Ident, KeyframesName, QualifiedRule,
-    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector,
+    AtRule, AtRuleName, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
+    CustomIdent, Declaration, DeclarationName, DeclarationOrAtRule, Delimiter, DelimiterValue,
+    Ident, KeyframesName, PseudoClassSelector, PseudoClassSelectorChildren, QualifiedRule,
+    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector, Token, TokenAndSpan,
 };
 use swc_css_parser::{parse_tokens, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
-use util::to_tokens::to_tokens_vec;
+use util::to_tokens::{to_tokens, to_tokens_vec};
 
 pub mod imports;
 mod util;
@@ -92,6 +93,49 @@ impl<C> VisitMut for Compiler<C>
 where
     C: TransformConfig,
 {
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        match &n.name {
+            AtRuleName::Ident(Ident { value, .. }) if &**value == "keyframes" => {
+                if let Some(AtRulePrelude::ListOfComponentValues(prelude)) = n.prelude.as_deref() {
+                    // Check if prelude is `:globals(ident)`
+                    let tokens = to_tokens(&prelude);
+
+                    if let Ok(sel) = parse_tokens::<PseudoClassSelector>(
+                        &tokens,
+                        Default::default(),
+                        &mut vec![],
+                    ) {
+                        if &*sel.name.value == "global" {
+                            if let Some(children) = sel.children {
+                                if children.len() == 1 {
+                                    if let PseudoClassSelectorChildren::PreservedToken(
+                                        TokenAndSpan {
+                                            token: Token::Ident { value, raw },
+                                            span,
+                                        },
+                                    ) = &children[0]
+                                    {
+                                        n.prelude =
+                                            Some(Box::new(AtRulePrelude::KeyframesPrelude(
+                                                KeyframesName::CustomIdent(CustomIdent {
+                                                    span: *span,
+                                                    value: value.clone(),
+                                                    raw: Some(raw.clone()),
+                                                }),
+                                            )));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+    }
+
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         let old_compose_stack = self.data.composes_for_current.take();
         self.data.composes_for_current = Some(Default::default());
