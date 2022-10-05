@@ -23,6 +23,9 @@
 - **(es/minifier)** Don't evaluate `String.fromCharCode` for non-ascii values (#6033) ([197c4e2](https://github.com/swc-project/swc/commit/197c4e269d639a188bc3cca01f8618a61fed8d58))
 
 
+- **(es/minifier)** Don't skip unresolved identifiers (#6050) ([c5fb774](https://github.com/swc-project/swc/commit/c5fb7744870dd2ba9ec606513c4e17142035ed14))
+
+
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
 
 ### Features
