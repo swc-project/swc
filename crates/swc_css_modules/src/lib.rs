@@ -7,7 +7,7 @@ use swc_css_ast::{
     DeclarationName, DeclarationOrAtRule, Ident, KeyframesName, QualifiedRule,
     QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector,
 };
-use swc_css_parser::parser::ParserConfig;
+use swc_css_parser::{parse_tokens, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
 use util::to_tokens::to_tokens_vec;
 
@@ -278,7 +278,7 @@ where
                             if let Some(children) = &mut class_sel.children {
                                 let tokens = to_tokens_vec(&*children);
 
-                                let mut sel: CompoundSelector = swc_css_parser::parse_tokens(
+                                let mut sel: CompoundSelector = parse_tokens(
                                     &tokens,
                                     ParserConfig {
                                         ..Default::default()
@@ -305,7 +305,7 @@ where
                             if let Some(children) = &mut class_sel.children {
                                 let tokens = to_tokens_vec(&*children);
 
-                                let sel: CompoundSelector = swc_css_parser::parse_tokens(
+                                let sel: CompoundSelector = parse_tokens(
                                     &tokens,
                                     ParserConfig {
                                         ..Default::default()
