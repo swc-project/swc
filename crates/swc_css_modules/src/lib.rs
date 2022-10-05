@@ -265,8 +265,6 @@ where
                                 );
                             }
                             SubclassSelector::PseudoClass(class_sel) => {
-                                class_sel.visit_mut_with(self);
-
                                 match &*class_sel.name.value {
                                     "local" => {
                                         if let Some(children) = &mut class_sel.children {
