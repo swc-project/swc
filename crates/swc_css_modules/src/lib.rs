@@ -224,8 +224,8 @@ where
                     }
                 }
                 js_word!("animation-name") => {
-                    if let Some(first) = n.value.first_mut() {
-                        if let ComponentValue::Ident(Ident { value, raw, .. }) = first {
+                    for v in &mut n.value {
+                        if let ComponentValue::Ident(Ident { value, raw, .. }) = v {
                             *raw = None;
 
                             rename(
