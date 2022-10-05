@@ -10138,6 +10138,10 @@ fn issue_6051() {
         const o = { '010': '', '123': 'bar' }
         console.log(o)
         "###,
+    );
+}
+
+#[test]
 fn issue_6039_1() {
     run_default_exec_test(
         r###"
