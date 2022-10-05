@@ -279,24 +279,8 @@ where
                                             )
                                             .unwrap();
 
-                                            for sel in &mut sel.children {
-                                                match sel {
-                                                    ComplexSelectorChildren::CompoundSelector(
-                                                        sel,
-                                                    ) => {
-                                                        for sel in &mut sel.subclass_selectors {
-                                                            process_local(
-                                                                &mut self.config,
-                                                                &mut self.result,
-                                                                &mut self.data.orig_to_renamed,
-                                                                &mut self.data.renamed_to_orig,
-                                                                sel,
-                                                            );
-                                                        }
-                                                    }
-                                                    ComplexSelectorChildren::Combinator(_) => {}
-                                                }
-                                            }
+                                            sel.visit_mut_with(self);
+
                                             new_children.extend(sel.children);
 
                                             continue 'complex;
