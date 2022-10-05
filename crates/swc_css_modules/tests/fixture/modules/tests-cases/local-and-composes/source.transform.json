@@ -9,6 +9,10 @@
     {
       "type": "local",
       "name": "__local__def"
+    },
+    {
+      "type": "local",
+      "name": "__local__abc"
     }
   ]
 }

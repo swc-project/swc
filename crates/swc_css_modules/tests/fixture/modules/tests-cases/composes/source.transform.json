@@ -9,6 +9,10 @@
     {
       "type": "local",
       "name": "__local__c2"
+    },
+    {
+      "type": "local",
+      "name": "__local__c1"
     }
   ]
 }
