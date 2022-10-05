@@ -10132,7 +10132,7 @@ fn feedback_regex_range() {
 }
 
 #[test]
-fn issue_6047() {
+fn issue_6047_1() {
     run_default_exec_test(
         r###"
         let foo = () => 1;
@@ -10143,6 +10143,27 @@ fn issue_6047() {
                 return 40;
             },
         };
+        console.log(obj)
+
+        var c = obj[0];
+
+        console.log(foo(c));
+        "###,
+    );
+}
+
+#[test]
+fn issue_6047_2() {
+    run_default_exec_test(
+        r###"
+        let foo = () => 1;
+
+        const obj = new Proxy({}, {
+            get () {
+                foo = () => 2;
+                return 40;
+            },
+        });
         console.log(obj)
 
         var c = obj[0];
