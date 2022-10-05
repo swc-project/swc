@@ -224,7 +224,7 @@ where
 
         for mut n in sel.subclass_selectors.take() {
             match &mut n {
-                SubclassSelector::Class(..) => {
+                SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
                     process_local(
                         &mut self.config,
                         &mut self.result,
