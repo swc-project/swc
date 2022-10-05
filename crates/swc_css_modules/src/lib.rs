@@ -82,8 +82,6 @@ struct Data {
     /// Context for `composes`
     composes_for_current: Option<Vec<CssClassName>>,
 
-    current_selectors: Option<Vec<ComplexSelector>>,
-
     renamed_to_orig: FxHashMap<JsWord, JsWord>,
 }
 
@@ -194,29 +192,6 @@ where
         }
     }
 
-    fn visit_mut_selector_list(&mut self, n: &mut SelectorList) {
-        let mut new = Vec::with_capacity(n.children.len());
-
-        for sel in &mut n.children {
-            let old = self.data.current_selectors.take();
-            self.data.current_selectors = Some(vec![]);
-            sel.visit_mut_with(self);
-
-            if !sel.children.is_empty() {
-                new.push(sel.take());
-            }
-
-            let cur = self.data.current_selectors.take();
-            if let Some(cur) = cur {
-                new.extend(cur);
-            }
-
-            self.data.current_selectors = old;
-        }
-
-        n.children = new;
-    }
-
     fn visit_mut_complex_selector(&mut self, n: &mut ComplexSelector) {
         n.visit_mut_children_with(self);
 
@@ -228,13 +203,69 @@ where
             }
             ComplexSelectorChildren::Combinator(..) => true,
         });
+    }
 
-        process_local(
-            &mut self.config,
-            &mut self.result,
-            &mut self.data.renamed_to_orig,
-            n,
-        );
+    fn visit_mut_subclass_selector(&mut self, n: &mut SubclassSelector) {
+        match n {
+            SubclassSelector::Class(..) => {
+                process_local(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.renamed_to_orig,
+                    n,
+                );
+            }
+            SubclassSelector::PseudoClass(class_sel) => {
+                class_sel.visit_mut_with(self);
+
+                match &*class_sel.name.value {
+                    "local" => {
+                        if let Some(children) = &mut class_sel.children {
+                            let tokens = to_tokens_vec(&*children);
+
+                            let mut sel = swc_css_parser::parse_tokens(
+                                &tokens,
+                                ParserConfig {
+                                    ..Default::default()
+                                },
+                                &mut vec![],
+                            )
+                            .unwrap();
+
+                            process_local(
+                                &mut self.config,
+                                &mut self.result,
+                                &mut self.data.renamed_to_orig,
+                                &mut sel,
+                            );
+
+                            *n = sel
+                        }
+                    }
+                    "global" => {
+                        if let Some(children) = &mut class_sel.children {
+                            let tokens = to_tokens_vec(&*children);
+
+                            let sel = swc_css_parser::parse_tokens(
+                                &tokens,
+                                ParserConfig {
+                                    ..Default::default()
+                                },
+                                &mut vec![],
+                            )
+                            .unwrap();
+
+                            *n = sel
+                        }
+                    }
+
+                    _ => {}
+                }
+            }
+            _ => {
+                n.visit_mut_children_with(self);
+            }
+        }
     }
 
     fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
@@ -251,89 +282,28 @@ where
 
         n.retain_mut(|s| !s.children.is_empty());
     }
-
-    /// Handle :local and :global
-    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
-        n.visit_mut_children_with(self);
-
-        if let Some(current) = &mut self.data.current_selectors {
-            match &*n.name.value {
-                "local" => {
-                    if let Some(children) = &mut n.children {
-                        let tokens = to_tokens_vec(&*children);
-
-                        let mut sel = swc_css_parser::parse_tokens(
-                            &tokens,
-                            ParserConfig {
-                                ..Default::default()
-                            },
-                            &mut vec![],
-                        )
-                        .unwrap();
-
-                        process_local(
-                            &mut self.config,
-                            &mut self.result,
-                            &mut self.data.renamed_to_orig,
-                            &mut sel,
-                        );
-
-                        n.name.take();
-
-                        current.push(sel);
-                    }
-                }
-                "global" => {
-                    if let Some(children) = &mut n.children {
-                        let tokens = to_tokens_vec(&*children);
-
-                        let sel = swc_css_parser::parse_tokens(
-                            &tokens,
-                            ParserConfig {
-                                ..Default::default()
-                            },
-                            &mut vec![],
-                        )
-                        .unwrap();
-
-                        n.name.take();
-
-                        current.push(sel);
-                    }
-                }
-
-                _ => {}
-            }
-        }
-    }
 }
 
 fn process_local<C>(
     config: &mut C,
     result: &mut TransformResult,
     renamed_to_orig: &mut FxHashMap<JsWord, JsWord>,
-    sel: &mut ComplexSelector,
+    sel: &mut SubclassSelector,
 ) where
     C: TransformConfig,
 {
-    for children in &mut sel.children {
-        if let ComplexSelectorChildren::CompoundSelector(sel) = children {
-            for sel in &mut sel.subclass_selectors {
-                if let swc_css_ast::SubclassSelector::Class(sel) = sel {
-                    let new = config.get_class_name(&sel.text.value);
+    if let swc_css_ast::SubclassSelector::Class(sel) = sel {
+        let new = config.get_class_name(&sel.text.value);
 
-                    result
-                        .classes
-                        .entry(sel.text.value.clone())
-                        .or_default()
-                        .push(CssClassName::Local { name: new.clone() });
+        result
+            .classes
+            .entry(sel.text.value.clone())
+            .or_default()
+            .push(CssClassName::Local { name: new.clone() });
 
-                    renamed_to_orig.insert(new.clone(), sel.text.value.clone());
+        renamed_to_orig.insert(new.clone(), sel.text.value.clone());
 
-                    sel.text.raw = None;
-                    sel.text.value = new;
-                }
-            }
-        }
+        sel.text.raw = None;
+        sel.text.value = new;
     }
 }
