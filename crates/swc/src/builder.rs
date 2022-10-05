@@ -291,7 +291,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 loose: self.loose
                             },
                             for_of: compat::es2015::for_of::Config {
-                                assume_array: self.loose
+                                assume_array: false,
+                                loose: self.loose
                             },
                             spread: compat::es2015::spread::Config { loose: self.loose },
                             destructuring: compat::es2015::destructuring::Config {

@@ -293,7 +293,10 @@ try {
 // for_of_as_array_for_of
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of,
     r#"
 let elm;
@@ -317,7 +320,10 @@ for(let _i = 0; _i < array.length; _i++){
 // for_of_as_array_for_of_array_pattern
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_array_pattern,
     r#"
 let elm;
@@ -340,7 +346,10 @@ for(let _i = 0; _i < array.length; _i++){
 // regression_redeclare_array_8913
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     regression_redeclare_array_8913,
     r#"
 function f(...t) {
@@ -364,7 +373,10 @@ function f(...t) {
 // for_of_as_array_for_of_declaration_array_pattern
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_declaration_array_pattern,
     r#"
 for (const [elm] of array) {
@@ -383,7 +395,10 @@ for(let _i = 0; _i < array.length; _i++){
 // for_of_as_array_for_of_expression
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_expression,
     r#"
 let i;
@@ -404,7 +419,10 @@ for(let _i = 0; _i < items.length; _i++){
 // for_of_as_array_for_of_declaration
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_declaration,
     r#"
 for (const elm of array) {
@@ -445,7 +463,10 @@ expect(results).toEqual([1, 2, 3]);
 // for_of_as_array_for_of_static_declaration
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_static_declaration,
     r#"
 const array = [];
@@ -469,7 +490,10 @@ for(let _i = 0; _i < array.length; _i++){
 // for_of_as_array_for_of_static
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_static,
     r#"
 const array = [];
@@ -495,7 +519,10 @@ for (let _i = 0; _i < array.length; _i++) {
 // for_of_as_array_for_of_import_es2015
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     for_of_as_array_for_of_import_es2015,
     r#"
 import { array } from "foo";
@@ -560,7 +587,10 @@ try {
 // regression_if_label_3858
 test!(
     syntax(),
-    |_| for_of(Config { assume_array: true }),
+    |_| for_of(Config {
+        assume_array: true,
+        ..Default::default()
+    }),
     regression_if_label_3858,
     r#"
 if ( true )
@@ -591,6 +621,7 @@ fn fixture(input: PathBuf) {
                 resolver(Mark::new(), top_level_mark, false),
                 for_of(Config {
                     assume_array: false,
+                    ..Default::default()
                 })
             )
         },

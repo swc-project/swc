@@ -11,13 +11,25 @@
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
+- **(es/compat)** Fix handling of deep array pattern of object rest pass (#6035) ([0c67a3a](https://github.com/swc-project/swc/commit/0c67a3adbaec69d72016fe7c525223888d34ef3e))
+
+
+- **(es/compat)** Fix handling of op-assignment in `generator` (#6036) ([7554482](https://github.com/swc-project/swc/commit/755448220529f82e82b56624e5a431c256c172ba))
+
+
 - **(es/minifier)** Don't inline into nested scope (#6002) ([2ee3ad0](https://github.com/swc-project/swc/commit/2ee3ad00663a515697769cef55ad5606e14943da))
+
+
+- **(es/minifier)** Don't evaluate `String.fromCharCode` for non-ascii values (#6033) ([197c4e2](https://github.com/swc-project/swc/commit/197c4e269d639a188bc3cca01f8618a61fed8d58))
 
 
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
 
 ### Features
 
+
+
+- **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
 
 
 - **(es/minifier)** Drop vars from sequential inliner (#5993) ([286334c](https://github.com/swc-project/swc/commit/286334c4d0b15d92347c6e51e05a3c3bf506e982))

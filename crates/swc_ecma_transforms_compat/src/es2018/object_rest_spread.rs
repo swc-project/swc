@@ -784,7 +784,7 @@ impl ObjectRest {
                         // TODO: fix this. this is wrong
                         obj.clone(),
                         use_expr_for_assign,
-                        use_member_for_array,
+                        true,
                     );
                     ObjectPatProp::Rest(RestPat {
                         dot3_token,
@@ -873,7 +873,7 @@ impl ObjectRest {
                                 .into(),
                             ),
                             use_expr_for_assign,
-                            use_member_for_array,
+                            true,
                         ),
                     );
                     ObjectPatProp::KeyValue(KeyValuePatProp { key, value })

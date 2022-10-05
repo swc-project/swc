@@ -247,6 +247,9 @@ where
                             let v = char_code.floor() as u32;
 
                             if let Some(v) = char::from_u32(v) {
+                                if !v.is_ascii() {
+                                    return;
+                                }
                                 self.changed = true;
                                 report_change!(
                                     "evaluate: Evaluated `String.charCodeAt({})` as `{}`",
