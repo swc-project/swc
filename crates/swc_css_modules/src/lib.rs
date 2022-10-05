@@ -302,10 +302,32 @@ where
 
         n.retain_mut(|s| !s.children.is_empty());
     }
+
+    fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            KeyframesName::CustomIdent(n) => rename(
+                &mut self.config,
+                &mut self.result,
+                &mut self.data.orig_to_renamed,
+                &mut self.data.renamed_to_orig,
+                &mut n.value,
+            ),
+            KeyframesName::Str(n) => rename(
+                &mut self.config,
+                &mut self.result,
+                &mut self.data.orig_to_renamed,
+                &mut self.data.renamed_to_orig,
+                &mut n.value,
+            ),
+        }
+    }
 }
 
 fn rename<C>(
     config: &mut C,
+    result: &mut TransformResult,
     orig_to_renamed: &mut FxHashMap<JsWord, JsWord>,
     renamed_to_orig: &mut FxHashMap<JsWord, JsWord>,
     name: &mut JsWord,
@@ -316,6 +338,12 @@ fn rename<C>(
 
     orig_to_renamed.insert(name.clone(), new.clone());
     renamed_to_orig.insert(new.clone(), name.clone());
+
+    result
+        .renamed
+        .entry(name.clone())
+        .or_default()
+        .push(CssClassName::Local { name: new.clone() });
 
     *name = new;
 }
@@ -331,42 +359,26 @@ fn process_local<C>(
 {
     match sel {
         SubclassSelector::Id(sel) => {
-            let orig = sel.text.value.clone();
             sel.text.raw = None;
 
             rename(
                 config,
+                result,
                 orig_to_renamed,
                 renamed_to_orig,
                 &mut sel.text.value,
             );
-
-            result
-                .renamed
-                .entry(orig)
-                .or_default()
-                .push(CssClassName::Local {
-                    name: sel.text.value.clone(),
-                });
         }
         SubclassSelector::Class(sel) => {
-            let orig = sel.text.value.clone();
             sel.text.raw = None;
 
             rename(
                 config,
+                result,
                 orig_to_renamed,
                 renamed_to_orig,
                 &mut sel.text.value,
             );
-
-            result
-                .renamed
-                .entry(orig)
-                .or_default()
-                .push(CssClassName::Local {
-                    name: sel.text.value.clone(),
-                });
         }
         SubclassSelector::Attribute(_) => {}
         SubclassSelector::PseudoClass(_) => {}
