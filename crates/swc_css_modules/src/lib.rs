@@ -224,14 +224,12 @@ where
                                 );
                                 can_change = false;
                             }
-                        } else {
-                            if let ComponentValue::Delimiter(Delimiter {
-                                value: DelimiterValue::Comma,
-                                ..
-                            }) = v
-                            {
-                                can_change = true;
-                            }
+                        } else if let ComponentValue::Delimiter(Delimiter {
+                            value: DelimiterValue::Comma,
+                            ..
+                        }) = v
+                        {
+                            can_change = true;
                         }
                     }
                 }
