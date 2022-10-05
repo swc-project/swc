@@ -9,18 +9,6 @@
     {
       "type": "local",
       "name": "__local__class"
-    },
-    {
-      "type": "local",
-      "name": "__local__class"
-    },
-    {
-      "type": "local",
-      "name": "__local__class"
-    },
-    {
-      "type": "local",
-      "name": "__local__class"
     }
   ],
   "class-duplicate-url": [
@@ -39,37 +27,9 @@
     {
       "type": "local",
       "name": "__local__grid"
-    },
-    {
-      "type": "local",
-      "name": "__local__grid"
-    },
-    {
-      "type": "local",
-      "name": "__local__grid"
-    },
-    {
-      "type": "local",
-      "name": "__local__grid"
-    },
-    {
-      "type": "local",
-      "name": "__local__grid"
     }
   ],
   "-top": [
-    {
-      "type": "local",
-      "name": "__local__-top"
-    },
-    {
-      "type": "local",
-      "name": "__local__-top"
-    },
-    {
-      "type": "local",
-      "name": "__local__-top"
-    },
     {
       "type": "local",
       "name": "__local__-top"
@@ -88,10 +48,6 @@
     }
   ],
   "myStyle": [
-    {
-      "type": "local",
-      "name": "__local__myStyle"
-    },
     {
       "type": "local",
       "name": "__local__myStyle"
@@ -128,14 +84,6 @@
     }
   ],
   "u-m+": [
-    {
-      "type": "local",
-      "name": "__local__u-m+"
-    },
-    {
-      "type": "local",
-      "name": "__local__u-m+"
-    },
     {
       "type": "local",
       "name": "__local__u-m+"

@@ -5,16 +5,22 @@
       "name": "__local__b"
     }
   ],
+  "a": [
+    {
+      "type": "local",
+      "name": "__local__a"
+    }
+  ],
   "c": [
     {
       "type": "local",
       "name": "__local__c"
     }
   ],
-  "a": [
+  "animationName": [
     {
       "type": "local",
-      "name": "__local__a"
+      "name": "__local__animationName"
     }
   ]
 }

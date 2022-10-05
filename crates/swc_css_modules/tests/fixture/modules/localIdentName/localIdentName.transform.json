@@ -9,10 +9,6 @@
     {
       "type": "local",
       "name": "__local__1a2b3c"
-    },
-    {
-      "type": "local",
-      "name": "__local__1a2b3c"
     }
   ],
   "f+o+o": [
@@ -25,17 +21,9 @@
     {
       "type": "local",
       "name": "__local__:`("
-    },
-    {
-      "type": "local",
-      "name": "__local__:`("
     }
   ],
   "className": [
-    {
-      "type": "local",
-      "name": "__local__className"
-    },
     {
       "type": "local",
       "name": "__local__className"
@@ -96,10 +84,6 @@
     }
   ],
   "someId": [
-    {
-      "type": "local",
-      "name": "__local__someId"
-    },
     {
       "type": "local",
       "name": "__local__someId"
@@ -217,17 +201,9 @@
     {
       "type": "local",
       "name": "__local__subClass"
-    },
-    {
-      "type": "local",
-      "name": "__local__subClass"
     }
   ],
   "#fake-id": [
-    {
-      "type": "local",
-      "name": "__local__#fake-id"
-    },
     {
       "type": "local",
       "name": "__local__#fake-id"
@@ -258,10 +234,6 @@
     }
   ],
   "©": [
-    {
-      "type": "local",
-      "name": "__local__©"
-    },
     {
       "type": "local",
       "name": "__local__©"

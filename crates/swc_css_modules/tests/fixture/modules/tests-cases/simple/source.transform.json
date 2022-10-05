@@ -5,22 +5,10 @@
       "name": "__local__b"
     }
   ],
-  "id": [
-    {
-      "type": "local",
-      "name": "__local__id"
-    }
-  ],
   "a": [
     {
       "type": "local",
       "name": "__local__a"
-    }
-  ],
-  "x": [
-    {
-      "type": "local",
-      "name": "__local__x"
     }
   ],
   "c": [
@@ -39,6 +27,24 @@
     {
       "type": "local",
       "name": "__local__y"
+    }
+  ],
+  "z": [
+    {
+      "type": "local",
+      "name": "__local__z"
+    }
+  ],
+  "id": [
+    {
+      "type": "local",
+      "name": "__local__id"
+    }
+  ],
+  "x": [
+    {
+      "type": "local",
+      "name": "__local__x"
     }
   ]
 }
