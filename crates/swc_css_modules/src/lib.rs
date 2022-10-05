@@ -339,11 +339,14 @@ fn rename<C>(
     orig_to_renamed.insert(name.clone(), new.clone());
     renamed_to_orig.insert(new.clone(), name.clone());
 
-    result
-        .renamed
-        .entry(name.clone())
-        .or_default()
-        .push(CssClassName::Local { name: new.clone() });
+    {
+        let e = result.renamed.entry(name.clone()).or_default();
+
+        let v = CssClassName::Local { name: new.clone() };
+        if !e.contains(&v) {
+            e.push(v);
+        }
+    }
 
     *name = new;
 }
