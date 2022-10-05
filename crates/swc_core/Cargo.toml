@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.29.2"
+version       = "0.29.3"
   [package.metadata.docs.rs]
   features = [
     "common_perf",
@@ -322,13 +322,13 @@ swc_atoms                        = { optional = true, version = "0.4.18", path =
 swc_bundler                      = { optional = true, version = "0.191.2", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.14", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "0.29.4", path = "../swc_common" }
-swc_css_ast                      = { optional = true, version = "0.114.5", path = "../swc_css_ast" }
-swc_css_codegen                  = { optional = true, version = "0.124.5", path = "../swc_css_codegen" }
-swc_css_minifier                 = { optional = true, version = "0.89.6", path = "../swc_css_minifier" }
-swc_css_parser                   = { optional = true, version = "0.123.5", path = "../swc_css_parser" }
-swc_css_prefixer                 = { optional = true, version = "0.125.5", path = "../swc_css_prefixer" }
-swc_css_utils                    = { optional = true, version = "0.111.5", path = "../swc_css_utils/" }
-swc_css_visit                    = { optional = true, version = "0.113.5", path = "../swc_css_visit" }
+swc_css_ast                      = { optional = true, version = "0.114.6", path = "../swc_css_ast" }
+swc_css_codegen                  = { optional = true, version = "0.124.6", path = "../swc_css_codegen" }
+swc_css_minifier                 = { optional = true, version = "0.89.7", path = "../swc_css_minifier" }
+swc_css_parser                   = { optional = true, version = "0.123.6", path = "../swc_css_parser" }
+swc_css_prefixer                 = { optional = true, version = "0.125.6", path = "../swc_css_prefixer" }
+swc_css_utils                    = { optional = true, version = "0.111.6", path = "../swc_css_utils/" }
+swc_css_visit                    = { optional = true, version = "0.113.6", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.94.4", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "0.127.7", path = "../swc_ecma_codegen" }
 swc_ecma_loader                  = { optional = true, version = "0.41.4", path = "../swc_ecma_loader" }

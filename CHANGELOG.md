@@ -29,6 +29,9 @@
 
 
 
+- **(css/modules)** Implement css modules (#6000) ([2cce1c8](https://github.com/swc-project/swc/commit/2cce1c82b2a72e69668c170e1b9a0bc78b2b4afd))
+
+
 - **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
 
 
