@@ -184,7 +184,7 @@
             zIndex: function(zIndex) {
                 if (zIndex !== undefined) return this.css("zIndex", zIndex);
                 if (this.length) for(var position, value, elem = $(this[0]); elem.length && elem[0] !== document1;){
-                    if (("absolute" === (position = elem.css("position")) || "relative" === position || "fixed" === position) && !isNaN(value = parseInt(elem.css("zIndex"), 10)) && 0 !== value) return value;
+                    if (("absolute" === (position = elem.css("position")) || "relative" === position || "fixed" === position) && (value = parseInt(elem.css("zIndex"), 10), !isNaN(value) && 0 !== value)) return value;
                     elem = elem.parent();
                 }
                 return 0;

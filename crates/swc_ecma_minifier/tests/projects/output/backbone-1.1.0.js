@@ -561,9 +561,9 @@
             }
         },
         _routeToRegExp: function(route) {
-            return RegExp("^" + (route = route.replace(escapeRegExp, "\\$&").replace(optionalParam, "(?:$1)?").replace(namedParam, function(match, optional) {
+            return route = route.replace(escapeRegExp, "\\$&").replace(optionalParam, "(?:$1)?").replace(namedParam, function(match, optional) {
                 return optional ? match : "([^/]+)";
-            }).replace(splatParam, "(.*?)")) + "$");
+            }).replace(splatParam, "(.*?)"), RegExp("^" + route + "$");
         },
         _extractParameters: function(route, fragment) {
             var params = route.exec(fragment).slice(1);

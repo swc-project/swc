@@ -438,7 +438,8 @@
                     return new _t(e);
                 }
                 toBase64() {
-                    return btoa(this.binaryString);
+                    var t;
+                    return t = this.binaryString, btoa(t);
                 }
                 toUint8Array() {
                     return function(t) {
@@ -465,7 +466,7 @@
                     const n = mt.exec(t);
                     if (n || L(), n[1]) {
                         let t1 = n[1];
-                        e = Number(t1 = (t1 + "000000000").substr(0, 9));
+                        t1 = (t1 + "000000000").substr(0, 9), e = Number(t1);
                     }
                     const s = new Date(t);
                     return {

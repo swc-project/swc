@@ -432,7 +432,7 @@
                     return i.default.wrap(function(e) {
                         for(;;)switch(e.prev = e.next){
                             case 0:
-                                for(n = t, o = (0, a.default)(r), l = Array((u = d.length) > 1 ? u - 1 : 0), s = 1; s < u; s++)l[s - 1] = d[s];
+                                for(n = t, o = (0, a.default)(r), u = d.length, l = Array(u > 1 ? u - 1 : 0), s = 1; s < u; s++)l[s - 1] = d[s];
                                 c = 0;
                             case 4:
                                 if (!(c < o.length)) {
@@ -2191,13 +2191,13 @@
             ], tO = [
                 function(e) {
                     return e.map(function(e) {
-                        var t, r = RegExp((t = e.attributes.font, tT.reduce(function(e, r) {
+                        var t, r = (t = e.attributes.font, tT.reduce(function(e, r) {
                             return t && t.hasGlyphForCodePoint && t.hasGlyphForCodePoint(r) ? e : [].concat(e, [
                                 String.fromCharCode(r)
                             ]);
-                        }, [])).join("|"));
+                        }, [])), n = RegExp(r.join("|"));
                         return {
-                            string: e.string.replace(r, ""),
+                            string: e.string.replace(n, ""),
                             attributes: e.attributes
                         };
                     });
@@ -17563,7 +17563,7 @@
                         var o = {}, a = /^$/;
                         if (process.env.NODE_DEBUG) {
                             var u = process.env.NODE_DEBUG;
-                            a = RegExp("^" + (u = u.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase()) + "$", "i");
+                            u = u.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase(), a = RegExp("^" + u + "$", "i");
                         }
                         function l(e, r) {
                             var n = {
@@ -21455,14 +21455,14 @@
                             t.bufferProcessing = !0;
                             var r = t.bufferedRequest;
                             if (e._writev && r && r.next) {
-                                var n = Array(t.bufferedRequestCount), i = t.corkedRequestsFree;
-                                i.entry = r;
-                                for(var a = 0, u = !0; r;)n[a] = r, r.isBuf || (u = !1), r = r.next, a += 1;
-                                n.allBuffers = u, k(e, t, !0, t.length, n, "", i.finish), t.pendingcb++, t.lastBufferedRequest = null, i.next ? (t.corkedRequestsFree = i.next, i.next = null) : t.corkedRequestsFree = new o(t), t.bufferedRequestCount = 0;
+                                var n = t.bufferedRequestCount, i = Array(n), a = t.corkedRequestsFree;
+                                a.entry = r;
+                                for(var u = 0, l = !0; r;)i[u] = r, r.isBuf || (l = !1), r = r.next, u += 1;
+                                i.allBuffers = l, k(e, t, !0, t.length, i, "", a.finish), t.pendingcb++, t.lastBufferedRequest = null, a.next ? (t.corkedRequestsFree = a.next, a.next = null) : t.corkedRequestsFree = new o(t), t.bufferedRequestCount = 0;
                             } else {
                                 for(; r;){
-                                    var l = r.chunk, s = r.encoding, c = r.callback, f = t.objectMode ? 1 : l.length;
-                                    if (k(e, t, !1, f, l, s, c), r = r.next, t.bufferedRequestCount--, t.writing) break;
+                                    var s = r.chunk, c = r.encoding, f = r.callback, d = t.objectMode ? 1 : s.length;
+                                    if (k(e, t, !1, d, s, c, f), r = r.next, t.bufferedRequestCount--, t.writing) break;
                                 }
                                 null === r && (t.lastBufferedRequest = null);
                             }
@@ -23313,7 +23313,7 @@
                         var o = {}, a = /^$/;
                         if (process.env.NODE_DEBUG) {
                             var u = process.env.NODE_DEBUG;
-                            a = RegExp("^" + (u = u.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase()) + "$", "i");
+                            u = u.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase(), a = RegExp("^" + u + "$", "i");
                         }
                         function l(e, r) {
                             var n = {
@@ -25060,7 +25060,7 @@
                         if (m && tY(u, s), void 0 === s && !b) switch(u.tag){
                             case 1:
                             case 0:
-                                throw Error(d(152, (u = u.type).displayName || u.name || "Component"));
+                                throw u = u.type, Error(d(152, u.displayName || u.name || "Component"));
                         }
                         return r(u, l);
                     };

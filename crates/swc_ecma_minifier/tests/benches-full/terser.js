@@ -1924,8 +1924,8 @@
         base && base.PROPS && (props = props.concat(base.PROPS));
         for(var code = "return function AST_" + type + "(props){ if (props) { ", i = props.length; --i >= 0;)code += "this." + props[i] + " = props." + props[i] + ";";
         const proto = base && Object.create(base.prototype);
-        (proto && proto.initialize || methods && methods.initialize) && (code += "this.initialize();"), code += "}", code += "this.flags = 0;";
-        var ctor = Function(code += "}")();
+        (proto && proto.initialize || methods && methods.initialize) && (code += "this.initialize();"), code += "}", code += "this.flags = 0;", code += "}";
+        var ctor = Function(code)();
         if (proto && (ctor.prototype = proto, ctor.BASE = base), base && base.SUBCLASSES.push(ctor), ctor.prototype.CTOR = ctor, ctor.prototype.constructor = ctor, ctor.PROPS = props || null, ctor.SELF_PROPS = self_props, ctor.SUBCLASSES = [], type && (ctor.prototype.TYPE = ctor.TYPE = type), methods) for(i in methods)HOP(methods, i) && ("$" === i[0] ? ctor[i.substr(1)] = methods[i] : ctor.prototype[i] = methods[i]);
         return ctor.DEFMETHOD = function(name, method) {
             this.prototype[name] = method;
@@ -18022,7 +18022,7 @@
                     var entries = fs.readdirSync(dir);
                 } catch (ex) {}
                 if (entries) {
-                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", rx = RegExp(pattern, "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
+                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", mod = "win32" === process.platform ? "i" : "", rx = RegExp(pattern, mod), results = entries.filter(function(name) {
                         return rx.test(name);
                     }).map(function(name) {
                         return path.join(dir, name);

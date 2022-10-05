@@ -1942,7 +1942,7 @@
                         var i = {}, a = /^$/;
                         if (process.env.NODE_DEBUG) {
                             var y = process.env.NODE_DEBUG;
-                            a = RegExp("^" + (y = y.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase()) + "$", "i");
+                            y = y.replace(/[|\\{}()[\]^$+?.]/g, "\\$&").replace(/\*/g, ".*").replace(/,/g, "$|^").toUpperCase(), a = RegExp("^" + y + "$", "i");
                         }
                         function inspect(r, e) {
                             var o = {

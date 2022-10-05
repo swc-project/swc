@@ -68,7 +68,7 @@
             }), __webpack_require__.d(__webpack_exports__, "bisectLeft", function() {
                 return bisectLeft;
             });
-            var _ascending__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/ascending.js"), ascendingBisect = Object(__webpack_require__("../../../node_modules/d3-array/src/bisector.js").default)(_ascending__WEBPACK_IMPORTED_MODULE_0__.default), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left;
+            var _ascending__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/ascending.js"), _bisector__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-array/src/bisector.js"), ascendingBisect = Object(_bisector__WEBPACK_IMPORTED_MODULE_1__.default)(_ascending__WEBPACK_IMPORTED_MODULE_0__.default), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left;
             __webpack_exports__.default = bisectRight;
         },
         "../../../node_modules/d3-array/src/bisector.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -471,8 +471,8 @@
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
-                if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-                else for(ticks = Array(n = Math.ceil((start = Math.floor(start * step)) - (stop = Math.ceil(stop * step)) + 1)); ++i < n;)ticks[i] = (start - i) / step;
+                if (step > 0) for(start = Math.ceil(start / step), stop = Math.floor(stop / step), ticks = Array(n = Math.ceil(stop - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
+                else for(start = Math.floor(start * step), stop = Math.ceil(stop * step), ticks = Array(n = Math.ceil(start - stop + 1)); ++i < n;)ticks[i] = (start - i) / step;
                 return reverse && ticks.reverse(), ticks;
             };
         },
@@ -5669,7 +5669,7 @@
                     }, count && (interval.count = function(start, end) {
                         return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
                     }, interval.every = function(step) {
-                        return isFinite(step = Math.floor(step)) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
+                        return step = Math.floor(step), isFinite(step) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
                             return field(d) % step == 0;
                         } : function(d) {
                             return interval.count(0, d) % step == 0;
@@ -5690,7 +5690,7 @@
                 return end - start;
             });
             millisecond.every = function(k) {
-                return isFinite(k = Math.floor(k)) && k > 0 ? k > 1 ? Object(_interval_js__WEBPACK_IMPORTED_MODULE_0__.default)(function(date) {
+                return (k = Math.floor(k), isFinite(k) && k > 0) ? k > 1 ? Object(_interval_js__WEBPACK_IMPORTED_MODULE_0__.default)(function(date) {
                     date.setTime(Math.floor(date / k) * k);
                 }, function(date, step) {
                     date.setTime(+date + step * k);
@@ -5722,7 +5722,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "months", function() {
                 return months;
             });
-            var month = Object(__webpack_require__("../../../node_modules/d3-time/src/interval.js").default)(function(date) {
+            var _interval_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time/src/interval.js"), month = Object(_interval_js__WEBPACK_IMPORTED_MODULE_0__.default)(function(date) {
                 date.setDate(1), date.setHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setMonth(date.getMonth() + step);
@@ -5807,7 +5807,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "utcMonths", function() {
                 return utcMonths;
             });
-            var utcMonth = Object(__webpack_require__("../../../node_modules/d3-time/src/interval.js").default)(function(date) {
+            var _interval_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time/src/interval.js"), utcMonth = Object(_interval_js__WEBPACK_IMPORTED_MODULE_0__.default)(function(date) {
                 date.setUTCDate(1), date.setUTCHours(0, 0, 0, 0);
             }, function(date, step) {
                 date.setUTCMonth(date.getUTCMonth() + step);
@@ -24786,7 +24786,7 @@
             }), __webpack_require__.d(__webpack_exports__, "bisectLeft", function() {
                 return bisectLeft;
             });
-            var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/ascending.js"), ascendingBisect = Object(__webpack_require__("../../victory-histogram/node_modules/d3-array/src/bisector.js").default)(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left;
+            var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/ascending.js"), _bisector_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../victory-histogram/node_modules/d3-array/src/bisector.js"), ascendingBisect = Object(_bisector_js__WEBPACK_IMPORTED_MODULE_1__.default)(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default), bisectRight = ascendingBisect.right, bisectLeft = ascendingBisect.left;
             __webpack_exports__.default = bisectRight;
         },
         "../../victory-histogram/node_modules/d3-array/src/bisector.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -25465,8 +25465,8 @@
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
-                if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-                else for(ticks = Array(n = Math.ceil((start = Math.floor(start * step)) - (stop = Math.ceil(stop * step)) + 1)); ++i < n;)ticks[i] = (start - i) / step;
+                if (step > 0) for(start = Math.ceil(start / step), stop = Math.floor(stop / step), ticks = Array(n = Math.ceil(stop - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
+                else for(start = Math.floor(start * step), stop = Math.ceil(stop * step), ticks = Array(n = Math.ceil(start - stop + 1)); ++i < n;)ticks[i] = (start - i) / step;
                 return reverse && ticks.reverse(), ticks;
             };
         },

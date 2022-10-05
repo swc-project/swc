@@ -4715,7 +4715,7 @@
                 function m(e, s, i, a) {
                     void 0 === a && (a = "&");
                     var c = e.replace(ie, "");
-                    return t = a, r = RegExp("\\" + (n = s) + "\\b", "g"), o = RegExp("(\\" + n + "\\b){2,}"), l(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
+                    return t = a, n = s, r = RegExp("\\" + n + "\\b", "g"), o = RegExp("(\\" + n + "\\b){2,}"), l(i || !s ? "" : s, s && i ? i + " " + s + " { " + c + " }" : c);
                 }
                 return l.use([].concat(u, [
                     function(e, t, o) {
