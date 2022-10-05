@@ -951,6 +951,11 @@ where
                 {
                     log_abort!("Undeclared");
                     return false;
+                if let Some(usage) = self.data.vars.get(&e.to_id()) {
+                    if usage.reassigned() {
+                        log_abort!("Reaasigned");
+                        return false;
+                    }
                 }
 
                 if let Some(a) = a {
