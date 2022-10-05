@@ -1,11 +1,10 @@
 use rustc_hash::FxHashMap;
 use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
-use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, DeclarationOrAtRule, Ident, PseudoClassSelector, QualifiedRule,
-    QualifiedRulePrelude, SelectorList, StyleBlock, Stylesheet, SubclassSelector,
+    DeclarationName, DeclarationOrAtRule, Ident, QualifiedRule, QualifiedRulePrelude, StyleBlock,
+    Stylesheet, SubclassSelector,
 };
 use swc_css_parser::parser::ParserConfig;
 use swc_css_visit::{VisitMut, VisitMutWith};
