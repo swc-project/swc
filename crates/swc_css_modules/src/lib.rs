@@ -1,6 +1,7 @@
 use rustc_hash::FxHashMap;
 use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
+use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
     DeclarationName, DeclarationOrAtRule, Ident, QualifiedRule, QualifiedRulePrelude, StyleBlock,
@@ -204,76 +205,80 @@ where
         });
     }
 
-    fn visit_mut_subclass_selector(&mut self, n: &mut SubclassSelector) {
-        match n {
-            SubclassSelector::Class(..) => {
-                process_local(
-                    &mut self.config,
-                    &mut self.result,
-                    &mut self.data.renamed_to_orig,
-                    n,
-                );
-            }
-            SubclassSelector::PseudoClass(class_sel) => {
-                class_sel.visit_mut_with(self);
+    fn visit_mut_compound_selector(&mut self, sel: &mut CompoundSelector) {
+        let mut new_subclass = Vec::with_capacity(sel.subclass_selectors.len());
 
-                match &*class_sel.name.value {
-                    "local" => {
-                        if let Some(children) = &mut class_sel.children {
-                            let tokens = to_tokens_vec(&*children);
+        for mut n in sel.subclass_selectors.take() {
+            match &mut n {
+                SubclassSelector::Class(..) => {
+                    process_local(
+                        &mut self.config,
+                        &mut self.result,
+                        &mut self.data.renamed_to_orig,
+                        &mut n,
+                    );
+                }
+                SubclassSelector::PseudoClass(class_sel) => {
+                    class_sel.visit_mut_with(self);
 
-                            let mut sel = swc_css_parser::parse_tokens(
-                                &tokens,
-                                ParserConfig {
-                                    ..Default::default()
-                                },
-                                &mut vec![],
-                            )
-                            .unwrap();
+                    match &*class_sel.name.value {
+                        "local" => {
+                            if let Some(children) = &mut class_sel.children {
+                                let tokens = to_tokens_vec(&*children);
 
-                            process_local(
-                                &mut self.config,
-                                &mut self.result,
-                                &mut self.data.renamed_to_orig,
-                                &mut sel,
-                            );
+                                let mut sel: CompoundSelector = swc_css_parser::parse_tokens(
+                                    &tokens,
+                                    ParserConfig {
+                                        ..Default::default()
+                                    },
+                                    &mut vec![],
+                                )
+                                .unwrap();
 
-                            *n = sel
+                                for sel in &mut sel.subclass_selectors {
+                                    process_local(
+                                        &mut self.config,
+                                        &mut self.result,
+                                        &mut self.data.renamed_to_orig,
+                                        sel,
+                                    );
+                                }
+                                new_subclass.extend(sel.subclass_selectors);
+
+                                continue;
+                            }
                         }
-                    }
-                    "global" => {
-                        if let Some(children) = &mut class_sel.children {
-                            let tokens = to_tokens_vec(&*children);
+                        "global" => {
+                            if let Some(children) = &mut class_sel.children {
+                                let tokens = to_tokens_vec(&*children);
 
-                            let sel = swc_css_parser::parse_tokens(
-                                &tokens,
-                                ParserConfig {
-                                    ..Default::default()
-                                },
-                                &mut vec![],
-                            )
-                            .unwrap();
+                                let sel: CompoundSelector = swc_css_parser::parse_tokens(
+                                    &tokens,
+                                    ParserConfig {
+                                        ..Default::default()
+                                    },
+                                    &mut vec![],
+                                )
+                                .unwrap();
 
-                            *n = sel
+                                new_subclass.extend(sel.subclass_selectors);
+
+                                continue;
+                            }
                         }
-                    }
 
-                    _ => {}
+                        _ => {}
+                    }
+                }
+                _ => {
+                    n.visit_mut_children_with(self);
                 }
             }
-            _ => {
-                n.visit_mut_children_with(self);
-            }
+
+            new_subclass.push(n);
         }
-    }
 
-    fn visit_mut_compound_selector(&mut self, n: &mut CompoundSelector) {
-        n.visit_mut_children_with(self);
-
-        n.subclass_selectors.retain(|s| match s {
-            swc_css_ast::SubclassSelector::PseudoClass(s) => s.name.value != js_word!(""),
-            _ => true,
-        });
+        sel.subclass_selectors = new_subclass;
     }
 
     fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
