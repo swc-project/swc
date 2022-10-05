@@ -84,6 +84,8 @@ struct Data {
 
     renamed_to_orig: FxHashMap<JsWord, JsWord>,
     orig_to_renamed: FxHashMap<JsWord, JsWord>,
+
+    is_global_mode: bool,
 }
 
 impl<C> VisitMut for Compiler<C>
@@ -244,6 +246,9 @@ where
     }
 
     fn visit_mut_complex_selector(&mut self, n: &mut ComplexSelector) {
+        let old_is_global = self.data.is_global_mode;
+        self.data.is_global_mode = false;
+
         n.visit_mut_children_with(self);
 
         n.children.retain(|s| match s {
@@ -254,6 +259,8 @@ where
             }
             ComplexSelectorChildren::Combinator(..) => true,
         });
+
+        self.data.is_global_mode = old_is_global;
     }
 
     fn visit_mut_compound_selector(&mut self, sel: &mut CompoundSelector) {
@@ -262,13 +269,15 @@ where
         for mut n in sel.subclass_selectors.take() {
             match &mut n {
                 SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
-                    process_local(
-                        &mut self.config,
-                        &mut self.result,
-                        &mut self.data.orig_to_renamed,
-                        &mut self.data.renamed_to_orig,
-                        &mut n,
-                    );
+                    if !self.data.is_global_mode {
+                        process_local(
+                            &mut self.config,
+                            &mut self.result,
+                            &mut self.data.orig_to_renamed,
+                            &mut self.data.renamed_to_orig,
+                            &mut n,
+                        );
+                    }
                 }
                 SubclassSelector::PseudoClass(class_sel) => {
                     class_sel.visit_mut_with(self);
@@ -299,6 +308,9 @@ where
                                 new_subclass.extend(sel.subclass_selectors);
 
                                 continue;
+                            } else {
+                                self.data.is_global_mode = false;
+                                continue;
                             }
                         }
                         "global" => {
@@ -316,6 +328,9 @@ where
 
                                 new_subclass.extend(sel.subclass_selectors);
 
+                                continue;
+                            } else {
+                                self.data.is_global_mode = true;
                                 continue;
                             }
                         }
