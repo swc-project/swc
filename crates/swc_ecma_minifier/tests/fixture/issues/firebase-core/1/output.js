@@ -1469,7 +1469,7 @@
                     "X-WebChannel-Content-Type": b.messageContentType
                 }), b && b.ya && (a ? a["X-WebChannel-Client-Profile"] = b.ya : a = {
                     "X-WebChannel-Client-Profile": b.ya
-                }), this.g.P = a, (a = b && b.httpHeadersOverwriteParam) && !sa(a) && (this.g.o = a), this.A = b && b.supportsCrossDomainXhr || !1, this.v = b && b.sendRawJson || !1, (b = b && b.httpSessionIdParam) && !sa(b) && (this.g.D = b, null !== (a = this.h) && b in a && b in (a = this.h) && delete a[b]), this.j = new Z(this);
+                }), this.g.P = a, (a = b && b.httpHeadersOverwriteParam) && !sa(a) && (this.g.o = a), this.A = b && b.supportsCrossDomainXhr || !1, this.v = b && b.sendRawJson || !1, (b = b && b.httpSessionIdParam) && !sa(b) && (this.g.D = b, null !== (a = this.h) && b in a && (a = this.h, b in a && delete a[b])), this.j = new Z(this);
             }
             function Ud(a) {
                 ac.call(this);

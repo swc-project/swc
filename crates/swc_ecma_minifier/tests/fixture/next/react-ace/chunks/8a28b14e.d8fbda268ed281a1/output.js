@@ -48,10 +48,10 @@
                             uri: "",
                             exports: exports,
                             packaged: !0
-                        };
-                        exports = module(function(module, callback) {
+                        }, req = function(module, callback) {
                             return _require(moduleName, module, callback);
-                        }, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
+                        };
+                        exports = module(req, exports, mod) || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
                     }
                     module = define.modules[moduleName] = exports || module;
                 }
@@ -1150,7 +1150,7 @@
                 oop.inherits(GutterTooltip, Tooltip), (function() {
                     this.setPosition = function(x, y) {
                         var windowWidth = window.innerWidth || document.documentElement.clientWidth, windowHeight = window.innerHeight || document.documentElement.clientHeight, width = this.getWidth(), height = this.getHeight();
-                        y += 15, (x += 15) + width > windowWidth && (x -= x + width - windowWidth), y + height > windowHeight && (y -= 20 + height), Tooltip.prototype.setPosition.call(this, x, y);
+                        x += 15, y += 15, x + width > windowWidth && (x -= x + width - windowWidth), y + height > windowHeight && (y -= 20 + height), Tooltip.prototype.setPosition.call(this, x, y);
                     };
                 }).call(GutterTooltip.prototype), exports.GutterHandler = function(mouseHandler) {
                     var tooltipTimeout, mouseEvent, tooltipAnnotation, editor = mouseHandler.editor, gutter = editor.renderer.$gutterLayer, tooltip = new GutterTooltip(editor.container);
@@ -1262,9 +1262,9 @@
                         cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now = Date.now(), vMovement = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), nearestXOffset = Math.min((offsets = {
                             x: {
-                                left: x - (editorRect = editor.renderer.scroller.getBoundingClientRect()).left,
+                                left: x - editorRect.left,
                                 right: editorRect.right - x
                             },
                             y: {
@@ -1536,7 +1536,7 @@
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
-                                return (x /= w) * x + (y = y / h - 0.75) * y;
+                                return x /= w, y = y / h - 0.75, x * x + y * y;
                             };
                             if (e.clientX < rect.left) {
                                 mode = "zoom";
@@ -4662,9 +4662,9 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), {
+                        return void 0 == column && (column = line.length), column = Math.min(Math.max(column, 0), line.length), {
                             row: row,
-                            column: column = Math.min(Math.max(column, 0), line.length)
+                            column: column
                         };
                     }, this.clonePos = function(pos) {
                         return {
@@ -6179,7 +6179,7 @@
                         var line, column, docRow = 0, docColumn = 0, row = 0, rowLength = 0, rowCache = this.$screenRowCache, i = this.$getRowCacheIndex(rowCache, screenRow), l = rowCache.length;
                         if (l && i >= 0) var row = rowCache[i], docRow = this.$docRowCache[i], doCache = screenRow > rowCache[l - 1];
                         else var doCache = !l;
-                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && !(row + (rowLength = this.getRowLength(docRow)) > screenRow) && !(docRow >= maxRow);)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
+                        for(var maxRow = this.getLength() - 1, foldLine = this.getNextFoldLine(docRow), foldStart = foldLine ? foldLine.start.row : 1 / 0; row <= screenRow && (rowLength = this.getRowLength(docRow), !(row + rowLength > screenRow) && !(docRow >= maxRow));)row += rowLength, ++docRow > foldStart && (docRow = foldLine.end.row + 1, foldStart = (foldLine = this.getNextFoldLine(docRow, foldLine)) ? foldLine.start.row : 1 / 0), doCache && (this.$docRowCache.push(docRow), this.$screenRowCache.push(row));
                         if (foldLine && foldLine.start.row <= docRow) line = this.getFoldDisplayLine(foldLine), docRow = foldLine.start.row;
                         else {
                             if (row + rowLength <= screenRow || docRow > maxRow) return {
@@ -6239,7 +6239,7 @@
                         }
                         else {
                             screenRows = this.getLength();
-                            for(var foldData = this.$foldData, i = 0; i < foldData.length; i++)screenRows -= (fold = foldData[i]).end.row - fold.start.row;
+                            for(var foldData = this.$foldData, i = 0; i < foldData.length; i++)fold = foldData[i], screenRows -= fold.end.row - fold.start.row;
                         }
                         return this.lineWidgets && (screenRows += this.$getWidgetScreenLength()), screenRows;
                     }, this.$setFontMetrics = function(fm) {
@@ -8102,7 +8102,7 @@
                             var selectedRange = this.getSelectionRange();
                             startRow = selectedRange.start.row, endRow = selectedRange.end.row;
                         }
-                        for(var prevLineState = "", prevLine = "", lineIndent = "", tab = session.getTabString(), row = startRow; row <= endRow; row++)row > 0 && (prevLineState = session.getState(row - 1), prevLine = session.getLine(row - 1), lineIndent = mode.getNextLineIndent(prevLineState, prevLine, tab)), line = session.getLine(row), lineIndent !== (currIndent = mode.$getIndent(line)) && (currIndent.length > 0 && (range = new Range(row, 0, row, currIndent.length), session.remove(range)), lineIndent.length > 0 && session.insert({
+                        for(var prevLineState = "", prevLine = "", lineIndent = "", tab = session.getTabString(), row = startRow; row <= endRow; row++)row > 0 && (prevLineState = session.getState(row - 1), prevLine = session.getLine(row - 1), lineIndent = mode.getNextLineIndent(prevLineState, prevLine, tab)), line = session.getLine(row), currIndent = mode.$getIndent(line), lineIndent !== currIndent && (currIndent.length > 0 && (range = new Range(row, 0, row, currIndent.length), session.remove(range)), lineIndent.length > 0 && session.insert({
                             row: row,
                             column: 0
                         }, lineIndent)), mode.autoOutdent(prevLineState, session, row);
@@ -9531,7 +9531,7 @@
                             }
                             if (chars + value.length < splitChars) screenColumn = this.$renderToken(lineEl, screenColumn, token, value), chars += value.length;
                             else {
-                                for(; chars + value.length >= splitChars;)screenColumn = this.$renderToken(lineEl, screenColumn, token, value.substring(0, splitChars - chars)), value = value.substring(splitChars - chars), chars = splitChars, lineEl = this.$createLineElement(), parent.appendChild(lineEl), lineEl.appendChild(this.dom.createTextNode(lang.stringRepeat("\xa0", splits.indent), this.element)), screenColumn = 0, splitChars = splits[++split] || Number.MAX_VALUE;
+                                for(; chars + value.length >= splitChars;)screenColumn = this.$renderToken(lineEl, screenColumn, token, value.substring(0, splitChars - chars)), value = value.substring(splitChars - chars), chars = splitChars, lineEl = this.$createLineElement(), parent.appendChild(lineEl), lineEl.appendChild(this.dom.createTextNode(lang.stringRepeat("\xa0", splits.indent), this.element)), split++, screenColumn = 0, splitChars = splits[split] || Number.MAX_VALUE;
                                 0 != value.length && (chars += value.length, screenColumn = this.$renderToken(lineEl, screenColumn, token, value));
                             }
                         }

@@ -4967,7 +4967,7 @@
                     var container = 8 === nodeType ? rootContainerInstance.parentNode : rootContainerInstance;
                     namespace = getChildNamespace(container.namespaceURI || null, type = container.tagName);
             }
-            var ancestorInfo = updatedAncestorInfo(null, type.toLowerCase());
+            var validatedTag = type.toLowerCase(), ancestorInfo = updatedAncestorInfo(null, validatedTag);
             return {
                 namespace: namespace,
                 ancestorInfo: ancestorInfo
@@ -5276,7 +5276,11 @@
                         };
                         newBaseQueueLast = newBaseQueueLast.next = _clone;
                     }
-                    newState = update.eagerReducer === reducer ? update.eagerState : reducer(newState, update.action);
+                    if (update.eagerReducer === reducer) newState = update.eagerState;
+                    else {
+                        var action = update.action;
+                        newState = reducer(newState, action);
+                    }
                 } else {
                     var a, b, clone = {
                         lane: updateLane,
@@ -5305,8 +5309,10 @@
         if (null !== lastRenderPhaseUpdate) {
             queue.pending = null;
             var firstRenderPhaseUpdate = lastRenderPhaseUpdate.next, update = firstRenderPhaseUpdate;
-            do newState = reducer(newState, update.action), update = update.next;
-            while (update !== firstRenderPhaseUpdate)
+            do {
+                var action = update.action;
+                newState = reducer(newState, action), update = update.next;
+            }while (update !== firstRenderPhaseUpdate)
             objectIs(newState, hook.memoizedState) || markWorkInProgressReceivedUpdate(), hook.memoizedState = newState, null === hook.baseQueue && (hook.baseState = newState), queue.lastRenderedState = newState;
         }
         return [
@@ -5615,13 +5621,13 @@
     function mountOpaqueIdentifier() {
         var makeId = makeClientIdInDEV.bind(null, warnOnOpaqueIdentifierAccessInDEV.bind(null, currentlyRenderingFiber$1));
         if (isHydrating) {
-            var attemptToReadValue, didUpgrade = !1, fiber = currentlyRenderingFiber$1, id = {
+            var attemptToReadValue, didUpgrade = !1, fiber = currentlyRenderingFiber$1, id = (attemptToReadValue = function() {
+                throw didUpgrade || (didUpgrade = !0, isUpdatingOpaqueValueInRenderPhase = !0, setId(makeId()), isUpdatingOpaqueValueInRenderPhase = !1, warnOnOpaqueIdentifierAccessInDEV(fiber)), Error("The object passed back from useOpaqueIdentifier is meant to be passed through to attributes only. Do not read the value directly.");
+            }, {
                 $$typeof: REACT_OPAQUE_ID_TYPE,
-                toString: attemptToReadValue = function() {
-                    throw didUpgrade || (didUpgrade = !0, isUpdatingOpaqueValueInRenderPhase = !0, setId(makeId()), isUpdatingOpaqueValueInRenderPhase = !1, warnOnOpaqueIdentifierAccessInDEV(fiber)), Error("The object passed back from useOpaqueIdentifier is meant to be passed through to attributes only. Do not read the value directly.");
-                },
+                toString: attemptToReadValue,
                 valueOf: attemptToReadValue
-            }, setId = mountState(id)[1];
+            }), setId = mountState(id)[1];
             return (2 & currentlyRenderingFiber$1.mode) == 0 && (currentlyRenderingFiber$1.flags |= 516, pushEffect(5, function() {
                 setId(makeId());
             }, void 0, null)), id;
@@ -6255,13 +6261,13 @@
                 var subtreeRenderLanes = null !== prevState ? prevState.baseLanes : renderLanes;
                 pushRenderLanes(workInProgress, subtreeRenderLanes);
             } else {
-                null !== prevState ? (a = prevState.baseLanes, nextBaseLanes = a | (b = renderLanes)) : nextBaseLanes = renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
+                null !== prevState ? (a = prevState.baseLanes, b = renderLanes, nextBaseLanes = a | b) : nextBaseLanes = renderLanes, markSpawnedWork(1073741824), workInProgress.lanes = workInProgress.childLanes = 1073741824;
                 var _nextState = {
                     baseLanes: nextBaseLanes
                 };
                 return workInProgress.memoizedState = _nextState, pushRenderLanes(workInProgress, nextBaseLanes), null;
             }
-        } else null !== prevState ? (a1 = prevState.baseLanes, _subtreeRenderLanes = a1 | (b1 = renderLanes), workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
+        } else null !== prevState ? (a1 = prevState.baseLanes, b1 = renderLanes, _subtreeRenderLanes = a1 | b1, workInProgress.memoizedState = null) : _subtreeRenderLanes = renderLanes, pushRenderLanes(workInProgress, _subtreeRenderLanes);
         return reconcileChildren(current, workInProgress, nextChildren, renderLanes), workInProgress.child;
     }
     function markRef(current, workInProgress) {
@@ -8626,7 +8632,7 @@
         var a, b, pingCache = root.pingCache;
         null !== pingCache && pingCache.delete(wakeable);
         var eventTime = requestEventTime();
-        markRootPinged(root, pingedLanes), workInProgressRoot === root && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes) && (4 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < 500 ? prepareFreshStack(root, 0) : (a = workInProgressRootPingedLanes, workInProgressRootPingedLanes = a | (b = pingedLanes))), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, pingedLanes);
+        markRootPinged(root, pingedLanes), workInProgressRoot === root && isSubsetOfLanes(workInProgressRootRenderLanes, pingedLanes) && (4 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus && includesOnlyRetries(workInProgressRootRenderLanes) && now() - globalMostRecentFallbackTime < 500 ? prepareFreshStack(root, 0) : (a = workInProgressRootPingedLanes, b = pingedLanes, workInProgressRootPingedLanes = a | b)), ensureRootIsScheduled(root, eventTime), schedulePendingInteractions(root, pingedLanes);
     }
     function resolveRetryWakeable(boundaryFiber, wakeable) {
         var retryCache, boundaryFiber1, retryLane, eventTime, root, wipLanes, lane, mode;

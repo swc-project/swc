@@ -3425,7 +3425,9 @@
                     }, {});
                 }, _proto.buildWrapperCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
-                    return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + Button.prototype.buildCSSClass() + " " + _Component.prototype.buildCSSClass.call(this);
+                    !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup";
+                    var buttonClass = Button.prototype.buildCSSClass();
+                    return "vjs-menu-button " + menuButtonClass + " " + buttonClass + " " + _Component.prototype.buildCSSClass.call(this);
                 }, _proto.buildCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
                     return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + _Component.prototype.buildCSSClass.call(this);
@@ -6097,7 +6099,10 @@
                 }, _proto.breakpoints = function(_breakpoints) {
                     return void 0 === _breakpoints || (this.breakpoint_ = "", this.breakpoints_ = assign({}, DEFAULT_BREAKPOINTS, _breakpoints), this.updateCurrentBreakpoint_()), assign(this.breakpoints_);
                 }, _proto.responsive = function(value) {
-                    return void 0 === value ? this.responsive_ : (value = Boolean(value)) !== this.responsive_ ? (this.responsive_ = value, value ? (this.on("playerresize", this.boundUpdateCurrentBreakpoint_), this.updateCurrentBreakpoint_()) : (this.off("playerresize", this.boundUpdateCurrentBreakpoint_), this.removeCurrentBreakpoint_()), value) : void 0;
+                    if (void 0 === value) return this.responsive_;
+                    value = Boolean(value);
+                    var current = this.responsive_;
+                    if (value !== current) return this.responsive_ = value, value ? (this.on("playerresize", this.boundUpdateCurrentBreakpoint_), this.updateCurrentBreakpoint_()) : (this.off("playerresize", this.boundUpdateCurrentBreakpoint_), this.removeCurrentBreakpoint_()), value;
                 }, _proto.currentBreakpoint = function() {
                     return this.breakpoint_;
                 }, _proto.currentBreakpointClass = function() {
@@ -7170,7 +7175,11 @@
                 if (!playlist || !playlist.segments || 0 === playlist.segments.length) return null;
                 var videoTimingInfo, dateTimeObject, segment = playlist.segments[0];
                 if (dateTimeObject < segment.dateTimeObject) return null;
-                for(var i = 0; i < playlist.segments.length - 1 && (segment = playlist.segments[i], !(dateTimeObject < playlist.segments[i + 1].dateTimeObject)); i++);
+                for(var i = 0; i < playlist.segments.length - 1; i++){
+                    segment = playlist.segments[i];
+                    var nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
+                    if (dateTimeObject < nextSegmentStart) break;
+                }
                 var lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration, lastSegmentEnd = new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration);
                 return dateTimeObject > lastSegmentEnd ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
@@ -7335,7 +7344,10 @@
             }, filterChangedSidxMappings = function(master, oldSidxMapping) {
                 var mediaGroupSidx = compareSidxEntry(master.playlists, oldSidxMapping);
                 return forEachMediaGroup(master, function(properties, mediaType, groupKey, labelKey) {
-                    properties.playlists && properties.playlists.length && (mediaGroupSidx = mergeOptions(mediaGroupSidx, compareSidxEntry(properties.playlists, oldSidxMapping)));
+                    if (properties.playlists && properties.playlists.length) {
+                        var playlists = properties.playlists;
+                        mediaGroupSidx = mergeOptions(mediaGroupSidx, compareSidxEntry(playlists, oldSidxMapping));
+                    }
                 }), mediaGroupSidx;
             }, DashPlaylistLoader = function(_EventTarget) {
                 function DashPlaylistLoader(srcUrlOrPlaylist, vhs, options, masterPlaylistLoader) {
@@ -8393,11 +8405,11 @@
                     ];
                 }, videoTrun = function(track, offset) {
                     var bytesOffest, bytes, header, samples, sample, i;
-                    for(offset += 20 + 16 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
+                    for(samples = track.samples || [], offset += 20 + 16 * samples.length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
                     return box(types.trun, bytes);
                 }, audioTrun = function(track, offset) {
                     var bytes, bytesOffest, header, samples, sample, i;
-                    for(offset += 20 + 8 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
+                    for(samples = track.samples || [], offset += 20 + 8 * samples.length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
                     return box(types.trun, bytes);
                 }, trun$1 = function(track, offset) {
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
@@ -8738,8 +8750,8 @@
                     videoTsToAudioTs: videoTsToAudioTs,
                     metadataTsToSeconds: metadataTsToSeconds
                 }, sumFrameByteLengths = function(array) {
-                    var i, sum = 0;
-                    for(i = 0; i < array.length; i++)sum += array[i].data.byteLength;
+                    var i, currentObj, sum = 0;
+                    for(i = 0; i < array.length; i++)currentObj = array[i], sum += currentObj.data.byteLength;
                     return sum;
                 }, audioFrameUtils = {
                     prefixWithSilence: function(track, frames, audioAppendStartTs, videoBaseMediaDecodeTime) {
@@ -8776,8 +8788,8 @@
                         delete track.minSegmentDts, delete track.maxSegmentDts, delete track.minSegmentPts, delete track.maxSegmentPts;
                     },
                     calculateTrackBaseMediaDecodeTime: function(track, keepOriginalTimestamps) {
-                        var baseMediaDecodeTime, minSegmentDts = track.minSegmentDts;
-                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime, baseMediaDecodeTime += minSegmentDts, baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime), "audio" === track.type && (baseMediaDecodeTime *= track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
+                        var baseMediaDecodeTime, scale, minSegmentDts = track.minSegmentDts;
+                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime, baseMediaDecodeTime += minSegmentDts, baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime), "audio" === track.type && (scale = track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime *= scale, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
                     },
                     collectDtsInfo: function(track, data) {
                         "number" == typeof data.pts && (void 0 === track.timelineStartInfo.pts && (track.timelineStartInfo.pts = data.pts), void 0 === track.minSegmentPts ? track.minSegmentPts = data.pts : track.minSegmentPts = Math.min(track.minSegmentPts, data.pts), void 0 === track.maxSegmentPts ? track.maxSegmentPts = data.pts : track.maxSegmentPts = Math.max(track.maxSegmentPts, data.pts)), "number" == typeof data.dts && (void 0 === track.timelineStartInfo.dts && (track.timelineStartInfo.dts = data.dts), void 0 === track.minSegmentDts ? track.minSegmentDts = data.dts : track.minSegmentDts = Math.min(track.minSegmentDts, data.dts), void 0 === track.maxSegmentDts ? track.maxSegmentDts = data.dts : track.maxSegmentDts = Math.max(track.maxSegmentDts, data.dts));
@@ -9746,8 +9758,8 @@
                     }, this.endTimeline = function() {
                         nalByteStream.endTimeline();
                     }, skipScalingList = function(count, expGolombDecoder) {
-                        var j, lastScale = 8, nextScale = 8;
-                        for(j = 0; j < count; j++)0 !== nextScale && (nextScale = (lastScale + expGolombDecoder.readExpGolomb() + 256) % 256), lastScale = 0 === nextScale ? lastScale : nextScale;
+                        var j, deltaScale, lastScale = 8, nextScale = 8;
+                        for(j = 0; j < count; j++)0 !== nextScale && (deltaScale = expGolombDecoder.readExpGolomb(), nextScale = (lastScale + deltaScale + 256) % 256), lastScale = 0 === nextScale ? lastScale : nextScale;
                     }, discardEmulationPreventionBytes = function(data) {
                         for(var newLength, newData, length = data.byteLength, emulationPreventionBytesPositions = [], i = 1; i < length - 2;)0 === data[i] && 0 === data[i + 1] && 0x03 === data[i + 2] ? (emulationPreventionBytesPositions.push(i + 2), i += 2) : i++;
                         if (0 === emulationPreventionBytesPositions.length) return data;
@@ -9894,8 +9906,8 @@
                     8000,
                     7350
                 ], parseId3TagSize = function(header, byteIndex) {
-                    var returnSize = header[byteIndex + 6] << 21 | header[byteIndex + 7] << 14 | header[byteIndex + 8] << 7 | header[byteIndex + 9];
-                    return (returnSize = returnSize >= 0 ? returnSize : 0, (16 & header[byteIndex + 5]) >> 4) ? returnSize + 20 : returnSize + 10;
+                    var returnSize = header[byteIndex + 6] << 21 | header[byteIndex + 7] << 14 | header[byteIndex + 8] << 7 | header[byteIndex + 9], flags = header[byteIndex + 5];
+                    return (returnSize = returnSize >= 0 ? returnSize : 0, (16 & flags) >> 4) ? returnSize + 20 : returnSize + 10;
                 }, parseSyncSafeInteger = function(data) {
                     return data[0] << 21 | data[1] << 14 | data[2] << 7 | data[3];
                 }, percentEncode = function(bytes, start, end) {
@@ -9934,8 +9946,8 @@
                             if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
                             if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
                                 frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
-                                for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
-                                    if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
+                                for(var bytes, end, i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
+                                    if ("com.apple.streaming.transportStreamTimestamp" === (bytes = frame, end = i, unescape(percentEncode(bytes, 0, end)))) {
                                         var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
                                         return size *= 4, size += 0x03 & d[7];
                                     }
@@ -10467,7 +10479,8 @@
                             parsedTrun.samples && parsedTrun.samples.length && (compositionTimeOffset = parsedTrun.samples[0].compositionTimeOffset || 0);
                         }
                     }
-                    return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90e3);
+                    var timescale = timescales[trackId] || 90e3;
+                    return (baseMediaDecodeTime + compositionTimeOffset) / timescale;
                 }, getVideoTrackIds = function(init) {
                     var traks = findBox(init, [
                         "moov",

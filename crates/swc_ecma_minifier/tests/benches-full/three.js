@@ -5951,7 +5951,9 @@
                 var useMorphing = !1;
                 !0 === material.morphTargets && (useMorphing = geometry.morphAttributes && geometry.morphAttributes.position && geometry.morphAttributes.position.length > 0);
                 var useSkinning = !1;
-                !0 === object.isSkinnedMesh && (!0 === material.skinning ? useSkinning = !0 : console.warn('THREE.WebGLShadowMap: THREE.SkinnedMesh with material.skinning set to false:', object)), result = getMaterialVariant(useMorphing, useSkinning, !0 === object.isInstancedMesh);
+                !0 === object.isSkinnedMesh && (!0 === material.skinning ? useSkinning = !0 : console.warn('THREE.WebGLShadowMap: THREE.SkinnedMesh with material.skinning set to false:', object));
+                var useInstancing = !0 === object.isInstancedMesh;
+                result = getMaterialVariant(useMorphing, useSkinning, useInstancing);
             } else result = customMaterial;
             if (_renderer.localClippingEnabled && !0 === material.clipShadows && 0 !== material.clippingPlanes.length) {
                 var keyA = result.uuid, keyB = material.uuid, materialsForVariant = _materialCache[keyA];
@@ -6685,7 +6687,7 @@
             for(var i = 0; i < cameras.length; i++)updateCamera(cameras[i], parent);
             camera.matrixWorld.copy(cameraVR.matrixWorld);
             for(var children = camera.children, _i3 = 0, l = children.length; _i3 < l; _i3++)children[_i3].updateMatrixWorld(!0);
-            return 2 === cameras.length ? (camera1 = cameraVR, cameraL1 = cameraL, cameraR1 = cameraR, cameraLPos.setFromMatrixPosition(cameraL1.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR1.matrixWorld), ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL1.projectionMatrix.elements, projR = cameraR1.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], xOffset = -((zOffset = ipd / (-(leftFov = (projL[8] - 1) / projL[0]) + (rightFov = (projR[8] + 1) / projR[0]))) * leftFov), cameraL1.matrixWorld.decompose(camera1.position, camera1.quaternion, camera1.scale), camera1.translateX(xOffset), camera1.translateZ(zOffset), camera1.matrixWorld.compose(camera1.position, camera1.quaternion, camera1.scale), camera1.matrixWorldInverse.copy(camera1.matrixWorld).invert(), near2 = near + zOffset, far2 = far + zOffset, camera1.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2)) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
+            return 2 === cameras.length ? (camera1 = cameraVR, cameraL1 = cameraL, cameraR1 = cameraR, cameraLPos.setFromMatrixPosition(cameraL1.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR1.matrixWorld), ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL1.projectionMatrix.elements, projR = cameraR1.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], xOffset = -((zOffset = ipd / (-leftFov + (rightFov = (projR[8] + 1) / projR[0]))) * leftFov), cameraL1.matrixWorld.decompose(camera1.position, camera1.quaternion, camera1.scale), camera1.translateX(xOffset), camera1.translateZ(zOffset), camera1.matrixWorld.compose(camera1.position, camera1.quaternion, camera1.scale), camera1.matrixWorldInverse.copy(camera1.matrixWorld).invert(), near2 = near + zOffset, far2 = far + zOffset, camera1.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2)) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
         animation.setAnimationLoop(function(time, frame) {
@@ -8783,7 +8785,7 @@
         return a.x - b.x;
     }
     function zOrder(x, y, minX, minY, invSize) {
-        return (x = ((x = ((x = ((x = ((x = 32767 * (x - minX) * invSize) | x << 8) & 0x00FF00FF) | x << 4) & 0x0F0F0F0F) | x << 2) & 0x33333333) | x << 1) & 0x55555555) | (y = ((y = ((y = ((y = ((y = 32767 * (y - minY) * invSize) | y << 8) & 0x00FF00FF) | y << 4) & 0x0F0F0F0F) | y << 2) & 0x33333333) | y << 1) & 0x55555555) << 1;
+        return x = 32767 * (x - minX) * invSize, y = 32767 * (y - minY) * invSize, x = ((x = ((x = ((x = (x | x << 8) & 0x00FF00FF) | x << 4) & 0x0F0F0F0F) | x << 2) & 0x33333333) | x << 1) & 0x55555555, y = ((y = ((y = ((y = (y | y << 8) & 0x00FF00FF) | y << 4) & 0x0F0F0F0F) | y << 2) & 0x33333333) | y << 1) & 0x55555555, x | y << 1;
     }
     function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
         return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 && (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 && (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
@@ -8878,7 +8880,9 @@
                 function getBevelVec(inPt, inPrev, inNext) {
                     var v_trans_x, v_trans_y, shrink_by, v_prev_x = inPt.x - inPrev.x, v_prev_y = inPt.y - inPrev.y, v_next_x = inNext.x - inPt.x, v_next_y = inNext.y - inPt.y, v_prev_lensq = v_prev_x * v_prev_x + v_prev_y * v_prev_y;
                     if (Math.abs(v_prev_x * v_next_y - v_prev_y * v_next_x) > Number.EPSILON) {
-                        var v_prev_len = Math.sqrt(v_prev_lensq), v_next_len = Math.sqrt(v_next_x * v_next_x + v_next_y * v_next_y), ptPrevShift_x = inPrev.x - v_prev_y / v_prev_len, ptPrevShift_y = inPrev.y + v_prev_x / v_prev_len, sf = ((inNext.x - v_next_y / v_next_len - ptPrevShift_x) * v_next_y - (inNext.y + v_next_x / v_next_len - ptPrevShift_y) * v_next_x) / (v_prev_x * v_next_y - v_prev_y * v_next_x), v_trans_lensq = (v_trans_x = ptPrevShift_x + v_prev_x * sf - inPt.x) * v_trans_x + (v_trans_y = ptPrevShift_y + v_prev_y * sf - inPt.y) * v_trans_y;
+                        var v_prev_len = Math.sqrt(v_prev_lensq), v_next_len = Math.sqrt(v_next_x * v_next_x + v_next_y * v_next_y), ptPrevShift_x = inPrev.x - v_prev_y / v_prev_len, ptPrevShift_y = inPrev.y + v_prev_x / v_prev_len, sf = ((inNext.x - v_next_y / v_next_len - ptPrevShift_x) * v_next_y - (inNext.y + v_next_x / v_next_len - ptPrevShift_y) * v_next_x) / (v_prev_x * v_next_y - v_prev_y * v_next_x);
+                        v_trans_x = ptPrevShift_x + v_prev_x * sf - inPt.x, v_trans_y = ptPrevShift_y + v_prev_y * sf - inPt.y;
+                        var v_trans_lensq = v_trans_x * v_trans_x + v_trans_y * v_trans_y;
                         if (v_trans_lensq <= 2) return new Vector2(v_trans_x, v_trans_y);
                         shrink_by = Math.sqrt(v_trans_lensq / 2);
                     } else {
@@ -10474,7 +10478,7 @@
             },
             initNonuniformCatmullRom: function(x0, x1, x2, x3, dt0, dt1, dt2) {
                 var t1 = (x1 - x0) / dt0 - (x2 - x0) / (dt0 + dt1) + (x2 - x1) / dt1, t2 = (x2 - x1) / dt1 - (x3 - x1) / (dt1 + dt2) + (x3 - x2) / dt2;
-                init(x1, x2, t1 *= dt1, t2 *= dt1);
+                t1 *= dt1, t2 *= dt1, init(x1, x2, t1, t2);
             },
             calc: function(t) {
                 var t2 = t * t;
@@ -10710,7 +10714,7 @@
             this.needsUpdate = !1;
             var current, cache = [], last = this.getPoint(0), sum = 0;
             cache.push(0);
-            for(var p = 1; p <= divisions; p++)cache.push(sum += (current = this.getPoint(p / divisions)).distanceTo(last)), last = current;
+            for(var p = 1; p <= divisions; p++)current = this.getPoint(p / divisions), cache.push(sum += current.distanceTo(last)), last = current;
             return this.cacheArcLengths = cache, cache;
         },
         updateArcLengths: function() {
@@ -12935,7 +12939,10 @@
             if (!this.paused) {
                 timeScale = this.timeScale;
                 var interpolant = this._timeScaleInterpolant;
-                null !== interpolant && (timeScale *= interpolant.evaluate(time)[0], time > interpolant.parameterPositions[1] && (this.stopWarping(), 0 === timeScale ? this.paused = !0 : this.timeScale = timeScale));
+                if (null !== interpolant) {
+                    var interpolantValue = interpolant.evaluate(time)[0];
+                    timeScale *= interpolantValue, time > interpolant.parameterPositions[1] && (this.stopWarping(), 0 === timeScale ? this.paused = !0 : this.timeScale = timeScale);
+                }
             }
             return this._effectiveTimeScale = timeScale, timeScale;
         }, _proto._updateTime = function(deltaTime) {

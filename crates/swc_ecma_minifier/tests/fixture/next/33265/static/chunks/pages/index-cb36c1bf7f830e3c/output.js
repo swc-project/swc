@@ -469,7 +469,9 @@
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
                     0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
                     var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
-                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1)))), i += id.length + dataHeader.length + data.length;
+                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1))));
+                    var totalLength = id.length + dataHeader.length + data.length;
+                    i += totalLength;
                 }
                 return results;
             }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = (0, byte_helpers.Ki)([
@@ -1636,7 +1638,8 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
+                    var start = this.data.substring(0, offset), end = this.data.substring(offset + count);
+                    text = start + text + end, this.nodeValue = this.data = text, this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
@@ -3522,9 +3525,12 @@
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            label && label.childNodes.length && (attrs = merge(attrs, {
-                                label: label.childNodes[0].nodeValue.trim()
-                            }));
+                            if (label && label.childNodes.length) {
+                                var labelVal = label.childNodes[0].nodeValue.trim();
+                                attrs = merge(attrs, {
+                                    label: labelVal
+                                });
+                            }
                             var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
                                 var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
                                 if (keySystem) {
@@ -5196,7 +5202,7 @@
             }
             function slowToString(encoding, start, end) {
                 var start1, end1, loweredCase = !1;
-                if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0 || (end >>>= 0) <= (start >>>= 0))) return "";
+                if ((void 0 === start || start < 0) && (start = 0), start > this.length || ((void 0 === end || end > this.length) && (end = this.length), end <= 0) || (end >>>= 0, start >>>= 0, end <= start)) return "";
                 for(encoding || (encoding = "utf8");;)switch(encoding){
                     case "hex":
                         return function(buf, start, end) {
@@ -5518,11 +5524,11 @@
             }, Buffer.prototype.readIntLE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
                 for(var val = this[offset], mul = 1, i = 0; ++i < byteLength && (mul *= 0x100);)val += this[offset + i] * mul;
-                return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
+                return mul *= 0x80, val >= mul && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readIntBE = function(offset, byteLength, noAssert) {
                 offset >>>= 0, byteLength >>>= 0, noAssert || checkOffset(offset, byteLength, this.length);
                 for(var i = byteLength, mul = 1, val = this[offset + --i]; i > 0 && (mul *= 0x100);)val += this[offset + --i] * mul;
-                return val >= (mul *= 0x80) && (val -= Math.pow(2, 8 * byteLength)), val;
+                return mul *= 0x80, val >= mul && (val -= Math.pow(2, 8 * byteLength)), val;
             }, Buffer.prototype.readInt8 = function(offset, noAssert) {
                 return (offset >>>= 0, noAssert || checkOffset(offset, 1, this.length), 0x80 & this[offset]) ? -((0xff - this[offset] + 1) * 1) : this[offset];
             }, Buffer.prototype.readInt16LE = function(offset, noAssert) {

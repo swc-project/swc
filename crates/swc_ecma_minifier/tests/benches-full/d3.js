@@ -97,8 +97,8 @@
             const p = this._partials;
             let n = this._n, x, y, lo, hi = 0;
             if (n > 0) {
-                for(hi = p[--n]; n > 0 && (hi = (x = hi) + (y = p[--n]), !(lo = y - (hi - x))););
-                n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0) && (x = hi + (y = 2 * lo), y == x - hi && (hi = x));
+                for(hi = p[--n]; n > 0 && (x = hi, y = p[--n], hi = x + y, !(lo = y - (hi - x))););
+                n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0) && (y = 2 * lo, x = hi + y, y == x - hi && (hi = x));
             }
             return hi;
         }
@@ -134,12 +134,12 @@
     var e10 = Math.sqrt(50), e5 = Math.sqrt(10), e2 = Math.sqrt(2);
     function ticks(start, stop, count) {
         var reverse, n, ticks, step, i = -1;
-        if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+        if (stop = +stop, start = +start, count = +count, start === stop && count > 0) return [
             start
         ];
         if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
         if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-        else for(start = Math.ceil(start * (step = -step)), ticks = Array(n = Math.ceil((stop = Math.floor(stop * step)) - start + 1)); ++i < n;)ticks[i] = (start + i) / step;
+        else for(step = -step, start = Math.ceil(start * step), ticks = Array(n = Math.ceil((stop = Math.floor(stop * step)) - start + 1)); ++i < n;)ticks[i] = (start + i) / step;
         return reverse && ticks.reverse(), ticks;
     }
     function tickIncrement(start, stop, count) {
@@ -184,7 +184,7 @@
             for(; tz[m - 1] > x1;)tz.pop(), --m;
             var bin, bins = Array(m + 1);
             for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-            for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
+            for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
             return bins;
         }
         return histogram.value = function(_) {
@@ -1531,7 +1531,7 @@
     var interpolateRgb = function rgbGamma(y) {
         var y1, color = 1 == (y1 = +(y1 = y)) ? nogamma : function(a, b) {
             var a1, b1, y;
-            return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y = y1), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
+            return b - a ? (a1 = a, b1 = b, y = y1, a1 = Math.pow(a1, y), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
                 return Math.pow(a1 + t * b1, y);
             }) : constant$3(isNaN(a) ? b : a);
         };
@@ -1653,7 +1653,7 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, b1 = b.rotate, a1 !== b1 ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
                 i: s2.push(pop(s2) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
             })) : b1 && s2.push(pop(s2) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q2.push({
@@ -3174,9 +3174,9 @@
             var polygons = [], holes = [];
             return function(values, value, callback) {
                 var x, y, t0, t1, t2, t3, fragmentByStart = [], fragmentByEnd = [];
-                for(x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)cases[(t0 = t1) | (t1 = values[x + 1] >= value) << 1].forEach(stitch);
+                for(x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[x + 1] >= value, cases[t0 | t1 << 1].forEach(stitch);
                 for(cases[t1 << 0].forEach(stitch); ++y < dy - 1;){
-                    for(x = -1, cases[(t1 = values[y * dx + dx] >= value) << 1 | (t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[y * dx + dx + x + 1] >= value, t3 = t2, cases[t0 | t1 << 1 | (t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
+                    for(x = -1, t1 = values[y * dx + dx] >= value, t2 = values[y * dx] >= value, cases[t1 << 1 | t2 << 2].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[y * dx + dx + x + 1] >= value, t3 = t2, t2 = values[y * dx + x + 1] >= value, cases[t0 | t1 << 1 | t2 << 2 | t3 << 3].forEach(stitch);
                     cases[t1 | t2 << 3].forEach(stitch);
                 }
                 for(x = -1, cases[(t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t3 = t2, cases[(t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
@@ -4410,7 +4410,7 @@
         return Math.max(0, 3 * Math.max(-8, Math.min(8, Math.floor(exponent$1(value) / 3))) - exponent$1(Math.abs(step)));
     }
     function precisionRound(step, max) {
-        return Math.max(0, exponent$1(max = Math.abs(max) - (step = Math.abs(step))) - exponent$1(step)) + 1;
+        return step = Math.abs(step), Math.max(0, exponent$1(max = Math.abs(max) - step) - exponent$1(step)) + 1;
     }
     defaultLocale({
         thousands: ",",
@@ -4509,8 +4509,8 @@
         areaStream.point = areaPoint, lambda00 = lambda, phi00 = phi, lambda *= radians$1, phi *= radians$1, lambda0 = lambda, cosPhi0 = cos$1(phi = phi / 2 + quarterPi), sinPhi0 = sin$1(phi);
     }
     function areaPoint(lambda, phi) {
-        lambda *= radians$1, phi *= radians$1;
-        var dLambda = lambda - lambda0, sdLambda = dLambda >= 0 ? 1 : -1, adLambda = sdLambda * dLambda, cosPhi = cos$1(phi = phi / 2 + quarterPi), sinPhi = sin$1(phi), k = sinPhi0 * sinPhi, u = cosPhi0 * cosPhi + k * cos$1(adLambda), v = k * sdLambda * sin$1(adLambda);
+        lambda *= radians$1, phi *= radians$1, phi = phi / 2 + quarterPi;
+        var dLambda = lambda - lambda0, sdLambda = dLambda >= 0 ? 1 : -1, adLambda = sdLambda * dLambda, cosPhi = cos$1(phi), sinPhi = sin$1(phi), k = sinPhi0 * sinPhi, u = cosPhi0 * cosPhi + k * cos$1(adLambda), v = k * sdLambda * sin$1(adLambda);
         areaRingSum.add(atan2(v, u)), lambda0 = lambda, cosPhi0 = cosPhi, sinPhi0 = sinPhi;
     }
     function spherical(cartesian) {
@@ -4582,9 +4582,9 @@
                 -normal[0],
                 0
             ], normal);
-            cartesianNormalizeInPlace(inflection);
-            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
-            antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
+            cartesianNormalizeInPlace(inflection), inflection = spherical(inflection);
+            var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = inflection[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
+            antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : (lambdai = (lambdai + 360) % 360 - 180, antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda)) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
         } else ranges.push(range$1 = [
             lambda0$1 = lambda,
             lambda1 = lambda
@@ -5409,7 +5409,7 @@
     }
     function centroidPointRing(x, y) {
         var dx = x - x0$3, dy = y - y0$3, z = sqrt(dx * dx + dy * dy);
-        X1$1 += z * (x0$3 + x) / 2, Y1$1 += z * (y0$3 + y) / 2, Z1$1 += z, X2$1 += (z = y0$3 * x - x0$3 * y) * (x0$3 + x), Y2$1 += z * (y0$3 + y), Z2$1 += 3 * z, centroidPoint$1(x0$3 = x, y0$3 = y);
+        X1$1 += z * (x0$3 + x) / 2, Y1$1 += z * (y0$3 + y) / 2, Z1$1 += z, z = y0$3 * x - x0$3 * y, X2$1 += z * (x0$3 + x), Y2$1 += z * (y0$3 + y), Z2$1 += 3 * z, centroidPoint$1(x0$3 = x, y0$3 = y);
     }
     function PathContext(context) {
         this._context = context;
@@ -5647,9 +5647,9 @@
     function scaleTranslateRotate(k, dx, dy, sx, sy, alpha) {
         if (!alpha) return function(k, dx, dy, sx, sy) {
             function transform(x, y) {
-                return [
-                    dx + k * (x *= sx),
-                    dy - k * (y *= sy)
+                return x *= sx, y *= sy, [
+                    dx + k * x,
+                    dy - k * y
                 ];
             }
             return transform.invert = function(x, y) {
@@ -5661,8 +5661,8 @@
         }(k, dx, dy, sx, sy);
         var cosAlpha = cos$1(alpha), sinAlpha = sin$1(alpha), a = cosAlpha * k, b = sinAlpha * k, ai = cosAlpha / k, bi = sinAlpha / k, ci = (sinAlpha * dy - cosAlpha * dx) / k, fi = (sinAlpha * dx + cosAlpha * dy) / k;
         function transform(x, y) {
-            return [
-                a * (x *= sx) - b * (y *= sy) + dx,
+            return x *= sx, y *= sy, [
+                a * x - b * y + dx,
                 dy - b * x - a * y
             ];
         }
@@ -6116,7 +6116,7 @@
     }
     function place(b, a, c) {
         var x, a2, y, b2, dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
-        d2 ? (a2 = a.r + c.r, a2 *= a2, b2 = b.r + c.r, a2 > (b2 *= b2) ? (x = (d2 + b2 - a2) / (2 * d2), y = Math.sqrt(Math.max(0, b2 / d2 - x * x)), c.x = b.x - x * dx - y * dy, c.y = b.y - x * dy + y * dx) : (x = (d2 + a2 - b2) / (2 * d2), y = Math.sqrt(Math.max(0, a2 / d2 - x * x)), c.x = a.x + x * dx - y * dy, c.y = a.y + x * dy + y * dx)) : (c.x = a.x + c.r, c.y = a.y);
+        d2 ? (a2 = a.r + c.r, a2 *= a2, b2 = b.r + c.r, b2 *= b2, a2 > b2 ? (x = (d2 + b2 - a2) / (2 * d2), y = Math.sqrt(Math.max(0, b2 / d2 - x * x)), c.x = b.x - x * dx - y * dy, c.y = b.y - x * dy + y * dx) : (x = (d2 + a2 - b2) / (2 * d2), y = Math.sqrt(Math.max(0, a2 / d2 - x * x)), c.x = a.x + x * dx - y * dy, c.y = a.y + x * dy + y * dx)) : (c.x = a.x + c.r, c.y = a.y);
     }
     function intersects(a, b) {
         var dr = a.r + b.r - 1e-6, dx = b.x - a.x, dy = b.y - a.y;
@@ -6203,7 +6203,7 @@
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
-        for(var delta, fy, fpy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
+        for(var delta, fy, fpy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, fpy = 1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2), l -= delta = fy / fpy, l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
         return [
             M * x * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)) / cos$1(l),
             asin(sin$1(l) / M)
@@ -6343,8 +6343,8 @@
             dx = x1 - x0, dy = y1 - y0;
             do sumValue = nodes[i1++].value;
             while (!sumValue && i1 < n)
-            for(minValue = maxValue = sumValue, minRatio = Math.max(maxValue / (beta = sumValue * sumValue * (alpha = Math.max(dy / dx, dx / dy) / (value * ratio))), beta / minValue); i1 < n; ++i1){
-                if (sumValue += nodeValue = nodes[i1].value, nodeValue < minValue && (minValue = nodeValue), nodeValue > maxValue && (maxValue = nodeValue), (newRatio = Math.max(maxValue / (beta = sumValue * sumValue * alpha), beta / minValue)) > minRatio) {
+            for(minValue = maxValue = sumValue, alpha = Math.max(dy / dx, dx / dy) / (value * ratio), beta = sumValue * sumValue * alpha, minRatio = Math.max(maxValue / beta, beta / minValue); i1 < n; ++i1){
+                if (sumValue += nodeValue = nodes[i1].value, nodeValue < minValue && (minValue = nodeValue), nodeValue > maxValue && (maxValue = nodeValue), beta = sumValue * sumValue * alpha, (newRatio = Math.max(maxValue / beta, beta / minValue)) > minRatio) {
                     sumValue -= nodeValue;
                     break;
                 }
@@ -6685,7 +6685,7 @@
         var transform, untransform, unknown, piecewise, output, input, domain = unit, range = unit, interpolate$1 = interpolate, clamp = identity$6;
         function rescale() {
             var a, b, t, n = Math.min(domain.length, range.length);
-            return clamp !== identity$6 && ((a = domain[0]) > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
+            return clamp !== identity$6 && (a = domain[0], b = domain[n - 1], a > b && (t = a, a = b, b = t), clamp = function(x) {
                 return Math.max(a, Math.min(b, x));
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
@@ -8720,7 +8720,7 @@
         },
         point: function(x, y) {
             var t1 = NaN;
-            if (y = +y, (x = +x) !== this._x1 || y !== this._y1) {
+            if (x = +x, y = +y, x !== this._x1 || y !== this._y1) {
                 switch(this._point){
                     case 0:
                         this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
@@ -9075,7 +9075,7 @@
             ] : null;
         }, cluster;
     }, exports1.color = color, exports1.contourDensity = function() {
-        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 60, n = 270, m = 155, threshold = constant$6(20);
+        var x = defaultX, y = defaultY, weight = defaultWeight, dx = 960, dy = 500, r = 20, k = 2, o = 60, n = 1080 >> k, m = dy + 2 * o >> k, threshold = constant$6(20);
         function density(data) {
             var values0 = new Float32Array(n * m), values1 = new Float32Array(n * m);
             data.forEach(function(d, i, data) {
@@ -9153,7 +9153,7 @@
             coordinates[0] = coordinates[0] * Math.pow(2, k) - o, coordinates[1] = coordinates[1] * Math.pow(2, k) - o;
         }
         function resize() {
-            return n = dx + 2 * (o = 3 * r) >> k, m = dy + 2 * o >> k, density;
+            return o = 3 * r, n = dx + 2 * o >> k, m = dy + 2 * o >> k, density;
         }
         return density.x = function(_) {
             return arguments.length ? (x = "function" == typeof _ ? _ : constant$6(+_), density) : x;
@@ -9368,7 +9368,7 @@
         var nodes, strength = 1;
         function force() {
             var i, node, n = nodes.length, sx = 0, sy = 0;
-            for(i = 0; i < n; ++i)sx += (node = nodes[i]).x, sy += node.y;
+            for(i = 0; i < n; ++i)node = nodes[i], sx += node.x, sy += node.y;
             for(sx = (sx / n - x) * strength, sy = (sy / n - y) * strength, i = 0; i < n; ++i)node = nodes[i], node.x -= sx, node.y -= sy;
         }
         return null == x && (x = 0), null == y && (y = 0), force.initialize = function(_) {
@@ -9582,7 +9582,7 @@
             },
             find: function(x, y, radius) {
                 var dx, dy, d2, node, closest, i = 0, n = nodes.length;
-                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)(d2 = (dx = x - (node = nodes[i]).x) * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
+                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)dx = x - (node = nodes[i]).x, (d2 = dx * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
                 return closest;
             },
             on: function(name, _) {
@@ -9757,7 +9757,7 @@
         if (phi1 = lambda1 = -(lambda0$1 = phi0 = 1 / 0), ranges = [], geoStream(feature, boundsStream), n = ranges.length) {
             for(ranges.sort(rangeCompare), i = 1, merged = [
                 a = ranges[0]
-            ]; i < n; ++i)rangeContains(a, (b = ranges[i])[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
+            ]; i < n; ++i)b = ranges[i], rangeContains(a, b[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
         return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
@@ -10165,7 +10165,7 @@
                 return sortValues(arcs[i], arcs[j]);
             }) : null != sort && index.sort(function(i, j) {
                 return sort(data[i], data[j]);
-            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
+            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
                 data: data[j],
                 index: i,
                 value: v,
@@ -10197,8 +10197,8 @@
         return area / 2;
     }, exports1.polygonCentroid = function(polygon) {
         for(var a, c, i = -1, n = polygon.length, x = 0, y = 0, b = polygon[n - 1], k = 0; ++i < n;)a = b, b = polygon[i], k += c = a[0] * b[1] - b[0] * a[1], x += (a[0] + b[0]) * c, y += (a[1] + b[1]) * c;
-        return [
-            x / (k *= 3),
+        return k *= 3, [
+            x / k,
             y / k
         ];
     }, exports1.polygonContains = function(polygon, point) {
@@ -10555,8 +10555,8 @@
             for(var s0, m, n, y = 0, j = 1; j < m; ++j){
                 for(var i = 0, s1 = 0, s2 = 0; i < n; ++i){
                     for(var si = series[order[i]], sij0 = si[j][1] || 0, s3 = (sij0 - (si[j - 1][1] || 0)) / 2, k = 0; k < i; ++k){
-                        var sk = series[order[k]];
-                        s3 += (sk[j][1] || 0) - (sk[j - 1][1] || 0);
+                        var sk = series[order[k]], skj0 = sk[j][1] || 0, skj1 = sk[j - 1][1] || 0;
+                        s3 += skj0 - skj1;
                     }
                     s1 += sij0, s2 += s3 * sij0;
                 }

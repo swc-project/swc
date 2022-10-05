@@ -5427,7 +5427,7 @@
             get: function(num) {
                 var ret = "", base = 54;
                 num++;
-                do ret += chars[--num % base], num = Math.floor(num / base), base = 64;
+                do num--, ret += chars[num % base], num = Math.floor(num / base), base = 64;
                 while (num > 0)
                 return ret;
             },

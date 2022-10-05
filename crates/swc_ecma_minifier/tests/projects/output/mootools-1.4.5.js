@@ -2356,14 +2356,14 @@ Elements.prototype = {
             }
             if (Browser.opera || Browser.ie) {
                 if (/^(height|width)$/.test(property) && !/px$/.test(result)) {
-                    var size = 0;
-                    return ("width" == property ? [
+                    var values = "width" == property ? [
                         "left",
                         "right"
                     ] : [
                         "top",
                         "bottom"
-                    ]).each(function(value) {
+                    ], size = 0;
+                    return values.each(function(value) {
                         size += this.getStyle("border-" + value + "-width").toInt() + this.getStyle("padding-" + value).toInt();
                     }, this), this["offset" + property.capitalize()] - size + "px";
                 }

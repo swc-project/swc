@@ -709,7 +709,7 @@
                     function _trace(current, color, label, edgelabel) {
                         var i, y, x;
                         for(i = 0; i < 7; i++){
-                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
+                            if (y = current.cy + searchDirections[current.dir][0], x = current.cx + searchDirections[current.dir][1], imageData[pos = y * width + x] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
                             0 === labelData[pos] && (labelData[pos] = edgelabel), current.dir = (current.dir + 1) % 8;
                         }
                         return !1;
@@ -783,10 +783,10 @@
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
                         var patchesFound = function() {
-                            var x, y, i, j, x1, y1, moments, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = x1 = _subImageWrapper.size.x * i, y = y1 = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
-                                x: x1,
-                                y: y1
+                            var i, j, x, y, moments, rasterResult, patch, patchesFound = [];
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                                x: x,
+                                y: y
                             }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(function(moments, patchPos, x, y) {
                                 var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
                                 if (moments.length >= 2) {
@@ -839,7 +839,7 @@
                             }(moments, [
                                 i,
                                 j
-                            ], x1, y1));
+                            ], x, y));
                             if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                 color: "#99ff00",
                                 lineWidth: 2
@@ -911,7 +911,7 @@
                                 for(sum = _patchLabelGrid.data.length, patches.length = 0; sum--;)_patchLabelGrid.data[sum] === topLabels[i].label && (patch = _imageToPatchGrid.data[sum], patches.push(patch));
                                 if ((box = function(patches) {
                                     var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
-                                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                    for(i = 0, overAvg = 0; i < patches.length; i++)patch = patches[i], overAvg += patch.rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                         color: "red"
                                     });
                                     for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
@@ -2545,7 +2545,8 @@
         },
         function(module1, exports1) {
             module1.exports = function(out, scale) {
-                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * (scale = scale || 1.0);
+                scale = scale || 1.0;
+                var r = 2.0 * Math.random() * Math.PI, z = 2.0 * Math.random() - 1.0, zScale = Math.sqrt(1.0 - z * z) * scale;
                 return out[0] = Math.cos(r) * zScale, out[1] = Math.sin(r) * zScale, out[2] = z * scale, out;
             };
         },
@@ -3268,13 +3269,13 @@
                     {
                         key: "_matchPattern",
                         value: function(counter, code, maxSingleError) {
-                            var error = 0, singleError = 0, sum = 0, modulo = 0, barWidth = 0, scaled = 0;
+                            var error = 0, singleError = 0, sum = 0, modulo = 0, barWidth = 0, count = 0, scaled = 0;
                             maxSingleError = maxSingleError || this.SINGLE_CODE_ERROR || 1;
                             for(var i = 0; i < counter.length; i++)sum += counter[i], modulo += code[i];
                             if (sum < modulo) return Number.MAX_VALUE;
-                            maxSingleError *= barWidth = sum / modulo;
+                            barWidth = sum / modulo, maxSingleError *= barWidth;
                             for(var _i = 0; _i < counter.length; _i++){
-                                if ((singleError = Math.abs(counter[_i] - (scaled = code[_i] * barWidth)) / scaled) > maxSingleError) return Number.MAX_VALUE;
+                                if (count = counter[_i], scaled = code[_i] * barWidth, (singleError = Math.abs(count - scaled) / scaled) > maxSingleError) return Number.MAX_VALUE;
                                 error += singleError;
                             }
                             return error / modulo;
@@ -4344,7 +4345,7 @@
                                         return null;
                                 }
                             }(code.code), done = !1, shiftNext = !1, unshift = !1, removeLastCharacter = !0, multiplier = 0, rawResult = [], result = []; !done;){
-                                if (unshift = shiftNext, shiftNext = !1, null !== (code = this._decodeCode(code.end, code.correction))) switch(code.code !== this.STOP_CODE && (removeLastCharacter = !0), code.code !== this.STOP_CODE && (rawResult.push(code.code), checksum += ++multiplier * code.code), decodedCodes.push(code), codeset){
+                                if (unshift = shiftNext, shiftNext = !1, null !== (code = this._decodeCode(code.end, code.correction))) switch(code.code !== this.STOP_CODE && (removeLastCharacter = !0), code.code !== this.STOP_CODE && (rawResult.push(code.code), multiplier++, checksum += multiplier * code.code), decodedCodes.push(code), codeset){
                                     case this.CODE_A:
                                         if (code.code < 64) result.push(String.fromCharCode(32 + code.code));
                                         else if (code.code < 96) result.push(String.fromCharCode(code.code - 64));

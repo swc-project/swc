@@ -31,9 +31,9 @@ Promise.all(assignAll).then(function() {
                         3,
                         4
                     ];
-                    return [
+                    return u = i[o], [
                         5,
-                        t(e(u = i[o]))
+                        t(e(u))
                     ];
                 case 2:
                     a.label = 3;

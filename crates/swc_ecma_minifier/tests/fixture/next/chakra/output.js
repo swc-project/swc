@@ -1685,7 +1685,10 @@
                     var hash = 0;
                     if (0 === str.length) return hash.toString();
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
-                    for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
+                    for(var color = "#", j = 0; j < 3; j += 1){
+                        var value = hash >> 8 * j & 255;
+                        color += ("00" + value.toString(16)).substr(-2);
+                    }
                     return color;
                 }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
                 isBgDark || (color = "gray.800");
@@ -2046,6 +2049,17 @@
                 display: "flex",
                 zIndex: "modal",
                 justifyContent: "center"
+            }, baseStyleDialog$1 = function(props) {
+                var isFullHeight = props.isFullHeight;
+                return sizes_501602a9_esm_extends({}, isFullHeight && {
+                    height: "100vh"
+                }, {
+                    zIndex: "modal",
+                    maxH: "100vh",
+                    bg: mode("white", "gray.700")(props),
+                    color: "inherit",
+                    boxShadow: mode("lg", "dark-lg")(props)
+                });
             }, baseStyleHeader$2 = {
                 px: 6,
                 py: 4,
@@ -2067,15 +2081,7 @@
                 return {
                     overlay: baseStyleOverlay$1,
                     dialogContainer: baseStyleDialogContainer$1,
-                    dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
-                        height: "100vh"
-                    }, {
-                        zIndex: "modal",
-                        maxH: "100vh",
-                        bg: mode("white", "gray.700")(props),
-                        color: "inherit",
-                        boxShadow: mode("lg", "dark-lg")(props)
-                    }),
+                    dialog: baseStyleDialog$1(props),
                     header: baseStyleHeader$2,
                     closeButton: baseStyleCloseButton$3,
                     body: baseStyleBody$2,
@@ -2811,6 +2817,26 @@
                         bg: mode("white", "gray.700")(props)
                     }
                 };
+            }, baseStyleContainer$1 = function(props) {
+                var orientation = props.orientation;
+                return sizes_501602a9_esm_extends({
+                    display: "inline-block",
+                    position: "relative",
+                    cursor: "pointer",
+                    _disabled: {
+                        opacity: 0.6,
+                        cursor: "default",
+                        pointerEvents: "none"
+                    }
+                }, orient({
+                    orientation: orientation,
+                    vertical: {
+                        h: "100%"
+                    },
+                    horizontal: {
+                        w: "100%"
+                    }
+                }));
             }, baseStyleFilledTrack = function(props) {
                 var c = props.colorScheme;
                 return {
@@ -2820,24 +2846,7 @@
                 };
             }, baseStyle$8 = function(props) {
                 return {
-                    container: sizes_501602a9_esm_extends({
-                        display: "inline-block",
-                        position: "relative",
-                        cursor: "pointer",
-                        _disabled: {
-                            opacity: 0.6,
-                            cursor: "default",
-                            pointerEvents: "none"
-                        }
-                    }, orient({
-                        orientation: props.orientation,
-                        vertical: {
-                            h: "100%"
-                        },
-                        horizontal: {
-                            w: "100%"
-                        }
-                    })),
+                    container: baseStyleContainer$1(props),
                     track: {
                         overflow: "hidden",
                         borderRadius: "sm",

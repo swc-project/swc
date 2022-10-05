@@ -40,7 +40,9 @@ export function generateTicks$1(generationOptions, dataRange) {
         niceMax = max;
     } else if (countDefined) {
         niceMin = minDefined ? min : niceMin;
-        spacing = ((niceMax = maxDefined ? max : niceMax) - niceMin) / (numSpaces = count - 1);
+        niceMax = maxDefined ? max : niceMax;
+        numSpaces = count - 1;
+        spacing = (niceMax - niceMin) / numSpaces;
     } else {
         numSpaces = (niceMax - niceMin) / spacing;
         numSpaces = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(numSpaces, Math.round(numSpaces), spacing / 1000) ? Math.round(numSpaces) : Math.ceil(numSpaces);

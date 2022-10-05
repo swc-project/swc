@@ -3156,6 +3156,7 @@
         }(), Element;
     }();
     function animateTo(animatable, target, cfg, animationProps, reverse) {
+        cfg = cfg || {};
         var animators = [];
         !function animateToShallow(animatable, topKey, source, target, cfg, animationProps, animators, reverse) {
             for(var animatableKeys = [], changedKeys = [], targetKeys = keys(target), duration = cfg.duration, delay = cfg.delay, additive = cfg.additive, setToFinal = cfg.setToFinal, animateAll = !isObject(animationProps), k = 0; k < targetKeys.length; k++){
@@ -3208,7 +3209,7 @@
                 var animator = new Animator(source, !1, additive ? existsAnimatorsOnSameTarget : null);
                 animator.targetName = topKey, cfg.scope && (animator.scope = cfg.scope), setToFinal && revertedSource && animator.whenWithKeys(0, revertedSource, animatableKeys), sourceClone && animator.whenWithKeys(0, sourceClone, animatableKeys), animator.whenWithKeys(null == duration ? 500 : duration, reverse ? reversedTarget : target, animatableKeys).delay(delay || 0), animatable.addAnimator(animator, topKey), animators.push(animator);
             }
-        }(animatable, '', animatable, target, cfg = cfg || {}, animationProps, animators, reverse);
+        }(animatable, '', animatable, target, cfg, animationProps, animators, reverse);
         var finishCount = animators.length, doneHappened = !1, cfgDone = cfg.done, cfgAborted = cfg.aborted, doneCb = function() {
             doneHappened = !0, --finishCount <= 0 && (doneHappened ? cfgDone && cfgDone() : cfgAborted && cfgAborted());
         }, abortedCb = function() {
@@ -4837,7 +4838,7 @@
     var mathMin$1 = Math.min, mathMax$1 = Math.max, mathSin = Math.sin, mathCos = Math.cos, PI2 = 2 * Math.PI, start = create(), end = create(), extremity = create();
     function fromPoints(points, min, max) {
         if (0 !== points.length) {
-            for(var p = points[0], left = p[0], right = p[0], top = p[1], bottom = p[1], i = 1; i < points.length; i++)left = mathMin$1(left, (p = points[i])[0]), right = mathMax$1(right, p[0]), top = mathMin$1(top, p[1]), bottom = mathMax$1(bottom, p[1]);
+            for(var p = points[0], left = p[0], right = p[0], top = p[1], bottom = p[1], i = 1; i < points.length; i++)p = points[i], left = mathMin$1(left, p[0]), right = mathMax$1(right, p[0]), top = mathMin$1(top, p[1]), bottom = mathMax$1(bottom, p[1]);
             min[0] = left, min[1] = top, max[0] = right, max[1] = bottom;
         }
     }
@@ -4945,7 +4946,7 @@
             }
         }, PathProxy.prototype._dashedLineTo = function(x1, y1) {
             var dash, idx, dashSum = this._dashSum, lineDash = this._lineDash, ctx = this._ctx, offset = this._dashOffset, x0 = this._xi, y0 = this._yi, dx = x1 - x0, dy = y1 - y0, dist = mathSqrt$1(dx * dx + dy * dy), x = x0, y = y0, nDash = lineDash.length;
-            for(dx /= dist, dy /= dist, offset < 0 && (offset = dashSum + offset), offset %= dashSum, x -= offset * dx, y -= offset * dy; dx > 0 && x <= x1 || dx < 0 && x >= x1 || 0 === dx && (dy > 0 && y <= y1 || dy < 0 && y >= y1);)x += dx * (dash = lineDash[idx = this._dashIdx]), y += dy * dash, this._dashIdx = (idx + 1) % nDash, (!(dx > 0) || !(x < x0)) && (!(dx < 0) || !(x > x0)) && (!(dy > 0) || !(y < y0)) && (!(dy < 0) || !(y > y0)) && ctx[idx % 2 ? 'moveTo' : 'lineTo'](dx >= 0 ? mathMin$2(x, x1) : mathMax$2(x, x1), dy >= 0 ? mathMin$2(y, y1) : mathMax$2(y, y1));
+            for(dx /= dist, dy /= dist, offset < 0 && (offset = dashSum + offset), offset %= dashSum, x -= offset * dx, y -= offset * dy; dx > 0 && x <= x1 || dx < 0 && x >= x1 || 0 === dx && (dy > 0 && y <= y1 || dy < 0 && y >= y1);)dash = lineDash[idx = this._dashIdx], x += dx * dash, y += dy * dash, this._dashIdx = (idx + 1) % nDash, (!(dx > 0) || !(x < x0)) && (!(dx < 0) || !(x > x0)) && (!(dy > 0) || !(y < y0)) && (!(dy < 0) || !(y > y0)) && ctx[idx % 2 ? 'moveTo' : 'lineTo'](dx >= 0 ? mathMin$2(x, x1) : mathMax$2(x, x1), dy >= 0 ? mathMin$2(y, y1) : mathMax$2(y, y1));
             dx = x - x1, dy = y - y1, this._dashOffset = -mathSqrt$1(dx * dx + dy * dy);
         }, PathProxy.prototype._dashedBezierTo = function(x1, y1, x2, y2, x3, y3) {
             var t, dx, dy, x, y, ctx = this._ctx, dashSum = this._dashSum, offset = this._dashOffset, lineDash = this._lineDash, x0 = this._xi, y0 = this._yi, bezierLen = 0, idx = this._dashIdx, nDash = lineDash.length, tmpLen = 0;
@@ -5013,7 +5014,9 @@
                         }(cx, cy, rx, ry, startAngle, endAngle, anticlockwise, min2, max2), xi = mathCos$1(endAngle) * rx + cx, yi = mathSin$1(endAngle) * ry + cy;
                         break;
                     case CMD.R:
-                        x0 = xi = data[i++], y0 = yi = data[i++], fromLine(x0, y0, x0 + data[i++], y0 + data[i++], min2, max2);
+                        x0 = xi = data[i++], y0 = yi = data[i++];
+                        var width = data[i++], height = data[i++];
+                        fromLine(x0, y0, x0 + width, y0 + height, min2, max2);
                         break;
                     case CMD.Z:
                         xi = x0, yi = y0;
@@ -5161,8 +5164,8 @@
         var _a = 0, _b = x0;
         if (y > y0 + lineWidth && y > y1 + lineWidth || y < y0 - lineWidth && y < y1 - lineWidth || x > x0 + lineWidth && x > x1 + lineWidth || x < x0 - lineWidth && x < x1 - lineWidth) return !1;
         if (x0 === x1) return Math.abs(x - x0) <= lineWidth / 2;
-        _a = (y0 - y1) / (x0 - x1);
-        var tmp = _a * x - y + (_b = (x0 * y1 - x1 * y0) / (x0 - x1));
+        _a = (y0 - y1) / (x0 - x1), _b = (x0 * y1 - x1 * y0) / (x0 - x1);
+        var tmp = _a * x - y + _b;
         return tmp * tmp / (_a * _a + 1) <= lineWidth / 2 * lineWidth / 2;
     }
     function containStroke$2(x0, y0, x1, y1, x2, y2, lineWidth, x, y) {
@@ -5266,7 +5269,8 @@
                     if (isStroke) {
                         if (function(cx, cy, r, startAngle, endAngle, anticlockwise, lineWidth, x, y) {
                             if (0 === lineWidth) return !1;
-                            var d = Math.sqrt((x -= cx) * x + (y -= cy) * y);
+                            x -= cx, y -= cy;
+                            var d = Math.sqrt(x * x + y * y);
                             if (d - lineWidth > r || d + lineWidth < r) return !1;
                             if (Math.abs(startAngle - endAngle) % PI2$3 < 1e-4) return !0;
                             if (anticlockwise) {
@@ -5449,9 +5453,9 @@
                 var pathProxy, x1, pathProxy1 = this.path;
                 if (this.hasStroke()) {
                     var pathProxy2, lineWidth, x2, lineWidth1 = style.lineWidth, lineScale = style.strokeNoScale ? this.getLineScale() : 1;
-                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth1 = Math.max(lineWidth1, this.strokeContainThreshold)), pathProxy2 = pathProxy1, lineWidth = lineWidth1 / lineScale, containPath(pathProxy2, lineWidth, !0, x2 = x, y))) return !0;
+                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth1 = Math.max(lineWidth1, this.strokeContainThreshold)), pathProxy2 = pathProxy1, lineWidth = lineWidth1 / lineScale, x2 = x, containPath(pathProxy2, lineWidth, !0, x2, y))) return !0;
                 }
-                if (this.hasFill()) return pathProxy = pathProxy1, containPath(pathProxy, 0, !1, x1 = x, y);
+                if (this.hasFill()) return pathProxy = pathProxy1, x1 = x, containPath(pathProxy, 0, !1, x1, y);
             }
             return !1;
         }, Path.prototype.dirtyShape = function() {
@@ -6252,10 +6256,10 @@
                             ctlPtx = cpx, ctlPty = cpy, len = path.len(), pathData = path.data, prevCmd === CMD.Q && (ctlPtx += cpx - pathData[len - 4], ctlPty += cpy - pathData[len - 3]), cpx += p[off++], cpy += p[off++], cmd = CMD.Q, path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                             break;
                         case 'A':
-                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx = p[off++], processArc(x1, y1, cpx, cpy = p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
+                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx = p[off++], cpy = p[off++], cmd = CMD.A, processArc(x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path);
                             break;
                         case 'a':
-                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx += p[off++], processArc(x1, y1, cpx, cpy += p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
+                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx += p[off++], cpy += p[off++], cmd = CMD.A, processArc(x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd, path);
                     }
                 }
                 ('z' === cmdStr || 'Z' === cmdStr) && (cmd = CMD.Z, path.addData(cmd), cpx = subpathX, cpy = subpathY), prevCmd = cmd;
@@ -6791,9 +6795,11 @@
     }
     function centerGraphic(rect, boundingRect) {
         var height, aspect = boundingRect.width / boundingRect.height, width = rect.height * aspect;
-        return height = width <= rect.width ? rect.height : (width = rect.width) / aspect, {
-            x: rect.x + rect.width / 2 - width / 2,
-            y: rect.y + rect.height / 2 - height / 2,
+        height = width <= rect.width ? rect.height : (width = rect.width) / aspect;
+        var cx = rect.x + rect.width / 2, cy = rect.y + rect.height / 2;
+        return {
+            x: cx - width / 2,
+            y: cy - height / 2,
             width: width,
             height: height
         };
@@ -10809,7 +10815,9 @@
         'left'
     ];
     function projectPointToLine(x1, y1, x2, y2, x, y, out, limitToEnds) {
-        var dx1 = x2 - x1, dy1 = y2 - y1, lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1), t = ((x - x1) * (dx1 /= lineLen) + (y - y1) * (dy1 /= lineLen)) / lineLen;
+        var dx1 = x2 - x1, dy1 = y2 - y1, lineLen = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        dx1 /= lineLen, dy1 /= lineLen;
+        var t = ((x - x1) * dx1 + (y - y1) * dy1) / lineLen;
         limitToEnds && (t = Math.min(Math.max(t, 0), 1)), t *= lineLen;
         var ox = out[0] = x1 + t * dx1, oy = out[1] = y1 + t * dy1;
         return Math.sqrt((ox - x) * (ox - x) + (oy - y) * (oy - y));
@@ -10883,7 +10891,10 @@
                                     x1 = Math.cos(theta) * rx + cx, y1 = Math.sin(theta) * ry + cy, i <= 1 && (x0 = x1, y0 = y1);
                                     var _x = (x - cx) * ry / rx + cx;
                                     d = function(cx, cy, r, startAngle, endAngle, anticlockwise, x, y, out) {
-                                        var d = Math.sqrt((x -= cx) * x + (y -= cy) * y), ox = (x /= d) * r + cx, oy = (y /= d) * r + cy;
+                                        x -= cx, y -= cy;
+                                        var d = Math.sqrt(x * x + y * y);
+                                        x /= d, y /= d;
+                                        var ox = x * r + cx, oy = y * r + cy;
                                         if (Math.abs(startAngle - endAngle) % PI2$6 < 1e-4) return out[0] = ox, out[1] = oy, d - r;
                                         if (anticlockwise) {
                                             var tmp = startAngle;
@@ -10897,7 +10908,9 @@
                                     }(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt), xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
                                     break;
                                 case CMD$3.R:
-                                    x0 = xi = data[i++], y0 = yi = data[i++], d = projectPointToRect(x0, y0, data[i++], data[i++], x, y, tmpPt);
+                                    x0 = xi = data[i++], y0 = yi = data[i++];
+                                    var width = data[i++], height = data[i++];
+                                    d = projectPointToRect(x0, y0, width, height, x, y, tmpPt);
                                     break;
                                 case CMD$3.Z:
                                     d = projectPointToLine(xi, yi, x0, y0, x, y, tmpPt, !0), xi = x0, yi = y0;
@@ -11002,7 +11015,9 @@
             });
             for(var lastPos = 0, adjusted = !1, totalShifts = 0, i = 0; i < len; i++){
                 var item = list[i], rect = item.rect;
-                (delta = rect[xyDim] - lastPos) < 0 && (rect[xyDim] -= delta, item.label[xyDim] -= delta, adjusted = !0), totalShifts += Math.max(-delta, 0), lastPos = rect[xyDim] + rect[sizeDim];
+                (delta = rect[xyDim] - lastPos) < 0 && (rect[xyDim] -= delta, item.label[xyDim] -= delta, adjusted = !0);
+                var shift = Math.max(-delta, 0);
+                totalShifts += shift, lastPos = rect[xyDim] + rect[sizeDim];
             }
             totalShifts > 0 && balanceShift && shiftList(-totalShifts / len, 0, len);
             var first = list[0], last = list[len - 1];
@@ -13115,8 +13130,8 @@
                             top: boundingRect.top
                         });
                     }
-                }), left_1 *= dpr_1, top_1 *= dpr_1;
-                var width = (right_1 *= dpr_1) - left_1, height = (bottom_1 *= dpr_1) - top_1, targetCanvas = createCanvas(), zr_1 = init(targetCanvas, {
+                }), left_1 *= dpr_1, top_1 *= dpr_1, right_1 *= dpr_1, bottom_1 *= dpr_1;
+                var width = right_1 - left_1, height = bottom_1 - top_1, targetCanvas = createCanvas(), zr_1 = init(targetCanvas, {
                     renderer: isSvg ? 'svg' : 'canvas'
                 });
                 if (zr_1.resize({
@@ -13144,7 +13159,8 @@
                 }), zr_1.refreshImmediately(), targetCanvas.toDataURL('image/' + (opts && opts.type || 'png'));
                 var content_1 = '';
                 return each(canvasList_1, function(item) {
-                    content_1 += '<g transform="translate(' + (item.left - left_1) + ',' + (item.top - top_1) + ')">' + item.dom + '</g>';
+                    var x = item.left - left_1, y = item.top - top_1;
+                    content_1 += '<g transform="translate(' + x + ',' + y + ')">' + item.dom + '</g>';
                 }), zr_1.painter.getSvgRoot().innerHTML = content_1, opts.connectedBackgroundColor && zr_1.painter.setBackgroundColor(opts.connectedBackgroundColor), zr_1.refreshImmediately(), zr_1.painter.toDataURL();
             }
         }, ECharts.prototype.convertToPixel = function(finder, value) {
@@ -13538,8 +13554,8 @@
                 var eventObjBatch = [], isSelectChange = isSelectChangePayload(payload), isHighDown = isHighDownPayload(payload);
                 if (each(payloads, function(batchItem) {
                     if ((eventObj = (eventObj = actionWrap.action(batchItem, _this._model, _this._api)) || extend({}, batchItem)).type = actionInfo.event || eventObj.type, eventObjBatch.push(eventObj), isHighDown) {
-                        var _a = preParseFinder(payload), queryOptionMap = _a.queryOptionMap;
-                        updateDirectly(_this, updateMethod, batchItem, _a.mainTypeSpecified ? queryOptionMap.keys()[0] : 'series'), markStatusToUpdate(_this);
+                        var _a = preParseFinder(payload), queryOptionMap = _a.queryOptionMap, componentMainType = _a.mainTypeSpecified ? queryOptionMap.keys()[0] : 'series';
+                        updateDirectly(_this, updateMethod, batchItem, componentMainType), markStatusToUpdate(_this);
                     } else isSelectChange ? (updateDirectly(_this, updateMethod, batchItem, 'series'), markStatusToUpdate(_this)) : cptType && updateDirectly(_this, updateMethod, batchItem, cptType.main, cptType.sub);
                 }), 'none' === updateMethod || isHighDown || isSelectChange || cptType || (this[OPTION_UPDATED_KEY] ? (prepare(this), updateMethods.update.call(this, payload), this[OPTION_UPDATED_KEY] = !1) : updateMethods[updateMethod].call(this, payload)), eventObj = batched ? {
                     type: actionInfo.event || payloadType,
@@ -15812,8 +15828,8 @@
                     var maxOverflow = -1 / 0;
                     each(barsOnCurrentAxis, function(item) {
                         maxOverflow = Math.max(item.offset + item.width, maxOverflow);
-                    });
-                    var totalOverFlow = (minOverflow = Math.abs(minOverflow)) + (maxOverflow = Math.abs(maxOverflow)), oldRange = max - min, overflowBuffer = oldRange / (1 - (minOverflow + maxOverflow) / axisLength) - oldRange;
+                    }), minOverflow = Math.abs(minOverflow), maxOverflow = Math.abs(maxOverflow);
+                    var totalOverFlow = minOverflow + maxOverflow, oldRange = max - min, overflowBuffer = oldRange / (1 - (minOverflow + maxOverflow) / axisLength) - oldRange;
                     return max += overflowBuffer * (maxOverflow / totalOverFlow), {
                         min: min -= overflowBuffer * (minOverflow / totalOverFlow),
                         max: max
@@ -17663,7 +17679,7 @@
                     else {
                         vx = nextX - prevX, vy = nextY - prevY;
                         var dx0 = x - prevX, dx1 = nextX - x, dy0 = y - prevY, dy1 = nextY - y, lenPrevSeg = void 0, lenNextSeg = void 0;
-                        'x' === smoothMonotone ? (lenPrevSeg = Math.abs(dx0), lenNextSeg = Math.abs(dx1), cpx1 = x - lenPrevSeg * smooth, cpy1 = y, nextCpx0 = x + lenPrevSeg * smooth, nextCpy0 = y) : 'y' === smoothMonotone ? (lenPrevSeg = Math.abs(dy0), lenNextSeg = Math.abs(dy1), cpx1 = x, cpy1 = y - lenPrevSeg * smooth, nextCpx0 = x, nextCpy0 = y + lenPrevSeg * smooth) : (lenPrevSeg = Math.sqrt(dx0 * dx0 + dy0 * dy0), cpx1 = x - vx * smooth * (1 - (ratioNextSeg = (lenNextSeg = Math.sqrt(dx1 * dx1 + dy1 * dy1)) / (lenNextSeg + lenPrevSeg))), cpy1 = y - vy * smooth * (1 - ratioNextSeg), nextCpx0 = x + vx * smooth * ratioNextSeg, nextCpy0 = y + vy * smooth * ratioNextSeg, nextCpx0 = mathMin$5(nextCpx0, mathMax$5(nextX, x)), nextCpy0 = mathMin$5(nextCpy0, mathMax$5(nextY, y)), nextCpx0 = mathMax$5(nextCpx0, mathMin$5(nextX, x)), nextCpy0 = mathMax$5(nextCpy0, mathMin$5(nextY, y)), vx = nextCpx0 - x, vy = nextCpy0 - y, cpx1 = x - vx * lenPrevSeg / lenNextSeg, cpy1 = y - vy * lenPrevSeg / lenNextSeg, cpx1 = mathMin$5(cpx1, mathMax$5(prevX, x)), cpy1 = mathMin$5(cpy1, mathMax$5(prevY, y)), cpx1 = mathMax$5(cpx1, mathMin$5(prevX, x)), cpy1 = mathMax$5(cpy1, mathMin$5(prevY, y)), vx = x - cpx1, vy = y - cpy1, nextCpx0 = x + vx * lenNextSeg / lenPrevSeg, nextCpy0 = y + vy * lenNextSeg / lenPrevSeg);
+                        'x' === smoothMonotone ? (lenPrevSeg = Math.abs(dx0), lenNextSeg = Math.abs(dx1), cpx1 = x - lenPrevSeg * smooth, cpy1 = y, nextCpx0 = x + lenPrevSeg * smooth, nextCpy0 = y) : 'y' === smoothMonotone ? (lenPrevSeg = Math.abs(dy0), lenNextSeg = Math.abs(dy1), cpx1 = x, cpy1 = y - lenPrevSeg * smooth, nextCpx0 = x, nextCpy0 = y + lenPrevSeg * smooth) : (lenPrevSeg = Math.sqrt(dx0 * dx0 + dy0 * dy0), ratioNextSeg = (lenNextSeg = Math.sqrt(dx1 * dx1 + dy1 * dy1)) / (lenNextSeg + lenPrevSeg), cpx1 = x - vx * smooth * (1 - ratioNextSeg), cpy1 = y - vy * smooth * (1 - ratioNextSeg), nextCpx0 = x + vx * smooth * ratioNextSeg, nextCpy0 = y + vy * smooth * ratioNextSeg, nextCpx0 = mathMin$5(nextCpx0, mathMax$5(nextX, x)), nextCpy0 = mathMin$5(nextCpy0, mathMax$5(nextY, y)), nextCpx0 = mathMax$5(nextCpx0, mathMin$5(nextX, x)), nextCpy0 = mathMax$5(nextCpy0, mathMin$5(nextY, y)), vx = nextCpx0 - x, vy = nextCpy0 - y, cpx1 = x - vx * lenPrevSeg / lenNextSeg, cpy1 = y - vy * lenPrevSeg / lenNextSeg, cpx1 = mathMin$5(cpx1, mathMax$5(prevX, x)), cpy1 = mathMin$5(cpy1, mathMax$5(prevY, y)), cpx1 = mathMax$5(cpx1, mathMin$5(prevX, x)), cpy1 = mathMax$5(cpy1, mathMin$5(prevY, y)), vx = x - cpx1, vy = y - cpy1, nextCpx0 = x + vx * lenNextSeg / lenPrevSeg, nextCpy0 = y + vy * lenNextSeg / lenPrevSeg);
                     }
                     ctx.bezierCurveTo(cpx0, cpy0, cpx1, cpy1, x, y), cpx0 = nextCpx0, cpy0 = nextCpy0;
                 } else ctx.lineTo(x, y);
@@ -18673,7 +18689,6 @@
         }
     };
     function updateRealtimeAnimation(realtimeSortCfg, seriesAnimationModel, el, layout, newIndex, isHorizontal, isUpdate, isChangeOrder) {
-        var seriesTarget, axisTarget;
         isHorizontal ? (axisTarget = {
             x: layout.x,
             width: layout.width
@@ -18688,9 +18703,11 @@
             width: layout.width
         }), isChangeOrder || (isUpdate ? updateProps : initProps)(el, {
             shape: seriesTarget
-        }, seriesAnimationModel, newIndex, null), (isUpdate ? updateProps : initProps)(el, {
+        }, seriesAnimationModel, newIndex, null);
+        var seriesTarget, axisTarget, axisAnimationModel = seriesAnimationModel ? realtimeSortCfg.baseAxis.model : null;
+        (isUpdate ? updateProps : initProps)(el, {
             shape: axisTarget
-        }, seriesAnimationModel ? realtimeSortCfg.baseAxis.model : null, newIndex);
+        }, axisAnimationModel, newIndex);
     }
     var getLayout = {
         cartesian2d: function(data, dataIndex, itemModel) {
@@ -20267,8 +20284,8 @@
                         'axisLabel',
                         'showMaxLabel'
                     ]);
-                    tickEls = tickEls || [];
-                    var firstLabel = (labelEls = labelEls || [])[0], nextLabel = labelEls[1], lastLabel = labelEls[labelEls.length - 1], prevLabel = labelEls[labelEls.length - 2], firstTick = tickEls[0], nextTick = tickEls[1], lastTick = tickEls[tickEls.length - 1], prevTick = tickEls[tickEls.length - 2];
+                    labelEls = labelEls || [], tickEls = tickEls || [];
+                    var firstLabel = labelEls[0], nextLabel = labelEls[1], lastLabel = labelEls[labelEls.length - 1], prevLabel = labelEls[labelEls.length - 2], firstTick = tickEls[0], nextTick = tickEls[1], lastTick = tickEls[tickEls.length - 1], prevTick = tickEls[tickEls.length - 2];
                     !1 === showMinLabel ? (ignoreEl(firstLabel), ignoreEl(firstTick)) : isTwoLabelOverlapped(firstLabel, nextLabel) && (showMinLabel ? (ignoreEl(nextLabel), ignoreEl(nextTick)) : (ignoreEl(firstLabel), ignoreEl(firstTick))), !1 === showMaxLabel ? (ignoreEl(lastLabel), ignoreEl(lastTick)) : isTwoLabelOverlapped(prevLabel, lastLabel) && (showMaxLabel ? (ignoreEl(prevLabel), ignoreEl(prevTick)) : (ignoreEl(lastLabel), ignoreEl(lastTick)));
                 }
             })(axisModel, labelEls, ticksEls), function(group, transformGroup, axisModel, tickDirection) {
@@ -21981,8 +21998,8 @@
         var previousZoom = view.getZoom(), center = view.getCenter(), zoom = payload.zoom, point = view.dataToPoint(center);
         if (null != payload.dx && null != payload.dy && (point[0] -= payload.dx, point[1] -= payload.dy, view.setCenter(view.pointToData(point))), null != zoom) {
             if (zoomLimit) {
-                var zoomMin = zoomLimit.min || 0;
-                zoom = Math.max(Math.min(previousZoom * zoom, zoomLimit.max || 1 / 0), zoomMin) / previousZoom;
+                var zoomMin = zoomLimit.min || 0, zoomMax = zoomLimit.max || 1 / 0;
+                zoom = Math.max(Math.min(previousZoom * zoom, zoomMax), zoomMin) / previousZoom;
             }
             view.scaleX *= zoom, view.scaleY *= zoom;
             var fixX = (payload.originX - view.x) * (zoom - 1), fixY = (payload.originY - view.y) * (zoom - 1);
@@ -22736,7 +22753,8 @@
                     });
                     var delta = left_1 === right_1 ? 1 : separation$1(left_1, right_1) / 2, tx_1 = delta - left_1.getLayout().x, kx_1 = 0, ky_1 = 0, coorX_1 = 0, coorY_1 = 0;
                     if ('radial' === layout) kx_1 = width / (right_1.getLayout().x + delta + tx_1), ky_1 = height / (bottom_1.depth - 1 || 1), eachBefore(realRoot, function(node) {
-                        var finalCoor = radialCoordinate(coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1);
+                        coorX_1 = (node.getLayout().x + tx_1) * kx_1, coorY_1 = (node.depth - 1) * ky_1;
+                        var finalCoor = radialCoordinate(coorX_1, coorY_1);
                         node.setLayout({
                             x: finalCoor.x,
                             y: finalCoor.y,
@@ -25347,7 +25365,8 @@
             this._renderMain(seriesModel, ecModel, api, colorList, posInfo), this._data = seriesModel.getData();
         }, GaugeView.prototype.dispose = function() {}, GaugeView.prototype._renderMain = function(seriesModel, ecModel, api, colorList, posInfo) {
             for(var group = this.group, clockwise = seriesModel.get('clockwise'), startAngle = -seriesModel.get('startAngle') / 180 * Math.PI, endAngle = -seriesModel.get('endAngle') / 180 * Math.PI, axisLineModel = seriesModel.getModel('axisLine'), MainPath = axisLineModel.get('roundCap') ? SausagePath : Sector, showAxis = axisLineModel.get('show'), lineStyleModel = axisLineModel.getModel('lineStyle'), axisLineWidth = lineStyleModel.get('width'), angleRangeSpan = (endAngle - startAngle) % PI2$9 || endAngle === startAngle ? (endAngle - startAngle) % PI2$9 : PI2$9, prevEndAngle = startAngle, i = 0; showAxis && i < colorList.length; i++){
-                endAngle = startAngle + angleRangeSpan * Math.min(Math.max(colorList[i][0], 0), 1);
+                var percent = Math.min(Math.max(colorList[i][0], 0), 1);
+                endAngle = startAngle + angleRangeSpan * percent;
                 var sector = new MainPath({
                     shape: {
                         startAngle: prevEndAngle,
@@ -27684,7 +27703,7 @@
             nodes.sort(function(a, b) {
                 return a.getLayout()[keyAttr] - b.getLayout()[keyAttr];
             });
-            for(var nodeX, node, dy, y0 = 0, n = nodes.length, nodeDyAttr = 'vertical' === orient ? 'dx' : 'dy', i = 0; i < n; i++)(dy = y0 - (node = nodes[i]).getLayout()[keyAttr]) > 0 && (nodeX = node.getLayout()[keyAttr] + dy, 'vertical' === orient ? node.setLayout({
+            for(var nodeX, node, dy, y0 = 0, n = nodes.length, nodeDyAttr = 'vertical' === orient ? 'dx' : 'dy', i = 0; i < n; i++)node = nodes[i], (dy = y0 - node.getLayout()[keyAttr]) > 0 && (nodeX = node.getLayout()[keyAttr] + dy, 'vertical' === orient ? node.setLayout({
                 x: nodeX
             }, !0) : node.setLayout({
                 y: nodeX
@@ -28009,7 +28028,8 @@
                 errMsg = makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'), throwError(errMsg);
             }
             var result = function(rawData, opt) {
-                for(var boxData = [], outliers = [], boundIQR = (opt = opt || {}).boundIQR, useExtreme = 'none' === boundIQR || 0 === boundIQR, i = 0; i < rawData.length; i++){
+                opt = opt || {};
+                for(var boxData = [], outliers = [], boundIQR = opt.boundIQR, useExtreme = 'none' === boundIQR || 0 === boundIQR, i = 0; i < rawData.length; i++){
                     var ascList = asc(rawData[i].slice()), Q1 = quantile(ascList, 0.25), Q2 = quantile(ascList, 0.5), Q3 = quantile(ascList, 0.75), min = ascList[0], max = ascList[ascList.length - 1], bound = (null == boundIQR ? 1.5 : boundIQR) * (Q3 - Q1), low = useExtreme ? min : Math.max(min, Q1 - bound), high = useExtreme ? max : Math.min(max, Q3 + bound), itemNameFormatter = opt.itemNameFormatter, itemName = isFunction(itemNameFormatter) ? itemNameFormatter({
                         value: i
                     }) : isString(itemNameFormatter) ? itemNameFormatter.replace('{value}', i + '') : i + '';
@@ -28606,7 +28626,10 @@
             this._points = points;
             for(var accLenArr = [
                 0
-            ], len = 0, i = 1; i < points.length; i++)len += distance(points[i - 1], points[i]), accLenArr.push(len);
+            ], len = 0, i = 1; i < points.length; i++){
+                var p1 = points[i - 1], p2 = points[i];
+                len += distance(p1, p2), accLenArr.push(len);
+            }
             if (0 === len) {
                 this._length = 0;
                 return;
@@ -30253,7 +30276,7 @@
                     xi = x0 = data[i++], yi = y0 = data[i++], createNewSubpath(x0, y0);
                     break;
                 case CMD$4.L:
-                    addLine(xi, yi, x1 = data[i++], y1 = data[i++]), xi = x1, yi = y1;
+                    x1 = data[i++], y1 = data[i++], addLine(xi, yi, x1, y1), xi = x1, yi = y1;
                     break;
                 case CMD$4.C:
                     currentSubpath.push(data[i++], data[i++], data[i++], data[i++], xi = data[i++], yi = data[i++]);
@@ -30439,7 +30462,7 @@
             } else fromIndividuals.push(fromPath), separateCount++;
         }
         if (separateCount) {
-            var toPathSplittedList = divideShape(toPath, separateCount, animationOpts ? animationOpts.dividingMethod : null);
+            var dividingMethod = animationOpts ? animationOpts.dividingMethod : null, toPathSplittedList = divideShape(toPath, separateCount, dividingMethod);
             assert(toPathSplittedList.length === separateCount);
             for(var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during, doneCount = 0, abortedCalled = !1, morphAnimationOpts = defaults({
                 during: function(p) {
@@ -35615,7 +35638,7 @@
         var zrPainter = zr && zr.painter;
         if (appendToBody) {
             var out1, elFrom, elTarget, inX, zrViewportRoot = zrPainter && zrPainter.getViewportRoot();
-            zrViewportRoot && (out1 = out, elFrom = zrViewportRoot, elTarget = document.body, transformCoordWithViewport(_calcOut, elFrom, inX = zrX, zrY, !0) && transformCoordWithViewport(out1, elTarget, _calcOut[0], _calcOut[1]));
+            zrViewportRoot && (out1 = out, elFrom = zrViewportRoot, elTarget = document.body, inX = zrX, transformCoordWithViewport(_calcOut, elFrom, inX, zrY, !0) && transformCoordWithViewport(out1, elTarget, _calcOut[0], _calcOut[1]));
         } else {
             out[0] = zrX, out[1] = zrY;
             var viewportRootOffset = zrPainter && zrPainter.getViewportRootOffset();
@@ -36134,9 +36157,9 @@
                 x = pos[0], y = pos[1];
             }
             if (align && (x -= isCenterAlign(align) ? contentSize[0] / 2 : 'right' === align ? contentSize[0] : 0), vAlign && (y -= isCenterAlign(vAlign) ? contentSize[1] / 2 : 'bottom' === vAlign ? contentSize[1] : 0), shouldTooltipConfine(tooltipModel)) {
-                var x2, y2, content2, viewWidth2, viewHeight2, size1, width1, height1, pos = (x2 = x, y2 = y, content2 = content, viewWidth2 = viewWidth, viewHeight2 = viewHeight, width1 = (size1 = content2.getOuterSize()).width, height1 = size1.height, x2 = Math.min(x2 + width1, viewWidth2) - width1, y2 = Math.min(y2 + height1, viewHeight2) - height1, [
-                    x2 = Math.max(x2, 0),
-                    y2 = Math.max(y2, 0)
+                var x2, y2, content2, viewWidth2, viewHeight2, size1, width1, height1, pos = (x2 = x, y2 = y, content2 = content, viewWidth2 = viewWidth, viewHeight2 = viewHeight, width1 = (size1 = content2.getOuterSize()).width, height1 = size1.height, x2 = Math.min(x2 + width1, viewWidth2) - width1, y2 = Math.min(y2 + height1, viewHeight2) - height1, x2 = Math.max(x2, 0), y2 = Math.max(y2, 0), [
+                    x2,
+                    y2
                 ]);
                 x = pos[0], y = pos[1];
             }
@@ -38247,7 +38270,9 @@
                 }), enableHoverEmphasis(labelText);
             });
         }, LegendView.prototype._createItem = function(seriesModel, name, dataIndex, itemModel, legendModel, itemAlign, lineVisualStyle, itemVisualStyle, symbolType, selectMode) {
-            var opt, symboType, symbol, drawType = seriesModel.visualDrawType, itemWidth = legendModel.get('itemWidth'), itemHeight = legendModel.get('itemHeight'), isSelected = legendModel.isSelected(name), symbolKeepAspect = itemModel.get('symbolKeepAspect'), legendIconType = itemModel.get('icon'), style = function(symbolType, legendModel, legendLineStyle, lineVisualStyle, itemVisualStyle, drawType, isSelected) {
+            var opt, symboType, symbol, drawType = seriesModel.visualDrawType, itemWidth = legendModel.get('itemWidth'), itemHeight = legendModel.get('itemHeight'), isSelected = legendModel.isSelected(name), symbolKeepAspect = itemModel.get('symbolKeepAspect'), legendIconType = itemModel.get('icon');
+            symbolType = legendIconType || symbolType || 'roundRect';
+            var legendLineStyle = legendModel.getModel('lineStyle'), style = function(symbolType, legendModel, legendLineStyle, lineVisualStyle, itemVisualStyle, drawType, isSelected) {
                 for(var legendItemModel = legendModel.getModel('itemStyle'), itemProperties = ITEM_STYLE_KEY_MAP.concat([
                     [
                         'decal'
@@ -38288,7 +38313,7 @@
                     itemStyle: itemStyle,
                     lineStyle: lineStyle
                 };
-            }(symbolType = legendIconType || symbolType || 'roundRect', itemModel, legendModel.getModel('lineStyle'), lineVisualStyle, itemVisualStyle, drawType, isSelected), itemGroup = new Group(), textStyleModel = itemModel.getModel('textStyle');
+            }(symbolType, itemModel, legendLineStyle, lineVisualStyle, itemVisualStyle, drawType, isSelected), itemGroup = new Group(), textStyleModel = itemModel.getModel('textStyle');
             'function' != typeof seriesModel.getLegendIcon || legendIconType ? itemGroup.add(((symbol = createSymbol(symboType = (opt = {
                 itemWidth: itemWidth,
                 itemHeight: itemHeight,
@@ -40869,8 +40894,7 @@
                             'general',
                             'withoutTitle'
                         ]);
-                        var seriesLabels_1 = [];
-                        ariaLabel += replace(seriesCnt > 1 ? labelModel.get([
+                        var seriesLabels_1 = [], prefix = seriesCnt > 1 ? labelModel.get([
                             'series',
                             'multiple',
                             'prefix'
@@ -40878,7 +40902,8 @@
                             'series',
                             'single',
                             'prefix'
-                        ]), {
+                        ]);
+                        ariaLabel += replace(prefix, {
                             seriesCount: seriesCnt
                         }), ecModel.eachSeries(function(seriesModel, idx) {
                             if (idx < displaySeriesCnt) {
@@ -40900,12 +40925,15 @@
                                     ])[type] || '自定义图')
                                 });
                                 var data = seriesModel.getData();
-                                data.count() > maxDataCnt ? seriesLabel += replace(labelModel.get([
-                                    'data',
-                                    'partialData'
-                                ]), {
-                                    displayCnt: maxDataCnt
-                                }) : seriesLabel += labelModel.get([
+                                if (data.count() > maxDataCnt) {
+                                    var partialLabel = labelModel.get([
+                                        'data',
+                                        'partialData'
+                                    ]);
+                                    seriesLabel += replace(partialLabel, {
+                                        displayCnt: maxDataCnt
+                                    });
+                                } else seriesLabel += labelModel.get([
                                     'data',
                                     'allData'
                                 ]);

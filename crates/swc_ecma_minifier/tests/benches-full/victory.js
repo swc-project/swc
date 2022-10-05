@@ -467,12 +467,12 @@
             }
             __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
-                if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+                if (stop = +stop, start = +start, count = +count, start === stop && count > 0) return [
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
                 if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-                else for(ticks = Array(n = Math.ceil((start = Math.floor(start * step)) - (stop = Math.ceil(stop * step)) + 1)); ++i < n;)ticks[i] = (start - i) / step;
+                else for(start = Math.floor(start * step), stop = Math.ceil(stop * step), ticks = Array(n = Math.ceil(start - stop + 1)); ++i < n;)ticks[i] = (start - i) / step;
                 return reverse && ticks.reverse(), ticks;
             };
         },
@@ -1826,7 +1826,7 @@
             __webpack_require__.r(__webpack_exports__);
             var _exponent_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-format/src/exponent.js");
             __webpack_exports__.default = function(step, max) {
-                return max = Math.abs(max) - (step = Math.abs(step)), Math.max(0, Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(max) - Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(step)) + 1;
+                return step = Math.abs(step), max = Math.abs(max) - step, Math.max(0, Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(max) - Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(step)) + 1;
             };
         },
         "../../../node_modules/d3-interpolate/src/array.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -1898,7 +1898,7 @@
             function gamma(y) {
                 return 1 == (y = +y) ? nogamma : function(a, b) {
                     var a1, b1, y1;
-                    return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y1 = y), b1 = Math.pow(b1, y1) - a1, y1 = 1 / y1, function(t) {
+                    return b - a ? (a1 = a, b1 = b, y1 = y, a1 = Math.pow(a1, y1), b1 = Math.pow(b1, y1) - a1, y1 = 1 / y1, function(t) {
                         return Math.pow(a1 + t * b1, y1);
                     }) : Object(_constant_js__WEBPACK_IMPORTED_MODULE_0__.default)(isNaN(a) ? b : a);
                 };
@@ -2277,7 +2277,7 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, b1 = b.rotate, a1 !== b1 ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
                         i: s2.push(pop(s2) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
                     })) : b1 && s2.push(pop(s2) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q2.push({
@@ -4044,7 +4044,7 @@
                 },
                 point: function(x, y) {
                     var t1 = NaN;
-                    if (y = +y, (x = +x) !== this._x1 || y !== this._y1) {
+                    if (x = +x, y = +y, x !== this._x1 || y !== this._y1) {
                         switch(this._point){
                             case 0:
                                 this._point = 1, this._line ? this._context.lineTo(x, y) : this._context.moveTo(x, y);
@@ -4591,8 +4591,8 @@
                     for(var s0, m, n, y = 0, j = 1; j < m; ++j){
                         for(var i = 0, s1 = 0, s2 = 0; i < n; ++i){
                             for(var si = series[order[i]], sij0 = si[j][1] || 0, s3 = (sij0 - (si[j - 1][1] || 0)) / 2, k = 0; k < i; ++k){
-                                var sk = series[order[k]];
-                                s3 += (sk[j][1] || 0) - (sk[j - 1][1] || 0);
+                                var sk = series[order[k]], skj0 = sk[j][1] || 0, skj1 = sk[j - 1][1] || 0;
+                                s3 += skj0 - skj1;
                             }
                             s1 += sij0, s2 += s3 * sij0;
                         }
@@ -4680,7 +4680,7 @@
                         return sortValues(arcs[i], arcs[j]);
                     }) : null != sort && index.sort(function(i, j) {
                         return sort(data[i], data[j]);
-                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
+                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
                         data: data[j],
                         index: i,
                         value: v,
@@ -6195,7 +6195,7 @@
                 }
                 if (cover) {
                     var dx, dy, d2, dc = 1 / 0;
-                    for(iCell = 0, cover = null; iCell < nCells; ++iCell)(cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]) && (d2 = (dx = (site = cell.site)[0] - x0) * dx + (dy = site[1] - y0) * dy) < dc && (dc = d2, cover = cell);
+                    for(iCell = 0, cover = null; iCell < nCells; ++iCell)(cell = _Diagram__WEBPACK_IMPORTED_MODULE_1__.cells[iCell]) && (dx = (site = cell.site)[0] - x0, (d2 = dx * dx + (dy = site[1] - y0) * dy) < dc && (dc = d2, cover = cell));
                     if (cover) {
                         var v00 = [
                             x0,
@@ -25461,12 +25461,12 @@
             }
             __webpack_exports__.default = function(start, stop, count) {
                 var reverse, n, ticks, step, i = -1;
-                if (count = +count, (start = +start) == (stop = +stop) && count > 0) return [
+                if (stop = +stop, start = +start, count = +count, start === stop && count > 0) return [
                     start
                 ];
                 if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
                 if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-                else for(ticks = Array(n = Math.ceil((start = Math.floor(start * step)) - (stop = Math.ceil(stop * step)) + 1)); ++i < n;)ticks[i] = (start - i) / step;
+                else for(start = Math.floor(start * step), stop = Math.ceil(stop * step), ticks = Array(n = Math.ceil(start - stop + 1)); ++i < n;)ticks[i] = (start - i) / step;
                 return reverse && ticks.reverse(), ticks;
             };
         },
@@ -25687,7 +25687,7 @@
                 }, gutterOffset = {
                     x: gutter && "object" == typeof gutter && gutter.left || 0,
                     y: rowGutter && "object" == typeof rowGutter && rowGutter.top || 0
-                }, _getDimensions = getDimensions(props, fallbackProps), borderProps = getBorderProps(props, _getDimensions.height, _getDimensions.width), titleProps = getTitleProps(props, borderProps), initialProps = {
+                }, _getDimensions = getDimensions(props, fallbackProps), height = _getDimensions.height, width = _getDimensions.width, borderProps = getBorderProps(props, height, width), titleProps = getTitleProps(props, borderProps), initialProps = {
                     parent: {
                         data: data,
                         standalone: standalone,

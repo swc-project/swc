@@ -501,7 +501,7 @@
                 VND: '₫',
                 TWD: 'NT$'
             };
-            dateCorrection = [
+            HijriParser = HijriParser1 || (HijriParser1 = {}), dateCorrection = [
                 28607,
                 28636,
                 28665,
@@ -2243,7 +2243,7 @@
                 79930,
                 79960,
                 79990
-            ], (HijriParser = HijriParser1 || (HijriParser1 = {})).getHijriDate = function(gDate) {
+            ], HijriParser.getHijriDate = function(gDate) {
                 var day = gDate.getDate(), month = gDate.getMonth(), year = gDate.getFullYear(), tMonth = month + 1, tYear = year;
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
@@ -2527,7 +2527,9 @@
                                 case 'E':
                                 case 'c':
                                     var weekData = void 0;
-                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]], regexString += '(' + Object.keys(ParserBase.reverseObject(weekData)).join('|') + ')';
+                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]];
+                                    var weekObject = ParserBase.reverseObject(weekData);
+                                    regexString += '(' + Object.keys(weekObject).join('|') + ')';
                                     break;
                                 case 'M':
                                 case 'L':
@@ -2547,7 +2549,8 @@
                                     'h' === char && (parseOptions.hour12 = !0);
                                     break;
                                 case 'W':
-                                    regexString += '(' + nRegx + (1 === len ? '?' : '') + nRegx + ')';
+                                    var opt = 1 === len ? '?' : '';
+                                    regexString += '(' + nRegx + opt + nRegx + ')';
                                     break;
                                 case 'y':
                                     canUpdate = isNumber = !0, 2 === len ? regexString += '(' + nRegx + nRegx + ')' : regexString += '(' + nRegx + '{' + len + ',})';
@@ -2568,7 +2571,8 @@
                                     hpattern = hpattern.replace(/:/g, numMapper.timeSeparator), regexString += '(' + this.parseTimeZoneRegx(hpattern, tzone, nRegx) + ')?', isgmtTraversed = !0, zCorrectTemp = hourOnly ? 6 : 12;
                                     break;
                                 case '\'':
-                                    regexString += '(' + str.replace(/'/g, '') + ')?';
+                                    var iString = str.replace(/'/g, '');
+                                    regexString += '(' + iString + ')?';
                                     break;
                                 default:
                                     regexString += '([\\D])';
@@ -2595,7 +2599,13 @@
                     var res = value || new Date();
                     res.setMilliseconds(0);
                     var y = options.year, desig = options.designator, tzone = options.timeZone;
-                    util_isUndefined(y) || ((y + '').length <= 2 && (y += 100 * Math.floor(res.getFullYear() / 100)), res.setFullYear(y));
+                    if (!util_isUndefined(y)) {
+                        if ((y + '').length <= 2) {
+                            var century = 100 * Math.floor(res.getFullYear() / 100);
+                            y += century;
+                        }
+                        res.setFullYear(y);
+                    }
                     for(var _i = 0, tKeys_1 = [
                         'hour',
                         'minute',
@@ -4365,9 +4375,9 @@
                 if (!(!element || this.rippleOptions && closest(target, this.rippleOptions.ignore))) {
                     var offset = element.getBoundingClientRect(), offsetX = e.pageX - document.body.scrollLeft, offsetY = e.pageY - (!document.body.scrollTop && document.documentElement ? document.documentElement.scrollTop : document.body.scrollTop), pageX = Math.max(Math.abs(offsetX - offset.left), Math.abs(offsetX - offset.right)), pageY = Math.max(Math.abs(offsetY - offset.top), Math.abs(offsetY - offset.bottom)), radius = Math.sqrt(pageX * pageX + pageY * pageY), diameter = 2 * radius + 'px', x = offsetX - offset.left - radius, y = offsetY - offset.top - radius;
                     this.rippleOptions && this.rippleOptions.isCenterRipple && (x = 0, y = 0, diameter = '100%'), element.classList.add('e-ripple');
-                    var rippleElement = createElement('div', {
+                    var duration = this.rippleOptions.duration.toString(), rippleElement = createElement('div', {
                         className: 'e-ripple-element',
-                        styles: 'width: ' + diameter + ';height: ' + diameter + ';left: ' + x + 'px;top: ' + y + "px;transition-duration: " + this.rippleOptions.duration.toString() + 'ms;'
+                        styles: 'width: ' + diameter + ';height: ' + diameter + ';left: ' + x + 'px;top: ' + y + "px;transition-duration: " + duration + 'ms;'
                     });
                     element.appendChild(rippleElement), window.getComputedStyle(rippleElement).getPropertyValue('opacity'), rippleElement.style.transform = 'scale(1)', element !== this.parent && EventHandler.add(element, 'mouseleave', rippleLeaveHandler, {
                         parent: this.parent,
@@ -4462,7 +4472,7 @@
                     if (this.isParentArray) {
                         index = this.parentObj[this.propName].indexOf(this);
                         var valueLength = this.parentObj[this.propName].length;
-                        valueLength = isSaveChanges ? valueLength : valueLength > 0 ? valueLength - 1 : 0, propName += index = -1 !== index ? '-' + index : '-' + valueLength;
+                        valueLength = isSaveChanges ? valueLength : valueLength > 0 ? valueLength - 1 : 0, index = -1 !== index ? '-' + index : '-' + valueLength, propName += index;
                     }
                     return this.controlParent !== this.parentObj && (propName = this.parentObj.getParentKey() + '.' + this.propName + index), propName;
                 }, ChildProperty;
@@ -4606,7 +4616,10 @@
                 }, LicenseValidator;
             }(), licenseValidator = new LicenseValidator();
             function convertToChar(cArr) {
-                for(var ret = '', _i = 0; _i < cArr.length; _i++)ret += String.fromCharCode(cArr[_i]);
+                for(var ret = '', _i = 0; _i < cArr.length; _i++){
+                    var arr = cArr[_i];
+                    ret += String.fromCharCode(arr);
+                }
                 return ret;
             }
             var validateLicense = function(key) {
@@ -4720,7 +4733,10 @@
                 }, Component.prototype.pageID = function(url) {
                     var hash = 0;
                     if (0 === url.length) return hash;
-                    for(var i = 0; i < url.length; i++)hash = (hash << 5) - hash + url.charCodeAt(i), hash &= hash;
+                    for(var i = 0; i < url.length; i++){
+                        var char = url.charCodeAt(i);
+                        hash = (hash << 5) - hash + char, hash &= hash;
+                    }
                     return Math.abs(hash);
                 }, Component.prototype.isHistoryChanged = function() {
                     return lastPageID !== this.pageID(location.href) || lastHistoryLen !== history.length;
@@ -5546,8 +5562,8 @@
                 compile: new (function() {
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, argName, evalExpResult, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = argName = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, argName, evalExpResult, str, nameSpace, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), helper1 = helper, str = templateString, nameSpace = argName = 'data', ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), evalExpResult = str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
@@ -5565,7 +5581,7 @@
                                         return localKeys.push(rlStr_1[0]), localKeys.push(rlStr_1[0] + 'Index'), 'var i' + (varCOunt += 1) + '=0; i' + varCOunt + ' < ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '.length; i' + varCOunt + '++';
                                     }) + '{ \n ' + rlStr_1[0] + '= ' + addNameSpace(rlStr_1[1], !0, nameSpace, localKeys, ignorePrefix1) + '[i' + varCOunt + ']; \n var ' + rlStr_1[0] + 'Index=i' + varCOunt + '; \n str = str + "';
                                 } else {
-                                    var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
+                                    var fnStr = cnt.split('('), fNameSpace = helper1 && helper1.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
                                     0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
@@ -9576,7 +9592,7 @@
                 }
                 var targetTop = 0;
                 if (calculateValue) {
-                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && calculatedHeight + (targetTop = targetRectValues.top) <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
+                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && (targetTop = targetRectValues.top, calculatedHeight + targetTop <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30)), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
                     var calculatedTop = (0, ej2_base.le)(containerElement) ? targetTop : topWithoutborder;
                     calculatedHeight >= minHeight && calculatedHeight + calculatedTop <= maxHeight && (targetElement.style.height = calculatedHeight + 'px');
                 }
@@ -12106,7 +12122,7 @@
                     if (!element) return '';
                     for(var attr = '', rawAttr = this.rawAttributes(element), orderRawAttr = Object.keys(rawAttr).sort(), e = 0; e < orderRawAttr.length; e++){
                         var attrKey = orderRawAttr[e], attrValue = rawAttr[attrKey];
-                        0 > attrValue.indexOf("'") && attrValue.indexOf('"') >= 0 ? attr += ' ' + attrKey + "='" + attrValue + "'" : attrValue.indexOf('"') >= 0 && attrValue.indexOf("'") >= 0 ? attr += ' ' + attrKey + '="' + (attrValue = attrValue.replace(/"/g, '&quot;')) + '"' : attr += ' ' + attrKey + '="' + attrValue + '"';
+                        0 > attrValue.indexOf("'") && attrValue.indexOf('"') >= 0 ? attr += ' ' + attrKey + "='" + attrValue + "'" : (attrValue.indexOf('"') >= 0 && attrValue.indexOf("'") >= 0 && (attrValue = attrValue.replace(/"/g, '&quot;')), attr += ' ' + attrKey + '="' + attrValue + '"');
                     }
                     return attr;
                 }, DOMNode.prototype.clearAttributes = function(element) {
@@ -12331,7 +12347,7 @@
                     }
                 }, Lists.prototype.backspaceList = function(e) {
                     var range = this.parent.nodeSelection.getRange(this.parent.currentDocument), startNode = this.parent.domNode.getSelectedNode(range.startContainer, range.startOffset), endNode = this.parent.domNode.getSelectedNode(range.endContainer, range.endOffset);
-                    if ((startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode) !== (endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode) || (0, ej2_base.le)((0, ej2_base.oq)(startNode, 'li')) || ('' !== startNode.textContent.trim() || 65279 !== startNode.textContent.charCodeAt(0)) && (1 !== startNode.textContent.length || 8203 !== startNode.textContent.charCodeAt(0)) || (startNode.textContent = ''), startNode === endNode && 'LI' === startNode.tagName && 0 === startNode.textContent.length && (0, ej2_base.le)(startNode.previousElementSibling) && startNode.removeAttribute('style'), startNode === endNode && '' === startNode.textContent) {
+                    if (startNode = 'BR' === startNode.nodeName ? startNode.parentElement : startNode, endNode = 'BR' === endNode.nodeName ? endNode.parentElement : endNode, startNode !== endNode || (0, ej2_base.le)((0, ej2_base.oq)(startNode, 'li')) || ('' !== startNode.textContent.trim() || 65279 !== startNode.textContent.charCodeAt(0)) && (1 !== startNode.textContent.length || 8203 !== startNode.textContent.charCodeAt(0)) || (startNode.textContent = ''), startNode === endNode && 'LI' === startNode.tagName && 0 === startNode.textContent.length && (0, ej2_base.le)(startNode.previousElementSibling) && startNode.removeAttribute('style'), startNode === endNode && '' === startNode.textContent) {
                         if ('LI' === startNode.parentElement.tagName && 'LI' === endNode.parentElement.tagName) (0, ej2_base.og)(startNode);
                         else if (startNode.closest('ul') || startNode.closest('ol')) {
                             var parentList = (0, ej2_base.le)(startNode.closest('ul')) ? startNode.closest('ol') : startNode.closest('ul');
@@ -17084,7 +17100,10 @@
                         inputElement.setAttribute('name', this.uploaderName), this.uploadWrapper.querySelector('.' + INPUT_WRAPPER).appendChild(inputElement), 'msie' !== this.browserName && 'edge' !== this.browserName && (this.element.value = '');
                     }
                 }, Uploader.prototype.getFileSize = function(fileData) {
-                    for(var fileSize = 0, _i = 0; _i < fileData.length; _i++)fileSize += fileData[_i].size;
+                    for(var fileSize = 0, _i = 0; _i < fileData.length; _i++){
+                        var file = fileData[_i];
+                        fileSize += file.size;
+                    }
                     return fileSize;
                 }, Uploader.prototype.mergeFileInfo = function(fileData, fileList) {
                     for(var result = {
@@ -18147,7 +18166,11 @@
                         } else this.parent.pasteCleanupSettings.plainText ? (e.args.preventDefault(), this.plainFormatting(value, args)) : this.parent.pasteCleanupSettings.keepFormat ? (e.args.preventDefault(), this.formatting(value, !1, args)) : (e.args.preventDefault(), this.formatting(value, !0, args));
                     }
                 }, PasteCleanup.prototype.splitBreakLine = function(value) {
-                    for(var enterSplitText = value.split('\n'), contentInnerElem = '', i = 0; i < enterSplitText.length; i++)'' === enterSplitText[i].trim() ? contentInnerElem += (0, util.oG)(this.parent) : contentInnerElem += '<p>' + this.makeSpace(enterSplitText[i]).trim() + '</p>';
+                    for(var enterSplitText = value.split('\n'), contentInnerElem = '', i = 0; i < enterSplitText.length; i++)if ('' === enterSplitText[i].trim()) contentInnerElem += (0, util.oG)(this.parent);
+                    else {
+                        var contentWithSpace = this.makeSpace(enterSplitText[i]);
+                        contentInnerElem += '<p>' + contentWithSpace.trim() + '</p>';
+                    }
                     return contentInnerElem;
                 }, PasteCleanup.prototype.makeSpace = function(enterSplitText) {
                     for(var contentWithSpace = '', spaceBetweenContent = !0, spaceSplit = enterSplitText.split(' '), j = 0; j < spaceSplit.length; j++)'' === spaceSplit[j].trim() ? contentWithSpace += spaceBetweenContent ? '&nbsp;' : ' ' : (spaceBetweenContent = !1, contentWithSpace += spaceSplit[j] + ' ');
@@ -19715,7 +19738,11 @@
                             templateFn = (0, ej2_base.MY)(val);
                         }
                         var tempArray = void 0;
-                        (0, ej2_base.le)(templateFn) || (tempArray = templateFn({}, this, 'template', this.element.id + index + '_template', this.isStringTemplate)), !(0, ej2_base.le)(tempArray) && tempArray.length > 0 && [].slice.call(tempArray).forEach(function(ele) {
+                        if (!(0, ej2_base.le)(templateFn)) {
+                            var toolbarTemplateID = this.element.id + index + '_template';
+                            tempArray = templateFn({}, this, 'template', toolbarTemplateID, this.isStringTemplate);
+                        }
+                        !(0, ej2_base.le)(tempArray) && tempArray.length > 0 && [].slice.call(tempArray).forEach(function(ele) {
                             (0, ej2_base.le)(ele.tagName) || (ele.style.display = ''), innerEle.appendChild(ele);
                         });
                     }
@@ -23257,7 +23284,8 @@
                     return h.push(bigInt >> 16 & 255), h.push(bigInt >> 8 & 255), h.push(255 & bigInt), h.push(opacity), h;
                 }, ColorPicker.prototype.rgbToHsv = function(r, g, b, opacity) {
                     if (this.rgb && !this.rgb.length) return [];
-                    var h, max = Math.max(r /= 255, g /= 255, b /= 255), min = Math.min(r, g, b), d = max - min;
+                    r /= 255, g /= 255, b /= 255;
+                    var h, max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
                     if (max === min) h = 0;
                     else {
                         switch(max){
@@ -23279,7 +23307,7 @@
                     ];
                     return (0, ej2_base.le)(opacity) || hsv.push(opacity), hsv;
                 }, ColorPicker.prototype.hsvToRgb = function(h, s, v, opacity) {
-                    if (v /= 100, 0 == (s /= 100)) return [
+                    if (s /= 100, v /= 100, 0 === s) return [
                         Math.round(255 * (r = g = b = v)),
                         Math.round(255 * g),
                         Math.round(255 * b),

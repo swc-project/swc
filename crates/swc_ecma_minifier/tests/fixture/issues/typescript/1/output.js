@@ -449,7 +449,10 @@ var ts;
                     statements = appendExportsOfDeclaration(statements, namedBindings);
                     break;
                 case 268:
-                    for(var _i = 0, _a = namedBindings.elements; _i < _a.length; _i++)statements = appendExportsOfDeclaration(statements, _a[_i], !0);
+                    for(var _i = 0, _a = namedBindings.elements; _i < _a.length; _i++){
+                        var importBinding = _a[_i];
+                        statements = appendExportsOfDeclaration(statements, importBinding, !0);
+                    }
             }
             return statements;
         }
@@ -458,15 +461,18 @@ var ts;
         }
         function appendExportsOfVariableStatement(statements, node) {
             if (currentModuleInfo.exportEquals) return statements;
-            for(var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++)statements = function appendExportsOfBindingElement(statements, decl) {
-                if (currentModuleInfo.exportEquals) return statements;
-                if (ts.isBindingPattern(decl.name)) for(var _i = 0, _a = decl.name.elements; _i < _a.length; _i++){
-                    var element = _a[_i];
-                    ts.isOmittedExpression(element) || (statements = appendExportsOfBindingElement(statements, element));
-                }
-                else ts.isGeneratedIdentifier(decl.name) || (statements = appendExportsOfDeclaration(statements, decl));
-                return statements;
-            }(statements, _a[_i]);
+            for(var _i = 0, _a = node.declarationList.declarations; _i < _a.length; _i++){
+                var decl = _a[_i];
+                statements = function appendExportsOfBindingElement(statements, decl) {
+                    if (currentModuleInfo.exportEquals) return statements;
+                    if (ts.isBindingPattern(decl.name)) for(var _i = 0, _a = decl.name.elements; _i < _a.length; _i++){
+                        var element = _a[_i];
+                        ts.isOmittedExpression(element) || (statements = appendExportsOfBindingElement(statements, element));
+                    }
+                    else ts.isGeneratedIdentifier(decl.name) || (statements = appendExportsOfDeclaration(statements, decl));
+                    return statements;
+                }(statements, decl);
+            }
             return statements;
         }
         function appendExportsOfHoistedDeclaration(statements, decl) {

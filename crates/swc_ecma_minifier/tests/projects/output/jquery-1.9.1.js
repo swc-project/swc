@@ -87,7 +87,7 @@
         splice: [].splice
     }, jQuery.fn.init.prototype = jQuery.fn, jQuery.extend = jQuery.fn.extend = function() {
         var src, copyIsArray, copy, name1, options, clone, target = arguments[0] || {}, i = 1, length = arguments.length, deep = !1;
-        for("boolean" == typeof target && (deep = target, target = arguments[1] || {}, i = 2), "object" == typeof target || jQuery.isFunction(target) || (target = {}), length === i && (target = this, --i); i < length; i++)if (null != (options = arguments[i])) for(name1 in options)src = target[name1], target !== (copy = options[name1]) && (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))) ? (copyIsArray ? (copyIsArray = !1, clone = src && jQuery.isArray(src) ? src : []) : clone = src && jQuery.isPlainObject(src) ? src : {}, target[name1] = jQuery.extend(deep, clone, copy)) : copy !== undefined && (target[name1] = copy));
+        for("boolean" == typeof target && (deep = target, target = arguments[1] || {}, i = 2), "object" == typeof target || jQuery.isFunction(target) || (target = {}), length === i && (target = this, --i); i < length; i++)if (null != (options = arguments[i])) for(name1 in options)src = target[name1], copy = options[name1], target !== copy && (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy))) ? (copyIsArray ? (copyIsArray = !1, clone = src && jQuery.isArray(src) ? src : []) : clone = src && jQuery.isPlainObject(src) ? src : {}, target[name1] = jQuery.extend(deep, clone, copy)) : copy !== undefined && (target[name1] = copy));
         return target;
     }, jQuery.extend({
         noConflict: function(deep) {
@@ -211,7 +211,7 @@
         },
         grep: function(elems, callback, inv) {
             var retVal, ret = [], i = 0, length = elems.length;
-            for(inv = !!inv; i < length; i++)!!callback(elems[i], i) !== inv && ret.push(elems[i]);
+            for(inv = !!inv; i < length; i++)retVal = !!callback(elems[i], i), inv !== retVal && ret.push(elems[i]);
             return ret;
         },
         map: function(elems, callback, arg) {
@@ -2722,7 +2722,7 @@
                 if (parts) {
                     if (end = +parts[2], "px" !== (unit = parts[3] || (jQuery.cssNumber[prop] ? "" : "px")) && start) {
                         start = jQuery.css(tween.elem, prop, !0) || end || 1;
-                        do start /= scale = scale || ".5", jQuery.style(tween.elem, prop, start + unit);
+                        do scale = scale || ".5", start /= scale, jQuery.style(tween.elem, prop, start + unit);
                         while (scale !== (scale = tween.cur() / target) && 1 !== scale && --maxIterations)
                     }
                     tween.unit = unit, tween.start = start, tween.end = parts[1] ? start + (parts[1] + 1) * end : end;

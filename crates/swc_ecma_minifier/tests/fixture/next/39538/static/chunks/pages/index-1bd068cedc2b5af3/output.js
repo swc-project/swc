@@ -156,9 +156,9 @@
                     sizes: sizes,
                     loader: loader
                 }));
-                var srcString = src1, imageSizesPropName = "imagesizes";
-                imageSizesPropName = "imageSizes";
-                var linkProps = (_defineProperty(_obj = {}, "imageSrcSet", imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src1);
+                var srcString = src1, imageSrcSetPropName = "imagesrcset", imageSizesPropName = "imagesizes";
+                imageSrcSetPropName = "imageSrcSet", imageSizesPropName = "imageSizes";
+                var linkProps = (_defineProperty(_obj = {}, imageSrcSetPropName, imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src1);
                 _react.useEffect(function() {
                     onLoadingCompleteRef.current = onLoadingComplete;
                 }, [

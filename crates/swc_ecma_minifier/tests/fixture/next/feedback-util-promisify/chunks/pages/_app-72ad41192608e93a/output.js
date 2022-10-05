@@ -218,7 +218,7 @@
                         }
                         function slowToString(e, r, t) {
                             var r1, t1, f1 = !1;
-                            if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0 || (t >>>= 0) <= (r >>>= 0))) return "";
+                            if ((void 0 === r || r < 0) && (r = 0), r > this.length || ((void 0 === t || t > this.length) && (t = this.length), t <= 0) || (t >>>= 0, r >>>= 0, t <= r)) return "";
                             for(e || (e = "utf8");;)switch(e){
                                 case "hex":
                                     return function(e, r, t) {
@@ -540,11 +540,11 @@
                         }, Buffer.prototype.readIntLE = function(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = this[e], n = 1, i = 0; ++i < r && (n *= 256);)f += this[e + i] * n;
-                            return f >= (n *= 128) && (f -= Math.pow(2, 8 * r)), f;
+                            return n *= 128, f >= n && (f -= Math.pow(2, 8 * r)), f;
                         }, Buffer.prototype.readIntBE = function(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = r, n = 1, i = this[e + --f]; f > 0 && (n *= 256);)i += this[e + --f] * n;
-                            return i >= (n *= 128) && (i -= Math.pow(2, 8 * r)), i;
+                            return n *= 128, i >= n && (i -= Math.pow(2, 8 * r)), i;
                         }, Buffer.prototype.readInt8 = function(e, r) {
                             return (e >>>= 0, r || checkOffset(e, 1, this.length), 128 & this[e]) ? -((255 - this[e] + 1) * 1) : this[e];
                         }, Buffer.prototype.readInt16LE = function(e, r) {

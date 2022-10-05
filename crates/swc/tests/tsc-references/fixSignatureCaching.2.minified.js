@@ -300,7 +300,7 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
         } : Array.isArray, !function() {
             var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
             for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
-                for(isArray(values = mobileDetectRules.props[key]) || (values = [
+                for(values = mobileDetectRules.props[key], isArray(values) || (values = [
                     values
                 ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = RegExp(value, "i");
                 mobileDetectRules.props[key] = values;

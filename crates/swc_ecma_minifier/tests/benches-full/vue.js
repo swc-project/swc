@@ -2677,8 +2677,8 @@
                     if (c.tag) {
                         if (null != c.key && 0 !== String(c.key).indexOf('__vlist')) children.push(c), map[c.key] = c, (c.data || (c.data = {})).transition = transitionData;
                         else {
-                            var opts = c.componentOptions;
-                            warn("<transition-group> children must be keyed: <" + (opts ? opts.Ctor.options.name || opts.tag || '' : c.tag) + ">");
+                            var opts = c.componentOptions, name = opts ? opts.Ctor.options.name || opts.tag || '' : c.tag;
+                            warn("<transition-group> children must be keyed: <" + name + ">");
                         }
                     }
                 }
@@ -3066,7 +3066,9 @@
                             return "$event." + keyModifier + "Key";
                         }).join('||'));
                     } else keys.push(key);
-                    return keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode), "function($event){" + code + (isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
+                    keys.length && (code += "if(!$event.type.indexOf('key')&&" + keys.map(genFilterCode).join('&&') + ")return null;"), genModifierCode && (code += genModifierCode);
+                    var handlerCode = isMethodPath ? "return " + handler.value + "($event)" : isFunctionExpression ? "return (" + handler.value + ")($event)" : isFunctionInvocation ? "return " + handler.value : handler.value;
+                    return "function($event){" + code + handlerCode + "}";
                 }
                 return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
             }(events[name]);
