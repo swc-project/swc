@@ -136,10 +136,13 @@ impl VisitMut for Metadata<'_> {
         }
 
         {
-            let dec = self
-                .create_metadata_design_decorator("design:type", quote_ident!("Function").as_arg());
+            let dec = self.create_metadata_design_decorator(
+                "design:type",
+                serialize_type(None, m.function.return_type.as_deref()).into(),
+            );
             m.function.decorators.push(dec);
         }
+
         {
             let dec = self.create_metadata_design_decorator(
                 "design:paramtypes",
