@@ -10130,3 +10130,13 @@ fn feedback_regex_range() {
 
     run_default_exec_test(src);
 }
+
+#[test]
+fn issue_6051() {
+    run_default_exec_test(
+        r###"
+        const o = { '010': '', '123': 'bar' }
+        console.log(o)
+        "###,
+    );
+}
