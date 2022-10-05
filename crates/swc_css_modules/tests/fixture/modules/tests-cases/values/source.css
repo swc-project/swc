@@ -1,9 +1,0 @@
-@value aaa: red;
-@value bbb: green;
-@value ccc: aaa;
-
-.a {
-	background: aaa;
-	background: bbb;
-	background: ccc;
-}

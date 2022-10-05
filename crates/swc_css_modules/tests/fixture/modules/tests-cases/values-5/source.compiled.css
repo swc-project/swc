@@ -1,5 +1,0 @@
-@value color from './file1.css';
-@value shadow: 0 0 color,0 0 color;
-.__local__ghi {
-  box-shadow: shadow;
-}

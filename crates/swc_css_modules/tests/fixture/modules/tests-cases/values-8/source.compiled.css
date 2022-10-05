@@ -1,4 +1,0 @@
-@value shadow-color: rgba(0, 0, 0, 0.5);
-.__local__shadow {
-  box-shadow: 0 10px 10px shadow-color, 10px 0px 5px shadow-color;
-}

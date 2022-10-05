@@ -1,3 +1,0 @@
-@value def as aaa from './file1.css';
-@value def as bbb from './file2.css';
-.ghi { background: aaa, bbb, def; }

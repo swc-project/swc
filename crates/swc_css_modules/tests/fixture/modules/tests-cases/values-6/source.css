@@ -1,3 +1,0 @@
-@value color from './file1.css';
-@value shadow: 0 0 color ,0 0 color;
-.ghi { box-shadow: shadow; }
