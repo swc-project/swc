@@ -671,7 +671,7 @@
                 mName && (style = "m-" + (style ? mName + " " + style : mName));
             }
             if (!flattenSpans || curStyle != style) {
-                for(; curStart < stream.start;)f(curStart = Math.min(stream.start, curStart + 5000), curStyle);
+                for(; curStart < stream.start;)curStart = Math.min(stream.start, curStart + 5000), f(curStart, curStyle);
                 curStyle = style;
             }
             stream.start = stream.pos;
@@ -1335,7 +1335,8 @@
         var order = getOrder(lineObj, cm.doc.direction), ch = pos.ch, sticky = pos.sticky;
         if (ch >= lineObj.text.length ? (ch = lineObj.text.length, sticky = "before") : ch <= 0 && (ch = 0, sticky = "after"), !order) return get("before" == sticky ? ch - 1 : ch, "before" == sticky);
         function getBidi(ch, partPos, invert) {
-            return get(invert ? ch - 1 : ch, 1 == order[partPos].level != invert);
+            var right = 1 == order[partPos].level;
+            return get(invert ? ch - 1 : ch, right != invert);
         }
         var partPos = getBidiPartAt(order, ch, sticky), other = bidiOther, val = getBidi(ch, partPos, "before" == sticky);
         return null != other && (val.other = getBidi(ch, other, "before" != sticky)), val;
@@ -1433,7 +1434,7 @@
         for(var part = null, closestDist = null, i = 0; i < order.length; i++){
             var p = order[i];
             if (!(p.from >= end) && !(p.to <= begin)) {
-                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
+                var ltr = 1 != p.level, endX = measureCharPrepared(cm, preparedMeasure, ltr ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
                 (!part || closestDist > dist) && (part = p, closestDist = dist);
             }
         }
@@ -1608,8 +1609,8 @@
                             return charCoords(cm, Pos(line, ch), "div", lineObj, bias);
                         }
                         function wrapX(pos, dir, side) {
-                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right";
-                            return coords("after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1), prop)[prop];
+                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right", ch = "after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
+                            return coords(ch, prop)[prop];
                         }
                         var order = getOrder(lineObj, doc.direction);
                         return !function(order, from, to, f) {
@@ -1949,12 +1950,14 @@
                         var rect = function(cm, pos, end, margin) {
                             null == margin && (margin = 0), cm.options.lineWrapping || pos != end || (end = "before" == pos.sticky ? Pos(pos.line, pos.ch + 1, "before") : pos, pos = pos.ch ? Pos(pos.line, "before" == pos.sticky ? pos.ch - 1 : pos.ch, "after") : pos);
                             for(var rect, limit = 0; limit < 5; limit++){
-                                var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords, scrollPos = calculateScrollPos(cm, rect = {
+                                var changed = !1, coords = cursorCoords(cm, pos), endCoords = end && end != pos ? cursorCoords(cm, end) : coords;
+                                rect = {
                                     left: Math.min(coords.left, endCoords.left),
                                     top: Math.min(coords.top, endCoords.top) - margin,
                                     right: Math.max(coords.left, endCoords.left),
                                     bottom: Math.max(coords.bottom, endCoords.bottom) + margin
-                                }), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
+                                };
+                                var scrollPos = calculateScrollPos(cm, rect), startTop = cm.doc.scrollTop, startLeft = cm.doc.scrollLeft;
                                 if (null != scrollPos.scrollTop && (updateScrollTop(cm, scrollPos.scrollTop), Math.abs(cm.doc.scrollTop - startTop) > 1 && (changed = !0)), null != scrollPos.scrollLeft && (setScrollLeft(cm, scrollPos.scrollLeft), Math.abs(cm.doc.scrollLeft - startLeft) > 1 && (changed = !0)), !changed) break;
                             }
                             return rect;
@@ -3665,7 +3668,9 @@
             if (order) {
                 var ch, part = dir < 0 ? lst(order) : order[0], sticky = dir < 0 == (1 == part.level) ? "after" : "before";
                 if (part.level > 0 || "rtl" == cm.doc.direction) {
-                    var prep = prepareMeasureForLine(cm, lineObj), targetTop = measureCharPrepared(cm, prep, ch = dir < 0 ? lineObj.text.length - 1 : 0).top;
+                    var prep = prepareMeasureForLine(cm, lineObj);
+                    ch = dir < 0 ? lineObj.text.length - 1 : 0;
+                    var targetTop = measureCharPrepared(cm, prep, ch).top;
                     ch = findFirst(function(ch) {
                         return measureCharPrepared(cm, prep, ch).top == targetTop;
                     }, dir < 0 == (1 == part.level) ? part.from : part.to - 1, ch), "before" == sticky && (ch = moveCharLogically(lineObj, ch, 1));
@@ -5501,7 +5506,8 @@
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;
     }, CodeMirror1.Doc = Doc, CodeMirror1.splitLines = splitLinesAuto, CodeMirror1.countColumn = countColumn, CodeMirror1.findColumn = findColumn, CodeMirror1.isWordChar = isWordCharBasic, CodeMirror1.Pass = Pass, CodeMirror1.signal = signal, CodeMirror1.Line = Line, CodeMirror1.changeEnd = changeEnd, CodeMirror1.scrollbarModel = scrollbarModel, CodeMirror1.Pos = Pos, CodeMirror1.cmpPos = cmp, CodeMirror1.modes = modes, CodeMirror1.mimeModes = mimeModes, CodeMirror1.resolveMode = resolveMode, CodeMirror1.getMode = getMode, CodeMirror1.modeExtensions = modeExtensions, CodeMirror1.extendMode = function(mode, properties) {
-        copyObj(properties, modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {});
+        var exts = modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {};
+        copyObj(properties, exts);
     }, CodeMirror1.copyState = copyState, CodeMirror1.startState = startState, CodeMirror1.innerMode = innerMode, CodeMirror1.commands = commands, CodeMirror1.keyMap = keyMap, CodeMirror1.keyName = keyName, CodeMirror1.isModifierKey = isModifierKey, CodeMirror1.lookupKey = lookupKey, CodeMirror1.normalizeKeyMap = function(keymap) {
         var copy = {};
         for(var keyname in keymap)if (keymap.hasOwnProperty(keyname)) {

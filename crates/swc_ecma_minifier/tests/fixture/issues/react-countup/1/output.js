@@ -251,10 +251,13 @@
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
-                                            naturalWidth: img.naturalWidth,
-                                            naturalHeight: img.naturalHeight
-                                        });
+                                        if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
+                                            var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
+                                            onLoadingComplete({
+                                                naturalWidth: naturalWidth,
+                                                naturalHeight: naturalHeight
+                                            });
+                                        }
                                     });
                                 };
                                 img.complete ? handleLoad() : img.onload = handleLoad;

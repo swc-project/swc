@@ -1154,11 +1154,11 @@
                 0,
                 0,
                 1
-            ], _v0, _v1, _v2, _extents)) && (_triangleNormal.crossVectors(_f0, _f1), satForAxes(axes = [
+            ], _v0, _v1, _v2, _extents)) && (_triangleNormal.crossVectors(_f0, _f1), axes = [
                 _triangleNormal.x,
                 _triangleNormal.y,
                 _triangleNormal.z
-            ], _v0, _v1, _v2, _extents));
+            ], satForAxes(axes, _v0, _v1, _v2, _extents));
         }, _proto.clampPoint = function(point, target) {
             return void 0 === target && (console.warn('THREE.Box3: .clampPoint() target is now required'), target = new Vector3()), target.copy(point).clamp(this.min, this.max);
         }, _proto.distanceToPoint = function(point) {
@@ -5073,7 +5073,7 @@
         return 'highp' === parameters.precision ? precisionstring += '\n#define HIGH_PRECISION' : 'mediump' === parameters.precision ? precisionstring += '\n#define MEDIUM_PRECISION' : 'lowp' === parameters.precision && (precisionstring += '\n#define LOW_PRECISION'), precisionstring;
     }
     function WebGLProgram(renderer, cacheKey, parameters, bindingStates) {
-        var parameters1, shadowMapTypeDefine, parameters2, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
+        var parameters1, shadowMapTypeDefine, parameters2, encoding, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
             var envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
             if (parameters.envMap) switch(parameters.envMapMode){
                 case 301:
@@ -5295,7 +5295,7 @@
             parameters.envMap ? getTexelDecodingFunction('envMapTexelToLinear', parameters.envMapEncoding) : '',
             parameters.emissiveMap ? getTexelDecodingFunction('emissiveMapTexelToLinear', parameters.emissiveMapEncoding) : '',
             parameters.lightMap ? getTexelDecodingFunction('lightMapTexelToLinear', parameters.lightMapEncoding) : '',
-            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(parameters.outputEncoding))[0] + components[1] + '; }',
+            (encoding = parameters.outputEncoding, "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(encoding))[0] + components[1] + '; }'),
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
         ].filter(filterEmptyLine).join('\n')), vertexShader = resolveIncludes(vertexShader), vertexShader = replaceLightNums(vertexShader, parameters), vertexShader = replaceClippingPlaneNums(vertexShader, parameters), fragmentShader = resolveIncludes(fragmentShader), fragmentShader = replaceLightNums(fragmentShader, parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader, parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [

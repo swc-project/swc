@@ -688,7 +688,7 @@
                                 if (3 == node.nodeType) return node;
                                 if (1 == node.nodeType && offset > 0) {
                                     if (node.childNodes.length > offset && 3 == node.childNodes[offset].nodeType) return node.childNodes[offset];
-                                    offset = nodeSize(node = node.childNodes[offset - 1]);
+                                    node = node.childNodes[offset - 1], offset = nodeSize(node);
                                 } else {
                                     if (1 != node.nodeType || !(offset < node.childNodes.length)) return null;
                                     node = node.childNodes[offset], offset = 0;
@@ -1156,7 +1156,8 @@
                 if (node) {
                     for(var len = nodeLen(node);;)if (offset < len) {
                         if (1 != node.nodeType) break;
-                        if (isIgnorable(node.childNodes[offset])) moveNode = node, moveOffset = ++offset;
+                        var after = node.childNodes[offset];
+                        if (isIgnorable(after)) moveNode = node, moveOffset = ++offset;
                         else break;
                     } else if (isBlockNode(node)) break;
                     else {
@@ -2433,7 +2434,7 @@
             }, EditorView.prototype.updateState = function(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
             }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
-                var refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
+                var refDOM, refTop, stack, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
                 if (state.storedMarks && this.composing && (clearComposition(this), updateSel = !0), this.state = state, reconfigured) {
                     var nodeViews = buildNodeViews(this);
                     (function(a, b) {
@@ -2481,7 +2482,7 @@
                     this.someProp("handleScrollToSelection", function(f) {
                         return f(this$1);
                     }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
-                } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, restoreScrollStack(oldScrollPos.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
+                } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, stack = oldScrollPos.stack, restoreScrollStack(stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
             }, EditorView.prototype.updatePluginViews = function(prevState) {
