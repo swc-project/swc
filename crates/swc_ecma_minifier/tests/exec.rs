@@ -10141,32 +10141,61 @@ fn issue_6051() {
 fn issue_6039_1() {
     run_default_exec_test(
         r###"
-    function foo() {
-        let walker = 0;
-    
-        let arr = [];
-    
-        function bar(defaultValue) {
-            const myIndex = walker;
-            walker += 1;
-    
-            console.log({ arr });
-    
-            if (arr.length < myIndex + 1) {
-                arr[myIndex] = defaultValue;
+        function foo() {
+            let walker = 0;
+        
+            let arr = [];
+        
+            function bar(defaultValue) {
+                const myIndex = walker;
+                walker += 1;
+        
+                console.log({ arr });
+        
+                if (arr.length < myIndex + 1) {
+                    arr[myIndex] = defaultValue;
+                }
             }
+        
+            return bar;
         }
-    
-        return bar;
-    }
-    
-    const bar = foo();
-    
-    bar(null);
-    bar(null);
-    bar(null);
-    bar(null);
-    bar(null);
+        
+        const bar = foo();
+        
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
+        "###,
+    );
+}
+
+#[test]
+fn issue_6039_2() {
+    run_default_exec_test(
+        r###"
+        var foo = function foo() {
+            var walker = 0;
+            var arr = [];
+            function bar(defaultValue) {
+                var myIndex = walker;
+                walker += 1;
+                console.log({
+                    arr: arr
+                });
+                if (arr.length < myIndex + 1) {
+                    arr[myIndex] = defaultValue;
+                }
+            }
+            return bar;
+        };
+        var bar = foo();
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
     "###,
     );
 }
