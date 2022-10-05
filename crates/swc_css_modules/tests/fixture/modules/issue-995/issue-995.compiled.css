@@ -28,7 +28,7 @@
 .__local__a {
   color: red;
 }
-.__local__a {
+.__local__a.__local__b {
   color: red;
 }
 .__local__a {
