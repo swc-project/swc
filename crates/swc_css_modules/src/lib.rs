@@ -83,6 +83,7 @@ struct Data {
     composes_for_current: Option<Vec<CssClassName>>,
 
     renamed_to_orig: FxHashMap<JsWord, JsWord>,
+    orig_to_renamed: FxHashMap<JsWord, JsWord>,
 }
 
 impl<C> VisitMut for Compiler<C>
@@ -165,6 +166,8 @@ where
                                         });
                                     }
                                 }
+
+                                return;
                             }
                             (
                                 ComponentValue::Ident(Ident {
@@ -183,8 +186,19 @@ where
                                         });
                                     }
                                 }
+                                return;
                             }
                             _ => (),
+                        }
+                    }
+
+                    for class_name in n.value.iter() {
+                        if let ComponentValue::Ident(Ident { value, .. }) = class_name {
+                            if let Some(value) = self.data.orig_to_renamed.get(value) {
+                                composes_for_current.push(CssClassName::Local {
+                                    name: value.clone(),
+                                });
+                            }
                         }
                     }
                 }
@@ -214,6 +228,7 @@ where
                     process_local(
                         &mut self.config,
                         &mut self.result,
+                        &mut self.data.orig_to_renamed,
                         &mut self.data.renamed_to_orig,
                         &mut n,
                     );
@@ -239,6 +254,7 @@ where
                                     process_local(
                                         &mut self.config,
                                         &mut self.result,
+                                        &mut self.data.orig_to_renamed,
                                         &mut self.data.renamed_to_orig,
                                         sel,
                                     );
@@ -291,6 +307,7 @@ where
 fn process_local<C>(
     config: &mut C,
     result: &mut TransformResult,
+    orig_to_renamed: &mut FxHashMap<JsWord, JsWord>,
     renamed_to_orig: &mut FxHashMap<JsWord, JsWord>,
     sel: &mut SubclassSelector,
 ) where
@@ -305,6 +322,7 @@ fn process_local<C>(
             .or_default()
             .push(CssClassName::Local { name: new.clone() });
 
+        orig_to_renamed.insert(sel.text.value.clone(), new.clone());
         renamed_to_orig.insert(new.clone(), sel.text.value.clone());
 
         sel.text.raw = None;
