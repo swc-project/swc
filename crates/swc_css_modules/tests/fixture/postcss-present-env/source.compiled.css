@@ -21,7 +21,7 @@ html {
 :--heading {
   margin-block: 0;
 }
-.__local__hero:matches(main, .__local__main) {
+.__local__hero:matches(main, .__local____local__main) {
   background-image: image-set(url("./img1x.png") 1x, url("./img2x.png") 2x);
 }
 a {

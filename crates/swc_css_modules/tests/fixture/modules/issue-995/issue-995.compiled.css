@@ -31,16 +31,16 @@
 .__local__a.__local__b {
   color: red;
 }
-.__local__a {
+.__local__a .__local__b {
   color: red;
 }
 .__local__😀 .__local__a .__local__😀 {
   color: red;
 }
-.__local__a {
+.__local__a .__local__b .__local__a {
   color: red;
 }
-div:not(.__local__a) {
+div:not(.__local____local__a) {
   color: red;
 }
 .__local__a .__local__b {
@@ -52,7 +52,7 @@ div:not(.__local__a) {
 .__local__😓 .__local__a {
   color: red;
 }
-.__local__😓.__local__a {
+.__local__a {
   color: red;
 }
 .__local__a > .__local__b > .__local__c {

@@ -1,4 +1,10 @@
 {
+  "__local__main": [
+    {
+      "type": "local",
+      "name": "__local____local__main"
+    }
+  ],
   "hero": [
     {
       "type": "local",
