@@ -22,7 +22,7 @@ mod util;
 /// too restricted and `Box<Fn() -> String` is (needlessly) slow.
 pub trait TransformConfig {
     /// Creates a class name for the given `local_name`.
-    fn get_class_name(&self, local: &JsWord) -> JsWord;
+    fn new_name_for(&self, local: &JsWord) -> JsWord;
 
     // /// Used for `@value` imports.
     // fn get_value(&self, import_source: &str, value_name: &JsWord) ->
@@ -314,7 +314,7 @@ fn process_local<C>(
     C: TransformConfig,
 {
     if let swc_css_ast::SubclassSelector::Class(sel) = sel {
-        let new = config.get_class_name(&sel.text.value);
+        let new = config.new_name_for(&sel.text.value);
 
         result
             .classes

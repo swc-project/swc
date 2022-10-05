@@ -89,7 +89,7 @@ fn compile(input: PathBuf) {
 struct TestConfig {}
 
 impl swc_css_modules::TransformConfig for TestConfig {
-    fn get_class_name(&self, local: &JsWord) -> JsWord {
+    fn new_name_for(&self, local: &JsWord) -> JsWord {
         format!("__local__{}", local).into()
     }
 }
