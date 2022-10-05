@@ -382,7 +382,7 @@ fn rename<C>(
         return;
     }
 
-    let new = config.new_name_for(&name);
+    let new = config.new_name_for(name);
 
     orig_to_renamed.insert(name.clone(), new.clone());
     renamed_to_orig.insert(new.clone(), name.clone());
