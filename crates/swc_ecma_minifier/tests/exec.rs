@@ -10138,5 +10138,35 @@ fn issue_6051() {
         const o = { '010': '', '123': 'bar' }
         console.log(o)
         "###,
+fn issue_6039_1() {
+    run_default_exec_test(
+        r###"
+    function foo() {
+        let walker = 0;
+    
+        let arr = [];
+    
+        function bar(defaultValue) {
+            const myIndex = walker;
+            walker += 1;
+    
+            console.log({ arr });
+    
+            if (arr.length < myIndex + 1) {
+                arr[myIndex] = defaultValue;
+            }
+        }
+    
+        return bar;
+    }
+    
+    const bar = foo();
+    
+    bar(null);
+    bar(null);
+    bar(null);
+    bar(null);
+    bar(null);
+    "###,
     );
 }
