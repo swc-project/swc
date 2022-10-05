@@ -1199,7 +1199,7 @@
             var i, name, data, elem = this[0], attrs = elem && elem.attributes;
             if (void 0 === key) {
                 if (this.length && (data = dataUser.get(elem), 1 === elem.nodeType && !dataPriv.get(elem, "hasDataAttrs"))) {
-                    for(i = attrs.length; i--;)attrs[i] && 0 === (name = attrs[i].name).indexOf("data-") && (name = camelCase(name.slice(5)), dataAttr(elem, name, data[name]));
+                    for(i = attrs.length; i--;)attrs[i] && 0 === (name = attrs[i].name).indexOf("data-") && dataAttr(elem, name = camelCase(name.slice(5)), data[name]);
                     dataPriv.set(elem, "hasDataAttrs", !0);
                 }
                 return data;

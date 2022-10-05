@@ -10279,14 +10279,14 @@
                 return options.parseNumbers && !Number.isNaN(Number(value)) && "string" == typeof value && "" !== value.trim() ? value = Number(value) : options.parseBooleans && null !== value && ("true" === value.toLowerCase() || "false" === value.toLowerCase()) && (value = "true" === value.toLowerCase()), value;
             }
             function parse(query, options) {
-                options = Object.assign({
+                validateArrayFormatSeparator((options = Object.assign({
                     decode: !0,
                     sort: !0,
                     arrayFormat: "none",
                     arrayFormatSeparator: ",",
                     parseNumbers: !1,
                     parseBooleans: !1
-                }, options), validateArrayFormatSeparator(options.arrayFormatSeparator);
+                }, options)).arrayFormatSeparator);
                 const formatter = function(options) {
                     let result;
                     switch(options.arrayFormat){
@@ -13431,7 +13431,7 @@
                 return Vh(4, 2, a, b);
             }
             function Zh(a, b) {
-                return "function" == typeof b ? (a = a(), b(a), function() {
+                return "function" == typeof b ? (b(a = a()), function() {
                     b(null);
                 }) : null != b ? (a = a(), b.current = a, function() {
                     b.current = null;
@@ -16535,7 +16535,7 @@
                                     h = !0;
                             }
                     }
-                    if (h) return h = a, d = d(h), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
+                    if (h) return d = d(h = a), a = "" === e ? "." + N(h, 0) : e, Array.isArray(d) ? (c = "", null != a && (c = a.replace(M, "$&/") + "/"), O(d, b, c, "", function(a) {
                         return a;
                     })) : null != d && (L(d) && (a1 = d, b1 = c + (!d.key || h && h.key === d.key ? "" : ("" + d.key).replace(M, "$&/") + "/") + a, d = {
                         $$typeof: n,

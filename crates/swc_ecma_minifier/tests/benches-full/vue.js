@@ -846,7 +846,7 @@
             if (hasSymbol && val[Symbol.iterator]) {
                 ret = [];
                 for(var iterator = val[Symbol.iterator](), result = iterator.next(); !result.done;)ret.push(render(result.value, ret.length)), result = iterator.next();
-            } else for(i = 0, keys = Object.keys(val), ret = Array(keys.length), l = keys.length; i < l; i++)key = keys[i], ret[i] = render(val[key], key, i);
+            } else for(i = 0, ret = Array((keys = Object.keys(val)).length), l = keys.length; i < l; i++)key = keys[i], ret[i] = render(val[key], key, i);
         }
         return isDef(ret) || (ret = []), ret._isVList = !0, ret;
     }
@@ -1108,7 +1108,7 @@
                 var child = vnode.children[i];
                 isDef(child.tag) && (isUndef(child.ns) || isTrue(force) && 'svg' !== child.tag) && applyNS(child, ns, force);
             }
-        }(vnode, ns), isDef(data1) && (data2 = data1, isObject(data2.style) && traverse(data2.style), isObject(data2.class) && traverse(data2.class)), vnode) : createEmptyVNode() : createEmptyVNode();
+        }(vnode, ns), isDef(data1) && (isObject((data2 = data1).style) && traverse(data2.style), isObject(data2.class) && traverse(data2.class)), vnode) : createEmptyVNode() : createEmptyVNode();
     }
     var currentRenderingInstance = null;
     function ensureCtor(comp, base) {
@@ -2442,7 +2442,7 @@
                                     if (isDef(c) && sameVnode(node, c)) return i;
                                 }
                             }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : (vnodeToMove = oldCh[idxInOld], sameVnode(vnodeToMove, newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx)), newStartVnode = newCh[++newStartIdx]);
-                            oldStartIdx > oldEndIdx ? (refElm = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, addVnodes(parentElm, refElm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue)) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
+                            oldStartIdx > oldEndIdx ? addVnodes(parentElm, isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }
                 }(oldVnode, vnode, insertedVnodeQueue, null, null, removeOnly);
@@ -2942,7 +2942,7 @@
                 var el1, value, modifiers, code, el2, value1, modifiers1, number, valueBinding, trueValueBinding, falseValueBinding, el3, value2, modifiers2, number1, valueBinding1, value3 = dir.value, modifiers3 = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value3 + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value3, modifiers3), !1;
                 if ('select' === tag) {
-                    el1 = el, value = value3, code = (code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + ((modifiers = modifiers3) && modifiers.number ? '_n(val)' : 'val') + "});") + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), addHandler(el1, 'change', code, null, !0);
+                    el1 = el, value = value3, addHandler(el1, 'change', code = (code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + ((modifiers = modifiers3) && modifiers.number ? '_n(val)' : 'val') + "});") + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 } else if ('input' === tag && 'checkbox' === type) {
                     el2 = el, value1 = value3, number = (modifiers1 = modifiers3) && modifiers1.number, valueBinding = getBindingAttr(el2, 'value') || 'null', trueValueBinding = getBindingAttr(el2, 'true-value') || 'true', falseValueBinding = getBindingAttr(el2, 'false-value') || 'false', addProp(el2, 'checked', "Array.isArray(" + value1 + ")?_i(" + value1 + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value1 + ")" : ":_q(" + value1 + "," + trueValueBinding + ")")), addHandler(el2, 'change', "var $$a=" + value1 + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value1, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value1, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value1, '$$c') + "}", null, !0);
                 } else if ('input' === tag && 'radio' === type) {

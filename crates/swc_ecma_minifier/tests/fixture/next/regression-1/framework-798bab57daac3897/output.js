@@ -2517,7 +2517,7 @@
                                 }
                                 return g(a1);
                             case Ga:
-                                return l = f1._init, J(a1, d1, l(f1._payload), h);
+                                return J(a1, d1, (l = f1._init)(f1._payload), h);
                         }
                         if (db(f1)) return function(e, g, h, k) {
                             for(var l = null, n = null, r = g, m = g = 0, x = null; null !== r && m < h.length; m++){
@@ -2842,7 +2842,7 @@
                 return qi(4, 4, a, b);
             }
             function ui(a, b) {
-                return "function" == typeof b ? (a = a(), b(a), function() {
+                return "function" == typeof b ? (b(a = a()), function() {
                     b(null);
                 }) : null != b ? (a = a(), b.current = a, function() {
                     b.current = null;
@@ -4761,7 +4761,7 @@
                                 C = 1;
                                 var h = W;
                                 W |= 4, lk.current = null, function(a, b) {
-                                    if (Bf = cd, a = Le(), Me(a)) {
+                                    if (Bf = cd, Me(a = Le())) {
                                         if ("selectionStart" in a) var c = {
                                             start: a.selectionStart,
                                             end: a.selectionEnd
@@ -5948,7 +5948,7 @@
                                     h = !0;
                             }
                     }
-                    if (h) return h = a, c = c(h), a = "" === d ? "." + Q(h, 0) : d, I(c) ? (e = "", null != a && (e = a.replace(P, "$&/") + "/"), R(c, b, e, "", function(a) {
+                    if (h) return c = c(h = a), a = "" === d ? "." + Q(h, 0) : d, I(c) ? (e = "", null != a && (e = a.replace(P, "$&/") + "/"), R(c, b, e, "", function(a) {
                         return a;
                     })) : null != c && (O(c) && (a1 = c, b1 = e + (!c.key || h && h.key === c.key ? "" : ("" + c.key).replace(P, "$&/") + "/") + a, c = {
                         $$typeof: l,
@@ -5964,7 +5964,7 @@
                         h += R(k, b, e, f, c);
                     }
                     else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = z && a2[z] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)k = k.value, f = d + Q(k, g++), h += R(k, b, e, f, c);
-                    else if ("object" === k) throw b = String(a), Error("Objects are not valid as a React child (found: " + ("[object Object]" === b ? "object with keys {" + Object.keys(a).join(", ") + "}" : b) + "). If you meant to render a collection of children, use an array instead.");
+                    else if ("object" === k) throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === (b = String(a)) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b) + "). If you meant to render a collection of children, use an array instead.");
                 }(a, d, "", "", function(a) {
                     return b.call(e, a, c++);
                 }), d;

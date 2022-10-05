@@ -8526,7 +8526,7 @@
                     },
                     oneOf: function(expectedValues) {
                         return Array.isArray(expectedValues) ? createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if (x = propValue, y = expectedValues[i], x === y ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
+                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if ((x = propValue) === (y = expectedValues[i]) ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
@@ -18299,8 +18299,8 @@
                 return "number" == typeof degrees ? degrees * (Math.PI / 180) : degrees;
             }
             function getRadius(props) {
-                var _getPadding = getPadding(props), left = _getPadding.left, right = _getPadding.right, top = _getPadding.top, bottom = _getPadding.bottom, width = props.width;
-                return Math.min(width - left - right, props.height - top - bottom) / 2;
+                var _getPadding = getPadding(props), left = _getPadding.left, right = _getPadding.right, top = _getPadding.top, bottom = _getPadding.bottom;
+                return Math.min(props.width - left - right, props.height - top - bottom) / 2;
             }
             function isHorizontal(props) {
                 if (void 0 !== props.horizontal || !props.children) return props.horizontal;
@@ -18402,7 +18402,7 @@
                     } : lodash_property__WEBPACK_IMPORTED_MODULE_3___default()(key);
                 },
                 modifyProps: function(props, fallbackProps, role) {
-                    var theme = props.theme && props.theme[role] ? props.theme[role] : {}, themeProps = omit(theme, [
+                    var themeProps = omit(props.theme && props.theme[role] ? props.theme[role] : {}, [
                         "style"
                     ]), horizontal = isHorizontal(props);
                     return lodash_defaults__WEBPACK_IMPORTED_MODULE_5___default()(void 0 === horizontal ? {} : {
@@ -22670,11 +22670,11 @@
                                     data: data
                                 };
                                 var after = animate.onLoad && animate.onLoad.after ? animate.onLoad.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                return data = data.map(function(datum, idx) {
-                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
-                                }), {
+                                return {
                                     animate: animate,
-                                    data: data
+                                    data: data = data.map(function(datum, idx) {
+                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
+                                    })
                                 };
                             }(animate3, data, function() {
                                 setState({
@@ -22689,11 +22689,11 @@
                                     data: data
                                 };
                                 var before = animate.onLoad && animate.onLoad.before ? animate.onLoad.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                return data = data.map(function(datum, idx) {
-                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data));
-                                }), {
+                                return {
                                     animate: animate,
-                                    data: data,
+                                    data: data = data.map(function(datum, idx) {
+                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data));
+                                    }),
                                     clipWidth: 0
                                 };
                             }(animate3, child, data, function() {
