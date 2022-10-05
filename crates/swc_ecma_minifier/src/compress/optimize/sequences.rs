@@ -20,7 +20,9 @@ use crate::{
     alias::{collect_infects_from, AliasConfig},
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
-        util::{is_directive, is_ident_used_by, replace_expr},
+        util::{
+            is_directive, is_global_var_with_pure_property_access, is_ident_used_by, replace_expr,
+        },
     },
     mode::Mode,
     option::CompressOptions,
@@ -944,11 +946,11 @@ where
 
         match e {
             Expr::Ident(e) => {
-                if let Some(usage) = self.data.vars.get(&e.to_id()) {
-                    if !usage.declared {
-                        log_abort!("Undeclared");
-                        return false;
-                    }
+                if e.span.ctxt == self.expr_ctx.unresolved_ctxt
+                    && !is_global_var_with_pure_property_access(&e.sym)
+                {
+                    log_abort!("Undeclared");
+                    return false;
                 }
 
                 if let Some(a) = a {
