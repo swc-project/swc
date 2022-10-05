@@ -5,10 +5,14 @@
       "name": "__local__⌘⌥"
     }
   ],
-  "☺☃": [
+  "1a2b3c": [
     {
       "type": "local",
-      "name": "__local__☺☃"
+      "name": "__local__1a2b3c"
+    },
+    {
+      "type": "local",
+      "name": "__local__1a2b3c"
     }
   ],
   "f+o+o": [
@@ -73,6 +77,12 @@
       "name": "__local__foo.bar"
     }
   ],
+  "-a-b-c-": [
+    {
+      "type": "local",
+      "name": "__local__-a-b-c-"
+    }
+  ],
   "f\\o\\o": [
     {
       "type": "local",
@@ -83,6 +93,16 @@
     {
       "type": "local",
       "name": "__local__𝄞♪♩♫♬"
+    }
+  ],
+  "someId": [
+    {
+      "type": "local",
+      "name": "__local__someId"
+    },
+    {
+      "type": "local",
+      "name": "__local__someId"
     }
   ],
   "B&W?": [
@@ -181,16 +201,16 @@
       "name": "__local__“‘’”"
     }
   ],
-  "#.#.#": [
-    {
-      "type": "local",
-      "name": "__local__#.#.#"
-    }
-  ],
   "#": [
     {
       "type": "local",
       "name": "__local__#"
+    }
+  ],
+  "#.#.#": [
+    {
+      "type": "local",
+      "name": "__local__#.#.#"
     }
   ],
   "subClass": [
@@ -203,16 +223,20 @@
       "name": "__local__subClass"
     }
   ],
-  "_": [
-    {
-      "type": "local",
-      "name": "__local___"
-    }
-  ],
   "#fake-id": [
     {
       "type": "local",
       "name": "__local__#fake-id"
+    },
+    {
+      "type": "local",
+      "name": "__local__#fake-id"
+    }
+  ],
+  "_": [
+    {
+      "type": "local",
+      "name": "__local___"
     }
   ],
   "f!o!o": [
@@ -234,6 +258,10 @@
     }
   ],
   "©": [
+    {
+      "type": "local",
+      "name": "__local__©"
+    },
     {
       "type": "local",
       "name": "__local__©"
@@ -281,14 +309,10 @@
       "name": "__local__😍"
     }
   ],
-  "1a2b3c": [
+  "☺☃": [
     {
       "type": "local",
-      "name": "__local__1a2b3c"
-    },
-    {
-      "type": "local",
-      "name": "__local__1a2b3c"
+      "name": "__local__☺☃"
     }
   ]
 }

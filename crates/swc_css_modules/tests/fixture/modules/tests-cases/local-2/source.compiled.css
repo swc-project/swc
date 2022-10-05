@@ -1,12 +1,12 @@
 .__local__className {
   background: red;
 }
-#someId {
+#__local__someId {
   background: green;
 }
 .__local__className {
   color: green;
 }
-#someId {
+#__local__someId {
   color: blue;
 }

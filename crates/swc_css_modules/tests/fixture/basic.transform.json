@@ -81,6 +81,12 @@
       "name": "__local__-bottom"
     }
   ],
+  "#test": [
+    {
+      "type": "local",
+      "name": "__local__#test"
+    }
+  ],
   "myStyle": [
     {
       "type": "local",
@@ -103,6 +109,18 @@
       "name": "__local__:`("
     }
   ],
+  "#fake-id": [
+    {
+      "type": "local",
+      "name": "__local__#fake-id"
+    }
+  ],
+  "-a-b-c-": [
+    {
+      "type": "local",
+      "name": "__local__-a-b-c-"
+    }
+  ],
   "light": [
     {
       "type": "local",
@@ -110,6 +128,10 @@
     }
   ],
   "u-m+": [
+    {
+      "type": "local",
+      "name": "__local__u-m+"
+    },
     {
       "type": "local",
       "name": "__local__u-m+"
@@ -125,16 +147,16 @@
       "name": "__local__base64"
     }
   ],
+  "©": [
+    {
+      "type": "local",
+      "name": "__local__©"
+    }
+  ],
   "on": [
     {
       "type": "local",
       "name": "__local__on"
-    }
-  ],
-  "test": [
-    {
-      "type": "local",
-      "name": "__local__test"
     }
   ],
   "-middle": [
@@ -147,6 +169,12 @@
     {
       "type": "local",
       "name": "__local__u-m00002b"
+    }
+  ],
+  "test": [
+    {
+      "type": "local",
+      "name": "__local__test"
     }
   ],
   "1a2b3c": [

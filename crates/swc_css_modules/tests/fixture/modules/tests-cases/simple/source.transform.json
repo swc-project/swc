@@ -5,16 +5,22 @@
       "name": "__local__b"
     }
   ],
-  "x": [
+  "id": [
     {
       "type": "local",
-      "name": "__local__x"
+      "name": "__local__id"
     }
   ],
   "a": [
     {
       "type": "local",
       "name": "__local__a"
+    }
+  ],
+  "x": [
+    {
+      "type": "local",
+      "name": "__local__x"
     }
   ],
   "c": [

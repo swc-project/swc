@@ -34,7 +34,7 @@
 }
 .__local__-top {}
 .__local__-top {}
-#\#test {}
+#__local__\#test {}
 .__local__grid {
   display: flex;
   flex-wrap: wrap;
@@ -53,7 +53,7 @@
 }
 .__local__u-m\+ {}
 .__local__u-m00002b {}
-#u-m\+ {}
+#__local__u-m\+ {}
 body {
   font-family: '微软雅黑';
 }
@@ -66,9 +66,9 @@ body {
 .__local__♫ {}
 .__local__\:\`\( {}
 .__local__1a2b3c {}
-#\#fake-id {}
-#-a-b-c- {}
-#© {}
+#__local__\#fake-id {}
+#__local__-a-b-c- {}
+#__local__© {}
 :root {
   --title-align: center;
   --sr-only: {

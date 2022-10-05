@@ -1,4 +1,14 @@
 {
+  "someId": [
+    {
+      "type": "local",
+      "name": "__local__someId"
+    },
+    {
+      "type": "local",
+      "name": "__local__someId"
+    }
+  ],
   "className": [
     {
       "type": "local",

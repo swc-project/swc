@@ -7,13 +7,13 @@
 .__local__className {
   background: red;
 }
-#someId {
+#__local__someId {
   background: green;
 }
 .__local__className .__local__subClass {
   color: green;
 }
-#someId .__local__subClass {
+#__local__someId .__local__subClass {
   color: blue;
 }
 .__local__-a0-34a___f {
@@ -33,13 +33,13 @@
 .__local__1a2b3c {
   color: aliceblue;
 }
-#\#fake-id {
+#__local__\#fake-id {
   color: antiquewhite;
 }
-#-a-b-c- {
+#__local__-a-b-c- {
   color: azure;
 }
-#© {
+#__local__© {
   color: black;
 }
 .__local__♥ {

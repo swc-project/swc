@@ -10,16 +10,16 @@ h1 .__local__foo-1 {
 .__local__foo-3 h1 .__local__foo-4 {
   color: red;
 }
-#foo-5 {
+#__local__foo-5 {
   color: red;
 }
-h1 #foo-6 {
+h1 #__local__foo-6 {
   color: green;
 }
-#foo-7 h1 {
+#__local__foo-7 h1 {
   color: blue;
 }
-#foo-8 h1 #foo-9 {
+#__local__foo-8 h1 #__local__foo-9 {
   color: red;
 }
 .__local__bar-1 .bar .__local__bar-2 {
