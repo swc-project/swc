@@ -42,7 +42,7 @@
                 }, count && (interval.count = function(start, end) {
                     return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
                 }, interval.every = function(step) {
-                    return step = Math.floor(step), isFinite(step) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
+                    return isFinite(step = Math.floor(step)) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
                         return field(d) % step == 0;
                     } : function(d) {
                         return interval.count(0, d) % step == 0;
@@ -55,7 +55,7 @@
                 return end - start;
             });
             millisecond.every = function(k) {
-                return (k = Math.floor(k), isFinite(k) && k > 0) ? k > 1 ? newInterval(function(date) {
+                return isFinite(k = Math.floor(k)) && k > 0 ? k > 1 ? newInterval(function(date) {
                     date.setTime(Math.floor(date / k) * k);
                 }, function(date, step) {
                     date.setTime(+date + step * k);

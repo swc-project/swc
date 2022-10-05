@@ -3982,7 +3982,7 @@
         }), arr;
     }
     function getPrecision(val) {
-        if (val = +val, isNaN(val)) return 0;
+        if (isNaN(val = +val)) return 0;
         for(var e = 1, count = 0; Math.round(val * e) / e !== val;)e *= 10, count++;
         return count;
     }
@@ -15176,8 +15176,7 @@
                     opt.fixMax || (extent[1] += expandSize / 2), extent[0] -= expandSize / 2;
                 } else extent[1] = 1;
             }
-            var span = extent[1] - extent[0];
-            isFinite(span) || (extent[0] = 0, extent[1] = 1), this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
+            isFinite(extent[1] - extent[0]) || (extent[0] = 0, extent[1] = 1), this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
             var interval = this._interval;
             opt.fixMin || (extent[0] = round(Math.floor(extent[0] / interval) * interval)), opt.fixMax || (extent[1] = round(Math.ceil(extent[1] / interval) * interval));
         }, IntervalScale.type = 'interval', IntervalScale;
@@ -16855,8 +16854,8 @@
             viewportNode && viewportNode.parentNode && viewportNode.parentNode.removeChild(viewportNode);
         }, SVGPainter.prototype.toDataURL = function() {
             this.refresh();
-            var svgDom = this._svgDom, outerHTML = svgDom.outerHTML || (svgDom.parentNode && svgDom.parentNode).innerHTML;
-            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(outerHTML.replace(/></g, '>\n\r<'));
+            var svgDom = this._svgDom;
+            return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent((svgDom.outerHTML || (svgDom.parentNode && svgDom.parentNode).innerHTML).replace(/></g, '>\n\r<'));
         }, SVGPainter;
     }();
     function createMethodNotSupport(method) {
@@ -18147,7 +18146,7 @@
             if (endLabel) {
                 percent < 1 && null == animationRecord.originalX && (animationRecord.originalX = endLabel.x, animationRecord.originalY = endLabel.y);
                 var points = data.getLayout('points'), seriesModel = data.hostModel, connectNulls = seriesModel.get('connectNulls'), precision = endLabelModel.get('precision'), distance = endLabelModel.get('distance') || 0, baseAxis = coordSys.getBaseAxis(), isHorizontal = baseAxis.isHorizontal(), isBaseInversed = baseAxis.inverse, clipShape = clipRect.shape, xOrY = isBaseInversed ? isHorizontal ? clipShape.x : clipShape.y + clipShape.height : isHorizontal ? clipShape.x + clipShape.width : clipShape.y, distanceX = (isHorizontal ? distance : 0) * (isBaseInversed ? -1 : 1), distanceY = (isHorizontal ? 0 : -distance) * (isBaseInversed ? -1 : 1), dim = isHorizontal ? 'x' : 'y', dataIndexRange = function(points, xOrY, dim) {
-                    for(var a, b, len = points.length / 2, dimIdx = 'x' === dim ? 0 : 1, prevIndex = 0, nextIndex = -1, i = 0; i < len; i++)if (b = points[2 * i + dimIdx], !(isNaN(b) || isNaN(points[2 * i + 1 - dimIdx]))) {
+                    for(var a, b, len = points.length / 2, dimIdx = 'x' === dim ? 0 : 1, prevIndex = 0, nextIndex = -1, i = 0; i < len; i++)if (!(isNaN(b = points[2 * i + dimIdx]) || isNaN(points[2 * i + 1 - dimIdx]))) {
                         if (0 === i) {
                             a = b;
                             continue;
@@ -20297,7 +20296,7 @@
                     rotation: rotationDiff,
                     textAlign: textAlign,
                     textVerticalAlign: textVerticalAlign
-                }, null != (axisNameAvailableWidth = opt.axisNameAvailableWidth) && (axisNameAvailableWidth = Math.abs(axisNameAvailableWidth / Math.sin(labelLayout.rotation)), isFinite(axisNameAvailableWidth) || (axisNameAvailableWidth = null)));
+                }, null != (axisNameAvailableWidth = opt.axisNameAvailableWidth) && (isFinite(axisNameAvailableWidth = Math.abs(axisNameAvailableWidth / Math.sin(labelLayout.rotation))) || (axisNameAvailableWidth = null)));
                 var textFont = textStyleModel.getFont(), truncateOpt = axisModel.get('nameTruncate', !0) || {}, ellipsis = truncateOpt.ellipsis, maxWidth = retrieve(opt.nameTruncateMaxWidth, truncateOpt.maxWidth, axisNameAvailableWidth), textEl = new ZRText({
                     x: pos[0],
                     y: pos[1],
@@ -35146,10 +35145,10 @@
                 if (assert(!targetInfo || !0 === targetInfo || area.coordRange, 'coordRange must be specified when coord index specified.'), assert(!targetInfo || !0 !== targetInfo || area.range, 'range must be specified in global brush.'), area.range = area.range || [], targetInfo && !0 !== targetInfo) {
                     area.panelId = targetInfo.panelId;
                     var xyMinMaxCurr, xyMinMaxOrigin, sizeCurr, sizeOrigin, scales, result = coordConvert[area.brushType](0, targetInfo.coordSys, area.coordRange), rangeOffset = area.__rangeOffset;
-                    area.range = rangeOffset ? diffProcessor[area.brushType](result.values, rangeOffset.offset, (xyMinMaxCurr = result.xyMinMax, xyMinMaxOrigin = rangeOffset.xyMinMax, sizeCurr = getSize(xyMinMaxCurr), sizeOrigin = getSize(xyMinMaxOrigin), scales = [
+                    area.range = rangeOffset ? diffProcessor[area.brushType](result.values, rangeOffset.offset, (xyMinMaxCurr = result.xyMinMax, xyMinMaxOrigin = rangeOffset.xyMinMax, sizeCurr = getSize(xyMinMaxCurr), sizeOrigin = getSize(xyMinMaxOrigin), isNaN((scales = [
                         sizeCurr[0] / sizeOrigin[0],
                         sizeCurr[1] / sizeOrigin[1]
-                    ], isNaN(scales[0]) && (scales[0] = 1), isNaN(scales[1]) && (scales[1] = 1), scales)) : result.values;
+                    ])[0]) && (scales[0] = 1), isNaN(scales[1]) && (scales[1] = 1), scales)) : result.values;
                 }
             }, this);
         }, BrushTargetManager.prototype.makePanelOpts = function(api, getDefaultBrushType) {

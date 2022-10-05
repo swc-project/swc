@@ -687,7 +687,7 @@
                 let d = !0, e;
                 for(; !a.I && a.C < c.length;)if ((e = function(a, b) {
                     var c = a.C, d = b.indexOf("\n", c);
-                    return -1 == d ? hc : (c = Number(b.substring(c, d)), isNaN(c)) ? gc : (d += 1) + c > b.length ? hc : (b = b.substr(d, c), a.C = d + c, b);
+                    return -1 == d ? hc : isNaN(c = Number(b.substring(c, d))) ? gc : (d += 1) + c > b.length ? hc : (b = b.substr(d, c), a.C = d + c, b);
                 }(a, c)) == hc) {
                     4 == b && (a.o = 4, J(14), d = !1), F(a.j, a.m, null, "[Incomplete Response]");
                     break;
@@ -940,7 +940,7 @@
             }
             function Qc(a, b) {
                 if (b) {
-                    if (b = Number(b), isNaN(b) || 0 > b) throw Error("Bad port number " + b);
+                    if (isNaN(b = Number(b)) || 0 > b) throw Error("Bad port number " + b);
                     a.m = b;
                 } else a.m = null;
             }

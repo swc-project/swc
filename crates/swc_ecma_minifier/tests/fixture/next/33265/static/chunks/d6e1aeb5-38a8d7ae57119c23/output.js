@@ -2621,7 +2621,7 @@
             }(Button);
             SeekToLive.prototype.controlText_ = "Seek to live, currently playing live", Component$1.registerComponent("SeekToLive", SeekToLive);
             var clamp = function(number, min, max) {
-                return number = Number(number), Math.min(max, Math.max(min, isNaN(number) ? min : number));
+                return Math.min(max, Math.max(min, isNaN(number = Number(number)) ? min : number));
             }, Slider = function(_Component) {
                 function Slider(player, options) {
                     var _this;
@@ -7328,7 +7328,7 @@
                     if (currentSidxInfo) {
                         var a, key = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__.mm)(currentSidxInfo);
                         if (!oldSidxMapping[key]) break;
-                        a = oldSidxMapping[key].sidxInfo, (Boolean(!a.map && !currentSidxInfo.map) || Boolean(a.map && currentSidxInfo.map && a.map.byterange.offset === currentSidxInfo.map.byterange.offset && a.map.byterange.length === currentSidxInfo.map.byterange.length)) && a.uri === currentSidxInfo.uri && a.byterange.offset === currentSidxInfo.byterange.offset && a.byterange.length === currentSidxInfo.byterange.length && (newSidxMapping[key] = oldSidxMapping[key]);
+                        (Boolean(!(a = oldSidxMapping[key].sidxInfo).map && !currentSidxInfo.map) || Boolean(a.map && currentSidxInfo.map && a.map.byterange.offset === currentSidxInfo.map.byterange.offset && a.map.byterange.length === currentSidxInfo.map.byterange.length)) && a.uri === currentSidxInfo.uri && a.byterange.offset === currentSidxInfo.byterange.offset && a.byterange.length === currentSidxInfo.byterange.length && (newSidxMapping[key] = oldSidxMapping[key]);
                     }
                 }
                 return newSidxMapping;
@@ -9934,8 +9934,8 @@
                             if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
                             if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
                                 frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
-                                for(var bytes, end, i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
-                                    if ("com.apple.streaming.transportStreamTimestamp" === (bytes = frame, end = i, unescape(percentEncode(bytes, 0, end)))) {
+                                for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
+                                    if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
                                         var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
                                         return size *= 4, size += 0x03 & d[7];
                                     }

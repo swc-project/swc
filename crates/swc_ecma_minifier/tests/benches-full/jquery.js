@@ -1838,7 +1838,7 @@
             },
             reliableTrDimensions: function() {
                 var table, tr, trChild, trStyle;
-                return null == reliableTrDimensionsVal && (table = document.createElement("table"), tr = document.createElement("tr"), trChild = document.createElement("div"), table.style.cssText = "position:absolute;left:-11111px", tr.style.height = "1px", trChild.style.height = "9px", documentElement.appendChild(table).appendChild(tr).appendChild(trChild), trStyle = window1.getComputedStyle(tr), reliableTrDimensionsVal = parseInt(trStyle.height) > 3, documentElement.removeChild(table)), reliableTrDimensionsVal;
+                return null == reliableTrDimensionsVal && (table = document.createElement("table"), tr = document.createElement("tr"), trChild = document.createElement("div"), table.style.cssText = "position:absolute;left:-11111px", tr.style.height = "1px", trChild.style.height = "9px", documentElement.appendChild(table).appendChild(tr).appendChild(trChild), reliableTrDimensionsVal = parseInt(window1.getComputedStyle(tr).height) > 3, documentElement.removeChild(table)), reliableTrDimensionsVal;
             }
         }));
     }();

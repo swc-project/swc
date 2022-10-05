@@ -1516,7 +1516,7 @@
                         contextMenu && (contextMenu.style.display = "none"), editor.off("input", hideContextMenu);
                     }
                     function handleLongTap() {
-                        longTouchTimer = null, clearTimeout(longTouchTimer);
+                        clearTimeout(longTouchTimer = null);
                         var range = editor.selection.getRange(), inSelection = range.contains(pos.row, pos.column);
                         (range.isEmpty() || !inSelection) && (editor.selection.moveToPosition(pos), editor.selection.selectWord()), mode = "wait", showContextMenu();
                     }
@@ -1532,7 +1532,7 @@
                         var h = editor.renderer.layerConfig.lineHeight, w = editor.renderer.layerConfig.lineHeight, t = e.timeStamp;
                         lastT = t;
                         var touchObj = touches[0], x = touchObj.clientX, y = touchObj.clientY;
-                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, longTouchTimer = null, clearTimeout(longTouchTimer), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
@@ -8539,7 +8539,7 @@
                             };
                             do {
                                 if (token.value.match(/[{}()\[\]]/g)) {
-                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen"), isNaN(depth[bracketType]) && (depth[bracketType] = 0), token.value[i]){
+                                    for(; i < token.value.length && !found; i++)if (brackets[token.value[i]]) switch(isNaN(depth[bracketType = brackets[token.value[i]] + "." + token.type.replace("rparen", "lparen")]) && (depth[bracketType] = 0), token.value[i]){
                                         case "(":
                                         case "[":
                                         case "{":

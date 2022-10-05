@@ -466,7 +466,7 @@
                     const n = mt.exec(t);
                     if (n || L(), n[1]) {
                         let t1 = n[1];
-                        t1 = (t1 + "000000000").substr(0, 9), e = Number(t1);
+                        e = Number(t1 = (t1 + "000000000").substr(0, 9));
                     }
                     const s = new Date(t);
                     return {

@@ -138,8 +138,8 @@
             start
         ];
         if ((reverse = stop < start) && (n = start, start = stop, stop = n), 0 === (step = tickIncrement(start, stop, count)) || !isFinite(step)) return [];
-        if (step > 0) for(start = Math.ceil(start / step), stop = Math.floor(stop / step), ticks = Array(n = Math.ceil(stop - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
-        else for(start = Math.ceil(start * (step = -step)), stop = Math.floor(stop * step), ticks = Array(n = Math.ceil(stop - start + 1)); ++i < n;)ticks[i] = (start + i) / step;
+        if (step > 0) for(start = Math.ceil(start / step), ticks = Array(n = Math.ceil((stop = Math.floor(stop / step)) - start + 1)); ++i < n;)ticks[i] = (start + i) * step;
+        else for(start = Math.ceil(start * (step = -step)), ticks = Array(n = Math.ceil((stop = Math.floor(stop * step)) - start + 1)); ++i < n;)ticks[i] = (start + i) / step;
         return reverse && ticks.reverse(), ticks;
     }
     function tickIncrement(start, stop, count) {
@@ -6902,7 +6902,7 @@
         }, count && (interval.count = function(start, end) {
             return t0$1.setTime(+start), t1$1.setTime(+end), floori(t0$1), floori(t1$1), Math.floor(count(t0$1, t1$1));
         }, interval.every = function(step) {
-            return step = Math.floor(step), isFinite(step) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
+            return isFinite(step = Math.floor(step)) && step > 0 ? step > 1 ? interval.filter(field ? function(d) {
                 return field(d) % step == 0;
             } : function(d) {
                 return interval.count(0, d) % step == 0;
@@ -6915,7 +6915,7 @@
         return end - start;
     });
     millisecond.every = function(k) {
-        return (k = Math.floor(k), isFinite(k) && k > 0) ? k > 1 ? newInterval(function(date) {
+        return isFinite(k = Math.floor(k)) && k > 0 ? k > 1 ? newInterval(function(date) {
             date.setTime(Math.floor(date / k) * k);
         }, function(date, step) {
             date.setTime(+date + step * k);

@@ -1105,7 +1105,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -8383,7 +8383,7 @@
                 }, Red.prototype.pow = function(a, num) {
                     if (num.isZero()) return new BN(1).toRed(this);
                     if (0 === num.cmpn(1)) return a.clone();
-                    var windowSize = 4, wnd = Array(1 << windowSize);
+                    var windowSize = 4, wnd = Array(16);
                     wnd[0] = new BN(1).toRed(this), wnd[1] = a;
                     for(var i = 2; i < wnd.length; i++)wnd[i] = this.mul(wnd[i - 1], a);
                     var res = wnd[0], current = 0, currentLen = 0, start = num.bitLength() % 26;
@@ -16699,7 +16699,7 @@
                             t.bufferProcessing = !0;
                             var r = t.bufferedRequest;
                             if (e._writev && r && r.next) {
-                                var n = t.bufferedRequestCount, i = Array(n), a = t.corkedRequestsFree;
+                                var i = Array(t.bufferedRequestCount), a = t.corkedRequestsFree;
                                 a.entry = r;
                                 for(var o = 0, s = !0; r;)i[o] = r, r.isBuf || (s = !1), r = r.next, o += 1;
                                 i.allBuffers = s, doWrite(e, t, !0, t.length, i, "", a.finish), t.pendingcb++, t.lastBufferedRequest = null, a.next ? (t.corkedRequestsFree = a.next, a.next = null) : t.corkedRequestsFree = new CorkedRequest(t), t.bufferedRequestCount = 0;
@@ -20339,7 +20339,7 @@
             var debugs = {}, debugEnvRegex = /^$/;
             if (process.env.NODE_DEBUG) {
                 var debugEnv = process.env.NODE_DEBUG;
-                debugEnv = debugEnv.replace(/[|\\{}()[\]^$+?.]/g, '\\$&').replace(/\*/g, '.*').replace(/,/g, '$|^').toUpperCase(), debugEnvRegex = RegExp('^' + debugEnv + '$', 'i');
+                debugEnvRegex = RegExp('^' + (debugEnv = debugEnv.replace(/[|\\{}()[\]^$+?.]/g, '\\$&').replace(/\*/g, '.*').replace(/,/g, '$|^').toUpperCase()) + '$', 'i');
             }
             function inspect(obj, opts) {
                 var ctx = {

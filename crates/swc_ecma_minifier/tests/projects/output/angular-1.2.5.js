@@ -2949,7 +2949,7 @@
                 if ("self" === matcher) return matcher;
                 if (isString(matcher)) {
                     if (matcher.indexOf("***") > -1) throw $sceMinErr("iwcard", "Illegal sequence *** in string matcher.  String: {0}", matcher);
-                    return matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*"), RegExp("^" + matcher + "$");
+                    return RegExp("^" + (matcher = matcher.replace(/([-()\[\]{}+?*.$\^|,:#<!\\])/g, "\\$1").replace(/\x08/g, "\\x08").replace("\\*\\*", ".*").replace("\\*", "[^:/.?&;]*")) + "$");
                 }
                 if (isRegExp(matcher)) return RegExp("^" + matcher.source + "$");
                 throw $sceMinErr("imatcher", 'Matchers may only be "self", string patterns or RegExp objects');

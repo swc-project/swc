@@ -18022,7 +18022,7 @@
                     var entries = fs.readdirSync(dir);
                 } catch (ex) {}
                 if (entries) {
-                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", mod = "win32" === process.platform ? "i" : "", rx = RegExp(pattern, mod), results = entries.filter(function(name) {
+                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", rx = RegExp(pattern, "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
                         return rx.test(name);
                     }).map(function(name) {
                         return path.join(dir, name);

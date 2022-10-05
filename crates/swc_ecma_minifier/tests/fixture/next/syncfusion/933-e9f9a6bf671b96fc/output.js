@@ -305,10 +305,9 @@
                     }
                     return res;
                 }, ParserBase.getSymbolRegex = function(props) {
-                    var regexStr = props.map(function(str) {
+                    return RegExp(props.map(function(str) {
                         return str.replace(/([.*+?^=!:${}()|[\]/\\])/g, '\\$1');
-                    }).join('|');
-                    return RegExp(regexStr, 'g');
+                    }).join('|'), 'g');
                 }, ParserBase.getSymbolMatch = function(prop) {
                     for(var matchKeys = Object.keys(defaultNumberSymbols), ret = {}, _i = 0; _i < matchKeys.length; _i++){
                         var key = matchKeys[_i];
@@ -6814,14 +6813,9 @@
                             this.container
                         ], ERROR), this.prevValue = this.value, this.value || 0 === this.value) {
                             var formatValue_1 = this.formatNumber();
-                            if (this.setElementValue(formatValue_1), !this.isPrevFocused) {
-                                if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.info.version) {
-                                    var delay = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isIos ? 600 : 0;
-                                    setTimeout(function() {
-                                        _this.element.setSelectionRange(0, formatValue_1.length);
-                                    }, delay);
-                                } else this.element.setSelectionRange(0, formatValue_1.length);
-                            }
+                            this.setElementValue(formatValue_1), this.isPrevFocused || (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || '11.0' !== _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.info.version ? setTimeout(function() {
+                                _this.element.setSelectionRange(0, formatValue_1.length);
+                            }, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice && _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isIos ? 600 : 0) : this.element.setSelectionRange(0, formatValue_1.length));
                         }
                         _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.add(this.element, 'mousewheel DOMMouseScroll', this.mouseWheel, this);
                     }
@@ -16285,7 +16279,7 @@
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {
                                     (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var value, id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = (value = 2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + '', parseFloat(value)), strokeSize = getStrokeSize(diameter), rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
+                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = getStrokeSize(diameter), rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
                                         (function mat_animation(spinnerInfo) {
                                             var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, duration));
                                             (function(value, container) {
@@ -16313,7 +16307,7 @@
                                     }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, i, function(begin, stop) {
                                         var series = [], increment = !1, count = 1;
                                         return function formSeries(i) {
-                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = 7, i = parseFloat((i + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
+                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
                                         }(begin), series;
                                     }(i, i), id);
                                 }(inner);
@@ -18209,11 +18203,9 @@
                         classes.MO
                     ]), (0, ej2_base.le)(this.parent.cssClass) || (0, ej2_base.cn)([
                         this.popupObj.element
-                    ], this.parent.cssClass);
-                    var timeOut = fileList.size > 1000000 ? 300 : 100;
-                    setTimeout(function() {
+                    ], this.parent.cssClass), setTimeout(function() {
                         _this.refreshPopup(imgElem, _this.popupObj);
-                    }, timeOut), this.uploadObj = new Uploader({
+                    }, fileList.size > 1000000 ? 300 : 100), this.uploadObj = new Uploader({
                         asyncSettings: {
                             saveUrl: this.parent.insertImageSettings.saveUrl,
                             removeUrl: this.parent.insertImageSettings.removeUrl
@@ -23261,9 +23253,7 @@
                 }, ColorPicker.prototype.hexToRgb = function(hex) {
                     if (!hex) return [];
                     9 !== (hex = hex.trim()).length && (hex = this.roundValue(hex));
-                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2));
-                    hex = hex.slice(1, 7);
-                    var bigInt = parseInt(hex, 16), h = [];
+                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2)), bigInt = parseInt(hex = hex.slice(1, 7), 16), h = [];
                     return h.push(bigInt >> 16 & 255), h.push(bigInt >> 8 & 255), h.push(255 & bigInt), h.push(opacity), h;
                 }, ColorPicker.prototype.rgbToHsv = function(r, g, b, opacity) {
                     if (this.rgb && !this.rgb.length) return [];
