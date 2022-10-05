@@ -260,10 +260,9 @@ where
 
         let mut new_children = Vec::with_capacity(n.children.len());
 
+        let old_is_global_mode = self.data.is_global_mode;
+        self.data.is_global_mode = false;
         'complex: for mut n in n.children.take() {
-            let old_is_global_mode = self.data.is_global_mode;
-            self.data.is_global_mode = false;
-
             match &mut n {
                 ComplexSelectorChildren::CompoundSelector(sel) => {
                     //
@@ -299,8 +298,6 @@ where
                                             sel.visit_mut_with(self);
 
                                             new_children.extend(sel.children);
-
-                                            self.data.is_global_mode = old_is_global_mode;
                                             continue 'complex;
                                         } else {
                                             self.data.is_global_mode = false;
@@ -322,7 +319,6 @@ where
 
                                             new_children.extend(sel.children);
 
-                                            self.data.is_global_mode = old_is_global_mode;
                                             continue 'complex;
                                         } else {
                                             self.data.is_global_mode = true;
@@ -343,10 +339,10 @@ where
             }
 
             new_children.push(n);
-            self.data.is_global_mode = old_is_global_mode;
         }
 
         n.children = new_children;
+        self.data.is_global_mode = old_is_global_mode;
     }
 
     fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
