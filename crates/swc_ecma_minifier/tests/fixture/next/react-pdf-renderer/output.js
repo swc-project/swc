@@ -25060,7 +25060,7 @@
                         if (m && tY(u, s), void 0 === s && !b) switch(u.tag){
                             case 1:
                             case 0:
-                                throw u = u.type, Error(d(152, u.displayName || u.name || "Component"));
+                                throw Error(d(152, (u = u.type).displayName || u.name || "Component"));
                         }
                         return r(u, l);
                     };

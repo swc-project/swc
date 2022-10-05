@@ -2505,8 +2505,8 @@
             var code = "var l, fn, p;\n";
             forEach(pathKeys, function(key, index) {
                 ensureSafeMemberName(key, fullExp), code += "if(s === null || s === undefined) return s;\nl=s;\ns=" + (index ? "s" : '((k&&k.hasOwnProperty("' + key + '"))?k:s)') + '["' + key + '"];\n' + (options.unwrapPromises ? 'if (s && s.then) {\n pw("' + fullExp.replace(/(["\r\n])/g, "\\$1") + '");\n if (!("$$v" in s)) {\n p=s;\n p.$$v = undefined;\n p.then(function(v) {p.$$v=v;});\n}\n s=s.$$v\n}\n' : "");
-            }), code += "return s;";
-            var evaledFnGetter = Function("s", "k", "pw", code);
+            });
+            var evaledFnGetter = Function("s", "k", "pw", code += "return s;");
             evaledFnGetter.toString = function() {
                 return code;
             }, fn = function(scope, locals) {

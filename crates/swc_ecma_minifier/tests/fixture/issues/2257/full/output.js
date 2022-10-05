@@ -16550,7 +16550,7 @@
                         h += O(k, b, c, f, d);
                     }
                     else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
-                    else if ("object" === k) throw b = "" + a, Error(z(31, "[object Object]" === b ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
+                    else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
                 }(a, e, "", "", function(a) {
                     return b.call(c, a, d++);
                 }), e;

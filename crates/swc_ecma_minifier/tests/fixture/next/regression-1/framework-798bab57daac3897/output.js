@@ -2381,7 +2381,7 @@
                 return a;
             }
             function qh(a, b) {
-                throw a = Object.prototype.toString.call(b), Error(p(31, "[object Object]" === a ? "object with keys {" + Object.keys(b).join(", ") + "}" : a));
+                throw Error(p(31, "[object Object]" === (a = Object.prototype.toString.call(b)) ? "object with keys {" + Object.keys(b).join(", ") + "}" : a));
             }
             function rh(a) {
                 return (0, a._init)(a._payload);

@@ -438,8 +438,7 @@
                     return new _t(e);
                 }
                 toBase64() {
-                    var t;
-                    return t = this.binaryString, btoa(t);
+                    return btoa(this.binaryString);
                 }
                 toUint8Array() {
                     return function(t) {
