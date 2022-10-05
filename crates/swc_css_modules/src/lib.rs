@@ -84,6 +84,8 @@ struct Data {
 
     renamed_to_orig: FxHashMap<JsWord, JsWord>,
     orig_to_renamed: FxHashMap<JsWord, JsWord>,
+
+    is_global_mode: bool,
 }
 
 impl<C> VisitMut for Compiler<C>
@@ -258,6 +260,8 @@ where
 
         let mut new_children = Vec::with_capacity(n.children.len());
 
+        let old_is_global_mode = self.data.is_global_mode;
+        self.data.is_global_mode = false;
         'complex: for mut n in n.children.take() {
             match &mut n {
                 ComplexSelectorChildren::CompoundSelector(sel) => {
@@ -266,13 +270,15 @@ where
                     for sel in &mut sel.subclass_selectors {
                         match sel {
                             SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
-                                process_local(
-                                    &mut self.config,
-                                    &mut self.result,
-                                    &mut self.data.orig_to_renamed,
-                                    &mut self.data.renamed_to_orig,
-                                    sel,
-                                );
+                                if !self.data.is_global_mode {
+                                    process_local(
+                                        &mut self.config,
+                                        &mut self.result,
+                                        &mut self.data.orig_to_renamed,
+                                        &mut self.data.renamed_to_orig,
+                                        sel,
+                                    );
+                                }
                             }
                             SubclassSelector::PseudoClass(class_sel) => {
                                 match &*class_sel.name.value {
@@ -292,7 +298,9 @@ where
                                             sel.visit_mut_with(self);
 
                                             new_children.extend(sel.children);
-
+                                            continue 'complex;
+                                        } else {
+                                            self.data.is_global_mode = false;
                                             continue 'complex;
                                         }
                                     }
@@ -311,6 +319,9 @@ where
 
                                             new_children.extend(sel.children);
 
+                                            continue 'complex;
+                                        } else {
+                                            self.data.is_global_mode = true;
                                             continue 'complex;
                                         }
                                     }
@@ -331,6 +342,7 @@ where
         }
 
         n.children = new_children;
+        self.data.is_global_mode = old_is_global_mode;
     }
 
     fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
