@@ -3,9 +3,9 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, Declaration,
-    DeclarationName, DeclarationOrAtRule, Ident, KeyframesName, QualifiedRule,
-    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
+    DeclarationOrAtRule, Ident, KeyframesName, QualifiedRule, QualifiedRulePrelude, StyleBlock,
+    Stylesheet, SubclassSelector,
 };
 use swc_css_parser::{parse_tokens, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -246,92 +246,99 @@ where
     fn visit_mut_complex_selector(&mut self, n: &mut ComplexSelector) {
         n.visit_mut_children_with(self);
 
-        n.children.retain(|s| match s {
-            ComplexSelectorChildren::CompoundSelector(s) => {
-                s.nesting_selector.is_some()
-                    || !s.subclass_selectors.is_empty()
-                    || s.type_selector.is_some()
-            }
-            ComplexSelectorChildren::Combinator(..) => true,
-        });
-    }
+        let mut new_children = Vec::with_capacity(n.children.len());
 
-    fn visit_mut_compound_selector(&mut self, sel: &mut CompoundSelector) {
-        let mut new_subclass = Vec::with_capacity(sel.subclass_selectors.len());
-
-        for mut n in sel.subclass_selectors.take() {
+        for mut n in n.children.take() {
             match &mut n {
-                SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
-                    process_local(
-                        &mut self.config,
-                        &mut self.result,
-                        &mut self.data.orig_to_renamed,
-                        &mut self.data.renamed_to_orig,
-                        &mut n,
-                    );
-                }
-                SubclassSelector::PseudoClass(class_sel) => {
-                    class_sel.visit_mut_with(self);
+                ComplexSelectorChildren::CompoundSelector(sel) => {
+                    //
 
-                    match &*class_sel.name.value {
-                        "local" => {
-                            if let Some(children) = &mut class_sel.children {
-                                let tokens = to_tokens_vec(&*children);
+                    for sel in &mut sel.subclass_selectors {
+                        match sel {
+                            SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
+                                process_local(
+                                    &mut self.config,
+                                    &mut self.result,
+                                    &mut self.data.orig_to_renamed,
+                                    &mut self.data.renamed_to_orig,
+                                    sel,
+                                );
+                            }
+                            SubclassSelector::PseudoClass(class_sel) => {
+                                class_sel.visit_mut_with(self);
 
-                                let mut sel: CompoundSelector = parse_tokens(
-                                    &tokens,
-                                    ParserConfig {
-                                        ..Default::default()
-                                    },
-                                    &mut vec![],
-                                )
-                                .unwrap();
+                                match &*class_sel.name.value {
+                                    "local" => {
+                                        if let Some(children) = &mut class_sel.children {
+                                            let tokens = to_tokens_vec(&*children);
 
-                                for sel in &mut sel.subclass_selectors {
-                                    process_local(
-                                        &mut self.config,
-                                        &mut self.result,
-                                        &mut self.data.orig_to_renamed,
-                                        &mut self.data.renamed_to_orig,
-                                        sel,
-                                    );
+                                            let mut sel: ComplexSelector = parse_tokens(
+                                                &tokens,
+                                                ParserConfig {
+                                                    ..Default::default()
+                                                },
+                                                &mut vec![],
+                                            )
+                                            .unwrap();
+
+                                            for sel in &mut sel.children {
+                                                match sel {
+                                                    ComplexSelectorChildren::CompoundSelector(
+                                                        sel,
+                                                    ) => {
+                                                        for sel in &mut sel.subclass_selectors {
+                                                            process_local(
+                                                                &mut self.config,
+                                                                &mut self.result,
+                                                                &mut self.data.orig_to_renamed,
+                                                                &mut self.data.renamed_to_orig,
+                                                                sel,
+                                                            );
+                                                        }
+                                                    }
+                                                    ComplexSelectorChildren::Combinator(_) => {}
+                                                }
+                                            }
+                                            new_children.extend(sel.children);
+
+                                            continue;
+                                        }
+                                    }
+                                    "global" => {
+                                        if let Some(children) = &mut class_sel.children {
+                                            let tokens = to_tokens_vec(&*children);
+
+                                            let sel: ComplexSelector = parse_tokens(
+                                                &tokens,
+                                                ParserConfig {
+                                                    ..Default::default()
+                                                },
+                                                &mut vec![],
+                                            )
+                                            .unwrap();
+
+                                            new_children.extend(sel.children);
+
+                                            continue;
+                                        }
+                                    }
+
+                                    _ => {}
                                 }
-                                new_subclass.extend(sel.subclass_selectors);
-
-                                continue;
+                            }
+                            _ => {
+                                sel.visit_mut_children_with(self);
                             }
                         }
-                        "global" => {
-                            if let Some(children) = &mut class_sel.children {
-                                let tokens = to_tokens_vec(&*children);
-
-                                let sel: CompoundSelector = parse_tokens(
-                                    &tokens,
-                                    ParserConfig {
-                                        ..Default::default()
-                                    },
-                                    &mut vec![],
-                                )
-                                .unwrap();
-
-                                new_subclass.extend(sel.subclass_selectors);
-
-                                continue;
-                            }
-                        }
-
-                        _ => {}
                     }
                 }
-                _ => {
-                    n.visit_mut_children_with(self);
-                }
+                ComplexSelectorChildren::Combinator(_) => {}
             }
 
-            new_subclass.push(n);
+            new_children.push(n);
         }
 
-        sel.subclass_selectors = new_subclass;
+        n.children = new_children;
     }
 
     fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
