@@ -70,7 +70,7 @@ a {
 b {
   content: 'do not "use" url(path)';
 }
-@keyframes anim {
+@keyframes __local__anim {
   background: green url('./img.png') xyz;
 }
 .__local__a {

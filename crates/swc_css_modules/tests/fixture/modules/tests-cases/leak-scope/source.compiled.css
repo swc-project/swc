@@ -1,8 +1,8 @@
 .__local__a {
   color: green;
-  animation: a;
+  animation: __local__a;
 }
-@keyframes b {
+@keyframes __local__b {
   0% {
     left: 10px;
   }
@@ -11,7 +11,7 @@
   }
 }
 .__local__b {
-  animation: b;
+  animation: __local__b;
 }
 @keyframes :global(c) {
   0% {
@@ -22,8 +22,8 @@
   }
 }
 .__local__c {
-  animation: c1;
-  animation: c2, c3, c4;
+  animation: __local__c1;
+  animation: __local__c2, c3, c4;
 }
 @keyframes :global(d) {
   0% {
@@ -34,9 +34,9 @@
   }
 }
 :global .__local__d1 {
-  animation: d1;
-  animation: d2, d3, d4;
+  animation: __local__d1;
+  animation: __local__d2, d3, d4;
 }
 .d2 {
-  animation: d2;
+  animation: __local__d2;
 }

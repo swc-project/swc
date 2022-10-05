@@ -1,7 +1,7 @@
 .__local__a {
   color: green;
 }
-@keyframes bounce {
+@keyframes __local__bounce {
   0% {
     transform: translateY(-100%);
     opacity: 0;
@@ -11,7 +11,7 @@
     opacity: 0;
   }
 }
-@-webkit-keyframes bounce2 {
+@-webkit-keyframes __local__bounce2 {
   0% {
     transform: translateY(-100%);
     opacity: 0;
@@ -22,19 +22,19 @@
   }
 }
 .__local__bounce {
-  animation-name: bounce;
-  animation: bounce2 1s ease;
+  animation-name: __local__bounce;
+  animation: __local__bounce2 1s ease;
 }
 .__local__bounce2 {
   color: green;
-  animation: bounce 1s ease;
-  animation-name: bounce2;
+  animation: __local__bounce 1s ease;
+  animation-name: __local__bounce2;
 }
 .__local__bounce3 {
-  animation: bounce 1s ease, bounce2;
+  animation: __local__bounce 1s ease, bounce2;
 }
 .__local__bounce4 {
-  animation: bounce 1s ease, bounce2;
+  animation: __local__bounce 1s ease, bounce2;
 }
 .__local__b {
   color: green;

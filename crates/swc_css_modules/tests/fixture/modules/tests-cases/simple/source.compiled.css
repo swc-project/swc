@@ -8,7 +8,7 @@ a[href="#b.c"].__local__x.__local__y {
   color: green;
   font-size: 1.5pt;
 }
-@keyframes z {
+@keyframes __local__z {
   2.5% {
     color: green;
   }

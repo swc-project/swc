@@ -1,13 +1,13 @@
 .__local__a {
-  animation: 3s animationName;
+  animation: 3s __local__animationName;
 }
 .__local__b {
-  animation: animationName 3s;
+  animation: __local__animationName 3s;
 }
 .__local__c {
-  animation-name: animationName;
+  animation-name: __local__animationName;
 }
-@keyframes animationName {
+@keyframes __local__animationName {
   0% {
     background: white;
   }
