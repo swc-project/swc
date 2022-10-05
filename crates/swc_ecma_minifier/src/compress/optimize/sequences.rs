@@ -944,6 +944,13 @@ where
 
         match e {
             Expr::Ident(e) => {
+                if let Some(usage) = self.data.vars.get(&e.to_id()) {
+                    if !usage.declared {
+                        log_abort!("Undeclared");
+                        return false;
+                    }
+                }
+
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
