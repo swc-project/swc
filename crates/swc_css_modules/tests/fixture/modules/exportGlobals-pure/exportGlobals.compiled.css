@@ -1,11 +1,9 @@
 .__local__foo {
   background-color: red;
 }
-.__local__one , 
-.__local__bar {
+.__local__one .__local__bar {
   background-color: green;
 }
-.__local__two , 
-.baz {
+.__local__two .baz {
   background-color: blue;
 }

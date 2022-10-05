@@ -28,40 +28,33 @@
 .__local__a {
   color: red;
 }
-.__local__a.__local__b {
+.__local__a {
   color: red;
 }
-.__local__a .__local__b {
+.__local__a {
   color: red;
 }
 .__local__😀 .__local__a .__local__😀 {
   color: red;
 }
-.__local__a .__local__b .__local__a {
+.__local__a {
   color: red;
 }
 div:not(.__local__a) {
   color: red;
 }
- .__local__b, 
-.__local__a {
+.__local__a .__local__b {
   color: red;
 }
-.__local__b , 
-.__local__a {
+.__local__b .__local__a {
   color: red;
 }
-.__local__😓 , 
-.__local__a {
+.__local__😓 .__local__a {
   color: red;
 }
-.__local__😓, 
-.__local__a {
+.__local__😓.__local__a {
   color: red;
 }
-> >, 
-.__local__a, 
-.__local__b, 
-.__local__c {
+.__local__a > .__local__b > .__local__c {
   color: red;
 }

@@ -5,16 +5,16 @@
       "name": "__local__jkl"
     }
   ],
-  "def": [
-    {
-      "type": "local",
-      "name": "__local__def"
-    }
-  ],
   "abc": [
     {
       "type": "local",
       "name": "__local__abc"
+    }
+  ],
+  "def": [
+    {
+      "type": "local",
+      "name": "__local__def"
     }
   ],
   "ghi": [

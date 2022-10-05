@@ -22,11 +22,9 @@ h1 #foo-6 {
 #foo-8 h1 #foo-9 {
   color: red;
 }
-.__local__bar-1  .__local__bar-2, 
-.bar {
+.__local__bar-1 .bar .__local__bar-2 {
   color: white;
 }
-.__local__baz-3  .__local__bar-4, 
-.__local__baz {
+.__local__baz-3 .__local__baz .__local__bar-4 {
   color: black;
 }

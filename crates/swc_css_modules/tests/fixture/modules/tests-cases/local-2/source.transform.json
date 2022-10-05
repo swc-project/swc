@@ -1,14 +1,4 @@
 {
-  "subClass": [
-    {
-      "type": "local",
-      "name": "__local__subClass"
-    },
-    {
-      "type": "local",
-      "name": "__local__subClass"
-    }
-  ],
   "className": [
     {
       "type": "local",

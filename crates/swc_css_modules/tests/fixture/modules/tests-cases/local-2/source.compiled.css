@@ -4,9 +4,9 @@
 #someId {
   background: green;
 }
-.__local__className .__local__subClass {
+.__local__className {
   color: green;
 }
-#someId .__local__subClass {
+#someId {
   color: blue;
 }

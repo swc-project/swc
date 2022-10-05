@@ -1,4 +1,3 @@
-.__local__foo , 
-.__local__bar {
+.__local__foo .__local__bar {
   color: red;
 }
