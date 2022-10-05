@@ -23,7 +23,7 @@
 }
 .__local__c {
   animation: __local__c1;
-  animation: __local__c2, c3, c4;
+  animation: __local__c2, __local__c3, __local__c4;
 }
 @keyframes :global(d) {
   0% {
@@ -35,7 +35,7 @@
 }
 :global .__local__d1 {
   animation: __local__d1;
-  animation: __local__d2, d3, d4;
+  animation: __local__d2, __local__d3, __local__d4;
 }
 .d2 {
   animation: __local__d2;

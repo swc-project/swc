@@ -1,4 +1,10 @@
 {
+  "fade-in": [
+    {
+      "type": "local",
+      "name": "__local__fade-in"
+    }
+  ],
   "slide-right": [
     {
       "type": "local",
