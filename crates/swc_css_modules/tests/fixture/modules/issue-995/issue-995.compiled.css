@@ -40,7 +40,7 @@
 .__local__a .__local__b .__local__a {
   color: red;
 }
-div:not(.__local____local__a) {
+div:not(.__local__a) {
   color: red;
 }
 .__local__a .__local__b {
