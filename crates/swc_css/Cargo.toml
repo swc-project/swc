@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.127.7"
+version       = "0.127.8"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -23,7 +23,7 @@ modules  = ["swc_css_modules"]
 swc_css_ast      = { version = "0.114.6", path = "../swc_css_ast" }
 swc_css_codegen  = { version = "0.124.6", path = "../swc_css_codegen" }
 swc_css_minifier = { version = "0.89.7", path = "../swc_css_minifier", optional = true }
-swc_css_modules  = { version = "0.0.1", path = "../swc_css_modules", optional = true }
+swc_css_modules  = { version = "0.0.2", path = "../swc_css_modules", optional = true }
 swc_css_parser   = { version = "0.123.6", path = "../swc_css_parser" }
 swc_css_utils    = { version = "0.111.6", path = "../swc_css_utils/" }
 swc_css_visit    = { version = "0.113.6", path = "../swc_css_visit" }

@@ -32,6 +32,9 @@
 - **(css/modules)** Implement css modules (#6000) ([2cce1c8](https://github.com/swc-project/swc/commit/2cce1c82b2a72e69668c170e1b9a0bc78b2b4afd))
 
 
+- **(css/modules)** Support `:local` and `:global` (#6045) ([10d0f8e](https://github.com/swc-project/swc/commit/10d0f8e0011fc9e02769cde49fcfd8f8730ca15e))
+
+
 - **(es/compat)** Support iterator protocol on loose mode (#6034) ([80da098](https://github.com/swc-project/swc/commit/80da0981bd31e612d97d5c9fb10101891cabac90))
 
 
