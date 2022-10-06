@@ -1683,7 +1683,7 @@ impl<I: Tokens> Parser<I> {
                         expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
-                            will_expect_colon_for_cond: true,
+                            will_expect_colon_for_cond: false,
                             ..self.ctx()
                         };
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;
