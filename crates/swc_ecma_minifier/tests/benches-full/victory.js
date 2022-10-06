@@ -158,7 +158,7 @@
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
                     for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-                    for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
+                    for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[Object(_bisect__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
                 return histogram.value = function(_) {
@@ -4680,7 +4680,7 @@
                         return sortValues(arcs[i], arcs[j]);
                     }) : null != sort && index.sort(function(i, j) {
                         return sort(data[i], data[j]);
-                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
+                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
                         data: data[j],
                         index: i,
                         value: v,
@@ -7757,7 +7757,9 @@
             var assocIndexOf = __webpack_require__("../../../node_modules/lodash/_assocIndexOf.js"), splice = Array.prototype.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
+                if (index < 0) return !1;
+                var lastIndex = data.length - 1;
+                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
             };
         },
         "../../../node_modules/lodash/_listCacheGet.js": function(module1, exports1, __webpack_require__) {
@@ -8524,7 +8526,7 @@
                     },
                     oneOf: function(expectedValues) {
                         return Array.isArray(expectedValues) ? createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if ((x = propValue) === (y = expectedValues[i]) ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
+                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if (x = propValue, y = expectedValues[i], x === y ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
@@ -10864,15 +10866,15 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_8__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_8__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, defaultStyles = theme && theme.boxplot && theme.boxplot.style ? theme.boxplot.style : {}, style = getStyles(props, defaultStyles), defaultOrientation = props.horizontal ? "top" : "right";
+                }, defaultStyles = theme && theme.boxplot && theme.boxplot.style ? theme.boxplot.style : {}, style = getStyles(props, defaultStyles), defaultOrientation = props.horizontal ? "top" : "right", labelOrientation = props.labelOrientation || defaultOrientation, boxWidth = props.boxWidth || 1;
                 return {
                     data: data,
                     horizontal: horizontal,
                     domain: domain,
                     scale: scale,
                     style: style,
-                    labelOrientation: props.labelOrientation || defaultOrientation,
-                    boxWidth: props.boxWidth || 1
+                    labelOrientation: labelOrientation,
+                    boxWidth: boxWidth
                 };
             }, getWhiskerProps = function(props, type) {
                 var horizontal = props.horizontal, style = props.style, boxWidth = props.boxWidth, whiskerWidth = props.whiskerWidth, datum = props.datum, scale = props.scale, index = props.index, _props$positions = props.positions, min = _props$positions.min, max = _props$positions.max, q1 = _props$positions.q1, q3 = _props$positions.q3, x = _props$positions.x, y = _props$positions.y, boxValue = "min" === type ? q1 : q3, whiskerValue = "min" === type ? min : max, width = "number" == typeof whiskerWidth ? whiskerWidth : boxWidth;
@@ -10977,7 +10979,7 @@
                 }, isUnderMinX = underMin(minDomainX), isUnderMinY = underMin(minDomainY), isOverMaxX = overMax(maxDomainX), isOverMaxY = overMax(maxDomainY);
                 return (isUnderMinX(_x) || isOverMaxX(_x)) && (xOutOfBounds = !0), (isUnderMinY(_min) && isUnderMinY(_max) || isOverMaxY(_min) && isOverMaxY(_max)) && (yOutOfBounds = !0), yOutOfBounds || xOutOfBounds;
             }, getBaseProps = function(props, fallbackProps) {
-                var modifiedProps = victory_core__WEBPACK_IMPORTED_MODULE_8__.Helpers.modifyProps(props, fallbackProps, "boxplot"), _props = props = lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, modifiedProps, getCalculatedValues(modifiedProps)), groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, theme = _props.theme, events = _props.events, sharedEvents = _props.sharedEvents, scale = _props.scale, horizontal = _props.horizontal, data = _props.data, style = _props.style, domain = _props.domain, initialChildProps = {
+                var modifiedProps = victory_core__WEBPACK_IMPORTED_MODULE_8__.Helpers.modifyProps(props, fallbackProps, "boxplot"), _props = props = lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, modifiedProps, getCalculatedValues(modifiedProps)), groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, theme = _props.theme, events = _props.events, sharedEvents = _props.sharedEvents, scale = _props.scale, horizontal = _props.horizontal, data = _props.data, style = _props.style, domain = _props.domain, name = _props.name, initialChildProps = {
                     parent: {
                         domain: domain,
                         scale: scale,
@@ -10985,7 +10987,7 @@
                         height: height,
                         data: data,
                         standalone: standalone,
-                        name: _props.name,
+                        name: name,
                         theme: theme,
                         style: style.parent || {},
                         padding: padding,
@@ -12796,14 +12798,14 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_5__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_5__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.getPolarOrigin(props) : void 0, defaultOrientation = props.horizontal ? "top" : "right";
+                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.getPolarOrigin(props) : void 0, defaultOrientation = props.horizontal ? "top" : "right", labelOrientation = props.labelOrientation || defaultOrientation;
                 return {
                     domain: domain,
                     data: data,
                     scale: scale,
                     style: style,
                     origin: origin,
-                    labelOrientation: props.labelOrientation || defaultOrientation
+                    labelOrientation: labelOrientation
                 };
             }, getDataStyles = function(datum, style, props) {
                 style = style || {};
@@ -12863,12 +12865,12 @@
                     computedType: type || "labels",
                     candleWidth: candleWidth,
                     orientation: orientation
-                }), yValue = _calculatePlotValues.yValue, xValue = _calculatePlotValues.xValue, labelProps = {
+                }), yValue = _calculatePlotValues.yValue, xValue = _calculatePlotValues.xValue, dx = _calculatePlotValues.dx, dy = _calculatePlotValues.dy, labelProps = {
                     style: labelStyle,
                     y: yValue,
                     x: xValue,
-                    dx: _calculatePlotValues.dx,
-                    dy: _calculatePlotValues.dy,
+                    dx: dx,
+                    dy: dy,
                     text: text,
                     index: index,
                     scale: scale,
@@ -15985,10 +15987,10 @@
                     tabIndex: tabIndex
                 });
             }, Whisker = function(props) {
-                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, baseProps = _objectSpread({}, events, {
+                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, desc = _props.desc, tabIndex = _props.tabIndex, baseProps = _objectSpread({}, events, {
                     style: style,
-                    desc: _props.desc,
-                    tabIndex: _props.tabIndex,
+                    desc: desc,
+                    tabIndex: tabIndex,
                     className: className,
                     transform: transform,
                     clipPath: clipPath,
@@ -18297,8 +18299,8 @@
                 return "number" == typeof degrees ? degrees * (Math.PI / 180) : degrees;
             }
             function getRadius(props) {
-                var _getPadding = getPadding(props), left = _getPadding.left, right = _getPadding.right, top = _getPadding.top, bottom = _getPadding.bottom;
-                return Math.min(props.width - left - right, props.height - top - bottom) / 2;
+                var _getPadding = getPadding(props), left = _getPadding.left, right = _getPadding.right, top = _getPadding.top, bottom = _getPadding.bottom, width = props.width;
+                return Math.min(width - left - right, props.height - top - bottom) / 2;
             }
             function isHorizontal(props) {
                 if (void 0 !== props.horizontal || !props.children) return props.horizontal;
@@ -18400,7 +18402,7 @@
                     } : lodash_property__WEBPACK_IMPORTED_MODULE_3___default()(key);
                 },
                 modifyProps: function(props, fallbackProps, role) {
-                    var themeProps = omit(props.theme && props.theme[role] ? props.theme[role] : {}, [
+                    var theme = props.theme && props.theme[role] ? props.theme[role] : {}, themeProps = omit(theme, [
                         "style"
                     ]), horizontal = isHorizontal(props);
                     return lodash_defaults__WEBPACK_IMPORTED_MODULE_5___default()(void 0 === horizontal ? {} : {
@@ -18538,7 +18540,7 @@
                             dx: padding.x,
                             dy: padding.y
                         };
-                    }(props, datum3), labelProps = {
+                    }(props, datum3), dx = _getOffset.dx, dy = _getOffset.dy, labelProps = {
                         angle: angle,
                         data: data,
                         datum: datum3,
@@ -18552,8 +18554,8 @@
                         verticalAnchor: verticalAnchor,
                         x: x,
                         y: y,
-                        dx: _getOffset.dx,
-                        dy: _getOffset.dy,
+                        dx: dx,
+                        dy: dy,
                         width: width,
                         height: height,
                         style: style1.labels
@@ -22894,13 +22896,13 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, parentProps = {
+                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, minDomain = props.minDomain, maxDomain = props.maxDomain, parentProps = {
                         polar: polar,
                         startAngle: startAngle,
                         endAngle: endAngle,
                         categories: categories,
-                        minDomain: props.minDomain,
-                        maxDomain: props.maxDomain
+                        minDomain: minDomain,
+                        maxDomain: maxDomain
                     }, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
                     parentProps = this.addBinsToParentPropsIfHistogram({
                         children: children,
@@ -24764,7 +24766,7 @@
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
                     for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-                    for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect_js__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
+                    for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[Object(_bisect_js__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
                 return histogram.value = function(_) {
@@ -25336,8 +25338,8 @@
                 if (n = (values = Float64Array.from(Object(_number_js__WEBPACK_IMPORTED_MODULE_3__.numbers)(values, valueof))).length) {
                     if ((p = +p) <= 0 || n < 2) return Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values);
                     if (p >= 1) return Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(values);
-                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1));
-                    return value0 + (Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1)) - value0) * (i - i0);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1)), value1 = Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1));
+                    return value0 + (value1 - value0) * (i - i0);
                 }
             }
             function quantileSorted(values, p, valueof = _number_js__WEBPACK_IMPORTED_MODULE_3__.default) {
@@ -25687,7 +25689,7 @@
                 }, gutterOffset = {
                     x: gutter && "object" == typeof gutter && gutter.left || 0,
                     y: rowGutter && "object" == typeof rowGutter && rowGutter.top || 0
-                }, _getDimensions = getDimensions(props, fallbackProps), borderProps = getBorderProps(props, _getDimensions.height, _getDimensions.width), titleProps = getTitleProps(props, borderProps), initialProps = {
+                }, _getDimensions = getDimensions(props, fallbackProps), height = _getDimensions.height, width = _getDimensions.width, borderProps = getBorderProps(props, height, width), titleProps = getTitleProps(props, borderProps), initialProps = {
                     parent: {
                         data: data,
                         standalone: standalone,
@@ -27006,10 +27008,13 @@
             }, getRange = function(props, axis) {
                 if (props.range && props.range[axis]) return props.range[axis];
                 if (props.range && Array.isArray(props.range)) return props.range;
-                if ("angular" === getAxisType(props)) return [
-                    victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.startAngle),
-                    victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.endAngle)
-                ];
+                if ("angular" === getAxisType(props)) {
+                    var startAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.startAngle), endAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.endAngle);
+                    return [
+                        startAngle,
+                        endAngle
+                    ];
+                }
                 var radius = getRadius(props);
                 return [
                     props.innerRadius || 0,
@@ -27610,9 +27615,9 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), dataProps = {
-                        x: _Helpers$scalePoint.x,
-                        y: _Helpers$scalePoint.y,
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, dataProps = {
+                        x: x,
+                        y: y,
                         datum: datum,
                         data: data,
                         index: index,
@@ -28401,8 +28406,8 @@
                                         name: name
                                     }, child.props)));
                                 }, []);
-                            }, childNames = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(baseProps);
-                            return alterChildren(react__WEBPACK_IMPORTED_MODULE_7___default.a.Children.toArray(props.children), childNames);
+                            }, childNames = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(baseProps), childComponents = react__WEBPACK_IMPORTED_MODULE_7___default.a.Children.toArray(props.children);
+                            return alterChildren(childComponents, childNames);
                         }
                     },
                     {
@@ -28617,13 +28622,13 @@
                 }, scale = {
                     x: baseScale.x.domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: baseScale.y.domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, _props = props, colorScale = _props.colorScale;
+                }, _props = props, colorScale = _props.colorScale, horizontal = _props.horizontal;
                 return {
                     datasets: datasets2,
                     categories: categories,
                     range: range,
                     domain: domain,
-                    horizontal: _props.horizontal,
+                    horizontal: horizontal,
                     scale: scale,
                     style: style,
                     colorScale: colorScale,
@@ -30093,9 +30098,9 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), dataProps = {
-                        x: _Helpers$scalePoint.x,
-                        y: _Helpers$scalePoint.y,
+                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, dataProps = {
+                        x: x,
+                        y: y,
                         datum: datum,
                         data: data,
                         index: index,
@@ -30674,7 +30679,8 @@
                     return evt.deltaY > 0;
                 },
                 getScaleFactor: function(evt) {
-                    return Math.abs(1 + (this.zoommingOut(evt) ? 1 : -1) * Math.min(Math.abs(evt.deltaY / 300), 0.5));
+                    var sign = this.zoommingOut(evt) ? 1 : -1, delta = Math.min(Math.abs(evt.deltaY / 300), 0.5);
+                    return Math.abs(1 + sign * delta);
                 },
                 getScalePercent: function(evt, props, axis) {
                     var originalDomain = this.getDomain(props), _originalDomain$axis = _slicedToArray(originalDomain[axis], 2), from = _originalDomain$axis[0], to = _originalDomain$axis[1];

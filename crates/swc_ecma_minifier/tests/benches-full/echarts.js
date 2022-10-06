@@ -2242,10 +2242,10 @@
     function lerp$1(normalizedValue, colors, fullOutput) {
         if (colors && colors.length && normalizedValue >= 0 && normalizedValue <= 1) {
             var a, b, p, a1, b1, p1, a2, b2, p2, a3, b3, p3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), rightIndex = Math.ceil(value), leftColor = parse(colors[leftIndex]), rightColor = parse(colors[rightIndex]), dv = value - leftIndex, color = stringify([
-                clampCssByte((a = leftColor[0], a + ((b = rightColor[0]) - a) * dv)),
-                clampCssByte((a1 = leftColor[1], a1 + ((b1 = rightColor[1]) - a1) * dv)),
-                clampCssByte((a2 = leftColor[2], a2 + ((b2 = rightColor[2]) - a2) * dv)),
-                clampCssFloat((a3 = leftColor[3], a3 + ((b3 = rightColor[3]) - a3) * dv))
+                clampCssByte((a = leftColor[0], b = rightColor[0], a + (b - a) * dv)),
+                clampCssByte((a1 = leftColor[1], b1 = rightColor[1], a1 + (b1 - a1) * dv)),
+                clampCssByte((a2 = leftColor[2], b2 = rightColor[2], a2 + (b2 - a2) * dv)),
+                clampCssFloat((a3 = leftColor[3], b3 = rightColor[3], a3 + (b3 - a3) * dv))
             ], 'rgba');
             return fullOutput ? {
                 color: color,
@@ -6252,7 +6252,7 @@
                             ctlPtx = cpx, ctlPty = cpy, len = path.len(), pathData = path.data, prevCmd === CMD.Q && (ctlPtx += cpx - pathData[len - 4], ctlPty += cpy - pathData[len - 3]), cpx += p[off++], cpy += p[off++], cmd = CMD.Q, path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                             break;
                         case 'A':
-                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx = p[off++], processArc(x1, y1, cpx, cpy = p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
+                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx = p[off++], cpy = p[off++], processArc(x1, y1, cpx, cpy, fa, fs, rx, ry, psi, cmd = CMD.A, path);
                             break;
                         case 'a':
                             rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, cpx += p[off++], processArc(x1, y1, cpx, cpy += p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
@@ -7950,9 +7950,12 @@
         } : inOpt || {}, color = opt.color, type = opt.type;
         extraCssText = opt.extraCssText;
         var renderMode = opt.renderMode || 'html';
-        return color ? 'html' === renderMode ? 'subItem' === type ? '<span style="display:inline-block;vertical-align:middle;margin-right:8px;margin-left:3px;border-radius:4px;width:4px;height:4px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>' : '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>' : {
+        if (!color) return '';
+        if ('html' === renderMode) return 'subItem' === type ? '<span style="display:inline-block;vertical-align:middle;margin-right:8px;margin-left:3px;border-radius:4px;width:4px;height:4px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>' : '<span style="display:inline-block;margin-right:4px;border-radius:10px;width:10px;height:10px;background-color:' + encodeHTML(color) + ';' + (extraCssText || '') + '"></span>';
+        var markerId = opt.markerId || 'markerX';
+        return {
             renderMode: renderMode,
-            content: '{' + (opt.markerId || 'markerX') + '|}  ',
+            content: '{' + markerId + '|}  ',
             style: 'subItem' === type ? {
                 width: 4,
                 height: 4,
@@ -7964,7 +7967,7 @@
                 borderRadius: 5,
                 backgroundColor: color
             }
-        } : '';
+        };
     }
     function convertToColorString(color, defaultColor) {
         return defaultColor = defaultColor || 'transparent', isString(color) ? color : isObject(color) && color.colorStops && (color.colorStops[0] || {}).color || defaultColor;
@@ -8368,8 +8371,8 @@
     function makeSeriesEncodeForAxisCoordSys(coordDimensions, seriesModel, source) {
         var baseCategoryDimIndex, categoryWayValueDimStart, encode = {}, datasetModel = querySeriesUpstreamDatasetModel(seriesModel);
         if (!datasetModel || !coordDimensions) return encode;
-        var encodeItemName = [], encodeSeriesName = [], datasetMap = innerGlobalModel(seriesModel.ecModel).datasetMap, key = datasetModel.uid + '_' + source.seriesLayoutBy;
-        each(coordDimensions = coordDimensions.slice(), function(coordDimInfoLoose, coordDimIdx) {
+        var encodeItemName = [], encodeSeriesName = [], ecModel = seriesModel.ecModel, datasetMap = innerGlobalModel(ecModel).datasetMap, key = datasetModel.uid + '_' + source.seriesLayoutBy;
+        coordDimensions = coordDimensions.slice(), each(coordDimensions, function(coordDimInfoLoose, coordDimIdx) {
             var coordDimInfo = isObject(coordDimInfoLoose) ? coordDimInfoLoose : coordDimensions[coordDimIdx] = {
                 name: coordDimInfoLoose
             };
@@ -11640,7 +11643,7 @@
         el.beforeBrush && el.beforeBrush(), el.innerBeforeBrush();
         var prevEl1 = scope.prevEl;
         prevEl1 || (forceSetStyle = forceSetTransform = !0);
-        var canBatchPath = el instanceof Path && el.autoBatch && (hasFill = styleHasFill(style = el.style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
+        var canBatchPath = el instanceof Path && el.autoBatch && (style = el.style, hasFill = styleHasFill(style), hasStroke = styleHasStroke(style), !(style.lineDash || !(+hasFill ^ +hasStroke) || hasFill && 'string' != typeof style.fill || hasStroke && 'string' != typeof style.stroke || style.strokePercent < 1 || style.strokeOpacity < 1 || style.fillOpacity < 1));
         !forceSetTransform && (m1 = prevEl1.transform, m && m1 ? m[0] === m1[0] && m[1] === m1[1] && m[2] === m1[2] && m[3] === m1[3] && m[4] === m1[4] && m[5] === m1[5] : m || m1 ? 0 : 1) ? canBatchPath || flushPathDrawn(ctx, scope) : (flushPathDrawn(ctx, scope), setContextTransform(ctx, el));
         var style1 = getStyle(el, scope.inHover);
         el instanceof Path ? (1 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 1), bindPathAndTextCommonStyle(ctx, el, prevEl1, forceSetStyle, scope), canBatchPath && (scope.batchFill || scope.batchStroke) || ctx.beginPath(), function(ctx, el, style, inBatch) {
@@ -13538,8 +13541,8 @@
                 var eventObjBatch = [], isSelectChange = isSelectChangePayload(payload), isHighDown = isHighDownPayload(payload);
                 if (each(payloads, function(batchItem) {
                     if ((eventObj = (eventObj = actionWrap.action(batchItem, _this._model, _this._api)) || extend({}, batchItem)).type = actionInfo.event || eventObj.type, eventObjBatch.push(eventObj), isHighDown) {
-                        var _a = preParseFinder(payload), queryOptionMap = _a.queryOptionMap;
-                        updateDirectly(_this, updateMethod, batchItem, _a.mainTypeSpecified ? queryOptionMap.keys()[0] : 'series'), markStatusToUpdate(_this);
+                        var _a = preParseFinder(payload), queryOptionMap = _a.queryOptionMap, componentMainType = _a.mainTypeSpecified ? queryOptionMap.keys()[0] : 'series';
+                        updateDirectly(_this, updateMethod, batchItem, componentMainType), markStatusToUpdate(_this);
                     } else isSelectChange ? (updateDirectly(_this, updateMethod, batchItem, 'series'), markStatusToUpdate(_this)) : cptType && updateDirectly(_this, updateMethod, batchItem, cptType.main, cptType.sub);
                 }), 'none' === updateMethod || isHighDown || isSelectChange || cptType || (this[OPTION_UPDATED_KEY] ? (prepare(this), updateMethods.update.call(this, payload), this[OPTION_UPDATED_KEY] = !1) : updateMethods[updateMethod].call(this, payload)), eventObj = batched ? {
                     type: actionInfo.event || payloadType,
@@ -15176,7 +15179,8 @@
                     opt.fixMax || (extent[1] += expandSize / 2), extent[0] -= expandSize / 2;
                 } else extent[1] = 1;
             }
-            isFinite(extent[1] - extent[0]) || (extent[0] = 0, extent[1] = 1), this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
+            var span = extent[1] - extent[0];
+            isFinite(span) || (extent[0] = 0, extent[1] = 1), this.niceTicks(opt.splitNumber, opt.minInterval, opt.maxInterval);
             var interval = this._interval;
             opt.fixMin || (extent[0] = round(Math.floor(extent[0] / interval) * interval)), opt.fixMax || (extent[1] = round(Math.ceil(extent[1] / interval) * interval));
         }, IntervalScale.type = 'interval', IntervalScale;
@@ -16110,7 +16114,7 @@
             return data = scale.normalize(data), this.onBand && 'ordinal' === scale.type && fixExtentWithBands(extent = extent.slice(), scale.count()), linearMap(data, NORMALIZED_EXTENT, extent, clamp);
         }, Axis.prototype.coordToData = function(coord, clamp) {
             var extent = this._extent, scale = this.scale;
-            this.onBand && 'ordinal' === scale.type && fixExtentWithBands(extent = extent.slice(), scale.count());
+            this.onBand && 'ordinal' === scale.type && (extent = extent.slice(), fixExtentWithBands(extent, scale.count()));
             var t = linearMap(coord, extent, NORMALIZED_EXTENT, clamp);
             return this.scale.scale(t);
         }, Axis.prototype.pointToData = function(point, clamp) {}, Axis.prototype.getTicksCoords = function(opt) {
@@ -16137,7 +16141,7 @@
                     coord: this.dataToCoord('ordinal' === this.scale.type ? this.scale.getRawOrdinalNumber(tickVal) : tickVal),
                     tickValue: tickVal
                 };
-            }, this);
+            }, this), alignWithLabel = tickModel1.get('alignWithLabel');
             return function(axis, ticksCoords, alignWithLabel, clamp) {
                 var last, diffSize, ticksLen = ticksCoords.length;
                 if (axis.onBand && !alignWithLabel && ticksLen) {
@@ -16163,7 +16167,7 @@
                 function littleThan(a, b) {
                     return a = round(a), b = round(b), inverse ? a > b : a < b;
                 }
-            }(this, ticksCoords, tickModel1.get('alignWithLabel'), opt.clamp), ticksCoords;
+            }(this, ticksCoords, alignWithLabel, opt.clamp), ticksCoords;
         }, Axis.prototype.getMinorTicksCoords = function() {
             if ('ordinal' === this.scale.type) return [];
             var splitNumber = this.model.getModel('minorTick').get('splitNumber');
@@ -19182,7 +19186,7 @@
                                 if (!(len1 < 1e-3) && !(len2 < 1e-3) && (dir.scale(1 / len1), dir2.scale(1 / len2), dir.dot(surfaceNormal) < Math.cos(maxSurfaceAngle))) {
                                     var d = projectPointToLine(pt1.x, pt1.y, pt2.x, pt2.y, pt0.x, pt0.y, tmpArr, !1);
                                     tmpProjPoint.fromArray(tmpArr);
-                                    var HALF_PI = Math.PI / 2, newAngle = HALF_PI + Math.acos(dir2.dot(surfaceNormal)) - maxSurfaceAngle;
+                                    var HALF_PI = Math.PI / 2, angle2 = Math.acos(dir2.dot(surfaceNormal)), newAngle = HALF_PI + angle2 - maxSurfaceAngle;
                                     if (newAngle >= HALF_PI) Point.copy(tmpProjPoint, pt2);
                                     else {
                                         tmpProjPoint.scaleAndAdd(dir2, d / Math.tan(Math.PI / 2 - newAngle));
@@ -19919,9 +19923,9 @@
                             var axisLabelModel = axis.getLabelModel(), labelFormatter = makeLabelFormatter(axis), step = 1;
                             tickCount > 40 && (step = Math.ceil(tickCount / 40));
                             for(var i = 0; i < tickCount; i += step){
-                                var label = labelFormatter(realNumberScaleTicks ? realNumberScaleTicks[i] : {
+                                var tick = realNumberScaleTicks ? realNumberScaleTicks[i] : {
                                     value: categoryScaleExtent[0] + i
-                                }, i), singleRect = function(textRect, rotate) {
+                                }, label = labelFormatter(tick, i), singleRect = function(textRect, rotate) {
                                     var rotateRadians = rotate * Math.PI / 180, beforeWidth = textRect.width, beforeHeight = textRect.height;
                                     return new BoundingRect(textRect.x, textRect.y, beforeWidth * Math.abs(Math.cos(rotateRadians)) + Math.abs(beforeHeight * Math.sin(rotateRadians)), beforeWidth * Math.abs(Math.sin(rotateRadians)) + Math.abs(beforeHeight * Math.cos(rotateRadians)));
                                 }(axisLabelModel.getTextRect(label), axisLabelModel.get('rotate') || 0);
@@ -19963,7 +19967,7 @@
             return target.cartesian ? target.cartesian.pointToData(value) : target.axis ? target.axis.coordToData(target.axis.toLocalCoord(value)) : null;
         }, Grid.prototype._findConvertTarget = function(finder) {
             var cartesian, axis, seriesModel = finder.seriesModel, xAxisModel = finder.xAxisModel || seriesModel && seriesModel.getReferringComponents('xAxis', SINGLE_REFERRING).models[0], yAxisModel = finder.yAxisModel || seriesModel && seriesModel.getReferringComponents('yAxis', SINGLE_REFERRING).models[0], gridModel = finder.gridModel, coordsList = this._coordsList;
-            return seriesModel ? 0 > indexOf(coordsList, cartesian = seriesModel.coordinateSystem) && (cartesian = null) : xAxisModel && yAxisModel ? cartesian = this.getCartesian(xAxisModel.componentIndex, yAxisModel.componentIndex) : xAxisModel ? axis = this.getAxis('x', xAxisModel.componentIndex) : yAxisModel ? axis = this.getAxis('y', yAxisModel.componentIndex) : gridModel && gridModel.coordinateSystem === this && (cartesian = this._coordsList[0]), {
+            return seriesModel ? (cartesian = seriesModel.coordinateSystem, 0 > indexOf(coordsList, cartesian) && (cartesian = null)) : xAxisModel && yAxisModel ? cartesian = this.getCartesian(xAxisModel.componentIndex, yAxisModel.componentIndex) : xAxisModel ? axis = this.getAxis('x', xAxisModel.componentIndex) : yAxisModel ? axis = this.getAxis('y', yAxisModel.componentIndex) : gridModel && gridModel.coordinateSystem === this && (cartesian = this._coordsList[0]), {
                 cartesian: cartesian,
                 axis: axis
             };
@@ -20296,7 +20300,7 @@
                     rotation: rotationDiff,
                     textAlign: textAlign,
                     textVerticalAlign: textVerticalAlign
-                }, null != (axisNameAvailableWidth = opt.axisNameAvailableWidth) && (isFinite(axisNameAvailableWidth = Math.abs(axisNameAvailableWidth / Math.sin(labelLayout.rotation))) || (axisNameAvailableWidth = null)));
+                }, null != (axisNameAvailableWidth = opt.axisNameAvailableWidth) && (axisNameAvailableWidth = Math.abs(axisNameAvailableWidth / Math.sin(labelLayout.rotation)), isFinite(axisNameAvailableWidth) || (axisNameAvailableWidth = null)));
                 var textFont = textStyleModel.getFont(), truncateOpt = axisModel.get('nameTruncate', !0) || {}, ellipsis = truncateOpt.ellipsis, maxWidth = retrieve(opt.nameTruncateMaxWidth, truncateOpt.maxWidth, axisNameAvailableWidth), textEl = new ZRText({
                     x: pos[0],
                     y: pos[1],
@@ -21536,7 +21540,8 @@
                 var name_2 = data.getName(i);
                 dataNameMap.set(name_2, !0);
             }
-            return each(geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
+            var geoSource = geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty);
+            return each(geoSource.regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || toAppendNames.push(name);
             }), data.appendValues([], toAppendNames), data;
@@ -21877,7 +21882,8 @@
             }), geoList;
         }, GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
-            return each(geoSourceManager.load(mapName, nameMap, nameProperty).regions, function(region) {
+            var source = geoSourceManager.load(mapName, nameMap, nameProperty);
+            return each(source.regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || regionsArr.push({
                     name: name
@@ -27513,7 +27519,7 @@
             });
             var iterations1 = 0 !== filter(nodes3, function(node) {
                 return 0 === node.getLayout().value;
-            }).length ? 0 : seriesModel.get('layoutIterations'), orient1 = seriesModel.get('orient');
+            }).length ? 0 : seriesModel.get('layoutIterations'), orient1 = seriesModel.get('orient'), nodeAlign = seriesModel.get('nodeAlign');
             nodes1 = nodes3, edges = edges1, nodeWidth = nodeWidth1, nodeGap = nodeGap1, width = width1, height = height1, iterations = iterations1, orient = orient1, function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
                 for(var nodes1, kx, orient1, remainEdges = [], indegreeArr = [], zeroIndegrees = [], nextTargetNode = [], x = 0, i = 0; i < edges.length; i++)remainEdges[i] = 1;
                 for(var i = 0; i < nodes.length; i++)indegreeArr[i] = nodes[i].inEdges.length, 0 === indegreeArr[i] && zeroIndegrees.push(nodes[i]);
@@ -27573,7 +27579,7 @@
                         x: nodeDepth
                     }, !0);
                 });
-            }(nodes1, edges, nodeWidth, width, height, orient, seriesModel.get('nodeAlign')), function(nodes, edges, height, width, nodeGap, iterations, orient) {
+            }(nodes1, edges, nodeWidth, width, height, orient, nodeAlign), function(nodes, edges, height, width, nodeGap, iterations, orient) {
                 var nodes1, orient1, nodesByBreadth, keyAttr, groupResult, nodesByBreadth1, edges1, height1, width1, nodeGap1, orient2, minKy, nodesByBreadth2 = (nodes1 = nodes, orient1 = orient, nodesByBreadth = [], keyAttr = 'vertical' === orient1 ? 'y' : 'x', (groupResult = groupData(nodes1, function(node) {
                     return node.getLayout()[keyAttr];
                 })).keys.sort(function(a, b) {
@@ -29766,7 +29772,16 @@
             var data = seriesModel.getData(), single = seriesModel.coordinateSystem, layoutInfo = {}, rect = single.getRect();
             layoutInfo.rect = rect;
             var boundaryGap = seriesModel.get('boundaryGap'), axis = single.getAxis();
-            layoutInfo.boundaryGap = boundaryGap, 'horizontal' === axis.orient ? (boundaryGap[0] = parsePercent$1(boundaryGap[0], rect.height), boundaryGap[1] = parsePercent$1(boundaryGap[1], rect.height), doThemeRiverLayout(data, seriesModel, rect.height - boundaryGap[0] - boundaryGap[1])) : (boundaryGap[0] = parsePercent$1(boundaryGap[0], rect.width), boundaryGap[1] = parsePercent$1(boundaryGap[1], rect.width), doThemeRiverLayout(data, seriesModel, rect.width - boundaryGap[0] - boundaryGap[1])), data.setLayout('layoutInfo', layoutInfo);
+            if (layoutInfo.boundaryGap = boundaryGap, 'horizontal' === axis.orient) {
+                boundaryGap[0] = parsePercent$1(boundaryGap[0], rect.height), boundaryGap[1] = parsePercent$1(boundaryGap[1], rect.height);
+                var height = rect.height - boundaryGap[0] - boundaryGap[1];
+                doThemeRiverLayout(data, seriesModel, height);
+            } else {
+                boundaryGap[0] = parsePercent$1(boundaryGap[0], rect.width), boundaryGap[1] = parsePercent$1(boundaryGap[1], rect.width);
+                var width = rect.width - boundaryGap[0] - boundaryGap[1];
+                doThemeRiverLayout(data, seriesModel, width);
+            }
+            data.setLayout('layoutInfo', layoutInfo);
         });
     }
     function doThemeRiverLayout(data, seriesModel, height) {
@@ -30135,7 +30150,9 @@
                     for(var current = node; current && current.depth > 1;)current = current.parentNode;
                     var color = seriesModel.getColorFromPalette(current.name || current.dataIndex + '', paletteScope);
                     return node.depth > 1 && 'string' == typeof color && (color = lift(color, (node.depth - 1) / (treeHeight - 1) * 0.5)), color;
-                }(node, seriesModel, tree.root.height)), extend(data.ensureUniqueItemVisual(node.dataIndex, 'style'), style);
+                }(node, seriesModel, tree.root.height));
+                var existsStyle = data.ensureUniqueItemVisual(node.dataIndex, 'style');
+                extend(existsStyle, style);
             });
         });
     }
@@ -30341,7 +30358,7 @@
                 newArray1,
                 newArray2
             ];
-        }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
+        }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy)), fromBezierCurves = _a[0], toBezierCurves = _a[1];
         !function(path, morphingData, morphT) {
             if (isIndividualMorphingPath(path)) {
                 updateIndividualMorphingPath(path, morphingData, morphT);
@@ -30393,7 +30410,7 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 10, Math.PI), 0);
+        }(fromBezierCurves, toBezierCurves, 10, Math.PI), 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
         return toPath.animateTo({
             __morphT: 1
@@ -30439,7 +30456,7 @@
             } else fromIndividuals.push(fromPath), separateCount++;
         }
         if (separateCount) {
-            var toPathSplittedList = divideShape(toPath, separateCount, animationOpts ? animationOpts.dividingMethod : null);
+            var dividingMethod = animationOpts ? animationOpts.dividingMethod : null, toPathSplittedList = divideShape(toPath, separateCount, dividingMethod);
             assert(toPathSplittedList.length === separateCount);
             for(var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during, doneCount = 0, abortedCalled = !1, morphAnimationOpts = defaults({
                 during: function(p) {
@@ -35949,16 +35966,18 @@
             var seriesIndex = payload.seriesIndex, dataIndex = payload.dataIndex, coordSysAxesInfo = ecModel.getComponent('axisPointer').coordSysAxesInfo;
             if (null != seriesIndex && null != dataIndex && null != coordSysAxesInfo) {
                 var seriesModel = ecModel.getSeriesByIndex(seriesIndex);
-                if (seriesModel && 'axis' === buildTooltipModel([
-                    seriesModel.getData().getItemModel(dataIndex),
-                    seriesModel,
-                    (seriesModel.coordinateSystem || {}).model
-                ], this._tooltipModel).get('trigger')) return api.dispatchAction({
-                    type: 'updateAxisPointer',
-                    seriesIndex: seriesIndex,
-                    dataIndex: dataIndex,
-                    position: payload.position
-                }), !0;
+                if (seriesModel) {
+                    if ('axis' === buildTooltipModel([
+                        seriesModel.getData().getItemModel(dataIndex),
+                        seriesModel,
+                        (seriesModel.coordinateSystem || {}).model
+                    ], this._tooltipModel).get('trigger')) return api.dispatchAction({
+                        type: 'updateAxisPointer',
+                        seriesIndex: seriesIndex,
+                        dataIndex: dataIndex,
+                        position: payload.position
+                    }), !0;
+                }
             }
         }, TooltipView.prototype._tryShow = function(e, dispatchAction) {
             var seriesDispatcher_1, cmptDispatcher_1, el = e.target;
@@ -36003,7 +36022,7 @@
                     }
                 });
             }), articleMarkup.blocks.reverse(), markupTextArrLegacy.reverse();
-            var positionExpr = e.position, builtMarkupText = buildTooltipMarkup(articleMarkup, markupStyleCreator, renderMode, singleTooltipModel.get('order'), ecModel.get('useUTC'), singleTooltipModel.get('textStyle'));
+            var positionExpr = e.position, orderMode = singleTooltipModel.get('order'), builtMarkupText = buildTooltipMarkup(articleMarkup, markupStyleCreator, renderMode, orderMode, ecModel.get('useUTC'), singleTooltipModel.get('textStyle'));
             builtMarkupText && markupTextArrLegacy.unshift(builtMarkupText);
             var allMarkupText = markupTextArrLegacy.join('richText' === renderMode ? '\n\n' : '<br/>');
             this._showOrMove(singleTooltipModel, function() {
@@ -36876,11 +36895,12 @@
             if (this.model = timelineModel, this.api = api, this.ecModel = ecModel, this.group.removeAll(), timelineModel.get('show', !0)) {
                 var layoutInfo_1 = this._layout(timelineModel, api), mainGroup_1 = this._createGroup('_mainGroup'), labelGroup = this._createGroup('_labelGroup'), axis_1 = this._axis = this._createAxis(layoutInfo_1, timelineModel);
                 timelineModel.formatTooltip = function(dataIndex) {
+                    var name = axis_1.scale.getLabel({
+                        value: dataIndex
+                    });
                     return createTooltipMarkup('nameValue', {
                         noName: !0,
-                        value: axis_1.scale.getLabel({
-                            value: dataIndex
-                        })
+                        value: name
                     });
                 }, each([
                     'AxisLine',
@@ -39848,8 +39868,8 @@
             function setter(key, value) {
                 visualObj[key] = value;
             }
-            var mappings = visualMapModel.controllerVisuals[forceState || visualMapModel.getValueState(targetValue)];
-            return each(VisualMapping.prepareVisualTypes(mappings), function(type) {
+            var mappings = visualMapModel.controllerVisuals[forceState || visualMapModel.getValueState(targetValue)], visualTypes = VisualMapping.prepareVisualTypes(mappings);
+            return each(visualTypes, function(type) {
                 var visualMapping = mappings[type];
                 opts.convertOpacityToAlpha && 'opacity' === type && (type = 'colorAlpha', visualMapping = mappings.__alphaForOpacity), VisualMapping.dependsOn(type, visualCluster) && visualMapping && visualMapping.applyVisual(targetValue, getter, setter);
             }), visualObj[visualCluster];
@@ -40854,23 +40874,25 @@
                     var seriesCnt = ecModel.getSeriesCount(), maxDataCnt = labelModel.get([
                         'data',
                         'maxCount'
-                    ]) || 10, displaySeriesCnt = Math.min(seriesCnt, labelModel.get([
+                    ]) || 10, maxSeriesCnt = labelModel.get([
                         'series',
                         'maxCount'
-                    ]) || 10);
+                    ]) || 10, displaySeriesCnt = Math.min(seriesCnt, maxSeriesCnt);
                     if (!(seriesCnt < 1)) {
                         var title, title1 = ((title = ecModel.get('title')) && title.length && (title = title[0]), title && title.text);
-                        ariaLabel = title1 ? replace(labelModel.get([
-                            'general',
-                            'withTitle'
-                        ]), {
-                            title: title1
-                        }) : labelModel.get([
+                        if (title1) {
+                            var withTitle = labelModel.get([
+                                'general',
+                                'withTitle'
+                            ]);
+                            ariaLabel = replace(withTitle, {
+                                title: title1
+                            });
+                        } else ariaLabel = labelModel.get([
                             'general',
                             'withoutTitle'
                         ]);
-                        var seriesLabels_1 = [];
-                        ariaLabel += replace(seriesCnt > 1 ? labelModel.get([
+                        var seriesLabels_1 = [], prefix = seriesCnt > 1 ? labelModel.get([
                             'series',
                             'multiple',
                             'prefix'
@@ -40878,7 +40900,8 @@
                             'series',
                             'single',
                             'prefix'
-                        ]), {
+                        ]);
+                        ariaLabel += replace(prefix, {
                             seriesCount: seriesCnt
                         }), ecModel.eachSeries(function(seriesModel, idx) {
                             if (idx < displaySeriesCnt) {
@@ -40900,12 +40923,15 @@
                                     ])[type] || '自定义图')
                                 });
                                 var data = seriesModel.getData();
-                                data.count() > maxDataCnt ? seriesLabel += replace(labelModel.get([
-                                    'data',
-                                    'partialData'
-                                ]), {
-                                    displayCnt: maxDataCnt
-                                }) : seriesLabel += labelModel.get([
+                                if (data.count() > maxDataCnt) {
+                                    var partialLabel = labelModel.get([
+                                        'data',
+                                        'partialData'
+                                    ]);
+                                    seriesLabel += replace(partialLabel, {
+                                        displayCnt: maxDataCnt
+                                    });
+                                } else seriesLabel += labelModel.get([
                                     'data',
                                     'allData'
                                 ]);

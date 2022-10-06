@@ -184,7 +184,7 @@
             zIndex: function(zIndex) {
                 if (zIndex !== undefined) return this.css("zIndex", zIndex);
                 if (this.length) for(var position, value, elem = $(this[0]); elem.length && elem[0] !== document1;){
-                    if (("absolute" === (position = elem.css("position")) || "relative" === position || "fixed" === position) && !isNaN(value = parseInt(elem.css("zIndex"), 10)) && 0 !== value) return value;
+                    if (("absolute" === (position = elem.css("position")) || "relative" === position || "fixed" === position) && (value = parseInt(elem.css("zIndex"), 10), !isNaN(value) && 0 !== value)) return value;
                     elem = elem.parent();
                 }
                 return 0;
@@ -313,7 +313,7 @@
         _cleanData(elems);
     }, $2.widget = function(name, base, prototype) {
         var fullName, existingConstructor, constructor, basePrototype, proxiedPrototype = {}, namespace = name.split(".")[0];
-        return fullName = namespace + "-" + (name = name.split(".")[1]), prototype || (prototype = base, base = $2.Widget), $2.expr[":"][fullName.toLowerCase()] = function(elem) {
+        return name = name.split(".")[1], fullName = namespace + "-" + name, prototype || (prototype = base, base = $2.Widget), $2.expr[":"][fullName.toLowerCase()] = function(elem) {
             return !!$2.data(elem, fullName);
         }, $2[namespace] = $2[namespace] || {}, existingConstructor = $2[namespace][name], constructor = $2[namespace][name] = function(options, element) {
             if (!this._createWidget) return new constructor(options, element);
@@ -985,7 +985,7 @@
         }
         function handleTouchStart(event1) {
             var target, flags, t, touches = getNativeEvent(event1).touches;
-            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event1.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event1).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event1, flags), triggerVirtualEvent("vmousedown", event1, flags));
+            touches && 1 === touches.length && (target = event1.target, (flags = getVirtualBindingFlags(target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event1).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event1, flags), triggerVirtualEvent("vmousedown", event1, flags)));
         }
         function handleScroll(event1) {
             !blockTouchTriggers && (didScroll || triggerVirtualEvent("vmousecancel", event1, getVirtualBindingFlags(event1.target)), didScroll = !0, startResetTimer());
@@ -1197,7 +1197,7 @@
             var orientation = get_orientation();
             orientation !== last_orientation && (last_orientation = orientation, win.trigger(event_name));
         }
-        $.support.orientation && (ww = window.innerWidth || win.width(), initial_orientation_is_landscape = ww > (wh = window.innerHeight || win.height()) && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
+        $.support.orientation && (ww = window.innerWidth || win.width(), wh = window.innerHeight || win.height(), initial_orientation_is_landscape = ww > wh && ww - wh > 50, initial_orientation_is_default = portrait_map[window.orientation], (initial_orientation_is_landscape && initial_orientation_is_default || !initial_orientation_is_landscape && !initial_orientation_is_default) && (portrait_map = {
             "-90": !0,
             90: !0
         })), $.event.special.orientationchange = $.extend({}, $.event.special.orientationchange, {

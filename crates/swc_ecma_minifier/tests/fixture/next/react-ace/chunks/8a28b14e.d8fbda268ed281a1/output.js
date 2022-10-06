@@ -916,7 +916,11 @@
                     }, onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
+                            if (inComposition.useTextareaForIME) host.onCompositionUpdate(text.value);
+                            else {
+                                var data = text.value;
+                                sendText(data), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd);
+                            }
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
@@ -4662,9 +4666,9 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), {
+                        return void 0 == column && (column = line.length), column = Math.min(Math.max(column, 0), line.length), {
                             row: row,
-                            column: column = Math.min(Math.max(column, 0), line.length)
+                            column: column
                         };
                     }, this.clonePos = function(pos) {
                         return {
@@ -6485,7 +6489,7 @@
                             var last, m, line = session.getLine(row);
                             for(re.lastIndex = startIndex; m = re.exec(line);){
                                 var length = m[0].length;
-                                if (callback(row, last = m.index, row, last + length)) return !0;
+                                if (last = m.index, callback(row, last, row, last + length)) return !0;
                                 if (!length && (re.lastIndex = last += 1, last >= line.length)) return !1;
                             }
                         };
@@ -6556,7 +6560,10 @@
                                     ckb[keyId]
                                 ], "number" != typeof position && (position = getPosition(command));
                                 var commands = ckb[keyId];
-                                for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
+                                for(i = 0; i < commands.length; i++){
+                                    var other = commands[i];
+                                    if (getPosition(other) > position) break;
+                                }
                                 commands.splice(i, 0, command);
                             }
                         } else delete ckb[keyId];

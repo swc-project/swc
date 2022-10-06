@@ -184,7 +184,7 @@
             for(; tz[m - 1] > x1;)tz.pop(), --m;
             var bin, bins = Array(m + 1);
             for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-            for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
+            for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
             return bins;
         }
         return histogram.value = function(_) {
@@ -4577,11 +4577,11 @@
             phi * radians$1
         ]);
         if (p0) {
-            var normal = cartesianCross(p0, p), inflection = cartesianCross([
+            var normal = cartesianCross(p0, p), equatorial = [
                 normal[1],
                 -normal[0],
                 0
-            ], normal);
+            ], inflection = cartesianCross(equatorial, normal);
             cartesianNormalizeInPlace(inflection);
             var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
             antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
@@ -6685,7 +6685,7 @@
         var transform, untransform, unknown, piecewise, output, input, domain = unit, range = unit, interpolate$1 = interpolate, clamp = identity$6;
         function rescale() {
             var a, b, t, n = Math.min(domain.length, range.length);
-            return clamp !== identity$6 && ((a = domain[0]) > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
+            return clamp !== identity$6 && (a = domain[0], b = domain[n - 1], a > b && (t = a, a = b, b = t), clamp = function(x) {
                 return Math.max(a, Math.min(b, x));
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
@@ -9582,7 +9582,7 @@
             },
             find: function(x, y, radius) {
                 var dx, dy, d2, node, closest, i = 0, n = nodes.length;
-                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)(d2 = (dx = x - (node = nodes[i]).x) * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
+                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)node = nodes[i], (d2 = (dx = x - node.x) * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
                 return closest;
             },
             on: function(name, _) {
@@ -9757,7 +9757,7 @@
         if (phi1 = lambda1 = -(lambda0$1 = phi0 = 1 / 0), ranges = [], geoStream(feature, boundsStream), n = ranges.length) {
             for(ranges.sort(rangeCompare), i = 1, merged = [
                 a = ranges[0]
-            ]; i < n; ++i)rangeContains(a, (b = ranges[i])[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
+            ]; i < n; ++i)b = ranges[i], rangeContains(a, b[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
         return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [
@@ -10165,7 +10165,7 @@
                 return sortValues(arcs[i], arcs[j]);
             }) : null != sort && index.sort(function(i, j) {
                 return sort(data[i], data[j]);
-            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
+            }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
                 data: data[j],
                 index: i,
                 value: v,

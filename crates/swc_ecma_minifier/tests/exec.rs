@@ -10126,17 +10126,49 @@ fn feedback_regex_range() {
             /* eslint-enable prettier/prettier */
         );
         console.log('PASS')
-    "###;
+        "###;
 
     run_default_exec_test(src);
 }
 
 #[test]
-fn issue_6051() {
+fn issue_6047_1() {
     run_default_exec_test(
         r###"
-        const o = { '010': '', '123': 'bar' }
-        console.log(o)
+        let foo = () => 1;
+
+        const obj = {
+            get 0() {
+                foo = () => 2;
+                return 40;
+            },
+        };
+        console.log(obj)
+
+        var c = obj[0];
+
+        console.log(foo(c));
+        "###,
+    );
+}
+
+#[test]
+fn issue_6047_2() {
+    run_default_exec_test(
+        r###"
+        let foo = () => 1;
+
+        const obj = new Proxy({}, {
+            get () {
+                foo = () => 2;
+                return 40;
+            },
+        });
+        console.log(obj)
+
+        var c = obj[0];
+
+        console.log(foo(c));
         "###,
     );
 }

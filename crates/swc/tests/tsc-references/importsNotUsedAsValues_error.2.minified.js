@@ -27,7 +27,9 @@ console.log(A, void 0);
 export { };
 //// [/f.ts]
 import { C } from "./a";
-C.One, console.log(C.Two, C.Two);
+C.One;
+var c = C.Two, d = C.Two;
+console.log(c, d);
 //// [/g.ts]
 console.log(void 0, void 0);
 export { };

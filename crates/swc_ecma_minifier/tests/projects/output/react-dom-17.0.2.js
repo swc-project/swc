@@ -2805,7 +2805,7 @@
             } catch (err) {
                 return !1;
             }
-        }(element);)element = getActiveElement((win = element.contentWindow).document);
+        }(element);)win = element.contentWindow, element = getActiveElement(win.document);
         return element;
     }
     function hasSelectionCapabilities(elem) {
@@ -4967,7 +4967,7 @@
                     var container = 8 === nodeType ? rootContainerInstance.parentNode : rootContainerInstance;
                     namespace = getChildNamespace(container.namespaceURI || null, type = container.tagName);
             }
-            var ancestorInfo = updatedAncestorInfo(null, type.toLowerCase());
+            var validatedTag = type.toLowerCase(), ancestorInfo = updatedAncestorInfo(null, validatedTag);
             return {
                 namespace: namespace,
                 ancestorInfo: ancestorInfo
@@ -6394,16 +6394,16 @@
         else showFallback = !0, workInProgress.flags &= -65;
         if (pushSuspenseContext(workInProgress, suspenseContext &= 1), null === current) {
             void 0 !== nextProps.fallback && tryToClaimNextHydratableInstance(workInProgress);
-            var fiber, suspenseContext1, current1, workInProgress1, renderLanes1, workInProgress2, primaryChildren, renderLanes2, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
+            var fiber, suspenseContext1, current1, workInProgress1, renderLanes1, workInProgress2, primaryChildren, renderLanes2, mode, primaryChildFragment, nextPrimaryChildren = nextProps.children, nextFallbackChildren = nextProps.fallback;
             if (showFallback) {
                 var fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
                 return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, fallbackFragment;
             }
             if ("number" != typeof nextProps.unstable_expectedLoadTime) {
-                return workInProgress2 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes2 = renderLanes, (primaryChildFragment = createFiberFromOffscreen({
+                return workInProgress2 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes2 = renderLanes, mode = workInProgress2.mode, (primaryChildFragment = createFiberFromOffscreen({
                     mode: "visible",
                     children: primaryChildren
-                }, workInProgress2.mode, renderLanes2, null)).return = workInProgress2, workInProgress2.child = primaryChildFragment, primaryChildFragment;
+                }, mode, renderLanes2, null)).return = workInProgress2, workInProgress2.child = primaryChildFragment, primaryChildFragment;
             }
             var _fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
             return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, workInProgress.lanes = 33554432, markSpawnedWork(33554432), _fallbackFragment;
@@ -6588,7 +6588,8 @@
             return null !== last ? (last.nextEffect = current, returnFiber.lastEffect = current) : returnFiber.firstEffect = returnFiber.lastEffect = current, current.nextEffect = null, current.flags = 8, newWorkInProgress.flags |= 2, newWorkInProgress;
         }(current, workInProgress, createFiberFromTypeAndProps(workInProgress.type, workInProgress.key, workInProgress.pendingProps, workInProgress._debugOwner || null, workInProgress.mode, workInProgress.lanes));
         if (null !== current) {
-            if (current.memoizedProps !== workInProgress.pendingProps || hasContextChanged() || workInProgress.type !== current.type) didReceiveUpdate = !0;
+            var oldProps = current.memoizedProps, newProps = workInProgress.pendingProps;
+            if (oldProps !== newProps || hasContextChanged() || workInProgress.type !== current.type) didReceiveUpdate = !0;
             else {
                 if (a = renderLanes, (a & updateLanes) != 0) didReceiveUpdate = (16384 & current.flags) != 0;
                 else {
@@ -6600,7 +6601,8 @@
                             pushHostContext(workInProgress);
                             break;
                         case 1:
-                            isContextProvider(workInProgress.type) && pushContextProvider(workInProgress);
+                            var Component = workInProgress.type;
+                            isContextProvider(Component) && pushContextProvider(workInProgress);
                             break;
                         case 4:
                             pushHostContainer(workInProgress, workInProgress.stateNode.containerInfo);
@@ -6610,22 +6612,23 @@
                             pushProvider(workInProgress, newValue);
                             break;
                         case 12:
-                            a1 = renderLanes, (a1 & workInProgress.childLanes) != 0 && (workInProgress.flags |= 4);
-                            var a, a1, stateNode = workInProgress.stateNode;
+                            a1 = renderLanes, b = workInProgress.childLanes, (a1 & b) != 0 && (workInProgress.flags |= 4);
+                            var a, a1, b, stateNode = workInProgress.stateNode;
                             stateNode.effectDuration = 0, stateNode.passiveEffectDuration = 0;
                             break;
                         case 13:
                             if (null !== workInProgress.memoizedState) {
-                                if (a2 = renderLanes, (a2 & workInProgress.child.childLanes) != 0) return updateSuspenseComponent(current, workInProgress, renderLanes);
+                                var a2, primaryChildLanes = workInProgress.child.childLanes;
+                                if (a2 = renderLanes, (a2 & primaryChildLanes) != 0) return updateSuspenseComponent(current, workInProgress, renderLanes);
                                 pushSuspenseContext(workInProgress, 1 & suspenseStackCursor.current);
-                                var a2, child = bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
+                                var child = bailoutOnAlreadyFinishedWork(current, workInProgress, renderLanes);
                                 if (null !== child) return child.sibling;
                                 return null;
                             }
                             pushSuspenseContext(workInProgress, 1 & suspenseStackCursor.current);
                             break;
                         case 19:
-                            var a3, didSuspendBefore = (64 & current.flags) != 0, _hasChildWork = (a3 = renderLanes, (a3 & workInProgress.childLanes) != 0);
+                            var a3, b1, didSuspendBefore = (64 & current.flags) != 0, _hasChildWork = (a3 = renderLanes, b1 = workInProgress.childLanes, (a3 & b1) != 0);
                             if (didSuspendBefore) {
                                 if (_hasChildWork) return updateSuspenseListComponent(current, workInProgress, renderLanes);
                                 workInProgress.flags |= 64;
@@ -6799,9 +6802,9 @@
                     return reconcileChildren(current, workInProgress, newProps.children, renderLanes), workInProgress.child;
                 }(current, workInProgress, renderLanes);
             case 9:
-                return current1 = current, workInProgress1 = workInProgress, renderLanes1 = renderLanes, void 0 === (context = workInProgress1.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps = workInProgress1.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress1, renderLanes1), newValue1 = readContext(context, newProps.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress1, isRendering = !0, newChildren = render(newValue1), isRendering = !1, workInProgress1.flags |= 1, reconcileChildren(current1, workInProgress1, newChildren, renderLanes1), workInProgress1.child;
+                return current1 = current, workInProgress1 = workInProgress, renderLanes1 = renderLanes, void 0 === (context = workInProgress1.type)._context ? context === context.Consumer || hasWarnedAboutUsingContextAsConsumer || (hasWarnedAboutUsingContextAsConsumer = !0, error("Rendering <Context> directly is not supported and will be removed in a future major release. Did you mean to render <Context.Consumer> instead?")) : context = context._context, "function" != typeof (render = (newProps1 = workInProgress1.pendingProps).children) && error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it."), prepareToReadContext(workInProgress1, renderLanes1), newValue1 = readContext(context, newProps1.unstable_observedBits), ReactCurrentOwner$1.current = workInProgress1, isRendering = !0, newChildren = render(newValue1), isRendering = !1, workInProgress1.flags |= 1, reconcileChildren(current1, workInProgress1, newChildren, renderLanes1), workInProgress1.child;
             case 14:
-                var _type2 = workInProgress.type, _resolvedProps3 = resolveDefaultProps(_type2, workInProgress.pendingProps);
+                var _type2 = workInProgress.type, _unresolvedProps3 = workInProgress.pendingProps, _resolvedProps3 = resolveDefaultProps(_type2, _unresolvedProps3);
                 if (workInProgress.type !== workInProgress.elementType) {
                     var outerPropTypes = _type2.propTypes;
                     outerPropTypes && checkPropTypes(outerPropTypes, _resolvedProps3, "prop", getComponentName(_type2));
@@ -6810,7 +6813,7 @@
             case 15:
                 return updateSimpleMemoComponent(current, workInProgress, workInProgress.type, workInProgress.pendingProps, updateLanes, renderLanes);
             case 17:
-                var current1, workInProgress1, renderLanes1, newChildren, context, newProps, render, newValue1, current2, workInProgress2, renderLanes2, type1, nextProps, prevProps, nextChildren, current3, workInProgress3, current4, workInProgress4, renderLanes3, nextChildren1, current5, workInProgress5, renderLanes4, nextChildren2, current6, workInProgress6, renderLanes5, nextChildren3, current7, workInProgress7, renderLanes6, stateNode1, nextChildren4, _current, workInProgress8, Component, nextProps1, renderLanes7, hasContext, _Component3 = workInProgress.type, _unresolvedProps4 = workInProgress.pendingProps, _resolvedProps4 = workInProgress.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
+                var current1, workInProgress1, renderLanes1, newChildren, context, newProps1, render, newValue1, current2, workInProgress2, renderLanes2, type1, nextProps, prevProps, nextChildren, current3, workInProgress3, current4, workInProgress4, renderLanes3, nextChildren1, current5, workInProgress5, renderLanes4, nextChildren2, current6, workInProgress6, renderLanes5, nextChildren3, current7, workInProgress7, renderLanes6, stateNode1, nextChildren4, _current, workInProgress8, Component1, nextProps1, renderLanes7, hasContext, _Component3 = workInProgress.type, _unresolvedProps4 = workInProgress.pendingProps, _resolvedProps4 = workInProgress.elementType === _Component3 ? _unresolvedProps4 : resolveDefaultProps(_Component3, _unresolvedProps4);
                 return _current = current, workInProgress8 = workInProgress, null !== _current && (_current.alternate = null, workInProgress8.alternate = null, workInProgress8.flags |= 2), workInProgress8.tag = 1, isContextProvider(_Component3) ? (hasContext = !0, pushContextProvider(workInProgress8)) : hasContext = !1, prepareToReadContext(workInProgress8, renderLanes), constructClassInstance(workInProgress8, _Component3, _resolvedProps4), mountClassInstance(workInProgress8, _Component3, _resolvedProps4, renderLanes), finishClassComponent(null, workInProgress8, _Component3, !0, hasContext, renderLanes);
             case 19:
                 return updateSuspenseListComponent(current, workInProgress, renderLanes);
@@ -6842,7 +6845,7 @@
         }
     }
     function completeWork(current, workInProgress, renderLanes) {
-        var newProps = workInProgress.pendingProps;
+        var portalInstance, newProps = workInProgress.pendingProps;
         switch(workInProgress.tag){
             case 2:
             case 16:
@@ -6856,8 +6859,8 @@
             case 14:
                 return null;
             case 1:
-            case 17:
-                return isContextProvider(workInProgress.type) && popContext(workInProgress), null;
+                var Component = workInProgress.type;
+                return isContextProvider(Component) && popContext(workInProgress), null;
             case 3:
                 popHostContainer(workInProgress), popTopLevelContextObject(workInProgress), resetWorkInProgressVersions();
                 var fiberRoot = workInProgress.stateNode;
@@ -6957,7 +6960,7 @@
                                                 }
                                                 return serialized || null;
                                             }(nextProp);
-                                            expectedStyle !== (serverValue = domElement.getAttribute("style")) && warnForPropDifference(propKey, serverValue, expectedStyle);
+                                            serverValue = domElement.getAttribute("style"), expectedStyle !== serverValue && warnForPropDifference(propKey, serverValue, expectedStyle);
                                         }
                                     } else if (isCustomComponentTag) extraAttributeNames.delete(propKey.toLowerCase()), serverValue = getValueForAttribute(domElement, propKey, nextProp), nextProp !== serverValue && warnForPropDifference(propKey, serverValue, nextProp);
                                     else if (!shouldIgnoreAttribute(propKey, propertyInfo, isCustomComponentTag) && !shouldRemoveAttribute(propKey, nextProp, propertyInfo, isCustomComponentTag)) {
@@ -7141,9 +7144,12 @@
                 var nextDidTimeout = null !== nextState, prevDidTimeout = !1;
                 return null === current ? void 0 !== workInProgress.memoizedProps.fallback && popHydrationState(workInProgress) : prevDidTimeout = null !== current.memoizedState, nextDidTimeout && !prevDidTimeout && (2 & workInProgress.mode) != 0 && (null === current && !0 !== workInProgress.memoizedProps.unstable_avoidThisFallback || (1 & suspenseStackCursor.current) != 0 ? 0 === workInProgressRootExitStatus && (workInProgressRootExitStatus = 3) : ((0 === workInProgressRootExitStatus || 3 === workInProgressRootExitStatus) && (workInProgressRootExitStatus = 4), null !== workInProgressRoot && (includesNonIdleWork(workInProgressRootSkippedLanes) || includesNonIdleWork(workInProgressRootUpdatedLanes)) && markRootSuspended$1(workInProgressRoot, workInProgressRootRenderLanes))), (nextDidTimeout || prevDidTimeout) && (workInProgress.flags |= 4), null;
             case 4:
-                return popHostContainer(workInProgress), updateHostContainer(workInProgress), null === current && listenToAllSupportedEvents(workInProgress.stateNode.containerInfo), null;
+                return popHostContainer(workInProgress), updateHostContainer(workInProgress), null === current && (portalInstance = workInProgress.stateNode.containerInfo, listenToAllSupportedEvents(portalInstance)), null;
             case 10:
                 return popProvider(workInProgress), null;
+            case 17:
+                var _Component = workInProgress.type;
+                return isContextProvider(_Component) && popContext(workInProgress), null;
             case 19:
                 popSuspenseContext(workInProgress);
                 var renderState = workInProgress.memoizedState;
@@ -8198,7 +8204,7 @@
         if (null === finishedWork) return null;
         if (root.finishedWork = null, root.finishedLanes = 0, !(finishedWork !== root.current)) throw Error("Cannot commit the same tree as before. This error is likely caused by a bug in React. Please file an issue.");
         root.callbackNode = null;
-        var remainingLanes = (a = finishedWork.lanes) | finishedWork.childLanes;
+        var remainingLanes = (a = finishedWork.lanes, b = finishedWork.childLanes, a | b);
         if (!function(root, remainingLanes) {
             var noLongerPendingLanes = root.pendingLanes & ~remainingLanes;
             root.pendingLanes = remainingLanes, root.suspendedLanes = 0, root.pingedLanes = 0, root.expiredLanes &= remainingLanes, root.mutableReadLanes &= remainingLanes, root.entangledLanes &= remainingLanes;
@@ -8207,7 +8213,7 @@
                 entanglements[index] = 0, eventTimes[index] = -1, expirationTimes[index] = -1, lanes &= ~lane;
             }
         }(root, remainingLanes), null !== rootsWithPendingDiscreteUpdates && !((24 & remainingLanes) != 0) && rootsWithPendingDiscreteUpdates.has(root) && rootsWithPendingDiscreteUpdates.delete(root), root === workInProgressRoot && (workInProgressRoot = null, workInProgress = null, workInProgressRootRenderLanes = 0), finishedWork.flags > 1 ? null !== finishedWork.lastEffect ? (finishedWork.lastEffect.nextEffect = finishedWork, firstEffect = finishedWork.firstEffect) : firstEffect = finishedWork : firstEffect = finishedWork.firstEffect, null !== firstEffect) {
-            var input, selection, a, containerInfo, focusedElem, containerInfo1, prevExecutionContext = executionContext;
+            var input, selection, a, b, containerInfo, focusedElem, containerInfo1, prevExecutionContext = executionContext;
             executionContext |= 32;
             var prevInteractions = pushInteractions(root);
             ReactCurrentOwner$2.current = null, root.containerInfo, eventsEnabled = _enabled, selectionInformation = {
@@ -8395,16 +8401,21 @@
                     commitPlacement(nextEffect), nextEffect.flags &= -3;
                     break;
                 case 6:
-                    commitPlacement(nextEffect), nextEffect.flags &= -3, commitWork(nextEffect.alternate, nextEffect);
+                    commitPlacement(nextEffect), nextEffect.flags &= -3;
+                    var _current = nextEffect.alternate;
+                    commitWork(_current, nextEffect);
                     break;
                 case 1024:
                     nextEffect.flags &= -1025;
                     break;
                 case 1028:
-                    nextEffect.flags &= -1025, commitWork(nextEffect.alternate, nextEffect);
+                    nextEffect.flags &= -1025;
+                    var _current2 = nextEffect.alternate;
+                    commitWork(_current2, nextEffect);
                     break;
                 case 4:
-                    commitWork(nextEffect.alternate, nextEffect);
+                    var _current3 = nextEffect.alternate;
+                    commitWork(_current3, nextEffect);
                     break;
                 case 8:
                     !function(finishedRoot, current, renderPriorityLevel) {
@@ -8420,105 +8431,109 @@
         for(; null !== nextEffect;){
             setCurrentFiber(nextEffect);
             var flags = nextEffect.flags;
-            36 & flags && function(finishedRoot, current, finishedWork, committedLanes) {
-                switch(finishedWork.tag){
-                    case 0:
-                    case 11:
-                    case 15:
-                    case 22:
-                        (function(tag, finishedWork) {
-                            var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
-                            if (null !== lastEffect) {
-                                var firstEffect = lastEffect.next, effect = firstEffect;
-                                do {
-                                    if ((effect.tag & tag) === tag) {
-                                        var create = effect.create;
-                                        effect.destroy = create();
-                                        var destroy = effect.destroy;
-                                        if (void 0 !== destroy && "function" != typeof destroy) {
-                                            var addendum = void 0;
-                                            error("An effect function must not return anything besides a function, which is used for clean-up.%s", null === destroy ? " You returned null. If your effect does not require clean up, return undefined (or nothing)." : "function" == typeof destroy.then ? "\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:\n\nuseEffect(() => {\n  async function fetchData() {\n    // You can await here\n    const response = await MyAPI.getData(someId);\n    // ...\n  }\n  fetchData();\n}, [someId]); // Or [] if effect doesn't need props or state\n\nLearn more about data fetching with Hooks: https://reactjs.org/link/hooks-data-fetching" : " You returned: " + destroy);
+            if (36 & flags) {
+                var current = nextEffect.alternate;
+                !function(finishedRoot, current, finishedWork, committedLanes) {
+                    switch(finishedWork.tag){
+                        case 0:
+                        case 11:
+                        case 15:
+                        case 22:
+                            !function(tag, finishedWork) {
+                                var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
+                                if (null !== lastEffect) {
+                                    var firstEffect = lastEffect.next, effect = firstEffect;
+                                    do {
+                                        if ((effect.tag & tag) === tag) {
+                                            var create = effect.create;
+                                            effect.destroy = create();
+                                            var destroy = effect.destroy;
+                                            if (void 0 !== destroy && "function" != typeof destroy) {
+                                                var addendum = void 0;
+                                                error("An effect function must not return anything besides a function, which is used for clean-up.%s", null === destroy ? " You returned null. If your effect does not require clean up, return undefined (or nothing)." : "function" == typeof destroy.then ? "\n\nIt looks like you wrote useEffect(async () => ...) or returned a Promise. Instead, write the async function inside your effect and call it immediately:\n\nuseEffect(() => {\n  async function fetchData() {\n    // You can await here\n    const response = await MyAPI.getData(someId);\n    // ...\n  }\n  fetchData();\n}, [someId]); // Or [] if effect doesn't need props or state\n\nLearn more about data fetching with Hooks: https://reactjs.org/link/hooks-data-fetching" : " You returned: " + destroy);
+                                            }
                                         }
-                                    }
-                                    effect = effect.next;
-                                }while (effect !== firstEffect)
-                            }
-                        })(3, finishedWork), function(finishedWork) {
-                            var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
-                            if (null !== lastEffect) {
-                                var firstEffect = lastEffect.next, effect = firstEffect;
-                                do {
-                                    var fiber, effect1, _effect = effect, next = _effect.next, tag = _effect.tag;
-                                    (4 & tag) != 0 && (1 & tag) != 0 && (enqueuePendingPassiveHookEffectUnmount(finishedWork, effect), fiber = finishedWork, effect1 = effect, pendingPassiveHookEffectsMount.push(effect1, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
-                                        return flushPassiveEffects(), null;
-                                    }))), effect = next;
-                                }while (effect !== firstEffect)
-                            }
-                        }(finishedWork);
-                        return;
-                    case 1:
-                        var instance = finishedWork.stateNode;
-                        if (4 & finishedWork.flags) {
-                            if (null === current) finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), instance.componentDidMount();
-                            else {
-                                var prevProps = finishedWork.elementType === finishedWork.type ? current.memoizedProps : resolveDefaultProps(finishedWork.type, current.memoizedProps), prevState = current.memoizedState;
-                                finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), instance.componentDidUpdate(prevProps, prevState, instance.__reactInternalSnapshotBeforeUpdate);
-                            }
-                        }
-                        var updateQueue = finishedWork.updateQueue;
-                        null !== updateQueue && (finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), commitUpdateQueue(finishedWork, updateQueue, instance));
-                        return;
-                    case 3:
-                        var _updateQueue = finishedWork.updateQueue;
-                        if (null !== _updateQueue) {
-                            var _instance = null;
-                            if (null !== finishedWork.child) switch(finishedWork.child.tag){
-                                case 5:
-                                case 1:
-                                    _instance = finishedWork.child.stateNode;
-                            }
-                            commitUpdateQueue(finishedWork, _updateQueue, _instance);
-                        }
-                        return;
-                    case 5:
-                        var _instance2 = finishedWork.stateNode;
-                        if (null === current && 4 & finishedWork.flags) {
-                            var domElement, type, type1 = finishedWork.type;
-                            shouldAutoFocusHostComponent(type1, finishedWork.memoizedProps) && _instance2.focus();
-                        }
-                        return;
-                    case 6:
-                    case 4:
-                    case 19:
-                    case 17:
-                    case 20:
-                    case 21:
-                    case 23:
-                    case 24:
-                        return;
-                    case 12:
-                        var _finishedWork$memoize2 = finishedWork.memoizedProps, onRender = (_finishedWork$memoize2.onCommit, _finishedWork$memoize2.onRender);
-                        finishedWork.stateNode.effectDuration;
-                        var commitTime1 = commitTime;
-                        "function" == typeof onRender && onRender(finishedWork.memoizedProps.id, null === current ? "mount" : "update", finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, commitTime1, finishedRoot.memoizedInteractions);
-                        return;
-                    case 13:
-                        (function(finishedRoot, finishedWork) {
-                            if (null === finishedWork.memoizedState) {
-                                var current = finishedWork.alternate;
-                                if (null !== current) {
-                                    var prevState = current.memoizedState;
-                                    if (null !== prevState) {
-                                        var suspenseInstance = prevState.dehydrated;
-                                        null !== suspenseInstance && retryIfBlockedOn(suspenseInstance);
-                                    }
+                                        effect = effect.next;
+                                    }while (effect !== firstEffect)
+                                }
+                            }(3, finishedWork), function(finishedWork) {
+                                var updateQueue = finishedWork.updateQueue, lastEffect = null !== updateQueue ? updateQueue.lastEffect : null;
+                                if (null !== lastEffect) {
+                                    var firstEffect = lastEffect.next, effect = firstEffect;
+                                    do {
+                                        var fiber, effect1, _effect = effect, next = _effect.next, tag = _effect.tag;
+                                        (4 & tag) != 0 && (1 & tag) != 0 && (enqueuePendingPassiveHookEffectUnmount(finishedWork, effect), fiber = finishedWork, effect1 = effect, pendingPassiveHookEffectsMount.push(effect1, fiber), rootDoesHavePassiveEffects || (rootDoesHavePassiveEffects = !0, scheduleCallback(97, function() {
+                                            return flushPassiveEffects(), null;
+                                        }))), effect = next;
+                                    }while (effect !== firstEffect)
+                                }
+                            }(finishedWork);
+                            return;
+                        case 1:
+                            var instance = finishedWork.stateNode;
+                            if (4 & finishedWork.flags) {
+                                if (null === current) finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before componentDidMount. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), instance.componentDidMount();
+                                else {
+                                    var prevProps = finishedWork.elementType === finishedWork.type ? current.memoizedProps : resolveDefaultProps(finishedWork.type, current.memoizedProps), prevState = current.memoizedState;
+                                    finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before componentDidUpdate. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), instance.componentDidUpdate(prevProps, prevState, instance.__reactInternalSnapshotBeforeUpdate);
                                 }
                             }
-                        })(finishedRoot, finishedWork);
-                        return;
-                }
-                throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
-            }(root, nextEffect.alternate, nextEffect), 128 & flags && function(finishedWork) {
+                            var updateQueue = finishedWork.updateQueue;
+                            null !== updateQueue && (finishedWork.type !== finishedWork.elementType || didWarnAboutReassigningProps || (instance.props !== finishedWork.memoizedProps && error("Expected %s props to match memoized props before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.props`. Please file an issue.", getComponentName(finishedWork.type) || "instance"), instance.state !== finishedWork.memoizedState && error("Expected %s state to match memoized state before processing the update queue. This might either be because of a bug in React, or because a component reassigns its own `this.state`. Please file an issue.", getComponentName(finishedWork.type) || "instance")), commitUpdateQueue(finishedWork, updateQueue, instance));
+                            return;
+                        case 3:
+                            var _updateQueue = finishedWork.updateQueue;
+                            if (null !== _updateQueue) {
+                                var _instance = null;
+                                if (null !== finishedWork.child) switch(finishedWork.child.tag){
+                                    case 5:
+                                    case 1:
+                                        _instance = finishedWork.child.stateNode;
+                                }
+                                commitUpdateQueue(finishedWork, _updateQueue, _instance);
+                            }
+                            return;
+                        case 5:
+                            var _instance2 = finishedWork.stateNode;
+                            if (null === current && 4 & finishedWork.flags) {
+                                var domElement, type, type1 = finishedWork.type;
+                                shouldAutoFocusHostComponent(type1, finishedWork.memoizedProps) && _instance2.focus();
+                            }
+                            return;
+                        case 6:
+                        case 4:
+                        case 19:
+                        case 17:
+                        case 20:
+                        case 21:
+                        case 23:
+                        case 24:
+                            return;
+                        case 12:
+                            var _finishedWork$memoize2 = finishedWork.memoizedProps, onRender = (_finishedWork$memoize2.onCommit, _finishedWork$memoize2.onRender);
+                            finishedWork.stateNode.effectDuration;
+                            var commitTime1 = commitTime;
+                            "function" == typeof onRender && onRender(finishedWork.memoizedProps.id, null === current ? "mount" : "update", finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, commitTime1, finishedRoot.memoizedInteractions);
+                            return;
+                        case 13:
+                            !function(finishedRoot, finishedWork) {
+                                if (null === finishedWork.memoizedState) {
+                                    var current = finishedWork.alternate;
+                                    if (null !== current) {
+                                        var prevState = current.memoizedState;
+                                        if (null !== prevState) {
+                                            var suspenseInstance = prevState.dehydrated;
+                                            null !== suspenseInstance && retryIfBlockedOn(suspenseInstance);
+                                        }
+                                    }
+                                }
+                            }(finishedRoot, finishedWork);
+                            return;
+                    }
+                    throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
+                }(root, current, nextEffect);
+            }
+            128 & flags && function(finishedWork) {
                 var ref = finishedWork.ref;
                 if (null !== ref) {
                     var instanceToUse, instance = finishedWork.stateNode;
@@ -8923,7 +8938,7 @@
         return !!(prototype && prototype.isReactComponent);
     }
     function createWorkInProgress(current, pendingProps) {
-        var workInProgress = current.alternate;
+        var type, workInProgress = current.alternate;
         null === workInProgress ? ((workInProgress = createFiber(current.tag, pendingProps, current.key, current.mode)).elementType = current.elementType, workInProgress.type = current.type, workInProgress.stateNode = current.stateNode, workInProgress._debugID = current._debugID, workInProgress._debugSource = current._debugSource, workInProgress._debugOwner = current._debugOwner, workInProgress._debugHookTypes = current._debugHookTypes, workInProgress.alternate = current, current.alternate = workInProgress) : (workInProgress.pendingProps = pendingProps, workInProgress.type = current.type, workInProgress.flags = 0, workInProgress.nextEffect = null, workInProgress.firstEffect = null, workInProgress.lastEffect = null, workInProgress.actualDuration = 0, workInProgress.actualStartTime = -1), workInProgress.childLanes = current.childLanes, workInProgress.lanes = current.lanes, workInProgress.child = current.child, workInProgress.memoizedProps = current.memoizedProps, workInProgress.memoizedState = current.memoizedState, workInProgress.updateQueue = current.updateQueue;
         var currentDependencies = current.dependencies;
         switch(workInProgress.dependencies = null === currentDependencies ? null : {
@@ -8933,8 +8948,10 @@
             case 2:
             case 0:
             case 15:
-            case 1:
                 workInProgress.type = resolveFunctionForHotReloading(current.type);
+                break;
+            case 1:
+                workInProgress.type = (type = current.type, resolveFunctionForHotReloading(type));
                 break;
             case 11:
                 workInProgress.type = resolveForwardRefForHotReloading(current.type);

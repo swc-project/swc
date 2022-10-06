@@ -108,7 +108,8 @@
                 a = toUint8(a);
                 var fn = (b = toUint8(b)).every ? b.every : Array.prototype.every;
                 return b.length && a.length - offset >= b.length && fn.call(b, function(bByte, i) {
-                    return bByte === (mask[i] ? mask[i] & a[offset + i] : a[offset + i]);
+                    var aByte = mask[i] ? mask[i] & a[offset + i] : a[offset + i];
+                    return bByte === aByte;
                 });
             };
         },
@@ -469,7 +470,9 @@
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
                     0x7f === dataHeader.value && (dataHeader.value = getInfinityDataSize(id, bytes, dataStart), dataHeader.value !== bytes.length && (dataHeader.value -= dataStart));
                     var dataEnd = dataStart + dataHeader.value > bytes.length ? bytes.length : dataStart + dataHeader.value, data = bytes.subarray(dataStart, dataEnd);
-                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1)))), i += id.length + dataHeader.length + data.length;
+                    (0, byte_helpers.G3)(paths[0], id.bytes) && (1 === paths.length ? results.push(data) : results = results.concat(findEbml(data, paths.slice(1))));
+                    var totalLength = id.length + dataHeader.length + data.length;
+                    i += totalLength;
                 }
                 return results;
             }, id3_helpers = __webpack_require__(8925), NAL_TYPE_ONE = (0, byte_helpers.Ki)([
@@ -3522,9 +3525,12 @@
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            label && label.childNodes.length && (attrs = merge(attrs, {
-                                label: label.childNodes[0].nodeValue.trim()
-                            }));
+                            if (label && label.childNodes.length) {
+                                var labelVal = label.childNodes[0].nodeValue.trim();
+                                attrs = merge(attrs, {
+                                    label: labelVal
+                                });
+                            }
                             var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
                                 var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
                                 if (keySystem) {

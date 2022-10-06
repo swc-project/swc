@@ -2527,7 +2527,9 @@
                                 case 'E':
                                 case 'c':
                                     var weekData = void 0;
-                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]], regexString += '(' + Object.keys(ParserBase.reverseObject(weekData)).join('|') + ')';
+                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]];
+                                    var weekObject = ParserBase.reverseObject(weekData);
+                                    regexString += '(' + Object.keys(weekObject).join('|') + ')';
                                     break;
                                 case 'M':
                                 case 'L':
@@ -2595,7 +2597,13 @@
                     var res = value || new Date();
                     res.setMilliseconds(0);
                     var y = options.year, desig = options.designator, tzone = options.timeZone;
-                    util_isUndefined(y) || ((y + '').length <= 2 && (y += 100 * Math.floor(res.getFullYear() / 100)), res.setFullYear(y));
+                    if (!util_isUndefined(y)) {
+                        if ((y + '').length <= 2) {
+                            var century = 100 * Math.floor(res.getFullYear() / 100);
+                            y += century;
+                        }
+                        res.setFullYear(y);
+                    }
                     for(var _i = 0, tKeys_1 = [
                         'hour',
                         'minute',
@@ -4712,7 +4720,7 @@
                     prop.length && (this[prop[0]] = args[prop[0]]);
                 }, Component.prototype.mergePersistData = function() {
                     var data;
-                    util_isNullOrUndefined(data = window.localStorage.getItem(this.getModuleName() + this.element.id)) || '' === data || this.setProperties(JSON.parse(data), !0);
+                    data = window.localStorage.getItem(this.getModuleName() + this.element.id), util_isNullOrUndefined(data) || '' === data || this.setProperties(JSON.parse(data), !0);
                 }, Component.prototype.setPersistData = function() {
                     this.isDestroyed || window.localStorage.setItem(this.getModuleName() + this.element.id, this.getPersistData());
                 }, Component.prototype.renderReactTemplates = function() {}, Component.prototype.clearTemplate = function(templateName, index) {}, Component.prototype.getUniqueID = function(definedName) {
@@ -7209,8 +7217,8 @@
                 return window.innerHeight;
             }
             function getViewPortWidth() {
-                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect();
-                return windowWidth - (windowWidth - ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width));
+                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect(), offsetWidth = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width;
+                return windowWidth - (windowWidth - offsetWidth);
             }
         },
         6216: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -9576,7 +9584,7 @@
                 }
                 var targetTop = 0;
                 if (calculateValue) {
-                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && calculatedHeight + (targetTop = targetRectValues.top) <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
+                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && (targetTop = targetRectValues.top, calculatedHeight + targetTop <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30)), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
                     var calculatedTop = (0, ej2_base.le)(containerElement) ? targetTop : topWithoutborder;
                     calculatedHeight >= minHeight && calculatedHeight + calculatedTop <= maxHeight && (targetElement.style.height = calculatedHeight + 'px');
                 }
@@ -17840,7 +17848,10 @@
                                     ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
                                         eventArgs.cancel || _this.removeFilesData(files, customTemplate);
                                     }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
-                                }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
+                                }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++){
+                                    var files = removeFiles_1[_i];
+                                    _loop_5(files);
+                                }
                             }
                         }
                     });
@@ -23253,7 +23264,9 @@
                 }, ColorPicker.prototype.hexToRgb = function(hex) {
                     if (!hex) return [];
                     9 !== (hex = hex.trim()).length && (hex = this.roundValue(hex));
-                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2)), bigInt = parseInt(hex = hex.slice(1, 7), 16), h = [];
+                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2));
+                    hex = hex.slice(1, 7);
+                    var bigInt = parseInt(hex, 16), h = [];
                     return h.push(bigInt >> 16 & 255), h.push(bigInt >> 8 & 255), h.push(255 & bigInt), h.push(opacity), h;
                 }, ColorPicker.prototype.rgbToHsv = function(r, g, b, opacity) {
                     if (this.rgb && !this.rgb.length) return [];
