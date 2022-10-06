@@ -88,7 +88,7 @@ impl<I: Tokens> Parser<I> {
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let ctx = Context {
-                is_direct_child_of_cond: false,
+                ignore_colon_for_arrow_in_cond: false,
                 ..self.ctx()
             };
             let res = self.with_ctx(ctx).try_parse_ts(|p| {
@@ -209,7 +209,7 @@ impl<I: Tokens> Parser<I> {
         if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
-                is_direct_child_of_cond: true,
+                ignore_colon_for_arrow_in_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
             };
@@ -217,7 +217,8 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ':');
             let ctx = Context {
                 in_cond_expr: true,
-                is_direct_child_of_cond: true,
+                ignore_colon_for_arrow_in_cond: false,
+                dont_parse_colon_as_type_ann: false,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -304,7 +305,7 @@ impl<I: Tokens> Parser<I> {
 
                 tok!('[') => {
                     let ctx = Context {
-                        is_direct_child_of_cond: false,
+                        ignore_colon_for_arrow_in_cond: false,
                         dont_parse_colon_as_type_ann: false,
                         ..self.ctx()
                     };
@@ -685,7 +686,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_args);
 
         let ctx = Context {
-            is_direct_child_of_cond: false,
+            ignore_colon_for_arrow_in_cond: false,
             ..self.ctx()
         };
 
@@ -757,7 +758,7 @@ impl<I: Tokens> Parser<I> {
         // expressions, we can parse both as expression.
 
         let ctx = Context {
-            is_direct_child_of_cond: false,
+            ignore_colon_for_arrow_in_cond: false,
             ..self.ctx()
         };
 
@@ -770,7 +771,7 @@ impl<I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
-        let return_type = if !(self.ctx().in_cond_expr && self.ctx().is_direct_child_of_cond)
+        let return_type = if !(self.ctx().in_cond_expr && self.ctx().ignore_colon_for_arrow_in_cond)
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
@@ -1618,7 +1619,7 @@ impl<I: Tokens> Parser<I> {
                         let test = arg.expr;
                         let ctx = Context {
                             in_cond_expr: true,
-                            is_direct_child_of_cond: true,
+                            ignore_colon_for_arrow_in_cond: true,
                             include_in_expr: true,
                             ..self.ctx()
                         };
@@ -1626,7 +1627,7 @@ impl<I: Tokens> Parser<I> {
                         expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
-                            is_direct_child_of_cond: true,
+                            ignore_colon_for_arrow_in_cond: true,
                             ..self.ctx()
                         };
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;

@@ -361,7 +361,7 @@ pub struct Context {
 
     /// If true, `:` should not be treated as a type annotation.
     in_cond_expr: bool,
-    is_direct_child_of_cond: bool,
+    ignore_colon_for_arrow_in_cond: bool,
 
     in_class: bool,
 
