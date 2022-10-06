@@ -13,6 +13,6 @@ bench = false
 
 [dependencies]
 ahash      = "0.7.6"
-indexmap   = "1.7.0"
+indexmap   = "1.6.1"
 petgraph   = "0.6"
 swc_common = { version = "0.29.4", path = "../swc_common" }
