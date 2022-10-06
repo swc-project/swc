@@ -186,16 +186,16 @@ impl CharFreq {
             return;
         }
 
-        #[cfg(feature = "debug")]
-        {
-            let considered = s
-                .chars()
-                .filter(|&c| Ident::is_valid_continue(c))
-                .collect::<String>();
-            if !considered.is_empty() {
-                tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
-            }
-        }
+        // #[cfg(feature = "debug")]
+        // {
+        //     let considered = s
+        //         .chars()
+        //         .filter(|&c| Ident::is_valid_continue(c))
+        //         .collect::<String>();
+        //     if !considered.is_empty() {
+        //         tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
+        //     }
+        // }
 
         for &c in s.as_bytes() {
             match c {
