@@ -21,7 +21,7 @@ plugin = ["swc_core/plugin_transform_host_js"]
 
 [dependencies]
 anyhow = "1"
-swc_core = { version = "0.28.10", features = [
+swc_core = { version = "0.29.10", features = [
   "common_perf",
   "binding_macro_wasm",
 ] }
