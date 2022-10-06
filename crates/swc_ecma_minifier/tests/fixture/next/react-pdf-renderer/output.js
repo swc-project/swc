@@ -14863,36 +14863,36 @@
                     });
                 }, [
                     G
-                ]), V = l ? "responsive" : "intrinsic";
-                "layout" in W && (W.layout && (V = W.layout), delete W.layout);
-                var H = x;
-                if ("loader" in W) {
-                    if (W.loader) {
-                        var Z = W.loader;
-                        H = function(e) {
+                ]), V = W, H = l ? "responsive" : "intrinsic";
+                "layout" in V && (V.layout && (H = V.layout), delete V.layout);
+                var Z = x;
+                if ("loader" in V) {
+                    if (V.loader) {
+                        var X = V.loader;
+                        Z = function(e) {
                             e.config;
                             var t = g(e, [
                                 "config"
                             ]);
-                            return Z(t);
+                            return X(t);
                         };
                     }
-                    delete W.loader;
+                    delete V.loader;
                 }
-                var X = "";
+                var J = "";
                 if ("object" == typeof (t = u) && (w(t) || void 0 !== t.src)) {
-                    var J = w(u) ? u.default : u;
-                    if (!J.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(J)));
-                    if (z = z || J.blurDataURL, X = J.src, (!V || "fill" !== V) && (I = I || J.height, R = R || J.width, !J.height || !J.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(J)));
+                    var Y = w(u) ? u.default : u;
+                    if (!Y.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(Y)));
+                    if (z = z || Y.blurDataURL, J = Y.src, (!H || "fill" !== H) && (I = I || Y.height, R = R || Y.width, !Y.height || !Y.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(Y)));
                 }
-                u = "string" == typeof u ? u : X;
-                var Y = _(R), K = _(I), Q = _(F), $ = !k && ("lazy" === T || void 0 === T);
-                (u.startsWith("data:") || u.startsWith("blob:")) && (D = !0, $ = !1), b.has(u) && ($ = !1);
-                var ee = o(s.useState(!1), 2), et = ee[0], er = ee[1], en = o(d.useIntersection({
+                u = "string" == typeof u ? u : J;
+                var K = _(R), Q = _(I), $ = _(F), ee = !k && ("lazy" === T || void 0 === T);
+                (u.startsWith("data:") || u.startsWith("blob:")) && (D = !0, ee = !1), b.has(u) && (ee = !1);
+                var et = o(s.useState(!1), 2), er = et[0], en = et[1], ei = o(d.useIntersection({
                     rootRef: void 0 === O ? null : O,
                     rootMargin: void 0 === C ? "200px" : C,
-                    disabled: !$
-                }), 3), ei = en[0], eo = en[1], ea = en[2], eu = !$ || eo, el = {
+                    disabled: !ee
+                }), 3), eo = ei[0], ea = ei[1], eu = ei[2], el = !ee || ea, es = {
                     boxSizing: "border-box",
                     display: "block",
                     overflow: "hidden",
@@ -14903,7 +14903,7 @@
                     border: 0,
                     margin: 0,
                     padding: 0
-                }, es = {
+                }, ec = {
                     boxSizing: "border-box",
                     display: "block",
                     width: "initial",
@@ -14913,7 +14913,7 @@
                     border: 0,
                     margin: 0,
                     padding: 0
-                }, ec = !1, ef = Object.assign({}, j, "raw" === V ? {} : {
+                }, ef = !1, ed = Object.assign({}, j, "raw" === H ? {} : {
                     position: "absolute",
                     top: 0,
                     left: 0,
@@ -14932,70 +14932,70 @@
                     maxHeight: "100%",
                     objectFit: B,
                     objectPosition: M
-                }), ed = "blur" !== U || et ? {} : {
+                }), ep = "blur" !== U || er ? {} : {
                     filter: "blur(20px)",
                     backgroundSize: B || "cover",
                     backgroundImage: 'url("'.concat(z, '")'),
                     backgroundPosition: M || "0% 0%"
                 };
-                if ("fill" === V) el.display = "block", el.position = "absolute", el.top = 0, el.left = 0, el.bottom = 0, el.right = 0;
-                else if (void 0 !== Y && void 0 !== K) {
-                    var ep = K / Y, eh = isNaN(ep) ? "100%" : "".concat(100 * ep, "%");
-                    "responsive" === V ? (el.display = "block", el.position = "relative", ec = !0, es.paddingTop = eh) : "intrinsic" === V ? (el.display = "inline-block", el.position = "relative", el.maxWidth = "100%", ec = !0, es.maxWidth = "100%", r = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(Y, "%27%20height=%27").concat(K, "%27/%3e")) : "fixed" === V && (el.display = "inline-block", el.position = "relative", el.width = Y, el.height = K);
+                if ("fill" === H) es.display = "block", es.position = "absolute", es.top = 0, es.left = 0, es.bottom = 0, es.right = 0;
+                else if (void 0 !== K && void 0 !== Q) {
+                    var eh = Q / K, ey = isNaN(eh) ? "100%" : "".concat(100 * eh, "%");
+                    "responsive" === H ? (es.display = "block", es.position = "relative", ef = !0, ec.paddingTop = ey) : "intrinsic" === H ? (es.display = "inline-block", es.position = "relative", es.maxWidth = "100%", ef = !0, ec.maxWidth = "100%", r = "data:image/svg+xml,%3csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20version=%271.1%27%20width=%27".concat(K, "%27%20height=%27").concat(Q, "%27/%3e")) : "fixed" === H && (es.display = "inline-block", es.position = "relative", es.width = K, es.height = Q);
                 }
-                var ey = {
+                var eg = {
                     src: m,
                     srcSet: void 0,
                     sizes: void 0
                 };
-                eu && (ey = E({
+                el && (eg = E({
                     config: q,
                     src: u,
                     unoptimized: D,
-                    layout: V,
-                    width: Y,
-                    quality: Q,
+                    layout: H,
+                    width: K,
+                    quality: $,
                     sizes: l,
-                    loader: H
+                    loader: Z
                 }));
-                var eg = u, ev = "imagesizes";
-                ev = "imageSizes";
-                var eb = (i(n = {}, "imageSrcSet", ey.srcSet), i(n, ev, ey.sizes), n), em = s.default.useLayoutEffect, eD = s.useRef(N), ew = s.useRef(u);
+                var ev = u, eb = "imagesizes";
+                eb = "imageSizes";
+                var em = (i(n = {}, "imageSrcSet", eg.srcSet), i(n, eb, eg.sizes), n), eD = s.default.useLayoutEffect, ew = s.useRef(N), eE = s.useRef(u);
                 s.useEffect(function() {
-                    eD.current = N;
+                    ew.current = N;
                 }, [
                     N
-                ]), em(function() {
-                    ew.current !== u && (ea(), ew.current = u);
+                ]), eD(function() {
+                    eE.current !== u && (eu(), eE.current = u);
                 }, [
-                    ea,
+                    eu,
                     u
                 ]);
-                var eE = y({
-                    isLazy: $,
-                    imgAttributes: ey,
-                    heightInt: K,
-                    widthInt: Y,
-                    qualityInt: Q,
-                    layout: V,
+                var e_ = y({
+                    isLazy: ee,
+                    imgAttributes: eg,
+                    heightInt: Q,
+                    widthInt: K,
+                    qualityInt: $,
+                    layout: H,
                     className: P,
-                    imgStyle: ef,
-                    blurStyle: ed,
+                    imgStyle: ed,
+                    blurStyle: ep,
                     loading: T,
                     config: q,
                     unoptimized: D,
                     placeholder: U,
-                    loader: H,
-                    srcString: eg,
-                    onLoadingCompleteRef: eD,
-                    setBlurComplete: er,
-                    setIntersection: ei,
-                    isVisible: eu
-                }, W);
-                return s.default.createElement(s.default.Fragment, null, "raw" === V ? s.default.createElement(A, Object.assign({}, eE)) : s.default.createElement("span", {
-                    style: el
-                }, ec ? s.default.createElement("span", {
+                    loader: Z,
+                    srcString: ev,
+                    onLoadingCompleteRef: ew,
+                    setBlurComplete: en,
+                    setIntersection: eo,
+                    isVisible: el
+                }, V);
+                return s.default.createElement(s.default.Fragment, null, "raw" === H ? s.default.createElement(A, Object.assign({}, e_)) : s.default.createElement("span", {
                     style: es
+                }, ef ? s.default.createElement("span", {
+                    style: ec
                 }, r ? s.default.createElement("img", {
                     style: {
                         display: "block",
@@ -15011,12 +15011,12 @@
                     alt: "",
                     "aria-hidden": !0,
                     src: r
-                }) : null) : null, s.default.createElement(A, Object.assign({}, eE))), k ? s.default.createElement(c.default, null, s.default.createElement("link", Object.assign({
-                    key: "__nimg-" + ey.src + ey.srcSet + ey.sizes,
+                }) : null) : null, s.default.createElement(A, Object.assign({}, e_))), k ? s.default.createElement(c.default, null, s.default.createElement("link", Object.assign({
+                    key: "__nimg-" + eg.src + eg.srcSet + eg.sizes,
                     rel: "preload",
                     as: "image",
-                    href: ey.srcSet ? void 0 : ey.src
-                }, eb))) : null);
+                    href: eg.srcSet ? void 0 : eg.src
+                }, em))) : null);
             };
             var l, s = function(e) {
                 if (e && e.__esModule) return e;

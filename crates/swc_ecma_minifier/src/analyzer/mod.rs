@@ -409,6 +409,7 @@ where
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
+                    is_delete_arg: false,
                     ..child.ctx
                 };
                 n.params.visit_with(&mut *child.with_ctx(ctx));
@@ -431,6 +432,7 @@ where
             {
                 let ctx = Ctx {
                     in_pat_of_param: true,
+                    is_delete_arg: false,
                     ..child.ctx
                 };
                 n.params.visit_with(&mut *child.with_ctx(ctx));
@@ -449,6 +451,7 @@ where
             in_assign_lhs: true,
             is_exact_reassignment: true,
             is_op_assign: n.op != op!("="),
+            is_delete_arg: false,
             ..self.ctx
         };
         n.left.visit_with(&mut *self.with_ctx(ctx));
@@ -456,6 +459,7 @@ where
         let ctx = Ctx {
             in_assign_lhs: false,
             is_exact_reassignment: false,
+            is_delete_arg: false,
             ..self.ctx
         };
         n.right.visit_with(&mut *self.with_ctx(ctx));
@@ -493,6 +497,7 @@ where
         {
             let ctx = Ctx {
                 in_pat_of_param: false,
+                is_delete_arg: false,
                 var_decl_kind_of_pat: None,
                 ..self.ctx
             };
@@ -504,6 +509,7 @@ where
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
         let ctx = Ctx {
             in_await_arg: true,
+            is_delete_arg: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -585,6 +591,7 @@ where
             let ctx = Ctx {
                 inline_prevented,
                 in_call_arg: true,
+                is_delete_arg: false,
                 is_exact_arg: true,
                 is_exact_reassignment: false,
                 is_callee: false,
@@ -614,6 +621,7 @@ where
         {
             let ctx = Ctx {
                 in_cond: true,
+                is_delete_arg: false,
                 in_catch_param: true,
                 ..self.ctx
             };
@@ -623,6 +631,7 @@ where
         {
             let ctx = Ctx {
                 in_cond: true,
+                is_delete_arg: false,
                 ..self.ctx
             };
             self.with_ctx(ctx).visit_in_cond(&n.body);
@@ -636,6 +645,7 @@ where
         {
             let ctx = Ctx {
                 inline_prevented: true,
+                is_delete_arg: false,
                 ..self.ctx
             };
             n.super_class.visit_with(&mut *self.with_ctx(ctx));
@@ -695,10 +705,12 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
         n.body.visit_with(&mut *self.with_ctx(Ctx {
+            is_delete_arg: false,
             executed_multiple_time: true,
             ..self.ctx
         }));
         n.test.visit_with(&mut *self.with_ctx(Ctx {
+            is_delete_arg: false,
             executed_multiple_time: true,
             ..self.ctx
         }));
@@ -799,6 +811,7 @@ where
             e.left.visit_with(self);
             let ctx = Ctx {
                 in_cond: true,
+                is_delete_arg: false,
                 ..self.ctx
             };
             self.with_ctx(ctx).visit_in_cond(&e.right);
@@ -827,6 +840,7 @@ where
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         let ctx = Ctx {
             in_decl_with_no_side_effect_for_member_access: true,
+            is_delete_arg: false,
             ..self.ctx
         };
         self.with_ctx(ctx).declare_decl(&n.ident, true, None, true);
@@ -893,8 +907,9 @@ where
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
-                in_left_of_for_loop: true,
                 is_exact_reassignment: true,
+                is_delete_arg: false,
+                in_left_of_for_loop: true,
                 ..child.ctx
             };
             n.left.visit_with(&mut *child.with_ctx(ctx));
@@ -902,6 +917,7 @@ where
             n.right.visit_with(child);
 
             let ctx = Ctx {
+                is_delete_arg: false,
                 executed_multiple_time: true,
                 in_cond: true,
                 ..child.ctx
@@ -919,6 +935,7 @@ where
             let ctx = Ctx {
                 in_left_of_for_loop: true,
                 is_exact_reassignment: true,
+                is_delete_arg: false,
                 ..child.ctx
             };
             n.left.visit_with(&mut *child.with_ctx(ctx));
@@ -926,6 +943,7 @@ where
             let ctx = Ctx {
                 executed_multiple_time: true,
                 in_cond: true,
+                is_delete_arg: false,
                 ..child.ctx
             };
             child.with_ctx(ctx).visit_in_cond(&n.body);
@@ -939,6 +957,7 @@ where
         let ctx = Ctx {
             executed_multiple_time: true,
             in_cond: true,
+            is_delete_arg: false,
             ..self.ctx
         };
 
@@ -987,6 +1006,7 @@ where
     fn visit_if_stmt(&mut self, n: &IfStmt) {
         let ctx = Ctx {
             in_cond: true,
+            is_delete_arg: false,
             ..self.ctx
         };
         n.test.visit_with(self);
@@ -1024,6 +1044,7 @@ where
                 is_exact_arg: false,
                 is_exact_reassignment: false,
                 is_callee: false,
+                is_delete_arg: false,
                 ..self.ctx
             };
             c.visit_with(&mut *self.with_ctx(ctx));
@@ -1040,7 +1061,7 @@ where
                 v.mark_indexed_with_dynamic_key();
             }
 
-            if self.ctx.in_assign_lhs {
+            if self.ctx.in_assign_lhs || self.ctx.is_delete_arg {
                 v.mark_has_property_mutation();
             }
 
@@ -1240,6 +1261,7 @@ where
             in_call_arg: false,
             in_assign_lhs: false,
             in_await_arg: false,
+            is_delete_arg: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1251,6 +1273,7 @@ where
         for stmt in stmts {
             let ctx = Ctx {
                 in_cond: self.ctx.in_cond || had_cond,
+                is_delete_arg: false,
                 ..self.ctx
             };
 
@@ -1266,6 +1289,7 @@ where
             let ctx = Ctx {
                 is_exact_arg: false,
                 is_exact_reassignment: false,
+                is_delete_arg: false,
                 ..self.ctx
             };
             c.visit_with(&mut *self.with_ctx(ctx));
@@ -1280,6 +1304,7 @@ where
 
         for case in n.cases.iter() {
             let ctx = Ctx {
+                is_delete_arg: false,
                 in_cond: true,
                 ..self.ctx
             };
@@ -1297,6 +1322,7 @@ where
     fn visit_try_stmt(&mut self, n: &TryStmt) {
         let ctx = Ctx {
             in_cond: true,
+            is_delete_arg: false,
             ..self.ctx
         };
 
@@ -1308,6 +1334,18 @@ where
         let ctx = Ctx {
             in_update_arg: true,
             is_exact_reassignment: true,
+            is_delete_arg: false,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip(self, n)))]
+    fn visit_unary_expr(&mut self, n: &UnaryExpr) {
+        let ctx = Ctx {
+            in_update_arg: false,
+            is_exact_reassignment: false,
+            is_delete_arg: n.op == op!("delete"),
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1321,6 +1359,7 @@ where
             in_call_arg: false,
             in_assign_lhs: false,
             in_await_arg: false,
+            is_delete_arg: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1365,6 +1404,7 @@ where
                     .as_deref()
                     .map(is_safe_to_access_prop)
                     .unwrap_or(false),
+                is_delete_arg: false,
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
@@ -1407,11 +1447,13 @@ where
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
         n.test.visit_with(&mut *self.with_ctx(Ctx {
             executed_multiple_time: true,
+            is_delete_arg: false,
             ..self.ctx
         }));
         let ctx = Ctx {
             executed_multiple_time: true,
             in_cond: true,
+            is_delete_arg: false,
             ..self.ctx
         };
 
