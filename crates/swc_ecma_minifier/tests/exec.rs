@@ -10132,6 +10132,20 @@ fn feedback_regex_range() {
 }
 
 #[test]
+fn issue_6004() {
+    run_default_exec_test(
+        r###"
+        const props = {'a': 1, 'b': 2};
+        const isBox = 'a' in props || 'b' in props;
+        for (const p in props) {
+            delete props[p];
+        }
+        console.log(isBox);
+        "###,
+    );
+}
+
+#[test]
 fn issue_6047_1() {
     run_default_exec_test(
         r###"
