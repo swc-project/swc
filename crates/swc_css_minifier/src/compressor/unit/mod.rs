@@ -157,25 +157,24 @@ fn get_ratio<'a>(
     } else {
         ratio_maps
             .get(unit1)
-            .map(|ratio_map| ratio_map.get(unit2))
-            .flatten()
+            .and_then(|ratio_map| ratio_map.get(unit2))
     }
 }
 
 pub fn get_duration_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&DURATION_RATIO, &unit1, &unit2)
+    get_ratio(&DURATION_RATIO, unit1, unit2)
 }
 
 pub fn get_frequency_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&FREQUENCY_RATIO, &unit1, &unit2)
+    get_ratio(&FREQUENCY_RATIO, unit1, unit2)
 }
 
 pub fn get_absolute_length_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&ABSOLUTE_LENGTH_RATIO, &unit1, &unit2)
+    get_ratio(&ABSOLUTE_LENGTH_RATIO, unit1, unit2)
 }
 
 pub fn get_resolution_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&RESOLUTION_RATIO, &unit1, &unit2)
+    get_ratio(&RESOLUTION_RATIO, unit1, unit2)
 }
 
 pub fn is_absolute_length(unit: &str) -> bool {
