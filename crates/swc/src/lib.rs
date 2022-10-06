@@ -770,6 +770,12 @@ impl Compiler {
         self.run(move || {
             let _timer = timer!("Compiler.parse");
 
+            if let FileName::Real(ref path) = name {
+                if !opts.config.matches(path)? {
+                    return Ok(None);
+                }
+            }
+
             let config = self.read_config(opts, name)?;
             let config = match config {
                 Some(v) => v,
