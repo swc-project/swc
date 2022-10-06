@@ -37,6 +37,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overridden)
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
@@ -78,6 +79,7 @@ impl<I: Tokens> Parser<I> {
     /// operators like `+=`.
     ///
     /// `parseMaybeAssign`
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
 
@@ -195,6 +197,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Spec: 'ConditionalExpression'
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
@@ -231,6 +234,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
@@ -479,6 +483,7 @@ impl<I: Tokens> Parser<I> {
         )
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
@@ -536,6 +541,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
@@ -666,6 +672,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
 
@@ -673,6 +680,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse `Arguments[Yield, Await]`
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
