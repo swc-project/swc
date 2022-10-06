@@ -4395,7 +4395,7 @@
             to_utf8: to_utf8,
             print_name: function(name) {
                 var name1;
-                print(to_utf8(name.toString(), !0));
+                print((name1 = (name1 = name).toString(), name1 = to_utf8(name1, !0)));
             },
             print_string: function(str, quote, escape_directive) {
                 var encoded = encode_string(str, quote);

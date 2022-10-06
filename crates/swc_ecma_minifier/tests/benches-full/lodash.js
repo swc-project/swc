@@ -743,7 +743,9 @@
             this.__data__ = [], this.size = 0;
         }, ListCache.prototype.delete = function(key) {
             var data = this.__data__, index = assocIndexOf(data, key);
-            return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
+            if (index < 0) return !1;
+            var lastIndex = data.length - 1;
+            return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
         }, ListCache.prototype.get = function(key) {
             var data = this.__data__, index = assocIndexOf(data, key);
             return index < 0 ? undefined : data[index][1];
@@ -1723,8 +1725,8 @@
         });
         var isMaskable = coreJsData ? isFunction : stubFalse;
         function isPrototype(value) {
-            var Ctor = value && value.constructor;
-            return value === ('function' == typeof Ctor && Ctor.prototype || objectProto);
+            var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
+            return value === proto;
         }
         function isStrictComparable(value) {
             return value == value && !isObject(value);

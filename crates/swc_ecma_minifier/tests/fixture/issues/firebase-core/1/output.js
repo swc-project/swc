@@ -380,7 +380,7 @@
                     var h = b.g = c[f];
                     e = qb(h, d, !0, b) && e;
                 }
-                if (h = b.g = a, e = qb(h, d, !0, b) && e, e = qb(h, d, !1, b) && e, c) for(f = 0; f < c.length; f++)e = qb(h = b.g = c[f], d, !1, b) && e;
+                if (h = b.g = a, e = qb(h, d, !0, b) && e, e = qb(h, d, !1, b) && e, c) for(f = 0; f < c.length; f++)h = b.g = c[f], e = qb(h, d, !1, b) && e;
             }
             function qb(a, b, c, d) {
                 if (!(b = a.i.g[String(b)])) return !0;
@@ -397,7 +397,7 @@
             t(C, v), C.prototype[B] = !0, C.prototype.removeEventListener = function(a, b, c, d) {
                 !function nb(a, b, c, d, e) {
                     if (Array.isArray(b)) for(var f = 0; f < b.length; f++)nb(a, b[f], c, d, e);
-                    else (d = p(d) ? !!d.capture : !!d, c = hb(c), a && a[B]) ? (a = a.i, (b = String(b).toString()) in a.g && -1 < (c = ab(f = a.g[b], c, d, e)) && (Za(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.h--))) : a && (a = jb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ab(b, c, d, e)), (c = -1 < a ? b[a] : null) && ob(c));
+                    else (d = p(d) ? !!d.capture : !!d, c = hb(c), a && a[B]) ? (a = a.i, (b = String(b).toString()) in a.g && (f = a.g[b], -1 < (c = ab(f, c, d, e)) && (Za(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.h--)))) : a && (a = jb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ab(b, c, d, e)), (c = -1 < a ? b[a] : null) && ob(c));
                 }(this, a, b, c, d);
             }, C.prototype.M = function() {
                 if (C.Z.M.call(this), this.i) {
@@ -994,7 +994,7 @@
                 }));
             }
             function dd(a, b) {
-                V(a), b = W(a, b), T(a.g.h, b) && (a.i = null, a.h -= a.g.get(b).length, T((a = a.g).h, b) && (delete a.h[b], a.i--, a.g.length > 2 * a.i && Lc(a)));
+                V(a), b = W(a, b), T(a.g.h, b) && (a.i = null, a.h -= a.g.get(b).length, a = a.g, T(a.h, b) && (delete a.h[b], a.i--, a.g.length > 2 * a.i && Lc(a)));
             }
             function ed(a, b) {
                 return V(a), b = W(a, b), T(a.g.h, b);
@@ -1860,10 +1860,13 @@
                             if (img) {
                                 var handleLoad = function() {
                                     img.src !== emptyDataURL && ("decode" in img ? img.decode() : Promise.resolve()).catch(function() {}).then(function() {
-                                        "blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete && onLoadingComplete({
-                                            naturalWidth: img.naturalWidth,
-                                            naturalHeight: img.naturalHeight
-                                        });
+                                        if ("blur" === placeholder && (img.style.filter = "none", img.style.backgroundSize = "none", img.style.backgroundImage = "none"), loadedImageURLs.add(src), onLoadingComplete) {
+                                            var naturalWidth = img.naturalWidth, naturalHeight = img.naturalHeight;
+                                            onLoadingComplete({
+                                                naturalWidth: naturalWidth,
+                                                naturalHeight: naturalHeight
+                                            });
+                                        }
                                     });
                                 };
                                 img.complete ? handleLoad() : img.onload = handleLoad;

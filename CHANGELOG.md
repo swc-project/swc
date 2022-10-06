@@ -29,6 +29,12 @@
 - **(es/minifier)** Fix optimization of numeric keys (#6052) ([e3b55e4](https://github.com/swc-project/swc/commit/e3b55e4bcf2bc12bbcc0fb2cb65e0931622d5dcb))
 
 
+- **(es/minifier)** Fix analysis of var declaration after usage (#6043) ([36d467e](https://github.com/swc-project/swc/commit/36d467e7d7792bff9f735171a611b714e108e41f))
+
+
+- **(es/minifier)** Fix infection analysis of sequential inliner (#6053) ([d65fba1](https://github.com/swc-project/swc/commit/d65fba134d50609543c1d1ef0dc07db9891913ac))
+
+
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
 
 ### Features

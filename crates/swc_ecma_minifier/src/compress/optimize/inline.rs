@@ -534,6 +534,7 @@ where
                                     AliasConfig {
                                         marks: Some(self.marks),
                                         ignore_nested: false,
+                                        need_all: true,
                                     },
                                 ) {
                                     if let Some(usage) = self.data.vars.get_mut(&i) {

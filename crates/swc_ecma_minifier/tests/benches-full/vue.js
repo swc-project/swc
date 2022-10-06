@@ -1307,8 +1307,8 @@
     function resolveConstructorOptions(Ctor) {
         var options = Ctor.options;
         if (Ctor.super) {
-            var superOptions = resolveConstructorOptions(Ctor.super);
-            if (superOptions !== Ctor.superOptions) {
+            var superOptions = resolveConstructorOptions(Ctor.super), cachedSuperOptions = Ctor.superOptions;
+            if (superOptions !== cachedSuperOptions) {
                 Ctor.superOptions = superOptions;
                 var modifiedOptions = function(Ctor) {
                     var modified, latest = Ctor.options, sealed = Ctor.sealedOptions;
@@ -2441,7 +2441,7 @@
                                     var c = oldCh[i];
                                     if (isDef(c) && sameVnode(node, c)) return i;
                                 }
-                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : (vnodeToMove = oldCh[idxInOld], sameVnode(vnodeToMove, newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx)), newStartVnode = newCh[++newStartIdx]);
                             oldStartIdx > oldEndIdx ? (refElm = isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, addVnodes(parentElm, refElm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue)) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }

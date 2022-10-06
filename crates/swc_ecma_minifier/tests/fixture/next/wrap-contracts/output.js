@@ -7277,9 +7277,9 @@
                         if (!xc || !yc || !xc[0] || !yc[0]) return x.s && y.s && (!xc || xc[0] || yc) && (!yc || yc[0] || xc) ? (y.s *= x.s, xc && yc ? (y.c = [
                             0
                         ], y.e = 0) : y.c = y.e = null) : y.c = y.e = y.s = null, y;
-                        for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, (xcL = xc.length) < (ycL = yc.length) && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
+                        for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, xcL = xc.length, ycL = yc.length, xcL < ycL && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
                         for(base = BASE, sqrtBase = SQRT_BASE, i = ycL; --i >= 0;){
-                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, k = xcL, j = i + k; j > i;)m = yhi * (xlo = xc[--k] % sqrtBase) + (xhi = xc[k] / sqrtBase | 0) * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
+                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, k = xcL, j = i + k; j > i;)xlo = xc[--k] % sqrtBase, xhi = xc[k] / sqrtBase | 0, m = yhi * xlo + xhi * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
                             zc[j] = c;
                         }
                         return c ? ++e : zc.splice(0, 1), normalise(y, zc, e);
@@ -7299,7 +7299,7 @@
                             for(a > 0 ? (ye = xe, t = yc) : (a = -a, t = xc), t.reverse(); a--; t.push(0));
                             t.reverse();
                         }
-                        for((a = xc.length) - (b = yc.length) < 0 && (t = yc, yc = xc, xc = t, b = a), a = 0; b;)a = (xc[--b] = xc[b] + yc[b] + a) / BASE | 0, xc[b] = BASE === xc[b] ? 0 : xc[b] % BASE;
+                        for(a = xc.length, b = yc.length, a - b < 0 && (t = yc, yc = xc, xc = t, b = a), a = 0; b;)a = (xc[--b] = xc[b] + yc[b] + a) / BASE | 0, xc[b] = BASE === xc[b] ? 0 : xc[b] % BASE;
                         return a && (xc = [
                             a
                         ].concat(xc), ++ye), normalise(y, xc, ye);
@@ -15481,8 +15481,8 @@
         5726: function(module) {
             var objectProto = Object.prototype;
             function isPrototype(value) {
-                var Ctor = value && value.constructor;
-                return value === ('function' == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             }
             module.exports = isPrototype;
         },
@@ -15496,7 +15496,9 @@
             var assocIndexOf = __webpack_require__(8470), splice = Array.prototype.splice;
             function listCacheDelete(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
+                if (index < 0) return !1;
+                var lastIndex = data.length - 1;
+                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
             }
             module.exports = listCacheDelete;
         },
@@ -16699,7 +16701,7 @@
                             t.bufferProcessing = !0;
                             var r = t.bufferedRequest;
                             if (e._writev && r && r.next) {
-                                var i = Array(t.bufferedRequestCount), a = t.corkedRequestsFree;
+                                var n = t.bufferedRequestCount, i = Array(n), a = t.corkedRequestsFree;
                                 a.entry = r;
                                 for(var o = 0, s = !0; r;)i[o] = r, r.isBuf || (s = !1), r = r.next, o += 1;
                                 i.allBuffers = s, doWrite(e, t, !0, t.length, i, "", a.finish), t.pendingcb++, t.lastBufferedRequest = null, a.next ? (t.corkedRequestsFree = a.next, a.next = null) : t.corkedRequestsFree = new CorkedRequest(t), t.bufferedRequestCount = 0;
