@@ -8,6 +8,9 @@
 - **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
 
 
+- **(es)** Respect exclude option (#6054) ([69da081](https://github.com/swc-project/swc/commit/69da0817982eda2e9e9e755e3526f83286e874b1))
+
+
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
