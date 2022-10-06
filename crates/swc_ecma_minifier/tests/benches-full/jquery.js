@@ -2102,7 +2102,7 @@
         },
         prefilters: [
             function(elem, props, opts) {
-                var prop, value, toggle, hooks, oldfire, propTween, restoreDisplay, display, anim = this, orig = {}, style = elem.style, hidden = elem.nodeType && isHiddenWithinTree(elem), dataShow = dataPriv.get(elem, "fxshow");
+                var prop, value, toggle, hooks, oldfire, propTween, restoreDisplay, display, isBox = "width" in props || "height" in props, anim = this, orig = {}, style = elem.style, hidden = elem.nodeType && isHiddenWithinTree(elem), dataShow = dataPriv.get(elem, "fxshow");
                 for(prop in opts.queue || (null == (hooks = jQuery._queueHooks(elem, "fx")).unqueued && (hooks.unqueued = 0, oldfire = hooks.empty.fire, hooks.empty.fire = function() {
                     hooks.unqueued || oldfire();
                 }), hooks.unqueued++, anim.always(function() {
@@ -2116,7 +2116,7 @@
                     }
                     orig[prop] = dataShow && dataShow[prop] || jQuery.style(elem, prop);
                 }
-                if (!(!(propTween = !jQuery.isEmptyObject(props)) && jQuery.isEmptyObject(orig))) for(prop in ("width" in props || "height" in props) && 1 === elem.nodeType && (opts.overflow = [
+                if (!(!(propTween = !jQuery.isEmptyObject(props)) && jQuery.isEmptyObject(orig))) for(prop in isBox && 1 === elem.nodeType && (opts.overflow = [
                     style.overflow,
                     style.overflowX,
                     style.overflowY
