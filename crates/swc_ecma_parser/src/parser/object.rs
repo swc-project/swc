@@ -13,7 +13,7 @@ impl<I: Tokens> Parser<I> {
         Self: ParseObject<T>,
     {
         let ctx = Context {
-            ignore_colon_for_arrow_in_cond: false,
+            will_expect_colon_for_cond: false,
             dont_parse_colon_as_type_ann: false,
             ..self.ctx()
         };
