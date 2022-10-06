@@ -17,4 +17,4 @@ jobs:
       # https://github.com/orgs/community/discussions/26323
       - name: "Invoke bot on swc-project/swc"
         run: |
-          curl -XPOST -u "swc-bot:${{secrets.GH_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/swc-project/swc/dispatches --data '{"event_type": "workflow_dispatch"}'
+          curl -XPOST -u "swc-bot:${{secrets.GH_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/swc-project/bot/dispatches --data '{"event_type": "workflow_dispatch"}'
