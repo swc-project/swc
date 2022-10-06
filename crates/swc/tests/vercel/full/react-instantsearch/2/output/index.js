@@ -117,17 +117,14 @@ export default function S(u) {
             searching: !1
         }));
     }, N = function() {
-        if (!U) {
-            var e;
-            U = setTimeout(function() {
-                var e = G.getState(), n = (e.resultsFacetValues, a(e, [
-                    "resultsFacetValues"
-                ]));
-                G.setState(r(t({}, n), {
-                    isSearchStalled: !0
-                }));
-            }, _);
-        }
+        !U && (U = setTimeout(function() {
+            var e = G.getState(), n = (e.resultsFacetValues, a(e, [
+                "resultsFacetValues"
+            ]));
+            G.setState(r(t({}, n), {
+                isSearchStalled: !0
+            }));
+        }, _));
     }, O = function(a, n) {
         if (a.transporter) {
             a.transporter.responsesCache.set({

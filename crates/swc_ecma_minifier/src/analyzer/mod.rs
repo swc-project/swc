@@ -93,7 +93,7 @@ pub(crate) struct VarUsageInfo {
     /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
     ///
-    /// - Update is counted as usage
+    /// - Update is counted as usage, but assign is not
     pub usage_count: u32,
 
     /// The variable itself is modified.

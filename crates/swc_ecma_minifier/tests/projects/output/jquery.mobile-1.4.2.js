@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window2, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, $7, undefined2, path, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc, $11, undefined4, props, testElement, vendorPrefixes, $12, heldCall, curr, diff, handler, lastCall, $13, baseElement, base, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window3, $17, $18, $19, defaultGetMaxScrollForTransition, $20, window4, $21, window5, $22, window6, $23, window7, $24, window8, $25, window9, $26, window10, $27, window11, $28, $29, undefined7, rInitialLetter, iconposClass, $30, $31, $32, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $33, $34, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window2, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, $7, undefined2, path, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc, $11, undefined4, props, testElement, vendorPrefixes, $12, heldCall, curr, diff, handler, lastCall, $13, baseElement, base, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window3, $17, $18, $19, defaultGetMaxScrollForTransition, window4, window5, window6, $20, window7, window8, window9, window10, window11, $21, $22, undefined7, rInitialLetter, iconposClass, $23, $24, $25, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $26, $27, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -585,7 +585,7 @@
             var v, uc_prop = prop.charAt(0).toUpperCase() + prop.substr(1), props = (prop + " " + vendors.join(uc_prop + " ") + uc_prop).split(" ");
             for(v in props)if (undefined !== fbCSS[props[v]]) return !0;
         }
-        var ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, link, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
+        var ua, platform, wkmatch, wkversion, ffmatch, ffversion, operammobilematch, omversion, rebase, fauxBase, base, fauxEle, href, supports, element, documentElement, getComputedStyle, ua1, nokiaLTE7_3, fakeBody = $("<body>").prependTo("html"), fbCSS = fakeBody[0].style, vendors = [
             "Webkit",
             "Moz",
             "O"
@@ -1541,7 +1541,7 @@
             }, to);
         },
         _cssTransition: function(to, from, options) {
-            var TransitionHandler, promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
+            var promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
             this._triggerCssTransitionEvents(to, from, "before"), this._hideLoading(), (promise = new (this._getTransitionHandler(transition))(transition, reverse, to, from).transition()).done(function() {
                 deferred.resolve.apply(deferred, arguments);
             }), promise.done($15.proxy(function() {
@@ -1683,7 +1683,7 @@
                 }
             }), $.mobile.document.bind("click", function(event1) {
                 if (!(!$.mobile.linkBindingEnabled || event1.isDefaultPrevented())) {
-                    var baseUrl, href, useDefaultUrlHandling, isExternal, transition, reverse, role, link = findClosestLink(event1.target), $link = $(link), httpCleanup = function() {
+                    var baseUrl, href, transition, reverse, role, link = findClosestLink(event1.target), $link = $(link), httpCleanup = function() {
                         window.setTimeout(function() {
                             $.mobile.removeActiveLinkClass(!0);
                         }, 200);
@@ -1811,7 +1811,7 @@
         simultaneous: $19.mobile.ConcurrentTransition
     }, $19.mobile.defaultTransitionHandler = $19.mobile.transitionHandlers.sequential, $19.mobile.transitionFallbacks = {}, $19.mobile._maybeDegradeTransition = function(transition) {
         return transition && !$19.support.cssTransform3d && $19.mobile.transitionFallbacks[transition] && (transition = $19.mobile.transitionFallbacks[transition]), transition;
-    }, $19.mobile.getMaxScrollForTransition = $19.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, ($20 = jQuery).mobile.transitionFallbacks.flip = "fade", ($21 = jQuery).mobile.transitionFallbacks.flow = "fade", ($22 = jQuery).mobile.transitionFallbacks.pop = "fade", ($23 = jQuery).mobile.transitionHandlers.slide = $23.mobile.transitionHandlers.simultaneous, $23.mobile.transitionFallbacks.slide = "fade", ($24 = jQuery).mobile.transitionFallbacks.slidedown = "fade", ($25 = jQuery).mobile.transitionFallbacks.slidefade = "fade", ($26 = jQuery).mobile.transitionFallbacks.slideup = "fade", ($27 = jQuery).mobile.transitionFallbacks.turn = "fade", ($28 = jQuery).mobile.degradeInputs = {
+    }, $19.mobile.getMaxScrollForTransition = $19.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($20 = jQuery).mobile.transitionHandlers.slide = $20.mobile.transitionHandlers.simultaneous, $20.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($21 = jQuery).mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -1825,10 +1825,10 @@
         time: !1,
         url: !1,
         week: !1
-    }, $28.mobile.page.prototype.options.degradeInputs = $28.mobile.degradeInputs, $28.mobile.degradeInputsWithin = function(target) {
-        (target = $28(target)).find("input").not($28.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, findstr, repstr, element = $28(this), type = this.getAttribute("type"), optType = $28.mobile.degradeInputs[type] || "text";
-            $28.mobile.degradeInputs[type] && (findstr = (hasType = (html = $28("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $28.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+    }, $21.mobile.page.prototype.options.degradeInputs = $21.mobile.degradeInputs, $21.mobile.degradeInputsWithin = function(target) {
+        (target = $21(target)).find("input").not($21.mobile.page.prototype.keepNativeSelector()).each(function() {
+            var html, hasType, findstr, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
+            $21.mobile.degradeInputs[type] && (findstr = (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $21.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -1919,9 +1919,9 @@
                 this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
-    }(jQuery, this), $29 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
+    }(jQuery, this), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
-    }, $29.widget("mobile.collapsible", {
+    }, $22.widget("mobile.collapsible", {
         options: {
             enhanced: !1,
             expandCueText: null,
@@ -1939,11 +1939,11 @@
         },
         _create: function() {
             var elem = this.element, ui = {
-                accordion: elem.closest(":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" + ($29.mobile.collapsibleset ? ", :mobile-collapsibleset" : "")).addClass("ui-collapsible-set")
+                accordion: elem.closest(":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" + ($22.mobile.collapsibleset ? ", :mobile-collapsibleset" : "")).addClass("ui-collapsible-set")
             };
-            this._ui = ui, this._renderedOptions = this._getOptions(this.options), this.options.enhanced ? (ui.heading = $29(".ui-collapsible-heading", this.element[0]), ui.content = ui.heading.next(), ui.anchor = $29("a", ui.heading[0]).first(), ui.status = ui.anchor.children(".ui-collapsible-heading-status")) : this._enhance(elem, ui), this._on(ui.heading, {
+            this._ui = ui, this._renderedOptions = this._getOptions(this.options), this.options.enhanced ? (ui.heading = $22(".ui-collapsible-heading", this.element[0]), ui.content = ui.heading.next(), ui.anchor = $22("a", ui.heading[0]).first(), ui.status = ui.anchor.children(".ui-collapsible-heading-status")) : this._enhance(elem, ui), this._on(ui.heading, {
                 tap: function() {
-                    ui.heading.find("a").first().addClass($29.mobile.activeBtnClass);
+                    ui.heading.find("a").first().addClass($22.mobile.activeBtnClass);
                 },
                 click: function(event1) {
                     this._handleExpandCollapse(!ui.heading.hasClass("ui-collapsible-heading-collapsed")), event1.preventDefault(), event1.stopPropagation();
@@ -1952,7 +1952,7 @@
         },
         _getOptions: function(options) {
             var key, accordion = this._ui.accordion, accordionWidget = this._ui.accordionWidget;
-            for(key in options = $29.extend({}, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = accordionWidget = accordion.data("mobile-collapsibleset")), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $29.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $29.mobile.collapsible.defaults[key]);
+            for(key in options = $22.extend({}, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = accordionWidget = accordion.data("mobile-collapsibleset")), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $22.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $22.mobile.collapsible.defaults[key]);
             return options;
         },
         _themeClassFromOption: function(prefix, value) {
@@ -1960,7 +1960,7 @@
         },
         _enhance: function(elem, ui) {
             var iconclass, opts = this._renderedOptions, contentThemeClass = this._themeClassFromOption("ui-body-", opts.contentTheme);
-            return elem.addClass("ui-collapsible " + (opts.inset ? "ui-collapsible-inset " : "") + (opts.inset && opts.corners ? "ui-corner-all " : "") + (contentThemeClass ? "ui-collapsible-themed-content " : "")), ui.originalHeading = elem.children(this.options.heading).first(), ui.content = elem.wrapInner("<div class='ui-collapsible-content " + contentThemeClass + "'></div>").children(".ui-collapsible-content"), ui.heading = ui.originalHeading, ui.heading.is("legend") && (ui.heading = $29("<div role='heading'>" + ui.heading.html() + "</div>"), ui.placeholder = $29("<div><!-- placeholder for legend --></div>").insertBefore(ui.originalHeading), ui.originalHeading.remove()), iconclass = opts.collapsed ? opts.collapsedIcon ? "ui-icon-" + opts.collapsedIcon : "" : opts.expandedIcon ? "ui-icon-" + opts.expandedIcon : "", ui.status = $29("<span class='ui-collapsible-heading-status'></span>"), ui.anchor = ui.heading.detach().addClass("ui-collapsible-heading").append(ui.status).wrapInner("<a href='#' class='ui-collapsible-heading-toggle'></a>").find("a").first().addClass("ui-btn " + (iconclass ? iconclass + " " : "") + (iconclass ? iconposClass(opts.iconpos) + " " : "") + this._themeClassFromOption("ui-btn-", opts.theme) + " " + (opts.mini ? "ui-mini " : "")), ui.heading.insertBefore(ui.content), this._handleExpandCollapse(this.options.collapsed), ui;
+            return elem.addClass("ui-collapsible " + (opts.inset ? "ui-collapsible-inset " : "") + (opts.inset && opts.corners ? "ui-corner-all " : "") + (contentThemeClass ? "ui-collapsible-themed-content " : "")), ui.originalHeading = elem.children(this.options.heading).first(), ui.content = elem.wrapInner("<div class='ui-collapsible-content " + contentThemeClass + "'></div>").children(".ui-collapsible-content"), ui.heading = ui.originalHeading, ui.heading.is("legend") && (ui.heading = $22("<div role='heading'>" + ui.heading.html() + "</div>"), ui.placeholder = $22("<div><!-- placeholder for legend --></div>").insertBefore(ui.originalHeading), ui.originalHeading.remove()), iconclass = opts.collapsed ? opts.collapsedIcon ? "ui-icon-" + opts.collapsedIcon : "" : opts.expandedIcon ? "ui-icon-" + opts.expandedIcon : "", ui.status = $22("<span class='ui-collapsible-heading-status'></span>"), ui.anchor = ui.heading.detach().addClass("ui-collapsible-heading").append(ui.status).wrapInner("<a href='#' class='ui-collapsible-heading-toggle'></a>").find("a").first().addClass("ui-btn " + (iconclass ? iconclass + " " : "") + (iconclass ? iconposClass(opts.iconpos) + " " : "") + this._themeClassFromOption("ui-btn-", opts.theme) + " " + (opts.mini ? "ui-mini " : "")), ui.heading.insertBefore(ui.content), this._handleExpandCollapse(this.options.collapsed), ui;
         },
         refresh: function() {
             this._applyOptions(this.options), this._renderedOptions = this._getOptions(this.options);
@@ -1986,7 +1986,7 @@
         },
         _handleExpandCollapse: function(isCollapse) {
             var opts = this._renderedOptions, ui = this._ui;
-            ui.status.text(isCollapse ? opts.expandCueText : opts.collapseCueText), ui.heading.toggleClass("ui-collapsible-heading-collapsed", isCollapse).find("a").first().toggleClass("ui-icon-" + opts.expandedIcon, !isCollapse).toggleClass("ui-icon-" + opts.collapsedIcon, isCollapse || opts.expandedIcon === opts.collapsedIcon).removeClass($29.mobile.activeBtnClass), this.element.toggleClass("ui-collapsible-collapsed", isCollapse), ui.content.toggleClass("ui-collapsible-content-collapsed", isCollapse).attr("aria-hidden", isCollapse).trigger("updatelayout"), this.options.collapsed = isCollapse, this._trigger(isCollapse ? "collapse" : "expand");
+            ui.status.text(isCollapse ? opts.expandCueText : opts.collapseCueText), ui.heading.toggleClass("ui-collapsible-heading-collapsed", isCollapse).find("a").first().toggleClass("ui-icon-" + opts.expandedIcon, !isCollapse).toggleClass("ui-icon-" + opts.collapsedIcon, isCollapse || opts.expandedIcon === opts.collapsedIcon).removeClass($22.mobile.activeBtnClass), this.element.toggleClass("ui-collapsible-collapsed", isCollapse), ui.content.toggleClass("ui-collapsible-content-collapsed", isCollapse).attr("aria-hidden", isCollapse).trigger("updatelayout"), this.options.collapsed = isCollapse, this._trigger(isCollapse ? "collapse" : "expand");
         },
         expand: function() {
             this._handleExpandCollapse(!1);
@@ -1998,7 +1998,7 @@
             var ui = this._ui;
             !this.options.enhanced && (ui.placeholder ? (ui.originalHeading.insertBefore(ui.placeholder), ui.placeholder.remove(), ui.heading.remove()) : (ui.status.remove(), ui.heading.removeClass("ui-collapsible-heading ui-collapsible-heading-collapsed").children().contents().unwrap()), ui.anchor.contents().unwrap(), ui.content.contents().unwrap(), this.element.removeClass("ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all"));
         }
-    }), $29.mobile.collapsible.defaults = {
+    }), $22.mobile.collapsible.defaults = {
         expandCueText: " click to expand contents",
         collapseCueText: " click to collapse contents",
         collapsedIcon: "plus",
@@ -2342,17 +2342,17 @@
                 });
             }
         });
-    }(jQuery), disabledZoom = (initialContent = (meta = ($32 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $32.mobile.zoom = $32.extend({}, {
+    }(jQuery), disabledZoom = (initialContent = (meta = ($25 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $25.mobile.zoom = $25.extend({}, {
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
-            disabledInitially || $32.mobile.zoom.locked || (meta.attr("content", disabledZoom), $32.mobile.zoom.enabled = !1, $32.mobile.zoom.locked = lock || !1);
+            disabledInitially || $25.mobile.zoom.locked || (meta.attr("content", disabledZoom), $25.mobile.zoom.enabled = !1, $25.mobile.zoom.locked = lock || !1);
         },
         enable: function(unlock) {
-            disabledInitially || $32.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), $32.mobile.zoom.enabled = !0, $32.mobile.zoom.locked = !1);
+            disabledInitially || $25.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), $25.mobile.zoom.enabled = !0, $25.mobile.zoom.locked = !1);
         },
         restore: function() {
-            disabledInitially || (meta.attr("content", initialContent), $32.mobile.zoom.enabled = !0);
+            disabledInitially || (meta.attr("content", initialContent), $25.mobile.zoom.enabled = !0);
         }
     }), function($, undefined) {
         $.widget("mobile.textinput", {
@@ -2913,12 +2913,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, paddingBottom, paddingHeight, scrollHeight, clientHeight, borderTop, borderBottom, borderHeight, height, scrollTop = this.window.scrollTop();
+                var paddingBottom, paddingHeight, scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (borderHeight = (borderTop = parseFloat(this.element.css("border-top-width"))) + (borderBottom = parseFloat(this.element.css("border-bottom-width")))) + 15, 0 === clientHeight && (height += (paddingTop = parseFloat(this.element.css("padding-top"))) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""
@@ -3204,7 +3204,7 @@
                 return this._tolerance = tol, this;
             },
             _clampPopupWidth: function(infoOnly) {
-                var menuSize, windowCoordinates = getWindowCoordinates(this.window), rectangle = {
+                var windowCoordinates = getWindowCoordinates(this.window), rectangle = {
                     x: this._tolerance.l,
                     y: windowCoordinates.y + this._tolerance.t,
                     cx: windowCoordinates.cx - this._tolerance.l - this._tolerance.r,
@@ -3332,7 +3332,7 @@
                 return this._ui.container;
             },
             open: function(options) {
-                var url, hashkey, activePage, currentIsDialog, hasHash, urlHistory, self = this, currentOptions = this.options;
+                var url, hashkey, activePage, currentIsDialog, urlHistory, self = this, currentOptions = this.options;
                 return $.mobile.popup.active || currentOptions.disabled ? this : ($.mobile.popup.active = this, this._scrollTop = this.window.scrollTop(), currentOptions.history) ? (urlHistory = $.mobile.navigate.history, hashkey = $.mobile.dialogHashKey, currentIsDialog = !!(activePage = $.mobile.activePage) && activePage.hasClass("ui-dialog"), this._myUrl = url = urlHistory.getActive().url, url.indexOf(hashkey) > -1 && !currentIsDialog && urlHistory.activeIndex > 0) ? (self._open(options), self._bindContainerClose(), this) : (-1 !== url.indexOf(hashkey) || currentIsDialog ? url = $.mobile.path.parseLocation().hash + hashkey : url += url.indexOf("#") > -1 ? hashkey : "#" + hashkey, 0 === urlHistory.activeIndex && url === urlHistory.initialDst && (url += hashkey), this.window.one("beforenavigate", function(theEvent) {
                     theEvent.preventDefault(), self._open(options), self._bindContainerClose();
                 }), this.urlAltered = !0, $.mobile.navigate(url, {
@@ -4345,9 +4345,9 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($34 = jQuery).mobile.filterable.prototype.options.filterCallback, $34.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($27 = jQuery).mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
-    }, $34.widget("mobile.filterable", $34.mobile.filterable, {
+    }, $27.widget("mobile.filterable", $27.mobile.filterable, {
         options: {
             filterPlaceholder: "Filter items...",
             filterTheme: null
@@ -4359,9 +4359,9 @@
                 "controlgroup",
                 "listview"
             ], createHandlers = {};
-            for(this._super(), $34.extend(this, {
+            for(this._super(), $27.extend(this, {
                 _widget: null
-            }), idx = recognizedWidgets.length - 1; idx > -1; idx--)if (widgetName = recognizedWidgets[idx], $34.mobile[widgetName]) {
+            }), idx = recognizedWidgets.length - 1; idx > -1; idx--)if (widgetName = recognizedWidgets[idx], $27.mobile[widgetName]) {
                 if (this._setWidget(elem.data("mobile-" + widgetName))) break;
                 createHandlers[widgetName + "create"] = "_handleCreate";
             }
@@ -4389,23 +4389,23 @@
             var opts = this.options, updatePlaceholder = !0, textinputOpts = {};
             if (!selector) {
                 if (this._isSearchInternal()) return;
-                updatePlaceholder = !1, selector = $34("<input data-" + $34.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $34("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
+                updatePlaceholder = !1, selector = $27("<input data-" + $27.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $27("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
                     evt.preventDefault(), selector.blur();
-                }).insertBefore(this.element), $34.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
+                }).insertBefore(this.element), $27.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
             }
             this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
         },
         _setOptions: function(options) {
             var ret = this._super(options);
-            return undefined8 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), undefined8 !== options.filterTheme && this._search && $34.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
+            return undefined8 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), undefined8 !== options.filterTheme && this._search && $27.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
         },
         _destroy: function() {
             this._isSearchInternal() && this._search.remove(), this._super();
         },
         _syncTextInputOptions: function(options) {
             var idx, textinputOptions = {};
-            if (this._isSearchInternal() && $34.mobile.textinput) {
-                for(idx in $34.mobile.textinput.prototype.options)undefined8 !== options[idx] && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
+            if (this._isSearchInternal() && $27.mobile.textinput) {
+                for(idx in $27.mobile.textinput.prototype.options)undefined8 !== options[idx] && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
                 this._search.textinput("option", textinputOptions);
             }
         }

@@ -682,6 +682,7 @@ where
                 if let Expr::Ident(i) = &*value {
                     if let Some(usage) = self.data.vars.get_mut(&i.to_id()) {
                         usage.ref_count += 1;
+                        usage.usage_count += 1;
                     }
                 }
 

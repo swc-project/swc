@@ -1924,8 +1924,8 @@ where
                                 return Ok(false);
                             }
 
-                            // We can remove this variable
-                            if !usage.reassigned() && usage.ref_count == 1 && usage.declared {
+                            // We can remove this variable same as unused pass
+                            if !usage.reassigned() && usage.usage_count == 1 && usage.declared {
                                 can_remove = true;
                             }
                         }

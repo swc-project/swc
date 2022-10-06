@@ -2235,8 +2235,8 @@
     function fastLerp(normalizedValue, colors, out) {
         if (colors && colors.length && normalizedValue >= 0 && normalizedValue <= 1) {
             out = out || [];
-            var a, b, a1, b1, a2, b2, a3, b3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), leftColor = colors[leftIndex], rightColor = colors[Math.ceil(value)], dv = value - leftIndex;
-            return out[0] = clampCssByte((a = leftColor[0], a + ((b = rightColor[0]) - a) * dv)), out[1] = clampCssByte((a1 = leftColor[1], a1 + ((b1 = rightColor[1]) - a1) * dv)), out[2] = clampCssByte((a2 = leftColor[2], a2 + ((b2 = rightColor[2]) - a2) * dv)), out[3] = clampCssFloat((a3 = leftColor[3], a3 + ((b3 = rightColor[3]) - a3) * dv)), out;
+            var a, a1, a2, a3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), leftColor = colors[leftIndex], rightColor = colors[Math.ceil(value)], dv = value - leftIndex;
+            return out[0] = clampCssByte((a = leftColor[0], a + (rightColor[0] - a) * dv)), out[1] = clampCssByte((a1 = leftColor[1], a1 + (rightColor[1] - a1) * dv)), out[2] = clampCssByte((a2 = leftColor[2], a2 + (rightColor[2] - a2) * dv)), out[3] = clampCssFloat((a3 = leftColor[3], a3 + (rightColor[3] - a3) * dv)), out;
         }
     }
     function lerp$1(normalizedValue, colors, fullOutput) {
@@ -5187,7 +5187,7 @@
         -1
     ];
     function containPath(path, lineWidth, isStroke, x, y) {
-        for(var a, x1, y1, data = path.data, len = path.len(), w = 0, xi = 0, yi = 0, x0 = 0, y0 = 0, i = 0; i < len;){
+        for(var x1, y1, data = path.data, len = path.len(), w = 0, xi = 0, yi = 0, x0 = 0, y0 = 0, i = 0; i < len;){
             var x01, y01, x11, y11, x2, y2, x3, y3, lineWidth1, x4, y4, cmd = data[i++], isFirst = 1 === i;
             switch(cmd === CMD$1.M && i > 1 && !isStroke && (w += windingLine(xi, yi, x0, y0, x, y)), isFirst && (xi = data[i], yi = data[i + 1], x0 = xi, y0 = yi), cmd){
                 case CMD$1.M:
@@ -5316,7 +5316,7 @@
                     xi = x0, yi = y0;
             }
         }
-        return !isStroke && !(1e-4 > Math.abs((a = yi) - y0)) && (w += windingLine(xi, yi, x0, y0, x, y) || 0), 0 !== w;
+        return !isStroke && !(1e-4 > Math.abs(yi - y0)) && (w += windingLine(xi, yi, x0, y0, x, y) || 0), 0 !== w;
     }
     var DEFAULT_PATH_STYLE = defaults({
         fill: '#000',
@@ -35051,10 +35051,10 @@
         each(payload.newOption.series, function(seriesOpt) {
             var seriesModel = ecModel.getSeriesByName(seriesOpt.name)[0];
             if (seriesModel) {
-                var newData, originalData, originalData1 = seriesModel.get('data');
+                var originalData, originalData1 = seriesModel.get('data');
                 newSeriesOptList.push({
                     name: seriesOpt.name,
-                    data: map(newData = seriesOpt.data, function(newVal, idx) {
+                    data: map(seriesOpt.data, function(newVal, idx) {
                         var original = originalData1 && originalData1[idx];
                         if (!isObject(original) || isArray(original)) return newVal;
                         isObject(newVal) && !isArray(newVal) || (newVal = {
