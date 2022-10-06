@@ -784,7 +784,7 @@ impl<I: Tokens> Parser<I> {
             PatOrExprOrSpread::Pat(_) => false,
         });
 
-        let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
+        let ignore_colon_for_arrow_in_cond = self.ctx().ignore_colon_for_arrow_in_cond;
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
@@ -806,7 +806,7 @@ impl<I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
+                if ignore_colon_for_arrow_in_cond && !is_one_of!(p, ':', ';', ',', ')') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
