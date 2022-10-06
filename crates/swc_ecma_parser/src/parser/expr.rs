@@ -743,6 +743,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse paren expression or arrow function expression.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_paren_expr_or_arrow_fn(
         &mut self,
         can_be_arrow: bool,
