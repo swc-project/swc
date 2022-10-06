@@ -416,7 +416,7 @@
     Dispatch.prototype = dispatch.prototype = {
         constructor: Dispatch,
         on: function(typename, callback) {
-            var typenames, types, t, _ = this._, T = (typenames = typename + "").trim().split(/^|\s+/).map(function(t) {
+            var types, t, _ = this._, T = (typename + "").trim().split(/^|\s+/).map(function(t) {
                 var name = "", i = t.indexOf(".");
                 if (i >= 0 && (name = t.slice(i + 1), t = t.slice(0, i)), t && !_.hasOwnProperty(t)) throw Error("unknown type: " + t);
                 return {

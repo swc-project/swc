@@ -896,7 +896,7 @@
     });
     var chunkOffset = /([\+\-]|\d\d)/gi;
     function offsetFromString(matcher, string) {
-        var chunk, parts, minutes, matches = (string || '').match(matcher);
+        var parts, minutes, matches = (string || '').match(matcher);
         return null === matches ? null : 0 === (minutes = +(60 * (parts = ((matches[matches.length - 1] || []) + '').match(chunkOffset) || [
             '-',
             0,

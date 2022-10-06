@@ -5566,7 +5566,7 @@
                     this.ready(function() {
                         if (method in allowedSetters) {
                             var middleware;
-                            return middleware = this.middleware_, (0, this.tech_)[method](middleware.reduce(middlewareIterator(method), arg));
+                            return middleware = this.middleware_, this.tech_[method](middleware.reduce(middlewareIterator(method), arg));
                         }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {

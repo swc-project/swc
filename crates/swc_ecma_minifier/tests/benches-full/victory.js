@@ -17886,9 +17886,9 @@
             }
             function formatDomain(domain, props, axis) {
                 return function(domain, props, axis) {
-                    var dom, almostZero, domainOne, domainTwo;
+                    var dom, almostZero, domainTwo;
                     return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
-                        domainOne = 0 === domain[0] ? almostZero : domain[0],
+                        0 === domain[0] ? almostZero : domain[0],
                         0 === domain[1] ? almostZero : domain[1]
                     ]);
                 }(function(domain, props, axis) {
@@ -22971,8 +22971,8 @@
                 },
                 getStringsFromData: function(childComponents) {
                     var iteratee = function(child) {
-                        var data, childProps = child.props || {};
-                        return _data__WEBPACK_IMPORTED_MODULE_14__.default.isDataComponent(child) ? (data = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getData) ? child.type.getData(childProps) : _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(childProps)).map(function(d) {
+                        var childProps = child.props || {};
+                        return _data__WEBPACK_IMPORTED_MODULE_14__.default.isDataComponent(child) ? (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getData) ? child.type.getData(childProps) : _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(childProps)).map(function(d) {
                             return {
                                 x: d.xName,
                                 y: d.yName
@@ -24063,8 +24063,8 @@
             }
             function getChildren(props, childComponents, calculatedProps) {
                 props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.modifyProps(props, fallbackProps, "stack"), childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.toArray(props.children);
-                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, height, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
-                    height: height = props1.height,
+                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
+                    height: props1.height,
                     width: width,
                     theme: props1.theme,
                     polar: props1.polar,
@@ -24078,7 +24078,7 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, width, props3, calculatedProps2, index2, groupLength1, totalWidth, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, groupLength = "stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length, props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), (index - (groupLength - 1) / 2) * (width = props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, groupLength1 = "stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length, totalWidth = function(props, axis, calculatedProps) {
+                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, props3, calculatedProps2, index2, groupLength1, totalWidth, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, groupLength = "stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length, props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), (index - (groupLength - 1) / 2) * (props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, groupLength1 = "stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length, totalWidth = function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis], domainExtent = Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain)), rangeExtent = Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range));
                         return domainExtent / rangeExtent * props.offset;

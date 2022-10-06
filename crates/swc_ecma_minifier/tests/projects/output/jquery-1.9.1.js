@@ -714,7 +714,7 @@
             contenteditable: "contentEditable"
         },
         prop: function(elem, name1, value) {
-            var ret, hooks, notxml, nType = elem.nodeType;
+            var ret, hooks, nType = elem.nodeType;
             if (elem && 3 !== nType && 8 !== nType && 2 !== nType) return (1 === nType && jQuery.isXMLDoc(elem) || (name1 = jQuery.propFix[name1] || name1, hooks = jQuery.propHooks[name1]), value !== undefined) ? hooks && "set" in hooks && undefined !== (ret = hooks.set(elem, value, name1)) ? ret : elem[name1] = value : hooks && "get" in hooks && null !== (ret = hooks.get(elem, name1)) ? ret : elem[name1];
         },
         propHooks: {
