@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - bot
   workflow_dispatch:
 
 env:
@@ -11,129 +12,13 @@ env:
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
 jobs:
-  auto-rebase:
-    name: Auto rebase
+  invoke:
+    # Due to caching issue, actually logic lives at
+    # https://github.com/swc-project/bot
+    name: Start
     runs-on: ubuntu-latest
-    concurrency: swc-bot-auto-rebase
     steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: "swc-project/swc"
-          ref: "main"
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-
-      - name: Install dependencies
-        working-directory: scripts/bot
+      # https://github.com/orgs/community/discussions/26323
+      - name: "Invoke bot on swc-project/swc"
         run: |
-          yarn
-
-      - name: Rebase a PR
-        working-directory: scripts/bot
-        run: |
-          npx ts-node src/auto-rebase.ts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-  bump-crates:
-    name: Create cargo bump commit
-    runs-on: ubuntu-latest
-    concurrency: swc-bot-cargo-bump
-    if: >-
-      ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, 'chore: ') }}
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          repository: "swc-project/swc"
-          ref: "main"
-          fetch-depth: 0
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-
-      - name: Install latest nightly
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: nightly
-          override: true
-          components: rustfmt, clippy
-
-      - name: Install node dependencies
-        working-directory: scripts/bot
-        run: |
-          yarn
-
-      - name: Install cargo-mono
-        uses: baptiste0928/cargo-install@v1.1.0
-        with:
-          crate: cargo-mono
-          version: "0.3.1"
-          locked: true
-
-      - name: Install git-cliff
-        uses: baptiste0928/cargo-install@v1.1.0
-        with:
-          crate: git-cliff
-          version: "0.4.2"
-          locked: true
-
-      - name: Bump crates
-        id: bump
-        continue-on-error: true
-        working-directory: scripts/bot
-        run: |
-          npx ts-node src/cargo/bump.ts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-      - name: Update changelog
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          yarn changelog
-
-      - name: Update lockfile
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          cargo metadata --format-version 1 > /dev/null
-
-      - name: Create commit
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          git add -A
-          git commit --no-verify --author="SWC Bot <bot@swc.rs>" -m 'chore: Publish crates'
-
-      - uses: webfactory/ssh-agent@v0.5.4
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        with:
-          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
-
-      # Push back, using ssh
-      - name: Push back
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          git push git@github.com:swc-project/swc.git --no-verify
-
-      - name: Configure crates.io
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          cargo login $CARGO_TOKEN
-        env:
-          CARGO_TOKEN: ${{ secrets.CARGO_TOKEN }}
-
-      - name: Publish crates
-        if: steps.bump.outcome == 'success' && steps.bump.conclusion == 'success'
-        run: |
-          npx ts-node scripts/bot/src/cargo/update-constants.ts
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
-          cargo mono publish --no-verify
+          curl -XPOST -u "swc-bot:${{secrets.GH_TOKEN}}" -H "Accept: application/vnd.github.everest-preview+json" -H "Content-Type: application/json" https://api.github.com/repos/swc-project/swc/dispatches --data '{"event_type": "build_application"}'
