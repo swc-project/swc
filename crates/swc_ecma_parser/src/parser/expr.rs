@@ -209,7 +209,7 @@ impl<I: Tokens> Parser<I> {
         if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
-                ignore_colon_for_arrow_in_cond: false,
+                ignore_colon_for_arrow_in_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
             };
