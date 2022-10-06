@@ -669,8 +669,6 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
-        n.visit_mut_children_with(self);
-
         let old_in_block_stmt = self.in_block_stmt;
         self.in_block_stmt = true;
         n.visit_mut_children_with(self);
