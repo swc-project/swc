@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Improve infection analysis (#6044) ([c9427f1](https://github.com/swc-project/swc/commit/c9427f1ec4ae3bb369fa301341b856c7c298d3cd))
 
+### Miscellaneous Tasks
+
+
+
+- **(common)** Make `Mark::root` const fn (#6072) ([047da86](https://github.com/swc-project/swc/commit/047da86baa76198fe8e1b750ffd623348d4f8773))
+
 ## [1.3.5] - 2022-10-06
 
 ### Bug Fixes
