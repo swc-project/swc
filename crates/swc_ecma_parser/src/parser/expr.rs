@@ -772,10 +772,23 @@ impl<I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
+        fn cannot_be_pattern(e: &Expr) -> bool {
+            match e {
+                Expr::Bin(..) => true,
+                _ => false,
+            }
+        }
+
+        let cannot_be_pattern = paren_items.iter().any(|item| match item {
+            PatOrExprOrSpread::ExprOrSpread(e) => cannot_be_pattern(&e.expr),
+            PatOrExprOrSpread::Pat(_) => false,
+        });
+
         let return_type = if !(self.ctx().in_cond_expr && self.ctx().ignore_colon_for_arrow_in_cond)
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
+            && !cannot_be_pattern
         {
             Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {
