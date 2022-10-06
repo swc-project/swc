@@ -1536,6 +1536,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     // Returns (args_or_pats, trailing_comma)
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
