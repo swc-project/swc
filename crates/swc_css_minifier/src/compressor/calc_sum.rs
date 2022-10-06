@@ -178,7 +178,7 @@ impl CalcSumContext {
 
     fn nested_fold(&mut self, surrounding_operator: &Option<CalcOperator>, calc_sum: &mut CalcSum) {
         let mut operator: Option<CalcOperator> =
-            CalcSumContext::merge_operators(&surrounding_operator, &None);
+            CalcSumContext::merge_operators(surrounding_operator, &None);
 
         let mut expr_it = calc_sum.expressions.iter_mut();
         while let Some(calc_product_or_operator) = expr_it.next() {
@@ -194,8 +194,7 @@ impl CalcSumContext {
             };
 
             if let Some(CalcProductOrOperator::Operator(op)) = expr_it.next() {
-                operator =
-                    CalcSumContext::merge_operators(&surrounding_operator, &Some(op.clone()));
+                operator = CalcSumContext::merge_operators(surrounding_operator, &Some(op.clone()));
             }
         }
     }
@@ -232,33 +231,33 @@ impl CalcSumContext {
         if operand.expressions.len() == 1 {
             match operand.expressions.get(0).unwrap() {
                 CalcValueOrOperator::Value(CalcValue::Number(n)) => {
-                    self.sum_number(&operator, operand, n);
+                    self.sum_number(operator, operand, n);
                 }
                 CalcValueOrOperator::Value(CalcValue::Percentage(p)) => {
-                    self.sum_percentage(&operator, operand, p);
+                    self.sum_percentage(operator, operand, p);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(l))) => {
-                    self.sum_length(&operator, operand, l);
+                    self.sum_length(operator, operand, l);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(a))) => {
-                    self.sum_angle(&operator, operand, a);
+                    self.sum_angle(operator, operand, a);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(d))) => {
-                    self.sum_duration(&operator, operand, d);
+                    self.sum_duration(operator, operand, d);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(f))) => {
-                    self.sum_frequency(&operator, operand, f);
+                    self.sum_frequency(operator, operand, f);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(r))) => {
-                    self.sum_resolution(&operator, operand, r);
+                    self.sum_resolution(operator, operand, r);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(f))) => {
-                    self.sum_flex(&operator, operand, f);
+                    self.sum_flex(operator, operand, f);
                 }
                 CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::UnknownDimension(
                     u,
                 ))) => {
-                    self.sum_unknown_dimension(&operator, operand, u);
+                    self.sum_unknown_dimension(operator, operand, u);
                 }
                 CalcValueOrOperator::Value(CalcValue::Sum(s)) => {
                     let mut sum = s.clone();
@@ -672,7 +671,7 @@ impl CalcSumContext {
     }
 
     fn update_calc_value(
-        expressions: &mut Vec<CalcProductOrOperator>,
+        expressions: &mut [CalcProductOrOperator],
         index: usize,
         calc_value: CalcValueOrOperator,
     ) {
@@ -687,7 +686,7 @@ impl CalcSumContext {
     }
 
     fn switch_sign_if_needed(
-        expressions: &mut Vec<CalcProductOrOperator>,
+        expressions: &mut [CalcProductOrOperator],
         value: &mut f64,
         operator: &mut Option<IndexedData<CalcOperator>>,
     ) {
@@ -706,7 +705,7 @@ impl CalcSumContext {
     }
 
     fn update_operator(
-        expressions: &mut Vec<CalcProductOrOperator>,
+        expressions: &mut [CalcProductOrOperator],
         index: usize,
         operator: CalcOperator,
     ) {
@@ -954,7 +953,7 @@ impl Compressor {
             // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
             // expression
             ComponentValue::Function(Function { name, value, .. })
-                if is_calc_function_name(&name) && value.len() == 1 =>
+                if is_calc_function_name(name) && value.len() == 1 =>
             {
                 match value.get(0).unwrap() {
                     ComponentValue::CalcSum(CalcSum {
