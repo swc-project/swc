@@ -7,10 +7,6 @@ on:
       - bot
   workflow_dispatch:
 
-env:
-  GIT_COMMITTER_NAME: "SWC Bot"
-  GIT_COMMITTER_EMAIL: "bot@swc.rs"
-
 jobs:
   invoke:
     # Due to caching issue, actually logic lives at
