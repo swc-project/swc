@@ -147,8 +147,7 @@
         return function(obj, value, context) {
             var result = {}, iterator = null == value ? _.identity : lookupIterator(value);
             return each(obj, function(value, index) {
-                var key = iterator.call(context, value, index, obj);
-                behavior(result, key, value);
+                behavior(result, iterator.call(context, value, index, obj), value);
             }), result;
         };
     };

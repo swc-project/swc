@@ -840,7 +840,7 @@
                 }), params.callback = callback, params;
             }
             function createXHR(uri, options, callback) {
-                return options = initParams(uri, options, callback), _createXHR(options);
+                return _createXHR(options = initParams(uri, options, callback));
             }
             function _createXHR(options) {
                 if (void 0 === options.callback) throw Error("callback argument missing");
@@ -1072,7 +1072,7 @@
                 var pt = Class.prototype;
                 if (!(pt instanceof Super)) {
                     function t() {}
-                    t.prototype = Super.prototype, t = new t(), copy(pt, t), Class.prototype = pt = t;
+                    t.prototype = Super.prototype, copy(pt, t = new t()), Class.prototype = pt = t;
                 }
                 pt.constructor != Class && ("function" != typeof Class && console.error("unknown Class:" + Class), pt.constructor = Class);
             }
@@ -5287,12 +5287,6 @@
                 }
                 return -1;
             }
-            function asciiWrite(buf, string, offset, length) {
-                return blitBuffer(function(str) {
-                    for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
-                    return byteArray;
-                }(string), buf, offset, length);
-            }
             function utf8Slice(buf, start, end) {
                 end = Math.min(buf.length, end);
                 for(var res = [], i = start; i < end;){
@@ -5473,12 +5467,14 @@
                         }(this, string, offset, length);
                     case "utf8":
                     case "utf-8":
-                        return offset1 = offset, length1 = length, blitBuffer(utf8ToBytes(string, this.length - offset1), this, offset1, length1);
+                        return offset2 = offset, length2 = length, blitBuffer(utf8ToBytes(string, this.length - offset2), this, offset2, length2);
                     case "ascii":
-                        return asciiWrite(this, string, offset, length);
                     case "latin1":
                     case "binary":
-                        return offset2 = offset, length2 = length, asciiWrite(this, string, offset2, length2);
+                        return offset1 = offset, length1 = length, blitBuffer(function(str) {
+                            for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
+                            return byteArray;
+                        }(string), this, offset1, length1);
                     case "base64":
                         return offset3 = offset, length3 = length, blitBuffer(base64ToBytes(string), this, offset3, length3);
                     case "ucs2":
@@ -5709,7 +5705,7 @@
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
                 var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 23 === mLen ? 0.00000005960464477539062 : 0, i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = value < 0 || 0 === value && 1 / value < 0 ? 1 : 0;
-                for(value = Math.abs(value), isNaN(value) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
+                for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = isNaN(value) ? 1 : 0, e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;
             };

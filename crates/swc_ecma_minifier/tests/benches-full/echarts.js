@@ -2235,7 +2235,7 @@
     function fastLerp(normalizedValue, colors, out) {
         if (colors && colors.length && normalizedValue >= 0 && normalizedValue <= 1) {
             out = out || [];
-            var a, b, p, a1, b1, p1, a2, b2, p2, a3, b3, p3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), leftColor = colors[leftIndex], rightColor = colors[Math.ceil(value)], dv = value - leftIndex;
+            var a, b, a1, b1, a2, b2, a3, b3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), leftColor = colors[leftIndex], rightColor = colors[Math.ceil(value)], dv = value - leftIndex;
             return out[0] = clampCssByte((a = leftColor[0], a + ((b = rightColor[0]) - a) * dv)), out[1] = clampCssByte((a1 = leftColor[1], a1 + ((b1 = rightColor[1]) - a1) * dv)), out[2] = clampCssByte((a2 = leftColor[2], a2 + ((b2 = rightColor[2]) - a2) * dv)), out[3] = clampCssFloat((a3 = leftColor[3], a3 + ((b3 = rightColor[3]) - a3) * dv)), out;
         }
     }
@@ -2307,7 +2307,7 @@
         }
     }), arraySlice = Array.prototype.slice;
     function interpolate1DArray(out, p0, p1, percent) {
-        for(var p01, p11, percent1, len = p0.length, i = 0; i < len; i++)out[i] = (p01 = p0[i], p11 = p1[i], percent1 = percent, (p11 - p01) * percent1 + p01);
+        for(var p01, p11, len = p0.length, i = 0; i < len; i++)out[i] = (p01 = p0[i], ((p11 = p1[i]) - p01) * percent + p01);
     }
     function add1DArray(out, p0, p1, sign) {
         for(var len = p0.length, i = 0; i < len; i++)out[i] = p0[i] + p1[i] * sign;
@@ -2459,13 +2459,13 @@
                         } else if (arrDim > 0) 1 === arrDim ? interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w) : function(out, p0, p1, percent) {
                             for(var len = p0.length, len2 = len && p0[0].length, i = 0; i < len; i++){
                                 out[i] || (out[i] = []);
-                                for(var p01, p11, percent1, j = 0; j < len2; j++)out[i][j] = (p01 = p0[i][j], p11 = p1[i][j], percent1 = percent, (p11 - p01) * percent1 + p01);
+                                for(var p01, p11, j = 0; j < len2; j++)out[i][j] = (p01 = p0[i][j], ((p11 = p1[i][j]) - p01) * percent + p01);
                             }
                         }(targetArr, frame[valueKey], nextFrame[valueKey], w);
                         else if (isValueColor) interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w), isAdditive || (target[propName] = rgba2String(targetArr));
                         else {
-                            var p01, p11, percent1, p02, p12, value = void 0;
-                            this.interpolable ? (p01 = frame[valueKey], p11 = nextFrame[valueKey], percent1 = w, value = (p11 - p01) * percent1 + p01) : (p02 = frame[valueKey], p12 = nextFrame[valueKey], value = w > 0.5 ? p12 : p02), isAdditive ? this._additiveValue = value : target[propName] = value;
+                            var p01, p11, p02, p12, value = void 0;
+                            this.interpolable ? (p01 = frame[valueKey], value = ((p11 = nextFrame[valueKey]) - p01) * w + p01) : (p02 = frame[valueKey], p12 = nextFrame[valueKey], value = w > 0.5 ? p12 : p02), isAdditive ? this._additiveValue = value : target[propName] = value;
                         }
                         isAdditive && this._addToTarget(target);
                     }
@@ -4757,9 +4757,7 @@
                 var K = B / A, t1 = -b / a + K, t2 = -K / 2;
                 t1 >= 0 && t1 <= 1 && (roots[n++] = t1), t2 >= 0 && t2 <= 1 && (roots[n++] = t2);
             } else if (disc > 0) {
-                var discSqrt = mathSqrt(disc), Y1 = A * b + 1.5 * a * (-B + discSqrt), Y2 = A * b + 1.5 * a * (-B - discSqrt);
-                Y1 = Y1 < 0 ? -mathPow(-Y1, ONE_THIRD) : mathPow(Y1, ONE_THIRD), Y2 = Y2 < 0 ? -mathPow(-Y2, ONE_THIRD) : mathPow(Y2, ONE_THIRD);
-                var t1 = (-b - (Y1 + Y2)) / (3 * a);
+                var discSqrt = mathSqrt(disc), Y1 = A * b + 1.5 * a * (-B + discSqrt), Y2 = A * b + 1.5 * a * (-B - discSqrt), t1 = (-b - ((Y1 = Y1 < 0 ? -mathPow(-Y1, ONE_THIRD) : mathPow(Y1, ONE_THIRD)) + (Y2 = Y2 < 0 ? -mathPow(-Y2, ONE_THIRD) : mathPow(Y2, ONE_THIRD)))) / (3 * a);
                 t1 >= 0 && t1 <= 1 && (roots[n++] = t1);
             } else {
                 var theta = Math.acos((2 * A * b - 3 * a * B) / (2 * mathSqrt(A * A * A))) / 3, ASqrt = mathSqrt(A), tmp = Math.cos(theta), t1 = (-b - 2 * ASqrt * tmp) / (3 * a), t2 = (-b + ASqrt * (tmp + THREE_SQRT * Math.sin(theta))) / (3 * a), t3 = (-b + ASqrt * (tmp - THREE_SQRT * Math.sin(theta))) / (3 * a);
@@ -6924,9 +6922,9 @@
             var x = point[0];
             x = mathMax$4(x, rect.x), x = mathMin$4(x, rect.x + rect.width);
             var y = point[1];
-            return y = mathMax$4(y, rect.y), y = mathMin$4(y, rect.y + rect.height), [
+            return y = mathMax$4(y, rect.y), [
                 x,
-                y
+                y = mathMin$4(y, rect.y + rect.height)
             ];
         });
     }
@@ -14623,7 +14621,7 @@
             var itemVisuals = this._itemVisuals, itemVisual = itemVisuals[idx];
             itemVisual || (itemVisual = itemVisuals[idx] = {});
             var val = itemVisual[key];
-            return null == val && (val = this.getVisual(key), isArray(val) ? val = val.slice() : isObject(val) && (val = extend({}, val)), itemVisual[key] = val), val;
+            return null == val && (isArray(val = this.getVisual(key)) ? val = val.slice() : isObject(val) && (val = extend({}, val)), itemVisual[key] = val), val;
         }, List.prototype.setItemVisual = function(idx, key, value) {
             var itemVisual = this._itemVisuals[idx] || {};
             this._itemVisuals[idx] = itemVisual, isObject(key) ? extend(itemVisual, key) : itemVisual[key] = value;
@@ -15508,7 +15506,7 @@
                                     }
                                 ]);
                                 for(var i = 0; i < lastLevelTicks.length - 1; i++){
-                                    var approxInterval1, approxInterval2, approxInterval3, approxInterval4, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
+                                    var approxInterval1, approxInterval2, approxInterval3, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
                                     if (startTick !== endTick) {
                                         var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
                                         switch(unitName){
@@ -15537,7 +15535,7 @@
                                                 interval = getMinutesAndSecondsInterval(approxInterval, !1), getterName = secondsGetterName(isUTC), setterName = secondsSetterName(isUTC);
                                                 break;
                                             case 'millisecond':
-                                                approxInterval4 = approxInterval, interval = nice(approxInterval4, !0), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
+                                                interval = nice(approxInterval, !0), getterName = millisecondsGetterName(isUTC), setterName = millisecondsSetterName(isUTC);
                                         }
                                         (function(interval, minTimestamp, maxTimestamp, getMethodName, setMethodName, isDate, out) {
                                             for(var date = new Date(minTimestamp), dateTime = minTimestamp, d = date[getMethodName](); dateTime < maxTimestamp && dateTime <= extent[1];)out.push({
@@ -23930,8 +23928,8 @@
                             borderWidth: borderWidth,
                             upperHeight: upperHeight,
                             upperLabelHeight: upperLabelHeight
-                        }, !0), width = mathMax$7(width - 2 * layoutOffset, 0), height = mathMax$7(height - layoutOffset - layoutOffsetUpper, 0);
-                        var totalArea = width * height, viewChildren = function(node, nodeModel, totalArea, options, hideChildren, depth) {
+                        }, !0);
+                        var totalArea = (width = mathMax$7(width - 2 * layoutOffset, 0)) * (height = mathMax$7(height - layoutOffset - layoutOffsetUpper, 0)), viewChildren = function(node, nodeModel, totalArea, options, hideChildren, depth) {
                             var viewChildren, orderBy, viewChildren1 = node.children || [], orderBy1 = options.sort;
                             'asc' !== orderBy1 && 'desc' !== orderBy1 && (orderBy1 = null);
                             var overLeafDepth = null != options.leafDepth && options.leafDepth <= depth;
@@ -28291,9 +28289,7 @@
                 progress: function(params, data) {
                     for(var dataIndex; null != (dataIndex = params.next());){
                         var sign, sign1, itemModel = data.getItemModel(dataIndex), sign2 = data.getItemLayout(dataIndex).sign, style = itemModel.getItemStyle();
-                        style.fill = itemModel.get(sign2 > 0 ? positiveColorQuery : negativeColorQuery), style.stroke = itemModel.get(sign2 > 0 ? positiveBorderColorQuery : negativeBorderColorQuery) || style.fill;
-                        var existsStyle = data.ensureUniqueItemVisual(dataIndex, 'style');
-                        extend(existsStyle, style);
+                        style.fill = itemModel.get(sign2 > 0 ? positiveColorQuery : negativeColorQuery), style.stroke = itemModel.get(sign2 > 0 ? positiveBorderColorQuery : negativeBorderColorQuery) || style.fill, extend(data.ensureUniqueItemVisual(dataIndex, 'style'), style);
                     }
                 }
             };
@@ -29326,7 +29322,7 @@
                 symbolBoundingExtent[1] < symbolBoundingExtent[0] && symbolBoundingExtent.reverse(), boundingLength = symbolBoundingExtent[pxSignIdx];
             } else boundingLength = null != symbolBoundingData ? convertToCoordOnAxis(valueAxis, symbolBoundingData) - zeroPx : symbolRepeat ? opt.coordSysExtent[valueDim.index][pxSignIdx] - zeroPx : layout[valueDim.wh];
             outputSymbolMeta.boundingLength = boundingLength, symbolRepeat && (outputSymbolMeta.repeatCutLength = layout[valueDim.wh]), outputSymbolMeta.pxSign = boundingLength > 0 ? 1 : boundingLength < 0 ? -1 : 0;
-        })(itemModel, symbolRepeat1, layout1, opt, symbolMeta), data1 = data, dataIndex1 = dataIndex, layout = layout1, symbolRepeat = symbolRepeat1, symbolClip = symbolClip1, boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, symbolPatternSize = symbolPatternSize1, opt1 = opt, outputSymbolMeta = symbolMeta, valueDim = opt1.valueDim, categorySize = Math.abs(layout[(categoryDim = opt1.categoryDim).wh]), symbolSize = data1.getItemVisual(dataIndex1, 'symbolSize'), (parsedSymbolSize = isArray(symbolSize) ? symbolSize.slice() : null == symbolSize ? [
+        })(itemModel, symbolRepeat1, layout1, opt, symbolMeta), data1 = data, dataIndex1 = dataIndex, layout = layout1, symbolRepeat = symbolRepeat1, symbolClip = symbolClip1, boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, symbolPatternSize = symbolPatternSize1, opt1 = opt, outputSymbolMeta = symbolMeta, valueDim = opt1.valueDim, categorySize = Math.abs(layout[(categoryDim = opt1.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data1.getItemVisual(dataIndex1, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
             '100%',
             '100%'
         ] : [
@@ -30150,9 +30146,7 @@
                     for(var current = node; current && current.depth > 1;)current = current.parentNode;
                     var color = seriesModel.getColorFromPalette(current.name || current.dataIndex + '', paletteScope);
                     return node.depth > 1 && 'string' == typeof color && (color = lift(color, (node.depth - 1) / (treeHeight - 1) * 0.5)), color;
-                }(node, seriesModel, tree.root.height));
-                var existsStyle = data.ensureUniqueItemVisual(node.dataIndex, 'style');
-                extend(existsStyle, style);
+                }(node, seriesModel, tree.root.height)), extend(data.ensureUniqueItemVisual(node.dataIndex, 'style'), style);
             });
         });
     }
@@ -30282,7 +30276,7 @@
                     var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], endAngle = data[i++] + startAngle;
                     i += 1;
                     var anticlockwise = !data[i++];
-                    x1 = Math.cos(startAngle) * rx + cx, y1 = Math.sin(startAngle) * ry + cy, isFirst ? (x0 = x1, y0 = y1, createNewSubpath(x0, y0)) : addLine(xi, yi, x1, y1), xi = Math.cos(endAngle) * rx + cx, yi = Math.sin(endAngle) * ry + cy;
+                    x1 = Math.cos(startAngle) * rx + cx, y1 = Math.sin(startAngle) * ry + cy, isFirst ? createNewSubpath(x0 = x1, y0 = y1) : addLine(xi, yi, x1, y1), xi = Math.cos(endAngle) * rx + cx, yi = Math.sin(endAngle) * ry + cy;
                     for(var step = (anticlockwise ? -1 : 1) * Math.PI / 2, angle = startAngle; anticlockwise ? angle > endAngle : angle < endAngle; angle += step){
                         var nextAngle = anticlockwise ? Math.max(angle + step, endAngle) : Math.min(angle + step, endAngle);
                         !function(startAngle, endAngle, cx, cy, rx, ry) {
@@ -37370,7 +37364,7 @@
                 }
                 markerModel ? markerModel._mergeOption(markerOpt, ecModel, !0) : (isInit && fillLabel(markerOpt), each(markerOpt.data, function(item) {
                     item instanceof Array ? (fillLabel(item[0]), fillLabel(item[1])) : fillLabel(item);
-                }), markerModel = this.createMarkerModelFromSeries(markerOpt, this, ecModel), extend(markerModel, {
+                }), extend(markerModel = this.createMarkerModelFromSeries(markerOpt, this, ecModel), {
                     mainType: this.mainType,
                     seriesIndex: seriesModel.seriesIndex,
                     name: seriesModel.name,

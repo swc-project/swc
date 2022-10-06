@@ -6244,7 +6244,7 @@
                     ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
                     return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         inputObject.container
-                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), inputObject = function(args, inputObject) {
+                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++){
                             var prop = _a[_i];
                             switch(prop){
@@ -6269,7 +6269,7 @@
                             }
                         }
                         return inputObject;
-                    }(args, inputObject), createSpanElement(inputObject, makeElement), inputObject;
+                    }(args, inputObject), makeElement), inputObject;
                 }, Input.bindInitialEvent = bindInitialEvent, Input.wireFloatingEvents = wireFloatingEvents, Input.wireClearBtnEvents = wireClearBtnEvents, Input.setValue = function(value, element, floatLabelType, clearButton) {
                     if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(clearButton) && clearButton) {
                         var parentElement = getParentNode(element);
@@ -17848,10 +17848,7 @@
                                     ('2' === files.statusCode || '4' === files.statusCode || '0' === files.statusCode && -1 !== fileUploadedIndex) && validUrl ? _this.removeUploadedFile(files, eventArgs, removeDirectly, customTemplate) : removeDirectly ? _this.removeFilesData(files, customTemplate) : _this.trigger('removing', eventArgs, function(eventArgs) {
                                         eventArgs.cancel || _this.removeFilesData(files, customTemplate);
                                     }), args && !args.target.classList.contains(REMOVE_ICON) && _this.checkActionComplete(!1);
-                                }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++){
-                                    var files = removeFiles_1[_i];
-                                    _loop_5(files);
-                                }
+                                }, _i = 0, removeFiles_1 = removeFiles; _i < removeFiles_1.length; _i++)_loop_5(removeFiles_1[_i]);
                             }
                         }
                     });

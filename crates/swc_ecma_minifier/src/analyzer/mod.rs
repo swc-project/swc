@@ -485,7 +485,6 @@ where
                     self.data
                         .var_or_default(left.clone())
                         .add_infects_to(id.clone());
-                    self.data.var_or_default(id).add_infects_to(left.clone());
                 }
             }
         }

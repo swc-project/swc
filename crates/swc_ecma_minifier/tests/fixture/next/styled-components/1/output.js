@@ -4797,17 +4797,10 @@
             };
             function Ne(e, n, r, o) {
                 if (Array.isArray(e)) {
-                    for(var l, s, i = [], a = 0, c = e.length; a < c; a += 1)"" !== (s = Ne(e[a], n, r, o)) && (Array.isArray(s) ? i.push.apply(i, s) : i.push(s));
+                    for(var s, i = [], a = 0, c = e.length; a < c; a += 1)"" !== (s = Ne(e[a], n, r, o)) && (Array.isArray(s) ? i.push.apply(i, s) : i.push(s));
                     return i;
                 }
-                if (_e(e)) return "";
-                if (N(e)) return "." + e.styledComponentId;
-                if (b(e)) {
-                    if ("function" != typeof (l = e) || l.prototype && l.prototype.isReactComponent || !n) return e;
-                    var u = e(n);
-                    return Ne(u, n, r, o);
-                }
-                return e instanceof ve ? r ? (e.inject(r, o), e.getName(o)) : e : S(e) ? function e(t, n) {
+                return _e(e) ? "" : N(e) ? "." + e.styledComponentId : b(e) ? "function" != typeof e || e.prototype && e.prototype.isReactComponent || !n ? e : Ne(e(n), n, r, o) : e instanceof ve ? r ? (e.inject(r, o), e.getName(o)) : e : S(e) ? function e(t, n) {
                     var r, o, s = [];
                     for(var i in t)t.hasOwnProperty(i) && !_e(t[i]) && (Array.isArray(t[i]) && t[i].isCss || b(t[i]) ? s.push(be(i) + ":", t[i], ";") : S(t[i]) ? s.push.apply(s, e(t[i], i)) : s.push(be(i) + ": " + (r = i, null == (o = t[i]) || "boolean" == typeof o || "" === o ? "" : "number" != typeof o || 0 === o || r in unitless_browser_esm ? String(o).trim() : o + "px") + ";"));
                     return n ? [

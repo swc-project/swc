@@ -22,10 +22,7 @@ export function generateTicks$1(generationOptions, dataRange) {
     }
     numSpaces = Math.ceil(rmax / spacing) - Math.floor(rmin / spacing);
     if (numSpaces > maxSpaces) spacing = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aI)(numSpaces * spacing / maxSpaces / unit) * unit;
-    if (!(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision)) {
-        factor = Math.pow(10, precision);
-        spacing = Math.ceil(spacing * factor) / factor;
-    }
+    if (!(0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision)) spacing = Math.ceil(spacing * (factor = Math.pow(10, precision))) / factor;
     if ('ticks' === bounds) {
         niceMin = Math.floor(rmin / spacing) * spacing;
         niceMax = Math.ceil(rmax / spacing) * spacing;
