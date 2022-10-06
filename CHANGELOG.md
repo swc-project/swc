@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Improve infection analysis (#6044) ([c9427f1](https://github.com/swc-project/swc/commit/c9427f1ec4ae3bb369fa301341b856c7c298d3cd))
 
+### Features
+
+
+
+- **(es/minifier)** Use `usage_count` in sequential inliner (#6071) ([ac150c7](https://github.com/swc-project/swc/commit/ac150c7ced9d9d9112d377437bdca7616de43a00))
+
 ### Miscellaneous Tasks
 
 
