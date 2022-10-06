@@ -8,6 +8,9 @@
 - **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
 
 
+- **(cli)** Configure `GLOBALS` (#6061) ([6cdb5ed](https://github.com/swc-project/swc/commit/6cdb5ed97fb821fa9ac04306eaa8a2e0f42260af))
+
+
 - **(es)** Respect exclude option (#6054) ([69da081](https://github.com/swc-project/swc/commit/69da0817982eda2e9e9e755e3526f83286e874b1))
 
 
