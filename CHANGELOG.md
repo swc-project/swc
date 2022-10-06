@@ -8,6 +8,12 @@
 - **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
 
 
+- **(cli)** Configure `GLOBALS` (#6061) ([6cdb5ed](https://github.com/swc-project/swc/commit/6cdb5ed97fb821fa9ac04306eaa8a2e0f42260af))
+
+
+- **(es)** Respect exclude option (#6054) ([69da081](https://github.com/swc-project/swc/commit/69da0817982eda2e9e9e755e3526f83286e874b1))
+
+
 - **(es/codegen)** Improve performance of debug build (#6003) ([8b31b65](https://github.com/swc-project/swc/commit/8b31b65059a3b62fd1d12be57e0b62f62e499354))
 
 
@@ -30,6 +36,9 @@
 
 
 - **(es/minifier)** Fix analysis of var declaration after usage (#6043) ([36d467e](https://github.com/swc-project/swc/commit/36d467e7d7792bff9f735171a611b714e108e41f))
+
+
+- **(es/minifier)** Fix infection analysis of sequential inliner (#6053) ([d65fba1](https://github.com/swc-project/swc/commit/d65fba134d50609543c1d1ef0dc07db9891913ac))
 
 
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
@@ -71,7 +80,10 @@
 
 
 
-- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
+
+
+- **(ci)** Extract bot action to a separate repository (#6064) ([39481c6](https://github.com/swc-project/swc/commit/39481c622c288139ccd74fd2b3ba1bd65f4d9708))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
 
 ### Performance
 

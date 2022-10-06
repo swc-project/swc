@@ -16,7 +16,9 @@ use swc_core::{
         config::{Config, ConfigFile, Options},
         try_with_handler, Compiler, HandlerOpts, TransformOutput,
     },
-    common::{errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap},
+    common::{
+        errors::ColorConfig, sync::Lazy, FileName, FilePathMapping, SourceFile, SourceMap, GLOBALS,
+    },
     trace_macro::swc_trace,
 };
 use walkdir::WalkDir;
@@ -366,7 +368,11 @@ impl CompileOptions {
                     color: ColorConfig::Always,
                     skip_filename: false,
                 },
-                |handler| compiler.process_js_file(fm, handler, &options),
+                |handler| {
+                    GLOBALS.set(&Default::default(), || {
+                        compiler.process_js_file(fm, handler, &options)
+                    })
+                },
             )
         };
 
