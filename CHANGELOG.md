@@ -77,7 +77,10 @@
 
 
 
-- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
+- **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
+
+
+- **(ci)** Extract bot action to a separate repository (#6064) ([39481c6](https://github.com/swc-project/swc/commit/39481c622c288139ccd74fd2b3ba1bd65f4d9708))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
 
 ### Performance
 
