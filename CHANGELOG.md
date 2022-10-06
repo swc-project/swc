@@ -91,6 +91,9 @@
 
 - **(cargo)** Use workspace deps for internal pkg (#6001) ([3204ac3](https://github.com/swc-project/swc/commit/3204ac3e0c2d04d3e9269655ba3d4dddf3ae74af))
 
+
+- **(cargo)** Dedup `indexmap` with known version (#6060) ([fff4b9c](https://github.com/swc-project/swc/commit/fff4b9ce6550b1db3c0b9086d199090e7211f609))
+
 ## [1.3.4] - 2022-09-30
 
 ### Bug Fixes
