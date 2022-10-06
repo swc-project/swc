@@ -47,6 +47,8 @@ pub(crate) struct Ctx {
 
     pub(super) in_await_arg: bool,
 
+    pub(super) is_delete_arg: bool,
+
     pub(super) in_left_of_for_loop: bool,
 
     pub(super) executed_multiple_time: bool,
