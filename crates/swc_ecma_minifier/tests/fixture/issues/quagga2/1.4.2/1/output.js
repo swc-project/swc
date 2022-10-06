@@ -373,10 +373,10 @@
                     width: inputWidth,
                     height: inputHeight
                 }, parsedArea = Object.keys(area).reduce(function(result, key) {
-                    var value, parsed = {
-                        value: parseFloat(value = area[key]),
+                    var value, parsed = (value = area[key], {
+                        value: parseFloat(value),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }, calculated = _dimensionsConverters[key](parsed, context);
+                    }), calculated = _dimensionsConverters[key](parsed, context);
                     return result[key] = calculated, result;
                 }, {});
                 return {
@@ -709,7 +709,7 @@
                     function _trace(current, color, label, edgelabel) {
                         var i, y, x;
                         for(i = 0; i < 7; i++){
-                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
+                            if (y = current.cy + searchDirections[current.dir][0], x = current.cx + searchDirections[current.dir][1], imageData[pos = y * width + x] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
                             0 === labelData[pos] && (labelData[pos] = edgelabel), current.dir = (current.dir + 1) % 8;
                         }
                         return !1;
@@ -783,10 +783,10 @@
                     locate: function() {
                         _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
                         var patchesFound = function() {
-                            var x, y, i, j, x1, y1, moments, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = x1 = _subImageWrapper.size.x * i, y = y1 = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
-                                x: x1,
-                                y: y1
+                            var i, j, x, y, moments, rasterResult, patch, patchesFound = [];
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = _subImageWrapper.size.x * i, y = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__.h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__.a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                                x: x,
+                                y: y
                             }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(function(moments, patchPos, x, y) {
                                 var k, avg, matchingMoments, patch, eligibleMoments = [], patchesFound = [], minComponentWeight = Math.ceil(_patchSize.x / 3);
                                 if (moments.length >= 2) {
@@ -839,7 +839,7 @@
                             }(moments, [
                                 i,
                                 j
-                            ], x1, y1));
+                            ], x, y));
                             if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__.a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
                                 color: "#99ff00",
                                 lineWidth: 2
@@ -1201,8 +1201,8 @@
         function(module1, exports1) {
             var objectProto = Object.prototype;
             module1.exports = function(value) {
-                var Ctor = value && value.constructor;
-                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
+                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
+                return value === proto;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -1723,7 +1723,9 @@
             var assocIndexOf = __webpack_require__(25), splice = Array.prototype.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
+                if (index < 0) return !1;
+                var lastIndex = data.length - 1;
+                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
             };
         },
         function(module1, exports1, __webpack_require__) {
@@ -6265,7 +6267,8 @@
                         value: function(charArray, index, maxWeight) {
                             var arrayToCheck = charArray.slice(0, index), length = arrayToCheck.length;
                             return code_93_reader_ALPHABET[arrayToCheck.reduce(function(sum, _char3, i) {
-                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
+                                var value = code_93_reader_ALPHABET.indexOf(_char3.charCodeAt(0));
+                                return sum + ((-1 * i + (length - 1)) % maxWeight + 1) * value;
                             }, 0) % 47] === charArray[index].charCodeAt(0);
                         }
                     },

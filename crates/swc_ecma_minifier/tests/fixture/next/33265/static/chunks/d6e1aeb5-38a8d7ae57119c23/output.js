@@ -3138,7 +3138,7 @@
                     var mouseVolumeLevelDisplay = this.getChild("mouseVolumeLevelDisplay");
                     if (mouseVolumeLevelDisplay) {
                         var volumeBarEl = this.el(), volumeBarRect = getBoundingClientRect(volumeBarEl), vertical = this.vertical(), volumeBarPoint = getPointerPosition(volumeBarEl, event);
-                        volumeBarPoint = clamp(volumeBarPoint = vertical ? volumeBarPoint.y : volumeBarPoint.x, 0, 1), mouseVolumeLevelDisplay.update(volumeBarRect, volumeBarPoint, vertical);
+                        volumeBarPoint = vertical ? volumeBarPoint.y : volumeBarPoint.x, volumeBarPoint = clamp(volumeBarPoint, 0, 1), mouseVolumeLevelDisplay.update(volumeBarRect, volumeBarPoint, vertical);
                     }
                     isSingleLeftClick(event) && (this.checkMuted(), this.player_.volume(this.calculateDistance(event)));
                 }, _proto.checkMuted = function() {
@@ -3425,7 +3425,9 @@
                     }, {});
                 }, _proto.buildWrapperCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
-                    return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + Button.prototype.buildCSSClass() + " " + _Component.prototype.buildCSSClass.call(this);
+                    !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup";
+                    var buttonClass = Button.prototype.buildCSSClass();
+                    return "vjs-menu-button " + menuButtonClass + " " + buttonClass + " " + _Component.prototype.buildCSSClass.call(this);
                 }, _proto.buildCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
                     return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + _Component.prototype.buildCSSClass.call(this);
@@ -6118,16 +6120,16 @@
                     }
                 }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
-                        var poster = this.poster(), media = {
-                            src: this.currentSources(),
-                            textTracks: Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
-                                return {
-                                    kind: tt.kind,
-                                    label: tt.label,
-                                    language: tt.language,
-                                    src: tt.src
-                                };
-                            })
+                        var poster = this.poster(), src = this.currentSources(), textTracks = Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
+                            return {
+                                kind: tt.kind,
+                                label: tt.label,
+                                language: tt.language,
+                                src: tt.src
+                            };
+                        }), media = {
+                            src: src,
+                            textTracks: textTracks
                         };
                         return poster && (media.poster = poster, media.artwork = [
                             {
@@ -10426,7 +10428,7 @@
                         var tkhd, index, id, mdhd;
                         return (tkhd = findBox(trak, [
                             "tkhd"
-                        ])[0]) && (id = toUnsigned(tkhd[index = 0 === tkhd[0] ? 12 : 20] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox(trak, [
+                        ])[0]) && (index = 0 === tkhd[0] ? 12 : 20, id = toUnsigned(tkhd[index] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox(trak, [
                             "mdia",
                             "mdhd"
                         ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
@@ -10518,7 +10520,7 @@
                             var codecBox = findBox(sampleDescriptions, [
                                 track.codec
                             ])[0];
-                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? "avcC" === parseType$1((codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = "avc1.4d400d" : /^mp4[a,v]$/i.test(track.codec) ? "esds" === parseType$1((codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : track.codec = "mp4a.40.2" : track.codec = track.codec.toLowerCase());
+                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? (codecConfig = codecBox.subarray(78), "avcC" === parseType$1(codecConfig.subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = "avc1.4d400d") : /^mp4[a,v]$/i.test(track.codec) ? (codecConfig = codecBox.subarray(28), "esds" === parseType$1(codecConfig.subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : track.codec = "mp4a.40.2") : track.codec = track.codec.toLowerCase());
                         }
                         var mdhd = findBox(trak, [
                             "mdia",

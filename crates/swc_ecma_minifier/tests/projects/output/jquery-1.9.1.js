@@ -507,7 +507,7 @@
             var attrs, name1, elem = this[0], i = 0, data = null;
             if (key === undefined) {
                 if (this.length && (data = jQuery.data(elem), 1 === elem.nodeType && !jQuery._data(elem, "parsedAttrs"))) {
-                    for(attrs = elem.attributes; i < attrs.length; i++)(name1 = attrs[i].name).indexOf("data-") || dataAttr(elem, name1 = jQuery.camelCase(name1.slice(5)), data[name1]);
+                    for(attrs = elem.attributes; i < attrs.length; i++)(name1 = attrs[i].name).indexOf("data-") || (name1 = jQuery.camelCase(name1.slice(5)), dataAttr(elem, name1, data[name1]));
                     jQuery._data(elem, "parsedAttrs", !0);
                 }
                 return data;

@@ -34,6 +34,23 @@ impl VisitMut for PrecompressOptimizer {
         }
     }
 
+    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            PatOrExpr::Expr(e) => {
+                if let Expr::Ident(i) = &**e {
+                    *n = PatOrExpr::Pat(i.clone().into())
+                }
+            }
+            PatOrExpr::Pat(p) => {
+                if let Pat::Expr(e) = &mut **p {
+                    *n = PatOrExpr::Expr(e.take());
+                }
+            }
+        }
+    }
+
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);

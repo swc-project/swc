@@ -2759,7 +2759,7 @@
                         return this.$watch(function() {
                             if (newValue = objGetter(self), isObject(newValue)) {
                                 if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), oldLength !== (newLength = newValue.length) && (changeDetected++, oldValue.length = oldLength = newLength);
+                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (changeDetected++, oldValue.length = oldLength = newLength);
                                     for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
                                 } else {
                                     for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
@@ -3331,7 +3331,7 @@
             }(date)), isNumber(date) && (date = new Date(date)), !isDate(date)) return date;
             for(; format;)(match = DATE_FORMATS_SPLIT.exec(format)) ? format = (parts = concat(parts, match, 1)).pop() : (parts.push(format), format = null);
             return forEach(parts, function(value) {
-                text += (fn = DATE_FORMATS[value]) ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
+                fn = DATE_FORMATS[value], text += fn ? fn(date, $locale.DATETIME_FORMATS) : value.replace(/(^'|'$)/g, "").replace(/''/g, "'");
             }), text;
         };
     }
@@ -4007,7 +4007,7 @@
                         else nextBlockOrder[index] = {
                             id: trackById
                         }, nextBlockMap[trackById] = !1;
-                        for(key in lastBlockMap)lastBlockMap.hasOwnProperty(key) && (elementsToRemove = getBlockElements((block = lastBlockMap[key]).clone), $animate.leave(elementsToRemove), forEach(elementsToRemove, function(element) {
+                        for(key in lastBlockMap)lastBlockMap.hasOwnProperty(key) && (block = lastBlockMap[key], elementsToRemove = getBlockElements(block.clone), $animate.leave(elementsToRemove), forEach(elementsToRemove, function(element) {
                             element[NG_REMOVED] = !0;
                         }), block.scope.$destroy());
                         for(index = 0, length = collectionKeys.length; index < length; index++){
@@ -4203,7 +4203,7 @@
                                         for(var trackIndex = 0; trackIndex < modelValue.length; trackIndex++)locals[valueName] = modelValue[trackIndex], selectedSet.put(trackFn(scope, locals), modelValue[trackIndex]);
                                     } else selectedSet = new HashMap(modelValue);
                                 }
-                                for(index = 0; index < (length = keys.length); index++){
+                                for(index = 0; length = keys.length, index < length; index++){
                                     if (key = index, keyName) {
                                         if ("$" === (key = keys[index]).charAt(0)) continue;
                                         locals[keyName] = key;

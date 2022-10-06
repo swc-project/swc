@@ -3483,8 +3483,8 @@
             }
             function deepmerge(target, source, options) {
                 (options = options || {}).arrayMerge = options.arrayMerge || defaultArrayMerge, options.isMergeableObject = options.isMergeableObject || isMergeableObject, options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
-                var options1, destination, sourceIsArray = Array.isArray(source);
-                return sourceIsArray !== Array.isArray(target) ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
+                var options1, destination, sourceIsArray = Array.isArray(source), targetIsArray = Array.isArray(target);
+                return sourceIsArray !== targetIsArray ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
                     (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {

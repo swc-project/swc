@@ -16,6 +16,9 @@ mod ctx;
 pub(crate) struct AliasConfig {
     pub marks: Option<Marks>,
     pub ignore_nested: bool,
+    /// TODO(kdy1): This field is used for sequential inliner.
+    /// It should be renamed to some correct name.
+    pub need_all: bool,
 }
 
 pub(crate) trait InfectableNode {
@@ -200,7 +203,7 @@ impl Visit for InfectionCollector<'_> {
     fn visit_member_expr(&mut self, n: &MemberExpr) {
         {
             let ctx = Ctx {
-                track_expr_ident: false,
+                track_expr_ident: self.config.need_all,
                 ..self.ctx
             };
             n.obj.visit_with(&mut *self.with_ctx(ctx));
@@ -208,7 +211,7 @@ impl Visit for InfectionCollector<'_> {
 
         {
             let ctx = Ctx {
-                track_expr_ident: false,
+                track_expr_ident: self.config.need_all,
                 ..self.ctx
             };
             n.prop.visit_with(&mut *self.with_ctx(ctx));

@@ -157,6 +157,8 @@ impl Storage for ProgramData {
                 if v.used_in_non_child_fn {
                     v.is_fn_local = false;
                 }
+
+                v.var_initialized |= has_init;
             })
             .or_insert_with(|| VarUsageInfo {
                 is_fn_local: true,
