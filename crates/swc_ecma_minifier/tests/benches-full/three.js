@@ -3064,7 +3064,7 @@
                 depthSegments: depthSegments
             };
             var _this, scope = _assertThisInitialized(_this);
-            widthSegments = Math.floor(widthSegments), heightSegments = Math.floor(heightSegments), depthSegments = Math.floor(depthSegments);
+            widthSegments = Math.floor(widthSegments), heightSegments = Math.floor(heightSegments);
             var indices = [], vertices = [], normals = [], uvs = [], numberOfVertices = 0, groupStart = 0;
             function buildPlane(u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex) {
                 for(var segmentWidth = width / gridX, segmentHeight = height / gridY, widthHalf = width / 2, heightHalf = height / 2, depthHalf = depth / 2, gridX1 = gridX + 1, gridY1 = gridY + 1, vertexCounter = 0, groupCount = 0, vector = new Vector3(), iy = 0; iy < gridY1; iy++)for(var y = iy * segmentHeight - heightHalf, ix = 0; ix < gridX1; ix++){
@@ -3077,7 +3077,7 @@
                 }
                 scope.addGroup(groupStart, groupCount, materialIndex), groupStart += groupCount, numberOfVertices += vertexCounter;
             }
-            return buildPlane('z', 'y', 'x', -1, -1, depth, height, width, depthSegments, heightSegments, 0), buildPlane('z', 'y', 'x', 1, -1, depth, height, -width, depthSegments, heightSegments, 1), buildPlane('x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments, 2), buildPlane('x', 'z', 'y', 1, -1, width, depth, -height, widthSegments, depthSegments, 3), buildPlane('x', 'y', 'z', 1, -1, width, height, depth, widthSegments, heightSegments, 4), buildPlane('x', 'y', 'z', -1, -1, width, height, -depth, widthSegments, heightSegments, 5), _this.setIndex(indices), _this.setAttribute('position', new Float32BufferAttribute(vertices, 3)), _this.setAttribute('normal', new Float32BufferAttribute(normals, 3)), _this.setAttribute('uv', new Float32BufferAttribute(uvs, 2)), _this;
+            return buildPlane('z', 'y', 'x', -1, -1, depth, height, width, depthSegments = Math.floor(depthSegments), heightSegments, 0), buildPlane('z', 'y', 'x', 1, -1, depth, height, -width, depthSegments, heightSegments, 1), buildPlane('x', 'z', 'y', 1, 1, width, depth, height, widthSegments, depthSegments, 2), buildPlane('x', 'z', 'y', 1, -1, width, depth, -height, widthSegments, depthSegments, 3), buildPlane('x', 'y', 'z', 1, -1, width, height, depth, widthSegments, heightSegments, 4), buildPlane('x', 'y', 'z', -1, -1, width, height, -depth, widthSegments, heightSegments, 5), _this.setIndex(indices), _this.setAttribute('position', new Float32BufferAttribute(vertices, 3)), _this.setAttribute('normal', new Float32BufferAttribute(normals, 3)), _this.setAttribute('uv', new Float32BufferAttribute(uvs, 2)), _this;
         }
         return _inheritsLoose(BoxBufferGeometry, _BufferGeometry), BoxBufferGeometry;
     }(BufferGeometry);
@@ -4949,7 +4949,7 @@
                         break;
                     }
                     var next = container.map[id];
-                    void 0 === next && (next = new StructuredUniform(id), addUniform(container, next)), container = next;
+                    void 0 === next && addUniform(container, next = new StructuredUniform(id)), container = next;
                 }
             }(info, addr, this);
         }
@@ -5295,7 +5295,7 @@
             parameters.envMap ? getTexelDecodingFunction('envMapTexelToLinear', parameters.envMapEncoding) : '',
             parameters.emissiveMap ? getTexelDecodingFunction('emissiveMapTexelToLinear', parameters.emissiveMapEncoding) : '',
             parameters.lightMap ? getTexelDecodingFunction('lightMapTexelToLinear', parameters.lightMapEncoding) : '',
-            (encoding = parameters.outputEncoding, "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(encoding))[0] + components[1] + '; }'),
+            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(encoding = parameters.outputEncoding))[0] + components[1] + '; }',
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
         ].filter(filterEmptyLine).join('\n')), vertexShader = resolveIncludes(vertexShader), vertexShader = replaceLightNums(vertexShader, parameters), vertexShader = replaceClippingPlaneNums(vertexShader, parameters), fragmentShader = resolveIncludes(fragmentShader), fragmentShader = replaceLightNums(fragmentShader, parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader, parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
@@ -8719,14 +8719,14 @@
                             continue;
                         }
                         if ((ear = next) === stop) {
-                            pass ? 1 === pass ? (ear = function(start, triangles, dim) {
+                            pass ? 1 === pass ? earcutLinked(ear = function(start, triangles, dim) {
                                 var p = start;
                                 do {
                                     var a = p.prev, b = p.next.next;
                                     !equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a) && (triangles.push(a.i / dim), triangles.push(p.i / dim), triangles.push(b.i / dim), removeNode(p), removeNode(p.next), p = start = b), p = p.next;
                                 }while (p !== start)
                                 return filterPoints(p);
-                            }(filterPoints(ear), triangles, dim), earcutLinked(ear, triangles, dim, minX, minY, invSize, 2)) : 2 === pass && function(start, triangles, dim, minX, minY, invSize) {
+                            }(filterPoints(ear), triangles, dim), triangles, dim, minX, minY, invSize, 2) : 2 === pass && function(start, triangles, dim, minX, minY, invSize) {
                                 var a = start;
                                 do {
                                     for(var a1, b, b1 = a.next.next; b1 !== a.prev;){
@@ -9311,8 +9311,8 @@
                 phiSegments: phiSegments,
                 thetaStart: thetaStart,
                 thetaLength: thetaLength
-            }, thetaSegments = Math.max(3, thetaSegments), phiSegments = Math.max(1, phiSegments);
-            for(var _this, indices = [], vertices = [], normals = [], uvs = [], radius = innerRadius, radiusStep = (outerRadius - innerRadius) / phiSegments, vertex = new Vector3(), uv = new Vector2(), j = 0; j <= phiSegments; j++){
+            }, thetaSegments = Math.max(3, thetaSegments);
+            for(var _this, indices = [], vertices = [], normals = [], uvs = [], radius = innerRadius, radiusStep = (outerRadius - innerRadius) / (phiSegments = Math.max(1, phiSegments)), vertex = new Vector3(), uv = new Vector2(), j = 0; j <= phiSegments; j++){
                 for(var i = 0; i <= thetaSegments; i++){
                     var segment = thetaStart + i / thetaSegments * thetaLength;
                     vertex.x = radius * Math.cos(segment), vertex.y = radius * Math.sin(segment), vertices.push(vertex.x, vertex.y, vertex.z), normals.push(0, 0, 1), uv.x = (vertex.x / outerRadius + 1) / 2, uv.y = (vertex.y / outerRadius + 1) / 2, uvs.push(uv.x, uv.y);

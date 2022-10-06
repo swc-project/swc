@@ -6560,10 +6560,7 @@
                                     ckb[keyId]
                                 ], "number" != typeof position && (position = getPosition(command));
                                 var commands = ckb[keyId];
-                                for(i = 0; i < commands.length; i++){
-                                    var other = commands[i];
-                                    if (getPosition(other) > position) break;
-                                }
+                                for(i = 0; i < commands.length && !(getPosition(commands[i]) > position); i++);
                                 commands.splice(i, 0, command);
                             }
                         } else delete ckb[keyId];
@@ -9547,7 +9544,7 @@
                         var screenColumn = 0, token = tokens[0], value = token.value;
                         this.displayIndentGuides && (value = this.renderIndentGuide(parent, value)), value && (screenColumn = this.$renderToken(parent, screenColumn, token, value));
                         for(var i = 1; i < tokens.length; i++){
-                            if (value = (token = tokens[i]).value, screenColumn + value.length > this.MAX_LINE_LENGTH) return this.$renderOverflowMessage(parent, screenColumn, token, value);
+                            if (screenColumn + (value = (token = tokens[i]).value).length > this.MAX_LINE_LENGTH) return this.$renderOverflowMessage(parent, screenColumn, token, value);
                             screenColumn = this.$renderToken(parent, screenColumn, token, value);
                         }
                     }, this.$renderOverflowMessage = function(parent, screenColumn, token, value, hide) {

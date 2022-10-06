@@ -1434,7 +1434,7 @@
         for(var part = null, closestDist = null, i = 0; i < order.length; i++){
             var p = order[i];
             if (!(p.from >= end) && !(p.to <= begin)) {
-                var ltr = 1 != p.level, endX = measureCharPrepared(cm, preparedMeasure, ltr ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
+                var endX = measureCharPrepared(cm, preparedMeasure, 1 != p.level ? Math.min(end, p.to) - 1 : Math.max(begin, p.from)).right, dist = endX < x ? x - endX + 1e9 : endX - x;
                 (!part || closestDist > dist) && (part = p, closestDist = dist);
             }
         }
@@ -2940,7 +2940,7 @@
     function markText(doc, from, to, options, type) {
         if (options && options.shared) {
             var options1, markers, primary, widget;
-            return options1 = options, (options1 = copyObj(options1)).shared = !1, primary = (markers = [
+            return (options1 = copyObj(options1 = options)).shared = !1, primary = (markers = [
                 markText(doc, from, to, options1, type)
             ])[0], widget = options1.widgetNode, linkedDocs(doc, function(doc) {
                 widget && (options1.widgetNode = widget.cloneNode(!0)), markers.push(markText(doc, clipPos(doc, from), clipPos(doc, to), options1, type));
@@ -3149,8 +3149,7 @@
             extendSelections(this, clipPosArray(this, heads), options);
         }),
         extendSelectionsBy: docMethodOp(function(f, options) {
-            var heads = map(this.sel.ranges, f);
-            extendSelections(this, clipPosArray(this, heads), options);
+            extendSelections(this, clipPosArray(this, map(this.sel.ranges, f)), options);
         }),
         setSelections: docMethodOp(function(ranges, primary, options) {
             if (ranges.length) {
@@ -5229,7 +5228,7 @@
         },
         getStateAfter: function(line, precise) {
             var doc = this.doc;
-            return line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line), getContextBefore(this, line + 1, precise).state;
+            return getContextBefore(this, (line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line)) + 1, precise).state;
         },
         cursorCoords: function(start, mode) {
             var pos, range = this.doc.sel.primary();
@@ -5506,8 +5505,7 @@
         var delta = wheelEventDelta(e);
         return delta.x *= wheelPixelsPerUnit, delta.y *= wheelPixelsPerUnit, delta;
     }, CodeMirror1.Doc = Doc, CodeMirror1.splitLines = splitLinesAuto, CodeMirror1.countColumn = countColumn, CodeMirror1.findColumn = findColumn, CodeMirror1.isWordChar = isWordCharBasic, CodeMirror1.Pass = Pass, CodeMirror1.signal = signal, CodeMirror1.Line = Line, CodeMirror1.changeEnd = changeEnd, CodeMirror1.scrollbarModel = scrollbarModel, CodeMirror1.Pos = Pos, CodeMirror1.cmpPos = cmp, CodeMirror1.modes = modes, CodeMirror1.mimeModes = mimeModes, CodeMirror1.resolveMode = resolveMode, CodeMirror1.getMode = getMode, CodeMirror1.modeExtensions = modeExtensions, CodeMirror1.extendMode = function(mode, properties) {
-        var exts = modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {};
-        copyObj(properties, exts);
+        copyObj(properties, modeExtensions.hasOwnProperty(mode) ? modeExtensions[mode] : modeExtensions[mode] = {});
     }, CodeMirror1.copyState = copyState, CodeMirror1.startState = startState, CodeMirror1.innerMode = innerMode, CodeMirror1.commands = commands, CodeMirror1.keyMap = keyMap, CodeMirror1.keyName = keyName, CodeMirror1.isModifierKey = isModifierKey, CodeMirror1.lookupKey = lookupKey, CodeMirror1.normalizeKeyMap = function(keymap) {
         var copy = {};
         for(var keyname in keymap)if (keymap.hasOwnProperty(keyname)) {

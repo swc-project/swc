@@ -1663,7 +1663,7 @@
                     }
                     return elementMatcher(matchers);
                 }(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
-                cached = compilerCache(selector, (elementMatchers = elementMatchers1, setMatchers = setMatchers1, matcherCachedRuns = 0, bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
+                cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
                         if (byElement && elem) {

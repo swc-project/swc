@@ -80,6 +80,7 @@ describe("Published plugins", () => {
                     experimental: {
                         plugins: [
                             ["@swc/plugin-jest", {}],
+                            // Disabled because this plugin is broken
                             // ["swc-plugin-coverage-instrument", {}],
                         ],
                     },

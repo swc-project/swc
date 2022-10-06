@@ -688,7 +688,7 @@
                                 if (3 == node.nodeType) return node;
                                 if (1 == node.nodeType && offset > 0) {
                                     if (node.childNodes.length > offset && 3 == node.childNodes[offset].nodeType) return node.childNodes[offset];
-                                    node = node.childNodes[offset - 1], offset = nodeSize(node);
+                                    offset = nodeSize(node = node.childNodes[offset - 1]);
                                 } else {
                                     if (1 != node.nodeType || !(offset < node.childNodes.length)) return null;
                                     node = node.childNodes[offset], offset = 0;
@@ -1142,7 +1142,7 @@
                     } else if (isBlockNode(node)) break;
                     else {
                         for(var prev = node.previousSibling; prev && isIgnorable(prev);)moveNode = node.parentNode, moveOffset = domIndex(prev), prev = prev.previousSibling;
-                        if (prev) node = prev, offset = nodeLen(node);
+                        if (prev) offset = nodeLen(node = prev);
                         else {
                             if ((node = node.parentNode) == view.dom) break;
                             offset = 0;
@@ -1156,13 +1156,12 @@
                 if (node) {
                     for(var len = nodeLen(node);;)if (offset < len) {
                         if (1 != node.nodeType) break;
-                        var after = node.childNodes[offset];
-                        if (isIgnorable(after)) moveNode = node, moveOffset = ++offset;
+                        if (isIgnorable(node.childNodes[offset])) moveNode = node, moveOffset = ++offset;
                         else break;
                     } else if (isBlockNode(node)) break;
                     else {
                         for(var next = node.nextSibling; next && isIgnorable(next);)moveNode = next.parentNode, moveOffset = domIndex(next) + 1, next = next.nextSibling;
-                        if (next) node = next, offset = 0, len = nodeLen(node);
+                        if (next) offset = 0, len = nodeLen(node = next);
                         else {
                             if ((node = node.parentNode) == view.dom) break;
                             offset = len = 0;
@@ -2434,7 +2433,7 @@
             }, EditorView.prototype.updateState = function(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
             }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
-                var refDOM, refTop, stack, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
+                var refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
                 if (state.storedMarks && this.composing && (clearComposition(this), updateSel = !0), this.state = state, reconfigured) {
                     var nodeViews = buildNodeViews(this);
                     (function(a, b) {
@@ -2482,7 +2481,7 @@
                     this.someProp("handleScrollToSelection", function(f) {
                         return f(this$1);
                     }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
-                } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, stack = oldScrollPos.stack, restoreScrollStack(stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
+                } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, restoreScrollStack(oldScrollPos.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
             }, EditorView.prototype.destroyPluginViews = function() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
             }, EditorView.prototype.updatePluginViews = function(prevState) {
@@ -2653,7 +2652,7 @@
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
-                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;

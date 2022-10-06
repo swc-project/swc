@@ -5,6 +5,20 @@
 
 
 
+- **(es/minifier)** Improve infection analysis (#6044) ([c9427f1](https://github.com/swc-project/swc/commit/c9427f1ec4ae3bb369fa301341b856c7c298d3cd))
+
+### Miscellaneous Tasks
+
+
+
+- **(common)** Make `Mark::root` const fn (#6072) ([047da86](https://github.com/swc-project/swc/commit/047da86baa76198fe8e1b750ffd623348d4f8773))
+
+## [1.3.5] - 2022-10-06
+
+### Bug Fixes
+
+
+
 - **(bindings)** Fix type definitions (#6018) ([8fea8ca](https://github.com/swc-project/swc/commit/8fea8ca3fa5d9d441b67bffe5f64efbcc9ea4d2c))
 
 
@@ -86,7 +100,10 @@
 - **(ci)** Merge CI scripts (#5999) ([10fb645](https://github.com/swc-project/swc/commit/10fb645552131d48c99789b346e6c31ed3a969cb))
 
 
-- **(ci)** Extract bot action to a separate repository (#6064) ([39481c6](https://github.com/swc-project/swc/commit/39481c622c288139ccd74fd2b3ba1bd65f4d9708))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
+- **(ci)** Extract bot action to a separate repository (#6064) ([39481c6](https://github.com/swc-project/swc/commit/39481c622c288139ccd74fd2b3ba1bd65f4d9708))
+
+
+- **(ci)** Fix publish action by reverting #5969 ([fee747d](https://github.com/swc-project/swc/commit/fee747de594de0de19496068d85e982888491a6c))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
 
 ### Performance
 

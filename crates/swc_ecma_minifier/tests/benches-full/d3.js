@@ -6401,7 +6401,7 @@
         return randomUniform.source = sourceRandomUniform, randomUniform;
     }(defaultSource$1), int = function sourceRandomInt(source) {
         function randomInt(min, max) {
-            return arguments.length < 2 && (max = min, min = 0), min = Math.floor(min), max = Math.floor(max) - min, function() {
+            return arguments.length < 2 && (max = min, min = 0), max = Math.floor(max) - (min = Math.floor(min)), function() {
                 return Math.floor(source() * max + min);
             };
         }
@@ -6412,7 +6412,7 @@
             return mu = null == mu ? 0 : +mu, sigma = null == sigma ? 1 : +sigma, function() {
                 var y;
                 if (null != x) y = x, x = null;
-                else do x = 2 * source() - 1, y = 2 * source() - 1, r = x * x + y * y;
+                else do r = (x = 2 * source() - 1) * x + (y = 2 * source() - 1) * y;
                 while (!r || r > 1)
                 return mu + sigma * y * Math.sqrt(-2 * Math.log(r) / r);
             };
@@ -6685,7 +6685,7 @@
         var transform, untransform, unknown, piecewise, output, input, domain = unit, range = unit, interpolate$1 = interpolate, clamp = identity$6;
         function rescale() {
             var a, b, t, n = Math.min(domain.length, range.length);
-            return clamp !== identity$6 && (a = domain[0], b = domain[n - 1], a > b && (t = a, a = b, b = t), clamp = function(x) {
+            return clamp !== identity$6 && ((a = domain[0]) > (b = domain[n - 1]) && (t = a, a = b, b = t), clamp = function(x) {
                 return Math.max(a, Math.min(b, x));
             }), piecewise = n > 2 ? polymap : bimap, output = input = null, scale;
         }
@@ -7419,14 +7419,14 @@
         return pad$1(d.getFullYear() % 100, p, 2);
     }
     function formatYearISO(d, p) {
-        return d = dISO(d), pad$1(d.getFullYear() % 100, p, 2);
+        return pad$1((d = dISO(d)).getFullYear() % 100, p, 2);
     }
     function formatFullYear(d, p) {
         return pad$1(d.getFullYear() % 10000, p, 4);
     }
     function formatFullYearISO(d, p) {
         var day = d.getDay();
-        return d = day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d), pad$1(d.getFullYear() % 10000, p, 4);
+        return pad$1((d = day >= 4 || 0 === day ? thursday(d) : thursday.ceil(d)).getFullYear() % 10000, p, 4);
     }
     function formatZone(d) {
         var z = d.getTimezoneOffset();
@@ -7483,14 +7483,14 @@
         return pad$1(d.getUTCFullYear() % 100, p, 2);
     }
     function formatUTCYearISO(d, p) {
-        return d = UTCdISO(d), pad$1(d.getUTCFullYear() % 100, p, 2);
+        return pad$1((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
     }
     function formatUTCFullYear(d, p) {
         return pad$1(d.getUTCFullYear() % 10000, p, 4);
     }
     function formatUTCFullYearISO(d, p) {
         var day = d.getUTCDay();
-        return d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d), pad$1(d.getUTCFullYear() % 10000, p, 4);
+        return pad$1((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
     }
     function formatUTCZone() {
         return "+0000";
@@ -7710,7 +7710,7 @@
             };
         }
         return scale.domain = function(_) {
-            return arguments.length ? ([x0, x1] = _, t0 = transform(x0 = +x0), t1 = transform(x1 = +x1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale) : [
+            return arguments.length ? ([x0, x1] = _, k10 = (t0 = transform(x0 = +x0)) === (t1 = transform(x1 = +x1)) ? 0 : 1 / (t1 - t0), scale) : [
                 x0,
                 x1
             ];
@@ -7721,7 +7721,7 @@
         }, scale.range = range(interpolate), scale.rangeRound = range(interpolateRound), scale.unknown = function(_) {
             return arguments.length ? (unknown = _, scale) : unknown;
         }, function(t) {
-            return transform = t, t0 = t(x0), t1 = t(x1), k10 = t0 === t1 ? 0 : 1 / (t1 - t0), scale;
+            return transform = t, k10 = (t0 = t(x0)) === (t1 = t(x1)) ? 0 : 1 / (t1 - t0), scale;
         };
     }
     function copy$1(source, target) {
@@ -9389,7 +9389,7 @@
                 if (data) {
                     if (data.index > node.index) {
                         var x = xi - data.x - data.vx, y = yi - data.y - data.vy, l = x * x + y * y;
-                        l < r * r && (0 === x && (x = jiggle(random), l += x * x), 0 === y && (y = jiggle(random), l += y * y), l = (r - (l = Math.sqrt(l))) / l * strength, node.vx += (x *= l) * (r = (rj *= rj) / (ri2 + rj)), node.vy += (y *= l) * r, data.vx -= x * (r = 1 - r), data.vy -= y * r);
+                        l < r * r && (0 === x && (l += (x = jiggle(random)) * x), 0 === y && (l += (y = jiggle(random)) * y), l = (r - (l = Math.sqrt(l))) / l * strength, node.vx += (x *= l) * (r = (rj *= rj) / (ri2 + rj)), node.vy += (y *= l) * r, data.vx -= x * (r = 1 - r), data.vy -= y * r);
                     }
                     return;
                 }
@@ -9420,7 +9420,7 @@
             return 1 / Math.min(count[link.source.index], count[link.target.index]);
         }, distance = constant$7(30), iterations = 1;
         function force(alpha) {
-            for(var k = 0, n = links.length; k < iterations; ++k)for(var link, source, target, x, y, l, b, i = 0; i < n; ++i)source = (link = links[i]).source, x = (target = link.target).x + target.vx - source.x - source.vx || jiggle(random), y = target.y + target.vy - source.y - source.vy || jiggle(random), l = ((l = Math.sqrt(x * x + y * y)) - distances[i]) / l * alpha * strengths[i], x *= l, y *= l, target.vx -= x * (b = bias[i]), target.vy -= y * b, source.vx += x * (b = 1 - b), source.vy += y * b;
+            for(var k = 0, n = links.length; k < iterations; ++k)for(var link, source, target, x, y, l, b, i = 0; i < n; ++i)source = (link = links[i]).source, l = ((l = Math.sqrt((x = (target = link.target).x + target.vx - source.x - source.vx || jiggle(random)) * x + (y = target.y + target.vy - source.y - source.vy || jiggle(random)) * y)) - distances[i]) / l * alpha * strengths[i], x *= l, y *= l, target.vx -= x * (b = bias[i]), target.vy -= y * b, source.vx += x * (b = 1 - b), source.vy += y * b;
         }
         function initialize() {
             if (nodes) {
@@ -9479,9 +9479,9 @@
         function apply(quad, x1, _, x2) {
             if (!quad.value) return !0;
             var x = quad.x - node.x, y = quad.y - node.y, w = x2 - x1, l = x * x + y * y;
-            if (w * w / theta2 < l) return l < distanceMax2 && (0 === x && (x = jiggle(random), l += x * x), 0 === y && (y = jiggle(random), l += y * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)), node.vx += x * quad.value * alpha / l, node.vy += y * quad.value * alpha / l), !0;
+            if (w * w / theta2 < l) return l < distanceMax2 && (0 === x && (l += (x = jiggle(random)) * x), 0 === y && (l += (y = jiggle(random)) * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)), node.vx += x * quad.value * alpha / l, node.vy += y * quad.value * alpha / l), !0;
             if (!quad.length && !(l >= distanceMax2)) {
-                (quad.data !== node || quad.next) && (0 === x && (x = jiggle(random), l += x * x), 0 === y && (y = jiggle(random), l += y * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)));
+                (quad.data !== node || quad.next) && (0 === x && (l += (x = jiggle(random)) * x), 0 === y && (l += (y = jiggle(random)) * y), l < distanceMin2 && (l = Math.sqrt(distanceMin2 * l)));
                 do quad.data !== node && (w = strengths[quad.data.index] * alpha / l, node.vx += x * w, node.vy += y * w);
                 while (quad = quad.next)
             }
@@ -9582,7 +9582,7 @@
             },
             find: function(x, y, radius) {
                 var dx, dy, d2, node, closest, i = 0, n = nodes.length;
-                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)node = nodes[i], (d2 = (dx = x - node.x) * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
+                for(null == radius ? radius = 1 / 0 : radius *= radius, i = 0; i < n; ++i)(d2 = (dx = x - (node = nodes[i]).x) * dx + (dy = y - node.y) * dy) < radius && (closest = node, radius = d2);
                 return closest;
             },
             on: function(name, _) {

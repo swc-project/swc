@@ -1,5 +1,4 @@
-let x, y;
-let a = (z) => {
-    (x = "A"), (y = z), console.log(x + y);
+let a = (z)=>{
+    console.log("A" + z);
 };
 a(1), a(2);

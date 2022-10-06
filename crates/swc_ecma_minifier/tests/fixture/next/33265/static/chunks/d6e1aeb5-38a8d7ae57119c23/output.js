@@ -2449,7 +2449,7 @@
             PlayToggle.prototype.controlText_ = "Play", Component$1.registerComponent("PlayToggle", PlayToggle);
             var defaultImplementation = function(seconds, guide) {
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600);
-                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", s = s < 10 ? "0" + s : s, h + m + s;
+                return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
             }, implementation = defaultImplementation;
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
@@ -8446,8 +8446,8 @@
                         return !gops[0][0].keyFrame && gops.length > 1 && (currentGop = gops.shift(), gops.byteLength -= currentGop.byteLength, gops.nalCount -= currentGop.nalCount, gops[0][0].dts = currentGop.dts, gops[0][0].pts = currentGop.pts, gops[0][0].duration += currentGop.duration), gops;
                     },
                     generateSampleTable: function(gops, baseDataOffset) {
-                        var h, i, sample, currentGop, currentFrame, dataOffset = baseDataOffset || 0, samples = [];
-                        for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)sample = sampleForFrame(currentFrame = currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
+                        var h, i, sample, currentGop, dataOffset = baseDataOffset || 0, samples = [];
+                        for(h = 0; h < gops.length; h++)for(i = 0, currentGop = gops[h]; i < currentGop.length; i++)sample = sampleForFrame(currentGop[i], dataOffset), dataOffset += sample.size, samples.push(sample);
                         return samples;
                     },
                     concatenateNalData: function(gops) {
@@ -9347,9 +9347,9 @@
                         }
                     },
                     PRIV: function(tag) {
-                        var i, bytes, end;
+                        var i, bytes;
                         for(i = 0; i < tag.data.length; i++)if (0 === tag.data[i]) {
-                            tag.owner = (bytes = tag.data, end = i, unescape(percentEncode$1(bytes, 0, end)));
+                            tag.owner = (bytes = tag.data, unescape(percentEncode$1(bytes, 0, i)));
                             break;
                         }
                         tag.privateData = tag.data.subarray(i + 1), tag.data = tag.privateData;
@@ -10637,9 +10637,9 @@
                     videoPacketContainsKeyFrame: videoPacketContainsKeyFrame
                 }, probe.aac = utils;
                 var ONE_SECOND_IN_TS = clock.ONE_SECOND_IN_TS, parsePsi_ = function(bytes, pmt) {
-                    for(var packet, type, startIndex = 0, endIndex = 188; endIndex < bytes.byteLength;){
+                    for(var packet, startIndex = 0, endIndex = 188; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
-                            switch(packet = bytes.subarray(startIndex, endIndex), type = probe.ts.parseType(packet, pmt.pid)){
+                            switch(packet = bytes.subarray(startIndex, endIndex), probe.ts.parseType(packet, pmt.pid)){
                                 case "pat":
                                     pmt.pid = probe.ts.parsePat(packet);
                                     break;
@@ -10655,9 +10655,9 @@
                         startIndex++, endIndex++;
                     }
                 }, parseAudioPes_ = function(bytes, pmt, result) {
-                    for(var packet, type, pesType, pusi, parsed, startIndex = 0, endIndex = 188, endLoop = !1; endIndex <= bytes.byteLength;){
+                    for(var packet, pesType, pusi, parsed, startIndex = 0, endIndex = 188, endLoop = !1; endIndex <= bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
-                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === (type = probe.ts.parseType(packet, pmt.pid)) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex += 188, endIndex += 188;
                             continue;
                         }
@@ -10665,19 +10665,19 @@
                     }
                     for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && (0x47 === bytes[endIndex] || endIndex === bytes.byteLength)) {
-                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === (type = probe.ts.parseType(packet, pmt.pid)) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "audio" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "audio", result.audio.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex -= 188, endIndex -= 188;
                             continue;
                         }
                         startIndex--, endIndex--;
                     }
                 }, parseVideoPes_ = function(bytes, pmt, result) {
-                    for(var packet, type, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {
+                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {
                         data: [],
                         size: 0
                     }; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
-                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === (type = probe.ts.parseType(packet, pmt.pid)) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0), !result.firstKeyFrame))) {
+                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0), !result.firstKeyFrame))) {
                                 if (pusi && 0 !== currentFrame.size) {
                                     for(frame = new Uint8Array(currentFrame.size), i = 0; currentFrame.data.length;)pes = currentFrame.data.shift(), frame.set(pes, i), i += pes.byteLength;
                                     if (probe.ts.videoPacketContainsKeyFrame(frame)) {
@@ -10696,7 +10696,7 @@
                     }
                     for(startIndex = (endIndex = bytes.byteLength) - 188, endLoop = !1; startIndex >= 0;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
-                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === (type = probe.ts.parseType(packet, pmt.pid)) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0)), endLoop) break;
+                            if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && pusi && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0)), endLoop) break;
                             startIndex -= 188, endIndex -= 188;
                             continue;
                         }
