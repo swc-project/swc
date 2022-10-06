@@ -124,7 +124,7 @@ impl Mark {
     /// The mark of the theoretical expansion that generates freshly parsed,
     /// unexpanded AST.
     #[inline]
-    pub fn root() -> Self {
+    pub const fn root() -> Self {
         Mark(0)
     }
 
