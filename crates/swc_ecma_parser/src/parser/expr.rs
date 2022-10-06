@@ -806,7 +806,7 @@ impl<I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if will_expect_colon_for_cond && !is_one_of!(p, ':', ';', ',', ')') {
+                if will_expect_colon_for_cond && !is!(p, ':') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
