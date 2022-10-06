@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.76.9"
+version = "0.76.10"
 
 [lib]
 bench = false
@@ -28,7 +28,7 @@ swc_css_minifier         = { version = "0.89.7", path = "../swc_css_minifier" }
 swc_css_parser           = { version = "0.123.6", path = "../swc_css_parser" }
 swc_ecma_ast             = { version = "0.94.4", path = "../swc_ecma_ast" }
 swc_ecma_codegen         = { version = "0.127.7", path = "../swc_ecma_codegen" }
-swc_ecma_minifier        = { version = "0.158.8", path = "../swc_ecma_minifier" }
+swc_ecma_minifier        = { version = "0.158.9", path = "../swc_ecma_minifier" }
 swc_ecma_parser          = { version = "0.122.5", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.111.13", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit           = { version = "0.80.4", path = "../swc_ecma_visit" }
