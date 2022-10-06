@@ -13,6 +13,12 @@
 
 - **(common)** Make `Mark::root` const fn (#6072) ([047da86](https://github.com/swc-project/swc/commit/047da86baa76198fe8e1b750ffd623348d4f8773))
 
+### Performance
+
+
+
+- **(es/minifier)** Remove double-visit of DCE (#6069) ([e88c1c0](https://github.com/swc-project/swc/commit/e88c1c04e1e399c31c7f375ac183fcf4fa11a4f9))
+
 ## [1.3.5] - 2022-10-06
 
 ### Bug Fixes
