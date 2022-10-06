@@ -772,18 +772,6 @@ impl<I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
-        fn cannot_be_pattern(e: &Expr) -> bool {
-            match e {
-                Expr::Bin(..) => true,
-                _ => false,
-            }
-        }
-
-        let cannot_be_pattern = paren_items.iter().any(|item| match item {
-            PatOrExprOrSpread::ExprOrSpread(e) => cannot_be_pattern(&e.expr),
-            PatOrExprOrSpread::Pat(_) => false,
-        });
-
         let will_expect_colon_for_cond = self.ctx().will_expect_colon_for_cond;
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
@@ -829,7 +817,6 @@ impl<I: Tokens> Parser<I> {
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
-            && !cannot_be_pattern
         {
             Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
         } else {
