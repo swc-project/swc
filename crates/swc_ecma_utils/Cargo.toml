@@ -20,7 +20,7 @@ bench = false
 concurrent = ["swc_common/concurrent", "rayon"]
 
 [dependencies]
-indexmap = "1"
+indexmap = "1.6.1"
 num_cpus = "1.13.1"
 once_cell = "1.10.0"
 rayon = {version = "1.5.1", optional = true}
