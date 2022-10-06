@@ -41,6 +41,9 @@
 - **(es/minifier)** Fix infection analysis of sequential inliner (#6053) ([d65fba1](https://github.com/swc-project/swc/commit/d65fba134d50609543c1d1ef0dc07db9891913ac))
 
 
+- **(es/minifier)** Mark `delete` as a property mutation (#6063) ([38df597](https://github.com/swc-project/swc/commit/38df5978c14c1fd7c24c0881f7cd1c19021b3f9f))
+
+
 - **(es/renamer)** Use a separate scope for the name of `FnExpr` (#6008) ([31ffd5a](https://github.com/swc-project/swc/commit/31ffd5a01dc9a20de36c9b9606a15c42f023e72f))
 
 ### Features
