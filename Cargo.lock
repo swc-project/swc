@@ -3840,6 +3840,7 @@ version = "0.113.13"
 dependencies = [
  "ansi_term",
  "anyhow",
+ "base64 0.13.0",
  "hex",
  "serde",
  "serde_json",
