@@ -681,7 +681,7 @@ where
 /// Config for [test_fixture]. See [test_fixture] for documentation.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FixtureTestConfig {
-    /// If true,
+    /// If true, source map will be printed to the `.map` file.
     pub sourcemap: bool,
 
     /// If true, diagnostics written to [HANDLER] will be printed as a fixture,
@@ -690,30 +690,12 @@ pub struct FixtureTestConfig {
 }
 
 /// You can do `UPDATE=1 cargo test` to update fixtures.
-pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Path, output: &Path)
-where
-    P: Fold,
-{
-    test_fixture_inner(syntax, tr, input, output, false)
-}
-
-pub fn test_fixture_allowing_error<P>(
+pub fn test_fixture<P>(
     syntax: Syntax,
     tr: &dyn Fn(&mut Tester) -> P,
     input: &Path,
     output: &Path,
-) where
-    P: Fold,
-{
-    test_fixture_inner(syntax, tr, input, output, true)
-}
-
-fn test_fixture_inner<P>(
-    syntax: Syntax,
-    tr: &dyn Fn(&mut Tester) -> P,
-    input: &Path,
-    output: &Path,
-    allow_error: bool,
+    config: FixtureTestConfig,
 ) where
     P: Fold,
 {
@@ -772,7 +754,7 @@ fn test_fixture_inner<P>(
         Ok(actual_src)
     });
 
-    if allow_error {
+    if config.allow_error {
         stderr
             .compare_to_file(output.with_extension("stderr"))
             .unwrap();
