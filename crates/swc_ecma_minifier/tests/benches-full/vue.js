@@ -1427,7 +1427,7 @@
         return function() {
             watcher.teardown();
         };
-    }, Vue4 = Vue7, hookRE = /^hook:/, Vue4.prototype.$on = function(event, fn) {
+    }, hookRE = /^hook:/, (Vue4 = Vue7).prototype.$on = function(event, fn) {
         var vm = this;
         if (Array.isArray(event)) for(var i = 0, l = event.length; i < l; i++)vm.$on(event[i], fn);
         else (vm._events[event] || (vm._events[event] = [])).push(fn), hookRE.test(event) && (vm._hasHookEvent = !0);
@@ -1476,7 +1476,7 @@
             for(var i = vm._watchers.length; i--;)vm._watchers[i].teardown();
             vm._data.__ob__ && vm._data.__ob__.vmCount--, vm._isDestroyed = !0, vm.__patch__(vm._vnode, null), callHook(vm, 'destroyed'), vm.$off(), vm.$el && (vm.$el.__vue__ = null), vm.$vnode && (vm.$vnode.parent = null);
         }
-    }, Vue6 = Vue7, installRenderHelpers(Vue6.prototype), Vue6.prototype.$nextTick = function(fn) {
+    }, installRenderHelpers((Vue6 = Vue7).prototype), Vue6.prototype.$nextTick = function(fn) {
         return nextTick(fn, this);
     }, Vue6.prototype._render = function() {
         var vnode, vm = this, ref = vm.$options, render = ref.render, _parentVnode = ref._parentVnode;
@@ -2439,7 +2439,7 @@
                                     var c = oldCh[i];
                                     if (isDef(c) && sameVnode(node, c)) return i;
                                 }
-                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : (vnodeToMove = oldCh[idxInOld], sameVnode(vnodeToMove, newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx)), newStartVnode = newCh[++newStartIdx]);
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
                             oldStartIdx > oldEndIdx ? addVnodes(parentElm, isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }

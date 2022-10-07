@@ -2711,14 +2711,14 @@
                     p,
                     null
                 ];
-                var h = a.omit("height", e.box), y = a.omit("bookmark", e.props), g = f(Object.assign({}, e, {
-                    props: y,
-                    box: h,
-                    children: c
-                }));
+                var h = a.omit("height", e.box), y = a.omit("bookmark", e.props);
                 return [
                     p,
-                    g
+                    f(Object.assign({}, e, {
+                        props: y,
+                        box: h,
+                        children: c
+                    }))
                 ];
             }, r4 = function(e, t, r, n) {
                 return r2({
@@ -2745,7 +2745,7 @@
                     var o = r8(e.children[i], n, t);
                     o = r5(o), n += o.length, r = r.concat(o);
                 }
-                return r = r.map(function() {
+                return rV(r = r.map(function() {
                     for(var e, r = arguments.length, n = Array(r), i = 0; i < r; i++)n[i] = arguments[i];
                     return e = r4.apply(void 0, [
                         t
@@ -2753,7 +2753,7 @@
                         "subPageNumber",
                         "subPageTotalPages"
                     ], e);
-                }), rV(r, e);
+                }), e);
             }, r7 = function(e) {
                 return function(t) {
                     var r = a.matchPercent(t);
@@ -9361,7 +9361,7 @@
             }
             e.exports = function(e, t, r) {
                 return e = function(e) {
-                    for(e = i(e, 1e7), e = o(e, -10000000); e < 0;)e += 360;
+                    for(e = o(e = i(e, 1e7), -10000000); e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
                 }(e), t = o(i(t, 100), 0), r = o(i(r, 100), 0), "#" + n(e, t /= 100, r /= 100).map(function(e) {
@@ -24774,17 +24774,17 @@
                     enqueueSetState: function(e, t, r) {
                         e = e._reactInternalFiber;
                         var n = nZ(), i = tU.suspense;
-                        n = nX(n, e, i), (i = tP(n, i)).payload = t, null != r && (i.callback = r), tR(e, i), nJ(e, n);
+                        (i = tP(n = nX(n, e, i), i)).payload = t, null != r && (i.callback = r), tR(e, i), nJ(e, n);
                     },
                     enqueueReplaceState: function(e, t, r) {
                         e = e._reactInternalFiber;
                         var n = nZ(), i = tU.suspense;
-                        n = nX(n, e, i), (i = tP(n, i)).tag = 1, i.payload = t, null != r && (i.callback = r), tR(e, i), nJ(e, n);
+                        (i = tP(n = nX(n, e, i), i)).tag = 1, i.payload = t, null != r && (i.callback = r), tR(e, i), nJ(e, n);
                     },
                     enqueueForceUpdate: function(e, t) {
                         e = e._reactInternalFiber;
                         var r = nZ(), n = tU.suspense;
-                        r = nX(r, e, n), (n = tP(r, n)).tag = 2, null != t && (n.callback = t), tR(e, n), nJ(e, r);
+                        (n = tP(r = nX(r, e, n), n)).tag = 2, null != t && (n.callback = t), tR(e, n), nJ(e, r);
                     }
                 };
                 function tq(e, t, r, n, i, o, a) {
@@ -24991,7 +24991,7 @@
                         if (m && tY(u, s), void 0 === s && !b) switch(u.tag){
                             case 1:
                             case 0:
-                                throw u = u.type, Error(d(152, u.displayName || u.name || "Component"));
+                                throw Error(d(152, (u = u.type).displayName || u.name || "Component"));
                         }
                         return r(u, l);
                     };
@@ -25607,7 +25607,7 @@
                     if (0 !== n && n8(n), t.childExpirationTime < r) return null;
                     if (null !== e && t.child !== e.child) throw Error(d(153));
                     if (null !== t.child) {
-                        for(e = t.child, r = iy(e, e.pendingProps, e.expirationTime), t.child = r, r.return = t; null !== e.sibling;)e = e.sibling, (r = r.sibling = iy(e, e.pendingProps, e.expirationTime)).return = t;
+                        for(r = iy(e = t.child, e.pendingProps, e.expirationTime), t.child = r, r.return = t; null !== e.sibling;)e = e.sibling, (r = r.sibling = iy(e, e.pendingProps, e.expirationTime)).return = t;
                         r.sibling = null;
                     }
                     return t.child;
@@ -25630,10 +25630,7 @@
                         r.sibling.return = r.return, r = r.sibling;
                     }
                 }, o = function() {}, a = function(e, t, r, n, i) {
-                    if ((e = e.memoizedProps) !== n) {
-                        var o = t.stateNode;
-                        r = G(o, r, e, n, i, t4(t1.current)), (t.updateQueue = r) && nr(t);
-                    }
+                    (e = e.memoizedProps) !== n && (r = G(t.stateNode, r, e, n, i, t4(t1.current)), (t.updateQueue = r) && nr(t));
                 }, u = function(e, t, r, n) {
                     r !== n && nr(t);
                 };
@@ -26369,9 +26366,7 @@
                         var t = nA.alternate;
                         if (e = nA.return, 0 == (2048 & nA.effectTag)) {
                             e: {
-                                var r = t;
-                                t = nA;
-                                var n = nk, l = t.pendingProps;
+                                var r = t, n = nk, l = (t = nA).pendingProps;
                                 switch(t.tag){
                                     case 2:
                                     case 16:
@@ -26903,7 +26898,7 @@
                         case 9:
                             return i = t.type, n = (o = t.pendingProps).children, tA(t, r), i = tk(i, o.unstable_observedBits), n = n(i), t.effectTag |= 1, rK(e, t, n, r), t.child;
                         case 14:
-                            return i = t.type, o = tv(i, t.pendingProps), o = tv(i.type, o), r$(e, t, i, o, n, r);
+                            return o = tv(i = t.type, t.pendingProps), o = tv(i.type, o), r$(e, t, i, o, n, r);
                         case 15:
                             return r0(e, t, t.type, t.pendingProps, n, r);
                         case 17:

@@ -8958,8 +8958,8 @@
                             (function(redoStack, deltaSets) {
                                 for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)!function(redoStack, d) {
                                     var d1;
-                                    d1 = d, d = {
-                                        start: clonePos(d1.start),
+                                    d = {
+                                        start: clonePos((d1 = d).start),
                                         end: clonePos(d1.end),
                                         action: d1.action,
                                         lines: d1.lines.slice()

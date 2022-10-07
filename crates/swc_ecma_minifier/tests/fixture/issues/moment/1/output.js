@@ -801,7 +801,7 @@
             }
             for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
-        }(config) : format ? configFromStringAndFormat(config) : (input = (config1 = config)._i, isUndefined(input) ? config1._d = new Date(hooks.now()) : isDate(input) ? config1._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
+        }(config) : format ? configFromStringAndFormat(config) : isUndefined(input = (config1 = config)._i) ? config1._d = new Date(hooks.now()) : isDate(input) ? config1._d = new Date(input.valueOf()) : "string" == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
             if (null !== matched) {
                 config._d = new Date(+matched[1]);
@@ -825,7 +825,7 @@
                     return obj && parseInt(obj, 10);
                 }), configFromArray(config);
             }
-        }(config1) : isNumber(input) ? config1._d = new Date(input) : hooks.createFromInputFallback(config1)), isValid(config) || (config._d = null), config);
+        }(config1) : isNumber(input) ? config1._d = new Date(input) : hooks.createFromInputFallback(config1), isValid(config) || (config._d = null), config);
     }
     function createLocalOrUTC(input, format, locale, strict, isUTC) {
         var res, c = {};

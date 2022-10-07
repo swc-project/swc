@@ -942,8 +942,8 @@
                     }
                 }
                 return !!isSameTag && (stack || (stack = new Stack), function(object, other, bitmask, customizer, equalFunc, stack) {
-                    var isPartial = 1 & bitmask, objProps = getAllKeys(object), objLength = objProps.length, othLength = getAllKeys(other).length;
-                    if (objLength != othLength && !isPartial) return !1;
+                    var isPartial = 1 & bitmask, objProps = getAllKeys(object), objLength = objProps.length;
+                    if (objLength != getAllKeys(other).length && !isPartial) return !1;
                     for(var index = objLength; index--;){
                         var key = objProps[index];
                         if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) return !1;
@@ -1503,8 +1503,8 @@
             var func = Math[methodName];
             return function(number, precision) {
                 if (number = toNumber(number), (precision = null == precision ? 0 : nativeMin(toInteger(precision), 292)) && nativeIsFinite(number)) {
-                    var pair = (toString(number) + 'e').split('e'), value = func(pair[0] + 'e' + (+pair[1] + precision));
-                    return +((pair = (toString(value) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
+                    var pair = (toString(number) + 'e').split('e');
+                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
                 }
                 return func(number);
             };

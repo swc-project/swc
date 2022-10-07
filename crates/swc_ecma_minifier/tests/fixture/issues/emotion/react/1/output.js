@@ -513,7 +513,7 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var serializer = (collection = [
+                var serializer = (length = Utility_sizeof(collection = [
                     compat,
                     removeLabel
                 ].concat(stylisPlugins, [
@@ -523,7 +523,7 @@
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
                     })
-                ]), length = Utility_sizeof(collection), function(element, index, children, callback) {
+                ])), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {

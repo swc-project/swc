@@ -6918,11 +6918,11 @@
     function clipPointsByRect(points, rect) {
         return map(points, function(point) {
             var x = point[0];
-            x = mathMax$4(x, rect.x), x = mathMin$4(x, rect.x + rect.width);
+            x = mathMin$4(x = mathMax$4(x, rect.x), rect.x + rect.width);
             var y = point[1];
-            return y = mathMax$4(y, rect.y), [
+            return [
                 x,
-                y = mathMin$4(y, rect.y + rect.height)
+                y = mathMin$4(y = mathMax$4(y, rect.y), rect.y + rect.height)
             ];
         });
     }
@@ -8616,7 +8616,7 @@
                             var extraOpt = extend({
                                 componentIndex: index
                             }, resultItem.keyInfo);
-                            componentModel = new ComponentModelClass(newCmptOption, this, this, extraOpt), extend(componentModel, extraOpt), resultItem.brandNew && (componentModel.__requireNewView = !0), componentModel.init(newCmptOption, this, this), componentModel.optionUpdated(null, !0);
+                            extend(componentModel = new ComponentModelClass(newCmptOption, this, this, extraOpt), extraOpt), resultItem.brandNew && (componentModel.__requireNewView = !0), componentModel.init(newCmptOption, this, this), componentModel.optionUpdated(null, !0);
                         }
                     } else componentModel && (componentModel.mergeOption({}, this), componentModel.optionUpdated({}, !1));
                     componentModel ? (optionsByMainType.push(componentModel.option), cmptsByMainType.push(componentModel), cmptsCountByMainType++) : (optionsByMainType.push(void 0), cmptsByMainType.push(void 0));
@@ -11730,7 +11730,7 @@
             repeat: 'repeat'
         };
         return function(pattern) {
-            for(var dash, cacheKey, ctx, keys = [
+            for(var cacheKey, ctx, keys = [
                 dpr
             ], isValidKey = !0, i = 0; i < decalKeys.length; ++i){
                 var value = decalOpt[decalKeys[i]], valueType = typeof value;
@@ -11819,9 +11819,9 @@
                     symbol[i]
                 ]) : result.push(symbol[i]);
                 return result;
-            }(decalOpt.symbol), lineBlockLengthsX = (dash = dashArrayX, map(dash, function(line) {
+            }(decalOpt.symbol), lineBlockLengthsX = map(dashArrayX, function(line) {
                 return getLineBlockLengthY(line);
-            })), lineBlockLengthY = getLineBlockLengthY(dashArrayY), canvas = !isSVG && createCanvas(), svgRoot = isSVG && zr.painter.createSVGElement('g'), pSize = function() {
+            }), lineBlockLengthY = getLineBlockLengthY(dashArrayY), canvas = !isSVG && createCanvas(), svgRoot = isSVG && zr.painter.createSVGElement('g'), pSize = function() {
                 for(var width = 1, i = 0, xlen = lineBlockLengthsX.length; i < xlen; ++i)width = getLeastCommonMultiple(width, lineBlockLengthsX[i]);
                 for(var symbolRepeats = 1, i = 0, xlen = symbolArray.length; i < xlen; ++i)symbolRepeats = getLeastCommonMultiple(symbolRepeats, symbolArray[i].length);
                 width *= symbolRepeats;
@@ -20870,7 +20870,8 @@
         return __extends(RadarView, _super), RadarView.prototype.render = function(radarModel, ecModel, api) {
             this.group.removeAll(), this._buildAxes(radarModel), this._buildSplitLineAndArea(radarModel);
         }, RadarView.prototype._buildAxes = function(radarModel) {
-            var radar = radarModel.coordinateSystem, axisBuilders = map(radar.getIndicatorAxes(), function(indicatorAxis) {
+            var radar = radarModel.coordinateSystem;
+            each(map(radar.getIndicatorAxes(), function(indicatorAxis) {
                 return new AxisBuilder(indicatorAxis.model, {
                     position: [
                         radar.cx,
@@ -20881,8 +20882,7 @@
                     tickDirection: -1,
                     nameDirection: 1
                 });
-            });
-            each(axisBuilders, function(axisBuilder) {
+            }), function(axisBuilder) {
                 each(axisBuilderAttrs$1, axisBuilder.add, axisBuilder), this.group.add(axisBuilder.getGroup());
             }, this);
         }, RadarView.prototype._buildSplitLineAndArea = function(radarModel) {
@@ -21514,8 +21514,7 @@
                 var name_2 = data.getName(i);
                 dataNameMap.set(name_2, !0);
             }
-            var geoSource = geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty);
-            return each(geoSource.regions, function(region) {
+            return each(geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || toAppendNames.push(name);
             }), data.appendValues([], toAppendNames), data;
@@ -21848,7 +21847,7 @@
                 geo.zoomLimit = retrieve.apply(null, map(mapSeries, function(singleMapSeries) {
                     return singleMapSeries.get('scaleLimit');
                 })), geoList.push(geo), geo.resize = resizeGeo, geo.resize(mapSeries[0], api), each(mapSeries, function(singleMapSeries) {
-                    var geo1, model;
+                    var geo1;
                     singleMapSeries.coordinateSystem = geo, each(singleMapSeries.get('geoCoord'), function(geoCoord, name) {
                         geo.addGeoCoord(name, geoCoord);
                     });
@@ -21856,8 +21855,7 @@
             }), geoList;
         }, GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
-            var source = geoSourceManager.load(mapName, nameMap, nameProperty);
-            return each(source.regions, function(region) {
+            return each(geoSourceManager.load(mapName, nameMap, nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || regionsArr.push({
                     name: name
@@ -24515,10 +24513,10 @@
             return _this._createLine(lineData, idx, seriesScope), _this;
         }
         return __extends(Line, _super), Line.prototype._createLine = function(lineData, idx, seriesScope) {
-            var points, line, seriesModel = lineData.hostModel, line1 = (points = lineData.getItemLayout(idx), line = new ECLinePath({
+            var points, line, seriesModel = lineData.hostModel, line1 = (points = lineData.getItemLayout(idx), setLinePoints((line = new ECLinePath({
                 name: 'line',
                 subPixelOptimize: !0
-            }), setLinePoints(line.shape, points), line);
+            })).shape, points), line);
             line1.shape.percent = 0, initProps(line1, {
                 shape: {
                     percent: 1
@@ -26000,8 +25998,7 @@
         }, ParallelView.prototype.render = function(seriesModel, ecModel, api, payload) {
             var dataGroup = this._dataGroup, data = seriesModel.getData(), oldData = this._data, coordSys = seriesModel.coordinateSystem, dimensions = coordSys.dimensions, seriesScope = makeSeriesScope$2(seriesModel);
             if (data.diff(oldData).add(function(newDataIndex) {
-                var line = addEl(data, dataGroup, newDataIndex, dimensions, coordSys);
-                updateElCommon(line, data, newDataIndex, seriesScope);
+                updateElCommon(addEl(data, dataGroup, newDataIndex, dimensions, coordSys), data, newDataIndex, seriesScope);
             }).update(function(newDataIndex, oldDataIndex) {
                 var line = oldData.getItemGraphicEl(oldDataIndex), points = createLinePoints(data, newDataIndex, dimensions, coordSys);
                 data.setItemGraphicEl(newDataIndex, line), updateProps(line, {
@@ -27348,14 +27345,14 @@
                 }, el.draggable = !0, el.cursor = 'move');
             }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), seriesModel1 = seriesModel, cb = function() {
                 group.removeClipPath();
-            }, rectEl = new Rect({
+            }, initProps(rectEl = new Rect({
                 shape: {
                     x: rect.x - 10,
                     y: rect.y - 10,
                     width: 0,
                     height: rect.height + 20
                 }
-            }), initProps(rectEl, {
+            }), {
                 shape: {
                     width: rect.width + 20
                 }
@@ -29569,14 +29566,14 @@
                         z2: 0
                     }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), seriesModel1 = seriesModel, cb = function() {
                         polygon.removeClipPath();
-                    }, rectEl = new Rect({
+                    }, initProps(rectEl = new Rect({
                         shape: {
                             x: rect.x - 10,
                             y: rect.y - 10,
                             width: 0,
                             height: rect.height + 20
                         }
-                    }), initProps(rectEl, {
+                    }), {
                         shape: {
                             x: rect.x - 50,
                             width: rect.width + 100,
@@ -30306,7 +30303,7 @@
                 newArray1,
                 newArray2
             ];
-        }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy)), fromBezierCurves = _a[0], toBezierCurves = _a[1];
+        }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
         !function(path, morphingData, morphT) {
             if (isIndividualMorphingPath(path)) {
                 updateIndividualMorphingPath(path, morphingData, morphT);
@@ -30358,7 +30355,7 @@
                 });
             }
             return result;
-        }(fromBezierCurves, toBezierCurves, 10, Math.PI), 0);
+        }(_a[0], _a[1], 10, Math.PI), 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
         return toPath.animateTo({
             __morphT: 1
@@ -30790,8 +30787,8 @@
                 width: shape.width,
                 height: shape.height
             } : null, pathData = getPathData(shape);
-            el = makePath(pathData, null, pathRect, shape.layout || 'center'), inner$9(el).customPathData = pathData;
-        } else if ('image' === graphicType) el = new ZRImage({}), inner$9(el).customImagePath = elOption.style.image;
+            inner$9(el = makePath(pathData, null, pathRect, shape.layout || 'center')).customPathData = pathData;
+        } else if ('image' === graphicType) inner$9(el = new ZRImage({})).customImagePath = elOption.style.image;
         else if ('text' === graphicType) el = new ZRText({});
         else if ('group' === graphicType) el = new Group();
         else if ('compoundPath' === graphicType) throw Error('"compoundPath" is not supported yet.');
@@ -34273,7 +34270,7 @@
                 'end'
             ], function(prop, idx) {
                 var boundPercent = opt[prop], boundValue = opt[prop + 'Value'];
-                'percent' === rangePropMode[idx] ? (null == boundPercent && (boundPercent = percentExtent[idx]), boundValue = scale.parse(linearMap(boundPercent, percentExtent, dataExtent))) : (hasPropModeValue = !0, boundValue = null == boundValue ? dataExtent[idx] : scale.parse(boundValue), boundPercent = linearMap(boundValue, dataExtent, percentExtent)), valueWindow[idx] = boundValue, percentWindow[idx] = boundPercent;
+                'percent' === rangePropMode[idx] ? (null == boundPercent && (boundPercent = percentExtent[idx]), boundValue = scale.parse(linearMap(boundPercent, percentExtent, dataExtent))) : (hasPropModeValue = !0, boundPercent = linearMap(boundValue = null == boundValue ? dataExtent[idx] : scale.parse(boundValue), dataExtent, percentExtent)), valueWindow[idx] = boundValue, percentWindow[idx] = boundPercent;
             }), asc(valueWindow), asc(percentWindow);
             var spans = this._minMaxSpan;
             function restrictSet(fromWindow, toWindow, fromExtent, toExtent, toValue) {
@@ -34405,7 +34402,7 @@
     function installCommon(registers) {
         !installed && (installed = !0, registers.registerProcessor(registers.PRIORITY.PROCESSOR.FILTER, dataZoomProcessor), function(registers) {
             registers.registerAction('dataZoom', function(payload, ecModel) {
-                var effectedModels = function(ecModel, payload) {
+                each(function(ecModel, payload) {
                     var foundNewLink, axisRecords = createHashMap(), effectedModels = [], effectedModelMap = createHashMap();
                     ecModel.eachComponent({
                         mainType: 'dataZoom',
@@ -34430,8 +34427,7 @@
                         }(dataZoom);
                     }
                     return effectedModels;
-                }(ecModel, payload);
-                each(effectedModels, function(dataZoomModel) {
+                }(ecModel, payload), function(dataZoomModel) {
                     dataZoomModel.setRawRange({
                         start: payload.start,
                         end: payload.end,
@@ -36839,12 +36835,11 @@
             if (this.model = timelineModel, this.api = api, this.ecModel = ecModel, this.group.removeAll(), timelineModel.get('show', !0)) {
                 var layoutInfo_1 = this._layout(timelineModel, api), mainGroup_1 = this._createGroup('_mainGroup'), labelGroup = this._createGroup('_labelGroup'), axis_1 = this._axis = this._createAxis(layoutInfo_1, timelineModel);
                 timelineModel.formatTooltip = function(dataIndex) {
-                    var name = axis_1.scale.getLabel({
-                        value: dataIndex
-                    });
                     return createTooltipMarkup('nameValue', {
                         noName: !0,
-                        value: name
+                        value: axis_1.scale.getLabel({
+                            value: dataIndex
+                        })
                     });
                 }, each([
                     'AxisLine',
@@ -37394,7 +37389,7 @@
     };
     function dataTransform(seriesModel, item) {
         var item1, data = seriesModel.getData(), coordSys = seriesModel.coordinateSystem;
-        if (item && (item1 = item, isNaN(parseFloat(item1.x)) || isNaN(parseFloat(item1.y))) && !isArray(item.coord) && coordSys) {
+        if (item && !(!isNaN(parseFloat((item1 = item).x)) && !isNaN(parseFloat(item1.y))) && !isArray(item.coord) && coordSys) {
             var dims = coordSys.dimensions, axisInfo = getAxisInfo$1(item, data, coordSys, seriesModel);
             if ((item = clone(item)).type && markerTypeCalculator[item.type] && axisInfo.baseAxis && axisInfo.valueAxis) {
                 var otherCoordIndex = indexOf(dims, axisInfo.baseAxis.dim), targetCoordIndex = indexOf(dims, axisInfo.valueAxis.dim), coordInfo = markerTypeCalculator[item.type](data, axisInfo.baseDataDim, axisInfo.valueDataDim, otherCoordIndex, targetCoordIndex);
@@ -38745,8 +38740,7 @@
                     mainType: 'dataZoom',
                     subType: 'inside'
                 }, function(dataZoomModel) {
-                    var dzReferCoordSysWrap = collectReferCoordSysModelInfo(dataZoomModel);
-                    each(dzReferCoordSysWrap.infoList, function(dzCoordSysInfo) {
+                    each(collectReferCoordSysModelInfo(dataZoomModel).infoList, function(dzCoordSysInfo) {
                         var api1, coordSysModel, coordSysRecord, controller, coordSysUid = dzCoordSysInfo.model.uid, coordSysRecord1 = coordSysRecordMap.get(coordSysUid) || coordSysRecordMap.set(coordSysUid, (controller = (coordSysRecord = {
                             model: coordSysModel = dzCoordSysInfo.model,
                             containsPoint: curry(containsPoint, coordSysModel),

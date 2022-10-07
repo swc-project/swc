@@ -2250,7 +2250,7 @@
         return 0 !== idleLanes ? (return_highestLanePriority = 2, idleLanes) : (1073741824 & lanes) != 0 ? (return_highestLanePriority = 1, 1073741824) : (error("Should have found matching lanes. This is a bug in React."), return_highestLanePriority = 8, lanes);
     }
     function getNextLanes(root, wipLanes) {
-        var lanes, index, pendingLanes = root.pendingLanes;
+        var index, pendingLanes = root.pendingLanes;
         if (0 === pendingLanes) return return_highestLanePriority = 0, 0;
         var nextLanes = 0, nextLanePriority = 0, expiredLanes = root.expiredLanes, suspendedLanes = root.suspendedLanes, pingedLanes = root.pingedLanes;
         if (0 !== expiredLanes) nextLanes = expiredLanes, nextLanePriority = return_highestLanePriority = 15;
@@ -2269,16 +2269,16 @@
             }
         }
         if (0 === nextLanes) return 0;
-        if (nextLanes = pendingLanes & (lanes = nextLanes, (((index = 31 - clz32(lanes)) < 0 ? 0 : 1 << index) << 1) - 1), 0 !== wipLanes && wipLanes !== nextLanes && (wipLanes & suspendedLanes) == 0) {
+        if (nextLanes = pendingLanes & (((index = 31 - clz32(nextLanes)) < 0 ? 0 : 1 << index) << 1) - 1, 0 !== wipLanes && wipLanes !== nextLanes && (wipLanes & suspendedLanes) == 0) {
             getHighestPriorityLanes(wipLanes);
             var wipLanePriority = return_highestLanePriority;
             if (nextLanePriority <= wipLanePriority) return wipLanes;
             return_highestLanePriority = nextLanePriority;
         }
         var entangledLanes = root.entangledLanes;
-        if (0 !== entangledLanes) for(var entanglements = root.entanglements, lanes1 = nextLanes & entangledLanes; lanes1 > 0;){
-            var index1 = pickArbitraryLaneIndex(lanes1), lane = 1 << index1;
-            nextLanes |= entanglements[index1], lanes1 &= ~lane;
+        if (0 !== entangledLanes) for(var entanglements = root.entanglements, lanes = nextLanes & entangledLanes; lanes > 0;){
+            var index1 = pickArbitraryLaneIndex(lanes), lane = 1 << index1;
+            nextLanes |= entanglements[index1], lanes &= ~lane;
         }
         return nextLanes;
     }
@@ -2804,7 +2804,7 @@
             } catch (err) {
                 return !1;
             }
-        }(element);)win = element.contentWindow, element = getActiveElement(win.document);
+        }(element);)element = getActiveElement((win = element.contentWindow).document);
         return element;
     }
     function hasSelectionCapabilities(elem) {
@@ -6352,10 +6352,10 @@
                 return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, fallbackFragment;
             }
             if ("number" != typeof nextProps.unstable_expectedLoadTime) {
-                return workInProgress2 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes2 = renderLanes, mode = workInProgress2.mode, (primaryChildFragment = createFiberFromOffscreen({
+                return workInProgress2 = workInProgress, primaryChildren = nextPrimaryChildren, renderLanes2 = renderLanes, (primaryChildFragment = createFiberFromOffscreen({
                     mode: "visible",
                     children: primaryChildren
-                }, mode, renderLanes2, null)).return = workInProgress2, workInProgress2.child = primaryChildFragment, primaryChildFragment;
+                }, mode = workInProgress2.mode, renderLanes2, null)).return = workInProgress2, workInProgress2.child = primaryChildFragment, primaryChildFragment;
             }
             var _fallbackFragment = mountSuspenseFallbackChildren(workInProgress, nextPrimaryChildren, nextFallbackChildren, renderLanes);
             return workInProgress.child.memoizedState = mountSuspenseOffscreenState(renderLanes), workInProgress.memoizedState = SUSPENDED_MARKER, workInProgress.lanes = 33554432, markSpawnedWork(33554432), _fallbackFragment;
@@ -6643,7 +6643,7 @@
                         case 0:
                             return validateFunctionComponentInDev(workInProgress, Component), workInProgress.type = Component = resolveFunctionForHotReloading(Component), updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 1:
-                            return workInProgress.type = (type = Component, Component = resolveFunctionForHotReloading(type)), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = Component = resolveFunctionForHotReloading(type = Component), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 11:
                             return workInProgress.type = Component = resolveForwardRefForHotReloading(Component), updateForwardRef(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 14:
@@ -8827,7 +8827,7 @@
         return !!(prototype && prototype.isReactComponent);
     }
     function createWorkInProgress(current, pendingProps) {
-        var type, workInProgress = current.alternate;
+        var workInProgress = current.alternate;
         null === workInProgress ? ((workInProgress = createFiber(current.tag, pendingProps, current.key, current.mode)).elementType = current.elementType, workInProgress.type = current.type, workInProgress.stateNode = current.stateNode, workInProgress._debugID = current._debugID, workInProgress._debugSource = current._debugSource, workInProgress._debugOwner = current._debugOwner, workInProgress._debugHookTypes = current._debugHookTypes, workInProgress.alternate = current, current.alternate = workInProgress) : (workInProgress.pendingProps = pendingProps, workInProgress.type = current.type, workInProgress.flags = 0, workInProgress.nextEffect = null, workInProgress.firstEffect = null, workInProgress.lastEffect = null, workInProgress.actualDuration = 0, workInProgress.actualStartTime = -1), workInProgress.childLanes = current.childLanes, workInProgress.lanes = current.lanes, workInProgress.child = current.child, workInProgress.memoizedProps = current.memoizedProps, workInProgress.memoizedState = current.memoizedState, workInProgress.updateQueue = current.updateQueue;
         var currentDependencies = current.dependencies;
         switch(workInProgress.dependencies = null === currentDependencies ? null : {
@@ -8837,10 +8837,8 @@
             case 2:
             case 0:
             case 15:
-                workInProgress.type = resolveFunctionForHotReloading(current.type);
-                break;
             case 1:
-                workInProgress.type = (type = current.type, resolveFunctionForHotReloading(type));
+                workInProgress.type = resolveFunctionForHotReloading(current.type);
                 break;
             case 11:
                 workInProgress.type = resolveForwardRefForHotReloading(current.type);
@@ -8848,8 +8846,8 @@
         return workInProgress;
     }
     function createFiberFromTypeAndProps(type, key, pendingProps, owner, mode, lanes) {
-        var pendingProps1, mode1, lanes1, key1, fiber, pendingProps2, mode2, lanes2, fiber1, pendingProps3, mode3, lanes3, fiber2, pendingProps4, mode4, lanes4, fiber3, type1, fiberTag = 2, resolvedType = type;
-        if ("function" == typeof type) shouldConstruct$1(type) ? (fiberTag = 1, type1 = resolvedType, resolvedType = resolveFunctionForHotReloading(type1)) : resolvedType = resolveFunctionForHotReloading(resolvedType);
+        var pendingProps1, mode1, lanes1, key1, fiber, pendingProps2, mode2, lanes2, fiber1, pendingProps3, mode3, lanes3, fiber2, pendingProps4, mode4, lanes4, fiber3, fiberTag = 2, resolvedType = type;
+        if ("function" == typeof type) shouldConstruct$1(type) && (fiberTag = 1), resolvedType = resolveFunctionForHotReloading(resolvedType);
         else if ("string" == typeof type) fiberTag = 5;
         else getTag: switch(type){
             case REACT_FRAGMENT_TYPE:

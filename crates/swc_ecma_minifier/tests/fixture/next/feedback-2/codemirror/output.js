@@ -1381,7 +1381,7 @@
                     var coords = cursorCoords(cm, Pos(lineNo, ch, sticky), "line", lineObj, preparedMeasure);
                     baseX = coords.left, outside = y < coords.top ? -1 : y >= coords.bottom ? 1 : 0;
                 }
-                return ch = skipExtendingChars(lineObj.text, ch, 1), PosWithInfo(lineNo, ch, sticky, outside, x - baseX);
+                return PosWithInfo(lineNo, ch = skipExtendingChars(lineObj.text, ch, 1), sticky, outside, x - baseX);
             }(cm, lineObj, lineN, x, y), collapsed = function(line, ch) {
                 var found, sps = sawCollapsedSpans && line.markedSpans;
                 if (sps) for(var i = 0; i < sps.length; ++i){
@@ -1608,8 +1608,8 @@
                             return charCoords(cm, Pos(line, ch), "div", lineObj, bias);
                         }
                         function wrapX(pos, dir, side) {
-                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right", ch = "after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
-                            return coords(ch, prop)[prop];
+                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right";
+                            return coords("after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1), prop)[prop];
                         }
                         var order = getOrder(lineObj, doc.direction);
                         return !function(order, from, to, f) {

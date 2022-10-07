@@ -397,7 +397,7 @@
             t(C, v), C.prototype[B] = !0, C.prototype.removeEventListener = function(a, b, c, d) {
                 !function nb(a, b, c, d, e) {
                     if (Array.isArray(b)) for(var f = 0; f < b.length; f++)nb(a, b[f], c, d, e);
-                    else (d = p(d) ? !!d.capture : !!d, c = hb(c), a && a[B]) ? (a = a.i, (b = String(b).toString()) in a.g && (f = a.g[b], -1 < (c = ab(f, c, d, e)) && (Za(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.h--)))) : a && (a = jb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ab(b, c, d, e)), (c = -1 < a ? b[a] : null) && ob(c));
+                    else (d = p(d) ? !!d.capture : !!d, c = hb(c), a && a[B]) ? (a = a.i, (b = String(b).toString()) in a.g && -1 < (c = ab(f = a.g[b], c, d, e)) && (Za(f[c]), Array.prototype.splice.call(f, c, 1), 0 == f.length && (delete a.g[b], a.h--))) : a && (a = jb(a)) && (b = a.g[b.toString()], a = -1, b && (a = ab(b, c, d, e)), (c = -1 < a ? b[a] : null) && ob(c));
                 }(this, a, b, c, d);
             }, C.prototype.M = function() {
                 if (C.Z.M.call(this), this.i) {
@@ -1281,12 +1281,12 @@
                 let b1;
                 a: {
                     for(d in c){
-                        var a1, d = !1;
+                        var d = !1;
                         break a;
                     }
                     d = !0;
                 }
-                d || (a1 = c, b1 = "", xa(a1, function(c, d) {
+                d || (b1 = "", xa(c, function(c, d) {
                     b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
                 }), c = b1, "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
             }

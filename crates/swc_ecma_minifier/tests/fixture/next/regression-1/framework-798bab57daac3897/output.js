@@ -3533,7 +3533,7 @@
                 if (null !== a && (b.dependencies = a.dependencies), Fg |= b.lanes, 0 == (c & b.childLanes)) return null;
                 if (null !== a && b.child !== a.child) throw Error(p(153));
                 if (null !== b.child) {
-                    for(a = b.child, c = th(a, a.pendingProps), b.child = c, c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = th(a, a.pendingProps)).return = b;
+                    for(c = th(a = b.child, a.pendingProps), b.child = c, c.return = b; null !== a.sibling;)a = a.sibling, (c = c.sibling = th(a, a.pendingProps)).return = b;
                     c.sibling = null;
                 }
                 return b.child;
@@ -5367,7 +5367,7 @@
                     case 9:
                         return e = b.type, d = b.pendingProps.children, sg(b, c), e = ug(e), d = d(e), b.flags |= 1, ej(a, b, d, c), b.child;
                     case 14:
-                        return d = b.type, e = kg(d, b.pendingProps), e = kg(d.type, e), hj(a, b, d, e, c);
+                        return e = kg(d = b.type, b.pendingProps), e = kg(d.type, e), hj(a, b, d, e, c);
                     case 15:
                         return jj(a, b, b.type, b.pendingProps, c);
                     case 17:

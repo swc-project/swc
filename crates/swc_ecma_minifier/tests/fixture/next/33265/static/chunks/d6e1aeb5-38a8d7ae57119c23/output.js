@@ -3138,7 +3138,7 @@
                     var mouseVolumeLevelDisplay = this.getChild("mouseVolumeLevelDisplay");
                     if (mouseVolumeLevelDisplay) {
                         var volumeBarEl = this.el(), volumeBarRect = getBoundingClientRect(volumeBarEl), vertical = this.vertical(), volumeBarPoint = getPointerPosition(volumeBarEl, event);
-                        volumeBarPoint = vertical ? volumeBarPoint.y : volumeBarPoint.x, volumeBarPoint = clamp(volumeBarPoint, 0, 1), mouseVolumeLevelDisplay.update(volumeBarRect, volumeBarPoint, vertical);
+                        volumeBarPoint = clamp(volumeBarPoint = vertical ? volumeBarPoint.y : volumeBarPoint.x, 0, 1), mouseVolumeLevelDisplay.update(volumeBarRect, volumeBarPoint, vertical);
                     }
                     isSingleLeftClick(event) && (this.checkMuted(), this.player_.volume(this.calculateDistance(event)));
                 }, _proto.checkMuted = function() {
@@ -3425,9 +3425,7 @@
                     }, {});
                 }, _proto.buildWrapperCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
-                    !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup";
-                    var buttonClass = Button.prototype.buildCSSClass();
-                    return "vjs-menu-button " + menuButtonClass + " " + buttonClass + " " + _Component.prototype.buildCSSClass.call(this);
+                    return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + Button.prototype.buildCSSClass() + " " + _Component.prototype.buildCSSClass.call(this);
                 }, _proto.buildCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
                     return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + _Component.prototype.buildCSSClass.call(this);
@@ -7586,7 +7584,7 @@
                 return "var browserWorkerPolyFill = " + browserWorkerPolyFill.toString() + ";\nbrowserWorkerPolyFill(self);\n" + code;
             }, getWorkerString = function(fn) {
                 return fn.toString().replace(/^function.+?{/, "").slice(0, -1);
-            }, workerCode$1 = transform(getWorkerString(function() {
+            }, TransmuxWorker = factory(transform(getWorkerString(function() {
                 var _TransportPacketStream, _TransportParseStream, _ElementaryStream, _AdtsStream, ExpGolomb, _H264Stream, _NalByteStream, PROFILES_WITH_OPTIONAL_SPS_DATA, _AacStream, _VideoSegmentStream, _AudioSegmentStream, _Transmuxer, _CoalesceStream, timescale, startTime, compositionStartTime, getVideoTrackIds, getTracks, getTimescaleFromMediaHeader, Stream = function() {
                     this.init = function() {
                         var listeners = {};
@@ -9347,9 +9345,9 @@
                         }
                     },
                     PRIV: function(tag) {
-                        var i, bytes;
+                        var i;
                         for(i = 0; i < tag.data.length; i++)if (0 === tag.data[i]) {
-                            tag.owner = (bytes = tag.data, unescape(percentEncode$1(bytes, 0, i)));
+                            tag.owner = unescape(percentEncode$1(tag.data, 0, i));
                             break;
                         }
                         tag.privateData = tag.data.subarray(i + 1), tag.data = tag.privateData;
@@ -10520,7 +10518,7 @@
                             var codecBox = findBox(sampleDescriptions, [
                                 track.codec
                             ])[0];
-                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? (codecConfig = codecBox.subarray(78), "avcC" === parseType$1(codecConfig.subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = "avc1.4d400d") : /^mp4[a,v]$/i.test(track.codec) ? (codecConfig = codecBox.subarray(28), "esds" === parseType$1(codecConfig.subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : track.codec = "mp4a.40.2") : track.codec = track.codec.toLowerCase());
+                            codecBox && (/^[asm]vc[1-9]$/i.test(track.codec) ? "avcC" === parseType$1((codecConfig = codecBox.subarray(78)).subarray(4, 8)) && codecConfig.length > 11 ? (track.codec += ".", track.codec += toHexString(codecConfig[9]), track.codec += toHexString(codecConfig[10]), track.codec += toHexString(codecConfig[11])) : track.codec = "avc1.4d400d" : /^mp4[a,v]$/i.test(track.codec) ? "esds" === parseType$1((codecConfig = codecBox.subarray(28)).subarray(4, 8)) && codecConfig.length > 20 && 0 !== codecConfig[19] ? (track.codec += "." + toHexString(codecConfig[19]), track.codec += "." + toHexString(codecConfig[20] >>> 2 & 0x3f).replace(/^0/, "")) : track.codec = "mp4a.40.2" : track.codec = track.codec.toLowerCase());
                         }
                         var mdhd = findBox(trak, [
                             "mdia",
@@ -10959,7 +10957,7 @@
                     }
                     this.messageHandlers || (this.messageHandlers = new MessageHandlers(self)), event.data && event.data.action && "init" !== event.data.action && this.messageHandlers[event.data.action] && this.messageHandlers[event.data.action](event.data);
                 };
-            })), TransmuxWorker = factory(workerCode$1), handleData_ = function(event, transmuxedData, callback) {
+            }))), handleData_ = function(event, transmuxedData, callback) {
                 var _event$data$segment = event.data.segment, type = _event$data$segment.type, initSegment = _event$data$segment.initSegment, captions = _event$data$segment.captions, captionStreams = _event$data$segment.captionStreams, metadata = _event$data$segment.metadata, videoFrameDtsTime = _event$data$segment.videoFrameDtsTime, videoFramePtsTime = _event$data$segment.videoFramePtsTime;
                 transmuxedData.buffer.push({
                     captions: captions,

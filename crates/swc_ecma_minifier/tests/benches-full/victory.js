@@ -17585,16 +17585,7 @@
                     y: -1 !== expectedKeys.indexOf("y") ? createStringMap(props, "y") : void 0,
                     y0: -1 !== expectedKeys.indexOf("y0") ? createStringMap(props, "y") : void 0
                 });
-                var data1 = preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
-                    var fallbackValues = {
-                        x: index,
-                        y: datum = parseDatum(datum)
-                    }, processedValues = expectedKeys.reduce(function(memo, type) {
-                        var processedValue = accessor[type](datum), value = void 0 !== processedValue ? processedValue : fallbackValues[type];
-                        return void 0 !== value && ("string" == typeof value && stringMap[type] ? (memo["".concat(type, "Name")] = value, memo["_".concat(type)] = stringMap[type][value]) : memo["_".concat(type)] = value), memo;
-                    }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
-                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
-                }, []), cleanedData = function(dataset, props) {
+                var cleanedData = function(dataset, props) {
                     var smallNumber = 1 / Number.MAX_SAFE_INTEGER, scaleType = {
                         x: _scale__WEBPACK_IMPORTED_MODULE_16__.default.getScaleType(props, "x"),
                         y: _scale__WEBPACK_IMPORTED_MODULE_16__.default.getScaleType(props, "y")
@@ -17613,7 +17604,16 @@
                     return dataset.map(function(datum) {
                         return rules(datum, "x") && rules(datum, "y") && rules(datum, "y0") ? datum : sanitize(datum);
                     });
-                }(sortData(data1, props.sortKey, props.sortOrder), props);
+                }(sortData(preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
+                    var fallbackValues = {
+                        x: index,
+                        y: datum = parseDatum(datum)
+                    }, processedValues = expectedKeys.reduce(function(memo, type) {
+                        var processedValue = accessor[type](datum), value = void 0 !== processedValue ? processedValue : fallbackValues[type];
+                        return void 0 !== value && ("string" == typeof value && stringMap[type] ? (memo["".concat(type, "Name")] = value, memo["_".concat(type)] = stringMap[type][value]) : memo["_".concat(type)] = value), memo;
+                    }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
+                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
+                }, []), props.sortKey, props.sortOrder), props);
                 return hasEventKeyAccessor = !!props.eventKey, key = props.eventKey, eventKeyAccessor = lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(key) ? key : null == key ? function() {} : lodash_property__WEBPACK_IMPORTED_MODULE_6___default()(key), cleanedData.map(function(datum, index) {
                     if (void 0 !== datum.eventKey || !hasEventKeyAccessor) return datum;
                     var eventKey = eventKeyAccessor(datum, index);

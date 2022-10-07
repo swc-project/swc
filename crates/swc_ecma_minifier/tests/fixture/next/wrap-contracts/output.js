@@ -1207,7 +1207,7 @@
                 }
                 _clear() {}
                 write(options, callback) {
-                    return callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options), 'open' !== this[kStatus] ? this.nextTick(callback, new ModuleError('Batch is not open: cannot call write() after write() or close()', {
+                    return callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options), 'open' !== this[kStatus] ? this.nextTick(callback, new ModuleError('Batch is not open: cannot call write() after write() or close()', {
                         code: 'LEVEL_BATCH_NOT_OPEN'
                     })) : 0 === this.length ? this.close(callback) : (this[kStatus] = 'writing', this._write(options, (err)=>{
                         this[kStatus] = 'closing', this[kCloseCallbacks].push(()=>callback(err)), err || this.db.emit('batch', this[kOperations]), this._close(this[kFinishClose]);
@@ -1268,7 +1268,7 @@
                     this.nextTick(callback);
                 }
                 nextv(size, options, callback) {
-                    return (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, emptyOptions), Number.isInteger(size)) ? (this[kClosing] ? this.nextTick(callback, new ModuleError('Iterator is not open: cannot call nextv() after close()', {
+                    return (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, emptyOptions), Number.isInteger(size)) ? (this[kClosing] ? this.nextTick(callback, new ModuleError('Iterator is not open: cannot call nextv() after close()', {
                         code: 'LEVEL_ITERATOR_NOT_OPEN'
                     })) : this[kWorking] ? this.nextTick(callback, new ModuleError('Iterator is busy: cannot call nextv() until previous call has completed', {
                         code: 'LEVEL_ITERATOR_BUSY'
@@ -1282,7 +1282,7 @@
                     this._next(onnext);
                 }
                 all(options, callback) {
-                    return callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, emptyOptions), this[kClosing] ? this.nextTick(callback, new ModuleError('Iterator is not open: cannot call all() after close()', {
+                    return callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, emptyOptions), this[kClosing] ? this.nextTick(callback, new ModuleError('Iterator is not open: cannot call all() after close()', {
                         code: 'LEVEL_ITERATOR_NOT_OPEN'
                     })) : this[kWorking] ? this.nextTick(callback, new ModuleError('Iterator is busy: cannot call all() until previous call has completed', {
                         code: 'LEVEL_ITERATOR_BUSY'
@@ -1527,7 +1527,7 @@
                     return this[kTranscoder].encoding(null != encoding ? encoding : this[kValueEncoding]);
                 }
                 open(options, callback) {
-                    callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), (options = {
+                    callback = fromCallback(callback = getCallback(options, callback), kPromise), (options = {
                         ...this[kOptions],
                         ...getOptions(options)
                     }).createIfMissing = !1 !== options.createIfMissing, options.errorIfExists = !!options.errorIfExists;
@@ -1585,7 +1585,7 @@
                     this.nextTick(callback);
                 }
                 get(key, options, callback) {
-                    if (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.get(key, options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.get(key, options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     const err = this._checkKey(key);
                     if (err) return this.nextTick(callback, err), callback[kPromise];
@@ -1610,7 +1610,7 @@
                     this.nextTick(callback, Error('NotFound'));
                 }
                 getMany(keys, options, callback) {
-                    if (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.getMany(keys, options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.getMany(keys, options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     if (!Array.isArray(keys)) return this.nextTick(callback, TypeError("The first argument 'keys' must be an array")), callback[kPromise];
                     if (0 === keys.length) return this.nextTick(callback, null, []), callback[kPromise];
@@ -1642,7 +1642,7 @@
                     this.nextTick(callback, null, Array(keys.length).fill(void 0));
                 }
                 put(key, value, options, callback) {
-                    if (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.put(key, value, options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].entry), 'opening' === this[kStatus]) return this.defer(()=>this.put(key, value, options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     const err = this._checkKey(key) || this._checkValue(value);
                     if (err) return this.nextTick(callback, err), callback[kPromise];
@@ -1661,7 +1661,7 @@
                     this.nextTick(callback);
                 }
                 del(key, options, callback) {
-                    if (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].key), 'opening' === this[kStatus]) return this.defer(()=>this.del(key, options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].key), 'opening' === this[kStatus]) return this.defer(()=>this.del(key, options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     const err = this._checkKey(key);
                     if (err) return this.nextTick(callback, err), callback[kPromise];
@@ -1684,7 +1684,7 @@
                         });
                         return this._chainedBatch();
                     }
-                    if (callback = 'function' == typeof operations ? operations : getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].empty), 'opening' === this[kStatus]) return this.defer(()=>this.batch(operations, options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = 'function' == typeof operations ? operations : getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].empty), 'opening' === this[kStatus]) return this.defer(()=>this.batch(operations, options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     if (!Array.isArray(operations)) return this.nextTick(callback, TypeError("The first argument 'operations' must be an array")), callback[kPromise];
                     if (0 === operations.length) return this.nextTick(callback), callback[kPromise];
@@ -1722,7 +1722,7 @@
                     return key;
                 }
                 clear(options, callback) {
-                    if (callback = getCallback(options, callback), callback = fromCallback(callback, kPromise), options = getOptions(options, this[kDefaultOptions].empty), 'opening' === this[kStatus]) return this.defer(()=>this.clear(options, callback)), callback[kPromise];
+                    if (callback = fromCallback(callback = getCallback(options, callback), kPromise), options = getOptions(options, this[kDefaultOptions].empty), 'opening' === this[kStatus]) return this.defer(()=>this.clear(options, callback)), callback[kPromise];
                     if (maybeError(this, callback)) return callback[kPromise];
                     const original = options, keyEncoding = this.keyEncoding(options.keyEncoding);
                     return (options = rangeOptions(options, keyEncoding)).keyEncoding = keyEncoding.format, 0 === options.limit ? this.nextTick(callback) : this._clear(options, (err)=>{
@@ -5924,19 +5924,19 @@
                     var fullPath = buildFullPath(config.baseURL, config.url);
                     function onloadend() {
                         if (request) {
-                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null, response = {
+                            var responseHeaders = 'getAllResponseHeaders' in request ? parseHeaders(request.getAllResponseHeaders()) : null;
+                            settle(function(value) {
+                                resolve(value), done();
+                            }, function(err) {
+                                reject(err), done();
+                            }, {
                                 data: responseType && 'text' !== responseType && 'json' !== responseType ? request.response : request.responseText,
                                 status: request.status,
                                 statusText: request.statusText,
                                 headers: responseHeaders,
                                 config: config,
                                 request: request
-                            };
-                            settle(function(value) {
-                                resolve(value), done();
-                            }, function(err) {
-                                reject(err), done();
-                            }, response), request = null;
+                            }), request = null;
                         }
                     }
                     if (request.open(config.method.toUpperCase(), buildURL(fullPath, config.params, config.paramsSerializer), !0), request.timeout = config.timeout, 'onloadend' in request ? request.onloadend = onloadend : request.onreadystatechange = function() {
@@ -6884,7 +6884,7 @@
                             }
                             (e = str.indexOf('.')) > -1 && (str = str.replace('.', '')), (i = str.search(/e/i)) > 0 ? (e < 0 && (e = i), e += +str.slice(i + 1), str = str.substring(0, i)) : e < 0 && (e = str.length);
                         } else {
-                            if (intCheck(b, 2, ALPHABET.length, 'Base'), 10 == b && alphabetHasNormalDecimalDigits) return x = new BigNumber(v), round(x, DECIMAL_PLACES + x.e + 1, ROUNDING_MODE);
+                            if (intCheck(b, 2, ALPHABET.length, 'Base'), 10 == b && alphabetHasNormalDecimalDigits) return round(x = new BigNumber(v), DECIMAL_PLACES + x.e + 1, ROUNDING_MODE);
                             if (str = String(v), isNum = 'number' == typeof v) {
                                 if (0 * v != 0) return parseNumeric(x, str, isNum, b);
                                 if (x.s = 1 / v < 0 ? (str = str.slice(1), -1) : 1, BigNumber.DEBUG && str.replace(/^0\.0*|\./, '').length > 15) throw Error(tooManyDigits + v);
@@ -7206,7 +7206,7 @@
                             if (i) {
                                 if (0 === (i = mathfloor(i / 2))) break;
                                 nIsOdd = i % 2;
-                            } else if (n = n.times(half), round(n, n.e + 1, 1), n.e > 14) nIsOdd = isOdd(n);
+                            } else if (round(n = n.times(half), n.e + 1, 1), n.e > 14) nIsOdd = isOdd(n);
                             else {
                                 if (0 == (i = +valueOf(n))) break;
                                 nIsOdd = i % 2;
@@ -7277,7 +7277,7 @@
                         ], y.e = 0) : y.c = y.e = null) : y.c = y.e = y.s = null, y;
                         for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, (xcL = xc.length) < (ycL = yc.length) && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
                         for(base = BASE, sqrtBase = SQRT_BASE, i = ycL; --i >= 0;){
-                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, k = xcL, j = i + k; j > i;)xlo = xc[--k] % sqrtBase, xhi = xc[k] / sqrtBase | 0, m = yhi * xlo + xhi * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
+                            for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, k = xcL, j = i + k; j > i;)m = yhi * (xlo = xc[--k] % sqrtBase) + (xhi = xc[k] / sqrtBase | 0) * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
                             zc[j] = c;
                         }
                         return c ? ++e : zc.splice(0, 1), normalise(y, zc, e);
@@ -7297,7 +7297,7 @@
                             for(a > 0 ? (ye = xe, t = yc) : (a = -a, t = xc), t.reverse(); a--; t.push(0));
                             t.reverse();
                         }
-                        for(a = xc.length, b = yc.length, a - b < 0 && (t = yc, yc = xc, xc = t, b = a), a = 0; b;)a = (xc[--b] = xc[b] + yc[b] + a) / BASE | 0, xc[b] = BASE === xc[b] ? 0 : xc[b] % BASE;
+                        for((a = xc.length) - (b = yc.length) < 0 && (t = yc, yc = xc, xc = t, b = a), a = 0; b;)a = (xc[--b] = xc[b] + yc[b] + a) / BASE | 0, xc[b] = BASE === xc[b] ? 0 : xc[b] % BASE;
                         return a && (xc = [
                             a
                         ].concat(xc), ++ye), normalise(y, xc, ye);
@@ -7364,7 +7364,7 @@
                         return null != sd && intCheck(sd, 1, MAX), format(this, sd, rm, 2);
                     }, P.toString = function(b) {
                         var str, n = this, s = n.s, e = n.e;
-                        return null === e ? s ? (str = 'Infinity', s < 0 && (str = '-' + str)) : str = 'NaN' : (null == b ? str = e <= TO_EXP_NEG || e >= TO_EXP_POS ? toExponential(coeffToString(n.c), e) : toFixedPoint(coeffToString(n.c), e, '0') : 10 === b && alphabetHasNormalDecimalDigits ? (n = round(new BigNumber(n), DECIMAL_PLACES + e + 1, ROUNDING_MODE), str = toFixedPoint(coeffToString(n.c), n.e, '0')) : (intCheck(b, 2, ALPHABET.length, 'Base'), str = convertBase(toFixedPoint(coeffToString(n.c), e, '0'), 10, b, s, !0)), s < 0 && n.c[0] && (str = '-' + str)), str;
+                        return null === e ? s ? (str = 'Infinity', s < 0 && (str = '-' + str)) : str = 'NaN' : (null == b ? str = e <= TO_EXP_NEG || e >= TO_EXP_POS ? toExponential(coeffToString(n.c), e) : toFixedPoint(coeffToString(n.c), e, '0') : 10 === b && alphabetHasNormalDecimalDigits ? str = toFixedPoint(coeffToString((n = round(new BigNumber(n), DECIMAL_PLACES + e + 1, ROUNDING_MODE)).c), n.e, '0') : (intCheck(b, 2, ALPHABET.length, 'Base'), str = convertBase(toFixedPoint(coeffToString(n.c), e, '0'), 10, b, s, !0)), s < 0 && n.c[0] && (str = '-' + str)), str;
                     }, P.valueOf = P.toJSON = function() {
                         return valueOf(this);
                     }, P._isBigNumber = !0, null != configObject && BigNumber.set(configObject), BigNumber;
@@ -23313,8 +23313,7 @@
                         throw Error(getStringFromWasm0(arg0, arg1));
                     },
                     __wbindgen_closure_wrapper: function(arg0, arg1, arg2) {
-                        var ret = makeMutClosure(arg0, arg1, dtorValue, __wbg_adapter_14);
-                        return addHeapObject(ret);
+                        return addHeapObject(makeMutClosure(arg0, arg1, dtorValue, __wbg_adapter_14));
                     },
                     __wbindgen_string_new: function(arg0, arg1) {
                         return addHeapObject(getStringFromWasm0(arg0, arg1));
