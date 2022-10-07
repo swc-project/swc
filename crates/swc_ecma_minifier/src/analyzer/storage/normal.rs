@@ -278,7 +278,7 @@ impl ProgramData {
             }
 
             for other in e.infects.clone() {
-                self.report(other, ctx, true, dejavu)
+                self.report(other.0, ctx, true, dejavu)
             }
         } else {
             if ctx.in_call_arg && ctx.is_exact_arg {

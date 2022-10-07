@@ -17,7 +17,7 @@ use super::{is_pure_undefined, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    alias::{collect_infects_from, AliasConfig},
+    alias::{collect_infects_from, AccessKind, AliasConfig},
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
         util::{
@@ -1033,7 +1033,9 @@ where
                             Ok(v) => v,
                             Err(()) => return false,
                         };
-                        if deps.contains(&e.to_id()) {
+                        if deps.contains(&(e.to_id(), AccessKind::Referecne))
+                            || deps.contains(&(e.to_id(), AccessKind::Call))
+                        {
                             return false;
                         }
                     }

@@ -196,9 +196,9 @@ impl ProgramData {
     pub(crate) fn expand_infected(
         &self,
         module_info: &ModuleInfo,
-        ids: FxHashSet<Id>,
+        ids: FxHashSet<Access>,
         max_num: usize,
-    ) -> Result<FxHashSet<Id>, ()> {
+    ) -> Result<FxHashSet<Access>, ()> {
         let init =
             HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
         ids.into_iter().try_fold(init, |mut res, id| {
@@ -211,7 +211,7 @@ impl ProgramData {
                     let iid = ids.get(index).unwrap();
 
                     // Abort on imported variables, because we can't analyze them
-                    if module_info.blackbox_imports.contains(iid) {
+                    if module_info.blackbox_imports.contains(&iid.0) {
                         return Err(());
                     }
                     if !res.insert(iid.clone()) {
@@ -220,7 +220,7 @@ impl ProgramData {
                     if res.len() >= max_num {
                         return Err(());
                     }
-                    if let Some(info) = self.vars.get(iid) {
+                    if let Some(info) = self.vars.get(&iid.0) {
                         let infects = &info.infects;
                         if !infects.is_empty() {
                             let old_len = ids.len();
