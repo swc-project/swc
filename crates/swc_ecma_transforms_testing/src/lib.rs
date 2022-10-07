@@ -22,6 +22,7 @@ use swc_common::{
     chain,
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
+    source_map::SourceMapGenConfig,
     sync::Lrc,
     util::take::Take,
     FileName, SourceMap, DUMMY_SP,
@@ -721,6 +722,10 @@ pub fn test_fixture<P>(
         Ok(expected_src)
     });
 
+    let mut src_map = if config.sourcemap { Some(vec![]) } else { None };
+
+    let mut sourcemap = None;
+
     let (actual_src, stderr) = Tester::run_captured(|tester| {
         let input_str = read_to_string(input).unwrap();
         println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
@@ -751,7 +756,39 @@ pub fn test_fixture<P>(
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
 
-        let actual_src = tester.print(&actual, &tester.comments.clone());
+        let actual_src = {
+            let module = &actual;
+            let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
+            let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+            {
+                let mut emitter = Emitter {
+                    cfg: Default::default(),
+                    cm: tester.cm.clone(),
+                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        tester.cm.clone(),
+                        "\n",
+                        &mut wr,
+                        src_map.as_mut(),
+                    )),
+                    comments: Some(comments),
+                };
+
+                // println!("Emitting: {:?}", module);
+                emitter.emit_module(module).unwrap();
+            }
+
+            if config.sourcemap {
+                sourcemap = Some(tester.cm.build_source_map_with_config(
+                    &mut src_map.unwrap(),
+                    None,
+                    SourceMapConfigImpl,
+                ));
+            }
+
+            let r = wr.0.read().unwrap();
+            let s = String::from_utf8_lossy(&r);
+            s.to_string()
+        };
 
         Ok(actual_src)
     });
@@ -772,8 +809,48 @@ pub fn test_fixture<P>(
             return;
         }
 
+        if let Some(sourcemap) = &sourcemap {
+            println!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
+        }
+
         NormalizedOutput::from(actual_src)
             .compare_to_file(output)
             .unwrap();
+
+        if let Some(sourcemap) = sourcemap {
+            let map = {
+                let mut buf = vec![];
+                sourcemap.to_writer(&mut buf).unwrap();
+                String::from_utf8(buf).unwrap()
+            };
+            NormalizedOutput::from(map).compare_to_file(output).unwrap();
+        }
+    }
+}
+
+/// Creates a url for https://evanw.github.io/source-map-visualization/
+fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
+    let map = {
+        let mut buf = vec![];
+        map.to_writer(&mut buf).unwrap();
+        String::from_utf8(buf).unwrap()
+    };
+
+    let code_len = format!("{}\0", code.len());
+    let map_len = format!("{}\0", map.len());
+    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+
+    format!("https://evanw.github.io/source-map-visualization/#{}", hash)
+}
+
+struct SourceMapConfigImpl;
+
+impl SourceMapGenConfig for SourceMapConfigImpl {
+    fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
+        f.to_string()
+    }
+
+    fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
+        true
     }
 }
