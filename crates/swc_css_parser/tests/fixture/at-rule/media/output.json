@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 4635,
+    "end": 4690,
     "ctxt": 0
   },
   "rules": [
@@ -14889,6 +14889,216 @@
         "span": {
           "start": 4632,
           "end": 4634,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 4635,
+        "end": 4656,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4636,
+          "end": 4641,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4642,
+          "end": 4653,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4642,
+              "end": 4653,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "keyword": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 4642,
+                "end": 4653,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "Function",
+                  "span": {
+                    "start": 4642,
+                    "end": 4653,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4642,
+                      "end": 4646,
+                      "ctxt": 0
+                    },
+                    "value": "func",
+                    "raw": "func"
+                  },
+                  "value": [
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 4647,
+                        "end": 4652,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Dimension": {
+                          "value": 100.0,
+                          "raw_value": "100",
+                          "unit": "px",
+                          "raw_unit": "px",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4654,
+          "end": 4656,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 4657,
+        "end": 4689,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4658,
+          "end": 4663,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4664,
+          "end": 4686,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4664,
+              "end": 4686,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": {
+              "type": "Ident",
+              "span": {
+                "start": 4664,
+                "end": 4670,
+                "ctxt": 0
+              },
+              "value": "screen",
+              "raw": "screen"
+            },
+            "keyword": {
+              "type": "Ident",
+              "span": {
+                "start": 4671,
+                "end": 4674,
+                "ctxt": 0
+              },
+              "value": "and",
+              "raw": "and"
+            },
+            "condition": {
+              "type": "MediaConditionWithoutOr",
+              "span": {
+                "start": 4675,
+                "end": 4686,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "Function",
+                  "span": {
+                    "start": 4675,
+                    "end": 4686,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4675,
+                      "end": 4679,
+                      "ctxt": 0
+                    },
+                    "value": "func",
+                    "raw": "func"
+                  },
+                  "value": [
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 4680,
+                        "end": 4685,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Dimension": {
+                          "value": 100.0,
+                          "raw_value": "100",
+                          "unit": "px",
+                          "raw_unit": "px",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4687,
+          "end": 4689,
           "ctxt": 0
         },
         "name": "{",

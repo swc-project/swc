@@ -1311,21 +1311,7 @@ where
             None
         };
 
-        if is!(self, "(") {
-            if is_not {
-                self.input.reset(&state);
-            }
-
-            let condition: MediaCondition = self.parse()?;
-
-            Ok(MediaQuery {
-                span: Span::new(start_pos, condition.span.hi, Default::default()),
-                modifier: None,
-                media_type: None,
-                keyword: None,
-                condition: Some(Box::new(MediaConditionType::All(condition))),
-            })
-        } else {
+        if is!(self, "ident") {
             let media_type = Some(self.parse()?);
 
             self.input.skip_ws();
@@ -1351,14 +1337,28 @@ where
                 unreachable!();
             };
 
-            Ok(MediaQuery {
+            return Ok(MediaQuery {
                 span: Span::new(start_pos, end_pos, Default::default()),
                 modifier,
                 media_type,
                 keyword,
                 condition: condition_without_or,
-            })
+            });
         }
+
+        if is_not {
+            self.input.reset(&state);
+        }
+
+        let condition: MediaCondition = self.parse()?;
+
+        Ok(MediaQuery {
+            span: Span::new(start_pos, condition.span.hi, Default::default()),
+            modifier: None,
+            media_type: None,
+            keyword: None,
+            condition: Some(Box::new(MediaConditionType::All(condition))),
+        })
     }
 }
 

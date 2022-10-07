@@ -16054,19 +16054,31 @@
      :  ^^^^^
      `----
 
-  x ComponentValue
+  x MediaQueryList
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
-     :       ^
+     :        ^^^^^^^^^^^
      `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x MediaQuery
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
-     :       ^
+     :        ^^^^^^^^^^^
      `----
 
-  x ComponentValue
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaInParens
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
      :        ^^^^^^^^^^^

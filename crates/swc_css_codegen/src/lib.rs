@@ -202,7 +202,13 @@ where
                         match media_query.condition.as_deref() {
                             Some(MediaConditionType::All(media_condition)) => !matches!(
                                 media_condition.conditions.get(0),
-                                Some(MediaConditionAllType::MediaInParens(_))
+                                Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::MediaCondition(_)
+                                )) | Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::Feature(_)
+                                )) | Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::GeneralEnclosed(GeneralEnclosed::SimpleBlock(_))
+                                ))
                             ),
                             _ => true,
                         }
