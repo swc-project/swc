@@ -16,7 +16,6 @@ impl NestingHandler {
 
         let mut block_values = vec![];
         for rule in n.block.value.take() {
-            dbg!(&rule);
             match rule {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(q)) => {
                     // TODO: Prepend current selector
@@ -44,6 +43,30 @@ impl VisitMut for NestingHandler {
                     let rules = self.extract_nested_rules(&mut n);
                     new.push(Rule::QualifiedRule(n));
                     new.extend(rules.into_iter().map(Rule::QualifiedRule));
+                }
+                _ => {
+                    new.push(n);
+                }
+            }
+        }
+        *n = new;
+    }
+
+    fn visit_mut_component_values(&mut self, n: &mut Vec<ComponentValue>) {
+        n.visit_mut_children_with(self);
+
+        let mut new = vec![];
+        for n in n.take() {
+            match n {
+                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut n)) => {
+                    let rules = self.extract_nested_rules(&mut n);
+                    new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)));
+                    new.extend(
+                        rules
+                            .into_iter()
+                            .map(StyleBlock::QualifiedRule)
+                            .map(ComponentValue::StyleBlock),
+                    );
                 }
                 _ => {
                     new.push(n);
