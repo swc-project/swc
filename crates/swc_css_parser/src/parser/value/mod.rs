@@ -1548,7 +1548,11 @@ where
             Token::Dimension { unit, .. } => {
                 match unit {
                     // <length>
-                    unit if is_length_unit(unit) => Ok(Dimension::Length(self.parse()?)),
+                    unit if is_length_unit(unit)
+                        || (self.ctx.in_container_at_rule && is_container_lengths_unit(unit)) =>
+                    {
+                        Ok(Dimension::Length(self.parse()?))
+                    }
                     // <angle>
                     unit if is_angle_unit(unit) => Ok(Dimension::Angle(self.parse()?)),
                     // <time>
@@ -3342,6 +3346,13 @@ fn is_length_unit(unit: &str) -> bool {
         "vmax" | "svmax" | "lvmax" | "dvmax" |
         // Absolute lengths
         "cm" | "mm" | "q" | "in" | "pc" | "pt" | "px" | "mozmm"
+    )
+}
+
+fn is_container_lengths_unit(unit: &str) -> bool {
+    matches!(
+        &*unit.to_ascii_lowercase(),
+        "cqw" | "cqh" | "cqi" | "cqb" | "cqmin" | "cqmax"
     )
 }
 

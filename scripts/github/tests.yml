@@ -30,9 +30,9 @@ check:
   swc_bundler:
     - "cargo hack check --feature-powerset --no-dev-deps"
   swc_common:
-    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features plugin-bytecheck-base --exclude-features plugin-bytecheck-mode --exclude-features plugin-bytecheck-rt --exclude-features rkyv-bytecheck-impl --exclude-features rkyv-impl"
   swc_ecma_ast:
-    - "cargo hack check --feature-powerset --no-dev-deps"
+    - "cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv --exclude-features rkyv-bytecheck-impl"
   swc_ecma_loader:
     - "cargo hack check --feature-powerset --no-dev-deps"
   swc_ecma_transforms:

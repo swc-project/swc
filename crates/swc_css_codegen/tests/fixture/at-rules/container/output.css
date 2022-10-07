@@ -1,0 +1,126 @@
+@container (width <= 150px) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@supports (container-type: size) {
+  @container (width <= 150px) {
+    #inner {
+      background-color: skyblue;
+    }
+  }
+}
+@container not (width <= 500px) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container name not (width <= 500px) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+main, 
+aside {
+  container: my-layout/ inline-size;
+}
+.media-object {
+  display: grid;
+  grid-template: 'img' auto 'content' auto/ 100%;
+}
+@container my-layout (inline-size > 45em) {
+  .media-object {
+    grid-template: 'img content' auto/ auto 1fr;
+  }
+}
+@container card (inline-size > 30em) and style(--responsive: true) {
+  .card {
+    margin-block: 2em;
+  }
+}
+@container card (inline-size > 30em) or style(--responsive: true) {
+  .card {
+    margin-block: 2em;
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqw);
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqh);
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqi);
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqb);
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqmin);
+  }
+}
+@container (inline-size >= 0px) {
+  h2 {
+    font-size: calc(1.2em + 1cqmax);
+  }
+}
+@media screen {
+  @container card (inline-size > 30em) and (inline-size < 45em) {
+    h2 {
+      font-size: calc(1.2em + 1cqmax);
+    }
+  }
+}
+@container (100 < width > 150px) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container (not (width <= 150px)) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container ((width <= 150px)) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container (min-width: 700px) {
+  .card {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+@container sidebar (min-width: 400px) {
+  .card {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+  }
+}
+@container test style(--responsive: true) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container style(--responsive: true) {
+  #inner {
+    background-color: skyblue;
+  }
+}
+@container card (inline-size > 30em) {
+  @container style(--responsive: true) {
+    #inner {
+      background-color: skyblue;
+    }
+  }
+}

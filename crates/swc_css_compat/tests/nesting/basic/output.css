@@ -1,0 +1,75 @@
+table.colortable {}
+table.colortable td {
+  text-align: center;
+}
+table.colortable td.c {
+  text-transform: uppercase;
+}
+table.colortable td:first-child, 
+table.colortable td:first-child + td {
+  border: 1px solid black;
+}
+table.colortable th {
+  text-align: center;
+  background: black;
+  color: white;
+}
+.foo {
+  color: blue;
+}
+.foo > .bar {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo.bar {
+  color: red;
+}
+.foo, 
+.bar {
+  color: blue;
+}
+.foo + .baz, 
+.bar + .baz, 
+.foo.qux, 
+.bar.qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo .bar .foo .baz .foo .qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+.foo {
+  padding: 2ch;
+}
+.error, 
+#test {}
+.error:hover > .baz, 
+#test:hover > .baz {
+  color: red;
+}
+.foo {}
+.foo:is(.bar, .foo.baz) {
+  color: red;
+}
+figure {
+  margin: 0;
+}
+figure > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+figure > figcaption > p {
+  font-size: .9rem;
+}
+.foo {
+  color: blue;
+}
+__bar.foo {
+  color: red;
+}

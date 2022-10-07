@@ -61,6 +61,8 @@ pub enum AtRulePrelude {
     PagePrelude(PageSelectorList),
     #[tag("LayerPrelude")]
     LayerPrelude(LayerPrelude),
+    #[tag("ContainerCondition")]
+    ContainerPrelude(ContainerCondition),
 }
 
 #[ast_node]
@@ -568,4 +570,210 @@ pub struct LayerName {
 pub struct LayerNameList {
     pub span: Span,
     pub name_list: Vec<LayerName>,
+}
+
+#[ast_node("ContainerCondition")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ContainerCondition {
+    pub span: Span,
+    pub name: Option<ContainerName>,
+    pub query: ContainerQuery,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum ContainerName {
+    #[tag("CustomIdent")]
+    CustomIdent(CustomIdent),
+}
+
+#[ast_node("ContainerQuery")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ContainerQuery {
+    pub span: Span,
+    pub queries: Vec<ContainerQueryType>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum ContainerQueryType {
+    #[tag("ContainerQueryNot")]
+    Not(ContainerQueryNot),
+
+    #[tag("ContainerQueryAnd")]
+    And(ContainerQueryAnd),
+
+    #[tag("ContainerQueryOr")]
+    Or(ContainerQueryOr),
+
+    #[tag("QueryInParens")]
+    QueryInParens(QueryInParens),
+}
+
+#[ast_node("ContainerQueryNot")]
+#[derive(Eq, Hash)]
+pub struct ContainerQueryNot {
+    pub span: Span,
+    pub keyword: Option<Ident>,
+    pub query: QueryInParens,
+}
+
+impl EqIgnoreSpan for ContainerQueryNot {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.query.eq_ignore_span(&other.query)
+    }
+}
+
+#[ast_node("ContainerQueryAnd")]
+#[derive(Eq, Hash)]
+pub struct ContainerQueryAnd {
+    pub span: Span,
+    pub keyword: Option<Ident>,
+    pub query: QueryInParens,
+}
+
+impl EqIgnoreSpan for ContainerQueryAnd {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.query.eq_ignore_span(&other.query)
+    }
+}
+
+#[ast_node("ContainerQueryOr")]
+#[derive(Eq, Hash)]
+pub struct ContainerQueryOr {
+    pub span: Span,
+    pub keyword: Option<Ident>,
+    pub query: QueryInParens,
+}
+
+impl EqIgnoreSpan for ContainerQueryOr {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.query.eq_ignore_span(&other.query)
+    }
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum QueryInParens {
+    #[tag("ContainerQuery")]
+    ContainerQuery(Box<ContainerQuery>),
+
+    #[tag("SizeFeature")]
+    SizeFeature(SizeFeature),
+
+    // TODO implement style
+    // https://drafts.csswg.org/css-contain-3/#typedef-style-query
+    // #[tag("Function")]
+    // Function(Function),
+    #[tag("GeneralEnclosed")]
+    GeneralEnclosed(GeneralEnclosed),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum SizeFeature {
+    #[tag("SizeFeaturePlain")]
+    Plain(SizeFeaturePlain),
+
+    #[tag("SizeFeatureBoolean")]
+    Boolean(SizeFeatureBoolean),
+
+    #[tag("SizeFeatureRange")]
+    Range(SizeFeatureRange),
+
+    #[tag("SizeFeatureRangeInterval")]
+    RangeInterval(SizeFeatureRangeInterval),
+}
+
+#[ast_node("SizeFeaturePlain")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct SizeFeaturePlain {
+    pub span: Span,
+    pub name: SizeFeatureName,
+    pub value: Box<SizeFeatureValue>,
+}
+
+#[ast_node("SizeFeatureBoolean")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct SizeFeatureBoolean {
+    pub span: Span,
+    pub name: SizeFeatureName,
+}
+
+#[derive(StringEnum, Clone, Copy, Eq, PartialEq, PartialOrd, Ord, Hash, Is, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
+pub enum SizeFeatureRangeComparison {
+    /// `<`
+    Lt,
+
+    /// `<=`
+    Le,
+
+    /// `>`
+    Gt,
+
+    /// `>=`
+    Ge,
+
+    /// `=`
+    Eq,
+}
+
+#[ast_node("SizeFeatureRange")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct SizeFeatureRange {
+    pub span: Span,
+    pub left: Box<SizeFeatureValue>,
+    pub comparison: SizeFeatureRangeComparison,
+    pub right: Box<SizeFeatureValue>,
+}
+
+#[ast_node("SizeFeatureRangeInterval")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct SizeFeatureRangeInterval {
+    pub span: Span,
+    pub left: Box<SizeFeatureValue>,
+    #[serde(rename = "leftComparison")]
+    pub left_comparison: SizeFeatureRangeComparison,
+    pub name: SizeFeatureName,
+    #[serde(rename = "rightComparison")]
+    pub right_comparison: SizeFeatureRangeComparison,
+    pub right: Box<SizeFeatureValue>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum SizeFeatureValue {
+    #[tag("Number")]
+    Number(Number),
+
+    #[tag("Dimension")]
+    Dimension(Dimension),
+
+    #[tag("Ident")]
+    Ident(Ident),
+
+    #[tag("Ratio")]
+    Ratio(Ratio),
+
+    #[tag("Function")]
+    Function(Function),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum SizeFeatureName {
+    #[tag("Ident")]
+    Ident(Ident),
 }
