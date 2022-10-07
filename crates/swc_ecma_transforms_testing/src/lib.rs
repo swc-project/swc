@@ -683,6 +683,10 @@ where
 pub struct FixtureTestConfig {
     /// If true,
     pub sourcemap: bool,
+
+    /// If true, output written to [HANDLER] will be printed as a fixture, with
+    /// `.stderr` extension.
+    pub allow_error: bool,
 }
 
 /// You can do `UPDATE=1 cargo test` to update fixtures.
