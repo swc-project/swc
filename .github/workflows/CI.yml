@@ -269,6 +269,9 @@ jobs:
           - crate: swc_css_codegen_macros
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_css_compat
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_css_lints
             os: ubuntu-latest
             runner: ubuntu-latest

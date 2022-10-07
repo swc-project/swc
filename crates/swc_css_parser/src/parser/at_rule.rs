@@ -87,6 +87,21 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
+                "container" => {
+                    parser.input.skip_ws();
+
+                    let prelude = AtRulePrelude::ContainerPrelude(parser.parse()?);
+
+                    parser.input.skip_ws();
+
+                    if !is!(parser, "{") {
+                        let span = parser.input.cur_span();
+
+                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                    }
+
+                    Ok(Some(Box::new(prelude)))
+                }
                 "counter-style" => {
                     parser.input.skip_ws();
 
@@ -599,13 +614,15 @@ where
                     block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..parser.ctx
                 },
-                "media" | "supports" | "document" | "-moz-document" => {
+                "media" | "supports" | "container" | "document" | "-moz-document" => {
                     match parser.ctx.block_contents_grammar {
                         BlockContentsGrammar::StyleBlock => Ctx {
+                            in_container_at_rule: lowercased_name == "container",
                             block_contents_grammar: BlockContentsGrammar::StyleBlock,
                             ..parser.ctx
                         },
                         _ => Ctx {
+                            in_container_at_rule: lowercased_name == "container",
                             block_contents_grammar: BlockContentsGrammar::Stylesheet,
                             ..parser.ctx
                         },
@@ -1134,7 +1151,16 @@ where
 {
     fn parse(&mut self) -> PResult<GeneralEnclosed> {
         match cur!(self) {
-            tok!("function") => Ok(GeneralEnclosed::Function(self.parse()?)),
+            tok!("function") => {
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                };
+
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                Ok(GeneralEnclosed::Function(function))
+            }
             tok!("(") => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::NoGrammar,
@@ -1932,5 +1958,442 @@ where
             name,
             span: span!(self, start),
         })
+    }
+}
+
+impl<I> Parse<ContainerCondition> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerCondition> {
+        let start_pos = self.input.cur_span().lo;
+
+        let mut name: Option<ContainerName> = None;
+
+        if is!(self, "ident") && !is_case_insensitive_ident!(self, "not") {
+            name = Some(self.parse()?);
+
+            self.input.skip_ws();
+        }
+
+        let query: ContainerQuery = self.parse()?;
+
+        Ok(ContainerCondition {
+            span: Span::new(start_pos, query.span.hi, Default::default()),
+            name,
+            query,
+        })
+    }
+}
+
+impl<I> Parse<ContainerName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerName> {
+        match cur!(self) {
+            tok!("ident") => {
+                let custom_ident: CustomIdent = self.parse()?;
+
+                Ok(ContainerName::CustomIdent(custom_ident))
+            }
+            _ => {
+                let span = self.input.cur_span();
+
+                Err(Error::new(span, ErrorKind::Expected("ident")))
+            }
+        }
+    }
+}
+
+impl<I> Parse<ContainerQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerQuery> {
+        let start_pos = self.input.cur_span().lo;
+        let mut last_pos;
+
+        let mut queries = vec![];
+
+        if is_case_insensitive_ident!(self, "not") {
+            let not = self.parse()?;
+
+            queries.push(ContainerQueryType::Not(not));
+
+            last_pos = self.input.last_pos();
+        } else {
+            self.input.skip_ws();
+
+            let query_in_parens = self.parse()?;
+
+            queries.push(ContainerQueryType::QueryInParens(query_in_parens));
+
+            last_pos = self.input.last_pos();
+
+            self.input.skip_ws();
+
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
+                    let and = self.parse()?;
+
+                    last_pos = self.input.last_pos();
+
+                    queries.push(ContainerQueryType::And(and));
+
+                    self.input.skip_ws();
+                }
+            } else if is_case_insensitive_ident!(self, "or") {
+                while is_case_insensitive_ident!(self, "or") {
+                    let or = self.parse()?;
+
+                    last_pos = self.input.last_pos();
+
+                    queries.push(ContainerQueryType::Or(or));
+
+                    self.input.skip_ws();
+                }
+            };
+        }
+
+        Ok(ContainerQuery {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            queries,
+        })
+    }
+}
+
+impl<I> Parse<ContainerQueryNot> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerQueryNot> {
+        let span = self.input.cur_span();
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
+                Some(self.parse()?)
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'not' value) token"),
+                ));
+            }
+        };
+
+        self.input.skip_ws();
+
+        let query_in_parens = self.parse()?;
+
+        Ok(ContainerQueryNot {
+            span: span!(self, span.lo),
+            keyword,
+            query: query_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<ContainerQueryAnd> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerQueryAnd> {
+        let span = self.input.cur_span();
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
+                Some(self.parse()?)
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'and' value) token"),
+                ));
+            }
+        };
+
+        self.input.skip_ws();
+
+        let query_in_parens = self.parse()?;
+
+        Ok(ContainerQueryAnd {
+            span: span!(self, span.lo),
+            keyword,
+            query: query_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<ContainerQueryOr> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerQueryOr> {
+        let span = self.input.cur_span();
+        let keyword = match cur!(self) {
+            Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
+                Some(self.parse()?)
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident (with 'or' value) token"),
+                ));
+            }
+        };
+
+        self.input.skip_ws();
+
+        let query_in_parens = self.parse()?;
+
+        Ok(ContainerQueryOr {
+            span: span!(self, span.lo),
+            keyword,
+            query: query_in_parens,
+        })
+    }
+}
+
+impl<I> Parse<QueryInParens> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<QueryInParens> {
+        let state = self.input.state();
+
+        match self.parse() {
+            Ok(size_feature) => Ok(QueryInParens::SizeFeature(size_feature)),
+            Err(_) => {
+                self.input.reset(&state);
+
+                let mut parse_container_query = || {
+                    expect!(self, "(");
+
+                    let container_query = self.parse()?;
+
+                    expect!(self, ")");
+
+                    Ok(QueryInParens::ContainerQuery(Box::new(container_query)))
+                };
+
+                match parse_container_query() {
+                    Ok(query_in_parens) => Ok(query_in_parens),
+                    Err(_) => {
+                        self.input.reset(&state);
+
+                        let general_enclosed = self.parse()?;
+
+                        Ok(QueryInParens::GeneralEnclosed(general_enclosed))
+                    }
+                }
+            }
+        }
+    }
+}
+
+impl<I> Parse<SizeFeature> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SizeFeature> {
+        let span = self.input.cur_span();
+
+        expect!(self, "(");
+
+        self.input.skip_ws();
+
+        let left = self.parse()?;
+
+        self.input.skip_ws();
+
+        match cur!(self) {
+            tok!(")") => {
+                bump!(self);
+
+                let name = match left {
+                    SizeFeatureValue::Ident(ident) => SizeFeatureName::Ident(ident),
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
+                    }
+                };
+
+                Ok(SizeFeature::Boolean(SizeFeatureBoolean {
+                    span: span!(self, span.lo),
+                    name,
+                }))
+            }
+            tok!(":") => {
+                bump!(self);
+
+                self.input.skip_ws();
+
+                let name = match left {
+                    SizeFeatureValue::Ident(ident) => SizeFeatureName::Ident(ident),
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
+                    }
+                };
+                let value = self.parse()?;
+
+                self.input.skip_ws();
+
+                expect!(self, ")");
+
+                Ok(SizeFeature::Plain(SizeFeaturePlain {
+                    span: span!(self, span.lo),
+                    name,
+                    value,
+                }))
+            }
+            tok!("<") | tok!(">") | tok!("=") => {
+                let left_comparison = match bump!(self) {
+                    tok!("<") => {
+                        if eat!(self, "=") {
+                            SizeFeatureRangeComparison::Le
+                        } else {
+                            SizeFeatureRangeComparison::Lt
+                        }
+                    }
+                    tok!(">") => {
+                        if eat!(self, "=") {
+                            SizeFeatureRangeComparison::Ge
+                        } else {
+                            SizeFeatureRangeComparison::Gt
+                        }
+                    }
+                    tok!("=") => SizeFeatureRangeComparison::Eq,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                self.input.skip_ws();
+
+                let center = self.parse()?;
+
+                self.input.skip_ws();
+
+                if eat!(self, ")") {
+                    return Ok(SizeFeature::Range(SizeFeatureRange {
+                        span: span!(self, span.lo),
+                        left: Box::new(left),
+                        comparison: left_comparison,
+                        right: Box::new(center),
+                    }));
+                }
+
+                let right_comparison = match bump!(self) {
+                    tok!("<") => {
+                        if eat!(self, "=") {
+                            SizeFeatureRangeComparison::Le
+                        } else {
+                            SizeFeatureRangeComparison::Lt
+                        }
+                    }
+                    tok!(">") => {
+                        if eat!(self, "=") {
+                            SizeFeatureRangeComparison::Ge
+                        } else {
+                            SizeFeatureRangeComparison::Gt
+                        }
+                    }
+                    _ => {
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("'>' or '<' operators"),
+                        ));
+                    }
+                };
+
+                self.input.skip_ws();
+
+                let right = self.parse()?;
+
+                self.input.skip_ws();
+
+                expect!(self, ")");
+
+                let name = match center {
+                    SizeFeatureValue::Ident(ident) => SizeFeatureName::Ident(ident),
+                    _ => {
+                        return Err(Error::new(span, ErrorKind::Expected("identifier value")));
+                    }
+                };
+
+                let is_valid_operator = match left_comparison {
+                    SizeFeatureRangeComparison::Lt | SizeFeatureRangeComparison::Le
+                        if right_comparison == SizeFeatureRangeComparison::Lt
+                            || right_comparison == SizeFeatureRangeComparison::Le =>
+                    {
+                        true
+                    }
+                    SizeFeatureRangeComparison::Gt | SizeFeatureRangeComparison::Ge
+                        if right_comparison == SizeFeatureRangeComparison::Gt
+                            || right_comparison == SizeFeatureRangeComparison::Ge =>
+                    {
+                        true
+                    }
+                    _ => false,
+                };
+
+                if !is_valid_operator {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected(
+                            "left comparison operator should be equal right comparison operator",
+                        ),
+                    ));
+                }
+
+                Ok(SizeFeature::RangeInterval(SizeFeatureRangeInterval {
+                    span: span!(self, span.lo),
+                    left: Box::new(left),
+                    left_comparison,
+                    name,
+                    right_comparison,
+                    right,
+                }))
+            }
+            _ => Err(Error::new(span, ErrorKind::Expected("identifier value"))),
+        }
+    }
+}
+
+impl<I> Parse<SizeFeatureValue> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<SizeFeatureValue> {
+        let span = self.input.cur_span();
+
+        match cur!(self) {
+            tok!("number") => {
+                let left = self.parse()?;
+
+                self.input.skip_ws();
+
+                if eat!(self, "/") {
+                    self.input.skip_ws();
+
+                    let right = Some(self.parse()?);
+
+                    return Ok(SizeFeatureValue::Ratio(Ratio {
+                        span: span!(self, span.lo),
+                        left,
+                        right,
+                    }));
+                }
+
+                Ok(SizeFeatureValue::Number(left))
+            }
+            tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
+            tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
+            Token::Function { value, .. } if is_math_function(value) => {
+                Ok(SizeFeatureValue::Function(self.parse()?))
+            }
+            _ => Err(Error::new(
+                span,
+                ErrorKind::Expected("number, ident, dimension or function token"),
+            )),
+        }
     }
 }

@@ -1,0 +1,3 @@
+.foo {
+    &:is(.bar, &.baz) { color: red; }
+}

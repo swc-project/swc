@@ -254,6 +254,29 @@ where
                 space!(self);
                 emit!(self, n)
             }
+            AtRulePrelude::ContainerPrelude(n) => {
+                let need_space = match n.name {
+                    Some(_) => true,
+                    _ => !matches!(
+                        n.query.queries.get(0),
+                        Some(ContainerQueryType::QueryInParens(
+                            QueryInParens::ContainerQuery(_,)
+                        )) | Some(ContainerQueryType::QueryInParens(
+                            QueryInParens::SizeFeature(_)
+                        )) | Some(ContainerQueryType::QueryInParens(
+                            QueryInParens::GeneralEnclosed(GeneralEnclosed::SimpleBlock(_)),
+                        ))
+                    ),
+                };
+
+                if need_space {
+                    space!(self);
+                } else {
+                    formatting_space!(self);
+                }
+
+                emit!(self, n)
+            }
         }
     }
 
@@ -759,6 +782,168 @@ where
             DocumentPreludeMatchingFunction::Url(n) => emit!(self, n),
             DocumentPreludeMatchingFunction::Function(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_container_condition(&mut self, n: &ContainerCondition) -> Result {
+        if let Some(name) = &n.name {
+            emit!(self, name);
+            space!(self);
+        }
+
+        emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_container_name(&mut self, n: &ContainerName) -> Result {
+        match n {
+            ContainerName::CustomIdent(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_container_query(&mut self, n: &ContainerQuery) -> Result {
+        self.emit_list(
+            &n.queries,
+            if self.config.minify {
+                ListFormat::NotDelimited
+            } else {
+                ListFormat::SpaceDelimited
+            },
+        )?;
+    }
+
+    #[emitter]
+    fn emit_container_query_type(&mut self, n: &ContainerQueryType) -> Result {
+        match n {
+            ContainerQueryType::Not(n) => emit!(self, n),
+            ContainerQueryType::And(n) => emit!(self, n),
+            ContainerQueryType::Or(n) => emit!(self, n),
+            ContainerQueryType::QueryInParens(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_container_query_not(&mut self, n: &ContainerQueryNot) -> Result {
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "not");
+        }
+
+        space!(self);
+        emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_container_query_and(&mut self, n: &ContainerQueryAnd) -> Result {
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "and");
+        }
+
+        space!(self);
+        emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_container_query_or(&mut self, n: &ContainerQueryOr) -> Result {
+        if n.keyword.is_some() {
+            emit!(self, n.keyword);
+        } else {
+            write_raw!(self, "or");
+        }
+
+        space!(self);
+        emit!(self, n.query);
+    }
+
+    #[emitter]
+    fn emit_query_in_parens(&mut self, n: &QueryInParens) -> Result {
+        match n {
+            QueryInParens::ContainerQuery(n) => {
+                write_raw!(self, lo_span_offset!(n.span, 1), "(");
+                emit!(self, n);
+                write_raw!(self, hi_span_offset!(n.span, 1), ")");
+            }
+            QueryInParens::SizeFeature(n) => emit!(self, n),
+            QueryInParens::GeneralEnclosed(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_size_feature(&mut self, n: &SizeFeature) -> Result {
+        let span = match n {
+            SizeFeature::Plain(n) => n.span,
+            SizeFeature::Boolean(n) => n.span,
+            SizeFeature::Range(n) => n.span,
+            SizeFeature::RangeInterval(n) => n.span,
+        };
+
+        write_raw!(self, lo_span_offset!(span, 1), "(");
+
+        match n {
+            SizeFeature::Plain(n) => emit!(self, n),
+            SizeFeature::Boolean(n) => emit!(self, n),
+            SizeFeature::Range(n) => emit!(self, n),
+            SizeFeature::RangeInterval(n) => emit!(self, n),
+        }
+
+        write_raw!(self, hi_span_offset!(span, 1), ")");
+    }
+
+    #[emitter]
+    fn emit_size_feature_name(&mut self, n: &SizeFeatureName) -> Result {
+        match n {
+            SizeFeatureName::Ident(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_size_feature_value(&mut self, n: &SizeFeatureValue) -> Result {
+        match n {
+            SizeFeatureValue::Number(n) => emit!(self, n),
+            SizeFeatureValue::Dimension(n) => emit!(self, n),
+            SizeFeatureValue::Ident(n) => emit!(self, n),
+            SizeFeatureValue::Ratio(n) => emit!(self, n),
+            SizeFeatureValue::Function(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_size_feature_plain(&mut self, n: &SizeFeaturePlain) -> Result {
+        emit!(self, n.name);
+        write_raw!(self, ":");
+        formatting_space!(self);
+        emit!(self, n.value);
+    }
+
+    #[emitter]
+    fn emit_size_feature_boolean(&mut self, n: &SizeFeatureBoolean) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_size_feature_range(&mut self, n: &SizeFeatureRange) -> Result {
+        emit!(self, n.left);
+        formatting_space!(self);
+        write_raw!(self, n.span, n.comparison.as_str());
+        formatting_space!(self);
+        emit!(self, n.right);
+    }
+
+    #[emitter]
+    fn emit_size_feature_range_interval(&mut self, n: &SizeFeatureRangeInterval) -> Result {
+        emit!(self, n.left);
+        formatting_space!(self);
+        write_raw!(self, n.span, n.left_comparison.as_str());
+        formatting_space!(self);
+        emit!(self, n.name);
+        formatting_space!(self);
+        write_raw!(self, n.span, n.right_comparison.as_str());
+        formatting_space!(self);
+        emit!(self, n.right);
     }
 
     fn emit_list_of_component_values_inner(

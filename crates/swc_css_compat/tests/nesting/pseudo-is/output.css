@@ -1,0 +1,4 @@
+.foo {}
+.foo:is(.bar, .foo.baz) {
+  color: red;
+}
