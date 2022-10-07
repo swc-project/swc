@@ -224,7 +224,20 @@ impl ProgramData {
                         let infects = &info.infects;
                         if !infects.is_empty() {
                             let old_len = ids.len();
-                            ids.extend_from_slice(infects.as_slice());
+                            match iid.1 {
+                                AccessKind::Referecne => {
+                                    // This is not a call, so effects from call can be skipped
+                                    ids.extend(
+                                        infects
+                                            .iter()
+                                            .filter(|(_, kind)| *kind != AccessKind::Call)
+                                            .cloned(),
+                                    );
+                                }
+                                AccessKind::Call => {
+                                    ids.extend_from_slice(infects.as_slice());
+                                }
+                            }
                             let new_len = ids.len();
                             ranges.push(old_len..new_len);
                         }
