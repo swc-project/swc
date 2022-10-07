@@ -577,7 +577,7 @@ pub struct LayerNameList {
 pub struct ContainerCondition {
     pub span: Span,
     pub name: Option<ContainerName>,
-    pub query: Vec<ContainerQuery>,
+    pub query: ContainerQuery,
 }
 
 #[ast_node]
@@ -587,9 +587,16 @@ pub enum ContainerName {
     CustomIdent(CustomIdent),
 }
 
+#[ast_node("ContainerQuery")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ContainerQuery {
+    pub span: Span,
+    pub queries: Vec<ContainerQueryType>,
+}
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
-pub enum ContainerQuery {
+pub enum ContainerQueryType {
     #[tag("ContainerQueryNot")]
     Not(ContainerQueryNot),
 
@@ -655,6 +662,7 @@ pub enum QueryInParens {
     SizeFeature(SizeFeature),
 
     // TODO implement style
+    // https://drafts.csswg.org/css-contain-3/#typedef-style-query
     // #[tag("Function")]
     // Function(Function),
     #[tag("GeneralEnclosed")]

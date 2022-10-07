@@ -829,14 +829,19 @@ define!({
     pub struct ContainerCondition {
         pub span: Span,
         pub name: Option<ContainerName>,
-        pub query: Vec<ContainerQuery>,
+        pub query: ContainerQuery,
     }
 
     pub enum ContainerName {
         CustomIdent(CustomIdent),
     }
 
-    pub enum ContainerQuery {
+    pub struct ContainerQuery {
+        pub span: Span,
+        pub queries: Vec<ContainerQueryType>,
+    }
+
+    pub enum ContainerQueryType {
         Not(ContainerQueryNot),
         And(ContainerQueryAnd),
         Or(ContainerQueryOr),

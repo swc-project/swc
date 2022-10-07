@@ -1151,7 +1151,16 @@ where
 {
     fn parse(&mut self) -> PResult<GeneralEnclosed> {
         match cur!(self) {
-            tok!("function") => Ok(GeneralEnclosed::Function(self.parse()?)),
+            tok!("function") => {
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                    ..self.ctx
+                };
+
+                let function = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                Ok(GeneralEnclosed::Function(function))
+            }
             tok!("(") => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::NoGrammar,
@@ -1957,12 +1966,9 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ContainerCondition> {
-        self.input.skip_ws();
-
         let start_pos = self.input.cur_span().lo;
-        let mut last_pos;
+
         let mut name: Option<ContainerName> = None;
-        let mut query = vec![];
 
         if is!(self, "ident") && !is_case_insensitive_ident!(self, "not") {
             name = Some(self.parse()?);
@@ -1970,48 +1976,10 @@ where
             self.input.skip_ws();
         }
 
-        if is_case_insensitive_ident!(self, "not") {
-            let not = self.parse()?;
-
-            query.push(ContainerQuery::Not(not));
-
-            last_pos = self.input.last_pos();
-        } else {
-            self.input.skip_ws();
-
-            let query_in_parens = self.parse()?;
-
-            query.push(ContainerQuery::QueryInParens(query_in_parens));
-
-            last_pos = self.input.last_pos();
-
-            self.input.skip_ws();
-
-            if is_case_insensitive_ident!(self, "and") {
-                while is_case_insensitive_ident!(self, "and") {
-                    let and = self.parse()?;
-
-                    last_pos = self.input.last_pos();
-
-                    query.push(ContainerQuery::And(and));
-
-                    self.input.skip_ws();
-                }
-            } else if is_case_insensitive_ident!(self, "or") {
-                while is_case_insensitive_ident!(self, "or") {
-                    let or = self.parse()?;
-
-                    last_pos = self.input.last_pos();
-
-                    query.push(ContainerQuery::Or(or));
-
-                    self.input.skip_ws();
-                }
-            };
-        }
+        let query: ContainerQuery = self.parse()?;
 
         Ok(ContainerCondition {
-            span: Span::new(start_pos, last_pos, Default::default()),
+            span: Span::new(start_pos, query.span.hi, Default::default()),
             name,
             query,
         })
@@ -2035,6 +2003,63 @@ where
                 Err(Error::new(span, ErrorKind::Expected("ident")))
             }
         }
+    }
+}
+
+impl<I> Parse<ContainerQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ContainerQuery> {
+        let start_pos = self.input.cur_span().lo;
+        let mut last_pos;
+
+        let mut queries = vec![];
+
+        if is_case_insensitive_ident!(self, "not") {
+            let not = self.parse()?;
+
+            queries.push(ContainerQueryType::Not(not));
+
+            last_pos = self.input.last_pos();
+        } else {
+            self.input.skip_ws();
+
+            let query_in_parens = self.parse()?;
+
+            queries.push(ContainerQueryType::QueryInParens(query_in_parens));
+
+            last_pos = self.input.last_pos();
+
+            self.input.skip_ws();
+
+            if is_case_insensitive_ident!(self, "and") {
+                while is_case_insensitive_ident!(self, "and") {
+                    let and = self.parse()?;
+
+                    last_pos = self.input.last_pos();
+
+                    queries.push(ContainerQueryType::And(and));
+
+                    self.input.skip_ws();
+                }
+            } else if is_case_insensitive_ident!(self, "or") {
+                while is_case_insensitive_ident!(self, "or") {
+                    let or = self.parse()?;
+
+                    last_pos = self.input.last_pos();
+
+                    queries.push(ContainerQueryType::Or(or));
+
+                    self.input.skip_ws();
+                }
+            };
+        }
+
+        Ok(ContainerQuery {
+            span: Span::new(start_pos, last_pos, Default::default()),
+            queries,
+        })
     }
 }
 
@@ -2133,41 +2158,35 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<QueryInParens> {
-        if is!(self, "(") {
-            let state = self.input.state();
+        let state = self.input.state();
 
-            return match self.parse() {
-                Ok(size_feature) => Ok(QueryInParens::SizeFeature(size_feature)),
-                Err(_) => {
-                    self.input.reset(&state);
+        match self.parse() {
+            Ok(size_feature) => Ok(QueryInParens::SizeFeature(size_feature)),
+            Err(_) => {
+                self.input.reset(&state);
 
-                    let mut parse_container_query = || {
-                        expect!(self, "(");
+                let mut parse_container_query = || {
+                    expect!(self, "(");
 
-                        let container_query = self.parse()?;
+                    let container_query = self.parse()?;
 
-                        expect!(self, ")");
+                    expect!(self, ")");
 
-                        Ok(QueryInParens::ContainerQuery(Box::new(container_query)))
-                    };
+                    Ok(QueryInParens::ContainerQuery(Box::new(container_query)))
+                };
 
-                    match parse_container_query() {
-                        Ok(query_in_parens) => Ok(query_in_parens),
-                        Err(_) => {
-                            self.input.reset(&state);
+                match parse_container_query() {
+                    Ok(query_in_parens) => Ok(query_in_parens),
+                    Err(_) => {
+                        self.input.reset(&state);
 
-                            let general_enclosed = self.parse()?;
+                        let general_enclosed = self.parse()?;
 
-                            Ok(QueryInParens::GeneralEnclosed(general_enclosed))
-                        }
+                        Ok(QueryInParens::GeneralEnclosed(general_enclosed))
                     }
                 }
-            };
+            }
         }
-
-        let general_enclosed = self.parse()?;
-
-        Ok(QueryInParens::GeneralEnclosed(general_enclosed))
     }
 }
 
