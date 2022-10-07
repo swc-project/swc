@@ -686,6 +686,8 @@ pub struct FixtureTestConfig {
 
     /// If true, diagnostics written to [HANDLER] will be printed as a fixture,
     /// with `.stderr` extension.
+    ///
+    /// If false, test will fail if diagnostics are emitted.
     pub allow_error: bool,
 }
 
