@@ -680,15 +680,19 @@ where
 }
 
 /// Config for [test_fixture]. See [test_fixture] for documentation.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct FixtureTestConfig {
     /// If true, source map will be printed to the `.map` file.
+    ///
+    /// Defaults to false.
     pub sourcemap: bool,
 
     /// If true, diagnostics written to [HANDLER] will be printed as a fixture,
     /// with `.stderr` extension.
     ///
     /// If false, test will fail if diagnostics are emitted.
+    ///
+    /// Defaults to false.
     pub allow_error: bool,
 }
 
