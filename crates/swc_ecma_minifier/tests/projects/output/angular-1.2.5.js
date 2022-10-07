@@ -327,13 +327,7 @@
         }while (element !== endNode)
         return jqLite(elements);
     }
-    var version = {
-        full: "1.2.5",
-        major: 1,
-        minor: 2,
-        dot: 5,
-        codeName: "singularity-expansion"
-    }, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
+    var version = {}, jqCache = JQLite.cache = {}, jqName = JQLite.expando = "ng-" + new Date().getTime(), jqId = 1, addEventListenerFn = window1.document.addEventListener ? function(element, type, fn) {
         element.addEventListener(type, fn, !1);
     } : function(element, type, fn) {
         element.attachEvent("on" + type, fn);

@@ -198,9 +198,7 @@
             }, exports.default = void 0;
             var swcHelpers = __webpack_require__(547), _react = __webpack_require__(59301), _createAppShared = __webpack_require__(60953), _reactAppRenderer = swcHelpers.interopRequireDefault(__webpack_require__(61929));
             __webpack_require__(53721);
-            var _loadStaticModules = swcHelpers.interopRequireDefault(__webpack_require__(98565)), _loadRuntimeModules = swcHelpers.interopRequireDefault(__webpack_require__(42792)), _appConfig = __webpack_require__(36660), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), buildConfig = {
-                icestarkType: "normal"
-            }, frameworkAppBase = _createAppShared.createBaseApp({
+            var _loadStaticModules = swcHelpers.interopRequireDefault(__webpack_require__(98565)), _loadRuntimeModules = swcHelpers.interopRequireDefault(__webpack_require__(42792)), _appConfig = __webpack_require__(36660), _errorBoundary = swcHelpers.interopRequireDefault(__webpack_require__(11179)), buildConfig = {}, frameworkAppBase = _createAppShared.createBaseApp({
                 loadRuntimeModules: _loadRuntimeModules.default,
                 createElement: _react.createElement,
                 runtimeAPI: {
@@ -728,9 +726,7 @@
                 getRequiredChunkKey: getRequiredChunkKey,
                 invariant: invariant,
                 Context: Context
-            }), LOADABLE_SHARED = {
-                initialChunks: {}
-            }, STATUS_PENDING = "PENDING", STATUS_REJECTED = "REJECTED", withChunkExtractor = function(Component) {
+            }), LOADABLE_SHARED = {}, STATUS_PENDING = "PENDING", STATUS_REJECTED = "REJECTED", withChunkExtractor = function(Component) {
                 var LoadableWithChunkExtractor = function(props) {
                     return _react_17_0_2_react.createElement(Context.Consumer, null, function(extractor) {
                         return _react_17_0_2_react.createElement(Component, Object.assign({
@@ -9910,19 +9906,7 @@
         },
         94266: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(99234), REACT_STATICS = {
-                childContextTypes: !0,
-                contextType: !0,
-                contextTypes: !0,
-                defaultProps: !0,
-                displayName: !0,
-                getDefaultProps: !0,
-                getDerivedStateFromError: !0,
-                getDerivedStateFromProps: !0,
-                mixins: !0,
-                propTypes: !0,
-                type: !0
-            }, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(99234), REACT_STATICS = {}, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
@@ -9930,14 +9914,7 @@
                 callee: !0,
                 arguments: !0,
                 arity: !0
-            }, MEMO_STATICS = {
-                $$typeof: !0,
-                compare: !0,
-                defaultProps: !0,
-                displayName: !0,
-                propTypes: !0,
-                type: !0
-            }, TYPE_STATICS = {};
+            }, MEMO_STATICS = {}, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }
@@ -11090,11 +11067,7 @@
                 var b = a.textContent;
                 b === a._wrapperState.initialValue && "" !== b && null !== b && (a.value = b);
             }
-            var kb = {
-                html: "http://www.w3.org/1999/xhtml",
-                mathml: "http://www.w3.org/1998/Math/MathML",
-                svg: "http://www.w3.org/2000/svg"
-            };
+            var kb = {};
             function lb(a) {
                 switch(a){
                     case "svg":
@@ -13219,13 +13192,7 @@
                 return a;
             }
             function Hh() {
-                var a = {
-                    memoizedState: null,
-                    baseState: null,
-                    baseQueue: null,
-                    queue: null,
-                    next: null
-                };
+                var a = {};
                 return null === T ? R.memoizedState = T = a : T = T.next = a, T;
             }
             function Ih() {
@@ -13761,10 +13728,7 @@
                 var b = a.stateNode;
                 b.pendingContext ? Hf(a, b.pendingContext, b.pendingContext !== b.context) : b.context && Hf(a, b.context, !1), eh(a, b.containerInfo);
             }
-            var si = {
-                dehydrated: null,
-                retryLane: 0
-            };
+            var si = {};
             function ti(a, b, c) {
                 var a1, b1, c1, d, e, f, g, h, a2, b2, c2, d1, e1, g1, d2 = b.pendingProps, e2 = P.current, f1 = !1;
                 return ((g1 = 0 != (64 & b.flags)) || (g1 = (null === a || null !== a.memoizedState) && 0 != (2 & e2)), g1 ? (f1 = !0, b.flags &= -65) : null !== a && null === a.memoizedState || void 0 === d2.fallback || !0 === d2.unstable_avoidThisFallback || (e2 |= 1), I(P, 1 & e2), null === a) ? (void 0 !== d2.fallback && ph(b), a = d2.children, e2 = d2.fallback, f1) ? (a = ui(b, a, e2, c), b.child.memoizedState = {
@@ -16452,14 +16416,7 @@
                 for(var b = "https://reactjs.org/docs/error-decoder.html?invariant=" + a, c = 1; c < arguments.length; c++)b += "&args[]=" + encodeURIComponent(arguments[c]);
                 return "Minified React error #" + a + "; visit " + b + " for the full message or use the non-minified dev environment for full errors and additional helpful warnings.";
             }
-            var A = {
-                isMounted: function() {
-                    return !1;
-                },
-                enqueueForceUpdate: function() {},
-                enqueueReplaceState: function() {},
-                enqueueSetState: function() {}
-            }, B = {};
+            var A = {}, B = {};
             function C(a, b, c) {
                 this.props = a, this.context = b, this.refs = B, this.updater = c || A;
             }
@@ -16475,9 +16432,7 @@
             }, D.prototype = C.prototype;
             var F = E.prototype = new D();
             F.constructor = E, l(F, C.prototype), F.isPureReactComponent = !0;
-            var G = {
-                current: null
-            }, H = Object.prototype.hasOwnProperty, I = {
+            var G = {}, H = Object.prototype.hasOwnProperty, I = {
                 key: !0,
                 ref: !0,
                 __self: !0,
@@ -16568,9 +16523,7 @@
                 if (1 === a._status) return a._result;
                 throw a._result;
             }
-            var R = {
-                current: null
-            };
+            var R = {};
             function S() {
                 var a = R.current;
                 if (null === a) throw Error(z(321));

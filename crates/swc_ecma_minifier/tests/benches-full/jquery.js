@@ -14,12 +14,7 @@
         return "function" == typeof obj && "number" != typeof obj.nodeType;
     }, isWindow = function(obj) {
         return null != obj && obj === obj.window;
-    }, document = window1.document, preservedScriptAttributes = {
-        type: !0,
-        src: !0,
-        nonce: !0,
-        noModule: !0
-    };
+    }, document = window1.document, preservedScriptAttributes = {};
     function DOMEval(code, node, doc) {
         var i, val, script = (doc = doc || document).createElement("script");
         if (script.text = code, node) for(i in preservedScriptAttributes)(val = node[i] || node.getAttribute && node.getAttribute(i)) && script.setAttribute(i, val);

@@ -18,7 +18,5 @@ define([
         enumerable: !0,
         get: ()=>elem
     });
-    let elem = {
-        field: 'a'
-    };
+    let elem = {};
 });

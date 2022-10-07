@@ -390,9 +390,7 @@
             return arguments.length ? (tickPadding = +_, axis) : tickPadding;
         }, axis;
     }
-    var noop = {
-        value () {}
-    };
+    var noop = {};
     function dispatch() {
         for(var t, i = 0, n = arguments.length, _ = {}; i < n; ++i){
             if (!(t = arguments[i] + "") || t in _ || /[\s.]/.test(t)) throw Error("illegal type: " + t);
@@ -1617,14 +1615,7 @@
             return Math.round(a * (1 - t) + b * t);
         };
     }
-    var degrees$1 = 180 / Math.PI, identity$2 = {
-        translateX: 0,
-        translateY: 0,
-        rotate: 0,
-        skewX: 0,
-        scaleX: 1,
-        scaleY: 1
-    };
+    var degrees$1 = 180 / Math.PI, identity$2 = {};
     function decompose(a, b, c, d, e, f) {
         var scaleX, scaleY, skewX;
         return (scaleX = Math.sqrt(a * a + b * b)) && (a /= scaleX, b /= scaleX), (skewX = a * c + b * d) && (c -= a * skewX, d -= b * skewX), (scaleY = Math.sqrt(c * c + d * d)) && (c /= scaleY, d /= scaleY, skewX /= scaleY), a * d < b * c && (a = -a, b = -b, skewX = -skewX, scaleX = -scaleX), {
@@ -2352,9 +2343,7 @@
     }
     var MODE_DRAG = {
         name: "drag"
-    }, MODE_SPACE = {
-        name: "space"
-    }, MODE_HANDLE = {
+    }, MODE_SPACE = {}, MODE_HANDLE = {
         name: "handle"
     }, MODE_CENTER = {
         name: "center"
@@ -6310,9 +6299,7 @@
             while (next.length)
         }
     };
-    var preroot = {
-        depth: -1
-    }, ambiguous = {};
+    var preroot = {}, ambiguous = {};
     function defaultId(d) {
         return d.id;
     }
@@ -8135,42 +8122,7 @@
             var r = Math.sqrt(size / pi$4);
             context.moveTo(r, 0), context.arc(0, 0, r, 0, tau$5);
         }
-    }, cross$2 = {
-        draw: function(context, size) {
-            var r = Math.sqrt(size / 5) / 2;
-            context.moveTo(-3 * r, -r), context.lineTo(-r, -r), context.lineTo(-r, -3 * r), context.lineTo(r, -3 * r), context.lineTo(r, -r), context.lineTo(3 * r, -r), context.lineTo(3 * r, r), context.lineTo(r, r), context.lineTo(r, 3 * r), context.lineTo(-r, 3 * r), context.lineTo(-r, r), context.lineTo(-3 * r, r), context.closePath();
-        }
-    }, tan30 = Math.sqrt(1 / 3), tan30_2 = 2 * tan30, diamond = {
-        draw: function(context, size) {
-            var y = Math.sqrt(size / tan30_2), x = y * tan30;
-            context.moveTo(0, -y), context.lineTo(x, 0), context.lineTo(0, y), context.lineTo(-x, 0), context.closePath();
-        }
-    }, kr = Math.sin(pi$4 / 10) / Math.sin(7 * pi$4 / 10), kx = Math.sin(tau$5 / 10) * kr, ky = -Math.cos(tau$5 / 10) * kr, star = {
-        draw: function(context, size) {
-            var r = Math.sqrt(0.89081309152928522810 * size), x = kx * r, y = ky * r;
-            context.moveTo(0, -r), context.lineTo(x, y);
-            for(var i = 1; i < 5; ++i){
-                var a = tau$5 * i / 5, c = Math.cos(a), s = Math.sin(a);
-                context.lineTo(s * r, -c * r), context.lineTo(c * x - s * y, s * x + c * y);
-            }
-            context.closePath();
-        }
-    }, square$1 = {
-        draw: function(context, size) {
-            var w = Math.sqrt(size), x = -w / 2;
-            context.rect(x, x, w, w);
-        }
-    }, sqrt3 = Math.sqrt(3), triangle = {
-        draw: function(context, size) {
-            var y = -Math.sqrt(size / (3 * sqrt3));
-            context.moveTo(0, 2 * y), context.lineTo(-sqrt3 * y, -y), context.lineTo(sqrt3 * y, -y), context.closePath();
-        }
-    }, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a$1 = (k / 2 + 1) * 3, wye = {
-        draw: function(context, size) {
-            var r = Math.sqrt(size / a$1), x0 = r / 2, y0 = r * k, y1 = r * k + r, x2 = -x0;
-            context.moveTo(x0, y0), context.lineTo(x0, y1), context.lineTo(x2, y1), context.lineTo(-0.5 * x0 - s * y0, s * x0 + -0.5 * y0), context.lineTo(-0.5 * x0 - s * y1, s * x0 + -0.5 * y1), context.lineTo(-0.5 * x2 - s * y1, s * x2 + -0.5 * y1), context.lineTo(-0.5 * x0 + s * y0, -0.5 * y0 - s * x0), context.lineTo(-0.5 * x0 + s * y1, -0.5 * y1 - s * x0), context.lineTo(-0.5 * x2 + s * y1, -0.5 * y1 - s * x2), context.closePath();
-        }
-    };
+    }, cross$2 = {}, tan30 = Math.sqrt(1 / 3), tan30_2 = 2 * tan30, diamond = {}, kr = Math.sin(pi$4 / 10) / Math.sin(7 * pi$4 / 10), kx = Math.sin(tau$5 / 10) * kr, ky = -Math.cos(tau$5 / 10) * kr, star = {}, square$1 = {}, sqrt3 = Math.sqrt(3), triangle = {}, s = Math.sqrt(3) / 2, k = 1 / Math.sqrt(12), a$1 = (k / 2 + 1) * 3, wye = {};
     function noop$3() {}
     function point$1(that, x, y) {
         that._context.bezierCurveTo((2 * that._x0 + that._x1) / 3, (2 * that._y0 + that._y1) / 3, (that._x0 + 2 * that._x1) / 3, (that._y0 + 2 * that._y1) / 3, (that._x0 + 4 * that._x1 + x) / 6, (that._y0 + 4 * that._y1 + y) / 6);

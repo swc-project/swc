@@ -703,19 +703,7 @@
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var reactIs = __webpack_require__(9864), REACT_STATICS = {
-                childContextTypes: !0,
-                contextType: !0,
-                contextTypes: !0,
-                defaultProps: !0,
-                displayName: !0,
-                getDefaultProps: !0,
-                getDerivedStateFromError: !0,
-                getDerivedStateFromProps: !0,
-                mixins: !0,
-                propTypes: !0,
-                type: !0
-            }, KNOWN_STATICS = {
+            var reactIs = __webpack_require__(9864), REACT_STATICS = {}, KNOWN_STATICS = {
                 name: !0,
                 length: !0,
                 prototype: !0,
@@ -723,14 +711,7 @@
                 callee: !0,
                 arguments: !0,
                 arity: !0
-            }, MEMO_STATICS = {
-                $$typeof: !0,
-                compare: !0,
-                defaultProps: !0,
-                displayName: !0,
-                propTypes: !0,
-                type: !0
-            }, TYPE_STATICS = {};
+            }, MEMO_STATICS = {}, TYPE_STATICS = {};
             function getStatics(component) {
                 return reactIs.isMemo(component) ? MEMO_STATICS : TYPE_STATICS[component.$$typeof] || REACT_STATICS;
             }

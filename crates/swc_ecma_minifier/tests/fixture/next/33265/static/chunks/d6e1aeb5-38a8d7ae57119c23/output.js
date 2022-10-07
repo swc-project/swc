@@ -303,10 +303,7 @@
                 };
             }
             function getPointerPosition(el, event) {
-                var translated = {
-                    x: 0,
-                    y: 0
-                };
+                var translated = {};
                 if (IS_IOS) for(var item = el; item && "html" !== item.nodeName.toLowerCase();){
                     var transform = computedStyle(item, "transform");
                     if (/^matrix/.test(transform)) {
@@ -10304,10 +10301,7 @@
                     }
                     return null;
                 }, findSeiNals = function(avcStream, samples, trackId) {
-                    var seiNal, i, length, lastMatchedSample, avcView = new DataView(avcStream.buffer, avcStream.byteOffset, avcStream.byteLength), result = {
-                        logs: [],
-                        seiNals: []
-                    };
+                    var seiNal, i, length, lastMatchedSample, avcView = new DataView(avcStream.buffer, avcStream.byteOffset, avcStream.byteLength), result = {};
                     for(i = 0; i + 4 < avcStream.length; i += length)if (length = avcView.getUint32(i), i += 4, !(length <= 0)) switch(0x1f & avcStream[i]){
                         case 0x06:
                             var data = avcStream.subarray(i + 1, i + 1 + length), matchingSample = mapToSample(i, samples);
@@ -10672,10 +10666,7 @@
                         startIndex--, endIndex--;
                     }
                 }, parseVideoPes_ = function(bytes, pmt, result) {
-                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {
-                        data: [],
-                        size: 0
-                    }; endIndex < bytes.byteLength;){
+                    for(var packet, pesType, pusi, parsed, frame, i, pes, startIndex = 0, endIndex = 188, endLoop = !1, currentFrame = {}; endIndex < bytes.byteLength;){
                         if (0x47 === bytes[startIndex] && 0x47 === bytes[endIndex]) {
                             if (packet = bytes.subarray(startIndex, endIndex), "pes" === probe.ts.parseType(packet, pmt.pid) && (pesType = probe.ts.parsePesType(packet, pmt.table), pusi = probe.ts.parsePayloadUnitStartIndicator(packet), "video" === pesType && (pusi && !endLoop && (parsed = probe.ts.parsePesTime(packet)) && (parsed.type = "video", result.video.push(parsed), endLoop = !0), !result.firstKeyFrame))) {
                                 if (pusi && 0 !== currentFrame.size) {
@@ -11068,11 +11059,7 @@
                     ];
                     transmuxer.postMessage(message, transfers);
                 } else transmuxer.postMessage(message);
-            }, REQUEST_ERRORS = {
-                FAILURE: 2,
-                TIMEOUT: -101,
-                ABORTED: -102
-            }, abortAll = function(activeXhrs) {
+            }, REQUEST_ERRORS = {}, abortAll = function(activeXhrs) {
                 activeXhrs.forEach(function(xhr) {
                     xhr.abort();
                 });

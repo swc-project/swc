@@ -2688,12 +2688,7 @@
             }, Parser = function(_Stream) {
                 function Parser() {
                     (_this = _Stream.call(this) || this).lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
-                    var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
-                        AUDIO: {},
-                        VIDEO: {},
-                        "CLOSED-CAPTIONS": {},
-                        SUBTITLES: {}
-                    }, currentTimeline = 0;
+                    var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {}, currentTimeline = 0;
                     _this.manifest = {
                         allowCache: !0,
                         discontinuityStarts: [],
@@ -3008,15 +3003,7 @@
                 if (!list.length) return [];
                 for(var result = [], i = 0; i < list.length; i++)result.push(list[i]);
                 return result;
-            }, errors = {
-                INVALID_NUMBER_OF_PERIOD: "INVALID_NUMBER_OF_PERIOD",
-                DASH_EMPTY_MANIFEST: "DASH_EMPTY_MANIFEST",
-                DASH_INVALID_XML: "DASH_INVALID_XML",
-                NO_BASE_URL: "NO_BASE_URL",
-                MISSING_SEGMENT_INFORMATION: "MISSING_SEGMENT_INFORMATION",
-                SEGMENT_TIME_UNSPECIFIED: "SEGMENT_TIME_UNSPECIFIED",
-                UNSUPPORTED_UTC_TIMING_SCHEME: "UNSUPPORTED_UTC_TIMING_SCHEME"
-            }, urlTypeToSegment = function(_ref) {
+            }, errors = {}, urlTypeToSegment = function(_ref) {
                 var _ref$baseUrl = _ref.baseUrl, _ref$source = _ref.source, source = void 0 === _ref$source ? "" : _ref$source, _ref$range = _ref.range, range = void 0 === _ref$range ? "" : _ref$range, _ref$indexRange = _ref.indexRange, indexRange = void 0 === _ref$indexRange ? "" : _ref$indexRange, segment = {
                     uri: source,
                     resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__.Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
@@ -4536,9 +4523,7 @@
                     for(var i = 0; i < cues.length; i++)paddedOverlay.appendChild(cues[i].displayState);
                     return;
                 }
-                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = {
-                    font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
-                };
+                var boxPositions = [], containerBox = BoxPosition.getSimpleBoxPosition(paddedOverlay), styleOptions = (containerBox.height, {});
                 !function() {
                     for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
                         var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {

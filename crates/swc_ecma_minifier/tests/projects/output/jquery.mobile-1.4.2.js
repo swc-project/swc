@@ -3183,12 +3183,7 @@
                 return undefined !== newOptions.wrapperClass && this._ui.container.removeClass(currentOptions.wrapperClass).addClass(newOptions.wrapperClass), undefined !== newOptions.theme && theElement.removeClass(this._themeClassFromOption("ui-body-", currentOptions.theme)).addClass(this._themeClassFromOption("ui-body-", newOptions.theme)), undefined !== newOptions.overlayTheme && (screen1.removeClass(this._themeClassFromOption("ui-overlay-", currentOptions.overlayTheme)).addClass(this._themeClassFromOption("ui-overlay-", newOptions.overlayTheme)), this._isOpen && screen1.addClass("in")), undefined !== newOptions.shadow && theElement.toggleClass("ui-overlay-shadow", newOptions.shadow), undefined !== newOptions.corners && theElement.toggleClass("ui-corner-all", newOptions.corners), undefined === newOptions.transition || this._currentTransition || this._applyTransition(newOptions.transition), undefined !== newOptions.tolerance && this._setTolerance(newOptions.tolerance), undefined !== newOptions.disabled && newOptions.disabled && this.close(), this._super(newOptions);
             },
             _setTolerance: function(value) {
-                var ar, tol = {
-                    t: 30,
-                    r: 15,
-                    b: 30,
-                    l: 15
-                };
+                var ar, tol = {};
                 if (value !== undefined) switch(ar = String(value).split(","), $.each(ar, function(idx, val) {
                     ar[idx] = parseInt(val, 10);
                 }), ar.length){

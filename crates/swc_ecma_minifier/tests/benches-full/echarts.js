@@ -3607,16 +3607,7 @@
             'touchmove'
         ],
         pointer: pointerHandlerNames
-    }), globalNativeListenerNames = {
-        mouse: [
-            'mousemove',
-            'mouseup'
-        ],
-        pointer: [
-            'pointermove',
-            'pointerup'
-        ]
-    }, wheelEventSupported = !1;
+    }), globalNativeListenerNames = {}, wheelEventSupported = !1;
     function isPointerFromTouch(event) {
         var pointerType = event.pointerType;
         return 'pen' === pointerType || 'touch' === pointerType;
@@ -4372,10 +4363,7 @@
     }
     var IS_CONTAINER = '___EC__COMPONENT__CONTAINER___', IS_EXTENDED_CLASS = '___EC__EXTENDED_CLASS___';
     function parseClassType(componentType) {
-        var ret = {
-            main: '',
-            sub: ''
-        };
+        var ret = {};
         if (componentType) {
             var typeArr = componentType.split('.');
             ret.main = typeArr[0] || '', ret.sub = typeArr[1] || '';
@@ -6078,10 +6066,7 @@
         }
     }
     function findComponentHighDownDispatchers(componentMainType, componentIndex, name, api) {
-        var focusSelf, ret = {
-            focusSelf: !1,
-            dispatchers: null
-        };
+        var focusSelf, ret = {};
         if (null == componentMainType || 'series' === componentMainType || null == componentIndex || null == name) return ret;
         var componentModel = api.getModel().getComponent(componentMainType, componentIndex);
         if (!componentModel) return ret;
@@ -8361,11 +8346,7 @@
         'itemName',
         'itemId',
         'seriesName'
-    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', BE_ORDINAL = {
-        Must: 1,
-        Might: 2,
-        Not: 3
-    }, innerGlobalModel = makeInner();
+    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', BE_ORDINAL = {}, innerGlobalModel = makeInner();
     function makeSeriesEncodeForAxisCoordSys(coordDimensions, seriesModel, source) {
         var baseCategoryDimIndex, categoryWayValueDimStart, encode = {}, datasetModel = querySeriesUpstreamDatasetModel(seriesModel);
         if (!datasetModel || !coordDimensions) return encode;
@@ -24023,10 +24004,7 @@
                     x: rootRect.x,
                     y: rootRect.y
                 };
-                var defaultPosition = {
-                    x: 0,
-                    y: 0
-                };
+                var defaultPosition = {};
                 if (!targetInfo) return defaultPosition;
                 var targetNode = targetInfo.node, layout = targetNode.getLayout();
                 if (!layout) return defaultPosition;
@@ -25063,10 +25041,7 @@
         }, GraphNode.prototype.getModel = function(path) {
             if (!(this.dataIndex < 0)) return this.hostGraph.data.getItemModel(this.dataIndex).getModel(path);
         }, GraphNode.prototype.getAdjacentDataIndices = function() {
-            for(var dataIndices = {
-                edge: [],
-                node: []
-            }, i = 0; i < this.edges.length; i++){
+            for(var dataIndices = {}, i = 0; i < this.edges.length; i++){
                 var adjacentEdge = this.edges[i];
                 !(adjacentEdge.dataIndex < 0) && (dataIndices.edge.push(adjacentEdge.dataIndex), dataIndices.node.push(adjacentEdge.node1.dataIndex, adjacentEdge.node2.dataIndex));
             }

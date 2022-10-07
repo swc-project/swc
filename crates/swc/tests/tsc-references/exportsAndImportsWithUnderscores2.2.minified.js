@@ -10,10 +10,7 @@ Object.defineProperty(exports, "__esModule", {
         return _default;
     }
 });
-var _default = {
-    __esmodule: !0,
-    __proto__: {}
-};
+var _default = {};
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

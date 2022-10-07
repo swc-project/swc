@@ -1280,9 +1280,7 @@
             this[sourceKey][key] = val;
         }, Object.defineProperty(target, key, sharedPropertyDefinition);
     }
-    var computedWatcherOptions = {
-        lazy: !0
-    };
+    var computedWatcherOptions = {};
     function defineComputed(target, key, userDef) {
         var shouldCache = !isServerRendering();
         'function' == typeof userDef ? (sharedPropertyDefinition.get = shouldCache ? createComputedGetter(key) : createGetterInvoker(userDef), sharedPropertyDefinition.set = noop) : (sharedPropertyDefinition.get = userDef.get ? shouldCache && !1 !== userDef.cache ? createComputedGetter(key) : createGetterInvoker(userDef.get) : noop, sharedPropertyDefinition.set = userDef.set || noop), sharedPropertyDefinition.set === noop && (sharedPropertyDefinition.set = function() {

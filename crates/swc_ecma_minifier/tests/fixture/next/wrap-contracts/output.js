@@ -1891,9 +1891,7 @@
         },
         9650: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            const ModuleError = __webpack_require__(4473), { Buffer  } = __webpack_require__(8764) || {}, { AbstractSublevelIterator , AbstractSublevelKeyIterator , AbstractSublevelValueIterator  } = __webpack_require__(2970), kPrefix = Symbol('prefix'), kUpperBound = Symbol('upperBound'), kPrefixRange = Symbol('prefixRange'), kParent = Symbol('parent'), kUnfix = Symbol('unfix'), textEncoder = new TextEncoder(), defaults = {
-                separator: '!'
-            };
+            const ModuleError = __webpack_require__(4473), { Buffer  } = __webpack_require__(8764) || {}, { AbstractSublevelIterator , AbstractSublevelKeyIterator , AbstractSublevelValueIterator  } = __webpack_require__(2970), kPrefix = Symbol('prefix'), kUpperBound = Symbol('upperBound'), kPrefixRange = Symbol('prefixRange'), kParent = Symbol('parent'), kUnfix = Symbol('unfix'), textEncoder = new TextEncoder(), defaults = {};
             module.exports = function({ AbstractLevel  }) {
                 class AbstractSublevel extends AbstractLevel {
                     static defaults(options) {
@@ -3968,11 +3966,7 @@
             const common_1 = __webpack_require__(536);
             common_1.default.init = function(apiConfig = {}) {
                 function getDefaultConfig() {
-                    const defaults = {
-                        host: "arweave.net",
-                        port: 443,
-                        protocol: "https"
-                    };
+                    const defaults = {};
                     if (!window || !window.location || !window.location.protocol || !window.location.hostname) return defaults;
                     const currentProtocol = window.location.protocol.replace(":", ""), currentHost = window.location.hostname, currentPort = window.location.port ? parseInt(window.location.port) : "https" == currentProtocol ? 443 : 80, isLocal = [
                         "localhost",
@@ -18432,10 +18426,7 @@
                     ], json;
                 },
                 type (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'type',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         let type = stream.read(1)[0];
                         const entry = {
@@ -18452,10 +18443,7 @@
                     return json;
                 },
                 import (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'import',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = {}, moduleLen = leb.unsigned.readBn(stream).toNumber();
                         entry.moduleStr = Buffer.from(stream.read(moduleLen)).toString();
@@ -18467,10 +18455,7 @@
                     return json;
                 },
                 function (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'function',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = leb.unsigned.readBn(stream).toNumber();
                         json.entries.push(entry);
@@ -18478,10 +18463,7 @@
                     return json;
                 },
                 table (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'table',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = _exports.typeParsers.table(stream);
                         json.entries.push(entry);
@@ -18489,10 +18471,7 @@
                     return json;
                 },
                 memory (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'memory',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = _exports.typeParsers.memory(stream);
                         json.entries.push(entry);
@@ -18500,10 +18479,7 @@
                     return json;
                 },
                 global (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'global',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = {};
                         entry.type = _exports.typeParsers.global(stream), entry.init = _exports.typeParsers.initExpr(stream), json.entries.push(entry);
@@ -18511,10 +18487,7 @@
                     return json;
                 },
                 export (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'export',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const strLength = leb.unsigned.readBn(stream).toNumber(), entry = {};
                         entry.field_str = Buffer.from(stream.read(strLength)).toString();
@@ -18530,10 +18503,7 @@
                     return json.index = leb.unsigned.readBn(stream).toNumber(), json;
                 },
                 element (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'element',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = {
                             elements: []
@@ -18549,10 +18519,7 @@
                     return json;
                 },
                 code (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'code',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const codeBody = {
                             locals: [],
@@ -18575,10 +18542,7 @@
                     return json;
                 },
                 data (stream) {
-                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {
-                        name: 'data',
-                        entries: []
-                    };
+                    const numberOfEntries = leb.unsigned.readBn(stream).toNumber(), json = {};
                     for(let i = 0; i < numberOfEntries; i++){
                         const entry = {};
                         entry.index = leb.unsigned.readBn(stream).toNumber(), entry.offset = _exports.typeParsers.initExpr(stream);
@@ -22273,13 +22237,7 @@
                 }
             }
             function generateResponse(wasmBinary) {
-                const init = {
-                    status: 200,
-                    statusText: 'OK',
-                    headers: {
-                        'Content-Type': 'application/wasm'
-                    }
-                };
+                const init = {};
                 return new Response(wasmBinary, init);
             }
             async function getWasmModule(wasmResponse, binary) {

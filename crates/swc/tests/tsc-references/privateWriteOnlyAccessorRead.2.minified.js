@@ -12,9 +12,7 @@ function set_valueCompound(v) {}
 new class {
     m() {
         var _tmp;
-        let foo = {
-            bar: 1
-        };
+        let foo = {};
         console.log(_class_private_field_get(this, _value)), _class_private_field_set(this, _value, {
             foo
         }), _class_private_field_set(this, _value, {

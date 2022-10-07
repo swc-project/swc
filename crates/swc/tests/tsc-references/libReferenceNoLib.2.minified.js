@@ -10,6 +10,4 @@ Object.defineProperty(exports, "__esModule", {
     enumerable: !0,
     get: ()=>elem
 });
-const elem = {
-    field: 'a'
-};
+const elem = {};

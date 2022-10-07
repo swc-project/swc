@@ -2645,13 +2645,7 @@
                 return Rh = 0, a;
             }
             function $h() {
-                var a = {
-                    memoizedState: null,
-                    baseState: null,
-                    baseQueue: null,
-                    queue: null,
-                    next: null
-                };
+                var a = {};
                 return null === N ? L.memoizedState = N = a : N = N.next = a, N;
             }
             function ai() {
@@ -3382,11 +3376,7 @@
             function rj(a, b, c, d, e) {
                 return nh(), oh(e), b.flags |= 256, ej(a, b, c, d), b.child;
             }
-            var sj = {
-                dehydrated: null,
-                treeContext: null,
-                retryLane: 0
-            };
+            var sj = {};
             function tj(a) {
                 return {
                     baseLanes: a,
@@ -5865,14 +5855,7 @@
             exports.Fragment = l, exports.jsx = q, exports.jsxs = q;
         },
         3426: function(__unused_webpack_module, exports) {
-            var l = Symbol.for("react.element"), n = Symbol.for("react.portal"), p = Symbol.for("react.fragment"), q = Symbol.for("react.strict_mode"), r = Symbol.for("react.profiler"), t = Symbol.for("react.provider"), u = Symbol.for("react.context"), v = Symbol.for("react.forward_ref"), w = Symbol.for("react.suspense"), x = Symbol.for("react.memo"), y = Symbol.for("react.lazy"), z = Symbol.iterator, B = {
-                isMounted: function() {
-                    return !1;
-                },
-                enqueueForceUpdate: function() {},
-                enqueueReplaceState: function() {},
-                enqueueSetState: function() {}
-            }, C = Object.assign, D = {};
+            var l = Symbol.for("react.element"), n = Symbol.for("react.portal"), p = Symbol.for("react.fragment"), q = Symbol.for("react.strict_mode"), r = Symbol.for("react.profiler"), t = Symbol.for("react.provider"), u = Symbol.for("react.context"), v = Symbol.for("react.forward_ref"), w = Symbol.for("react.suspense"), x = Symbol.for("react.memo"), y = Symbol.for("react.lazy"), z = Symbol.iterator, B = {}, C = Object.assign, D = {};
             function E(a, b, e) {
                 this.props = a, this.context = b, this.refs = D, this.updater = e || B;
             }
@@ -5888,9 +5871,7 @@
             }, F.prototype = E.prototype;
             var H = G.prototype = new F();
             H.constructor = G, C(H, E.prototype), H.isPureReactComponent = !0;
-            var I = Array.isArray, J = Object.prototype.hasOwnProperty, K = {
-                current: null
-            }, L = {
+            var I = Array.isArray, J = Object.prototype.hasOwnProperty, K = {}, L = {
                 key: !0,
                 ref: !0,
                 __self: !0,
@@ -5981,9 +5962,7 @@
                 if (1 === a._status) return a._result.default;
                 throw a._result;
             }
-            var U = {
-                current: null
-            }, V = {
+            var U = {}, V = {
                 transition: null
             };
             exports.Children = {

@@ -5540,7 +5540,6 @@
             var r = function(e, t, r) {
                 for(var n = null, i = 1 / 0, o = {
                     width: 0,
-                    stretch: 0,
                     shrink: 0
                 }, a = t[Math.min(r, t.length - 1)], u = 0; u < e.length; u += 1){
                     var l = e[u];
@@ -5576,11 +5575,7 @@
             "use strict";
             var n = r(5318).default;
             t.__esModule = !0, t.default = void 0;
-            var i = n(r(2195)), o = n(r(26)), a = n(r(2564)), u = n(r(5821)), l = n(r(5090)), s = {
-                width: 3,
-                stretch: 6,
-                shrink: 9
-            }, c = function(e, t, r) {
+            var i = n(r(2195)), o = n(r(26)), a = n(r(2564)), u = n(r(5821)), l = n(r(5090)), s = {}, c = function(e, t, r) {
                 var n = 0, i = null, o = r.reduce(function(r, o) {
                     var l, s = t[o.position], c = t[o.position - 1];
                     return o.position === t.length - 1 ? r : ("penalty" === s.type ? (i = c.value.end, l = (0, a.default)(n, i, e), l = (0, u.default)(l.length, 0x002d, l)) : (i = s.value.end, l = (0, a.default)(n, i, e)), n = i, [].concat(r, [
@@ -5634,11 +5629,7 @@
                         fitness: n && n.demerits && n.demerits.fitness || 3000
                     },
                     tolerance: n && n.tolerance || 3
-                }, a = new i.default(), u = {
-                    width: 0,
-                    stretch: 0,
-                    shrink: 0
-                }, l = [], s = {
+                }, a = new i.default(), u = {}, l = [], s = {
                     data: {
                         demerits: 1 / 0
                     }
@@ -9446,12 +9437,7 @@
                         levels: [],
                         stickToLeft: 0,
                         stickToRight: 0
-                    }, i = {
-                        alphabet: 1,
-                        level: 2,
-                        stickToLeft: 3,
-                        stickToRight: 4
-                    }; t = e.charAt(r++);){
+                    }, i = {}; t = e.charAt(r++);){
                         var o = "." === t, a = !o && /\d/.test(t), u = o ? r - 1 == 0 ? i.stickToLeft : i.stickToRight : a ? i.level : i.alphabet;
                         switch(u){
                             case i.alphabet:
@@ -25136,13 +25122,7 @@
                     rr.current = rM, ri = 0, rc = rs = rl = ru = ra = ro = null, rf = 0, rd = null, rp = 0, rh = !1, ry = null, rg = 0;
                 }
                 function rw() {
-                    var e = {
-                        memoizedState: null,
-                        baseState: null,
-                        queue: null,
-                        baseUpdate: null,
-                        next: null
-                    };
+                    var e = {};
                     return null === rs ? rl = rs = e : rs = rs.next = e, rs;
                 }
                 function rE() {
@@ -25580,10 +25560,7 @@
                     var t = e.stateNode;
                     t.pendingContext ? eH(e, t.pendingContext, t.pendingContext !== t.context) : t.context && eH(e, t.context, !1), t5(e, t.containerInfo);
                 }
-                var r8 = {
-                    dehydrated: null,
-                    retryTime: 0
-                };
+                var r8 = {};
                 function r6(e, t, r) {
                     var n, i = t.mode, o = t.pendingProps, a = t9.current, u = !1;
                     if ((n = 0 != (64 & t.effectTag)) || (n = 0 != (2 & a) && (null === e || null !== e.memoizedState)), n ? (u = !0, t.effectTag &= -65) : null !== e && null === e.memoizedState || void 0 === o.fallback || !0 === o.unstable_avoidThisFallback || (a |= 1), eM(t9, 1 & a, t), null === e) {

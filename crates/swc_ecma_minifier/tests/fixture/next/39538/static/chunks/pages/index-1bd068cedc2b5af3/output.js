@@ -219,31 +219,7 @@
             };
             var _extends = __webpack_require__(2769).Z, _interop_require_default = __webpack_require__(4507).Z, _interop_require_wildcard = __webpack_require__(8167).Z, _object_without_properties_loose = __webpack_require__(4719).Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
             __webpack_require__(8827);
-            var _normalizeTrailingSlash = __webpack_require__(8236), ref = {
-                deviceSizes: [
-                    640,
-                    750,
-                    828,
-                    1080,
-                    1200,
-                    1920,
-                    2048,
-                    3840
-                ],
-                imageSizes: [
-                    16,
-                    32,
-                    48,
-                    64,
-                    96,
-                    128,
-                    256,
-                    384
-                ],
-                path: "/_next/image",
-                loader: "default",
-                dangerouslyAllowSVG: !1
-            }, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {
+            var _normalizeTrailingSlash = __webpack_require__(8236), ref = {}, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {
                 deviceSizes: [
                     640,
                     750,

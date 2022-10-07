@@ -756,17 +756,7 @@
         function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             (function(global) {
-                var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {
-                    ctx: {
-                        binary: null
-                    },
-                    dom: {
-                        binary: null
-                    }
-                }, _numPatches = {
-                    x: 0,
-                    y: 0
-                };
+                var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {}, _numPatches = {};
                 __webpack_exports__.a = {
                     init: function(inputImageWrapper, config) {
                         var skeletonImageData;
@@ -3203,12 +3193,7 @@
             });
             var helpers_typeof = __webpack_require__(19), typeof_default = __webpack_require__.n(helpers_typeof), merge = __webpack_require__(16), merge_default = __webpack_require__.n(merge);
             __webpack_require__(152);
-            var image_wrapper = __webpack_require__(11), Bresenham = {}, Slope = {
-                DIR: {
-                    UP: 1,
-                    DOWN: -1
-                }
-            };
+            var image_wrapper = __webpack_require__(11), Bresenham = {}, Slope = {};
             Bresenham.getBarcodeLine = function(imageWrapper, p1, p2) {
                 var error, y, tmp, x, val, x0 = 0 | p1.x, y0 = 0 | p1.y, x1 = 0 | p2.x, y1 = 0 | p2.y, steep = Math.abs(y1 - y0) > Math.abs(x1 - x0), line = [], imageData = imageWrapper.data, width = imageWrapper.size.x, min = 255, max = 0;
                 function read(a, b) {
@@ -4967,10 +4952,7 @@
                         }
                     }
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {
-                IOQ: /[IOQ]/g,
-                AZ09: /[A-Z0-9]{17}/
-            }, code_39_vin_reader = function(_Code39Reader) {
+            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns = {}, code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6307,10 +6289,7 @@
                         }
                     }
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader_patterns = {
-                AEIO: /[AEIO]/g,
-                AZ09: /[A-Z0-9]/
-            }, code_32_reader = function(_Code39Reader) {
+            }(barcode_reader), code_32_reader_patterns = {}, code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6384,18 +6363,7 @@
                     READERS[name] = reader;
                 },
                 create: function(config, inputImageWrapper) {
-                    var _canvas = {
-                        ctx: {
-                            frequency: null,
-                            pattern: null,
-                            overlay: null
-                        },
-                        dom: {
-                            frequency: null,
-                            pattern: null,
-                            overlay: null
-                        }
-                    }, _barcodeReaders = [];
+                    var _canvas = {}, _barcodeReaders = [];
                     function initReaders() {
                         config.readers.forEach(function(readerConfig) {
                             var reader, configuration = {}, supplements = [];

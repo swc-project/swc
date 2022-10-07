@@ -2752,10 +2752,7 @@ Elements.prototype = {
             };
         },
         getScrolls: function() {
-            for(var element = this.parentNode, position = {
-                x: 0,
-                y: 0
-            }; element && !isBody(element);)position.x += element.scrollLeft, position.y += element.scrollTop, element = element.parentNode;
+            for(var element = this.parentNode, position = {}; element && !isBody(element);)position.x += element.scrollLeft, position.y += element.scrollTop, element = element.parentNode;
             return position;
         },
         getOffsetParent: brokenOffsetParent ? function() {
@@ -2779,10 +2776,7 @@ Elements.prototype = {
                     y: bound.top.toInt() + elemScrolls.y + (isFixed ? 0 : htmlScroll.y) - html.clientTop
                 };
             }
-            var element = this, position = {
-                x: 0,
-                y: 0
-            };
+            var element = this, position = {};
             if (isBody(this)) return position;
             for(; element && !isBody(element);){
                 if (position.x += element.offsetLeft, position.y += element.offsetTop, Browser.firefox) {

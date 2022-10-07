@@ -109,11 +109,7 @@
         var time = +new Date() + ms;
         (!this.id || time < this.time) && (clearTimeout(this.id), this.id = setTimeout(this.handler, ms), this.time = time);
     };
-    var Pass = {
-        toString: function() {
-            return "CodeMirror.Pass";
-        }
-    }, sel_dontScroll = {
+    var Pass = {}, sel_dontScroll = {
         scroll: !1
     }, sel_mouse = {
         origin: "*mouse"
@@ -4329,9 +4325,7 @@
             }), on(d.input.getField(), "contextmenu", function(e) {
                 d.scroller.contains(e.target) || onContextMenu(cm, e);
             });
-            var touchFinished, prevTouch = {
-                end: 0
-            };
+            var touchFinished, prevTouch = {};
             function finishTouch() {
                 d.activeTouch && (touchFinished = setTimeout(function() {
                     return d.activeTouch = null;

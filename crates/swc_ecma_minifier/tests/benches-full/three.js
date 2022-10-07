@@ -4507,13 +4507,7 @@
         };
     }
     function WebGLInfo(gl) {
-        var render = {
-            frame: 0,
-            calls: 0,
-            triangles: 0,
-            points: 0,
-            lines: 0
-        };
+        var render = {};
         return {
             memory: {
                 geometries: 0,
@@ -5610,9 +5604,7 @@
         return a.groupOrder !== b.groupOrder ? a.groupOrder - b.groupOrder : a.renderOrder !== b.renderOrder ? a.renderOrder - b.renderOrder : a.z !== b.z ? b.z - a.z : a.id - b.id;
     }
     function WebGLRenderList(properties) {
-        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {
-            id: -1
-        };
+        var renderItems = [], renderItemsIndex = 0, opaque = [], transparent = [], defaultProgram = {};
         function getNextRenderItem(object, geometry, material, groupOrder, z, group) {
             var renderItem = renderItems[renderItemsIndex], materialProperties = properties.get(material);
             return void 0 === renderItem ? (renderItem = {
@@ -5975,19 +5967,11 @@
                         _shadowMapSize.copy(shadow.mapSize);
                         var shadowFrameExtents = shadow.getFrameExtents();
                         if (_shadowMapSize.multiply(shadowFrameExtents), _viewportSize.copy(shadow.mapSize), (_shadowMapSize.x > maxTextureSize || _shadowMapSize.y > maxTextureSize) && (_shadowMapSize.x > maxTextureSize && (_viewportSize.x = Math.floor(maxTextureSize / shadowFrameExtents.x), _shadowMapSize.x = _viewportSize.x * shadowFrameExtents.x, shadow.mapSize.x = _viewportSize.x), _shadowMapSize.y > maxTextureSize && (_viewportSize.y = Math.floor(maxTextureSize / shadowFrameExtents.y), _shadowMapSize.y = _viewportSize.y * shadowFrameExtents.y, shadow.mapSize.y = _viewportSize.y)), null === shadow.map && !shadow.isPointLightShadow && 3 === this.type) {
-                            var pars = {
-                                minFilter: 1006,
-                                magFilter: 1006,
-                                format: 1023
-                            };
+                            var pars = {};
                             shadow.map = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, pars), shadow.map.texture.name = light.name + '.shadowMap', shadow.mapPass = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, pars), shadow.camera.updateProjectionMatrix();
                         }
                         if (null === shadow.map) {
-                            var _pars = {
-                                minFilter: 1003,
-                                magFilter: 1003,
-                                format: 1023
-                            };
+                            var _pars = {};
                             shadow.map = new WebGLRenderTarget(_shadowMapSize.x, _shadowMapSize.y, _pars), shadow.map.texture.name = light.name + '.shadowMap', shadow.camera.updateProjectionMatrix();
                         }
                         _renderer.setRenderTarget(shadow.map), _renderer.clear();
@@ -6737,13 +6721,7 @@
         this.domElement = _canvas, this.debug = {
             checkShaderErrors: !0
         }, this.autoClear = !0, this.autoClearColor = !0, this.autoClearDepth = !0, this.autoClearStencil = !0, this.sortObjects = !0, this.clippingPlanes = [], this.localClippingEnabled = !1, this.gammaFactor = 2.0, this.outputEncoding = 3000, this.physicallyCorrectLights = !1, this.toneMapping = 0, this.toneMappingExposure = 1.0, this.maxMorphTargets = 8, this.maxMorphNormals = 4;
-        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {
-            background: null,
-            fog: null,
-            environment: null,
-            overrideMaterial: null,
-            isScene: !0
-        };
+        var _this = this, _isContextLost = !1, _framebuffer = null, _currentActiveCubeFace = 0, _currentActiveMipmapLevel = 0, _currentRenderTarget = null, _currentFramebuffer = null, _currentMaterialId = -1, _currentCamera = null, _currentViewport = new Vector4(), _currentScissor = new Vector4(), _currentScissorTest = null, _width = _canvas.width, _height = _canvas.height, _pixelRatio = 1, _opaqueSort = null, _transparentSort = null, _viewport = new Vector4(0, 0, _width, _height), _scissor = new Vector4(0, 0, _width, _height), _scissorTest = !1, _frustum = new Frustum(), _clippingEnabled = !1, _localClippingEnabled = !1, _projScreenMatrix = new Matrix4(), _vector3 = new Vector3(), _emptyScene = {};
         function getTargetPixelRatio() {
             return null === _currentRenderTarget ? _pixelRatio : 1;
         }
@@ -7583,15 +7561,7 @@
             return this.init(), this;
         },
         toJSON: function() {
-            var data = {
-                metadata: {
-                    version: 4.5,
-                    type: 'Skeleton',
-                    generator: 'Skeleton.toJSON'
-                },
-                bones: [],
-                boneInverses: []
-            };
+            var data = {};
             data.uuid = this.uuid;
             for(var bones = this.bones, boneInverses = this.boneInverses, i = 0, l = bones.length; i < l; i++){
                 var bone = bones[i];
@@ -10773,13 +10743,7 @@
             return this.arcLengthDivisions = source.arcLengthDivisions, this;
         },
         toJSON: function() {
-            var data = {
-                metadata: {
-                    version: 4.5,
-                    type: 'Curve',
-                    generator: 'Curve.toJSON'
-                }
-            };
+            var data = {};
             return data.arcLengthDivisions = this.arcLengthDivisions, data.type = this.type, data;
         },
         fromJSON: function(json) {
@@ -12834,10 +12798,7 @@
     var AnimationAction = function() {
         function AnimationAction(mixer, clip, localRoot, blendMode) {
             void 0 === localRoot && (localRoot = null), void 0 === blendMode && (blendMode = clip.blendMode), this._mixer = mixer, this._clip = clip, this._localRoot = localRoot, this.blendMode = blendMode;
-            for(var tracks = clip.tracks, nTracks = tracks.length, interpolants = Array(nTracks), interpolantSettings = {
-                endingStart: 2400,
-                endingEnd: 2400
-            }, i = 0; i !== nTracks; ++i){
+            for(var tracks = clip.tracks, nTracks = tracks.length, interpolants = Array(nTracks), interpolantSettings = {}, i = 0; i !== nTracks; ++i){
                 var interpolant = tracks[i].createInterpolant(null);
                 interpolants[i] = interpolant, interpolant.settings = interpolantSettings;
             }

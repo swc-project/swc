@@ -2232,14 +2232,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "identity", function() {
                 return identity;
             });
-            var degrees = 180 / Math.PI, identity = {
-                translateX: 0,
-                translateY: 0,
-                rotate: 0,
-                skewX: 0,
-                scaleX: 1,
-                scaleY: 1
-            };
+            var degrees = 180 / Math.PI, identity = {};
             __webpack_exports__.default = function(a, b, c, d, e, f) {
                 var scaleX, scaleY, skewX;
                 return (scaleX = Math.sqrt(a * a + b * b)) && (a /= scaleX, b /= scaleX), (skewX = a * c + b * d) && (c -= a * skewX, d -= b * skewX), (scaleY = Math.sqrt(c * c + d * d)) && (c /= scaleY, d /= scaleY, skewX /= scaleY), a * d < b * c && (a = -a, b = -b, skewX = -skewX, scaleX = -scaleX), {
@@ -11911,10 +11904,7 @@
                         {
                             key: "getCursorPointers",
                             value: function(props) {
-                                var cursors = {
-                                    yProps: "ns-resize",
-                                    xProps: "ew-resize"
-                                };
+                                var cursors = {};
                                 return !props.allowResize && props.allowDrag ? (cursors.xProps = "move", cursors.yProps = "move") : props.allowResize || props.allowDrag || (cursors.xProps = "auto", cursors.yProps = "auto"), cursors;
                             }
                         },
@@ -12168,28 +12158,7 @@
                     min > globalMax - size ? globalMax - size : Math.max(min, globalMin),
                     max < globalMin + size ? globalMin + size : Math.min(max, globalMax)
                 ];
-            }, fallbackProps = {
-                brushAreaStyle: {
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref) {
-                        return _ref.active ? 0.2 : 0.1;
-                    }
-                },
-                brushStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref2) {
-                        return _ref2.active ? 0.4 : 0.3;
-                    }
-                },
-                handleStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "none"
-                }
-            }, VictoryBrushLine = function(_React$Component) {
+            }, fallbackProps = {}, VictoryBrushLine = function(_React$Component) {
                 var Constructor, protoProps, staticProps;
                 function VictoryBrushLine() {
                     var self1, call;
@@ -22380,10 +22349,7 @@
             }, relativeMeasurementUnitsCoef = {
                 em: 1,
                 ex: 0.5
-            }, coefficients = {
-                heightOverlapCoef: 1.05,
-                lineCapitalCoef: 1.15
-            }, defaultStyle = {
+            }, coefficients = {}, defaultStyle = {
                 lineHeight: 1,
                 letterSpacing: "0px",
                 fontSize: 0,
@@ -25631,10 +25597,7 @@
                     }, 0)
                 };
             }, getAnchors = function(titleOrientation, centerTitle) {
-                var standardAnchors = {
-                    textAnchor: "right" === titleOrientation ? "end" : "start",
-                    verticalAnchor: "bottom" === titleOrientation ? "end" : "start"
-                };
+                var standardAnchors = {};
                 if (!centerTitle) return standardAnchors;
                 var horizontal = "top" === titleOrientation || "bottom" === titleOrientation;
                 return {

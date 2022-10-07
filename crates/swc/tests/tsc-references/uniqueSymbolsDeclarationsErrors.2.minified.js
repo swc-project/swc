@@ -15,10 +15,7 @@ Object.defineProperty(exports, "__esModule", {
     ClassWithPrivateNamedMethods: ()=>ClassWithPrivateNamedMethods,
     ClassWithPrivateNamedAccessors: ()=>ClassWithPrivateNamedAccessors
 });
-const obj = {
-    method1: (p)=>p,
-    method2: (p)=>p
-}, classExpression = class {
+const obj = {}, classExpression = class {
     method1(p) {
         return p;
     }

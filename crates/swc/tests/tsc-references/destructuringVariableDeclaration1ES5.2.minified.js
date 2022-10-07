@@ -6,9 +6,7 @@ var ref = {
     a2: "world"
 };
 ref.a1, ref.a2;
-var tmp = {
-    b11: "world"
-};
+var tmp = {};
 (void 0 === tmp ? {
     b11: "string"
 } : tmp).b11;

@@ -630,10 +630,7 @@
             function $b() {}
             Yb.prototype.h = null;
             var L = {
-                OPEN: "a",
-                pb: "b",
-                Ka: "c",
-                Bb: "d"
+                OPEN: "a"
             };
             function ac() {
                 z.call(this, "d");

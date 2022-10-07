@@ -5178,13 +5178,7 @@
         renderLanes = 0, currentlyRenderingFiber$1 = null, currentHook = null, workInProgressHook = null, hookTypesDev = null, hookTypesUpdateIndexDev = -1, currentHookNameInDev = null, isUpdatingOpaqueValueInRenderPhase = !1, didScheduleRenderPhaseUpdateDuringThisPass = !1;
     }
     function mountWorkInProgressHook() {
-        var hook = {
-            memoizedState: null,
-            baseState: null,
-            baseQueue: null,
-            queue: null,
-            next: null
-        };
+        var hook = {};
         return null === workInProgressHook ? currentlyRenderingFiber$1.memoizedState = workInProgressHook = hook : workInProgressHook = workInProgressHook.next = hook, workInProgressHook;
     }
     function updateWorkInProgressHook() {
@@ -6333,10 +6327,7 @@
         }
     }
     didWarnAboutBadClass = {}, didWarnAboutModulePatternComponent = {}, didWarnAboutContextTypeOnFunctionComponent = {}, didWarnAboutGetDerivedStateOnFunctionComponent = {}, didWarnAboutFunctionRefs = {}, didWarnAboutReassigningProps = !1, didWarnAboutRevealOrder = {}, didWarnAboutTailOptions = {};
-    var SUSPENDED_MARKER = {
-        dehydrated: null,
-        retryLane: 0
-    };
+    var SUSPENDED_MARKER = {};
     function mountSuspenseOffscreenState(renderLanes) {
         return {
             baseLanes: renderLanes
@@ -8602,9 +8593,7 @@
     };
     var didWarnAboutUpdateInRender = !1;
     didWarnAboutUpdateInRenderForAnotherComponent = new Set();
-    var IsThisRendererActing = {
-        current: !1
-    };
+    var IsThisRendererActing = {};
     function warnIfNotScopedWithMatchingAct(fiber) {
         if (!0 === IsSomeRendererActing.current && !0 !== IsThisRendererActing.current) {
             var previousFiber = current;
