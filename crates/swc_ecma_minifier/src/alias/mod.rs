@@ -111,6 +111,7 @@ impl InfectionCollector<'_> {
         if self.unresolved_ctxt == Some(e.1) {
             match e.0 {
                 js_word!("JSON")
+                | js_word!("Array")
                 | js_word!("String")
                 | js_word!("Object")
                 | js_word!("Number")
