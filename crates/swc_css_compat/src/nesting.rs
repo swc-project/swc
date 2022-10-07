@@ -1,7 +1,8 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, QualifiedRule,
-    QualifiedRulePrelude, Rule, SelectorList, StyleBlock,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector,
+    ForgivingComplexSelector, PseudoClassSelector, PseudoClassSelectorChildren, QualifiedRule,
+    QualifiedRulePrelude, Rule, SelectorList, StyleBlock, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -12,18 +13,23 @@ pub fn nesting() -> impl VisitMut {
 struct NestingHandler {}
 
 impl NestingHandler {
-    fn process_complex_selectors(
+    fn append_compound(
         &mut self,
         prelude: &SelectorList,
-        selectors: &mut Vec<ComplexSelector>,
+        to: &mut ComplexSelector,
+        base: &ComplexSelector,
+        c: &CompoundSelector,
     ) {
-        fn append_compound(to: &mut ComplexSelector, base: &ComplexSelector, c: &CompoundSelector) {
-            if c.nesting_selector.is_some() {
-                let len = base.children.len();
+        if c.nesting_selector.is_some() {
+            let len = base.children.len();
 
-                to.children
-                    .extend(base.children.iter().cloned().enumerate().map(
-                        |(idx, mut children)| {
+            to.children
+                .extend(
+                    base.children
+                        .iter()
+                        .cloned()
+                        .enumerate()
+                        .map(|(idx, mut children)| {
                             if idx == len - 1 {
                                 if let ComplexSelectorChildren::CompoundSelector(compound) =
                                     &mut children
@@ -31,21 +37,63 @@ impl NestingHandler {
                                     if c.type_selector.is_some() {
                                         compound.type_selector = c.type_selector.clone();
                                     }
-                                    compound
-                                        .subclass_selectors
-                                        .extend(c.subclass_selectors.clone());
+
+                                    let mut subclass = c.subclass_selectors.clone();
+
+                                    self.process_subclass_selectors(prelude, &mut subclass);
+
+                                    compound.subclass_selectors.extend(subclass);
                                 }
                             }
 
                             children
-                        },
-                    ));
-            } else {
-                to.children
-                    .push(ComplexSelectorChildren::CompoundSelector(c.clone()));
+                        }),
+                );
+        } else {
+            to.children
+                .push(ComplexSelectorChildren::CompoundSelector(c.clone()));
+        }
+    }
+
+    fn process_subclass_selectors(
+        &mut self,
+        prelude: &SelectorList,
+        subclass: &mut Vec<SubclassSelector>,
+    ) {
+        for sel in subclass {
+            if let SubclassSelector::PseudoClass(PseudoClassSelector {
+                children: Some(children),
+                ..
+            }) = sel
+            {
+                for c in children.clone() {
+                    if let PseudoClassSelectorChildren::ForgivingSelectorList(c) = c {
+                        let mut selectors = vec![];
+
+                        for sel in c.children {
+                            match sel {
+                                ForgivingComplexSelector::ComplexSelector(sel) => {
+                                    selectors.push(sel);
+                                }
+                                ForgivingComplexSelector::ListOfComponentValues(_) => {
+                                    // Abort
+                                    return;
+                                }
+                            }
+                        }
+
+                        self.process_complex_selectors(prelude, &mut selectors)
+                    }
+                }
             }
         }
+    }
 
+    fn process_complex_selectors(
+        &mut self,
+        prelude: &SelectorList,
+        selectors: &mut Vec<ComplexSelector>,
+    ) {
         let mut new_selectors = vec![];
 
         //
@@ -56,7 +104,7 @@ impl NestingHandler {
                         if compound.nesting_selector.is_some() {
                             //
 
-                            for prelude in &prelude.children {
+                            for prelude_children in &prelude.children {
                                 let mut new = ComplexSelector {
                                     span: Default::default(),
                                     children: Default::default(),
@@ -64,7 +112,12 @@ impl NestingHandler {
                                 for compound in &complex.children {
                                     match compound {
                                         ComplexSelectorChildren::CompoundSelector(compound) => {
-                                            append_compound(&mut new, prelude, compound);
+                                            self.append_compound(
+                                                prelude,
+                                                &mut new,
+                                                prelude_children,
+                                                compound,
+                                            );
                                         }
                                         ComplexSelectorChildren::Combinator(_) => {
                                             new.children.push(compound.clone());
