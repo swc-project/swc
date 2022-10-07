@@ -17,7 +17,7 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
-    alias::{collect_infects_from, Access, AliasConfig},
+    alias::{collect_infects_from, Access, AccessKind, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
