@@ -12,24 +12,32 @@ pub fn nesting() -> impl VisitMut {
 struct NestingHandler {}
 
 impl NestingHandler {
-    fn process_complex_selector(&mut self, prelude: &SelectorList, sel: &mut ComplexSelector) {
-        let mut new_children = vec![];
+    fn process_complex_selectors(
+        &mut self,
+        prelude: &SelectorList,
+        selectors: &mut Vec<ComplexSelector>,
+    ) {
+        let mut new = vec![];
 
         //
-        for mut compound in sel.children.take() {
-            match &mut compound {
-                ComplexSelectorChildren::CompoundSelector(compound) => {
-                    if compound.nesting_selector.is_some() {
-                        continue;
+        'complex: for mut complex in selectors.take() {
+            for mut compound in complex.children.take() {
+                match &mut compound {
+                    ComplexSelectorChildren::CompoundSelector(compound) => {
+                        if compound.nesting_selector.is_some() {
+                            let sel = prelude.clone();
+                            new.extend(sel.children);
+                            continue 'complex;
+                        }
                     }
+                    ComplexSelectorChildren::Combinator(_) => {}
                 }
-                ComplexSelectorChildren::Combinator(_) => {}
             }
 
-            new_children.push(compound);
+            new.push(complex);
         }
 
-        sel.children = new_children;
+        *selectors = new;
     }
 
     /// Prepend current selector
@@ -39,9 +47,7 @@ impl NestingHandler {
             QualifiedRulePrelude::SelectorList(selectors),
         ) = (prelude, to)
         {
-            for sel in &mut selectors.children {
-                self.process_complex_selector(prelude, sel);
-            }
+            self.process_complex_selectors(prelude, &mut selectors.children);
         }
     }
 
