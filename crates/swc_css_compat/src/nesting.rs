@@ -1,7 +1,5 @@
 use swc_common::util::take::Take;
-use swc_css_ast::{
-    ComponentValue, Declaration, DeclarationOrAtRule, QualifiedRule, Rule, StyleBlock,
-};
+use swc_css_ast::{ComponentValue, QualifiedRule, Rule, StyleBlock};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn nesting() -> impl VisitMut {
