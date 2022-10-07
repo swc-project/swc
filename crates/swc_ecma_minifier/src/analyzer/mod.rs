@@ -17,7 +17,7 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
-    alias::{collect_infects_from, AliasConfig},
+    alias::{collect_infects_from, Access, AccessKind, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
@@ -133,7 +133,7 @@ pub(crate) struct VarUsageInfo {
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
-    infects: Vec<Id>,
+    infects: Vec<Access>,
 
     pub used_in_non_child_fn: bool,
     pub accessed_props: Box<AHashMap<JsWord, u32>>,
@@ -889,9 +889,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(n_id.to_id())
-                        .add_infects_to(id.to_id());
+                    self.data.var_or_default(n_id.to_id()).add_infects_to(id);
                 }
             }
             self.used_recursively.remove(&n_id.to_id());
@@ -1375,7 +1373,6 @@ where
                     self.data
                         .var_or_default(var.to_id())
                         .add_infects_to(id.clone());
-                    self.data.var_or_default(id).add_infects_to(var.to_id());
                 }
             }
         }
