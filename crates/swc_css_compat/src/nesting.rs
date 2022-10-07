@@ -26,7 +26,6 @@ impl NestingHandler {
                 to.children
                     .extend(base.children.iter().cloned().map(|mut children| {
                         if let ComplexSelectorChildren::CompoundSelector(compound) = &mut children {
-                            compound.nesting_selector = None;
                             if c.type_selector.is_some() {
                                 compound.type_selector = c.type_selector.clone();
                             }
