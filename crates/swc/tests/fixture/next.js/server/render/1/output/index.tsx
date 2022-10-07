@@ -113,7 +113,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     renderOpts.devOnlyCacheBusterQueryString = renderOpts.dev ? renderOpts.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     // don't modify original query object
     query = Object.assign({}, query);
-    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures ,  } = renderOpts;
+    const { err , dev =false , ampPath ="" , App , Document , pageConfig ={} , Component , buildManifest , fontManifest , reactLoadableManifest , ErrorDebug , getStaticProps , getStaticPaths , getServerSideProps , isDataReq , params , previewProps , basePath , devOnlyCacheBusterQueryString , supportsDynamicHTML , concurrentFeatures  } = renderOpts;
     const getFontDefinition = (url)=>{
         if (fontManifest) {
             return getFontDefinitionFromManifest(url, fontManifest);
@@ -610,7 +610,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     }
     const hybridAmp = ampState.hybrid;
     const docComponentsRendered = {};
-    const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig ,  } = renderOpts;
+    const { assetPrefix , buildId , customServer , defaultLocale , disableOptimizedLoading , domainLocales , locale , locales , runtimeConfig  } = renderOpts;
     const htmlProps = {
         __NEXT_DATA__: {
             props,
