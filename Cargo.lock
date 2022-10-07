@@ -3196,9 +3196,11 @@ version = "0.128.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
+ "swc_css_compat",
  "swc_css_minifier",
  "swc_css_modules",
  "swc_css_parser",
+ "swc_css_prefixer",
  "swc_css_utils",
  "swc_css_visit",
 ]
@@ -3243,6 +3245,24 @@ dependencies = [
  "quote",
  "swc_macros_common",
  "syn",
+]
+
+[[package]]
+name = "swc_css_compat"
+version = "0.1.0"
+dependencies = [
+ "once_cell",
+ "preset_env_base",
+ "serde",
+ "serde_json",
+ "swc_atoms",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_codegen",
+ "swc_css_parser",
+ "swc_css_utils",
+ "swc_css_visit",
+ "testing",
 ]
 
 [[package]]
