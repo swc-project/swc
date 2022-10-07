@@ -684,8 +684,8 @@ pub struct FixtureTestConfig {
     /// If true,
     pub sourcemap: bool,
 
-    /// If true, output written to [HANDLER] will be printed as a fixture, with
-    /// `.stderr` extension.
+    /// If true, diagnostics written to [HANDLER] will be printed as a fixture,
+    /// with `.stderr` extension.
     pub allow_error: bool,
 }
 
