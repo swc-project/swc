@@ -12,7 +12,7 @@ class A {
             d: 'd',
             e: 'e'
         };
-        const { [_class_private_field_get(this, _a)]: a , [_class_private_field_get(this, _b)]: b , [_class_private_field_get(this, _c)]: c , [_class_private_field_get(this, _d)]: d , [_class_private_field_set(this, _e, 'e')]: e ,  } = data;
+        const { [_class_private_field_get(this, _a)]: a , [_class_private_field_get(this, _b)]: b , [_class_private_field_get(this, _c)]: c , [_class_private_field_get(this, _d)]: d , [_class_private_field_set(this, _e, 'e')]: e  } = data;
         console.log(a, b, c, d, e);
         const a1 = data[_class_private_field_get(this, _a)];
         const b1 = data[_class_private_field_get(this, _b)];

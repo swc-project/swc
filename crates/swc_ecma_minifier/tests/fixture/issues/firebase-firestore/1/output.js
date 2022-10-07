@@ -2805,7 +2805,7 @@
                     let s = pn;
                     const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
                     for(; r.hasNext();){
-                        const { key: t1 , value: { document: i1 , readTime: o  } ,  } = r.getNext();
+                        const { key: t1 , value: { document: i1 , readTime: o  }  } = r.getNext();
                         if (!e.path.isPrefixOf(t1.path)) break;
                         0 >= o.compareTo(n) || Pe(e, i1) && (s = s.insert(i1.key, i1.clone()));
                     }

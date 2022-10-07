@@ -33,7 +33,7 @@ class Test {
         var _tmp1;
         _tmp1 = {
             foo
-        }, _class_private_field_get(this, _value).foo = _extends({}, _tmp1.foo), ({ foo: {} ,  } = _tmp1), _tmp1; //error
+        }, _class_private_field_get(this, _value).foo = _extends({}, _tmp1.foo), ({ foo: {}  } = _tmp1), _tmp1; //error
         let r = {
             o: _class_private_field_get(this, _value)
         }; //error

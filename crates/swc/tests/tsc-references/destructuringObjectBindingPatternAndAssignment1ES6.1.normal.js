@@ -8,7 +8,7 @@ var { a2  } = {};
 // V is an object assignment pattern and, for each assignment property P in V,
 //      S has an apparent property with the property name specified in
 //          P of a type that is assignable to the target given in P, or
-var { b1 ,  } = {
+var { b1  } = {
     b1: 1
 };
 var { b2: { b21  } = {

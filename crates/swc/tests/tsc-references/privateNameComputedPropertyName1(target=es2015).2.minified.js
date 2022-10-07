@@ -11,7 +11,7 @@ new class {
             c: 'c',
             d: 'd',
             e: 'e'
-        }, { [_class_private_field_get(this, _a)]: a , [_class_private_field_get(this, _b)]: b , [_class_private_field_get(this, _c)]: c , [_class_private_field_get(this, _d)]: d , [_class_private_field_set(this, _e, 'e')]: e ,  } = data;
+        }, { [_class_private_field_get(this, _a)]: a , [_class_private_field_get(this, _b)]: b , [_class_private_field_get(this, _c)]: c , [_class_private_field_get(this, _d)]: d , [_class_private_field_set(this, _e, 'e')]: e  } = data;
         console.log(a, b, c, d, e);
         let a1 = data[_class_private_field_get(this, _a)], b1 = data[_class_private_field_get(this, _b)], c1 = data[_class_private_field_get(this, _c)], d1 = data[_class_private_field_get(this, _d)];
         data[_class_private_field_get(this, _e)], console.log(a1, b1, c1, d1);

@@ -106,7 +106,7 @@ function checkRedirectValues__1(redirect__7, req__7, method__7) {
 export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, renderOpts__8) {
     renderOpts__8.devOnlyCacheBusterQueryString = renderOpts__8.dev ? renderOpts__8.devOnlyCacheBusterQueryString || `?ts=${Date.now()}` : "";
     query__8 = Object.assign({}, query__8);
-    const { err__8 , dev__8 =false , ampPath__8 ="" , App__8 , Document__8 , pageConfig__8 ={} , Component__8 , buildManifest__8 , fontManifest__8 , reactLoadableManifest__8 , ErrorDebug__8 , getStaticProps__8 , getStaticPaths__8 , getServerSideProps__8 , isDataReq__8 , params__8 , previewProps__8 , basePath__8 , devOnlyCacheBusterQueryString__8 , supportsDynamicHTML__8 , concurrentFeatures__8 ,  } = renderOpts__8;
+    const { err__8 , dev__8 =false , ampPath__8 ="" , App__8 , Document__8 , pageConfig__8 ={} , Component__8 , buildManifest__8 , fontManifest__8 , reactLoadableManifest__8 , ErrorDebug__8 , getStaticProps__8 , getStaticPaths__8 , getServerSideProps__8 , isDataReq__8 , params__8 , previewProps__8 , basePath__8 , devOnlyCacheBusterQueryString__8 , supportsDynamicHTML__8 , concurrentFeatures__8  } = renderOpts__8;
     const getFontDefinition__8 = (url__9)=>{
         if (fontManifest__8) {
             return getFontDefinitionFromManifest__1(url__9, fontManifest__8);
@@ -567,7 +567,7 @@ export async function renderToHTML__1(req__8, res__8, pathname__8, query__8, ren
     }
     const hybridAmp__8 = ampState__8.hybrid;
     const docComponentsRendered__8 = {};
-    const { assetPrefix__8 , buildId__8 , customServer__8 , defaultLocale__8 , disableOptimizedLoading__8 , domainLocales__8 , locale__8 , locales__8 , runtimeConfig__8 ,  } = renderOpts__8;
+    const { assetPrefix__8 , buildId__8 , customServer__8 , defaultLocale__8 , disableOptimizedLoading__8 , domainLocales__8 , locale__8 , locales__8 , runtimeConfig__8  } = renderOpts__8;
     const htmlProps__8 = {
         __NEXT_DATA__: {
             props__8,

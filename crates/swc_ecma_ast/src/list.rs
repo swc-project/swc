@@ -100,13 +100,11 @@ add_bitflags!(
         UnionTypeConstituents: BarDelimited | SpaceBetweenSiblings | SingleLine,
         IntersectionTypeConstituents: AmpersandDelimited | SpaceBetweenSiblings | SingleLine,
         ObjectBindingPatternElements: SingleLine
-            | AllowTrailingComma
             | SpaceBetweenBraces
             | CommaDelimited
             | SpaceBetweenSiblings
             | NoSpaceIfEmpty,
         ArrayBindingPatternElements: SingleLine
-            | AllowTrailingComma
             | CommaDelimited
             | SpaceBetweenSiblings
             | NoSpaceIfEmpty,

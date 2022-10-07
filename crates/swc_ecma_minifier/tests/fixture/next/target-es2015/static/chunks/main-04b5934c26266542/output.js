@@ -1066,7 +1066,7 @@
                 "onError",
                 "strategy"
             ], loadScript = (props)=>{
-                const { src , id , onLoad =()=>{} , onReady =null , dangerouslySetInnerHTML , children ="" , strategy ="afterInteractive" , onError ,  } = props, cacheKey = id || src;
+                const { src , id , onLoad =()=>{} , onReady =null , dangerouslySetInnerHTML , children ="" , strategy ="afterInteractive" , onError  } = props, cacheKey = id || src;
                 if (cacheKey && LoadCache.has(cacheKey)) return;
                 if (ScriptCache.has(src)) {
                     LoadCache.add(cacheKey), ScriptCache.get(src).then(onLoad, onError);
@@ -1291,7 +1291,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.isInAmpMode = function() {
-                let { ampFirst =!1 , hybrid =!1 , hasQuery =!1 ,  } = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
+                let { ampFirst =!1 , hybrid =!1 , hasQuery =!1  } = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
                 return ampFirst || hybrid && hasQuery;
             };
         },
