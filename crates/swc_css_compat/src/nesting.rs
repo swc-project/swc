@@ -1,5 +1,5 @@
 use swc_common::util::take::Take;
-use swc_css_ast::{ComponentValue, QualifiedRule, Rule, StyleBlock};
+use swc_css_ast::{ComponentValue, QualifiedRule, QualifiedRulePrelude, Rule, StyleBlock};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn nesting() -> impl VisitMut {
@@ -9,22 +9,26 @@ pub fn nesting() -> impl VisitMut {
 struct NestingHandler {}
 
 impl NestingHandler {
-    fn extract_nested_rules(&mut self, n: &mut QualifiedRule) -> Vec<Box<QualifiedRule>> {
+    /// Prepend current selector
+    fn process_selector(&mut self, prelude: &QualifiedRulePrelude, to: &mut QualifiedRulePrelude) {}
+
+    fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Box<QualifiedRule>> {
         let mut rules = vec![];
 
         let mut block_values = vec![];
-        for rule in n.block.value.take() {
-            match rule {
-                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(q)) => {
-                    // TODO: Prepend current selector
+        for value in rule.block.value.take() {
+            match value {
+                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut q)) => {
+                    self.process_selector(&rule.prelude, &mut q.prelude);
+
                     rules.push(q);
                 }
                 _ => {
-                    block_values.push(rule);
+                    block_values.push(value);
                 }
             }
         }
-        n.block.value = block_values;
+        rule.block.value = block_values;
 
         rules
     }
