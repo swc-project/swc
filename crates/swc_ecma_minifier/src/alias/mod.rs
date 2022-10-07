@@ -82,12 +82,12 @@ where
             track_expr_ident: true,
             ..Default::default()
         },
-        aliases: FxHashSet::default(),
+        accesses: FxHashSet::default(),
     };
 
     node.visit_with(&mut visitor);
 
-    visitor.aliases
+    visitor.accesses
 }
 
 pub(crate) struct InfectionCollector<'a> {
@@ -99,7 +99,7 @@ pub(crate) struct InfectionCollector<'a> {
 
     ctx: Ctx,
 
-    aliases: FxHashSet<Id>,
+    accesses: FxHashSet<Access>,
 }
 
 impl InfectionCollector<'_> {
@@ -122,7 +122,7 @@ impl InfectionCollector<'_> {
             }
         }
 
-        self.aliases.insert(e.clone());
+        self.accesses.insert(e.clone());
     }
 }
 
