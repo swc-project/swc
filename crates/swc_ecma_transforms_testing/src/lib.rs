@@ -6,12 +6,11 @@
 use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
-    io::{self, Write},
+    io::Write,
     mem::take,
     path::Path,
     process::Command,
     rc::Rc,
-    sync::{Arc, RwLock},
 };
 
 use ansi_term::Color;
