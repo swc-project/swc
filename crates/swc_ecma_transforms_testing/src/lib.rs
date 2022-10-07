@@ -186,7 +186,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
-        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+        let mut buf = vec![];
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
@@ -194,7 +194,7 @@ impl<'a> Tester<'a> {
                 wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
-                    &mut wr,
+                    &mut buf,
                     None,
                 )),
                 comments: Some(comments),
@@ -204,8 +204,7 @@ impl<'a> Tester<'a> {
             emitter.emit_module(module).unwrap();
         }
 
-        let r = wr.0.read().unwrap();
-        let s = String::from_utf8_lossy(&r);
+        let s = String::from_utf8_lossy(&buf);
         s.to_string()
     }
 }
