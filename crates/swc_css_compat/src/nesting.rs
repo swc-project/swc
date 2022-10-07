@@ -37,21 +37,23 @@ impl NestingHandler {
                         if compound.nesting_selector.is_some() {
                             //
 
-                            let mut new = ComplexSelector {
-                                span: Default::default(),
-                                children: Default::default(),
-                            };
-                            for compound in &complex.children {
-                                match compound {
-                                    ComplexSelectorChildren::CompoundSelector(compound) => {
-                                        append_compound(&mut new, &complex, compound);
-                                    }
-                                    ComplexSelectorChildren::Combinator(_) => {
-                                        new.children.push(compound.clone());
+                            for prelude in &prelude.children {
+                                let mut new = ComplexSelector {
+                                    span: Default::default(),
+                                    children: Default::default(),
+                                };
+                                for compound in &complex.children {
+                                    match compound {
+                                        ComplexSelectorChildren::CompoundSelector(compound) => {
+                                            append_compound(&mut new, prelude, compound);
+                                        }
+                                        ComplexSelectorChildren::Combinator(_) => {
+                                            new.children.push(compound.clone());
+                                        }
                                     }
                                 }
+                                new_selectors.push(new);
                             }
-                            new_selectors.push(new);
                             continue 'complex;
                         }
                     }
