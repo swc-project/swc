@@ -110,3 +110,4 @@
 @media (aspect-ratio: 12/) {}
 @media func(100px) {}
 @media screen and func(100px) {}
+@media (max-width: 650px), calc(150px + 150px) {}
