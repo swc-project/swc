@@ -17,12 +17,20 @@ impl NestingHandler {
         prelude: &SelectorList,
         selectors: &mut Vec<ComplexSelector>,
     ) {
-        let append_compound = |to: &mut ComplexSelector, c: &CompoundSelector| {};
+        let append_compound =
+            |to: &mut ComplexSelector, base: &ComplexSelector, c: &CompoundSelector| {
+                if c.nesting_selector.is_some() {
+                    to.children.extend(base.children.iter().cloned());
+                } else {
+                    to.children
+                        .push(ComplexSelectorChildren::CompoundSelector(c.clone()));
+                }
+            };
 
-        let mut new = vec![];
+        let mut new_selectors = vec![];
 
         //
-        'complex: for mut complex in selectors.take() {
+        'complex: for complex in selectors.take() {
             for compound in &complex.children {
                 match compound {
                     ComplexSelectorChildren::CompoundSelector(compound) => {
@@ -36,23 +44,25 @@ impl NestingHandler {
                             for compound in &complex.children {
                                 match compound {
                                     ComplexSelectorChildren::CompoundSelector(compound) => {
-                                        append_compound(&mut new, compound);
+                                        append_compound(&mut new, &complex, compound);
                                     }
                                     ComplexSelectorChildren::Combinator(_) => {
                                         new.children.push(compound.clone());
                                     }
                                 }
                             }
+                            new_selectors.push(new);
+                            continue 'complex;
                         }
                     }
                     ComplexSelectorChildren::Combinator(_) => {}
                 }
             }
 
-            new.push(complex);
+            new_selectors.push(complex);
         }
 
-        *selectors = new;
+        *selectors = new_selectors;
     }
 
     /// Prepend current selector
