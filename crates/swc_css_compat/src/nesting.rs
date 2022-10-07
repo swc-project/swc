@@ -1,7 +1,7 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, QualifiedRule, QualifiedRulePrelude,
-    Rule, SelectorList, StyleBlock,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector, QualifiedRule,
+    QualifiedRulePrelude, Rule, SelectorList, StyleBlock,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -17,17 +17,32 @@ impl NestingHandler {
         prelude: &SelectorList,
         selectors: &mut Vec<ComplexSelector>,
     ) {
+        let append_compound = |to: &mut ComplexSelector, c: &CompoundSelector| {};
+
         let mut new = vec![];
 
         //
         'complex: for mut complex in selectors.take() {
-            for mut compound in complex.children.take() {
-                match &mut compound {
+            for compound in &complex.children {
+                match compound {
                     ComplexSelectorChildren::CompoundSelector(compound) => {
                         if compound.nesting_selector.is_some() {
-                            let sel = prelude.clone();
-                            new.extend(sel.children);
-                            continue 'complex;
+                            //
+
+                            let mut new = ComplexSelector {
+                                span: Default::default(),
+                                children: Default::default(),
+                            };
+                            for compound in &complex.children {
+                                match compound {
+                                    ComplexSelectorChildren::CompoundSelector(compound) => {
+                                        append_compound(&mut new, compound);
+                                    }
+                                    ComplexSelectorChildren::Combinator(_) => {
+                                        new.children.push(compound.clone());
+                                    }
+                                }
+                            }
                         }
                     }
                     ComplexSelectorChildren::Combinator(_) => {}
