@@ -61,5 +61,6 @@ fn esm_to_umd(input: PathBuf) {
         &|tester| tr(tester, config.clone(), is_ts),
         &input,
         &output,
+        Default::default(),
     );
 }

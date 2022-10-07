@@ -4538,6 +4538,7 @@ fn exec(input: PathBuf) {
         &|t| chain!(tr(), properties(t, true)),
         &input,
         &output,
+        Default::default(),
     );
 }
 

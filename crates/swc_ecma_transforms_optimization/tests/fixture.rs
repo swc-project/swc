@@ -29,6 +29,7 @@ fn dce_single_pass(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     );
 }
 
@@ -49,6 +50,7 @@ fn dce_repeated(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     );
 }
 
@@ -65,6 +67,7 @@ fn dce_jsx(input: PathBuf) {
         &|t| chain!(remover(t), dce(Default::default(), Mark::new())),
         &input,
         &output,
+        Default::default(),
     );
 }
 
@@ -86,5 +89,6 @@ fn expr(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     );
 }

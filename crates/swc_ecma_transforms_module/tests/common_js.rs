@@ -59,6 +59,7 @@ fn esm_to_cjs(input: PathBuf) {
         &|tester| tr(config.clone(), is_ts, tester.comments.clone()),
         &input,
         &output,
+        Default::default(),
     );
 }
 

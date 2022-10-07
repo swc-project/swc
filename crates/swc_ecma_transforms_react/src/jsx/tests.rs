@@ -10,7 +10,7 @@ use swc_ecma_transforms_compat::{
     es3::property_literals,
 };
 use swc_ecma_transforms_module::common_js::common_js;
-use swc_ecma_transforms_testing::{parse_options, test, test_fixture_allowing_error, Tester};
+use swc_ecma_transforms_testing::{parse_options, test, test_fixture, FixtureTestConfig, Tester};
 
 use super::*;
 use crate::{display_name, pure_annotations, react};
@@ -1451,7 +1451,7 @@ fn fixture(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_fixture_allowing_error(
+    test_fixture(
         Syntax::Es(EsConfig {
             jsx: true,
             ..Default::default()
@@ -1462,6 +1462,10 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig {
+            allow_error: true,
+            ..Default::default()
+        },
     );
 }
 
@@ -1472,7 +1476,7 @@ fn integration(input: PathBuf) {
         output = input.with_file_name("output.mjs");
     }
 
-    test_fixture_allowing_error(
+    test_fixture(
         Syntax::Es(EsConfig {
             jsx: true,
             ..Default::default()
@@ -1483,5 +1487,9 @@ fn integration(input: PathBuf) {
         },
         &input,
         &output,
+        FixtureTestConfig {
+            allow_error: true,
+            ..Default::default()
+        },
     );
 }
