@@ -591,6 +591,7 @@ define!({
         SupportsPrelude(SupportsCondition),
         PagePrelude(PageSelectorList),
         LayerPrelude(LayerPrelude),
+        ContainerPrelude(ContainerCondition),
     }
 
     pub struct ListOfComponentValues {
@@ -823,6 +824,111 @@ define!({
     pub enum SupportsFeature {
         Declaration(Box<Declaration>),
         Function(Function),
+    }
+
+    pub struct ContainerCondition {
+        pub span: Span,
+        pub name: Option<ContainerName>,
+        pub query: Vec<ContainerQuery>,
+    }
+
+    pub enum ContainerName {
+        CustomIdent(CustomIdent),
+    }
+
+    pub enum ContainerQuery {
+        Not(ContainerQueryNot),
+        And(ContainerQueryAnd),
+        Or(ContainerQueryOr),
+        QueryInParens(QueryInParens),
+    }
+
+    pub struct ContainerQueryNot {
+        pub span: Span,
+        pub keyword: Option<Ident>,
+        pub query: QueryInParens,
+    }
+
+    pub struct ContainerQueryAnd {
+        pub span: Span,
+        pub keyword: Option<Ident>,
+        pub query: QueryInParens,
+    }
+
+    pub struct ContainerQueryOr {
+        pub span: Span,
+        pub keyword: Option<Ident>,
+        pub query: QueryInParens,
+    }
+
+    pub enum QueryInParens {
+        ContainerQuery(Box<ContainerQuery>),
+        SizeFeature(SizeFeature),
+        GeneralEnclosed(GeneralEnclosed),
+    }
+
+    pub enum SizeFeature {
+        Plain(SizeFeaturePlain),
+        Boolean(SizeFeatureBoolean),
+        Range(SizeFeatureRange),
+        RangeInterval(SizeFeatureRangeInterval),
+    }
+
+    pub struct SizeFeaturePlain {
+        pub span: Span,
+        pub name: SizeFeatureName,
+        pub value: Box<SizeFeatureValue>,
+    }
+
+    pub struct SizeFeatureBoolean {
+        pub span: Span,
+        pub name: SizeFeatureName,
+    }
+
+    pub enum SizeFeatureRangeComparison {
+        /// `<`
+        Lt,
+
+        /// `<=`
+        Le,
+
+        /// `>`
+        Gt,
+
+        /// `>=`
+        Ge,
+
+        /// `=`
+        Eq,
+    }
+
+    pub struct SizeFeatureRange {
+        pub span: Span,
+        pub left: Box<SizeFeatureValue>,
+        pub comparison: SizeFeatureRangeComparison,
+        pub right: Box<SizeFeatureValue>,
+    }
+
+    pub struct SizeFeatureRangeInterval {
+        pub span: Span,
+        pub left: Box<SizeFeatureValue>,
+        pub left_comparison: SizeFeatureRangeComparison,
+        pub name: SizeFeatureName,
+        pub right_comparison: SizeFeatureRangeComparison,
+        pub right: Box<SizeFeatureValue>,
+    }
+
+    pub enum SizeFeatureValue {
+        // TODO <length>
+        Number(Number),
+        Dimension(Dimension),
+        Ident(Ident),
+        Ratio(Ratio),
+        Function(Function),
+    }
+
+    pub enum SizeFeatureName {
+        Ident(Ident),
     }
 
     pub enum GeneralEnclosed {
