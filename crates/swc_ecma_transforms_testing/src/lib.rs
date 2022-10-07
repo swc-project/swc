@@ -590,18 +590,6 @@ macro_rules! compare_stdout {
     };
 }
 
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
-}
-
 struct Normalizer;
 impl VisitMut for Normalizer {
     fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
@@ -762,7 +750,7 @@ pub fn test_fixture<P>(
         let actual_src = {
             let module = &actual;
             let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
-            let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+            let mut buf = vec![];
             {
                 let mut emitter = Emitter {
                     cfg: Default::default(),
@@ -770,7 +758,7 @@ pub fn test_fixture<P>(
                     wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                         tester.cm.clone(),
                         "\n",
-                        &mut wr,
+                        &mut buf,
                         src_map.as_mut(),
                     )),
                     comments: Some(comments),
@@ -788,8 +776,7 @@ pub fn test_fixture<P>(
                 ));
             }
 
-            let r = wr.0.read().unwrap();
-            let s = String::from_utf8_lossy(&r);
+            let s = String::from_utf8_lossy(&buf);
             s.to_string()
         };
 
