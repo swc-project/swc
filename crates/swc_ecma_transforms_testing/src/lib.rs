@@ -678,6 +678,14 @@ where
         .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
 }
 
+/// Config for [test_fixture]. See [test_fixture] for documentation.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct FixtureTestConfig {
+    /// If true,
+    pub sourcemap: bool,
+}
+
+/// You can do `UPDATE=1 cargo test` to update fixtures.
 pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Path, output: &Path)
 where
     P: Fold,
