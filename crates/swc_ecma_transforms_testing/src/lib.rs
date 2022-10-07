@@ -767,9 +767,9 @@ pub fn test_fixture<P>(
                 emitter.emit_module(module).unwrap();
             }
 
-            if config.sourcemap {
+            if let Some(src_map) = &mut src_map {
                 sourcemap = Some(tester.cm.build_source_map_with_config(
-                    &mut src_map.unwrap(),
+                    src_map,
                     None,
                     SourceMapConfigImpl,
                 ));
@@ -793,29 +793,27 @@ pub fn test_fixture<P>(
     if let Some(actual_src) = actual_src {
         println!("{}", actual_src);
 
-        if actual_src == expected_src {
-            // Ignore `UPDATE`
-            return;
-        }
-
         if let Some(sourcemap) = &sourcemap {
+            println!("----- ----- ----- ----- -----");
             println!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
         }
 
-        NormalizedOutput::from(actual_src)
-            .compare_to_file(output)
-            .unwrap();
-
-        if let Some(sourcemap) = sourcemap {
-            let map = {
-                let mut buf = vec![];
-                sourcemap.to_writer(&mut buf).unwrap();
-                String::from_utf8(buf).unwrap()
-            };
-            NormalizedOutput::from(map)
-                .compare_to_file(output.with_extension(".map"))
+        if actual_src != expected_src {
+            NormalizedOutput::from(actual_src)
+                .compare_to_file(output)
                 .unwrap();
         }
+    }
+
+    if let Some(sourcemap) = sourcemap {
+        let map = {
+            let mut buf = vec![];
+            sourcemap.to_writer(&mut buf).unwrap();
+            String::from_utf8(buf).unwrap()
+        };
+        NormalizedOutput::from(map)
+            .compare_to_file(output.with_extension(".map"))
+            .unwrap();
     }
 }
 
