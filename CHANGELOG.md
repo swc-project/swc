@@ -14,6 +14,9 @@
 - **(css/ast)** Support `@container` at-rule (#6076) ([0a61374](https://github.com/swc-project/swc/commit/0a61374d028cc5fa3a35747cab892f3a11617dd4))
 
 
+- **(css/ast)** Support `<general-enclosed>` for `@media` at-rules (#6082) ([b71dd3e](https://github.com/swc-project/swc/commit/b71dd3ec0515f6d0b4f598f4f195ec6817113af8))
+
+
 - **(css/compat)** Implement transform for nested css (#6077) ([347d4b7](https://github.com/swc-project/swc/commit/347d4b7602d434608efb8d6fdb6874cd25aaa437))
 
 
