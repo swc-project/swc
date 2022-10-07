@@ -1,5 +1,8 @@
 use swc_common::util::take::Take;
-use swc_css_ast::{ComponentValue, QualifiedRule, QualifiedRulePrelude, Rule, StyleBlock};
+use swc_css_ast::{
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, QualifiedRule, QualifiedRulePrelude,
+    Rule, SelectorList, StyleBlock,
+};
 use swc_css_visit::{VisitMut, VisitMutWith};
 
 pub fn nesting() -> impl VisitMut {
@@ -9,8 +12,38 @@ pub fn nesting() -> impl VisitMut {
 struct NestingHandler {}
 
 impl NestingHandler {
+    fn process_complex_selector(&mut self, prelude: &SelectorList, sel: &mut ComplexSelector) {
+        let mut new_children = vec![];
+
+        //
+        for mut compound in sel.children.take() {
+            match &mut compound {
+                ComplexSelectorChildren::CompoundSelector(compound) => {
+                    if compound.nesting_selector.is_some() {
+                        continue;
+                    }
+                }
+                ComplexSelectorChildren::Combinator(_) => {}
+            }
+
+            new_children.push(compound);
+        }
+
+        sel.children = new_children;
+    }
+
     /// Prepend current selector
-    fn process_selector(&mut self, prelude: &QualifiedRulePrelude, to: &mut QualifiedRulePrelude) {}
+    fn process_prelude(&mut self, prelude: &QualifiedRulePrelude, to: &mut QualifiedRulePrelude) {
+        if let (
+            QualifiedRulePrelude::SelectorList(prelude),
+            QualifiedRulePrelude::SelectorList(selectors),
+        ) = (prelude, to)
+        {
+            for sel in &mut selectors.children {
+                self.process_complex_selector(prelude, sel);
+            }
+        }
+    }
 
     fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Box<QualifiedRule>> {
         let mut rules = vec![];
@@ -19,7 +52,7 @@ impl NestingHandler {
         for value in rule.block.value.take() {
             match value {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut q)) => {
-                    self.process_selector(&rule.prelude, &mut q.prelude);
+                    self.process_prelude(&rule.prelude, &mut q.prelude);
 
                     rules.push(q);
                 }
