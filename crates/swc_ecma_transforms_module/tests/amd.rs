@@ -57,6 +57,7 @@ fn esm_to_amd(input: PathBuf) {
         &|t| tr(config.clone(), is_ts, t.comments.clone()),
         &input,
         &output,
+        Default::default(),
     );
 }
 

@@ -6,12 +6,11 @@
 use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
-    io::{self, Write},
+    io::Write,
     mem::take,
     path::Path,
     process::Command,
     rc::Rc,
-    sync::{Arc, RwLock},
 };
 
 use ansi_term::Color;
@@ -22,6 +21,7 @@ use swc_common::{
     chain,
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
+    source_map::SourceMapGenConfig,
     sync::Lrc,
     util::take::Take,
     FileName, SourceMap, DUMMY_SP,
@@ -185,7 +185,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
-        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+        let mut buf = vec![];
         {
             let mut emitter = Emitter {
                 cfg: Default::default(),
@@ -193,7 +193,7 @@ impl<'a> Tester<'a> {
                 wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     self.cm.clone(),
                     "\n",
-                    &mut wr,
+                    &mut buf,
                     None,
                 )),
                 comments: Some(comments),
@@ -203,8 +203,7 @@ impl<'a> Tester<'a> {
             emitter.emit_module(module).unwrap();
         }
 
-        let r = wr.0.read().unwrap();
-        let s = String::from_utf8_lossy(&r);
+        let s = String::from_utf8_lossy(&buf);
         s.to_string()
     }
 }
@@ -590,18 +589,6 @@ macro_rules! compare_stdout {
     };
 }
 
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
-}
-
 struct Normalizer;
 impl VisitMut for Normalizer {
     fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
@@ -678,30 +665,30 @@ where
         .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
 }
 
-pub fn test_fixture<P>(syntax: Syntax, tr: &dyn Fn(&mut Tester) -> P, input: &Path, output: &Path)
-where
-    P: Fold,
-{
-    test_fixture_inner(syntax, tr, input, output, false)
+/// Config for [test_fixture]. See [test_fixture] for documentation.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+pub struct FixtureTestConfig {
+    /// If true, source map will be printed to the `.map` file.
+    ///
+    /// Defaults to false.
+    pub sourcemap: bool,
+
+    /// If true, diagnostics written to [HANDLER] will be printed as a fixture,
+    /// with `.stderr` extension.
+    ///
+    /// If false, test will fail if diagnostics are emitted.
+    ///
+    /// Defaults to false.
+    pub allow_error: bool,
 }
 
-pub fn test_fixture_allowing_error<P>(
+/// You can do `UPDATE=1 cargo test` to update fixtures.
+pub fn test_fixture<P>(
     syntax: Syntax,
     tr: &dyn Fn(&mut Tester) -> P,
     input: &Path,
     output: &Path,
-) where
-    P: Fold,
-{
-    test_fixture_inner(syntax, tr, input, output, true)
-}
-
-fn test_fixture_inner<P>(
-    syntax: Syntax,
-    tr: &dyn Fn(&mut Tester) -> P,
-    input: &Path,
-    output: &Path,
-    allow_error: bool,
+    config: FixtureTestConfig,
 ) where
     P: Fold,
 {
@@ -724,6 +711,10 @@ fn test_fixture_inner<P>(
 
         Ok(expected_src)
     });
+
+    let mut src_map = if config.sourcemap { Some(vec![]) } else { None };
+
+    let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
         let input_str = read_to_string(input).unwrap();
@@ -755,12 +746,43 @@ fn test_fixture_inner<P>(
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
 
-        let actual_src = tester.print(&actual, &tester.comments.clone());
+        let actual_src = {
+            let module = &actual;
+            let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
+            let mut buf = vec![];
+            {
+                let mut emitter = Emitter {
+                    cfg: Default::default(),
+                    cm: tester.cm.clone(),
+                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        tester.cm.clone(),
+                        "\n",
+                        &mut buf,
+                        src_map.as_mut(),
+                    )),
+                    comments: Some(comments),
+                };
+
+                // println!("Emitting: {:?}", module);
+                emitter.emit_module(module).unwrap();
+            }
+
+            if let Some(src_map) = &mut src_map {
+                sourcemap = Some(tester.cm.build_source_map_with_config(
+                    src_map,
+                    None,
+                    SourceMapConfigImpl,
+                ));
+            }
+
+            let s = String::from_utf8_lossy(&buf);
+            s.to_string()
+        };
 
         Ok(actual_src)
     });
 
-    if allow_error {
+    if config.allow_error {
         stderr
             .compare_to_file(output.with_extension("stderr"))
             .unwrap();
@@ -771,13 +793,53 @@ fn test_fixture_inner<P>(
     if let Some(actual_src) = actual_src {
         println!("{}", actual_src);
 
-        if actual_src == expected_src {
-            // Ignore `UPDATE`
-            return;
+        if let Some(sourcemap) = &sourcemap {
+            println!("----- ----- ----- ----- -----");
+            println!("SourceMap: {}", visualizer_url(&actual_src, sourcemap));
         }
 
-        NormalizedOutput::from(actual_src)
-            .compare_to_file(output)
+        if actual_src != expected_src {
+            NormalizedOutput::from(actual_src)
+                .compare_to_file(output)
+                .unwrap();
+        }
+    }
+
+    if let Some(sourcemap) = sourcemap {
+        let map = {
+            let mut buf = vec![];
+            sourcemap.to_writer(&mut buf).unwrap();
+            String::from_utf8(buf).unwrap()
+        };
+        NormalizedOutput::from(map)
+            .compare_to_file(output.with_extension("map"))
             .unwrap();
+    }
+}
+
+/// Creates a url for https://evanw.github.io/source-map-visualization/
+fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
+    let map = {
+        let mut buf = vec![];
+        map.to_writer(&mut buf).unwrap();
+        String::from_utf8(buf).unwrap()
+    };
+
+    let code_len = format!("{}\0", code.len());
+    let map_len = format!("{}\0", map.len());
+    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+
+    format!("https://evanw.github.io/source-map-visualization/#{}", hash)
+}
+
+struct SourceMapConfigImpl;
+
+impl SourceMapGenConfig for SourceMapConfigImpl {
+    fn file_name_to_source(&self, f: &swc_common::FileName) -> String {
+        f.to_string()
+    }
+
+    fn inline_sources_content(&self, _: &swc_common::FileName) -> bool {
+        true
     }
 }

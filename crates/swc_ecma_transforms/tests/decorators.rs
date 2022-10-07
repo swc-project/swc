@@ -4511,6 +4511,7 @@ fn legacy_only(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     );
 }
 
@@ -4535,5 +4536,6 @@ fn legacy_metadata(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     );
 }
