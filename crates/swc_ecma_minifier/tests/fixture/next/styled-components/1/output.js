@@ -5903,7 +5903,7 @@
                 return {};
             }, ThemeProvider = ({ children , ...props })=>{
                 var _ref, _props$theme, _ref2, _props$colorMode, _ref3, _props$dayScheme, _ref4, _props$nightScheme;
-                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme ,  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = function() {
+                const { theme: fallbackTheme , colorMode: fallbackColorMode , dayScheme: fallbackDayScheme , nightScheme: fallbackNightScheme  } = useTheme(), theme = null !== (_ref = null !== (_props$theme = props.theme) && void 0 !== _props$theme ? _props$theme : fallbackTheme) && void 0 !== _ref ? _ref : lib_esm_theme, { resolvedServerColorMode  } = getServerHandoff(), resolvedColorModePassthrough = react.useRef(resolvedServerColorMode), [colorMode, setColorMode] = react.useState(null !== (_ref2 = null !== (_props$colorMode = props.colorMode) && void 0 !== _props$colorMode ? _props$colorMode : fallbackColorMode) && void 0 !== _ref2 ? _ref2 : "day"), [dayScheme, setDayScheme] = react.useState(null !== (_ref3 = null !== (_props$dayScheme = props.dayScheme) && void 0 !== _props$dayScheme ? _props$dayScheme : fallbackDayScheme) && void 0 !== _ref3 ? _ref3 : defaultDayScheme), [nightScheme, setNightScheme] = react.useState(null !== (_ref4 = null !== (_props$nightScheme = props.nightScheme) && void 0 !== _props$nightScheme ? _props$nightScheme : fallbackNightScheme) && void 0 !== _ref4 ? _ref4 : defaultNightScheme), systemColorMode = function() {
                     const [systemColorMode, setSystemColorMode] = react.useState(getSystemColorMode);
                     return react.useEffect(()=>{
                         var _window, _window$matchMedia;
@@ -6283,7 +6283,7 @@
                 }).apply(this, arguments);
             }
             const ButtonBase = (0, react.forwardRef)(({ children , as: Component = "button" , sx: sxProp = {} , ...props }, forwardedRef)=>{
-                const { leadingIcon: LeadingIcon , trailingIcon: TrailingIcon , variant ="default" , size ="medium" ,  } = props, { theme  } = useTheme(), iconWrapStyles = {
+                const { leadingIcon: LeadingIcon , trailingIcon: TrailingIcon , variant ="default" , size ="medium"  } = props, { theme  } = useTheme(), iconWrapStyles = {
                     display: "inline-block"
                 }, sxStyles = cjs_default().all([
                     getButtonStyles(theme),
@@ -6326,7 +6326,7 @@
                     as: "button"
                 }), children));
             ButtonComponent.displayName = "Button";
-            const { get: getKey , compose: constants_compose , system: constants_system ,  } = styled_system_dist_index_esm_namespaceObject, constants_get = (key)=>{
+            const { get: getKey , compose: constants_compose , system: constants_system  } = styled_system_dist_index_esm_namespaceObject, constants_get = (key)=>{
                 var fallback;
                 return void 0 === (fallback = getKey(lib_esm_theme, key)) && (fallback = null), function(props) {
                     return get(props.theme, key, fallback);

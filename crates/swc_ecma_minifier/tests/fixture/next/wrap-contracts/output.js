@@ -3182,7 +3182,7 @@
                 setOwner(owner) {
                     this.owner = owner;
                 }
-                setSignature({ id , owner , reward , tags , signature ,  }) {
+                setSignature({ id , owner , reward , tags , signature  }) {
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
@@ -4580,7 +4580,7 @@
                 setOwner(owner) {
                     this.owner = owner;
                 }
-                setSignature({ id , owner , reward , tags , signature ,  }) {
+                setSignature({ id , owner , reward , tags , signature  }) {
                     this.id = id, this.owner = owner, reward && (this.reward = reward), tags && (this.tags = tags), this.signature = signature;
                 }
                 async prepareChunks(data) {
