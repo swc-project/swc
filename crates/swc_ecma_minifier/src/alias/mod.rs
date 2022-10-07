@@ -58,7 +58,7 @@ pub(crate) enum AccessKind {
 
 pub(crate) type Access = (Id, AccessKind);
 
-pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
+pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
     N: InfectableNode
         + VisitWith<BindingCollector<Id>>
