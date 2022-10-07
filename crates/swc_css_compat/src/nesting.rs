@@ -17,35 +17,34 @@ impl NestingHandler {
         prelude: &SelectorList,
         selectors: &mut Vec<ComplexSelector>,
     ) {
-        let append_compound =
-            |to: &mut ComplexSelector, base: &ComplexSelector, c: &CompoundSelector| {
-                if c.nesting_selector.is_some() {
-                    let len = base.children.len();
+        fn append_compound(to: &mut ComplexSelector, base: &ComplexSelector, c: &CompoundSelector) {
+            if c.nesting_selector.is_some() {
+                let len = base.children.len();
 
-                    to.children
-                        .extend(base.children.iter().cloned().enumerate().map(
-                            |(idx, mut children)| {
-                                if idx == len - 1 {
-                                    if let ComplexSelectorChildren::CompoundSelector(compound) =
-                                        &mut children
-                                    {
-                                        if c.type_selector.is_some() {
-                                            compound.type_selector = c.type_selector.clone();
-                                        }
-                                        compound
-                                            .subclass_selectors
-                                            .extend(c.subclass_selectors.clone());
+                to.children
+                    .extend(base.children.iter().cloned().enumerate().map(
+                        |(idx, mut children)| {
+                            if idx == len - 1 {
+                                if let ComplexSelectorChildren::CompoundSelector(compound) =
+                                    &mut children
+                                {
+                                    if c.type_selector.is_some() {
+                                        compound.type_selector = c.type_selector.clone();
                                     }
+                                    compound
+                                        .subclass_selectors
+                                        .extend(c.subclass_selectors.clone());
                                 }
+                            }
 
-                                children
-                            },
-                        ));
-                } else {
-                    to.children
-                        .push(ComplexSelectorChildren::CompoundSelector(c.clone()));
-                }
-            };
+                            children
+                        },
+                    ));
+            } else {
+                to.children
+                    .push(ComplexSelectorChildren::CompoundSelector(c.clone()));
+            }
+        }
 
         let mut new_selectors = vec![];
 
