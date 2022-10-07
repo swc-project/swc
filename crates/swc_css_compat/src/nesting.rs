@@ -29,9 +29,9 @@ impl NestingHandler {
                             if c.type_selector.is_some() {
                                 compound.type_selector = c.type_selector.clone();
                             }
-                            if !c.subclass_selectors.is_empty() {
-                                compound.subclass_selectors = c.subclass_selectors.clone();
-                            }
+                            compound
+                                .subclass_selectors
+                                .extend(c.subclass_selectors.clone());
                         }
 
                         children
