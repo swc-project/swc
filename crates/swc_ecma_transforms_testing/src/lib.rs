@@ -812,7 +812,7 @@ pub fn test_fixture<P>(
             String::from_utf8(buf).unwrap()
         };
         NormalizedOutput::from(map)
-            .compare_to_file(output.with_extension(".map"))
+            .compare_to_file(output.with_extension("map"))
             .unwrap();
     }
 }

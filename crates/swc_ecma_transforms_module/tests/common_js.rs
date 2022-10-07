@@ -60,7 +60,7 @@ fn esm_to_cjs(input: PathBuf) {
         &input,
         &output,
         FixtureTestConfig {
-            sourcemap: true,
+            sourcemap: false,
             ..Default::default()
         },
     );
