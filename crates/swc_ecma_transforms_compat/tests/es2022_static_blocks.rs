@@ -31,5 +31,6 @@ fn fixture(input: PathBuf) {
         },
         &input,
         &output,
+        Default::default(),
     )
 }

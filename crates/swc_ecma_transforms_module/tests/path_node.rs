@@ -86,6 +86,7 @@ fn issue_4730() {
         },
         &input_dir.join("src").join("index.js"),
         &output_dir.join("index.js"),
+        Default::default(),
     );
 }
 
@@ -123,5 +124,6 @@ fn fixture(input_dir: PathBuf) {
         },
         &index_path,
         &output_dir.join("index.ts"),
+        Default::default(),
     );
 }
