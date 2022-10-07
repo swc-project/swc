@@ -138,7 +138,18 @@
  135 | |   @media (max-width: calc(5px + 1rem)) {}
  136 | |   @media (width: calc(5px + 1rem)) {}
  137 | |   @media (calc(100px + 10px) < width <= calc(1000px + 10px)) {}
- 138 | `-> @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}
+ 138 | |   @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}
+ 139 | |   
+ 140 | |   /* General Enclosed */
+ 141 | |   
+ 142 | |   @media (height << 600px) {}
+ 143 | |   @media (height foo bar) {}
+ 144 | |   @media (height foo("bar")) {}
+ 145 | |   @media (height + 600px) {}
+ 146 | |   @media screen and (min-width: ) {}
+ 147 | |   @media (aspect-ratio: 12/) {}
+ 148 | |   @media func(100px) {}
+ 149 | `-> @media screen and func(100px) {}
      `----
 
   x Rule
@@ -15261,4 +15272,946 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:138:1]
  138 | @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}
      :                                                                    ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :         ^^^^^^
+     `----
+
+  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :         ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :               ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                ^
+     `----
+
+  x Delim { value: '<' }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                 ^
+     `----
+
+  x Delim { value: '<' }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                 ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                  ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                  ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                   ^^^^^
+     `----
+
+  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                   ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                          ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :         ^^^^^^
+     `----
+
+  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :         ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :               ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                ^^^
+     `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                   ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                    ^^^
+     `----
+
+  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                    ^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                         ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :         ^^^^^^
+     `----
+
+  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :         ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :               ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                ^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                    ^^^^^
+     `----
+
+  x String { value: Atom('bar' type=inline), raw: Atom('"bar"' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                    ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                            ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :         ^^^^^^
+     `----
+
+  x Ident { value: Atom('height' type=inline), raw: Atom('height' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :         ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :               ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                ^
+     `----
+
+  x Delim { value: '+' }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                 ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                 ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                  ^^^^^
+     `----
+
+  x Dimension { value: 600.0, raw_value: Atom('600' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                  ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                         ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :               ^^^
+     `----
+
+  x MediaConditionWithoutOr
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                   ^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionWithoutOrType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                   ^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                   ^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                   ^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                    ^^^^^^^^^
+     `----
+
+  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                    ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                             ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                             ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                              ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                              ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                                 ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :         ^^^^^^^^^^^^
+     `----
+
+  x Ident { value: Atom('aspect-ratio' type=dynamic), raw: Atom('aspect-ratio' type=dynamic) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :         ^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                     ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                     ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                      ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                      ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                       ^^
+     `----
+
+  x Number { value: 12.0, raw: Atom('12' type=inline), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                       ^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                         ^
+     `----
+
+  x Delim { value: '/' }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                         ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                            ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaCondition
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaConditionAllType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :        ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :             ^^^^^
+     `----
+
+  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :             ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :                    ^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :  ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :  ^^^^^
+     `----
+
+  x MediaQueryList
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaQuery
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x MediaType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :        ^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :               ^^^
+     `----
+
+  x MediaConditionWithoutOr
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                   ^^^^^^^^^^^
+     `----
+
+  x MediaConditionWithoutOrType
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                   ^^^^^^^^^^^
+     `----
+
+  x MediaInParens
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                   ^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                   ^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                   ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                        ^^^^^
+     `----
+
+  x Dimension { value: 100.0, raw_value: Atom('100' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                        ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                               ^^
      `----
