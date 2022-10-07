@@ -1,0 +1,72 @@
+table.colortable {}
+& td {
+  text-align: center;
+}
+&.c {
+  text-transform: uppercase;
+}
+&:first-child, 
+&:first-child + td {
+  border: 1px solid black;
+}
+& th {
+  text-align: center;
+  background: black;
+  color: white;
+}
+.foo {
+  color: blue;
+}
+& > .bar {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+&.bar {
+  color: red;
+}
+.foo, 
+.bar {
+  color: blue;
+}
+& + .baz, 
+&.qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+& .bar & .baz & .qux {
+  color: red;
+}
+.foo {
+  color: blue;
+}
+& {
+  padding: 2ch;
+}
+.error, 
+#test {}
+&:hover > .baz {
+  color: red;
+}
+.foo {}
+&:is(.bar, &.baz) {
+  color: red;
+}
+figure {
+  margin: 0;
+}
+& > figcaption {
+  background: hsl(0 0% 0% / 50%);
+}
+& > p {
+  font-size: .9rem;
+}
+.foo {
+  color: blue;
+}
+&__bar {
+  color: red;
+}
