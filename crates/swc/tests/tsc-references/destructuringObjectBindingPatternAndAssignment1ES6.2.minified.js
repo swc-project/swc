@@ -1,5 +1,5 @@
 //// [destructuringObjectBindingPatternAndAssignment1ES6.ts]
-var { a1  } = void 0, { a2  } = {}, { b1 ,  } = {
+var { a1  } = void 0, { a2  } = {}, { b1  } = {
     b1: 1
 }, { b2: { b21  } = {
     b21: "string"

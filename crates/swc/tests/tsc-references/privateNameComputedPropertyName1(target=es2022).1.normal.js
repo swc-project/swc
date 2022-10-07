@@ -17,7 +17,7 @@ class A {
             d: 'd',
             e: 'e'
         };
-        const { [this.#a]: a , [this.#b]: b , [this.#c]: c , [this.#d]: d , [this.#e = 'e']: e ,  } = data;
+        const { [this.#a]: a , [this.#b]: b , [this.#c]: c , [this.#d]: d , [this.#e = 'e']: e  } = data;
         console.log(a, b, c, d, e);
         const a1 = data[this.#a];
         const b1 = data[this.#b];
