@@ -17,6 +17,9 @@
 - **(css/compat)** Implement transform for nested css (#6077) ([347d4b7](https://github.com/swc-project/swc/commit/347d4b7602d434608efb8d6fdb6874cd25aaa437))
 
 
+- **(es/codegen)** Remove the trailing comma of binding patterns (#6078) ([8003dc8](https://github.com/swc-project/swc/commit/8003dc856369a71f73a5c15ae204bbdf27fdbf9c))
+
+
 - **(es/minifier)** Use `usage_count` in sequential inliner (#6071) ([ac150c7](https://github.com/swc-project/swc/commit/ac150c7ced9d9d9112d377437bdca7616de43a00))
 
 
