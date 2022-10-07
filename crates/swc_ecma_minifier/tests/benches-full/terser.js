@@ -103,10 +103,10 @@
         return array.length < 2 ? array.slice() : function _ms(a) {
             if (a.length <= 1) return a;
             var m = Math.floor(a.length / 2), left = a.slice(0, m), right = a.slice(m);
-            return left = _ms(left), right = _ms(right), function(a, b) {
+            return function(a, b) {
                 for(var r = [], ai = 0, bi = 0, i = 0; ai < a.length && bi < b.length;)0 >= cmp(a[ai], b[bi]) ? r[i++] = a[ai++] : r[i++] = b[bi++];
                 return ai < a.length && r.push.apply(r, a.slice(ai)), bi < b.length && r.push.apply(r, b.slice(bi)), r;
-            }(left, right);
+            }(left = _ms(left), right = _ms(right));
         }(array);
     }
     function makePredicate(words) {
@@ -517,8 +517,8 @@
                         if ("\r" == ch) "\n" == peek() && ++S.pos, ch = "\n";
                         else if ("$" == ch && "{" == peek()) return next(!0, !0), S.brace_counter++, tok = token(begin ? "template_head" : "template_substitution", content), LATEST_RAW = raw, LATEST_TEMPLATE_END = !1, tok;
                         if (raw += ch, "\\" == ch) {
-                            var tmp = S.pos, prev_is_tag = previous_token && ("name" === previous_token.type || "punc" === previous_token.type && (")" === previous_token.value || "]" === previous_token.value));
-                            ch = read_escaped_char(!0, !prev_is_tag, !0), raw += S.text.substr(tmp, S.pos - tmp);
+                            var tmp = S.pos;
+                            ch = read_escaped_char(!0, !(previous_token && ("name" === previous_token.type || "punc" === previous_token.type && (")" === previous_token.value || "]" === previous_token.value))), !0), raw += S.text.substr(tmp, S.pos - tmp);
                         }
                         content += ch;
                     }
@@ -544,13 +544,13 @@
                     var ch, name = [], escaped = !1, read_escaped_identifier_char = function() {
                         return escaped = !0, next(), "u" !== peek() && parse_error("Expecting UnicodeEscapeSequence -- uXXXX or u{XXXX}"), read_escaped_char(!1, !0);
                     };
-                    if ("\\" === (ch = peek())) ch = read_escaped_identifier_char(), is_identifier_start(ch) || parse_error("First identifier char is an invalid identifier char");
+                    if ("\\" === (ch = peek())) is_identifier_start(ch = read_escaped_identifier_char()) || parse_error("First identifier char is an invalid identifier char");
                     else {
                         if (!is_identifier_start(ch)) return "";
                         next();
                     }
                     for(name.push(ch); null != (ch = peek());){
-                        if ("\\" === (ch = peek())) ch = read_escaped_identifier_char(), is_identifier_char(ch) || parse_error("Invalid escaped identifier char");
+                        if ("\\" === (ch = peek())) is_identifier_char(ch = read_escaped_identifier_char()) || parse_error("Invalid escaped identifier char");
                         else {
                             if (!is_identifier_char(ch)) break;
                             next();
@@ -4289,8 +4289,7 @@
             might_add_newline && (might_add_newline = 0, do_add_mapping());
         } : noop, requireSemicolonChars = makePredicate("( [ + * / - , . `");
         function print(str) {
-            str = String(str);
-            var ch = get_full_char(str, 0);
+            var ch = get_full_char(str = String(str), 0);
             need_newline_indented && ch && (need_newline_indented = !1, "\n" !== ch && (print("\n"), indent())), need_space && ch && (need_space = !1, /[\s;})]/.test(ch) || space()), newline_insert = -1;
             var prev = last.charAt(last.length - 1);
             !might_need_semicolon || (might_need_semicolon = !1, (":" !== prev || "}" !== ch) && (ch && ";}".includes(ch) || ";" === prev) || (options.semicolons || requireSemicolonChars.has(ch) ? (OUTPUT.append(";"), current_col++, current_pos++) : (ensure_line_len(), current_col > 0 && (OUTPUT.append("\n"), current_pos++, current_line++, current_col = 0), /^\s+$/.test(str) && (might_need_semicolon = !0)), options.beautify || (might_need_space = !1))), might_need_space && ((is_identifier_char(prev) && (is_identifier_char(ch) || "\\" == ch) || "/" == ch && ch == prev || ("+" == ch || "-" == ch) && ch == last) && (OUTPUT.append(" "), current_col++, current_pos++), might_need_space = !1), mapping_token && (mappings.push({
@@ -18022,7 +18021,7 @@
                     var entries = fs.readdirSync(dir);
                 } catch (ex) {}
                 if (entries) {
-                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", rx = RegExp(pattern, "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
+                    var rx = RegExp("^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
                         return rx.test(name);
                     }).map(function(name) {
                         return path.join(dir, name);

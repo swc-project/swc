@@ -635,11 +635,11 @@
                 if ("function" != typeof listener) throw Error("Invalid listener for " + objName(obj) + "#" + fnName + "; must be a function.");
             }, normalizeListenArgs = function(self1, args, fnName) {
                 var target, type, listener, isTargetingSelf = args.length < 3 || args[0] === self1 || args[0] === self1.eventBusEl_;
-                return isTargetingSelf ? (target = self1.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self1, fnName), validateEventType(type, self1, fnName), validateListener(listener, self1, fnName), listener = bind(self1, listener), {
+                return isTargetingSelf ? (target = self1.eventBusEl_, args.length >= 3 && args.shift(), type = args[0], listener = args[1]) : (target = args[0], type = args[1], listener = args[2]), validateTarget(target, self1, fnName), validateEventType(type, self1, fnName), validateListener(listener, self1, fnName), {
                     isTargetingSelf: isTargetingSelf,
                     target: target,
                     type: type,
-                    listener: listener
+                    listener: listener = bind(self1, listener)
                 };
             }, listen = function(target, method, type, listener) {
                 validateTarget(target, target, method), target.nodeName ? Events[method](target, type, listener) : target[method](type, listener);
@@ -956,7 +956,7 @@
                 }, _proto.currentDimension = function(widthOrHeight) {
                     var computedWidthOrHeight = 0;
                     if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw Error("currentDimension only accepts width or height value");
-                    if (computedWidthOrHeight = computedStyle(this.el_, widthOrHeight), 0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight)) || isNaN(computedWidthOrHeight)) {
+                    if (0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight = computedStyle(this.el_, widthOrHeight))) || isNaN(computedWidthOrHeight)) {
                         var rule = "offset" + toTitleCase$1(widthOrHeight);
                         computedWidthOrHeight = this.el_[rule];
                     }
@@ -2335,12 +2335,12 @@
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Button, _ClickableComponent);
                 var _proto = Button.prototype;
                 return _proto.createEl = function(tag, props, attributes) {
-                    void 0 === props && (props = {}), void 0 === attributes && (attributes = {}), tag = "button", props = assign({
+                    void 0 === props && (props = {}), void 0 === attributes && (attributes = {});
+                    var el = createEl("button", props = assign({
                         className: this.buildCSSClass()
                     }, props), attributes = assign({
                         type: "button"
-                    }, attributes);
-                    var el = createEl(tag, props, attributes);
+                    }, attributes));
                     return el.appendChild(createEl("span", {
                         className: "vjs-icon-placeholder"
                     }, {
@@ -4567,14 +4567,14 @@
                 for(var descriptor = {}, i = 0; i < priority.length && (!(descriptor = Object.getOwnPropertyDescriptor(priority[i], prop)) || !descriptor.set || !descriptor.get); i++);
                 return descriptor.enumerable = !0, descriptor.configurable = !0, descriptor;
             }, firstSourceWatch = function(tech) {
-                var tech1, el = tech.el();
+                var el = tech.el();
                 if (!el.resetSourceWatch_) {
-                    var old = {}, innerDescriptor = (tech1 = tech, getDescriptor([
-                        tech1.el(),
+                    var old = {}, innerDescriptor = getDescriptor([
+                        tech.el(),
                         global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLMediaElement.prototype,
                         global_window__WEBPACK_IMPORTED_MODULE_0___default().Element.prototype,
                         innerHTMLDescriptorPolyfill
-                    ], "innerHTML")), appendWrapper = function(appendFn) {
+                    ], "innerHTML"), appendWrapper = function(appendFn) {
                         return function() {
                             for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                             var retval = appendFn.apply(el, args);
@@ -4604,13 +4604,13 @@
                 }
             }), setupSourceset = function(tech) {
                 if (tech.featuresSourceset) {
-                    var tech1, el = tech.el();
+                    var el = tech.el();
                     if (!el.resetSourceset_) {
-                        var srcDescriptor = (tech1 = tech, getDescriptor([
-                            tech1.el(),
+                        var srcDescriptor = getDescriptor([
+                            tech.el(),
                             global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLMediaElement.prototype,
                             srcDescriptorPolyfill
-                        ], "src")), oldSetAttribute = el.setAttribute, oldLoad = el.load;
+                        ], "src"), oldSetAttribute = el.setAttribute, oldLoad = el.load;
                         Object.defineProperty(el, "src", mergeOptions$3(srcDescriptor, {
                             set: function(v) {
                                 var retval = srcDescriptor.set.call(el, v);
@@ -4752,7 +4752,7 @@
                             el.parentNode && el.parentNode.insertBefore(clone, el), Html5.disposeMediaElement(el), el = clone;
                         } else {
                             el = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("video");
-                            var tagAttributes = this.options_.tag && getAttributes(this.options_.tag), attributes = mergeOptions$3({}, tagAttributes);
+                            var attributes = mergeOptions$3({}, this.options_.tag && getAttributes(this.options_.tag));
                             TOUCH_ENABLED && !0 === this.options_.nativeControlsForTouch || delete attributes.controls, setAttributes(el, assign(attributes, {
                                 id: this.options_.techId,
                                 class: "vjs-tech"
@@ -5665,7 +5665,7 @@
                         vol = Math.max(0, Math.min(1, parseFloat(percentAsDecimal))), this.cache_.volume = vol, this.techCall_("setVolume", vol), vol > 0 && this.lastVolume_(vol);
                         return;
                     }
-                    return vol = parseFloat(this.techGet_("volume")), isNaN(vol) ? 1 : vol;
+                    return isNaN(vol = parseFloat(this.techGet_("volume"))) ? 1 : vol;
                 }, _proto.muted = function(_muted) {
                     if (void 0 !== _muted) {
                         this.techCall_("setMuted", _muted);
@@ -6120,16 +6120,16 @@
                     }
                 }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
-                        var poster = this.poster(), src = this.currentSources(), textTracks = Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
-                            return {
-                                kind: tt.kind,
-                                label: tt.label,
-                                language: tt.language,
-                                src: tt.src
-                            };
-                        }), media = {
-                            src: src,
-                            textTracks: textTracks
+                        var poster = this.poster(), media = {
+                            src: this.currentSources(),
+                            textTracks: Array.prototype.map.call(this.remoteTextTracks(), function(tt) {
+                                return {
+                                    kind: tt.kind,
+                                    label: tt.label,
+                                    language: tt.language,
+                                    src: tt.src
+                                };
+                            })
                         };
                         return poster && (media.poster = poster, media.artwork = [
                             {
@@ -6595,7 +6595,7 @@
                 if (null === expired) return null;
                 expired = expired || 0;
                 var lastSegmentEndTime = intervalDuration(playlist, playlist.mediaSequence + playlist.segments.length, expired);
-                return useSafeLiveEnd && (liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist), lastSegmentEndTime -= liveEdgePadding), Math.max(0, lastSegmentEndTime);
+                return useSafeLiveEnd && (lastSegmentEndTime -= liveEdgePadding = "number" == typeof liveEdgePadding ? liveEdgePadding : liveEdgeDelay(null, playlist)), Math.max(0, lastSegmentEndTime);
             }, isBlacklisted = function(playlist) {
                 return playlist.excludeUntil && playlist.excludeUntil > Date.now();
             }, isIncompatible = function(playlist) {
@@ -7143,7 +7143,7 @@
             }, segmentKeyId = function(key) {
                 return key.resolvedUri;
             }, hexDump = function(data) {
-                for(var hex, ascii, bytes = Array.prototype.slice.call(data), result = "", j = 0; j < bytes.length / 16; j++)hex = bytes.slice(16 * j, 16 * j + 16).map(formatHexString).join(""), ascii = bytes.slice(16 * j, 16 * j + 16).map(formatAsciiString).join(""), result += hex + " " + ascii + "\n";
+                for(var bytes = Array.prototype.slice.call(data), result = "", j = 0; j < bytes.length / 16; j++)result += bytes.slice(16 * j, 16 * j + 16).map(formatHexString).join("") + " " + bytes.slice(16 * j, 16 * j + 16).map(formatAsciiString).join("") + "\n";
                 return result;
             }, tagDump = function(_ref) {
                 return hexDump(_ref.bytes);
@@ -7173,8 +7173,8 @@
                 var videoTimingInfo, dateTimeObject, segment = playlist.segments[0];
                 if (dateTimeObject < segment.dateTimeObject) return null;
                 for(var i = 0; i < playlist.segments.length - 1 && (segment = playlist.segments[i], !(dateTimeObject < playlist.segments[i + 1].dateTimeObject)); i++);
-                var lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration, lastSegmentEnd = new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration);
-                return dateTimeObject > lastSegmentEnd ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
+                var lastSegment = playlist.segments[playlist.segments.length - 1], lastSegmentStart = lastSegment.dateTimeObject, lastSegmentDuration = lastSegment.videoTimingInfo ? (videoTimingInfo = lastSegment.videoTimingInfo).transmuxedPresentationEnd - videoTimingInfo.transmuxedPresentationStart - videoTimingInfo.transmuxerPrependedSeconds : lastSegment.duration + 0.25 * lastSegment.duration;
+                return dateTimeObject > new Date(lastSegmentStart.getTime() + 1000 * lastSegmentDuration) ? null : (dateTimeObject > lastSegmentStart && (segment = lastSegment), {
                     segment: segment,
                     estimatedStart: segment.videoTimingInfo ? segment.videoTimingInfo.transmuxedPresentationStart : Playlist.duration(playlist, playlist.mediaSequence + playlist.segments.indexOf(segment)),
                     type: segment.videoTimingInfo ? "accurate" : "estimate"
@@ -7692,85 +7692,85 @@
                             0,
                             0,
                             1
-                        ]), VIDEO_HDLR = new Uint8Array([
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x76,
-                            0x69,
-                            0x64,
-                            0x65,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x56,
-                            0x69,
-                            0x64,
-                            0x65,
-                            0x6f,
-                            0x48,
-                            0x61,
-                            0x6e,
-                            0x64,
-                            0x6c,
-                            0x65,
-                            0x72,
-                            0x00
-                        ]), AUDIO_HDLR = new Uint8Array([
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x73,
-                            0x6f,
-                            0x75,
-                            0x6e,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x00,
-                            0x53,
-                            0x6f,
-                            0x75,
-                            0x6e,
-                            0x64,
-                            0x48,
-                            0x61,
-                            0x6e,
-                            0x64,
-                            0x6c,
-                            0x65,
-                            0x72,
-                            0x00
                         ]), HDLR_TYPES = {
-                            video: VIDEO_HDLR,
-                            audio: AUDIO_HDLR
+                            video: new Uint8Array([
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x76,
+                                0x69,
+                                0x64,
+                                0x65,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x56,
+                                0x69,
+                                0x64,
+                                0x65,
+                                0x6f,
+                                0x48,
+                                0x61,
+                                0x6e,
+                                0x64,
+                                0x6c,
+                                0x65,
+                                0x72,
+                                0x00
+                            ]),
+                            audio: new Uint8Array([
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x73,
+                                0x6f,
+                                0x75,
+                                0x6e,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x00,
+                                0x53,
+                                0x6f,
+                                0x75,
+                                0x6e,
+                                0x64,
+                                0x48,
+                                0x61,
+                                0x6e,
+                                0x64,
+                                0x6c,
+                                0x65,
+                                0x72,
+                                0x00
+                            ])
                         }, DREF = new Uint8Array([
                             0x00,
                             0x00,
@@ -9315,7 +9315,7 @@
                     };
                 };
                 TimestampRolloverStream$1.prototype = new Stream();
-                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, VIDEO_HDLR, AUDIO_HDLR, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, timestampRolloverStream = {
+                var videoSample, audioSample, audioTrun, videoTrun, trunHeader, box, ftyp, mdat, mfhd, minf, moof, moov, mvex, mvhd, trak, tkhd, mdia, mdhd, sdtp, stbl, stsd, traf, trex, trun$1, types, MAJOR_BRAND, MINOR_VERSION, AVC1_BRAND, HDLR_TYPES, VMHD, SMHD, DREF, STCO, STSC, STSZ, STTS, silence, secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds, _MetadataStream, timestampRolloverStream = {
                     TimestampRolloverStream: TimestampRolloverStream$1,
                     handleRollover: handleRollover$1
                 }, percentEncode$1 = function(bytes, start, end) {
@@ -10351,14 +10351,14 @@
                             traf: matchingTraf
                         });
                     }), mdatTrafPairs.forEach(function(pair) {
-                        var samples, result, mdat = pair.mdat, traf = pair.traf, tfhd1 = findBox(traf, [
+                        var result, mdat = pair.mdat, traf = pair.traf, headerInfo = tfhd(findBox(traf, [
                             "tfhd"
-                        ]), headerInfo = tfhd(tfhd1[0]), trackId = headerInfo.trackId, tfdt1 = findBox(traf, [
+                        ])[0]), trackId = headerInfo.trackId, tfdt1 = findBox(traf, [
                             "tfdt"
                         ]), baseMediaDecodeTime = tfdt1.length > 0 ? tfdt(tfdt1[0]).baseMediaDecodeTime : 0, truns = findBox(traf, [
                             "trun"
                         ]);
-                        videoTrackId === trackId && truns.length > 0 && (samples = parseSamples(truns, baseMediaDecodeTime, headerInfo), result = findSeiNals(mdat, samples, trackId), captionNals[trackId] || (captionNals[trackId] = {
+                        videoTrackId === trackId && truns.length > 0 && (result = findSeiNals(mdat, parseSamples(truns, baseMediaDecodeTime, headerInfo), trackId), captionNals[trackId] || (captionNals[trackId] = {
                             seiNals: [],
                             logs: []
                         }), captionNals[trackId].seiNals = captionNals[trackId].seiNals.concat(result.seiNals), captionNals[trackId].logs = captionNals[trackId].logs.concat(result.logs));
@@ -10428,7 +10428,7 @@
                         var tkhd, index, id, mdhd;
                         return (tkhd = findBox(trak, [
                             "tkhd"
-                        ])[0]) && (index = 0 === tkhd[0] ? 12 : 20, id = toUnsigned(tkhd[index] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox(trak, [
+                        ])[0]) && (id = toUnsigned(tkhd[index = 0 === tkhd[0] ? 12 : 20] << 24 | tkhd[index + 1] << 16 | tkhd[index + 2] << 8 | tkhd[index + 3]), mdhd = findBox(trak, [
                             "mdia",
                             "mdhd"
                         ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
@@ -10450,7 +10450,7 @@
                                 return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result *= 4294967296, result += toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
                             })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
                         });
-                    })), result = Math.min.apply(null, baseTimes), isFinite(result) ? result : 0;
+                    })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
                 }, compositionStartTime = function(timescales, fragment) {
                     var trackId, trafBoxes = findBox(fragment, [
                         "moof",
@@ -11424,7 +11424,7 @@
                     var keyRequestOptions = videojs.mergeOptions(xhrOptions, {
                         uri: segment.key.resolvedUri,
                         responseType: "arraybuffer"
-                    }), keyRequestCallback = handleKeyResponse(segment, objects, finishProcessingFn), keyXhr = xhr(keyRequestOptions, keyRequestCallback);
+                    }), keyXhr = xhr(keyRequestOptions, handleKeyResponse(segment, objects, finishProcessingFn));
                     activeXhrs.push(keyXhr);
                 }
                 if (segment.map && !segment.map.bytes) {
@@ -11432,19 +11432,19 @@
                         var mapKeyRequestOptions = videojs.mergeOptions(xhrOptions, {
                             uri: segment.map.key.resolvedUri,
                             responseType: "arraybuffer"
-                        }), mapKeyRequestCallback = handleKeyResponse(segment, [
+                        }), mapKeyXhr = xhr(mapKeyRequestOptions, handleKeyResponse(segment, [
                             segment.map.key
-                        ], finishProcessingFn), mapKeyXhr = xhr(mapKeyRequestOptions, mapKeyRequestCallback);
+                        ], finishProcessingFn));
                         activeXhrs.push(mapKeyXhr);
                     }
                     var initSegmentOptions = videojs.mergeOptions(xhrOptions, {
                         uri: segment.map.resolvedUri,
                         responseType: "arraybuffer",
                         headers: segmentXhrHeaders(segment.map)
-                    }), initSegmentRequestCallback = handleInitSegmentResponse({
+                    }), initSegmentXhr = xhr(initSegmentOptions, handleInitSegmentResponse({
                         segment: segment,
                         finishProcessingFn: finishProcessingFn
-                    }), initSegmentXhr = xhr(initSegmentOptions, initSegmentRequestCallback);
+                    }));
                     activeXhrs.push(initSegmentXhr);
                 }
                 var segmentRequestOptions = videojs.mergeOptions(xhrOptions, {
@@ -11534,10 +11534,10 @@
                 });
             }, comparePlaylistBandwidth = function(left, right) {
                 var leftBandwidth, rightBandwidth;
-                return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, leftBandwidth - rightBandwidth;
+                return left.attributes.BANDWIDTH && (leftBandwidth = left.attributes.BANDWIDTH), leftBandwidth = leftBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.BANDWIDTH && (rightBandwidth = right.attributes.BANDWIDTH), leftBandwidth - (rightBandwidth = rightBandwidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE);
             }, comparePlaylistResolution = function(left, right) {
                 var leftWidth, rightWidth;
-                return (left.attributes.RESOLUTION && left.attributes.RESOLUTION.width && (leftWidth = left.attributes.RESOLUTION.width), leftWidth = leftWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.RESOLUTION && right.attributes.RESOLUTION.width && (rightWidth = right.attributes.RESOLUTION.width), rightWidth = rightWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, leftWidth === rightWidth && left.attributes.BANDWIDTH && right.attributes.BANDWIDTH) ? left.attributes.BANDWIDTH - right.attributes.BANDWIDTH : leftWidth - rightWidth;
+                return (left.attributes.RESOLUTION && left.attributes.RESOLUTION.width && (leftWidth = left.attributes.RESOLUTION.width), leftWidth = leftWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE, right.attributes.RESOLUTION && right.attributes.RESOLUTION.width && (rightWidth = right.attributes.RESOLUTION.width), leftWidth === (rightWidth = rightWidth || global_window__WEBPACK_IMPORTED_MODULE_0___default().Number.MAX_VALUE) && left.attributes.BANDWIDTH && right.attributes.BANDWIDTH) ? left.attributes.BANDWIDTH - right.attributes.BANDWIDTH : leftWidth - rightWidth;
             }, simpleSelector = function(master, playerBandwidth, playerWidth, playerHeight, limitRenditionByPlayerDimensions, masterPlaylistController) {
                 if (master) {
                     var resolutionPlusOneList, resolutionPlusOneSmallest, resolutionPlusOneRep, leastPixelDiffRep, options = {
@@ -13296,7 +13296,7 @@
                 }, _proto.dispose = function() {
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
-            }(videojs.EventTarget), workerCode = transform(getWorkerString(function() {
+            }(videojs.EventTarget), Decrypter = factory(transform(getWorkerString(function() {
                 function createCommonjsModule(fn, basedir, module) {
                     return fn(module = {
                         path: basedir,
@@ -13472,7 +13472,7 @@
                         ]);
                     });
                 };
-            })), Decrypter = factory(workerCode), audioTrackKind_ = function(properties) {
+            }))), audioTrackKind_ = function(properties) {
                 var kind = properties.default ? "main" : "alternative";
                 return properties.characteristics && properties.characteristics.indexOf("public.accessibility.describes-video") >= 0 && (kind = "main-desc"), kind;
             }, stopLoaders = function(segmentLoader, mediaType) {

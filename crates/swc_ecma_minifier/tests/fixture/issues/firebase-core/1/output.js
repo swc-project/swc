@@ -380,7 +380,7 @@
                     var h = b.g = c[f];
                     e = qb(h, d, !0, b) && e;
                 }
-                if (h = b.g = a, e = qb(h, d, !0, b) && e, e = qb(h, d, !1, b) && e, c) for(f = 0; f < c.length; f++)h = b.g = c[f], e = qb(h, d, !1, b) && e;
+                if (e = qb(h = b.g = a, d, !0, b) && e, e = qb(h, d, !1, b) && e, c) for(f = 0; f < c.length; f++)e = qb(h = b.g = c[f], d, !1, b) && e;
             }
             function qb(a, b, c, d) {
                 if (!(b = a.i.g[String(b)])) return !0;

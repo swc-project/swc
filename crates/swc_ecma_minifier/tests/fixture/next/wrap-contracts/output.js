@@ -6100,9 +6100,7 @@
                 for(; responseInterceptorChain.length;)promise = promise.then(responseInterceptorChain.shift(), responseInterceptorChain.shift());
                 return promise;
             }, Axios.prototype.getUri = function(config) {
-                config = mergeConfig(this.defaults, config);
-                var fullPath = buildFullPath(config.baseURL, config.url);
-                return buildURL(fullPath, config.params, config.paramsSerializer);
+                return buildURL(buildFullPath((config = mergeConfig(this.defaults, config)).baseURL, config.url), config.params, config.paramsSerializer);
             }, utils.forEach([
                 'delete',
                 'get',
@@ -7277,7 +7275,7 @@
                         if (!xc || !yc || !xc[0] || !yc[0]) return x.s && y.s && (!xc || xc[0] || yc) && (!yc || yc[0] || xc) ? (y.s *= x.s, xc && yc ? (y.c = [
                             0
                         ], y.e = 0) : y.c = y.e = null) : y.c = y.e = y.s = null, y;
-                        for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, xcL = xc.length, ycL = yc.length, xcL < ycL && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
+                        for(e = bitFloor(x.e / LOG_BASE) + bitFloor(y.e / LOG_BASE), y.s *= x.s, (xcL = xc.length) < (ycL = yc.length) && (zc = xc, xc = yc, yc = zc, i = xcL, xcL = ycL, ycL = i), i = xcL + ycL, zc = []; i--; zc.push(0));
                         for(base = BASE, sqrtBase = SQRT_BASE, i = ycL; --i >= 0;){
                             for(c = 0, ylo = yc[i] % sqrtBase, yhi = yc[i] / sqrtBase | 0, k = xcL, j = i + k; j > i;)xlo = xc[--k] % sqrtBase, xhi = xc[k] / sqrtBase | 0, m = yhi * xlo + xhi * ylo, c = ((xlo = ylo * xlo + m % sqrtBase * sqrtBase + zc[j] + c) / base | 0) + (m / sqrtBase | 0) + yhi * xhi, zc[j--] = xlo % base;
                             zc[j] = c;
@@ -9989,10 +9987,10 @@
                     };
                 }
             }, ShortCurve.prototype._getEndoRoots = function(num) {
-                var red = num === this.p ? this.red : BN.mont(num), tinv = new BN(2).toRed(red).redInvm(), ntinv = tinv.redNeg(), s = new BN(3).toRed(red).redNeg().redSqrt().redMul(tinv), l1 = ntinv.redAdd(s).fromRed(), l2 = ntinv.redSub(s).fromRed();
+                var red = num === this.p ? this.red : BN.mont(num), tinv = new BN(2).toRed(red).redInvm(), ntinv = tinv.redNeg(), s = new BN(3).toRed(red).redNeg().redSqrt().redMul(tinv);
                 return [
-                    l1,
-                    l2
+                    ntinv.redAdd(s).fromRed(),
+                    ntinv.redSub(s).fromRed()
                 ];
             }, ShortCurve.prototype._getEndoBasis = function(lambda) {
                 for(var a0, b0, a1, b1, a2, b2, prevR, r, x, aprxSqrt = this.n.ushrn(Math.floor(this.n.bitLength() / 2)), u = lambda, v = this.n.clone(), x1 = new BN(1), y1 = new BN(0), x2 = new BN(0), y2 = new BN(1), i = 0; 0 !== u.cmpn(0);){
@@ -13454,35 +13452,35 @@
                 return r < 0 && (r += 0x100000000), r;
             }
             function s0_512_hi(xh, xl) {
-                var c0_hi = rotr64_hi(xh, xl, 28), c1_hi = rotr64_hi(xl, xh, 2), c2_hi = rotr64_hi(xl, xh, 7), r = c0_hi ^ c1_hi ^ c2_hi;
+                var r = rotr64_hi(xh, xl, 28) ^ rotr64_hi(xl, xh, 2) ^ rotr64_hi(xl, xh, 7);
                 return r < 0 && (r += 0x100000000), r;
             }
             function s0_512_lo(xh, xl) {
-                var c0_lo = rotr64_lo(xh, xl, 28), c1_lo = rotr64_lo(xl, xh, 2), c2_lo = rotr64_lo(xl, xh, 7), r = c0_lo ^ c1_lo ^ c2_lo;
+                var r = rotr64_lo(xh, xl, 28) ^ rotr64_lo(xl, xh, 2) ^ rotr64_lo(xl, xh, 7);
                 return r < 0 && (r += 0x100000000), r;
             }
             function s1_512_hi(xh, xl) {
-                var c0_hi = rotr64_hi(xh, xl, 14), c1_hi = rotr64_hi(xh, xl, 18), c2_hi = rotr64_hi(xl, xh, 9), r = c0_hi ^ c1_hi ^ c2_hi;
+                var r = rotr64_hi(xh, xl, 14) ^ rotr64_hi(xh, xl, 18) ^ rotr64_hi(xl, xh, 9);
                 return r < 0 && (r += 0x100000000), r;
             }
             function s1_512_lo(xh, xl) {
-                var c0_lo = rotr64_lo(xh, xl, 14), c1_lo = rotr64_lo(xh, xl, 18), c2_lo = rotr64_lo(xl, xh, 9), r = c0_lo ^ c1_lo ^ c2_lo;
+                var r = rotr64_lo(xh, xl, 14) ^ rotr64_lo(xh, xl, 18) ^ rotr64_lo(xl, xh, 9);
                 return r < 0 && (r += 0x100000000), r;
             }
             function g0_512_hi(xh, xl) {
-                var c0_hi = rotr64_hi(xh, xl, 1), c1_hi = rotr64_hi(xh, xl, 8), c2_hi = shr64_hi(xh, xl, 7), r = c0_hi ^ c1_hi ^ c2_hi;
+                var r = rotr64_hi(xh, xl, 1) ^ rotr64_hi(xh, xl, 8) ^ shr64_hi(xh, xl, 7);
                 return r < 0 && (r += 0x100000000), r;
             }
             function g0_512_lo(xh, xl) {
-                var c0_lo = rotr64_lo(xh, xl, 1), c1_lo = rotr64_lo(xh, xl, 8), c2_lo = shr64_lo(xh, xl, 7), r = c0_lo ^ c1_lo ^ c2_lo;
+                var r = rotr64_lo(xh, xl, 1) ^ rotr64_lo(xh, xl, 8) ^ shr64_lo(xh, xl, 7);
                 return r < 0 && (r += 0x100000000), r;
             }
             function g1_512_hi(xh, xl) {
-                var c0_hi = rotr64_hi(xh, xl, 19), c1_hi = rotr64_hi(xl, xh, 29), c2_hi = shr64_hi(xh, xl, 6), r = c0_hi ^ c1_hi ^ c2_hi;
+                var r = rotr64_hi(xh, xl, 19) ^ rotr64_hi(xl, xh, 29) ^ shr64_hi(xh, xl, 6);
                 return r < 0 && (r += 0x100000000), r;
             }
             function g1_512_lo(xh, xl) {
-                var c0_lo = rotr64_lo(xh, xl, 19), c1_lo = rotr64_lo(xl, xh, 29), c2_lo = shr64_lo(xh, xl, 6), r = c0_lo ^ c1_lo ^ c2_lo;
+                var r = rotr64_lo(xh, xl, 19) ^ rotr64_lo(xl, xh, 29) ^ shr64_lo(xh, xl, 6);
                 return r < 0 && (r += 0x100000000), r;
             }
             utils.inherits(SHA512, BlockHash), module.exports = SHA512, SHA512.blockSize = 1024, SHA512.outSize = 512, SHA512.hmacStrength = 192, SHA512.padLength = 128, SHA512.prototype._prepareBlock = function(msg, start) {
@@ -13804,11 +13802,7 @@
                 var arr = new g[typedArray]();
                 if (Symbol.toStringTag in arr) {
                     var proto = getPrototypeOf(arr), descriptor = gOPD(proto, Symbol.toStringTag);
-                    if (!descriptor) {
-                        var superProto = getPrototypeOf(proto);
-                        descriptor = gOPD(superProto, Symbol.toStringTag);
-                    }
-                    toStrTags[typedArray] = descriptor.get;
+                    descriptor || (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
                 }
             });
             var tryTypedArrays = function(value) {
@@ -13820,12 +13814,7 @@
                 }), anyTrue;
             };
             module.exports = function(value) {
-                if (!value || 'object' != typeof value) return !1;
-                if (!hasToStringTag || !(Symbol.toStringTag in value)) {
-                    var tag = $slice($toString(value), 8, -1);
-                    return $indexOf(typedArrays, tag) > -1;
-                }
-                return !!gOPD && tryTypedArrays(value);
+                return !!value && 'object' == typeof value && (hasToStringTag && Symbol.toStringTag in value ? !!gOPD && tryTypedArrays(value) : $indexOf(typedArrays, $slice($toString(value), 8, -1)) > -1);
             };
         },
         2023: function(module, exports, __webpack_require__) {
@@ -14899,7 +14888,7 @@
             exports.Level = __webpack_require__(1708).BrowserLevel;
         },
         8552: function(module, __unused_webpack_exports, __webpack_require__) {
-            var getNative = __webpack_require__(852), root = __webpack_require__(5639), DataView1 = getNative(root, 'DataView');
+            var DataView1 = __webpack_require__(852)(__webpack_require__(5639), 'DataView');
             module.exports = DataView1;
         },
         1989: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14925,7 +14914,7 @@
             ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module.exports = ListCache;
         },
         7071: function(module, __unused_webpack_exports, __webpack_require__) {
-            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Map1 = getNative(root, 'Map');
+            var Map1 = __webpack_require__(852)(__webpack_require__(5639), 'Map');
             module.exports = Map1;
         },
         3369: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14940,11 +14929,11 @@
             MapCache.prototype.clear = mapCacheClear, MapCache.prototype.delete = mapCacheDelete, MapCache.prototype.get = mapCacheGet, MapCache.prototype.has = mapCacheHas, MapCache.prototype.set = mapCacheSet, module.exports = MapCache;
         },
         3818: function(module, __unused_webpack_exports, __webpack_require__) {
-            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Promise1 = getNative(root, 'Promise');
+            var Promise1 = __webpack_require__(852)(__webpack_require__(5639), 'Promise');
             module.exports = Promise1;
         },
         8525: function(module, __unused_webpack_exports, __webpack_require__) {
-            var getNative = __webpack_require__(852), root = __webpack_require__(5639), Set1 = getNative(root, 'Set');
+            var Set1 = __webpack_require__(852)(__webpack_require__(5639), 'Set');
             module.exports = Set1;
         },
         6384: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -14964,7 +14953,7 @@
             module.exports = Uint8Array1;
         },
         577: function(module, __unused_webpack_exports, __webpack_require__) {
-            var getNative = __webpack_require__(852), root = __webpack_require__(5639), WeakMap1 = getNative(root, 'WeakMap');
+            var WeakMap1 = __webpack_require__(852)(__webpack_require__(5639), 'WeakMap');
             module.exports = WeakMap1;
         },
         7412: function(module) {
@@ -15496,9 +15485,7 @@
             var assocIndexOf = __webpack_require__(8470), splice = Array.prototype.splice;
             function listCacheDelete(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                if (index < 0) return !1;
-                var lastIndex = data.length - 1;
-                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
+                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             }
             module.exports = listCacheDelete;
         },
@@ -16856,7 +16843,7 @@
                                 }, n);
                             };
                         }
-                        var c = Object.getPrototypeOf(function() {}), h = Object.setPrototypeOf((n = {
+                        var c = Object.getPrototypeOf(function() {}), h = Object.setPrototypeOf((_defineProperty(n = {
                             get stream () {
                                 return this[d];
                             },
@@ -16878,7 +16865,7 @@
                                 }
                                 return this[l] = n, n;
                             }
-                        }, _defineProperty(n, Symbol.asyncIterator, function() {
+                        }, Symbol.asyncIterator, function() {
                             return this;
                         }), _defineProperty(n, "return", function() {
                             var e = this;
@@ -23046,8 +23033,8 @@
                                 storeValue(ret_ptr, s);
                             },
                             'syscall/js.valueGet' (retval, v_addr, p_ptr, p_len) {
-                                let prop = loadString(p_ptr, p_len), value = loadValue(v_addr), result = Reflect.get(value, prop);
-                                storeValue(retval, result);
+                                let prop = loadString(p_ptr, p_len), value = loadValue(v_addr);
+                                storeValue(retval, Reflect.get(value, prop));
                             },
                             'syscall/js.valueSet' (v_addr, p_ptr, p_len, x_addr) {
                                 const v = loadValue(v_addr), p = loadString(p_ptr, p_len), x = loadValue(x_addr);
@@ -23229,12 +23216,11 @@
                         rawImports.console.log(getStringFromWasm0(arg0, arg1));
                     },
                     __wbindgen_json_parse: function(arg0, arg1) {
-                        var ret = JSON.parse(getStringFromWasm0(arg0, arg1));
-                        return addHeapObject(ret);
+                        return addHeapObject(JSON.parse(getStringFromWasm0(arg0, arg1)));
                     },
                     __wbindgen_json_serialize: function(arg0, arg1) {
                         const obj = getObject(arg1);
-                        var ret = JSON.stringify(void 0 === obj ? null : obj), ptr0 = passStringToWasm0(ret, wasmInstance.exports.__wbindgen_malloc, wasmInstance.exports.__wbindgen_realloc), len0 = WASM_VECTOR_LEN;
+                        var ptr0 = passStringToWasm0(JSON.stringify(void 0 === obj ? null : obj), wasmInstance.exports.__wbindgen_malloc, wasmInstance.exports.__wbindgen_realloc), len0 = WASM_VECTOR_LEN;
                         getInt32Memory0()[arg0 / 4 + 1] = len0, getInt32Memory0()[arg0 / 4 + 0] = ptr0;
                     },
                     __wbindgen_object_drop_ref: function(arg0) {
@@ -23245,8 +23231,7 @@
                         return 1 == obj.cnt-- && (obj.a = 0, !0);
                     },
                     __wbg_readContractState: function(arg0, arg1) {
-                        var ret = rawImports.SmartWeave.readContractState(getStringFromWasm0(arg0, arg1));
-                        return addHeapObject(ret);
+                        return addHeapObject(rawImports.SmartWeave.readContractState(getStringFromWasm0(arg0, arg1)));
                     },
                     __wbg_viewContractState: function(arg0, arg1) {},
                     __wbg_caller: function(arg0) {
@@ -23254,8 +23239,7 @@
                         getInt32Memory0()[arg0 / 4 + 1] = len0, getInt32Memory0()[arg0 / 4 + 0] = ptr0;
                     },
                     __wbg_write: function(arg0, arg1, arg2) {
-                        var ret = rawImports.SmartWeave.write(getStringFromWasm0(arg0, arg1), takeObject(arg2));
-                        return addHeapObject(ret);
+                        return addHeapObject(rawImports.SmartWeave.write(getStringFromWasm0(arg0, arg1), takeObject(arg2)));
                     },
                     __wbg_refreshState: function(arg0, arg1) {},
                     __wbg_indephash: function(arg0) {
@@ -23290,8 +23274,7 @@
                     },
                     __wbg_call: function() {
                         return handleError(function(arg0, arg1, arg2) {
-                            var ret = getObject(arg0).call(getObject(arg1), getObject(arg2));
-                            return addHeapObject(ret);
+                            return addHeapObject(getObject(arg0).call(getObject(arg1), getObject(arg2)));
                         }, arguments);
                     },
                     __wbg_new: function(arg0, arg1) {
@@ -23314,19 +23297,16 @@
                         }
                     },
                     __wbg_resolve: function(arg0) {
-                        var ret = Promise.resolve(getObject(arg0));
-                        return addHeapObject(ret);
+                        return addHeapObject(Promise.resolve(getObject(arg0)));
                     },
                     __wbg_then_a: function(arg0, arg1) {
-                        var ret = getObject(arg0).then(getObject(arg1));
-                        return addHeapObject(ret);
+                        return addHeapObject(getObject(arg0).then(getObject(arg1)));
                     },
                     __wbg_then_5: function(arg0, arg1, arg2) {
-                        var ret = getObject(arg0).then(getObject(arg1), getObject(arg2));
-                        return addHeapObject(ret);
+                        return addHeapObject(getObject(arg0).then(getObject(arg1), getObject(arg2)));
                     },
                     __wbindgen_debug_string: function(arg0, arg1) {
-                        var ret = debugString(getObject(arg1)), ptr0 = passStringToWasm0(ret, wasmInstance.exports.__wbindgen_malloc, wasmInstance.exports.__wbindgen_realloc), len0 = WASM_VECTOR_LEN;
+                        var ptr0 = passStringToWasm0(debugString(getObject(arg1)), wasmInstance.exports.__wbindgen_malloc, wasmInstance.exports.__wbindgen_realloc), len0 = WASM_VECTOR_LEN;
                         getInt32Memory0()[arg0 / 4 + 1] = len0, getInt32Memory0()[arg0 / 4 + 0] = ptr0;
                     },
                     __wbindgen_throw: function(arg0, arg1) {
@@ -23337,8 +23317,7 @@
                         return addHeapObject(ret);
                     },
                     __wbindgen_string_new: function(arg0, arg1) {
-                        var ret = getStringFromWasm0(arg0, arg1);
-                        return addHeapObject(ret);
+                        return addHeapObject(getStringFromWasm0(arg0, arg1));
                     },
                     __wbg_value: function(arg0) {
                         var ptr0 = passStringToWasm0(rawImports.Vrf.value(), wasmInstance.exports.__wbindgen_malloc, wasmInstance.exports.__wbindgen_realloc), len0 = WASM_VECTOR_LEN;
@@ -23469,8 +23448,7 @@
                     wasmInstance.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__(arg0, arg1, addHeapObject(arg2));
                 }
                 module.handle = function(interaction) {
-                    var ret = wasmInstance.exports.handle(addHeapObject(interaction));
-                    return takeObject(ret);
+                    return takeObject(wasmInstance.exports.handle(addHeapObject(interaction)));
                 };
                 let stack_pointer = 32;
                 function addBorrowedObject(obj) {
@@ -24170,11 +24148,7 @@
                     var arr = new g[typedArray]();
                     if (Symbol.toStringTag in arr) {
                         var proto = getPrototypeOf(arr), descriptor = gOPD(proto, Symbol.toStringTag);
-                        if (!descriptor) {
-                            var superProto = getPrototypeOf(proto);
-                            descriptor = gOPD(superProto, Symbol.toStringTag);
-                        }
-                        toStrTags[typedArray] = descriptor.get;
+                        descriptor || (descriptor = gOPD(getPrototypeOf(proto), Symbol.toStringTag)), toStrTags[typedArray] = descriptor.get;
                     }
                 }
             });

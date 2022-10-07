@@ -2527,9 +2527,7 @@
                                 case 'E':
                                 case 'c':
                                     var weekData = void 0;
-                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]];
-                                    var weekObject = ParserBase.reverseObject(weekData);
-                                    regexString += '(' + Object.keys(weekObject).join('|') + ')';
+                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]], regexString += '(' + Object.keys(ParserBase.reverseObject(weekData)).join('|') + ')';
                                     break;
                                 case 'M':
                                 case 'L':
@@ -2597,13 +2595,7 @@
                     var res = value || new Date();
                     res.setMilliseconds(0);
                     var y = options.year, desig = options.designator, tzone = options.timeZone;
-                    if (!util_isUndefined(y)) {
-                        if ((y + '').length <= 2) {
-                            var century = 100 * Math.floor(res.getFullYear() / 100);
-                            y += century;
-                        }
-                        res.setFullYear(y);
-                    }
+                    util_isUndefined(y) || ((y + '').length <= 2 && (y += 100 * Math.floor(res.getFullYear() / 100)), res.setFullYear(y));
                     for(var _i = 0, tKeys_1 = [
                         'hour',
                         'minute',
@@ -4720,7 +4712,7 @@
                     prop.length && (this[prop[0]] = args[prop[0]]);
                 }, Component.prototype.mergePersistData = function() {
                     var data;
-                    data = window.localStorage.getItem(this.getModuleName() + this.element.id), util_isNullOrUndefined(data) || '' === data || this.setProperties(JSON.parse(data), !0);
+                    util_isNullOrUndefined(data = window.localStorage.getItem(this.getModuleName() + this.element.id)) || '' === data || this.setProperties(JSON.parse(data), !0);
                 }, Component.prototype.setPersistData = function() {
                     this.isDestroyed || window.localStorage.setItem(this.getModuleName() + this.element.id, this.getPersistData());
                 }, Component.prototype.renderReactTemplates = function() {}, Component.prototype.clearTemplate = function(templateName, index) {}, Component.prototype.getUniqueID = function(definedName) {
@@ -5554,10 +5546,10 @@
                 compile: new (function() {
                     function Engine() {}
                     return Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, argName, evalExpResult, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        var helper1, argName, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
                         return void 0 === helper && (helper = {}), str = templateString, nameSpace = argName = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
-                        }), evalExpResult = str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
+                        }), Function(argName, "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
                             if (matches) {
                                 var rlStr = matches[1];
@@ -5582,7 +5574,7 @@
                                 }
                             } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt.match(SINGLE_SLASH) ? (cnt = SlashReplace(cnt), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
                             return cnt;
-                        }), Function(argName, "var str=\"" + evalExpResult + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
+                        }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
                 }())().compile
             }, removeTags = [
@@ -6225,7 +6217,7 @@
                     return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
                 }
                 function appendSpan(iconClass, container, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement, button = createIconEle(iconClass, makeElement);
+                    var button = createIconEle(iconClass, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement);
                     return container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
                 }
                 function validateInputType(containerElement, input) {
@@ -6300,12 +6292,10 @@
                 }, Input.addFloating = function(input, type, placeholder, internalCreateElement) {
                     var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(input, '.' + CLASSNAMES.INPUTGROUP);
                     if (floatType = type, 'Never' !== type) {
-                        var customTag = container.tagName;
-                        customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null;
-                        var args = {
+                        var customTag = container.tagName, args = {
                             element: input,
                             floatLabelType: type,
-                            customTag: customTag,
+                            customTag: customTag = 'DIV' !== customTag && 'SPAN' !== customTag ? customTag : null,
                             properties: {
                                 placeholder: placeholder
                             }
@@ -7217,8 +7207,8 @@
                 return window.innerHeight;
             }
             function getViewPortWidth() {
-                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect(), offsetWidth = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width;
-                return windowWidth - (windowWidth - offsetWidth);
+                var windowWidth = window.innerWidth, documentReact = document.documentElement.getBoundingClientRect();
+                return windowWidth - (windowWidth - ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(document.documentElement) ? 0 : documentReact.width));
             }
         },
         6216: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
@@ -9584,7 +9574,7 @@
                 }
                 var targetTop = 0;
                 if (calculateValue) {
-                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && (targetTop = targetRectValues.top, calculatedHeight + targetTop <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30)), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
+                    targetRectValues.top < 0 && documentHeight + (targetRectValues.height + targetRectValues.top) > 0 && calculatedHeight + (targetTop = targetRectValues.top) <= 30 && (calculatedHeight = targetRectValues.height - (targetRectValues.height + targetRectValues.top) + 30), calculatedHeight + targetRectValues.top >= maxHeight && (targetElement.style.height = targetRectValues.height + (documentHeight - (targetRectValues.height + targetRectValues.top)) + 'px');
                     var calculatedTop = (0, ej2_base.le)(containerElement) ? targetTop : topWithoutborder;
                     calculatedHeight >= minHeight && calculatedHeight + calculatedTop <= maxHeight && (targetElement.style.height = calculatedHeight + 'px');
                 }
@@ -15700,10 +15690,10 @@
                     urlText = urlText.slice(0, urlTextRange);
                     var regex = RegExp(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi);
                     if ('A' !== selectNodeEle[0].nodeName && urlText.match(regex)) {
-                        var selection = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), url = urlText.indexOf('http') > -1 ? urlText : 'http://' + urlText, selectParent = this.parent.formatter.editorManager.nodeSelection.getParentNodeCollection(range), value = {
-                            url: url,
+                        var selection = this.nodeSelectionObj.save(range, this.parent.contentModule.getDocument()), value = {
+                            url: urlText.indexOf('http') > -1 ? urlText : 'http://' + urlText,
                             selection: selection,
-                            selectParent: selectParent,
+                            selectParent: this.parent.formatter.editorManager.nodeSelection.getParentNodeCollection(range),
                             text: urlText,
                             title: '',
                             target: '_blank'
@@ -19548,7 +19538,7 @@
                     }
                     return elWidth;
                 }, Toolbar.prototype.popupEleRefresh = function(width, popupEle, destroy) {
-                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, _loop_1 = function(el) {
+                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== function(el) {
                         if (el.classList.contains(CLS_POPPRI) && popPriority && !destroy) return "continue";
                         var elWidth = this_1.popupEleWidth(el);
                         if (el === this_1.tbarEle[0] && (elWidth += this_1.tbarEleMrgn), el.style.position = '', !(elWidth < width) && !destroy) return "break";
@@ -19564,7 +19554,7 @@
                         'Extended' !== this_1.overflowMode && eleSplice.slice(0, index).forEach(function(el) {
                             (el.classList.contains(CLS_TBAROVERFLOW) || el.classList.contains(CLS_SEPARATOR)) && (el.classList.contains(CLS_SEPARATOR) && (el.style.display = '', width -= el.offsetWidth), sepBeforePri_1++);
                         }), ignoreCount = this_1.ignoreEleFetch(index, innerEle), el.classList.contains(CLS_TBAROVERFLOW) ? (this_1.tbarPriRef(innerEle, index, sepBeforePri_1, el, destroy, elWidth, width, ignoreCount), width -= el.offsetWidth) : 0 === index ? (innerEle.insertBefore(el, innerEle.firstChild), width -= el.offsetWidth) : (priEleCnt = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, this_1.popObj.element).length, innerEle.insertBefore(el, innerEle.children[index + ignoreCount - priEleCnt]), width -= el.offsetWidth), el.style.height = '';
-                    }, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== _loop_1(_a[_i]); _i++);
+                    }(_a[_i]); _i++);
                     this.checkOverflow(this.element, this.element.getElementsByClassName(CLS_ITEMS)[0]) && !destroy && this.renderOverflowMode();
                 }, Toolbar.prototype.removePositioning = function() {
                     var item = this.element.querySelector('.' + CLS_ITEMS);
@@ -23261,9 +23251,7 @@
                 }, ColorPicker.prototype.hexToRgb = function(hex) {
                     if (!hex) return [];
                     9 !== (hex = hex.trim()).length && (hex = this.roundValue(hex));
-                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2));
-                    hex = hex.slice(1, 7);
-                    var bigInt = parseInt(hex, 16), h = [];
+                    var opacity = Number((parseInt(hex.slice(-2), 16) / 255).toFixed(2)), bigInt = parseInt(hex = hex.slice(1, 7), 16), h = [];
                     return h.push(bigInt >> 16 & 255), h.push(bigInt >> 8 & 255), h.push(255 & bigInt), h.push(opacity), h;
                 }, ColorPicker.prototype.rgbToHsv = function(r, g, b, opacity) {
                     if (this.rgb && !this.rgb.length) return [];

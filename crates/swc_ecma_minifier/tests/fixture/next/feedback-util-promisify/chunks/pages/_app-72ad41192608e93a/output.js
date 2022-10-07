@@ -1729,11 +1729,7 @@
                             var t = new __webpack_require__.g[r]();
                             if (!(Symbol.toStringTag in t)) throw EvalError("this engine has support for Symbol.toStringTag, but " + r + " does not have the property! Please report this.");
                             var e = d(t), o = l(e, Symbol.toStringTag);
-                            if (!o) {
-                                var n = d(e);
-                                o = l(n, Symbol.toStringTag);
-                            }
-                            c[r] = o.get;
+                            o || (o = l(d(e), Symbol.toStringTag)), c[r] = o.get;
                         });
                         var g = function(r) {
                             var t = !1;
@@ -1744,12 +1740,7 @@
                             }), t;
                         };
                         r.exports = function(r) {
-                            if (!r || "object" != typeof r) return !1;
-                            if (!p) {
-                                var t = s(a(r), 8, -1);
-                                return u(f, t) > -1;
-                            }
-                            return !!l && g(r);
+                            return !!r && "object" == typeof r && (p ? !!l && g(r) : u(f, s(a(r), 8, -1)) > -1);
                         };
                     },
                     982: function(r, t, e) {
@@ -2154,8 +2145,8 @@
                         }
                         t.log = function() {
                             var r, t1;
-                            console.log("%s - %s", (r = new Date(), t1 = [
-                                pad(r.getHours()),
+                            console.log("%s - %s", (t1 = [
+                                pad((r = new Date()).getHours()),
                                 pad(r.getMinutes()),
                                 pad(r.getSeconds())
                             ].join(":"), [
@@ -2234,11 +2225,7 @@
                                 var t = new __webpack_require__.g[r]();
                                 if (!(Symbol.toStringTag in t)) throw EvalError("this engine has support for Symbol.toStringTag, but " + r + " does not have the property! Please report this.");
                                 var e = l(t), o = c(e, Symbol.toStringTag);
-                                if (!o) {
-                                    var n = l(e);
-                                    o = c(n, Symbol.toStringTag);
-                                }
-                                s[r] = o.get;
+                                o || (o = c(l(e), Symbol.toStringTag)), s[r] = o.get;
                             }
                         });
                         var d = function(r) {

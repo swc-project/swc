@@ -3019,7 +3019,7 @@
                 (I || k) && (T = l(n, P, C, y.reportAllChanges), I && c([
                     I
                 ]), o(function(w) {
-                    P = f("FCP"), T = l(n, P, C, y.reportAllChanges), requestAnimationFrame(function() {
+                    T = l(n, P = f("FCP"), C, y.reportAllChanges), requestAnimationFrame(function() {
                         requestAnimationFrame(function() {
                             P.value = performance.now() - w.timeStamp, T(!0);
                         });
@@ -3049,7 +3049,7 @@
                 k && (C = l(i, w, T, y.reportAllChanges), d(function() {
                     p(k.takeRecords()), C(!0);
                 }), o(function() {
-                    P = 0, q = -1, w = f("CLS", 0), C = l(i, w, T, y.reportAllChanges);
+                    P = 0, q = -1, C = l(i, w = f("CLS", 0), T, y.reportAllChanges);
                 }));
             }, x = {
                 passive: !0,
@@ -3103,7 +3103,7 @@
                 w = l(n, N, I, y.reportAllChanges), j && d(function() {
                     m(j.takeRecords()), j.disconnect();
                 }, !0), j && o(function() {
-                    N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
+                    w = l(n, N = f("FID"), I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
                 });
             }, J = 0, K = 1 / 0, Q = 0, M = function(n) {
                 n.forEach(function(n) {
@@ -3165,7 +3165,7 @@
                 }), d(function() {
                     a(P.takeRecords()), w.value < 0 && R() > 0 && (w.value = 0, w.entries = []), C(!0);
                 }), o(function() {
-                    V = [], U = B(), w = f("INP"), C = l(n, w, T, y.reportAllChanges);
+                    V = [], U = B(), C = l(n, w = f("INP"), T, y.reportAllChanges);
                 }));
             }, X = {}, _ = function(n, y) {
                 y = y || {};
@@ -3195,7 +3195,7 @@
                             capture: !0
                         });
                     }), d(v, !0), o(function(w) {
-                        P = f("LCP"), T = l(n, P, C, y.reportAllChanges), requestAnimationFrame(function() {
+                        T = l(n, P = f("LCP"), C, y.reportAllChanges), requestAnimationFrame(function() {
                             requestAnimationFrame(function() {
                                 P.value = performance.now() - w.timeStamp, X[P.id] = !0, T(!0);
                             });
@@ -3221,7 +3221,7 @@
                         C.entries = [
                             P
                         ], w(!0), o(function() {
-                            C = f("TTFB", 0), (w = l(n, C, T, y.reportAllChanges))(!0);
+                            (w = l(n, C = f("TTFB", 0), T, y.reportAllChanges))(!0);
                         });
                     }
                 });

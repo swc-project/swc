@@ -3483,8 +3483,8 @@
             }
             function deepmerge(target, source, options) {
                 (options = options || {}).arrayMerge = options.arrayMerge || defaultArrayMerge, options.isMergeableObject = options.isMergeableObject || isMergeableObject, options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
-                var options1, destination, sourceIsArray = Array.isArray(source), targetIsArray = Array.isArray(target);
-                return sourceIsArray !== targetIsArray ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
+                var options1, destination, sourceIsArray = Array.isArray(source);
+                return sourceIsArray !== Array.isArray(target) ? cloneUnlessOtherwiseSpecified(source, options) : sourceIsArray ? options.arrayMerge(target, source, options) : (destination = {}, (options1 = options).isMergeableObject(target) && getKeys(target).forEach(function(key) {
                     destination[key] = cloneUnlessOtherwiseSpecified(target[key], options1);
                 }), getKeys(source).forEach(function(key) {
                     (!propertyIsOnObject(target, key) || Object.hasOwnProperty.call(target, key) && Object.propertyIsEnumerable.call(target, key)) && (propertyIsOnObject(target, key) && options1.isMergeableObject(source[key]) ? destination[key] = (function(key, options) {
@@ -5860,13 +5860,11 @@
                 };
             }, variant = function(_ref) {
                 var _config, sx, scale = _ref.scale, _ref$prop = _ref.prop, prop = void 0 === _ref$prop ? "variant" : _ref$prop, _ref$variants = _ref.variants, variants = void 0 === _ref$variants ? {} : _ref$variants, key = _ref.key;
-                (sx = Object.keys(variants).length ? function(value, scale, props) {
+                return (sx = Object.keys(variants).length ? function(value, scale, props) {
                     return css(get(scale, value, null))(props.theme);
                 } : function(value, scale) {
                     return get(scale, value, null);
-                }).scale = scale || key, sx.defaults = variants;
-                var config = ((_config = {})[prop] = sx, _config);
-                return createParser(config);
+                }).scale = scale || key, sx.defaults = variants, createParser(((_config = {})[prop] = sx, _config));
             }, buttonStyle = variant({
                 key: "buttons"
             }), textStyle = variant({
