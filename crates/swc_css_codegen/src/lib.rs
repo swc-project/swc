@@ -538,6 +538,7 @@ where
                 write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             MediaInParens::Feature(n) => emit!(self, n),
+            MediaInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 

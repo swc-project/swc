@@ -1168,7 +1168,32 @@ where
                 };
                 let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                // TODO validate on first ident
+                if let Some(first) = block.value.get(0) {
+                    match first {
+                        ComponentValue::PreservedToken(token_and_span) => {
+                            match token_and_span.token {
+                                Token::Ident { .. } => {}
+                                _ => {
+                                    return Err(Error::new(
+                                        block.span,
+                                        ErrorKind::Expected(
+                                            "ident token at first position in <general-enclosed>",
+                                        ),
+                                    ));
+                                }
+                            }
+                        }
+                        _ => {
+                            return Err(Error::new(
+                                block.span,
+                                ErrorKind::Expected(
+                                    "ident token at first position in <general-enclosed>",
+                                ),
+                            ));
+                        }
+                    }
+                }
+
                 Ok(GeneralEnclosed::SimpleBlock(block))
             }
             _ => {
@@ -1559,21 +1584,33 @@ where
     fn parse(&mut self) -> PResult<MediaInParens> {
         let state = self.input.state();
 
-        expect!(self, "(");
+        match self.parse() {
+            Ok(media_feature) => Ok(MediaInParens::Feature(media_feature)),
+            Err(_) => {
+                self.input.reset(&state);
 
-        self.input.skip_ws();
+                let mut parse_media_condition = || {
+                    expect!(self, "(");
 
-        if !is!(self, "(") && !is_case_insensitive_ident!(self, "not") {
-            self.input.reset(&state);
+                    let media_condition = self.parse()?;
 
-            return Ok(MediaInParens::Feature(self.parse()?));
+                    expect!(self, ")");
+
+                    Ok(MediaInParens::MediaCondition(media_condition))
+                };
+
+                match parse_media_condition() {
+                    Ok(media_in_parens) => Ok(media_in_parens),
+                    Err(_) => {
+                        self.input.reset(&state);
+
+                        let general_enclosed = self.parse()?;
+
+                        Ok(MediaInParens::GeneralEnclosed(general_enclosed))
+                    }
+                }
+            }
         }
-
-        let condition = MediaInParens::MediaCondition(self.parse()?);
-
-        expect!(self, ")");
-
-        Ok(condition)
     }
 }
 

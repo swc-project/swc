@@ -1,6 +1,6 @@
 
-  x Expected left comparison operator should be equal right comparison operator
+  x Expected ident token at first position in <general-enclosed>
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-5/input.css:1:1]
  1 | @media (400px <= width >= 700px) {}
-   :        ^
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

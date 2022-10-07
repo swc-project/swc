@@ -312,7 +312,9 @@ pub enum MediaInParens {
 
     #[tag("MediaFeature")]
     Feature(Box<MediaFeature>),
-    // TODO <general-enclosed>
+
+    #[tag("GeneralEnclosed")]
+    GeneralEnclosed(GeneralEnclosed),
 }
 
 #[ast_node]

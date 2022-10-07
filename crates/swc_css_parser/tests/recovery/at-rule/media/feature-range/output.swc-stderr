@@ -1,6 +1,0 @@
-
-  x Expected identifier value
-   ,-[$DIR/tests/recovery/at-rule/media/feature-range/input.css:1:1]
- 1 | @media (height + 600px) {}
-   :        ^
-   `----
