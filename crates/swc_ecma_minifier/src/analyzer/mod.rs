@@ -8,7 +8,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -17,7 +17,7 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
-    alias::{collect_infects_from, Access, AccessKind, AliasConfig},
+    alias::{collect_infects_from, Access, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
