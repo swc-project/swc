@@ -122,7 +122,14 @@ impl InfectionCollector<'_> {
             }
         }
 
-        self.accesses.insert(e.clone());
+        self.accesses.insert((
+            e.clone(),
+            if self.ctx.is_callee {
+                AccessKind::Call
+            } else {
+                AccessKind::Referecne
+            },
+        ));
     }
 }
 
@@ -276,5 +283,13 @@ impl Visit for InfectionCollector<'_> {
         if let PropName::Computed(c) = &n {
             c.visit_with(self);
         }
+    }
+
+    fn visit_callee(&mut self, n: &Callee) {
+        let ctx = Ctx {
+            is_callee: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
     }
 }
