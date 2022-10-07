@@ -108,12 +108,14 @@ fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Componen
             span: p.span,
             value: p.value.clone(),
         }),
-        CalcValue::Constant(c) => ComponentValue::Ident(c.clone()),
         CalcValue::Function(f) => ComponentValue::Function(Function {
             span: f.span,
             name: f.name.clone(),
             value: f.value.to_vec(),
         }),
+        CalcValue::Constant(_) => {
+            unreachable!("CalcValue::Constant cannot be transformed into a ComponentValue per spec")
+        }
         CalcValue::Sum(_) => {
             unreachable!("CalcValue::Sum cannot be transformed into a ComponentValue")
         }
@@ -969,6 +971,14 @@ impl Compressor {
                                     CalcValueOrOperator::Value(CalcValue::Sum(_)) => {
                                         // Do nothing, we cannot transform a
                                         // CalcSum into a ComponentValue
+                                    }
+                                    CalcValueOrOperator::Value(CalcValue::Constant(_)) => {
+                                        // https://www.w3.org/TR/css-values-4/#calc-constants
+                                        // "These keywords are only usable
+                                        // within a calculation"
+                                        // "If used outside of a calculation,
+                                        // they’re treated like any other
+                                        // keyword"
                                     }
                                     CalcValueOrOperator::Value(calc_value) => {
                                         *component_value =
