@@ -80,7 +80,7 @@ aside {
     }
   }
 }
-@container (100 < width > 150px) {
+@container (100px > width > 150px) {
   #inner {
     background-color: skyblue;
   }

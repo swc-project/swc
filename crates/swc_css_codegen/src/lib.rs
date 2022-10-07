@@ -219,21 +219,21 @@ where
                 emit!(self, n)
             }
             AtRulePrelude::SupportsPrelude(n) => {
-                match n.conditions.get(0) {
+                let need_space = !matches!(
+                    n.conditions.get(0),
                     Some(SupportsConditionType::SupportsInParens(
-                        SupportsInParens::SupportsCondition(_),
-                    ))
-                    | Some(SupportsConditionType::SupportsInParens(SupportsInParens::Feature(
-                        SupportsFeature::Declaration(_),
-                    )))
-                    | Some(SupportsConditionType::SupportsInParens(
+                        SupportsInParens::SupportsCondition(_)
+                    )) | Some(SupportsConditionType::SupportsInParens(
+                        SupportsInParens::Feature(SupportsFeature::Declaration(_))
+                    )) | Some(SupportsConditionType::SupportsInParens(
                         SupportsInParens::GeneralEnclosed(GeneralEnclosed::SimpleBlock(_)),
-                    )) => {
-                        formatting_space!(self);
-                    }
-                    _ => {
-                        space!(self);
-                    }
+                    ))
+                );
+
+                if need_space {
+                    space!(self);
+                } else {
+                    formatting_space!(self);
                 }
 
                 emit!(self, n);
