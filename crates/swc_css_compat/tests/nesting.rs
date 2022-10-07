@@ -12,12 +12,12 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
     CodegenConfig, Emit,
 };
+use swc_css_compat::nesting::nesting;
 use swc_css_parser::{parse_file, parser::ParserConfig};
-use swc_css_prefixer::{nesting::nesting, options::Options};
 use swc_css_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
-fn test_nesting(input: PathBuf, options: Options, suffix: Option<&str>) {
+fn test_nesting(input: PathBuf, suffix: Option<&str>) {
     let parent = input.parent().unwrap();
     let output = match suffix {
         Some(suffix) => parent.join("output.".to_owned() + suffix + ".css"),
@@ -61,5 +61,5 @@ fn test_nesting(input: PathBuf, options: Options, suffix: Option<&str>) {
 
 #[testing::fixture("tests/nesting/**/input.css")]
 fn test_without_env(input: PathBuf) {
-    test_nesting(input, Options::default(), None)
+    test_nesting(input, None)
 }
