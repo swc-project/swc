@@ -49,6 +49,15 @@ where
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+
+pub(crate) enum AccessKind {
+    Referecne,
+    Call,
+}
+
+pub(crate) type Access = (Id, AccessKind);
+
 pub(crate) fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Id>
 where
     N: InfectableNode
