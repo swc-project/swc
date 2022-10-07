@@ -1,8 +1,9 @@
 use swc_common::util::take::Take;
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector,
-    ForgivingComplexSelector, PseudoClassSelector, PseudoClassSelectorChildren, QualifiedRule,
-    QualifiedRulePrelude, Rule, SelectorList, StyleBlock, SubclassSelector,
+    ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
+    PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, Rule, SelectorList,
+    StyleBlock, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -66,14 +67,14 @@ impl NestingHandler {
                 ..
             }) = sel
             {
-                for c in children.clone() {
+                for c in children {
                     if let PseudoClassSelectorChildren::ForgivingSelectorList(c) = c {
                         let mut selectors = vec![];
 
-                        for sel in c.children {
+                        for sel in &mut c.children {
                             match sel {
                                 ForgivingComplexSelector::ComplexSelector(sel) => {
-                                    selectors.push(sel);
+                                    selectors.push(sel.clone());
                                 }
                                 ForgivingComplexSelector::ListOfComponentValues(_) => {
                                     // Abort
@@ -82,7 +83,15 @@ impl NestingHandler {
                             }
                         }
 
-                        self.process_complex_selectors(prelude, &mut selectors)
+                        self.process_complex_selectors(prelude, &mut selectors);
+
+                        *c = ForgivingSelectorList {
+                            children: selectors
+                                .into_iter()
+                                .map(ForgivingComplexSelector::ComplexSelector)
+                                .collect(),
+                            ..*c
+                        };
                     }
                 }
             }
