@@ -47,12 +47,6 @@ main, aside {
     .card { margin-block: 2em; }
 }
 
-@container card (inline-size > 30em) {
-    @container style(--responsive: true) {
-        .card { margin-block: 2em; }
-    }
-}
-
 @container (inline-size >= 0px) {
     h2 { font-size: calc(1.2em + 1cqw); }
 }
@@ -78,7 +72,7 @@ main, aside {
 }
 
 @media screen {
-    @container card (inline-size > 30em) and style(--responsive: true) {
+    @container card (inline-size > 30em) and (inline-size < 45em) {
         h2 { font-size: calc(1.2em + 1cqmax); }
     }
 }
@@ -86,14 +80,6 @@ main, aside {
 @container (100 < width > 150px) {
     #inner {
         background-color: skyblue;
-    }
-}
-
-@container card (inline-size > 30em) {
-    @container style(--responsive: true) {
-        #inner {
-            background-color: skyblue;
-        }
     }
 }
 
@@ -106,5 +92,34 @@ main, aside {
 @container ((width <= 150px)) {
     #inner {
         background-color: skyblue;
+    }
+}
+
+@container (min-width: 700px) {
+    .card {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+
+@container sidebar (min-width: 400px) {
+    .card {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+}
+
+@container test style(--responsive: true) {
+    #inner {
+        background-color: skyblue;
+    }
+}
+
+@container card (inline-size > 30em) {
+    @container style(--responsive: true) {
+        #inner {
+            background-color: skyblue;
+        }
     }
 }
