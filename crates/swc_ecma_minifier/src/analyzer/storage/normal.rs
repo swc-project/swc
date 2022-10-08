@@ -296,6 +296,10 @@ impl VarDataLike for VarUsageInfo {
         self.declared_as_fn_param = true;
     }
 
+    fn mark_declared_as_fn_decl(&mut self) {
+        self.declared_as_fn_decl = true;
+    }
+
     fn mark_declared_as_fn_expr(&mut self) {
         self.declared_as_fn_expr = true;
     }

@@ -392,11 +392,17 @@ where
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
-        _is_fn_decl: bool,
+        is_fn_decl: bool,
     ) -> &mut S::VarData {
         self.scope.add_declared_symbol(i);
 
-        self.data.declare_decl(self.ctx, i, has_init, kind)
+        let v = self.data.declare_decl(self.ctx, i, has_init, kind);
+
+        if is_fn_decl {
+            v.mark_declared_as_fn_decl();
+        }
+
+        v
     }
 
     fn visit_in_cond<T: VisitWith<Self>>(&mut self, t: &T) {
