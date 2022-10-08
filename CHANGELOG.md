@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Improve infection analysis (#6044) ([c9427f1](https://github.com/swc-project/swc/commit/c9427f1ec4ae3bb369fa301341b856c7c298d3cd))
 
+### Documentation
+
+
+
+- **(es/minifier)** Document assumptions (#6085) ([d0418eb](https://github.com/swc-project/swc/commit/d0418ebe5bc61ae64dc617a308c07b2e4eee4a31))
+
 ### Features
 
 
