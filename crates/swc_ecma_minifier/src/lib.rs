@@ -1,5 +1,18 @@
 //! Javascript minifier implemented in rust.
 //!
+//! # Assumptions
+//!
+//! Like other minification tools, swc minifier assumes some things about the
+//! input code.
+//!
+//!  - TDZ violation does not exist.
+//!
+//! In other words, TDZ violation will be ignored.
+//!
+//!  - Acesssing top-level identifiers do not have side effects.
+//!
+//!
+//!
 //! # Debugging
 //!
 //! In debug build, if you set an environment variable `SWC_CHECK` to `1`, the
