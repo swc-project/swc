@@ -184,7 +184,7 @@
             for(; tz[m - 1] > x1;)tz.pop(), --m;
             var bin, bins = Array(m + 1);
             for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-            for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
+            for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
             return bins;
         }
         return histogram.value = function(_) {
@@ -246,16 +246,16 @@
         }(values, valueof))).length) {
             if ((p = +p) <= 0 || n < 2) return min(values);
             if (p >= 1) return max(values);
-            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = max(quickselect(values, i0).subarray(0, i0 + 1)), value1 = min(values.subarray(i0 + 1));
-            return value0 + (value1 - value0) * (i - i0);
+            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = max(quickselect(values, i0).subarray(0, i0 + 1));
+            return value0 + (min(values.subarray(i0 + 1)) - value0) * (i - i0);
         }
     }
     function quantileSorted(values, p, valueof = number) {
         if (n = values.length) {
             if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
             if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values), value1 = +valueof(values[i0 + 1], i0 + 1, values);
-            return value0 + (value1 - value0) * (i - i0);
+            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+            return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
         }
     }
     function maxIndex(values, valueof) {
@@ -824,8 +824,8 @@
                 return x;
             });
             for(var m = groups.length, update = Array(m), enter = Array(m), exit = Array(m), j = 0; j < m; ++j){
-                var parent = parents[j], group = groups[j], groupLength = group.length, data = array$1(value.call(parent, parent && parent.__data__, j, parents)), dataLength = data.length, enterGroup = enter[j] = Array(dataLength), updateGroup = update[j] = Array(dataLength), exitGroup = exit[j] = Array(groupLength);
-                bind(parent, group, enterGroup, updateGroup, exitGroup, data, key);
+                var parent = parents[j], group = groups[j], groupLength = group.length, data = array$1(value.call(parent, parent && parent.__data__, j, parents)), dataLength = data.length, enterGroup = enter[j] = Array(dataLength), updateGroup = update[j] = Array(dataLength);
+                bind(parent, group, enterGroup, updateGroup, exit[j] = Array(groupLength), data, key);
                 for(var x, previous, next, i0 = 0, i1 = 0; i0 < dataLength; ++i0)if (previous = enterGroup[i0]) {
                     for(i0 >= i1 && (i1 = i0 + 1); !(next = updateGroup[i1]) && ++i1 < dataLength;);
                     previous._next = next || null;
@@ -4577,11 +4577,11 @@
             phi * radians$1
         ]);
         if (p0) {
-            var normal = cartesianCross(p0, p), equatorial = [
+            var normal = cartesianCross(p0, p), inflection = cartesianCross([
                 normal[1],
                 -normal[0],
                 0
-            ], inflection = cartesianCross(equatorial, normal);
+            ], normal);
             cartesianNormalizeInPlace(inflection);
             var phii, delta = lambda - lambda2, sign = delta > 0 ? 1 : -1, lambdai = (inflection = spherical(inflection))[0] * degrees$2 * sign, antimeridian = abs$2(delta) > 180;
             antimeridian ^ (sign * lambda2 < lambdai && lambdai < sign * lambda) ? (phii = inflection[1] * degrees$2) > phi1 && (phi1 = phii) : antimeridian ^ (sign * lambda2 < (lambdai = (lambdai + 360) % 360 - 180) && lambdai < sign * lambda) ? (phii = -inflection[1] * degrees$2) < phi0 && (phi0 = phii) : (phi < phi0 && (phi0 = phi), phi > phi1 && (phi1 = phi)), antimeridian ? lambda < lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda) : lambda1 >= lambda0$1 ? (lambda < lambda0$1 && (lambda0$1 = lambda), lambda > lambda1 && (lambda1 = lambda)) : lambda > lambda2 ? angle(lambda0$1, lambda) > angle(lambda0$1, lambda1) && (lambda1 = lambda) : angle(lambda, lambda1) > angle(lambda0$1, lambda1) && (lambda0$1 = lambda);
@@ -4664,7 +4664,7 @@
     function centroidRingPointFirst(lambda, phi) {
         lambda00$2 = lambda, phi00$2 = phi, lambda *= radians$1, phi *= radians$1, centroidStream.point = centroidRingPoint;
         var cosPhi = cos$1(phi);
-        x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi), centroidPointCartesian(x0, y0, z0);
+        x0 = cosPhi * cos$1(lambda), centroidPointCartesian(x0, y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi));
     }
     function centroidRingPoint(lambda, phi) {
         lambda *= radians$1;
@@ -4913,7 +4913,7 @@
             },
             point: function(lambda1, phi1) {
                 var lambda01, phi01, lambda11, phi11, cosPhi0, cosPhi1, sinLambda0Lambda1, sign1 = lambda1 > 0 ? pi$3 : -pi$3, delta = abs$2(lambda1 - lambda0);
-                1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, lambda11 = lambda1, phi11 = phi1, sinLambda0Lambda1 = sin$1(lambda01 - lambda11), phi0 = abs$2(sinLambda0Lambda1) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi11)) * sin$1(lambda11) - sin$1(phi11) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi11) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
+                1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, lambda11 = lambda1, phi11 = phi1, phi0 = abs$2(sinLambda0Lambda1 = sin$1(lambda01 - lambda11)) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi11)) * sin$1(lambda11) - sin$1(phi11) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi11) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
             },
             lineEnd: function() {
                 stream.lineEnd(), lambda0 = phi0 = NaN;
@@ -4945,8 +4945,8 @@
                 0
             ], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
             if (!determinant) return !two && a;
-            var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant), B = cartesianScale(n2, -cr * n1n2 / determinant);
-            cartesianAddInPlace(A, B);
+            var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant);
+            cartesianAddInPlace(A, cartesianScale(n2, -cr * n1n2 / determinant));
             var w = cartesianDot(A, n1xn2), uu = cartesianDot(n1xn2, n1xn2), t2 = w * w - uu * (cartesianDot(A, A) - 1);
             if (!(t2 < 0)) {
                 var t = sqrt(t2), q = cartesianScale(n1xn2, (-w - t) / uu);
@@ -5119,7 +5119,7 @@
     }
     function lengthPoint(lambda, phi) {
         lambda *= radians$1;
-        var sinPhi = sin$1(phi *= radians$1), cosPhi = cos$1(phi), delta = abs$2(lambda - lambda0$2), cosDelta = cos$1(delta), sinDelta = sin$1(delta), x = cosPhi * sinDelta, y = cosPhi0$1 * sinPhi - sinPhi0$1 * cosPhi * cosDelta, z = sinPhi0$1 * sinPhi + cosPhi0$1 * cosPhi * cosDelta;
+        var sinPhi = sin$1(phi *= radians$1), cosPhi = cos$1(phi), delta = abs$2(lambda - lambda0$2), cosDelta = cos$1(delta), x = cosPhi * sin$1(delta), y = cosPhi0$1 * sinPhi - sinPhi0$1 * cosPhi * cosDelta, z = sinPhi0$1 * sinPhi + cosPhi0$1 * cosPhi * cosDelta;
         lengthSum.add(atan2(sqrt(x * x + y * y), z)), lambda0$2 = lambda, sinPhi0$1 = sinPhi, cosPhi0$1 = cosPhi;
     }
     function length$2(object) {
@@ -6271,7 +6271,7 @@
                 return c;
             }(start, end), nodes = [
                 start
-            ]; start !== ancestor;)start = start.parent, nodes.push(start);
+            ]; start !== ancestor;)nodes.push(start = start.parent);
             for(var k = nodes.length; end !== ancestor;)nodes.splice(k, 0, end), end = end.parent;
             return nodes;
         },
@@ -6512,7 +6512,7 @@
                     var i = Math.floor((nn + 1) * pp), y = B(i, nn - i + 1)();
                     y <= pp ? (acc += i, nn -= i, pp = (pp - y) / (1 - y)) : (nn = i - 1, pp /= y);
                 }
-                for(var sign = pp < 0.5, pFinal = sign ? pp : 1 - pp, g = G(pFinal), s = g(), k = 0; s <= nn; ++k)s += g();
+                for(var sign = pp < 0.5, g = G(sign ? pp : 1 - pp), s = g(), k = 0; s <= nn; ++k)s += g();
                 return acc + (sign ? k : nn - k);
             };
         }
@@ -9757,7 +9757,7 @@
         if (phi1 = lambda1 = -(lambda0$1 = phi0 = 1 / 0), ranges = [], geoStream(feature, boundsStream), n = ranges.length) {
             for(ranges.sort(rangeCompare), i = 1, merged = [
                 a = ranges[0]
-            ]; i < n; ++i)b = ranges[i], rangeContains(a, b[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
+            ]; i < n; ++i)rangeContains(a, (b = ranges[i])[0]) || rangeContains(a, b[1]) ? (angle(a[0], b[1]) > angle(a[0], a[1]) && (a[1] = b[1]), angle(b[0], a[1]) > angle(a[0], a[1]) && (a[0] = b[0])) : merged.push(a = b);
             for(deltaMax = -1 / 0, n = merged.length - 1, i = 0, a = merged[n]; i <= n; a = b, ++i)b = merged[i], (delta = angle(a[1], b[0])) > deltaMax && (deltaMax = delta, lambda0$1 = b[0], lambda1 = a[1]);
         }
         return ranges = range$1 = null, lambda0$1 === 1 / 0 || phi0 === 1 / 0 ? [

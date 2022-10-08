@@ -1154,11 +1154,11 @@
                 0,
                 0,
                 1
-            ], _v0, _v1, _v2, _extents)) && (_triangleNormal.crossVectors(_f0, _f1), axes = [
+            ], _v0, _v1, _v2, _extents)) && (_triangleNormal.crossVectors(_f0, _f1), satForAxes(axes = [
                 _triangleNormal.x,
                 _triangleNormal.y,
                 _triangleNormal.z
-            ], satForAxes(axes, _v0, _v1, _v2, _extents));
+            ], _v0, _v1, _v2, _extents));
         }, _proto.clampPoint = function(point, target) {
             return void 0 === target && (console.warn('THREE.Box3: .clampPoint() target is now required'), target = new Vector3()), target.copy(point).clamp(this.min, this.max);
         }, _proto.distanceToPoint = function(point) {
@@ -5028,12 +5028,10 @@
     }
     function getShaderErrors(gl, shader, type) {
         var status = gl.getShaderParameter(shader, 35713), log = gl.getShaderInfoLog(shader).trim();
-        if (status && '' === log) return '';
-        var source = gl.getShaderSource(shader);
-        return 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + function(string) {
+        return status && '' === log ? '' : 'THREE.WebGLShader: gl.getShaderInfoLog() ' + type + '\n' + log + function(string) {
             for(var lines = string.split('\n'), i = 0; i < lines.length; i++)lines[i] = i + 1 + ': ' + lines[i];
             return lines.join('\n');
-        }(source);
+        }(gl.getShaderSource(shader));
     }
     function getTexelDecodingFunction(functionName, encoding) {
         var components = getEncodingComponents(encoding);
@@ -5073,7 +5071,7 @@
         return 'highp' === parameters.precision ? precisionstring += '\n#define HIGH_PRECISION' : 'mediump' === parameters.precision ? precisionstring += '\n#define MEDIUM_PRECISION' : 'lowp' === parameters.precision && (precisionstring += '\n#define LOW_PRECISION'), precisionstring;
     }
     function WebGLProgram(renderer, cacheKey, parameters, bindingStates) {
-        var parameters1, shadowMapTypeDefine, parameters2, encoding, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
+        var parameters1, shadowMapTypeDefine, parameters2, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
             var envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
             if (parameters.envMap) switch(parameters.envMapMode){
                 case 301:
@@ -5295,10 +5293,10 @@
             parameters.envMap ? getTexelDecodingFunction('envMapTexelToLinear', parameters.envMapEncoding) : '',
             parameters.emissiveMap ? getTexelDecodingFunction('emissiveMapTexelToLinear', parameters.emissiveMapEncoding) : '',
             parameters.lightMap ? getTexelDecodingFunction('lightMapTexelToLinear', parameters.lightMapEncoding) : '',
-            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(encoding = parameters.outputEncoding))[0] + components[1] + '; }',
+            "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(parameters.outputEncoding))[0] + components[1] + '; }',
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
-        ].filter(filterEmptyLine).join('\n')), vertexShader = resolveIncludes(vertexShader), vertexShader = replaceLightNums(vertexShader, parameters), vertexShader = replaceClippingPlaneNums(vertexShader, parameters), fragmentShader = resolveIncludes(fragmentShader), fragmentShader = replaceLightNums(fragmentShader, parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader, parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
+        ].filter(filterEmptyLine).join('\n')), vertexShader = replaceClippingPlaneNums(vertexShader = replaceLightNums(vertexShader = resolveIncludes(vertexShader), parameters), parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader = replaceLightNums(fragmentShader = resolveIncludes(fragmentShader), parameters), parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
             '#define varying in',
             parameters.glslVersion === GLSL3 ? '' : 'out highp vec4 pc_fragColor;',
             parameters.glslVersion === GLSL3 ? '' : '#define gl_FragColor pc_fragColor',
@@ -12499,7 +12497,7 @@
             }
         }
     });
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _directoryRe = /((?:WC+[\/:])*)/.source.replace('WC', _wordChar), _nodeRe = /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot), _objectRe = /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar), _propertyRe = /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar), _trackRe = RegExp("^" + _directoryRe + _nodeRe + _objectRe + _propertyRe + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _directoryRe = /((?:WC+[\/:])*)/.source.replace('WC', _wordChar), _nodeRe = /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot), _trackRe = RegExp("^" + _directoryRe + _nodeRe + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'

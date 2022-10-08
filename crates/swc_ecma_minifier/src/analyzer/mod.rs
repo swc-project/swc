@@ -8,7 +8,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ident::IdentLike, IsEmpty, StmtExt};
+use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -17,7 +17,7 @@ use self::{
     storage::{Storage, *},
 };
 use crate::{
-    alias::{collect_infects_from, AliasConfig},
+    alias::{collect_infects_from, Access, AccessKind, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
 };
@@ -133,7 +133,7 @@ pub(crate) struct VarUsageInfo {
 
     /// `infects_to`. This should be renamed, but it will be done with another
     /// PR. (because it's hard to review)
-    infects: Vec<Id>,
+    infects: Vec<Access>,
 
     pub used_in_non_child_fn: bool,
     pub accessed_props: Box<AHashMap<JsWord, u32>>,
@@ -196,9 +196,9 @@ impl ProgramData {
     pub(crate) fn expand_infected(
         &self,
         module_info: &ModuleInfo,
-        ids: FxHashSet<Id>,
+        ids: FxHashSet<Access>,
         max_num: usize,
-    ) -> Result<FxHashSet<Id>, ()> {
+    ) -> Result<FxHashSet<Access>, ()> {
         let init =
             HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
         ids.into_iter().try_fold(init, |mut res, id| {
@@ -211,7 +211,7 @@ impl ProgramData {
                     let iid = ids.get(index).unwrap();
 
                     // Abort on imported variables, because we can't analyze them
-                    if module_info.blackbox_imports.contains(iid) {
+                    if module_info.blackbox_imports.contains(&iid.0) {
                         return Err(());
                     }
                     if !res.insert(iid.clone()) {
@@ -220,11 +220,24 @@ impl ProgramData {
                     if res.len() >= max_num {
                         return Err(());
                     }
-                    if let Some(info) = self.vars.get(iid) {
+                    if let Some(info) = self.vars.get(&iid.0) {
                         let infects = &info.infects;
                         if !infects.is_empty() {
                             let old_len = ids.len();
-                            ids.extend_from_slice(infects.as_slice());
+                            match iid.1 {
+                                AccessKind::Reference => {
+                                    // This is not a call, so effects from call can be skipped
+                                    ids.extend(
+                                        infects
+                                            .iter()
+                                            .filter(|(_, kind)| *kind != AccessKind::Call)
+                                            .cloned(),
+                                    );
+                                }
+                                AccessKind::Call => {
+                                    ids.extend_from_slice(infects.as_slice());
+                                }
+                            }
                             let new_len = ids.len();
                             ranges.push(old_len..new_len);
                         }
@@ -889,9 +902,7 @@ where
                         ..Default::default()
                     },
                 ) {
-                    self.data
-                        .var_or_default(n_id.to_id())
-                        .add_infects_to(id.to_id());
+                    self.data.var_or_default(n_id.to_id()).add_infects_to(id);
                 }
             }
             self.used_recursively.remove(&n_id.to_id());
@@ -1375,7 +1386,6 @@ where
                     self.data
                         .var_or_default(var.to_id())
                         .add_infects_to(id.clone());
-                    self.data.var_or_default(id).add_infects_to(var.to_id());
                 }
             }
         }

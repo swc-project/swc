@@ -916,11 +916,7 @@
                     }, onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
-                            if (inComposition.useTextareaForIME) host.onCompositionUpdate(text.value);
-                            else {
-                                var data = text.value;
-                                sendText(data), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd);
-                            }
+                            inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
                         }
                     }, onCompositionEnd = function(e) {
                         host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
@@ -5526,13 +5522,11 @@
                             column: pos.column + 1
                         }, match = chr && chr.match(/([\(\[\{])|([\)\]\}])/)), !match) return null;
                         var startRange = new Range(pos.row, pos.column - 1, pos.row, pos.column), bracketPos = match[1] ? this.$findClosingBracket(match[1], pos) : this.$findOpeningBracket(match[2], pos);
-                        if (!bracketPos) return [
-                            startRange
-                        ];
-                        var endRange = new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1);
-                        return [
+                        return bracketPos ? [
                             startRange,
-                            endRange
+                            new Range(bracketPos.row, bracketPos.column, bracketPos.row, bracketPos.column + 1)
+                        ] : [
+                            startRange
                         ];
                     }, this.$brackets = {
                         ")": "(",
@@ -8964,8 +8958,8 @@
                             (function(redoStack, deltaSets) {
                                 for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)!function(redoStack, d) {
                                     var d1;
-                                    d1 = d, d = {
-                                        start: clonePos(d1.start),
+                                    d = {
+                                        start: clonePos((d1 = d).start),
                                         end: clonePos(d1.end),
                                         action: d1.action,
                                         lines: d1.lines.slice()

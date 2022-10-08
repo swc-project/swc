@@ -537,7 +537,7 @@ where
                                         need_all: true,
                                     },
                                 ) {
-                                    if let Some(usage) = self.data.vars.get_mut(&i) {
+                                    if let Some(usage) = self.data.vars.get_mut(&i.0) {
                                         usage.ref_count += 1;
                                     }
                                 }

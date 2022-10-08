@@ -501,7 +501,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var collection, length, key = options.key;
+                var callback, container, _insert, currentSheet, collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -513,17 +513,17 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var callback, container, _insert, currentSheet, finalizingPlugins = [
+                var serializer = (length = Utility_sizeof(collection = [
+                    compat,
+                    removeLabel
+                ].concat(stylisPlugins, [
                     stringify,
                     (callback = function(rule) {
                         currentSheet.insert(rule);
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
                     })
-                ], serializer = (collection = [
-                    compat,
-                    removeLabel
-                ].concat(stylisPlugins, finalizingPlugins), length = Utility_sizeof(collection), function(element, index, children, callback) {
+                ])), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
@@ -556,11 +556,11 @@
                                 switch(peek()){
                                     case 42:
                                     case 47:
-                                        Utility_append((value1 = function(type, index) {
+                                        Utility_append(node(value1 = function(type, index) {
                                             for(; next();)if (type + character === 57) break;
                                             else if (type + character === 84 && 47 === peek()) break;
                                             return "/*" + slice(index, position - 1) + "*" + Utility_from(47 === type ? type : next());
-                                        }(next(), position), node(value1, root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0)), declarations);
+                                        }(next(), position), root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0), declarations);
                                         break;
                                     default:
                                         characters1 += "/";
@@ -697,8 +697,7 @@
                     serialized.name
                 ]), null;
             }, (0, react.forwardRef)(function(props, ref) {
-                var cache = (0, react.useContext)(EmotionCacheContext);
-                return func(props, cache, ref);
+                return func(props, (0, react.useContext)(EmotionCacheContext), ref);
             }));
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
