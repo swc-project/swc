@@ -226,11 +226,11 @@ impl ProgramData {
                         if !infects.is_empty() {
                             let old_len = ids.len();
 
+                            // This is not a call, so effects from call can be skipped
                             let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
                                 || (info.declared_count == 1 && info.declared_as_fn_decl);
 
                             if can_skip_non_call {
-                                // This is not a call, so effects from call can be skipped
                                 ids.extend(
                                     infects
                                         .iter()
