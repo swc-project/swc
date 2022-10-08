@@ -1,4 +1,4 @@
-//! Javascript minifier implemented in rust.
+//! JavaScript minifier implemented in rust.
 //!
 //! # Assumptions
 //!
