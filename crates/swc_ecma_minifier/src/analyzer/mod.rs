@@ -228,7 +228,9 @@ impl ProgramData {
 
                             // This is not a call, so effects from call can be skipped
                             let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
-                                || (info.declared_count == 1 && info.declared_as_fn_decl);
+                                || (info.declared_count == 1
+                                    && info.declared_as_fn_decl
+                                    && !info.reassigned());
 
                             if can_skip_non_call {
                                 ids.extend(
