@@ -199,10 +199,10 @@
                 return parsed;
             }, fixedElements = new WeakMap(), compat = function(element) {
                 if ("rule" === element.type && element.parent && element.length) {
-                    for(var value, points, value1 = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
-                    if ((1 !== element.props.length || 58 === value1.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
+                    for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
+                    if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var points1 = [], rules = (value = value1, points = points1, dealloc(toRules(alloc(value), points))), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points1[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {

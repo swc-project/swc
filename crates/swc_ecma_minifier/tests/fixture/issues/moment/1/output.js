@@ -737,7 +737,7 @@
         } else config._isValid = !1;
     }
     function configFromRFC2822(config) {
-        var year, weekdayStr, parsedInput, config1, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, parsedArray, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
+        var year, weekdayStr, config1, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
         if (match) {
             if (yearStr = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
                 (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year,
@@ -745,8 +745,8 @@
                 parseInt(dayStr, 10),
                 parseInt(hourStr, 10),
                 parseInt(minuteStr, 10)
-            ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, weekdayStr = match[1], parsedInput = parsedArray, config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
-            config._a = parsedArray, config._tzm = function(obsOffset, militaryOffset, numOffset) {
+            ], secondStr && result.push(parseInt(secondStr, 10)), weekdayStr = match[1], config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(result[0], result[1], result[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
+            config._a = result, config._tzm = function(obsOffset, militaryOffset, numOffset) {
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) return 0;
                 var hm = parseInt(numOffset, 10), m = hm % 100;
@@ -758,9 +758,9 @@
         return null != a ? a : null != b ? b : c;
     }
     function configFromArray(config) {
-        var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, config2, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
+        var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
         if (!config._d) {
-            for(config2 = config, nowValue = new Date(hooks.now()), currentDate = config2._useUTC ? [
+            for(nowValue = new Date(hooks.now()), currentDate = config._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
                 nowValue.getUTCDate()

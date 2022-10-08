@@ -1969,9 +1969,9 @@
         var t0, i0;
         function tween() {
             var fullname1, i, i1 = value.apply(this, arguments);
-            return i1 !== i0 && (t0 = (i0 = i1) && (fullname1 = fullname, i = i1, function(t) {
-                this.setAttributeNS(fullname1.space, fullname1.local, i.call(this, t));
-            })), t0;
+            return i1 !== i0 && (t0 = (i0 = i1) && function(t) {
+                this.setAttributeNS(fullname.space, fullname.local, i1.call(this, t));
+            }), t0;
         }
         return tween._value = value, tween;
     }
@@ -1979,9 +1979,9 @@
         var t0, i0;
         function tween() {
             var name1, i, i1 = value.apply(this, arguments);
-            return i1 !== i0 && (t0 = (i0 = i1) && (name1 = name, i = i1, function(t) {
-                this.setAttribute(name1, i.call(this, t));
-            })), t0;
+            return i1 !== i0 && (t0 = (i0 = i1) && function(t) {
+                this.setAttribute(name, i1.call(this, t));
+            }), t0;
         }
         return tween._value = value, tween;
     }
@@ -2124,9 +2124,9 @@
                 var t, i0;
                 function tween() {
                     var name1, i, priority1, i1 = value.apply(this, arguments);
-                    return i1 !== i0 && (t = (i0 = i1) && (name1 = name, i = i1, priority1 = priority, function(t) {
-                        this.style.setProperty(name1, i.call(this, t), priority1);
-                    })), t;
+                    return i1 !== i0 && (t = (i0 = i1) && function(t) {
+                        this.style.setProperty(name, i1.call(this, t), priority);
+                    }), t;
                 }
                 return tween._value = value, tween;
             }(name, value, null == priority ? "" : priority));
@@ -2149,9 +2149,9 @@
                 var t0, i0;
                 function tween() {
                     var i, i1 = value.apply(this, arguments);
-                    return i1 !== i0 && (t0 = (i0 = i1) && (i = i1, function(t) {
-                        this.textContent = i.call(this, t);
-                    })), t0;
+                    return i1 !== i0 && (t0 = (i0 = i1) && function(t) {
+                        this.textContent = i1.call(this, t);
+                    }), t0;
                 }
                 return tween._value = value, tween;
             }(value));
@@ -5698,12 +5698,12 @@
         }
         return projection.stream = function(stream) {
             var rotate1;
-            return cache && cacheStream === stream ? cache : cache = transformRadians((rotate1 = rotate, transformer({
+            return cache && cacheStream === stream ? cache : cache = transformRadians(transformer({
                 point: function(x, y) {
-                    var r = rotate1(x, y);
+                    var r = rotate(x, y);
                     return this.stream.point(r[0], r[1]);
                 }
-            }))(preclip(projectResample(postclip(cacheStream = stream)))));
+            })(preclip(projectResample(postclip(cacheStream = stream)))));
         }, projection.preclip = function(_) {
             return arguments.length ? (preclip = _, theta = void 0, reset()) : preclip;
         }, projection.postclip = function(_) {
@@ -6203,7 +6203,7 @@
         for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
-        for(var delta, fy, fpy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
+        for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
         return [
             M * x * (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)) / cos$1(l),
             asin(sin$1(l) / M)
@@ -9046,7 +9046,7 @@
             var previousNode, x = 0;
             root.eachAfter(function(node) {
                 var children, children1 = node.children;
-                children1 ? (node.x = (children = children1).reduce(meanXReduce, 0) / children.length, node.y = 1 + children1.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
+                children1 ? (node.x = children1.reduce(meanXReduce, 0) / children1.length, node.y = 1 + children1.reduce(maxYReduce, 0)) : (node.x = previousNode ? x += separation(node, previousNode) : 0, node.y = 0, previousNode = node);
             });
             var left = function(node) {
                 for(var children; children = node.children;)node = children[0];
@@ -10671,7 +10671,7 @@
                     for(var vim, v1, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (function(wm, wp, shift) {
                         var change = shift / (wp.i - wm.i);
                         wp.c -= change, wp.s += shift, wm.c += change, wp.z += shift, wp.m += shift;
-                    }((vim = vim1, v1 = v, ancestor1 = ancestor, vim.a.parent === v1.parent ? vim.a : ancestor1), v, shift), sip += shift, sop += shift), sim += vim1.m, sip += vip.m, som += vom.m, sop += vop.m;
+                    }((vim = vim1, ancestor1 = ancestor, vim.a.parent === v.parent ? vim.a : ancestor1), v, shift), sip += shift, sop += shift), sim += vim1.m, sip += vip.m, som += vom.m, sop += vop.m;
                     vim1 && !nextRight(vop) && (vop.t = vim1, vop.m += sim - sop), vip && !nextLeft(vom) && (vom.t = vip, vom.m += sip - som, ancestor = v);
                 }
                 return ancestor;

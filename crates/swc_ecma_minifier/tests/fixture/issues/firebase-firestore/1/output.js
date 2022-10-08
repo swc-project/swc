@@ -55,11 +55,10 @@
                 }
             }
             function M(t) {
-                var e;
                 if ("string" == typeof t) return t;
                 try {
-                    return e = t, JSON.stringify(e);
-                } catch (e1) {
+                    return JSON.stringify(t);
+                } catch (e) {
                     return t;
                 }
             }
@@ -1008,21 +1007,20 @@
                 return !At(t.limit) && "L" === t.limitType;
             }
             function Te(t) {
-                var t1;
                 const e = t;
                 if (null === e.V) {
                     e.V = [];
-                    const t2 = function(t) {
+                    const t1 = function(t) {
                         for (const e of t.filters)if (e.v()) return e.field;
                         return null;
-                    }(e), n = (t1 = e).explicitOrderBy.length > 0 ? t1.explicitOrderBy[0].field : null;
-                    if (null !== t2 && null === n) t2.isKeyField() || e.V.push(new ae(t2)), e.V.push(new ae(ft.keyField(), "asc"));
+                    }(e), n = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[0].field : null;
+                    if (null !== t1 && null === n) t1.isKeyField() || e.V.push(new ae(t1)), e.V.push(new ae(ft.keyField(), "asc"));
                     else {
-                        let t3 = !1;
-                        for (const n1 of e.explicitOrderBy)e.V.push(n1), n1.field.isKeyField() && (t3 = !0);
-                        if (!t3) {
-                            const t4 = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[e.explicitOrderBy.length - 1].dir : "asc";
-                            e.V.push(new ae(ft.keyField(), t4));
+                        let t2 = !1;
+                        for (const n1 of e.explicitOrderBy)e.V.push(n1), n1.field.isKeyField() && (t2 = !0);
+                        if (!t2) {
+                            const t3 = e.explicitOrderBy.length > 0 ? e.explicitOrderBy[e.explicitOrderBy.length - 1].dir : "asc";
+                            e.V.push(new ae(ft.keyField(), t3));
                         }
                     }
                 }
@@ -1183,12 +1181,12 @@
                 }), e;
             }
             function rn(t, e, n) {
-                var t1, e1, n1;
+                var n1;
                 const s = new Map();
                 t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
                     const r = t[i], o = r.transform, c = e.data.field(r.field);
-                    s.set(r.field, (t1 = o, e1 = c, n1 = n[i], t1 instanceof Fe ? Me(t1, e1) : t1 instanceof Le ? Be(t1, e1) : n1));
+                    s.set(r.field, (n1 = n[i], o instanceof Fe ? Me(o, c) : o instanceof Le ? Be(o, c) : n1));
                 }
                 return s;
             }
@@ -2380,14 +2378,14 @@
                         }).next(()=>i));
                 }
                 Dn(t, e, n) {
-                    let s, i;
-                    return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>(i = e, this.Cn(t, i, s).next((t)=>{
-                            for (const t1 of (s = t, i))for (const e of t1.mutations){
-                                const n = e.key;
-                                let i1 = s.get(n);
-                                null == i1 && (i1 = Kt.newInvalidDocument(n), s = s.insert(n, i1)), Ye(e, i1, t1.localWriteTime), i1.isFoundDocument() || (s = s.remove(n));
+                    let s;
+                    return this.He.getDocumentsMatchingQuery(t, e, n).next((n)=>(s = n, this.In.getAllMutationBatchesAffectingQuery(t, e))).next((e)=>this.Cn(t, e, s).next((t)=>{
+                            for (const t1 of (s = t, e))for (const e1 of t1.mutations){
+                                const n = e1.key;
+                                let i = s.get(n);
+                                null == i && (i = Kt.newInvalidDocument(n), s = s.insert(n, i)), Ye(e1, i, t1.localWriteTime), i.isFoundDocument() || (s = s.remove(n));
                             }
-                        }))).next(()=>(s.forEach((t, n)=>{
+                        })).next(()=>(s.forEach((t, n)=>{
                             Pe(e, n) || (s = s.remove(t));
                         }), s));
                 }
@@ -4224,16 +4222,15 @@
                 }(t.localStore, r));
             }
             async function Tc(t, e) {
-                var t1;
                 const n = t;
                 if (!n.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
-                    const t2 = await hr(n.localStore, e);
-                    n.currentUser = e, (t1 = n).Ko.forEach((t)=>{
+                    const t1 = await hr(n.localStore, e);
+                    n.currentUser = e, n.Ko.forEach((t)=>{
                         t.forEach((t)=>{
                             t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
                         });
-                    }), t1.Ko.clear(), n.sharedClientState.handleUserChange(e, t2.removedBatchIds, t2.addedBatchIds), await pc(n, t2.Wn);
+                    }), n.Ko.clear(), n.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(n, t1.Wn);
                 }
             }
             function Ec(t, e) {

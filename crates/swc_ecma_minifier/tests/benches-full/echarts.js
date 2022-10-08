@@ -873,23 +873,23 @@
         }, Handler.prototype.dispatchToElement = function(targetInfo, eventName, event) {
             var eveType, targetInfo1, event1, el = (targetInfo = targetInfo || {}).target;
             if (!el || !el.silent) {
-                for(var eventKey = 'on' + eventName, eventPacket = (eveType = eventName, targetInfo1 = targetInfo, {
-                    type: eveType,
-                    event: event1 = event,
-                    target: targetInfo1.target,
+                for(var eventKey = 'on' + eventName, eventPacket = {
+                    type: eventName,
+                    event: event,
+                    target: (targetInfo1 = targetInfo).target,
                     topTarget: targetInfo1.topTarget,
                     cancelBubble: !1,
-                    offsetX: event1.zrX,
-                    offsetY: event1.zrY,
-                    gestureEvent: event1.gestureEvent,
-                    pinchX: event1.pinchX,
-                    pinchY: event1.pinchY,
-                    pinchScale: event1.pinchScale,
-                    wheelDelta: event1.zrDelta,
-                    zrByTouch: event1.zrByTouch,
-                    which: event1.which,
+                    offsetX: event.zrX,
+                    offsetY: event.zrY,
+                    gestureEvent: event.gestureEvent,
+                    pinchX: event.pinchX,
+                    pinchY: event.pinchY,
+                    pinchScale: event.pinchScale,
+                    wheelDelta: event.zrDelta,
+                    zrByTouch: event.zrByTouch,
+                    which: event.which,
                     stop: stopEvent
-                }); el && (el[eventKey] && (eventPacket.cancelBubble = !!el[eventKey].call(el, eventPacket)), el.trigger(eventName, eventPacket), el = el.__hostTarget ? el.__hostTarget : el.parent, !eventPacket.cancelBubble););
+                }; el && (el[eventKey] && (eventPacket.cancelBubble = !!el[eventKey].call(el, eventPacket)), el.trigger(eventName, eventPacket), el = el.__hostTarget ? el.__hostTarget : el.parent, !eventPacket.cancelBubble););
                 !eventPacket.cancelBubble && (this.trigger(eventName, eventPacket), this.painter && this.painter.eachOtherLayer && this.painter.eachOtherLayer(function(layer) {
                     'function' == typeof layer[eventKey] && layer[eventKey].call(layer, eventPacket), layer.trigger && layer.trigger(eventName, eventPacket);
                 }));
@@ -2307,7 +2307,7 @@
         }
     }), arraySlice = Array.prototype.slice;
     function interpolate1DArray(out, p0, p1, percent) {
-        for(var p01, p11, len = p0.length, i = 0; i < len; i++)out[i] = (p01 = p0[i], ((p11 = p1[i]) - p01) * percent + p01);
+        for(var p01, len = p0.length, i = 0; i < len; i++)out[i] = (p01 = p0[i], (p1[i] - p01) * percent + p01);
     }
     function add1DArray(out, p0, p1, sign) {
         for(var len = p0.length, i = 0; i < len; i++)out[i] = p0[i] + p1[i] * sign;
@@ -2459,13 +2459,13 @@
                         } else if (arrDim > 0) 1 === arrDim ? interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w) : function(out, p0, p1, percent) {
                             for(var len = p0.length, len2 = len && p0[0].length, i = 0; i < len; i++){
                                 out[i] || (out[i] = []);
-                                for(var p01, p11, j = 0; j < len2; j++)out[i][j] = (p01 = p0[i][j], ((p11 = p1[i][j]) - p01) * percent + p01);
+                                for(var p01, j = 0; j < len2; j++)out[i][j] = (p01 = p0[i][j], (p1[i][j] - p01) * percent + p01);
                             }
                         }(targetArr, frame[valueKey], nextFrame[valueKey], w);
                         else if (isValueColor) interpolate1DArray(targetArr, frame[valueKey], nextFrame[valueKey], w), isAdditive || (target[propName] = rgba2String(targetArr));
                         else {
-                            var p01, p11, p02, p12, value = void 0;
-                            this.interpolable ? (p01 = frame[valueKey], value = ((p11 = nextFrame[valueKey]) - p01) * w + p01) : (p02 = frame[valueKey], p12 = nextFrame[valueKey], value = w > 0.5 ? p12 : p02), isAdditive ? this._additiveValue = value : target[propName] = value;
+                            var p01, p02, p11, value = void 0;
+                            this.interpolable ? (p01 = frame[valueKey], value = (nextFrame[valueKey] - p01) * w + p01) : (p02 = frame[valueKey], p11 = nextFrame[valueKey], value = w > 0.5 ? p11 : p02), isAdditive ? this._additiveValue = value : target[propName] = value;
                         }
                         isAdditive && this._addToTarget(target);
                     }
@@ -5067,7 +5067,7 @@
             }
             return this._pathLen = pathTotalLen, pathTotalLen;
         }, PathProxy.prototype.rebuildPath = function(ctx, percent) {
-            var x0, y0, xi, yi, x, y, pathSegLen, pathTotalLen, displayedLength, d = this.data, ux = this._ux, uy = this._uy, len = this._len, drawPart = percent < 1, accumLength = 0, segCount = 0;
+            var x0, y0, xi, yi, x, y, pathSegLen, displayedLength, d = this.data, ux = this._ux, uy = this._uy, len = this._len, drawPart = percent < 1, accumLength = 0, segCount = 0;
             if (!drawPart || (this._pathSegLen || this._calculateLength(), pathSegLen = this._pathSegLen, displayedLength = percent * this._pathLen)) lo: for(var i = 0; i < len;){
                 var cmd = d[i++], isFirst = 1 === i;
                 switch(isFirst && (xi = d[i], yi = d[i + 1], x0 = xi, y0 = yi), cmd){
@@ -5199,7 +5199,7 @@
                     break;
                 case CMD$1.C:
                     if (isStroke) {
-                        if (x01 = xi, y01 = yi, x11 = data[i++], y11 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i], y3 = data[i + 1], lineWidth1 = lineWidth, x4 = x, y4 = y, 0 !== lineWidth1 && (!(y4 > y01 + lineWidth1) || !(y4 > y11 + lineWidth1) || !(y4 > y2 + lineWidth1) || !(y4 > y3 + lineWidth1)) && (!(y4 < y01 - lineWidth1) || !(y4 < y11 - lineWidth1) || !(y4 < y2 - lineWidth1) || !(y4 < y3 - lineWidth1)) && (!(x4 > x01 + lineWidth1) || !(x4 > x11 + lineWidth1) || !(x4 > x2 + lineWidth1) || !(x4 > x3 + lineWidth1)) && (!(x4 < x01 - lineWidth1) || !(x4 < x11 - lineWidth1) || !(x4 < x2 - lineWidth1) || !(x4 < x3 - lineWidth1)) && cubicProjectPoint(x01, y01, x11, y11, x2, y2, x3, y3, x4, y4, null) <= lineWidth1 / 2) return !0;
+                        if (x01 = xi, y01 = yi, x11 = data[i++], y11 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i], y3 = data[i + 1], 0 !== lineWidth && (!(y > y01 + lineWidth) || !(y > y11 + lineWidth) || !(y > y2 + lineWidth) || !(y > y3 + lineWidth)) && (!(y < y01 - lineWidth) || !(y < y11 - lineWidth) || !(y < y2 - lineWidth) || !(y < y3 - lineWidth)) && (!(x > x01 + lineWidth) || !(x > x11 + lineWidth) || !(x > x2 + lineWidth) || !(x > x3 + lineWidth)) && (!(x < x01 - lineWidth) || !(x < x11 - lineWidth) || !(x < x2 - lineWidth) || !(x < x3 - lineWidth)) && cubicProjectPoint(x01, y01, x11, y11, x2, y2, x3, y3, x, y, null) <= lineWidth / 2) return !0;
                     } else w += function(x0, y0, x1, y1, x2, y2, x3, y3, x, y) {
                         if (y > y0 && y > y1 && y > y2 && y > y3 || y < y0 && y < y1 && y < y2 && y < y3) return 0;
                         var nRoots = cubicRootAt(y0, y1, y2, y3, y, roots);
@@ -5442,12 +5442,12 @@
         }, Path.prototype.contain = function(x, y) {
             var localPos = this.transformCoordToLocal(x, y), rect = this.getBoundingRect(), style = this.style;
             if (x = localPos[0], y = localPos[1], rect.contain(x, y)) {
-                var pathProxy, x1, pathProxy1 = this.path;
+                var pathProxy, pathProxy1 = this.path;
                 if (this.hasStroke()) {
-                    var pathProxy2, lineWidth, x2, lineWidth1 = style.lineWidth, lineScale = style.strokeNoScale ? this.getLineScale() : 1;
-                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth1 = Math.max(lineWidth1, this.strokeContainThreshold)), pathProxy2 = pathProxy1, lineWidth = lineWidth1 / lineScale, containPath(pathProxy2, lineWidth, !0, x2 = x, y))) return !0;
+                    var pathProxy2, lineWidth, lineWidth1 = style.lineWidth, lineScale = style.strokeNoScale ? this.getLineScale() : 1;
+                    if (lineScale > 1e-10 && (this.hasFill() || (lineWidth1 = Math.max(lineWidth1, this.strokeContainThreshold)), lineWidth = lineWidth1 / lineScale, containPath(pathProxy1, lineWidth, !0, x, y))) return !0;
                 }
-                if (this.hasFill()) return pathProxy = pathProxy1, containPath(pathProxy, 0, !1, x1 = x, y);
+                if (this.hasFill()) return containPath(pathProxy1, 0, !1, x, y);
             }
             return !1;
         }, Path.prototype.dirtyShape = function() {
@@ -5622,7 +5622,7 @@
                 var ctx1, shape1, r1, r2, r3, r4, total, x, y, width, height, r, x1, y1, width1, height1, optimizedShape = subPixelOptimizeRect(subPixelOptimizeOutputShape, shape, this.style);
                 x1 = optimizedShape.x, y1 = optimizedShape.y, width1 = optimizedShape.width, height1 = optimizedShape.height, optimizedShape.r = shape.r, shape = optimizedShape;
             } else x1 = shape.x, y1 = shape.y, width1 = shape.width, height1 = shape.height;
-            shape.r ? (ctx1 = ctx, x = (shape1 = shape).x, y = shape1.y, width = shape1.width, height = shape1.height, r = shape1.r, width < 0 && (x += width, width = -width), height < 0 && (y += height, height = -height), 'number' == typeof r ? r1 = r2 = r3 = r4 = r : r instanceof Array ? 1 === r.length ? r1 = r2 = r3 = r4 = r[0] : 2 === r.length ? (r1 = r3 = r[0], r2 = r4 = r[1]) : 3 === r.length ? (r1 = r[0], r2 = r4 = r[1], r3 = r[2]) : (r1 = r[0], r2 = r[1], r3 = r[2], r4 = r[3]) : r1 = r2 = r3 = r4 = 0, r1 + r2 > width && (total = r1 + r2, r1 *= width / total, r2 *= width / total), r3 + r4 > width && (total = r3 + r4, r3 *= width / total, r4 *= width / total), r2 + r3 > height && (total = r2 + r3, r2 *= height / total, r3 *= height / total), r1 + r4 > height && (total = r1 + r4, r1 *= height / total, r4 *= height / total), ctx1.moveTo(x + r1, y), ctx1.lineTo(x + width - r2, y), 0 !== r2 && ctx1.arc(x + width - r2, y + r2, r2, -Math.PI / 2, 0), ctx1.lineTo(x + width, y + height - r3), 0 !== r3 && ctx1.arc(x + width - r3, y + height - r3, r3, 0, Math.PI / 2), ctx1.lineTo(x + r4, y + height), 0 !== r4 && ctx1.arc(x + r4, y + height - r4, r4, Math.PI / 2, Math.PI), ctx1.lineTo(x, y + r1), 0 !== r1 && ctx1.arc(x + r1, y + r1, r1, Math.PI, 1.5 * Math.PI)) : ctx.rect(x1, y1, width1, height1);
+            shape.r ? (x = (shape1 = shape).x, y = shape1.y, width = shape1.width, height = shape1.height, r = shape1.r, width < 0 && (x += width, width = -width), height < 0 && (y += height, height = -height), 'number' == typeof r ? r1 = r2 = r3 = r4 = r : r instanceof Array ? 1 === r.length ? r1 = r2 = r3 = r4 = r[0] : 2 === r.length ? (r1 = r3 = r[0], r2 = r4 = r[1]) : 3 === r.length ? (r1 = r[0], r2 = r4 = r[1], r3 = r[2]) : (r1 = r[0], r2 = r[1], r3 = r[2], r4 = r[3]) : r1 = r2 = r3 = r4 = 0, r1 + r2 > width && (total = r1 + r2, r1 *= width / total, r2 *= width / total), r3 + r4 > width && (total = r3 + r4, r3 *= width / total, r4 *= width / total), r2 + r3 > height && (total = r2 + r3, r2 *= height / total, r3 *= height / total), r1 + r4 > height && (total = r1 + r4, r1 *= height / total, r4 *= height / total), ctx.moveTo(x + r1, y), ctx.lineTo(x + width - r2, y), 0 !== r2 && ctx.arc(x + width - r2, y + r2, r2, -Math.PI / 2, 0), ctx.lineTo(x + width, y + height - r3), 0 !== r3 && ctx.arc(x + width - r3, y + height - r3, r3, 0, Math.PI / 2), ctx.lineTo(x + r4, y + height), 0 !== r4 && ctx.arc(x + r4, y + height - r4, r4, Math.PI / 2, Math.PI), ctx.lineTo(x, y + r1), 0 !== r1 && ctx.arc(x + r1, y + r1, r1, Math.PI, 1.5 * Math.PI)) : ctx.rect(x1, y1, width1, height1);
         }, Rect.prototype.isZeroArea = function() {
             return !this.shape.width || !this.shape.height;
         }, Rect;
@@ -5966,7 +5966,7 @@
                 }
                 return state;
             }(this, stateName, targetStates, state1);
-            if ('blur' === stateName) return el = this, stateName1 = stateName, state = state1, hasBlur = indexOf(el.currentStates, stateName1) >= 0, currentOpacity = el.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
+            if ('blur' === stateName) return state = state1, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
                 for(var style = el.style, fromState = {}, i = 0; i < props.length; i++){
                     var propName = props[i], val = style[propName];
                     fromState[propName] = null == val ? defaultValue && defaultValue[propName] : val;
@@ -5976,9 +5976,9 @@
                     animator.__fromStateTransition && 0 > animator.__fromStateTransition.indexOf(toStateName) && 'style' === animator.targetName && animator.saveFinalToTarget(fromState, props);
                 }
                 return fromState;
-            }(el, [
+            }(this, [
                 'opacity'
-            ], stateName1, {
+            ], stateName, {
                 opacity: 1
             }), null == (blurStyle = (state = state || {}).style || {}).opacity && (state = extend({}, state), blurStyle = extend({
                 opacity: hasBlur ? currentOpacity : 0.1 * fromState.opacity
@@ -11662,7 +11662,7 @@
                 }
                 style.strokeFirst ? (styleHasStroke(style) && ctx.strokeText(text, style.x, style.y), styleHasFill(style) && ctx.fillText(text, style.x, style.y)) : (styleHasFill(style) && ctx.fillText(text, style.x, style.y), styleHasStroke(style) && ctx.strokeText(text, style.x, style.y)), hasLineDash && ctx.setLineDash([]);
             }
-        }(ctx, el, style1)) : el instanceof ZRImage ? (2 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 2), ctx1 = ctx, el1 = el, prevEl = prevEl1, forceSetAll = forceSetStyle, bindCommonProps(ctx1, getStyle(el1, (scope1 = scope).inHover), prevEl && getStyle(prevEl, scope1.inHover), forceSetAll, scope1), function(ctx, el, style) {
+        }(ctx, el, style1)) : el instanceof ZRImage ? (2 !== scope.lastDrawType && (forceSetStyle = !0, scope.lastDrawType = 2), forceSetAll = forceSetStyle, bindCommonProps(ctx, getStyle(el, scope.inHover), prevEl1 && getStyle(prevEl1, scope.inHover), forceSetAll, scope), function(ctx, el, style) {
             var image = el.__image = createOrUpdateImage(style.image, el.__image, el, el.onload);
             if (image && isImageReady(image)) {
                 var x = style.x || 0, y = style.y || 0, width = el.getWidth(), height = el.getHeight(), aspect = image.width / image.height;
@@ -13571,14 +13571,14 @@
             }, bindMouseEvent = function(zr, ecIns) {
                 zr.on('mouseover', function(e) {
                     var dispatcher, e1, api, ecData, _a, dispatchers, focusSelf, dispatcher1 = findEventDispatcher(e.target, isHighDownDispatcher);
-                    dispatcher1 && (dispatcher = dispatcher1, e1 = e, api = ecIns._api, isHighDownDispatcher(dispatcher) || error('param should be highDownDispatcher'), dispatchers = (_a = findComponentHighDownDispatchers((ecData = getECData(dispatcher)).componentMainType, ecData.componentIndex, ecData.componentHighDownName, api)).dispatchers, focusSelf = _a.focusSelf, dispatchers ? (focusSelf && blurComponent(ecData.componentMainType, ecData.componentIndex, api), each(dispatchers, function(dispatcher) {
-                        return enterEmphasisWhenMouseOver(dispatcher, e1);
-                    })) : (blurSeries(ecData.seriesIndex, ecData.focus, ecData.blurScope, api), 'self' === ecData.focus && blurComponent(ecData.componentMainType, ecData.componentIndex, api), enterEmphasisWhenMouseOver(dispatcher, e1)), markStatusToUpdate(ecIns));
+                    dispatcher1 && (api = ecIns._api, isHighDownDispatcher(dispatcher1) || error('param should be highDownDispatcher'), dispatchers = (_a = findComponentHighDownDispatchers((ecData = getECData(dispatcher1)).componentMainType, ecData.componentIndex, ecData.componentHighDownName, api)).dispatchers, focusSelf = _a.focusSelf, dispatchers ? (focusSelf && blurComponent(ecData.componentMainType, ecData.componentIndex, api), each(dispatchers, function(dispatcher) {
+                        return enterEmphasisWhenMouseOver(dispatcher, e);
+                    })) : (blurSeries(ecData.seriesIndex, ecData.focus, ecData.blurScope, api), 'self' === ecData.focus && blurComponent(ecData.componentMainType, ecData.componentIndex, api), enterEmphasisWhenMouseOver(dispatcher1, e)), markStatusToUpdate(ecIns));
                 }).on('mouseout', function(e) {
                     var dispatcher, e1, api, ecData, dispatchers, dispatcher1 = findEventDispatcher(e.target, isHighDownDispatcher);
-                    dispatcher1 && (dispatcher = dispatcher1, e1 = e, api = ecIns._api, isHighDownDispatcher(dispatcher) || error('param should be highDownDispatcher'), allLeaveBlur(api), (dispatchers = findComponentHighDownDispatchers((ecData = getECData(dispatcher)).componentMainType, ecData.componentIndex, ecData.componentHighDownName, api).dispatchers) ? each(dispatchers, function(dispatcher) {
-                        return leaveEmphasisWhenMouseOut(dispatcher, e1);
-                    }) : leaveEmphasisWhenMouseOut(dispatcher, e1), markStatusToUpdate(ecIns));
+                    dispatcher1 && (api = ecIns._api, isHighDownDispatcher(dispatcher1) || error('param should be highDownDispatcher'), allLeaveBlur(api), (dispatchers = findComponentHighDownDispatchers((ecData = getECData(dispatcher1)).componentMainType, ecData.componentIndex, ecData.componentHighDownName, api).dispatchers) ? each(dispatchers, function(dispatcher) {
+                        return leaveEmphasisWhenMouseOut(dispatcher, e);
+                    }) : leaveEmphasisWhenMouseOut(dispatcher1, e), markStatusToUpdate(ecIns));
                 }).on('click', function(e) {
                     var dispatcher = findEventDispatcher(e.target, function(target) {
                         return null != getECData(target).dataIndex;
@@ -15146,10 +15146,10 @@
             var extent, splitNumber1, minInterval1, maxInterval1, result, span, interval, precision, extent1 = this._extent, span1 = extent1[1] - extent1[0];
             if (isFinite(span1)) {
                 span1 < 0 && (span1 = -span1, extent1.reverse());
-                var niceTickExtent, extent2, result1 = (extent = extent1, splitNumber1 = splitNumber, minInterval1 = minInterval, maxInterval1 = maxInterval, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval1 && interval < minInterval1 && (interval = result.interval = minInterval1), null != maxInterval1 && interval > maxInterval1 && (interval = result.interval = maxInterval1), precision = result.intervalPrecision = getIntervalPrecision(interval), niceTickExtent = result.niceTickExtent = [
-                    round(Math.ceil(extent[0] / interval) * interval, precision),
-                    round(Math.floor(extent[1] / interval) * interval, precision)
-                ], extent2 = extent, isFinite(niceTickExtent[0]) || (niceTickExtent[0] = extent2[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent2[1]), clamp(niceTickExtent, 0, extent2), clamp(niceTickExtent, 1, extent2), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
+                var niceTickExtent, extent2, result1 = (splitNumber1 = splitNumber, result = {}, span = extent1[1] - extent1[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getIntervalPrecision(interval), niceTickExtent = result.niceTickExtent = [
+                    round(Math.ceil(extent1[0] / interval) * interval, precision),
+                    round(Math.floor(extent1[1] / interval) * interval, precision)
+                ], extent2 = extent1, isFinite(niceTickExtent[0]) || (niceTickExtent[0] = extent2[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent2[1]), clamp(niceTickExtent, 0, extent2), clamp(niceTickExtent, 1, extent2), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
                 this._intervalPrecision = result1.intervalPrecision, this._interval = result1.interval, this._niceExtent = result1.niceTickExtent;
             }
         }, IntervalScale.prototype.niceExtent = function(opt) {
@@ -15846,18 +15846,18 @@
     }
     function makeLabelFormatter(axis) {
         var tpl, tpl1, cb, labelFormatter = axis.getLabelModel().get('formatter'), categoryTickStart = 'category' === axis.type ? axis.scale.getExtent()[0] : null;
-        return 'time' === axis.scale.type ? (tpl = labelFormatter, function(tick, idx) {
-            return axis.scale.getFormattedLabel(tick, idx, tpl);
-        }) : 'string' == typeof labelFormatter ? (tpl1 = labelFormatter, function(tick) {
+        return 'time' === axis.scale.type ? function(tick, idx) {
+            return axis.scale.getFormattedLabel(tick, idx, labelFormatter);
+        } : 'string' == typeof labelFormatter ? function(tick) {
             var label = axis.scale.getLabel(tick);
-            return tpl1.replace('{value}', null != label ? label : '');
-        }) : 'function' != typeof labelFormatter ? function(tick) {
+            return labelFormatter.replace('{value}', null != label ? label : '');
+        } : 'function' != typeof labelFormatter ? function(tick) {
             return axis.scale.getLabel(tick);
-        } : (cb = labelFormatter, function(tick, idx) {
-            return null != categoryTickStart && (idx = tick.value - categoryTickStart), cb(getAxisRawValue(axis, tick), idx, null != tick.level ? {
+        } : function(tick, idx) {
+            return null != categoryTickStart && (idx = tick.value - categoryTickStart), labelFormatter(getAxisRawValue(axis, tick), idx, null != tick.level ? {
                 level: tick.level
             } : null);
-        });
+        };
     }
     function getAxisRawValue(axis, tick) {
         return 'category' === axis.type ? axis.scale.getLabel(tick) : tick.value;
@@ -18114,10 +18114,10 @@
                         return null != interpolatedValue ? getDefaultInterpolatedLabel(data_2, interpolatedValue) : getDefaultLabel(data_2, dataIndex);
                     },
                     enableTextSetter: !0
-                }, (endLabelModel1 = endLabelModel, isHorizontal = (baseAxis = coordSys.getBaseAxis()).isHorizontal(), isBaseInversed = baseAxis.inverse, {
+                }, (isHorizontal = (baseAxis = coordSys.getBaseAxis()).isHorizontal(), isBaseInversed = baseAxis.inverse, {
                     normal: {
-                        align: endLabelModel1.get('align') || (isHorizontal ? isBaseInversed ? 'right' : 'left' : 'center'),
-                        verticalAlign: endLabelModel1.get('verticalAlign') || (isHorizontal ? 'middle' : isBaseInversed ? 'top' : 'bottom')
+                        align: endLabelModel.get('align') || (isHorizontal ? isBaseInversed ? 'right' : 'left' : 'center'),
+                        verticalAlign: endLabelModel.get('verticalAlign') || (isHorizontal ? 'middle' : isBaseInversed ? 'top' : 'bottom')
                     }
                 })), polyline.textConfig.position = null);
             } else this._endLabel && (this._polyline.removeTextContent(), this._endLabel = null);
@@ -21432,7 +21432,7 @@
     function resetStateTriggerForRegion(viewBuildCtx, el, regionName, regionModel, mapOrGeoModel) {
         el.highDownSilentOnTouch = !!mapOrGeoModel.get('selectedMode');
         var el1, componentModel, componentHighDownName, ecData, emphasisModel = regionModel.getModel('emphasis'), focus = emphasisModel.get('focus');
-        return enableHoverEmphasis(el, focus, emphasisModel.get('blurScope')), viewBuildCtx.isGeo && (el1 = el, componentModel = mapOrGeoModel, componentHighDownName = regionName, (ecData = getECData(el1)).componentMainType = componentModel.mainType, ecData.componentIndex = componentModel.componentIndex, ecData.componentHighDownName = componentHighDownName), focus;
+        return enableHoverEmphasis(el, focus, emphasisModel.get('blurScope')), viewBuildCtx.isGeo && ((ecData = getECData(el)).componentMainType = mapOrGeoModel.mainType, ecData.componentIndex = mapOrGeoModel.componentIndex, ecData.componentHighDownName = regionName), focus;
     }
     var MapView = function(_super) {
         function MapView() {
@@ -26614,7 +26614,7 @@
             return assert(this._mounted), this._brushType && this._doDisableBrush(), brushOption.brushType && this._doEnableBrush(brushOption), this;
         }, BrushController.prototype._doEnableBrush = function(brushOption) {
             var zr, resourceKey, userKey, zr1 = this._zr;
-            !this._enableGlobalPan && (zr = zr1, resourceKey = MUTEX_RESOURCE_KEY, userKey = this._uid, getStore(zr)[resourceKey] = userKey), each(this._handlers, function(handler, eventName) {
+            !this._enableGlobalPan && (userKey = this._uid, getStore(zr1)[MUTEX_RESOURCE_KEY] = userKey), each(this._handlers, function(handler, eventName) {
                 zr1.on(eventName, handler);
             }), this._brushType = brushOption.brushType, this._brushOption = merge(clone(DEFAULT_BRUSH_OPT), brushOption, !0);
         }, BrushController.prototype._doDisableBrush = function() {
@@ -30981,7 +30981,7 @@
         setStyle: function(key, val) {
             assertNotReserved(key);
             var value, style = tmpDuringScope.el.style;
-            return style && ((value = val) != value && warn('style.' + key + ' must not be assigned with NaN.'), style[key] = val, tmpDuringScope.isStyleDirty = !0), this;
+            return style && (val != val && warn('style.' + key + ' must not be assigned with NaN.'), style[key] = val, tmpDuringScope.isStyleDirty = !0), this;
         },
         getStyle: function(key) {
             assertNotReserved(key);
@@ -31204,7 +31204,7 @@
                 var optZ2 = elOption.z2;
                 null != optZ2 && (elDisplayable.z2 = optZ2 || 0);
                 for(var i = 0; i < STATES.length; i++)(function(elDisplayable, elOption, state) {
-                    var stateObj, isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
+                    var isNormal = state === NORMAL, elStateOpt = isNormal ? elOption : retrieveStateOption(elOption, state), optZ2 = elStateOpt ? elStateOpt.z2 : null;
                     null != optZ2 && ((isNormal ? elDisplayable : elDisplayable.ensureState(state)).z2 = optZ2 || 0);
                 })(elDisplayable, elOption, STATES[i]);
             }
@@ -34516,10 +34516,10 @@
                 var itemSize = +toolboxModel.get('itemSize'), featureOpts = toolboxModel.get('feature') || {}, features1 = this._features || (this._features = {}), featureNames = [];
                 each(featureOpts, function(opt, name) {
                     featureNames.push(name);
-                }), new DataDiffer(this._featureNames || [], featureNames).add(processFeature).update(processFeature).remove(curry(processFeature, null)).execute(), this._featureNames = featureNames, group = group1, componentModel = toolboxModel, api1 = api, boxLayoutParams = componentModel.getBoxLayoutParams(), padding = componentModel.get('padding'), rect = getLayoutRect(boxLayoutParams, viewportSize = {
-                    width: api1.getWidth(),
-                    height: api1.getHeight()
-                }, padding), boxLayout(componentModel.get('orient'), group, componentModel.get('itemGap'), rect.width, rect.height), positionElement(group, boxLayoutParams, viewportSize, padding), group1.add(makeBackground(group1.getBoundingRect(), toolboxModel)), group1.eachChild(function(icon) {
+                }), new DataDiffer(this._featureNames || [], featureNames).add(processFeature).update(processFeature).remove(curry(processFeature, null)).execute(), this._featureNames = featureNames, boxLayoutParams = toolboxModel.getBoxLayoutParams(), padding = toolboxModel.get('padding'), rect = getLayoutRect(boxLayoutParams, viewportSize = {
+                    width: api.getWidth(),
+                    height: api.getHeight()
+                }, padding), boxLayout(toolboxModel.get('orient'), group1, toolboxModel.get('itemGap'), rect.width, rect.height), positionElement(group1, boxLayoutParams, viewportSize, padding), group1.add(makeBackground(group1.getBoundingRect(), toolboxModel)), group1.eachChild(function(icon) {
                     var titleText = icon.__title, emphasisState = icon.ensureState('emphasis'), emphasisTextConfig = emphasisState.textConfig || (emphasisState.textConfig = {}), textContent = icon.getTextContent(), emphasisTextState = textContent && textContent.states.emphasis;
                     if (emphasisTextState && !isFunction(emphasisTextState) && titleText) {
                         var emphasisTextStyle = emphasisTextState.style || (emphasisTextState.style = {}), rect = getBoundingRect(titleText, ZRText.makeFont(emphasisTextStyle)), offsetX = icon.x + group1.x, offsetY = icon.y + group1.y + itemSize, needPutOnTop = !1;
@@ -34899,13 +34899,13 @@
                 container.removeChild(root), self1._dom = null;
             }
             addEventListener(closeButton, 'click', close), addEventListener(refreshButton, 'click', function() {
-                var newOption, str, blockMetaList1, blocks, newOption1;
+                var newOption, blockMetaList1, blocks, newOption1;
                 if (null == contentToOption && null != optionToContent || null != contentToOption && null == optionToContent) {
                     console.warn('It seems you have just provided one of `contentToOption` and `optionToContent` functions but missed the other one. Data change is ignored.'), close();
                     return;
                 }
                 try {
-                    'function' == typeof contentToOption ? newOption = contentToOption(viewMain, api.getOption()) : (str = textarea.value, blockMetaList1 = blockMetaList, blocks = str.split(RegExp('\n*' + BLOCK_SPLITER + '\n*', 'g')), newOption1 = {
+                    'function' == typeof contentToOption ? newOption = contentToOption(viewMain, api.getOption()) : (blocks = textarea.value.split(RegExp('\n*' + BLOCK_SPLITER + '\n*', 'g')), newOption1 = {
                         series: []
                     }, each(blocks, function(block, idx) {
                         if (function(block) {
@@ -34926,7 +34926,7 @@
                                     series: series,
                                     categories: categories
                                 };
-                            }(block), blockMeta = blockMetaList1[idx], axisKey = blockMeta.axisDim + 'Axis';
+                            }(block), blockMeta = blockMetaList[idx], axisKey = blockMeta.axisDim + 'Axis';
                             blockMeta && (newOption1[axisKey] = newOption1[axisKey] || [], newOption1[axisKey][blockMeta.axisIndex] = {
                                 data: result.categories
                             }, newOption1.series = newOption1.series.concat(result.series));
@@ -35348,10 +35348,10 @@
                             lineY: 'y'
                         }[brushType], coordSys, coordRange);
                     }
-                }), ecModel = ecModel1, newSnapshot = snapshot, storedSnapshots = getStoreSnapshots(ecModel), each(newSnapshot, function(batchItem, dataZoomId) {
+                }), storedSnapshots = getStoreSnapshots(ecModel1), each(snapshot, function(batchItem, dataZoomId) {
                     for(var i = storedSnapshots.length - 1; i >= 0 && !storedSnapshots[i][dataZoomId]; i--);
                     if (i < 0) {
-                        var dataZoomModel = ecModel.queryComponents({
+                        var dataZoomModel = ecModel1.queryComponents({
                             mainType: 'dataZoom',
                             subType: 'select',
                             id: dataZoomId
@@ -35365,7 +35365,7 @@
                             };
                         }
                     }
-                }), storedSnapshots.push(newSnapshot), this._dispatchZoomAction(snapshot);
+                }), storedSnapshots.push(snapshot), this._dispatchZoomAction(snapshot);
             }
             function setBatch(dimName, coordSys, minMax) {
                 var dimName1, axisModel, found, axis = coordSys.getAxis(dimName), axisModel1 = axis.model, dataZoomModel = (dimName1 = dimName, axisModel = axisModel1, ecModel1.eachComponent({
@@ -35574,7 +35574,7 @@
         var zrPainter = zr && zr.painter;
         if (appendToBody) {
             var out1, elFrom, elTarget, inX, zrViewportRoot = zrPainter && zrPainter.getViewportRoot();
-            zrViewportRoot && (out1 = out, elFrom = zrViewportRoot, elTarget = document.body, transformCoordWithViewport(_calcOut, elFrom, inX = zrX, zrY, !0) && transformCoordWithViewport(out1, elTarget, _calcOut[0], _calcOut[1]));
+            zrViewportRoot && (elTarget = document.body, transformCoordWithViewport(_calcOut, zrViewportRoot, zrX, zrY, !0) && transformCoordWithViewport(out, elTarget, _calcOut[0], _calcOut[1]));
         } else {
             out[0] = zrX, out[1] = zrY;
             var viewportRootOffset = zrPainter && zrPainter.getViewportRootOffset();
@@ -35612,18 +35612,18 @@
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
             var tooltipModel1, enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, duration, onlyFade1, transitionCurve, transitionOption, transitionText, textStyleModel1, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (tooltipModel1 = tooltipModel, enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel1.get('transitionDuration'), backgroundColor = tooltipModel1.get('backgroundColor'), shadowBlur = tooltipModel1.get('shadowBlur'), shadowColor = tooltipModel1.get('shadowColor'), shadowOffsetX = tooltipModel1.get('shadowOffsetX'), shadowOffsetY = tooltipModel1.get('shadowOffsetY'), textStyleModel = tooltipModel1.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel1, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur) + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((duration = transitionDuration, onlyFade1 = onlyFade, transitionText = "opacity" + (transitionOption = " " + duration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade1 || (transitionOption = " " + duration + "s " + transitionCurve, transitionText += env1.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env1.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur) + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env1.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env1.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
                 'radius'
             ], function(name) {
-                var borderName = 'border-' + name, camelCase = toCamelCase(borderName), val = tooltipModel1.get(camelCase);
+                var borderName = 'border-' + name, camelCase = toCamelCase(borderName), val = tooltipModel.get(camelCase);
                 null != val && cssText.push(borderName + ':' + val + ('color' === name ? '' : 'px'));
-            }), cssText.push((cssText1 = [], fontSize = (textStyleModel1 = textStyleModel).get('fontSize'), (color = textStyleModel1.getTextColor()) && cssText1.push('color:' + color), cssText1.push('font:' + textStyleModel1.getFont()), fontSize && cssText1.push('line-height:' + Math.round(3 * fontSize / 2) + 'px'), shadowColor1 = textStyleModel1.get('textShadowColor'), shadowBlur1 = textStyleModel1.get('textShadowBlur') || 0, shadowOffsetX1 = textStyleModel1.get('textShadowOffsetX') || 0, shadowOffsetY1 = textStyleModel1.get('textShadowOffsetY') || 0, shadowColor1 && shadowBlur1 && cssText1.push('text-shadow:' + shadowOffsetX1 + 'px ' + shadowOffsetY1 + 'px ' + shadowBlur1 + 'px ' + shadowColor1), each([
+            }), cssText.push((cssText1 = [], fontSize = textStyleModel.get('fontSize'), (color = textStyleModel.getTextColor()) && cssText1.push('color:' + color), cssText1.push('font:' + textStyleModel.getFont()), fontSize && cssText1.push('line-height:' + Math.round(3 * fontSize / 2) + 'px'), shadowColor1 = textStyleModel.get('textShadowColor'), shadowBlur1 = textStyleModel.get('textShadowBlur') || 0, shadowOffsetX1 = textStyleModel.get('textShadowOffsetX') || 0, shadowOffsetY1 = textStyleModel.get('textShadowOffsetY') || 0, shadowColor1 && shadowBlur1 && cssText1.push('text-shadow:' + shadowOffsetX1 + 'px ' + shadowOffsetY1 + 'px ' + shadowBlur1 + 'px ' + shadowColor1), each([
                 'decoration',
                 'align'
             ], function(name) {
-                var val = textStyleModel1.get(name);
+                var val = textStyleModel.get(name);
                 val && cssText1.push('text-' + name + ':' + val);
             }), cssText1.join(';'))), null != padding && cssText.push('padding:' + normalizeCssArray(padding).join('px ') + 'px'), cssText.join(';') + ';') + assembleTransform(styleCoord[0], styleCoord[1], !0) + "border-color:" + convertToColorString(nearPointColor) + ";" + (tooltipModel.get('extraCssText') || '') + ";pointer-event:" + (this._enterable ? 'auto' : 'none') : style.display = 'none', this._show = !0, this._firstShow = !1, this._longHide = !1;
         }, TooltipHTMLContent.prototype.setContent = function(content, markers, tooltipModel, borderColor, arrowPosition) {
@@ -40983,7 +40983,7 @@
             for(var errMsg = '', valueGetterParam = getters.prepareGetValue(exprOption), subCondList = [], exprKeys = keys(exprOption), parserName = exprOption.parser, valueParser = parserName ? getRawValueParser(parserName) : null, i = 0; i < exprKeys.length; i++){
                 var op, rval, keyRaw = exprKeys[i];
                 if (!('parser' === keyRaw || getters.valueGetterAttrMap.get(keyRaw))) {
-                    var op1 = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = (op = op1, rval = condValueParsed, ('eq' === op || 'ne' === op ? new FilterEqualityComparator('eq' === op, rval) : hasOwn(ORDER_COMPARISON_OP_MAP, op) ? new FilterOrderComparator(op, rval) : null) || 'reg' === op1 && new RegExpEvaluator(condValueParsed));
+                    var op1 = hasOwn(RELATIONAL_EXPRESSION_OP_ALIAS_MAP, keyRaw) ? RELATIONAL_EXPRESSION_OP_ALIAS_MAP[keyRaw] : keyRaw, condValueRaw = exprOption[keyRaw], condValueParsed = valueParser ? valueParser(condValueRaw) : condValueRaw, evaluator = ('eq' === op1 || 'ne' === op1 ? new FilterEqualityComparator('eq' === op1, condValueParsed) : hasOwn(ORDER_COMPARISON_OP_MAP, op1) ? new FilterOrderComparator(op1, condValueParsed) : null) || 'reg' === op1 && new RegExpEvaluator(condValueParsed);
                     evaluator || throwError(makePrintable('Illegal relational operation: "' + keyRaw + '" in condition:', exprOption)), subCondList.push(evaluator);
                 }
             }
