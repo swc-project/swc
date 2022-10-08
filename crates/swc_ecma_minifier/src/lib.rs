@@ -11,7 +11,8 @@
 //!
 //!  - Acesssing top-level identifiers do not have side effects.
 //!
-//!
+//! If you declare a variable on `globalThis` using a getter with side-effects,
+//! swc minifier will break it.
 //!
 //! # Debugging
 //!
