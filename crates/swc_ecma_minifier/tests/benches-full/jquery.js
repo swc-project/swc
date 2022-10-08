@@ -1042,7 +1042,7 @@
                                 var returned, then;
                                 if (!(depth < maxDepth)) {
                                     if ((returned = handler.apply(that, args)) === deferred.promise()) throw TypeError("Thenable self-resolution");
-                                    then = returned && ("object" == typeof returned || "function" == typeof returned) && returned.then, isFunction(then) ? special ? then.call(returned, resolve(maxDepth, deferred, Identity, special), resolve(maxDepth, deferred, Thrower, special)) : (maxDepth++, then.call(returned, resolve(maxDepth, deferred, Identity, special), resolve(maxDepth, deferred, Thrower, special), resolve(maxDepth, deferred, Identity, deferred.notifyWith))) : (handler !== Identity && (that = void 0, args = [
+                                    isFunction(then = returned && ("object" == typeof returned || "function" == typeof returned) && returned.then) ? special ? then.call(returned, resolve(maxDepth, deferred, Identity, special), resolve(maxDepth, deferred, Thrower, special)) : (maxDepth++, then.call(returned, resolve(maxDepth, deferred, Identity, special), resolve(maxDepth, deferred, Thrower, special), resolve(maxDepth, deferred, Identity, deferred.notifyWith))) : (handler !== Identity && (that = void 0, args = [
                                         returned
                                     ]), (special || deferred.resolveWith)(that, args));
                                 }
@@ -1423,7 +1423,7 @@
                 var notAsync, result, saved = dataPriv.get(this, type);
                 if (1 & event.isTrigger && this[type]) {
                     if (saved.length) (jQuery.event.special[type] || {}).delegateType && event.stopPropagation();
-                    else if (saved = slice.call(arguments), dataPriv.set(this, type, saved), notAsync = expectSync(this, type), this[type](), result = dataPriv.get(this, type), saved !== result || notAsync ? dataPriv.set(this, type, !1) : result = {}, saved !== result) return event.stopImmediatePropagation(), event.preventDefault(), result.value;
+                    else if (saved = slice.call(arguments), dataPriv.set(this, type, saved), notAsync = expectSync(this, type), this[type](), saved !== (result = dataPriv.get(this, type)) || notAsync ? dataPriv.set(this, type, !1) : result = {}, saved !== result) return event.stopImmediatePropagation(), event.preventDefault(), result.value;
                 } else saved.length && (dataPriv.set(this, type, {
                     value: jQuery.event.trigger(jQuery.extend(saved[0], jQuery.Event.prototype), saved.slice(1), this)
                 }), event.stopImmediatePropagation());

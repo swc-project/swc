@@ -213,11 +213,7 @@
             this.set = Object.create(null);
         }, Set1;
     }();
-    var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g, classify = function(str) {
-        return str.replace(classifyRE, function(c) {
-            return c.toUpperCase();
-        }).replace(/[-_]/g, '');
-    };
+    var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g;
     warn = function(msg, vm) {
         var trace = vm ? generateComponentTrace(vm) : '';
         config.warnHandler ? config.warnHandler.call(null, msg, vm, trace) : hasConsole && !config.silent && console.error("[Vue warn]: " + msg + trace);
@@ -230,7 +226,9 @@
             var match = file.match(/([^/\\]+)\.vue$/);
             name = match && match[1];
         }
-        return (name ? "<" + classify(name) + ">" : "<Anonymous>") + (file && !1 !== includeFile ? " at " + file : '');
+        return (name ? "<" + name.replace(classifyRE, function(c) {
+            return c.toUpperCase();
+        }).replace(/[-_]/g, '') + ">" : "<Anonymous>") + (file && !1 !== includeFile ? " at " + file : '');
     };
     var repeat = function(str, n) {
         for(var res = ''; n;)n % 2 == 1 && (res += str), n > 1 && (str += str), n >>= 1;
@@ -740,7 +738,7 @@
     function updateListeners(on, oldOn, add, remove$$1, createOnceHandler, vm) {
         var name, cur, old, event;
         for(name in on)cur = on[name], old = oldOn[name], event = normalizeEvent(name), isUndef(cur) ? warn("Invalid handler for event \"" + event.name + "\": got " + String(cur), vm) : isUndef(old) ? (isUndef(cur.fns) && (cur = on[name] = createFnInvoker(cur, vm)), isTrue(event.once) && (cur = on[name] = createOnceHandler(event.name, cur, event.capture)), add(event.name, cur, event.capture, event.passive, event.params)) : cur !== old && (old.fns = cur, on[name] = old);
-        for(name in oldOn)isUndef(on[name]) && (event = normalizeEvent(name), remove$$1(event.name, oldOn[name], event.capture));
+        for(name in oldOn)isUndef(on[name]) && remove$$1((event = normalizeEvent(name)).name, oldOn[name], event.capture);
     }
     function mergeVNodeHook(def, hookKey, hook) {
         def instanceof VNode && (def = def.data.hook || (def.data.hook = {}));
@@ -964,11 +962,11 @@
     installRenderHelpers(FunctionalRenderContext.prototype);
     var componentVNodeHooks = {
         init: function(vnode, hydrating) {
-            var vnode1, parent, options, inlineTemplate;
-            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (vnode1 = vnode, parent = activeInstance, options = {
+            var vnode1, options, inlineTemplate;
+            vnode.componentInstance && !vnode.componentInstance._isDestroyed && vnode.data.keepAlive ? componentVNodeHooks.prepatch(vnode, vnode) : (vnode.componentInstance = (vnode1 = vnode, options = {
                 _isComponent: !0,
                 _parentVnode: vnode1,
-                parent: parent
+                parent: activeInstance
             }, isDef(inlineTemplate = vnode1.data.inlineTemplate) && (options.render = inlineTemplate.render, options.staticRenderFns = inlineTemplate.staticRenderFns), new vnode1.componentOptions.Ctor(options))).$mount(hydrating ? vnode.elm : void 0, hydrating);
         },
         prepatch: function(oldVnode, vnode) {
@@ -1360,7 +1358,7 @@
             isUpdatingChildComponent || warn("$attrs is readonly.", vm3);
         }, !0), defineReactive$$1(vm3, '$listeners', options2._parentListeners || emptyObject, function() {
             isUpdatingChildComponent || warn("$listeners is readonly.", vm3);
-        }, !0), callHook(vm6, 'beforeCreate'), vm1 = vm6, (result = resolveInject(vm1.$options.inject, vm1)) && (shouldObserve = !1, Object.keys(result).forEach(function(key) {
+        }, !0), callHook(vm6, 'beforeCreate'), (result = resolveInject((vm1 = vm6).$options.inject, vm1)) && (shouldObserve = !1, Object.keys(result).forEach(function(key) {
             defineReactive$$1(vm1, key, result[key], function() {
                 warn('Avoid mutating an injected value directly since the changes will be overwritten whenever the provided component re-renders. injection being mutated: "' + key + "\"", vm1);
             });
@@ -1381,7 +1379,7 @@
             for(var key in methods)'function' != typeof methods[key] && warn("Method \"" + key + "\" has type \"" + typeof methods[key] + '" in the component definition. Did you reference the function correctly?', vm), props && hasOwn(props, key) && warn("Method \"" + key + "\" has already been defined as a prop.", vm), key in vm && isReserved(key) && warn("Method \"" + key + '" conflicts with an existing Vue instance method. Avoid defining component methods that start with _ or $.'), vm[key] = 'function' != typeof methods[key] ? noop : bind(methods[key], vm);
         }(vm4, opts1.methods), opts1.data ? function(vm) {
             var data = vm.$options.data;
-            data = vm._data = 'function' == typeof data ? function(data, vm) {
+            isPlainObject(data = vm._data = 'function' == typeof data ? function(data, vm) {
                 pushTarget();
                 try {
                     return data.call(vm, vm);
@@ -1390,7 +1388,7 @@
                 } finally{
                     popTarget();
                 }
-            }(data, vm) : data || {}, isPlainObject(data) || (data = {}, warn("data functions should return an object:\nhttps://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function", vm));
+            }(data, vm) : data || {}) || (data = {}, warn("data functions should return an object:\nhttps://vuejs.org/v2/guide/components.html#data-Must-Be-a-Function", vm));
             for(var keys = Object.keys(data), props = vm.$options.props, methods = vm.$options.methods, i = keys.length; i--;){
                 var key = keys[i];
                 methods && hasOwn(methods, key) && warn("Method \"" + key + "\" has already been defined as a data property.", vm), props && hasOwn(props, key) ? warn("The data property \"" + key + '" is already declared as a prop. Use prop default value instead.', vm) : isReserved(key) || proxy(vm, "_data", key);
@@ -1429,7 +1427,7 @@
         return function() {
             watcher.teardown();
         };
-    }, Vue4 = Vue7, hookRE = /^hook:/, Vue4.prototype.$on = function(event, fn) {
+    }, hookRE = /^hook:/, (Vue4 = Vue7).prototype.$on = function(event, fn) {
         var vm = this;
         if (Array.isArray(event)) for(var i = 0, l = event.length; i < l; i++)vm.$on(event[i], fn);
         else (vm._events[event] || (vm._events[event] = [])).push(fn), hookRE.test(event) && (vm._hasHookEvent = !0);
@@ -1478,7 +1476,7 @@
             for(var i = vm._watchers.length; i--;)vm._watchers[i].teardown();
             vm._data.__ob__ && vm._data.__ob__.vmCount--, vm._isDestroyed = !0, vm.__patch__(vm._vnode, null), callHook(vm, 'destroyed'), vm.$off(), vm.$el && (vm.$el.__vue__ = null), vm.$vnode && (vm.$vnode.parent = null);
         }
-    }, Vue6 = Vue7, installRenderHelpers(Vue6.prototype), Vue6.prototype.$nextTick = function(fn) {
+    }, installRenderHelpers((Vue6 = Vue7).prototype), Vue6.prototype.$nextTick = function(fn) {
         return nextTick(fn, this);
     }, Vue6.prototype._render = function() {
         var vnode, vm = this, ref = vm.$options, render = ref.render, _parentVnode = ref._parentVnode;
@@ -2441,7 +2439,7 @@
                                     var c = oldCh[i];
                                     if (isDef(c) && sameVnode(node, c)) return i;
                                 }
-                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : (vnodeToMove = oldCh[idxInOld], sameVnode(vnodeToMove, newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx)), newStartVnode = newCh[++newStartIdx]);
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
                             oldStartIdx > oldEndIdx ? addVnodes(parentElm, isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }
@@ -2733,8 +2731,7 @@
         config.devtools && (devtools ? devtools.emit('init', Vue7) : console[console.info ? 'info' : 'log']("Download the Vue Devtools extension for a better development experience:\nhttps://github.com/vuejs/vue-devtools")), !1 !== config.productionTip && 'undefined' != typeof console && console[console.info ? 'info' : 'log']("You are running Vue in development mode.\nMake sure to turn on production mode when deploying for production.\nSee more tips at https://vuejs.org/guide/deployment.html");
     }, 0);
     var defaultTagRE = /\{\{((?:.|\r?\n)+?)\}\}/g, regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g, buildRegex = cached(function(delimiters) {
-        var open = delimiters[0].replace(regexEscapeRE, '\\$&'), close = delimiters[1].replace(regexEscapeRE, '\\$&');
-        return RegExp(open + '((?:.|\\n)+?)' + close, 'g');
+        return RegExp(delimiters[0].replace(regexEscapeRE, '\\$&') + '((?:.|\\n)+?)' + delimiters[1].replace(regexEscapeRE, '\\$&'), 'g');
     });
     function parseText(text, delimiters) {
         var match, index, tokenValue, tagRE = delimiters ? buildRegex(delimiters) : defaultTagRE;
@@ -3113,7 +3110,7 @@
         if (el.if && !el.ifProcessed) return genIf(el, state);
         if ('template' === el.tag && !el.slotTarget && !state.pre) return genChildren(el, state) || 'void 0';
         if ('slot' === el.tag) {
-            return el1 = el, state1 = state, slotName = el1.slotName || '"default"', children = genChildren(el1, state1), res = "_t(" + slotName + (children ? "," + children : ''), attrs = el1.attrs || el1.dynamicAttrs ? genProps((el1.attrs || []).concat(el1.dynamicAttrs || []).map(function(attr) {
+            return el1 = el, state1 = state, slotName = el1.slotName || '"default"', res = "_t(" + slotName + ((children = genChildren(el1, state1)) ? "," + children : ''), attrs = el1.attrs || el1.dynamicAttrs ? genProps((el1.attrs || []).concat(el1.dynamicAttrs || []).map(function(attr) {
                 return {
                     name: camelize(attr.name),
                     value: attr.value,
@@ -3480,7 +3477,7 @@
                         start: element.start
                     }));
                     for(var i = 0; i < preTransforms.length; i++)element = preTransforms[i](element, options) || element;
-                    !inVPre && (el1 = element, null != getAndRemoveAttr(el1, 'v-pre') && (el1.pre = !0), element.pre && (inVPre = !0)), platformIsPreTag(element.tag) && (inPre = !0), inVPre ? function(el) {
+                    !inVPre && (null != getAndRemoveAttr(el1 = element, 'v-pre') && (el1.pre = !0), element.pre && (inVPre = !0)), platformIsPreTag(element.tag) && (inPre = !0), inVPre ? function(el) {
                         var list = el.attrsList, len = list.length;
                         if (len) for(var attrs = el.attrs = Array(len), i = 0; i < len; i++)attrs[i] = {
                             name: list[i].name,
@@ -3498,7 +3495,7 @@
                             var elseif = getAndRemoveAttr(el, 'v-else-if');
                             elseif && (el.elseif = elseif);
                         }
-                    }(element), el2 = element, null != getAndRemoveAttr(el2, 'v-once') && (el2.once = !0)), root || (root = element, checkRootConstraints(root)), unary ? closeElement(element) : (currentParent = element, stack.push(element));
+                    }(element), null != getAndRemoveAttr(el2 = element, 'v-once') && (el2.once = !0)), root || checkRootConstraints(root = element), unary ? closeElement(element) : (currentParent = element, stack.push(element));
                 },
                 end: function(tag, start, end$1) {
                     var element = stack[stack.length - 1];

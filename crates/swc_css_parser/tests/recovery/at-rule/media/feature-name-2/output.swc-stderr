@@ -1,6 +1,6 @@
 
-  x Expected number, ident, dimension or function token
+  x Expected ident token at first position in <general-enclosed>
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
  1 | @media ("string") {}
-   :         ^^^^^^^^
+   :        ^^^^^^^^^^
    `----

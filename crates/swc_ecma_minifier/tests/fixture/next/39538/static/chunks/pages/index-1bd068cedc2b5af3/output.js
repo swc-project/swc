@@ -68,11 +68,9 @@
                     if (rest.loader) {
                         var customImageLoader = rest.loader;
                         loader = function(obj) {
-                            obj.config;
-                            var opts = _object_without_properties_loose(obj, [
+                            return obj.config, customImageLoader(_object_without_properties_loose(obj, [
                                 "config"
-                            ]);
-                            return customImageLoader(opts);
+                            ]));
                         };
                     }
                     delete rest.loader;
@@ -83,9 +81,8 @@
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
-                src1 = "string" == typeof src1 ? src1 : staticSrc;
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                (src1.startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                ((src1 = "string" == typeof src1 ? src1 : staticSrc).startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",

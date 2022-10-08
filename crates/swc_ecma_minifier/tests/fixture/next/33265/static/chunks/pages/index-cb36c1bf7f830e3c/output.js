@@ -73,8 +73,8 @@
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
-                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0), number = BigInt(number);
-                for(var byteCount = Math.ceil(number.toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
+                for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -108,8 +108,7 @@
                 a = toUint8(a);
                 var fn = (b = toUint8(b)).every ? b.every : Array.prototype.every;
                 return b.length && a.length - offset >= b.length && fn.call(b, function(bByte, i) {
-                    var aByte = mask[i] ? mask[i] & a[offset + i] : a[offset + i];
-                    return bByte === aByte;
+                    return bByte === (mask[i] ? mask[i] & a[offset + i] : a[offset + i]);
                 });
             };
         },
@@ -2080,9 +2079,9 @@
                                                     case "'":
                                                     case '"':
                                                         if (3 === s || 1 === s) {
-                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start - 1), s = 5;
+                                                            if (1 === s && (errorHandler.warning('attribute value must after "="'), attrName = source.slice(start, p)), start = p + 1, (p = source.indexOf(c, start)) > 0) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start - 1), s = 5;
                                                             else throw Error("attribute value no end '" + c + "' match");
-                                                        } else if (4 == s) value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), addAttribute(attrName, value, start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
+                                                        } else if (4 == s) addAttribute(attrName, value = source.slice(start, p).replace(/&#?\w+;/g, entityReplacer), start), errorHandler.warning('attribute "' + attrName + '" missed start quot(' + c + ")!!"), start = p + 1, s = 5;
                                                         else throw Error('attribute value must after "="');
                                                         break;
                                                     case "/":
@@ -3093,7 +3092,7 @@
                 for(var initSegment = playlist.sidx.map ? playlist.sidx.map : null, sourceDuration = playlist.sidx.duration, timeline = playlist.timeline || 0, sidxByteRange = playlist.sidx.byterange, sidxEnd = sidxByteRange.offset + sidxByteRange.length, timescale = sidx.timescale, mediaReferences = sidx.references.filter(function(r) {
                     return 1 !== r.referenceType;
                 }), segments = [], type = playlist.endList ? "static" : "dynamic", startIndex = sidxEnd + sidx.firstOffset, i = 0; i < mediaReferences.length; i++){
-                    var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, attributes = {
+                    var reference = sidx.references[i], size = reference.referencedSize, duration = reference.subsegmentDuration, endIndex = startIndex + size - 1, segment = segmentsFromBase({
                         baseUrl: baseUrl,
                         timescale: timescale,
                         timeline: timeline,
@@ -3102,7 +3101,7 @@
                         sourceDuration: sourceDuration,
                         indexRange: startIndex + "-" + endIndex,
                         type: type
-                    }, segment = segmentsFromBase(attributes)[0];
+                    })[0];
                     initSegment && (segment.map = initSegment), segments.push(segment), startIndex += size;
                 }
                 return playlist.segments = segments, playlist;
@@ -3486,16 +3485,16 @@
                 }), {
                     locations: mpdAttributes.locations,
                     representationInfo: flatten(periods.map(function(period, index) {
-                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodIndex = global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId, periodAttributes = merge(mpdAttributes, {
-                            periodIndex: periodIndex,
+                        var periodBaseUrls = buildBaseUrls(mpdBaseUrls, findChildren(period.node, "BaseURL")), parsedPeriodId = parseInt(period.attributes.id, 10), periodAttributes = merge(mpdAttributes, {
+                            periodIndex: global_window__WEBPACK_IMPORTED_MODULE_1___default().isNaN(parsedPeriodId) ? index : parsedPeriodId,
                             periodStart: period.attributes.start
                         });
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map(function(adaptationSet) {
-                            var service, adaptationSetAttributes, adaptationSetAttributes1 = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), role = findChildren(adaptationSet, "Role")[0], roleAttributes = {
-                                role: parseAttributes(role)
-                            }, attrs = merge(periodAttributes, adaptationSetAttributes1, roleAttributes), accessibility = findChildren(adaptationSet, "Accessibility")[0], captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(accessibility)).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                            var service, adaptationSetAttributes, adaptationSetAttributes1 = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), attrs = merge(periodAttributes, adaptationSetAttributes1, {
+                                role: parseAttributes(findChildren(adaptationSet, "Role")[0])
+                            }), captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(findChildren(adaptationSet, "Accessibility")[0])).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
                                 if (language = value, /^CC\d=/.test(value)) {
                                     var channel, language, _value$split = value.split("=");
                                     channel = _value$split[0], language = _value$split[1];
@@ -3525,12 +3524,9 @@
                                 captionServices: captionServices
                             }));
                             var label = findChildren(adaptationSet, "Label")[0];
-                            if (label && label.childNodes.length) {
-                                var labelVal = label.childNodes[0].nodeValue.trim();
-                                attrs = merge(attrs, {
-                                    label: labelVal
-                                });
-                            }
+                            label && label.childNodes.length && (attrs = merge(attrs, {
+                                label: label.childNodes[0].nodeValue.trim()
+                            }));
                             var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
                                 var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
                                 if (keySystem) {
@@ -3550,7 +3546,7 @@
                             }));
                             var segmentInfo = getSegmentInformation(adaptationSet), representations = findChildren(adaptationSet, "Representation"), adaptationSetSegmentInfo = merge(periodSegmentInfo, segmentInfo);
                             return flatten(representations.map((adaptationSetAttributes = attrs, function(representation) {
-                                var repBaseUrlElements = findChildren(representation, "BaseURL"), repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, repBaseUrlElements), attributes = merge(adaptationSetAttributes, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
+                                var repBaseUrls = buildBaseUrls(adaptationSetBaseUrls, findChildren(representation, "BaseURL")), attributes = merge(adaptationSetAttributes, parseAttributes(representation)), representationSegmentInfo = getSegmentInformation(representation);
                                 return repBaseUrls.map(function(baseUrl) {
                                     return {
                                         segmentInfo: merge(adaptationSetSegmentInfo, representationSegmentInfo),
@@ -3596,8 +3592,8 @@
                 return attributes;
             }, parse = function(manifestString, options) {
                 void 0 === options && (options = {});
-                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options), playlists = parsedManifestInfo.representationInfo.map(generateSegments);
-                return toM3u8(playlists, parsedManifestInfo.locations, options.sidxMapping);
+                var parsedManifestInfo = inheritAttributes(stringToMpdXml(manifestString), options);
+                return toM3u8(parsedManifestInfo.representationInfo.map(generateSegments), parsedManifestInfo.locations, options.sidxMapping);
             }, parseUTCTiming = function(manifestString) {
                 return parseUTCTimingScheme(stringToMpdXml(manifestString));
             };

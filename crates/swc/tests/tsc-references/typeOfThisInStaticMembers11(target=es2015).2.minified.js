@@ -9,7 +9,7 @@ let C = (_define_property(_C = class {
 C = _ts_decorate([
     foo
 ], C);
-let D = (_D = class extends C {
+let D = (_define_property(_D = class extends C {
     static foo() {
         return this.c + 1;
     }
@@ -19,7 +19,7 @@ let D = (_D = class extends C {
     static set fa(v) {
         this.c = v + 1;
     }
-}, _define_property(_D, "c", 2), _define_property(_D, "d", _D.c + 1), _define_property(_D, "e", _get(_get_prototype_of(_D), "a", _D) + _D.c + 1), _define_property(_D, "f", ()=>_D.c + 1), _define_property(_D, "ff", function() {
+}, "c", 2), _define_property(_D, "d", _D.c + 1), _define_property(_D, "e", _get(_get_prototype_of(_D), "a", _D) + _D.c + 1), _define_property(_D, "f", ()=>_D.c + 1), _define_property(_D, "ff", function() {
     this.c;
 }), _D);
 D = _ts_decorate([

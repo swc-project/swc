@@ -1,6 +1,0 @@
-
-  x Expected a number
-   ,-[$DIR/tests/recovery/at-rule/media/ratio/input.css:1:1]
- 1 | @media (aspect-ratio: 12/) {}
-   :                          ^
-   `----

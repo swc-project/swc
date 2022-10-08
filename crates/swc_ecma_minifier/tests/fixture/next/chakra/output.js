@@ -307,7 +307,7 @@
                 return Math.min(1, Math.max(0, val));
             }
             function boundAlpha(a) {
-                return a = parseFloat(a), (isNaN(a) || a < 0 || a > 1) && (a = 1), a;
+                return (isNaN(a = parseFloat(a)) || a < 0 || a > 1) && (a = 1), a;
             }
             function convertToPercentage(n) {
                 return n <= 1 ? "".concat(100 * Number(n), "%") : n;
@@ -316,8 +316,7 @@
                 return 1 === c.length ? "0" + c : String(c);
             }
             function rgbToHsl(r, g, b) {
-                r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255);
-                var max = Math.max(r, g, b), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
+                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
                 if (max === min) s = 0, h = 0;
                 else {
                     var d = max - min;
@@ -343,8 +342,7 @@
                 return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + (q - p) * (6 * t) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
             }
             function rgbToHsv(r, g, b) {
-                r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255);
-                var max = Math.max(r, g, b), min = Math.min(r, g, b), h = 0, d = max - min;
+                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, d = max - min;
                 if (max === min) h = 0;
                 else {
                     switch(max){
@@ -552,11 +550,11 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, r1, g1, b1, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (color2 = color, rgb = {
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
                         r: 0,
                         g: 0,
                         b: 0
-                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof color2 && (color2 = function(color) {
+                    }, a = 1, s1 = null, v1 = null, l = null, ok = !1, format = !1, "string" == typeof (color2 = color) && (color2 = function(color) {
                         if (0 === (color = color.trim().toLowerCase()).length) return !1;
                         var named = !1;
                         if (names[color]) color = names[color], named = !0;
@@ -622,31 +620,31 @@
                         r: 255 * bound01(r, 255),
                         g: 255 * bound01(g, 255),
                         b: 255 * bound01(b, 255)
-                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), r1 = [
-                        v,
-                        q,
-                        p,
-                        p,
-                        t,
-                        v
-                    ][mod = i % 6], g1 = [
-                        t,
-                        v,
-                        v,
-                        q,
-                        p,
-                        p
-                    ][mod], b1 = [
-                        p,
-                        p,
-                        t,
-                        v,
-                        v,
-                        q
-                    ][mod], rgb = {
-                        r: 255 * r1,
-                        g: 255 * g1,
-                        b: 255 * b1
+                    }, ok = !0, format = "%" === String(color2.r).substr(-1) ? "prgb" : "rgb") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.v) ? (s1 = convertToPercentage(color2.s), v1 = convertToPercentage(color2.v), h = color2.h, s = s1, v = v1, h = 6 * bound01(h, 360), s = bound01(s, 100), v = bound01(v, 100), i = Math.floor(h), f = h - i, p = v * (1 - s), q = v * (1 - f * s), t = v * (1 - (1 - f) * s), rgb = {
+                        r: 255 * [
+                            v,
+                            q,
+                            p,
+                            p,
+                            t,
+                            v
+                        ][mod = i % 6],
+                        g: 255 * [
+                            t,
+                            v,
+                            v,
+                            q,
+                            p,
+                            p
+                        ][mod],
+                        b: 255 * [
+                            p,
+                            p,
+                            t,
+                            v,
+                            v,
+                            q
+                        ][mod]
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
                         if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
@@ -1494,8 +1492,8 @@
                 }
             };
             function getBg(props) {
-                var theme = props.theme, c = props.colorScheme, lightBg = getColor(theme, c + ".100", c), darkBg = transparentize(c + ".200", 0.16)(theme);
-                return mode(lightBg, darkBg)(props);
+                var theme = props.theme, c = props.colorScheme;
+                return mode(getColor(theme, c + ".100", c), transparentize(c + ".200", 0.16)(theme))(props);
             }
             var variantSubtle$1 = function(props) {
                 var c = props.colorScheme;
@@ -1593,11 +1591,11 @@
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
-                        var hue, seed, hueRange, res, totalColors = options.count, colors = [];
+                        var hue, seed, res, totalColors = options.count, colors = [];
                         for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
                         return options.count = totalColors, colors;
                     }
-                    var h = (hue = options.hue, seed = options.seed, hueRange = function(colorInput) {
+                    var h = (hue = options.hue, seed = options.seed, (res = randomWithin(function(colorInput) {
                         var num = parseInt(colorInput, 10);
                         if (!Number.isNaN(num) && num < 360 && num > 0) return [
                             num,
@@ -1624,7 +1622,7 @@
                             0,
                             360
                         ];
-                    }(hue), (res = randomWithin(hueRange, seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
+                    }(hue), seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
                         if ("monochrome" === options.hue) return 0;
                         if ("random" === options.luminosity) return randomWithin([
                             0,
@@ -1688,12 +1686,10 @@
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
                 }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
-                isBgDark || (color = "gray.800");
-                var borderColor = mode("white", "gray.800")(props);
-                return {
+                return isBgDark || (color = "gray.800"), {
                     bg: bg,
                     color: color,
-                    borderColor: borderColor,
+                    borderColor: mode("white", "gray.800")(props),
                     verticalAlign: "top"
                 };
             }, baseStyle$B = function(props) {
@@ -1768,7 +1764,7 @@
                         };
                     },
                     outline: function(props) {
-                        var c = props.colorScheme, theme = props.theme, darkColor = transparentize(c + ".200", 0.8)(theme), lightColor = getColor(theme, c + ".500"), color = mode(lightColor, darkColor)(props);
+                        var c = props.colorScheme, theme = props.theme, darkColor = transparentize(c + ".200", 0.8)(theme), color = mode(getColor(theme, c + ".500"), darkColor)(props);
                         return {
                             color: color,
                             boxShadow: "inset 0 0 0px 1px " + color
@@ -2633,7 +2629,7 @@
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
                     transitionDuration: "slow"
-                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), bgColor = mode(c + ".500", c + ".200")(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
+                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor = mode(c + ".500", c + ".200")(props)) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
                     bgImage: gradient
                 } : {
                     bgColor: bgColor
@@ -3501,19 +3497,19 @@
                 ], _ref[$arrowBg.variable] = [
                     $bg.reference
                 ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
-            }, breakpoints = ((0, chakra_ui_utils_esm.ZK)({
-                condition: !0,
-                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
-            }), chakra_ui_theme_tools_esm_extends({
-                base: "0em"
-            }, {
-                sm: "30em",
-                md: "48em",
-                lg: "62em",
-                xl: "80em",
-                "2xl": "96em"
-            })), foundations = sizes_501602a9_esm_extends({
-                breakpoints: breakpoints,
+            }, foundations = sizes_501602a9_esm_extends({
+                breakpoints: ((0, chakra_ui_utils_esm.ZK)({
+                    condition: !0,
+                    message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
+                }), chakra_ui_theme_tools_esm_extends({
+                    base: "0em"
+                }, {
+                    sm: "30em",
+                    md: "48em",
+                    lg: "62em",
+                    xl: "80em",
+                    "2xl": "96em"
+                })),
                 zIndices: {
                     hide: -1,
                     auto: "auto",
@@ -4306,9 +4302,9 @@
                     __css: styles.title
                 }));
             }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var styles = useStyles(), descriptionStyles = chakra_ui_alert_esm_extends({
+                var descriptionStyles = chakra_ui_alert_esm_extends({
                     display: "inline"
-                }, styles.description);
+                }, useStyles().description);
                 return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
                 }, props, {

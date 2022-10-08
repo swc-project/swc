@@ -1388,6 +1388,7 @@ sequences/hoist_defun/input.js
 sequences/iife/input.js
 sequences/issue_1685/input.js
 sequences/issue_2313/input.js
+sequences/issue_27/input.js
 sequences/lift_sequences_1/input.js
 sequences/lift_sequences_2/input.js
 sequences/lift_sequences_3/input.js

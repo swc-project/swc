@@ -224,7 +224,7 @@
             for(var i$6 = 0; i$6 < len; ++i$6)if (isNeutral.test(types[i$6])) {
                 var end$1 = void 0;
                 for(end$1 = i$6 + 1; end$1 < len && isNeutral.test(types[end$1]); ++end$1);
-                for(var before = (i$6 ? types[i$6 - 1] : outerType) == "L", after = (end$1 < len ? types[end$1] : outerType) == "L", replace$1 = before == after ? before ? "L" : "R" : outerType, j$1 = i$6; j$1 < end$1; ++j$1)types[j$1] = replace$1;
+                for(var before = (i$6 ? types[i$6 - 1] : outerType) == "L", replace$1 = before == ((end$1 < len ? types[end$1] : outerType) == "L") ? before ? "L" : "R" : outerType, j$1 = i$6; j$1 < end$1; ++j$1)types[j$1] = replace$1;
                 i$6 = end$1 - 1;
             }
             for(var code, m, order = [], i$7 = 0; i$7 < len;)if (countsAsLeft.test(types[i$7])) {
@@ -671,7 +671,7 @@
                 mName && (style = "m-" + (style ? mName + " " + style : mName));
             }
             if (!flattenSpans || curStyle != style) {
-                for(; curStart < stream.start;)curStart = Math.min(stream.start, curStart + 5000), f(curStart, curStyle);
+                for(; curStart < stream.start;)f(curStart = Math.min(stream.start, curStart + 5000), curStyle);
                 curStyle = style;
             }
             stream.start = stream.pos;
@@ -1170,7 +1170,7 @@
     }
     function prepareMeasureForLine(cm, line) {
         var cm1, line1, lineN, view, built, lineN1 = lineNo(line), view1 = findViewForLine(cm, lineN1);
-        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (cm1 = cm, line1 = line, line1 = visualLine(line1), lineN = lineNo(line1), (view = cm1.display.externalMeasured = new LineView(cm1.doc, line1, lineN)).lineN = lineN, built = view.built = buildLineContent(cm1, view), view.text = built.pre, removeChildrenAndAdd(cm1.display.lineMeasure, built.pre), view1 = view);
+        view1 && !view1.text ? view1 = null : view1 && view1.changes && (updateLineForChanges(cm, view1, lineN1, getDimensions(cm)), cm.curOp.forceUpdate = !0), view1 || (cm1 = cm, lineN = lineNo(line1 = visualLine(line1 = line)), (view = cm1.display.externalMeasured = new LineView(cm1.doc, line1, lineN)).lineN = lineN, built = view.built = buildLineContent(cm1, view), view.text = built.pre, removeChildrenAndAdd(cm1.display.lineMeasure, built.pre), view1 = view);
         var info = mapFromLineView(view1, line, lineN1);
         return {
             line: line,
@@ -1335,8 +1335,7 @@
         var order = getOrder(lineObj, cm.doc.direction), ch = pos.ch, sticky = pos.sticky;
         if (ch >= lineObj.text.length ? (ch = lineObj.text.length, sticky = "before") : ch <= 0 && (ch = 0, sticky = "after"), !order) return get("before" == sticky ? ch - 1 : ch, "before" == sticky);
         function getBidi(ch, partPos, invert) {
-            var right = 1 == order[partPos].level;
-            return get(invert ? ch - 1 : ch, right != invert);
+            return get(invert ? ch - 1 : ch, 1 == order[partPos].level != invert);
         }
         var partPos = getBidiPartAt(order, ch, sticky), other = bidiOther, val = getBidi(ch, partPos, "before" == sticky);
         return null != other && (val.other = getBidi(ch, other, "before" != sticky)), val;
@@ -1382,7 +1381,7 @@
                     var coords = cursorCoords(cm, Pos(lineNo, ch, sticky), "line", lineObj, preparedMeasure);
                     baseX = coords.left, outside = y < coords.top ? -1 : y >= coords.bottom ? 1 : 0;
                 }
-                return ch = skipExtendingChars(lineObj.text, ch, 1), PosWithInfo(lineNo, ch, sticky, outside, x - baseX);
+                return PosWithInfo(lineNo, ch = skipExtendingChars(lineObj.text, ch, 1), sticky, outside, x - baseX);
             }(cm, lineObj, lineN, x, y), collapsed = function(line, ch) {
                 var found, sps = sawCollapsedSpans && line.markedSpans;
                 if (sps) for(var i = 0; i < sps.length; ++i){
@@ -1609,8 +1608,8 @@
                             return charCoords(cm, Pos(line, ch), "div", lineObj, bias);
                         }
                         function wrapX(pos, dir, side) {
-                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right", ch = "after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1);
-                            return coords(ch, prop)[prop];
+                            var extent = wrappedLineExtentChar(cm, lineObj, null, pos), prop = "ltr" == dir == ("after" == side) ? "left" : "right";
+                            return coords("after" == side ? extent.begin : extent.end - (/\s/.test(lineObj.text.charAt(extent.end - 1)) ? 2 : 1), prop)[prop];
                         }
                         var order = getOrder(lineObj, doc.direction);
                         return !function(order, from, to, f) {
@@ -3015,7 +3014,7 @@
     }, TextMarker.prototype.changed = function() {
         var this$1 = this, pos = this.find(-1, !0), widget = this, cm = this.doc.cm;
         pos && cm && runInOp(cm, function() {
-            var line = pos.line, lineN = lineNo(pos.line), view = findViewForLine(cm, lineN);
+            var line = pos.line, view = findViewForLine(cm, lineNo(pos.line));
             if (view && (clearLineMeasurementCacheFor(view), cm.curOp.selectionChanged = cm.curOp.forceUpdate = !0), cm.curOp.updateMaxLine = !0, !lineIsHidden(widget.doc, line) && null != widget.height) {
                 var oldHeight = widget.height;
                 widget.height = null;
@@ -3331,7 +3330,7 @@
                 shared: options && options.shared,
                 handleMouseEvents: options && options.handleMouseEvents
             };
-            return pos = clipPos(this, pos), markText(this, pos, pos, realOpts, "bookmark");
+            return markText(this, pos = clipPos(this, pos), pos, realOpts, "bookmark");
         },
         findMarksAt: function(pos) {
             pos = clipPos(this, pos);
@@ -3667,9 +3666,7 @@
             if (order) {
                 var ch, part = dir < 0 ? lst(order) : order[0], sticky = dir < 0 == (1 == part.level) ? "after" : "before";
                 if (part.level > 0 || "rtl" == cm.doc.direction) {
-                    var prep = prepareMeasureForLine(cm, lineObj);
-                    ch = dir < 0 ? lineObj.text.length - 1 : 0;
-                    var targetTop = measureCharPrepared(cm, prep, ch).top;
+                    var prep = prepareMeasureForLine(cm, lineObj), targetTop = measureCharPrepared(cm, prep, ch = dir < 0 ? lineObj.text.length - 1 : 0).top;
                     ch = findFirst(function(ch) {
                         return measureCharPrepared(cm, prep, ch).top == targetTop;
                     }, dir < 0 == (1 == part.level) ? part.from : part.to - 1, ch), "before" == sticky && (ch = moveCharLogically(lineObj, ch, 1));
@@ -4561,11 +4558,9 @@
                     if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) return new Pos(start.line, ch, moveInStorageOrder ? "before" : "after");
                 }
                 var searchInVisualLine = function(partPos, dir, wrappedLineExtent) {
-                    for(var getRes = function(ch, moveInStorageOrder) {
-                        return moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
-                    }; partPos >= 0 && partPos < bidi.length; partPos += dir){
-                        var part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
-                        if (part.from <= ch && ch < part.to || (ch = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch && ch < wrappedLineExtent.end)) return getRes(ch, moveInStorageOrder);
+                    for(; partPos >= 0 && partPos < bidi.length; partPos += dir){
+                        var ch, part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch1 = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
+                        if (part.from <= ch1 && ch1 < part.to || (ch1 = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch1 && ch1 < wrappedLineExtent.end)) return ch = ch1, moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
                     }
                 }, res = searchInVisualLine(partPos + dir, dir, wrappedLineExtent);
                 if (res) return res;
@@ -5231,14 +5226,14 @@
             return getContextBefore(this, (line = clipLine(doc, null == line ? doc.first + doc.size - 1 : line)) + 1, precise).state;
         },
         cursorCoords: function(start, mode) {
-            var pos, range = this.doc.sel.primary();
-            return pos = null == start ? range.head : "object" == typeof start ? clipPos(this.doc, start) : start ? range.from() : range.to(), cursorCoords(this, pos, mode || "page");
+            var range = this.doc.sel.primary();
+            return cursorCoords(this, null == start ? range.head : "object" == typeof start ? clipPos(this.doc, start) : start ? range.from() : range.to(), mode || "page");
         },
         charCoords: function(pos, mode) {
             return charCoords(this, clipPos(this.doc, pos), mode || "page");
         },
         coordsChar: function(coords, mode) {
-            return coords = fromCoordSystem(this, coords, mode || "page"), coordsChar(this, coords.left, coords.top);
+            return coordsChar(this, (coords = fromCoordSystem(this, coords, mode || "page")).left, coords.top);
         },
         lineAtHeight: function(height, mode) {
             return height = fromCoordSystem(this, {

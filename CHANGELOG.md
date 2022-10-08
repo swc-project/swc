@@ -14,6 +14,9 @@
 - **(css/ast)** Support `@container` at-rule (#6076) ([0a61374](https://github.com/swc-project/swc/commit/0a61374d028cc5fa3a35747cab892f3a11617dd4))
 
 
+- **(css/ast)** Support `<general-enclosed>` for `@media` at-rules (#6082) ([b71dd3e](https://github.com/swc-project/swc/commit/b71dd3ec0515f6d0b4f598f4f195ec6817113af8))
+
+
 - **(css/compat)** Implement transform for nested css (#6077) ([347d4b7](https://github.com/swc-project/swc/commit/347d4b7602d434608efb8d6fdb6874cd25aaa437))
 
 
@@ -23,7 +26,13 @@
 - **(es/minifier)** Use `usage_count` in sequential inliner (#6071) ([ac150c7](https://github.com/swc-project/swc/commit/ac150c7ced9d9d9112d377437bdca7616de43a00))
 
 
+- **(es/minifier)** Distinguish calls in alias analyzer (#6080) ([9ce3df0](https://github.com/swc-project/swc/commit/9ce3df091f2e5ce3d59274cfaa2aa4be99ab5b33))
+
+
 - **(es/testing)** Add an option to test sourcemap (#6079) ([e6b1dd4](https://github.com/swc-project/swc/commit/e6b1dd47315775f68694305905a958c9b66b5a8d))
+
+
+- **(swc_core)** Expose `swc_ecma_preset_env` (#6083) ([4cde4f9](https://github.com/swc-project/swc/commit/4cde4f9acef8658b7c24be354fe66cb2c86bc556))
 
 ### Miscellaneous Tasks
 

@@ -158,7 +158,7 @@
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
                     for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-                    for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[Object(_bisect__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
+                    for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
                 return histogram.value = function(_) {
@@ -386,8 +386,8 @@
                 if (null == valueof && (valueof = _number__WEBPACK_IMPORTED_MODULE_0__.default), n = values.length) {
                     if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values), value1 = +valueof(values[i0 + 1], i0 + 1, values);
-                    return value0 + (value1 - value0) * (i - i0);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+                    return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             };
         },
@@ -7236,8 +7236,7 @@
                     identity
                 ];
                 var index = -1;
-                iteratees = arrayMap(iteratees, baseUnary(baseIteratee));
-                var result = baseMap(collection, function(value, key, collection) {
+                return iteratees = arrayMap(iteratees, baseUnary(baseIteratee)), baseSortBy(baseMap(collection, function(value, key, collection) {
                     return {
                         criteria: arrayMap(iteratees, function(iteratee) {
                             return iteratee(value);
@@ -7245,8 +7244,7 @@
                         index: ++index,
                         value: value
                     };
-                });
-                return baseSortBy(result, function(object, other) {
+                }), function(object, other) {
                     return compareMultiple(object, other, orders);
                 });
             };
@@ -7757,9 +7755,7 @@
             var assocIndexOf = __webpack_require__("../../../node_modules/lodash/_assocIndexOf.js"), splice = Array.prototype.splice;
             module1.exports = function(key) {
                 var data = this.__data__, index = assocIndexOf(data, key);
-                if (index < 0) return !1;
-                var lastIndex = data.length - 1;
-                return index == lastIndex ? data.pop() : splice.call(data, index, 1), --this.size, !0;
+                return !(index < 0) && (index == data.length - 1 ? data.pop() : splice.call(data, index, 1), --this.size, !0);
             };
         },
         "../../../node_modules/lodash/_listCacheGet.js": function(module1, exports1, __webpack_require__) {
@@ -7958,7 +7954,7 @@
             };
         },
         "../../../node_modules/lodash/find.js": function(module1, exports1, __webpack_require__) {
-            var createFind = __webpack_require__("../../../node_modules/lodash/_createFind.js"), findIndex = __webpack_require__("../../../node_modules/lodash/findIndex.js"), find = createFind(findIndex);
+            var find = __webpack_require__("../../../node_modules/lodash/_createFind.js")(__webpack_require__("../../../node_modules/lodash/findIndex.js"));
             module1.exports = find;
         },
         "../../../node_modules/lodash/findIndex.js": function(module1, exports1, __webpack_require__) {
@@ -8313,7 +8309,7 @@
             };
         },
         "../../../node_modules/lodash/toPairs.js": function(module1, exports1, __webpack_require__) {
-            var createToPairs = __webpack_require__("../../../node_modules/lodash/_createToPairs.js"), keys = __webpack_require__("../../../node_modules/lodash/keys.js"), toPairs = createToPairs(keys);
+            var toPairs = __webpack_require__("../../../node_modules/lodash/_createToPairs.js")(__webpack_require__("../../../node_modules/lodash/keys.js"));
             module1.exports = toPairs;
         },
         "../../../node_modules/lodash/toString.js": function(module1, exports1, __webpack_require__) {
@@ -8917,10 +8913,10 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props) : void 0, data = getDataWithBaseline(props, scale);
+                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props) : void 0;
                 return {
                     style: style,
-                    data: data,
+                    data: getDataWithBaseline(props, scale),
                     scale: scale,
                     domain: domain,
                     origin: origin
@@ -9352,10 +9348,10 @@
                 }, originPosition = {
                     x: origin.x === domain.x[0] || origin.x === domain.x[1] ? 0 : scale.x(origin.x),
                     y: origin.y === domain.y[0] || origin.y === domain.y[1] ? 0 : scale.y(origin.y)
-                }, x = originPosition.x ? Math.abs(originOffset.x - originPosition.x) : orientationOffset.x, y = originPosition.y ? Math.abs(originOffset.y - originPosition.y) : orientationOffset.y, offsetX = exists(props.offsetX) ? props.offsetX : x, offsetY = exists(props.offsetY) ? props.offsetY : y;
+                }, x = originPosition.x ? Math.abs(originOffset.x - originPosition.x) : orientationOffset.x, y = originPosition.y ? Math.abs(originOffset.y - originPosition.y) : orientationOffset.y;
                 return {
-                    x: offsetX,
-                    y: offsetY
+                    x: exists(props.offsetX) ? props.offsetX : x,
+                    y: exists(props.offsetY) ? props.offsetY : y
                 };
             }, getHorizontalOffset = function(props, calculatedValues) {
                 var scale = calculatedValues.scale, origin = calculatedValues.origin, orientation = calculatedValues.orientation, orientations = calculatedValues.orientations, domain = calculatedValues.domain, padding = calculatedValues.padding, top = padding.top, bottom = padding.bottom, left = padding.left, right = padding.right, calculatedOrientation = {
@@ -9370,10 +9366,10 @@
                 }, originPosition = {
                     x: origin.x === domain.x[0] || origin.x === domain.x[1] ? 0 : scale.x(origin.x),
                     y: origin.y === domain.y[0] || origin.y === domain.y[1] ? 0 : scale.y(origin.y)
-                }, y = originPosition.x ? Math.abs(originOffset.x - originPosition.x) : orientationOffset.x, x = originPosition.y ? Math.abs(originOffset.y - originPosition.y) : orientationOffset.y, offsetX = exists(props.offsetX) ? props.offsetX : x, offsetY = exists(props.offsetY) ? props.offsetY : y;
+                }, y = originPosition.x ? Math.abs(originOffset.x - originPosition.x) : orientationOffset.x, x = originPosition.y ? Math.abs(originOffset.y - originPosition.y) : orientationOffset.y;
                 return {
-                    x: offsetX,
-                    y: offsetY
+                    x: exists(props.offsetX) ? props.offsetX : x,
+                    y: exists(props.offsetY) ? props.offsetY : y
                 };
             }, getTransform = function(props, calculatedValues, offset) {
                 var orientation = calculatedValues.orientation, axis = calculatedValues.axis, axisValue = victory_core__WEBPACK_IMPORTED_MODULE_2__.Axis.getAxisValue(props, axis);
@@ -9466,8 +9462,7 @@
                     ticks: ticks
                 };
             }, getBaseProps = function(props, fallbackProps) {
-                props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Axis.modifyProps(props, fallbackProps);
-                var calculatedValues = getCalculatedValues(props), axis = calculatedValues.axis, style = calculatedValues.style, orientation = calculatedValues.orientation, isVertical = calculatedValues.isVertical, scale = calculatedValues.scale, ticks = calculatedValues.ticks, tickFormat = calculatedValues.tickFormat, anchors = calculatedValues.anchors, domain = calculatedValues.domain, stringTicks = calculatedValues.stringTicks, name = calculatedValues.name, otherAxis = "x" === axis ? "y" : "x", _props = props, width = _props.width, height = _props.height, standalone = _props.standalone, theme = _props.theme, polar = _props.polar, padding = _props.padding, horizontal = _props.horizontal, _getLayoutProps = getLayoutProps(props, calculatedValues), globalTransform = _getLayoutProps.globalTransform, gridOffset = _getLayoutProps.gridOffset, gridEdge = _getLayoutProps.gridEdge, sharedProps = {
+                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Axis.modifyProps(props, fallbackProps)), axis = calculatedValues.axis, style = calculatedValues.style, orientation = calculatedValues.orientation, isVertical = calculatedValues.isVertical, scale = calculatedValues.scale, ticks = calculatedValues.ticks, tickFormat = calculatedValues.tickFormat, anchors = calculatedValues.anchors, domain = calculatedValues.domain, stringTicks = calculatedValues.stringTicks, name = calculatedValues.name, otherAxis = "x" === axis ? "y" : "x", _props = props, width = _props.width, height = _props.height, standalone = _props.standalone, theme = _props.theme, polar = _props.polar, padding = _props.padding, horizontal = _props.horizontal, _getLayoutProps = getLayoutProps(props, calculatedValues), globalTransform = _getLayoutProps.globalTransform, gridOffset = _getLayoutProps.gridOffset, gridEdge = _getLayoutProps.gridEdge, sharedProps = {
                     scale: _defineProperty({}, axis, scale[axis]),
                     polar: polar,
                     horizontal: horizontal,
@@ -9593,10 +9588,10 @@
                                 return "transparent" !== style.stroke && "none" !== style.stroke && 0 !== style.strokeWidth || !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default()(void 0 === _componentProps$event ? {} : _componentProps$event);
                             };
                             return this.dataKeys.map(function(key, index) {
-                                var tickProps = _this.getComponentProps(tickComponent, "ticks", index), BaseTickComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(tickComponent, tickProps), TickComponent = shouldRender(BaseTickComponent.props) ? BaseTickComponent : void 0, gridProps = _this.getComponentProps(gridComponent, "grid", index), BaseGridComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(gridComponent, gridProps), GridComponent = shouldRender(BaseGridComponent.props) ? BaseGridComponent : void 0, tickLabelProps = _this.getComponentProps(tickLabelComponent, "tickLabels", index), TickLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(tickLabelComponent, tickLabelProps), children = [
+                                var tickProps = _this.getComponentProps(tickComponent, "ticks", index), BaseTickComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(tickComponent, tickProps), TickComponent = shouldRender(BaseTickComponent.props) ? BaseTickComponent : void 0, gridProps = _this.getComponentProps(gridComponent, "grid", index), BaseGridComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(gridComponent, gridProps), GridComponent = shouldRender(BaseGridComponent.props) ? BaseGridComponent : void 0, tickLabelProps = _this.getComponentProps(tickLabelComponent, "tickLabels", index), children = [
                                     GridComponent,
                                     TickComponent,
-                                    TickLabel
+                                    react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(tickLabelComponent, tickLabelProps)
                                 ].filter(Boolean);
                                 return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {
                                     key: "".concat(name, "-tick-group-").concat(key)
@@ -10123,9 +10118,9 @@
                     x: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
                 }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props) : void 0, data = victory_core__WEBPACK_IMPORTED_MODULE_2__.Data.getData(props);
-                return data = victory_core__WEBPACK_IMPORTED_MODULE_2__.Data.formatDataFromDomain(data, domain, 0), {
+                return {
                     style: style,
-                    data: data,
+                    data: data = victory_core__WEBPACK_IMPORTED_MODULE_2__.Data.formatDataFromDomain(data, domain, 0),
                     scale: scale,
                     domain: domain,
                     origin: origin
@@ -10243,12 +10238,12 @@
                 var data = props.data, scale = props.scale, x = void 0 === data[index]._x1 ? "_x" : "_x1";
                 return scale.x(data[index][x]);
             }, getAngularWidth = function(props, width) {
-                var scale = props.scale, range = scale.y.range(), r = Math.max.apply(Math, _toConsumableArray(range));
-                return width / (2 * Math.PI * r) * Math.abs(scale.x.range()[1] - scale.x.range()[0]);
+                var scale = props.scale, range = scale.y.range();
+                return width / (2 * Math.PI * Math.max.apply(Math, _toConsumableArray(range))) * Math.abs(scale.x.range()[1] - scale.x.range()[0]);
             }, transformAngle = function(angle) {
                 return -1 * angle + Math.PI / 2;
             }, getCustomBarPath = function(props, width) {
-                var getPath = props.getPath, propsWithCalculatedValues = function(target) {
+                return (0, props.getPath)(function(target) {
                     for(var i = 1; i < arguments.length; i++){
                         var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
@@ -10264,8 +10259,7 @@
                         });
                     }
                     return target;
-                }({}, props, getPosition(props, width));
-                return getPath(propsWithCalculatedValues);
+                }({}, props, getPosition(props, width)));
             }, getStartAngle = function(props, index) {
                 var data = props.data, scale = props.scale, alignment = props.alignment, currentAngle = getAngle(props, index), angularRange = Math.abs(scale.x.range()[1] - scale.x.range()[0]), previousAngle = 0 === index ? getAngle(props, data.length - 1) - 2 * Math.PI : getAngle(props, index - 1);
                 return 0 === index && angularRange < 2 * Math.PI ? scale.x.range()[0] : "start" === alignment || "end" === alignment ? "start" === alignment ? previousAngle : currentAngle : (currentAngle + previousAngle) / 2;
@@ -10414,16 +10408,16 @@
                     bottomPoints[2]
                 ]);
             }, getVerticalBarPath = function(props, width, cornerRadius) {
-                var position = getPosition(props, width), sign = position.y0 > position.y1 ? 1 : -1, points = getVerticalBarPoints(position, sign, cornerRadius);
-                return mapPointsToPath(points, cornerRadius, sign > 0 ? "0 0 1" : "0 0 0");
+                var position = getPosition(props, width), sign = position.y0 > position.y1 ? 1 : -1;
+                return mapPointsToPath(getVerticalBarPoints(position, sign, cornerRadius), cornerRadius, sign > 0 ? "0 0 1" : "0 0 0");
             }, getHorizontalBarPath = function(props, width, cornerRadius) {
                 var position = getPosition(props, width), sign = position.x0 < position.x1 ? 1 : -1, cr = {
                     topRight: sign > 0 ? cornerRadius.topLeft : cornerRadius.bottomLeft,
                     bottomRight: sign > 0 ? cornerRadius.topRight : cornerRadius.bottomRight,
                     bottomLeft: sign > 0 ? cornerRadius.bottomRight : cornerRadius.topRight,
                     topLeft: sign > 0 ? cornerRadius.bottomLeft : cornerRadius.topLeft
-                }, points = getHorizontalBarPoints(position, sign, cr);
-                return mapPointsToPath(points, cr, "0 0 1");
+                };
+                return mapPointsToPath(getHorizontalBarPoints(position, sign, cr), cr, "0 0 1");
             }, getVerticalPolarBarPath = function(props, cornerRadius) {
                 var start, end, datum = props.datum, scale = props.scale, index = props.index, alignment = props.alignment, style = props.style, r1 = scale.y(datum._y0 || 0), r2 = scale.y(void 0 !== datum._y1 ? datum._y1 : datum._y), currentAngle = scale.x(void 0 !== datum._x1 ? datum._x1 : datum._x);
                 if (style.width) {
@@ -10798,13 +10792,13 @@
                             configurable: !0,
                             writable: !0
                         }) : obj._y = d, obj));
-                    }), sortedData = lodash_orderBy__WEBPACK_IMPORTED_MODULE_7___default()(dataArray, "_y");
-                    return getSummaryStatistics(sortedData);
+                    });
+                    return getSummaryStatistics(lodash_orderBy__WEBPACK_IMPORTED_MODULE_7___default()(dataArray, "_y"));
                 });
                 var groupedData = lodash_groupBy__WEBPACK_IMPORTED_MODULE_3___default()(data, "_x");
                 return lodash_keys__WEBPACK_IMPORTED_MODULE_2___default()(groupedData).map(function(key) {
-                    var datum = groupedData[key], sortedData = lodash_orderBy__WEBPACK_IMPORTED_MODULE_7___default()(datum, "_y");
-                    return getSummaryStatistics(sortedData);
+                    var datum = groupedData[key];
+                    return getSummaryStatistics(lodash_orderBy__WEBPACK_IMPORTED_MODULE_7___default()(datum, "_y"));
                 });
             }, getData = function(props) {
                 var accessorTypes = TYPES.concat("x", "y"), formattedData = victory_core__WEBPACK_IMPORTED_MODULE_8__.Data.formatData(props.data, props, accessorTypes);
@@ -10866,15 +10860,15 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_8__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_8__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, defaultStyles = theme && theme.boxplot && theme.boxplot.style ? theme.boxplot.style : {}, style = getStyles(props, defaultStyles), defaultOrientation = props.horizontal ? "top" : "right", labelOrientation = props.labelOrientation || defaultOrientation, boxWidth = props.boxWidth || 1;
+                }, style = getStyles(props, theme && theme.boxplot && theme.boxplot.style ? theme.boxplot.style : {}), defaultOrientation = props.horizontal ? "top" : "right";
                 return {
                     data: data,
                     horizontal: horizontal,
                     domain: domain,
                     scale: scale,
                     style: style,
-                    labelOrientation: labelOrientation,
-                    boxWidth: boxWidth
+                    labelOrientation: props.labelOrientation || defaultOrientation,
+                    boxWidth: props.boxWidth || 1
                 };
             }, getWhiskerProps = function(props, type) {
                 var horizontal = props.horizontal, style = props.style, boxWidth = props.boxWidth, whiskerWidth = props.whiskerWidth, datum = props.datum, scale = props.scale, index = props.index, _props$positions = props.positions, min = _props$positions.min, max = _props$positions.max, q1 = _props$positions.q1, q3 = _props$positions.q3, x = _props$positions.x, y = _props$positions.y, boxValue = "min" === type ? q1 : q3, whiskerValue = "min" === type ? min : max, width = "number" == typeof whiskerWidth ? whiskerWidth : boxWidth;
@@ -10979,7 +10973,7 @@
                 }, isUnderMinX = underMin(minDomainX), isUnderMinY = underMin(minDomainY), isOverMaxX = overMax(maxDomainX), isOverMaxY = overMax(maxDomainY);
                 return (isUnderMinX(_x) || isOverMaxX(_x)) && (xOutOfBounds = !0), (isUnderMinY(_min) && isUnderMinY(_max) || isOverMaxY(_min) && isOverMaxY(_max)) && (yOutOfBounds = !0), yOutOfBounds || xOutOfBounds;
             }, getBaseProps = function(props, fallbackProps) {
-                var modifiedProps = victory_core__WEBPACK_IMPORTED_MODULE_8__.Helpers.modifyProps(props, fallbackProps, "boxplot"), _props = props = lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, modifiedProps, getCalculatedValues(modifiedProps)), groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, theme = _props.theme, events = _props.events, sharedEvents = _props.sharedEvents, scale = _props.scale, horizontal = _props.horizontal, data = _props.data, style = _props.style, domain = _props.domain, name = _props.name, initialChildProps = {
+                var modifiedProps = victory_core__WEBPACK_IMPORTED_MODULE_8__.Helpers.modifyProps(props, fallbackProps, "boxplot"), _props = props = lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, modifiedProps, getCalculatedValues(modifiedProps)), groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, theme = _props.theme, events = _props.events, sharedEvents = _props.sharedEvents, scale = _props.scale, horizontal = _props.horizontal, data = _props.data, style = _props.style, domain = _props.domain, initialChildProps = {
                     parent: {
                         domain: domain,
                         scale: scale,
@@ -10987,7 +10981,7 @@
                         height: height,
                         data: data,
                         standalone: standalone,
-                        name: name,
+                        name: _props.name,
                         theme: theme,
                         style: style.parent || {},
                         padding: padding,
@@ -12138,10 +12132,10 @@
                 return value >= victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(bound) && value <= victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(bound);
             }, getBrushDomain = function(brushDomain, fullDomain) {
                 if (brushDomain) {
-                    var brushMin = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(brushDomain), brushMax = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(brushDomain), domainMin = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(fullDomain), domainMax = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(fullDomain), min = withinBound(brushMin, fullDomain) ? brushMin : brushMin < domainMin ? domainMin : domainMax - SMALL_NUMBER, max = withinBound(brushMax, fullDomain) ? brushMax : brushMax > domainMax ? domainMax : domainMin + SMALL_NUMBER;
+                    var brushMin = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(brushDomain), brushMax = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(brushDomain), domainMin = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(fullDomain), domainMax = victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(fullDomain);
                     return [
-                        min,
-                        max
+                        withinBound(brushMin, fullDomain) ? brushMin : brushMin < domainMin ? domainMin : domainMax - SMALL_NUMBER,
+                        withinBound(brushMax, fullDomain) ? brushMax : brushMax > domainMax ? domainMax : domainMin + SMALL_NUMBER
                     ];
                 }
                 return fullDomain;
@@ -12798,14 +12792,14 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_5__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_5__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.getPolarOrigin(props) : void 0, defaultOrientation = props.horizontal ? "top" : "right", labelOrientation = props.labelOrientation || defaultOrientation;
+                }, origin = polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.getPolarOrigin(props) : void 0, defaultOrientation = props.horizontal ? "top" : "right";
                 return {
                     domain: domain,
                     data: data,
                     scale: scale,
                     style: style,
                     origin: origin,
-                    labelOrientation: labelOrientation
+                    labelOrientation: props.labelOrientation || defaultOrientation
                 };
             }, getDataStyles = function(datum, style, props) {
                 style = style || {};
@@ -12898,8 +12892,7 @@
                     "style"
                 ]));
             }, getBaseProps = function(props, fallbackProps) {
-                props = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.modifyProps(props, fallbackProps, "candlestick");
-                var calculatedValues = getCalculatedValues(props), data = calculatedValues.data, style = calculatedValues.style, scale = calculatedValues.scale, domain = calculatedValues.domain, origin = calculatedValues.origin, labelOrientation = calculatedValues.labelOrientation, _props = props, groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, name = _props.name, candleWidth = _props.candleWidth, candleRatio = _props.candleRatio, theme = _props.theme, polar = _props.polar, wickStrokeWidth = _props.wickStrokeWidth, labels = _props.labels, events = _props.events, sharedEvents = _props.sharedEvents, horizontal = _props.horizontal, initialChildProps = {
+                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.modifyProps(props, fallbackProps, "candlestick")), data = calculatedValues.data, style = calculatedValues.style, scale = calculatedValues.scale, domain = calculatedValues.domain, origin = calculatedValues.origin, labelOrientation = calculatedValues.labelOrientation, _props = props, groupComponent = _props.groupComponent, width = _props.width, height = _props.height, padding = _props.padding, standalone = _props.standalone, name = _props.name, candleWidth = _props.candleWidth, candleRatio = _props.candleRatio, theme = _props.theme, polar = _props.polar, wickStrokeWidth = _props.wickStrokeWidth, labels = _props.labels, events = _props.events, sharedEvents = _props.sharedEvents, horizontal = _props.horizontal, initialChildProps = {
                     parent: {
                         domain: domain,
                         scale: scale,
@@ -13447,7 +13440,7 @@
                 }, scale = {
                     x: baseScale.x.domain(domain.x).range(horizontal ? range.y : range.x),
                     y: baseScale.y.domain(domain.y).range(horizontal ? range.x : range.y)
-                }, origin = polar ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props) : victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getOrigin(domain), padding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props);
+                }, origin = polar ? victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props) : victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getOrigin(domain);
                 return {
                     categories: categories,
                     domain: domain,
@@ -13457,7 +13450,7 @@
                     stringMap: stringMap,
                     style: style,
                     origin: origin,
-                    padding: padding
+                    padding: victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props)
                 };
             }
             function getChildren(props, childComponents, calculatedProps) {
@@ -14046,7 +14039,7 @@
                 var k, x, y, keyData = function(val) {
                     return Array.isArray(val) ? lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(val, "key") : val;
                 }, i = {}, c = {};
-                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k]), y = keyData(b[k]), x !== y && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y)) : c[k] = b[k];
+                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k])) !== (y = keyData(b[k])) && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y) : c[k] = b[k];
                 return function(t) {
                     for(k in i)c[k] = i[k](t);
                     return c;
@@ -15987,10 +15980,10 @@
                     tabIndex: tabIndex
                 });
             }, Whisker = function(props) {
-                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, desc = _props.desc, tabIndex = _props.tabIndex, baseProps = _objectSpread({}, events, {
+                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, baseProps = _objectSpread({}, events, {
                     style: style,
-                    desc: desc,
-                    tabIndex: tabIndex,
+                    desc: _props.desc,
+                    tabIndex: _props.tabIndex,
                     className: className,
                     transform: transform,
                     clipPath: clipPath,
@@ -16896,14 +16889,14 @@
                             value: function(props) {
                                 var sharedEvents = props.sharedEvents, components = WrappedComponent.expectedComponents, componentEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getComponentEvents(props, components), getSharedEventState = sharedEvents && lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(sharedEvents.getEventState) ? sharedEvents.getEventState : function() {}, baseProps = this.getBaseProps(props, getSharedEventState), dataKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(baseProps).filter(function(key) {
                                     return "parent" !== key;
-                                }), hasEvents = props.events || props.sharedEvents || componentEvents, events = this.getAllEvents(props);
+                                }), hasEvents = props.events || props.sharedEvents || componentEvents;
                                 return {
                                     componentEvents: componentEvents,
                                     getSharedEventState: getSharedEventState,
                                     baseProps: baseProps,
                                     dataKeys: dataKeys,
                                     hasEvents: hasEvents,
-                                    events: events
+                                    events: this.getAllEvents(props)
                                 };
                             }
                         },
@@ -17052,7 +17045,7 @@
             }
             function getTickArray(props) {
                 var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
-                stringMap1 && (props1 = props, axis = getAxis(props1), stringMap = props1.stringMap && props1.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
+                stringMap1 && (axis = getAxis(props1 = props), stringMap = props1.stringMap && props1.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
                 }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
                     return stringMap1[tick];
@@ -17097,7 +17090,7 @@
                     }) : void 0;
                     if (tickValues) return downsampleTicks(tickValues, tickCount);
                     if (scale.ticks && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(scale.ticks)) {
-                        var scaleTicks = scale.ticks(tickCount || 5), scaledTickArray = Array.isArray(scaleTicks) && scaleTicks.length ? scaleTicks : scale.domain(), ticks = downsampleTicks(scaledTickArray, tickCount);
+                        var scaleTicks = scale.ticks(tickCount || 5), ticks = downsampleTicks(Array.isArray(scaleTicks) && scaleTicks.length ? scaleTicks : scale.domain(), tickCount);
                         if (filterZero) {
                             var filteredTicks = lodash_includes__WEBPACK_IMPORTED_MODULE_1___default()(ticks, 0) ? lodash_without__WEBPACK_IMPORTED_MODULE_0___default()(ticks, 0) : ticks;
                             return filteredTicks.length ? filteredTicks : ticks;
@@ -17137,13 +17130,13 @@
                         if (!stringMap) return stringTicks(props) ? function(x, index) {
                             return tickValues[index];
                         } : fallbackFormat;
-                        var invertedStringMap = stringMap && lodash_invert__WEBPACK_IMPORTED_MODULE_6___default()(stringMap), dataNames = lodash_orderBy__WEBPACK_IMPORTED_MODULE_3___default()(lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), function(n) {
+                        var invertedStringMap = stringMap && lodash_invert__WEBPACK_IMPORTED_MODULE_6___default()(stringMap), dataTicks = [
+                            ""
+                        ].concat(_toConsumableArray(lodash_orderBy__WEBPACK_IMPORTED_MODULE_3___default()(lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), function(n) {
                             return n;
                         }).map(function(tick) {
                             return invertedStringMap[tick];
-                        }), dataTicks = [
-                            ""
-                        ].concat(_toConsumableArray(dataNames), [
+                        })), [
                             ""
                         ]);
                         return function(x) {
@@ -17173,8 +17166,8 @@
                     if (props.axisValue) {
                         var scaleAxis = "x" === axis ? "y" : "x", scale = lodash_isObject__WEBPACK_IMPORTED_MODULE_7___default()(props.scale) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(props.scale[scaleAxis]) ? props.scale[scaleAxis] : void 0;
                         if (scale) {
-                            var stringMap = lodash_isObject__WEBPACK_IMPORTED_MODULE_7___default()(props.stringMap) && props.stringMap["x" === axis ? "y" : "x"], axisValue = stringMap && "string" == typeof props.axisValue ? stringMap[props.axisValue] : props.axisValue;
-                            return scale(axisValue);
+                            var stringMap = lodash_isObject__WEBPACK_IMPORTED_MODULE_7___default()(props.stringMap) && props.stringMap["x" === axis ? "y" : "x"];
+                            return scale(stringMap && "string" == typeof props.axisValue ? stringMap[props.axisValue] : props.axisValue);
                         }
                     }
                 },
@@ -17592,17 +17585,7 @@
                     y: -1 !== expectedKeys.indexOf("y") ? createStringMap(props, "y") : void 0,
                     y0: -1 !== expectedKeys.indexOf("y0") ? createStringMap(props, "y") : void 0
                 });
-                var data1 = preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
-                    datum = parseDatum(datum);
-                    var fallbackValues = {
-                        x: index,
-                        y: datum
-                    }, processedValues = expectedKeys.reduce(function(memo, type) {
-                        var processedValue = accessor[type](datum), value = void 0 !== processedValue ? processedValue : fallbackValues[type];
-                        return void 0 !== value && ("string" == typeof value && stringMap[type] ? (memo["".concat(type, "Name")] = value, memo["_".concat(type)] = stringMap[type][value]) : memo["_".concat(type)] = value), memo;
-                    }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
-                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
-                }, []), cleanedData = function(dataset, props) {
+                var cleanedData = function(dataset, props) {
                     var smallNumber = 1 / Number.MAX_SAFE_INTEGER, scaleType = {
                         x: _scale__WEBPACK_IMPORTED_MODULE_16__.default.getScaleType(props, "x"),
                         y: _scale__WEBPACK_IMPORTED_MODULE_16__.default.getScaleType(props, "y")
@@ -17621,7 +17604,16 @@
                     return dataset.map(function(datum) {
                         return rules(datum, "x") && rules(datum, "y") && rules(datum, "y0") ? datum : sanitize(datum);
                     });
-                }(sortData(data1, props.sortKey, props.sortOrder), props);
+                }(sortData(preformattedData ? dataset : dataset.reduce(function(dataArr, datum, index) {
+                    var fallbackValues = {
+                        x: index,
+                        y: datum = parseDatum(datum)
+                    }, processedValues = expectedKeys.reduce(function(memo, type) {
+                        var processedValue = accessor[type](datum), value = void 0 !== processedValue ? processedValue : fallbackValues[type];
+                        return void 0 !== value && ("string" == typeof value && stringMap[type] ? (memo["".concat(type, "Name")] = value, memo["_".concat(type)] = stringMap[type][value]) : memo["_".concat(type)] = value), memo;
+                    }, {}), formattedDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_12___default()({}, processedValues, datum);
+                    return lodash_isEmpty__WEBPACK_IMPORTED_MODULE_4___default()(formattedDatum) || dataArr.push(formattedDatum), dataArr;
+                }, []), props.sortKey, props.sortOrder), props);
                 return hasEventKeyAccessor = !!props.eventKey, key = props.eventKey, eventKeyAccessor = lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(key) ? key : null == key ? function() {} : lodash_property__WEBPACK_IMPORTED_MODULE_6___default()(key), cleanedData.map(function(datum, index) {
                     if (void 0 !== datum.eventKey || !hasEventKeyAccessor) return datum;
                     var eventKey = eventKeyAccessor(datum, index);
@@ -17657,10 +17649,10 @@
             }
             function getStringsFromData(props, axis) {
                 if (!(Array.isArray(props.data) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(props.data))) return [];
-                var key = void 0 === props[axis] ? axis : props[axis], accessor = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(key), data = props.data.reduce(function(memo, d) {
+                var key = void 0 === props[axis] ? axis : props[axis], accessor = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(key);
+                return sortData(props.data.reduce(function(memo, d) {
                     return memo.push(parseDatum(d)), memo;
-                }, []);
-                return sortData(data, props.sortKey, props.sortOrder).reduce(function(dataArr, datum) {
+                }, []), props.sortKey, props.sortOrder).reduce(function(dataArr, datum) {
                     return datum = parseDatum(datum), dataArr.push(accessor(datum)), dataArr;
                 }, []).filter(function(datum) {
                     return "string" == typeof datum;
@@ -17886,7 +17878,7 @@
             }
             function formatDomain(domain, props, axis) {
                 return function(domain, props, axis) {
-                    var dom, almostZero, domainTwo;
+                    var dom, almostZero, domainOne;
                     return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
                         0 === domain[0] ? almostZero : domain[0],
                         0 === domain[1] ? almostZero : domain[1]
@@ -17943,7 +17935,7 @@
                         return memo[string] = index + 1, memo;
                     }, {}), categoryValues = stringMap ? categories.map(function(value) {
                         return stringMap[value];
-                    }) : categories, min = void 0 !== minDomain ? minDomain : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(categoryValues), max = void 0 !== maxDomain ? maxDomain : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(categoryValues), categoryDomain = getDomainFromMinMax(min, max);
+                    }) : categories, categoryDomain = getDomainFromMinMax(void 0 !== minDomain ? minDomain : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(categoryValues), void 0 !== maxDomain ? maxDomain : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(categoryValues));
                     return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle ? 0 : _props$startAngle) - (void 0 === _props$endAngle ? 360 : _props$endAngle)) ? getSymmetricDomain(categoryDomain, categoryValues) : categoryDomain;
                 }
             }
@@ -17951,7 +17943,7 @@
                 dataset = dataset || _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props);
                 var dataset1, axis1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
-                var min = void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), max = void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"), domain = getDomainFromMinMax(min, max);
+                var domain = getDomainFromMinMax(void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"));
                 return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle2 ? 0 : _props$startAngle2) - (void 0 === _props$endAngle2 ? 360 : _props$endAngle2)) ? getSymmetricDomain(domain, (dataset1 = dataset, lodash_flatten__WEBPACK_IMPORTED_MODULE_5___default()(dataset1).map(function(datum) {
                     return datum["_".concat(axis)] && void 0 !== datum["_".concat(axis)][1] ? datum["_".concat(axis)][1] : datum["_".concat(axis)];
                 }))) : domain;
@@ -18005,8 +17997,8 @@
                         return datum._y0 < min ? datum._y0 : min;
                     }, 1 / 0), ensureZero = function(domain) {
                         if ("x" === axis) return domain;
-                        var defaultMin = y0Min !== 1 / 0 ? y0Min : 0, maxDomainProp = getMaxFromProps(props, axis), minDomainProp = getMinFromProps(props, axis), max = void 0 !== maxDomainProp ? maxDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain, defaultMin), min = void 0 !== minDomainProp ? minDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain, defaultMin);
-                        return getDomainFromMinMax(min, max);
+                        var defaultMin = y0Min !== 1 / 0 ? y0Min : 0, maxDomainProp = getMaxFromProps(props, axis), minDomainProp = getMinFromProps(props, axis), max = void 0 !== maxDomainProp ? maxDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain, defaultMin);
+                        return getDomainFromMinMax(void 0 !== minDomainProp ? minDomainProp : _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain, defaultMin), max);
                     };
                     return createDomainFunction(function() {
                         return getDomainFromData(props, axis, dataset);
@@ -18375,20 +18367,16 @@
                     };
                 },
                 getRange: function(props, axis) {
-                    var props1, axis1, padding;
-                    return props.range && props.range[axis] ? props.range[axis] : props.range && Array.isArray(props.range) ? props.range : props.polar ? function(props, axis) {
-                        if ("x" === axis) {
-                            var startAngle = degreesToRadians(props.startAngle || 0), endAngle = degreesToRadians(props.endAngle || 360);
-                            return [
-                                startAngle,
-                                endAngle
-                            ];
-                        }
-                        return [
-                            props.innerRadius || 0,
-                            getRadius(props)
-                        ];
-                    }(props, axis) : (padding = getPadding(props), "x" !== axis ? [
+                    var props1, axis1, padding, props2;
+                    if (props.range && props.range[axis]) return props.range[axis];
+                    if (props.range && Array.isArray(props.range)) return props.range;
+                    return props.polar ? (props2 = props, "x" === axis ? [
+                        degreesToRadians(props2.startAngle || 0),
+                        degreesToRadians(props2.endAngle || 360)
+                    ] : [
+                        props2.innerRadius || 0,
+                        getRadius(props2)
+                    ]) : (padding = getPadding(props), "x" !== axis ? [
                         props.height - padding.bottom,
                         padding.top
                     ] : [
@@ -18735,12 +18723,10 @@
             __webpack_exports__.default = {
                 getBaseScale: function(props, axis) {
                     var scale = getScaleFromProps(props, axis);
-                    if (scale) return "string" == typeof scale ? getScaleFromName(scale) : scale;
-                    var defaultScale = function(props, axis) {
+                    return scale ? "string" == typeof scale ? getScaleFromName(scale) : scale : d3_scale__WEBPACK_IMPORTED_MODULE_5__[toNewName(function(props, axis) {
                         var domain;
                         if (props.domain && props.domain[axis] ? domain = props.domain[axis] : props.domain && Array.isArray(props.domain) && (domain = props.domain), domain) return _collection__WEBPACK_IMPORTED_MODULE_4__.default.containsDates(domain) ? "time" : "linear";
-                    }(props, axis) || getScaleTypeFromData(props, axis);
-                    return d3_scale__WEBPACK_IMPORTED_MODULE_5__[toNewName(defaultScale)]();
+                    }(props, axis) || getScaleTypeFromData(props, axis))]();
                 },
                 getDefaultScale: function() {
                     return d3_scale__WEBPACK_IMPORTED_MODULE_5__.scaleLinear();
@@ -22432,10 +22418,10 @@
                 var text1, style1, angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
                     var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
                     return total + lineStyle.lineHeight * height;
-                }, 0), width = _approximateTextWidthInternal(text, style), widthWithRotate = angle ? _getSizeWithRotate(width, height, angle) : width, heightWithRotate = angle ? _getSizeWithRotate(height, width, angle) : height;
+                }, 0), width = _approximateTextWidthInternal(text, style);
                 return {
-                    width: widthWithRotate,
-                    height: heightWithRotate * coefficients.heightOverlapCoef
+                    width: angle ? _getSizeWithRotate(width, height, angle) : width,
+                    height: (angle ? _getSizeWithRotate(height, width, angle) : height) * coefficients.heightOverlapCoef
                 };
             };
             __webpack_exports__.default = {
@@ -22841,10 +22827,10 @@
                     }) : baseParentProps, iteratee = function(child) {
                         var sharedProps = lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({}, child.props, parentProps);
                         return _domain__WEBPACK_IMPORTED_MODULE_15__.default.isDomainComponent(child) ? child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getDomain) ? child.props && child.type.getDomain(sharedProps, axis) : _domain__WEBPACK_IMPORTED_MODULE_15__.default.getDomain(sharedProps, axis) : null;
-                    }, childDomains = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, iteratee, props), min = 0 === childDomains.length ? 0 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMinValue(childDomains), max = 0 === childDomains.length ? 1 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMaxValue(childDomains);
+                    }, childDomains = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, iteratee, props);
                     return [
-                        min,
-                        max
+                        0 === childDomains.length ? 0 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMinValue(childDomains),
+                        0 === childDomains.length ? 1 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMaxValue(childDomains)
                     ];
                 },
                 addBinsToParentPropsIfHistogram: function(_ref) {
@@ -22896,13 +22882,13 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, minDomain = props.minDomain, maxDomain = props.maxDomain, parentProps = {
+                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, parentProps = {
                         polar: polar,
                         startAngle: startAngle,
                         endAngle: endAngle,
                         categories: categories,
-                        minDomain: minDomain,
-                        maxDomain: maxDomain
+                        minDomain: props.minDomain,
+                        maxDomain: props.maxDomain
                     }, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
                     parentProps = this.addBinsToParentPropsIfHistogram({
                         children: children,
@@ -23713,13 +23699,13 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_3__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_3__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props) : void 0;
+                };
                 return {
                     domain: domain,
                     data: data,
                     scale: scale,
                     style: style,
-                    origin: origin
+                    origin: props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props) : void 0
                 };
             }, getLabelProps = function(dataProps, text, style) {
                 var x = dataProps.x, y = dataProps.y, index = dataProps.index, scale = dataProps.scale, errorY = dataProps.errorY, errorX = dataProps.errorX, horizontal = dataProps.horizontal, labelComponent = dataProps.labelComponent, theme = dataProps.theme, getError = function() {
@@ -23767,9 +23753,7 @@
                 return data.reduce(function(childProps, datum, index) {
                     var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, props, {
                         scale: scale
-                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
-                    datum = formatDataFromDomain(datum, domain);
-                    var errorX = getErrors(props, datum, "x"), errorY = getErrors(props, datum, "y"), dataProps = {
+                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, errorX = getErrors(props, datum = formatDataFromDomain(datum, domain), "x"), errorY = getErrors(props, datum, "y"), dataProps = {
                         borderWidth: borderWidth,
                         data: data,
                         datum: datum,
@@ -24045,7 +24029,7 @@
                 }, scale = {
                     x: baseScale.x.domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: baseScale.y.domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = polar ? props.origin : victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props), padding = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPadding(props);
+                };
                 return {
                     datasets: datasets,
                     categories: categories,
@@ -24057,8 +24041,8 @@
                     colorScale: colorScale,
                     color: color,
                     offset: offset,
-                    origin: origin,
-                    padding: padding
+                    origin: polar ? props.origin : victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props),
+                    padding: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPadding(props)
                 };
             }
             function getChildren(props, childComponents, calculatedProps) {
@@ -24078,11 +24062,11 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, props3, calculatedProps2, index2, groupLength1, totalWidth, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, groupLength = "stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length, props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), (index - (groupLength - 1) / 2) * (props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, groupLength1 = "stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length, totalWidth = function(props, axis, calculatedProps) {
+                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, props3, calculatedProps2, index2, groupLength1, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
-                        var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis], domainExtent = Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain)), rangeExtent = Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range));
-                        return domainExtent / rangeExtent * props.offset;
-                    }(props3, "x", calculatedProps2), (index - (groupLength1 - 1) / 2) * totalWidth), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                        var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis];
+                        return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
+                    }(props3, "x", calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
                     }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -24431,15 +24415,13 @@
                     x: getDomain(props, "x"),
                     y: getDomain(props, "y")
                 }, data = getData(props);
-                data = victory_core__WEBPACK_IMPORTED_MODULE_2__.Data.formatDataFromDomain(data, domain, 0);
-                var scale = {
-                    x: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
-                    y: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                };
                 return {
                     style: style,
-                    data: data,
-                    scale: scale,
+                    data: data = victory_core__WEBPACK_IMPORTED_MODULE_2__.Data.formatDataFromDomain(data, domain, 0),
+                    scale: {
+                        x: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
+                        y: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
+                    },
                     domain: domain
                 };
             }, getBaseProps = function(props, fallbackProps) {
@@ -24766,7 +24748,7 @@
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
                     for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
-                    for(i = 0; i < n; ++i)x = values[i], x0 <= x && x <= x1 && bins[Object(_bisect_js__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
+                    for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect_js__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
                 return histogram.value = function(_) {
@@ -25338,16 +25320,16 @@
                 if (n = (values = Float64Array.from(Object(_number_js__WEBPACK_IMPORTED_MODULE_3__.numbers)(values, valueof))).length) {
                     if ((p = +p) <= 0 || n < 2) return Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values);
                     if (p >= 1) return Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(values);
-                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1)), value1 = Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1));
-                    return value0 + (value1 - value0) * (i - i0);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1));
+                    return value0 + (Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1)) - value0) * (i - i0);
                 }
             }
             function quantileSorted(values, p, valueof = _number_js__WEBPACK_IMPORTED_MODULE_3__.default) {
                 if (n = values.length) {
                     if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values), value1 = +valueof(values[i0 + 1], i0 + 1, values);
-                    return value0 + (value1 - value0) * (i - i0);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+                    return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             }
         },
@@ -25554,7 +25536,7 @@
                     title: lodash_defaults__WEBPACK_IMPORTED_MODULE_6___default()({}, style.title, styleObject.title)
                 };
             }, getCalculatedValues = function(props) {
-                var orientation = props.orientation, theme = props.theme, defaultStyles = theme && theme.legend && theme.legend.style ? theme.legend.style : {}, style = getStyles(props, defaultStyles), colorScale = getColorScale(props), borderPadding = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.getPadding({
+                var orientation = props.orientation, theme = props.theme, style = getStyles(props, theme && theme.legend && theme.legend.style ? theme.legend.style : {}), colorScale = getColorScale(props), borderPadding = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.getPadding({
                     padding: props.borderPadding
                 });
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, props, {
@@ -26127,12 +26109,12 @@
                 }, scale = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "x").domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, origin = props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props) : void 0, defaultStyles = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getDefaultStyles(props, "line"), style = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getStyles(props.style, defaultStyles);
+                }, origin = props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getPolarOrigin(props) : void 0, defaultStyles = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getDefaultStyles(props, "line");
                 return {
                     domain: domain,
                     data: data,
                     scale: scale,
-                    style: style,
+                    style: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getStyles(props.style, defaultStyles),
                     origin: origin
                 };
             }, getBaseProps = function(props, fallbackProps) {
@@ -26435,7 +26417,7 @@
                 }, style.labels), evaluatedStyle = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(labelStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     labelRadius: labelRadius,
                     text: text
-                }, dataProps)), labelArc = getLabelArc(defaultRadius, labelRadius, evaluatedStyle), position = getLabelPosition(labelArc, slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, "perpendicular" === (labelPlacement = labelPlacement2) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
+                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, "perpendicular" === (labelPlacement = labelPlacement2) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
                     width: width,
                     height: height,
                     index: index,
@@ -26457,8 +26439,7 @@
                     "style"
                 ]));
             }, getBaseProps = function(props, fallbackProps) {
-                props = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.modifyProps(props, fallbackProps, "pie");
-                var calculatedValues = getCalculatedValues(props), slices = calculatedValues.slices, style = calculatedValues.style, data = calculatedValues.data, origin = calculatedValues.origin, defaultRadius = calculatedValues.defaultRadius, labels = calculatedValues.labels, events = calculatedValues.events, sharedEvents = calculatedValues.sharedEvents, height = calculatedValues.height, width = calculatedValues.width, standalone = calculatedValues.standalone, name = calculatedValues.name, innerRadius = calculatedValues.innerRadius, cornerRadius = calculatedValues.cornerRadius, padAngle = calculatedValues.padAngle, radius = props.radius || defaultRadius, initialChildProps = {
+                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.modifyProps(props, fallbackProps, "pie")), slices = calculatedValues.slices, style = calculatedValues.style, data = calculatedValues.data, origin = calculatedValues.origin, defaultRadius = calculatedValues.defaultRadius, labels = calculatedValues.labels, events = calculatedValues.events, sharedEvents = calculatedValues.sharedEvents, height = calculatedValues.height, width = calculatedValues.width, standalone = calculatedValues.standalone, name = calculatedValues.name, innerRadius = calculatedValues.innerRadius, cornerRadius = calculatedValues.cornerRadius, padAngle = calculatedValues.padAngle, radius = props.radius || defaultRadius, initialChildProps = {
                     parent: {
                         standalone: standalone,
                         height: height,
@@ -27008,13 +26989,10 @@
             }, getRange = function(props, axis) {
                 if (props.range && props.range[axis]) return props.range[axis];
                 if (props.range && Array.isArray(props.range)) return props.range;
-                if ("angular" === getAxisType(props)) {
-                    var startAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.startAngle), endAngle = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.endAngle);
-                    return [
-                        startAngle,
-                        endAngle
-                    ];
-                }
+                if ("angular" === getAxisType(props)) return [
+                    victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.startAngle),
+                    victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.degreesToRadians(props.endAngle)
+                ];
                 var radius = getRadius(props);
                 return [
                     props.innerRadius || 0,
@@ -27160,10 +27138,9 @@
                     endAngle: endAngle
                 };
             }, getCalculatedValues = function(props) {
-                props = lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
+                var defaultStyles = getStyleObject(props = lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
                     polar: !0
-                }, props);
-                var defaultStyles = getStyleObject(props), style = getStyles(props, defaultStyles), padding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props), axis = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getAxis(props), axisType = getAxisType(props), stringTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.stringTicks(props) ? props.tickValues : void 0, domain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getDomain(props, axis), range = getRange(props, axis), scale = getScale(props), initialTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTicks(props, scale), ticks = "angular" === axisType ? filterTicks(initialTicks, scale) : initialTicks, tickFormat = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTickFormat(props, scale), radius = getRadius(props), origin = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props);
+                }, props)), style = getStyles(props, defaultStyles), padding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props), axis = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getAxis(props), axisType = getAxisType(props), stringTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.stringTicks(props) ? props.tickValues : void 0, domain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getDomain(props, axis), range = getRange(props, axis), scale = getScale(props), initialTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTicks(props, scale), ticks = "angular" === axisType ? filterTicks(initialTicks, scale) : initialTicks, tickFormat = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTickFormat(props, scale);
                 return {
                     axis: axis,
                     style: style,
@@ -27175,12 +27152,11 @@
                     tickFormat: tickFormat,
                     domain: domain,
                     range: range,
-                    radius: radius,
-                    origin: origin
+                    radius: getRadius(props),
+                    origin: victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPolarOrigin(props)
                 };
             }, getBaseProps = function(props, fallbackProps) {
-                props = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.modifyProps(props, fallbackProps);
-                var calculatedValues = getCalculatedValues(props), style = calculatedValues.style, scale = calculatedValues.scale, ticks = calculatedValues.ticks, domain = calculatedValues.domain, _props = props, width = _props.width, height = _props.height, standalone = _props.standalone, theme = _props.theme, name = _props.name, axisProps = getAxisProps(props, calculatedValues), axisLabelProps = getAxisLabelProps(props, calculatedValues), initialChildProps = {
+                var calculatedValues = getCalculatedValues(props = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.modifyProps(props, fallbackProps)), style = calculatedValues.style, scale = calculatedValues.scale, ticks = calculatedValues.ticks, domain = calculatedValues.domain, _props = props, width = _props.width, height = _props.height, standalone = _props.standalone, theme = _props.theme, name = _props.name, axisProps = getAxisProps(props, calculatedValues), axisLabelProps = getAxisLabelProps(props, calculatedValues), initialChildProps = {
                     parent: {
                         style: style.parent,
                         ticks: ticks,
@@ -27297,9 +27273,9 @@
                                     key: "".concat(name, "-tick-").concat(key)
                                 }, _this.getComponentProps(tickLabelComponent, "tickLabels", index));
                                 return react__WEBPACK_IMPORTED_MODULE_2___default.a.cloneElement(tickLabelComponent, tickLabelProps);
-                            }), axis = this.renderAxisLine(props), axisLabel = this.renderLabel(props), children = [
-                                axis,
-                                axisLabel
+                            }), children = [
+                                this.renderAxisLine(props),
+                                this.renderLabel(props)
                             ].concat(_toConsumableArray(tickComponents), _toConsumableArray(gridComponents), _toConsumableArray(tickLabelComponents));
                             return this.renderGroup(props, children);
                         }
@@ -27615,9 +27591,9 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, dataProps = {
-                        x: x,
-                        y: y,
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), dataProps = {
+                        x: _Helpers$scalePoint.x,
+                        y: _Helpers$scalePoint.y,
                         datum: datum,
                         data: data,
                         index: index,
@@ -27893,12 +27869,12 @@
                     evt.preventDefault();
                     var arr, activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
-                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], y1 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], x2 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1], y2 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1], mutatedProps = {
+                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], y1 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], mutatedProps = {
                         x1: x1,
                         y1: y1,
                         select: !0,
-                        x2: x2,
-                        y2: y2,
+                        x2: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1],
+                        y2: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1],
                         parentSVG: parentSVG
                     };
                     selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelectionCleared) && targetProps.onSelectionCleared(lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps));
@@ -28406,8 +28382,8 @@
                                         name: name
                                     }, child.props)));
                                 }, []);
-                            }, childNames = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(baseProps), childComponents = react__WEBPACK_IMPORTED_MODULE_7___default.a.Children.toArray(props.children);
-                            return alterChildren(childComponents, childNames);
+                            }, childNames = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(baseProps);
+                            return alterChildren(react__WEBPACK_IMPORTED_MODULE_7___default.a.Children.toArray(props.children), childNames);
                         }
                     },
                     {
@@ -28622,13 +28598,13 @@
                 }, scale = {
                     x: baseScale.x.domain(domain.x).range(props.horizontal ? range.y : range.x),
                     y: baseScale.y.domain(domain.y).range(props.horizontal ? range.x : range.y)
-                }, _props = props, colorScale = _props.colorScale, horizontal = _props.horizontal;
+                }, _props = props, colorScale = _props.colorScale;
                 return {
                     datasets: datasets2,
                     categories: categories,
                     range: range,
                     domain: domain,
-                    horizontal: horizontal,
+                    horizontal: _props.horizontal,
                     scale: scale,
                     style: style,
                     colorScale: colorScale,
@@ -29115,14 +29091,14 @@
                             var style = props.style, text = props.text, flyoutStyle = props.flyoutStyle, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, labelSize = victory_core__WEBPACK_IMPORTED_MODULE_7__.TextSize.approximateTextSize(text, style), flyoutDimensions = {
                                 height: flyoutHeight,
                                 width: flyoutWidth
-                            }, flyoutCenter = this.getFlyoutCenter(props, flyoutDimensions), transform = this.getTransform(props);
+                            }, flyoutCenter = this.getFlyoutCenter(props, flyoutDimensions);
                             return {
                                 style: style,
                                 flyoutStyle: flyoutStyle,
                                 labelSize: labelSize,
                                 flyoutDimensions: flyoutDimensions,
                                 flyoutCenter: flyoutCenter,
-                                transform: transform
+                                transform: this.getTransform(props)
                             };
                         }
                     },
@@ -29869,9 +29845,7 @@
             var VoronoiHelpers = {
                 withinBounds: function(props, point) {
                     var width = props.width, height = props.height, polar = props.polar, origin = props.origin, scale = props.scale, padding = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.getPadding(props, "voronoiPadding"), x = point.x, y = point.y;
-                    if (!polar) return x >= padding.left && x <= width - padding.right && y >= padding.top && y <= height - padding.bottom;
-                    var distanceSquared = Math.pow(x - origin.x, 2) + Math.pow(y - origin.y, 2), radius = Math.max.apply(Math, _toConsumableArray(scale.y.range()));
-                    return distanceSquared < Math.pow(radius, 2);
+                    return polar ? Math.pow(x - origin.x, 2) + Math.pow(y - origin.y, 2) < Math.pow(Math.max.apply(Math, _toConsumableArray(scale.y.range())), 2) : x >= padding.left && x <= width - padding.right && y >= padding.top && y <= height - padding.bottom;
                 },
                 getDatasets: function(props) {
                     var minDomain = {
@@ -30071,14 +30045,14 @@
                     y: victory_core__WEBPACK_IMPORTED_MODULE_4__.Scale.getBaseScale(props, "y").domain(domain.y).range(props.horizontal ? range.x : range.y)
                 }, data = victory_core__WEBPACK_IMPORTED_MODULE_4__.Data.getData(props);
                 data = victory_core__WEBPACK_IMPORTED_MODULE_4__.Data.formatDataFromDomain(data, domain);
-                var polygons = getVoronoi(props, range, scale).polygons(data), origin = props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.getPolarOrigin(props) : void 0;
+                var polygons = getVoronoi(props, range, scale).polygons(data);
                 return {
                     domain: domain,
                     data: data,
                     scale: scale,
                     style: style,
                     polygons: polygons,
-                    origin: origin
+                    origin: props.polar ? props.origin || victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.getPolarOrigin(props) : void 0
                 };
             }, getBaseProps = function(props, fallbackProps) {
                 var modifiedProps = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.modifyProps(props, fallbackProps, "scatter"), _props = props = lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, modifiedProps, getCalculatedValues(modifiedProps)), data = _props.data, domain = _props.domain, events = _props.events, height = _props.height, origin = _props.origin, padding = _props.padding, polar = _props.polar, polygons = _props.polygons, scale = _props.scale, sharedEvents = _props.sharedEvents, standalone = _props.standalone, style = _props.style, theme = _props.theme, width = _props.width, labels = _props.labels, name = _props.name, initialChildProps = {
@@ -30098,9 +30072,9 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, dataProps = {
-                        x: x,
-                        y: y,
+                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), dataProps = {
+                        x: _Helpers$scalePoint.x,
+                        y: _Helpers$scalePoint.y,
                         datum: datum,
                         data: data,
                         index: index,
@@ -30649,7 +30623,7 @@
                 scale: function(currentDomain, evt, props, axis) {
                     var _currentDomain = _slicedToArray(currentDomain, 2), from = _currentDomain[0], range = Math.abs(_currentDomain[1] - from), minimumZoom = props.minimumZoom && props.minimumZoom[axis], factor = this.getScaleFactor(evt);
                     if (minimumZoom && range <= minimumZoom && factor < 1) return currentDomain;
-                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), minDomain = this.getMinimumDomain(factor * from + percent * (factor * range), props, axis), _getScaledDomain = this.getScaledDomain(currentDomain, factor, percent), _getScaledDomain2 = _slicedToArray(_getScaledDomain, 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
+                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), minDomain = this.getMinimumDomain(factor * from + percent * (factor * range), props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
                         newMin > fromBound && newMin < toBound ? newMin : fromBound,
                         newMax < toBound && newMax > fromBound ? newMax : toBound
                     ], domain = Math.abs(minDomain[1] - minDomain[0]) > Math.abs(newDomain[1] - newDomain[0]) ? minDomain : newDomain;
@@ -30669,7 +30643,7 @@
                     ];
                 },
                 getMinimumDomain: function(point, props, axis) {
-                    var minimumZoom = props.minimumZoom, originalDomain = this.getDomain(props)[axis], _originalDomain = _slicedToArray(originalDomain, 2), from = _originalDomain[0], to = _originalDomain[1], extent = minimumZoom && minimumZoom[axis] || Math.abs(from - to) / 1000, minExtent = point - extent / 2, maxExtent = point + extent / 2;
+                    var minimumZoom = props.minimumZoom, _originalDomain = _slicedToArray(this.getDomain(props)[axis], 2), from = _originalDomain[0], to = _originalDomain[1], extent = minimumZoom && minimumZoom[axis] || Math.abs(from - to) / 1000, minExtent = point - extent / 2, maxExtent = point + extent / 2;
                     return [
                         minExtent > from && minExtent < to ? minExtent : from,
                         maxExtent < to && maxExtent > from ? maxExtent : +from + extent / 2
@@ -30679,8 +30653,7 @@
                     return evt.deltaY > 0;
                 },
                 getScaleFactor: function(evt) {
-                    var sign = this.zoommingOut(evt) ? 1 : -1, delta = Math.min(Math.abs(evt.deltaY / 300), 0.5);
-                    return Math.abs(1 + sign * delta);
+                    return Math.abs(1 + (this.zoommingOut(evt) ? 1 : -1) * Math.min(Math.abs(evt.deltaY / 300), 0.5));
                 },
                 getScalePercent: function(evt, props, axis) {
                     var originalDomain = this.getDomain(props), _originalDomain$axis = _slicedToArray(originalDomain[axis], 2), from = _originalDomain$axis[0], to = _originalDomain$axis[1];
@@ -30713,7 +30686,7 @@
                     }) : newDomain;
                 },
                 getDomainScale: function(domain, scale, axis, horizontal) {
-                    var axisDomain = Array.isArray(domain) ? domain : domain[axis], _axisDomain = _slicedToArray(axisDomain, 2), from = _axisDomain[0], to = _axisDomain[1], range = horizontal ? scale["x" === axis ? "y" : "x"].range() : scale[axis].range();
+                    var _axisDomain = _slicedToArray(Array.isArray(domain) ? domain : domain[axis], 2), from = _axisDomain[0], to = _axisDomain[1], range = horizontal ? scale["x" === axis ? "y" : "x"].range() : scale[axis].range();
                     return Math.abs(range[0] - range[1]) / (to - from);
                 },
                 handleAnimation: function(ctx) {

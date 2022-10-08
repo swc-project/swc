@@ -1527,10 +1527,10 @@
                         var ref = mut.addedNodes[i$1], previousSibling = ref.previousSibling, nextSibling = ref.nextSibling;
                         (!previousSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, previousSibling)) && (prev = previousSibling), (!nextSibling || 0 > Array.prototype.indexOf.call(mut.addedNodes, nextSibling)) && (next = nextSibling);
                     }
-                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length, to = desc.localPosFromDOM(mut.target, toOffset, 1);
+                    var fromOffset = prev && prev.parentNode == mut.target ? domIndex(prev) + 1 : 0, from = desc.localPosFromDOM(mut.target, fromOffset, -1), toOffset = next && next.parentNode == mut.target ? domIndex(next) : mut.target.childNodes.length;
                     return {
                         from: from,
-                        to: to
+                        to: desc.localPosFromDOM(mut.target, toOffset, 1)
                     };
                 }
                 return "attributes" == mut.type ? {
@@ -1995,7 +1995,7 @@
                         } else mustRebuild = !0;
                     }
                     if (mustRebuild) {
-                        var decorations = function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
+                        var built = buildTree(function(children, oldChildren, decorations, mapping, offset, oldOffset, options) {
                             for(var i = 0; i < children.length; i += 3)-1 == children[i + 1] && function gather(set, oldOffset) {
                                 for(var i = 0; i < set.local.length; i++){
                                     var mapped = set.local[i].map(mapping, offset, oldOffset);
@@ -2004,7 +2004,7 @@
                                 for(var i$1 = 0; i$1 < set.children.length; i$1 += 3)gather(set.children[i$1 + 2], set.children[i$1] + oldOffset + 1);
                             }(children[i + 2], oldChildren[i] + oldOffset + 1);
                             return decorations;
-                        }(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), built = buildTree(decorations, node, 0, options);
+                        }(children, oldChildren, newLocal || [], mapping, offset, oldOffset, options), node, 0, options);
                         newLocal = built.local;
                         for(var i$2 = 0; i$2 < children.length; i$2 += 3)children[i$2 + 1] < 0 && (children.splice(i$2, 3), i$2 -= 3);
                         for(var i$3 = 0, j = 0; i$3 < built.children.length; i$3 += 3){

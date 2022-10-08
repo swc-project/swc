@@ -4,7 +4,10 @@ use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
 
 use super::{ScopeDataLike, Storage, VarDataLike};
-use crate::analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo};
+use crate::{
+    alias::Access,
+    analyzer::{ctx::Ctx, ProgramData, ScopeData, ScopeKind, VarUsageInfo},
+};
 
 impl Storage for ProgramData {
     type ScopeData = ScopeData;
@@ -275,7 +278,7 @@ impl ProgramData {
             }
 
             for other in e.infects.clone() {
-                self.report(other, ctx, true, dejavu)
+                self.report(other.0, ctx, true, dejavu)
             }
         } else {
             if ctx.in_call_arg && ctx.is_exact_arg {
@@ -328,7 +331,7 @@ impl VarDataLike for VarUsageInfo {
         self.reassigned_with_assignment = true;
     }
 
-    fn add_infects_to(&mut self, other: Id) {
+    fn add_infects_to(&mut self, other: Access) {
         self.infects.push(other);
     }
 
