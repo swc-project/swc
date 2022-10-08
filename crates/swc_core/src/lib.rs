@@ -93,6 +93,12 @@ pub mod ecma {
         pub use swc_ecma_minifier::*;
     }
 
+    #[cfg(feature = "ecma_preset_env")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_preset_env")))]
+    pub mod preset_env {
+        pub use swc_ecma_preset_env::*;
+    }
+
     // visit* interfaces
     #[cfg(feature = "__visit")]
     #[cfg_attr(docsrs, doc(cfg(feature = "__visit")))]

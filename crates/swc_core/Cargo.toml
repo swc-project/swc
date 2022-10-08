@@ -142,6 +142,9 @@ ecma_codegen = ["__ecma", "swc_ecma_codegen"]
 # Enable swc_ecma_minifier
 ecma_minifier = ["__ecma", "swc_ecma_minifier"]
 
+# Enable swc_ecma_preset_env
+ecma_preset_env = ["__ecma", "swc_ecma_preset_env"]
+
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
 css_codegen    = ["__css", "swc_css_codegen"]
@@ -334,6 +337,7 @@ swc_ecma_codegen                 = { optional = true, version = "0.127.9", path 
 swc_ecma_loader                  = { optional = true, version = "0.41.5", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.159.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "0.122.6", path = "../swc_ecma_parser" }
+swc_ecma_preset_env              = { optional = true, version = "0.174.1", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "0.33.6", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.111.15", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_module       = { optional = true, version = "0.153.1", path = "../swc_ecma_transforms_module" }
