@@ -26,6 +26,9 @@
 - **(es/minifier)** Use `usage_count` in sequential inliner (#6071) ([ac150c7](https://github.com/swc-project/swc/commit/ac150c7ced9d9d9112d377437bdca7616de43a00))
 
 
+- **(es/minifier)** Distinguish calls in alias analyzer (#6080) ([9ce3df0](https://github.com/swc-project/swc/commit/9ce3df091f2e5ce3d59274cfaa2aa4be99ab5b33))
+
+
 - **(es/testing)** Add an option to test sourcemap (#6079) ([e6b1dd4](https://github.com/swc-project/swc/commit/e6b1dd47315775f68694305905a958c9b66b5a8d))
 
 
