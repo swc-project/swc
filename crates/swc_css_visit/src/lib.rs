@@ -716,6 +716,7 @@ define!({
     pub enum MediaInParens {
         MediaCondition(MediaCondition),
         Feature(Box<MediaFeature>),
+        GeneralEnclosed(GeneralEnclosed),
     }
 
     pub enum MediaFeature {

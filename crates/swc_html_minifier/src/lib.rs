@@ -1779,6 +1779,10 @@ impl Minifier<'_> {
             return None;
         }
 
+        if !values[1].starts_with('(') {
+            return None;
+        }
+
         let media_condition =
             // It should be `MediaCondition`, but `<media-query> = <media-condition>` and other values is just invalid size
             match self.minify_css(values[1].to_string(), CssMinificationMode::MediaQueryList) {

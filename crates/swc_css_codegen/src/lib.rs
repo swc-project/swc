@@ -202,7 +202,13 @@ where
                         match media_query.condition.as_deref() {
                             Some(MediaConditionType::All(media_condition)) => !matches!(
                                 media_condition.conditions.get(0),
-                                Some(MediaConditionAllType::MediaInParens(_))
+                                Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::MediaCondition(_)
+                                )) | Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::Feature(_)
+                                )) | Some(MediaConditionAllType::MediaInParens(
+                                    MediaInParens::GeneralEnclosed(GeneralEnclosed::SimpleBlock(_))
+                                ))
                             ),
                             _ => true,
                         }
@@ -219,21 +225,21 @@ where
                 emit!(self, n)
             }
             AtRulePrelude::SupportsPrelude(n) => {
-                match n.conditions.get(0) {
+                let need_space = !matches!(
+                    n.conditions.get(0),
                     Some(SupportsConditionType::SupportsInParens(
-                        SupportsInParens::SupportsCondition(_),
-                    ))
-                    | Some(SupportsConditionType::SupportsInParens(SupportsInParens::Feature(
-                        SupportsFeature::Declaration(_),
-                    )))
-                    | Some(SupportsConditionType::SupportsInParens(
+                        SupportsInParens::SupportsCondition(_)
+                    )) | Some(SupportsConditionType::SupportsInParens(
+                        SupportsInParens::Feature(SupportsFeature::Declaration(_))
+                    )) | Some(SupportsConditionType::SupportsInParens(
                         SupportsInParens::GeneralEnclosed(GeneralEnclosed::SimpleBlock(_)),
-                    )) => {
-                        formatting_space!(self);
-                    }
-                    _ => {
-                        space!(self);
-                    }
+                    ))
+                );
+
+                if need_space {
+                    space!(self);
+                } else {
+                    formatting_space!(self);
                 }
 
                 emit!(self, n);
@@ -538,6 +544,7 @@ where
                 write_raw!(self, hi_span_offset!(n.span, 1), ")");
             }
             MediaInParens::Feature(n) => emit!(self, n),
+            MediaInParens::GeneralEnclosed(n) => emit!(self, n),
         }
     }
 

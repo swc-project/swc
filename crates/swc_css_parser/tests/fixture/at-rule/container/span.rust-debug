@@ -80,7 +80,7 @@
   77 | |       }
   78 | |   }
   79 | |   
-  80 | |   @container (100 < width > 150px) {
+  80 | |   @container (100px > width > 150px) {
   81 | |       #inner {
   82 | |           background-color: skyblue;
   83 | |       }
@@ -4285,7 +4285,7 @@
 
   x Rule
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | ,-> @container (100 < width > 150px) {
+ 80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
  83 | |       }
@@ -4294,7 +4294,7 @@
 
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | ,-> @container (100 < width > 150px) {
+ 80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
  83 | |       }
@@ -4303,133 +4303,73 @@
 
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
+ 80 | @container (100px > width > 150px) {
     :  ^^^^^^^^^
     `----
 
   x Ident
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
+ 80 | @container (100px > width > 150px) {
     :  ^^^^^^^^^
     `----
 
-  x SimpleBlock
+  x Dimension
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :            ^^^^^^^^^^^^^^^^^^^^^
+ 80 | @container (100px > width > 150px) {
+    :             ^^^^^
     `----
 
-  x ComponentValue
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
+ 80 | @container (100px > width > 150px) {
+    :             ^^^^^
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+ 80 | @container (100px > width > 150px) {
     :             ^^^
     `----
 
-  x Number { value: 100.0, raw: Atom('100' type=inline), type_flag: Integer }
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :             ^^^
+ 80 | @container (100px > width > 150px) {
+    :                ^^
     `----
 
-  x ComponentValue
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                ^
+ 80 | @container (100px > width > 150px) {
+    :                     ^^^^^
     `----
 
-  x WhiteSpace { value: Atom(' ' type=inline) }
+  x Dimension
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                ^
+ 80 | @container (100px > width > 150px) {
+    :                             ^^^^^
     `----
 
-  x ComponentValue
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                 ^
+ 80 | @container (100px > width > 150px) {
+    :                             ^^^^^
     `----
 
-  x Delim { value: '<' }
+  x Number
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                 ^
+ 80 | @container (100px > width > 150px) {
+    :                             ^^^
     `----
 
-  x ComponentValue
+  x Ident
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                  ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                  ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                   ^^^^^
-    `----
-
-  x Ident { value: Atom('width' type=inline), raw: Atom('width' type=inline) }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                   ^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                        ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                        ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                         ^
-    `----
-
-  x Delim { value: '>' }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                         ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                          ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                          ^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                           ^^^^^
-    `----
-
-  x Dimension { value: 150.0, raw_value: Atom('150' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
-    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | @container (100 < width > 150px) {
-    :                           ^^^^^
+ 80 | @container (100px > width > 150px) {
+    :                                ^^
     `----
 
   x SimpleBlock
     ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
- 80 | ,-> @container (100 < width > 150px) {
+ 80 | ,-> @container (100px > width > 150px) {
  81 | |       #inner {
  82 | |           background-color: skyblue;
  83 | |       }
