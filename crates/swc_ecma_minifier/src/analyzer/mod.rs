@@ -225,7 +225,7 @@ impl ProgramData {
                         if !infects.is_empty() {
                             let old_len = ids.len();
                             match iid.1 {
-                                AccessKind::Referecne => {
+                                AccessKind::Reference => {
                                     // This is not a call, so effects from call can be skipped
                                     ids.extend(
                                         infects
