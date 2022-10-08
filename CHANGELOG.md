@@ -28,6 +28,9 @@
 
 - **(es/testing)** Add an option to test sourcemap (#6079) ([e6b1dd4](https://github.com/swc-project/swc/commit/e6b1dd47315775f68694305905a958c9b66b5a8d))
 
+
+- **(swc_core)** Expose `swc_ecma_preset_env` (#6083) ([4cde4f9](https://github.com/swc-project/swc/commit/4cde4f9acef8658b7c24be354fe66cb2c86bc556))
+
 ### Miscellaneous Tasks
 
 
