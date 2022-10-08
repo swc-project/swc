@@ -38,6 +38,7 @@ macro_rules! write_comments {
                         }
                     }
                     $e.wr.write_comment("*/")?;
+                    $e.wr.write_line()?;
 
                     $e.wr.write_space()?;
                 }
