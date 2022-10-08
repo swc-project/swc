@@ -62,6 +62,7 @@ impl Storage for ProgramData {
                     e.get_mut().declared |= var_info.declared;
                     e.get_mut().declared_count += var_info.declared_count;
                     e.get_mut().declared_as_fn_param |= var_info.declared_as_fn_param;
+                    e.get_mut().declared_as_fn_decl |= var_info.declared_as_fn_decl;
                     e.get_mut().declared_as_fn_expr |= var_info.declared_as_fn_expr;
 
                     // If a var is registered at a parent scope, it means that it's delcared before

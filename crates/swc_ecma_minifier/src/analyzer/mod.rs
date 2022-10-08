@@ -85,6 +85,7 @@ pub(crate) struct VarUsageInfo {
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
 
+    pub declared_as_fn_decl: bool,
     pub declared_as_fn_expr: bool,
 
     pub assign_count: u32,
@@ -225,7 +226,8 @@ impl ProgramData {
                         if !infects.is_empty() {
                             let old_len = ids.len();
 
-                            let can_skip_non_call = matches!(iid.1, AccessKind::Reference);
+                            let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
+                                || (info.declared_count == 1 && info.declared_as_fn_decl);
 
                             if can_skip_non_call {
                                 // This is not a call, so effects from call can be skipped
