@@ -1033,7 +1033,7 @@ where
                             Ok(v) => v,
                             Err(()) => return false,
                         };
-                        if deps.contains(&(e.to_id(), AccessKind::Referecne))
+                        if deps.contains(&(e.to_id(), AccessKind::Reference))
                             || deps.contains(&(e.to_id(), AccessKind::Call))
                         {
                             return false;
