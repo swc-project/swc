@@ -3853,7 +3853,7 @@
                         }), -1 !== index && eventData.splice(index, 1), debounceListener && element.removeEventListener(event[j], debounceListener);
                     }, j = 0; j < event.length; j++)_loop_1(j);
                 }, EventHandler.clearEvents = function(element) {
-                    eventData = EventHandler.addOrGetEventData(element), copyData = util_extend([], copyData, eventData);
+                    copyData = util_extend([], copyData, eventData = EventHandler.addOrGetEventData(element));
                     for(var eventData, copyData, i = 0; i < copyData.length; i++)element.removeEventListener(copyData[i].name, copyData[i].debounce), eventData.shift();
                 }, EventHandler.trigger = function(element, eventName, eventProp) {
                     for(var eventData = EventHandler.addOrGetEventData(element), _i = 0; _i < eventData.length; _i++){
@@ -4727,7 +4727,7 @@
                 }, Component.prototype.addOnPersist = function(options) {
                     for(var _this = this, persistObj = {}, _i = 0; _i < options.length; _i++){
                         var key = options[_i], objValue = void 0;
-                        objValue = util_getValue(key, this), util_isUndefined(objValue) || setValue(key, this.getActualProperties(objValue), persistObj);
+                        util_isUndefined(objValue = util_getValue(key, this)) || setValue(key, this.getActualProperties(objValue), persistObj);
                     }
                     return JSON.stringify(persistObj, function(key, value) {
                         return _this.getActualProperties(value);

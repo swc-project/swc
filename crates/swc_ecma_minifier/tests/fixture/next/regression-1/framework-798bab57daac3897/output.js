@@ -1991,11 +1991,6 @@
                 c ? (a = ag(a, b, Wf), d.__reactInternalMemoizedMergedChildContext = a, E(Vf), E(H), G(H, a)) : E(Vf), G(Vf, c);
             }
             var dg = null, eg = !1, fg = !1;
-            function gg(a) {
-                null === dg ? dg = [
-                    a
-                ] : dg.push(a);
-            }
             function ig() {
                 if (!fg && null !== dg) {
                     fg = !0;
@@ -4077,7 +4072,7 @@
                 return (null !== P || null !== vg) && 0 != (1 & a.mode) && 0 == (2 & W);
             }
             function Ck(a, b) {
-                var a1, b1, a2, c = a.callbackNode;
+                var a1, a2, b1, c = a.callbackNode;
                 !function(a, b) {
                     for(var c = a.suspendedLanes, d = a.pingedLanes, e = a.expirationTimes, f = a.pendingLanes; 0 < f;){
                         var g = 31 - nc(f), h = 1 << g, k = e[g];
@@ -4116,7 +4111,9 @@
                 var d = tc(a, a === P ? Y : 0);
                 if (0 === d) null !== c && ac(c), a.callbackNode = null, a.callbackPriority = 0;
                 else if (b = d & -d, a.callbackPriority !== b) {
-                    if (null != c && ac(c), 1 === b) 0 === a.tag ? (a2 = Dk.bind(null, a), eg = !0, gg(a2)) : gg(Dk.bind(null, a)), If(function() {
+                    if (null != c && ac(c), 1 === b) 0 === a.tag && (eg = !0), a1 = Dk.bind(null, a), null === dg ? dg = [
+                        a1
+                    ] : dg.push(a1), If(function() {
                         0 === W && ig();
                     }), c = null;
                     else {
@@ -4134,7 +4131,7 @@
                             case 536870912:
                                 c = ic;
                         }
-                        a1 = c, b1 = Fk.bind(null, a), c = $b(a1, b1);
+                        a2 = c, b1 = Fk.bind(null, a), c = $b(a2, b1);
                     }
                     a.callbackPriority = b, a.callbackNode = c;
                 }
@@ -5583,7 +5580,7 @@
                 var b = a._reactInternals;
                 if (void 0 === b) {
                     if ("function" == typeof a.render) throw Error(p(188));
-                    throw a = Object.keys(a).join(","), Error(p(268, a));
+                    throw Error(p(268, a = Object.keys(a).join(",")));
                 }
                 return a = null === (a = Yb(b)) ? null : a.stateNode;
             }, exports.flushSync = function(a) {

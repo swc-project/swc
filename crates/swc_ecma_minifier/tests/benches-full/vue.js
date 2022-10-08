@@ -765,7 +765,7 @@
             createTextVNode(children)
         ] : Array.isArray(children) ? function normalizeArrayChildren(children, nestedIndex) {
             var i, c, lastIndex, last, res = [];
-            for(i = 0; i < children.length; i++)!isUndef(c = children[i]) && 'boolean' != typeof c && (last = res[lastIndex = res.length - 1], Array.isArray(c) ? c.length > 0 && (c = normalizeArrayChildren(c, (nestedIndex || '') + "_" + i), isTextNode(c[0]) && isTextNode(last) && (res[lastIndex] = createTextVNode(last.text + c[0].text), c.shift()), res.push.apply(res, c)) : isPrimitive(c) ? isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c) : '' !== c && res.push(createTextVNode(c)) : isTextNode(c) && isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c.text) : (isTrue(children._isVList) && isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex) && (c.key = "__vlist" + nestedIndex + "_" + i + "__"), res.push(c)));
+            for(i = 0; i < children.length; i++)!isUndef(c = children[i]) && 'boolean' != typeof c && (last = res[lastIndex = res.length - 1], Array.isArray(c) ? c.length > 0 && (isTextNode((c = normalizeArrayChildren(c, (nestedIndex || '') + "_" + i))[0]) && isTextNode(last) && (res[lastIndex] = createTextVNode(last.text + c[0].text), c.shift()), res.push.apply(res, c)) : isPrimitive(c) ? isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c) : '' !== c && res.push(createTextVNode(c)) : isTextNode(c) && isTextNode(last) ? res[lastIndex] = createTextVNode(last.text + c.text) : (isTrue(children._isVList) && isDef(c.tag) && isUndef(c.key) && isDef(nestedIndex) && (c.key = "__vlist" + nestedIndex + "_" + i + "__"), res.push(c)));
             return res;
         }(children) : void 0;
     }
@@ -2226,54 +2226,7 @@
     function _enter(_, vnode) {
         !0 !== vnode.data.show && enter(vnode);
     }
-    var modules = [
-        {
-            create: updateAttrs,
-            update: updateAttrs
-        },
-        {
-            create: updateClass,
-            update: updateClass
-        },
-        {
-            create: updateDOMListeners,
-            update: updateDOMListeners
-        },
-        {
-            create: updateDOMProps,
-            update: updateDOMProps
-        },
-        {
-            create: updateStyle,
-            update: updateStyle
-        },
-        inBrowser ? {
-            create: _enter,
-            activate: _enter,
-            remove: function(vnode, rm) {
-                !0 !== vnode.data.show ? leave(vnode, rm) : rm();
-            }
-        } : {}
-    ].concat([
-        {
-            create: function(_, vnode) {
-                registerRef(vnode);
-            },
-            update: function(oldVnode, vnode) {
-                oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
-            },
-            destroy: function(vnode) {
-                registerRef(vnode, !0);
-            }
-        },
-        {
-            create: updateDirectives,
-            update: updateDirectives,
-            destroy: function(vnode) {
-                updateDirectives(vnode, emptyNode);
-            }
-        }
-    ]), patch = function(backend) {
+    var patch = function(backend) {
         var i, j, cbs = {}, modules = backend.modules, nodeOps = backend.nodeOps;
         for(i = 0; i < hooks.length; ++i)for(j = 0, cbs[hooks[i]] = []; j < modules.length; ++j)isDef(modules[j][hooks[i]]) && cbs[hooks[i]].push(modules[j][hooks[i]]);
         function removeNode(el) {
@@ -2434,12 +2387,12 @@
                                 var i, key, map = {};
                                 for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
                                 return map;
-                            }(oldCh, oldStartIdx, oldEndIdx)), idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : function(node, oldCh, start, end) {
+                            }(oldCh, oldStartIdx, oldEndIdx)), isUndef(idxInOld = isDef(newStartVnode.key) ? oldKeyToIdx[newStartVnode.key] : function(node, oldCh, start, end) {
                                 for(var i = start; i < end; i++){
                                     var c = oldCh[i];
                                     if (isDef(c) && sameVnode(node, c)) return i;
                                 }
-                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx), isUndef(idxInOld) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
+                            }(newStartVnode, oldCh, oldStartIdx, oldEndIdx)) ? createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx) : sameVnode(vnodeToMove = oldCh[idxInOld], newStartVnode) ? (patchVnode(vnodeToMove, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldCh[idxInOld] = void 0, canMove && nodeOps.insertBefore(parentElm, vnodeToMove.elm, oldStartVnode.elm)) : createElm(newStartVnode, insertedVnodeQueue, parentElm, oldStartVnode.elm, !1, newCh, newStartIdx), newStartVnode = newCh[++newStartIdx]);
                             oldStartIdx > oldEndIdx ? addVnodes(parentElm, isUndef(newCh[newEndIdx + 1]) ? null : newCh[newEndIdx + 1].elm, newCh, newStartIdx, newEndIdx, insertedVnodeQueue) : newStartIdx > newEndIdx && removeVnodes(oldCh, oldStartIdx, oldEndIdx);
                         }(elm, oldCh, ch, insertedVnodeQueue, removeOnly) : isDef(ch) ? (checkDuplicateKeys(ch), isDef(oldVnode.text) && nodeOps.setTextContent(elm, ''), addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue)) : isDef(oldCh) ? removeVnodes(oldCh, 0, oldCh.length - 1) : isDef(oldVnode.text) && nodeOps.setTextContent(elm, '') : oldVnode.text !== vnode.text && nodeOps.setTextContent(elm, vnode.text), isDef(data) && isDef(i = data.hook) && isDef(i = i.postpatch) && i(oldVnode, vnode);
                     }
@@ -2471,7 +2424,54 @@
         };
     }({
         nodeOps: nodeOps,
-        modules: modules
+        modules: [
+            {
+                create: updateAttrs,
+                update: updateAttrs
+            },
+            {
+                create: updateClass,
+                update: updateClass
+            },
+            {
+                create: updateDOMListeners,
+                update: updateDOMListeners
+            },
+            {
+                create: updateDOMProps,
+                update: updateDOMProps
+            },
+            {
+                create: updateStyle,
+                update: updateStyle
+            },
+            inBrowser ? {
+                create: _enter,
+                activate: _enter,
+                remove: function(vnode, rm) {
+                    !0 !== vnode.data.show ? leave(vnode, rm) : rm();
+                }
+            } : {}
+        ].concat([
+            {
+                create: function(_, vnode) {
+                    registerRef(vnode);
+                },
+                update: function(oldVnode, vnode) {
+                    oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
+                },
+                destroy: function(vnode) {
+                    registerRef(vnode, !0);
+                }
+            },
+            {
+                create: updateDirectives,
+                update: updateDirectives,
+                destroy: function(vnode) {
+                    updateDirectives(vnode, emptyNode);
+                }
+            }
+        ])
     });
     isIE9 && document.addEventListener('selectionchange', function() {
         var el = document.activeElement;

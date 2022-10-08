@@ -13138,12 +13138,12 @@
         }, ECharts.prototype.convertFromPixel = function(finder, value) {
             return doConvertPixel(this, 'convertFromPixel', finder, value);
         }, ECharts.prototype.containPixel = function(finder, value) {
+            var result;
             if (this._disposed) {
                 disposedWarning(this.id);
                 return;
             }
-            var result, findResult = parseFinder(this._model, finder);
-            return each(findResult, function(models, key) {
+            return each(parseFinder(this._model, finder), function(models, key) {
                 key.indexOf('Models') >= 0 && each(models, function(model) {
                     var coordSys = model.coordinateSystem;
                     if (coordSys && coordSys.containPoint) result = result || !!coordSys.containPoint(value);
@@ -31185,7 +31185,7 @@
             if (!1 === clipPathOpt) el && el.getClipPath() && el.removeClipPath();
             else if (clipPathOpt) {
                 var clipPath = el.getClipPath();
-                clipPath && doesElNeedRecreate(clipPath, clipPathOpt) && (clipPath = null), !clipPath && (clipPath = createEl(clipPathOpt), assert(clipPath instanceof Path, 'Only any type of `path` can be used in `clipPath`, rather than ' + clipPath.type + '.'), el.setClipPath(clipPath)), updateElNormal(null, clipPath, null, dataIndex, clipPathOpt, null, null, seriesModel, isInit, !1);
+                clipPath && doesElNeedRecreate(clipPath, clipPathOpt) && (clipPath = null), !clipPath && (assert((clipPath = createEl(clipPathOpt)) instanceof Path, 'Only any type of `path` can be used in `clipPath`, rather than ' + clipPath.type + '.'), el.setClipPath(clipPath)), updateElNormal(null, clipPath, null, dataIndex, clipPathOpt, null, null, seriesModel, isInit, !1);
             }
         }(el, dataIndex, elOption, seriesModel, isInit);
         var pendingAllPropsFinal = updateElNormal(api, el, thisElIsMorphTo, dataIndex, elOption, elOption.style, attachedTxInfoTmp, seriesModel, isInit, !1);
