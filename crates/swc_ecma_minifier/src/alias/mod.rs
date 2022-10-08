@@ -128,7 +128,7 @@ impl InfectionCollector<'_> {
             if self.ctx.is_callee {
                 AccessKind::Call
             } else {
-                AccessKind::Referecne
+                AccessKind::Reference
             },
         ));
     }
