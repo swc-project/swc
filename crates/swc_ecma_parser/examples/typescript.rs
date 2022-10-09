@@ -12,11 +12,11 @@ fn main() {
 
     // Real usage
     // let fm = cm
-    //     .load_file(Path::new("test.js"))
-    //     .expect("failed to load test.js");
+    //     .load_file(Path::new("test.ts"))
+    //     .expect("failed to load test.ts");
 
     let fm = cm.new_source_file(
-        FileName::Custom("test.js".into()),
+        FileName::Custom("test.ts".into()),
         "interface Foo {}".into(),
     );
 
