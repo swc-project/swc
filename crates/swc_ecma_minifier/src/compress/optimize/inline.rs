@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
 
@@ -149,7 +149,7 @@ where
                         ..
                     }) => false,
 
-                    Expr::Ident(id) => self
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => self
                         .data
                         .vars
                         .get(&id.to_id())
@@ -302,7 +302,7 @@ where
                         }
                     }
 
-                    Expr::Ident(id) => {
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
                             if v_usage.reassigned() || !v_usage.declared {
                                 return;
@@ -640,11 +640,11 @@ where
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if let Expr::Ident(i) = e {
-            //
+            let id = i.to_id();
             if let Some(value) = self
                 .vars
                 .lits
-                .get(&i.to_id())
+                .get(&id)
                 .or_else(|| {
                     if self.ctx.is_callee {
                         self.vars.simple_functions.get(&i.to_id())

@@ -2,7 +2,7 @@
     'object' == typeof exports && 'undefined' != typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : (global1 = global1 || self).Vue = factory();
 }(this, function() {
     'use strict';
-    var Vue, Vue1, cid, Vue2, configDef, Vue3, dataDef, propsDef, Vue4, hookRE, Vue5, Vue6, baseCompile, _isServer, _Set, timerFunc, mark, measure, initProxy, target, len, str, chr, index$1, expressionPos, expressionEndPos, warn$1, target$1, svgContainer, emptyStyle, decoder, warn$2, delimiters, transforms, preTransforms, postTransforms, platformIsPreTag, platformMustUseProp, platformGetTagNamespace, maybeComponent, isStaticKey, isPlatformReservedTag, div, emptyObject = Object.freeze({});
+    var Vue, Vue1, cid, Vue2, configDef, Vue3, dataDef, propsDef, Vue4, hookRE, Vue5, Vue6, baseCompile, _isServer, _Set, timerFunc, mark, measure, initProxy, target, len, str, chr, index$1, expressionPos, expressionEndPos, target$1, svgContainer, emptyStyle, decoder, warn$2, delimiters, transforms, preTransforms, postTransforms, platformIsPreTag, platformMustUseProp, platformGetTagNamespace, maybeComponent, isStaticKey, isPlatformReservedTag, div, emptyObject = Object.freeze({});
     function isUndef(v) {
         return null == v;
     }
@@ -1749,7 +1749,7 @@
         if (el.tagName.indexOf('-') > -1) baseSetAttr(el, key, value);
         else if (isBooleanAttr(key)) isFalsyAttrValue(value) ? el.removeAttribute(key) : (value = 'allowfullscreen' === key && 'EMBED' === el.tagName ? 'true' : key, el.setAttribute(key, value));
         else if (isEnumeratedAttr(key)) {
-            var key1, value1;
+            var value1;
             el.setAttribute(key, isFalsyAttrValue(value1 = value) || 'false' === value1 ? 'false' : 'contenteditable' === key && isValidContentEditableValue(value1) ? value1 : 'true');
         } else isXlink(key) ? isFalsyAttrValue(value) ? el.removeAttributeNS(xlinkNS, getXlinkProp(key)) : el.setAttributeNS(xlinkNS, key, value) : baseSetAttr(el, key, value);
     }
@@ -2828,7 +2828,7 @@
                 }(name.replace(dirRE, ''))) && (name = name.replace(modifierRE, '')), bindRE.test(name)) name = name.replace(bindRE, ''), value = parseFilters(value), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), 0 === value.trim().length && warn$2("The value for a v-bind expression cannot be empty. Found in \"v-bind:" + name + "\""), modifiers && (modifiers.prop && !isDynamic && 'innerHtml' === (name = camelize(name)) && (name = 'innerHTML'), modifiers.camel && !isDynamic && (name = camelize(name)), modifiers.sync && (syncGen = genAssignmentCode(value, "$event"), isDynamic ? addHandler(el, "\"update:\"+(" + name + ")", syncGen, null, !1, warn$2, list[i], !0) : (addHandler(el, "update:" + camelize(name), syncGen, null, !1, warn$2, list[i]), hyphenate(name) !== camelize(name) && addHandler(el, "update:" + hyphenate(name), syncGen, null, !1, warn$2, list[i])))), modifiers && modifiers.prop || !el.component && platformMustUseProp(el.tag, el.attrsMap.type, name) ? addProp(el, name, value, list[i], isDynamic) : addAttr(el, name, value, list[i], isDynamic);
                 else if (onRE.test(name)) name = name.replace(onRE, ''), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), addHandler(el, name, value, modifiers, !1, warn$2, list[i], isDynamic);
                 else {
-                    var el1, name1, rawName1, value1, arg, isDynamicArg, modifiers1, range, argMatch = (name = name.replace(dirRE, '')).match(argRE), arg1 = argMatch && argMatch[1];
+                    var el1, name1, value1, arg, isDynamicArg, range, argMatch = (name = name.replace(dirRE, '')).match(argRE), arg1 = argMatch && argMatch[1];
                     isDynamic = !1, arg1 && (name = name.slice(0, -(arg1.length + 1)), dynamicArgRE.test(arg1) && (arg1 = arg1.slice(1, -1), isDynamic = !0)), el1 = el, name1 = name, value1 = value, arg = arg1, isDynamicArg = isDynamic, range = list[i], (el1.directives || (el1.directives = [])).push(rangeSetItem({
                         name: name1,
                         rawName: rawName,
@@ -3397,10 +3397,10 @@
                                     var tagName = match.tagName, unarySlash = match.unarySlash;
                                     expectHTML && ('p' === lastTag && isNonPhrasingTag(tagName) && parseEndTag(lastTag), canBeLeftOpenTag$$1(tagName) && lastTag === tagName && parseEndTag(tagName));
                                     for(var unary = isUnaryTag$$1(tagName) || !!unarySlash, l = match.attrs.length, attrs = Array(l), i = 0; i < l; i++){
-                                        var value, shouldDecodeNewlines, args = match.attrs[i], value1 = args[3] || args[4] || args[5] || '', shouldDecodeNewlines1 = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
+                                        var args = match.attrs[i], value = args[3] || args[4] || args[5] || '', shouldDecodeNewlines = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
                                         attrs[i] = {
                                             name: args[1],
-                                            value: value1.replace(shouldDecodeNewlines1 ? encodedAttrWithNewLines : encodedAttr, function(match) {
+                                            value: value.replace(shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr, function(match) {
                                                 return decodingMap[match];
                                             })
                                         }, options.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
@@ -3566,8 +3566,8 @@
             staticRenderFns: code.staticRenderFns
         };
     }, function(baseOptions) {
-        var compile, cache;
-        function compile1(template, options) {
+        var cache;
+        function compile(template, options) {
             var ast, warn, finalOptions = Object.create(baseOptions), errors = [], tips = [], warn1 = function(msg, range, tip) {
                 (tip ? tips : errors).push(msg);
             };
@@ -3608,7 +3608,7 @@
             }(ast, warn), compiled.errors = errors, compiled.tips = tips, compiled;
         }
         return {
-            compile: compile1,
+            compile: compile,
             compileToFunctions: (cache = Object.create(null), function(template, options, vm) {
                 var warn$$1 = (options = extend({}, options)).warn || warn;
                 delete options.warn;
@@ -3619,7 +3619,7 @@
                 }
                 var key = options.delimiters ? String(options.delimiters) + template : template;
                 if (cache[key]) return cache[key];
-                var compiled = compile1(template, options);
+                var compiled = compile(template, options);
                 compiled.errors && compiled.errors.length && (options.outputSourceRange ? compiled.errors.forEach(function(e) {
                     warn$$1("Error compiling template:\n\n" + e.msg + "\n\n" + function(source, start, end) {
                         void 0 === start && (start = 0), void 0 === end && (end = source.length);

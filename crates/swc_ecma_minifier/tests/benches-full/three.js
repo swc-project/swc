@@ -3378,7 +3378,7 @@
             },
             update: function(attribute, bufferType) {
                 if (attribute.isGLBufferAttribute) {
-                    var attribute1, bufferType1, array, usage, buffer, type, buffer1, attribute2, bufferType2, array1, updateRange, cached = buffers.get(attribute);
+                    var attribute1, array, usage, buffer, type, buffer1, attribute2, array1, updateRange, cached = buffers.get(attribute);
                     (!cached || cached.version < attribute.version) && buffers.set(attribute, {
                         buffer: attribute.buffer,
                         type: attribute.type,
@@ -5071,7 +5071,7 @@
         return 'highp' === parameters.precision ? precisionstring += '\n#define HIGH_PRECISION' : 'mediump' === parameters.precision ? precisionstring += '\n#define MEDIUM_PRECISION' : 'lowp' === parameters.precision && (precisionstring += '\n#define LOW_PRECISION'), precisionstring;
     }
     function WebGLProgram(renderer, cacheKey, parameters, bindingStates) {
-        var parameters1, shadowMapTypeDefine, parameters2, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
+        var shadowMapTypeDefine, components, prefixVertex, prefixFragment, cachedUniforms, cachedAttributes, gl = renderer.getContext(), defines = parameters.defines, vertexShader = parameters.vertexShader, fragmentShader = parameters.fragmentShader, shadowMapTypeDefine1 = (shadowMapTypeDefine = 'SHADOWMAP_TYPE_BASIC', 1 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF' : 2 === parameters.shadowMapType ? shadowMapTypeDefine = 'SHADOWMAP_TYPE_PCF_SOFT' : 3 === parameters.shadowMapType && (shadowMapTypeDefine = 'SHADOWMAP_TYPE_VSM'), shadowMapTypeDefine), envMapTypeDefine = function(parameters) {
             var envMapTypeDefine = 'ENVMAP_TYPE_CUBE';
             if (parameters.envMap) switch(parameters.envMapMode){
                 case 301:
@@ -6394,7 +6394,7 @@
             void 0 === textureProperties.__webglInit && (textureProperties.__webglInit = !0, texture.addEventListener('dispose', onTextureDispose), textureProperties.__webglTexture = _gl.createTexture(), info.memory.textures++);
         }
         function uploadTexture(textureProperties, texture, slot) {
-            var texture1, mipmap, textureType = 3553;
+            var mipmap, textureType = 3553;
             texture.isDataTexture2DArray && (textureType = 35866), texture.isDataTexture3D && (textureType = 32879), initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(textureType, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY), _gl.pixelStorei(37441, texture.premultiplyAlpha), _gl.pixelStorei(3317, texture.unpackAlignment);
             var needsPowerOfTwo = !isWebGL2 && (1001 !== texture.wrapS || 1001 !== texture.wrapT || 1003 !== texture.minFilter && 1006 !== texture.minFilter) && !1 === isPowerOfTwo(texture.image), image = resizeImage(texture.image, needsPowerOfTwo, !1, maxTextureSize), supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
             setTextureParameters(textureType, texture, supportsMips);
@@ -6678,7 +6678,7 @@
                 depthNear: cameraVR.near,
                 depthFar: cameraVR.far
             }), _currentDepthNear = cameraVR.near, _currentDepthFar = cameraVR.far);
-            var camera1, cameraL1, cameraR1, ipd, projL, projR, near, far, topFov, bottomFov, leftFov, rightFov, zOffset, xOffset, near2, far2, parent = camera.parent, cameras = cameraVR.cameras;
+            var ipd, projL, projR, near, far, topFov, bottomFov, leftFov, rightFov, zOffset, xOffset, near2, far2, parent = camera.parent, cameras = cameraVR.cameras;
             updateCamera(cameraVR, parent);
             for(var i = 0; i < cameras.length; i++)updateCamera(cameras[i], parent);
             camera.matrixWorld.copy(cameraVR.matrixWorld);
@@ -10843,11 +10843,11 @@
         return this.closed = json.closed, this.curveType = json.curveType, this.tension = json.tension, this;
     };
     function QuadraticBezier(t, p0, p1, p2) {
-        var t1, p, k, t2, t3;
+        var k;
         return (k = 1 - t) * k * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
     }
     function CubicBezier(t, p0, p1, p2, p3) {
-        var t1, p, k, t2, p4, k1, t3, t4;
+        var k, k1;
         return (k = 1 - t) * k * k * p0 + 3 * (k1 = 1 - t) * k1 * t * p1 + 3 * (1 - t) * t * t * p2 + t * t * t * p3;
     }
     function CubicBezierCurve(v0, v1, v2, v3) {

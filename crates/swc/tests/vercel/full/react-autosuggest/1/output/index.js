@@ -97,7 +97,7 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList, _Component);
-    var Derived, Constructor, protoProps, staticProps, _super = function() {
+    var protoProps, staticProps, _super = function() {
         var self, call, result, Super = _getPrototypeOf(ItemsList);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
