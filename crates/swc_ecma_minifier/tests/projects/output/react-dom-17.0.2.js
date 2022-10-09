@@ -5306,7 +5306,7 @@
         }, dispatcher.useEffect(function() {
             if (refs.getSnapshot = getSnapshot, refs.setSnapshot = setSnapshot, !objectIs(version, getVersion(source._source))) {
                 var maybeNewSnapshot = getSnapshot(source._source);
-                "function" == typeof maybeNewSnapshot && error("Mutable source should not return a function as the snapshot value. Functions may close over mutable values and cause tearing."), !objectIs(snapshot, maybeNewSnapshot) && (setSnapshot(maybeNewSnapshot), markRootMutableRead(root, requestUpdateLane(fiber))), !function(root, entangledLanes) {
+                "function" == typeof maybeNewSnapshot && error("Mutable source should not return a function as the snapshot value. Functions may close over mutable values and cause tearing."), objectIs(snapshot, maybeNewSnapshot) || (setSnapshot(maybeNewSnapshot), markRootMutableRead(root, requestUpdateLane(fiber))), function(root, entangledLanes) {
                     root.entangledLanes |= entangledLanes;
                     for(var entanglements = root.entanglements, lanes = entangledLanes; lanes > 0;){
                         var index = pickArbitraryLaneIndex(lanes), lane = 1 << index;
@@ -7661,11 +7661,7 @@
                 case 11:
                 case 15:
                     var renderingComponentName = workInProgress && getComponentName(workInProgress.type) || "Unknown";
-                    if (!didWarnAboutUpdateInRenderForAnotherComponent.has(renderingComponentName)) {
-                        didWarnAboutUpdateInRenderForAnotherComponent.add(renderingComponentName);
-                        var setStateComponentName = getComponentName(fiber.type) || "Unknown";
-                        error("Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render", setStateComponentName, renderingComponentName, renderingComponentName);
-                    }
+                    didWarnAboutUpdateInRenderForAnotherComponent.has(renderingComponentName) || (didWarnAboutUpdateInRenderForAnotherComponent.add(renderingComponentName), error("Cannot update a component (`%s`) while rendering a different component (`%s`). To locate the bad setState() call inside `%s`, follow the stack trace as described in https://reactjs.org/link/setstate-in-render", getComponentName(fiber.type) || "Unknown", renderingComponentName, renderingComponentName));
                     break;
                 case 1:
                     didWarnAboutUpdateInRender || (error("Cannot update during an existing state transition (such as within `render`). Render methods should be a pure function of props and state."), didWarnAboutUpdateInRender = !0);

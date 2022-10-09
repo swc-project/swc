@@ -378,7 +378,7 @@ function nu(n, t) {
     return D(n.getFullYear() % 100, t, 2);
 }
 function nc(n, t) {
-    return n = nn(n), D(n.getFullYear() % 100, t, 2);
+    return D((n = nn(n)).getFullYear() % 100, t, 2);
 }
 function ni(n, t) {
     return D(n.getFullYear() % 10000, t, 4);
@@ -442,7 +442,7 @@ function nM(n, t) {
     return D(n.getUTCFullYear() % 100, t, 2);
 }
 function np(n, t) {
-    return n = nx(n), D(n.getUTCFullYear() % 100, t, 2);
+    return D((n = nx(n)).getUTCFullYear() % 100, t, 2);
 }
 function nH(n, t) {
     return D(n.getUTCFullYear() % 10000, t, 4);

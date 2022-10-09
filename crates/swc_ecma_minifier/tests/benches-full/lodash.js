@@ -2421,7 +2421,7 @@
             });
         }, lodash.conforms = function(source) {
             var source1, props;
-            return source1 = baseClone(source, 1), props = keys(source1), function(object) {
+            return props = keys(source1 = baseClone(source, 1)), function(object) {
                 return baseConformsTo(object, source1, props);
             };
         }, lodash.constant = constant, lodash.countBy = countBy, lodash.create = function(prototype, properties) {

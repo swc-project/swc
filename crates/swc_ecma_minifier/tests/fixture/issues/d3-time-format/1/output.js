@@ -378,7 +378,7 @@ function formatYear(d, p) {
     return pad(d.getFullYear() % 100, p, 2);
 }
 function formatYearISO(d, p) {
-    return d = dISO(d), pad(d.getFullYear() % 100, p, 2);
+    return pad((d = dISO(d)).getFullYear() % 100, p, 2);
 }
 function formatFullYear(d, p) {
     return pad(d.getFullYear() % 10000, p, 4);
@@ -442,7 +442,7 @@ function formatUTCYear(d, p) {
     return pad(d.getUTCFullYear() % 100, p, 2);
 }
 function formatUTCYearISO(d, p) {
-    return d = UTCdISO(d), pad(d.getUTCFullYear() % 100, p, 2);
+    return pad((d = UTCdISO(d)).getUTCFullYear() % 100, p, 2);
 }
 function formatUTCFullYear(d, p) {
     return pad(d.getUTCFullYear() % 10000, p, 4);

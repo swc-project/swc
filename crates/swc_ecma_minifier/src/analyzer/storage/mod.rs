@@ -49,6 +49,8 @@ pub(crate) trait VarDataLike: Sized {
     /// See `declared_as_fn_param` of [crate::analyzer::VarUsageInfo].
     fn mark_declared_as_fn_param(&mut self);
 
+    fn mark_declared_as_fn_decl(&mut self);
+
     fn mark_declared_as_fn_expr(&mut self);
 
     fn mark_has_property_access(&mut self);

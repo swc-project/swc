@@ -85,6 +85,7 @@ pub(crate) struct VarUsageInfo {
     /// `true` if the enclosing function defines this variable as a parameter.
     pub declared_as_fn_param: bool,
 
+    pub declared_as_fn_decl: bool,
     pub declared_as_fn_expr: bool,
 
     pub assign_count: u32,
@@ -224,19 +225,22 @@ impl ProgramData {
                         let infects = &info.infects;
                         if !infects.is_empty() {
                             let old_len = ids.len();
-                            match iid.1 {
-                                AccessKind::Reference => {
-                                    // This is not a call, so effects from call can be skipped
-                                    ids.extend(
-                                        infects
-                                            .iter()
-                                            .filter(|(_, kind)| *kind != AccessKind::Call)
-                                            .cloned(),
-                                    );
-                                }
-                                AccessKind::Call => {
-                                    ids.extend_from_slice(infects.as_slice());
-                                }
+
+                            // This is not a call, so effects from call can be skipped
+                            let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
+                                || (info.declared_count == 1
+                                    && info.declared_as_fn_decl
+                                    && !info.reassigned());
+
+                            if can_skip_non_call {
+                                ids.extend(
+                                    infects
+                                        .iter()
+                                        .filter(|(_, kind)| *kind != AccessKind::Call)
+                                        .cloned(),
+                                );
+                            } else {
+                                ids.extend_from_slice(infects.as_slice());
                             }
                             let new_len = ids.len();
                             ranges.push(old_len..new_len);
@@ -390,11 +394,17 @@ where
         i: &Ident,
         has_init: bool,
         kind: Option<VarDeclKind>,
-        _is_fn_decl: bool,
+        is_fn_decl: bool,
     ) -> &mut S::VarData {
         self.scope.add_declared_symbol(i);
 
-        self.data.declare_decl(self.ctx, i, has_init, kind)
+        let v = self.data.declare_decl(self.ctx, i, has_init, kind);
+
+        if is_fn_decl {
+            v.mark_declared_as_fn_decl();
+        }
+
+        v
     }
 
     fn visit_in_cond<T: VisitWith<Self>>(&mut self, t: &T) {

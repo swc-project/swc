@@ -951,8 +951,8 @@
     }
     function createAdder(direction, name) {
         return function(val, period) {
-            var dur, tmp;
-            return null === period || isNaN(+period) || (deprecateSimple(name, 'moment().' + name + '(period, number) is deprecated. Please use moment().' + name + "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."), tmp = val, val = period, period = tmp), dur = createDuration(val, period), addSubtract(this, dur, direction), this;
+            var tmp;
+            return null === period || isNaN(+period) || (deprecateSimple(name, 'moment().' + name + '(period, number) is deprecated. Please use moment().' + name + "(number, period). See http://momentjs.com/guides/#/warnings/add-inverted-param/ for more info."), tmp = val, val = period, period = tmp), addSubtract(this, createDuration(val, period), direction), this;
         };
     }
     function addSubtract(mom, duration, isAdding, updateOffset) {
@@ -1771,7 +1771,7 @@
     }, proto$2.months = months, proto$2.years = years, proto$2.humanize = function(argWithSuffix, argThresholds) {
         if (!this.isValid()) return this.localeData().invalidDate();
         var posNegDuration, withoutSuffix, thresholds1, locale, duration, seconds, minutes, hours, days, months, weeks, years, a, locale1, output, withSuffix = !1, th = thresholds;
-        return 'object' == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), 'boolean' == typeof argWithSuffix && (withSuffix = argWithSuffix), 'object' == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale1 = this.localeData(), withoutSuffix = !withSuffix, thresholds1 = th, duration = createDuration(this).abs(), seconds = round(duration.as('s')), minutes = round(duration.as('m')), hours = round(duration.as('h')), days = round(duration.as('d')), months = round(duration.as('M')), weeks = round(duration.as('w')), years = round(duration.as('y')), a = seconds <= thresholds1.ss && [
+        return 'object' == typeof argWithSuffix && (argThresholds = argWithSuffix, argWithSuffix = !1), 'boolean' == typeof argWithSuffix && (withSuffix = argWithSuffix), 'object' == typeof argThresholds && (th = Object.assign({}, thresholds, argThresholds), null != argThresholds.s && null == argThresholds.ss && (th.ss = argThresholds.s - 1)), locale1 = this.localeData(), withoutSuffix = !withSuffix, thresholds1 = th, seconds = round((duration = createDuration(this).abs()).as('s')), minutes = round(duration.as('m')), hours = round(duration.as('h')), days = round(duration.as('d')), months = round(duration.as('M')), weeks = round(duration.as('w')), years = round(duration.as('y')), a = seconds <= thresholds1.ss && [
             's',
             seconds
         ] || seconds < thresholds1.s && [
