@@ -368,9 +368,10 @@ where
                     ident
                 );
                 self.changed = true;
+
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.to_id(), init.take().into());
+                    .insert(ident.take().to_id(), init.take().into());
             }
         }
     }
@@ -651,31 +652,8 @@ where
                         None
                     }
                 })
-                .and_then(|v| {
-                    // Prevent infinite recursion.
-                    let ids = idents_used_by(&**v);
-                    if ids.contains(&i.to_id()) {
-                        None
-                    } else {
-                        Some(v)
-                    }
-                })
                 .cloned()
             {
-                match &*value {
-                    Expr::Lit(Lit::Num(..)) => {
-                        if self.ctx.is_lhs_of_assign {
-                            return;
-                        }
-                    }
-                    Expr::Member(..) => {
-                        if self.ctx.executed_multiple_time {
-                            return;
-                        }
-                    }
-                    _ => {}
-                }
-
                 self.changed = true;
                 report_change!("inline: Replacing a variable `{}` with cheap expression", i);
 
