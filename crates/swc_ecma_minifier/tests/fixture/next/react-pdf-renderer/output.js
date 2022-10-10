@@ -27542,12 +27542,12 @@
                         else for(s = 0; s < o; s += 1)u.push(this.type.decode(e, r));
                         return u;
                     }, e.prototype.size = function(e, t) {
-                        var r, o, a;
+                        var r, o, a, u;
                         if (!e) return this.type.size(null, t) * i.resolveLength(this.length, null, t);
-                        for(r = 0, this.length instanceof n && (r += this.length.size(), t = {
+                        for(o = 0, this.length instanceof n && (o += this.length.size(), t = {
                             parent: t
-                        }), o = 0, a = e.length; o < a; o++)r += this.type.size(e[o], t);
-                        return r;
+                        }), a = 0, u = e.length; a < u; a++)r = e[a], o += this.type.size(r, t);
+                        return o;
                     }, e.prototype.encode = function(e, t, r) {
                         var i, o, a, u, l, s;
                         for(i = r, this.length instanceof n && ((i = {

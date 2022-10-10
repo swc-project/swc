@@ -387,7 +387,10 @@
                     var a = 0 | self1.words[0], b = 0 | num.words[0], r = a * b, lo = 0x3ffffff & r, carry = r / 0x4000000 | 0;
                     out.words[0] = lo;
                     for(var k = 1; k < len; k++){
-                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++)ncarry += (r = (a = 0 | self1.words[k - j | 0]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
+                            var i = k - j | 0;
+                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                        }
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
                     return 0 !== carry ? out.words[k] = 0 | carry : out.length--, out._strip();
@@ -7640,7 +7643,10 @@
                     var a = 0 | self1.words[0], b = 0 | num.words[0], r = a * b, lo = 0x3ffffff & r, carry = r / 0x4000000 | 0;
                     out.words[0] = lo;
                     for(var k = 1; k < len; k++){
-                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++)ncarry += (r = (a = 0 | self1.words[k - j | 0]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
+                            var i = k - j | 0;
+                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
+                        }
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
                     return 0 !== carry ? out.words[k] = 0 | carry : out.length--, out.strip();

@@ -40858,23 +40858,24 @@
                                         value: value
                                     }));
                                 }
-                                seriesLabel += dataLabels.join(labelModel.get([
+                                var middleSeparator_1 = labelModel.get([
                                     'data',
                                     'separator',
                                     'middle'
-                                ])) + labelModel.get([
+                                ]), endSeparator_1 = labelModel.get([
                                     'data',
                                     'separator',
                                     'end'
-                                ]), seriesLabels_1.push(seriesLabel);
+                                ]);
+                                seriesLabel += dataLabels.join(middleSeparator_1) + endSeparator_1, seriesLabels_1.push(seriesLabel);
                             }
                         });
                         var separatorModel = labelModel.getModel([
                             'series',
                             'multiple',
                             'separator'
-                        ]);
-                        ariaLabel += seriesLabels_1.join(separatorModel.get('middle')) + separatorModel.get('end'), dom.setAttribute('aria-label', ariaLabel);
+                        ]), middleSeparator = separatorModel.get('middle'), endSeparator = separatorModel.get('end');
+                        ariaLabel += seriesLabels_1.join(middleSeparator) + endSeparator, dom.setAttribute('aria-label', ariaLabel);
                     }
                 }
             }();

@@ -12,7 +12,7 @@ Promise.all(assignAll).then(function() {
                         return n(this, function(n) {
                             switch(n.label){
                                 case 0:
-                                    return s += "'".concat((t = r[u]).id, "', "), [
+                                    return t = r[u], s += "'".concat(t.id, "', "), [
                                         4,
                                         listOfUser(t.id)
                                     ];

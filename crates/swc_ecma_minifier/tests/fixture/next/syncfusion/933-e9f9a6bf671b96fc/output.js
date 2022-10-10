@@ -2365,7 +2365,8 @@
                                 processNumber = !0, curstr += dObject.year, 2 === length_1 && (curstr = curstr.substr(curstr.length - 2));
                                 break;
                             case 'a':
-                                ret += options.designator[12 > value.getHours() ? 'am' : 'pm'];
+                                var desig = 12 > value.getHours() ? 'am' : 'pm';
+                                ret += options.designator[desig];
                                 break;
                             case 'G':
                                 var dec = 0 > value.getFullYear() ? 0 : 1, retu = options.era[dec];
@@ -2519,7 +2520,8 @@
                             switch(isgmtTraversed && (gmtCorrection = zCorrectTemp, isgmtTraversed = !1), char){
                                 case 'E':
                                 case 'c':
-                                    regexString += '(' + Object.keys(ParserBase.reverseObject(dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]])).join('|') + ')';
+                                    var weekData = void 0;
+                                    weekData = dependable.dateObject[intl_base_IntlBase.days][date_parser_standalone][intl_base_IntlBase.monthIndex[len]], regexString += '(' + Object.keys(ParserBase.reverseObject(weekData)).join('|') + ')';
                                     break;
                                 case 'M':
                                 case 'L':
@@ -2557,7 +2559,7 @@
                                 case 'z':
                                     canUpdate = 0 !== new Date().getTimezoneOffset(), parseOptions[charKey] = util_getValue('dates.timeZoneNames', dependable.parserObject);
                                     var tzone = parseOptions[charKey], hpattern = (hourOnly = len < 4) ? '+H;-H' : tzone.hourFormat;
-                                    regexString += '(' + this.parseTimeZoneRegx(hpattern = hpattern.replace(/:/g, numMapper.timeSeparator), tzone, nRegx) + ')?', isgmtTraversed = !0, zCorrectTemp = hourOnly ? 6 : 12;
+                                    hpattern = hpattern.replace(/:/g, numMapper.timeSeparator), regexString += '(' + this.parseTimeZoneRegx(hpattern, tzone, nRegx) + ')?', isgmtTraversed = !0, zCorrectTemp = hourOnly ? 6 : 12;
                                     break;
                                 case '\'':
                                     regexString += '(' + str.replace(/'/g, '') + ')?';
@@ -4443,7 +4445,7 @@
                     if (this.isParentArray) {
                         index = this.parentObj[this.propName].indexOf(this);
                         var valueLength = this.parentObj[this.propName].length;
-                        propName += index = -1 !== index ? '-' + index : '-' + (valueLength = isSaveChanges ? valueLength : valueLength > 0 ? valueLength - 1 : 0);
+                        valueLength = isSaveChanges ? valueLength : valueLength > 0 ? valueLength - 1 : 0, propName += index = -1 !== index ? '-' + index : '-' + valueLength;
                     }
                     return this.controlParent !== this.parentObj && (propName = this.parentObj.getParentKey() + '.' + this.propName + index), propName;
                 }, ChildProperty;

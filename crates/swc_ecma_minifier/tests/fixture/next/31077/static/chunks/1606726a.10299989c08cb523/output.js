@@ -2257,7 +2257,11 @@
                                 var start = a.findDiffStart(b, pos);
                                 if (null == start) return null;
                                 var ref = a.findDiffEnd(b, pos + a.size, pos + b.size), endA = ref.a, endB = ref.b;
-                                if ("end" == preferredSide && (preferredPos -= endA + Math.max(0, start - Math.min(endA, endB)) - start), endA < start && a.size < b.size) {
+                                if ("end" == preferredSide) {
+                                    var adjust = Math.max(0, start - Math.min(endA, endB));
+                                    preferredPos -= endA + adjust - start;
+                                }
+                                if (endA < start && a.size < b.size) {
                                     var move = preferredPos <= start && preferredPos >= endA ? start - preferredPos : 0;
                                     start -= move, endB = start + (endB - endA), endA = start;
                                 } else if (endB < start) {
