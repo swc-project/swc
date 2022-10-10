@@ -719,21 +719,29 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "NsPrefix",
+                    "type": "NamespacePrefix",
                     "span": {
                       "start": 88,
                       "end": 93,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Ident",
+                    "namespace": {
+                      "type": "NamedNamespace",
                       "span": {
                         "start": 88,
                         "end": 92,
                         "ctxt": 0
                       },
-                      "value": "html",
-                      "raw": "html"
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 88,
+                          "end": 92,
+                          "ctxt": 0
+                        },
+                        "value": "html",
+                        "raw": "html"
+                      }
                     }
                   }
                 },
@@ -2693,21 +2701,29 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "NsPrefix",
+                    "type": "NamespacePrefix",
                     "span": {
                       "start": 355,
                       "end": 360,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Ident",
+                    "namespace": {
+                      "type": "NamedNamespace",
                       "span": {
                         "start": 355,
                         "end": 359,
                         "ctxt": 0
                       },
-                      "value": "html",
-                      "raw": "html"
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 355,
+                          "end": 359,
+                          "ctxt": 0
+                        },
+                        "value": "html",
+                        "raw": "html"
+                      }
                     }
                   }
                 },

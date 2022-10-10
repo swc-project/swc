@@ -53,13 +53,19 @@
    : ^^^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
+ 1 | *|div {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/esbuild/misc/pUymwoCxUAxDqtaTC7CaOQ/input.css:1:1]
  1 | *|div {}
    : ^

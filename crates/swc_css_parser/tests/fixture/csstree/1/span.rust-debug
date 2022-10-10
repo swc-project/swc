@@ -953,10 +953,22 @@
     : ^^^^^
     `----
 
-  x NsPrefix
+  x NamespacePrefix
     ,-[$DIR/tests/fixture/csstree/1/input.css:13:1]
  13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
     : ^^^^
+    `----
+
+  x Namespace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:13:1]
+ 13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+    : ^^^
+    `----
+
+  x NamedNamespace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:13:1]
+ 13 | svg|*:matches(a)::slotted(c) > :nth-child(odd of a, :b):nth-child(2n + 1 of [a]),
+    : ^^^
     `----
 
   x Ident
@@ -2290,13 +2302,19 @@
     : ^^^^^^
     `----
 
-  x NsPrefix
+  x NamespacePrefix
     ,-[$DIR/tests/fixture/csstree/1/input.css:26:5]
  26 | *|span:before {
     : ^^
     `----
 
-  x Ident
+  x Namespace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:26:5]
+ 26 | *|span:before {
+    : ^
+    `----
+
+  x AnyNamespace
     ,-[$DIR/tests/fixture/csstree/1/input.css:26:5]
  26 | *|span:before {
     : ^
@@ -3100,13 +3118,19 @@
     :                   ^^^^
     `----
 
-  x NsPrefix
+  x NamespacePrefix
     ,-[$DIR/tests/fixture/csstree/1/input.css:39:1]
  39 | .-a#-b:-c::-d[-e][*|-f] {
     :                   ^^
     `----
 
-  x Ident
+  x Namespace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:39:1]
+ 39 | .-a#-b:-c::-d[-e][*|-f] {
+    :                   ^
+    `----
+
+  x AnyNamespace
     ,-[$DIR/tests/fixture/csstree/1/input.css:39:1]
  39 | .-a#-b:-c::-d[-e][*|-f] {
     :                   ^

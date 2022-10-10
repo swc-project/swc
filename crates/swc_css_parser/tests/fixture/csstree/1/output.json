@@ -938,21 +938,29 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "NsPrefix",
+                    "type": "NamespacePrefix",
                     "span": {
                       "start": 258,
                       "end": 262,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Ident",
+                    "namespace": {
+                      "type": "NamedNamespace",
                       "span": {
                         "start": 258,
                         "end": 261,
                         "ctxt": 0
                       },
-                      "value": "svg",
-                      "raw": "svg"
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 258,
+                          "end": 261,
+                          "ctxt": 0
+                        },
+                        "value": "svg",
+                        "raw": "svg"
+                      }
                     }
                   }
                 },
@@ -2193,21 +2201,19 @@
                             "ctxt": 0
                           },
                           "prefix": {
-                            "type": "NsPrefix",
+                            "type": "NamespacePrefix",
                             "span": {
                               "start": 791,
                               "end": 793,
                               "ctxt": 0
                             },
-                            "prefix": {
-                              "type": "Ident",
+                            "namespace": {
+                              "type": "AnyNamespace",
                               "span": {
                                 "start": 791,
                                 "end": 792,
                                 "ctxt": 0
-                              },
-                              "value": "*",
-                              "raw": "*"
+                              }
                             }
                           },
                           "value": {
@@ -2975,21 +2981,19 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 1069,
                           "end": 1071,
                           "ctxt": 0
                         },
-                        "prefix": {
-                          "type": "Ident",
+                        "namespace": {
+                          "type": "AnyNamespace",
                           "span": {
                             "start": 1069,
                             "end": 1070,
                             "ctxt": 0
-                          },
-                          "value": "*",
-                          "raw": "*"
+                          }
                         }
                       },
                       "value": {

@@ -45,3 +45,5 @@ a[href='te"s"t'] {}
 [foo=\(] {}
 [foo=yes\:\(it\'s\ work\)] {}
 [attr=\;] { }
+[*|attr|="test"] {}
+[foo|attr|="test"] {}
