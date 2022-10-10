@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(es/parser)** Change file extension in TypeScript example (#6094) ([ca67d52](https://github.com/swc-project/swc/commit/ca67d5244dc30c47bf70266f75af2fd3231fd83d))
+
 ### Features
 
 
