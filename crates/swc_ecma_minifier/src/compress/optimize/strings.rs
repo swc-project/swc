@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
-use crate::mode::Mode;
+use crate::{mode::Mode, DISABLE_BUGGY_PASSES};
 
 impl<M> Optimizer<'_, M>
 where
@@ -126,6 +126,9 @@ where
 
             Expr::Ident(i) => {
                 if !self.options.evaluate || !self.options.reduce_vars {
+                    return;
+                }
+                if DISABLE_BUGGY_PASSES {
                     return;
                 }
                 if self
