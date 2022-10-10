@@ -1519,9 +1519,14 @@ where
                     return Err(());
                 }
 
-                if self.replace_seq_assignment(a, b)? {
-                    return Ok(true);
+                if let Some(a_id) = a.id() {
+                    if a_id == b_left.to_id() {
+                        if self.replace_seq_assignment(a, b)? {
+                            return Ok(true);
+                        }
+                    }
                 }
+
                 // Hack for lifetime of mutable borrow
                 match b {
                     Expr::Assign(b) => {
