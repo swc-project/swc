@@ -109,13 +109,15 @@ where
                 && is_inline_enabled
             {
                 if let Expr::Array(arr) = init {
-                    if arr.elems.iter().all(|e| match e {
-                        Some(ExprOrSpread { spread: None, expr }) => match &**expr {
-                            Expr::Lit(..) => true,
+                    if arr.elems.len() < 32
+                        && arr.elems.iter().all(|e| match e {
+                            Some(ExprOrSpread { spread: None, expr }) => match &**expr {
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            },
                             _ => false,
-                        },
-                        _ => false,
-                    }) {
+                        })
+                    {
                         self.vars
                             .lits_for_array_access
                             .insert(ident.to_id(), Box::new(init.clone()));
