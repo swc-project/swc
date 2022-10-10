@@ -2,8 +2,6 @@
 
 extern crate proc_macro;
 
-use std::sync::Arc;
-
 use pmutil::{smart_quote, Quote};
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
@@ -19,7 +17,6 @@ use syn::{self, *};
 ///```no_run
 /// pub enum BinOp {
 ///     /// `+`
-///     #[string_enum(alias("add"))]
 ///     Add,
 ///     /// `-`
 ///     Minus,
