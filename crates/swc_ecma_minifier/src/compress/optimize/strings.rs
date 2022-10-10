@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
-use crate::{mode::Mode, DISABLE_BUGGY_PASSES};
+use crate::mode::Mode;
 
 impl<M> Optimizer<'_, M>
 where
