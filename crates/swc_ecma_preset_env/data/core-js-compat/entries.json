@@ -126,6 +126,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -535,6 +536,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -1572,6 +1574,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -1649,6 +1652,9 @@
   ],
   "core-js/actual/object/prevent-extensions": [
     "es.object.prevent-extensions"
+  ],
+  "core-js/actual/object/proto": [
+    "es.object.proto"
   ],
   "core-js/actual/object/seal": [
     "es.object.seal"
@@ -2948,6 +2954,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -3775,6 +3782,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -3850,6 +3858,9 @@
   ],
   "core-js/es/object/prevent-extensions": [
     "es.object.prevent-extensions"
+  ],
+  "core-js/es/object/proto": [
+    "es.object.proto"
   ],
   "core-js/es/object/seal": [
     "es.object.seal"
@@ -5025,6 +5036,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -6678,6 +6690,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -6769,6 +6782,9 @@
   ],
   "core-js/features/object/prevent-extensions": [
     "es.object.prevent-extensions"
+  ],
+  "core-js/features/object/proto": [
+    "es.object.proto"
   ],
   "core-js/features/object/seal": [
     "es.object.seal"
@@ -8455,6 +8471,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -10108,6 +10125,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -10199,6 +10217,9 @@
   ],
   "core-js/full/object/prevent-extensions": [
     "es.object.prevent-extensions"
+  ],
+  "core-js/full/object/proto": [
+    "es.object.proto"
   ],
   "core-js/full/object/seal": [
     "es.object.seal"
@@ -12103,6 +12124,9 @@
   "core-js/modules/es.object.prevent-extensions": [
     "es.object.prevent-extensions"
   ],
+  "core-js/modules/es.object.proto": [
+    "es.object.proto"
+  ],
   "core-js/modules/es.object.seal": [
     "es.object.seal"
   ],
@@ -13688,6 +13712,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -14585,6 +14610,7 @@
     "es.object.lookup-getter",
     "es.object.lookup-setter",
     "es.object.prevent-extensions",
+    "es.object.proto",
     "es.object.seal",
     "es.object.set-prototype-of",
     "es.object.to-string",
@@ -14662,6 +14688,9 @@
   ],
   "core-js/stable/object/prevent-extensions": [
     "es.object.prevent-extensions"
+  ],
+  "core-js/stable/object/proto": [
+    "es.object.proto"
   ],
   "core-js/stable/object/seal": [
     "es.object.seal"
@@ -16333,13 +16362,17 @@
     "es.string.at-alternative",
     "esnext.aggregate-error",
     "esnext.array.at",
+    "esnext.array.find-last",
+    "esnext.array.find-last-index",
     "esnext.global-this",
     "esnext.object.has-own",
     "esnext.promise.all-settled",
     "esnext.promise.any",
     "esnext.string.match-all",
     "esnext.string.replace-all",
-    "esnext.typed-array.at"
+    "esnext.typed-array.at",
+    "esnext.typed-array.find-last",
+    "esnext.typed-array.find-last-index"
   ],
   "core-js/stage/pre": [
     "es.map",
