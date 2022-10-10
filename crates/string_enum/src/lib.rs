@@ -2,6 +2,8 @@
 
 extern crate proc_macro;
 
+use std::sync::Arc;
+
 use pmutil::{smart_quote, Quote};
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
@@ -129,9 +131,55 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(v.attrs());
 
-            let pat: Pat = Quote::new(def_site::<Span>())
+            let mut pat: Pat = Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars { str_value }, { str_value }))
                 .parse();
+
+            // Handle `string_enum(alias("foo"))`
+            'outer: for attr in v
+                .attrs()
+                .iter()
+                .filter(|attr| is_attr_name(attr, "string_enum"))
+            {
+                let meta = attr.parse_meta().expect("failed to parse meta");
+                if let Meta::List(meta) = &meta {
+                    for meta in &meta.nested {
+                        //
+                        if let NestedMeta::Meta(meta) = meta {
+                            if let Meta::List(meta) = meta {
+                                if meta.path.is_ident("alias") {
+                                    let mut cases = Punctuated::default();
+
+                                    cases.push(pat);
+
+                                    for lit in &meta.nested {
+                                        cases.push(Pat::Lit(PatLit {
+                                            attrs: Default::default(),
+                                            expr: Box::new(Expr::Lit(ExprLit {
+                                                attrs: Default::default(),
+                                                lit: match lit {
+                                                    NestedMeta::Meta(_) => todo!(),
+                                                    NestedMeta::Lit(v) => v.clone(),
+                                                },
+                                            })),
+                                        }))
+                                    }
+
+                                    pat = Pat::Or(PatOr {
+                                        attrs: Default::default(),
+                                        leading_vert: None,
+                                        cases,
+                                    });
+
+                                    continue 'outer;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                panic!("Unsupported meta: {:#?}", meta);
+            }
 
             let body = match *v.data() {
                 Fields::Unit => Box::new(
