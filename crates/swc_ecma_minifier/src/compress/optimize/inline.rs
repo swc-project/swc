@@ -91,6 +91,22 @@ where
 
             self.vars.inline_with_multi_replacer(init);
 
+            if !usage.reassigned() && !usage.mutated {
+                if let Expr::Array(arr) = init {
+                    if arr.elems.iter().all(|e| match e {
+                        Some(ExprOrSpread { spread: None, expr }) => match &**expr {
+                            Expr::Lit(..) => true,
+                            _ => false,
+                        },
+                        _ => false,
+                    }) {
+                        self.vars
+                            .lits_for_member_access
+                            .insert(ident.to_id(), Box::new(init.clone()));
+                    }
+                }
+            }
+
             if !usage.is_fn_local {
                 match init {
                     Expr::Lit(..) | Expr::Ident(..) => {}
