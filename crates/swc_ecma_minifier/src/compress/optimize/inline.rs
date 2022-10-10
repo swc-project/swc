@@ -94,7 +94,10 @@ where
 
             self.vars.inline_with_multi_replacer(init);
 
-            // We inline arrays if it's pure, and not modified.
+            // We inline arrays partially if it's pure (all elements are literal), and not
+            // modified.
+            // We don't drop definition, but we just inline array accesses with numeric
+            // literal key.
             //
             // TODO: Allow `length` in usage.accessed_props
             if usage.declared
