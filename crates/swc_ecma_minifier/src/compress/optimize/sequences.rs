@@ -2003,7 +2003,20 @@ where
             Expr::Assign(b) => {
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
-                        if let Expr::Lit(r) = &*b.right {}
+                        if let Some(bin_op) = b.op.to_update() {
+                            b.op = op!("=");
+                            b.right = Box::new(Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: bin_op,
+                                left: if can_take_init {
+                                    a_right.take()
+                                } else {
+                                    a_right.clone()
+                                },
+                                right: b.right.take(),
+                            }));
+                            return Ok(true);
+                        }
                     }
                 }
             }
