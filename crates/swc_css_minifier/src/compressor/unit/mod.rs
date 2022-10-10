@@ -10,9 +10,6 @@ static CM: RatioMap = phf_map! {
     "mm" => 0.1,
     "q" => 0.025,
     "in" => 2.54,
-    "pc" => 2.54 / 6.0,
-    "pt" => 2.54 / 72.0,
-    "px" => 2.54 / 96.0,
 };
 
 static MM: RatioMap = phf_map! {
@@ -20,9 +17,6 @@ static MM: RatioMap = phf_map! {
     "mm" => 1.0,
     "q" => 0.25,
     "in" => 25.4,
-    "pc" => 25.4 / 6.0,
-    "pt" => 25.4 / 72.0,
-    "px" => 25.4 / 96.0,
 };
 
 static Q: RatioMap = phf_map! {
@@ -30,35 +24,19 @@ static Q: RatioMap = phf_map! {
     "mm" => 4.0,
     "q" => 1.0,
     "in" => 101.6,
-    "pc" => 101.6 / 6.0,
-    "pt" => 101.6 / 72.0,
-    "px" => 101.6 / 96.0,
 };
 
 static IN: RatioMap = phf_map! {
-    "cm" => 1.0 / 2.54,
-    "mm" => 1.0 / 25.4,
-    "q" => 1.0 / 101.6,
     "in" => 1.0,
-    "pc" => 1.0 / 6.0,
-    "pt" => 1.0 / 72.0,
-    "px" => 1.0 / 96.0,
 };
 
 static PC: RatioMap = phf_map! {
-    "cm" => 6.0 / 2.54,
-    "mm" => 6.0 / 25.4,
-    "q" => 6.0 / 101.6,
     "in" => 6.0,
     "pc" => 1.0,
-    "pt" => 6.0 / 72.0,
     "px" => 0.0625,
 };
 
 static PT: RatioMap = phf_map! {
-    "cm" => 72.0 / 2.54,
-    "mm" => 72.0 / 25.4,
-    "q" => 72.0 / 101.6,
     "in" => 72.0,
     "pc" => 12.0,
     "pt" => 1.0,
@@ -66,12 +44,8 @@ static PT: RatioMap = phf_map! {
 };
 
 static PX: RatioMap = phf_map! {
-    "cm" => 96.0 / 2.54,
-    "mm" => 96.0 / 25.4,
-    "q" => 96.0 / 101.6,
     "in" => 96.0,
-    "pc" => 96.0 / 6.0,
-    "pt" => 96.0 / 72.0,
+    "pc" => 16.0,
     "px" => 1.0,
 };
 
@@ -121,21 +95,16 @@ static FREQUENCY_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
 // "x" is an alias for "dppx"
 static DPI: RatioMap = phf_map! {
     "dpi" => 1.0,
-    "dpcm" => 1.0 / 2.54,
-    "dppx" => 1.0 / 96.0,
     "x" => 1.0 / 96.0,
 };
 
 static DPCM: RatioMap = phf_map! {
     "dpi" => 2.54,
     "dpcm" => 1.0,
-    "dppx" => 2.54 / 96.0,
-    "x" => 2.54 / 96.0,
 };
 
 static DPPX: RatioMap = phf_map! {
     "dpi" => 96.0,
-    "dpcm" => 96.0 / 2.54,
     "dppx" => 1.0,
     "x" => 1.0,
 };

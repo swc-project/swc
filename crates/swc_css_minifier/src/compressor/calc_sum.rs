@@ -390,31 +390,33 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = l.unit.value.to_ascii_lowercase();
-                if let Some(ratio) = get_absolute_length_ratio(&prev_unit, &unit) {
-                    if let Some(result) = CalcSumContext::try_to_sum_values(
-                        prev_operator,
-                        operator,
-                        data.value.value,
-                        l.value.value,
-                        Some(*ratio),
-                    ) {
-                        data.value.value = result;
-
-                        CalcSumContext::switch_sign_if_needed(
-                            &mut self.expressions,
-                            &mut data.value.value,
+                if let Some(result) =
+                    get_absolute_length_ratio(&prev_unit, &unit).and_then(|ratio| {
+                        CalcSumContext::try_to_sum_values(
                             prev_operator,
-                        );
-                        CalcSumContext::update_calc_value(
-                            &mut self.expressions,
-                            *pos,
-                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
-                                data.clone(),
-                            ))),
-                        );
-                    } else {
-                        self.push(operator, operand);
-                    }
+                            operator,
+                            data.value.value,
+                            l.value.value,
+                            Some(*ratio),
+                        )
+                    })
+                {
+                    data.value.value = result;
+
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
                 }
             }
             None => {
@@ -510,31 +512,31 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = d.unit.value.to_ascii_lowercase();
-                if let Some(ratio) = get_duration_ratio(&prev_unit, &unit) {
-                    if let Some(result) = CalcSumContext::try_to_sum_values(
+                if let Some(result) = get_duration_ratio(&prev_unit, &unit).and_then(|ratio| {
+                    CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         d.value.value,
                         Some(*ratio),
-                    ) {
-                        data.value.value = result;
+                    )
+                }) {
+                    data.value.value = result;
 
-                        CalcSumContext::switch_sign_if_needed(
-                            &mut self.expressions,
-                            &mut data.value.value,
-                            prev_operator,
-                        );
-                        CalcSumContext::update_calc_value(
-                            &mut self.expressions,
-                            *pos,
-                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(
-                                data.clone(),
-                            ))),
-                        );
-                    } else {
-                        self.push(operator, operand);
-                    }
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
                 }
             }
             None => self.duration = Some(self.new_indexed_data(operator, operand, d.clone())),
@@ -554,31 +556,31 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = f.unit.value.to_ascii_lowercase();
-                if let Some(ratio) = get_frequency_ratio(&prev_unit, &unit) {
-                    if let Some(result) = CalcSumContext::try_to_sum_values(
+                if let Some(result) = get_frequency_ratio(&prev_unit, &unit).and_then(|ratio| {
+                    CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         f.value.value,
                         Some(*ratio),
-                    ) {
-                        data.value.value = result;
+                    )
+                }) {
+                    data.value.value = result;
 
-                        CalcSumContext::switch_sign_if_needed(
-                            &mut self.expressions,
-                            &mut data.value.value,
-                            prev_operator,
-                        );
-                        CalcSumContext::update_calc_value(
-                            &mut self.expressions,
-                            *pos,
-                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(
-                                data.clone(),
-                            ))),
-                        );
-                    } else {
-                        self.push(operator, operand);
-                    }
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
                 }
             }
             None => self.frequency = Some(self.new_indexed_data(operator, operand, f.clone())),
@@ -598,31 +600,31 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = r.unit.value.to_ascii_lowercase();
-                if let Some(ratio) = get_resolution_ratio(&prev_unit, &unit) {
-                    if let Some(result) = CalcSumContext::try_to_sum_values(
+                if let Some(result) = get_resolution_ratio(&prev_unit, &unit).and_then(|ratio| {
+                    CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         r.value.value,
                         Some(*ratio),
-                    ) {
-                        data.value.value = result;
+                    )
+                }) {
+                    data.value.value = result;
 
-                        CalcSumContext::switch_sign_if_needed(
-                            &mut self.expressions,
-                            &mut data.value.value,
-                            prev_operator,
-                        );
-                        CalcSumContext::update_calc_value(
-                            &mut self.expressions,
-                            *pos,
-                            CalcValueOrOperator::Value(CalcValue::Dimension(
-                                Dimension::Resolution(data.clone()),
-                            )),
-                        );
-                    } else {
-                        self.push(operator, operand);
-                    }
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
                 }
             }
             None => self.resolution = Some(self.new_indexed_data(operator, operand, r.clone())),
