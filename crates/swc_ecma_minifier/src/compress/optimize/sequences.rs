@@ -1313,6 +1313,10 @@ where
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        if b.is_lit() {
+            return Ok(false);
+        }
+
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
