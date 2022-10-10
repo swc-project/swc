@@ -2007,6 +2007,47 @@ where
             return Ok(false);
         }
 
+        macro_rules! take_a {
+            () => {
+                match a {
+                    Mergable::Var(a) => {
+                        if self.options.unused {
+                            if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                                // We are eliminating one usage, so we use 1 instead of
+                                // 0
+                                if usage.usage_count == 1 {
+                                    report_change!("sequences: Dropping inlined variable");
+                                    a.name.take();
+                                }
+                            }
+                        }
+
+                        if can_take_init {
+                            a.init.take()
+                        } else {
+                            a.init.clone()
+                        }
+                        .unwrap_or_else(|| undefined(DUMMY_SP))
+                    }
+                    Mergable::Expr(a) => {
+                        if can_remove {
+                            if let Expr::Assign(e) = a {
+                                report_change!(
+                                    "sequences: Dropping assignment as we are going to drop the \
+                                     variable declaration. ({})",
+                                    left_id
+                                );
+
+                                **a = *e.right.take();
+                            }
+                        }
+
+                        Box::new(a.take())
+                    }
+                }
+            };
+        }
+
         // x = 1, x += 2 => x = 3
         match b {
             Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
@@ -2015,14 +2056,13 @@ where
                     if b_left.to_id() == left_id.to_id() {
                         if let Some(bin_op) = b.op.to_update() {
                             b.op = op!("=");
+
+                            let to = take_a!();
+
                             b.right = Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
                                 op: bin_op,
-                                left: if can_take_init {
-                                    a_right.take()
-                                } else {
-                                    a_right.clone()
-                                },
+                                left: to,
                                 right: b.right.take(),
                             }));
                             return Ok(true);
@@ -2061,41 +2101,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = match a {
-            Mergable::Var(a) => {
-                if self.options.unused {
-                    if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                        // We are eliminating one usage, so we use 1 instead of 0
-                        if usage.usage_count == 1 {
-                            report_change!("sequences: Dropping inlined variable");
-                            a.name.take();
-                        }
-                    }
-                }
-
-                if can_take_init {
-                    a.init.take()
-                } else {
-                    a.init.clone()
-                }
-                .unwrap_or_else(|| undefined(DUMMY_SP))
-            }
-            Mergable::Expr(a) => {
-                if can_remove {
-                    if let Expr::Assign(e) = a {
-                        report_change!(
-                            "sequences: Dropping assignment as we are going to drop the variable \
-                             declaration. ({})",
-                            left_id
-                        );
-
-                        **a = *e.right.take();
-                    }
-                }
-
-                Box::new(a.take())
-            }
-        };
+        let to = take_a!();
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
