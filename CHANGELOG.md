@@ -16,6 +16,9 @@
 
 - **(es/minifier)** Inline more lazily initialized vars (#6089) ([657e5b3](https://github.com/swc-project/swc/commit/657e5b31116974cd0c90cdb0871178e36fa41daf))
 
+
+- **(es/minifier)** Enable `reduce_funcs` by default (#6097) ([3c6cdbc](https://github.com/swc-project/swc/commit/3c6cdbc61cba7dcca38251413cc9033487677dd4))
+
 ## [1.3.6] - 2022-10-08
 
 ### Bug Fixes
