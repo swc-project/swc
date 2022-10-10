@@ -350,8 +350,7 @@ impl TerserCompressorOptions {
                     PureGetterOption::Str(v.split(',').map(From::from).collect())
                 }
             },
-            // TODO: Use self.defaults
-            reduce_fns: self.reduce_funcs.unwrap_or(false),
+            reduce_fns: self.reduce_funcs.unwrap_or(self.defaults),
             // TODO: Use self.defaults
             reduce_vars: self.reduce_vars.unwrap_or(false),
             sequences: self
