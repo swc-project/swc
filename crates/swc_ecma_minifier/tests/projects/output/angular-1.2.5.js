@@ -580,7 +580,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (element1 = element, events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -594,9 +594,9 @@
                 event.isDefaultPrevented = function() {
                     return event.defaultPrevented || !1 === event.returnValue;
                 }, forEach(events[type || event.type], function(fn) {
-                    fn.call(element1, event);
+                    fn.call(element, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }).elem = element1, handle = eventHandler)), forEach(type.split(" "), function(type) {
+            }).elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -717,7 +717,7 @@
     };
     var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m, FN_ARG_SPLIT = /,/, FN_ARG = /^\s*(_?)(\S+?)\1\s*$/, STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/gm, $injectorMinErr = minErr("$injector");
     function annotate(fn) {
-        var $inject, fnText, argDecl, last;
+        var $inject, last;
         return "function" == typeof fn ? ($inject = fn.$inject) || ($inject = [], fn.length && forEach(fn.toString().replace(STRIP_COMMENTS, "").match(FN_ARGS)[1].split(FN_ARG_SPLIT), function(arg) {
             arg.replace(FN_ARG, function(all, underscore, name) {
                 $inject.push(name);
@@ -1895,7 +1895,7 @@
             "$rootElement",
             function($rootScope, $browser, $sniffer, $rootElement) {
                 var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
-                html5Mode ? (appBase = (url = initialUrl).substring(0, url.indexOf("/", url.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
+                html5Mode ? (appBase = initialUrl.substring(0, initialUrl.indexOf("/", initialUrl.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); "a" !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;
                         var absHref = elm.prop("href"), rewrittenUrl = $location.$$rewrite(absHref);
@@ -2563,7 +2563,7 @@
                                 if (pending) {
                                     var callbacks = pending;
                                     pending.length && nextTick(function() {
-                                        for(var callback, i = 0, ii = callbacks.length; i < ii; i++)(0, callbacks[i])[2](progress);
+                                        for(var i = 0, ii = callbacks.length; i < ii; i++)callbacks[i][2](progress);
                                     });
                                 }
                             },
@@ -3443,11 +3443,11 @@
                 form.$setValidity(validationToken, !0, control);
             }), arrayRemove(controls, control);
         }, form.$setValidity = function(validationToken, isValid, control) {
-            var array, queue = errors[validationToken];
+            var queue = errors[validationToken];
             if (isValid) queue && (arrayRemove(queue, control), queue.length || (--invalidCount || (toggleValidCss(isValid), form.$valid = !0, form.$invalid = !1), errors[validationToken] = !1, toggleValidCss(!0, validationToken), parentForm.$setValidity(validationToken, !0, form)));
             else {
                 if (invalidCount || toggleValidCss(isValid), queue) {
-                    if (-1 != indexOf(array = queue, control)) return;
+                    if (-1 != indexOf(queue, control)) return;
                 } else errors[validationToken] = queue = [], invalidCount++, toggleValidCss(!1, validationToken), parentForm.$setValidity(validationToken, !1, form);
                 queue.push(control), form.$valid = !1, form.$invalid = !0;
             }

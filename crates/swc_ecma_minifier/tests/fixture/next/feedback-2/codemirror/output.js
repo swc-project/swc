@@ -4106,7 +4106,7 @@
         this.time = time, this.pos = pos, this.button = button;
     };
     function onMouseDown(e) {
-        var cm, button, pos, repeat, event, name, cm1, pos1, repeat1, event1, behavior, contained, sel, cm2, event2, pos2, behavior1, display, moved, dragEnd, mouseMove, dragStart, now, display1 = this.display;
+        var cm, name, cm1, behavior, contained, sel, cm2, display, moved, dragEnd, mouseMove, dragStart, now, display1 = this.display;
         if (!(signalDOMEvent(this, e) || display1.activeTouch && display1.input.supportsTouch())) {
             if (display1.input.ensurePolled(), display1.shift = e.shiftKey, eventInWidget(display1, e)) {
                 webkit || (display1.scroller.draggable = !1, setTimeout(function() {
@@ -4115,8 +4115,8 @@
                 return;
             }
             if (!clickInGutter(this, e)) {
-                var pos3 = posFromMouse(this, e), button1 = e_button(e), repeat2 = pos3 ? (now = +new Date(), lastDoubleClick && lastDoubleClick.compare(now, pos3, button1) ? (lastClick = lastDoubleClick = null, "triple") : lastClick && lastClick.compare(now, pos3, button1) ? (lastDoubleClick = new PastClick(now, pos3, button1), lastClick = null, "double") : (lastClick = new PastClick(now, pos3, button1), lastDoubleClick = null, "single")) : "single";
-                window.focus(), 1 == button1 && this.state.selectingText && this.state.selectingText(e), !(pos3 && (cm = this, button = button1, pos = pos3, repeat = repeat2, event = e, name = "Click", "double" == repeat ? name = "Double" + name : "triple" == repeat && (name = "Triple" + name), dispatchKey(cm, addModifierNames(name = (1 == button ? "Left" : 2 == button ? "Middle" : "Right") + name, event), event, function(bound) {
+                var pos = posFromMouse(this, e), button = e_button(e), repeat = pos ? (now = +new Date(), lastDoubleClick && lastDoubleClick.compare(now, pos, button) ? (lastClick = lastDoubleClick = null, "triple") : lastClick && lastClick.compare(now, pos, button) ? (lastDoubleClick = new PastClick(now, pos, button), lastClick = null, "double") : (lastClick = new PastClick(now, pos, button), lastDoubleClick = null, "single")) : "single";
+                window.focus(), 1 == button && this.state.selectingText && this.state.selectingText(e), !(pos && (cm = this, name = "Click", "double" == repeat ? name = "Double" + name : "triple" == repeat && (name = "Triple" + name), dispatchKey(cm, addModifierNames(name = (1 == button ? "Left" : 2 == button ? "Middle" : "Right") + name, e), e, function(bound) {
                     if ("string" == typeof bound && (bound = commands[bound]), !bound) return !1;
                     var done = !1;
                     try {
@@ -4125,24 +4125,24 @@
                         cm.state.suppressEdits = !1;
                     }
                     return done;
-                }))) && (1 == button1 ? pos3 ? (cm1 = this, pos1 = pos3, repeat1 = repeat2, event1 = e, ie ? setTimeout(bind(ensureFocus, cm1), 0) : cm1.curOp.focus = activeElt(), behavior = function(cm, repeat, event) {
+                }))) && (1 == button ? pos ? (cm1 = this, ie ? setTimeout(bind(ensureFocus, cm1), 0) : cm1.curOp.focus = activeElt(), behavior = function(cm, repeat, event) {
                     var option = cm.getOption("configureMouse"), value = option ? option(cm, repeat, event) : {};
                     if (null == value.unit) {
                         var rect = chromeOS ? event.shiftKey && event.metaKey : event.altKey;
                         value.unit = rect ? "rectangle" : "single" == repeat ? "char" : "double" == repeat ? "word" : "line";
                     }
                     return (null == value.extend || cm.doc.extend) && (value.extend = cm.doc.extend || event.shiftKey), null == value.addNew && (value.addNew = mac ? event.metaKey : event.ctrlKey), null == value.moveOnDrag && (value.moveOnDrag = !(mac ? event.altKey : event.ctrlKey)), value;
-                }(cm1, repeat1, event1), sel = cm1.doc.sel, cm1.options.dragDrop && dragAndDrop && !cm1.isReadOnly() && "single" == repeat1 && (contained = sel.contains(pos1)) > -1 && (0 > cmp((contained = sel.ranges[contained]).from(), pos1) || pos1.xRel > 0) && (cmp(contained.to(), pos1) > 0 || pos1.xRel < 0) ? (cm2 = cm1, event2 = event1, pos2 = pos1, behavior1 = behavior, display = cm2.display, moved = !1, dragEnd = operation(cm2, function(e) {
-                    webkit && (display.scroller.draggable = !1), cm2.state.draggingText = !1, cm2.state.delayingBlurEvent && (cm2.hasFocus() ? cm2.state.delayingBlurEvent = !1 : delayBlurEvent(cm2)), off(display.wrapper.ownerDocument, "mouseup", dragEnd), off(display.wrapper.ownerDocument, "mousemove", mouseMove), off(display.scroller, "dragstart", dragStart), off(display.scroller, "drop", dragEnd), moved || (e_preventDefault(e), behavior1.addNew || extendSelection(cm2.doc, pos2, null, null, behavior1.extend), webkit && !safari || ie && 9 == ie_version ? setTimeout(function() {
+                }(cm1, repeat, e), sel = cm1.doc.sel, cm1.options.dragDrop && dragAndDrop && !cm1.isReadOnly() && "single" == repeat && (contained = sel.contains(pos)) > -1 && (0 > cmp((contained = sel.ranges[contained]).from(), pos) || pos.xRel > 0) && (cmp(contained.to(), pos) > 0 || pos.xRel < 0) ? (display = (cm2 = cm1).display, moved = !1, dragEnd = operation(cm2, function(e) {
+                    webkit && (display.scroller.draggable = !1), cm2.state.draggingText = !1, cm2.state.delayingBlurEvent && (cm2.hasFocus() ? cm2.state.delayingBlurEvent = !1 : delayBlurEvent(cm2)), off(display.wrapper.ownerDocument, "mouseup", dragEnd), off(display.wrapper.ownerDocument, "mousemove", mouseMove), off(display.scroller, "dragstart", dragStart), off(display.scroller, "drop", dragEnd), moved || (e_preventDefault(e), behavior.addNew || extendSelection(cm2.doc, pos, null, null, behavior.extend), webkit && !safari || ie && 9 == ie_version ? setTimeout(function() {
                         display.wrapper.ownerDocument.body.focus({
                             preventScroll: !0
                         }), display.input.focus();
                     }, 20) : display.input.focus());
                 }), mouseMove = function(e2) {
-                    moved = moved || Math.abs(event2.clientX - e2.clientX) + Math.abs(event2.clientY - e2.clientY) >= 10;
+                    moved = moved || Math.abs(e.clientX - e2.clientX) + Math.abs(e.clientY - e2.clientY) >= 10;
                 }, dragStart = function() {
                     return moved = !0;
-                }, webkit && (display.scroller.draggable = !0), cm2.state.draggingText = dragEnd, dragEnd.copy = !behavior1.moveOnDrag, on(display.wrapper.ownerDocument, "mouseup", dragEnd), on(display.wrapper.ownerDocument, "mousemove", mouseMove), on(display.scroller, "dragstart", dragStart), on(display.scroller, "drop", dragEnd), cm2.state.delayingBlurEvent = !0, setTimeout(function() {
+                }, webkit && (display.scroller.draggable = !0), cm2.state.draggingText = dragEnd, dragEnd.copy = !behavior.moveOnDrag, on(display.wrapper.ownerDocument, "mouseup", dragEnd), on(display.wrapper.ownerDocument, "mousemove", mouseMove), on(display.scroller, "dragstart", dragStart), on(display.scroller, "drop", dragEnd), cm2.state.delayingBlurEvent = !0, setTimeout(function() {
                     return display.input.focus();
                 }, 20), display.scroller.dragDrop && display.scroller.dragDrop()) : function(cm, event, start, behavior) {
                     ie && delayBlurEvent(cm);
@@ -4223,9 +4223,9 @@
                         }(e) : done(e);
                     }), up = operation(cm, done);
                     cm.state.selectingText = up, on(display.wrapper.ownerDocument, "mousemove", move), on(display.wrapper.ownerDocument, "mouseup", up);
-                }(cm1, event1, pos1, behavior)) : e_target(e) == display1.scroller && e_preventDefault(e) : 2 == button1 ? (pos3 && extendSelection(this.doc, pos3), setTimeout(function() {
+                }(cm1, e, pos, behavior)) : e_target(e) == display1.scroller && e_preventDefault(e) : 2 == button ? (pos && extendSelection(this.doc, pos), setTimeout(function() {
                     return display1.input.focus();
-                }, 20)) : 3 == button1 && (captureRightClick ? this.display.input.onContextMenu(e) : delayBlurEvent(this)));
+                }, 20)) : 3 == button && (captureRightClick ? this.display.input.onContextMenu(e) : delayBlurEvent(this)));
             }
         }
     }

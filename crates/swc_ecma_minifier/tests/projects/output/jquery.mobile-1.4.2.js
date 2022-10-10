@@ -241,7 +241,7 @@
         },
         haveParents: function(elements, attr) {
             if (!$1.mobile.ignoreContentEnabled) return elements;
-            var e, $element, excluded, i, c, count = elements.length, $newSet = $1();
+            var e, $element, excluded, i, count = elements.length, $newSet = $1();
             for(i = 0; i < count; i++){
                 for($element = elements.eq(i), excluded = !1, e = elements[i]; e;){
                     if ("false" === (e.getAttribute ? e.getAttribute("data-" + $1.mobile.ns + attr) : "")) {
@@ -1189,7 +1189,7 @@
     }, handler = function() {
         (diff = (curr = new Date().getTime()) - lastCall) >= 250 ? (lastCall = curr, jQuery(this).trigger("throttledresize")) : (heldCall && clearTimeout(heldCall), heldCall = setTimeout(handler, 250 - diff));
     }, lastCall = 0, function($, window) {
-        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, landscape_threshold, win = $(window), event_name = "orientationchange", portrait_map = {
+        var get_orientation, last_orientation, initial_orientation_is_landscape, initial_orientation_is_default, ww, wh, win = $(window), event_name = "orientationchange", portrait_map = {
             0: !0,
             180: !0
         };
@@ -1827,8 +1827,8 @@
         week: !1
     }, $21.mobile.page.prototype.options.degradeInputs = $21.mobile.degradeInputs, $21.mobile.degradeInputsWithin = function(target) {
         (target = $21(target)).find("input").not($21.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, findstr, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
-            $21.mobile.degradeInputs[type] && (findstr = (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + $21.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
+            var html, hasType, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
+            $21.mobile.degradeInputs[type] && (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + $21.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -2141,7 +2141,7 @@
             _beforeListviewRefresh: $.noop,
             _afterListviewRefresh: $.noop,
             refresh: function(create) {
-                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, spliticon, altButtonClass, dividerTheme, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
+                var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, altButtonClass, dividerTheme, li, o = this.options, $list = this.element, ol = !!$.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
                 for(o.theme && $list.addClass("ui-group-theme-" + o.theme), ol && (start || 0 === start) && (startCount = parseInt(start, 10) - 1, $list.css("counter-reset", "listnumbering " + startCount)), this._beforeListviewRefresh(), li = this._getChildrenByTagName($list[0], "li", "LI"), pos = 0, numli = li.length; pos < numli; pos++)item = li.eq(pos), itemClass = "", (create || 0 > item[0].className.search(/\bui-li-static\b|\bui-li-divider\b/)) && (a = this._getChildrenByTagName(item[0], "a", "A"), isDivider = "list-divider" === getAttr(item[0], "role"), value = item.attr("value"), itemTheme = getAttr(item[0], "theme"), a.length && 0 > a[0].className.search(/\bui-btn\b/) && !isDivider ? (icon = !1 !== (itemIcon = getAttr(item[0], "icon")) && (itemIcon || o.icon), a.removeClass("ui-link"), buttonClass = "ui-btn", itemTheme && (buttonClass += " ui-btn-" + itemTheme), a.length > 1 ? (itemClass = "ui-li-has-alt", splitThemeClass = (splittheme = getAttr((last = a.last())[0], "theme") || o.splitTheme || getAttr(item[0], "theme", !0)) ? " ui-btn-" + splittheme : "", altButtonClass = "ui-btn ui-btn-icon-notext ui-icon-" + (getAttr(last[0], "icon") || getAttr(item[0], "icon") || o.splitIcon) + splitThemeClass, last.attr("title", $.trim(last.getEncodedText())).addClass(altButtonClass).empty()) : icon && (buttonClass += " ui-btn-icon-right ui-icon-" + icon), a.first().addClass(buttonClass)) : isDivider ? (itemClass = "ui-li-divider ui-bar-" + (getAttr(item[0], "theme") || o.dividerTheme || o.theme || "inherit"), item.attr("role", "heading")) : a.length <= 0 && (itemClass = "ui-li-static ui-body-" + (itemTheme || "inherit")), ol && value && (newStartCount = parseInt(value, 10) - 1, item.css("counter-reset", "listnumbering " + newStartCount))), itemClassDict[itemClass] || (itemClassDict[itemClass] = []), itemClassDict[itemClass].push(item[0]);
                 for(itemClass in itemClassDict)$(itemClassDict[itemClass]).addClass(itemClass);
                 countBubbles.each(function() {
@@ -2555,14 +2555,14 @@
                 this.refresh(undefined, !1, !0);
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
-                var bg, left, width, data, tol, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
+                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
                 if (self.slider[0].className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
                     miniClass
                 ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(self.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
-                    if (data = val, tol = 8, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - tol || data.pageX > left + width + tol) return;
+                    if (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8) return;
                     percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
                 } else null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100;
                 if (!isNaN(percent) && (valModStep = ((newval = percent / 100 * (max - min) + min) - min) % step, alignValue = newval - valModStep, 2 * Math.abs(valModStep) >= step && (alignValue += valModStep > 0 ? step : -step), percentPerStep = 100 / ((max - min) / step), newval = parseFloat(alignValue.toFixed(5)), void 0 === pxStep && (pxStep = width / ((max - min) / step)), pxStep > 1 && isInput && (percent = (newval - min) * percentPerStep * (1 / step)), percent < 0 && (percent = 0), percent > 100 && (percent = 100), newval < min && (newval = min), newval > max && (newval = max), this.handle.css("left", percent + "%"), this.handle[0].setAttribute("aria-valuenow", isInput ? newval : optionElements.eq(newval).attr("value")), this.handle[0].setAttribute("aria-valuetext", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.handle[0].setAttribute("title", isInput ? newval : optionElements.eq(newval).getEncodedText()), this.valuebg && this.valuebg.css("width", percent + "%"), this._labels && (handlePercent = this.handle.width() / this.slider.width() * 100, aPercent = percent && handlePercent + (100 - handlePercent) * percent / 100, bPercent = 100 === percent ? 0 : Math.min(handlePercent + 100 - aPercent, 100), this._labels.each(function() {
@@ -2913,7 +2913,7 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingBottom, paddingHeight, scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
+                var scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
@@ -4136,7 +4136,7 @@
                 this[this._open ? "close" : "open"]();
             },
             _destroy: function() {
-                var otherPanels, o = this.options, multiplePanels = $("body > :mobile-panel").length + $.mobile.activePage.find(":mobile-panel").length > 1;
+                var o = this.options, multiplePanels = $("body > :mobile-panel").length + $.mobile.activePage.find(":mobile-panel").length > 1;
                 "overlay" !== o.display && (0 === $("body > :mobile-panel").add($.mobile.activePage.find(":mobile-panel")).not(".ui-panel-display-overlay").not(this.element).length && this._wrapper.children().unwrap(), this._open && (this._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open"), $.support.cssTransform3d && o.animate && this._fixedToolbars().removeClass(o.classes.animate), this._page().parent().removeClass(o.classes.pageContainer), o.theme && this._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme))), multiplePanels || this.document.off("panelopen panelclose"), this._open && this._page().jqmRemoveData("panel"), this._panelInner.children().unwrap(), this.element.removeClass([
                     this._getPanelClasses(),
                     o.classes.panelOpen,
@@ -4310,7 +4310,7 @@
                 return 0 === items.length && (items = elem.children()), items;
             },
             _filterItems: function(val) {
-                var idx, callback, length, dst, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
+                var idx, callback, length, show = [], hide = [], opts = this.options, filterItems = this._getFilterableItems();
                 if (null != val) for(idx = 0, callback = opts.filterCallback || defaultFilterCallback, length = filterItems.length; idx < length; idx++)(callback.call(filterItems[idx], idx, val) ? hide : show).push(filterItems[idx]);
                 0 === hide.length ? filterItems[opts.filterReveal ? "addClass" : "removeClass"]("ui-screen-hidden") : ($(hide).addClass("ui-screen-hidden"), $(show).removeClass("ui-screen-hidden")), this._refreshChildWidget(), this._trigger("filter", null, {
                     items: filterItems
@@ -4702,7 +4702,7 @@
         });
     }(jQuery), function($, window) {
         $.mobile.iosorientationfixEnabled = !0;
-        var zoom, evt, x, y, z, aig, ua = navigator.userAgent;
+        var zoom, x, y, z, aig, ua = navigator.userAgent;
         if (!(/iPhone|iPad|iPod/.test(navigator.platform) && /OS [1-5]_[0-9_]* like Mac OS X/i.test(ua) && ua.indexOf("AppleWebKit") > -1)) {
             $.mobile.iosorientationfixEnabled = !1;
             return;

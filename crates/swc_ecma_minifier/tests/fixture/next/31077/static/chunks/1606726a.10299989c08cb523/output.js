@@ -2537,14 +2537,14 @@
                 return cached || document;
             }, EditorView.prototype.posAtCoords = function(coords) {
                 return function(view, coords) {
-                    var assign, assign$1, node, offset, doc = view.dom.ownerDocument;
+                    var node, offset, doc = view.dom.ownerDocument;
                     if (doc.caretPositionFromPoint) try {
                         var pos$1 = doc.caretPositionFromPoint(coords.left, coords.top);
-                        pos$1 && (node = (assign = pos$1).offsetNode, offset = assign.offset);
+                        pos$1 && (node = pos$1.offsetNode, offset = pos$1.offset);
                     } catch (_) {}
                     if (!node && doc.caretRangeFromPoint) {
                         var range = doc.caretRangeFromPoint(coords.left, coords.top);
-                        range && (node = (assign$1 = range).startContainer, offset = assign$1.startOffset);
+                        range && (node = range.startContainer, offset = range.startOffset);
                     }
                     var pos, elt = (view.root.elementFromPoint ? view.root : doc).elementFromPoint(coords.left, coords.top + 1);
                     if (!elt || !view.dom.contains(1 != elt.nodeType ? elt.parentNode : elt)) {

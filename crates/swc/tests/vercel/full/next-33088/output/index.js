@@ -1,21 +1,20 @@
-import r from "@swc/helpers/src/_async_to_generator.mjs";
-import t from "@swc/helpers/src/_sliced_to_array.mjs";
+import t from "@swc/helpers/src/_async_to_generator.mjs";
+import r from "@swc/helpers/src/_sliced_to_array.mjs";
 import e from "@swc/helpers/src/_ts_generator.mjs";
 import { jsx as n, jsxs as s, Fragment as a } from "react/jsx-runtime";
 import * as c from "react";
 export default function i() {
-    var i = t(c.useState({
+    var i = r(c.useState({
         hits: []
-    }), 2), o = i[0], u = i[1], l = t(c.useState("react"), 2), h = l[0], f = l[1];
+    }), 2), o = i[0], u = i[1], l = r(c.useState("react"), 2), h = l[0], f = l[1];
     return c.useEffect(function() {
         "" !== h && function() {
-            t.apply(this, arguments);
+            r.apply(this, arguments);
         }();
-        function t() {
-            return (t = r(function() {
-                var r, t;
-                return e(this, function(r) {
-                    switch(r.label){
+        function r() {
+            return (r = t(function() {
+                return e(this, function(t) {
+                    switch(t.label){
                         case 0:
                             return [
                                 4,
@@ -24,10 +23,10 @@ export default function i() {
                         case 1:
                             return [
                                 4,
-                                r.sent().json()
+                                t.sent().json()
                             ];
                         case 2:
-                            return u(r.sent()), [
+                            return u(t.sent()), [
                                 2
                             ];
                     }
@@ -40,18 +39,18 @@ export default function i() {
         children: [
             n("input", {
                 value: h,
-                onChange: function(r) {
-                    return f(r.target.value);
+                onChange: function(t) {
+                    return f(t.target.value);
                 }
             }),
             n("ul", {
-                children: o.hits.map(function(r) {
+                children: o.hits.map(function(t) {
                     return n("li", {
                         children: n("a", {
-                            href: r.url,
-                            children: r.title
+                            href: t.url,
+                            children: t.title
                         })
-                    }, r.objectID);
+                    }, t.objectID);
                 })
             })
         ]

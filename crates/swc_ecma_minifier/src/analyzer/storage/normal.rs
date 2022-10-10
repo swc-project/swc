@@ -44,12 +44,22 @@ impl Storage for ProgramData {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= var_info.inline_prevented;
 
-                    e.get_mut().ref_count += var_info.ref_count;
                     e.get_mut().cond_init |= if !inited && e.get().var_initialized {
                         true
                     } else {
                         var_info.cond_init
                     };
+                    if var_info.var_initialized {
+                        if e.get().var_initialized || e.get().ref_count > 0 {
+                            e.get_mut().assign_count += 1;
+                            e.get_mut().reassigned_with_assignment = true;
+                        } else {
+                            // If it is referred outside child scope, it will
+                            // be marked as var_initialized false
+                            e.get_mut().var_initialized = true;
+                        }
+                    }
+                    e.get_mut().ref_count += var_info.ref_count;
 
                     e.get_mut().reassigned_with_assignment |= var_info.reassigned_with_assignment;
                     e.get_mut().reassigned_with_var_decl |= var_info.reassigned_with_var_decl;
@@ -93,13 +103,6 @@ impl Storage for ProgramData {
 
                     e.get_mut().is_fn_local &= var_info.is_fn_local;
                     e.get_mut().used_in_non_child_fn |= var_info.used_in_non_child_fn;
-
-                    if var_info.var_initialized {
-                        if e.get().var_initialized || e.get().ref_count > 0 {
-                            e.get_mut().assign_count += 1;
-                            e.get_mut().reassigned_with_assignment = true;
-                        }
-                    }
 
                     match kind {
                         ScopeKind::Fn => {

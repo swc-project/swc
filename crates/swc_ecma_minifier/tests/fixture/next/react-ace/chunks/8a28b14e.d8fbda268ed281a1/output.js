@@ -11768,9 +11768,9 @@ margin: 0 10px;\
                         }
                         sel.fromOrientedRange(sel.ranges[0]);
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
-                        var session, needle, dir1, session1 = this.session, range = session1.multiSelect.toOrientedRange();
-                        if (!range.isEmpty() || ((range = session1.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var needle1 = session1.getTextRange(range), newRange = (session = session1, needle = needle1, dir1 = dir, search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir1, search.find(session));
+                        var session = this.session, range = session.multiSelect.toOrientedRange();
+                        if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
+                            var needle = session.getTextRange(range), newRange = (search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session));
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {

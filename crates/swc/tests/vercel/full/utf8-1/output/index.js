@@ -10,16 +10,16 @@ s = s || "";
 var _ = null, u = __webpack_hash__, d = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
 function p() {
     return (p = e(function() {
-        var e, a, r, n, c;
-        return t(this, function(e) {
-            switch(e.label){
+        var e, a;
+        return t(this, function(t) {
+            switch(t.label){
                 case 0:
                     if (!(_ !== __webpack_hash__) || "idle" !== module.hot.status()) return [
                         2
                     ];
-                    e.label = 1;
+                    t.label = 1;
                 case 1:
-                    return e.trys.push([
+                    return t.trys.push([
                         1,
                         4,
                         ,
@@ -31,17 +31,17 @@ function p() {
                 case 2:
                     return [
                         4,
-                        e.sent().json()
+                        t.sent().json()
                     ];
                 case 3:
-                    return a = e.sent(), r = "/" === i ? "index" : i, (Array.isArray(a.c) ? a.c : Object.keys(a.c)).some(function(e) {
-                        return -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r))) || -1 !== e.indexOf("pages".concat(r.startsWith("/") ? r : "/".concat(r)).replace(/\//g, "\\"));
+                    return e = t.sent(), a = "/" === i ? "index" : i, (Array.isArray(e.c) ? e.c : Object.keys(e.c)).some(function(e) {
+                        return -1 !== e.indexOf("pages".concat(a.startsWith("/") ? a : "/".concat(a))) || -1 !== e.indexOf("pages".concat(a.startsWith("/") ? a : "/".concat(a)).replace(/\//g, "\\"));
                     }) ? document.location.reload(!0) : u = _, [
                         3,
                         5
                     ];
                 case 4:
-                    return console.error("Error occurred checking for update", e.sent()), document.location.reload(!0), [
+                    return console.error("Error occurred checking for update", t.sent()), document.location.reload(!0), [
                         3,
                         5
                     ];

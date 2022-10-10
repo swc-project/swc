@@ -7120,9 +7120,9 @@
                 }, _that.getData = function() {
                     return _data;
                 }, _that.grab = function() {
-                    var canvas, targetSize, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
+                    var canvas, ctxData, doHalfSample = _streamConfig.halfSample, frame = inputStream.getFrame(), drawable = frame, drawAngle = 0;
                     if (drawable) {
-                        if (canvas = _canvas, targetSize = _canvasSize, canvas.width !== targetSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = targetSize.x), canvas.height !== targetSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = targetSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
+                        if ((canvas = _canvas).width !== _canvasSize.x && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.width = _canvasSize.x), canvas.height !== _canvasSize.y && (console.log("WARNING: canvas-size needs to be adjusted"), canvas.height = _canvasSize.y), "ImageStream" === _streamConfig.type && (drawable = frame.img, frame.tags && frame.tags.orientation)) switch(frame.tags.orientation){
                             case 6:
                                 drawAngle = 90 * TO_RADIANS;
                                 break;

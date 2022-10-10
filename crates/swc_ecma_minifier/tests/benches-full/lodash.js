@@ -633,7 +633,7 @@
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
                     if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) {
-                        return isFlat ? (source = value, object1 = (object3 = result, source2 = value, object3 && copyObject(source2, keysIn(source2), object3)), copyObject(source, getSymbolsIn(source), object1)) : (source1 = value, object2 = baseAssign(result, value), copyObject(source1, getSymbols(source1), object2));
+                        return isFlat ? (source = value, object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(source, getSymbolsIn(source), object1)) : (source1 = value, object2 = baseAssign(result, value), copyObject(source1, getSymbols(source1), object2));
                     }
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
@@ -1518,7 +1518,7 @@
         function createToPairs(keysFunc) {
             return function(object) {
                 var set, index, result, object1, tag = getTag(object);
-                return tag == mapTag ? mapToArray(object) : tag == setTag ? (index = -1, result = Array((set = object).size), set.forEach(function(value) {
+                return tag == mapTag ? mapToArray(object) : tag == setTag ? (index = -1, result = Array(object.size), object.forEach(function(value) {
                     result[++index] = [
                         value,
                         value

@@ -8,7 +8,7 @@ Promise.all(assignAll).then(function() {
             switch(a.label){
                 case 0:
                     for(c in e = function(u) {
-                        var t, e;
+                        var t;
                         return n(this, function(n) {
                             switch(n.label){
                                 case 0:

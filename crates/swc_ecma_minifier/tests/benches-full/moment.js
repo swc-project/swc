@@ -535,7 +535,7 @@
         return key ? key.toLowerCase().replace('_', '-') : key;
     }
     function loadLocale(name) {
-        var aliasedRequire, oldLocale = null;
+        var oldLocale = null;
         if (void 0 === locales[name] && 'undefined' != typeof module && module && module.exports) try {
             oldLocale = globalLocale._abbr, require('./locale/' + name), getSetGlobalLocale(oldLocale);
         } catch (e) {
@@ -745,8 +745,8 @@
                 parseInt(dayStr, 10),
                 parseInt(hourStr, 10),
                 parseInt(minuteStr, 10)
-            ], secondStr && result.push(parseInt(secondStr, 10)), parsedArray = result, weekdayStr = match[1], parsedInput = parsedArray, config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
-            config._a = parsedArray, config._tzm = function(obsOffset, militaryOffset, numOffset) {
+            ], secondStr && result.push(parseInt(secondStr, 10)), weekdayStr = match[1], parsedInput = result, config1 = config, weekdayStr && defaultLocaleWeekdaysShort.indexOf(weekdayStr) !== new Date(parsedInput[0], parsedInput[1], parsedInput[2]).getDay() && (getParsingFlags(config1).weekdayMismatch = !0, config1._isValid = !1, 1)) return;
+            config._a = result, config._tzm = function(obsOffset, militaryOffset, numOffset) {
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) return 0;
                 var hm = parseInt(numOffset, 10), m = hm % 100;
@@ -760,7 +760,7 @@
     function configFromArray(config) {
         var config1, w, weekYear, week, weekday, dow, doy, temp, weekdayOverflow, curWeek, config2, nowValue, i, date, currentDate, expectedWeekday, yearToUse, input = [];
         if (!config._d) {
-            for(config2 = config, nowValue = new Date(hooks.now()), currentDate = config2._useUTC ? [
+            for(nowValue = new Date(hooks.now()), currentDate = config._useUTC ? [
                 nowValue.getUTCFullYear(),
                 nowValue.getUTCMonth(),
                 nowValue.getUTCDate()
@@ -784,9 +784,9 @@
         }
         config._a = [], getParsingFlags(config).empty = !0;
         var locale, hour, meridiem, isPm, token, config1, token1, input, config2, i, parsedInput, tokens1, token2, skipped, era, string = '' + config._i, stringLength = string.length, totalParsedInputLength = 0;
-        for(i = 0, tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens1.length; i++)if (token2 = tokens1[i], (parsedInput = (string.match((token = token2, config1 = config, hasOwnProp(regexes, token) ? regexes[token](config1._strict, config1._locale) : RegExp(regexEscape(token.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
+        for(i = 0, tokens1 = expandFormat(config._f, config._locale).match(formattingTokens) || []; i < tokens1.length; i++)if (token2 = tokens1[i], (parsedInput = (string.match(hasOwnProp(regexes, token2) ? regexes[token2](config._strict, config._locale) : RegExp(regexEscape(token2.replace('\\', '').replace(/\\(\[)|\\(\])|\[([^\]\[]*)\]|\\(.)/g, function(matched, p1, p2, p3, p4) {
             return p1 || p2 || p3 || p4;
-        }))))) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token2]) parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token2), token1 = token2, input = parsedInput, config2 = config, null != input && hasOwnProp(tokens, token1) && tokens[token1](input, config2._a, config2, token1);
+        })))) || [])[0]) && ((skipped = string.substr(0, string.indexOf(parsedInput))).length > 0 && getParsingFlags(config).unusedInput.push(skipped), string = string.slice(string.indexOf(parsedInput) + parsedInput.length), totalParsedInputLength += parsedInput.length), formatTokenFunctions[token2]) parsedInput ? getParsingFlags(config).empty = !1 : getParsingFlags(config).unusedTokens.push(token2), null != parsedInput && hasOwnProp(tokens, token2) && tokens[token2](parsedInput, config._a, config, token2);
         else config._strict && !parsedInput && getParsingFlags(config).unusedTokens.push(token2);
         getParsingFlags(config).charsLeftOver = stringLength - totalParsedInputLength, string.length > 0 && getParsingFlags(config).unusedInput.push(string), config._a[3] <= 12 && !0 === getParsingFlags(config).bigHour && config._a[3] > 0 && (getParsingFlags(config).bigHour = void 0), getParsingFlags(config).parsedDateParts = config._a.slice(0), getParsingFlags(config).meridiem = config._meridiem, config._a[3] = (locale = config._locale, hour = config._a[3], null == (meridiem = config._meridiem) ? hour : null != locale.meridiemHour ? locale.meridiemHour(hour, meridiem) : (null != locale.isPM && ((isPm = locale.isPM(meridiem)) && hour < 12 && (hour += 12), isPm || 12 !== hour || (hour = 0)), hour)), null !== (era = getParsingFlags(config).era) && (config._a[0] = config._locale.erasConvertYear(era, config._a[0])), configFromArray(config), checkOverflow(config);
     }

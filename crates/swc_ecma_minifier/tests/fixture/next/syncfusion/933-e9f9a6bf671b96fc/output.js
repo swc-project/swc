@@ -16954,8 +16954,8 @@
                             previousListClone.appendChild(liElement.cloneNode(!0));
                         }
                         removedList = this.listParent.querySelectorAll('li');
-                        for(var _i = 0, removedList_1 = removedList; _i < removedList_1.length; _i++){
-                            var item = removedList_1[_i];
+                        for(var _i = 0; _i < removedList.length; _i++){
+                            var item = removedList[_i];
                             (0, ej2_base.og)(item);
                         }
                         this.removeActionButtons();
@@ -18101,7 +18101,7 @@
                 }, PasteCleanup.prototype.removeEventListener = function() {
                     this.parent.isDestroyed || (this.parent.off(constant.dI, this.pasteClean), this.parent.off(constant._8, this.setCssClass), this.parent.off(constant.ob, this.destroy));
                 }, PasteCleanup.prototype.pasteClean = function(e) {
-                    var imageproperties, _this = this, args = {
+                    var _this = this, args = {
                         requestType: 'Paste',
                         editorMode: this.parent.editorMode,
                         event: e
@@ -18118,7 +18118,7 @@
                                 args: e.args,
                                 text: value,
                                 callBack: function(b) {
-                                    'object' == typeof (imageproperties = b) ? _this.parent.formatter.editorManager.execCommand('Images', 'Image', e.args, _this.imageFormatting.bind(_this, args), 'pasteCleanup', imageproperties, 'pasteCleanupModule') : value = imageproperties;
+                                    'object' == typeof b ? _this.parent.formatter.editorManager.execCommand('Images', 'Image', e.args, _this.imageFormatting.bind(_this, args), 'pasteCleanup', b, 'pasteCleanupModule') : value = b;
                                 }
                             }), !htmlRegex.test(value)) {
                                 var divElement = this.parent.createElement('div');

@@ -1602,7 +1602,7 @@
                 }(is_import)), is("punc", ",") && next();
                 next();
             } else is("operator", "*") && (next(), is_import && is("name", "as") && (next(), name = as_symbol(is_import ? AST_SymbolImport : AST_SymbolExportForeign)), names = [
-                (is_import1 = is_import, name1 = name, foreign_type = is_import1 ? AST_SymbolImportForeign : AST_SymbolExportForeign, start = S.token, end = prev(), name1 = name1 || new (is_import1 ? AST_SymbolImport : AST_SymbolExport)({
+                (name1 = name, foreign_type = is_import ? AST_SymbolImportForeign : AST_SymbolExportForeign, start = S.token, end = prev(), name1 = name1 || new (is_import ? AST_SymbolImport : AST_SymbolExport)({
                     name: "*",
                     start: start,
                     end: end
@@ -7315,7 +7315,7 @@
         this.definition().fixed = !1;
     }), def_reduce_vars(AST_SymbolRef, function(tw, descend, compressor) {
         var tw1, compressor1, def, value, fixed_value, d = this.definition();
-        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && (tw1 = tw, compressor1 = compressor, def = d, compressor1.option("unused") && !def.scope.pinned() && def.references.length - def.recursive_refs == 1 && tw1.loop_ids.get(def.id) === tw1.in_loop) ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
+        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && compressor.option("unused") && !d.scope.pinned() && d.references.length - d.recursive_refs == 1 && tw.loop_ids.get(d.id) === tw.in_loop ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
     }), def_reduce_vars(AST_Toplevel, function(tw, descend, compressor) {
         this.globals.forEach(function(def) {
             reset_def(compressor, def);

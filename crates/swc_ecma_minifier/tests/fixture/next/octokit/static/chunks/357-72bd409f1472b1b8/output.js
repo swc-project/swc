@@ -72,27 +72,26 @@
                         return null != this._events[name] ? this._events[name].length : 0;
                     }
                     async trigger(name, ...args) {
-                        var e;
                         try {
                             if ("debug" !== name && this.trigger("debug", `Event triggered: ${name}`, args), null == this._events[name]) return;
                             return this._events[name] = this._events[name].filter(function(listener) {
                                 return "none" !== listener.status;
                             }), (await Promise.all(this._events[name].map(async (listener)=>{
-                                var e, returned;
+                                var returned;
                                 if ("none" !== listener.status) {
                                     "once" === listener.status && (listener.status = "none");
                                     try {
                                         if (returned = "function" == typeof listener.cb ? listener.cb(...args) : void 0, "function" == typeof (null != returned ? returned.then : void 0)) return await returned;
                                         return returned;
                                     } catch (error) {
-                                        return e = error, this.trigger("error", e), null;
+                                        return this.trigger("error", error), null;
                                     }
                                 }
                             }))).find(function(x) {
                                 return null != x;
                             });
                         } catch (error) {
-                            return e = error, this.trigger("error", e), null;
+                            return this.trigger("error", error), null;
                         }
                     }
                 }, Queues = class {
@@ -175,7 +174,7 @@
                         });
                     }
                     async doExecute(chained, clearGlobalState, run, free) {
-                        var error, eventInfo, passed;
+                        var eventInfo, passed;
                         0 === this.retryCount ? (this._assertStatus("RUNNING"), this._states.next(this.options.id)) : this._assertStatus("EXECUTING"), eventInfo = {
                             args: this.args,
                             options: this.options,
@@ -184,7 +183,7 @@
                         try {
                             if (passed = await (null != chained ? chained.schedule(this.options, this.task, ...this.args) : this.task(...this.args)), clearGlobalState()) return this.doDone(eventInfo), await free(this.options, eventInfo), this._assertStatus("DONE"), this._resolve(passed);
                         } catch (error1) {
-                            return error = error1, this._onFailure(error, eventInfo, clearGlobalState, run, free);
+                            return this._onFailure(error1, eventInfo, clearGlobalState, run, free);
                         }
                     }
                     doExpire(clearGlobalState, run, free) {
@@ -334,15 +333,15 @@
                         return 0 === this._queue.length;
                     }
                     async _tryToRun() {
-                        var args, cb, error, reject, resolve, returned, task;
+                        var args, cb, reject, resolve, returned, task;
                         if (this._running < 1 && this._queue.length > 0) return this._running++, { task , args , resolve , reject  } = this._queue.shift(), cb = await async function() {
                             try {
                                 return returned = await task(...args), function() {
                                     return resolve(returned);
                                 };
                             } catch (error1) {
-                                return error = error1, function() {
-                                    return reject(error);
+                                return function() {
+                                    return reject(error1);
                                 };
                             }
                         }(), this._running--, this._tryToRun(), cb();
@@ -419,13 +418,13 @@
                         _startAutoCleanup() {
                             var base;
                             return clearInterval(this.interval), "function" == typeof (base = this.interval = setInterval(async ()=>{
-                                var e, k, ref, results, time, v;
+                                var k, ref, results, time, v;
                                 for(k in time = Date.now(), ref = this.instances, results = [], ref){
                                     v = ref[k];
                                     try {
                                         await v._store.__groupCheck__(time) ? results.push(this.deleteKey(k)) : results.push(void 0);
                                     } catch (error) {
-                                        e = error, results.push(v.Events.trigger("error", e));
+                                        results.push(v.Events.trigger("error", error));
                                     }
                                 }
                                 return results;
@@ -548,11 +547,11 @@
                             return null != this._scheduled[index] && (clearTimeout(this._scheduled[index].expiration), delete this._scheduled[index], !0);
                         }
                         async _free(index, job, options, eventInfo) {
-                            var e, running;
+                            var running;
                             try {
                                 if ({ running  } = await this._store.__free__(index, options.weight), this.Events.trigger("debug", `Freed ${options.id}`, eventInfo), 0 === running && this.empty()) return this.Events.trigger("idle");
                             } catch (error1) {
-                                return e = error1, this.Events.trigger("error", e);
+                                return this.Events.trigger("error", error1);
                             }
                         }
                         _run(index, job, wait) {
@@ -619,17 +618,17 @@
                             }, this.stop = ()=>this.Promise.reject(new Bottleneck.prototype.BottleneckError("stop() has already been called")), done;
                         }
                         async _addToQueue(job) {
-                            var args, blocked, error, options, reachedHWM, shifted, strategy;
+                            var args, blocked, options, reachedHWM, shifted, strategy;
                             ({ args , options  } = job);
                             try {
                                 ({ reachedHWM , blocked , strategy  } = await this._store.__submit__(this.queued(), options.weight));
                             } catch (error1) {
-                                return error = error1, this.Events.trigger("debug", `Could not queue ${options.id}`, {
+                                return this.Events.trigger("debug", `Could not queue ${options.id}`, {
                                     args,
                                     options,
-                                    error
+                                    error: error1
                                 }), job.doDrop({
-                                    error
+                                    error: error1
                                 }), !1;
                             }
                             return blocked ? (job.doDrop(), !0) : reachedHWM && (null != (shifted = strategy === Bottleneck.prototype.strategy.LEAK ? this._queues.shiftLastFrom(options.priority) : strategy === Bottleneck.prototype.strategy.OVERFLOW_PRIORITY ? this._queues.shiftLastFrom(options.priority + 1) : strategy === Bottleneck.prototype.strategy.OVERFLOW ? job : void 0) && shifted.doDrop(), null == shifted || strategy === Bottleneck.prototype.strategy.OVERFLOW) ? (null == shifted && job.doDrop(), reachedHWM) : (job.doQueue(reachedHWM, blocked), this._queues.push(job), await this._drainAll(), reachedHWM);

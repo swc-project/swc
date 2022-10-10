@@ -1738,7 +1738,7 @@
         }
     }
     function updateAttrs(oldVnode, vnode) {
-        var key, cur, old, opts = vnode.componentOptions;
+        var key, cur, opts = vnode.componentOptions;
         if (!(isDef(opts) && !1 === opts.Ctor.options.inheritAttrs || isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs))) {
             var elm = vnode.elm, oldAttrs = oldVnode.data.attrs || {}, attrs = vnode.data.attrs || {};
             for(key in isDef(attrs.__ob__) && (attrs = vnode.data.attrs = extend({}, attrs)), attrs)cur = attrs[key], oldAttrs[key] !== cur && setAttr(elm, key, cur);
@@ -2382,7 +2382,7 @@
                             isDef(i = data.hook) && isDef(i = i.update) && i(oldVnode, vnode);
                         }
                         isUndef(vnode.text) ? isDef(oldCh) && isDef(ch) ? oldCh !== ch && function(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
-                            var oldKeyToIdx, idxInOld, vnodeToMove, refElm, oldStartIdx = 0, newStartIdx = 0, oldEndIdx = oldCh.length - 1, oldStartVnode = oldCh[0], oldEndVnode = oldCh[oldEndIdx], newEndIdx = newCh.length - 1, newStartVnode = newCh[0], newEndVnode = newCh[newEndIdx], canMove = !removeOnly;
+                            var oldKeyToIdx, idxInOld, vnodeToMove, oldStartIdx = 0, newStartIdx = 0, oldEndIdx = oldCh.length - 1, oldStartVnode = oldCh[0], oldEndVnode = oldCh[oldEndIdx], newEndIdx = newCh.length - 1, newStartVnode = newCh[0], newEndVnode = newCh[newEndIdx], canMove = !removeOnly;
                             for(checkDuplicateKeys(newCh); oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx;)isUndef(oldStartVnode) ? oldStartVnode = oldCh[++oldStartIdx] : isUndef(oldEndVnode) ? oldEndVnode = oldCh[--oldEndIdx] : sameVnode(oldStartVnode, newStartVnode) ? (patchVnode(oldStartVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), oldStartVnode = oldCh[++oldStartIdx], newStartVnode = newCh[++newStartIdx]) : sameVnode(oldEndVnode, newEndVnode) ? (patchVnode(oldEndVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), oldEndVnode = oldCh[--oldEndIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldStartVnode, newEndVnode) ? (patchVnode(oldStartVnode, newEndVnode, insertedVnodeQueue, newCh, newEndIdx), canMove && nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm)), oldStartVnode = oldCh[++oldStartIdx], newEndVnode = newCh[--newEndIdx]) : sameVnode(oldEndVnode, newStartVnode) ? (patchVnode(oldEndVnode, newStartVnode, insertedVnodeQueue, newCh, newStartIdx), canMove && nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm), oldEndVnode = oldCh[--oldEndIdx], newStartVnode = newCh[++newStartIdx]) : (isUndef(oldKeyToIdx) && (oldKeyToIdx = function(children, beginIdx, endIdx) {
                                 var i, key, map = {};
                                 for(i = beginIdx; i <= endIdx; ++i)isDef(key = children[i].key) && (map[key] = i);
@@ -2829,13 +2829,13 @@
                 else if (onRE.test(name)) name = name.replace(onRE, ''), (isDynamic = dynamicArgRE.test(name)) && (name = name.slice(1, -1)), addHandler(el, name, value, modifiers, !1, warn$2, list[i], isDynamic);
                 else {
                     var el1, name1, rawName1, value1, arg, isDynamicArg, modifiers1, range, argMatch = (name = name.replace(dirRE, '')).match(argRE), arg1 = argMatch && argMatch[1];
-                    isDynamic = !1, arg1 && (name = name.slice(0, -(arg1.length + 1)), dynamicArgRE.test(arg1) && (arg1 = arg1.slice(1, -1), isDynamic = !0)), el1 = el, name1 = name, value1 = value, arg = arg1, isDynamicArg = isDynamic, modifiers1 = modifiers, range = list[i], (el1.directives || (el1.directives = [])).push(rangeSetItem({
+                    isDynamic = !1, arg1 && (name = name.slice(0, -(arg1.length + 1)), dynamicArgRE.test(arg1) && (arg1 = arg1.slice(1, -1), isDynamic = !0)), el1 = el, name1 = name, value1 = value, arg = arg1, isDynamicArg = isDynamic, range = list[i], (el1.directives || (el1.directives = [])).push(rangeSetItem({
                         name: name1,
                         rawName: rawName,
                         value: value1,
                         arg: arg,
                         isDynamicArg: isDynamicArg,
-                        modifiers: modifiers1
+                        modifiers: modifiers
                     }, range)), el1.plain = !1, 'model' === name && function(el, value) {
                         for(var _el = el; _el;)_el.for && _el.alias === value && warn$2("<" + el.tag + " v-model=\"" + value + '">: You are binding v-model directly to a v-for iteration alias. This will not be able to modify the v-for source array because writing to the alias is like modifying a function local variable. Consider using an array of objects and use v-model on an object property instead.', el.rawAttrsMap['v-model']), _el = _el.parent;
                     }(el, value);
@@ -2935,9 +2935,8 @@
         modules: modules$1,
         directives: {
             model: function(el, dir, _warn) {
-                warn$1 = _warn;
                 var el1, value, modifiers, code, el2, value1, modifiers1, number, valueBinding, trueValueBinding, falseValueBinding, el3, value2, modifiers2, number1, valueBinding1, value3 = dir.value, modifiers3 = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
-                if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value3 + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value3, modifiers3), !1;
+                if ('input' === tag && 'file' === type && _warn("<" + el.tag + " v-model=\"" + value3 + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value3, modifiers3), !1;
                 if ('select' === tag) {
                     el1 = el, value = value3, addHandler(el1, 'change', code = (code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + ((modifiers = modifiers3) && modifiers.number ? '_n(val)' : 'val') + "});") + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 } else if ('input' === tag && 'checkbox' === type) {
@@ -2948,7 +2947,7 @@
                     var type = el.attrsMap.type, value$1 = el.attrsMap['v-bind:value'] || el.attrsMap[':value'], typeBinding = el.attrsMap['v-bind:type'] || el.attrsMap[':type'];
                     if (value$1 && !typeBinding) {
                         var binding = el.attrsMap['v-bind:value'] ? 'v-bind:value' : ':value';
-                        warn$1(binding + "=\"" + value$1 + '" conflicts with v-model on the same element because the latter already expands to a value binding internally', el.rawAttrsMap[binding]);
+                        _warn(binding + "=\"" + value$1 + '" conflicts with v-model on the same element because the latter already expands to a value binding internally', el.rawAttrsMap[binding]);
                     }
                     var ref = modifiers || {}, lazy = ref.lazy, number = ref.number, trim = ref.trim, valueExpression = '$event.target.value';
                     trim && (valueExpression = "$event.target.value.trim()"), number && (valueExpression = "_n(" + valueExpression + ")");
@@ -2957,7 +2956,7 @@
                 }(el, value3, modifiers3);
                 else {
                     if (!config.isReservedTag(tag)) return genComponentModel(el, value3, modifiers3), !1;
-                    warn$1("<" + el.tag + " v-model=\"" + value3 + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
+                    _warn("<" + el.tag + " v-model=\"" + value3 + "\">: v-model is not supported on this element type. If you are working with contenteditable, it's recommended to wrap a library dedicated for that purpose inside a custom component.", el.rawAttrsMap['v-model']);
                 }
                 return !0;
             },
