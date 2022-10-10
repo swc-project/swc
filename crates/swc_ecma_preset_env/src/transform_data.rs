@@ -92,19 +92,24 @@ pub enum Feature {
     /// `transform-async-to-generator`
     AsyncToGenerator,
 
-    /// `proposal-async-generator-functions`
+    /// `transform-async-generator-functions`
+    #[string_enum(alias("proposal-async-generator-functions"))]
     AsyncGeneratorFunctions,
 
-    /// `proposal-object-rest-spread`
+    /// `transform-object-rest-spread`
+    #[string_enum(alias("proposal-object-rest-spread"))]
     ObjectRestSpread,
 
-    /// `proposal-unicode-property-regex`
+    /// `transform-unicode-property-regex`
+    #[string_enum(alias("proposal-unicode-property-regex"))]
     UnicodePropertyRegex,
 
-    /// `proposal-json-strings`
+    /// `transform-json-strings`
+    #[string_enum(alias("proposal-json-strings"))]
     JsonStrings,
 
-    /// `proposal-optional-catch-binding`
+    /// `transform-optional-catch-binding`
+    #[string_enum(alias("proposal-optional-catch-binding"))]
     OptionalCatchBinding,
 
     /// `transform-named-capturing-groups-regex`
