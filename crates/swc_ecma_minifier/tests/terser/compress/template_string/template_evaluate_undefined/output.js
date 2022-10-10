@@ -1,4 +1,4 @@
-()=>{
+() => {
     let x;
-    console.log(x + `?ts=${Date.now()}`);
+    console.log(`undefined?ts=${Date.now()}`);
 };
