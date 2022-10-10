@@ -136,10 +136,21 @@ struct IndexedOperatorAndOperand<T> {
     operand: IndexedData<T>,
 }
 
-type SumOperation = fn(v1: f64, v2: f64) -> f64;
+type SumOperation = fn(v1: f64, v2: f64, ratio: Option<f64>) -> f64;
 
-const SUM_OPERATION_ADD: SumOperation = |v1, v2| v1 + v2;
-const SUM_OPERATION_SUBTRACT: SumOperation = |v1, v2| v1 - v2;
+const SUM_OPERATION_ADD: SumOperation = |v1, v2, ratio| match ratio {
+    None => v1 + v2,
+    Some(r) => v2.mul_add(r, v1),
+};
+const SUM_OPERATION_SUBTRACT: SumOperation = |v1, v2, ratio| match ratio {
+    None => v1 - v2,
+    Some(r) => -(v2.mul_add(r, -v1)),
+};
+
+fn get_precision(n: f64) -> usize {
+    let n_as_str = n.to_string();
+    n_as_str.find('.').map_or(0, |sep| n_as_str.len() - sep)
+}
 
 struct CalcSumContext {
     number: Option<IndexedOperatorAndOperand<Number>>,
@@ -187,7 +198,7 @@ impl CalcSumContext {
             match calc_product_or_operator {
                 CalcProductOrOperator::Product(calc_product) => {
                     fold_calc_product(calc_product);
-                    self.push(&operator, calc_product);
+                    self.reduce(&operator, calc_product);
                 }
                 _ => {
                     // We should have an operand
@@ -229,7 +240,7 @@ impl CalcSumContext {
         }
     }
 
-    fn push(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct) {
+    fn reduce(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct) {
         if operand.expressions.len() == 1 {
             match operand.expressions.get(0).unwrap() {
                 CalcValueOrOperator::Value(CalcValue::Number(n)) => {
@@ -267,25 +278,23 @@ impl CalcSumContext {
                 }
                 _ => {
                     // Other cases (constant, function...), just push the data
-                    if let Some(op) = operator {
-                        self.expressions
-                            .push(CalcProductOrOperator::Operator(op.clone()));
-                    }
-
-                    self.expressions
-                        .push(CalcProductOrOperator::Product(operand.clone()));
+                    self.push(operator, operand);
                 }
             }
         } else {
             // The calc product is not "simple", just push the data
-            if let Some(op) = operator {
-                self.expressions
-                    .push(CalcProductOrOperator::Operator(op.clone()));
-            }
-
-            self.expressions
-                .push(CalcProductOrOperator::Product(operand.clone()));
+            self.push(operator, operand);
         }
+    }
+
+    fn push(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct) {
+        if let Some(op) = operator {
+            self.expressions
+                .push(CalcProductOrOperator::Operator(op.clone()));
+        }
+
+        self.expressions
+            .push(CalcProductOrOperator::Product(operand.clone()));
     }
 
     fn sum_number(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, n: &Number) {
@@ -294,19 +303,28 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value =
-                    CalcSumContext::sum_values(prev_operator, operator, data.value, n.value);
-
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value,
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Number(data.clone())),
-                );
+                    operator,
+                    data.value,
+                    n.value,
+                    None,
+                ) {
+                    data.value = result;
+
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Number(data.clone())),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => self.number = Some(self.new_indexed_data(operator, operand, n.clone())),
         }
@@ -323,23 +341,28 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value.value = CalcSumContext::sum_values(
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
                     operator,
                     data.value.value,
                     p.value.value,
-                );
+                    None,
+                ) {
+                    data.value.value = result;
 
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value.value,
-                    prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Percentage(data.clone())),
-                );
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Percentage(data.clone())),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => self.percentage = Some(self.new_indexed_data(operator, operand, p.clone())),
         }
@@ -368,25 +391,30 @@ impl CalcSumContext {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = l.unit.value.to_ascii_lowercase();
                 if let Some(ratio) = get_absolute_length_ratio(&prev_unit, &unit) {
-                    data.value.value = CalcSumContext::sum_values(
+                    if let Some(result) = CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
-                        l.value.value * ratio,
-                    );
+                        l.value.value,
+                        Some(*ratio),
+                    ) {
+                        data.value.value = result;
 
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
-                            data.clone(),
-                        ))),
-                    );
+                        CalcSumContext::switch_sign_if_needed(
+                            &mut self.expressions,
+                            &mut data.value.value,
+                            prev_operator,
+                        );
+                        CalcSumContext::update_calc_value(
+                            &mut self.expressions,
+                            *pos,
+                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
+                                data.clone(),
+                            ))),
+                        );
+                    } else {
+                        self.push(operator, operand);
+                    }
                 }
             }
             None => {
@@ -407,25 +435,29 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value.value = CalcSumContext::sum_values(
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
                     operator,
                     data.value.value,
                     l.value.value,
-                );
-
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value.value,
-                    prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
-                        data.clone(),
-                    ))),
-                );
+                    None,
+                ) {
+                    data.value.value = result;
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Length(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => {
                 let indexed_data: IndexedOperatorAndOperand<Length> =
@@ -441,25 +473,30 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value.value = CalcSumContext::sum_values(
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
                     operator,
                     data.value.value,
                     a.value.value,
-                );
+                    None,
+                ) {
+                    data.value.value = result;
 
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value.value,
-                    prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(
-                        data.clone(),
-                    ))),
-                );
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Angle(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => self.angle = Some(self.new_indexed_data(operator, operand, a.clone())),
         }
@@ -474,25 +511,30 @@ impl CalcSumContext {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = d.unit.value.to_ascii_lowercase();
                 if let Some(ratio) = get_duration_ratio(&prev_unit, &unit) {
-                    data.value.value = CalcSumContext::sum_values(
+                    if let Some(result) = CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
-                        d.value.value * ratio,
-                    );
+                        d.value.value,
+                        Some(*ratio),
+                    ) {
+                        data.value.value = result;
 
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(
-                            data.clone(),
-                        ))),
-                    );
+                        CalcSumContext::switch_sign_if_needed(
+                            &mut self.expressions,
+                            &mut data.value.value,
+                            prev_operator,
+                        );
+                        CalcSumContext::update_calc_value(
+                            &mut self.expressions,
+                            *pos,
+                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Time(
+                                data.clone(),
+                            ))),
+                        );
+                    } else {
+                        self.push(operator, operand);
+                    }
                 }
             }
             None => self.duration = Some(self.new_indexed_data(operator, operand, d.clone())),
@@ -503,7 +545,7 @@ impl CalcSumContext {
         &mut self,
         operator: &Option<CalcOperator>,
         operand: &CalcProduct,
-        d: &Frequency,
+        f: &Frequency,
     ) {
         match &mut self.frequency {
             Some(IndexedOperatorAndOperand {
@@ -511,30 +553,35 @@ impl CalcSumContext {
                 operand: IndexedData { pos, data },
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
-                let unit = d.unit.value.to_ascii_lowercase();
+                let unit = f.unit.value.to_ascii_lowercase();
                 if let Some(ratio) = get_frequency_ratio(&prev_unit, &unit) {
-                    data.value.value = CalcSumContext::sum_values(
+                    if let Some(result) = CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
-                        d.value.value * ratio,
-                    );
+                        f.value.value,
+                        Some(*ratio),
+                    ) {
+                        data.value.value = result;
 
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(
-                            data.clone(),
-                        ))),
-                    );
+                        CalcSumContext::switch_sign_if_needed(
+                            &mut self.expressions,
+                            &mut data.value.value,
+                            prev_operator,
+                        );
+                        CalcSumContext::update_calc_value(
+                            &mut self.expressions,
+                            *pos,
+                            CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Frequency(
+                                data.clone(),
+                            ))),
+                        );
+                    } else {
+                        self.push(operator, operand);
+                    }
                 }
             }
-            None => self.frequency = Some(self.new_indexed_data(operator, operand, d.clone())),
+            None => self.frequency = Some(self.new_indexed_data(operator, operand, f.clone())),
         }
     }
 
@@ -552,25 +599,30 @@ impl CalcSumContext {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = r.unit.value.to_ascii_lowercase();
                 if let Some(ratio) = get_resolution_ratio(&prev_unit, &unit) {
-                    data.value.value = CalcSumContext::sum_values(
+                    if let Some(result) = CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
-                        r.value.value * ratio,
-                    );
+                        r.value.value,
+                        Some(*ratio),
+                    ) {
+                        data.value.value = result;
 
-                    CalcSumContext::switch_sign_if_needed(
-                        &mut self.expressions,
-                        &mut data.value.value,
-                        prev_operator,
-                    );
-                    CalcSumContext::update_calc_value(
-                        &mut self.expressions,
-                        *pos,
-                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Resolution(
-                            data.clone(),
-                        ))),
-                    );
+                        CalcSumContext::switch_sign_if_needed(
+                            &mut self.expressions,
+                            &mut data.value.value,
+                            prev_operator,
+                        );
+                        CalcSumContext::update_calc_value(
+                            &mut self.expressions,
+                            *pos,
+                            CalcValueOrOperator::Value(CalcValue::Dimension(
+                                Dimension::Resolution(data.clone()),
+                            )),
+                        );
+                    } else {
+                        self.push(operator, operand);
+                    }
                 }
             }
             None => self.resolution = Some(self.new_indexed_data(operator, operand, r.clone())),
@@ -583,23 +635,29 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value.value = CalcSumContext::sum_values(
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
                     operator,
                     data.value.value,
                     f.value.value,
-                );
-
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value.value,
-                    prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(data.clone()))),
-                );
+                    None,
+                ) {
+                    data.value.value = result;
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::Flex(
+                            data.clone(),
+                        ))),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => self.flex = Some(self.new_indexed_data(operator, operand, f.clone())),
         }
@@ -617,25 +675,30 @@ impl CalcSumContext {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
-                data.value.value = CalcSumContext::sum_values(
+                if let Some(result) = CalcSumContext::try_to_sum_values(
                     prev_operator,
                     operator,
                     data.value.value,
                     u.value.value,
-                );
+                    None,
+                ) {
+                    data.value.value = result;
 
-                CalcSumContext::switch_sign_if_needed(
-                    &mut self.expressions,
-                    &mut data.value.value,
-                    prev_operator,
-                );
-                CalcSumContext::update_calc_value(
-                    &mut self.expressions,
-                    *pos,
-                    CalcValueOrOperator::Value(CalcValue::Dimension(Dimension::UnknownDimension(
-                        data.clone(),
-                    ))),
-                );
+                    CalcSumContext::switch_sign_if_needed(
+                        &mut self.expressions,
+                        &mut data.value.value,
+                        prev_operator,
+                    );
+                    CalcSumContext::update_calc_value(
+                        &mut self.expressions,
+                        *pos,
+                        CalcValueOrOperator::Value(CalcValue::Dimension(
+                            Dimension::UnknownDimension(data.clone()),
+                        )),
+                    );
+                } else {
+                    self.push(operator, operand);
+                }
             }
             None => {
                 let indexed_data: IndexedOperatorAndOperand<UnknownDimension> =
@@ -652,19 +715,17 @@ impl CalcSumContext {
         data: T,
     ) -> IndexedOperatorAndOperand<T> {
         let mut indexed_operator = None;
+        let mut pos = self.expressions.len();
+
+        self.push(operator, operand);
 
         if let Some(op) = operator {
             indexed_operator = Some(IndexedData {
-                pos: self.expressions.len(),
+                pos,
                 data: op.clone(),
             });
-            self.expressions
-                .push(CalcProductOrOperator::Operator(op.clone()));
+            pos += 1;
         }
-
-        let pos = self.expressions.len();
-        self.expressions
-            .push(CalcProductOrOperator::Product(operand.clone()));
 
         IndexedOperatorAndOperand {
             operator: indexed_operator,
@@ -692,9 +753,9 @@ impl CalcSumContext {
         value: &mut f64,
         operator: &mut Option<IndexedData<CalcOperator>>,
     ) {
-        if *value < 0.0 {
+        if value.is_sign_negative() {
             if let Some(IndexedData { data, pos }) = operator {
-                *value = -*value;
+                *value = value.copysign(1.0);
                 data.value = if data.value == CalcOperatorType::Add {
                     CalcOperatorType::Sub
                 } else {
@@ -716,13 +777,14 @@ impl CalcSumContext {
         }
     }
 
-    fn sum_values(
+    fn try_to_sum_values(
         operator1: &Option<IndexedData<CalcOperator>>,
         operator2: &Option<CalcOperator>,
         n1: f64,
         n2: f64,
-    ) -> f64 {
-        match (operator1, operator2) {
+        ratio: Option<f64>,
+    ) -> Option<f64> {
+        let result = match (operator1, operator2) {
             (
                 None,
                 Some(CalcOperator {
@@ -735,7 +797,7 @@ impl CalcSumContext {
                     SUM_OPERATION_SUBTRACT
                 };
 
-                sum(n1, n2)
+                sum(n1, n2, ratio)
             }
             (
                 Some(op1),
@@ -749,9 +811,19 @@ impl CalcSumContext {
                     SUM_OPERATION_SUBTRACT
                 };
 
-                sum(n1, n2)
+                sum(n1, n2, ratio)
             }
             _ => unreachable!("The second operator is never None"),
+        };
+
+        let precision1 = get_precision(n1);
+        let precision2 = get_precision(n2) + ratio.map_or(0, get_precision);
+        let result_precision = get_precision(result);
+
+        if result_precision <= precision1.max(precision2) {
+            Some(result)
+        } else {
+            None
         }
     }
 }
@@ -838,98 +910,127 @@ fn try_to_multiply_calc_values(value1: &CalcValue, value2: &CalcValue) -> Option
     }
 }
 
+fn try_to_multiply_values(v1: f64, v2: f64) -> Option<f64> {
+    let result = v1 * v2;
+
+    let precision1 = get_precision(v1);
+    let precision2 = get_precision(v2);
+    let result_precision = get_precision(result);
+
+    if result_precision <= (precision1 + precision2) {
+        Some(result)
+    } else {
+        None
+    }
+}
+
 fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcValue> {
     match value {
-        CalcValue::Number(n2) => Some(CalcValue::Number(Number {
-            value: n.value * n2.value,
-            span: n2.span,
-            raw: None,
-        })),
+        CalcValue::Number(n2) => try_to_multiply_values(n.value, n2.value).map(|result| {
+            CalcValue::Number(Number {
+                value: result,
+                span: n2.span,
+                raw: None,
+            })
+        }),
         CalcValue::Dimension(Dimension::Length(l)) => {
-            Some(CalcValue::Dimension(Dimension::Length(Length {
-                span: l.span,
-                value: Number {
-                    value: n.value * l.value.value,
-                    span: l.value.span,
-                    raw: None,
-                },
-                unit: l.unit.clone(),
-            })))
+            try_to_multiply_values(n.value, l.value.value).map(|result| {
+                CalcValue::Dimension(Dimension::Length(Length {
+                    span: l.span,
+                    value: Number {
+                        value: result,
+                        span: l.value.span,
+                        raw: None,
+                    },
+                    unit: l.unit.clone(),
+                }))
+            })
         }
-        CalcValue::Dimension(Dimension::Angle(a)) => {
-            Some(CalcValue::Dimension(Dimension::Angle(Angle {
-                span: a.span,
-                value: Number {
-                    value: n.value * a.value.value,
-                    span: a.value.span,
-                    raw: None,
-                },
-                unit: a.unit.clone(),
-            })))
-        }
-        CalcValue::Dimension(Dimension::Time(t)) => {
-            Some(CalcValue::Dimension(Dimension::Time(Time {
-                span: t.span,
-                value: Number {
-                    value: n.value * t.value.value,
-                    span: t.value.span,
-                    raw: None,
-                },
-                unit: t.unit.clone(),
-            })))
-        }
+        CalcValue::Dimension(Dimension::Angle(a)) => try_to_multiply_values(n.value, a.value.value)
+            .map(|result| {
+                CalcValue::Dimension(Dimension::Angle(Angle {
+                    span: a.span,
+                    value: Number {
+                        value: result,
+                        span: a.value.span,
+                        raw: None,
+                    },
+                    unit: a.unit.clone(),
+                }))
+            }),
+        CalcValue::Dimension(Dimension::Time(t)) => try_to_multiply_values(n.value, t.value.value)
+            .map(|result| {
+                CalcValue::Dimension(Dimension::Time(Time {
+                    span: t.span,
+                    value: Number {
+                        value: result,
+                        span: t.value.span,
+                        raw: None,
+                    },
+                    unit: t.unit.clone(),
+                }))
+            }),
         CalcValue::Dimension(Dimension::Frequency(f)) => {
-            Some(CalcValue::Dimension(Dimension::Frequency(Frequency {
-                span: f.span,
-                value: Number {
-                    value: n.value * f.value.value,
-                    span: f.value.span,
-                    raw: None,
-                },
-                unit: f.unit.clone(),
-            })))
+            try_to_multiply_values(n.value, f.value.value).map(|result| {
+                CalcValue::Dimension(Dimension::Frequency(Frequency {
+                    span: f.span,
+                    value: Number {
+                        value: result,
+                        span: f.value.span,
+                        raw: None,
+                    },
+                    unit: f.unit.clone(),
+                }))
+            })
         }
         CalcValue::Dimension(Dimension::Resolution(r)) => {
-            Some(CalcValue::Dimension(Dimension::Resolution(Resolution {
-                span: r.span,
-                value: Number {
-                    value: n.value * r.value.value,
-                    span: r.value.span,
-                    raw: None,
-                },
-                unit: r.unit.clone(),
-            })))
+            try_to_multiply_values(n.value, r.value.value).map(|result| {
+                CalcValue::Dimension(Dimension::Resolution(Resolution {
+                    span: r.span,
+                    value: Number {
+                        value: result,
+                        span: r.value.span,
+                        raw: None,
+                    },
+                    unit: r.unit.clone(),
+                }))
+            })
         }
-        CalcValue::Dimension(Dimension::Flex(f)) => {
-            Some(CalcValue::Dimension(Dimension::Flex(Flex {
-                span: f.span,
-                value: Number {
-                    value: n.value * f.value.value,
-                    span: f.value.span,
-                    raw: None,
-                },
-                unit: f.unit.clone(),
-            })))
-        }
-        CalcValue::Dimension(Dimension::UnknownDimension(u)) => Some(CalcValue::Dimension(
-            Dimension::UnknownDimension(UnknownDimension {
-                span: u.span,
-                value: Number {
-                    value: n.value * u.value.value,
-                    span: u.value.span,
-                    raw: None,
-                },
-                unit: u.unit.clone(),
+        CalcValue::Dimension(Dimension::Flex(f)) => try_to_multiply_values(n.value, f.value.value)
+            .map(|result| {
+                CalcValue::Dimension(Dimension::Flex(Flex {
+                    span: f.span,
+                    value: Number {
+                        value: result,
+                        span: f.value.span,
+                        raw: None,
+                    },
+                    unit: f.unit.clone(),
+                }))
             }),
-        )),
-        CalcValue::Percentage(p) => Some(CalcValue::Percentage(Percentage {
-            span: p.span,
-            value: Number {
-                value: n.value * p.value.value,
-                span: p.value.span,
-                raw: None,
-            },
-        })),
+        CalcValue::Dimension(Dimension::UnknownDimension(u)) => {
+            try_to_multiply_values(n.value, u.value.value).map(|result| {
+                CalcValue::Dimension(Dimension::UnknownDimension(UnknownDimension {
+                    span: u.span,
+                    value: Number {
+                        value: result,
+                        span: u.value.span,
+                        raw: None,
+                    },
+                    unit: u.unit.clone(),
+                }))
+            })
+        }
+        CalcValue::Percentage(p) => try_to_multiply_values(n.value, p.value.value).map(|result| {
+            CalcValue::Percentage(Percentage {
+                span: p.span,
+                value: Number {
+                    value: result,
+                    span: p.value.span,
+                    raw: None,
+                },
+            })
+        }),
         CalcValue::Constant(_) => {
             // TODO handle some constants like "+Infinity", "-Infinity" and "NaN"
             // see https://www.w3.org/TR/css-values-4/#calc-type-checking
