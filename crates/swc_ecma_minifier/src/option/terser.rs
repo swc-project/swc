@@ -353,6 +353,9 @@ impl TerserCompressorOptions {
             reduce_fns: self.reduce_funcs.unwrap_or(self.defaults),
             // TODO: Use self.defaults
             reduce_vars: self.reduce_vars.unwrap_or(false),
+            // TODO: Use self.defaults
+            reduce_fns: self.reduce_funcs.unwrap_or(false),
+            reduce_vars: self.reduce_vars.unwrap_or(self.defaults),
             sequences: self
                 .sequences
                 .map(|v| match v {
