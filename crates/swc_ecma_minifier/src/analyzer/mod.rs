@@ -137,6 +137,7 @@ pub(crate) struct VarUsageInfo {
     infects: Vec<Access>,
 
     pub used_in_non_child_fn: bool,
+    /// Only **string** properties.
     pub accessed_props: Box<AHashMap<JsWord, u32>>,
 
     pub used_recursively: bool,
