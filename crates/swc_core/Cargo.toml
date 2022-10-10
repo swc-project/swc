@@ -19,7 +19,7 @@ version       = "0.32.6"
     "utils",
     "ecma_transforms",
     "bundler",
-    "loader",
+    "ecma_loader",
     "ecma_ast",
     "trace_macro",
     "plugin_transform",
@@ -62,9 +62,7 @@ base_concurrent = ["__base", "swc/concurrent"]
 # Enables n-api related features.
 base_node = [
   "__base",
-  "swc/node",
-  # Assume if anyone enables n-api related codes, they may would like to use
-  # some utility functions as well.
+  "swc/node",          # Assume if anyone enables n-api related codes, they may would like to use  # some utility functions as well.
   "swc_nodejs_common",
 ]
 
@@ -148,6 +146,7 @@ ecma_preset_env = ["__ecma", "swc_ecma_preset_env"]
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
 css_codegen    = ["__css", "swc_css_codegen"]
+css_compat     = ["__css", "swc_css_compat"]
 css_minifier   = ["__css", "swc_css_minifier"]
 css_parser     = ["__css", "swc_css_parser"]
 css_prefixer   = ["__css", "swc_css_prefixer"]
@@ -254,8 +253,7 @@ __plugin_transform_host = [
   "swc_ecma_ast/rkyv-impl",
   "swc_atoms/rkyv-impl",
   "swc_common/plugin-rt",
-  "swc_plugin_runner/rkyv-impl",
-  # TODO: we may simply flag around downlevel plugin feature
+  "swc_plugin_runner/rkyv-impl", # TODO: we may simply flag around downlevel plugin feature
   "swc_plugin_proxy/plugin-rt",
   "swc/plugin",
 ]
@@ -357,6 +355,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.22.5", path =
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.31.5", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
+swc_css_compat    = { version = "0.1.0", path = "../swc_css_compat", optional = true }
 swc_plugin_runner = { optional = true, version = "0.77.6", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
