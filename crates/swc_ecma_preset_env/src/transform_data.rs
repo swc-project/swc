@@ -140,7 +140,7 @@ pub enum Feature {
     /// `proposal-private-methods`
     PrivateMethods,
 
-    /// `proposal-class-static-block`
+    /// `transform-class-static-block`
     ClassStaticBlock,
 
     /// `proposal-private-property-in-object`
