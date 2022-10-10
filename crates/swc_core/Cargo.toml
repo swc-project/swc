@@ -19,7 +19,7 @@ version       = "0.32.6"
     "utils",
     "ecma_transforms",
     "bundler",
-    "loader",
+    "ecma_loader",
     "ecma_ast",
     "trace_macro",
     "plugin_transform",
