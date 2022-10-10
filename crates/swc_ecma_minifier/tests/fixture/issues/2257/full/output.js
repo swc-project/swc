@@ -7403,13 +7403,13 @@
                 proto: !0
             }, {
                 replaceAll: function(searchValue, replaceValue) {
-                    var IS_REG_EXP, replacer, string, searchString, functionalReplace, searchLength, advanceBy, replacement, O = requireObjectCoercible(this), position = 0, endOfLastMatch = 0, result = "";
+                    var IS_REG_EXP, replacer, string, searchString, functionalReplace, searchLength, advanceBy, O = requireObjectCoercible(this), position = 0, endOfLastMatch = 0, result = "";
                     if (null != searchValue) {
                         if ((IS_REG_EXP = isRegExp(searchValue)) && !~toString1(requireObjectCoercible("flags" in RegExpPrototype ? searchValue.flags : getRegExpFlags.call(searchValue))).indexOf("g")) throw TypeError("`.replaceAll` does not allow non-global regexes");
                         if (replacer = getMethod(searchValue, REPLACE)) return replacer.call(searchValue, O, replaceValue);
                         if (IS_PURE && IS_REG_EXP) return toString1(O).replace(searchValue, replaceValue);
                     }
-                    for(string = toString1(O), searchString = toString1(searchValue), (functionalReplace = isCallable(replaceValue)) || (replaceValue = toString1(replaceValue)), advanceBy = max(1, searchLength = searchString.length), position = stringIndexOf(string, searchString, 0); -1 !== position;)replacement = functionalReplace ? toString1(replaceValue(searchString, position, string)) : getSubstitution(searchString, string, position, [], void 0, replaceValue), result += string.slice(endOfLastMatch, position) + replacement, endOfLastMatch = position + searchLength, position = stringIndexOf(string, searchString, position + advanceBy);
+                    for(string = toString1(O), searchString = toString1(searchValue), (functionalReplace = isCallable(replaceValue)) || (replaceValue = toString1(replaceValue)), advanceBy = max(1, searchLength = searchString.length), position = stringIndexOf(string, searchString, 0); -1 !== position;)result += string.slice(endOfLastMatch, position) + (functionalReplace ? toString1(replaceValue(searchString, position, string)) : getSubstitution(searchString, string, position, [], void 0, replaceValue)), endOfLastMatch = position + searchLength, position = stringIndexOf(string, searchString, position + advanceBy);
                     return endOfLastMatch < string.length && (result += string.slice(endOfLastMatch)), result;
                 }
             });
@@ -16513,7 +16513,7 @@
                         var f = e + N(k, g);
                         h += O(k, b, c, f, d);
                     }
-                    else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = e + N(k = k.value, g++), h += O(k, b, c, f, d);
+                    else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = x && a2[x] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)h += O(k, b, c, f = e + N(k = k.value, g++), d);
                     else if ("object" === k) throw Error(z(31, "[object Object]" == (b = "" + a) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b));
                 }(a, e, "", "", function(a) {
                     return b.call(c, a, d++);

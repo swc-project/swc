@@ -387,10 +387,7 @@
                     var a = 0 | self1.words[0], b = 0 | num.words[0], r = a * b, lo = 0x3ffffff & r, carry = r / 0x4000000 | 0;
                     out.words[0] = lo;
                     for(var k = 1; k < len; k++){
-                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
-                            var i = k - j | 0;
-                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
-                        }
+                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++)ncarry += (r = (a = 0 | self1.words[k - j | 0]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
                     return 0 !== carry ? out.words[k] = 0 | carry : out.length--, out._strip();
@@ -7643,10 +7640,7 @@
                     var a = 0 | self1.words[0], b = 0 | num.words[0], r = a * b, lo = 0x3ffffff & r, carry = r / 0x4000000 | 0;
                     out.words[0] = lo;
                     for(var k = 1; k < len; k++){
-                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++){
-                            var i = k - j | 0;
-                            ncarry += (r = (a = 0 | self1.words[i]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
-                        }
+                        for(var ncarry = carry >>> 26, rword = 0x3ffffff & carry, maxJ = Math.min(k, num.length - 1), j = Math.max(0, k - self1.length + 1); j <= maxJ; j++)ncarry += (r = (a = 0 | self1.words[k - j | 0]) * (b = 0 | num.words[j]) + rword) / 0x4000000 | 0, rword = 0x3ffffff & r;
                         out.words[k] = 0 | rword, carry = 0 | ncarry;
                     }
                     return 0 !== carry ? out.words[k] = 0 | carry : out.length--, out.strip();
@@ -13616,14 +13610,14 @@
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
                 var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
+                return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
+                return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
