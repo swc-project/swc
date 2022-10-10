@@ -61,7 +61,9 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.default = void 0;
-            var _jsxRuntime = __webpack_require__(37712), style = {
+            var _jsxRuntime = __webpack_require__(37712), toTitle = function(error, componentStack) {
+                return "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack);
+            }, style = {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
@@ -71,7 +73,7 @@
                 var componentStack = param.componentStack, error = param.error;
                 return _jsxRuntime.jsxs("div", {
                     style: style,
-                    title: "".concat(error.toString(), "\n\nThis is located at:").concat(componentStack),
+                    title: toTitle(error, componentStack),
                     children: [
                         _jsxRuntime.jsxs("svg", {
                             viewBox: "0 0 1024 1024",
@@ -3735,10 +3737,11 @@
             };
         },
         44990: function(module, __unused_webpack_exports, __webpack_require__) {
-            var global = __webpack_require__(19514), isCallable = __webpack_require__(67106);
+            var global = __webpack_require__(19514), isCallable = __webpack_require__(67106), aFunction = function(argument) {
+                return isCallable(argument) ? argument : void 0;
+            };
             module.exports = function(namespace, method) {
-                var argument;
-                return arguments.length < 2 ? isCallable(argument = global[namespace]) ? argument : void 0 : global[namespace] && global[namespace][method];
+                return arguments.length < 2 ? aFunction(global[namespace]) : global[namespace] && global[namespace][method];
             };
         },
         99422: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -4126,10 +4129,12 @@
             } : $expm1;
         },
         45404: function(module, __unused_webpack_exports, __webpack_require__) {
-            var sign = __webpack_require__(62381), abs = Math.abs, pow = Math.pow, EPSILON = pow(2, -52), EPSILON32 = pow(2, -23), MAX32 = pow(2, 127) * (2 - EPSILON32), MIN32 = pow(2, -126);
+            var sign = __webpack_require__(62381), abs = Math.abs, pow = Math.pow, EPSILON = pow(2, -52), EPSILON32 = pow(2, -23), MAX32 = pow(2, 127) * (2 - EPSILON32), MIN32 = pow(2, -126), roundTiesToEven = function(n) {
+                return n + 1 / EPSILON - 1 / EPSILON;
+            };
             module.exports = Math.fround || function(x) {
                 var a, result, $abs = abs(x), $sign = sign(x);
-                return $abs < MIN32 ? $sign * ($abs / MIN32 / EPSILON32 + 1 / EPSILON - 1 / EPSILON) * MIN32 * EPSILON32 : (result = (a = (1 + EPSILON32 / EPSILON) * $abs) - (a - $abs)) > MAX32 || result != result ? $sign * (1 / 0) : $sign * result;
+                return $abs < MIN32 ? $sign * roundTiesToEven($abs / MIN32 / EPSILON32) * MIN32 * EPSILON32 : (result = (a = (1 + EPSILON32 / EPSILON) * $abs) - (a - $abs)) > MAX32 || result != result ? $sign * (1 / 0) : $sign * result;
             };
         },
         41571: function(module) {
@@ -8484,7 +8489,7 @@
             }), redefine(URLSearchParamsPrototype, ITERATOR, URLSearchParamsPrototype.entries, {
                 name: "entries"
             }), redefine(URLSearchParamsPrototype, "toString", function() {
-                for(var entry, entries = getInternalParamsState(this).entries, result = [], index = 0; index < entries.length;)result.push(serialize((entry = entries[index++]).key) + "=" + serialize(entry.value));
+                for(var entry, entries = getInternalParamsState(this).entries, result = [], index = 0; index < entries.length;)entry = entries[index++], result.push(serialize(entry.key) + "=" + serialize(entry.value));
                 return result.join("&");
             }, {
                 enumerable: !0
@@ -8678,6 +8683,10 @@
             }, shortenURLsPath = function(url) {
                 var path = url.path, pathSize = path.length;
                 pathSize && ("file" != url.scheme || 1 != pathSize || !isWindowsDriveLetter(path[0], !0)) && path.pop();
+            }, isSingleDot = function(segment) {
+                return "." === segment || "%2e" === segment.toLowerCase();
+            }, isDoubleDot = function(segment) {
+                return ".." === (segment = segment.toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment;
             }, SCHEME_START = {}, SCHEME = {}, NO_SCHEME = {}, SPECIAL_RELATIVE_OR_AUTHORITY = {}, PATH_OR_AUTHORITY = {}, RELATIVE = {}, RELATIVE_SLASH = {}, SPECIAL_AUTHORITY_SLASHES = {}, SPECIAL_AUTHORITY_IGNORE_SLASHES = {}, AUTHORITY = {}, HOST = {}, HOSTNAME = {}, PORT = {}, FILE = {}, FILE_SLASH = {}, FILE_HOST = {}, PATH_START = {}, PATH = {}, CANNOT_BE_A_BASE_URL_PATH = {}, QUERY = {}, FRAGMENT = {}, parseURL = function(url, input, stateOverride, base) {
                 var codePoints, chr, bufferCodePoints, failure, state = stateOverride || SCHEME_START, pointer = 0, buffer = "", seenAt = !1, seenBracket = !1, seenPasswordToken = !1;
                 for(stateOverride || (url.scheme = "", url.username = "", url.password = "", url.host = null, url.port = null, url.path = [], url.query = null, url.fragment = null, url.cannotBeABaseURL = !1, input = input.replace(LEADING_AND_TRAILING_C0_CONTROL_OR_SPACE, "")), codePoints = arrayFrom(input = input.replace(TAB_AND_NEW_LINE, "")); pointer <= codePoints.length;){
@@ -8758,7 +8767,7 @@
                         case AUTHORITY:
                             if ("@" == chr) {
                                 seenAt && (buffer = "%40" + buffer), seenAt = !0, bufferCodePoints = arrayFrom(buffer);
-                                for(var segment, segment1, i = 0; i < bufferCodePoints.length; i++){
+                                for(var i = 0; i < bufferCodePoints.length; i++){
                                     var codePoint = bufferCodePoints[i];
                                     if (":" == codePoint && !seenPasswordToken) {
                                         seenPasswordToken = !0;
@@ -8856,7 +8865,7 @@
                             break;
                         case PATH:
                             if (chr == EOF || "/" == chr || "\\" == chr && isSpecial(url) || !stateOverride && ("?" == chr || "#" == chr)) {
-                                if (".." === (segment = (segment = buffer).toLowerCase()) || "%2e." === segment || ".%2e" === segment || "%2e%2e" === segment ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : "." === (segment1 = buffer) || "%2e" === segment1.toLowerCase() ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
+                                if (isDoubleDot(buffer) ? (shortenURLsPath(url), "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("")) : isSingleDot(buffer) ? "/" == chr || "\\" == chr && isSpecial(url) || url.path.push("") : ("file" == url.scheme && !url.path.length && isWindowsDriveLetter(buffer) && (url.host && (url.host = ""), buffer = buffer.charAt(0) + ":"), url.path.push(buffer)), buffer = "", "file" == url.scheme && (chr == EOF || "?" == chr || "#" == chr)) for(; url.path.length > 1 && "" === url.path[0];)url.path.shift();
                                 "?" == chr ? (url.query = "", state = QUERY) : "#" == chr && (url.fragment = "", state = FRAGMENT);
                             } else buffer += percentEncode(chr, pathPercentEncodeSet);
                             break;
@@ -9088,6 +9097,8 @@
                 router: {
                     type: "hash"
                 }
+            }, isFunction = function(target) {
+                return "function" == typeof target;
             }, appCycles = {};
             function emit(cycle, context) {
                 for(var args = [], _i = 2; _i < arguments.length; _i++)args[_i - 2] = arguments[_i];
@@ -9099,7 +9110,7 @@
                 }
             }
             function addAppLifeCycle(cycle, callback) {
-                "function" == typeof callback && (appCycles[cycle] = appCycles[cycle] || [], appCycles[cycle].push(callback));
+                isFunction(callback) && (appCycles[cycle] = appCycles[cycle] || [], appCycles[cycle].push(callback));
             }
             var current = {
                 pathname: "/",
@@ -9202,23 +9213,25 @@
                         visibilityState: !0
                     }, lib_router.prev.visibiltyState = !1, pageLifeCycles_emit(HIDE, lib_router.prev.pathname), pageLifeCycles_emit(SHOW, lib_router.current.pathname));
                 });
-            }, esm_history = __webpack_require__(91520), process = __webpack_require__(97671), createHistory = function(_a) {
+            }, esm_history = __webpack_require__(91520), createInitHistory = function(createHistory) {
+                return function(appConfig, initialContext) {
+                    void 0 === initialContext && (initialContext = null), appConfig.router || (appConfig.router = DEFAULT_APP_CONFIG.router);
+                    var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = createHistory({
+                        type: type,
+                        basename: basename,
+                        location: initialContext ? initialContext.location : null,
+                        customHistory: customHistory
+                    });
+                    appConfig.router.history = newHistory, setHistory(newHistory);
+                };
+            }, process = __webpack_require__(97671), createHistory = function(_a) {
                 var type = _a.type, basename = _a.basename, location = _a.location;
                 return process.env.__IS_SERVER__ && ((0, esm_history.createMemoryHistory)().location = location), "hash" === type ? (0, esm_history.createHashHistory)({
                     basename: basename
                 }) : "browser" === type ? (0, esm_history.createBrowserHistory)({
                     basename: basename
                 }) : (0, esm_history.createMemoryHistory)();
-            }, initHistory = function(appConfig, initialContext) {
-                void 0 === initialContext && (initialContext = null), appConfig.router || (appConfig.router = DEFAULT_APP_CONFIG.router);
-                var router = appConfig.router, _a = router.type, type = void 0 === _a ? DEFAULT_APP_CONFIG.router.type : _a, basename = router.basename, customHistory = router.history, newHistory = createHistory({
-                    type: type,
-                    basename: basename,
-                    location: initialContext ? initialContext.location : null,
-                    customHistory: customHistory
-                });
-                appConfig.router.history = newHistory, setHistory(newHistory);
-            }, web_history = createHistory, web_initAppLifeCycles = function() {
+            }, initHistory = createInitHistory(createHistory), web_history = createHistory, web_initAppLifeCycles = function() {
                 "undefined" != typeof document && "undefined" != typeof window && (document.addEventListener("visibilitychange", function() {
                     var history = getHistory();
                     (history ? history.location.pathname : lib_router.current.pathname) === lib_router.current.pathname && (lib_router.current.visibilityState = !lib_router.current.visibilityState, lib_router.current.visibilityState ? (emit(SHOW), pageLifeCycles_emit(SHOW, lib_router.current.pathname)) : (pageLifeCycles_emit(HIDE, lib_router.current.pathname), emit(HIDE)));

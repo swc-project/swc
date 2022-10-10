@@ -9874,7 +9874,7 @@
         },
         makeClipAdditive: function(targetClip, referenceFrame, referenceClip, fps) {
             void 0 === referenceFrame && (referenceFrame = 0), void 0 === referenceClip && (referenceClip = targetClip), void 0 === fps && (fps = 30), fps <= 0 && (fps = 30);
-            for(var numTracks = referenceClip.tracks.length, referenceTime = referenceFrame / fps, i = 0; i < numTracks; ++i)if ("continue" === function(i) {
+            for(var numTracks = referenceClip.tracks.length, referenceTime = referenceFrame / fps, _loop = function(i) {
                 var referenceTrack = referenceClip.tracks[i], referenceTrackType = referenceTrack.ValueTypeName;
                 if ('bool' === referenceTrackType || 'string' === referenceTrackType) return "continue";
                 var targetTrack = targetClip.tracks.find(function(track) {
@@ -9902,7 +9902,7 @@
                     if ('quaternion' === referenceTrackType) Quaternion.multiplyQuaternionsFlat(targetTrack.values, valueStart, referenceValue, 0, targetTrack.values, valueStart);
                     else for(var valueEnd = targetValueSize - 2 * targetOffset, k = 0; k < valueEnd; ++k)targetTrack.values[valueStart + k] -= referenceValue[k];
                 }
-            }(i)) continue;
+            }, i = 0; i < numTracks; ++i)if ("continue" === _loop(i)) continue;
             return targetClip.blendMode = 2501, targetClip;
         }
     };
@@ -10708,7 +10708,7 @@
             this.needsUpdate = !1;
             var current, cache = [], last = this.getPoint(0), sum = 0;
             cache.push(0);
-            for(var p = 1; p <= divisions; p++)cache.push(sum += (current = this.getPoint(p / divisions)).distanceTo(last)), last = current;
+            for(var p = 1; p <= divisions; p++)sum += (current = this.getPoint(p / divisions)).distanceTo(last), cache.push(sum), last = current;
             return this.cacheArcLengths = cache, cache;
         },
         updateArcLengths: function() {
@@ -11094,7 +11094,7 @@
         },
         getCurveLengths: function() {
             if (this.cacheLengths && this.cacheLengths.length === this.curves.length) return this.cacheLengths;
-            for(var lengths = [], sums = 0, i = 0, l = this.curves.length; i < l; i++)lengths.push(sums += this.curves[i].getLength());
+            for(var lengths = [], sums = 0, i = 0, l = this.curves.length; i < l; i++)sums += this.curves[i].getLength(), lengths.push(sums);
             return this.cacheLengths = lengths, lengths;
         },
         getSpacedPoints: function(divisions) {

@@ -1191,6 +1191,15 @@
             ], getColor = function(theme, color, fallback) {
                 var hex = (0, chakra_ui_utils_esm.Wf)(theme, "colors." + color, color);
                 return new module_TinyColor(hex).isValid ? hex : fallback;
+            }, tone = function(color) {
+                return function(theme) {
+                    var hex = getColor(theme, color);
+                    return new module_TinyColor(hex).isDark() ? "dark" : "light";
+                };
+            }, isDark = function(color) {
+                return function(theme) {
+                    return "dark" === tone(color)(theme);
+                };
             }, transparentize = function(color, opacity) {
                 return function(theme) {
                     var raw = getColor(theme, color);
@@ -1221,6 +1230,14 @@
                     return target;
                 }).apply(this, arguments);
             }
+            var createBreakpoints = function(config) {
+                return (0, chakra_ui_utils_esm.ZK)({
+                    condition: !0,
+                    message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
+                }), chakra_ui_theme_tools_esm_extends({
+                    base: "0em"
+                }, config);
+            };
             function _defineProperties(target, props) {
                 for(var i = 0; i < props.length; i++){
                     var descriptor = props[i];
@@ -1586,8 +1603,19 @@
                     variant: "subtle",
                     colorScheme: "blue"
                 }
+            }, baseStyleBadge = function(props) {
+                return {
+                    transform: "translate(25%, 25%)",
+                    borderRadius: "full",
+                    border: "0.2em solid",
+                    borderColor: mode("white", "gray.800")(props)
+                };
+            }, baseStyleExcessLabel = function(props) {
+                return {
+                    bg: mode("gray.200", "whiteAlpha.400")(props)
+                };
             }, baseStyleContainer$3 = function(props) {
-                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1685,7 +1713,7 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = isDark(bg)(theme), color = "white";
                 return isBgDark || (color = "gray.800"), {
                     bg: bg,
                     color: color,
@@ -1694,15 +1722,8 @@
                 };
             }, baseStyle$B = function(props) {
                 return {
-                    badge: {
-                        transform: "translate(25%, 25%)",
-                        borderRadius: "full",
-                        border: "0.2em solid",
-                        borderColor: mode("white", "gray.800")(props)
-                    },
-                    excessLabel: {
-                        bg: mode("gray.200", "whiteAlpha.400")(props)
-                    },
+                    badge: baseStyleBadge(props),
+                    excessLabel: baseStyleExcessLabel(props),
                     container: baseStyleContainer$3(props)
                 };
             };
@@ -2042,6 +2063,16 @@
                 display: "flex",
                 zIndex: "modal",
                 justifyContent: "center"
+            }, baseStyleDialog$1 = function(props) {
+                return sizes_501602a9_esm_extends({}, props.isFullHeight && {
+                    height: "100vh"
+                }, {
+                    zIndex: "modal",
+                    maxH: "100vh",
+                    bg: mode("white", "gray.700")(props),
+                    color: "inherit",
+                    boxShadow: mode("lg", "dark-lg")(props)
+                });
             }, baseStyleHeader$2 = {
                 px: 6,
                 py: 4,
@@ -2063,15 +2094,7 @@
                 return {
                     overlay: baseStyleOverlay$1,
                     dialogContainer: baseStyleDialogContainer$1,
-                    dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
-                        height: "100vh"
-                    }, {
-                        zIndex: "modal",
-                        maxH: "100vh",
-                        bg: mode("white", "gray.700")(props),
-                        color: "inherit",
-                        boxShadow: mode("lg", "dark-lg")(props)
-                    }),
+                    dialog: baseStyleDialog$1(props),
                     header: baseStyleHeader$2,
                     closeButton: baseStyleCloseButton$3,
                     body: baseStyleBody$2,
@@ -2127,38 +2150,46 @@
                         }
                     }
                 }
+            }, baseStyleRequiredIndicator = function(props) {
+                return {
+                    marginStart: 1,
+                    color: mode("red.500", "red.300")(props)
+                };
+            }, baseStyleHelperText = function(props) {
+                return {
+                    mt: 2,
+                    color: mode("gray.500", "whiteAlpha.600")(props),
+                    lineHeight: "normal",
+                    fontSize: "sm"
+                };
             }, baseStyle$q = function(props) {
                 return {
                     container: {
                         width: "100%",
                         position: "relative"
                     },
-                    requiredIndicator: {
-                        marginStart: 1,
-                        color: mode("red.500", "red.300")(props)
-                    },
-                    helperText: {
-                        mt: 2,
-                        color: mode("gray.500", "whiteAlpha.600")(props),
-                        lineHeight: "normal",
-                        fontSize: "sm"
-                    }
+                    requiredIndicator: baseStyleRequiredIndicator(props),
+                    helperText: baseStyleHelperText(props)
                 };
             }, Form = {
                 parts: formAnatomy.keys,
                 baseStyle: baseStyle$q
+            }, baseStyleText = function(props) {
+                return {
+                    color: mode("red.500", "red.300")(props),
+                    mt: 2,
+                    fontSize: "sm",
+                    lineHeight: "normal"
+                };
+            }, baseStyleIcon$3 = function(props) {
+                return {
+                    marginEnd: "0.5em",
+                    color: mode("red.500", "red.300")(props)
+                };
             }, baseStyle$p = function(props) {
                 return {
-                    text: {
-                        color: mode("red.500", "red.300")(props),
-                        mt: 2,
-                        fontSize: "sm",
-                        lineHeight: "normal"
-                    },
-                    icon: {
-                        marginEnd: "0.5em",
-                        color: mode("red.500", "red.300")(props)
-                    }
+                    text: baseStyleText(props),
+                    icon: baseStyleIcon$3(props)
                 };
             }, FormError = {
                 parts: formErrorAnatomy.keys,
@@ -2367,6 +2398,38 @@
                         verticalAlign: "text-bottom"
                     }
                 }
+            }, baseStyleList = function(props) {
+                return {
+                    bg: mode("#fff", "gray.700")(props),
+                    boxShadow: mode("sm", "dark-lg")(props),
+                    color: "inherit",
+                    minW: "3xs",
+                    py: "2",
+                    zIndex: 1,
+                    borderRadius: "md",
+                    borderWidth: "1px"
+                };
+            }, baseStyleItem = function(props) {
+                return {
+                    py: "0.4rem",
+                    px: "0.8rem",
+                    transitionProperty: "background",
+                    transitionDuration: "ultra-fast",
+                    transitionTimingFunction: "ease-in",
+                    _focus: {
+                        bg: mode("gray.100", "whiteAlpha.100")(props)
+                    },
+                    _active: {
+                        bg: mode("gray.200", "whiteAlpha.200")(props)
+                    },
+                    _expanded: {
+                        bg: mode("gray.100", "whiteAlpha.100")(props)
+                    },
+                    _disabled: {
+                        opacity: 0.4,
+                        cursor: "not-allowed"
+                    }
+                };
             }, baseStyleGroupTitle = {
                 mx: 4,
                 my: 2,
@@ -2386,36 +2449,8 @@
             }, baseStyle$i = function(props) {
                 return {
                     button: baseStyleButton,
-                    list: {
-                        bg: mode("#fff", "gray.700")(props),
-                        boxShadow: mode("sm", "dark-lg")(props),
-                        color: "inherit",
-                        minW: "3xs",
-                        py: "2",
-                        zIndex: 1,
-                        borderRadius: "md",
-                        borderWidth: "1px"
-                    },
-                    item: {
-                        py: "0.4rem",
-                        px: "0.8rem",
-                        transitionProperty: "background",
-                        transitionDuration: "ultra-fast",
-                        transitionTimingFunction: "ease-in",
-                        _focus: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props)
-                        },
-                        _active: {
-                            bg: mode("gray.200", "whiteAlpha.200")(props)
-                        },
-                        _expanded: {
-                            bg: mode("gray.100", "whiteAlpha.100")(props)
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        }
-                    },
+                    list: baseStyleList(props),
+                    item: baseStyleItem(props),
                     groupTitle: baseStyleGroupTitle,
                     command: baseStyleCommand,
                     divider: baseStyleDivider
@@ -2426,6 +2461,14 @@
             }, baseStyleOverlay = {
                 bg: "blackAlpha.600",
                 zIndex: "modal"
+            }, baseStyleDialogContainer = function(props) {
+                return {
+                    display: "flex",
+                    zIndex: "modal",
+                    justifyContent: "center",
+                    alignItems: props.isCentered ? "center" : "flex-start",
+                    overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
+                };
             }, baseStyleDialog = function(props) {
                 var scrollBehavior = props.scrollBehavior;
                 return {
@@ -2446,28 +2489,24 @@
                 position: "absolute",
                 top: 2,
                 insetEnd: 3
+            }, baseStyleBody$1 = function(props) {
+                return {
+                    px: 6,
+                    py: 2,
+                    flex: 1,
+                    overflow: "inside" === props.scrollBehavior ? "auto" : void 0
+                };
             }, baseStyleFooter$1 = {
                 px: 6,
                 py: 4
             }, baseStyle$h = function(props) {
                 return {
                     overlay: baseStyleOverlay,
-                    dialogContainer: {
-                        display: "flex",
-                        zIndex: "modal",
-                        justifyContent: "center",
-                        alignItems: props.isCentered ? "center" : "flex-start",
-                        overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
-                    },
+                    dialogContainer: baseStyleDialogContainer(props),
                     dialog: baseStyleDialog(props),
                     header: baseStyleHeader$1,
                     closeButton: baseStyleCloseButton$2,
-                    body: {
-                        px: 6,
-                        py: 2,
-                        flex: 1,
-                        overflow: "inside" === props.scrollBehavior ? "auto" : void 0
-                    },
+                    body: baseStyleBody$1(props),
                     footer: baseStyleFooter$1
                 };
             };
@@ -2510,23 +2549,25 @@
                 width: [
                     $stepperWidth.reference
                 ]
+            }, baseStyleStepper = function(props) {
+                return {
+                    borderStart: "1px solid",
+                    borderStartColor: mode("inherit", "whiteAlpha.300")(props),
+                    color: mode("inherit", "whiteAlpha.800")(props),
+                    _active: {
+                        bg: mode("gray.200", "whiteAlpha.300")(props)
+                    },
+                    _disabled: {
+                        opacity: 0.4,
+                        cursor: "not-allowed"
+                    }
+                };
             }, baseStyle$g = function(props) {
                 return {
                     root: baseStyleRoot$1,
                     field: baseStyleField$1,
                     stepperGroup: baseStyleStepperGroup,
-                    stepper: {
-                        borderStart: "1px solid",
-                        borderStartColor: mode("inherit", "whiteAlpha.300")(props),
-                        color: mode("inherit", "whiteAlpha.800")(props),
-                        _active: {
-                            bg: mode("gray.200", "whiteAlpha.300")(props)
-                        },
-                        _disabled: {
-                            opacity: 0.4,
-                            cursor: "not-allowed"
-                        }
-                    }
+                    stepper: baseStyleStepper(props)
                 };
             };
             function getSize(size) {
@@ -2624,6 +2665,10 @@
                 fontSize: "0.25em",
                 fontWeight: "bold",
                 color: "white"
+            }, baseStyleTrack$2 = function(props) {
+                return {
+                    bg: mode("gray.100", "whiteAlpha.300")(props)
+                };
             }, baseStyleFilledTrack$1 = function(props) {
                 var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
@@ -2638,9 +2683,7 @@
                 return {
                     label: baseStyleLabel$2,
                     filledTrack: baseStyleFilledTrack$1(props),
-                    track: {
-                        bg: mode("gray.100", "whiteAlpha.300")(props)
-                    }
+                    track: baseStyleTrack$2(props)
                 };
             }, Progress = {
                 parts: progressAnatomy.keys,
@@ -2729,6 +2772,16 @@
                     size: "md",
                     colorScheme: "blue"
                 }
+            }, baseStyleField = function(props) {
+                return sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
+                    bg: mode("white", "gray.700")(props),
+                    appearance: "none",
+                    paddingBottom: "1px",
+                    lineHeight: "normal",
+                    "> option, > optgroup": {
+                        bg: mode("white", "gray.700")(props)
+                    }
+                });
             }, baseStyleIcon$1 = {
                 width: "1.5rem",
                 height: "100%",
@@ -2741,15 +2794,7 @@
                 }
             }, baseStyle$b = function(props) {
                 return {
-                    field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                        bg: mode("white", "gray.700")(props),
-                        appearance: "none",
-                        paddingBottom: "1px",
-                        lineHeight: "normal",
-                        "> option, > optgroup": {
-                            bg: mode("white", "gray.700")(props)
-                        }
-                    }),
+                    field: baseStyleField(props),
                     icon: baseStyleIcon$1
                 };
             }, iconSpacing = {
@@ -2776,6 +2821,17 @@
                 sizes: sizes$8,
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
+            }, fade = function(startColor, endColor) {
+                return (0, emotion_react_browser_esm.F4)({
+                    from: {
+                        borderColor: startColor,
+                        background: startColor
+                    },
+                    to: {
+                        borderColor: endColor,
+                        background: endColor
+                    }
+                });
             }, baseStyle$a = function(props) {
                 var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
                 return {
@@ -2783,16 +2839,7 @@
                     borderRadius: "2px",
                     borderColor: start,
                     background: end,
-                    animation: speed + "s linear infinite alternate " + (0, emotion_react_browser_esm.F4)({
-                        from: {
-                            borderColor: start,
-                            background: start
-                        },
-                        to: {
-                            borderColor: end,
-                            background: end
-                        }
-                    })
+                    animation: speed + "s linear infinite alternate " + fade(start, end)
                 };
             }, baseStyle$9 = function(props) {
                 return {
@@ -2807,6 +2854,72 @@
                         bg: mode("white", "gray.700")(props)
                     }
                 };
+            }, baseStyleContainer$1 = function(props) {
+                return sizes_501602a9_esm_extends({
+                    display: "inline-block",
+                    position: "relative",
+                    cursor: "pointer",
+                    _disabled: {
+                        opacity: 0.6,
+                        cursor: "default",
+                        pointerEvents: "none"
+                    }
+                }, orient({
+                    orientation: props.orientation,
+                    vertical: {
+                        h: "100%"
+                    },
+                    horizontal: {
+                        w: "100%"
+                    }
+                }));
+            }, baseStyleTrack$1 = function(props) {
+                return {
+                    overflow: "hidden",
+                    borderRadius: "sm",
+                    bg: mode("gray.200", "whiteAlpha.200")(props),
+                    _disabled: {
+                        bg: mode("gray.300", "whiteAlpha.300")(props)
+                    }
+                };
+            }, baseStyleThumb$1 = function(props) {
+                return sizes_501602a9_esm_extends({
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "absolute",
+                    outline: 0,
+                    zIndex: 1,
+                    borderRadius: "full",
+                    bg: "white",
+                    boxShadow: "base",
+                    border: "1px solid",
+                    borderColor: "transparent",
+                    transitionProperty: "transform",
+                    transitionDuration: "normal",
+                    _focusVisible: {
+                        boxShadow: "outline"
+                    },
+                    _disabled: {
+                        bg: "gray.300"
+                    }
+                }, orient({
+                    orientation: props.orientation,
+                    vertical: {
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        _active: {
+                            transform: "translateX(-50%) scale(1.15)"
+                        }
+                    },
+                    horizontal: {
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        _active: {
+                            transform: "translateY(-50%) scale(1.15)"
+                        }
+                    }
+                }));
             }, baseStyleFilledTrack = function(props) {
                 var c = props.colorScheme;
                 return {
@@ -2816,69 +2929,9 @@
                 };
             }, baseStyle$8 = function(props) {
                 return {
-                    container: sizes_501602a9_esm_extends({
-                        display: "inline-block",
-                        position: "relative",
-                        cursor: "pointer",
-                        _disabled: {
-                            opacity: 0.6,
-                            cursor: "default",
-                            pointerEvents: "none"
-                        }
-                    }, orient({
-                        orientation: props.orientation,
-                        vertical: {
-                            h: "100%"
-                        },
-                        horizontal: {
-                            w: "100%"
-                        }
-                    })),
-                    track: {
-                        overflow: "hidden",
-                        borderRadius: "sm",
-                        bg: mode("gray.200", "whiteAlpha.200")(props),
-                        _disabled: {
-                            bg: mode("gray.300", "whiteAlpha.300")(props)
-                        }
-                    },
-                    thumb: sizes_501602a9_esm_extends({
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "absolute",
-                        outline: 0,
-                        zIndex: 1,
-                        borderRadius: "full",
-                        bg: "white",
-                        boxShadow: "base",
-                        border: "1px solid",
-                        borderColor: "transparent",
-                        transitionProperty: "transform",
-                        transitionDuration: "normal",
-                        _focusVisible: {
-                            boxShadow: "outline"
-                        },
-                        _disabled: {
-                            bg: "gray.300"
-                        }
-                    }, orient({
-                        orientation: props.orientation,
-                        vertical: {
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            _active: {
-                                transform: "translateX(-50%) scale(1.15)"
-                            }
-                        },
-                        horizontal: {
-                            top: "50%",
-                            transform: "translateY(-50%)",
-                            _active: {
-                                transform: "translateY(-50%) scale(1.15)"
-                            }
-                        }
-                    })),
+                    container: baseStyleContainer$1(props),
+                    track: baseStyleTrack$1(props),
+                    thumb: baseStyleThumb$1(props),
                     filledTrack: baseStyleFilledTrack(props)
                 };
             }, sizeLg = function(props) {
@@ -3215,6 +3268,24 @@
                     size: "md",
                     colorScheme: "gray"
                 }
+            }, baseStyleRoot = function(props) {
+                return {
+                    display: "vertical" === props.orientation ? "flex" : "block"
+                };
+            }, baseStyleTab = function(props) {
+                return {
+                    flex: props.isFitted ? 1 : void 0,
+                    transitionProperty: "common",
+                    transitionDuration: "normal",
+                    _focusVisible: {
+                        zIndex: 1,
+                        boxShadow: "outline"
+                    },
+                    _disabled: {
+                        cursor: "not-allowed",
+                        opacity: 0.4
+                    }
+                };
             }, baseStyleTablist = function(props) {
                 var _props$align = props.align;
                 return {
@@ -3229,22 +3300,8 @@
                 p: 4
             }, baseStyle$3 = function(props) {
                 return {
-                    root: {
-                        display: "vertical" === props.orientation ? "flex" : "block"
-                    },
-                    tab: {
-                        flex: props.isFitted ? 1 : void 0,
-                        transitionProperty: "common",
-                        transitionDuration: "normal",
-                        _focusVisible: {
-                            zIndex: 1,
-                            boxShadow: "outline"
-                        },
-                        _disabled: {
-                            cursor: "not-allowed",
-                            opacity: 0.4
-                        }
-                    },
+                    root: baseStyleRoot(props),
+                    tab: baseStyleTab(props),
                     tablist: baseStyleTablist(props),
                     tabpanel: baseStyleTabpanel
                 };
@@ -3498,18 +3555,13 @@
                     $bg.reference
                 ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
             }, foundations = sizes_501602a9_esm_extends({
-                breakpoints: ((0, chakra_ui_utils_esm.ZK)({
-                    condition: !0,
-                    message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
-                }), chakra_ui_theme_tools_esm_extends({
-                    base: "0em"
-                }, {
+                breakpoints: createBreakpoints({
                     sm: "30em",
                     md: "48em",
                     lg: "62em",
                     xl: "80em",
                     "2xl": "96em"
-                })),
+                }),
                 zIndices: {
                     hide: -1,
                     auto: "auto",

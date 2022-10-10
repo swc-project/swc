@@ -631,10 +631,11 @@
                 getDataHref(params) {
                     const { asPath , href , locale  } = params, { pathname: hrefPathname , query , search  } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname  } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                     if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                    return ((path)=>{
+                    const getHrefForSlug = (path)=>{
                         const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
                         return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
-                    })(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
+                    };
+                    return getHrefForSlug(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
                 }
                 _isSsg(route) {
                     return this.promisedSsgManifest.then((manifest)=>manifest.has(route));
@@ -991,6 +992,13 @@
                 "isPreview",
                 "isLocaleDomain",
                 "domainLocales"
+            ], routerEvents = [
+                "routeChangeStart",
+                "beforeHistoryChange",
+                "routeChangeComplete",
+                "routeChangeError",
+                "hashChangeStart",
+                "hashChangeComplete"
             ], coreMethodFields = [
                 "push",
                 "replace",
@@ -1018,14 +1026,7 @@
                     const router = getRouter();
                     return router[field](...args);
                 };
-            }), [
-                "routeChangeStart",
-                "beforeHistoryChange",
-                "routeChangeComplete",
-                "routeChangeError",
-                "hashChangeStart",
-                "hashChangeComplete"
-            ].forEach((event)=>{
+            }), routerEvents.forEach((event)=>{
                 singletonRouter.ready(()=>{
                     _router.default.events.on(event, function() {
                         for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
@@ -1926,7 +1927,9 @@
                                     if (e.cancelled) error = error || e;
                                     else throw e;
                                 }), error) throw isQueryUpdating || Router.events.emit("routeChangeError", error, cleanedAs, routeProps), error;
-                                isQueryUpdating || Router.events.emit("routeChangeComplete", as, routeProps), shouldScroll && /#.+$/.test(as) && _this.scrollToHash(as);
+                                isQueryUpdating || Router.events.emit("routeChangeComplete", as, routeProps);
+                                const hashRegex = /#.+$/;
+                                shouldScroll && hashRegex.test(as) && _this.scrollToHash(as);
                             }
                             return !0;
                         } catch (err11) {
@@ -3242,10 +3245,13 @@
         2431: function() {}
     },
     function(__webpack_require__) {
+        var __webpack_exec__ = function(moduleId) {
+            return __webpack_require__(__webpack_require__.s = moduleId);
+        };
         __webpack_require__.O(0, [
             774
         ], function() {
-            return __webpack_require__(__webpack_require__.s = 2870);
+            return __webpack_exec__(2870);
         }), _N_E = __webpack_require__.O();
     }
 ]);

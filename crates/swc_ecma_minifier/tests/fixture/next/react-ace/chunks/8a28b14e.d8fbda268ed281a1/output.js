@@ -837,8 +837,10 @@
                         }
                     };
                     this.resetSelection = resetSelection, isFocused && host.onFocus();
-                    var onSelect = function(e) {
-                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
+                    var isAllSelected = function(text) {
+                        return 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd;
+                    }, onSelect = function(e) {
+                        !inComposition && (copied ? copied = !1 : isAllSelected(text) ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
                     }, inputHandler = null;
                     this.setInputHandler = function(cb) {
                         inputHandler = cb;
@@ -1347,18 +1349,18 @@
                             "copymove",
                             "all",
                             "uninitialized"
-                        ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
-                        try {
-                            effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
-                        } catch (e1) {}
-                        var dropEffect = "none";
-                        return copyModifierState && copyAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "copy" : [
+                        ], moveAllowed = [
                             "move",
                             "copymove",
                             "linkmove",
                             "all",
                             "uninitialized"
-                        ].indexOf(effectAllowed) >= 0 ? dropEffect = "move" : copyAllowed.indexOf(effectAllowed) >= 0 && (dropEffect = "copy"), dropEffect;
+                        ], copyModifierState = useragent.isMac ? e.altKey : e.ctrlKey, effectAllowed = "uninitialized";
+                        try {
+                            effectAllowed = e.dataTransfer.effectAllowed.toLowerCase();
+                        } catch (e1) {}
+                        var dropEffect = "none";
+                        return copyModifierState && copyAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "copy" : moveAllowed.indexOf(effectAllowed) >= 0 ? dropEffect = "move" : copyAllowed.indexOf(effectAllowed) >= 0 && (dropEffect = "copy"), dropEffect;
                     }
                 }
                 function calcDistance(ax, ay, bx, by) {

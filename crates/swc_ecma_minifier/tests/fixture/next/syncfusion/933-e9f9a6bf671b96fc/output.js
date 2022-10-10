@@ -201,15 +201,14 @@
             function util_extend(copied, first, second, deep) {
                 var result = copied && 'object' == typeof copied ? copied : {}, length = arguments.length;
                 deep && (length -= 1);
-                for(var arguments_1 = arguments, i = 1; i < length; i++)!function(i) {
-                    if (arguments_1[i]) {
-                        var obj1 = arguments_1[i];
-                        Object.keys(obj1).forEach(function(key) {
-                            var clone, src = result[key], copy = obj1[key];
-                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
-                        });
-                    }
-                }(i);
+                for(var _loop_1 = function(i) {
+                    if (!arguments_1[i]) return "continue";
+                    var obj1 = arguments_1[i];
+                    Object.keys(obj1).forEach(function(key) {
+                        var clone, src = result[key], copy = obj1[key];
+                        Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
+                    });
+                }, arguments_1 = arguments, i = 1; i < length; i++)_loop_1(i);
                 return result;
             }
             function util_isNullOrUndefined(value) {
@@ -5515,8 +5514,8 @@
             }
             function HandleSpecialCharArrObj(str, nameSpaceNew, keys, ignorePrefix) {
                 if (str = str.trim(), /\window\./gm.test(str)) return str;
-                var str1, quotes = /'|"/gm;
-                return (/@|\$|#/gm.test(str) && (str = NameSpaceForspecialChar(str, -1 === keys.indexOf(str), nameSpaceNew, keys) + '"]'), ARR_OBJ.test(str)) ? (str1 = str, !(!quotes.test(str) && -1 === keys.indexOf(str)) || NOT_NUMBER.test(str1) || -1 !== keys.indexOf(str1.split('.')[0]) || /^\..*/gm.test(str1) ? str1 : nameSpaceNew + '.' + str1) : addNameSpace(str, !quotes.test(str) && -1 === keys.indexOf(str), nameSpaceNew, keys, ignorePrefix);
+                var str1, addNS, arrObjReg, quotes = /'|"/gm;
+                return (/@|\$|#/gm.test(str) && (str = NameSpaceForspecialChar(str, -1 === keys.indexOf(str), nameSpaceNew, keys) + '"]'), ARR_OBJ.test(str)) ? (str1 = str, addNS = !quotes.test(str) && -1 === keys.indexOf(str), arrObjReg = /^\..*/gm, !addNS || NOT_NUMBER.test(str1) || -1 !== keys.indexOf(str1.split('.')[0]) || arrObjReg.test(str1) ? str1 : nameSpaceNew + '.' + str1) : addNameSpace(str, !quotes.test(str) && -1 === keys.indexOf(str), nameSpaceNew, keys, ignorePrefix);
             }
             var HAS_ROW = /^[\n\r.]+<tr|^<tr/, HAS_SVG = /^[\n\r.]+<svg|^<path|^<g/;
             function template_engine_compile(templateString, helper, ignorePrefix) {
@@ -5550,7 +5549,7 @@
                         return void 0 === helper && (helper = {}), str = templateString, nameSpace = argName = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
                         }), Function(argName, "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, function(match, cnt, offset, matchStr) {
-                            var matches = cnt.match(CALL_FUNCTION);
+                            var SPECIAL_CHAR = /@|#|\$/gm, matches = cnt.match(CALL_FUNCTION);
                             if (matches) {
                                 var rlStr = matches[1];
                                 if (ELSEIF_STMT.test(cnt)) cnt = '";} ' + cnt.replace(matches[1], rlStr.replace(WORD, function(str) {
@@ -5568,11 +5567,13 @@
                                     var fnStr = cnt.split('('), fNameSpace = helper2 && helper2.hasOwnProperty(fnStr[0]) ? 'this.' : 'global';
                                     fNameSpace = /\./.test(fnStr[0]) ? '' : fNameSpace;
                                     var ftArray = matches[1].split(',');
-                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]), WINDOWFUNC.test(cnt) && /\]\./gm.test(cnt) || /@|\$|#/gm.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
+                                    0 === matches[1].length || /data/.test(ftArray[0]) || /window./.test(ftArray[0]) || (matches[1] = 'global' === fNameSpace ? nameSpace + '.' + matches[1] : matches[1]);
+                                    var splRegexp = /@|\$|#/gm, arrObj = /\]\./gm;
+                                    WINDOWFUNC.test(cnt) && arrObj.test(cnt) || splRegexp.test(cnt) ? /@|\$|#|\]\./gm.test(cnt) && (cnt = '"+ ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(matches[1], rlStr.replace(WORDFUNC, function(strs) {
                                         return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
                                     })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : SPECIAL_CHAR.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -7917,10 +7918,12 @@
                         }
                     }
                 }, ComponentBase.prototype.componentWillUnmount = function() {
-                    clearTimeout(this.cachedTimeOut), this.initRenderCalled && this.isAppendCalled && this.element && ([
+                    clearTimeout(this.cachedTimeOut);
+                    var modulesName = [
                         'dropdowntree',
                         'checkbox'
-                    ].indexOf(this.getModuleName()) || document.body.contains(this.element)) && !this.isDestroyed && this.isCreated && this.destroy();
+                    ];
+                    this.initRenderCalled && this.isAppendCalled && this.element && (modulesName.indexOf(this.getModuleName()) || document.body.contains(this.element)) && !this.isDestroyed && this.isCreated && this.destroy();
                 }, ComponentBase.prototype.appendReactElement = function(element, container) {
                     var portal = react_dom.createPortal(element, container);
                     this.portals ? this.portals.push(portal) : this.portals = [
@@ -12193,7 +12196,7 @@
                     if (start.nodeType === Node.ELEMENT_NODE && end.nodeType === Node.ELEMENT_NODE && (start.contains(end) || end.contains(start))) {
                         var existNode = start.contains(end) ? start : end;
                         if (existNode.nodeType !== Node.TEXT_NODE) {
-                            for(var nodes = [], textNodes = [], node = existNode; existNode.contains(node);)0 > nodes.indexOf(node) && node.childNodes && node.childNodes.length ? (nodes.push(node), node = node.childNodes[0]) : node.nextSibling ? node = node.nextSibling : node.parentNode && nodes.push(node = node.parentNode), 0 > textNodes.indexOf(node) && (node.nodeType === Node.TEXT_NODE || IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === node.tagName || 'IMG' === node.tagName)) && textNodes.push(node);
+                            for(var nodes = [], textNodes = [], node = existNode; existNode.contains(node);)0 > nodes.indexOf(node) && node.childNodes && node.childNodes.length ? (nodes.push(node), node = node.childNodes[0]) : node.nextSibling ? node = node.nextSibling : node.parentNode && (node = node.parentNode, nodes.push(node)), 0 > textNodes.indexOf(node) && (node.nodeType === Node.TEXT_NODE || IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === node.tagName || 'IMG' === node.tagName)) && textNodes.push(node);
                             textNodes.length && (start = start.contains(end) ? textNodes[0] : start, end = textNodes[textNodes.length - 1]);
                         }
                     }
@@ -14177,7 +14180,7 @@
                 return SelectionBasedExec.prototype.addEventListener = function() {
                     this.parent.observer.on(SELECTION_TYPE, this.applySelection, this), this.parent.observer.on(common_constant.kT, this.keyDownHandler, this);
                 }, SelectionBasedExec.prototype.keyDownHandler = function(e) {
-                    e.event.ctrlKey && [
+                    var validFormats = [
                         'bold',
                         'italic',
                         'underline',
@@ -14186,7 +14189,8 @@
                         'subscript',
                         'uppercase',
                         'lowercase'
-                    ].indexOf(e.event.action) > -1 && (e.event.preventDefault(), SelectionCommands.applyFormat(this.parent.currentDocument, e.event.action, this.parent.editableElement, e.enterAction), this.callBack(e, e.event.action));
+                    ];
+                    e.event.ctrlKey && validFormats.indexOf(e.event.action) > -1 && (e.event.preventDefault(), SelectionCommands.applyFormat(this.parent.currentDocument, e.event.action, this.parent.editableElement, e.enterAction), this.callBack(e, e.event.action));
                 }, SelectionBasedExec.prototype.applySelection = function(e) {
                     SelectionCommands.applyFormat(this.parent.currentDocument, e.subCommand.toLocaleLowerCase(), this.parent.editableElement, e.enterAction, e.value, e.selector), this.callBack(e, e.subCommand);
                 }, SelectionBasedExec.prototype.callBack = function(event, action) {
@@ -14580,8 +14584,8 @@
                 }, MsWordPaste.prototype.wordCleanup = function(e) {
                     var wordPasteStyleConfig = (0, ej2_base.le)(e.allowedStylePropertiesArray) ? [] : e.allowedStylePropertiesArray, listNodes = [], tempHTMLContent = e.args.clipboardData.getData('text/HTML'), rtfData = e.args.clipboardData.getData('text/rtf'), elm = (0, ej2_base.az)('p');
                     elm.setAttribute('id', 'MSWord-Content'), elm.innerHTML = tempHTMLContent;
-                    var pattern4 = /style='mso-width-source:/i;
-                    (/class='?Mso|style='[^ ]*\bmso-/i.test(tempHTMLContent) || /class="?Mso|style="[^ ]*\bmso-/i.test(tempHTMLContent) || /(class="?Mso|class='?Mso|class="?Xl|class='?Xl|class=Xl|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument)/gi.test(tempHTMLContent) || pattern4.test(tempHTMLContent)) && (this.imageConversion(elm, rtfData), tempHTMLContent = tempHTMLContent.replace(/<img[^>]+>/i, ''), this.addListClass(elm), listNodes = this.cleanUp(elm, listNodes), (0, ej2_base.le)(listNodes[0]) || 'UL' === listNodes[0].parentElement.tagName || 'OL' === listNodes[0].parentElement.tagName || this.listConverter(listNodes), this.styleCorrection(elm, wordPasteStyleConfig), this.removingComments(elm), this.removeUnwantedElements(elm), this.removeEmptyElements(elm), this.breakLineAddition(elm), this.removeClassName(elm), pattern4.test(tempHTMLContent) && this.addTableBorderClass(elm)), e.callBack(elm.innerHTML);
+                    var patern2 = /class="?Mso|style="[^ ]*\bmso-/i, patern3 = /(class="?Mso|class='?Mso|class="?Xl|class='?Xl|class=Xl|style="[^"]*\bmso-|style='[^']*\bmso-|w:WordDocument)/gi, pattern4 = /style='mso-width-source:/i;
+                    (/class='?Mso|style='[^ ]*\bmso-/i.test(tempHTMLContent) || patern2.test(tempHTMLContent) || patern3.test(tempHTMLContent) || pattern4.test(tempHTMLContent)) && (this.imageConversion(elm, rtfData), tempHTMLContent = tempHTMLContent.replace(/<img[^>]+>/i, ''), this.addListClass(elm), listNodes = this.cleanUp(elm, listNodes), (0, ej2_base.le)(listNodes[0]) || 'UL' === listNodes[0].parentElement.tagName || 'OL' === listNodes[0].parentElement.tagName || this.listConverter(listNodes), this.styleCorrection(elm, wordPasteStyleConfig), this.removingComments(elm), this.removeUnwantedElements(elm), this.removeEmptyElements(elm), this.breakLineAddition(elm), this.removeClassName(elm), pattern4.test(tempHTMLContent) && this.addTableBorderClass(elm)), e.callBack(elm.innerHTML);
                 }, MsWordPaste.prototype.addListClass = function(elm) {
                     for(var allNodes = elm.querySelectorAll('*'), index = 0; index < allNodes.length; index++)!(0, ej2_base.le)(allNodes[index].getAttribute('style')) && allNodes[index].getAttribute('style').replace(/ /g, '').replace('\n', '').indexOf('mso-list:l') >= 0 && -1 === allNodes[index].className.toLowerCase().indexOf('msolistparagraph') && 'H' !== allNodes[index].tagName.charAt(0) && allNodes[index].classList.add('msolistparagraph');
                 }, MsWordPaste.prototype.addTableBorderClass = function(elm) {
@@ -15515,8 +15519,7 @@
                 }, HtmlEditor.prototype.onSelectionRestore = function(e) {
                     this.parent.isBlur = !1, this.contentRenderer.getEditPanel().focus(), ((0, ej2_base.le)(e.items) || e.items) && this.saveSelection.restore();
                 }, HtmlEditor.prototype.onKeyUp = function(e) {
-                    var pointer, args = e.args, range = this.parent.getRange(), regEx = RegExp(String.fromCharCode(8203), 'g');
-                    !(0 > [
+                    var pointer, args = e.args, restrictKeys = [
                         8,
                         9,
                         13,
@@ -15545,7 +15548,8 @@
                         121,
                         122,
                         123
-                    ].indexOf(args.keyCode)) || args.shiftKey || args.ctrlKey || args.altKey || (8203 === range.startContainer.textContent.charCodeAt(0) && (pointer = range.startOffset - 1, range.startContainer.textContent = range.startContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)), (0, ej2_base.le)(range.startContainer.previousSibling) || (0, ej2_base.le)(range.startContainer.previousSibling.parentElement) || range.startContainer.parentElement !== range.startContainer.previousSibling.parentElement || 8203 !== range.startContainer.previousSibling.textContent.charCodeAt(0) || !(range.startContainer.previousSibling.textContent.length <= 1) || (range.startContainer.previousSibling.textContent = range.startContainer.previousSibling.textContent.replace(regEx, '')), 8203 === range.endContainer.textContent.charCodeAt(range.endOffset) && (pointer = range.startOffset, range.endContainer.textContent = range.endContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)));
+                    ], range = this.parent.getRange(), regEx = RegExp(String.fromCharCode(8203), 'g');
+                    !(0 > restrictKeys.indexOf(args.keyCode)) || args.shiftKey || args.ctrlKey || args.altKey || (8203 === range.startContainer.textContent.charCodeAt(0) && (pointer = range.startOffset - 1, range.startContainer.textContent = range.startContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)), (0, ej2_base.le)(range.startContainer.previousSibling) || (0, ej2_base.le)(range.startContainer.previousSibling.parentElement) || range.startContainer.parentElement !== range.startContainer.previousSibling.parentElement || 8203 !== range.startContainer.previousSibling.textContent.charCodeAt(0) || !(range.startContainer.previousSibling.textContent.length <= 1) || (range.startContainer.previousSibling.textContent = range.startContainer.previousSibling.textContent.replace(regEx, '')), 8203 === range.endContainer.textContent.charCodeAt(range.endOffset) && (pointer = range.startOffset, range.endContainer.textContent = range.endContainer.textContent.replace(regEx, ''), this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), range.startContainer, pointer)));
                 }, HtmlEditor.prototype.onKeyDown = function(e) {
                     var currentRange, _this = this, args = e.args;
                     if ('chrome' === ej2_base.AR.info.name && (currentRange = this.parent.getRange(), this.backSpaceCleanup(e, currentRange), this.deleteCleanup(e, currentRange)), 9 === args.keyCode && this.parent.enableTabKey && !(0, ej2_base.le)(args.target) && (0, ej2_base.le)((0, ej2_base.oq)(args.target, '.e-rte-toolbar'))) {
@@ -16768,19 +16772,19 @@
                     }
                     eventArgs.postRawFile && !(0, ej2_base.le)(selectedFiles.rawFile) && '' !== selectedFiles.rawFile ? formData.append(name, selectedFiles.rawFile, selectedFiles.name) : formData.append(name, selectedFiles.name), this.updateFormData(formData, eventArgs.customFormData);
                 }, Uploader.prototype.updateFormData = function(formData, customData) {
-                    if (customData.length > 0 && customData[0]) for(var i = 0; i < customData.length; i++)!function(i) {
+                    if (customData.length > 0 && customData[0]) for(var _loop_1 = function(i) {
                         var data = customData[i], value = Object.keys(data).map(function(e) {
                             return data[e];
                         });
                         formData.append(Object.keys(data)[0], value);
-                    }(i);
+                    }, i = 0; i < customData.length; i++)_loop_1(i);
                 }, Uploader.prototype.updateCustomheader = function(request, currentRequest) {
-                    if (currentRequest.length > 0 && currentRequest[0]) for(var i = 0; i < currentRequest.length; i++)!function(i) {
+                    if (currentRequest.length > 0 && currentRequest[0]) for(var _loop_2 = function(i) {
                         var data = currentRequest[i], value = Object.keys(data).map(function(e) {
                             return data[e];
                         });
                         request.setRequestHeader(Object.keys(data)[0], value);
-                    }(i);
+                    }, i = 0; i < currentRequest.length; i++)_loop_2(i);
                 }, Uploader.prototype.removeCompleted = function(e, files, customTemplate) {
                     var response = e && e.currentTarget ? this.getResponse(e) : null, status = e.target;
                     if (4 === status.readyState && status.status >= 200 && status.status <= 299) {
@@ -16820,7 +16824,7 @@
                     var items = this.multiple ? event.dataTransfer.items : [
                         event.dataTransfer.items[0]
                     ];
-                    if (this.checkDirectoryUpload(items)) for(var this_1 = this, i = 0; i < items.length; i++)!function(i) {
+                    if (this.checkDirectoryUpload(items)) for(var _loop_3 = function(i) {
                         var item = items[i].webkitGetAsEntry();
                         if (item.isFile) {
                             var files_2 = [];
@@ -16832,7 +16836,7 @@
                                 });
                             }), this_1.renderSelectedFiles(event, files_2, !0);
                         } else item.isDirectory && this_1.traverseFileTree(item, event);
-                    }(i);
+                    }, this_1 = this, i = 0; i < items.length; i++)_loop_3(i);
                 }, Uploader.prototype.checkDirectoryUpload = function(items) {
                     for(var i = 0; items && i < items.length; i++)if (items[i].webkitGetAsEntry().isDirectory) return !0;
                     return !1;
@@ -19538,7 +19542,7 @@
                     }
                     return elWidth;
                 }, Toolbar.prototype.popupEleRefresh = function(width, popupEle, destroy) {
-                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== function(el) {
+                    for(var priEleCnt, index, popPriority = this.popupPriCount > 0, eleSplice = this.tbarEle, innerEle = this.element.querySelector('.' + CLS_ITEMS), ignoreCount = 0, _loop_1 = function(el) {
                         if (el.classList.contains(CLS_POPPRI) && popPriority && !destroy) return "continue";
                         var elWidth = this_1.popupEleWidth(el);
                         if (el === this_1.tbarEle[0] && (elWidth += this_1.tbarEleMrgn), el.style.position = '', !(elWidth < width) && !destroy) return "break";
@@ -19554,7 +19558,7 @@
                         'Extended' !== this_1.overflowMode && eleSplice.slice(0, index).forEach(function(el) {
                             (el.classList.contains(CLS_TBAROVERFLOW) || el.classList.contains(CLS_SEPARATOR)) && (el.classList.contains(CLS_SEPARATOR) && (el.style.display = '', width -= el.offsetWidth), sepBeforePri_1++);
                         }), ignoreCount = this_1.ignoreEleFetch(index, innerEle), el.classList.contains(CLS_TBAROVERFLOW) ? (this_1.tbarPriRef(innerEle, index, sepBeforePri_1, el, destroy, elWidth, width, ignoreCount), width -= el.offsetWidth) : 0 === index ? (innerEle.insertBefore(el, innerEle.firstChild), width -= el.offsetWidth) : (priEleCnt = (0, ej2_base.td)('.' + CLS_TBAROVERFLOW, this_1.popObj.element).length, innerEle.insertBefore(el, innerEle.children[index + ignoreCount - priEleCnt]), width -= el.offsetWidth), el.style.height = '';
-                    }(_a[_i]); _i++);
+                    }, this_1 = this, _i = 0, _a = [].slice.call(popupEle.children); _i < _a.length && "break" !== _loop_1(_a[_i]); _i++);
                     this.checkOverflow(this.element, this.element.getElementsByClassName(CLS_ITEMS)[0]) && !destroy && this.renderOverflowMode();
                 }, Toolbar.prototype.removePositioning = function() {
                     var item = this.element.querySelector('.' + CLS_ITEMS);
@@ -23373,7 +23377,7 @@
                         this.changeCssClassProps(newProp.cssClass, oldProp.cssClass), this.changeRtlProps(newProp.enableRtl);
                         return;
                     }
-                    for(var this_1 = this, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)!function(prop) {
+                    for(var _loop_1 = function(prop) {
                         switch(prop){
                             case 'inline':
                                 newProp.inline ? (this_1.getWrapper().appendChild(this_1.container), this_1.splitBtn.destroy(), (0, ej2_base.og)(this_1.element.nextElementSibling), this_1.container.children.length || this_1.createWidget()) : (this_1.destroyOtherComp(), this_1.unWireEvents(), this_1.container.innerHTML = '', this_1.createSplitBtn());
@@ -23417,7 +23421,7 @@
                             case 'enableOpacity':
                                 this_1.changeOpacityProps(newProp.enableOpacity);
                         }
-                    }(_a[_i]);
+                    }, this_1 = this, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)_loop_1(_a[_i]);
                 }, ColorPicker.prototype.focusIn = function() {
                     this.element.parentElement.focus();
                 }, color_picker_decorate([
@@ -23838,7 +23842,7 @@
                 }, BaseToolbar.prototype.getItems = function(tbItems, container) {
                     var _this = this;
                     if (this.parent.toolbarSettings.items.length < 1) return [];
-                    for(var items = [], this_1 = this, _i = 0; _i < tbItems.length; _i++)!function(item) {
+                    for(var items = [], _loop_1 = function(item) {
                         if ('string' == typeof item) items.push(this_1.getObject(item, container));
                         else {
                             if (!(0, ej2_base.le)(item.click)) {
@@ -23849,7 +23853,7 @@
                             }
                             items.push(item);
                         }
-                    }(tbItems[_i]);
+                    }, this_1 = this, _i = 0; _i < tbItems.length; _i++)_loop_1(tbItems[_i]);
                     return items;
                 }, BaseToolbar.prototype.getToolbarOptions = function(args) {
                     return {

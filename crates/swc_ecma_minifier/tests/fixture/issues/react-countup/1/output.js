@@ -295,20 +295,20 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
+                for(var _arguments = arguments, _loop = function(i) {
                     var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
                         var obj, value;
-                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
+                        obj = target, value = source[key], (key in obj) ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
                         }) : obj[key] = value;
                     });
-                }(i);
+                }, i = 1; i < arguments.length; i++)_loop(i);
                 return target;
             }
             var loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([

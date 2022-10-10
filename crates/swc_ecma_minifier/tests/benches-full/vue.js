@@ -213,7 +213,11 @@
             this.set = Object.create(null);
         }, Set1;
     }();
-    var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g;
+    var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g, classify = function(str) {
+        return str.replace(classifyRE, function(c) {
+            return c.toUpperCase();
+        }).replace(/[-_]/g, '');
+    };
     warn = function(msg, vm) {
         var trace = vm ? generateComponentTrace(vm) : '';
         config.warnHandler ? config.warnHandler.call(null, msg, vm, trace) : hasConsole && !config.silent && console.error("[Vue warn]: " + msg + trace);
@@ -226,9 +230,7 @@
             var match = file.match(/([^/\\]+)\.vue$/);
             name = match && match[1];
         }
-        return (name ? "<" + name.replace(classifyRE, function(c) {
-            return c.toUpperCase();
-        }).replace(/[-_]/g, '') + ">" : "<Anonymous>") + (file && !1 !== includeFile ? " at " + file : '');
+        return (name ? "<" + classify(name) + ">" : "<Anonymous>") + (file && !1 !== includeFile ? " at " + file : '');
     };
     var repeat = function(str, n) {
         for(var res = ''; n;)n % 2 == 1 && (res += str), n > 1 && (str += str), n >>= 1;

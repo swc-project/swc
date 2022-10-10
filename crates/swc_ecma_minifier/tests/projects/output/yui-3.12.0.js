@@ -289,7 +289,8 @@ var YUI = function() {
             return uid;
         },
         destroy: function() {
-            this.Event && this.Event._unload(), delete instances[this.id], delete this.Env, delete this.config;
+            var Y = this;
+            Y.Event && Y.Event._unload(), delete instances[Y.id], delete Y.Env, delete Y.config;
         }
     }, YUI.prototype = proto, proto)proto.hasOwnProperty(prop) && (YUI[prop] = proto[prop]);
     YUI.applyConfig = function(o) {

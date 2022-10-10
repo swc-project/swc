@@ -7441,9 +7441,9 @@
                             var _this$context$config4, _this4 = this, next = null, delay = 1000 / ((null === (_this$context$config4 = this.context.config) || void 0 === _this$context$config4 ? void 0 : _this$context$config4.frequency) || 60);
                             this.context.stopped = !1;
                             var context = this.context;
-                            !function newFrame(timestamp) {
+                            (function newFrame(timestamp) {
                                 next = next || timestamp, context.stopped || (timestamp >= next && (next += delay, _this4.update()), window.requestAnimationFrame(newFrame));
-                            }(performance.now());
+                            })(performance.now());
                         }
                     },
                     {

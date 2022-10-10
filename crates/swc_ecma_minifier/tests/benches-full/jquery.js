@@ -2549,7 +2549,7 @@
             }).get();
         }
     });
-    var r20 = /%20/g, rhash = /#.*$/, rantiCache = /([?&])_=[^&]*/, rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg, rnoContent = /^(?:GET|HEAD)$/, rprotocol = /^\/\//, prefilters = {}, transports = {}, allTypes = "*/".concat("*"), originAnchor = document.createElement("a");
+    var r20 = /%20/g, rhash = /#.*$/, rantiCache = /([?&])_=[^&]*/, rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg, rlocalProtocol = /^(?:about|app|app-storage|.+-extension|file|res|widget):$/, rnoContent = /^(?:GET|HEAD)$/, rprotocol = /^\/\//, prefilters = {}, transports = {}, allTypes = "*/".concat("*"), originAnchor = document.createElement("a");
     function addToPrefiltersOrTransports(structure) {
         return function(dataTypeExpression, func) {
             "string" != typeof dataTypeExpression && (func = dataTypeExpression, dataTypeExpression = "*");
@@ -2580,7 +2580,7 @@
         ajaxSettings: {
             url: location.href,
             type: "GET",
-            isLocal: /^(?:about|app|app-storage|.+-extension|file|res|widget):$/.test(location.protocol),
+            isLocal: rlocalProtocol.test(location.protocol),
             global: !0,
             processData: !0,
             async: !0,

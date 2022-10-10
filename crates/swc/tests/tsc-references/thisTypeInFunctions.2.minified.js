@@ -61,15 +61,17 @@ impl.explicitVoid1 = function() {
     return 12;
 }, impl.explicitThis = function() {
     return this.a;
-}, ({
+};
+var implicitAnyOk = {
+    notSpecified: 12,
+    f: implicitThis
+};
+({
     y: 12,
     f: function(x) {
         return x + this.y;
     }
-}).f(13), implicitThis(12), ({
-    notSpecified: 12,
-    f: implicitThis
-}).f(12);
+}).f(13), implicitThis(12), implicitAnyOk.f(12);
 var c = new C(), d = new D();
 c.explicitC, c.explicitC(12), c.explicitProperty(12), c.explicitThis(12), d.explicitC(12), d.explicitProperty(12), d.explicitThis(12);
 var reconstructed = {

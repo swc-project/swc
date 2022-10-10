@@ -553,7 +553,7 @@
         runMode(cm, line.text, cm.doc.mode, context, function(end, style) {
             return st.push(end, style);
         }, lineClasses, forceToEnd);
-        for(var state = context.state, o = 0; o < cm.state.overlays.length; ++o)!function(o) {
+        for(var state = context.state, loop = function(o) {
             context.baseTokens = st;
             var overlay = cm.state.overlays[o], i = 1, at = 0;
             context.state = !0, runMode(cm, line.text, overlay.mode, context, function(end, style) {
@@ -569,7 +569,7 @@
                     }
                 }
             }, lineClasses), context.state = state, context.baseTokens = null, context.baseTokenPos = 1;
-        }(o);
+        }, o = 0; o < cm.state.overlays.length; ++o)loop(o);
         return {
             styles: st,
             classes: lineClasses.bgClass || lineClasses.textClass ? lineClasses : null
@@ -2662,21 +2662,21 @@
                     changes: antiChanges,
                     generation: hist.generation
                 }), hist.generation = event.generation || ++hist.maxGeneration;
-                for(var filter = hasHandler(doc, "beforeChange") || doc.cm && hasHandler(doc.cm, "beforeChange"), i$1 = event.changes.length - 1; i$1 >= 0; --i$1){
-                    var returned = function(i) {
-                        var change = event.changes[i];
-                        if (change.origin = type, filter && !filterChange(doc, change, !1)) return source.length = 0, {};
-                        antiChanges.push(historyChangeFromChange(doc, change));
-                        var after = i ? computeSelAfterChange(doc, change) : lst(source);
-                        makeChangeSingleDoc(doc, change, after, mergeOldSpans(doc, change)), !i && doc.cm && doc.cm.scrollIntoView({
-                            from: change.from,
-                            to: changeEnd(change)
-                        });
-                        var rebased = [];
-                        linkedDocs(doc, function(doc, sharedHist) {
-                            sharedHist || -1 != indexOf(rebased, doc.history) || (rebaseHist(doc.history, change), rebased.push(doc.history)), makeChangeSingleDoc(doc, change, null, mergeOldSpans(doc, change));
-                        });
-                    }(i$1);
+                for(var filter = hasHandler(doc, "beforeChange") || doc.cm && hasHandler(doc.cm, "beforeChange"), loop = function(i) {
+                    var change = event.changes[i];
+                    if (change.origin = type, filter && !filterChange(doc, change, !1)) return source.length = 0, {};
+                    antiChanges.push(historyChangeFromChange(doc, change));
+                    var after = i ? computeSelAfterChange(doc, change) : lst(source);
+                    makeChangeSingleDoc(doc, change, after, mergeOldSpans(doc, change)), !i && doc.cm && doc.cm.scrollIntoView({
+                        from: change.from,
+                        to: changeEnd(change)
+                    });
+                    var rebased = [];
+                    linkedDocs(doc, function(doc, sharedHist) {
+                        sharedHist || -1 != indexOf(rebased, doc.history) || (rebaseHist(doc.history, change), rebased.push(doc.history)), makeChangeSingleDoc(doc, change, null, mergeOldSpans(doc, change));
+                    });
+                }, i$1 = event.changes.length - 1; i$1 >= 0; --i$1){
+                    var returned = loop(i$1);
                     if (returned) return returned.v;
                 }
             }
@@ -3408,7 +3408,7 @@
             if (other instanceof CodeMirror2 && (other = other.doc), this.linked) {
                 for(var i = 0; i < this.linked.length; ++i)if (this.linked[i].doc == other) {
                     this.linked.splice(i, 1), other.unlinkDoc(this), function(markers) {
-                        for(var i = 0; i < markers.length; i++)!function(i) {
+                        for(var loop = function(i) {
                             var marker = markers[i], linked = [
                                 marker.primary.doc
                             ];
@@ -3419,7 +3419,7 @@
                                 var subMarker = marker.markers[j];
                                 -1 == indexOf(linked, subMarker.doc) && (subMarker.parent = null, marker.markers.splice(j--, 1));
                             }
-                        }(i);
+                        }, i = 0; i < markers.length; i++)loop(i);
                     }(findSharedMarkers(this));
                     break;
                 }
@@ -4558,9 +4558,11 @@
                     if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) return new Pos(start.line, ch, moveInStorageOrder ? "before" : "after");
                 }
                 var searchInVisualLine = function(partPos, dir, wrappedLineExtent) {
-                    for(; partPos >= 0 && partPos < bidi.length; partPos += dir){
-                        var ch, part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch1 = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
-                        if (part.from <= ch1 && ch1 < part.to || (ch1 = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch1 && ch1 < wrappedLineExtent.end)) return ch = ch1, moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
+                    for(var getRes = function(ch, moveInStorageOrder) {
+                        return moveInStorageOrder ? new Pos(start.line, mv(ch, 1), "before") : new Pos(start.line, ch, "after");
+                    }; partPos >= 0 && partPos < bidi.length; partPos += dir){
+                        var part = bidi[partPos], moveInStorageOrder = dir > 0 == (1 != part.level), ch = moveInStorageOrder ? wrappedLineExtent.begin : mv(wrappedLineExtent.end, -1);
+                        if (part.from <= ch && ch < part.to || (ch = moveInStorageOrder ? part.from : mv(part.to, -1), wrappedLineExtent.begin <= ch && ch < wrappedLineExtent.end)) return getRes(ch, moveInStorageOrder);
                     }
                 }, res = searchInVisualLine(partPos + dir, dir, wrappedLineExtent);
                 if (res) return res;

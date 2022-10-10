@@ -4480,6 +4480,8 @@
                 for(; k.has(V);)V++;
                 var t = V++;
                 return x.set(e, t), k.set(t, e), t;
+            }, z = function(e) {
+                return k.get(e);
             }, M = function(e, t) {
                 t >= V && (V = t + 1), x.set(e, t), k.set(t, e);
             }, G = "style[" + A + '][data-styled-version="5.3.5"]', L = RegExp("^" + A + '\\.g(\\d+)\\[id="([\\w\\d-]+)"\\].*?"([^"]*)'), F = function(e, t, n) {
@@ -4603,7 +4605,7 @@
                 }, t.toString = function() {
                     return function(e) {
                         for(var t = e.getTag(), n = t.length, r = "", o = 0; o < n; o++){
-                            var e1, s = (e1 = o, k.get(e1));
+                            var s = z(o);
                             if (void 0 !== s) {
                                 var i = e.names.get(s), a = t.getGroup(o);
                                 if (i && a && i.size) {
@@ -4833,6 +4835,8 @@
             }
             var Ve = function(e) {
                 return "function" == typeof e || "object" == typeof e && null !== e && !Array.isArray(e);
+            }, Be = function(e) {
+                return "__proto__" !== e && "constructor" !== e && "prototype" !== e;
             }, Ge = react.createContext();
             function Fe(e) {
                 var t = (0, react.useContext)(Ge), n = (0, react.useMemo)(function() {
@@ -4884,7 +4888,7 @@
                         var r = t.componentId, o = function(e, t) {
                             if (null == e) return {};
                             var n, r, o = {}, s = Object.keys(e);
-                            for(r = 0; r < s.length; r++)t.indexOf(n = s[r]) >= 0 || (o[n] = e[n]);
+                            for(r = 0; r < s.length; r++)n = s[r], t.indexOf(n) >= 0 || (o[n] = e[n]);
                             return o;
                         }(t, [
                             "componentId"
@@ -4901,8 +4905,8 @@
                             this._foldedDefaultProps = o ? function Me(e) {
                                 for(var t = arguments.length, n = Array(t > 1 ? t - 1 : 0), r = 1; r < t; r++)n[r - 1] = arguments[r];
                                 for(var o = 0; o < n.length; o++){
-                                    var e1, i = n[o];
-                                    if (Ve(i)) for(var a in i)"__proto__" !== (e1 = a) && "constructor" !== e1 && "prototype" !== e1 && function(e, t, n) {
+                                    var i = n[o];
+                                    if (Ve(i)) for(var a in i)Be(a) && function(e, t, n) {
                                         var r = e[n];
                                         Ve(t) && Ve(r) ? Me(r, t) : e[n] = t;
                                     }(e, i[a], a);
@@ -5813,36 +5817,38 @@
             ].reduce(function(acc, curr) {
                 var _extends2;
                 return _extends({}, acc, ((_extends2 = {})[curr] = positiveOrNegative, _extends2));
-            }, {}), css = function css(args) {
-                return function(props) {
-                    void 0 === props && (props = {});
-                    var styles, theme = _extends({}, defaultTheme, {}, props.theme || props), result = {}, styles1 = (styles = "function" == typeof args ? args(theme) : args, function(theme) {
-                        var next = {}, mediaQueries = [
-                            null
-                        ].concat(index_esm_get(theme, "breakpoints", defaultBreakpoints).map(function(n) {
-                            return "@media screen and (min-width: " + n + ")";
-                        }));
-                        for(var key in styles){
-                            var value = "function" == typeof styles[key] ? styles[key](theme) : styles[key];
-                            if (null != value) {
-                                if (!Array.isArray(value)) {
-                                    next[key] = value;
+            }, {}), responsive = function(styles) {
+                return function(theme) {
+                    var next = {}, mediaQueries = [
+                        null
+                    ].concat(index_esm_get(theme, "breakpoints", defaultBreakpoints).map(function(n) {
+                        return "@media screen and (min-width: " + n + ")";
+                    }));
+                    for(var key in styles){
+                        var value = "function" == typeof styles[key] ? styles[key](theme) : styles[key];
+                        if (null != value) {
+                            if (!Array.isArray(value)) {
+                                next[key] = value;
+                                continue;
+                            }
+                            for(var i = 0; i < value.slice(0, mediaQueries.length).length; i++){
+                                var media = mediaQueries[i];
+                                if (!media) {
+                                    next[key] = value[i];
                                     continue;
                                 }
-                                for(var i = 0; i < value.slice(0, mediaQueries.length).length; i++){
-                                    var media = mediaQueries[i];
-                                    if (!media) {
-                                        next[key] = value[i];
-                                        continue;
-                                    }
-                                    next[media] = next[media] || {}, null != value[i] && (next[media][key] = value[i]);
-                                }
+                                next[media] = next[media] || {}, null != value[i] && (next[media][key] = value[i]);
                             }
                         }
-                        return next;
-                    })(theme);
-                    for(var key in styles1){
-                        var x = styles1[key], val = "function" == typeof x ? x(theme) : x;
+                    }
+                    return next;
+                };
+            }, css = function css(args) {
+                return function(props) {
+                    void 0 === props && (props = {});
+                    var theme = _extends({}, defaultTheme, {}, props.theme || props), result = {}, styles = responsive("function" == typeof args ? args(theme) : args)(theme);
+                    for(var key in styles){
+                        var x = styles[key], val = "function" == typeof x ? x(theme) : x;
                         if ("variant" === key) {
                             var variant = css(index_esm_get(theme, val))(theme);
                             result = _extends({}, result, {}, variant);
@@ -6324,12 +6330,12 @@
                     as: "button"
                 }), children));
             ButtonComponent.displayName = "Button";
-            const { get: getKey , compose: constants_compose , system: constants_system  } = styled_system_dist_index_esm_namespaceObject, constants_get = (key)=>{
-                var fallback;
-                return void 0 === (fallback = getKey(lib_esm_theme, key)) && (fallback = null), function(props) {
-                    return get(props.theme, key, fallback);
+            var themeGet = function(path, fallback) {
+                return void 0 === fallback && (fallback = null), function(props) {
+                    return get(props.theme, path, fallback);
                 };
-            }, COMMON = constants_compose(space, color, display), whiteSpace = constants_system({
+            };
+            const { get: getKey , compose: constants_compose , system: constants_system  } = styled_system_dist_index_esm_namespaceObject, constants_get = (key)=>themeGet(key, getKey(lib_esm_theme, key)), COMMON = constants_compose(space, color, display), whiteSpace = constants_system({
                 whiteSpace: {
                     property: "whiteSpace"
                 }

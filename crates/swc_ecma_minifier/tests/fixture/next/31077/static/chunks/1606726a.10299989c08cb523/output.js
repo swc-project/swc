@@ -1322,34 +1322,34 @@
                 }(closeSlice(slice, +sliceData[1], +sliceData[2]), sliceData[3]);
                 else if ((slice = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Slice.maxOpen(function(fragment, $context) {
                     if (fragment.childCount < 2) return fragment;
-                    for(var d = $context.depth; d >= 0; d--){
-                        var returned = function(d) {
-                            var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
-                            if (fragment.forEach(function(node) {
-                                if (result) {
-                                    var inLast, wrap = match.findWrapping(node.type);
-                                    if (!wrap) return result = null;
-                                    if (inLast = result.length && lastWrap.length && function addToSibling(wrap, lastWrap, node, sibling, depth) {
-                                        if (depth < wrap.length && depth < lastWrap.length && wrap[depth] == lastWrap[depth]) {
-                                            var inner = addToSibling(wrap, lastWrap, node, sibling.lastChild, depth + 1);
-                                            if (inner) return sibling.copy(sibling.content.replaceChild(sibling.childCount - 1, inner));
-                                            if (sibling.contentMatchAt(sibling.childCount).matchType(depth == wrap.length - 1 ? node.type : wrap[depth + 1])) return sibling.copy(sibling.content.append(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(withWrappers(node, wrap, depth + 1))));
-                                        }
-                                    }(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
-                                    else {
-                                        result.length && (result[result.length - 1] = function closeRight(node, depth) {
-                                            if (0 == depth) return node;
-                                            var fragment = node.content.replaceChild(node.childCount - 1, closeRight(node.lastChild, depth - 1)), fill = node.contentMatchAt(node.childCount).fillBefore(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.empty, !0);
-                                            return node.copy(fragment.append(fill));
-                                        }(result[result.length - 1], lastWrap.length));
-                                        var wrapped = withWrappers(node, wrap);
-                                        result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
+                    for(var loop = function(d) {
+                        var match = $context.node(d).contentMatchAt($context.index(d)), lastWrap = void 0, result = [];
+                        if (fragment.forEach(function(node) {
+                            if (result) {
+                                var inLast, wrap = match.findWrapping(node.type);
+                                if (!wrap) return result = null;
+                                if (inLast = result.length && lastWrap.length && function addToSibling(wrap, lastWrap, node, sibling, depth) {
+                                    if (depth < wrap.length && depth < lastWrap.length && wrap[depth] == lastWrap[depth]) {
+                                        var inner = addToSibling(wrap, lastWrap, node, sibling.lastChild, depth + 1);
+                                        if (inner) return sibling.copy(sibling.content.replaceChild(sibling.childCount - 1, inner));
+                                        if (sibling.contentMatchAt(sibling.childCount).matchType(depth == wrap.length - 1 ? node.type : wrap[depth + 1])) return sibling.copy(sibling.content.append(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(withWrappers(node, wrap, depth + 1))));
                                     }
+                                }(wrap, lastWrap, node, result[result.length - 1], 0)) result[result.length - 1] = inLast;
+                                else {
+                                    result.length && (result[result.length - 1] = function closeRight(node, depth) {
+                                        if (0 == depth) return node;
+                                        var fragment = node.content.replaceChild(node.childCount - 1, closeRight(node.lastChild, depth - 1)), fill = node.contentMatchAt(node.childCount).fillBefore(prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.empty, !0);
+                                        return node.copy(fragment.append(fill));
+                                    }(result[result.length - 1], lastWrap.length));
+                                    var wrapped = withWrappers(node, wrap);
+                                    result.push(wrapped), match = match.matchType(wrapped.type, wrapped.attrs), lastWrap = wrap;
                                 }
-                            }), result) return {
-                                v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
-                            };
-                        }(d);
+                            }
+                        }), result) return {
+                            v: prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.from(result)
+                        };
+                    }, d = $context.depth; d >= 0; d--){
+                        var returned = loop(d);
                         if (returned) return returned.v;
                     }
                     return fragment;
@@ -2183,7 +2183,7 @@
             };
             var EditorView = function(place, props) {
                 this._props = props, this.state = props.state, this.directPlugins = props.plugins || [], this.directPlugins.forEach(checkStateComponent), this.dispatch = this.dispatch.bind(this), this._root = null, this.focused = !1, this.trackWrites = null, this.dom = place && place.mount || document.createElement("div"), place && (place.appendChild ? place.appendChild(this.dom) : place.apply ? place(this.dom) : place.mount && (this.mounted = !0)), this.editable = getEditable(this), this.markCursor = null, this.cursorWrapper = null, updateCursorWrapper(this), this.nodeViews = buildNodeViews(this), this.docView = docViewDesc(this.state.doc, computeDocDeco(this), viewDecorations(this), this.dom, this), this.lastSelectedViewDesc = null, this.dragging = null, function(view) {
-                    for(var event in view.shiftKey = !1, view.mouseDown = null, view.lastKeyCode = null, view.lastKeyCodeTime = 0, view.lastClick = {
+                    view.shiftKey = !1, view.mouseDown = null, view.lastKeyCode = null, view.lastKeyCodeTime = 0, view.lastClick = {
                         time: 0,
                         x: 0,
                         y: 0,
@@ -2359,7 +2359,8 @@
                             }
                             storedMarks && tr.ensureMarks(storedMarks), view.dispatch(tr.scrollIntoView());
                         }(view, from, to, typeOver, added);
-                    }), view.domObserver.start(), view.domChangeCount = 0, view.eventHandlers = Object.create(null), handlers)!function(event) {
+                    }), view.domObserver.start(), view.domChangeCount = 0, view.eventHandlers = Object.create(null);
+                    var loop = function(event) {
                         var handler = handlers[event];
                         view.dom.addEventListener(event, view.eventHandlers[event] = function(event) {
                             !function(view, event) {
@@ -2369,7 +2370,8 @@
                                 return !0;
                             }(view, event) || runCustomHandler(view, event) || !view.editable && event.type in editHandlers || handler(view, event);
                         });
-                    }(event);
+                    };
+                    for(var event in handlers)loop(event);
                     result.safari && view.dom.addEventListener("input", function() {
                         return null;
                     }), ensureListeners(view);

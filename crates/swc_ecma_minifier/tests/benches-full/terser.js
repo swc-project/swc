@@ -1193,14 +1193,14 @@
         }
         function switch_body_() {
             expect("{");
-            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Case({
+            for(var tmp, a = [], cur = null, branch = null; !is("punc", "}");)is("eof") && unexpected(), is("keyword", "case") ? (branch && (branch.end = prev()), cur = [], branch = new AST_Case({
                 start: (tmp = S.token, next(), tmp),
                 expression: expression(!0),
                 body: cur
-            })), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], a.push(branch = new AST_Default({
+            }), a.push(branch), expect(":")) : is("keyword", "default") ? (branch && (branch.end = prev()), cur = [], branch = new AST_Default({
                 start: (tmp = S.token, next(), expect(":"), tmp),
                 body: cur
-            }))) : (cur || unexpected(), cur.push(statement()));
+            }), a.push(branch)) : (cur || unexpected(), cur.push(statement()));
             return branch && (branch.end = prev()), next(), a;
         }
         function vardefs(no_in, kind) {
@@ -17658,11 +17658,7 @@
             var reserved = new Set(reserved_option);
             options.builtins || function(reserved) {
                 domprops.forEach(add);
-                var objects = {}, global_ref = "object" == typeof global ? global : self;
-                function add(name) {
-                    reserved.add(name);
-                }
-                [
+                var new_globals = [
                     "Symbol",
                     "Map",
                     "Promise",
@@ -17671,7 +17667,11 @@
                     "Set",
                     "WeakMap",
                     "WeakSet"
-                ].forEach(function(new_global) {
+                ], objects = {}, global_ref = "object" == typeof global ? global : self;
+                function add(name) {
+                    reserved.add(name);
+                }
+                new_globals.forEach(function(new_global) {
                     objects[new_global] = global_ref[new_global] || Function();
                 }), [
                     "null",

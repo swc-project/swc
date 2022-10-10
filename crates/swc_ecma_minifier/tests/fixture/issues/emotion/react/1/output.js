@@ -10,7 +10,7 @@
                     return Global;
                 }
             });
-            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = function() {
+            var fn, cache, cursor, react = __webpack_require__(7294), StyleSheet = function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -197,12 +197,14 @@
                 }
                 while (character = next())
                 return parsed;
+            }, getRules = function(value, points) {
+                return dealloc(toRules(alloc(value), points));
             }, fixedElements = new WeakMap(), compat = function(element) {
                 if ("rule" === element.type && element.parent && element.length) {
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -501,7 +503,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var callback, container, _insert, currentSheet, collection, length, key = options.key;
+                var collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -513,17 +515,17 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var serializer = (length = Utility_sizeof(collection = [
+                var callback, container, _insert, currentSheet, omnipresentPlugins = [
                     compat,
                     removeLabel
-                ].concat(stylisPlugins, [
+                ], finalizingPlugins = [
                     stringify,
                     (callback = function(rule) {
                         currentSheet.insert(rule);
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
                     })
-                ])), function(element, index, children, callback) {
+                ], serializer = (length = Utility_sizeof(collection = omnipresentPlugins.concat(stylisPlugins, finalizingPlugins)), function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
@@ -651,7 +653,11 @@
                 key: "css"
             }) : null);
             EmotionCacheContext.Provider;
-            var emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
+            var emotion_element_99289b21_browser_esm_withEmotionCache = function(func) {
+                return (0, react.forwardRef)(function(props, ref) {
+                    return func(props, (0, react.useContext)(EmotionCacheContext), ref);
+                });
+            }, emotion_element_99289b21_browser_esm_ThemeContext = (0, react.createContext)({});
             __webpack_require__(8679);
             var emotion_utils_browser_esm_insertStyles = function(cache, serialized, isStringTag) {
                 var className = cache.key + "-" + serialized.name;
@@ -660,7 +666,7 @@
                     do cache.insert(serialized === current ? "." + className : "", current, cache.sheet, !0), current = current.next;
                     while (void 0 !== current)
                 }
-            }, Global = (func = function(props, cache) {
+            }, Global = emotion_element_99289b21_browser_esm_withEmotionCache(function(props, cache) {
                 var serialized = emotion_serialize_browser_esm_serializeStyles([
                     props.styles
                 ], void 0, (0, react.useContext)(emotion_element_99289b21_browser_esm_ThemeContext)), sheetRef = (0, react.useRef)();
@@ -696,9 +702,7 @@
                     cache,
                     serialized.name
                 ]), null;
-            }, (0, react.forwardRef)(function(props, ref) {
-                return func(props, (0, react.useContext)(EmotionCacheContext), ref);
-            }));
+            });
         },
         8679: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

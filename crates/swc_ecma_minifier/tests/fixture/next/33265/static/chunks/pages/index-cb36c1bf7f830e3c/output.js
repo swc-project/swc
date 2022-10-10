@@ -40,9 +40,12 @@
                     return bytesMatch;
                 }
             });
-            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                var obj;
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+            var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), countBytes = function(x) {
+                return Math.ceil(x.toString(2).length / 8);
+            }, isTypedArray = function(obj) {
+                return ArrayBuffer.isView(obj);
+            }, toUint8 = function(bytes) {
+                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || isTypedArray(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -74,7 +77,7 @@
             }, numberToBytes = function(number, _temp2) {
                 var _ref2$le = (void 0 === _temp2 ? {} : _temp2).le, le = void 0 !== _ref2$le && _ref2$le;
                 ("bigint" != typeof number && "number" != typeof number || "number" == typeof number && number != number) && (number = 0);
-                for(var byteCount = Math.ceil((number = BigInt(number)).toString(2).length / 8), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
+                for(var byteCount = countBytes(number = BigInt(number)), bytes = new Uint8Array(new ArrayBuffer(byteCount)), i = 0; i < byteCount; i++){
                     var byteIndex = le ? i : Math.abs(i + 1 - bytes.length);
                     bytes[byteIndex] = Number(number / BYTE_TABLE[i] & BigInt(0xff)), number < 0 && (bytes[byteIndex] = Math.abs(~bytes[byteIndex]), bytes[byteIndex] -= 0 === i ? 1 : 2);
                 }
@@ -198,12 +201,14 @@
                 return null;
             }, isAudioCodec = function(codec) {
                 return void 0 === codec && (codec = ""), regexs.audio.test(codec.trim().toLowerCase());
+            }, isTextCodec = function(codec) {
+                return void 0 === codec && (codec = ""), regexs.text.test(codec.trim().toLowerCase());
             }, getMimeForCodec = function(codecString) {
                 if (codecString && "string" == typeof codecString) {
-                    var codec, codecs = codecString.toLowerCase().split(",").map(function(c) {
+                    var codecs = codecString.toLowerCase().split(",").map(function(c) {
                         return translateLegacyCodec(c.trim());
                     }), type = "video";
-                    1 === codecs.length && isAudioCodec(codecs[0]) ? type = "audio" : 1 === codecs.length && (void 0 === (codec = codecs[0]) && (codec = ""), regexs.text.test(codec.trim().toLowerCase())) && (type = "application");
+                    1 === codecs.length && isAudioCodec(codecs[0]) ? type = "audio" : 1 === codecs.length && isTextCodec(codecs[0]) && (type = "application");
                     var container = "mp4";
                     return codecs.every(function(c) {
                         return regexs.mp4.test(c);
@@ -246,6 +251,12 @@
             ]);
             var normalizePath = function(path) {
                 return "string" == typeof path ? (0, byte_helpers.qX)(path) : path;
+            }, normalizePaths = function(paths) {
+                return Array.isArray(paths) ? paths.map(function(p) {
+                    return normalizePath(p);
+                }) : [
+                    normalizePath(paths)
+                ];
             }, parseDescriptors = function(bytes) {
                 bytes = (0, byte_helpers.Ki)(bytes);
                 for(var results = [], i = 0; bytes.length > i;){
@@ -318,12 +329,8 @@
                 }
             ];
             var findBox = function findBox(bytes, paths, complete) {
-                void 0 === complete && (complete = !1), paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
-                    return normalizePath(p);
-                }) : [
-                    normalizePath(paths1)
-                ], bytes = (0, byte_helpers.Ki)(bytes);
-                var paths1, results = [];
+                void 0 === complete && (complete = !1), paths = normalizePaths(paths), bytes = (0, byte_helpers.Ki)(bytes);
+                var results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var size = (bytes[i] << 24 | bytes[i + 1] << 16 | bytes[i + 2] << 8 | bytes[i + 3]) >>> 0, type = bytes.subarray(i + 4, i + 8);
@@ -451,6 +458,12 @@
                 return "string" == typeof path ? path.match(/.{1,2}/g).map(function(p) {
                     return normalizePath(p);
                 }) : "number" == typeof path ? (0, byte_helpers.hL)(path) : path;
+            }, ebml_helpers_normalizePaths = function(paths) {
+                return Array.isArray(paths) ? paths.map(function(p) {
+                    return ebml_helpers_normalizePath(p);
+                }) : [
+                    ebml_helpers_normalizePath(paths)
+                ];
             }, getInfinityDataSize = function getInfinityDataSize(id, bytes, offset) {
                 if (offset >= bytes.length) return bytes.length;
                 var innerid = getvint(bytes, offset, !1);
@@ -458,12 +471,8 @@
                 var dataHeader = getvint(bytes, offset + innerid.length);
                 return getInfinityDataSize(id, bytes, offset + dataHeader.length + dataHeader.value + innerid.length);
             }, findEbml = function findEbml(bytes, paths) {
-                paths = Array.isArray(paths1 = paths) ? paths1.map(function(p) {
-                    return ebml_helpers_normalizePath(p);
-                }) : [
-                    ebml_helpers_normalizePath(paths1)
-                ], bytes = (0, byte_helpers.Ki)(bytes);
-                var paths1, results = [];
+                paths = ebml_helpers_normalizePaths(paths), bytes = (0, byte_helpers.Ki)(bytes);
+                var results = [];
                 if (!paths.length) return results;
                 for(var i = 0; i < bytes.length;){
                     var id = getvint(bytes, i, !1), dataHeader = getvint(bytes, i + id.length), dataStart = i + id.length + dataHeader.length;
@@ -506,6 +515,10 @@
                     "h264" === dataType ? nalType = 0x1f & bytes[i + nalOffset] : "h265" === dataType && (nalType = bytes[i + nalOffset] >> 1 & 0x3f), -1 !== types.indexOf(nalType) && (nalStart = i + nalOffset), i += nalOffset + ("h264" === dataType ? 1 : 2);
                 }
                 return bytes.subarray(0, 0);
+            }, findH264Nal = function(bytes, type, nalLimit) {
+                return findNal(bytes, "h264", type, nalLimit);
+            }, findH265Nal = function(bytes, type, nalLimit) {
+                return findNal(bytes, "h265", type, nalLimit);
             }, CONSTANTS = {
                 webm: (0, byte_helpers.Ki)([
                     0x77,
@@ -692,10 +705,10 @@
                     });
                 },
                 h264: function(bytes) {
-                    return findNal(bytes, "h264", 7, 3).length;
+                    return findH264Nal(bytes, 7, 3).length;
                 },
                 h265: function(bytes) {
-                    return findNal(bytes, "h265", [
+                    return findH265Nal(bytes, [
                         32,
                         33
                     ], 3).length;
@@ -733,9 +746,11 @@
                     return decodeB64ToUint8Array;
                 }
             });
-            var global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), Buffer = __webpack_require__(816).Buffer;
+            var global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), Buffer = __webpack_require__(816).Buffer, atob = function(s) {
+                return global_window__WEBPACK_IMPORTED_MODULE_0___default().atob ? global_window__WEBPACK_IMPORTED_MODULE_0___default().atob(s) : Buffer.from(s, "base64").toString("binary");
+            };
             function decodeB64ToUint8Array(b64Text) {
-                for(var decodedString = global_window__WEBPACK_IMPORTED_MODULE_0___default().atob ? global_window__WEBPACK_IMPORTED_MODULE_0___default().atob(b64Text) : Buffer.from(b64Text, "base64").toString("binary"), array = new Uint8Array(decodedString.length), i = 0; i < decodedString.length; i++)array[i] = decodedString.charCodeAt(i);
+                for(var decodedString = atob(b64Text), array = new Uint8Array(decodedString.length), i = 0; i < decodedString.length; i++)array[i] = decodedString.charCodeAt(i);
                 return array;
             }
         },
@@ -2996,6 +3011,10 @@
                         Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
                     }), result;
                 }, {});
+            }, values = function(o) {
+                return Object.keys(o).map(function(k) {
+                    return o[k];
+                });
             }, range = function(start, end) {
                 for(var result = [], i = start; i < end; i++)result.push(i);
                 return result;
@@ -3007,6 +3026,10 @@
                 if (!list.length) return [];
                 for(var result = [], i = 0; i < list.length; i++)result.push(list[i]);
                 return result;
+            }, findIndexes = function(l, key) {
+                return l.reduce(function(a, e, i) {
+                    return e[key] && a.push(i), a;
+                }, []);
             }, errors = {
                 INVALID_NUMBER_OF_PERIOD: "INVALID_NUMBER_OF_PERIOD",
                 DASH_EMPTY_MANIFEST: "DASH_EMPTY_MANIFEST",
@@ -3108,16 +3131,11 @@
             }, generateSidxKey = function(sidx) {
                 return sidx && sidx.uri + "-" + byteRangeToString(sidx.byterange);
             }, mergeDiscontiguousPlaylists = function(playlists) {
-                var o;
-                return Object.keys(o = playlists.reduce(function(acc, playlist) {
+                return values(playlists.reduce(function(acc, playlist) {
                     var _acc$name$segments, name = playlist.attributes.id + (playlist.attributes.lang || "");
                     return acc[name] ? (playlist.segments[0] && (playlist.segments[0].discontinuity = !0), (_acc$name$segments = acc[name].segments).push.apply(_acc$name$segments, playlist.segments), playlist.attributes.contentProtection && (acc[name].attributes.contentProtection = playlist.attributes.contentProtection)) : acc[name] = playlist, acc;
-                }, {})).map(function(k) {
-                    return o[k];
-                }).map(function(playlist) {
-                    return playlist.discontinuityStarts = playlist.segments.reduce(function(a, e, i) {
-                        return e.discontinuity && a.push(i), a;
-                    }, []), playlist;
+                }, {})).map(function(playlist) {
+                    return playlist.discontinuityStarts = findIndexes(playlist.segments, "discontinuity"), playlist;
                 });
             }, addSidxSegmentsToPlaylist$1 = function(playlist, sidxMapping) {
                 var sidxKey = generateSidxKey(playlist.sidx), sidxMatch = sidxKey && sidxMapping[sidxKey] && sidxMapping[sidxKey].sidx;
@@ -3182,6 +3200,29 @@
                     return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && ((mainPlaylist = playlist).default = !0), a;
                 }, {});
                 return mainPlaylist || (formattedPlaylists[Object.keys(formattedPlaylists)[0]].default = !0), formattedPlaylists;
+            }, organizeVttPlaylists = function(playlists, sidxMapping) {
+                return void 0 === sidxMapping && (sidxMapping = {}), playlists.reduce(function(a, playlist) {
+                    var label = playlist.attributes.lang || "text";
+                    return a[label] || (a[label] = {
+                        language: label,
+                        default: !1,
+                        autoselect: !1,
+                        playlists: [],
+                        uri: ""
+                    }), a[label].playlists.push(addSidxSegmentsToPlaylist$1(formatVttPlaylist(playlist), sidxMapping)), a;
+                }, {});
+            }, organizeCaptionServices = function(captionServices) {
+                return captionServices.reduce(function(svcObj, svc) {
+                    return svc && svc.forEach(function(service) {
+                        var channel = service.channel, language = service.language;
+                        svcObj[language] = {
+                            autoselect: !1,
+                            default: !1,
+                            instreamId: channel,
+                            language: language
+                        }, service.hasOwnProperty("aspectRatio") && (svcObj[language].aspectRatio = service.aspectRatio), service.hasOwnProperty("easyReader") && (svcObj[language].easyReader = service.easyReader), service.hasOwnProperty("3D") && (svcObj[language]["3D"] = service["3D"]);
+                    }), svcObj;
+                }, {});
             }, formatVideoPlaylist = function(_ref3) {
                 var _attributes2, attributes = _ref3.attributes, segments = _ref3.segments, sidx = _ref3.sidx, playlist = {
                     attributes: ((_attributes2 = {
@@ -3215,7 +3256,7 @@
                 return "text/vtt" === attributes.mimeType || "text" === attributes.contentType;
             }, toM3u8 = function(dashPlaylists, locations, sidxMapping) {
                 if (void 0 === sidxMapping && (sidxMapping = {}), !dashPlaylists.length) return {};
-                var sidxMapping1, _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
+                var _mediaGroups, _dashPlaylists$0$attr = dashPlaylists[0].attributes, duration = _dashPlaylists$0$attr.sourceDuration, type = _dashPlaylists$0$attr.type, suggestedPresentationDelay = _dashPlaylists$0$attr.suggestedPresentationDelay, minimumUpdatePeriod = _dashPlaylists$0$attr.minimumUpdatePeriod, videoPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(videoOnly)).map(formatVideoPlaylist), audioPlaylists = mergeDiscontiguousPlaylists(dashPlaylists.filter(audioOnly)), vttPlaylists = dashPlaylists.filter(vttOnly), captions = dashPlaylists.map(function(playlist) {
                     return playlist.attributes.captionServices;
                 }).filter(Boolean), manifest = {
                     allowCache: !0,
@@ -3232,26 +3273,7 @@
                 };
                 minimumUpdatePeriod >= 0 && (manifest.minimumUpdatePeriod = 1000 * minimumUpdatePeriod), locations && (manifest.locations = locations), "dynamic" === type && (manifest.suggestedPresentationDelay = suggestedPresentationDelay);
                 var isAudioOnly = 0 === manifest.playlists.length;
-                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = (void 0 === (sidxMapping1 = sidxMapping) && (sidxMapping1 = {}), vttPlaylists.reduce(function(a, playlist) {
-                    var label = playlist.attributes.lang || "text";
-                    return a[label] || (a[label] = {
-                        language: label,
-                        default: !1,
-                        autoselect: !1,
-                        playlists: [],
-                        uri: ""
-                    }), a[label].playlists.push(addSidxSegmentsToPlaylist$1(formatVttPlaylist(playlist), sidxMapping1)), a;
-                }, {}))), captions.length && (manifest.mediaGroups["CLOSED-CAPTIONS"].cc = captions.reduce(function(svcObj, svc) {
-                    return svc && svc.forEach(function(service) {
-                        var channel = service.channel, language = service.language;
-                        svcObj[language] = {
-                            autoselect: !1,
-                            default: !1,
-                            instreamId: channel,
-                            language: language
-                        }, service.hasOwnProperty("aspectRatio") && (svcObj[language].aspectRatio = service.aspectRatio), service.hasOwnProperty("easyReader") && (svcObj[language].easyReader = service.easyReader), service.hasOwnProperty("3D") && (svcObj[language]["3D"] = service["3D"]);
-                    }), svcObj;
-                }, {})), manifest;
+                return audioPlaylists.length && (manifest.mediaGroups.AUDIO.audio = organizeAudioPlaylists(audioPlaylists, sidxMapping, isAudioOnly)), vttPlaylists.length && (manifest.mediaGroups.SUBTITLES.subs = organizeVttPlaylists(vttPlaylists, sidxMapping)), captions.length && (manifest.mediaGroups["CLOSED-CAPTIONS"].cc = organizeCaptionServices(captions)), manifest;
             }, getLiveRValue = function(attributes, time, duration) {
                 var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale = attributes.timescale, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod;
                 return Math.ceil((((NOW + clientOffset) / 1000 + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - (availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start))) * (void 0 === _attributes$timescale ? 1 : _attributes$timescale) - time) / duration);
@@ -3279,6 +3301,15 @@
                     var value = "" + values[identifier];
                     return "RepresentationID" === identifier ? value : (width = format ? parseInt(width, 10) : 1, value.length >= width) ? value : "" + Array(width - value.length + 1).join("0") + value;
                 });
+            }, parseTemplateInfo = function(attributes, segmentTimeline) {
+                return attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
+                    {
+                        number: attributes.startNumber || 1,
+                        duration: attributes.sourceDuration,
+                        time: 0,
+                        timeline: attributes.periodIndex
+                    }
+                ];
             }, segmentsFromTemplate = function(attributes, segmentTimeline) {
                 var templateValues = {
                     RepresentationID: attributes.id,
@@ -3291,14 +3322,7 @@
                     source: constructTemplateUrl(initialization.sourceURL, templateValues),
                     range: initialization.range
                 });
-                return (attributes.duration || segmentTimeline ? attributes.duration ? parseByDuration(attributes) : parseByTimeline(attributes, segmentTimeline) : [
-                    {
-                        number: attributes.startNumber || 1,
-                        duration: attributes.sourceDuration,
-                        time: 0,
-                        timeline: attributes.periodIndex
-                    }
-                ]).map(function(segment) {
+                return parseTemplateInfo(attributes, segmentTimeline).map(function(segment) {
                     templateValues.Number = segment.number, templateValues.Time = segment.time;
                     var uri = constructTemplateUrl(attributes.media || "", templateValues), timescale = attributes.timescale || 1, presentationTimeOffset = attributes.presentationTimeOffset || 0, presentationTime = attributes.periodStart + (segment.time - presentationTimeOffset) / timescale;
                     return {
@@ -3323,9 +3347,9 @@
                 });
                 return segment.map = initSegment, segment;
             }, segmentsFromList = function(attributes, segmentTimeline) {
-                var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, periodStart = attributes.periodStart;
+                var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, segmentUrls = void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr, periodStart = attributes.periodStart;
                 if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error(errors.SEGMENT_TIME_UNSPECIFIED);
-                var segmentUrlMap = (void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr).map(function(segmentUrlObject) {
+                var segmentUrlMap = segmentUrls.map(function(segmentUrlObject) {
                     return SegmentURLToSegmentObject(attributes, segmentUrlObject);
                 });
                 return duration && (segmentTimeInfo = parseByDuration(attributes)), segmentTimeline && (segmentTimeInfo = parseByTimeline(attributes, segmentTimeline)), segmentTimeInfo.map(function(segmentTime, index) {
@@ -3362,13 +3386,14 @@
                 if (!match) return 0;
                 var _match$slice = match.slice(1), year = _match$slice[0], month = _match$slice[1], day = _match$slice[2], hour = _match$slice[3], minute = _match$slice[4], second = _match$slice[5];
                 return 31536000 * parseFloat(year || 0) + 2592000 * parseFloat(month || 0) + 86400 * parseFloat(day || 0) + 3600 * parseFloat(hour || 0) + 60 * parseFloat(minute || 0) + parseFloat(second || 0);
+            }, parseDate = function(str) {
+                return /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str);
             }, parsers = {
                 mediaPresentationDuration: function(value) {
                     return parseDuration(value);
                 },
                 availabilityStartTime: function(value) {
-                    var str;
-                    return str = value, /^\d+-\d+-\d+T\d+:\d+:\d+(\.\d+)?$/.test(str) && (str += "Z"), Date.parse(str) / 1000;
+                    return parseDate(value) / 1000;
                 },
                 minimumUpdatePeriod: function(value) {
                     return parseDuration(value);
@@ -3460,6 +3485,48 @@
                 return Object.keys(segmentInfo).forEach(function(key) {
                     segmentInfo[key] || delete segmentInfo[key];
                 }), segmentInfo;
+            }, generateKeySystemInformation = function(contentProtectionNodes) {
+                return contentProtectionNodes.reduce(function(acc, node) {
+                    var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
+                    if (keySystem) {
+                        acc[keySystem] = {
+                            attributes: attributes
+                        };
+                        var psshNode = findChildren(node, "cenc:pssh")[0];
+                        if (psshNode) {
+                            var pssh = getContent(psshNode), psshBuffer = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
+                            acc[keySystem].pssh = psshBuffer;
+                        }
+                    }
+                    return acc;
+                }, {});
+            }, parseCaptionServiceMetadata = function(service) {
+                return "urn:scte:dash:cc:cea-608:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                    if (language = value, /^CC\d=/.test(value)) {
+                        var channel, language, _value$split = value.split("=");
+                        channel = _value$split[0], language = _value$split[1];
+                    } else /^CC\d$/.test(value) && (channel = value);
+                    return {
+                        channel: channel,
+                        language: language
+                    };
+                }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
+                    var flags = {
+                        channel: void 0,
+                        language: void 0,
+                        aspectRatio: 1,
+                        easyReader: 0,
+                        "3D": 0
+                    };
+                    if (/=/.test(value)) {
+                        var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1], opts = void 0 === _value$split2$ ? "" : _value$split2$;
+                        flags.channel = channel, flags.language = value, opts.split(",").forEach(function(opt) {
+                            var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
+                            "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
+                        });
+                    } else flags.language = value;
+                    return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
+                }) : void 0;
             }, getPeriodStart = function(_ref) {
                 var attributes = _ref.attributes, priorPeriodAttributes = _ref.priorPeriodAttributes, mpdType = _ref.mpdType;
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
@@ -3492,34 +3559,9 @@
                         "number" == typeof period.attributes.duration && (periodAttributes.periodDuration = period.attributes.duration);
                         var adaptationSets = findChildren(period.node, "AdaptationSet"), periodSegmentInfo = getSegmentInformation(period.node);
                         return flatten(adaptationSets.map(function(adaptationSet) {
-                            var service, adaptationSetAttributes, adaptationSetAttributes1 = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), attrs = merge(periodAttributes, adaptationSetAttributes1, {
+                            var adaptationSetAttributes, adaptationSetAttributes1 = parseAttributes(adaptationSet), adaptationSetBaseUrls = buildBaseUrls(periodBaseUrls, findChildren(adaptationSet, "BaseURL")), attrs = merge(periodAttributes, adaptationSetAttributes1, {
                                 role: parseAttributes(findChildren(adaptationSet, "Role")[0])
-                            }), captionServices = "urn:scte:dash:cc:cea-608:2015" === (service = parseAttributes(findChildren(adaptationSet, "Accessibility")[0])).schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                                if (language = value, /^CC\d=/.test(value)) {
-                                    var channel, language, _value$split = value.split("=");
-                                    channel = _value$split[0], language = _value$split[1];
-                                } else /^CC\d$/.test(value) && (channel = value);
-                                return {
-                                    channel: channel,
-                                    language: language
-                                };
-                            }) : "urn:scte:dash:cc:cea-708:2015" === service.schemeIdUri ? ("string" != typeof service.value ? [] : service.value.split(";")).map(function(value) {
-                                var flags = {
-                                    channel: void 0,
-                                    language: void 0,
-                                    aspectRatio: 1,
-                                    easyReader: 0,
-                                    "3D": 0
-                                };
-                                if (/=/.test(value)) {
-                                    var _value$split2 = value.split("="), channel = _value$split2[0], _value$split2$ = _value$split2[1];
-                                    flags.channel = channel, flags.language = value, (void 0 === _value$split2$ ? "" : _value$split2$).split(",").forEach(function(opt) {
-                                        var _opt$split = opt.split(":"), name = _opt$split[0], val = _opt$split[1];
-                                        "lang" === name ? flags.language = val : "er" === name ? flags.easyReader = Number(val) : "war" === name ? flags.aspectRatio = Number(val) : "3D" === name && (flags["3D"] = Number(val));
-                                    });
-                                } else flags.language = value;
-                                return flags.channel && (flags.channel = "SERVICE" + flags.channel), flags;
-                            }) : void 0;
+                            }), captionServices = parseCaptionServiceMetadata(parseAttributes(findChildren(adaptationSet, "Accessibility")[0]));
                             captionServices && (attrs = merge(attrs, {
                                 captionServices: captionServices
                             }));
@@ -3527,20 +3569,7 @@
                             label && label.childNodes.length && (attrs = merge(attrs, {
                                 label: label.childNodes[0].nodeValue.trim()
                             }));
-                            var contentProtection = findChildren(adaptationSet, "ContentProtection").reduce(function(acc, node) {
-                                var attributes = parseAttributes(node), keySystem = keySystemsMap[attributes.schemeIdUri];
-                                if (keySystem) {
-                                    acc[keySystem] = {
-                                        attributes: attributes
-                                    };
-                                    var psshNode = findChildren(node, "cenc:pssh")[0];
-                                    if (psshNode) {
-                                        var pssh = getContent(psshNode), psshBuffer = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
-                                        acc[keySystem].pssh = psshBuffer;
-                                    }
-                                }
-                                return acc;
-                            }, {});
+                            var contentProtection = generateKeySystemInformation(findChildren(adaptationSet, "ContentProtection"));
                             Object.keys(contentProtection).length && (attrs = merge(attrs, {
                                 contentProtection: contentProtection
                             }));
@@ -5091,10 +5120,10 @@
                 return 2 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(function(uint8, start, end) {
-                    for(var tmp, output = [], i = start; i < end; i += 3)output.push(lookup[(tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])) >> 18 & 0x3f] + lookup[tmp >> 12 & 0x3f] + lookup[tmp >> 6 & 0x3f] + lookup[0x3f & tmp]);
+                    for(var tmp, output = [], i = start; i < end; i += 3)tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2]), output.push(lookup[tmp >> 18 & 0x3f] + lookup[tmp >> 12 & 0x3f] + lookup[tmp >> 6 & 0x3f] + lookup[0x3f & tmp]);
                     return output.join("");
                 }(uint8, i, i + 16383 > len2 ? len2 : i + 16383));
-                return 1 === extraBytes ? parts.push(lookup[(tmp = uint8[len - 1]) >> 2] + lookup[tmp << 4 & 0x3f] + "==") : 2 === extraBytes && parts.push(lookup[(tmp = (uint8[len - 2] << 8) + uint8[len - 1]) >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "="), parts.join("");
+                return 1 === extraBytes ? (tmp = uint8[len - 1], parts.push(lookup[tmp >> 2] + lookup[tmp << 4 & 0x3f] + "==")) : 2 === extraBytes && (tmp = (uint8[len - 2] << 8) + uint8[len - 1], parts.push(lookup[tmp >> 10] + lookup[tmp >> 4 & 0x3f] + lookup[tmp << 2 & 0x3f] + "=")), parts.join("");
             };
             for(var lookup = [], revLookup = [], Arr = "undefined" != typeof Uint8Array ? Uint8Array : Array, code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 0, len = code.length; i < len; ++i)lookup[i] = code[i], revLookup[code.charCodeAt(i)] = i;
             function getLens(b64) {
@@ -5478,7 +5507,7 @@
                     case "utf16le":
                     case "utf-16le":
                         return offset4 = offset, length4 = length, blitBuffer(function(str, units) {
-                            for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
+                            for(var c, hi, lo, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, lo = c % 256, byteArray.push(lo), byteArray.push(hi);
                             return byteArray;
                         }(string, this.length - offset4), this, offset4, length4);
                     default:
@@ -5812,13 +5841,16 @@
         }
     },
     function(__webpack_require__) {
+        var __webpack_exec__ = function(moduleId) {
+            return __webpack_require__(__webpack_require__.s = moduleId);
+        };
         __webpack_require__.O(0, [
             544,
             774,
             888,
             179
         ], function() {
-            return __webpack_require__(__webpack_require__.s = 8581);
+            return __webpack_exec__(8581);
         }), _N_E = __webpack_require__.O();
     }
 ]);

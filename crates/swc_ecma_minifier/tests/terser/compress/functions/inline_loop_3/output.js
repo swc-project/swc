@@ -1,1 +1,4 @@
-for (;;) x();
+var f = function() {
+    return x();
+};
+for(;;)f();

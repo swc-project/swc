@@ -9723,8 +9723,9 @@
                         for(var args = [], _i = 0; _i < arguments.length; _i++)args[_i] = arguments[_i];
                         'undefined' != typeof console && console.log && console.log.apply(console, args);
                     }(map(resultList, function(extSource) {
+                        var pipeIndexStr = null != pipeIndex ? ' === pipe index: ' + pipeIndex : '';
                         return [
-                            '=== dataset index: ' + infoForPrint.datasetIndex + (null != pipeIndex ? ' === pipe index: ' + pipeIndex : '') + ' ===',
+                            '=== dataset index: ' + infoForPrint.datasetIndex + pipeIndexStr + ' ===',
                             '- transform result data:',
                             makePrintable(extSource.data),
                             '- transform result dimensions:',
@@ -15444,6 +15445,8 @@
                                 return isSameHour() && isSame('minute');
                             }, isSameSecond = function() {
                                 return isSameMinute() && isSame('second');
+                            }, isSameMilliSecond = function() {
+                                return isSameSecond() && isSame('millisecond');
                             };
                             switch(unit){
                                 case 'year':
@@ -15459,7 +15462,7 @@
                                 case 'second':
                                     return isSameSecond();
                                 case 'millisecond':
-                                    return isSameSecond() && isSame('millisecond');
+                                    return isSameMilliSecond();
                             }
                         }(getPrimaryTimeUnit(unitName), extent[0], extent[1], isUTC)) {
                             isFirstLevel && (lastLevelTicks = [
@@ -17055,7 +17058,7 @@
                 var zlevel = this._zlevelList[zi], layer = this._layers[zlevel];
                 layer.__builtin__ && layer !== this._hoverlayer && (layer.__dirty || paintAll) && layerList.push(layer);
             }
-            for(var finished = !0, needsRefreshHover = !1, this_1 = this, k = 0; k < layerList.length; k++)!function(k) {
+            for(var finished = !0, needsRefreshHover = !1, _loop_1 = function(k) {
                 var i, layer = layerList[k], ctx = layer.ctx, repaintRects = useDirtyRect && layer.createRepaintRects(list, prevList, this_1._width, this_1._height);
                 ctx.save();
                 var start = paintAll ? layer.__startIndex : layer.__drawIndex, useTimer = !paintAll && layer.incremental && Date.now, startTime = useTimer && Date.now(), clearColor = layer.zlevel === this_1._zlevelList[0] ? this_1._backgroundColor : null;
@@ -17087,7 +17090,7 @@
                     }
                 } else ctx.save(), repaint(), ctx.restore();
                 layer.__drawIndex = i, layer.__drawIndex < layer.__endIndex && (finished = !1);
-            }(k);
+            }, this_1 = this, k = 0; k < layerList.length; k++)_loop_1(k);
             return env1.wxa && each(this._layers, function(layer) {
                 layer && layer.ctx && layer.ctx.draw && layer.ctx.draw();
             }), {
@@ -23663,10 +23666,12 @@
         var visual = thisOption.visual, visualArr = [];
         isObject(visual) ? each(visual, function(v) {
             visualArr.push(v);
-        }) : null != visual && visualArr.push(visual), isCategory || 1 !== visualArr.length || ({
+        }) : null != visual && visualArr.push(visual);
+        var doNotNeedPair = {
             color: 1,
             symbol: 1
-        }).hasOwnProperty(thisOption.type) || (visualArr[1] = visualArr[0]), setVisualToOption(thisOption, visualArr);
+        };
+        isCategory || 1 !== visualArr.length || doNotNeedPair.hasOwnProperty(thisOption.type) || (visualArr[1] = visualArr[0]), setVisualToOption(thisOption, visualArr);
     }
     function makePartialColorVisualHandler(applyValue) {
         return {
@@ -24154,12 +24159,14 @@
     }, getEdgeFromMap = function(edge, seriesModel) {
         var key = getKeyOfEdges(edge.node1, edge.node2, seriesModel);
         return seriesModel.__edgeMap[key];
+    }, getTotalLengthBetweenNodes = function(edge, seriesModel) {
+        return getEdgeMapLengthWithKey(getKeyOfEdges(edge.node1, edge.node2, seriesModel), seriesModel) + getEdgeMapLengthWithKey(getKeyOfEdges(edge.node2, edge.node1, seriesModel), seriesModel);
     }, getEdgeMapLengthWithKey = function(key, seriesModel) {
         var edgeMap = seriesModel.__edgeMap;
         return edgeMap[key] ? edgeMap[key].length : 0;
     };
     function getCurvenessForEdge(edge, seriesModel, index, needReverse) {
-        var edge1, seriesModel1, autoCurvenessParams = getAutoCurvenessParams(seriesModel), isArrayParam = isArray(autoCurvenessParams);
+        var autoCurvenessParams = getAutoCurvenessParams(seriesModel), isArrayParam = isArray(autoCurvenessParams);
         if (!autoCurvenessParams) return null;
         var edgeArray = getEdgeFromMap(edge, seriesModel);
         if (!edgeArray) return null;
@@ -24167,7 +24174,7 @@
             edgeIndex = i;
             break;
         }
-        var totalLen = (edge1 = edge, seriesModel1 = seriesModel, getEdgeMapLengthWithKey(getKeyOfEdges(edge1.node1, edge1.node2, seriesModel1), seriesModel1) + getEdgeMapLengthWithKey(getKeyOfEdges(edge1.node2, edge1.node1, seriesModel1), seriesModel1));
+        var totalLen = getTotalLengthBetweenNodes(edge, seriesModel);
         createCurveness(seriesModel, totalLen), edge.lineStyle = edge.lineStyle || {};
         var curKey = getKeyOfEdges(edge.node1, edge.node2, seriesModel), curvenessList = seriesModel.__curvenessList, parityCorrection = isArrayParam ? 0 : totalLen % 2 ? 0 : 1;
         if (edgeArray.isForward) return curvenessList[parityCorrection + edgeIndex];

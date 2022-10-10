@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window2, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, $7, undefined2, path, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc, $11, undefined4, props, testElement, vendorPrefixes, $12, heldCall, curr, diff, handler, lastCall, $13, baseElement, base, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window3, $17, $18, $19, defaultGetMaxScrollForTransition, window4, window5, window6, $20, window7, window8, window9, window10, window11, $21, $22, undefined7, rInitialLetter, iconposClass, $23, $24, $25, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $26, $27, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window2, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, $7, undefined2, path, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc, $11, undefined4, props, testElement, vendorPrefixes, $12, heldCall, curr, diff, handler, lastCall, $13, baseElement, base, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window3, $17, $18, $19, defaultGetMaxScrollForTransition, window4, window5, window6, $20, window7, window8, window9, window10, window11, $21, $22, undefined7, rInitialLetter, iconposClass, $23, $24, $25, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $26, $27, undefined8, replaceSetOptions, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -2426,11 +2426,11 @@
                 highlight: !1
             },
             _create: function() {
-                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, self = this, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
+                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, self = this, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), trackThemeClass = trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit", cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), selectClass = isToggleSwitch ? "ui-slider-switch" : "", controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
                 if ($label.attr("id", labelID), this.isToggleSwitch = isToggleSwitch, domHandle.setAttribute("href", "#"), domSlider.setAttribute("role", "application"), domSlider.className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-track ui-shadow-inset " : "ui-slider-track ui-shadow-inset ",
-                    isToggleSwitch ? "ui-slider-switch" : "",
-                    trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
+                    selectClass,
+                    trackThemeClass,
                     cornerClass,
                     miniClass
                 ].join(""), domHandle.className = "ui-slider-handle", domSlider.appendChild(domHandle), handle.attr({
@@ -2555,10 +2555,10 @@
                 this.refresh(undefined, !1, !0);
             },
             refresh: function(val, isfromControl, preventInputUpdate) {
-                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
+                var bg, left, width, data, pxStep, percent, control, isInput, optionElements, min, max, step, newval, valModStep, alignValue, percentPerStep, handlePercent, aPercent, bPercent, valueChanged, self = this, parentTheme = $.mobile.getAttribute(this.element[0], "theme"), theme = this.options.theme || parentTheme, trackTheme = this.options.trackTheme || parentTheme, trackThemeClass = trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit", cornerClass = this.options.corners ? " ui-corner-all" : "", miniClass = this.options.mini ? " ui-mini" : "";
                 if (self.slider[0].className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-switch ui-slider-track ui-shadow-inset" : "ui-slider-track ui-shadow-inset",
-                    trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
+                    trackThemeClass,
                     cornerClass,
                     miniClass
                 ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(self.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
@@ -4126,10 +4126,12 @@
             },
             close: function(immediate) {
                 if (this._open) {
-                    var self = this, o = this.options, complete = function() {
+                    var self = this, o = this.options, _closePanel = function() {
+                        self.element.removeClass(o.classes.panelOpen), "overlay" !== o.display && (self._wrapper.removeClass(self._pageContentOpenClasses), self._fixedToolbars().removeClass(self._pageContentOpenClasses)), !immediate && $.support.cssTransform3d && o.animate ? self.element.animationComplete(complete, "transition") : setTimeout(complete, 0), self._modal && self._modal.removeClass(self._modalOpenClasses);
+                    }, complete = function() {
                         o.theme && "overlay" !== o.display && self._page().parent().removeClass(o.classes.pageContainer + "-themed " + o.classes.pageContainer + "-" + o.theme), self.element.addClass(o.classes.panelClosed), "overlay" !== o.display && (self._page().parent().removeClass(o.classes.pageContainer), self._wrapper.removeClass(o.classes.pageContentPrefix + "-open"), self._fixedToolbars().removeClass(o.classes.pageContentPrefix + "-open")), $.support.cssTransform3d && o.animate && "overlay" !== o.display && (self._wrapper.removeClass(o.classes.animate), self._fixedToolbars().removeClass(o.classes.animate)), self._fixPanel(), self._unbindFixListener(), $.mobile.resetActivePageHeight(), self._page().jqmRemoveData("panel"), self._trigger("close"), self._openedPage = null;
                     };
-                    self._trigger("beforeclose"), self.element.removeClass(o.classes.panelOpen), "overlay" !== o.display && (self._wrapper.removeClass(self._pageContentOpenClasses), self._fixedToolbars().removeClass(self._pageContentOpenClasses)), !immediate && $.support.cssTransform3d && o.animate ? self.element.animationComplete(complete, "transition") : setTimeout(complete, 0), self._modal && self._modal.removeClass(self._modalOpenClasses), self._open = !1;
+                    self._trigger("beforeclose"), _closePanel(), self._open = !1;
                 }
             },
             toggle: function() {
@@ -4345,7 +4347,11 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($27 = jQuery).mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), $27 = jQuery, replaceSetOptions = function(self, orig) {
+        return function(options) {
+            orig.call(this, options), self._syncTextInputOptions(options);
+        };
+    }, rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = $27.mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
     }, $27.widget("mobile.filterable", $27.mobile.filterable, {
         options: {
@@ -4374,13 +4380,7 @@
             this._widget && "mobile-listview" === this._widget.widgetFullName && "beforefilter" === type && this._widget._trigger("beforefilter", event1, data), this._super(type, event1, data);
         },
         _setWidget: function(widget) {
-            if (!this._widget && widget) {
-                var self, orig;
-                this._widget = widget, this._widget._setOptions = (self = this, orig = this._widget._setOptions, function(options) {
-                    orig.call(this, options), self._syncTextInputOptions(options);
-                });
-            }
-            return this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
+            return !this._widget && widget && (this._widget = widget, this._widget._setOptions = replaceSetOptions(this, this._widget._setOptions)), this._widget && (this._syncTextInputOptions(this._widget.options), "listview" === this._widget.widgetName && (this._widget.options.hideDividers = !0, this._widget.element.listview("refresh"))), !!this._widget;
         },
         _isSearchInternal: function() {
             return this._search && this._search.jqmData("ui-filterable-" + this.uuid + "-internal");

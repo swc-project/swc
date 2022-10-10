@@ -9195,17 +9195,19 @@
                 var axis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Axis.getAxis(props), currentAxis = getCurrentAxis(props, axis), scale = victory_core__WEBPACK_IMPORTED_MODULE_2__.Scale.getBaseScale(props, axis), domain = props.domain && props.domain[axis] || victory_core__WEBPACK_IMPORTED_MODULE_2__.Axis.getDomain(props) || scale.domain();
                 return scale.range(victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getRange(props, currentAxis)), scale.domain(domain), scale;
             }, getStyleObject = function(props) {
-                var theme = props.theme, dependentAxis = props.dependentAxis, generalAxisStyle = theme && theme.axis && theme.axis.style, axisType = dependentAxis ? "dependentAxis" : "independentAxis", specificAxisStyle = theme && theme[axisType] && theme[axisType].style;
-                return generalAxisStyle && specificAxisStyle ? [
-                    "axis",
-                    "axisLabel",
-                    "grid",
-                    "parent",
-                    "tickLabels",
-                    "ticks"
-                ].reduce(function(memo, curr) {
-                    return memo[curr] = lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default()({}, specificAxisStyle[curr], generalAxisStyle[curr]), memo;
-                }, {}) : specificAxisStyle || generalAxisStyle;
+                var theme = props.theme, dependentAxis = props.dependentAxis, generalAxisStyle = theme && theme.axis && theme.axis.style, axisType = dependentAxis ? "dependentAxis" : "independentAxis", specificAxisStyle = theme && theme[axisType] && theme[axisType].style, mergeStyles = function() {
+                    return [
+                        "axis",
+                        "axisLabel",
+                        "grid",
+                        "parent",
+                        "tickLabels",
+                        "ticks"
+                    ].reduce(function(memo, curr) {
+                        return memo[curr] = lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default()({}, specificAxisStyle[curr], generalAxisStyle[curr]), memo;
+                    }, {});
+                };
+                return generalAxisStyle && specificAxisStyle ? mergeStyles() : specificAxisStyle || generalAxisStyle;
             }, getStyles = function(props, styleObject) {
                 var style = props.style || {};
                 return styleObject = styleObject || {}, {
@@ -9259,6 +9261,12 @@
                     x2: isVertical ? globalTransform.x : width - padding.right + globalTransform.x,
                     y1: isVertical ? padding.top + globalTransform.y : globalTransform.y,
                     y2: isVertical ? height - padding.bottom + globalTransform.y : globalTransform.y
+                };
+            }, getEvaluatedStyles = function(style, props) {
+                return {
+                    tickStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.ticks, props),
+                    labelStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.tickLabels, props),
+                    gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.grid, props)
                 };
             }, getAxisLabelProps = function(props, calculatedValues, globalTransform) {
                 var style = calculatedValues.style, orientation = calculatedValues.orientation, padding = calculatedValues.padding, labelPadding = calculatedValues.labelPadding, isVertical = calculatedValues.isVertical, sign = orientationSign[orientation], hPadding = padding.left + padding.right, vPadding = padding.top + padding.bottom, labelStyle = style.axisLabel;
@@ -9399,6 +9407,11 @@
                     y: isVertical ? 0 : sign * tickSpacing,
                     y2: isVertical ? 0 : sign * size
                 };
+            }, getTickTransform = function(tick, globalTransform, isVertical) {
+                return {
+                    x: isVertical ? globalTransform.x : tick + globalTransform.x,
+                    y: isVertical ? tick + globalTransform.y : globalTransform.y
+                };
             }, getGridEdge = function(props, calculatedValues) {
                 var orientation = calculatedValues.orientation, padding = calculatedValues.padding, isVertical = calculatedValues.isVertical, sign = -orientationSign[orientation];
                 return {
@@ -9486,21 +9499,14 @@
                     scale: props.scale && props.scale[otherAxis] ? _defineProperty({}, otherAxis, props.scale[otherAxis]) : void 0
                 };
                 return ticks.reduce(function(childProps, tickValue, index) {
-                    var style1, props, tick, globalTransform1, isVertical1, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
-                        tick: tick1,
+                    var tick = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = getEvaluatedStyles(style, lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
+                        tick: tick,
                         tickValue: tickValue,
                         index: index,
                         text: text
-                    }), {
-                        tickStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.ticks, props),
-                        labelStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.tickLabels, props),
-                        gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.evaluateStyle(style.grid, props)
-                    }), tickLayout = {
+                    })), tickLayout = {
                         position: getTickPosition(styles, orientation, isVertical),
-                        transform: (tick = scale[axis](tickValue), {
-                            x: isVertical ? globalTransform.x : tick + globalTransform.x,
-                            y: isVertical ? tick + globalTransform.y : globalTransform.y
-                        })
+                        transform: getTickTransform(scale[axis](tickValue), globalTransform, isVertical)
                     }, gridLayout = {
                         edge: gridEdge,
                         transform: {
@@ -9604,14 +9610,14 @@
                         value: function(gridAndTicks, props) {
                             var isVertical = victory_core__WEBPACK_IMPORTED_MODULE_4__.Axis.isVertical(props), size = isVertical ? props.height : props.width, isVictoryLabel = function(child) {
                                 return child.type && "label" === child.type.role;
-                            }, labelsSumSize = gridAndTicks.map(function(gridAndTick) {
+                            }, labels = gridAndTicks.map(function(gridAndTick) {
                                 return gridAndTick.props.children;
                             }).reduce(function(accumulator, childArr) {
                                 return accumulator.concat(childArr);
                             }, []).filter(isVictoryLabel).map(function(child) {
                                 return child.props;
-                            }).reduce(function(sum, label) {
-                                var padding, padding1 = "object" == typeof (padding = label.style.padding) ? lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, {
+                            }), paddingToObject = function(padding) {
+                                return "object" == typeof padding ? lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, {
                                     top: 0,
                                     right: 0,
                                     bottom: 0,
@@ -9621,13 +9627,15 @@
                                     right: padding,
                                     bottom: padding,
                                     left: padding
-                                }, labelSize = victory_core__WEBPACK_IMPORTED_MODULE_4__.TextSize.approximateTextSize(label.text, {
+                                };
+                            }, labelsSumSize = labels.reduce(function(sum, label) {
+                                var padding = paddingToObject(label.style.padding), labelSize = victory_core__WEBPACK_IMPORTED_MODULE_4__.TextSize.approximateTextSize(label.text, {
                                     angle: label.angle,
                                     fontSize: label.style.fontSize,
                                     letterSpacing: label.style.letterSpacing,
                                     fontFamily: label.style.fontFamily
                                 });
-                                return sum + (isVertical ? labelSize.height + padding1.top + padding1.bottom : labelSize.width + padding1.right + padding1.left);
+                                return sum + (isVertical ? labelSize.height + padding.top + padding.bottom : labelSize.width + padding.right + padding.left);
                             }, 0), availiableLabelCount = Math.floor(size * gridAndTicks.length / labelsSumSize), divider = Math.ceil(gridAndTicks.length / availiableLabelCount) || 1, getLabelCoord = function(gridAndTick) {
                                 return gridAndTick.props.children.filter(isVictoryLabel).reduce(function(prev, child) {
                                     return (isVertical ? child.props.y : child.props.x) || 0;
@@ -9902,7 +9910,11 @@
                 }
                 return target;
             }
-            var getBarWidth = function(barWidth, props) {
+            var getBarPath = function(props, width, cornerRadius) {
+                return props.getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props, width) : props.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props, width, cornerRadius) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props, width, cornerRadius);
+            }, getPolarBarPath = function(props, cornerRadius) {
+                return Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props, cornerRadius);
+            }, getBarWidth = function(barWidth, props) {
                 var scale = props.scale, data = props.data, defaultBarWidth = props.defaultBarWidth, style = props.style;
                 if (barWidth) return victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(barWidth, props);
                 if (style.width) return style.width;
@@ -9949,7 +9961,7 @@
                     tabIndex: tabIndex
                 });
             }, Bar = function(props) {
-                var props1, cornerRadius, props2, width, cornerRadius1, _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius2 = _props.cornerRadius, path = polar ? (props1 = props, Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props1, cornerRadius2)) : (props2 = props).getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props2, barWidth) : props2.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props2, barWidth, cornerRadius2) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props2, barWidth, cornerRadius2), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
+                var _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius = _props.cornerRadius, path = polar ? getPolarBarPath(props, cornerRadius) : getBarPath(props, barWidth, cornerRadius), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
                 return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.pathComponent, _objectSpread({}, props.events, {
                     "aria-label": props.ariaLabel,
                     style: style,
@@ -10436,6 +10448,22 @@
                         leftCoords: leftCoords,
                         leftMiddle: leftMiddle
                     };
+                }, getBottomPath = function() {
+                    var moves, coords, bottomRight = cornerRadius.bottomRight, bottomLeft = cornerRadius.bottomLeft, arcLength = r1 * Math.abs(end - start), _getPathData2 = getPathData("bottom"), rightMoves = _getPathData2.rightMoves, rightCoords = _getPathData2.rightCoords, rightMiddle = _getPathData2.rightMiddle, leftMoves = _getPathData2.leftMoves, leftCoords = _getPathData2.leftCoords, leftMiddle = _getPathData2.leftMiddle;
+                    if (bottomRight === bottomLeft || arcLength < 2 * bottomRight + 2 * bottomLeft) moves = bottomRight > bottomLeft ? rightMoves : leftMoves, coords = bottomRight > bottomLeft ? rightCoords : leftCoords;
+                    else {
+                        var isShort = function(m, middle) {
+                            return m.length - middle < 4;
+                        }, rightOffset = (bottomRight > bottomLeft ? isShort(rightMoves, rightMiddle) : isShort(leftMoves, leftMiddle)) ? -1 : -3;
+                        moves = _toConsumableArray(leftMoves.slice(0, leftMiddle + 2)).concat(_toConsumableArray(rightMoves.slice(rightOffset))), coords = _toConsumableArray(leftCoords.slice(0, leftMiddle + 2)).concat(_toConsumableArray(rightCoords.slice(rightOffset)));
+                    }
+                    var middle = moves.indexOf("L"), subMoves = moves.slice(middle, -1), subCoords = coords.slice(middle, -1);
+                    return subMoves.map(function(m, i) {
+                        return {
+                            command: m,
+                            coords: subCoords[i].split(",")
+                        };
+                    });
                 }, topPath = function() {
                     var topRight = cornerRadius.topRight, topLeft = cornerRadius.topLeft, arcLength = r2 * Math.abs(end - start), _getPathData = getPathData("top"), rightMoves = _getPathData.rightMoves, rightCoords = _getPathData.rightCoords, rightMiddle = _getPathData.rightMiddle, leftMoves = _getPathData.leftMoves, leftCoords = _getPathData.leftCoords, leftMiddle = _getPathData.leftMiddle;
                     if (topRight === topLeft || arcLength < 2 * topRight + 2 * topLeft) moves = topRight > topLeft ? rightMoves : leftMoves, coords = topRight > topLeft ? rightCoords : leftCoords;
@@ -10459,23 +10487,7 @@
                             coords: subCoords[i].split(",")
                         };
                     });
-                }(), bottomPath = function() {
-                    var moves, coords, bottomRight = cornerRadius.bottomRight, bottomLeft = cornerRadius.bottomLeft, arcLength = r1 * Math.abs(end - start), _getPathData2 = getPathData("bottom"), rightMoves = _getPathData2.rightMoves, rightCoords = _getPathData2.rightCoords, rightMiddle = _getPathData2.rightMiddle, leftMoves = _getPathData2.leftMoves, leftCoords = _getPathData2.leftCoords, leftMiddle = _getPathData2.leftMiddle;
-                    if (bottomRight === bottomLeft || arcLength < 2 * bottomRight + 2 * bottomLeft) moves = bottomRight > bottomLeft ? rightMoves : leftMoves, coords = bottomRight > bottomLeft ? rightCoords : leftCoords;
-                    else {
-                        var isShort = function(m, middle) {
-                            return m.length - middle < 4;
-                        }, rightOffset = (bottomRight > bottomLeft ? isShort(rightMoves, rightMiddle) : isShort(leftMoves, leftMiddle)) ? -1 : -3;
-                        moves = _toConsumableArray(leftMoves.slice(0, leftMiddle + 2)).concat(_toConsumableArray(rightMoves.slice(rightOffset))), coords = _toConsumableArray(leftCoords.slice(0, leftMiddle + 2)).concat(_toConsumableArray(rightCoords.slice(rightOffset)));
-                    }
-                    var middle = moves.indexOf("L"), subMoves = moves.slice(middle, -1), subCoords = coords.slice(middle, -1);
-                    return subMoves.map(function(m, i) {
-                        return {
-                            command: m,
-                            coords: subCoords[i].split(",")
-                        };
-                    });
-                }(), path = _toConsumableArray(topPath).concat(_toConsumableArray(bottomPath)).reduce(function(memo, move) {
+                }(), bottomPath = getBottomPath(), path = _toConsumableArray(topPath).concat(_toConsumableArray(bottomPath)).reduce(function(memo, move) {
                     return memo + "".concat(move.command, " ").concat(move.coords.join());
                 }, "");
                 return "".concat(path, " z");
@@ -10922,8 +10934,10 @@
                     return "".concat(datum[dataName]);
                 }
                 return Array.isArray(labelProp) ? labelProp[index] : labelProp;
+            }, getOrientation = function(labelOrientation, type) {
+                return "object" == typeof labelOrientation && labelOrientation[type] || labelOrientation;
             }, getLabelProps = function(props, text, type) {
-                var labelOrientation, type1, datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation1 = props.labelOrientation, style = props.style, theme = props.theme, orientation = "object" == typeof labelOrientation1 && labelOrientation1[type] || labelOrientation1, labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
+                var datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation = props.labelOrientation, style = props.style, theme = props.theme, orientation = getOrientation(labelOrientation, type), labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
                     var sign = {
                         x: "left" === orientation ? -1 : 1,
                         y: "top" === orientation ? -1 : 1
@@ -10959,6 +10973,8 @@
                 return lodash_defaults__WEBPACK_IMPORTED_MODULE_6___default()({}, labelProps, victory_core__WEBPACK_IMPORTED_MODULE_8__.Helpers.omit(tooltipTheme, [
                     "style"
                 ]));
+            }, getDataProps = function(props, type) {
+                return "median" === type ? getMedianProps(props) : "min" === type || "max" === type ? getWhiskerProps(props, type) : getBoxProps(props, type);
             }, isDatumOutOfBounds = function(datum, domain) {
                 var yOutOfBounds, xOutOfBounds, exists = function(val) {
                     return void 0 !== val;
@@ -11005,8 +11021,7 @@
                         datum: datum,
                         positions: positions
                     }, props), dataObj = TYPES.reduce(function(memo, type) {
-                        var props, type1;
-                        return memo[type] = "median" === type ? getMedianProps(dataProps) : "min" === type || "max" === type ? getWhiskerProps(dataProps, type) : getBoxProps(dataProps, type), memo;
+                        return memo[type] = getDataProps(dataProps, type), memo;
                     }, {});
                     return acc[eventKey] = dataObj, TYPES.forEach(function(type) {
                         var labelText = getText(dataProps, type), labelProp = props.labels || props["".concat(type, "Labels")];
@@ -12156,6 +12171,11 @@
                     return memo[type] = withinBound(position, getHandle(type)) ? type : void 0, memo;
                 }, {});
                 return active.min && active.max ? "both" : active.min || active.max;
+            }, getMinimumDomain = function() {
+                return [
+                    0,
+                    SMALL_NUMBER
+                ];
             }, panBox = function(props, position) {
                 var brushDomain = props.brushDomain, startPosition = props.startPosition, range = toRange(props, brushDomain), fullRange = getFullRange(props), size = Math.abs(range[1] - range[0]), globalMin = Math.min.apply(Math, _toConsumableArray(fullRange)), globalMax = Math.max.apply(Math, _toConsumableArray(fullRange)), delta = startPosition ? startPosition - position : 0, min = Math.min.apply(Math, _toConsumableArray(range)) - delta, max = Math.max.apply(Math, _toConsumableArray(range)) - delta;
                 return [
@@ -12515,10 +12535,7 @@
                                         ];
                                     }
                                     if (allowResize && isSelecting) {
-                                        var _currentDomain = brushDomain || [
-                                            0,
-                                            SMALL_NUMBER
-                                        ], _range = toRange(targetProps, _currentDomain), oppositeHandle = "min" === targetProps.activeHandle ? "max" : "min", handle = targetProps.activeHandle && "both" === getActiveHandle(targetProps, position, _range) ? oppositeHandle : targetProps.activeHandle;
+                                        var _currentDomain = brushDomain || getMinimumDomain(), _range = toRange(targetProps, _currentDomain), oppositeHandle = "min" === targetProps.activeHandle ? "max" : "min", handle = targetProps.activeHandle && "both" === getActiveHandle(targetProps, position, _range) ? oppositeHandle : targetProps.activeHandle;
                                         if (handle) {
                                             var rangeMax = "x" === dimension ? Math.max.apply(Math, _toConsumableArray(_range)) : Math.min.apply(Math, _toConsumableArray(_range)), rangeMin = "x" === dimension ? Math.min.apply(Math, _toConsumableArray(_range)) : Math.max.apply(Math, _toConsumableArray(_range));
                                             _currentDomain = toDomain(targetProps, [
@@ -12801,11 +12818,13 @@
                     origin: origin,
                     labelOrientation: props.labelOrientation || defaultOrientation
                 };
+            }, isTransparent = function(attr) {
+                return "none" === attr || "transparent" === attr;
             }, getDataStyles = function(datum, style, props) {
                 style = style || {};
-                var attr, candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke;
+                var candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke, stroke = isTransparent(strokeColor) ? fill : strokeColor || "black";
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, style, {
-                    stroke: "none" === strokeColor || "transparent" === strokeColor ? fill : strokeColor || "black",
+                    stroke: stroke,
                     fill: fill
                 });
             }, getText = function(props, type) {
@@ -13087,15 +13106,15 @@
                     {
                         key: "renderCandleData",
                         value: function(props) {
-                            var _this = this, shouldRenderDatum = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : datumHasXandY, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, dataComponents = this.dataKeys.reduce(function(validDataComponents, _dataKey, index) {
-                                var dataProps = _this.getComponentProps(dataComponent, "data", index);
-                                return shouldRenderDatum(dataProps.datum) && validDataComponents.push(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(dataComponent, dataProps)), validDataComponents;
-                            }, []), labelComponents = lodash_flatten__WEBPACK_IMPORTED_MODULE_0___default()([
+                            var _this = this, shouldRenderDatum = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : datumHasXandY, dataComponent = props.dataComponent, labelComponent = props.labelComponent, groupComponent = props.groupComponent, types = [
                                 "close",
                                 "open",
                                 "low",
                                 "high"
-                            ].map(function(type) {
+                            ], dataComponents = this.dataKeys.reduce(function(validDataComponents, _dataKey, index) {
+                                var dataProps = _this.getComponentProps(dataComponent, "data", index);
+                                return shouldRenderDatum(dataProps.datum) && validDataComponents.push(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(dataComponent, dataProps)), validDataComponents;
+                            }, []), labelComponents = lodash_flatten__WEBPACK_IMPORTED_MODULE_0___default()(types.map(function(type) {
                                 return _this.dataKeys.map(function(key, index) {
                                     var name = "".concat(type, "Labels"), baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, name, index);
                                     if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(baseComponent, labelProps);
@@ -14036,10 +14055,12 @@
                     };
                 };
             }, interpolateObject = function(a, b) {
-                var k, x, y, keyData = function(val) {
+                var k, interpolateTypes = function(x, y) {
+                    return x !== y && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y);
+                }, keyData = function(val) {
                     return Array.isArray(val) ? lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(val, "key") : val;
                 }, i = {}, c = {};
-                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = (x = keyData(a[k])) !== (y = keyData(b[k])) && isInterpolatable(x) && isInterpolatable(y) ? "function" == typeof x || "function" == typeof y ? interpolateFunction(x, y) : "object" == typeof x && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(x) || "object" == typeof y && lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(y) ? interpolateObject(x, y) : Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_2__.interpolate)(x, y) : interpolateImmediate(x, y) : c[k] = b[k];
+                for(k in (null === a || "object" != typeof a) && (a = {}), (null === b || "object" != typeof b) && (b = {}), b)k in a ? i[k] = interpolateTypes(keyData(a[k]), keyData(b[k])) : c[k] = b[k];
                 return function(t) {
                     for(k in i)c[k] = i[k](t);
                     return c;
@@ -14940,6 +14961,8 @@
                     };
                     return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(backgroundComponent, lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, backgroundComponent.props, backgroundProps));
                 });
+            }, getBackgroundElement = function(calculatedProps, tspanValues) {
+                return useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues);
             }, calculateSpanDy = function(tspanValues, i, calculatedProps) {
                 var current = getSingleValue(tspanValues, i), previous = getSingleValue(tspanValues, i - 1), previousHeight = previous.fontSize * previous.lineHeight, currentHeight = current.fontSize * current.lineHeight, previousCaps = previous.fontSize - previous.capHeight, currentCaps = current.fontSize - current.capHeight, textHeight = previousHeight - previous.fontSize / 2 + current.fontSize / 2 - previousHeight / 2 + currentHeight / 2 - currentCaps / 2 + previousCaps / 2;
                 return useMultiLineBackgrounds(calculatedProps) ? textHeight + current.backgroundPadding.top + previous.backgroundPadding.bottom : textHeight;
@@ -15038,7 +15061,7 @@
                     };
                 }), label = renderLabel(calculatedProps, tspanValues);
                 if (props.backgroundStyle) {
-                    var calculatedProps1, tspanValues1, backgroundElement = useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues), backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, [
+                    var backgroundElement = getBackgroundElement(calculatedProps, tspanValues), backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, [
                         backgroundElement,
                         label
                     ]);
@@ -15593,10 +15616,10 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(props, [
@@ -15708,10 +15731,10 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(props, [
@@ -15777,10 +15800,10 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(props, [
@@ -15898,10 +15921,10 @@
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(props, [
@@ -15922,10 +15945,10 @@
                 var children = props.children, title = props.title, desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(props, [
@@ -16666,8 +16689,11 @@
                     {
                         key: "getClipWidth",
                         value: function(props, child) {
-                            var range, clipWidth = this.transitionProps ? this.transitionProps.clipWidth : void 0;
-                            return void 0 !== clipWidth ? clipWidth : (range = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.getRange(child.props, "x")) ? Math.abs(range[1] - range[0]) : props.width;
+                            var getDefaultClipWidth = function() {
+                                var range = _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.getRange(child.props, "x");
+                                return range ? Math.abs(range[1] - range[0]) : props.width;
+                            }, clipWidth = this.transitionProps ? this.transitionProps.clipWidth : void 0;
+                            return void 0 !== clipWidth ? clipWidth : getDefaultClipWidth();
                         }
                     },
                     {
@@ -17044,26 +17070,29 @@
                 return void 0 !== props.tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(props.tickValues);
             }
             function getTickArray(props) {
-                var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
+                var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], getTicksFromFormat = function() {
+                    if (tickFormat && Array.isArray(tickFormat)) return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickFormat) ? tickFormat.map(function(t, i) {
+                        return i;
+                    }) : tickFormat;
+                }, ticks = tickValues;
                 stringMap1 && (axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props.categories) ? props.categories : props.categories && props.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
                 }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
                     return stringMap1[tick];
                 }) : lodash_range__WEBPACK_IMPORTED_MODULE_4___default()(1, tickValues.length + 1));
-                var tickArray = ticks ? lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(ticks) : function() {
-                    if (tickFormat && Array.isArray(tickFormat)) return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickFormat) ? tickFormat.map(function(t, i) {
-                        return i;
-                    }) : tickFormat;
-                }(props);
-                return Array.isArray(tickArray) && tickArray.length ? (newTickArray = [], domain = props.domain && props.domain[axis1] || props.domain, tickArray ? (tickArray.forEach(function(t, index) {
-                    Array.isArray(domain) ? t >= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMinValue(domain) && t <= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMaxValue(domain) && newTickArray.push({
-                        value: t,
-                        index: index
-                    }) : newTickArray.push({
-                        value: t,
-                        index: index
-                    });
-                }), newTickArray) : void 0) : void 0;
+                var tickArray = ticks ? lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(ticks) : getTicksFromFormat(props), buildTickArray = function(arr) {
+                    var newTickArray = [], domain = props.domain && props.domain[axis1] || props.domain;
+                    return arr ? (arr.forEach(function(t, index) {
+                        Array.isArray(domain) ? t >= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMinValue(domain) && t <= _collection__WEBPACK_IMPORTED_MODULE_13__.default.getMaxValue(domain) && newTickArray.push({
+                            value: t,
+                            index: index
+                        }) : newTickArray.push({
+                            value: t,
+                            index: index
+                        });
+                    }), newTickArray) : void 0;
+                };
+                return Array.isArray(tickArray) && tickArray.length ? buildTickArray(tickArray) : void 0;
             }
             function downsampleTicks(ticks, tickCount) {
                 if (!tickCount || !Array.isArray(ticks) || ticks.length <= tickCount) return ticks;
@@ -17154,10 +17183,11 @@
                     })[0];
                 },
                 getAxisComponentsWithParent: function(childComponents, type) {
-                    var findComponents = function(children) {
+                    var matchesType = function(child) {
+                        return "dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis;
+                    }, findComponents = function(children) {
                         return children.reduce(function(memo, child) {
-                            var child1;
-                            return child.type && "axis" === child.type.role && ("dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis) ? memo.concat(child) : child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
+                            return child.type && "axis" === child.type.role && matchesType(child) ? memo.concat(child) : child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
                         }, []);
                     };
                     return findComponents(childComponents);
@@ -17183,7 +17213,10 @@
                     };
                 },
                 getOriginSign: function(origin, domain) {
-                    return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsDates(domain) ? "positive" : origin <= 0 && 0 >= Math.max.apply(Math, _toConsumableArray(domain)) ? "negative" : "positive";
+                    var getSign = function() {
+                        return origin <= 0 && 0 >= Math.max.apply(Math, _toConsumableArray(domain)) ? "negative" : "positive";
+                    };
+                    return _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsDates(domain) ? "positive" : getSign();
                 },
                 getDomain: function(props, axis) {
                     var inherentAxis = getAxis(props);
@@ -17576,9 +17609,12 @@
                     "x",
                     "y",
                     "y0"
-                ], accessor = (expectedKeys = Array.isArray(expectedKeys) ? expectedKeys : defaultKeys).reduce(function(memo, type) {
-                    var name;
-                    return memo[type] = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(void 0 !== props[type] ? props[type] : type), memo;
+                ];
+                expectedKeys = Array.isArray(expectedKeys) ? expectedKeys : defaultKeys;
+                var createAccessor = function(name) {
+                    return _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(void 0 !== props[name] ? props[name] : name);
+                }, accessor = expectedKeys.reduce(function(memo, type) {
+                    return memo[type] = createAccessor(type), memo;
                 }, {}), preformattedData = lodash_isEqual__WEBPACK_IMPORTED_MODULE_3___default()(expectedKeys, defaultKeys) && "_x" === props.x && "_y" === props.y && "_y0" === props.y0;
                 !1 === preformattedData && (stringMap = {
                     x: -1 !== expectedKeys.indexOf("x") ? createStringMap(props, "x") : void 0,
@@ -17877,13 +17913,8 @@
                 };
             }
             function formatDomain(domain, props, axis) {
-                return function(domain, props, axis) {
-                    var dom, almostZero, domainOne;
-                    return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
-                        0 === domain[0] ? almostZero : domain[0],
-                        0 === domain[1] ? almostZero : domain[1]
-                    ]);
-                }(function(domain, props, axis) {
+                var domain1, props1, axis1, dom, almostZero;
+                return domain1 = function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
                     var props1, axis1, formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = function(padding) {
                         return Array.isArray(padding) ? {
@@ -17925,7 +17956,10 @@
                         max: void 0 !== maxDomain ? maxDomain : paddedDomain.max
                     };
                     return min instanceof Date || max instanceof Date ? getDomainFromMinMax(new Date(finalDomain.min), new Date(finalDomain.max)) : getDomainFromMinMax(finalDomain.min, finalDomain.max);
-                }(domain, props, axis), props, axis);
+                }(domain, props, axis), "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain1 : (almostZero = (dom = domain1)[0] < 0 || dom[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
+                    0 === dom[0] ? almostZero : dom[0],
+                    0 === dom[1] ? almostZero : dom[1]
+                ]);
             }
             function getDomainFromCategories(props, axis, categories) {
                 categories = categories || _data__WEBPACK_IMPORTED_MODULE_7__.default.getCategories(props, axis);
@@ -17949,14 +17983,17 @@
                 }))) : domain;
             }
             function getDomainFromMinMax(min, max) {
-                var val, verySmallNumber, minVal, maxVal;
-                return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
-                    0,
-                    maxVal
-                ] : [
-                    minVal,
-                    maxVal
-                ]) : [
+                var getSinglePointDomain = function(val) {
+                    var verySmallNumber = 0 === val ? 0.0000000002 : 0.0000000001, minVal = val instanceof Date ? new Date(+val - 1) : +val - verySmallNumber, maxVal = val instanceof Date ? new Date(+val + 1) : +val + verySmallNumber;
+                    return 0 === val ? [
+                        0,
+                        maxVal
+                    ] : [
+                        minVal,
+                        maxVal
+                    ];
+                };
+                return +min == +max ? getSinglePointDomain(max) : [
                     min,
                     max
                 ];
@@ -18095,7 +18132,9 @@
                         var childName = identifier.childName, target = identifier.target, key = identifier.key, baseType = "props" === type ? baseProps : _this2.state || {}, base = null != childName && baseType[childName] ? baseType[childName] : baseType;
                         return "parent" === key ? base.parent : base[key] && base[key][target];
                     }, parseEvent = function(eventReturn, eventKey) {
-                        var childNames = "parent" === namespace ? eventReturn.childName : eventReturn.childName || childType, target = eventReturn.target || namespace, getMutationObject = function(key, childName) {
+                        var childNames = "parent" === namespace ? eventReturn.childName : eventReturn.childName || childType, target = eventReturn.target || namespace, getKeys = function(childName) {
+                            return "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
+                        }, getMutationObject = function(key, childName) {
                             var baseState = _this2.state || {};
                             if (!lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(eventReturn.mutation)) return baseState;
                             var mutationTargetProps = getTargetProps({
@@ -18106,13 +18145,16 @@
                                 childName: childName,
                                 key: key,
                                 target: target
-                            }, "state"), mutatedProps = eventReturn.mutation(lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, mutationTargetProps, mutationTargetState), baseProps), childState = baseState[childName] || {}, updateState = function(state) {
-                                var state1, state2;
-                                return mutatedProps ? "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps)))) : ((state2 = state)[key] && state2[key][target] && delete state2[key][target], state2[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state2[key]).length && delete state2[key], state2);
+                            }, "state"), mutatedProps = eventReturn.mutation(lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, mutationTargetProps, mutationTargetState), baseProps), childState = baseState[childName] || {}, filterState = function(state) {
+                                return state[key] && state[key][target] && delete state[key][target], state[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state[key]).length && delete state[key], state;
+                            }, extendState = function(state) {
+                                return "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps))));
+                            }, updateState = function(state) {
+                                return mutatedProps ? extendState(state) : filterState(state);
                             };
                             return null != childName ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(baseState, _defineProperty({}, childName, updateState(childState))) : updateState(baseState);
                         }, getReturnByChild = function(childName) {
-                            var childName1, mutationKeys = "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
+                            var mutationKeys = getKeys(childName);
                             return Array.isArray(mutationKeys) ? mutationKeys.reduce(function(memo, key) {
                                 return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(memo, getMutationObject(key, childName));
                             }, {}) : getMutationObject(mutationKeys, childName);
@@ -18627,13 +18669,15 @@
                     if (!Array.isArray(value) || 2 !== value.length || value[1] === value[0]) return Error("`".concat(propName, "` in `").concat(componentName, "` must be an array of two unique numeric values."));
                 }),
                 scale: makeChainable(function(props, propName, componentName) {
-                    var scl;
-                    if (scl = props[propName], lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl) ? !(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.copy) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.domain) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.range)) : "string" != typeof scl || -1 === [
+                    var supportedScaleStrings = [
                         "linear",
                         "time",
                         "log",
                         "sqrt"
-                    ].indexOf(scl)) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a d3 scale."));
+                    ];
+                    if (!function(scl) {
+                        return lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl) ? lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.copy) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.domain) && lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(scl.range) : "string" == typeof scl && -1 !== supportedScaleStrings.indexOf(scl);
+                    }(props[propName])) return Error("`".concat(propName, "` in `").concat(componentName, "` must be a d3 scale."));
                 }),
                 homogeneousArray: makeChainable(function(props, propName, componentName) {
                     var values = props[propName];
@@ -22375,10 +22419,18 @@
                 fontSize: 0,
                 angle: 0,
                 fontFamily: ""
+            }, _degreeToRadian = function(angle) {
+                return angle * Math.PI / 180;
+            }, _getFontData = function(fontFamily) {
+                return fonts[fontFamily.split(",").map(function(f) {
+                    return f.replace(/'|"/g, "");
+                }).find(function(f) {
+                    return fonts[f];
+                }) || "Helvetica"];
             }, _splitToLines = function(text) {
                 return Array.isArray(text) ? text : text.toString().split(/\r\n|\r|\n/g);
             }, _getSizeWithRotate = function(axisSize, dependentSize, angle) {
-                var angleInRadian = angle * Math.PI / 180;
+                var angleInRadian = _degreeToRadian(angle);
                 return Math.abs(Math.cos(angleInRadian) * axisSize) + Math.abs(Math.sin(angleInRadian) * dependentSize);
             }, convertLengthToPixels = function(length, fontSize) {
                 var result, attribute = length.match(/[a-zA-Z%]+/) && length.match(/[a-zA-Z%]+/)[0], value = length.match(/[0-9.,]+/);
@@ -22393,11 +22445,7 @@
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
                 var arr, widths = _splitToLines(text).map(function(line, index) {
-                    var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[_prepareParams2.fontFamily.split(",").map(function(f) {
-                        return f.replace(/'|"/g, "");
-                    }).find(function(f) {
-                        return fonts[f];
-                    }) || "Helvetica"];
+                    var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = _getFontData(_prepareParams2.fontFamily);
                     return line.toString().split("").map(function(c) {
                         return c.charCodeAt(0) < fontData.widths.length ? fontData.widths[c.charCodeAt(0)] : fontData.avg;
                     }).reduce(function(cur, acc) {
@@ -22414,11 +22462,13 @@
                 }(widths) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }());
-            }, approximateTextSize = function(text, style) {
-                var text1, style1, angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
+            }, _approximateTextHeightInternal = function(text, style) {
+                return void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
                     var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
                     return total + lineStyle.lineHeight * height;
-                }, 0), width = _approximateTextWidthInternal(text, style);
+                }, 0);
+            }, approximateTextSize = function(text, style) {
+                var angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = _approximateTextHeightInternal(text, style), width = _approximateTextWidthInternal(text, style);
                 return {
                     width: angle ? _getSizeWithRotate(width, height, angle) : width,
                     height: (angle ? _getSizeWithRotate(height, width, angle) : height) * coefficients.heightOverlapCoef
@@ -22562,6 +22612,101 @@
                         exit: props.animate && props.animate.onExit && props.animate.onExit.duration,
                         load: props.animate && props.animate.onLoad && props.animate.onLoad.duration,
                         move: props.animate && props.animate.duration
+                    }, onLoad = function(child, data, animate) {
+                        return nodesShouldLoad ? function(animate, data, cb) {
+                            if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                onEnd: cb
+                            })) && animate.onLoad && !animate.onLoad.duration) return {
+                                animate: animate,
+                                data: data
+                            };
+                            var after = animate.onLoad && animate.onLoad.after ? animate.onLoad.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                            return {
+                                animate: animate,
+                                data: data = data.map(function(datum, idx) {
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
+                                })
+                            };
+                        }(animate, data, function() {
+                            setState({
+                                nodesShouldLoad: !1,
+                                nodesDoneLoad: !0
+                            });
+                        }) : function(animate, child, data, cb) {
+                            if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                onEnd: cb
+                            })) && animate.onLoad && !animate.onLoad.duration) return {
+                                animate: animate,
+                                data: data
+                            };
+                            var before = animate.onLoad && animate.onLoad.before ? animate.onLoad.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                            return {
+                                animate: animate,
+                                data: data = data.map(function(datum, idx) {
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data));
+                                }),
+                                clipWidth: 0
+                            };
+                        }(animate, child, data, function() {
+                            setState({
+                                nodesDoneLoad: !0
+                            });
+                        });
+                    }, onExit = function(nodes, child, data, animate) {
+                        return function(animate, child, data, exitingNodes, cb) {
+                            var onExit = animate && animate.onExit;
+                            if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
+                                animate.onEnd = cb;
+                                var before = animate.onExit && animate.onExit.before ? animate.onExit.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                                data = data.map(function(datum, idx) {
+                                    return exitingNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
+                                });
+                            }
+                            return {
+                                animate: animate,
+                                data: data
+                            };
+                        }(animate, child, data, nodes, function() {
+                            setState({
+                                nodesWillExit: !1
+                            });
+                        });
+                    }, onEnter = function(nodes, child, data, animate) {
+                        return nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
+                            var onEnter = animate && animate.onEnter;
+                            if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onEnter), enteringNodes) {
+                                animate.onEnd = cb;
+                                var after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                                data = data.map(function(datum, idx) {
+                                    return enteringNodes[getDatumKey(datum, idx)] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data)) : datum;
+                                });
+                            }
+                            return {
+                                animate: animate,
+                                data: data
+                            };
+                        }(animate, data, nodes, function() {
+                            setState({
+                                nodesWillEnter: !1
+                            });
+                        }) : function(animate, child, data, enteringNodes, cb) {
+                            if (enteringNodes) {
+                                var before = (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                    onEnd: cb
+                                })).onEnter && animate.onEnter.before ? animate.onEnter.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
+                                data = data.map(function(datum, idx) {
+                                    return enteringNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
+                                });
+                            }
+                            return {
+                                animate: animate,
+                                data: data
+                            };
+                        }(animate, child, data, nodes, function() {
+                            setState({
+                                nodesShouldEnter: !0
+                            });
+                        });
                     }, getChildTransitionDuration = function(child, type) {
                         var animate = child.props.animate;
                         if (!child.type) return {};
@@ -22576,117 +22721,28 @@
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var animate1, data1, after, nodes, child1, data2, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
-                                return function(animate, child, data, exitingNodes, cb) {
-                                    var onExit = animate && animate.onExit;
-                                    if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
-                                        animate.onEnd = cb;
-                                        var before = animate.onExit && animate.onExit.before ? animate.onExit.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                        data = data.map(function(datum, idx) {
-                                            return exitingNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                }(lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
+                                var animate1, data1, after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
+                                return onExit(exitingNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
                                     duration: exit
                                 } : {
                                     delay: exit
-                                }), child, data, exitingNodes, function() {
-                                    setState({
-                                        nodesWillExit: !1
-                                    });
-                                });
+                                }));
                             }
                             if (nodesWillEnter) {
-                                var nodes1, child2, data3, animate2, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
-                                return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                var enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
+                                return onEnter(enteringNodes, child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
-                                }), nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
-                                    var onEnter = animate && animate.onEnter;
-                                    if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onEnter), enteringNodes) {
-                                        animate.onEnd = cb;
-                                        var after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                        data = data.map(function(datum, idx) {
-                                            return enteringNodes[getDatumKey(datum, idx)] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                }(animate2, data, enteringNodes, function() {
-                                    setState({
-                                        nodesWillEnter: !1
-                                    });
-                                }) : function(animate, child, data, enteringNodes, cb) {
-                                    if (enteringNodes) {
-                                        var before = (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                            onEnd: cb
-                                        })).onEnter && animate.onEnter.before ? animate.onEnter.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                        data = data.map(function(datum, idx) {
-                                            return enteringNodes[(datum.key || idx).toString()] ? lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data)) : datum;
-                                        });
-                                    }
-                                    return {
-                                        animate: animate,
-                                        data: data
-                                    };
-                                }(animate2, child, data, enteringNodes, function() {
-                                    setState({
-                                        nodesShouldEnter: !0
-                                    });
-                                });
+                                }));
                             } else if (!state && animate && animate.onExit) return after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
                                 data: data.map(function(datum, idx) {
                                     return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
                                 })
                             };
                         } else {
-                            var child3, data4, animate3, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
-                            return animate3 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                            var load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
+                            return onLoad(child, data, lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                 duration: load
-                            }), nodesShouldLoad ? function(animate, data, cb) {
-                                if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                    onEnd: cb
-                                })) && animate.onLoad && !animate.onLoad.duration) return {
-                                    animate: animate,
-                                    data: data
-                                };
-                                var after = animate.onLoad && animate.onLoad.after ? animate.onLoad.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                return {
-                                    animate: animate,
-                                    data: data = data.map(function(datum, idx) {
-                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
-                                    })
-                                };
-                            }(animate3, data, function() {
-                                setState({
-                                    nodesShouldLoad: !1,
-                                    nodesDoneLoad: !0
-                                });
-                            }) : function(animate, child, data, cb) {
-                                if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
-                                    onEnd: cb
-                                })) && animate.onLoad && !animate.onLoad.duration) return {
-                                    animate: animate,
-                                    data: data
-                                };
-                                var before = animate.onLoad && animate.onLoad.before ? animate.onLoad.before : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a;
-                                return {
-                                    animate: animate,
-                                    data: data = data.map(function(datum, idx) {
-                                        return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, before(datum, idx, data));
-                                    }),
-                                    clipWidth: 0
-                                };
-                            }(animate3, child, data, function() {
-                                setState({
-                                    nodesDoneLoad: !0
-                                });
-                            });
+                            }));
                         }
                         return {
                             animate: animate,
@@ -22795,11 +22851,14 @@
                     return Array.isArray(this.componentEvents) && (events = Array.isArray(props.events) ? (_componentEvents = this.componentEvents).concat.apply(_componentEvents, _toConsumableArray(props.events)) : this.componentEvents), events || [];
                 },
                 getAnimationProps: function(props, child, index) {
-                    var childrenTransitions, _this = this;
+                    var _this = this;
                     if (!props.animate) return child.props.animate;
-                    var getTransitions = props.animate && props.animate.getTransitions, state = (childrenTransitions = _this.state && _this.state.childrenTransitions, childrenTransitions = _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[index] : childrenTransitions, lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
-                        childrenTransitions: childrenTransitions
-                    }, _this.state)), parentState = props.animate && props.animate.parentState || state;
+                    var getFilteredState = function() {
+                        var childrenTransitions = _this.state && _this.state.childrenTransitions;
+                        return childrenTransitions = _collection__WEBPACK_IMPORTED_MODULE_17__.default.isArrayOfArrays(childrenTransitions) ? childrenTransitions[index] : childrenTransitions, lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
+                            childrenTransitions: childrenTransitions
+                        }, _this.state);
+                    }, getTransitions = props.animate && props.animate.getTransitions, state = getFilteredState(), parentState = props.animate && props.animate.parentState || state;
                     if (!getTransitions) {
                         var getTransitionProps = _transitions__WEBPACK_IMPORTED_MODULE_13__.default.getTransitionPropsFactory(props, state, function(newState) {
                             return _this.setState(newState);
@@ -23050,6 +23109,16 @@
                 return thing ? Array.isArray(thing) ? thing : [
                     thing
                 ] : [];
+            }, combineEventHandlers = function(eventHandlersArray) {
+                return eventHandlersArray.reduce(function(localHandlers, finalHandlers) {
+                    return lodash_forOwn__WEBPACK_IMPORTED_MODULE_5___default()(localHandlers, function(localHandler, eventName) {
+                        var existingHandler = finalHandlers[eventName];
+                        existingHandler ? finalHandlers[eventName] = function() {
+                            var existingMutations = ensureArray(existingHandler.apply(void 0, arguments)), localMutations = ensureArray(localHandler.apply(void 0, arguments));
+                            return existingMutations.concat(localMutations);
+                        } : finalHandlers[eventName] = localHandler;
+                    }), finalHandlers;
+                });
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
@@ -23074,17 +23143,9 @@
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
                         target: target,
-                        eventHandlers: eventsArray.map(function(event) {
+                        eventHandlers: combineEventHandlers(eventsArray.map(function(event) {
                             return event.eventHandlers;
-                        }).reduce(function(localHandlers, finalHandlers) {
-                            return lodash_forOwn__WEBPACK_IMPORTED_MODULE_5___default()(localHandlers, function(localHandler, eventName) {
-                                var existingHandler = finalHandlers[eventName];
-                                existingHandler ? finalHandlers[eventName] = function() {
-                                    var existingMutations = ensureArray(existingHandler.apply(void 0, arguments)), localMutations = ensureArray(localHandler.apply(void 0, arguments));
-                                    return existingMutations.concat(localMutations);
-                                } : finalHandlers[eventName] = localHandler;
-                            }), finalHandlers;
-                        })
+                        }))
                     };
                 }).filter(Boolean);
             }, combineContainerMixins = function(mixins, Container) {
@@ -24442,11 +24503,13 @@
                 }, getDistance = function(datum) {
                     var current = scale.x(datum.x0);
                     return Math.abs(scale.x(datum.x1) - current);
+                }, getBarWidth = function(datum) {
+                    return binSpacing ? getDistance(datum) - binSpacing : getDistance(datum);
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var datum1, eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
                         alignment: "middle",
-                        barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
+                        barWidth: getBarWidth(datum),
                         cornerRadius: cornerRadius,
                         data: data,
                         datum: datum,
@@ -26363,7 +26426,13 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "getBaseProps", function() {
                 return getBaseProps;
             });
-            var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), d3_shape__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-shape/src/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-core/es/index.js"), getOrigin = function(props, padding) {
+            var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isNil.js"), lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), d3_shape__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-shape/src/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-core/es/index.js"), checkForValidText = function(text) {
+                return null == text || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text) ? text : "".concat(text);
+            }, getColor = function(style, colors, index) {
+                return style && style.data && style.data.fill ? style.data.fill : colors && colors[index % colors.length];
+            }, getRadius = function(props, padding) {
+                return "number" == typeof props.radius ? props.radius : Math.min(props.width - padding.left - padding.right, props.height - padding.top - padding.bottom) / 2;
+            }, getOrigin = function(props, padding) {
                 var width = props.width, height = props.height, origin = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(props.origin) ? props.origin : {};
                 return {
                     x: void 0 !== origin.x ? origin.x : (padding.left - padding.right + width) / 2,
@@ -26375,24 +26444,24 @@
                     return datum._y;
                 })(data);
             }, getCalculatedValues = function(props) {
-                var props1, padding, colorScale = props.colorScale, styleObject = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getDefaultStyles(props, "pie"), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getStyles(props.style, styleObject, "auto", "100%"), colors = Array.isArray(colorScale) ? colorScale : victory_core__WEBPACK_IMPORTED_MODULE_6__.Style.getColorScale(colorScale), padding1 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getPadding(props), defaultRadius = "number" == typeof props.radius ? props.radius : Math.min(props.width - padding1.left - padding1.right, props.height - padding1.top - padding1.bottom) / 2, origin = getOrigin(props, padding1), data = victory_core__WEBPACK_IMPORTED_MODULE_6__.Data.getData(props), slices = getSlices(props, data);
+                var colorScale = props.colorScale, styleObject = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getDefaultStyles(props, "pie"), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getStyles(props.style, styleObject, "auto", "100%"), colors = Array.isArray(colorScale) ? colorScale : victory_core__WEBPACK_IMPORTED_MODULE_6__.Style.getColorScale(colorScale), padding = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getPadding(props), defaultRadius = getRadius(props, padding), origin = getOrigin(props, padding), data = victory_core__WEBPACK_IMPORTED_MODULE_6__.Data.getData(props), slices = getSlices(props, data);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, props, {
                     style: style,
                     colors: colors,
-                    padding: padding1,
+                    padding: padding,
                     defaultRadius: defaultRadius,
                     data: data,
                     slices: slices,
                     origin: origin
                 });
             }, getSliceStyle = function(index, calculatedValues) {
-                var style, colors, index1, style1 = calculatedValues.style, colors1 = calculatedValues.colors, fill = style1 && style1.data && style1.data.fill ? style1.data.fill : colors1 && colors1[index % colors1.length];
+                var style = calculatedValues.style, fill = getColor(style, calculatedValues.colors, index);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     fill: fill
-                }, style1.data);
+                }, style.data);
             }, getLabelText = function(props, datum, index) {
-                var text, text1;
-                return void 0 === (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || null === text1 || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
+                var text;
+                return checkForValidText(datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x);
             }, getLabelArc = function(radius, labelRadius, style) {
                 var padding = style && style.padding || 0, arcRadius = labelRadius || radius + padding;
                 return d3_shape__WEBPACK_IMPORTED_MODULE_5__.arc().outerRadius(arcRadius).innerRadius(arcRadius);
@@ -26402,36 +26471,44 @@
                     endAngle: "endAngle" === position ? slice.endAngle : slice.startAngle
                 }, clonedArc = lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, slice, construct);
                 return arc.centroid(clonedArc);
+            }, getLabelOrientation = function(degree, labelPlacement) {
+                return "perpendicular" === labelPlacement ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left";
+            }, getTextAnchor = function(orientation) {
+                return "top" === orientation || "bottom" === orientation ? "middle" : "right" === orientation ? "start" : "end";
+            }, getVerticalAnchor = function(orientation) {
+                return "left" === orientation || "right" === orientation ? "middle" : "bottom" === orientation ? "start" : "end";
             }, getBaseLabelAngle = function(slice, labelPosition, labelStyle) {
                 var baseAngle = 0;
                 return ((baseAngle = void 0 !== labelPosition.angle ? labelStyle.angle : "centroid" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees((slice.startAngle + slice.endAngle) / 2) : "startAngle" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.startAngle) : victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.endAngle)) < 0 ? 360 - baseAngle : baseAngle) % 360;
+            }, getLabelAngle = function(baseAngle, labelPlacement) {
+                return "vertical" === labelPlacement ? 0 : "parallel" === labelPlacement ? baseAngle > 180 && baseAngle < 360 ? baseAngle + 90 : baseAngle - 90 : baseAngle > 90 && baseAngle < 270 ? baseAngle - 180 : baseAngle;
             }, getLabelProps = function(text, dataProps, calculatedValues) {
-                var degree, labelPlacement, baseAngle, labelPlacement1, orientation, orientation1, index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                var index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)), labelPosition = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPosition, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
-                }, dataProps)) || "centroid", labelPlacement2 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                }, dataProps)) || "centroid", labelPlacement = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)) || "vertical", labelStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     padding: 0
                 }, style.labels), evaluatedStyle = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(labelStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     labelRadius: labelRadius,
                     text: text
-                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, "perpendicular" === (labelPlacement = labelPlacement2) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
+                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle = getBaseLabelAngle(slice, labelPosition, labelStyle), labelAngle = getLabelAngle(baseAngle, labelPlacement), orientation = getLabelOrientation(baseAngle, labelPlacement), textAnchor = labelStyle.textAnchor || getTextAnchor(orientation), verticalAnchor = labelStyle.verticalAnchor || getVerticalAnchor(orientation), labelProps = {
                     width: width,
                     height: height,
                     index: index,
                     datum: datum,
                     data: data,
                     slice: slice,
-                    orientation: orientation2,
+                    orientation: orientation,
                     text: text,
                     style: labelStyle,
                     x: Math.round(position[0]) + origin.x,
                     y: Math.round(position[1]) + origin.y,
                     textAnchor: textAnchor,
                     verticalAnchor: verticalAnchor,
-                    angle: "vertical" === labelPlacement2 ? 0 : "parallel" === labelPlacement2 ? baseAngle1 > 180 && baseAngle1 < 360 ? baseAngle1 + 90 : baseAngle1 - 90 : baseAngle1 > 90 && baseAngle1 < 270 ? baseAngle1 - 180 : baseAngle1
+                    angle: labelAngle
                 };
                 if (!victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.isTooltip(labelComponent)) return labelProps;
                 var tooltipTheme = theme && theme.tooltip || {};
@@ -26972,17 +27049,19 @@
                     gridStyle: victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(style.grid, props)
                 };
             }, getStyleObject = function(props) {
-                var _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, dependentAxis = props.dependentAxis, generalAxisStyle = theme.polarAxis && theme.polarAxis.style || theme.axis && theme.axis.style, polarAxisType = dependentAxis ? "polarDependentAxis" : "polarIndependentAxis", standardAxisType = dependentAxis ? "dependentAxis" : "independentAxis", specificAxisStyle = theme[polarAxisType] && theme[polarAxisType].style || theme[standardAxisType] && theme[standardAxisType].style;
-                return generalAxisStyle && specificAxisStyle ? [
-                    "axis",
-                    "axisLabel",
-                    "grid",
-                    "parent",
-                    "tickLabels",
-                    "ticks"
-                ].reduce(function(memo, curr) {
-                    return memo[curr] = lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default()({}, specificAxisStyle[curr], generalAxisStyle[curr]), memo;
-                }, {}) : specificAxisStyle || generalAxisStyle;
+                var _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, dependentAxis = props.dependentAxis, generalAxisStyle = theme.polarAxis && theme.polarAxis.style || theme.axis && theme.axis.style, polarAxisType = dependentAxis ? "polarDependentAxis" : "polarIndependentAxis", standardAxisType = dependentAxis ? "dependentAxis" : "independentAxis", specificAxisStyle = theme[polarAxisType] && theme[polarAxisType].style || theme[standardAxisType] && theme[standardAxisType].style, mergeStyles = function() {
+                    return [
+                        "axis",
+                        "axisLabel",
+                        "grid",
+                        "parent",
+                        "tickLabels",
+                        "ticks"
+                    ].reduce(function(memo, curr) {
+                        return memo[curr] = lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default()({}, specificAxisStyle[curr], generalAxisStyle[curr]), memo;
+                    }, {});
+                };
+                return generalAxisStyle && specificAxisStyle ? mergeStyles() : specificAxisStyle || generalAxisStyle;
             }, getRadius = function(props) {
                 var _Helpers$getPadding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props), left = _Helpers$getPadding.left, right = _Helpers$getPadding.right, top = _Helpers$getPadding.top, bottom = _Helpers$getPadding.bottom;
                 return Math.min(props.width - left - right, props.height - top - bottom) / 2;
@@ -27548,7 +27627,9 @@
             }, getBubbleSize = function(datum, props) {
                 var data = props.data, z = props.z, maxBubbleSize = props.maxBubbleSize, minBubbleSize = props.minBubbleSize, zData = data.map(function(point) {
                     return point[z];
-                }), zMin = Math.min.apply(Math, _toConsumableArray(zData)), zMax = Math.max.apply(Math, _toConsumableArray(zData)), maxRadius = maxBubbleSize || Math.max(Math.min.apply(Math, _toConsumableArray(lodash_values__WEBPACK_IMPORTED_MODULE_1___default()(victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props)))), 5), minRadius = minBubbleSize || 0.1 * maxRadius;
+                }), zMin = Math.min.apply(Math, _toConsumableArray(zData)), zMax = Math.max.apply(Math, _toConsumableArray(zData)), getMaxRadius = function() {
+                    return Math.max(Math.min.apply(Math, _toConsumableArray(lodash_values__WEBPACK_IMPORTED_MODULE_1___default()(victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props)))), 5);
+                }, maxRadius = maxBubbleSize || getMaxRadius(), minRadius = minBubbleSize || 0.1 * maxRadius;
                 return zMax === zMin ? Math.max(minRadius, 1) : Math.max(Math.sqrt(Math.max((datum[z] - zMin) / (zMax - zMin) * (Math.PI * Math.pow(maxRadius, 2)), Math.PI * Math.pow(minRadius, 2)) / Math.PI), 1);
             }, getSize = function(datum, props) {
                 var size = props.size, z = props.z;
@@ -27853,12 +27934,12 @@
                     return filtered.length ? filtered : null;
                 },
                 getSelectedData: function(props, dataset) {
-                    for(var x1 = props.x1, y1 = props.y1, x2 = props.x2, y2 = props.y2, eventKey = [], data = [], count = 0, index = 0, len = dataset.length; index < len; index++){
+                    for(var x1 = props.x1, y1 = props.y1, x2 = props.x2, y2 = props.y2, withinBounds = function(d) {
+                        var scaledPoint = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.scalePoint(props, d);
+                        return scaledPoint.x >= Math.min(x1, x2) && scaledPoint.x <= Math.max(x1, x2) && scaledPoint.y >= Math.min(y1, y2) && scaledPoint.y <= Math.max(y1, y2);
+                    }, eventKey = [], data = [], count = 0, index = 0, len = dataset.length; index < len; index++){
                         var datum = dataset[index];
-                        (function(d) {
-                            var scaledPoint = victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.scalePoint(props, d);
-                            return scaledPoint.x >= Math.min(x1, x2) && scaledPoint.x <= Math.max(x1, x2) && scaledPoint.y >= Math.min(y1, y2) && scaledPoint.y <= Math.max(y1, y2);
-                        })(datum) && (data[count] = datum, eventKey[count] = void 0 === datum.eventKey ? index : datum.eventKey, count++);
+                        withinBounds(datum) && (data[count] = datum, eventKey[count] = void 0 === datum.eventKey ? index : datum.eventKey, count++);
                     }
                     return count > 0 ? {
                         eventKey: eventKey,
@@ -27946,15 +28027,14 @@
                         x2: null,
                         y1: null,
                         y2: null
-                    }, callbackMutation = selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelection) ? targetProps.onSelection(selectedData, bounds, lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps)) : {};
-                    return [
+                    }, callbackMutation = selectedData && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(targetProps.onSelection) ? targetProps.onSelection(selectedData, bounds, lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, mutatedProps, targetProps)) : {}, parentMutation = [
                         {
                             target: "parent",
                             mutation: function() {
                                 return mutatedProps;
                             }
                         }
-                    ].concat(selectedData && activateSelectedData ? selectedData.map(function(d) {
+                    ], dataMutation = selectedData && activateSelectedData ? selectedData.map(function(d) {
                         return {
                             childName: d.childName,
                             eventKey: d.eventKey,
@@ -27965,7 +28045,8 @@
                                 }, callbackMutation);
                             }
                         };
-                    }) : []);
+                    }) : [];
+                    return parentMutation.concat(dataMutation);
                 }
             };
             __webpack_exports__.default = function(target) {
@@ -29197,17 +29278,23 @@
                     {
                         key: "getDimensions",
                         value: function(props, labelSize) {
-                            var calculatedHeight, calculatedWidth, orientation = props.orientation, pointerLength = props.pointerLength, pointerWidth = props.pointerWidth, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, flyoutPadding = props.flyoutPadding, cornerRadius = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(props.cornerRadius, props);
+                            var orientation = props.orientation, pointerLength = props.pointerLength, pointerWidth = props.pointerWidth, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, flyoutPadding = props.flyoutPadding, cornerRadius = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(props.cornerRadius, props), getHeight = function() {
+                                return Math.max("top" === orientation || "bottom" === orientation ? 2 * cornerRadius : 2 * cornerRadius + pointerWidth, labelSize.height + flyoutPadding.top + flyoutPadding.bottom);
+                            }, getWidth = function() {
+                                return Math.max("left" === orientation || "right" === orientation ? 2 * cornerRadius + pointerLength : 2 * cornerRadius, labelSize.width + flyoutPadding.left + flyoutPadding.right);
+                            };
                             return {
-                                flyoutHeight: flyoutHeight ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutHeight, props) : Math.max("top" === orientation || "bottom" === orientation ? 2 * cornerRadius : 2 * cornerRadius + pointerWidth, labelSize.height + flyoutPadding.top + flyoutPadding.bottom),
-                                flyoutWidth: flyoutWidth ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutWidth, props) : Math.max("left" === orientation || "right" === orientation ? 2 * cornerRadius + pointerLength : 2 * cornerRadius, labelSize.width + flyoutPadding.left + flyoutPadding.right)
+                                flyoutHeight: flyoutHeight ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutHeight, props) : getHeight(props, labelSize, orientation),
+                                flyoutWidth: flyoutWidth ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutWidth, props) : getWidth(props, labelSize, orientation)
                             };
                         }
                     },
                     {
                         key: "getLabelProps",
                         value: function(props, calculatedValues) {
-                            var flyoutCenter = calculatedValues.flyoutCenter, style = calculatedValues.style, labelSize = calculatedValues.labelSize, _calculatedValues$dy = calculatedValues.dy, _calculatedValues$dx = calculatedValues.dx, text = props.text, datum = props.datum, activePoints = props.activePoints, labelComponent = props.labelComponent, index = props.index, flyoutPadding = props.flyoutPadding, textAnchor = (Array.isArray(style) && style.length ? style[0].textAnchor : style.textAnchor) || "middle";
+                            var flyoutCenter = calculatedValues.flyoutCenter, style = calculatedValues.style, labelSize = calculatedValues.labelSize, _calculatedValues$dy = calculatedValues.dy, _calculatedValues$dx = calculatedValues.dx, text = props.text, datum = props.datum, activePoints = props.activePoints, labelComponent = props.labelComponent, index = props.index, flyoutPadding = props.flyoutPadding, textAnchor = (Array.isArray(style) && style.length ? style[0].textAnchor : style.textAnchor) || "middle", getLabelX = function() {
+                                return textAnchor && "middle" !== textAnchor ? flyoutCenter.x - ("end" === textAnchor ? -1 : 1) * (labelSize.width / 2) : flyoutCenter.x;
+                            };
                             return lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default()({}, labelComponent.props, {
                                 key: "".concat(this.id, "-label-").concat(index),
                                 text: text,
@@ -29217,7 +29304,7 @@
                                 dy: void 0 === _calculatedValues$dy ? 0 : _calculatedValues$dy,
                                 dx: void 0 === _calculatedValues$dx ? 0 : _calculatedValues$dx,
                                 style: style,
-                                x: (textAnchor && "middle" !== textAnchor ? flyoutCenter.x - ("end" === textAnchor ? -1 : 1) * (labelSize.width / 2) : flyoutCenter.x) + (flyoutPadding.left - flyoutPadding.right) / 2,
+                                x: getLabelX() + (flyoutPadding.left - flyoutPadding.right) / 2,
                                 y: flyoutCenter.y + (flyoutPadding.top - flyoutPadding.bottom) / 2,
                                 verticalAnchor: "middle",
                                 angle: style.angle
@@ -29678,10 +29765,10 @@
                                 }, []), _points$ = points[0], childName = _points$.childName, eventKey = _points$.eventKey, datum = (_points$.style, _points$.continuous, function(source, excluded) {
                                     if (null == source) return {};
                                     var key, i, target = {}, sourceKeys = Object.keys(source);
-                                    for(i = 0; i < sourceKeys.length; i++)excluded.indexOf(key = sourceKeys[i]) >= 0 || (target[key] = source[key]);
+                                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                                     if (Object.getOwnPropertySymbols) {
                                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                                        for(i = 0; i < sourceSymbolKeys.length; i++)!(excluded.indexOf(key = sourceSymbolKeys[i]) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                                     }
                                     return target;
                                 }(_points$, [
@@ -30022,13 +30109,17 @@
                 ], maxRange = [
                     Math.max.apply(Math, _toConsumableArray(range.x)),
                     Math.max.apply(Math, _toConsumableArray(range.y))
-                ];
-                return Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_3__.voronoi)().x(function(d) {
-                    var d1, d2;
-                    return props.polar ? -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2 : props.horizontal ? scale.y(void 0 !== d._y1 ? d._y1 : d._y) : scale.x(void 0 !== d._x1 ? d._x1 : d._x);
-                }).y(function(d) {
-                    var d1;
+                ], angleAccessor = function(d) {
+                    return -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2;
+                }, xAccessor = function(d) {
+                    return props.horizontal ? scale.y(void 0 !== d._y1 ? d._y1 : d._y) : scale.x(void 0 !== d._x1 ? d._x1 : d._x);
+                }, yAccessor = function(d) {
                     return props.horizontal ? scale.x(void 0 !== d._x1 ? d._x1 : d._x) : scale.y(void 0 !== d._y1 ? d._y1 : d._y);
+                };
+                return Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_3__.voronoi)().x(function(d) {
+                    return props.polar ? angleAccessor(d) : xAccessor(d);
+                }).y(function(d) {
+                    return yAccessor(d);
                 }).extent([
                     minRange,
                     maxRange
@@ -30686,7 +30777,7 @@
                     }) : newDomain;
                 },
                 getDomainScale: function(domain, scale, axis, horizontal) {
-                    var _axisDomain = _slicedToArray(Array.isArray(domain) ? domain : domain[axis], 2), from = _axisDomain[0], to = _axisDomain[1], range = horizontal ? scale["x" === axis ? "y" : "x"].range() : scale[axis].range();
+                    var _axisDomain = _slicedToArray(Array.isArray(domain) ? domain : domain[axis], 2), from = _axisDomain[0], to = _axisDomain[1], otherAxis = "x" === axis ? "y" : "x", range = horizontal ? scale[otherAxis].range() : scale[axis].range();
                     return Math.abs(range[0] - range[1]) / (to - from);
                 },
                 handleAnimation: function(ctx) {

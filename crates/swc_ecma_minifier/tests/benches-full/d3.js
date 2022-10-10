@@ -6271,7 +6271,7 @@
                 return c;
             }(start, end), nodes = [
                 start
-            ]; start !== ancestor;)nodes.push(start = start.parent);
+            ]; start !== ancestor;)start = start.parent, nodes.push(start);
             for(var k = nodes.length; end !== ancestor;)nodes.splice(k, 0, end), end = end.parent;
             return nodes;
         },

@@ -36,14 +36,16 @@ function _setPrototypeOf(o, p) {
         return o.__proto__ = p, o;
     })(o, p);
 }
-var ItemsList = function(Component) {
+var _typeof = function(obj) {
+    return obj && "undefined" != typeof Symbol && obj.constructor === Symbol ? "symbol" : typeof obj;
+}, ItemsList = function(Component) {
     "use strict";
     var protoProps, staticProps;
     function ItemsList() {
         var _this, call;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call) ? call : function(self) {
+        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" === _typeof(call) || "function" == typeof call) ? call : function(self) {
             if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
             return self;
         }(this)).storeHighlightedItemReference = function(highlightedItem) {
