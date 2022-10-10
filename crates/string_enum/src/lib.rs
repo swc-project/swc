@@ -142,34 +142,32 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
                 if let Meta::List(meta) = &meta {
                     for meta in &meta.nested {
                         //
-                        if let NestedMeta::Meta(meta) = meta {
-                            if let Meta::List(meta) = meta {
-                                if meta.path.is_ident("alias") {
-                                    let mut cases = Punctuated::default();
+                        if let NestedMeta::Meta(Meta::List(meta)) = meta {
+                            if meta.path.is_ident("alias") {
+                                let mut cases = Punctuated::default();
 
-                                    cases.push(pat);
+                                cases.push(pat);
 
-                                    for lit in &meta.nested {
-                                        cases.push(Pat::Lit(PatLit {
-                                            attrs: Default::default(),
-                                            expr: Box::new(Expr::Lit(ExprLit {
-                                                attrs: Default::default(),
-                                                lit: match lit {
-                                                    NestedMeta::Meta(_) => todo!(),
-                                                    NestedMeta::Lit(v) => v.clone(),
-                                                },
-                                            })),
-                                        }))
-                                    }
-
-                                    pat = Pat::Or(PatOr {
+                                for lit in &meta.nested {
+                                    cases.push(Pat::Lit(PatLit {
                                         attrs: Default::default(),
-                                        leading_vert: None,
-                                        cases,
-                                    });
-
-                                    continue 'outer;
+                                        expr: Box::new(Expr::Lit(ExprLit {
+                                            attrs: Default::default(),
+                                            lit: match lit {
+                                                NestedMeta::Meta(_) => todo!(),
+                                                NestedMeta::Lit(v) => v.clone(),
+                                            },
+                                        })),
+                                    }))
                                 }
+
+                                pat = Pat::Or(PatOr {
+                                    attrs: Default::default(),
+                                    leading_vert: None,
+                                    cases,
+                                });
+
+                                continue 'outer;
                             }
                         }
                     }
