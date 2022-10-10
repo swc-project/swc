@@ -285,6 +285,42 @@ pub struct Percentage {
     pub value: Number,
 }
 
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum LengthPercentage {
+    #[tag("Length")]
+    Length(Length),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum FrequencyPercentage {
+    #[tag("Frequency")]
+    Frequency(Frequency),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum AnglePercentage {
+    #[tag("Angle")]
+    Angle(Angle),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum TimePercentage {
+    #[tag("Time")]
+    Time(Time),
+    #[tag("Percentage")]
+    Percentage(Percentage),
+}
+
 #[ast_node("Integer")]
 #[derive(Eq, Hash)]
 pub struct Integer {
