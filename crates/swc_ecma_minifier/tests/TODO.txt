@@ -393,6 +393,7 @@ sequences/issue_2062/input.js
 sequences/side_effects_cascade_3/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
+template_string/template_evaluate_undefined/input.js
 transform/label_if_break/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
