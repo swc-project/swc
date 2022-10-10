@@ -1497,12 +1497,12 @@ where
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
-            Expr::Assign(b) => {
-                if self.should_not_check_rhs_of_assign(a, b)? {
+            Expr::Assign(b_assign) => {
+                if self.should_not_check_rhs_of_assign(a, b_assign)? {
                     return Ok(false);
                 }
 
-                let b_left = b.left.as_ident();
+                let b_left = b_assign.left.as_ident();
                 let b_left = match b_left {
                     Some(v) => v.clone(),
                     None => return Ok(false),
@@ -1512,12 +1512,22 @@ where
                     return Ok(false);
                 }
 
-                if IdentUsageFinder::find(&b_left.to_id(), &b.right) {
+                if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
                     return Err(());
                 }
 
-                trace_op!("seq: Try rhs of assign with op");
-                return self.merge_sequential_expr(a, &mut b.right);
+                if self.replace_seq_assignment(a, b)? {
+                    return Ok(true);
+                }
+
+                // Hack for lifetime of mutable borrow
+                match b {
+                    Expr::Assign(b) => {
+                        trace_op!("seq: Try rhs of assign with op");
+                        return self.merge_sequential_expr(a, &mut b.right);
+                    }
+                    _ => unreachable!(),
+                }
             }
 
             Expr::Array(b) => {
