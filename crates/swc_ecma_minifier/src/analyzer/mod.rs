@@ -556,6 +556,7 @@ where
             let ctx = Ctx {
                 inline_prevented,
                 is_callee: true,
+                in_callee: true,
                 ..self.ctx
             };
             n.callee.visit_with(&mut *self.with_ctx(ctx));
@@ -1282,6 +1283,7 @@ where
             in_assign_lhs: false,
             in_await_arg: false,
             is_delete_arg: false,
+            in_callee: false,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));

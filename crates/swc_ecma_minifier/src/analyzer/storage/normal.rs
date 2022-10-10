@@ -242,6 +242,10 @@ impl ProgramData {
             }
         });
 
+        if ctx.in_callee {
+            e.mutated = true;
+        }
+
         e.inline_prevented |= ctx.inline_prevented;
 
         if is_first {
