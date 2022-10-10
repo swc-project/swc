@@ -357,6 +357,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.22.5", path =
 swc_trace_macro                  = { optional = true, version = "0.1.2", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.31.5", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
+swc_css_compat    = { version = "0.1.0", path = "../swc_css_compat", optional = true }
 swc_plugin_runner = { optional = true, version = "0.77.6", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
