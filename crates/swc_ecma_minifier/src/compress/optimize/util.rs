@@ -164,6 +164,7 @@ impl VisitMut for Remapper {
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
