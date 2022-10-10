@@ -17,6 +17,7 @@ use syn::{self, *};
 ///```no_run
 /// pub enum BinOp {
 ///     /// `+`
+///     #[string_enum(alias("add"))]
 ///     Add,
 ///     /// `-`
 ///     Minus,
