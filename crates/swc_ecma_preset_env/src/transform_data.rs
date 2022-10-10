@@ -119,31 +119,40 @@ pub enum Feature {
     /// `transform-reserved-words`
     ReservedWords,
 
-    /// `proposal-export-namespace-from`
+    /// `transform-export-namespace-from`
+    #[string_enum(alias("proposal-export-namespace-from"))]
     ExportNamespaceFrom,
 
-    /// `proposal-nullish-coalescing-operator`
+    /// `transform-nullish-coalescing-operator`
+    #[string_enum(alias("proposal-nullish-coalescing-operator"))]
     NullishCoalescing,
 
-    /// `proposal-logical-assignment-operators`
+    /// `transform-logical-assignment-operators`
+    #[string_enum(alias("proposal-logical-assignment-operators"))]
     LogicalAssignmentOperators,
 
-    /// `proposal-optional-chaining`
+    /// `transform-optional-chaining`
+    #[string_enum(alias("proposal-optional-chaining"))]
     OptionalChaining,
 
-    /// `proposal-class-properties`
+    /// `transform-class-properties`
+    #[string_enum(alias("proposal-class-properties"))]
     ClassProperties,
 
-    /// `proposal-numeric-separator`
+    /// `transform-numeric-separator`
+    #[string_enum(alias("proposal-numeric-separator"))]
     NumericSeparator,
 
-    /// `proposal-private-methods`
+    /// `transform-private-methods`
+    #[string_enum(alias("proposal-private-methods"))]
     PrivateMethods,
 
     /// `transform-class-static-block`
+    #[string_enum(alias("proposal-class-static-block"))]
     ClassStaticBlock,
 
-    /// `proposal-private-property-in-object`
+    /// `transform-private-property-in-object`
+    #[string_enum(alias("proposal-private-property-in-object"))]
     PrivatePropertyInObject,
 
     /// `transform-unicode-escapes`
