@@ -1367,6 +1367,38 @@ where
     }
 
     #[emitter]
+    fn emit_length_percentage(&mut self, n: &LengthPercentage) -> Result {
+        match n {
+            LengthPercentage::Length(n) => emit!(self, n),
+            LengthPercentage::Percentage(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_frequency_cercentage(&mut self, n: &FrequencyPercentage) -> Result {
+        match n {
+            FrequencyPercentage::Frequency(n) => emit!(self, n),
+            FrequencyPercentage::Percentage(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_angle_percentage(&mut self, n: &AnglePercentage) -> Result {
+        match n {
+            AnglePercentage::Angle(n) => emit!(self, n),
+            AnglePercentage::Percentage(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_time_percentage(&mut self, n: &TimePercentage) -> Result {
+        match n {
+            TimePercentage::Time(n) => emit!(self, n),
+            TimePercentage::Percentage(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
     fn emit_dimension(&mut self, n: &Dimension) -> Result {
         match n {
             Dimension::Length(n) => emit!(self, n),
