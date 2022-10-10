@@ -28258,10 +28258,7 @@
         seriesType: 'candlestick',
         plan: createRenderPlanner(),
         reset: function(seriesModel) {
-            var seriesModel1, data, extent, baseAxis, bandWidth, barMaxWidth, barMinWidth, barWidth, coordSys = seriesModel.coordinateSystem, data1 = seriesModel.getData(), candleWidth = (seriesModel1 = seriesModel, data = data1, bandWidth = 'category' === (baseAxis = seriesModel1.getBaseAxis()).type ? baseAxis.getBandWidth() : Math.abs((extent = baseAxis.getExtent())[1] - extent[0]) / data.count(), barMaxWidth = parsePercent$1(retrieve2(seriesModel1.get('barMaxWidth'), bandWidth), bandWidth), barMinWidth = parsePercent$1(retrieve2(seriesModel1.get('barMinWidth'), 1), bandWidth), null != (barWidth = seriesModel1.get('barWidth')) ? parsePercent$1(barWidth, bandWidth) : Math.max(Math.min(bandWidth / 2, barMaxWidth), barMinWidth)), coordDims = [
-                'x',
-                'y'
-            ], cDim = data1.mapDimension(coordDims[0]), vDims = data1.mapDimensionsAll(coordDims[1]), openDim = vDims[0], closeDim = vDims[1], lowestDim = vDims[2], highestDim = vDims[3];
+            var seriesModel1, data, extent, baseAxis, bandWidth, barMaxWidth, barMinWidth, barWidth, coordSys = seriesModel.coordinateSystem, data1 = seriesModel.getData(), candleWidth = (seriesModel1 = seriesModel, data = data1, bandWidth = 'category' === (baseAxis = seriesModel1.getBaseAxis()).type ? baseAxis.getBandWidth() : Math.abs((extent = baseAxis.getExtent())[1] - extent[0]) / data.count(), barMaxWidth = parsePercent$1(retrieve2(seriesModel1.get('barMaxWidth'), bandWidth), bandWidth), barMinWidth = parsePercent$1(retrieve2(seriesModel1.get('barMinWidth'), 1), bandWidth), null != (barWidth = seriesModel1.get('barWidth')) ? parsePercent$1(barWidth, bandWidth) : Math.max(Math.min(bandWidth / 2, barMaxWidth), barMinWidth)), cDim = data1.mapDimension('x'), vDims = data1.mapDimensionsAll('y'), openDim = vDims[0], closeDim = vDims[1], lowestDim = vDims[2], highestDim = vDims[3];
             if (data1.setLayout({
                 candleWidth: candleWidth,
                 isSimpleBox: candleWidth <= 1.3
@@ -39668,10 +39665,7 @@
                 color: '#333'
             }
         }, VisualMapModel;
-    }(ComponentModel), DEFAULT_BAR_BOUND = [
-        20,
-        140
-    ], ContinuousModel = function(_super) {
+    }(ComponentModel), ContinuousModel = function(_super) {
         function ContinuousModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
             return _this.type = ContinuousModel.type, _this;
@@ -39683,7 +39677,7 @@
         }, ContinuousModel.prototype.resetItemSize = function() {
             _super.prototype.resetItemSize.apply(this, arguments);
             var itemSize = this.itemSize;
-            (null == itemSize[0] || isNaN(itemSize[0])) && (itemSize[0] = DEFAULT_BAR_BOUND[0]), (null == itemSize[1] || isNaN(itemSize[1])) && (itemSize[1] = DEFAULT_BAR_BOUND[1]);
+            (null == itemSize[0] || isNaN(itemSize[0])) && (itemSize[0] = 20), (null == itemSize[1] || isNaN(itemSize[1])) && (itemSize[1] = 140);
         }, ContinuousModel.prototype._resetRange = function() {
             var dataExtent = this.getExtent(), range = this.option.range;
             !range || range.auto ? (dataExtent.auto = 1, this.option.range = dataExtent) : isArray(range) && (range[0] > range[1] && range.reverse(), range[0] = Math.max(range[0], dataExtent[0]), range[1] = Math.min(range[1], dataExtent[1]));
