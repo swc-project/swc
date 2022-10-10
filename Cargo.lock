@@ -3145,7 +3145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.32.6"
+version = "0.32.7"
 dependencies = [
  "binding_macros",
  "once_cell",
