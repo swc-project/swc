@@ -236,7 +236,11 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.visit_mut_children_with(self);
 
-        self.check(&mut e.obj, FinalizerMode::MemberAccess);
+        if let MemberProp::Computed(ref mut prop) = e.prop {
+            if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                self.check(&mut e.obj, FinalizerMode::MemberAccess);
+            }
+        }
     }
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {

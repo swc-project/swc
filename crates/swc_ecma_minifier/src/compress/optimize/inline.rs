@@ -109,7 +109,7 @@ where
                         _ => false,
                     }) {
                         self.vars
-                            .lits_for_member_access
+                            .lits_for_array_access
                             .insert(ident.to_id(), Box::new(init.clone()));
                     }
                 }

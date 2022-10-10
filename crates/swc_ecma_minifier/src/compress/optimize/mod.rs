@@ -247,7 +247,7 @@ struct Vars {
     lits_for_cmp: FxHashMap<Id, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_member_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
@@ -274,13 +274,13 @@ impl Vars {
         let mut changed = false;
         if !self.simple_functions.is_empty()
             || !self.lits_for_cmp.is_empty()
-            || !self.lits_for_member_access.is_empty()
+            || !self.lits_for_array_access.is_empty()
             || !self.removed.is_empty()
         {
             let mut v = Finalizer {
                 simple_functions: &self.simple_functions,
                 lits_for_cmp: &self.lits_for_cmp,
-                lits_for_array_access: &self.lits_for_member_access,
+                lits_for_array_access: &self.lits_for_array_access,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
