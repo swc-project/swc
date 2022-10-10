@@ -1511,21 +1511,21 @@ where
                     None => return Ok(false),
                 };
 
-                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
-                    return Ok(false);
-                }
-
-                if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
-                    return Err(());
-                }
-
                 if self.replace_seq_assignment(a, b)? {
                     return Ok(true);
+                }
+
+                if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    return Ok(false);
                 }
 
                 // Hack for lifetime of mutable borrow
                 match b {
                     Expr::Assign(b) => {
+                        if IdentUsageFinder::find(&b_left.to_id(), &b.right) {
+                            return Err(());
+                        }
+
                         trace_op!("seq: Try rhs of assign with op");
                         return self.merge_sequential_expr(a, &mut b.right);
                     }
