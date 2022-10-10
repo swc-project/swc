@@ -94,10 +94,13 @@ where
 
             self.vars.inline_with_multi_replacer(init);
 
+            // TODO: Allow `length` in usage.accessed_props
             if usage.declared
                 && !usage.reassigned()
                 && !usage.mutated
                 && !usage.has_property_mutation
+                && usage.accessed_props.is_empty()
+                && !usage.is_infected()
                 && is_inline_enabled
             {
                 if let Expr::Array(arr) = init {
