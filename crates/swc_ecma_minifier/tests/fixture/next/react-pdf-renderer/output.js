@@ -4194,7 +4194,7 @@
                                 case 0:
                                     return e.next = 2, c();
                                 case 2:
-                                    return t = (0, e.sent).pipe(v()()), e.abrupt("return", new Promise(function(e, r) {
+                                    return t = e.sent.pipe(v()()), e.abrupt("return", new Promise(function(e, r) {
                                         t.on("finish", function() {
                                             try {
                                                 var n = t.toBlob("application/pdf");
@@ -9389,7 +9389,7 @@
         },
         4756: function(e, t, r) {
             var n, i;
-            void 0 !== (i = "function" == typeof (n = function() {
+            void 0 !== (n = "function" == typeof (i = function() {
                 var e = "debug", t = "hyphenChar", n = "minWordLength", i = "object" == typeof r.g ? r.g : "object" == typeof window ? window : "object" == typeof this ? this : {};
                 function o(e) {
                     var t = {};
@@ -9519,14 +9519,14 @@
                         }(i, y, f[D], s, b, v, m, c);
                     };
                 };
-            }) ? n.apply(t, []) : n) && (e.exports = i);
+            }) ? i.apply(t, []) : i) && (e.exports = n);
         },
         3202: function(e, t, r) {
             e.exports = r(4756);
         },
         1487: function(e, t) {
             var r, n;
-            void 0 !== (n = "function" == typeof (r = function() {
+            void 0 !== (r = "function" == typeof (n = function() {
                 return {
                     patterns: [
                         " ",
@@ -14488,7 +14488,7 @@
                         ""
                     ]
                 };
-            }) ? r.apply(t, []) : r) && (e.exports = n);
+            }) ? n.apply(t, []) : n) && (e.exports = r);
         },
         5717: function(e) {
             "function" == typeof Object.create ? e.exports = function(e, t) {
@@ -16071,14 +16071,14 @@
                                 if (null === e || "object" !== i(e)) return (null === t || "object" !== i(t)) && e == t;
                                 if (null === t || "object" !== i(t)) return !1;
                             }
-                            var a, u, s = h(e);
-                            if (s !== h(t)) return !1;
+                            var a = h(e);
+                            if (a !== h(t)) return !1;
                             if (Array.isArray(e)) {
                                 if (e.length !== t.length) return !1;
-                                var f = F(e, I), d = F(t, I);
-                                return f.length === d.length && M(e, t, r, n, 1, f);
+                                var u = F(e, I), s = F(t, I);
+                                return u.length === s.length && M(e, t, r, n, 1, u);
                             }
-                            if ("[object Object]" === s && (!m(e) && m(t) || !w(e) && w(t))) return !1;
+                            if ("[object Object]" === a && (!m(e) && m(t) || !w(e) && w(t))) return !1;
                             if (b(e)) {
                                 if (!b(t) || Date.prototype.getTime.call(e) !== Date.prototype.getTime.call(t)) return !1;
                             } else if (D(e)) {
@@ -16092,9 +16092,9 @@
                                         for(var r = 0; r < e.byteLength; r++)if (e[r] !== t[r]) return !1;
                                         return !0;
                                     }(e, t)) return !1;
-                                } else if (a = e, u = t, a.byteLength !== u.byteLength || 0 !== R(new Uint8Array(a.buffer, a.byteOffset, a.byteLength), new Uint8Array(u.buffer, u.byteOffset, u.byteLength))) return !1;
-                                var p = F(e, I), y = F(t, I);
-                                return p.length === y.length && M(e, t, r, n, 0, p);
+                                } else if (e.byteLength !== t.byteLength || 0 !== R(new Uint8Array(e.buffer, e.byteOffset, e.byteLength), new Uint8Array(t.buffer, t.byteOffset, t.byteLength))) return !1;
+                                var f = F(e, I), d = F(t, I);
+                                return f.length === d.length && M(e, t, r, n, 0, f);
                             } else if (w(e)) return !!w(t) && e.size === t.size && M(e, t, r, n, 2);
                             else if (m(e)) return !!m(t) && e.size === t.size && M(e, t, r, n, 3);
                             else if (g(e)) {
@@ -18576,10 +18576,10 @@
                         var r = "undefined" != typeof Uint8Array && "undefined" != typeof Uint16Array && "undefined" != typeof Int32Array;
                         t.assign = function(e) {
                             for(var t = Array.prototype.slice.call(arguments, 1); t.length;){
-                                var r, n, i = t.shift();
-                                if (i) {
-                                    if ("object" != typeof i) throw TypeError(i + "must be non-object");
-                                    for(var o in i)r = i, n = o, Object.prototype.hasOwnProperty.call(r, n) && (e[o] = i[o]);
+                                var r, n = t.shift();
+                                if (n) {
+                                    if ("object" != typeof n) throw TypeError(n + "must be non-object");
+                                    for(var i in n)r = i, Object.prototype.hasOwnProperty.call(n, r) && (e[i] = n[i]);
                                 }
                             }
                             return e;
@@ -20939,14 +20939,14 @@
                         r("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                            var i, o, a, u, l, s, c;
-                            let f, d;
-                            if ("string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (f = "must not be", t = t.replace(/^not /, "")) : f = "must be", a = " argument", (void 0 === u || u > e.length) && (u = e.length), e.substring(u - a.length, u) === a) d = `The ${e} ${f} ${n(t, "type")}`;
+                            var i, o, a, u, l;
+                            let s, c;
+                            if ("string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (s = "must not be", t = t.replace(/^not /, "")) : s = "must be", a = " argument", (void 0 === u || u > e.length) && (u = e.length), e.substring(u - a.length, u) === a) c = `The ${e} ${s} ${n(t, "type")}`;
                             else {
-                                const p = (l = e, "number" != typeof c && (c = 0), c + (s = ".").length > l.length || -1 === l.indexOf(s, c)) ? "argument" : "property";
-                                d = `The "${e}" ${p} ${f} ${n(t, "type")}`;
+                                const f = ("number" != typeof l && (l = 0), l + 1 > e.length || -1 === e.indexOf(".", l)) ? "argument" : "property";
+                                c = `The "${e}" ${f} ${s} ${n(t, "type")}`;
                             }
-                            return d + `. Received type ${typeof r}`;
+                            return c + `. Received type ${typeof r}`;
                         }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
                             return "The " + e + " method is not implemented";
                         }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(e) {

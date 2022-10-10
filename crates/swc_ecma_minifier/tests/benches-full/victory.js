@@ -6305,7 +6305,7 @@
                 triangles: function() {
                     var triangles = [], edges = this.edges;
                     return this.cells.forEach(function(cell, i) {
-                        if (m = (halfedges = cell.halfedges).length) for(var a, b, c, halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > (a = site, b = s0, c = s1, (a[0] - c[0]) * (b[1] - a[1]) - (a[0] - b[0]) * (c[1] - a[1])) && triangles.push([
+                        if (m = (halfedges = cell.halfedges).length) for(var a, b, c, halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > (c = s1, (site[0] - c[0]) * (s0[1] - site[1]) - (site[0] - s0[0]) * (c[1] - site[1])) && triangles.push([
                             site.data,
                             s0.data,
                             s1.data
@@ -8522,7 +8522,7 @@
                     },
                     oneOf: function(expectedValues) {
                         return Array.isArray(expectedValues) ? createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if ((x = propValue) === (y = expectedValues[i]) ? 0 !== x || 1 / x == 1 / y : x != x && y != y) return null;
+                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if (propValue === (y = expectedValues[i]) ? 0 !== propValue || 1 / propValue == 1 / y : propValue != propValue && y != y) return null;
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
@@ -13463,13 +13463,13 @@
                         var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
                             child
                         ]);
-                        if (axisChild.length > 0) return axisChild[0], props1 = props, domain = (calculatedProps1 = calculatedProps).domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
+                        if (axisChild.length > 0) return axisChild[0], domain = calculatedProps.domain, scale = calculatedProps.scale, stringMap = calculatedProps.stringMap, categories = calculatedProps.categories, {
                             stringMap: stringMap,
-                            horizontal: calculatedProps1.horizontal,
+                            horizontal: calculatedProps.horizontal,
                             categories: categories,
-                            startAngle: props1.startAngle,
-                            endAngle: props1.endAngle,
-                            innerRadius: props1.innerRadius,
+                            startAngle: props.startAngle,
+                            endAngle: props.endAngle,
+                            innerRadius: props.innerRadius,
                             domain: domain,
                             scale: scale
                         };
@@ -17045,7 +17045,7 @@
             }
             function getTickArray(props) {
                 var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
-                stringMap1 && (axis = getAxis(props1 = props), stringMap = props1.stringMap && props1.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props1.categories) ? props1.categories : props1.categories && props1.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
+                stringMap1 && (axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props.categories) ? props.categories : props.categories && props.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
                 }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
                     return stringMap1[tick];
@@ -22639,9 +22639,9 @@
                                         nodesShouldEnter: !0
                                     });
                                 });
-                            } else if (!state && animate && animate.onExit) return animate1 = animate, data1 = data, after = animate1.onEnter && animate1.onEnter.after ? animate1.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
-                                data: data1.map(function(datum, idx) {
-                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data1));
+                            } else if (!state && animate && animate.onExit) return after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
+                                data: data.map(function(datum, idx) {
+                                    return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
                                 })
                             };
                         } else {
@@ -30703,12 +30703,12 @@
                 },
                 getDomain: function(props) {
                     var obj, key, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
-                    return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, key = zoomDimension, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), key in obj ? Object.defineProperty(obj, key, {
+                    return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), zoomDimension in obj ? Object.defineProperty(obj, zoomDimension, {
                         value: value,
                         enumerable: !0,
                         configurable: !0,
                         writable: !0
-                    }) : obj[key] = value, obj) : {
+                    }) : obj[zoomDimension] = value, obj) : {
                         x: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "x", childComponents),
                         y: victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, "y", childComponents)
                     }), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, childrenDomain, originalDomain, domain);

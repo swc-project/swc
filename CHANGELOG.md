@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
 
+
+- **(es/minifier)** Inline more lazily initialized vars (#6089) ([657e5b3](https://github.com/swc-project/swc/commit/657e5b31116974cd0c90cdb0871178e36fa41daf))
+
 ## [1.3.6] - 2022-10-08
 
 ### Bug Fixes

@@ -133,7 +133,7 @@
             return first.length = i, first;
         },
         grep: function(elems, callback, invert) {
-            for(var callbackInverse, matches = [], i = 0, length = elems.length, callbackExpect = !invert; i < length; i++)!callback(elems[i], i) !== callbackExpect && matches.push(elems[i]);
+            for(var matches = [], i = 0, length = elems.length, callbackExpect = !invert; i < length; i++)!callback(elems[i], i) !== callbackExpect && matches.push(elems[i]);
             return matches;
         },
         map: function(elems, callback, arg) {
@@ -711,11 +711,11 @@
                     }
                     return elementMatcher(matchers);
                 }(match[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
-                (cached = compilerCache(selector, (elementMatchers = elementMatchers1, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
+                (cached = compilerCache(selector, (bySet = setMatchers1.length > 0, byElement = elementMatchers1.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
                     var elem, j, matcher, matchedCount = 0, i = "0", unmatched = seed && [], setMatched = [], contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", outermost), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1, len = elems.length;
                     for(outermost && (outermostContext = context == document || context || outermost); i !== len && null != (elem = elems[i]); i++){
                         if (byElement && elem) {
-                            for(j = 0, context || elem.ownerDocument == document || (setDocument(elem), xml = !documentIsHTML); matcher = elementMatchers[j++];)if (matcher(elem, context || document, xml)) {
+                            for(j = 0, context || elem.ownerDocument == document || (setDocument(elem), xml = !documentIsHTML); matcher = elementMatchers1[j++];)if (matcher(elem, context || document, xml)) {
                                 results.push(elem);
                                 break;
                             }
@@ -724,12 +724,12 @@
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
                     if (matchedCount += i, bySet && i !== matchedCount) {
-                        for(j = 0; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
+                        for(j = 0; matcher = setMatchers1[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
                             if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
                             setMatched = condense(setMatched);
                         }
-                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
+                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers1.length > 1 && Sizzle.uniqueSort(results);
                     }
                     return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
                 }, bySet ? markFunction(superMatcher) : superMatcher))).selector = selector;
@@ -1363,7 +1363,7 @@
     ]);
     var rhtml = /<|&#?\w+;/;
     function buildFragment(elems, context, scripts, selection, ignored) {
-        for(var elem, tmp, tag, wrap, attached, j, fragment = context.createDocumentFragment(), nodes = [], i = 0, l = elems.length; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
+        for(var elem, tmp, wrap, attached, j, fragment = context.createDocumentFragment(), nodes = [], i = 0, l = elems.length; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
             if ("object" === toType(elem)) jQuery.merge(nodes, elem.nodeType ? [
                 elem
             ] : elem);
@@ -1652,7 +1652,7 @@
         return "true/" === (elem.type || "").slice(0, 5) ? elem.type = elem.type.slice(5) : elem.removeAttribute("type"), elem;
     }
     function cloneCopyEvent(src, dest) {
-        var i, l, type, pdataOld, udataOld, udataCur, events;
+        var i, l, type, udataOld, udataCur, events;
         if (1 === dest.nodeType) {
             if (dataPriv.hasData(src) && (events = dataPriv.get(src).events)) for(type in dataPriv.remove(dest, "handle events"), events)for(i = 0, l = events[type].length; i < l; i++)jQuery.event.add(dest, type, events[type][i]);
             dataUser.hasData(src) && (udataOld = dataUser.access(src), udataCur = jQuery.extend({}, udataOld), dataUser.set(dest, udataCur));

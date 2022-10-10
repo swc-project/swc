@@ -26,12 +26,12 @@
             this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
         }
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
-            var chunk, err;
+            var chunk;
             try {
                 if (this.remaining.length <= this.options.chunkSize) return chunk = this.remaining, this.remaining = "", this.saxParser = this.saxParser.write(chunk), this.saxParser.close();
                 return chunk = this.remaining.substr(0, this.options.chunkSize), this.remaining = this.remaining.substr(this.options.chunkSize, this.remaining.length), this.saxParser = this.saxParser.write(chunk), setImmediate(this.processAsync);
             } catch (error1) {
-                if (err = error1, !this.saxParser.errThrown) return this.saxParser.errThrown = !0, this.emit(err);
+                if (!this.saxParser.errThrown) return this.saxParser.errThrown = !0, this.emit(error1);
             }
         }, Parser.prototype.assignOrPush = function(obj, key, newValue) {
             return key in obj ? (obj[key] instanceof Array || (obj[key] = [
@@ -63,11 +63,10 @@
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;
                 })().concat(nodeName).join("/"), function() {
-                    var err;
                     try {
                         obj = _this3.options.validator(xpath, s && s[nodeName], obj);
                     } catch (error1) {
-                        return err = error1, _this3.emit("error", err);
+                        return _this3.emit("error", error1);
                     }
                 }()), _this3.options.explicitChildren && !_this3.options.mergeAttrs && "object" == typeof obj) {
                     if (_this3.options.preserveChildrenOrder) {
@@ -88,7 +87,6 @@
                 if (s = ontext(text)) return s.cdata = !0;
             };
         }, Parser.prototype.parseString = function(str, cb) {
-            var err;
             null != cb && "function" == typeof cb && (this.on("end", function(result) {
                 return this.reset(), cb(null, result);
             }), this.on("error", function(err) {
@@ -99,8 +97,8 @@
                 if (str = bom.stripBOM(str), this.options.async) return this.remaining = str, setImmediate(this.processAsync), this.saxParser;
                 return this.saxParser.write(str).close();
             } catch (error1) {
-                if (err = error1, !(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", err), this.saxParser.errThrown = !0;
-                if (this.saxParser.ended) throw err;
+                if (!(this.saxParser.errThrown || this.saxParser.ended)) return this.emit("error", error1), this.saxParser.errThrown = !0;
+                if (this.saxParser.ended) throw error1;
             }
         }, Parser.prototype.parseStringPromise = function(str) {
             var _this;

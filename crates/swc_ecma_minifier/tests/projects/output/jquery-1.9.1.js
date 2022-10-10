@@ -154,7 +154,7 @@
             return window1.JSON && window1.JSON.parse ? window1.JSON.parse(data) : null === data ? data : "string" == typeof data && (data = jQuery.trim(data)) && rvalidchars.test(data.replace(rvalidescape, "@").replace(rvalidtokens, "]").replace(rvalidbraces, "")) ? Function("return " + data)() : void jQuery.error("Invalid JSON: " + data);
         },
         parseXML: function(data) {
-            var xml, tmp;
+            var xml;
             if (!data || "string" != typeof data) return null;
             try {
                 window1.DOMParser ? xml = new DOMParser().parseFromString(data, "text/xml") : ((xml = new ActiveXObject("Microsoft.XMLDOM")).async = "false", xml.loadXML(data));
@@ -210,7 +210,7 @@
             return first.length = i, first;
         },
         grep: function(elems, callback, inv) {
-            var retVal, ret = [], i = 0, length = elems.length;
+            var ret = [], i = 0, length = elems.length;
             for(inv = !!inv; i < length; i++)!!callback(elems[i], i) !== inv && ret.push(elems[i]);
             return ret;
         },
@@ -1663,11 +1663,11 @@
                     }
                     return elementMatcher(matchers);
                 }(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
-                cached = compilerCache(selector, (elementMatchers = elementMatchers1, matcherCachedRuns = 0, bySet = (setMatchers = setMatchers1).length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
+                cached = compilerCache(selector, (matcherCachedRuns = 0, bySet = setMatchers1.length > 0, byElement = elementMatchers1.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
                         if (byElement && elem) {
-                            for(j = 0; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
+                            for(j = 0; matcher = elementMatchers1[j++];)if (matcher(elem, context, xml)) {
                                 results.push(elem);
                                 break;
                             }
@@ -1676,12 +1676,12 @@
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
                     if (matchedCount += i, bySet && i !== matchedCount) {
-                        for(j = 0; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
+                        for(j = 0; matcher = setMatchers1[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
                             if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
                             setMatched = condense(setMatched);
                         }
-                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
+                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers1.length > 1 && Sizzle.uniqueSort(results);
                     }
                     return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
                 }, bySet ? markFunction(superMatcher) : superMatcher));

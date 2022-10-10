@@ -137,7 +137,7 @@ var YUI = function() {
             return this;
         },
         _attach: function(r, moot) {
-            var i, name, mod, details, req, use, after, j, loader, def, go, mods = YUI.Env.mods, aliases = YUI.Env.aliases, Y = this, cache = YUI.Env._renderedMods, loader = Y.Env._loader, done = Y.Env._attached, len = r.length, c = [];
+            var i, name, mod, details, req, use, after, j, loader, def, mods = YUI.Env.mods, aliases = YUI.Env.aliases, Y = this, cache = YUI.Env._renderedMods, loader = Y.Env._loader, done = Y.Env._attached, len = r.length, c = [];
             for(i = 0; i < len; i++)if (mod = mods[name = r[i]], c.push(name), loader && loader.conditions[name]) for(j in loader.conditions[name])loader.conditions[name].hasOwnProperty(j) && (def = loader.conditions[name][j]) && (def.ua && Y.UA[def.ua] || def.test && def.test(Y)) && c.push(def.name);
             for(i = 0, len = (r = c).length; i < len; i++)if (!done[r[i]]) {
                 if (mod = mods[name = r[i]], aliases && aliases[name] && !mod) {
@@ -1439,7 +1439,7 @@ var YUI = function() {
                 name: name,
                 fullpath: o
             });
-            var subs, i, l, t, sup, s, smod, plugins, plug, j, langs, packName, supName, flatSup, flatLang, lang, ret, overrides, skinname, when, g, p, trigger, conditions = this.conditions;
+            var subs, i, l, t, sup, s, smod, plugins, plug, j, langs, packName, supName, flatSup, flatLang, lang, overrides, skinname, when, g, p, trigger, conditions = this.conditions;
             if (this.moduleInfo[name] && this.moduleInfo[name].temp && (o = Y.merge(this.moduleInfo[name], o)), o.name = name, !o || !o.name) return null;
             if (!o.type && (o.type = "js", (p = o.path || o.fullpath) && this.REGEX_CSS.test(p) && (o.type = "css")), o.path || o.fullpath || (o.path = _path(name, name, o.type)), o.supersedes = o.supersedes || o.use, o.ext = "ext" in o ? o.ext : !this._internal, subs = o.submodules, this.moduleInfo[name] = o, o.requires = o.requires || [], this.requires) for(i = 0; i < this.requires.length; i++)o.requires.push(this.requires[i]);
             if (o.group && this.groups && this.groups[o.group] && (g = this.groups[o.group]).requires) for(i = 0; i < g.requires.length; i++)o.requires.push(g.requires[i]);
@@ -1492,7 +1492,7 @@ var YUI = function() {
         getRequires: function(mod) {
             if (!mod) return NO_REQUIREMENTS;
             if (mod._parsed) return mod.expanded || NO_REQUIREMENTS;
-            var i, m, j, add, packName, lang, cond, d, go, def, r, old_mod, o, skinmod, skindef, skinpar, skinname, hash, reparse, testresults = this.testresults, name = mod.name, adddef = ON_PAGE[name] && ON_PAGE[name].details, intl = mod.lang || mod.intl, info = this.moduleInfo, ftests = Y.Features && Y.Features.tests.load;
+            var i, m, j, add, packName, lang, cond, d, def, r, old_mod, o, skinmod, skindef, skinpar, skinname, hash, reparse, testresults = this.testresults, name = mod.name, adddef = ON_PAGE[name] && ON_PAGE[name].details, intl = mod.lang || mod.intl, info = this.moduleInfo, ftests = Y.Features && Y.Features.tests.load;
             if (mod.temp && adddef && (old_mod = mod, (mod = this.addModule(adddef, name)).group = old_mod.group, mod.pkg = old_mod.pkg, delete mod.expanded), reparse = !((!this.lang || mod.langCache === this.lang) && mod.skinCache === this.skin.defaultSkin), mod.expanded && !reparse) return mod.expanded;
             for(d = [], hash = {}, r = this.filterRequires(mod.requires), mod.lang && (d.unshift("intl"), r.unshift("intl"), intl = !0), o = this.filterRequires(mod.optional), mod._parsed = !0, mod.langCache = this.lang, mod.skinCache = this.skin.defaultSkin, i = 0; i < r.length; i++)if (!hash[r[i]] && (d.push(r[i]), hash[r[i]] = !0, m = this.getModule(r[i]))) for(j = 0, add = this.getRequires(m), intl = intl || m.expanded_map && (INTL in m.expanded_map); j < add.length; j++)d.push(add[j]);
             if (r = this.filterRequires(mod.supersedes)) {
@@ -1530,7 +1530,7 @@ var YUI = function() {
             (o || type || this.dirty) && (o && this._config(o), this._init || this._setup(), this._explode(), this.allowRollup ? this._rollup() : this._explodeRollups(), this._reduce(), this._sort());
         },
         _addLangPack: function(lang, m, packName) {
-            var packPath, conf, name = m.name;
+            var conf, name = m.name;
             return !this.moduleInfo[packName] && (conf = {
                 path: _path(m.pkg || name, packName, "js", !0),
                 intl: !0,
