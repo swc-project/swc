@@ -91,7 +91,11 @@ where
 
             self.vars.inline_with_multi_replacer(init);
 
-            if !usage.reassigned() && !usage.mutated {
+            if usage.declared
+                && !usage.reassigned()
+                && !usage.mutated
+                && !usage.has_property_mutation
+            {
                 if let Expr::Array(arr) = init {
                     if arr.elems.iter().all(|e| match e {
                         Some(ExprOrSpread { spread: None, expr }) => match &**expr {
