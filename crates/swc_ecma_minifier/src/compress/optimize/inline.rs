@@ -94,6 +94,8 @@ where
 
             self.vars.inline_with_multi_replacer(init);
 
+            // We inline arrays if it's pure, and not modified.
+            //
             // TODO: Allow `length` in usage.accessed_props
             if usage.declared
                 && !usage.reassigned()
