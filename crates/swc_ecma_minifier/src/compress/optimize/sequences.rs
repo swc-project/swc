@@ -1316,13 +1316,16 @@ where
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
-            let a_id = a.id();
+            let a = match a {
+                Mergable::Expr(e) => dump(*e, false),
+                Mergable::Var(e) => dump(*e, false),
+            };
 
             Some(
                 span!(
                     Level::ERROR,
                     "merge_sequential_expr",
-                    a_id = tracing::field::debug(&a_id),
+                    a = tracing::field::debug(&a),
                     b = &*b_str
                 )
                 .entered(),
