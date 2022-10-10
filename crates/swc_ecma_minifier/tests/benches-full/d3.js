@@ -6592,7 +6592,7 @@
         return scale.domain = function(_) {
             if (!arguments.length) return domain.slice();
             for (const value of (domain = [], index = new Map(), _)){
-                const key = value + "";
+                const key = "undefined";
                 index.has(key) || index.set(key, domain.push(value));
             }
             return scale;

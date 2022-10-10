@@ -34940,7 +34940,7 @@
                         }
                     }), newOption = newOption1);
                 } catch (e) {
-                    throw close(), Error('Data view format error ' + e);
+                    throw close(), Error("Data view format error undefined");
                 }
                 newOption && api.dispatchAction({
                     type: 'changeDataView',

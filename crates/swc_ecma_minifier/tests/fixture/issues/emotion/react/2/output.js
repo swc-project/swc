@@ -73,7 +73,7 @@ function handleInterpolation(mergedProps, registered, interpolation) {
                 if (Array.isArray(obj)) for(var i = 0; i < obj.length; i++)string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
                 else for(var _key in obj){
                     var value = obj[_key];
-                    if ("object" != typeof value) null != registered && void 0 !== registered[value] ? string += _key + "{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
+                    if ("object" != typeof value) null != registered && void 0 !== registered[value] ? string += "undefined{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
                     else if (Array.isArray(value) && "string" == typeof value[0] && (null == registered || void 0 === registered[value[0]])) for(var _i = 0; _i < value.length; _i++)isProcessableValue(value[_i]) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value[_i]) + ";");
                     else {
                         var interpolated = handleInterpolation(mergedProps, registered, value);
@@ -83,7 +83,7 @@ function handleInterpolation(mergedProps, registered, interpolation) {
                                 string += processStyleName(_key) + ":" + interpolated + ";";
                                 break;
                             default:
-                                string += _key + "{" + interpolated + "}";
+                                string += "undefined{" + interpolated + "}";
                         }
                     }
                 }

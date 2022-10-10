@@ -367,7 +367,7 @@
         var modeObj = mfactory(options, spec);
         if (modeExtensions.hasOwnProperty(spec.name)) {
             var exts = modeExtensions[spec.name];
-            for(var prop in exts)exts.hasOwnProperty(prop) && (modeObj.hasOwnProperty(prop) && (modeObj["_" + prop] = modeObj[prop]), modeObj[prop] = exts[prop]);
+            for(var prop in exts)exts.hasOwnProperty(prop) && (modeObj.hasOwnProperty(prop) && (modeObj._undefined = modeObj[prop]), modeObj[prop] = exts[prop]);
         }
         if (modeObj.name = spec.name, spec.helperType && (modeObj.helperType = spec.helperType), spec.modeProps) for(var prop$1 in spec.modeProps)modeObj[prop$1] = spec.modeProps[prop$1];
         return modeObj;
