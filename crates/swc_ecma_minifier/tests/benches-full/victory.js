@@ -8390,14 +8390,14 @@
                     var error;
                     try {
                         if ('function' != typeof typeSpecs[typeSpecName]) {
-                            var err = Error((componentName || 'React class') + ': ' + location + " type `undefined` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + '`.');
+                            var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + '`.');
                             throw err.name = 'Invariant Violation', err;
                         }
                         error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
                     } catch (ex) {
                         error = ex;
                     }
-                    if (!error || error instanceof Error || printWarning((componentName || 'React class') + ': type specification of ' + location + " `undefined` is invalid; the type checker function must return `null` or an `Error` but returned a " + typeof error + ". You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument)."), error instanceof Error && !(error.message in loggedTypeFailures)) {
+                    if (!error || error instanceof Error || printWarning((componentName || 'React class') + ': type specification of ' + location + ' `' + typeSpecName + "` is invalid; the type checker function must return `null` or an `Error` but returned a " + typeof error + ". You may have forgotten to pass an argument to the type checker creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and shape all require an argument)."), error instanceof Error && !(error.message in loggedTypeFailures)) {
                         loggedTypeFailures[error.message] = !0;
                         var stack = getStack ? getStack() : '';
                         printWarning('Failed ' + location + ' type: ' + error.message + (null != stack ? stack : ''));
@@ -8512,7 +8512,7 @@
                             var propValue = props[propName], propType = getPropType(propValue);
                             if ('object' !== propType) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `') + componentName + '`, expected an object.');
                             for(var key in propValue)if (has(propValue, key)) {
-                                var error = typeChecker(propValue, key, componentName, location, propFullName + ".undefined", ReactPropTypesSecret);
+                                var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
                                 if (error instanceof Error) return error;
                             }
                             return null;
@@ -8558,7 +8558,7 @@
                             for(var key in shapeTypes){
                                 var checker = shapeTypes[key];
                                 if (checker) {
-                                    var error = checker(propValue, key, componentName, location, propFullName + ".undefined", ReactPropTypesSecret);
+                                    var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
                                     if (error) return error;
                                 }
                             }
@@ -8572,8 +8572,8 @@
                             var allKeys = assign({}, props[propName], shapeTypes);
                             for(var key in allKeys){
                                 var checker = shapeTypes[key];
-                                if (!checker) return new PropTypeError('Invalid ' + location + ' `' + propFullName + "` key `undefined` supplied to `" + componentName + "`.\nBad object: " + JSON.stringify(props[propName], null, '  ') + '\nValid keys: ' + JSON.stringify(Object.keys(shapeTypes), null, '  '));
-                                var error = checker(propValue, key, componentName, location, propFullName + ".undefined", ReactPropTypesSecret);
+                                if (!checker) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` key `' + key + '` supplied to `' + componentName + "`.\nBad object: " + JSON.stringify(props[propName], null, '  ') + '\nValid keys: ' + JSON.stringify(Object.keys(shapeTypes), null, '  '));
+                                var error = checker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
                                 if (error) return error;
                             }
                             return null;

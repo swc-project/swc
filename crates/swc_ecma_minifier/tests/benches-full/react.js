@@ -556,7 +556,7 @@
                         var error$1 = void 0;
                         try {
                             if ('function' != typeof typeSpecs[typeSpecName]) {
-                                var err = Error((componentName || 'React class') + ': ' + location + " type `undefined` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
+                                var err = Error((componentName || 'React class') + ': ' + location + ' type `' + typeSpecName + "` is invalid; it must be a function, usually from the `prop-types` package, but received `" + typeof typeSpecs[typeSpecName] + "`.This often happens because of typos such as `PropTypes.function` instead of `PropTypes.func`.");
                                 throw err.name = 'Invariant Violation', err;
                             }
                             error$1 = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED');

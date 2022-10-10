@@ -1458,12 +1458,12 @@
                 '_end method'
             ])Object.defineProperty(AbstractIterator.prototype, k.split(' ')[0], {
                 get () {
-                    throw new ModuleError("The undefined has been removed", {
+                    throw new ModuleError(`The ${k} has been removed`, {
                         code: 'LEVEL_LEGACY'
                     });
                 },
                 set () {
-                    throw new ModuleError("The undefined has been removed", {
+                    throw new ModuleError(`The ${k} has been removed`, {
                         code: 'LEVEL_LEGACY'
                     });
                 }
@@ -2176,7 +2176,7 @@
             module.exports = function(options, keyEncoding) {
                 const result = {};
                 for(const k in options)if (hasOwnProperty.call(options, k) && 'keyEncoding' !== k && 'valueEncoding' !== k) {
-                    if ('start' === k || 'end' === k) throw new ModuleError("The legacy range option 'undefined' has been removed", {
+                    if ('start' === k || 'end' === k) throw new ModuleError(`The legacy range option '${k}' has been removed`, {
                         code: 'LEVEL_LEGACY'
                     });
                     if ('encoding' === k) throw new ModuleError("The levelup-style 'encoding' alias has been removed, use 'valueEncoding' instead", {

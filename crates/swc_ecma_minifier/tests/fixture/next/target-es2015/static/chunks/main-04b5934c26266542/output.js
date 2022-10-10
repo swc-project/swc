@@ -1033,7 +1033,7 @@
                         if (singletonRouter[eventField]) try {
                             singletonRouter[eventField](...args);
                         } catch (err) {
-                            console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : "undefined");
+                            console.error("Error when running the Router event: ".concat(eventField)), console.error(_isError.default(err) ? "".concat(err.message, "\n").concat(err.stack) : err + "");
                         }
                     });
                 });
@@ -1973,7 +1973,7 @@
                             }
                             return routeInfo;
                         } catch (routeInfoErr) {
-                            return _this.handleRouteInfoError(_isError.default(routeInfoErr) ? routeInfoErr : Error("undefined"), pathname, query, as, routeProps, !0);
+                            return _this.handleRouteInfoError(_isError.default(routeInfoErr) ? routeInfoErr : Error(routeInfoErr + ""), pathname, query, as, routeProps, !0);
                         }
                     })();
                 }

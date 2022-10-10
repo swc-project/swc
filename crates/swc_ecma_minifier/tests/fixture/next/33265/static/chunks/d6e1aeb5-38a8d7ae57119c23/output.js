@@ -1345,7 +1345,7 @@
                 addtrack: "addtrack",
                 removetrack: "removetrack",
                 labelchange: "labelchange"
-            }, TrackList.prototype.allowedEvents_)TrackList.prototype.onundefined = null;
+            }, TrackList.prototype.allowedEvents_)TrackList.prototype["on" + event] = null;
             var disableOthers$1 = function(list, track) {
                 for(var i = 0; i < list.length; i++)Object.keys(list[i]).length && track.id !== list[i].id && (list[i].enabled = !1);
             }, AudioTrackList = function(_TrackList) {
@@ -8960,7 +8960,7 @@
                     } catch (error) {
                         this.stream.trigger("log", {
                             level: "warn",
-                            message: "TextDecoder could not be created with " + encoding + " encoding. undefined"
+                            message: "TextDecoder could not be created with " + encoding + " encoding. " + error
                         });
                     }
                 };
@@ -13535,7 +13535,7 @@
                         }
                     }, audioOnlyMaster && (mediaGroups[type].main.default.playlists = masterPlaylistLoader.master.playlists)), mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId]){
                         var properties = mediaGroups[type][groupId][variantLabel], playlistLoader = void 0;
-                        if (audioOnlyMaster ? (logger_("AUDIO group 'undefined' label 'undefined' is a master playlist"), properties.isMasterPlaylist = !0, playlistLoader = null) : playlistLoader = "vhs-json" === sourceType && properties.playlists ? new PlaylistLoader(properties.playlists[0], vhs, requestOptions) : properties.resolvedUri ? new PlaylistLoader(properties.resolvedUri, vhs, requestOptions) : properties.playlists && "dash" === sourceType ? new DashPlaylistLoader(properties.playlists[0], vhs, requestOptions, masterPlaylistLoader) : null, properties = videojs.mergeOptions({
+                        if (audioOnlyMaster ? (logger_("AUDIO group '" + groupId + "' label '" + variantLabel + "' is a master playlist"), properties.isMasterPlaylist = !0, playlistLoader = null) : playlistLoader = "vhs-json" === sourceType && properties.playlists ? new PlaylistLoader(properties.playlists[0], vhs, requestOptions) : properties.resolvedUri ? new PlaylistLoader(properties.resolvedUri, vhs, requestOptions) : properties.playlists && "dash" === sourceType ? new DashPlaylistLoader(properties.playlists[0], vhs, requestOptions, masterPlaylistLoader) : null, properties = videojs.mergeOptions({
                             id: variantLabel,
                             playlistLoader: playlistLoader
                         }, properties), setupListeners[type](type, properties.playlistLoader, settings), groups[groupId].push(properties), void 0 === tracks[variantLabel]) {

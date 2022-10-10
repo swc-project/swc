@@ -2305,7 +2305,7 @@
             if (void 0 !== values) for(var key in values){
                 var newValue = values[key];
                 if (void 0 === newValue) {
-                    console.warn("THREE.Material: 'undefined' parameter is undefined.");
+                    console.warn('THREE.Material: \'' + key + '\' parameter is undefined.');
                     continue;
                 }
                 if ('shading' === key) {
@@ -2314,7 +2314,7 @@
                 }
                 var currentValue = this[key];
                 if (void 0 === currentValue) {
-                    console.warn('THREE.' + this.type + ": 'undefined' is not a property of this material.");
+                    console.warn('THREE.' + this.type + ': \'' + key + '\' is not a property of this material.');
                     continue;
                 }
                 currentValue && currentValue.isColor ? currentValue.set(newValue) : currentValue && currentValue.isVector3 && newValue && newValue.isVector3 ? currentValue.copy(newValue) : this[key] = newValue;
@@ -5113,7 +5113,7 @@
             var chunks = [];
             for(var name in defines){
                 var value = defines[name];
-                !1 !== value && chunks.push("#define undefined " + value);
+                !1 !== value && chunks.push('#define ' + name + ' ' + value);
             }
             return chunks.join('\n');
         }(defines), program = gl.createProgram(), versionString = parameters.glslVersion ? '#version ' + parameters.glslVersion + '\n' : '';
@@ -10321,7 +10321,7 @@
                                 var animationKey = animationKeys[k];
                                 times.push(animationKey.time), values.push(animationKey.morphTarget === morphTargetName ? 1 : 0);
                             }
-                            tracks.push(new NumberKeyframeTrack(".morphTargetInfluence[undefined]", times, values));
+                            tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
                         }
                         duration = morphTargetNames.length * (fps || 1.0);
                     } else {

@@ -1052,7 +1052,7 @@
                     var res = {}, attrs = data.attrs, props = data.props;
                     if (isDef(attrs) || isDef(props)) for(var key in propOptions){
                         var altKey = hyphenate(key), keyInLowerCase = key.toLowerCase();
-                        key !== keyInLowerCase && attrs && hasOwn(attrs, keyInLowerCase) && tip("Prop \"" + keyInLowerCase + "\" is passed to component " + formatComponentName(tag || Ctor) + ', but the declared prop name is "undefined". Note that HTML attributes are case-insensitive and camelCased props need to use their kebab-case equivalents when using in-DOM templates. You should probably use "' + altKey + '" instead of "undefined".'), checkProp(res, props, key, altKey, !0) || checkProp(res, attrs, key, altKey, !1);
+                        key !== keyInLowerCase && attrs && hasOwn(attrs, keyInLowerCase) && tip("Prop \"" + keyInLowerCase + "\" is passed to component " + formatComponentName(tag || Ctor) + ', but the declared prop name is "' + key + '". Note that HTML attributes are case-insensitive and camelCased props need to use their kebab-case equivalents when using in-DOM templates. You should probably use "' + altKey + "\" instead of \"" + key + "\"."), checkProp(res, props, key, altKey, !0) || checkProp(res, attrs, key, altKey, !1);
                     }
                     return res;
                 }
@@ -1376,7 +1376,7 @@
             shouldObserve = !0;
         }(vm4, opts1.props), opts1.methods && function(vm, methods) {
             var props = vm.$options.props;
-            for(var key in methods)'function' != typeof methods[key] && warn('Method "undefined" has type "' + typeof methods[key] + '" in the component definition. Did you reference the function correctly?', vm), props && hasOwn(props, key) && warn('Method "undefined" has already been defined as a prop.', vm), key in vm && isReserved(key) && warn('Method "undefined" conflicts with an existing Vue instance method. Avoid defining component methods that start with _ or $.'), vm[key] = 'function' != typeof methods[key] ? noop : bind(methods[key], vm);
+            for(var key in methods)'function' != typeof methods[key] && warn("Method \"" + key + "\" has type \"" + typeof methods[key] + '" in the component definition. Did you reference the function correctly?', vm), props && hasOwn(props, key) && warn("Method \"" + key + "\" has already been defined as a prop.", vm), key in vm && isReserved(key) && warn("Method \"" + key + '" conflicts with an existing Vue instance method. Avoid defining component methods that start with _ or $.'), vm[key] = 'function' != typeof methods[key] ? noop : bind(methods[key], vm);
         }(vm4, opts1.methods), opts1.data ? function(vm) {
             var data = vm.$options.data;
             isPlainObject(data = vm._data = 'function' == typeof data ? function(data, vm) {
@@ -1398,7 +1398,7 @@
             var watchers = vm._computedWatchers = Object.create(null), isSSR = isServerRendering();
             for(var key in computed){
                 var userDef = computed[key], getter = 'function' == typeof userDef ? userDef : userDef.get;
-                null == getter && warn('Getter is missing for computed property "undefined".', vm), isSSR || (watchers[key] = new Watcher(vm, getter || noop, noop, computedWatcherOptions)), key in vm ? key in vm.$data ? warn('The computed property "undefined" is already defined in data.', vm) : vm.$options.props && key in vm.$options.props && warn('The computed property "undefined" is already defined as a prop.', vm) : defineComputed(vm, key, userDef);
+                null == getter && warn("Getter is missing for computed property \"" + key + "\".", vm), isSSR || (watchers[key] = new Watcher(vm, getter || noop, noop, computedWatcherOptions)), key in vm ? key in vm.$data ? warn("The computed property \"" + key + "\" is already defined in data.", vm) : vm.$options.props && key in vm.$options.props && warn("The computed property \"" + key + "\" is already defined as a prop.", vm) : defineComputed(vm, key, userDef);
             }
         }(vm4, opts1.computed), opts1.watch && opts1.watch !== nativeWatch && function(vm, watch) {
             for(var key in watch){
@@ -3066,7 +3066,7 @@
                 }
                 return isMethodPath || isFunctionExpression ? handler.value : "function($event){" + (isFunctionInvocation ? "return " + handler.value : handler.value) + "}";
             }(events[name]);
-            events[name] && events[name].dynamic ? dynamicHandlers += "undefined," + handlerCode + "," : staticHandlers += '"undefined":' + handlerCode + ",";
+            events[name] && events[name].dynamic ? dynamicHandlers += name + "," + handlerCode + "," : staticHandlers += "\"" + name + "\":" + handlerCode + ",";
         }
         return (staticHandlers = "{" + staticHandlers.slice(0, -1) + "}", dynamicHandlers) ? prefix + "_d(" + staticHandlers + ",[" + dynamicHandlers.slice(0, -1) + "])" : prefix + staticHandlers;
     }
@@ -3597,10 +3597,10 @@
                                 } catch (e) {
                                     warn("invalid function parameter expression: " + e.message + " in\n\n    " + exp + "\n\n  Raw expression: " + text.trim() + "\n", range);
                                 }
-                            }(value, "undefined" + "=\"" + value + "\"", warn, range1) : onRE.test(name) ? function(exp, text, warn, range) {
+                            }(value, name + "=\"" + value + "\"", warn, range1) : onRE.test(name) ? function(exp, text, warn, range) {
                                 var stripped = exp.replace(stripStringRE, ''), keywordMatch = stripped.match(unaryOperatorsRE);
                                 keywordMatch && '$' !== stripped.charAt(keywordMatch.index - 1) && warn('avoid using JavaScript unary operator as property name: "' + keywordMatch[0] + "\" in expression " + text.trim(), range), checkExpression(exp, text, warn, range);
-                            }(value, "undefined" + "=\"" + value + "\"", warn, range1) : checkExpression(value, "undefined" + "=\"" + value + "\"", warn, range1);
+                            }(value, name + "=\"" + value + "\"", warn, range1) : checkExpression(value, name + "=\"" + value + "\"", warn, range1);
                         }
                     }
                     if (node.children) for(var i = 0; i < node.children.length; i++)checkNode(node.children[i], warn);

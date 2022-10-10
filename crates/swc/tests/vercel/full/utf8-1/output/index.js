@@ -1,8 +1,8 @@
 import e from "@swc/helpers/src/_async_to_generator.mjs";
 import t from "@swc/helpers/src/_ts_generator.mjs";
 import { displayContent as a } from "./fouc";
-import n from "./on-demand-entries-client";
-import { addMessageListener as r, connectHMR as c } from "./error-overlay/websocket";
+import r from "./on-demand-entries-client";
+import { addMessageListener as n, connectHMR as c } from "./error-overlay/websocket";
 var o = JSON.parse(document.getElementById("__NEXT_DATA__").textContent);
 window.__NEXT_DATA__ = o;
 var s = o.assetPrefix, i = o.page;
@@ -53,7 +53,7 @@ function p() {
         });
     })).apply(this, arguments);
 }
-r(function(e) {
+n(function(e) {
     if ("\uD83D\uDC93" !== e.data) try {
         var t = JSON.parse(e.data);
         if ("sync" === t.action || "built" === t.action) {
@@ -63,9 +63,9 @@ r(function(e) {
             }();
         } else "reloadPage" === t.action && document.location.reload(!0);
     } catch (a) {
-        console.warn("Invalid HMR message: " + e.data + "\nundefined");
+        console.warn("Invalid HMR message: " + e.data + "\n" + a);
     }
 }), c({
     assetPrefix: s,
     path: "/_next/webpack-hmr"
-}), a(), n(o.page);
+}), a(), r(o.page);

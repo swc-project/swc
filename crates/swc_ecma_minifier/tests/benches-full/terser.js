@@ -26,7 +26,7 @@
         });
         const ret = args || {};
         if (croak) {
-            for(const i in ret)if (HOP(ret, i) && !HOP(defs, i)) throw new DefaultsError("`undefined` is not a supported option", defs);
+            for(const i in ret)if (HOP(ret, i) && !HOP(defs, i)) throw new DefaultsError("`" + i + "` is not a supported option", defs);
         }
         for(const i1 in defs)if (HOP(defs, i1)) {
             if (args && HOP(args, i1)) {
@@ -17947,7 +17947,7 @@
                 return;
             }
             else program.output ? (fs.writeFileSync(program.output, result.code), options.sourceMap && "inline" !== options.sourceMap.url && result.map && fs.writeFileSync(program.output + ".map", result.map)) : console.log(result.code);
-            if (program.nameCache && fs.writeFileSync(program.nameCache, JSON.stringify(options.nameCache)), result.timings) for(var phase in result.timings)print_error("- undefined: " + result.timings[phase].toFixed(3) + "s");
+            if (program.nameCache && fs.writeFileSync(program.nameCache, JSON.stringify(options.nameCache)), result.timings) for(var phase in result.timings)print_error("- " + phase + ": " + result.timings[phase].toFixed(3) + "s");
         }
         function fatal(message) {
             message instanceof Error && (message = message.stack.replace(/^\S*?Error:/, "ERROR:")), print_error(message), process.exit(1);

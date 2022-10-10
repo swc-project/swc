@@ -17283,7 +17283,7 @@
                             }, p = function() {
                                 if ("undefined" == typeof window) return !1;
                                 for(var e in window)try {
-                                    if (!d.$undefined && i.call(window, e) && null !== window[e] && "object" == typeof window[e]) try {
+                                    if (!d["$" + e] && i.call(window, e) && null !== window[e] && "object" == typeof window[e]) try {
                                         f(window[e]);
                                     } catch (t) {
                                         return !0;
@@ -24041,7 +24041,7 @@
                 }, p = function() {
                     if ("undefined" == typeof window) return !1;
                     for(var e in window)try {
-                        if (!d.$undefined && i.call(window, e) && null !== window[e] && "object" == typeof window[e]) try {
+                        if (!d["$" + e] && i.call(window, e) && null !== window[e] && "object" == typeof window[e]) try {
                             f(window[e]);
                         } catch (t) {
                             return !0;

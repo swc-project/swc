@@ -2175,7 +2175,7 @@
                                 }
                             } catch (e) {
                                 if (e instanceof ParseError) throw e;
-                                errorHandler.error("element parse error: undefined"), end = -1;
+                                errorHandler.error("element parse error: " + e), end = -1;
                             }
                             end > start ? start = end : appendText(Math.max(tagStart, start) + 1);
                         }

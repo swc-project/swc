@@ -1544,7 +1544,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             }
         }
     };
-    for(var c in combinators)local["combinator:undefined"] = combinators[c];
+    for(var c in combinators)local["combinator:" + c] = combinators[c];
     var pseudos = {
         empty: function(node) {
             var child = node.firstChild;
@@ -1614,7 +1614,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             return node.selected;
         }
     };
-    for(var p in pseudos)local["pseudo:undefined"] = pseudos[p];
+    for(var p in pseudos)local["pseudo:" + p] = pseudos[p];
     var attributeGetters = local.attributeGetters = {
         for: function() {
             return "htmlFor" in this ? this.htmlFor : this.getAttribute("for");
@@ -3709,11 +3709,11 @@ Cookie.write = function(key, value, options) {
                 return function() {
                     return option.apply(self.object, arguments);
                 };
-            }(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + ".undefined";
+            }(callBacks[callBack]), vars[callBack] = "Swiff.CallBacks." + this.instance + "." + callBack;
             params.flashVars = Object.toQueryString(vars), Browser.ie ? (properties.classid = "clsid:D27CDB6E-AE6D-11cf-96B8-444553540000", params.movie = path) : properties.type = "application/x-shockwave-flash", properties.data = path;
             var build = '<object id="' + id + '"';
-            for(var property in properties)build += ' undefined="' + properties[property] + '"';
-            for(var param in build += ">", params)params[param] && (build += '<param name="undefined" value="' + params[param] + '" />');
+            for(var property in properties)build += " " + property + '="' + properties[property] + '"';
+            for(var param in build += ">", params)params[param] && (build += '<param name="' + param + '" value="' + params[param] + '" />');
             build += "</object>", this.object = (container ? container.empty() : new Element("div")).set("html", build).firstChild;
         },
         replaces: function(element) {

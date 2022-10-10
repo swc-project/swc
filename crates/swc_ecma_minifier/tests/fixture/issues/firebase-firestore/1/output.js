@@ -365,7 +365,7 @@
                 static fromString(...t) {
                     const e = [];
                     for (const n of t){
-                        if (n.indexOf("//") >= 0) throw new j(K.INVALID_ARGUMENT, "Invalid segment (undefined). Paths must not contain // in them.");
+                        if (n.indexOf("//") >= 0) throw new j(K.INVALID_ARGUMENT, `Invalid segment (${n}). Paths must not contain // in them.`);
                         e.push(...n.split("/").filter((t)=>t.length > 0));
                     }
                     return new ht(e);
@@ -658,7 +658,7 @@
                 }(t.arrayValue) : "mapValue" in t ? function(t) {
                     const e = Object.keys(t.fields || {}).sort();
                     let n = "{", s = !0;
-                    for (const i of e)s ? s = !1 : n += ",", n += `undefined:${xt(t.fields[i])}`;
+                    for (const i of e)s ? s = !1 : n += ",", n += `${i}:${xt(t.fields[i])}`;
                     return n + "}";
                 }(t.mapValue) : L();
             }
@@ -2477,7 +2477,7 @@
                     n || await s.persistence.runTransaction("Release target", n ? "readwrite" : "readwrite-primary", (t)=>s.persistence.referenceDelegate.removeTarget(t, i));
                 } catch (t1) {
                     if (!Hs(t1)) throw t1;
-                    $("LocalStore", `Failed to update sequence numbers for target ${e}: undefined`);
+                    $("LocalStore", `Failed to update sequence numbers for target ${e}: ${t1}`);
                 }
                 s.Un = s.Un.remove(e), s.qn.delete(i.target);
             }
@@ -4210,7 +4210,7 @@
                         await n.persistence.runTransaction("notifyLocalViewChanges", "readwrite", (t)=>js.forEach(e, (e)=>js.forEach(e.Nn, (s)=>n.persistence.referenceDelegate.addReference(t, e.targetId, s)).next(()=>js.forEach(e.xn, (s)=>n.persistence.referenceDelegate.removeReference(t, e.targetId, s)))));
                     } catch (t1) {
                         if (!Hs(t1)) throw t1;
-                        $("LocalStore", "Failed to update sequence numbers: undefined");
+                        $("LocalStore", "Failed to update sequence numbers: " + t1);
                     }
                     for (const t2 of e){
                         const e1 = t2.targetId;
@@ -4602,7 +4602,7 @@
                             await this.mc[0](), this.mc.shift(), this.ar.reset();
                         } catch (t) {
                             if (!Hs(t)) throw t;
-                            $("AsyncQueue", "Operation failed with retryable error: undefined");
+                            $("AsyncQueue", "Operation failed with retryable error: " + t);
                         }
                         this.mc.length > 0 && this.ar.Xi(()=>this.vc());
                     }
@@ -4678,7 +4678,7 @@
                     try {
                         return new Xa(_t.fromBase64String(t));
                     } catch (t1) {
-                        throw new j(K.INVALID_ARGUMENT, "Failed to construct data from Base64 string: undefined");
+                        throw new j(K.INVALID_ARGUMENT, "Failed to construct data from Base64 string: " + t1);
                     }
                 }
                 static fromUint8Array(t) {
