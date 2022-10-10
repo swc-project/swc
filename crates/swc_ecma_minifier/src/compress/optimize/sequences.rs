@@ -1997,6 +1997,18 @@ where
             return Ok(false);
         }
 
+        // x = 1, x += 2 => x = 3
+        match b {
+            Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
+            Expr::Assign(b) => {
+                if let Some(b_left) = b.left.as_ident() {
+                    if b_left.to_id() == left_id.to_id() {
+                        if let Expr::Lit(r) = &*b.right {}
+                    }
+                }
+            }
+        }
+
         {
             let mut v = UsageCounter {
                 expr_usage: Default::default(),
