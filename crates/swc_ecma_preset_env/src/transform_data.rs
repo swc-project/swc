@@ -92,19 +92,24 @@ pub enum Feature {
     /// `transform-async-to-generator`
     AsyncToGenerator,
 
-    /// `proposal-async-generator-functions`
+    /// `transform-async-generator-functions`
+    #[string_enum(alias("proposal-async-generator-functions"))]
     AsyncGeneratorFunctions,
 
-    /// `proposal-object-rest-spread`
+    /// `transform-object-rest-spread`
+    #[string_enum(alias("proposal-object-rest-spread"))]
     ObjectRestSpread,
 
-    /// `proposal-unicode-property-regex`
+    /// `transform-unicode-property-regex`
+    #[string_enum(alias("proposal-unicode-property-regex"))]
     UnicodePropertyRegex,
 
-    /// `proposal-json-strings`
+    /// `transform-json-strings`
+    #[string_enum(alias("proposal-json-strings"))]
     JsonStrings,
 
-    /// `proposal-optional-catch-binding`
+    /// `transform-optional-catch-binding`
+    #[string_enum(alias("proposal-optional-catch-binding"))]
     OptionalCatchBinding,
 
     /// `transform-named-capturing-groups-regex`
@@ -119,31 +124,40 @@ pub enum Feature {
     /// `transform-reserved-words`
     ReservedWords,
 
-    /// `proposal-export-namespace-from`
+    /// `transform-export-namespace-from`
+    #[string_enum(alias("proposal-export-namespace-from"))]
     ExportNamespaceFrom,
 
-    /// `proposal-nullish-coalescing-operator`
+    /// `transform-nullish-coalescing-operator`
+    #[string_enum(alias("proposal-nullish-coalescing-operator"))]
     NullishCoalescing,
 
-    /// `proposal-logical-assignment-operators`
+    /// `transform-logical-assignment-operators`
+    #[string_enum(alias("proposal-logical-assignment-operators"))]
     LogicalAssignmentOperators,
 
-    /// `proposal-optional-chaining`
+    /// `transform-optional-chaining`
+    #[string_enum(alias("proposal-optional-chaining"))]
     OptionalChaining,
 
-    /// `proposal-class-properties`
+    /// `transform-class-properties`
+    #[string_enum(alias("proposal-class-properties"))]
     ClassProperties,
 
-    /// `proposal-numeric-separator`
+    /// `transform-numeric-separator`
+    #[string_enum(alias("proposal-numeric-separator"))]
     NumericSeparator,
 
-    /// `proposal-private-methods`
+    /// `transform-private-methods`
+    #[string_enum(alias("proposal-private-methods"))]
     PrivateMethods,
 
-    /// `proposal-class-static-block`
+    /// `transform-class-static-block`
+    #[string_enum(alias("proposal-class-static-block"))]
     ClassStaticBlock,
 
-    /// `proposal-private-property-in-object`
+    /// `transform-private-property-in-object`
+    #[string_enum(alias("proposal-private-property-in-object"))]
     PrivatePropertyInObject,
 
     /// `transform-unicode-escapes`

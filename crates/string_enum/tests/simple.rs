@@ -7,6 +7,7 @@ pub trait Assert: Debug + Display {}
 #[derive(StringEnum)]
 pub enum Tokens {
     ///`a`
+    #[string_enum(alias("foo"))]
     A,
     /// `b`
     B,
