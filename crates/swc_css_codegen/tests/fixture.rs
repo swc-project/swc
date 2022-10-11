@@ -116,11 +116,8 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
         n.visit_mut_children_with(self);
 
-        match &mut n.name {
-            AtRuleName::Ident(ident) => {
-                ident.value = ident.value.to_lowercase().into();
-            }
-            _ => {}
+        if let AtRuleName::Ident(ident) = &mut n.name {
+            ident.value = ident.value.to_lowercase().into();
         }
     }
 
@@ -205,11 +202,8 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
         n.visit_mut_children_with(self);
 
-        match n {
-            KeyframeSelector::Ident(ident) => {
-                ident.value = ident.value.to_lowercase().into();
-            }
-            _ => {}
+        if let KeyframeSelector::Ident(ident) = n {
+            ident.value = ident.value.to_lowercase().into();
         }
     }
 
@@ -297,11 +291,8 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_declaration(&mut self, n: &mut Declaration) {
         n.visit_mut_children_with(self);
 
-        match &mut n.name {
-            DeclarationName::Ident(name) => {
-                name.value = name.value.to_lowercase().into();
-            }
-            _ => {}
+        if let DeclarationName::Ident(name) = &mut n.name {
+            name.value = name.value.to_lowercase().into();
         }
     }
 
