@@ -623,7 +623,8 @@ where
                     "ignore_return_value: Dropping unused expr: {}",
                     dump(&*e, false)
                 );
-                self.changed = true;
+                // We don't need to run this again
+                // self.changed = true;
                 return None;
             }
 
