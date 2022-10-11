@@ -50,6 +50,9 @@
 
 
 
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
+
+
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
 
 ### Build
