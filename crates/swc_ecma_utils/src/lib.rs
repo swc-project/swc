@@ -1067,12 +1067,30 @@ pub trait ExprExt {
     fn get_type(&self) -> Value<Type> {
         let expr = self.as_expr();
 
-        match *expr {
+        match expr {
             Expr::Assign(AssignExpr {
                 ref right,
                 op: op!("="),
                 ..
             }) => right.get_type(),
+
+            Expr::Member(MemberExpr {
+                obj,
+                prop:
+                    MemberProp::Ident(Ident {
+                        sym: js_word!("length"),
+                        ..
+                    }),
+                ..
+            }) => match &**obj {
+                Expr::Array(ArrayLit { .. })
+                | Expr::Lit(Lit::Str(..))
+                | Expr::Ident(Ident {
+                    sym: js_word!("arguments"),
+                    ..
+                }) => Known(Type::Num),
+                _ => Unknown,
+            },
 
             Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
                 .last()

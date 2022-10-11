@@ -44,10 +44,16 @@
 - **(es/minifier)** Enable `reduce_funcs` by default (#6097) ([3c6cdbc](https://github.com/swc-project/swc/commit/3c6cdbc61cba7dcca38251413cc9033487677dd4))
 
 
+- **(es/minifier)** Detect type of `.length` (#6120) ([ad960c7](https://github.com/swc-project/swc/commit/ad960c76c059fbd33de1cdb0525aef509124e205))
+
+
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
 
 ### Testing
 
+
+
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
 
 
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))

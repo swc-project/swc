@@ -4,7 +4,7 @@ import { Color as e, rgbConvert as s, Rgb as r, darker as n, brighter as o } fro
 import { deg2rad as a, rad2deg as u } from "./math.js";
 var l = -1.78277 * 0.29227 - 0.1347134789;
 export default function c(i, h, e, n) {
-    return 1 === arguments.length ? function(i) {
+    return 1 == arguments.length ? function(i) {
         if (t(i, Cubehelix)) return new Cubehelix(i.h, i.s, i.l, i.opacity);
         t(i, r) || (i = s(i));
         var h = i.r / 255, e = i.g / 255, n = i.b / 255, o = (l * n + -1.7884503806 * h - 3.5172982438 * e) / (l + -1.7884503806 - 3.5172982438), a = n - o, c = -((1.97294 * (e - o) - -0.29227 * a) / 0.90649), p = Math.sqrt(c * c + a * a) / (1.97294 * o * (1 - o)), f = p ? Math.atan2(c, a) * u - 120 : NaN;

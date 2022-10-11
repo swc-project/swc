@@ -947,7 +947,7 @@
                 return (o instanceof Color || (o = color(o)), o) ? (o = o.rgb(), new Rgb(o.r, o.g, o.b, o.opacity)) : new Rgb;
             }
             function rgb(r, g, b, opacity) {
-                return 1 === arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
+                return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
             }
             function Rgb(r, g, b, opacity) {
                 this.r = +r, this.g = +g, this.b = +b, this.opacity = +opacity;
@@ -973,7 +973,7 @@
                 return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
             }
             function hsl(h, s, l, opacity) {
-                return 1 === arguments.length ? hslConvert(h) : new Hsl(h, s, l, null == opacity ? 1 : opacity);
+                return 1 == arguments.length ? hslConvert(h) : new Hsl(h, s, l, null == opacity ? 1 : opacity);
             }
             function Hsl(h, s, l, opacity) {
                 this.h = +h, this.s = +s, this.l = +l, this.opacity = +opacity;
@@ -1041,7 +1041,7 @@
             });
             var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), BC_DA = -1.78277 * 0.29227 - 0.1347134789;
             function cubehelix(h, s, l, opacity) {
-                return 1 === arguments.length ? function(o) {
+                return 1 == arguments.length ? function(o) {
                     if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
                     o instanceof _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb || (o = Object(_color_js__WEBPACK_IMPORTED_MODULE_1__.rgbConvert)(o));
                     var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * _math_js__WEBPACK_IMPORTED_MODULE_2__.rad2deg - 120 : NaN;
@@ -1130,7 +1130,7 @@
                 return new Lab(l, 0, 0, null == opacity ? 1 : opacity);
             }
             function lab(l, a, b, opacity) {
-                return 1 === arguments.length ? labConvert(l) : new Lab(l, a, b, null == opacity ? 1 : opacity);
+                return 1 == arguments.length ? labConvert(l) : new Lab(l, a, b, null == opacity ? 1 : opacity);
             }
             function Lab(l, a, b, opacity) {
                 this.l = +l, this.a = +a, this.b = +b, this.opacity = +opacity;
@@ -1154,10 +1154,10 @@
                 return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
             }
             function lch(l, c, h, opacity) {
-                return 1 === arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
+                return 1 == arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
             }
             function hcl(h, c, l, opacity) {
-                return 1 === arguments.length ? hclConvert(h) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
+                return 1 == arguments.length ? hclConvert(h) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
             }
             function Hcl(h, c, l, opacity) {
                 this.h = +h, this.c = +c, this.l = +l, this.opacity = +opacity;
@@ -5640,7 +5640,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
                 return function newInterval(floori, offseti, count, field) {
                     function interval(date) {
-                        return floori(date = 0 === arguments.length ? new Date : new Date(+date)), date;
+                        return floori(date = 0 == arguments.length ? new Date : new Date(+date)), date;
                     }
                     return interval.floor = function(date) {
                         return floori(date = new Date(+date)), date;

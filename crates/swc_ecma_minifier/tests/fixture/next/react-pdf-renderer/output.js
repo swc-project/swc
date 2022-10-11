@@ -15505,7 +15505,7 @@
                         function k(e, t, r, a) {
                             if ("function" != typeof t) {
                                 if (g(t)) return t.test(e);
-                                if (2 === arguments.length) throw new l("expected", [
+                                if (2 == arguments.length) throw new l("expected", [
                                     "Function",
                                     "RegExp"
                                 ], t);
@@ -15580,7 +15580,7 @@
                         }
                         function P(e, t, r, i) {
                             if ("string" == typeof r) {
-                                if (4 === arguments.length) throw new l("error", [
+                                if (4 == arguments.length) throw new l("error", [
                                     "Object",
                                     "Error",
                                     "Function",
@@ -16108,13 +16108,13 @@
                             });
                         }
                         function M(e, t, r, o, l, c) {
-                            if (5 === arguments.length) {
+                            if (5 == arguments.length) {
                                 c = Object.keys(e);
                                 var f = Object.keys(t);
                                 if (c.length !== f.length) return !1;
                             }
                             for(var h = 0; h < c.length; h++)if (!d(t, c[h])) return !1;
-                            if (r && 5 === arguments.length) {
+                            if (r && 5 == arguments.length) {
                                 var y = s(e);
                                 if (0 !== y.length) {
                                     var g = 0;
@@ -18313,7 +18313,7 @@
                         }, f.prototype._error = function(e) {
                             this.strm.msg && (e = this.strm.msg), this.onerror(e, this.err), this.write_in_progress = !1, this.pending_close && this.close();
                         }, f.prototype.init = function(e, r, n, i, a) {
-                            o(4 === arguments.length || 5 === arguments.length, "init(windowBits, level, memLevel, strategy, [dictionary])"), o(e >= 8 && e <= 15, "invalid windowBits"), o(r >= -1 && r <= 9, "invalid compression level"), o(n >= 1 && n <= 9, "invalid memlevel"), o(i === t.Z_FILTERED || i === t.Z_HUFFMAN_ONLY || i === t.Z_RLE || i === t.Z_FIXED || i === t.Z_DEFAULT_STRATEGY, "invalid strategy"), this._init(r, e, n, i, a), this._setDictionary();
+                            o(4 == arguments.length || 5 == arguments.length, "init(windowBits, level, memLevel, strategy, [dictionary])"), o(e >= 8 && e <= 15, "invalid windowBits"), o(r >= -1 && r <= 9, "invalid compression level"), o(n >= 1 && n <= 9, "invalid memlevel"), o(i === t.Z_FILTERED || i === t.Z_HUFFMAN_ONLY || i === t.Z_RLE || i === t.Z_FIXED || i === t.Z_DEFAULT_STRATEGY, "invalid strategy"), this._init(r, e, n, i, a), this._setDictionary();
                         }, f.prototype.params = function() {
                             throw Error("deflateParams Not supported");
                         }, f.prototype.reset = function() {
@@ -20227,7 +20227,7 @@
                             return this;
                         }, u.prototype.toString = function() {
                             var e = this.length;
-                            return 0 === e ? "" : 0 === arguments.length ? b(this, 0, e) : h.apply(this, arguments);
+                            return 0 === e ? "" : 0 == arguments.length ? b(this, 0, e) : h.apply(this, arguments);
                         }, u.prototype.toLocaleString = u.prototype.toString, u.prototype.equals = function(e) {
                             if (!u.isBuffer(e)) throw TypeError("Argument must be a Buffer");
                             return this === e || 0 === u.compare(this, e);
@@ -20596,7 +20596,7 @@
                             return e;
                         }
                         function c() {
-                            if (!this.fired) return (this.target.removeListener(this.type, this.wrapFn), this.fired = !0, 0 === arguments.length) ? this.listener.call(this.target) : this.listener.apply(this.target, arguments);
+                            if (!this.fired) return (this.target.removeListener(this.type, this.wrapFn), this.fired = !0, 0 == arguments.length) ? this.listener.call(this.target) : this.listener.apply(this.target, arguments);
                         }
                         function f(e, t, r) {
                             var n = {
@@ -20699,8 +20699,8 @@
                         }, o.prototype.off = o.prototype.removeListener, o.prototype.removeAllListeners = function(e) {
                             var t, r, n;
                             if (void 0 === (r = this._events)) return this;
-                            if (void 0 === r.removeListener) return 0 === arguments.length ? (this._events = Object.create(null), this._eventsCount = 0) : void 0 !== r[e] && (0 == --this._eventsCount ? this._events = Object.create(null) : delete r[e]), this;
-                            if (0 === arguments.length) {
+                            if (void 0 === r.removeListener) return 0 == arguments.length ? (this._events = Object.create(null), this._eventsCount = 0) : void 0 !== r[e] && (0 == --this._eventsCount ? this._events = Object.create(null) : delete r[e]), this;
+                            if (0 == arguments.length) {
                                 var i, o = Object.keys(r);
                                 for(n = 0; n < o.length; ++n)"removeListener" !== (i = o[n]) && this.removeAllListeners(i);
                                 return this.removeAllListeners("removeListener"), this._events = Object.create(null), this._eventsCount = 0, this;
