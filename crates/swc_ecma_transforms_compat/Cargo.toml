@@ -25,7 +25,6 @@ arrayvec                    = "0.7.2"
 indexmap                    = "1.6.1"
 is-macro                    = "0.2.0"
 num-bigint                  = "0.4"
-ordered-float               = "2.0.1"
 rayon                       = { version = "1.5.1", optional = true }
 serde                       = { version = "1.0.118", features = ["derive"] }
 smallvec                    = "1.8.0"
