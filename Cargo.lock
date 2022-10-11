@@ -3279,7 +3279,6 @@ name = "swc_css_minifier"
 version = "0.93.1"
 dependencies = [
  "criterion",
- "phf",
  "serde",
  "swc_atoms",
  "swc_common",

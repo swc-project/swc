@@ -152,6 +152,7 @@ fn get_precision(n: f64) -> usize {
     n_as_str.find('.').map_or(0, |sep| n_as_str.len() - sep)
 }
 
+#[derive(Default)]
 struct CalcSumContext {
     number: Option<IndexedOperatorAndOperand<Number>>,
     percentage: Option<IndexedOperatorAndOperand<Percentage>>,
@@ -167,38 +168,22 @@ struct CalcSumContext {
 }
 
 impl CalcSumContext {
-    pub fn new() -> Self {
-        Self {
-            number: None,
-            percentage: None,
-            absolute_length: None,
-            other_lengths: HashMap::new(),
-            angle: None,
-            duration: None,
-            frequency: None,
-            resolution: None,
-            flex: None,
-            unknown_dimension: HashMap::new(),
-            expressions: vec![],
-        }
-    }
-
     pub fn fold(&mut self, calc_sum: &mut CalcSum) {
-        self.nested_fold(&None, calc_sum);
+        self.nested_fold(None, calc_sum);
         calc_sum.expressions = self.expressions.to_vec();
         remove_unnecessary_nesting_from_calc_sum(calc_sum);
     }
 
-    fn nested_fold(&mut self, surrounding_operator: &Option<CalcOperator>, calc_sum: &mut CalcSum) {
+    fn nested_fold(&mut self, surrounding_operator: Option<&CalcOperator>, calc_sum: &mut CalcSum) {
         let mut operator: Option<CalcOperator> =
-            CalcSumContext::merge_operators(surrounding_operator, &None);
+            CalcSumContext::merge_operators(surrounding_operator, None);
 
         let mut expr_it = calc_sum.expressions.iter_mut();
         while let Some(calc_product_or_operator) = expr_it.next() {
             match calc_product_or_operator {
                 CalcProductOrOperator::Product(calc_product) => {
                     fold_calc_product(calc_product);
-                    self.reduce(&operator, calc_product);
+                    self.reduce(operator.as_ref(), calc_product);
                 }
                 _ => {
                     // We should have an operand
@@ -207,23 +192,23 @@ impl CalcSumContext {
             };
 
             if let Some(CalcProductOrOperator::Operator(op)) = expr_it.next() {
-                operator = CalcSumContext::merge_operators(surrounding_operator, &Some(op.clone()));
+                operator = CalcSumContext::merge_operators(surrounding_operator, Some(op));
             }
         }
     }
 
     fn merge_operators(
-        surrounding_operator: &Option<CalcOperator>,
-        nested_operator: &Option<CalcOperator>,
+        surrounding_operator: Option<&CalcOperator>,
+        nested_operator: Option<&CalcOperator>,
     ) -> Option<CalcOperator> {
         match nested_operator {
-            None => (*surrounding_operator).clone(),
+            None => surrounding_operator.map(|so| (*so).clone()),
             Some(no) => match surrounding_operator {
                 None
                 | Some(CalcOperator {
                     value: CalcOperatorType::Add,
                     ..
-                }) => (*nested_operator).clone(),
+                }) => Some(no.clone()),
                 Some(CalcOperator {
                     value: CalcOperatorType::Sub,
                     ..
@@ -240,7 +225,7 @@ impl CalcSumContext {
         }
     }
 
-    fn reduce(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct) {
+    fn reduce(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct) {
         if operand.expressions.len() == 1 {
             match operand.expressions.get(0).unwrap() {
                 CalcValueOrOperator::Value(CalcValue::Number(n)) => {
@@ -287,7 +272,7 @@ impl CalcSumContext {
         }
     }
 
-    fn push(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct) {
+    fn push(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct) {
         if let Some(op) = operator {
             self.expressions
                 .push(CalcProductOrOperator::Operator(op.clone()));
@@ -297,7 +282,7 @@ impl CalcSumContext {
             .push(CalcProductOrOperator::Product(operand.clone()));
     }
 
-    fn sum_number(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, n: &Number) {
+    fn sum_number(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, n: &Number) {
         match &mut self.number {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
@@ -332,7 +317,7 @@ impl CalcSumContext {
 
     fn sum_percentage(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         p: &Percentage,
     ) {
@@ -368,9 +353,9 @@ impl CalcSumContext {
         }
     }
 
-    fn sum_length(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, l: &Length) {
+    fn sum_length(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, l: &Length) {
         let unit = l.unit.value.to_ascii_lowercase();
-        if is_absolute_length(&unit) {
+        if is_absolute_length(unit) {
             self.sum_absolute_length(operator, operand, l)
         } else {
             self.sum_other_length(operator, operand, l)
@@ -379,7 +364,7 @@ impl CalcSumContext {
 
     fn sum_absolute_length(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         l: &Length,
     ) {
@@ -390,17 +375,15 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = l.unit.value.to_ascii_lowercase();
-                if let Some(result) =
-                    get_absolute_length_ratio(&prev_unit, &unit).and_then(|ratio| {
-                        CalcSumContext::try_to_sum_values(
-                            prev_operator,
-                            operator,
-                            data.value.value,
-                            l.value.value,
-                            Some(*ratio),
-                        )
-                    })
-                {
+                if let Some(result) = get_absolute_length_ratio(prev_unit, unit).and_then(|ratio| {
+                    CalcSumContext::try_to_sum_values(
+                        prev_operator,
+                        operator,
+                        data.value.value,
+                        l.value.value,
+                        Some(ratio),
+                    )
+                }) {
                     data.value.value = result;
 
                     CalcSumContext::switch_sign_if_needed(
@@ -427,7 +410,7 @@ impl CalcSumContext {
 
     fn sum_other_length(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         l: &Length,
     ) {
@@ -469,7 +452,7 @@ impl CalcSumContext {
         }
     }
 
-    fn sum_angle(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, a: &Angle) {
+    fn sum_angle(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, a: &Angle) {
         match &mut self.angle {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
@@ -504,7 +487,7 @@ impl CalcSumContext {
         }
     }
 
-    fn sum_duration(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, d: &Time) {
+    fn sum_duration(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, d: &Time) {
         match &mut self.duration {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
@@ -512,13 +495,13 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = d.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_duration_ratio(&prev_unit, &unit).and_then(|ratio| {
+                if let Some(result) = get_duration_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         d.value.value,
-                        Some(*ratio),
+                        Some(ratio),
                     )
                 }) {
                     data.value.value = result;
@@ -545,7 +528,7 @@ impl CalcSumContext {
 
     fn sum_frequency(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         f: &Frequency,
     ) {
@@ -556,13 +539,13 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = f.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_frequency_ratio(&prev_unit, &unit).and_then(|ratio| {
+                if let Some(result) = get_frequency_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         f.value.value,
-                        Some(*ratio),
+                        Some(ratio),
                     )
                 }) {
                     data.value.value = result;
@@ -589,7 +572,7 @@ impl CalcSumContext {
 
     fn sum_resolution(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         r: &Resolution,
     ) {
@@ -600,13 +583,13 @@ impl CalcSumContext {
             }) => {
                 let prev_unit = data.unit.value.to_ascii_lowercase();
                 let unit = r.unit.value.to_ascii_lowercase();
-                if let Some(result) = get_resolution_ratio(&prev_unit, &unit).and_then(|ratio| {
+                if let Some(result) = get_resolution_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
                         prev_operator,
                         operator,
                         data.value.value,
                         r.value.value,
-                        Some(*ratio),
+                        Some(ratio),
                     )
                 }) {
                     data.value.value = result;
@@ -631,7 +614,7 @@ impl CalcSumContext {
         }
     }
 
-    fn sum_flex(&mut self, operator: &Option<CalcOperator>, operand: &CalcProduct, f: &Flex) {
+    fn sum_flex(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct, f: &Flex) {
         match &mut self.flex {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
@@ -667,7 +650,7 @@ impl CalcSumContext {
 
     fn sum_unknown_dimension(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         u: &UnknownDimension,
     ) {
@@ -712,7 +695,7 @@ impl CalcSumContext {
 
     fn new_indexed_data<T>(
         &mut self,
-        operator: &Option<CalcOperator>,
+        operator: Option<&CalcOperator>,
         operand: &CalcProduct,
         data: T,
     ) -> IndexedOperatorAndOperand<T> {
@@ -781,7 +764,7 @@ impl CalcSumContext {
 
     fn try_to_sum_values(
         operator1: &Option<IndexedData<CalcOperator>>,
-        operator2: &Option<CalcOperator>,
+        operator2: Option<&CalcOperator>,
         n1: f64,
         n2: f64,
         ratio: Option<f64>,
@@ -839,7 +822,7 @@ fn fold_calc_product(calc_product: &mut CalcProduct) {
     while let Some(calc_value) = expr_it.next() {
         let cur_operand: Option<CalcValue> = match calc_value {
             CalcValueOrOperator::Value(CalcValue::Sum(calc_sum)) => {
-                CalcSumContext::new().fold(calc_sum);
+                CalcSumContext::default().fold(calc_sum);
                 let single_value = try_to_extract_into_calc_value(calc_sum);
                 if single_value.is_some() {
                     single_value
@@ -1047,7 +1030,7 @@ fn multiply_number_by_calc_value(n: &Number, value: &CalcValue) -> Option<CalcVa
 
 impl Compressor {
     pub(super) fn compress_calc_sum(&mut self, calc_sum: &mut CalcSum) {
-        CalcSumContext::new().fold(calc_sum);
+        CalcSumContext::default().fold(calc_sum);
     }
 
     pub(super) fn compress_calc_sum_in_component_value(

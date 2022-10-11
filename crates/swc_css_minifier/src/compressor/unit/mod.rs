@@ -1,151 +1,122 @@
-use phf::phf_map;
+use swc_atoms::{js_word, JsWord};
 
-// We need to use several declarations (instead of one giant nested map)
-// because of a current limitation of phf (https://github.com/rust-phf/rust-phf/issues/183)
-type RatioMap = phf::Map<&'static str, f64>;
+pub fn get_duration_ratio(unit1: JsWord, unit2: JsWord) -> Option<f64> {
+    // Duration ratio, see https://www.w3.org/TR/css-values-4/#time
 
-// For length ratio, see https://www.w3.org/TR/css-values-4/#absolute-lengths
-static CM: RatioMap = phf_map! {
-    "cm" => 1.0,
-    "mm" => 0.1,
-    "q" => 0.025,
-    "in" => 2.54,
-};
-
-static MM: RatioMap = phf_map! {
-    "cm" => 10.0,
-    "mm" => 1.0,
-    "q" => 0.25,
-    "in" => 25.4,
-};
-
-static Q: RatioMap = phf_map! {
-    "cm" => 40.0,
-    "mm" => 4.0,
-    "q" => 1.0,
-    "in" => 101.6,
-};
-
-static IN: RatioMap = phf_map! {
-    "in" => 1.0,
-};
-
-static PC: RatioMap = phf_map! {
-    "in" => 6.0,
-    "pc" => 1.0,
-    "px" => 0.0625,
-};
-
-static PT: RatioMap = phf_map! {
-    "in" => 72.0,
-    "pc" => 12.0,
-    "pt" => 1.0,
-    "px" => 0.75,
-};
-
-static PX: RatioMap = phf_map! {
-    "in" => 96.0,
-    "pc" => 16.0,
-    "px" => 1.0,
-};
-
-static ABSOLUTE_LENGTH_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
-    "cm" => &CM,
-    "mm" => &MM,
-    "q" => &Q,
-    "in" => &IN,
-    "pc" => &PC,
-    "pt" => &PT,
-    "px" => &PX,
-};
-
-// Duration ratio, see https://www.w3.org/TR/css-values-4/#time
-static MS: RatioMap = phf_map! {
-    "ms" => 1.0,
-    "s" => 1000.0,
-};
-
-static S: RatioMap = phf_map! {
-    "ms" => 0.001,
-    "s" => 1.0,
-};
-
-static DURATION_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
-    "ms" => &MS,
-    "s" => &S,
-};
-
-// Frequency ratio, see https://www.w3.org/TR/css-values-4/#frequency
-static HZ: RatioMap = phf_map! {
-    "hz" => 1.0,
-    "khz" => 1000.0,
-};
-
-static KHZ: RatioMap = phf_map! {
-    "hz" => 0.001,
-    "khz" => 1.0,
-};
-
-static FREQUENCY_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
-    "hz" => &HZ,
-    "khz" => &KHZ,
-};
-
-// Resolution ratio, see https://www.w3.org/TR/css-values-4/#resolution
-// "x" is an alias for "dppx"
-static DPI: RatioMap = phf_map! {
-    "dpi" => 1.0,
-    "x" => 1.0 / 96.0,
-};
-
-static DPCM: RatioMap = phf_map! {
-    "dpi" => 2.54,
-    "dpcm" => 1.0,
-};
-
-static DPPX: RatioMap = phf_map! {
-    "dpi" => 96.0,
-    "dppx" => 1.0,
-    "x" => 1.0,
-};
-
-static RESOLUTION_RATIO: phf::Map<&'static str, &'static RatioMap> = phf_map! {
-    "dpi" => &DPI,
-    "dpcm" => &DPCM,
-    "dppw" => &DPPX,
-    "x" => &DPPX,
-};
-
-fn get_ratio<'a>(
-    ratio_maps: &'a phf::Map<&'static str, &'static RatioMap>,
-    unit1: &'a str,
-    unit2: &'a str,
-) -> Option<&'a f64> {
     if unit1 == unit2 {
-        Some(&1.0)
-    } else {
-        ratio_maps
-            .get(unit1)
-            .and_then(|ratio_map| ratio_map.get(unit2))
+        return Some(1.0);
+    }
+
+    match unit1 {
+        js_word!("ms") => match unit2 {
+            js_word!("s") => Some(1000.0),
+            _ => None,
+        },
+        js_word!("s") => match unit2 {
+            js_word!("ms") => Some(0.001),
+            _ => None,
+        },
+        _ => None,
     }
 }
 
-pub fn get_duration_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&DURATION_RATIO, unit1, unit2)
+pub fn get_frequency_ratio(unit1: JsWord, unit2: JsWord) -> Option<f64> {
+    // Frequency ratio, see https://www.w3.org/TR/css-values-4/#frequency
+
+    if unit1 == unit2 {
+        return Some(1.0);
+    }
+
+    match unit1 {
+        js_word!("hz") => match unit2 {
+            js_word!("khz") => Some(1000.0),
+            _ => None,
+        },
+        js_word!("khz") => match unit2 {
+            js_word!("hz") => Some(0.001),
+            _ => None,
+        },
+        _ => None,
+    }
 }
 
-pub fn get_frequency_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&FREQUENCY_RATIO, unit1, unit2)
+pub fn get_absolute_length_ratio(unit1: JsWord, unit2: JsWord) -> Option<f64> {
+    // For length ratio, see https://www.w3.org/TR/css-values-4/#absolute-lengths
+
+    if unit1 == unit2 {
+        return Some(1.0);
+    }
+
+    match unit1 {
+        js_word!("cm") => match unit2 {
+            js_word!("mm") => Some(0.1),
+            js_word!("q") => Some(0.025),
+            js_word!("in") => Some(2.54),
+            _ => None,
+        },
+        js_word!("mm") => match unit2 {
+            js_word!("cm") => Some(10.0),
+            js_word!("q") => Some(0.25),
+            js_word!("in") => Some(25.4),
+            _ => None,
+        },
+        js_word!("q") => match unit2 {
+            js_word!("cm") => Some(40.0),
+            js_word!("mm") => Some(4.0),
+            js_word!("in") => Some(101.6),
+            _ => None,
+        },
+        js_word!("pc") => match unit2 {
+            js_word!("in") => Some(6.0),
+            js_word!("px") => Some(0.0625),
+            _ => None,
+        },
+        js_word!("pt") => match unit2 {
+            js_word!("in") => Some(72.0),
+            js_word!("pc") => Some(12.0),
+            js_word!("px") => Some(0.75),
+            _ => None,
+        },
+        js_word!("px") => match unit2 {
+            js_word!("in") => Some(96.0),
+            js_word!("pc") => Some(16.0),
+            _ => None,
+        },
+        _ => None,
+    }
 }
 
-pub fn get_absolute_length_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&ABSOLUTE_LENGTH_RATIO, unit1, unit2)
+pub fn get_resolution_ratio(unit1: JsWord, unit2: JsWord) -> Option<f64> {
+    // Resolution ratio, see https://www.w3.org/TR/css-values-4/#resolution
+    // "x" is an alias for "dppx"
+
+    if unit1 == unit2 {
+        return Some(1.0);
+    }
+
+    match unit1 {
+        js_word!("dpcm") => match unit2 {
+            js_word!("dpi") => Some(2.54),
+            _ => None,
+        },
+        js_word!("dppx") | js_word!("x") => match unit2 {
+            js_word!("dppx") | js_word!("x") => Some(1.0),
+            js_word!("dpi") => Some(96.0),
+            _ => None,
+        },
+        _ => None,
+    }
 }
 
-pub fn get_resolution_ratio<'a>(unit1: &'a str, unit2: &'a str) -> Option<&'a f64> {
-    get_ratio(&RESOLUTION_RATIO, unit1, unit2)
-}
-
-pub fn is_absolute_length(unit: &str) -> bool {
-    ABSOLUTE_LENGTH_RATIO.contains_key(unit)
+pub fn is_absolute_length(unit: JsWord) -> bool {
+    match unit {
+        js_word!("cm")
+        | js_word!("mm")
+        | js_word!("q")
+        | js_word!("in")
+        | js_word!("pc")
+        | js_word!("pt")
+        | js_word!("px") => true,
+        _ => false,
+    }
 }
