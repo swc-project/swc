@@ -23,6 +23,12 @@
 - **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
 
 
+- **(css/ast)** Add AST types for gradients (#6111) ([6b3f4bb](https://github.com/swc-project/swc/commit/6b3f4bb1c6933990e2468c1430760bbf57180162))
+
+
+- **(css/codegen)** Support lowercase case insensitivity (#6113) ([a920997](https://github.com/swc-project/swc/commit/a920997f4b1e4a194e2b74bc8a27184d0e438d31))
+
+
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
 
 

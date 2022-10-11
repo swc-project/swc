@@ -249,6 +249,26 @@ define!({
         pub value: Number,
     }
 
+    pub enum LengthPercentage {
+        Length(Length),
+        Percentage(Percentage),
+    }
+
+    pub enum FrequencyPercentage {
+        Frequency(Frequency),
+        Percentage(Percentage),
+    }
+
+    pub enum AnglePercentage {
+        Angle(Angle),
+        Percentage(Percentage),
+    }
+
+    pub enum TimePercentage {
+        Time(Time),
+        Percentage(Percentage),
+    }
+
     pub struct Ratio {
         pub span: Span,
         pub left: Number,
