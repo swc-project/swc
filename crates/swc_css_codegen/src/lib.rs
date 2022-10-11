@@ -809,7 +809,13 @@ where
     #[emitter]
     fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
         write_raw!(self, ":");
-        emit!(self, n.value);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.value
+        );
     }
 
     #[emitter]

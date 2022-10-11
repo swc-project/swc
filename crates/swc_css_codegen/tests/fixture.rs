@@ -213,6 +213,12 @@ impl VisitMut for NormalizeTest {
         }
     }
 
+    fn visit_mut_page_selector_pseudo(&mut self, n: &mut PageSelectorPseudo) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+    }
+
     fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
         n.visit_mut_children_with(self);
 
