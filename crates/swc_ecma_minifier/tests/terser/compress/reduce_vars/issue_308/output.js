@@ -1,5 +1,5 @@
 function _inherits(superClass) {
-    if ("function" != typeof superClass) throw new TypeError();
+    if ("function" != typeof superClass) throw TypeError();
     Object.create(superClass);
 }
 function withStyles() {
