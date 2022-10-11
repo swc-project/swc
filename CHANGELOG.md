@@ -49,6 +49,12 @@
 
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
 
+### Build
+
+
+
+- **(cargo)** Remove unused deps (#6117) ([27bda13](https://github.com/swc-project/swc/commit/27bda13591a57995708f60bdcb3cbe50b9bb42ec))
+
 ## [1.3.6] - 2022-10-08
 
 ### Bug Fixes
