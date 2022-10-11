@@ -34,6 +34,7 @@ AnimationEvent
 animation-name
 AnimationPlaybackEvent
 AnimationTimeline
+annotation
 annotation-xml
 any
 applet
@@ -129,7 +130,13 @@ border-style
 border-top-left-radius
 border-top-right-radius
 border-width
+bottom
+bottom-center
+bottom-left
+bottom-left-corner
 Bottom line
+bottom-right
+bottom-right-corner
 br
 break
 BroadcastChannel
@@ -153,6 +160,8 @@ center
 ChannelMergerNode
 ChannelSplitterNode
 CharacterData
+character-variant
+charset
 circle
 cite
 class
@@ -177,6 +186,7 @@ concat
 const
 ConstantSourceNode
 constructor
+container
 content
 contenteditable
 content-security-policy
@@ -245,6 +255,7 @@ displayName
 div
 dl
 do
+document
 Document
 DocumentFragment
 DocumentType
@@ -386,6 +397,7 @@ font-face-name
 FontFaceSetLoadEvent
 font-face-src
 font-face-uri
+font-feature-values
 font-palette-values
 font-weight
 footer
@@ -427,6 +439,7 @@ header
 headers
 Headers
 hgroup
+historical-forms
 History
 hkern
 hr
@@ -588,6 +601,7 @@ key
 KeyboardEvent
 KeyframeEffect
 KeyframeEffectReadOnly
+keyframes
 keygen
 keyof
 keypoints
@@ -606,6 +620,10 @@ last-child
 last-of-type
 layer
 lch
+left
+left-bottom
+left-middle
+left-top
 legend
 length
 lengthadjust
@@ -706,9 +724,13 @@ mo
 module
 MouseEvent
 -moz-any
+-moz-document
+-moz-keyframes
 mozmm
 mpath
 ms
+-ms-keyframes
+-ms-viewport
 mtext
 MutationEvent
 MutationObserver
@@ -720,6 +742,7 @@ NaN
 nav
 NavigationPreloadManager
 Navigator
+nest
 NetworkInformation
 never
 new
@@ -754,6 +777,7 @@ of
 OfflineAudioCompletionEvent
 OfflineAudioContext
 OffscreenCanvas
+-o-keyframes
 oklab
 oklch
 ol
@@ -763,17 +787,20 @@ optgroup
 option
 Option
 or
+ornaments
 OscillatorNode
 out
 output
 overflow
 override
 overscroll-behavior
+-o-viewport
 p
 package
 padding
 padding-block
 padding-inline
+page
 PageTransitionEvent
 PannerNode
 param
@@ -854,6 +881,7 @@ progress
 ProgressEvent
 Promise
 PromiseRejectionEvent
+property
 protected
 Proxy
 pt
@@ -915,6 +943,10 @@ rex
 rgb
 rgba
 ric
+right
+right-bottom
+right-middle
+right-top
 rlh
 role
 rotate
@@ -1033,13 +1065,16 @@ stroke-dasharray
 stroke-opacity
 strong
 style
+styleset
 StyleSheet
 StyleSheetList
+stylistic
 sub
 SubtleCrypto
 summary
 sup
 super
+supports
 surfacescale
 surfaceScale
 svg
@@ -1146,6 +1181,7 @@ svi
 svmax
 svmin
 svw
+swash
 switch
 symbol
 Symbol
@@ -1194,6 +1230,12 @@ TimeRanges
 title
 to
 _toConsumableArray
+top
+top-center
+top-left
+top-left-corner
+top-right
+top-right-corner
 toString
 Touch
 TouchEvent
@@ -1277,6 +1319,7 @@ WebGLTransformFeedback
 WebGLUniformLocation
 WebGLVertexArrayObject
 -webkit-any
+-webkit-keyframes
 -webkit-mask-box-image-repeat
 -webkit-mask-repeat
 WebSocket

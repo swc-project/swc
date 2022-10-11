@@ -7495,7 +7495,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:104:5]
  104 | !property: value;
      :  ^^^^^^^^
@@ -7681,7 +7681,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:108:5]
  108 | $property: value;
      :  ^^^^^^^^
@@ -7909,7 +7909,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:112:5]
  112 | &property: value;
      :  ^^^^^^^^
@@ -8053,7 +8053,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:116:5]
  116 | *property: value;
      :  ^^^^^^^^
@@ -8239,7 +8239,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:120:5]
  120 | )property: value;
      :  ^^^^^^^^
@@ -8425,7 +8425,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:124:5]
  124 | =property: value;
      :  ^^^^^^^^
@@ -8611,7 +8611,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:128:5]
  128 | %property: value;
      :  ^^^^^^^^
@@ -8797,7 +8797,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:132:5]
  132 | +property: value;
      :  ^^^^^^^^
@@ -9151,7 +9151,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:140:5]
  140 | ,property: value;
      :  ^^^^^^^^
@@ -9337,7 +9337,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:144:5]
  144 | .property: value;
      :  ^^^^^^^^
@@ -9523,7 +9523,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:148:5]
  148 | /property: value;
      :  ^^^^^^^^
@@ -9709,7 +9709,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:152:5]
  152 | `property: value;
      :  ^^^^^^^^
@@ -9895,7 +9895,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:156:5]
  156 | ]property: value;
      :  ^^^^^^^^
@@ -10069,7 +10069,7 @@
      : ^^^^^^^^^
      `----
 
-  x Hash { is_id: true, value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Hash { is_id: true, value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:160:5]
  160 | #property: value;
      : ^^^^^^^^^
@@ -10255,7 +10255,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:164:5]
  164 | ~property: value;
      :  ^^^^^^^^
@@ -10441,7 +10441,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:168:5]
  168 | ?property: value;
      :  ^^^^^^^^
@@ -10627,7 +10627,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:172:5]
  172 | :property: value;
      :  ^^^^^^^^
@@ -10813,7 +10813,7 @@
      :  ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:176:5]
  176 | |property: value;
      :  ^^^^^^^^
@@ -10981,7 +10981,7 @@
      :             ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=dynamic), raw: Atom('property' type=dynamic) }
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
      :             ^^^^^^^^
