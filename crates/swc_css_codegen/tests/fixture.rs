@@ -124,6 +124,74 @@ impl VisitMut for NormalizeTest {
         }
     }
 
+    fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
+        n.visit_mut_children_with(self);
+
+        if let Some(modifier) = &mut n.modifier {
+            modifier.value = modifier.value.to_lowercase().into();
+        }
+
+        if let Some(MediaType::Ident(ident)) = &mut n.media_type {
+            ident.value = ident.value.to_lowercase().into();
+        }
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_not(&mut self, n: &mut MediaNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_and(&mut self, n: &mut MediaAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_or(&mut self, n: &mut MediaOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_supports_not(&mut self, n: &mut SupportsNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_supports_and(&mut self, n: &mut SupportsAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_supports_or(&mut self, n: &mut SupportsOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_not(&mut self, n: &mut ContainerQueryNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_and(&mut self, n: &mut ContainerQueryAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_or(&mut self, n: &mut ContainerQueryOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
     fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
         n.visit_mut_children_with(self);
 
