@@ -14,7 +14,7 @@ fn is_calc_function_name(ident: &Ident) -> bool {
 // transform "(simple calc-value)" into "simple calc-value"
 fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
     if calc_sum.expressions.len() == 1 {
-        match calc_sum.expressions.get(0).unwrap() {
+        match &calc_sum.expressions[0] {
             CalcProductOrOperator::Product(CalcProduct {
                 expressions: calc_product_expressions,
                 ..
@@ -22,7 +22,7 @@ fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
                 if let CalcValueOrOperator::Value(CalcValue::Sum(CalcSum {
                     expressions: nested_expressions,
                     span: nested_span,
-                })) = calc_product_expressions.get(0).unwrap()
+                })) = &calc_product_expressions[0]
                 {
                     calc_sum.span = *nested_span;
                     calc_sum.expressions = nested_expressions.to_vec();
@@ -35,16 +35,14 @@ fn remove_unnecessary_nesting_from_calc_sum(calc_sum: &mut CalcSum) {
 
 fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
     if calc_sum.expressions.len() == 1 {
-        return match calc_sum.expressions.get(0).unwrap() {
+        return match &calc_sum.expressions[0] {
             CalcProductOrOperator::Product(CalcProduct {
                 expressions: calc_product_expressions,
                 ..
-            }) if calc_product_expressions.len() == 1 => {
-                match calc_product_expressions.get(0).unwrap() {
-                    CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
-                    _ => None,
-                }
-            }
+            }) if calc_product_expressions.len() == 1 => match &calc_product_expressions[0] {
+                CalcValueOrOperator::Value(calc_value) => Some(calc_value.clone()),
+                _ => None,
+            },
             _ => None,
         };
     }
@@ -227,7 +225,7 @@ impl CalcSumContext {
 
     fn reduce(&mut self, operator: Option<&CalcOperator>, operand: &CalcProduct) {
         if operand.expressions.len() == 1 {
-            match operand.expressions.get(0).unwrap() {
+            match &operand.expressions[0] {
                 CalcValueOrOperator::Value(CalcValue::Number(n)) => {
                     self.sum_number(operator, operand, n);
                 }
@@ -1043,17 +1041,17 @@ impl Compressor {
             ComponentValue::Function(Function { name, value, .. })
                 if is_calc_function_name(name) && value.len() == 1 =>
             {
-                match value.get(0).unwrap() {
+                match &value[0] {
                     ComponentValue::CalcSum(CalcSum {
                         expressions: calc_sum_expressions,
                         ..
                     }) if calc_sum_expressions.len() == 1 => {
-                        match calc_sum_expressions.get(0).unwrap() {
+                        match &calc_sum_expressions[0] {
                             CalcProductOrOperator::Product(CalcProduct {
                                 expressions: calc_product_expressions,
                                 ..
                             }) if calc_product_expressions.len() == 1 => {
-                                match calc_product_expressions.get(0).unwrap() {
+                                match &calc_product_expressions[0] {
                                     CalcValueOrOperator::Value(CalcValue::Sum(_)) => {
                                         // Do nothing, we cannot transform a
                                         // CalcSum into a ComponentValue
