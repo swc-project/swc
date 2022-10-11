@@ -301,11 +301,6 @@ where
     /// If a parameter is not used, we can ignore return value of the
     /// corresponding argument.
     pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {
-        let has_spread_arg = e.args.iter().any(|v| v.spread.is_some());
-        if has_spread_arg {
-            return;
-        }
-
         if !self.options.unused {
             return;
         }
@@ -370,6 +365,10 @@ where
 
         for idx in removed {
             if let Some(arg) = e.args.get_mut(idx) {
+                if arg.spread.is_some() {
+                    break;
+                }
+
                 // Optimize
                 let new = self.ignore_return_value(&mut arg.expr);
 
