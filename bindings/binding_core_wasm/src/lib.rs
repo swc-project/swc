@@ -10,6 +10,7 @@ use swc_core::{
     ecma::{
         ast::{EsVersion, Program},
         transforms::base::resolver,
+        visit::VisitMutWith,
     },
 };
 use wasm_bindgen::{prelude::*, JsCast};
