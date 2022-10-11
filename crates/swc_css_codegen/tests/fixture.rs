@@ -4,11 +4,7 @@ use std::{
 };
 
 use swc_common::{FileName, Span};
-use swc_css_ast::{
-    AnPlusBNotation, AttributeSelectorModifier, ComponentValue, CustomIdent, DashedIdent,
-    Declaration, DeclarationName, Function, HexColor, Ident, ImportantFlag, Integer, Number, Str,
-    Stylesheet, TagNameSelector, Token, TokenAndSpan, UrlValueRaw,
-};
+use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
@@ -117,6 +113,27 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        match &mut n.name {
+            AtRuleName::Ident(ident) => {
+                ident.value = ident.value.to_lowercase().into();
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            MediaFeatureName::Ident(ident) => {
+                ident.value = ident.value.to_lowercase().into();
+            }
+        }
+    }
+
     fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
         n.visit_mut_children_with(self);
 
@@ -209,6 +226,24 @@ impl VisitMut for NormalizeTest {
         n.name.value = n.name.value.to_lowercase().into();
     }
 
+    fn visit_mut_url(&mut self, n: &mut Url) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
     fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
         n.visit_mut_children_with(self);
 
@@ -231,6 +266,42 @@ impl VisitMut for NormalizeTest {
         if n.b_raw.is_some() {
             n.b_raw = None;
         }
+    }
+
+    fn visit_mut_length(&mut self, n: &mut Length) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_angle(&mut self, n: &mut Angle) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_time(&mut self, n: &mut Time) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_frequency(&mut self, n: &mut Frequency) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_resolution(&mut self, n: &mut Resolution) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_flex(&mut self, n: &mut Flex) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
     }
 
     fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {

@@ -92,7 +92,13 @@ where
     #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(prelude) = &n.prelude {
             emit!(
@@ -572,7 +578,13 @@ where
     #[emitter]
     fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
         match n {
-            MediaFeatureName::Ident(n) => emit!(self, n),
+            MediaFeatureName::Ident(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n
+            ),
         }
     }
 
@@ -920,7 +932,13 @@ where
 
     #[emitter]
     fn emit_size_feature_plain(&mut self, n: &SizeFeaturePlain) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, ":");
         formatting_space!(self);
         emit!(self, n.value);
@@ -928,7 +946,13 @@ where
 
     #[emitter]
     fn emit_size_feature_boolean(&mut self, n: &SizeFeatureBoolean) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
     }
 
     #[emitter]
@@ -946,7 +970,13 @@ where
         formatting_space!(self);
         write_raw!(self, n.span, n.left_comparison.as_str());
         formatting_space!(self);
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         formatting_space!(self);
         write_raw!(self, n.span, n.right_comparison.as_str());
         formatting_space!(self);
@@ -1398,43 +1428,85 @@ where
     #[emitter]
     fn emit_length(&mut self, n: &Length) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_angle(&mut self, n: &Angle) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_time(&mut self, n: &Time) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_frequency(&mut self, n: &Frequency) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_resolution(&mut self, n: &Resolution) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_flex(&mut self, n: &Flex) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_unknown_dimension(&mut self, n: &UnknownDimension) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
@@ -1877,7 +1949,13 @@ where
 
     #[emitter]
     fn emit_url(&mut self, n: &Url) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, "(");
 
         if let Some(value) = &n.value {
@@ -2293,7 +2371,13 @@ where
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");
@@ -2360,7 +2444,13 @@ where
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
         write_raw!(self, lo_span_offset!(n.span, 2), ":");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");

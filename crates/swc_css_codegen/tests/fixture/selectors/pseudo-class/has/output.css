@@ -15,3 +15,6 @@ a:has(   <>  img, > img) {}
 a:has(> img, <>  img) {}
 a:has(> img, <>  img   ) {}
 a:has(> img,    <>  img   , > img) {}
+A:HAS(> IMG) {
+  COLOR: RED;
+}
