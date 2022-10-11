@@ -1091,6 +1091,17 @@ where
 
                             self.input.skip_ws();
                         }
+                        "highlight" => {
+                            self.input.skip_ws();
+
+                            let custom_highlight_name = self.parse()?;
+
+                            children.push(PseudoElementSelectorChildren::CustomHighlightName(
+                                custom_highlight_name,
+                            ));
+
+                            self.input.skip_ws();
+                        }
                         _ => {
                             return Err(Error::new(span, ErrorKind::Ignore));
                         }
@@ -1372,6 +1383,30 @@ where
             }
             _ => {
                 return Err(Error::new(span, ErrorKind::InvalidAnPlusBMicrosyntax));
+            }
+        }
+    }
+}
+
+impl<I> Parse<CustomHighlightName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CustomHighlightName> {
+        let span = self.input.cur_span();
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("ident token")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => Ok(CustomHighlightName {
+                span,
+                value,
+                raw: Some(raw),
+            }),
+            _ => {
+                unreachable!()
             }
         }
     }

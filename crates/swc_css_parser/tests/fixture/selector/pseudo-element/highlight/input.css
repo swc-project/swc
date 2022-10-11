@@ -1,0 +1,16 @@
+::highlight(sample) {
+    background-color: rgba(0, 0, 255, 0.3);
+}
+
+:root::highlight(example-highlight) {
+    background-color: yellow;
+    color: blue;
+}
+
+div::highlight(bar) {
+    color: red;
+}
+
+div::highlight(foo) {
+    color: green;
+}

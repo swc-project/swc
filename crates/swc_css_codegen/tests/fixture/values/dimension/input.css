@@ -12,3 +12,8 @@ div {
 .class {
     width: 0.00254cm;
 }
+
+.foo {
+    width: 100PX;
+    TRANSFORM: ROTATE(45DEG);
+}

@@ -525,6 +525,13 @@ define!({
         PreservedToken(TokenAndSpan),
         CompoundSelector(CompoundSelector),
         Ident(Ident),
+        CustomHighlightName(CustomHighlightName),
+    }
+
+    pub struct CustomHighlightName {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: Option<JsWord>,
     }
 
     pub struct IdSelector {

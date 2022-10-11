@@ -187,7 +187,7 @@ pub mod css {
     #[cfg(feature = "css_compat")]
     #[cfg_attr(docsrs, doc(cfg(feature = "css_compat")))]
     pub mod compat {
-        pub use css_compat::*;
+        pub use swc_css_compat::*;
     }
 
     #[cfg(feature = "css_minifier")]
