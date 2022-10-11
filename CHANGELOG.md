@@ -7,6 +7,9 @@
 
 - **(es/preset-env)** Update data (#6106) ([8d4d326](https://github.com/swc-project/swc/commit/8d4d32664d7f4feeba5faa3dec95691d5560ca6c))
 
+
+- **(swc_core)** Reexport `swc_css_compat` correctly (#6114) ([5fd0e97](https://github.com/swc-project/swc/commit/5fd0e97c15c2f2c4feaacaf74984cca7571e4340))
+
 ### Documentation
 
 
