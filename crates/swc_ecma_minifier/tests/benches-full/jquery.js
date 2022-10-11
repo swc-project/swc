@@ -3042,7 +3042,7 @@
             return this.on(types, selector, data, fn);
         },
         undelegate: function(selector, types, fn) {
-            return 1 === arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
+            return 1 == arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
         },
         hover: function(fnOver, fnOut) {
             return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);

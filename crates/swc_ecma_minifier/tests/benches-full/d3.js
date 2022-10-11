@@ -1323,7 +1323,7 @@
         return (o instanceof Color || (o = color(o)), o) ? (o = o.rgb(), new Rgb(o.r, o.g, o.b, o.opacity)) : new Rgb;
     }
     function rgb(r, g, b, opacity) {
-        return 1 === arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
+        return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
     }
     function Rgb(r, g, b, opacity) {
         this.r = +r, this.g = +g, this.b = +b, this.opacity = +opacity;
@@ -1349,7 +1349,7 @@
         return s ? (h = r === max ? (g - b) / s + (g < b) * 6 : g === max ? (b - r) / s + 2 : (r - g) / s + 4, s /= l < 0.5 ? max + min : 2 - max - min, h *= 60) : s = l > 0 && l < 1 ? 0 : h, new Hsl(h, s, l, o.opacity);
     }
     function hsl(h, s, l, opacity) {
-        return 1 === arguments.length ? hslConvert(h) : new Hsl(h, s, l, null == opacity ? 1 : opacity);
+        return 1 == arguments.length ? hslConvert(h) : new Hsl(h, s, l, null == opacity ? 1 : opacity);
     }
     function Hsl(h, s, l, opacity) {
         this.h = +h, this.s = +s, this.l = +l, this.opacity = +opacity;
@@ -1416,7 +1416,7 @@
         return r === g && g === b ? x = z = y : (x = xyz2lab((0.4360747 * r + 0.3850649 * g + 0.1430804 * b) / 0.96422), z = xyz2lab((0.0139322 * r + 0.0971045 * g + 0.7141733 * b) / 0.82521)), new Lab(116 * y - 16, 500 * (x - y), 200 * (y - z), o.opacity);
     }
     function lab(l, a, b, opacity) {
-        return 1 === arguments.length ? labConvert(l) : new Lab(l, a, b, null == opacity ? 1 : opacity);
+        return 1 == arguments.length ? labConvert(l) : new Lab(l, a, b, null == opacity ? 1 : opacity);
     }
     function Lab(l, a, b, opacity) {
         this.l = +l, this.a = +a, this.b = +b, this.opacity = +opacity;
@@ -1440,7 +1440,7 @@
         return new Hcl(h < 0 ? h + 360 : h, Math.sqrt(o.a * o.a + o.b * o.b), o.l, o.opacity);
     }
     function hcl(h, c, l, opacity) {
-        return 1 === arguments.length ? hclConvert(h) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
+        return 1 == arguments.length ? hclConvert(h) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
     }
     function Hcl(h, c, l, opacity) {
         this.h = +h, this.c = +c, this.l = +l, this.opacity = +opacity;
@@ -1474,7 +1474,7 @@
     }));
     var BC_DA = -1.78277 * 0.29227 - 0.1347134789;
     function cubehelix(h, s, l, opacity) {
-        return 1 === arguments.length ? function(o) {
+        return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
             o instanceof Rgb || (o = rgbConvert(o));
             var r = o.r / 255, g = o.g / 255, b = o.b / 255, l = (BC_DA * b + -1.7884503806 * r - 3.5172982438 * g) / (BC_DA + -1.7884503806 - 3.5172982438), bl = b - l, k = -((1.97294 * (g - l) - -0.29227 * bl) / 0.90649), s = Math.sqrt(k * k + bl * bl) / (1.97294 * l * (1 - l)), h = s ? Math.atan2(k, bl) * degrees - 120 : NaN;
@@ -4020,7 +4020,7 @@
     }
     function dsvParse(parse) {
         return function(input, init, row) {
-            return 2 === arguments.length && "function" == typeof init && (row = init, init = void 0), text(input, init).then(function(response) {
+            return 2 == arguments.length && "function" == typeof init && (row = init, init = void 0), text(input, init).then(function(response) {
                 return parse(response, row);
             });
         };
@@ -6394,7 +6394,7 @@
     }
     var defaultSource$1 = Math.random, uniform = function sourceRandomUniform(source) {
         function randomUniform(min, max) {
-            return min = null == min ? 0 : +min, max = null == max ? 1 : +max, 1 === arguments.length ? (max = min, min = 0) : max -= min, function() {
+            return min = null == min ? 0 : +min, max = null == max ? 1 : +max, 1 == arguments.length ? (max = min, min = 0) : max -= min, function() {
                 return source() * max + min;
             };
         }
@@ -6873,7 +6873,7 @@
     var t0$1 = new Date, t1$1 = new Date;
     function newInterval(floori, offseti, count, field) {
         function interval(date) {
-            return floori(date = 0 === arguments.length ? new Date : new Date(+date)), date;
+            return floori(date = 0 == arguments.length ? new Date : new Date(+date)), date;
         }
         return interval.floor = function(date) {
             return floori(date = new Date(+date)), date;
@@ -9324,7 +9324,7 @@
             return arguments.length ? (clickDistance2 = (_ = +_) * _, drag) : Math.sqrt(clickDistance2);
         }, drag;
     }, exports1.dragDisable = dragDisable, exports1.dragEnable = yesdrag, exports1.dsv = function(delimiter, input, init, row) {
-        3 === arguments.length && "function" == typeof init && (row = init, init = void 0);
+        3 == arguments.length && "function" == typeof init && (row = init, init = void 0);
         var format = dsvFormat(delimiter);
         return text(input, init).then(function(response) {
             return format.parse(response, row);
@@ -10079,7 +10079,7 @@
     }, exports1.isoFormat = formatIso, exports1.isoParse = parseIso, exports1.json = function(input, init) {
         return fetch(input, init).then(responseJson);
     }, exports1.lab = lab, exports1.lch = function(l, c, h, opacity) {
-        return 1 === arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
+        return 1 == arguments.length ? hclConvert(l) : new Hcl(h, c, l, null == opacity ? 1 : opacity);
     }, exports1.least = function(values, compare = ascending) {
         let min;
         let defined = !1;
