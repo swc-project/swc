@@ -92,7 +92,13 @@ where
     #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(prelude) = &n.prelude {
             emit!(
@@ -380,7 +386,13 @@ where
     #[emitter]
     fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
         match n {
-            KeyframeSelector::Ident(n) => emit!(self, n),
+            KeyframeSelector::Ident(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n
+            ),
             KeyframeSelector::Percentage(n) => emit!(self, n),
         }
     }
@@ -416,18 +428,36 @@ where
     #[emitter]
     fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
         if n.modifier.is_some() {
-            emit!(self, n.modifier);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.modifier
+            );
             space!(self);
         }
 
         if n.media_type.is_some() {
-            emit!(self, n.media_type);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.media_type
+            );
 
             if n.condition.is_some() {
                 space!(self);
 
                 if n.keyword.is_some() {
-                    emit!(self, n.keyword);
+                    emit!(
+                        &mut *self.with_ctx(Ctx {
+                            allow_to_lowercase: true,
+                            ..self.ctx
+                        }),
+                        n.keyword
+                    );
                 } else {
                     write_raw!(self, "and");
                 }
@@ -502,7 +532,13 @@ where
     #[emitter]
     fn emit_media_not(&mut self, n: &MediaNot) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "not");
         }
@@ -514,7 +550,13 @@ where
     #[emitter]
     fn emit_media_and(&mut self, n: &MediaAnd) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "and");
         }
@@ -526,7 +568,13 @@ where
     #[emitter]
     fn emit_media_or(&mut self, n: &MediaOr) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "or");
         }
@@ -572,7 +620,13 @@ where
     #[emitter]
     fn emit_media_feature_name(&mut self, n: &MediaFeatureName) -> Result {
         match n {
-            MediaFeatureName::Ident(n) => emit!(self, n),
+            MediaFeatureName::Ident(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n
+            ),
         }
     }
 
@@ -647,7 +701,13 @@ where
     #[emitter]
     fn emit_supports_not(&mut self, n: &SupportsNot) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "not");
         }
@@ -659,7 +719,13 @@ where
     #[emitter]
     fn emit_supports_and(&mut self, n: &SupportsAnd) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "and");
         }
@@ -671,7 +737,13 @@ where
     #[emitter]
     fn emit_support_or(&mut self, n: &SupportsOr) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "or");
         }
@@ -737,7 +809,13 @@ where
     #[emitter]
     fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
         write_raw!(self, ":");
-        emit!(self, n.value);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.value
+        );
     }
 
     #[emitter]
@@ -833,7 +911,13 @@ where
     #[emitter]
     fn emit_container_query_not(&mut self, n: &ContainerQueryNot) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "not");
         }
@@ -845,7 +929,13 @@ where
     #[emitter]
     fn emit_container_query_and(&mut self, n: &ContainerQueryAnd) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "and");
         }
@@ -857,7 +947,13 @@ where
     #[emitter]
     fn emit_container_query_or(&mut self, n: &ContainerQueryOr) -> Result {
         if n.keyword.is_some() {
-            emit!(self, n.keyword);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.keyword
+            );
         } else {
             write_raw!(self, "or");
         }
@@ -920,7 +1016,13 @@ where
 
     #[emitter]
     fn emit_size_feature_plain(&mut self, n: &SizeFeaturePlain) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, ":");
         formatting_space!(self);
         emit!(self, n.value);
@@ -928,7 +1030,13 @@ where
 
     #[emitter]
     fn emit_size_feature_boolean(&mut self, n: &SizeFeatureBoolean) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
     }
 
     #[emitter]
@@ -946,7 +1054,13 @@ where
         formatting_space!(self);
         write_raw!(self, n.span, n.left_comparison.as_str());
         formatting_space!(self);
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         formatting_space!(self);
         write_raw!(self, n.span, n.right_comparison.as_str());
         formatting_space!(self);
@@ -1050,7 +1164,13 @@ where
 
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, "(");
         self.emit_list_of_component_values_inner(
             &n.value,
@@ -1238,7 +1358,13 @@ where
 
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, ":");
 
         let is_custom_property = match n.name {
@@ -1290,32 +1416,36 @@ where
 
     #[emitter]
     fn emit_important_flag(&mut self, n: &ImportantFlag) -> Result {
-        // `!` + `important`
-        let mut value = String::with_capacity(10);
-
-        value.push('!');
+        write_raw!(self, lo_span_offset!(n.span, 1), "!");
 
         if self.config.minify {
-            value.push_str(&n.value.value.to_lowercase());
-        } else if let Some(raw) = &n.value.raw {
-            value.push_str(raw);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.value
+            );
         } else {
-            value.push_str("important");
+            emit!(self, n.value);
         }
-
-        write_raw!(self, n.span, &value);
     }
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let value = if self.ctx.allow_to_lowercase && self.config.minify {
+                n.value.to_lowercase()
+            } else {
+                n.value.to_string()
+            };
+            let serialized = serialize_ident(&value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1345,7 +1475,7 @@ where
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1360,7 +1490,7 @@ where
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1397,43 +1527,85 @@ where
     #[emitter]
     fn emit_length(&mut self, n: &Length) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_angle(&mut self, n: &Angle) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_time(&mut self, n: &Time) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_frequency(&mut self, n: &Frequency) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_resolution(&mut self, n: &Resolution) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_flex(&mut self, n: &Flex) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
     fn emit_unknown_dimension(&mut self, n: &UnknownDimension) -> Result {
         emit!(self, n.value);
-        emit!(self, n.unit);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.unit
+        );
     }
 
     #[emitter]
@@ -1876,7 +2048,13 @@ where
 
     #[emitter]
     fn emit_url(&mut self, n: &Url) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, "(");
 
         if let Some(value) = &n.value {
@@ -2131,7 +2309,13 @@ where
 
     #[emitter]
     fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
     }
 
     #[emitter]
@@ -2226,7 +2410,13 @@ where
 
     #[emitter]
     fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
-        emit!(self, n.value);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.value
+        );
     }
 
     #[emitter]
@@ -2280,7 +2470,13 @@ where
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");
@@ -2347,7 +2543,13 @@ where
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
         write_raw!(self, lo_span_offset!(n.span, 2), ":");
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");
