@@ -1,8 +1,8 @@
 "use strict";
 function f() {
+    var x, g, q, y;
     g();
     x = 10;
-    throw new Error("foo");
-    var x;
+    throw Error("foo");
 }
 f();

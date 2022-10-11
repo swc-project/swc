@@ -1,8 +1,7 @@
 function f() {
+    var x, g, q, y;
     g();
     x = 10;
-    throw new Error("foo");
-    var x;
-    var g;
+    throw Error("foo");
 }
 f();
