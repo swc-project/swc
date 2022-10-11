@@ -38,6 +38,7 @@ arrow/concise_methods_with_computed_property2/input.js
 arrow/export_default_object_expression/input.js
 arrow/issue_2136_2/input.js
 arrow/issue_2271/input.js
+arrow/issue_27/input.js
 arrow/issue_3092a/input.js
 arrow/issue_3092b/input.js
 arrow/issue_485_crashing_1530/input.js
@@ -303,6 +304,8 @@ dead_code/collapse_vars_assignment/input.js
 dead_code/collapse_vars_lvalues_drop_assign/input.js
 dead_code/collapse_vars_misc1/input.js
 dead_code/dead_code_1/input.js
+dead_code/dead_code_2_should_warn/input.js
+dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
 dead_code/dead_code_const_declaration/input.js
@@ -1256,6 +1259,7 @@ reduce_vars/issue_2598/input.js
 reduce_vars/issue_2669/input.js
 reduce_vars/issue_2670/input.js
 reduce_vars/issue_2757_2/input.js
+reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_1/input.js
 reduce_vars/issue_2860_1/input.js
 reduce_vars/issue_2869/input.js
@@ -1521,6 +1525,7 @@ transform/if_return/input.js
 transform/while_if_break/input.js
 try_catch/broken_safari_catch_scope/input.js
 try_catch/broken_safari_catch_scope_caveat/input.js
+try_catch/catch_destructuring_with_sequence/input.js
 try_catch/issue_452/input.js
 try_catch/parameterless_catch/input.js
 try_catch/parent_scope_of_catch_block_is_not_the_try_block/input.js

@@ -9,7 +9,6 @@ arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
 arrow/issue_2136_3/input.js
-arrow/issue_27/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 asm/asm_mixed/input.js
@@ -86,8 +85,6 @@ conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
 conditionals/issue_2535_1/input.js
-dead_code/dead_code_2_should_warn/input.js
-dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_const_annotation/input.js
 dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/dead_code_constant_boolean_should_warn_more/input.js
@@ -392,7 +389,6 @@ reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2449/input.js
 reduce_vars/issue_2485/input.js
 reduce_vars/issue_2757_1/input.js
-reduce_vars/issue_2774/input.js
 reduce_vars/issue_2799_2/input.js
 reduce_vars/issue_2836/input.js
 reduce_vars/issue_2860_2/input.js
@@ -427,7 +423,6 @@ sequences/side_effects_cascade_3/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
 transform/label_if_break/input.js
-try_catch/catch_destructuring_with_sequence/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js
 typeof/typeof_defun_1/input.js
