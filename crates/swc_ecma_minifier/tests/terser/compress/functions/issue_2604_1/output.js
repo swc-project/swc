@@ -1,12 +1,11 @@
 var a = "FAIL";
-(function () {
+(function() {
     try {
         throw 1;
-    } catch (b) {
-        (function (b) {
-            b && b();
-        })();
-        b && (a = "PASS");
+    } catch (b1) {
+        var b;
+        b && b();
+        b1 && (a = "PASS");
     }
 })();
 console.log(a);

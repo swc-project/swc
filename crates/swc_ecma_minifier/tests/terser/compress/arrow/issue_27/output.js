@@ -1,3 +1,3 @@
-((jQuery) => {
-    jQuery("body").addClass("foo");
+((jQuery1)=>{
+    jQuery1("body").addClass("foo");
 })(jQuery);

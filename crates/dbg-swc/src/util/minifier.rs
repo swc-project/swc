@@ -5,13 +5,13 @@ use std::{
 };
 
 use anyhow::{bail, Context, Result};
-use swc_common::SourceMap;
+use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::{CompressOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::{parse_js, wrap_task, ModuleRecord};
+use super::{parse_js, print_js, wrap_task, ModuleRecord};
 
 pub fn get_minified(
     cm: Arc<SourceMap>,
@@ -80,7 +80,16 @@ pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<St
             bail!("failed to run terser");
         }
 
-        String::from_utf8(output.stdout).context("terser emitted non-utf8 string")
+        let output = String::from_utf8(output.stdout).context("terser emitted non-utf8 string")?;
+
+        // Drop comments
+        let cm = Arc::new(SourceMap::default());
+        let fm = cm.new_source_file(FileName::Anon, output);
+        let m = parse_js(fm)?;
+
+        let code = print_js(cm, &m.module, true)?;
+
+        Ok(code)
     })
     .with_context(|| format!("failed to get output of {} from terser", file.display()))
 }

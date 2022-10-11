@@ -29,6 +29,9 @@
 - **(css/codegen)** Support lowercase case insensitivity (#6113) ([a920997](https://github.com/swc-project/swc/commit/a920997f4b1e4a194e2b74bc8a27184d0e438d31))
 
 
+- **(dbg-swc)** Remove comments from the output of `terser` (#6119) ([8549c47](https://github.com/swc-project/swc/commit/8549c4780775ef329b7ea35e56a91de6c1fc9577))
+
+
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
 
 
@@ -39,6 +42,12 @@
 
 
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
+
+### Testing
+
+
+
+- **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
 
 ## [1.3.6] - 2022-10-08
 
