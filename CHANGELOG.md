@@ -7,6 +7,9 @@
 
 - **(es/preset-env)** Update data (#6106) ([8d4d326](https://github.com/swc-project/swc/commit/8d4d32664d7f4feeba5faa3dec95691d5560ca6c))
 
+
+- **(swc_core)** Reexport `swc_css_compat` correctly (#6114) ([5fd0e97](https://github.com/swc-project/swc/commit/5fd0e97c15c2f2c4feaacaf74984cca7571e4340))
+
 ### Documentation
 
 
@@ -15,6 +18,9 @@
 
 ### Features
 
+
+
+- **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
 
 
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
