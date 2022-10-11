@@ -1,0 +1,1555 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 1,
+    "end": 749,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 1,
+        "end": 749,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 1,
+          "end": 2,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": {
+                  "type": "TagNameSelector",
+                  "span": {
+                    "start": 1,
+                    "end": 2,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "WqName",
+                    "span": {
+                      "start": 1,
+                      "end": 2,
+                      "ctxt": 0
+                    },
+                    "prefix": null,
+                    "value": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 1,
+                        "end": 2,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "raw": "a"
+                    }
+                  }
+                },
+                "subclassSelectors": []
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 3,
+          "end": 749,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": [
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9,
+              "end": 49,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9,
+                "end": 19,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 21,
+                  "end": 49,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 21,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 37,
+                      "end": 42,
+                      "ctxt": 0
+                    },
+                    "value": "white",
+                    "raw": "white"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 42,
+                      "end": 43,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 44,
+                      "end": 48,
+                      "ctxt": 0
+                    },
+                    "value": "gray",
+                    "raw": "gray"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 55,
+              "end": 96,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 55,
+                "end": 65,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 67,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 67,
+                    "end": 82,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 83,
+                      "end": 89,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 89,
+                      "end": 90,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 91,
+                      "end": 95,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 102,
+              "end": 154,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 102,
+                "end": 112,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 114,
+                  "end": 154,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 114,
+                    "end": 129,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 130,
+                      "end": 132,
+                      "ctxt": 0
+                    },
+                    "value": "to",
+                    "raw": "to"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 133,
+                      "end": 139,
+                      "ctxt": 0
+                    },
+                    "value": "bottom",
+                    "raw": "bottom"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 139,
+                      "end": 140,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 141,
+                      "end": 147,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 147,
+                      "end": 148,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 149,
+                      "end": 153,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 160,
+              "end": 209,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 160,
+                "end": 170,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 172,
+                  "end": 209,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 172,
+                    "end": 187,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 188,
+                      "end": 194,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 188,
+                        "end": 191,
+                        "ctxt": 0
+                      },
+                      "value": 180.0,
+                      "raw": "180"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 191,
+                        "end": 194,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 194,
+                      "end": 195,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 196,
+                      "end": 202,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 202,
+                      "end": 203,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 204,
+                      "end": 208,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 215,
+              "end": 264,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 215,
+                "end": 225,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 227,
+                  "end": 264,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 227,
+                    "end": 242,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 243,
+                      "end": 245,
+                      "ctxt": 0
+                    },
+                    "value": "to",
+                    "raw": "to"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 246,
+                      "end": 249,
+                      "ctxt": 0
+                    },
+                    "value": "top",
+                    "raw": "top"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 249,
+                      "end": 250,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 251,
+                      "end": 255,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 255,
+                      "end": 256,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 257,
+                      "end": 263,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 270,
+              "end": 330,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 270,
+                "end": 280,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 282,
+                  "end": 330,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 282,
+                    "end": 297,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 298,
+                      "end": 300,
+                      "ctxt": 0
+                    },
+                    "value": "to",
+                    "raw": "to"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 301,
+                      "end": 307,
+                      "ctxt": 0
+                    },
+                    "value": "bottom",
+                    "raw": "bottom"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 307,
+                      "end": 308,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 309,
+                      "end": 315,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 316,
+                      "end": 318,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 316,
+                        "end": 317,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 318,
+                      "end": 319,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 320,
+                      "end": 324,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 325,
+                      "end": 329,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 325,
+                        "end": 328,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 336,
+              "end": 385,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 336,
+                "end": 346,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 348,
+                  "end": 385,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 348,
+                    "end": 363,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 364,
+                      "end": 370,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 364,
+                        "end": 367,
+                        "ctxt": 0
+                      },
+                      "value": 135.0,
+                      "raw": "135"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 367,
+                        "end": 370,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 370,
+                      "end": 371,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 372,
+                      "end": 378,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 378,
+                      "end": 379,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 380,
+                      "end": 384,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 391,
+              "end": 440,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 391,
+                "end": 401,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 403,
+                  "end": 440,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 403,
+                    "end": 418,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 419,
+                      "end": 425,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 419,
+                        "end": 422,
+                        "ctxt": 0
+                      },
+                      "value": -45.0,
+                      "raw": "-45"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 422,
+                        "end": 425,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 425,
+                      "end": 426,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 427,
+                      "end": 431,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 431,
+                      "end": 432,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 433,
+                      "end": 439,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 446,
+              "end": 497,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 446,
+                "end": 456,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 458,
+                  "end": 497,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 458,
+                    "end": 473,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 474,
+                      "end": 480,
+                      "ctxt": 0
+                    },
+                    "value": "yellow",
+                    "raw": "yellow"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 480,
+                      "end": 481,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 482,
+                      "end": 486,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 487,
+                      "end": 490,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 487,
+                        "end": 489,
+                        "ctxt": 0
+                      },
+                      "value": 20.0,
+                      "raw": "20"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 490,
+                      "end": 491,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "HexColor",
+                    "span": {
+                      "start": 492,
+                      "end": 496,
+                      "ctxt": 0
+                    },
+                    "value": "0f0",
+                    "raw": "0f0"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 503,
+              "end": 562,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 503,
+                "end": 513,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 515,
+                  "end": 562,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 515,
+                    "end": 530,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 531,
+                      "end": 533,
+                      "ctxt": 0
+                    },
+                    "value": "to",
+                    "raw": "to"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 534,
+                      "end": 537,
+                      "ctxt": 0
+                    },
+                    "value": "top",
+                    "raw": "top"
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 538,
+                      "end": 543,
+                      "ctxt": 0
+                    },
+                    "value": "right",
+                    "raw": "right"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 543,
+                      "end": 544,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 545,
+                      "end": 548,
+                      "ctxt": 0
+                    },
+                    "value": "red",
+                    "raw": "red"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 548,
+                      "end": 549,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 550,
+                      "end": 555,
+                      "ctxt": 0
+                    },
+                    "value": "white",
+                    "raw": "white"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 555,
+                      "end": 556,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 557,
+                      "end": 561,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 568,
+              "end": 623,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 568,
+                "end": 578,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 580,
+                  "end": 623,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 580,
+                    "end": 595,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 596,
+                      "end": 600,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 596,
+                        "end": 597,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 597,
+                        "end": 600,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 600,
+                      "end": 601,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 602,
+                      "end": 606,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 606,
+                      "end": 607,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 608,
+                      "end": 613,
+                      "ctxt": 0
+                    },
+                    "value": "green",
+                    "raw": "green"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 614,
+                      "end": 617,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 614,
+                        "end": 616,
+                        "ctxt": 0
+                      },
+                      "value": 40.0,
+                      "raw": "40"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 617,
+                      "end": 618,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 619,
+                      "end": 622,
+                      "ctxt": 0
+                    },
+                    "value": "red",
+                    "raw": "red"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 629,
+              "end": 680,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 629,
+                "end": 639,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 641,
+                  "end": 680,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 641,
+                    "end": 656,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 657,
+                      "end": 664,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 657,
+                        "end": 660,
+                        "ctxt": 0
+                      },
+                      "value": 0.25,
+                      "raw": ".25"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 660,
+                        "end": 664,
+                        "ctxt": 0
+                      },
+                      "value": "turn",
+                      "raw": "turn"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 664,
+                      "end": 665,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 666,
+                      "end": 669,
+                      "ctxt": 0
+                    },
+                    "value": "red",
+                    "raw": "red"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 670,
+                      "end": 673,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 670,
+                        "end": 672,
+                        "ctxt": 0
+                      },
+                      "value": 10.0,
+                      "raw": "10"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 673,
+                      "end": 674,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 675,
+                      "end": 679,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 686,
+              "end": 746,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 686,
+                "end": 696,
+                "ctxt": 0
+              },
+              "value": "background",
+              "raw": "background"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 698,
+                  "end": 746,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 698,
+                    "end": 713,
+                    "ctxt": 0
+                  },
+                  "value": "linear-gradient",
+                  "raw": "linear-gradient"
+                },
+                "value": [
+                  {
+                    "type": "Angle",
+                    "span": {
+                      "start": 714,
+                      "end": 719,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 714,
+                        "end": 716,
+                        "ctxt": 0
+                      },
+                      "value": 45.0,
+                      "raw": "45"
+                    },
+                    "unit": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 716,
+                        "end": 719,
+                        "ctxt": 0
+                      },
+                      "value": "deg",
+                      "raw": "deg"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 719,
+                      "end": 720,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 721,
+                      "end": 724,
+                      "ctxt": 0
+                    },
+                    "value": "red",
+                    "raw": "red"
+                  },
+                  {
+                    "type": "Integer",
+                    "span": {
+                      "start": 725,
+                      "end": 726,
+                      "ctxt": 0
+                    },
+                    "value": 0,
+                    "raw": "0"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 727,
+                      "end": 730,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 727,
+                        "end": 729,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 730,
+                      "end": 731,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 732,
+                      "end": 736,
+                      "ctxt": 0
+                    },
+                    "value": "blue",
+                    "raw": "blue"
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 737,
+                      "end": 740,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 737,
+                        "end": 739,
+                        "ctxt": 0
+                      },
+                      "value": 50.0,
+                      "raw": "50"
+                    }
+                  },
+                  {
+                    "type": "Percentage",
+                    "span": {
+                      "start": 741,
+                      "end": 745,
+                      "ctxt": 0
+                    },
+                    "value": {
+                      "type": "Number",
+                      "span": {
+                        "start": 741,
+                        "end": 744,
+                        "ctxt": 0
+                      },
+                      "value": 100.0,
+                      "raw": "100"
+                    }
+                  }
+                ]
+              }
+            ],
+            "important": null
+          }
+        ]
+      }
+    }
+  ]
+}
