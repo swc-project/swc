@@ -313,8 +313,20 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        if contains_arguments(callee) {
-            return;
+        match find_body(callee) {
+            Some(body) => match body {
+                Either::Left(body) => {
+                    if contains_arguments(body) {
+                        return;
+                    }
+                }
+                Either::Right(body) => {
+                    if contains_arguments(body) {
+                        return;
+                    }
+                }
+            },
+            None => return,
         }
 
         if let Expr::Fn(FnExpr {
