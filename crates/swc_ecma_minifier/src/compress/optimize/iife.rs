@@ -313,6 +313,10 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
+        if contains_arguments(callee) {
+            return;
+        }
+
         if let Expr::Fn(FnExpr {
             ident: Some(ident), ..
         }) = callee
