@@ -6,8 +6,11 @@ use swc_core::{
         js_sys::{JsString, Promise},
         noop, Options, ParseOptions, SourceMapsConfig,
     },
-    common::{comments, errors::Handler, sync::Lrc, FileName, SourceMap, GLOBALS},
-    ecma::ast::{EsVersion, Program},
+    common::{comments, errors::Handler, sync::Lrc, FileName, Mark, SourceMap, GLOBALS},
+    ecma::{
+        ast::{EsVersion, Program},
+        transforms::base::resolver,
+    },
 };
 use wasm_bindgen::{prelude::*, JsCast};
 mod types;
@@ -93,30 +96,35 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
     let c = compiler();
     try_with_handler(c.cm.clone(), Default::default(), |handler| {
         c.run(|| {
-            let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
-                Default::default()
-            } else {
-                anyhow::Context::context(opts.into_serde(), "failed to parse options")?
-            };
-            let fm = c.cm.new_source_file(FileName::Anon, s.into());
-            let cmts = c.comments().clone();
-            let comments = if opts.comments {
-                Some(&cmts as &dyn comments::Comments)
-            } else {
-                None
-            };
-            let program = anyhow::Context::context(
-                c.parse_js(
-                    fm,
-                    handler,
-                    opts.target,
-                    opts.syntax,
-                    opts.is_module,
-                    comments,
-                ),
-                "failed to parse code",
-            )?;
-            anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+            GLOBALS.set(&Default::default(), || {
+                let opts: ParseOptions = if opts.is_null() || opts.is_undefined() {
+                    Default::default()
+                } else {
+                    anyhow::Context::context(opts.into_serde(), "failed to parse options")?
+                };
+                let fm = c.cm.new_source_file(FileName::Anon, s.into());
+                let cmts = c.comments().clone();
+                let comments = if opts.comments {
+                    Some(&cmts as &dyn comments::Comments)
+                } else {
+                    None
+                };
+                let program = anyhow::Context::context(
+                    c.parse_js(
+                        fm,
+                        handler,
+                        opts.target,
+                        opts.syntax,
+                        opts.is_module,
+                        comments,
+                    ),
+                    "failed to parse code",
+                )?;
+
+                program.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+
+                anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
+            })
         })
     })
     .map_err(|e| convert_err(e, None))
