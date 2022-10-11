@@ -157,21 +157,6 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
-            match callee {
-                Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
-                Expr::Fn(callee) => Some(
-                    callee
-                        .function
-                        .params
-                        .iter_mut()
-                        .map(|param| &mut param.pat)
-                        .collect(),
-                ),
-                _ => None,
-            }
-        }
-
         fn clean_params(callee: &mut Expr) {
             match callee {
                 Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
@@ -192,17 +177,6 @@ where
                 .is_some()
             {
                 return;
-            }
-        }
-
-        fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
-            match callee {
-                Expr::Arrow(e) => match &mut e.body {
-                    BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
-                    BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
-                },
-                Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
-                _ => None,
             }
         }
 
@@ -324,7 +298,17 @@ where
 
     /// If a parameter is not used, we can ignore return value of the
     /// corresponding argument.
-    pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {}
+    pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {
+        let has_spread_arg = e.args.iter().any(|v| v.spread.is_some());
+        if has_spread_arg {
+            return;
+        }
+
+        let callee = match &mut e.callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
+        };
+    }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
@@ -1016,5 +1000,30 @@ where
 
             _ => false,
         }
+    }
+}
+
+fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
+    match callee {
+        Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
+        Expr::Fn(callee) => Some(
+            callee
+                .function
+                .params
+                .iter_mut()
+                .map(|param| &mut param.pat)
+                .collect(),
+        ),
+        _ => None,
+    }
+}
+fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
+    match callee {
+        Expr::Arrow(e) => match &mut e.body {
+            BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
+            BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
+        },
+        Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
+        _ => None,
     }
 }
