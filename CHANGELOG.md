@@ -40,6 +40,12 @@
 
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
 
+### Testing
+
+
+
+- **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
+
 ## [1.3.6] - 2022-10-08
 
 ### Bug Fixes
