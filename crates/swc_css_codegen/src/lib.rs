@@ -1244,7 +1244,13 @@ where
 
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, ":");
 
         let is_custom_property = match n.name {
