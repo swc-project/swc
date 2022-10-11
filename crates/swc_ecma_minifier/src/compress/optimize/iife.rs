@@ -304,6 +304,10 @@ where
             return;
         }
 
+        if !self.options.unused {
+            return;
+        }
+
         let callee = match &mut e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
