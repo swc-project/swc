@@ -13,8 +13,8 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-pmutil      = "0.5.1"
-proc-macro2 = "1"
-quote       = "1"
-# swc_macros_common = {version = "0.3.4", path = "../swc_macros_common"}
-syn = { version = "1", features = ["fold"] }
+pmutil            = "0.5.1"
+proc-macro2       = "1"
+quote             = "1"
+swc_macros_common = { version = "0.3.4", path = "../swc_macros_common" }
+syn               = { version = "1", features = ["fold"] }
