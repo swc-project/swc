@@ -87,7 +87,7 @@ pub fn get_terser_output(file: &Path, compress: bool, mangle: bool) -> Result<St
         let fm = cm.new_source_file(FileName::Anon, output);
         let m = parse_js(fm)?;
 
-        let code = print_js(cm, &m.module, false)?;
+        let code = print_js(cm, &m.module, true)?;
 
         Ok(code)
     })
