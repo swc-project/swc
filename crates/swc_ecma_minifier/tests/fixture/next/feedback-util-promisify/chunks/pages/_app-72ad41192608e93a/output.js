@@ -433,7 +433,7 @@
                             return this;
                         }, Buffer.prototype.toString = function() {
                             var e = this.length;
-                            return 0 === e ? "" : 0 === arguments.length ? utf8Slice(this, 0, e) : slowToString.apply(this, arguments);
+                            return 0 === e ? "" : 0 == arguments.length ? utf8Slice(this, 0, e) : slowToString.apply(this, arguments);
                         }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(e) {
                             if (!Buffer.isBuffer(e)) throw TypeError("Argument must be a Buffer");
                             return this === e || 0 === Buffer.compare(this, e);

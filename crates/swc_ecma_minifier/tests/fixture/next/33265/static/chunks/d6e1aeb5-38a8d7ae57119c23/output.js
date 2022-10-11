@@ -7596,7 +7596,7 @@
                         }, this.trigger = function(type) {
                             var callbacks, i, length, args;
                             if (callbacks = listeners[type]) {
-                                if (2 === arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                                if (2 == arguments.length) for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].call(this, arguments[1]);
                                 else {
                                     for(args = [], i = arguments.length, i = 1; i < arguments.length; ++i)args.push(arguments[i]);
                                     for(i = 0, length = callbacks.length; i < length; ++i)callbacks[i].apply(this, args);
@@ -13341,7 +13341,7 @@
                     }, _proto.trigger = function(type) {
                         var callbacks = this.listeners[type];
                         if (callbacks) {
-                            if (2 === arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                            if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
                             else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
                         }
                     }, _proto.dispose = function() {

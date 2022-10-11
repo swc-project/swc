@@ -614,7 +614,7 @@
             return this;
         },
         removeClass: function(value) {
-            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = 0 === arguments.length || "string" == typeof value && value;
+            var classes, elem, cur, clazz, j, i = 0, len = this.length, proceed = 0 == arguments.length || "string" == typeof value && value;
             if (jQuery.isFunction(value)) return this.each(function(j) {
                 jQuery(this).removeClass(value.call(this, j, this.className));
             });
@@ -1099,7 +1099,7 @@
             return this.on(types, selector, data, fn);
         },
         undelegate: function(selector, types, fn) {
-            return 1 === arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
+            return 1 == arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
         },
         trigger: function(type, data) {
             return this.each(function() {
