@@ -5959,7 +5959,7 @@
                     state.z2 = el.z2 + (null != z2EmphasisLift ? z2EmphasisLift : 10);
                 }
                 return state;
-            }(this, stateName, targetStates, state1);
+            }(this, 0, targetStates, state1);
             if ('blur' === stateName) return state = state1, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
                 for(var style = el.style, fromState = {}, i = 0; i < props.length; i++){
                     var propName = props[i], val = style[propName];
@@ -5984,7 +5984,7 @@
                     state.z2 = el.z2 + (null != z2SelectLift ? z2SelectLift : 9);
                 }
                 return state;
-            }(this, stateName, state1);
+            }(this, 0, state1);
         }
         return state1;
     }
@@ -15462,7 +15462,7 @@
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
+                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':
@@ -15486,7 +15486,7 @@
                                             value: dateTime,
                                             notAdd: !0
                                         });
-                                    })(interval, startTick, endTick, getterName, setterName, isDate, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
+                                    })(interval, startTick, endTick, getterName, setterName, 0, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
                                         value: levelTicks[0].value - interval
                                     });
                                 }
@@ -18719,6 +18719,7 @@
             incremental: !!incremental
         });
         el2.__startPoint = startPoint, el2.__baseDimIdx = baseDimIdx, el2.__largeDataIndices = largeDataIndices, el2.__barWidth = barWidth, group.add(el2), el = el2, globalStyle = data.getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el2).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el2.on('mousedown', largePathUpdateDataIndex), el2.on('mousemove', largePathUpdateDataIndex));
+        el2.__startPoint = startPoint, el2.__baseDimIdx = baseDimIdx, el2.__largeDataIndices = largeDataIndices, el2.__barWidth = barWidth, group.add(el2), el = el2, seriesModel1 = 0, globalStyle = (data = data1).getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el2).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el2.on('mousedown', largePathUpdateDataIndex), el2.on('mousemove', largePathUpdateDataIndex));
     }
     var largePathUpdateDataIndex = throttle(function(event) {
         var dataIndex = function(largePath, x, y) {
@@ -23739,6 +23740,7 @@
                                 }
                             }
                         }(node, nodeModel, nodeLayout, nodeItemStyleModel, visuals1, viewChildren);
+                        }(0, nodeModel, nodeLayout, 0, visuals1, viewChildren);
                         each(viewChildren, function(child, index) {
                             if (child.depth >= viewRootAncestors.length || child === viewRootAncestors[child.depth]) {
                                 var childVisual = function(nodeModel, visuals, child, index, mapping, seriesModel) {
@@ -27475,6 +27477,14 @@
                         }, !0);
                     });
                 }(nodes, nodeAlign, orient, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
+                    } else {
+                        'justify' === nodeAlign && (nodes1 = nodes, maxDepth1 = maxDepth, each(nodes1, function(node) {
+                            isNodeDepth(node) || node.outEdges.length || node.setLayout({
+                                depth: maxDepth1
+                            }, !0);
+                        }));
+                    }
+                }(nodes, nodeAlign, 0, maxDepth), nodes1 = nodes, kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, orient1 = orient, each(nodes1, function(node) {
                     var nodeDepth = node.getLayout().depth * kx;
                     'vertical' === orient ? node.setLayout({
                         y: nodeDepth
@@ -29221,6 +29231,7 @@
             } else boundingLength = null != symbolBoundingData ? convertToCoordOnAxis(valueAxis, symbolBoundingData) - zeroPx : symbolRepeat ? opt.coordSysExtent[valueDim.index][pxSignIdx] - zeroPx : layout[valueDim.wh];
             outputSymbolMeta.boundingLength = boundingLength, symbolRepeat && (outputSymbolMeta.repeatCutLength = layout[valueDim.wh]), outputSymbolMeta.pxSign = boundingLength > 0 ? 1 : boundingLength < 0 ? -1 : 0;
         })(itemModel, symbolRepeat, layout, opt, symbolMeta), boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, outputSymbolMeta = symbolMeta, valueDim = opt.valueDim, categorySize = Math.abs(layout[(categoryDim = opt.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data.getItemVisual(dataIndex, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
+        })(itemModel, symbolRepeat1, layout1, opt, symbolMeta), data1 = data, dataIndex1 = dataIndex, layout = layout1, symbolRepeat = symbolRepeat1, symbolClip = 0, boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, symbolPatternSize = symbolPatternSize1, opt1 = opt, outputSymbolMeta = symbolMeta, valueDim = opt1.valueDim, categorySize = Math.abs(layout[(categoryDim = opt1.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data1.getItemVisual(dataIndex1, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
             '100%',
             '100%'
         ] : [
@@ -29255,6 +29266,7 @@
             var clipShape = outputSymbolMeta.clipShape = {};
             clipShape[categoryDim.xy] = -layout[categoryDim.xy], clipShape[categoryDim.wh] = opt.ecSize[categoryDim.wh], clipShape[valueDim.xy] = 0, clipShape[valueDim.wh] = layout[valueDim.wh];
         }(itemModel, symbolSize1, layout, symbolRepeat, symbolClip, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
+        }(itemModel, symbolSize1, layout1, symbolRepeat1, 0, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
     }
     function convertToCoordOnAxis(axis, value) {
         return axis.toGlobalCoord(axis.dataToCoord(axis.scale.parse(value)));
@@ -31902,6 +31914,7 @@
                     dataByCoordSys: dataByCoordSys.list
                 });
             }(dataByCoordSys, point, payload, dispatchAction), zr = api.getZr(), highDownKey = 'axisPointerLastHighlights', lastHighlights = inner$c(zr)[highDownKey] || {}, newHighlights = inner$c(zr)[highDownKey] = {}, each(axesInfo, function(axisInfo, key) {
+            }(dataByCoordSys, point, payload, dispatchAction), axesInfo1 = axesInfo2, dispatchAction1 = 0, zr = (api1 = api).getZr(), highDownKey = 'axisPointerLastHighlights', lastHighlights = inner$c(zr)[highDownKey] || {}, newHighlights = inner$c(zr)[highDownKey] = {}, each(axesInfo1, function(axisInfo, key) {
                 var option = axisInfo.axisPointerModel.option;
                 'show' === option.status && each(option.seriesDataIndices, function(batchItem) {
                     newHighlights[batchItem.seriesIndex + ' | ' + batchItem.dataIndex] = batchItem;
@@ -32125,10 +32138,7 @@
                 var elStyle = buildElStyle(axisPointerModel), pointerOption = pointerShapeBuilder$1[axisPointerType](axis, polar, coordValue, otherExtent);
                 pointerOption.style = elStyle, elOption.graphicKey = pointerOption.type, elOption.pointer = pointerOption;
             }
-            var labelMargin = axisPointerModel.get([
-                'label',
-                'margin'
-            ]), labelPos = function(value, axisModel, axisPointerModel, polar, labelMargin) {
+            var labelPos = function(value, axisModel, axisPointerModel, polar, labelMargin) {
                 var position, align, verticalAlign, axis = axisModel.axis, coord = axis.dataToCoord(value), axisAngle = polar.getAngleAxis().getExtent()[0];
                 axisAngle = axisAngle / 180 * Math.PI;
                 var radiusExtent = polar.getRadiusAxis().getExtent();
@@ -32157,7 +32167,10 @@
                     align: align,
                     verticalAlign: verticalAlign
                 };
-            }(value, axisModel, axisPointerModel, polar, labelMargin);
+            }(value, axisModel, 0, polar, axisPointerModel.get([
+                'label',
+                'margin'
+            ]));
             buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos);
         }, PolarAxisPointer;
     }(BaseAxisPointer), pointerShapeBuilder$1 = {

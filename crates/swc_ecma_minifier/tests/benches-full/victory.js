@@ -22575,7 +22575,7 @@
                                     duration: exit
                                 } : {
                                     delay: exit
-                                }), child, data, exitingNodes, function() {
+                                }), 0, data, exitingNodes, function() {
                                     setState({
                                         nodesWillExit: !1
                                     });
@@ -22616,6 +22616,7 @@
                                         data: data
                                     };
                                 }(animate1, child, data, enteringNodes, function() {
+                                }(animate2, 0, data, enteringNodes, function() {
                                     setState({
                                         nodesShouldEnter: !0
                                     });
@@ -22665,6 +22666,7 @@
                                     clipWidth: 0
                                 };
                             }(animate2, child, data, function() {
+                            }(animate3, 0, data, function() {
                                 setState({
                                     nodesDoneLoad: !0
                                 });

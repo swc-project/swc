@@ -36,7 +36,7 @@
             allowCrossDomainPages: !1,
             dialogHashKey: "&ui-state=dialog"
         });
-    }(jQuery, this), nsNormalizeDict = {}, oldFind = ($ = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $.extend($.mobile, {
+    }(jQuery, 0), nsNormalizeDict = {}, oldFind = ($ = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $.extend($.mobile, {
         ns: "",
         getAttribute: function(element, key) {
             var data;
@@ -1042,7 +1042,7 @@
                 ele = ele.parentNode;
             }
         }, !0);
-    }(jQuery, window, document1), function($, window, undefined) {
+    }(jQuery, 0, document1), function($, window, undefined) {
         var $document = $(document1), supportTouch = $.mobile.support.touch, scrollEvent = "touchmove scroll", touchStartEvent = supportTouch ? "touchstart" : "mousedown", touchStopEvent = supportTouch ? "touchend" : "mouseup", touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
         function triggerCustomEvent(obj, eventType, event1, bubble) {
             var originalType = event1.type;
@@ -1866,7 +1866,7 @@
                 }).attr("data-" + $.mobile.ns + "rel", "back").text(text || this.options.closeBtnText || "").prependTo(dst)), this._headerCloseButton = btn;
             }
         });
-    }(jQuery, this), function($, window, undefined) {
+    }(jQuery, 0), function($, window, undefined) {
         $.widget("mobile.dialog", {
             options: {
                 closeBtn: "left",
@@ -1920,6 +1920,7 @@
             }
         });
     }(jQuery, this), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
+    }(jQuery, 0), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
     }, $17.widget("mobile.collapsible", {
         options: {

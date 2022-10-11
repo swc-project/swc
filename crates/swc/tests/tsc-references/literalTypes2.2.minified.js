@@ -21,4 +21,4 @@ var aa = [
 aa = function(a, x) {
     var result = a.slice();
     return result.push(1), result;
-}(aa, 1);
+}(aa, 0);

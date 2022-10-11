@@ -1871,7 +1871,7 @@
                                 };
                                 img.complete ? handleLoad() : img.onload = handleLoad;
                             }
-                        }(img, srcString, layout, placeholder, onLoadingComplete);
+                        }(img, srcString, 0, placeholder, onLoadingComplete);
                     },
                     style: _objectSpread({}, imgStyle, blurStyle)
                 })), _react.default.createElement("noscript", null, _react.default.createElement("img", Object.assign({}, rest, generateImgAttrs({
