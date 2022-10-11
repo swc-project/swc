@@ -308,6 +308,55 @@ where
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+
+        if let Expr::Fn(FnExpr {
+            ident: Some(ident), ..
+        }) = callee
+        {
+            if self
+                .data
+                .vars
+                .get(&ident.to_id())
+                .filter(|usage| usage.used_recursively)
+                .is_some()
+            {
+                return;
+            }
+        }
+
+        let mut removed = vec![];
+        let params = find_params(callee);
+        if let Some(mut params) = params {
+            // We check for parameter and argument
+            for (idx, param) in params.iter_mut().enumerate() {
+                if let Pat::Ident(param) = &mut **param {
+                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                        if usage.ref_count == 0 {
+                            removed.push(idx);
+                        }
+                    }
+                }
+            }
+
+            if removed.is_empty() {
+                log_abort!("`removed` is empty");
+                return;
+            }
+        }
+
+        for idx in removed {
+            let arg = self.ignore_return_value(&mut e.args[idx].expr);
+            if let Some(arg) = arg {
+                e.args[idx].expr = Box::new(arg);
+            } else {
+                e.args[idx].expr = Number {
+                    span: e.args[idx].expr.span(),
+                    value: 0.0,
+                    raw: None,
+                }
+                .into();
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
