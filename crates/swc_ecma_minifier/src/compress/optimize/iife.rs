@@ -345,10 +345,13 @@ where
         }
 
         for idx in removed {
+            // Optimize
             let arg = self.ignore_return_value(&mut e.args[idx].expr);
+
             if let Some(arg) = arg {
                 e.args[idx].expr = Box::new(arg);
             } else {
+                // Use `0` if it's removed.
                 e.args[idx].expr = Number {
                     span: e.args[idx].expr.span(),
                     value: 0.0,
