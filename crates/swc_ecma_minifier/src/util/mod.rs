@@ -19,6 +19,7 @@ pub(crate) fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
         | js_word!("String")
         | js_word!("Object")
         | js_word!("Number")
+        | js_word!("Date")
         | js_word!("BigInt")
         | js_word!("Boolean")
         | js_word!("Math")
@@ -34,15 +35,12 @@ pub(crate) fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
             | "setInterval"
             | "setTimeout"
             | "btoa"
-            | "Boolean"
-            | "Date"
             | "decodeURI"
             | "decodeURIComponent"
             | "encodeURI"
             | "encodeURIComponent"
             | "escape"
             | "eval"
-            | "Error"
             | "EvalError"
             | "Function"
             | "isFinite"
@@ -59,14 +57,9 @@ pub(crate) fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
             | "URIError"
             | "atob"
             | "globalThis"
-            | "String"
-            | "Object"
-            | "Array"
-            | "Number"
             | "NaN"
             | "Symbol"
             | "Promise"
-            | "Math"
     )
 }
 
