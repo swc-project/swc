@@ -1575,6 +1575,7 @@ where
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
     }
 

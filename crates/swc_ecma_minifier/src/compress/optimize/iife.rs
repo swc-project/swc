@@ -322,6 +322,10 @@ where
         clean_params(callee);
     }
 
+    /// If a parameter is not used, we can ignore return value of the
+    /// corresponding argument.
+    pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {}
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
     where
