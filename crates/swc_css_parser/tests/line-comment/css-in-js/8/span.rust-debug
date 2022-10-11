@@ -11,16 +11,22 @@
    : ^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
  1 | //
-   : ^^
+   : ^
    `----
 
   x Delim { value: '/' }
    ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
  1 | //
    : ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/line-comment/css-in-js/8/input.css:1:1]
+ 1 | //
+   :  ^
    `----
 
   x Delim { value: '/' }

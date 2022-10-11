@@ -81,26 +81,29 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span();
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump();
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump() {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump();
-
-                                    tokens.extend(token);
+                                    if let Some(token_and_span) = self.input.bump() {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
 
                                     break;
                                 }
                             }
 
-                            rules.push(Rule::Invalid(Tokens {
-                                span: span!(self, span.lo),
-                                tokens,
-                            }));
+                            rules.push(Rule::ListOfComponentValues(Box::new(
+                                ListOfComponentValues {
+                                    span: span!(self, span.lo),
+                                    children,
+                                },
+                            )));
                         }
                     };
                 }

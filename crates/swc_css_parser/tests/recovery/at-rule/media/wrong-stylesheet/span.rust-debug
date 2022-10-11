@@ -87,10 +87,10 @@
    : ^^^^^^^^^^^^
    `----
 
-  x Tokens
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
-   : ^^^^^^^^^^^^
+   : ^^^^^
    `----
 
   x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
@@ -99,10 +99,22 @@
    : ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | color: teal;
+   :      ^
+   `----
+
   x Colon
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
    :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | color: teal;
+   :       ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
@@ -111,10 +123,22 @@
    :       ^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | color: teal;
+   :        ^^^^
+   `----
+
   x Ident { value: Atom('teal' type=inline), raw: Atom('teal' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
    :        ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | color: teal;
+   :            ^
    `----
 
   x Semi

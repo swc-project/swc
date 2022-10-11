@@ -8,7 +8,10 @@ use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
     parse_tokens,
-    parser::{input::ParserInput, PResult, Parser, ParserConfig},
+    parser::{
+        input::{ParserInput, Tokens},
+        PResult, Parser, ParserConfig,
+    },
 };
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
@@ -385,8 +388,6 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(CustomIdent, visit_custom_ident);
 
     mtd!(DashedIdent, visit_dashed_ident);
-
-    mtd!(Tokens, visit_tokens);
 
     mtd!(Dimension, visit_dimension);
 
