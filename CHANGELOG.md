@@ -20,6 +20,9 @@
 
 
 
+- **(bindings)** Apply `resolver` to the output of `parse` apis (#6118) ([0cd8aee](https://github.com/swc-project/swc/commit/0cd8aeeb5c07e1fba76a43b78ed2e3cfabf88256))
+
+
 - **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
 
 
@@ -27,6 +30,9 @@
 
 
 - **(css/codegen)** Support lowercase case insensitivity (#6113) ([a920997](https://github.com/swc-project/swc/commit/a920997f4b1e4a194e2b74bc8a27184d0e438d31))
+
+
+- **(dbg-swc)** Remove comments from the output of `terser` (#6119) ([8549c47](https://github.com/swc-project/swc/commit/8549c4780775ef329b7ea35e56a91de6c1fc9577))
 
 
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
@@ -44,7 +50,16 @@
 
 
 
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
+
+
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
+
+### Build
+
+
+
+- **(cargo)** Remove unused deps (#6117) ([27bda13](https://github.com/swc-project/swc/commit/27bda13591a57995708f60bdcb3cbe50b9bb42ec))
 
 ## [1.3.6] - 2022-10-08
 

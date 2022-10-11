@@ -24,6 +24,8 @@ anyhow = "1"
 swc_core = { version = "0.32.2", features = [
   "common_perf",
   "binding_macro_wasm",
+  "ecma_transforms",
+  "ecma_visit",
 ] }
 tracing = { version = "0.1.36", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = [
