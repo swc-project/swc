@@ -8,7 +8,7 @@ use swc_ecma_utils::{collect_decls, BindingCollector};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;
-use crate::marks::Marks;
+use crate::{marks::Marks, util::is_global_var_with_pure_property_access};
 
 mod ctx;
 
@@ -109,17 +109,8 @@ impl InfectionCollector<'_> {
         }
 
         if self.unresolved_ctxt == Some(e.1) {
-            match e.0 {
-                js_word!("JSON")
-                | js_word!("Array")
-                | js_word!("String")
-                | js_word!("Object")
-                | js_word!("Number")
-                | js_word!("BigInt")
-                | js_word!("Boolean")
-                | js_word!("Math")
-                | js_word!("Error") => return,
-                _ => {}
+            if is_global_var_with_pure_property_access(&e.0) {
+                return;
             }
         }
 
