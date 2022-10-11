@@ -2378,7 +2378,7 @@ __metadata:
     source-map: ^0.7.3
     source-map-support: ^0.5.19
     sourcemap-validator: ^2.1.0
-    swc-plugin-coverage-instrument: ^0.0.13
+    swc-plugin-coverage-instrument: ^0.0.12
     terser: ^5.7.1
     ts-node: ^10.5.0
     typescript: ^4.5.2
@@ -7135,10 +7135,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swc-plugin-coverage-instrument@npm:^0.0.13":
-  version: 0.0.13
-  resolution: "swc-plugin-coverage-instrument@npm:0.0.13"
-  checksum: 1ba99c6ed31fee6f431574fafd0ad4a625eaf57e235a7844d99f0fafb040de848d0b3f9fee1672c35a85e540ae6bb617bcb95bc729b2160b2c578bc4dce91250
+"swc-plugin-coverage-instrument@npm:^0.0.12":
+  version: 0.0.12
+  resolution: "swc-plugin-coverage-instrument@npm:0.0.12"
+  checksum: 9c049e63e5ee389f9d58074ca17e7ca2443cb8990c7fd87953ac73021debc79c130afe8d272666a39b70afe879136869ea97a6b0cc823085a06545dd882de135
   languageName: node
   linkType: hard
 
@@ -7308,11 +7308,11 @@ __metadata:
 
 "typescript@patch:typescript@^4.5.2#~builtin<compat/typescript>":
   version: 4.8.4
-  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 563a0ef47abae6df27a9a3ab38f75fc681f633ccf1a3502b1108e252e187787893de689220f4544aaf95a371a4eb3141e4a337deb9895de5ac3c1ca76430e5f0
+  checksum: 301459fc3eb3b1a38fe91bf96d98eb55da88a9cb17b4ef80b4d105d620f4d547ba776cc27b44cc2ef58b66eda23fe0a74142feb5e79a6fb99f54fc018a696afa
   languageName: node
   linkType: hard
 
