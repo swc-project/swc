@@ -14,6 +14,7 @@ use swc_core::{
         Compiler,
     },
     common::{comments::Comments, FileName},
+    ecma::{transforms::base::resolver, visit::VisitMutWith},
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
@@ -53,14 +54,18 @@ impl Task for ParseTask {
         };
 
         let program = try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-            self.c.parse_js(
+            let mut p = self.c.parse_js(
                 fm,
                 handler,
                 options.target,
                 options.syntax,
                 options.is_module,
                 comments,
-            )
+            )?;
+
+            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+
+            Ok(p)
         })
         .convert_err()?;
 
@@ -97,14 +102,18 @@ impl Task for ParseFileTask {
                     None
                 };
 
-                self.c.parse_js(
+                let mut p = self.c.parse_js(
                     fm,
                     handler,
                     options.target,
                     options.syntax,
                     options.is_module,
                     comments,
-                )
+                );
+
+                p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+
+                p
             })
         })
         .convert_err()?;
@@ -169,14 +178,18 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
                 None
             };
 
-            c.parse_js(
+            let mut p = c.parse_js(
                 fm,
                 handler,
                 options.target,
                 options.syntax,
                 options.is_module,
                 comments,
-            )
+            )?;
+
+            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+
+            Ok(p)
         })
     })
     .convert_err()?;
@@ -202,14 +215,17 @@ pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
                 None
             };
 
-            c.parse_js(
+            let mut p = c.parse_js(
                 fm,
                 handler,
                 options.target,
                 options.syntax,
                 options.is_module,
                 comments,
-            )
+            )?;
+            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+
+            Ok(p)
         })
     }
     .convert_err()?;
