@@ -156,6 +156,16 @@ impl VisitMut for NormalizeTest {
         n.keyword = None;
     }
 
+    fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            MediaFeatureName::Ident(ident) => {
+                ident.value = ident.value.to_lowercase().into();
+            }
+        }
+    }
+
     fn visit_mut_supports_not(&mut self, n: &mut SupportsNot) {
         n.visit_mut_children_with(self);
 
@@ -192,13 +202,14 @@ impl VisitMut for NormalizeTest {
         n.keyword = None;
     }
 
-    fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
+    fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
         n.visit_mut_children_with(self);
 
         match n {
-            MediaFeatureName::Ident(ident) => {
+            KeyframeSelector::Ident(ident) => {
                 ident.value = ident.value.to_lowercase().into();
             }
+            _ => {}
         }
     }
 

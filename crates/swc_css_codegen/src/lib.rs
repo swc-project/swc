@@ -386,7 +386,13 @@ where
     #[emitter]
     fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
         match n {
-            KeyframeSelector::Ident(n) => emit!(self, n),
+            KeyframeSelector::Ident(n) => emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n
+            ),
             KeyframeSelector::Percentage(n) => emit!(self, n),
         }
     }
