@@ -13,7 +13,7 @@ use swc_core::{
         config::{ErrorFormat, ParseOptions},
         Compiler,
     },
-    common::{comments::Comments, FileName},
+    common::{comments::Comments, FileName, Mark},
     ecma::{transforms::base::resolver, visit::VisitMutWith},
     node::{deserialize_json, get_deserialized, MapErr},
 };
@@ -63,7 +63,11 @@ impl Task for ParseTask {
                 comments,
             )?;
 
-            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+            p.visit_mut_with(&mut resolver(
+                Mark::new(),
+                Mark::new(),
+                options.syntax.typescript(),
+            ));
 
             Ok(p)
         })
@@ -109,11 +113,15 @@ impl Task for ParseFileTask {
                     options.syntax,
                     options.is_module,
                     comments,
-                );
+                )?;
 
-                p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+                p.visit_mut_with(&mut resolver(
+                    Mark::new(),
+                    Mark::new(),
+                    options.syntax.typescript(),
+                ));
 
-                p
+                Ok(p)
             })
         })
         .convert_err()?;
@@ -187,7 +195,11 @@ pub fn parse_sync(src: String, opts: Buffer, filename: Option<String>) -> napi::
                 comments,
             )?;
 
-            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+            p.visit_mut_with(&mut resolver(
+                Mark::new(),
+                Mark::new(),
+                options.syntax.typescript(),
+            ));
 
             Ok(p)
         })
@@ -223,7 +235,11 @@ pub fn parse_file_sync(path: String, opts: Buffer) -> napi::Result<String> {
                 options.is_module,
                 comments,
             )?;
-            p.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+            p.visit_mut_with(&mut resolver(
+                Mark::new(),
+                Mark::new(),
+                options.syntax.typescript(),
+            ));
 
             Ok(p)
         })

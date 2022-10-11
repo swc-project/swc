@@ -110,7 +110,7 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
                 } else {
                     None
                 };
-                let program = anyhow::Context::context(
+                let mut program = anyhow::Context::context(
                     c.parse_js(
                         fm,
                         handler,
@@ -122,7 +122,11 @@ pub fn parse_sync(s: JsString, opts: JsValue) -> Result<JsValue, JsValue> {
                     "failed to parse code",
                 )?;
 
-                program.visit_mut_with(&mut resolver(Mark::new(), Mark::new()));
+                program.visit_mut_with(&mut resolver(
+                    Mark::new(),
+                    Mark::new(),
+                    opts.syntax.typescript(),
+                ));
 
                 anyhow::Context::context(JsValue::from_serde(&program), "failed to serialize json")
             })
