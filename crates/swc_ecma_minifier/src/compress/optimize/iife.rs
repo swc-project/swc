@@ -349,19 +349,23 @@ where
         }
 
         for idx in removed {
-            // Optimize
-            let arg = self.ignore_return_value(&mut e.args[idx].expr);
+            if let Some(arg) = e.args.get_mut(idx) {
+                // Optimize
+                let new = self.ignore_return_value(&mut arg.expr);
 
-            if let Some(arg) = arg {
-                e.args[idx].expr = Box::new(arg);
-            } else {
-                // Use `0` if it's removed.
-                e.args[idx].expr = Number {
-                    span: e.args[idx].expr.span(),
-                    value: 0.0,
-                    raw: None,
+                if let Some(new) = new {
+                    arg.expr = Box::new(new);
+                } else {
+                    // Use `0` if it's removed.
+                    arg.expr = Number {
+                        span: arg.expr.span(),
+                        value: 0.0,
+                        raw: None,
+                    }
+                    .into();
                 }
-                .into();
+            } else {
+                break;
             }
         }
     }
