@@ -222,7 +222,7 @@
    : ^^^
    `----
 
-  x Ident { value: Atom('top' type=inline), raw: Atom('top' type=inline) }
+  x Ident { value: Atom('top' type=static), raw: Atom('top' type=static) }
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
  4 | top: 0;
    : ^^^

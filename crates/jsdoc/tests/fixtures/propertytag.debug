@@ -93,7 +93,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=dynamic),
+                    value: Atom('property' type=static),
                 },
                 tag: Property(
                     PropertyTag {
@@ -180,7 +180,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=dynamic),
+                    value: Atom('property' type=static),
                 },
                 tag: Property(
                     PropertyTag {
@@ -267,7 +267,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=dynamic),
+                    value: Atom('property' type=static),
                 },
                 tag: Property(
                     PropertyTag {
