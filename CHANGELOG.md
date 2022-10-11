@@ -20,6 +20,9 @@
 
 
 
+- **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
+
+
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
 
 
