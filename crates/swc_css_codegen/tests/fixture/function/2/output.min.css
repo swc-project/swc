@@ -1,1 +1,1 @@
-div{width:calc(200px - 100px);width:calc(100px + 100px);width:calc(100px*2);width:calc(100px/2);font-size:max(10*(1vw + 1vh)/2,12px)}
+div{width:calc(200px - 100px);width:calc(100px + 100px);width:calc(100px*2);width:calc(100px/2);width:calc(100px/2);font-size:max(10*(1vw + 1vh)/2,12px)}

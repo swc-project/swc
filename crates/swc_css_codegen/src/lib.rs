@@ -1050,7 +1050,13 @@ where
 
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
         write_raw!(self, "(");
         self.emit_list_of_component_values_inner(
             &n.value,
@@ -1290,32 +1296,36 @@ where
 
     #[emitter]
     fn emit_important_flag(&mut self, n: &ImportantFlag) -> Result {
-        // `!` + `important`
-        let mut value = String::with_capacity(10);
-
-        value.push('!');
+        write_raw!(self, lo_span_offset!(n.span, 1), "!");
 
         if self.config.minify {
-            value.push_str(&n.value.value.to_lowercase());
-        } else if let Some(raw) = &n.value.raw {
-            value.push_str(raw);
+            emit!(
+                &mut *self.with_ctx(Ctx {
+                    allow_to_lowercase: true,
+                    ..self.ctx
+                }),
+                n.value
+            );
         } else {
-            value.push_str("important");
+            emit!(self, n.value);
         }
-
-        write_raw!(self, n.span, &value);
     }
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let value = if self.ctx.allow_to_lowercase {
+                n.value.to_lowercase()
+            } else {
+                n.value.to_string()
+            };
+            let serialized = serialize_ident(&value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1330,7 +1340,7 @@ where
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -1345,7 +1355,7 @@ where
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
         }
@@ -2116,7 +2126,13 @@ where
 
     #[emitter]
     fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
-        emit!(self, n.name);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.name
+        );
     }
 
     #[emitter]
@@ -2211,7 +2227,13 @@ where
 
     #[emitter]
     fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
-        emit!(self, n.value);
+        emit!(
+            &mut *self.with_ctx(Ctx {
+                allow_to_lowercase: true,
+                ..self.ctx
+            }),
+            n.value
+        );
     }
 
     #[emitter]

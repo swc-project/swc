@@ -5,8 +5,9 @@ use std::{
 
 use swc_common::{FileName, Span};
 use swc_css_ast::{
-    AnPlusBNotation, ComponentValue, CustomIdent, DashedIdent, HexColor, Ident, ImportantFlag,
-    Integer, Number, Str, Stylesheet, Token, TokenAndSpan, UrlValueRaw,
+    AnPlusBNotation, AttributeSelectorModifier, ComponentValue, CustomIdent, DashedIdent, Function,
+    HexColor, Ident, ImportantFlag, Integer, Number, Str, Stylesheet, TagNameSelector, Token,
+    TokenAndSpan, UrlValueRaw,
 };
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -189,6 +190,24 @@ impl VisitMut for NormalizeTest {
         n.before = None;
         n.after = None;
         n.raw = None;
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value.value = n.name.value.value.to_lowercase().into();
+    }
+
+    fn visit_mut_attribute_selector_modifier(&mut self, n: &mut AttributeSelectorModifier) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
     }
 
     fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {
