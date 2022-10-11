@@ -1,11 +1,5 @@
 var c = "FAIL";
-!(function (a) {
-    if (
-        ((function (a) {
-            a && a();
-        })(),
-        a)
-    )
-        c = "PASS";
-})(1),
-    console.log(c);
+(function(a) {
+    var a1;
+    a1 && a1(), c = "PASS";
+})(1), console.log(c);
