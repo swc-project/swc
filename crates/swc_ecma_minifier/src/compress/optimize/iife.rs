@@ -291,6 +291,8 @@ where
                 }
                 _ => {}
             }
+        } else {
+            unreachable!("find_body and find_params should match")
         }
 
         clean_params(callee);
@@ -362,6 +364,8 @@ where
                 log_abort!("`removed` is empty");
                 return;
             }
+        } else {
+            unreachable!("find_body and find_params should match")
         }
 
         for idx in removed {
