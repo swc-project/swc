@@ -1322,6 +1322,21 @@ where
     }
 
     #[emitter]
+    fn emit_custom_highlight_name(&mut self, n: &CustomHighlightName) -> Result {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        }
+    }
+
+    #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
         if self.config.minify {
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
@@ -2350,6 +2365,7 @@ where
             PseudoElementSelectorChildren::PreservedToken(n) => emit!(self, n),
             PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
             PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
+            PseudoElementSelectorChildren::CustomHighlightName(n) => emit!(self, n),
         }
     }
 
