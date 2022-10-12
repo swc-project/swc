@@ -292,7 +292,7 @@ where
                 _ => {}
             }
         } else {
-            unreachable!("find_body and find_params should match")
+            return;
         }
 
         clean_params(callee);
@@ -360,7 +360,7 @@ where
                 return;
             }
         } else {
-            unreachable!("find_body and find_params should match")
+            return;
         }
 
         for idx in removed {
