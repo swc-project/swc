@@ -33,6 +33,7 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
             &fm,
             ParserConfig {
                 css_modules: true,
+                allow_nested_selectors: true,
                 ..Default::default()
             },
             &mut errors,
