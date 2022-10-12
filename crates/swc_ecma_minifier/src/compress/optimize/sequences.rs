@@ -1512,6 +1512,11 @@ where
                 };
 
                 if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    // Let's be safe
+                    if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                        return Ok(false);
+                    }
+
                     // As we are not *skipping* lhs, we can inline here
                     if let Some(a_id) = a.id() {
                         if a_id == b_left.to_id() {
