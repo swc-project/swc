@@ -2050,7 +2050,7 @@ where
                         .unwrap_or_else(|| undefined(DUMMY_SP))
                     }
                     Mergable::Expr(a) => {
-                        if can_remove {
+                        if can_remove || $force_drop {
                             if let Expr::Assign(e) = a {
                                 report_change!(
                                     "sequences: Dropping assignment as we are going to drop the \
