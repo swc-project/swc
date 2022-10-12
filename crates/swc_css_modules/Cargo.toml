@@ -26,4 +26,5 @@ swc_css_visit = {version = "0.118.1", path = "../swc_css_visit"}
 
 [dev-dependencies]
 serde_json = "1"
+swc_css_compat = {version = "0.4.1", path = "../swc_css_compat"}
 testing = {version = "0.31.7", path = "../testing"}
