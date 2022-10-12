@@ -293,7 +293,6 @@ where
                     unreachable!("find_body and find_params should match")
                 }
             }
-        } else {
         }
 
         clean_params(callee);
