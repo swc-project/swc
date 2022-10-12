@@ -206,6 +206,11 @@ where
                     prelude = match self.parse() {
                         Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
                         Err(err) => {
+                            // Disable error recovery
+                            if self.ctx.is_trying_nested_selector {
+                                return Err(err);
+                            }
+
                             self.errors.push(err);
                             self.input.reset(&state);
 
