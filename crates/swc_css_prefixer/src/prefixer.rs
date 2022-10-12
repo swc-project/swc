@@ -1,3 +1,5 @@
+#![allow(clippy::match_like_matches_macro)]
+
 use core::f64::consts::PI;
 use std::mem::take;
 

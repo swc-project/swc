@@ -77,7 +77,6 @@ impl Compressor {
             AnPlusB::AnPlusBNotation(AnPlusBNotation {
                 a: Some(a),
                 b,
-                b_raw,
                 span,
                 ..
             }) if *a == 0 => {
@@ -92,7 +91,6 @@ impl Compressor {
             // `-5n+0` => `-5n`, etc
             AnPlusB::AnPlusBNotation(AnPlusBNotation {
                 a,
-                a_raw,
                 b: Some(b),
                 span,
                 ..
