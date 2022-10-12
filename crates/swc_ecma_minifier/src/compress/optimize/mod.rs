@@ -921,6 +921,33 @@ where
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {
+                if arr.elems.iter().any(|e| match e {
+                    Some(ExprOrSpread {
+                        spread: Some(..), ..
+                    }) => true,
+                    _ => false,
+                }) {
+                    return Some(Expr::Array(ArrayLit {
+                        elems: arr
+                            .elems
+                            .take()
+                            .into_iter()
+                            .flatten()
+                            .filter_map(|mut e| {
+                                if e.spread.is_some() {
+                                    return Some(e);
+                                }
+
+                                self.ignore_return_value(&mut e.expr)
+                                    .map(Box::new)
+                                    .map(|expr| ExprOrSpread { expr, spread: None })
+                            })
+                            .map(Some)
+                            .collect(),
+                        ..*arr
+                    }));
+                }
+
                 let mut exprs = vec![];
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an array literal");
@@ -929,7 +956,7 @@ where
                         .take()
                         .into_iter()
                         .flatten()
-                        .map(|v| v.expr)
+                        .map(|e| e.expr)
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new),
                 );
