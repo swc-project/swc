@@ -2022,7 +2022,7 @@ where
                             if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                                 // We are eliminating one usage, so we use 1 instead of
                                 // 0
-                                if usage.usage_count == 1 {
+                                if !$force_drop && usage.usage_count == 1 {
                                     report_change!("sequences: Dropping inlined variable");
                                     a.name.take();
                                 }
