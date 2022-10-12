@@ -1,4 +1,3 @@
-use swc_atoms::JsWord;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -481,113 +480,116 @@ where
 {
     fn parse(&mut self) -> PResult<TypeSelector> {
         let span = self.input.cur_span();
-        let prefix = if (is!(self, Ident) && peeked_is!(self, "|"))
-            || (is!(self, "*") && peeked_is!(self, "|"))
-            || is!(self, "|")
-        {
-            Some(self.parse()?)
-        } else {
-            None
-        };
-
-        if is!(self, Ident) {
-            let value = self.parse()?;
-
-            return Ok(TypeSelector::TagName(TagNameSelector {
-                span: span!(self, span.lo),
-                name: WqName {
-                    span: span!(self, span.lo),
-                    prefix,
-                    value,
-                },
-            }));
-        } else if is!(self, "*") {
-            bump!(self);
-
-            return Ok(TypeSelector::Universal(UniversalSelector {
-                span: span!(self, span.lo),
-                prefix,
-            }));
-        }
-
-        return Err(Error::new(
-            span,
-            ErrorKind::Expected("ident, '*' or '|' delim tokens"),
-        ));
-    }
-}
-
-impl<I> Parse<NsPrefix> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<NsPrefix> {
-        let span = self.input.cur_span();
         let mut prefix = None;
-
-        if is!(self, Ident) {
-            prefix = Some(self.parse()?);
-        } else if is!(self, "*") {
-            bump!(self);
-
-            let value: JsWord = "*".into();
-            let raw = value.clone();
-
-            prefix = Some(Ident {
-                span,
-                value,
-                raw: Some(raw),
-            });
-        }
-
-        expect!(self, "|");
-
-        return Ok(NsPrefix {
-            span: span!(self, span.lo),
-            prefix,
-        });
-    }
-}
-
-impl<I> Parse<Option<WqName>> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<Option<WqName>> {
-        let span = self.input.cur_span();
-        let state = self.input.state();
 
         if is!(self, Ident) && peeked_is!(self, "|")
             || is!(self, "*") && peeked_is!(self, "|")
             || is!(self, "|")
         {
-            let prefix = Some(self.parse()?);
+            prefix = Some(self.parse()?);
+        }
 
-            if is!(self, Ident) {
+        match cur!(self) {
+            tok!("ident") => {
                 let value = self.parse()?;
 
-                return Ok(Some(WqName {
+                return Ok(TypeSelector::TagName(TagNameSelector {
+                    span: span!(self, span.lo),
+                    name: WqName {
+                        span: span!(self, span.lo),
+                        prefix,
+                        value,
+                    },
+                }));
+            }
+            tok!("*") => {
+                bump!(self);
+
+                return Ok(TypeSelector::Universal(UniversalSelector {
                     span: span!(self, span.lo),
                     prefix,
-                    value,
                 }));
-            } else {
-                // TODO: implement `peeked_ahead_is` for perf
-                self.input.reset(&state);
+            }
+            _ => {
+                return Err(Error::new(
+                    span,
+                    ErrorKind::Expected("ident, '*' or '|' delim tokens"),
+                ));
             }
         }
+    }
+}
 
-        if is!(self, Ident) {
-            let value = self.parse()?;
+impl<I> Parse<NamespacePrefix> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<NamespacePrefix> {
+        let span = self.input.cur_span();
 
-            return Ok(Some(WqName {
-                span: span!(self, span.lo),
-                prefix: None,
-                value,
-            }));
+        let mut namespace = None;
+
+        match cur!(self) {
+            Token::Ident { .. } => {
+                let name = self.parse()?;
+
+                namespace = Some(Namespace::Named(NamedNamespace {
+                    span: span!(self, span.lo),
+                    name,
+                }));
+            }
+            Token::Delim { value, .. } if *value == '*' => {
+                bump!(self);
+
+                namespace = Some(Namespace::Any(AnyNamespace {
+                    span: span!(self, span.lo),
+                }));
+            }
+            _ => {}
         }
 
-        Ok(None)
+        expect!(self, "|");
+
+        Ok(NamespacePrefix {
+            span: span!(self, span.lo),
+            namespace,
+        })
+    }
+}
+
+impl<I> Parse<WqName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<WqName> {
+        let span = self.input.cur_span();
+        let state = self.input.state();
+        let mut prefix = None;
+
+        if is!(self, Ident) && peeked_is!(self, "|")
+            || is!(self, "*") && peeked_is!(self, "|")
+            || is!(self, "|")
+        {
+            prefix = Some(self.parse()?);
+        }
+
+        // To avoid confusing syntax in attribute selectors:
+        //
+        // - [foo|="foo"]
+        // - [foo|*="foo"]
+        if !is!(self, Ident) {
+            prefix = None;
+
+            self.input.reset(&state);
+        }
+
+        let value = self.parse()?;
+
+        Ok(WqName {
+            span: span!(self, span.lo),
+            prefix,
+            value,
+        })
     }
 }
 
@@ -681,7 +683,7 @@ where
         let mut value = None;
         let mut modifier = None;
 
-        let name = if let Ok(Some(wq_name)) = self.parse() {
+        let name = if let Ok(wq_name) = self.parse() {
             wq_name
         } else {
             let span = self.input.cur_span();

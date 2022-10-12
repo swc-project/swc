@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 909,
+    "end": 951,
     "ctxt": 0
   },
   "rules": [
@@ -1463,21 +1463,29 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 278,
                           "end": 282,
                           "ctxt": 0
                         },
-                        "prefix": {
-                          "type": "Ident",
+                        "namespace": {
+                          "type": "NamedNamespace",
                           "span": {
                             "start": 278,
                             "end": 281,
                             "ctxt": 0
                           },
-                          "value": "foo",
-                          "raw": "foo"
+                          "name": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 278,
+                              "end": 281,
+                              "ctxt": 0
+                            },
+                            "value": "foo",
+                            "raw": "foo"
+                          }
                         }
                       },
                       "value": {
@@ -1577,21 +1585,19 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 295,
                           "end": 297,
                           "ctxt": 0
                         },
-                        "prefix": {
-                          "type": "Ident",
+                        "namespace": {
+                          "type": "AnyNamespace",
                           "span": {
                             "start": 295,
                             "end": 296,
                             "ctxt": 0
-                          },
-                          "value": "*",
-                          "raw": "*"
+                          }
                         }
                       },
                       "value": {
@@ -1674,21 +1680,19 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 309,
                           "end": 311,
                           "ctxt": 0
                         },
-                        "prefix": {
-                          "type": "Ident",
+                        "namespace": {
+                          "type": "AnyNamespace",
                           "span": {
                             "start": 309,
                             "end": 310,
                             "ctxt": 0
-                          },
-                          "value": "*",
-                          "raw": "*"
+                          }
                         }
                       },
                       "value": {
@@ -1771,13 +1775,13 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 323,
                           "end": 324,
                           "ctxt": 0
                         },
-                        "prefix": null
+                        "namespace": null
                       },
                       "value": {
                         "type": "Ident",
@@ -1859,13 +1863,13 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 334,
                           "end": 335,
                           "ctxt": 0
                         },
-                        "prefix": null
+                        "namespace": null
                       },
                       "value": {
                         "type": "Ident",
@@ -1947,13 +1951,13 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 348,
                           "end": 349,
                           "ctxt": 0
                         },
-                        "prefix": null
+                        "namespace": null
                       },
                       "value": {
                         "type": "Ident",
@@ -4786,6 +4790,240 @@
         "span": {
           "start": 905,
           "end": 908,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 909,
+        "end": 928,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 909,
+          "end": 925,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 909,
+              "end": 925,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 909,
+                  "end": 925,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "AttributeSelector",
+                    "span": {
+                      "start": 909,
+                      "end": 925,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "WqName",
+                      "span": {
+                        "start": 910,
+                        "end": 916,
+                        "ctxt": 0
+                      },
+                      "prefix": {
+                        "type": "NamespacePrefix",
+                        "span": {
+                          "start": 910,
+                          "end": 912,
+                          "ctxt": 0
+                        },
+                        "namespace": {
+                          "type": "AnyNamespace",
+                          "span": {
+                            "start": 910,
+                            "end": 911,
+                            "ctxt": 0
+                          }
+                        }
+                      },
+                      "value": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 912,
+                          "end": 916,
+                          "ctxt": 0
+                        },
+                        "value": "attr",
+                        "raw": "attr"
+                      }
+                    },
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 916,
+                        "end": 918,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 918,
+                        "end": 924,
+                        "ctxt": 0
+                      },
+                      "value": "test",
+                      "raw": "\"test\""
+                    },
+                    "modifier": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 926,
+          "end": 928,
+          "ctxt": 0
+        },
+        "name": "{",
+        "value": []
+      }
+    },
+    {
+      "type": "QualifiedRule",
+      "span": {
+        "start": 929,
+        "end": 950,
+        "ctxt": 0
+      },
+      "prelude": {
+        "type": "SelectorList",
+        "span": {
+          "start": 929,
+          "end": 947,
+          "ctxt": 0
+        },
+        "children": [
+          {
+            "type": "ComplexSelector",
+            "span": {
+              "start": 929,
+              "end": 947,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "CompoundSelector",
+                "span": {
+                  "start": 929,
+                  "end": 947,
+                  "ctxt": 0
+                },
+                "nestingSelector": null,
+                "typeSelector": null,
+                "subclassSelectors": [
+                  {
+                    "type": "AttributeSelector",
+                    "span": {
+                      "start": 929,
+                      "end": 947,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "WqName",
+                      "span": {
+                        "start": 930,
+                        "end": 938,
+                        "ctxt": 0
+                      },
+                      "prefix": {
+                        "type": "NamespacePrefix",
+                        "span": {
+                          "start": 930,
+                          "end": 934,
+                          "ctxt": 0
+                        },
+                        "namespace": {
+                          "type": "NamedNamespace",
+                          "span": {
+                            "start": 930,
+                            "end": 933,
+                            "ctxt": 0
+                          },
+                          "name": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 930,
+                              "end": 933,
+                              "ctxt": 0
+                            },
+                            "value": "foo",
+                            "raw": "foo"
+                          }
+                        }
+                      },
+                      "value": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 934,
+                          "end": 938,
+                          "ctxt": 0
+                        },
+                        "value": "attr",
+                        "raw": "attr"
+                      }
+                    },
+                    "matcher": {
+                      "type": "AttributeSelectorMatcher",
+                      "span": {
+                        "start": 938,
+                        "end": 940,
+                        "ctxt": 0
+                      },
+                      "value": "|="
+                    },
+                    "value": {
+                      "type": "String",
+                      "span": {
+                        "start": 940,
+                        "end": 946,
+                        "ctxt": 0
+                      },
+                      "value": "test",
+                      "raw": "\"test\""
+                    },
+                    "modifier": null
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 948,
+          "end": 950,
           "ctxt": 0
         },
         "name": "{",

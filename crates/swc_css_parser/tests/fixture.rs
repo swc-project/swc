@@ -298,7 +298,13 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(TagNameSelector, visit_tag_name_selector);
 
-    mtd!(NsPrefix, visit_ns_prefix);
+    mtd!(NamespacePrefix, visit_namespace_prefix);
+
+    mtd!(Namespace, visit_namespace);
+
+    mtd!(NamedNamespace, visit_named_namespace);
+
+    mtd!(AnyNamespace, visit_any_namespace);
 
     mtd!(WqName, visit_wq_name);
 

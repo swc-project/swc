@@ -627,10 +627,22 @@
    : ^^^^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1]
  8 | html|*:not(:link):not(:visited) {}
    : ^^^^^
+   `----
+
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1]
+ 8 | html|*:not(:link):not(:visited) {}
+   : ^^^^
+   `----
+
+  x NamedNamespace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1]
+ 8 | html|*:not(:link):not(:visited) {}
+   : ^^^^
    `----
 
   x Ident
@@ -2235,10 +2247,22 @@
     : ^^^^^^
     `----
 
-  x NsPrefix
+  x NamespacePrefix
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:18:1]
  18 | html|*:not(:link):not(:visited) {}
     : ^^^^^
+    `----
+
+  x Namespace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:18:1]
+ 18 | html|*:not(:link):not(:visited) {}
+    : ^^^^
+    `----
+
+  x NamedNamespace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:18:1]
+ 18 | html|*:not(:link):not(:visited) {}
+    : ^^^^
     `----
 
   x Ident

@@ -1,9 +1,4 @@
 //// [typeInferenceWithTupleType.ts]
-var combineResult = [
-    "string",
-    10
-];
-combineResult[0], combineResult[1];
 var zipResult = function(array1, array2) {
     if (array1.length != array2.length) return [
         [

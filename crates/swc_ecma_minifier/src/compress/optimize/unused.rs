@@ -7,11 +7,8 @@ use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{
-        optimize::util::extract_class_side_effect, util::is_global_var_with_pure_property_access,
-    },
-    mode::Mode,
-    option::PureGetterOption,
+    compress::optimize::util::extract_class_side_effect, mode::Mode, option::PureGetterOption,
+    util::is_global_var_with_pure_property_access,
 };
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -368,7 +365,7 @@ where
                 self.take_ident_of_pat_if_unused(parent_span, &mut i.id, init);
 
                 // Removed
-                if i.id.sym == js_word!("") {
+                if i.id.is_dummy() {
                     name.take();
                 }
             }
@@ -431,7 +428,7 @@ where
                             }
                         }
                         ObjectPatProp::Assign(p) => {
-                            if p.key.sym == js_word!("") {
+                            if p.key.is_dummy() {
                                 return false;
                             }
                         }

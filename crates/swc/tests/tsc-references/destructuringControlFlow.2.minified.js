@@ -1,5 +1,4 @@
 //// [destructuringControlFlow.ts]
-var ref = [
+(0, [
     "foo"
-];
-(ref[0], ref[1]).toUpperCase();
+][1]).toUpperCase();

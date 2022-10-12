@@ -629,7 +629,7 @@
             if (isArr) {
                 if (length = (array = value).length, result1 = new array.constructor(length), length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result = result1, !isDeep) return copyArray(value, result);
             } else {
-                var array, length, result1, source, object1, source1, object2, object3, source2, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+                var array, length, result1, source, object1, source1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
                     if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) {
@@ -638,7 +638,7 @@
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
-                        var dataView, buffer, regexp, result, symbol, Ctor = object.constructor;
+                        var buffer, result, Ctor = object.constructor;
                         switch(tag){
                             case arrayBufferTag:
                                 return cloneArrayBuffer(object);
@@ -1436,7 +1436,7 @@
         }
         function createInverter(setter, toIteratee) {
             return function(object, iteratee) {
-                var object1, setter1, iteratee1, accumulator;
+                var iteratee1, accumulator;
                 return iteratee1 = toIteratee(iteratee), accumulator = {}, baseForOwn(object, function(value, key, object) {
                     setter(accumulator, iteratee1(value), key, object);
                 }), accumulator;
@@ -1517,7 +1517,7 @@
         } : noop;
         function createToPairs(keysFunc) {
             return function(object) {
-                var set, index, result, object1, tag = getTag(object);
+                var index, result, tag = getTag(object);
                 return tag == mapTag ? mapToArray(object) : tag == setTag ? (index = -1, result = Array(object.size), object.forEach(function(value) {
                     result[++index] = [
                         value,
@@ -1655,7 +1655,7 @@
             return result;
         }
         function getNative(object, key) {
-            var object1, key1, value = null == object ? undefined : object[key];
+            var value = null == object ? undefined : object[key];
             return baseIsNative(value) ? value : undefined;
         }
         var getSymbols = nativeGetSymbols ? function(object) {
@@ -2004,9 +2004,9 @@
                 return lastCallTime === undefined || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
             }
             function timerExpired() {
-                var time, timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time1 = now();
-                if (shouldInvoke(time1)) return trailingEdge(time1);
-                timerId = setTimeout(timerExpired, (timeSinceLastCall = time1 - lastCallTime, timeSinceLastInvoke = time1 - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
+                var timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time = now();
+                if (shouldInvoke(time)) return trailingEdge(time);
+                timerId = setTimeout(timerExpired, (timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
             }
             function trailingEdge(time) {
                 return (timerId = undefined, trailing && lastArgs) ? invokeFunc(time) : (lastArgs = lastThis = undefined, result);
@@ -2250,7 +2250,6 @@
             for(var length = paths.length; length--;)baseUnset(result, paths[length]);
             return result;
         }), pick = flatRest(function(object, paths) {
-            var object1;
             return null == object ? {} : basePickBy(object, paths, function(value, path) {
                 return hasIn(object, path);
             });
@@ -2354,7 +2353,6 @@
         function noop() {}
         var over = createOver(arrayMap), overEvery = createOver(arrayEvery), overSome = createOver(arraySome);
         function property(path) {
-            var path1;
             return isKey(path) ? baseProperty(toKey(path)) : function(object) {
                 return baseGet(object, path);
             };

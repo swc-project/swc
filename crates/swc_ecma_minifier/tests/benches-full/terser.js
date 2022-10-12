@@ -6,7 +6,7 @@
 }(this, function(exports, MOZ_SourceMap) {
     'use strict';
     let mangle_options;
-    var e, def_is_string, def_find_defs, MOZ_SourceMap__default = MOZ_SourceMap && 'object' == typeof MOZ_SourceMap && 'default' in MOZ_SourceMap ? MOZ_SourceMap : {
+    var def_is_string, def_find_defs, MOZ_SourceMap__default = MOZ_SourceMap && 'object' == typeof MOZ_SourceMap && 'default' in MOZ_SourceMap ? MOZ_SourceMap : {
         default: MOZ_SourceMap
     };
     function characters(str) {
@@ -1582,7 +1582,7 @@
             return is("name", "assert") && !has_newline_before(S.token) ? (next(), object_or_destructuring_()) : null;
         }
         function map_names(is_import) {
-            var names, name, is_import1, name1, foreign_name, foreign_type, start, end;
+            var names, name, name1, foreign_name, foreign_type, start, end;
             if (is("punc", "{")) {
                 for(next(), names = []; !is("punc", "}");)names.push(function(is_import) {
                     function make_symbol(type) {
@@ -1828,7 +1828,7 @@
             }
             return left;
         }, maybe_conditional = function(no_in) {
-            var no_in1, start = S.token, expr = expr_op(maybe_unary(!0, !0), 0, no_in);
+            var start = S.token, expr = expr_op(maybe_unary(!0, !0), 0, no_in);
             if (is("operator", "?")) {
                 next();
                 var yes = expression(!1);
@@ -4077,7 +4077,7 @@
         }
         function def_to_moz(mytype, handler) {
             mytype.DEFMETHOD("to_mozilla_ast", function(parent) {
-                var mynode, moznode, start, end;
+                var moznode, start, end;
                 return moznode = handler(this, parent), start = this.start, end = this.end, start && end && (null != start.pos && null != end.endpos && (moznode.range = [
                     start.pos,
                     end.endpos
@@ -4198,7 +4198,6 @@
         let printed_comments = new Set();
         var to_utf8 = options.ascii_only ? function(str, identifier = !1, regexp = !1) {
             return !(options.ecma >= 2015) || options.safari10 || regexp || (str = str.replace(/[\ud800-\udbff][\udc00-\udfff]/g, function(ch) {
-                var str, pos;
                 return "\\u{" + (is_surrogate_pair_head(ch.charCodeAt(0)) ? 0x10000 + (ch.charCodeAt(0) - 0xd800 << 10) + ch.charCodeAt(1) - 0xdc00 : ch.charCodeAt(0)).toString(16) + "}";
             })), str.replace(/[\u0000-\u001f\u007f-\uffff]/g, function(ch) {
                 var code = ch.charCodeAt(0).toString(16);
@@ -4308,10 +4307,7 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) {
-                var back;
-                print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
-            }
+            if (options.beautify) print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -5588,7 +5584,6 @@
         return ast1.size() > ast2.size() ? ast2 : ast1;
     }
     function best_of(compressor, ast1, ast2) {
-        var ast11, ast21;
         return first_in_statement(compressor) ? best_of_expression(make_node(AST_SimpleStatement, ast1, {
             body: ast1
         }), make_node(AST_SimpleStatement, ast2, {
@@ -7314,7 +7309,7 @@
     }), def_reduce_vars(AST_SymbolCatch, function() {
         this.definition().fixed = !1;
     }), def_reduce_vars(AST_SymbolRef, function(tw, descend, compressor) {
-        var tw1, compressor1, def, value, fixed_value, d = this.definition();
+        var value, fixed_value, d = this.definition();
         (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && compressor.option("unused") && !d.scope.pinned() && d.references.length - d.recursive_refs == 1 && tw.loop_ids.get(d.id) === tw.in_loop ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
     }), def_reduce_vars(AST_Toplevel, function(tw, descend, compressor) {
         this.globals.forEach(function(def) {

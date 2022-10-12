@@ -22,17 +22,10 @@ var Base = function Base() {
     }
     return Derived2;
 }(Base);
-function f2(a) {}
 function f3(y, x) {
     return y(null);
 }
-new Derived(), new Derived2(), f2({
-    x: new Derived(),
-    y: new Derived2()
-}), f2({
-    x: new Derived(),
-    y: new Derived2()
-}), f3(function(x) {
+new Derived(), new Derived2(), new Derived(), new Derived2(), new Derived(), new Derived2(), f3(function(x) {
     return x;
 }, new Base()), f3(function(x) {
     return x;

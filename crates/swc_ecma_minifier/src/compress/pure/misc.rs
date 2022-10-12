@@ -9,9 +9,12 @@ use swc_ecma_utils::{
 };
 
 use super::Pure;
-use crate::compress::{
-    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-    util::{is_global_var_with_pure_property_access, is_pure_undefined},
+use crate::{
+    compress::{
+        pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+        util::is_pure_undefined,
+    },
+    util::is_global_var_with_pure_property_access,
 };
 
 impl Pure<'_> {
@@ -1161,6 +1164,48 @@ impl Pure<'_> {
                 }
 
                 Expr::Array(arr) => {
+                    if arr.elems.iter().any(|e| match e {
+                        Some(ExprOrSpread {
+                            spread: Some(..), ..
+                        }) => true,
+                        _ => false,
+                    }) {
+                        *e = Expr::Array(ArrayLit {
+                            elems: arr
+                                .elems
+                                .take()
+                                .into_iter()
+                                .flatten()
+                                .filter_map(|mut e| {
+                                    if e.spread.is_some() {
+                                        return Some(e);
+                                    }
+
+                                    self.ignore_return_value(
+                                        &mut e.expr,
+                                        DropOpts {
+                                            drop_global_refs_if_unused: true,
+                                            drop_zero: true,
+                                            drop_str_lit: true,
+                                            ..opts
+                                        },
+                                    );
+                                    if e.expr.is_invalid() {
+                                        return None;
+                                    }
+
+                                    Some(ExprOrSpread {
+                                        spread: None,
+                                        expr: e.expr,
+                                    })
+                                })
+                                .map(Some)
+                                .collect(),
+                            ..*arr
+                        });
+                        return;
+                    }
+
                     let mut exprs = vec![];
 
                     //

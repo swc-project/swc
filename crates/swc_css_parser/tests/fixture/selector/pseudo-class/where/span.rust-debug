@@ -1310,13 +1310,19 @@
    : ^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
+ 6 | *|*:where(:hover, :focus) {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
    : ^
@@ -1460,13 +1466,19 @@
    : ^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
  7 | *|*:where(*:hover, *:focus) {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
+ 7 | *|*:where(*:hover, *:focus) {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
  7 | *|*:where(*:hover, *:focus) {}
    : ^

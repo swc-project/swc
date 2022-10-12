@@ -1,5 +1,5 @@
 use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
 
@@ -89,7 +89,41 @@ where
                 return;
             }
 
+            let is_inline_enabled =
+                self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
             self.vars.inline_with_multi_replacer(init);
+
+            // We inline arrays partially if it's pure (all elements are literal), and not
+            // modified.
+            // We don't drop definition, but we just inline array accesses with numeric
+            // literal key.
+            //
+            // TODO: Allow `length` in usage.accessed_props
+            if usage.declared
+                && !usage.reassigned()
+                && !usage.mutated
+                && !usage.has_property_mutation
+                && usage.accessed_props.is_empty()
+                && !usage.is_infected()
+                && is_inline_enabled
+            {
+                if let Expr::Array(arr) = init {
+                    if arr.elems.len() < 32
+                        && arr.elems.iter().all(|e| match e {
+                            Some(ExprOrSpread { spread: None, expr }) => match &**expr {
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            },
+                            _ => false,
+                        })
+                    {
+                        self.vars
+                            .lits_for_array_access
+                            .insert(ident.to_id(), Box::new(init.clone()));
+                    }
+                }
+            }
 
             if !usage.is_fn_local {
                 match init {
@@ -133,9 +167,6 @@ where
                 self.mode.store(ident.to_id(), &*init);
             }
 
-            let is_inline_enabled =
-                self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
-
             // Mutation of properties are ok
             if is_inline_enabled
                 && usage.declared_count == 1
@@ -149,7 +180,7 @@ where
                         ..
                     }) => false,
 
-                    Expr::Ident(id) => self
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => self
                         .data
                         .vars
                         .get(&id.to_id())
@@ -302,7 +333,7 @@ where
                         }
                     }
 
-                    Expr::Ident(id) => {
+                    Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if let Some(v_usage) = self.data.vars.get(&id.to_id()) {
                             if v_usage.reassigned() || !v_usage.declared {
                                 return;
@@ -368,9 +399,10 @@ where
                     ident
                 );
                 self.changed = true;
+
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.to_id(), init.take().into());
+                    .insert(ident.take().to_id(), init.take().into());
             }
         }
     }
@@ -639,11 +671,11 @@ where
     /// Actually inlines variables.
     pub(super) fn inline(&mut self, e: &mut Expr) {
         if let Expr::Ident(i) = e {
-            //
+            let id = i.to_id();
             if let Some(value) = self
                 .vars
                 .lits
-                .get(&i.to_id())
+                .get(&id)
                 .or_else(|| {
                     if self.ctx.is_callee {
                         self.vars.simple_functions.get(&i.to_id())
@@ -651,31 +683,8 @@ where
                         None
                     }
                 })
-                .and_then(|v| {
-                    // Prevent infinite recursion.
-                    let ids = idents_used_by(&**v);
-                    if ids.contains(&i.to_id()) {
-                        None
-                    } else {
-                        Some(v)
-                    }
-                })
                 .cloned()
             {
-                match &*value {
-                    Expr::Lit(Lit::Num(..)) => {
-                        if self.ctx.is_lhs_of_assign {
-                            return;
-                        }
-                    }
-                    Expr::Member(..) => {
-                        if self.ctx.executed_multiple_time {
-                            return;
-                        }
-                    }
-                    _ => {}
-                }
-
                 self.changed = true;
                 report_change!("inline: Replacing a variable `{}` with cheap expression", i);
 

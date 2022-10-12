@@ -164,6 +164,7 @@ impl VisitMut for Remapper {
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -183,8 +184,9 @@ impl Parallel for Finalizer<'_> {
 impl<'a> Finalizer<'a> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
-            FinalizerMode::OnlyCallee => self.simple_functions.get(i).cloned()?,
-            FinalizerMode::OnlyComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
+            FinalizerMode::Callee => self.simple_functions.get(i).cloned()?,
+            FinalizerMode::ComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
+            FinalizerMode::MemberAccess => self.lits_for_array_access.get(i).cloned()?,
         };
 
         e.visit_mut_children_with(self);
@@ -215,8 +217,9 @@ impl<'a> Finalizer<'a> {
 
 #[derive(Debug, Clone, Copy)]
 enum FinalizerMode {
-    OnlyCallee,
-    OnlyComparisonWithLit,
+    Callee,
+    ComparisonWithLit,
+    MemberAccess,
 }
 
 impl VisitMut for Finalizer<'_> {
@@ -226,7 +229,17 @@ impl VisitMut for Finalizer<'_> {
         e.visit_mut_children_with(self);
 
         if let Callee::Expr(e) = e {
-            self.check(e, FinalizerMode::OnlyCallee);
+            self.check(e, FinalizerMode::Callee);
+        }
+    }
+
+    fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
+        e.visit_mut_children_with(self);
+
+        if let MemberProp::Computed(ref mut prop) = e.prop {
+            if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
+                self.check(&mut e.obj, FinalizerMode::MemberAccess);
+            }
         }
     }
 
@@ -237,9 +250,9 @@ impl VisitMut for Finalizer<'_> {
             op!("===") | op!("!==") | op!("==") | op!("!=") => {
                 //
                 if e.left.is_lit() {
-                    self.check(&mut e.right, FinalizerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.right, FinalizerMode::ComparisonWithLit);
                 } else if e.right.is_lit() {
-                    self.check(&mut e.left, FinalizerMode::OnlyComparisonWithLit);
+                    self.check(&mut e.left, FinalizerMode::ComparisonWithLit);
                 }
             }
             _ => {}

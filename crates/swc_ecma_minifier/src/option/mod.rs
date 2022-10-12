@@ -260,7 +260,7 @@ pub struct CompressOptions {
     #[serde(default = "true_by_default")]
     #[serde(alias = "reduce_funcs")]
     pub reduce_fns: bool,
-    #[serde(default)]
+    #[serde(default = "true_by_default")]
     #[serde(alias = "reduce_vars")]
     pub reduce_vars: bool,
 

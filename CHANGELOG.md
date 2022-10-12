@@ -1,8 +1,28 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Enable `reduce_vars` by default (#6096) ([fc5d8a5](https://github.com/swc-project/swc/commit/fc5d8a5d41103adeb0293ed649789a2256b31f97))
+
+
+- **(es/minifier)** Merge assignments using sequential inliner (#6103) ([5875298](https://github.com/swc-project/swc/commit/58752983775337067127f219569bd0c7fbc55564))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Deny clippy warnings (#6126) ([d6fd476](https://github.com/swc-project/swc/commit/d6fd47672150aa3a020c55b1c61c4ac593d0c9fe))
+
+## [1.3.7] - 2022-10-12
+
 ### Bug Fixes
 
+
+
+- **(css/ast)** Fix AST types for namespace (#6112) ([c765f0f](https://github.com/swc-project/swc/commit/c765f0ff73a6cdeeb86521427355a584a424fcc3))
 
 
 - **(es/preset-env)** Update data (#6106) ([8d4d326](https://github.com/swc-project/swc/commit/8d4d32664d7f4feeba5faa3dec95691d5560ca6c))
@@ -44,10 +64,28 @@
 - **(es/minifier)** Enable `reduce_funcs` by default (#6097) ([3c6cdbc](https://github.com/swc-project/swc/commit/3c6cdbc61cba7dcca38251413cc9033487677dd4))
 
 
+- **(es/minifier)** Detect type of `.length` (#6120) ([ad960c7](https://github.com/swc-project/swc/commit/ad960c76c059fbd33de1cdb0525aef509124e205))
+
+
+- **(es/minifier)** Inline and remove vars in one pass (#6093) ([5a23949](https://github.com/swc-project/swc/commit/5a23949f1284f71447b9292a374a0cf88759a318))
+
+
+- **(es/minifier)** Inline pure array literal partially (#6099) ([66196a6](https://github.com/swc-project/swc/commit/66196a65be7164bf519dbc749c687ac815f22ee7))
+
+
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
+
+### Performance
+
+
+
+- **(atoms)** Add more atoms (#6122) ([7343cf3](https://github.com/swc-project/swc/commit/7343cf33891a96c1ac0216e14ef40b8d7b95da9c))
 
 ### Testing
 
+
+
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
 
 
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))

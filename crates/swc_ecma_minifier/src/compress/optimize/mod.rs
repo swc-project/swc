@@ -246,6 +246,9 @@ struct Vars {
     /// https://github.com/swc-project/swc/issues/4415
     lits_for_cmp: FxHashMap<Id, Box<Expr>>,
 
+    /// This stores [Expr::Array] if all elements are literals.
+    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
@@ -271,11 +274,13 @@ impl Vars {
         let mut changed = false;
         if !self.simple_functions.is_empty()
             || !self.lits_for_cmp.is_empty()
+            || !self.lits_for_array_access.is_empty()
             || !self.removed.is_empty()
         {
             let mut v = Finalizer {
                 simple_functions: &self.simple_functions,
                 lits_for_cmp: &self.lits_for_cmp,
+                lits_for_array_access: &self.lits_for_array_access,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
@@ -794,6 +799,31 @@ where
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 
+                                if args.iter().any(|arg| arg.spread.is_some()) {
+                                    let elems = args
+                                        .take()
+                                        .into_iter()
+                                        .filter_map(|mut arg| {
+                                            if arg.spread.is_some() {
+                                                return Some(arg);
+                                            }
+                                            self.ignore_return_value(&mut arg.expr)
+                                                .map(Box::new)
+                                                .map(|expr| ExprOrSpread { expr, spread: None })
+                                        })
+                                        .map(Some)
+                                        .collect::<Vec<_>>();
+
+                                    if elems.is_empty() {
+                                        return None;
+                                    }
+
+                                    return Some(Expr::Array(ArrayLit {
+                                        span: callee.span,
+                                        elems,
+                                    }));
+                                }
+
                                 let args = args
                                     .take()
                                     .into_iter()
@@ -856,7 +886,13 @@ where
                 ..
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
+                    let old = i.id.to_id();
                     self.store_var_for_inlining(&mut i.id, right, false, true);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old);
+                    }
 
                     if right.is_invalid() {
                         return None;
@@ -910,6 +946,33 @@ where
             | Expr::TsAs(_) => return Some(e.take()),
 
             Expr::Array(arr) => {
+                if arr.elems.iter().any(|e| match e {
+                    Some(ExprOrSpread {
+                        spread: Some(..), ..
+                    }) => true,
+                    _ => false,
+                }) {
+                    return Some(Expr::Array(ArrayLit {
+                        elems: arr
+                            .elems
+                            .take()
+                            .into_iter()
+                            .flatten()
+                            .filter_map(|mut e| {
+                                if e.spread.is_some() {
+                                    return Some(e);
+                                }
+
+                                self.ignore_return_value(&mut e.expr)
+                                    .map(Box::new)
+                                    .map(|expr| ExprOrSpread { expr, spread: None })
+                            })
+                            .map(Some)
+                            .collect(),
+                        ..*arr
+                    }));
+                }
+
                 let mut exprs = vec![];
                 self.changed = true;
                 report_change!("ignore_return_value: Inverting an array literal");
@@ -918,7 +981,7 @@ where
                         .take()
                         .into_iter()
                         .flatten()
-                        .map(|v| v.expr)
+                        .map(|e| e.expr)
                         .filter_map(|mut e| self.ignore_return_value(&mut e))
                         .map(Box::new),
                 );
@@ -1651,6 +1714,11 @@ where
                     let old = i.to_id();
 
                     self.store_var_for_inlining(i, right, false, false);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old.clone());
+                    }
 
                     if right.is_invalid() {
                         if let Some(lit) = self

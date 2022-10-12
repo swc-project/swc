@@ -3,12 +3,10 @@ arrays/constant_join/input.js
 arrays/constant_join_2/input.js
 arrays/constant_join_3/input.js
 arrays/for_loop/input.js
-arrays/index/input.js
 arrays/index_length/input.js
 arrow/issue_2084/input.js
 arrow/issue_2105_1/input.js
 arrow/issue_2105_2/input.js
-arrow/issue_2136_3/input.js
 ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 asm/asm_mixed/input.js
@@ -126,7 +124,6 @@ drop_unused/issue_1838/input.js
 drop_unused/issue_2063/input.js
 drop_unused/issue_2105_1/input.js
 drop_unused/issue_2105_2/input.js
-drop_unused/issue_2136_3/input.js
 drop_unused/issue_2163/input.js
 drop_unused/issue_2226_2/input.js
 drop_unused/issue_2226_3/input.js
@@ -222,7 +219,6 @@ harmony/module_enabled/input.js
 harmony/module_enables_strict_mode/input.js
 harmony/module_mangle_scope/input.js
 harmony/regression_cannot_use_of/input.js
-identity/inline_identity_inline_function/input.js
 if_return/if_return_same_value/input.js
 if_return/if_var_return/input.js
 if_return/issue_2747/input.js
@@ -340,7 +336,6 @@ reduce_vars/defun_catch_1/input.js
 reduce_vars/defun_catch_2/input.js
 reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_6/input.js
-reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_label/input.js
 reduce_vars/defun_redefine/input.js
 reduce_vars/defun_var_1/input.js
@@ -394,6 +389,7 @@ sequences/issue_2062/input.js
 sequences/side_effects_cascade_3/input.js
 template_string/regex_2/input.js
 template_string/side_effects/input.js
+template_string/template_evaluate_undefined/input.js
 transform/label_if_break/input.js
 typeof/issue_2728_3/input.js
 typeof/issue_2728_4/input.js

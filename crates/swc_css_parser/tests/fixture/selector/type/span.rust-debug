@@ -75,13 +75,19 @@
    : ^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
  1 | *|* {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
+ 1 | *|* {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
  1 | *|* {}
    : ^
@@ -141,10 +147,22 @@
    : ^^^^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
  2 | foo|h1 {}
    : ^^^^
+   `----
+
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
+ 2 | foo|h1 {}
+   : ^^^
+   `----
+
+  x NamedNamespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
+ 2 | foo|h1 {}
+   : ^^^
    `----
 
   x Ident
@@ -207,10 +225,22 @@
    : ^^^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
  3 | foo|* {}
    : ^^^^
+   `----
+
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
+ 3 | foo|* {}
+   : ^^^
+   `----
+
+  x NamedNamespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
+ 3 | foo|* {}
+   : ^^^
    `----
 
   x Ident
@@ -273,7 +303,7 @@
    : ^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/type/input.css:4:1]
  4 | |h1 {}
    : ^
@@ -339,13 +369,19 @@
    : ^^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
  5 | *|h1 {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
+ 5 | *|h1 {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
  5 | *|h1 {}
    : ^

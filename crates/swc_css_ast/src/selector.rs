@@ -165,21 +165,43 @@ pub struct TagNameSelector {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UniversalSelector {
     pub span: Span,
-    pub prefix: Option<NsPrefix>,
+    pub prefix: Option<NamespacePrefix>,
 }
 
-#[ast_node("NsPrefix")]
+#[ast_node("NamespacePrefix")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
-pub struct NsPrefix {
+pub struct NamespacePrefix {
     pub span: Span,
-    pub prefix: Option<Ident>,
+    pub namespace: Option<Namespace>,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum Namespace {
+    #[tag("NamedNamespace")]
+    Named(NamedNamespace),
+    #[tag("AnyNamespace")]
+    Any(AnyNamespace),
+}
+
+#[ast_node("NamedNamespace")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct NamedNamespace {
+    pub span: Span,
+    pub name: Ident,
+}
+
+#[ast_node("AnyNamespace")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct AnyNamespace {
+    pub span: Span,
 }
 
 #[ast_node("WqName")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct WqName {
     pub span: Span,
-    pub prefix: Option<NsPrefix>,
+    pub prefix: Option<NamespacePrefix>,
     pub value: Ident,
 }
 

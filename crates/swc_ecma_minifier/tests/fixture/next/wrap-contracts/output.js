@@ -9096,7 +9096,7 @@
                 return this;
             }, Buffer.prototype.toString = function() {
                 const length = this.length;
-                return 0 === length ? '' : 0 === arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
+                return 0 === length ? '' : 0 == arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
             }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(b) {
                 if (!Buffer.isBuffer(b)) throw TypeError('Argument must be a Buffer');
                 return this === b || 0 === Buffer.compare(this, b);
@@ -11604,7 +11604,7 @@
                 return target;
             }
             function onceWrapper() {
-                if (!this.fired) return (this.target.removeListener(this.type, this.wrapFn), this.fired = !0, 0 === arguments.length) ? this.listener.call(this.target) : this.listener.apply(this.target, arguments);
+                if (!this.fired) return (this.target.removeListener(this.type, this.wrapFn), this.fired = !0, 0 == arguments.length) ? this.listener.call(this.target) : this.listener.apply(this.target, arguments);
             }
             function _onceWrap(target, type, listener) {
                 var state = {
@@ -11727,8 +11727,8 @@
             }, EventEmitter.prototype.off = EventEmitter.prototype.removeListener, EventEmitter.prototype.removeAllListeners = function(type) {
                 var listeners, events, i;
                 if (void 0 === (events = this._events)) return this;
-                if (void 0 === events.removeListener) return 0 === arguments.length ? (this._events = Object.create(null), this._eventsCount = 0) : void 0 !== events[type] && (0 == --this._eventsCount ? this._events = Object.create(null) : delete events[type]), this;
-                if (0 === arguments.length) {
+                if (void 0 === events.removeListener) return 0 == arguments.length ? (this._events = Object.create(null), this._eventsCount = 0) : void 0 !== events[type] && (0 == --this._eventsCount ? this._events = Object.create(null) : delete events[type]), this;
+                if (0 == arguments.length) {
                     var key, keys = Object.keys(events);
                     for(i = 0; i < keys.length; ++i)'removeListener' !== (key = keys[i]) && this.removeAllListeners(key);
                     return this.removeAllListeners('removeListener'), this._events = Object.create(null), this._eventsCount = 0, this;
@@ -13615,15 +13615,15 @@
                 return al + bl >>> 0;
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
-                var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
+                var carry, lo = al;
+                return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
-                var carry = 0, lo = al;
-                return carry += (lo = lo + bl >>> 0) < al ? 1 : 0, carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
+                var carry, lo = al;
+                return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
