@@ -1,6 +1,6 @@
 use std::iter::once;
 
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
     AtRule, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
     CompoundSelector, ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
@@ -210,9 +210,19 @@ impl NestingHandler {
                             }
 
                             if !decls_of_media.is_empty() {
+                                let rule = Box::new(QualifiedRule {
+                                    span: DUMMY_SP,
+                                    prelude: rule.prelude.clone(),
+                                    block: SimpleBlock {
+                                        value: decls_of_media,
+                                        ..*block
+                                    },
+                                });
                                 nested_rules.push(Rule::AtRule(Box::new(AtRule {
                                     block: Some(SimpleBlock {
-                                        value: decls_of_media.into_iter().collect(),
+                                        value: vec![ComponentValue::StyleBlock(
+                                            StyleBlock::QualifiedRule(rule),
+                                        )],
                                         ..*block
                                     }),
                                     ..*at_rule.clone()
