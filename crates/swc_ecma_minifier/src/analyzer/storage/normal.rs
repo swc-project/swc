@@ -104,6 +104,10 @@ impl Storage for ProgramData {
                     e.get_mut().is_fn_local &= var_info.is_fn_local;
                     e.get_mut().used_in_non_child_fn |= var_info.used_in_non_child_fn;
 
+                    for (k, v) in *var_info.accessed_props {
+                        *e.get_mut().accessed_props.entry(k).or_default() += v;
+                    }
+
                     match kind {
                         ScopeKind::Fn => {
                             e.get_mut().is_fn_local = false;

@@ -2415,13 +2415,7 @@
                 ls: 'maximumSignificantDigits',
                 mf: 'minimumFractionDigits',
                 lf: 'maximumFractionDigits'
-            }, mapper = [
-                'infinity',
-                'nan',
-                'group',
-                'decimal',
-                'exponential'
-            ], NumberFormat = function() {
+            }, NumberFormat = function() {
                 function NumberFormat() {}
                 return NumberFormat.numberFormatter = function(culture, option, cldr) {
                     var symbolPattern, _this = this, fOptions = util_extend({}, option), cOptions = {}, dOptions = {}, dependable = intl_base_IntlBase.getDependables(cldr, culture, '', !0);
@@ -2431,7 +2425,7 @@
                     else {
                         util_extend(fOptions, intl_base_IntlBase.getProperNumericSkeleton(option.format || 'N')), fOptions.isCurrency = 'currency' === fOptions.type, fOptions.isPercent = 'percent' === fOptions.type, symbolPattern = intl_base_IntlBase.getSymbolPattern(fOptions.type, dOptions.numberMapper.numberSystem, dependable.numericObject, fOptions.isAccount), fOptions.groupOne = this.checkValueRange(fOptions.maximumSignificantDigits, fOptions.minimumSignificantDigits, !0), this.checkValueRange(fOptions.maximumFractionDigits, fOptions.minimumFractionDigits, !1, !0), util_isUndefined(fOptions.fractionDigits) || (fOptions.minimumFractionDigits = fOptions.maximumFractionDigits = fOptions.fractionDigits), util_isUndefined(fOptions.useGrouping) && (fOptions.useGrouping = !0), fOptions.isCurrency && (symbolPattern = symbolPattern.replace(/\u00A4/g, intl_base_IntlBase.defaultCurrency));
                         var split = symbolPattern.split(';');
-                        if (cOptions.nData = intl_base_IntlBase.getFormatData(split[1] || '-' + split[0], !0, dOptions.currencySymbol), cOptions.pData = intl_base_IntlBase.getFormatData(split[0], !1, dOptions.currencySymbol), fOptions.useGrouping && (fOptions.groupSeparator = symbols[mapper[2]], fOptions.groupData = this.getGroupingDetails(split[0])), util_isUndefined(fOptions.minimumFractionDigits) && (fOptions.minimumFractionDigits = cOptions.nData.minimumFraction), util_isUndefined(fOptions.maximumFractionDigits)) {
+                        if (cOptions.nData = intl_base_IntlBase.getFormatData(split[1] || '-' + split[0], !0, dOptions.currencySymbol), cOptions.pData = intl_base_IntlBase.getFormatData(split[0], !1, dOptions.currencySymbol), fOptions.useGrouping && (fOptions.groupSeparator = symbols.group, fOptions.groupData = this.getGroupingDetails(split[0])), util_isUndefined(fOptions.minimumFractionDigits) && (fOptions.minimumFractionDigits = cOptions.nData.minimumFraction), util_isUndefined(fOptions.maximumFractionDigits)) {
                             var mval = cOptions.nData.maximumFraction;
                             fOptions.maximumFractionDigits = util_isUndefined(mval) && fOptions.isPercent ? 0 : mval;
                         }
@@ -2439,7 +2433,7 @@
                         util_isUndefined(mfrac) || util_isUndefined(lfrac) || !(mfrac > lfrac) || (fOptions.maximumFractionDigits = mfrac);
                     }
                     return util_extend(cOptions.nData, fOptions), util_extend(cOptions.pData, fOptions), function(value) {
-                        return isNaN(value) ? symbols[mapper[1]] : isFinite(value) ? _this.intNumberFormatter(value, cOptions, dOptions) : symbols[mapper[0]];
+                        return isNaN(value) ? symbols.nan : isFinite(value) ? _this.intNumberFormatter(value, cOptions, dOptions) : symbols.infinity;
                     };
                 }, NumberFormat.getGroupingDetails = function(pattern) {
                     var ret = {}, match = pattern.match(intl_base_IntlBase.negativeDataRegex);
@@ -2473,7 +2467,7 @@
                     if (!util_isUndefined(fOptions.nData.type)) {
                         value < 0 ? (value *= -1, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
                         var curData, fValue = '';
-                        return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = (fValue = value.toExponential(curData.maximumFractionDigits)).replace('e', dOptions.numberMapper.numberSymbols[mapper[4]])), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols[mapper[3]]), curData.useGrouping && (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols[mapper[3]] || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
+                        return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = (fValue = value.toExponential(curData.maximumFractionDigits)).replace('e', dOptions.numberMapper.numberSymbols.exponential)), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols.decimal), curData.useGrouping && (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols.decimal || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
                     }
                 }, NumberFormat.processSignificantDigits = function(value, min, max) {
                     var temp = value + '';
@@ -2660,16 +2654,13 @@
                     var value = this.internalNumberParser(ival, num);
                     return flag ? -value : value;
                 }, DateParser;
-            }(), parseRegex = /^([^0-9]*)(([0-9,]*[0-9]+)(\.[0-9]+)?)([Ee][+-]?[0-9]+)?([^0-9]*)$/, groupRegex = /,/g, keys = [
-                'minusSign',
-                'infinity'
-            ], NumberParser = function() {
+            }(), parseRegex = /^([^0-9]*)(([0-9,]*[0-9]+)(\.[0-9]+)?)([Ee][+-]?[0-9]+)?([^0-9]*)$/, groupRegex = /,/g, NumberParser = function() {
                 function NumberParser() {}
                 return NumberParser.numberParser = function(culture, option, cldr) {
                     var numOptions, symbolpattern, _this = this, dependable = intl_base_IntlBase.getDependables(cldr, culture, '', !0), parseOptions = {
                         custom: !0
                     };
-                    if (intl_base_IntlBase.formatRegex.test(option.format) || !option.format ? (util_extend(parseOptions, intl_base_IntlBase.getProperNumericSkeleton(option.format || 'N')), parseOptions.custom = !1, !parseOptions.fractionDigits && option.maximumFractionDigits && (parseOptions.maximumFractionDigits = option.maximumFractionDigits)) : util_extend(parseOptions, intl_base_IntlBase.customFormat(option.format, null, null)), util_getValue('numbers', dependable.parserObject), numOptions = ParserBase.getCurrentNumericOptions(dependable.parserObject, ParserBase.getNumberingSystem(cldr), !0, !1), parseOptions.symbolRegex = ParserBase.getSymbolRegex(Object.keys(numOptions.symbolMatch)), parseOptions.infinity = numOptions.symbolNumberSystem[keys[1]], symbolpattern = intl_base_IntlBase.getSymbolPattern(parseOptions.type, numOptions.numberSystem, dependable.numericObject, parseOptions.isAccount)) {
+                    if (intl_base_IntlBase.formatRegex.test(option.format) || !option.format ? (util_extend(parseOptions, intl_base_IntlBase.getProperNumericSkeleton(option.format || 'N')), parseOptions.custom = !1, !parseOptions.fractionDigits && option.maximumFractionDigits && (parseOptions.maximumFractionDigits = option.maximumFractionDigits)) : util_extend(parseOptions, intl_base_IntlBase.customFormat(option.format, null, null)), util_getValue('numbers', dependable.parserObject), numOptions = ParserBase.getCurrentNumericOptions(dependable.parserObject, ParserBase.getNumberingSystem(cldr), !0, !1), parseOptions.symbolRegex = ParserBase.getSymbolRegex(Object.keys(numOptions.symbolMatch)), parseOptions.infinity = numOptions.symbolNumberSystem.infinity, symbolpattern = intl_base_IntlBase.getSymbolPattern(parseOptions.type, numOptions.numberSystem, dependable.numericObject, parseOptions.isAccount)) {
                         var split = (symbolpattern = symbolpattern.replace(/\u00A4/g, intl_base_IntlBase.defaultCurrency)).split(';');
                         parseOptions.nData = intl_base_IntlBase.getFormatData(split[1] || '-' + split[0], !0, ''), parseOptions.pData = intl_base_IntlBase.getFormatData(split[0], !0, '');
                     }
@@ -2777,10 +2768,7 @@
                     for(var _i = 0; _i < boundedEvents.length; _i++)if (boundedEvents[_i].handler === handler) return !0;
                     return !1;
                 }, Observer;
-            }(), onIntlChange = new Observer(), cldrData = {}, defaultCulture = 'en-US', defaultCurrencyCode = 'USD', internationalization_mapper = [
-                'numericObject',
-                'dateObject'
-            ], Internationalization = function() {
+            }(), onIntlChange = new Observer(), cldrData = {}, defaultCulture = 'en-US', defaultCurrencyCode = 'USD', Internationalization = function() {
                 function Internationalization(cultureName) {
                     cultureName && (this.culture = cultureName);
                 }
@@ -2819,7 +2807,7 @@
                 }, Internationalization;
             }();
             function getNumericObject(locale, type) {
-                var numObject = intl_base_IntlBase.getDependables(cldrData, locale, '', !0)[internationalization_mapper[0]], dateObject = intl_base_IntlBase.getDependables(cldrData, locale, '')[internationalization_mapper[1]], numSystem = util_getValue('defaultNumberingSystem', numObject), symbPattern = util_getValue('symbols-numberSystem-' + numSystem, numObject), pattern = intl_base_IntlBase.getSymbolPattern(type || 'decimal', numSystem, numObject, !1);
+                var numObject = intl_base_IntlBase.getDependables(cldrData, locale, '', !0).numericObject, dateObject = intl_base_IntlBase.getDependables(cldrData, locale, '').dateObject, numSystem = util_getValue('defaultNumberingSystem', numObject), symbPattern = util_getValue('symbols-numberSystem-' + numSystem, numObject), pattern = intl_base_IntlBase.getSymbolPattern(type || 'decimal', numSystem, numObject, !1);
                 return util_extend(symbPattern, intl_base_IntlBase.getFormatData(pattern, !0, '', !0), {
                     dateSeparator: intl_base_IntlBase.getDateSeparator(dateObject)
                 });
@@ -2849,12 +2837,7 @@
                 IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/, IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
                 var fractionRegex = /[0-9]/g;
                 IntlBase.defaultCurrency = '$';
-                var mapper = [
-                    'infinity',
-                    'nan',
-                    'group',
-                    'decimal'
-                ], patternRegex = /G|M|L|H|c|'| a|yy|y|EEEE|E/g, patternMatch = {
+                var patternRegex = /G|M|L|H|c|'| a|yy|y|EEEE|E/g, patternMatch = {
                     G: '',
                     M: 'm',
                     L: 'm',
@@ -2964,7 +2947,7 @@
                         cOptions.nend
                     ], '%', dOptions.percentSymbol))), !util_isNullOrUndefined(numObject)) {
                         var symbolPattern = getSymbolPattern(cOptions.type, dOptions.numberMapper.numberSystem, numObject, !1);
-                        cOptions.useGrouping && (cOptions.groupSeparator = spaceGrouping ? ' ' : dOptions.numberMapper.numberSymbols[mapper[2]], cOptions.groupData = NumberFormat.getGroupingDetails(symbolPattern.split(';')[0])), cOptions.nlead = cOptions.nlead.replace(/'/g, ''), cOptions.nend = spaceCapture ? ' ' + cOptions.nend.replace(/'/g, '') : cOptions.nend.replace(/'/g, '');
+                        cOptions.useGrouping && (cOptions.groupSeparator = spaceGrouping ? ' ' : dOptions.numberMapper.numberSymbols.group, cOptions.groupData = NumberFormat.getGroupingDetails(symbolPattern.split(';')[0])), cOptions.nlead = cOptions.nlead.replace(/'/g, ''), cOptions.nend = spaceCapture ? ' ' + cOptions.nend.replace(/'/g, '') : cOptions.nend.replace(/'/g, '');
                     }
                     return cOptions;
                 }
@@ -5473,17 +5456,14 @@
                     var newX = pnt.clientX, newY = pnt.clientY, newT = Date.now(), xDist = newX - this.startPoint.clientX, yDist = newY - this.startPoint.clientX;
                     return Math.sqrt(xDist * xDist + yDist * yDist) / (newT - this.tStampStart);
                 }, Touch.prototype.checkSwipe = function(ele, flag) {
-                    var keys = [
-                        'scroll',
-                        'offset'
-                    ], temp = flag ? [
+                    var temp = flag ? [
                         'Height',
                         'Top'
                     ] : [
                         'Width',
                         'Left'
                     ];
-                    return ele[keys[0] + temp[0]] <= ele[keys[1] + temp[0]] || 0 === ele[keys[0] + temp[1]] || ele[keys[1] + temp[0]] + ele[keys[0] + temp[1]] >= ele[keys[0] + temp[0]];
+                    return ele['scroll' + temp[0]] <= ele['offset' + temp[0]] || 0 === ele['scroll' + temp[1]] || ele['offset' + temp[0]] + ele['scroll' + temp[1]] >= ele['scroll' + temp[0]];
                 }, Touch.prototype.updateChangeTouches = function(evt) {
                     return evt.changedTouches && 0 !== evt.changedTouches.length ? evt.changedTouches[0] : evt;
                 }, touch_decorate([

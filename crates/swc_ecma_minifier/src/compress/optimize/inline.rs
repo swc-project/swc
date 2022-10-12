@@ -89,7 +89,41 @@ where
                 return;
             }
 
+            let is_inline_enabled =
+                self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
+
             self.vars.inline_with_multi_replacer(init);
+
+            // We inline arrays partially if it's pure (all elements are literal), and not
+            // modified.
+            // We don't drop definition, but we just inline array accesses with numeric
+            // literal key.
+            //
+            // TODO: Allow `length` in usage.accessed_props
+            if usage.declared
+                && !usage.reassigned()
+                && !usage.mutated
+                && !usage.has_property_mutation
+                && usage.accessed_props.is_empty()
+                && !usage.is_infected()
+                && is_inline_enabled
+            {
+                if let Expr::Array(arr) = init {
+                    if arr.elems.len() < 32
+                        && arr.elems.iter().all(|e| match e {
+                            Some(ExprOrSpread { spread: None, expr }) => match &**expr {
+                                Expr::Lit(..) => true,
+                                _ => false,
+                            },
+                            _ => false,
+                        })
+                    {
+                        self.vars
+                            .lits_for_array_access
+                            .insert(ident.to_id(), Box::new(init.clone()));
+                    }
+                }
+            }
 
             if !usage.is_fn_local {
                 match init {
@@ -132,9 +166,6 @@ where
             if !usage.mutated {
                 self.mode.store(ident.to_id(), &*init);
             }
-
-            let is_inline_enabled =
-                self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
 
             // Mutation of properties are ok
             if is_inline_enabled

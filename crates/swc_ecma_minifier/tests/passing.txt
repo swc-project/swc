@@ -12,6 +12,7 @@ arguments/replace_index_keep_fargs_strict/input.js
 arguments/replace_index_strict/input.js
 array_constructor/array_constructor/input.js
 arrays/holes_and_undefined/input.js
+arrays/index/input.js
 arrays/length/input.js
 arrays/spread_with_array_at_end/input.js
 arrays/spread_with_logical_expression_at_end/input.js

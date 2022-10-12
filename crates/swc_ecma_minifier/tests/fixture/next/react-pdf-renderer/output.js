@@ -4697,19 +4697,15 @@
         4214: function(e, t) {
             "use strict";
             t.__esModule = !0, t.default = void 0;
-            var r = [
-                1,
-                1,
-                0
-            ], n = function(e, t) {
-                var n = ("" + t).split(" ");
+            var r = function(e, t) {
+                var r = ("" + t).split(" ");
                 return {
-                    flexGrow: n[0] || r[0],
-                    flexShrink: n[1] || r[1],
-                    flexBasis: n[2] || r[2]
+                    flexGrow: r[0] || 1,
+                    flexShrink: r[1] || 1,
+                    flexBasis: r[2] || 0
                 };
             };
-            t.default = n;
+            t.default = r;
         },
         9214: function(e, t, r) {
             "use strict";
