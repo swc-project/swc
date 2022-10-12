@@ -108,8 +108,17 @@ where
         }
     }
 
-    fn try_parse_qualified_rule(&mut self) -> PResult<Box<QualifiedRule>> {
-        let mut nested: Box<QualifiedRule> = self.parse()?;
+    fn try_parse_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
+        let state = self.input.state();
+        let nested: PResult<Box<QualifiedRule>> = self.parse();
+
+        let mut nested = match nested {
+            Ok(v) => v,
+            Err(_) => {
+                self.input.reset(&state);
+                return None;
+            }
+        };
 
         match &mut nested.prelude {
             QualifiedRulePrelude::ListOfComponentValues(_) => {}
@@ -135,7 +144,7 @@ where
             }
         }
 
-        Ok(nested)
+        Some(nested)
     }
 }
 
@@ -268,7 +277,7 @@ where
 
                                 let nested = self.try_parse_qualified_rule();
 
-                                if let Ok(nested) = nested {
+                                if let Some(nested) = nested {
                                     declarations.push(StyleBlock::QualifiedRule(nested));
                                     continue;
                                 }
