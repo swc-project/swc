@@ -42,17 +42,17 @@ pub struct ParserConfig {
     /// If this is `true`, the nested selectors without `&` will be parsed as
     /// valid selectors
     ///
-    /// Defaults to `true`.
+    /// Defaults to `false`.
     #[serde(default)]
-    pub allow_nested_selectors: bool,
+    pub legacy_nesting: bool,
 }
 
 impl Default for ParserConfig {
     fn default() -> Self {
         Self {
             allow_wrong_line_comments: Default::default(),
+            legacy_nesting: Default::default(),
             css_modules: Default::default(),
-            allow_nested_selectors: true,
         }
     }
 }

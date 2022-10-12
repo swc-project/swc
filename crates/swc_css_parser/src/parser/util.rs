@@ -1,5 +1,7 @@
 use std::ops::{Deref, DerefMut};
 
+use swc_css_ast::*;
+
 use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
 
 impl<I> Parser<I>
@@ -23,6 +25,70 @@ where
         Self: Parse<T>,
     {
         self.parse()
+    }
+
+    pub(super) fn try_parse_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
+        if !self.config.legacy_nesting {
+            return None;
+        }
+
+        let state = self.input.state();
+
+        let ctx = Ctx {
+            is_trying_nested_selector: true,
+            ..self.ctx
+        };
+
+        let span = self.input.cur_span();
+
+        let nested = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
+
+        let mut nested = match nested {
+            Ok(v) => v,
+            Err(_) => {
+                self.input.reset(&state);
+                return None;
+            }
+        };
+
+        match &mut nested.prelude {
+            QualifiedRulePrelude::ListOfComponentValues(_) => {
+                self.input.reset(&state);
+
+                return None;
+            }
+            QualifiedRulePrelude::SelectorList(s) => {
+                for s in s.children.iter_mut() {
+                    if s.children.iter().any(|s| match s {
+                        ComplexSelectorChildren::CompoundSelector(s) => {
+                            s.nesting_selector.is_some()
+                        }
+                        _ => false,
+                    }) {
+                        continue;
+                    }
+
+                    s.children.insert(
+                        0,
+                        ComplexSelectorChildren::CompoundSelector(CompoundSelector {
+                            span,
+                            nesting_selector: Some(NestingSelector { span }),
+                            type_selector: Default::default(),
+                            subclass_selectors: Default::default(),
+                        }),
+                    );
+                    s.children.insert(
+                        1,
+                        ComplexSelectorChildren::Combinator(Combinator {
+                            span,
+                            value: CombinatorValue::Descendant,
+                        }),
+                    );
+                }
+            }
+        }
+
+        Some(nested)
     }
 }
 

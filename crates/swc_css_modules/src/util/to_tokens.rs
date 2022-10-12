@@ -37,7 +37,7 @@ where
         StringInput::new(&buf, span.lo, span.hi),
         ParserConfig {
             css_modules: true,
-            allow_nested_selectors: true,
+            legacy_nesting: true,
             ..Default::default()
         },
     );
