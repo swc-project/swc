@@ -233,31 +233,40 @@ where
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
                         Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
+                            if self.config.allow_nested_selectors {
+                                self.input.reset(&state);
 
-                            let span = self.input.cur_span();
-                            let mut children = vec![];
+                                let nested: Box<QualifiedRule> = self.parse()?;
+                                StyleBlock::QualifiedRule(nested)
+                            } else {
+                                self.errors.push(err);
+                                self.input.reset(&state);
 
-                            while !is_one_of!(self, EOF, "}") {
-                                if let Some(token_and_span) = self.input.bump() {
-                                    children.push(ComponentValue::PreservedToken(token_and_span));
-                                }
+                                let span = self.input.cur_span();
+                                let mut children = vec![];
 
-                                if is!(self, ";") {
+                                while !is_one_of!(self, EOF, "}") {
                                     if let Some(token_and_span) = self.input.bump() {
                                         children
                                             .push(ComponentValue::PreservedToken(token_and_span));
                                     }
 
-                                    break;
-                                }
-                            }
+                                    if is!(self, ";") {
+                                        if let Some(token_and_span) = self.input.bump() {
+                                            children.push(ComponentValue::PreservedToken(
+                                                token_and_span,
+                                            ));
+                                        }
 
-                            StyleBlock::ListOfComponentValues(ListOfComponentValues {
-                                span: span!(self, span.lo),
-                                children,
-                            })
+                                        break;
+                                    }
+                                }
+
+                                StyleBlock::ListOfComponentValues(ListOfComponentValues {
+                                    span: span!(self, span.lo),
+                                    children,
+                                })
+                            }
                         }
                     };
 
