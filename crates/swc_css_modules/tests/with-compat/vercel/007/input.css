@@ -1,0 +1,37 @@
+.iconButton {
+    --icon-rotation: 0deg;
+  
+    composes: reset from '../utils/reset.module.css';
+    height: 30px;
+    color: var(--accents-3);
+  
+    &:hover:not(:disabled) {
+      color: var(--geist-foreground);
+    }
+  
+    &:disabled {
+      cursor: not-allowed;
+    }
+  
+    &[data-open='true'] {
+      --icon-rotation: 180deg;
+  
+      .chevron {
+        transform: rotate(var(--icon-rotation));
+      }
+    }
+  
+    > span {
+      display: inline-flex;
+    }
+  
+    .chevron {
+      transition: transform 150ms ease;
+    }
+  
+    .chevron,
+    .cross {
+      animation: bounce 150ms ease;
+    }
+  }
+  

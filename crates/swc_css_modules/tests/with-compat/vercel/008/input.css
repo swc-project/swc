@@ -1,0 +1,26 @@
+.message {
+    margin-top: -1px;
+    width: 100%;
+    opacity: 1;
+    height: 100%;
+    transition: opacity 0.4s ease;
+    word-break: break-word;
+  
+    span,
+    div,
+    blockquote,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    label,
+    legend,
+    p,
+    q,
+    small,
+    strong {
+      color: inherit;
+    }
+  }

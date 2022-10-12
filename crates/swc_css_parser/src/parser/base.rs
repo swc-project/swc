@@ -107,6 +107,69 @@ where
             }
         }
     }
+
+    fn try_parse_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
+        if !self.config.allow_nested_selectors {
+            return None;
+        }
+
+        let state = self.input.state();
+
+        let ctx = Ctx {
+            is_trying_nested_selector: true,
+            ..self.ctx
+        };
+
+        let span = self.input.cur_span();
+
+        let nested = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
+
+        let mut nested = match nested {
+            Ok(v) => v,
+            Err(_) => {
+                self.input.reset(&state);
+                return None;
+            }
+        };
+
+        match &mut nested.prelude {
+            QualifiedRulePrelude::ListOfComponentValues(_) => {
+                self.input.reset(&state);
+                return None;
+            }
+            QualifiedRulePrelude::SelectorList(s) => {
+                for s in s.children.iter_mut() {
+                    if s.children.iter().any(|s| match s {
+                        ComplexSelectorChildren::CompoundSelector(s) => {
+                            s.nesting_selector.is_some()
+                        }
+                        _ => false,
+                    }) {
+                        continue;
+                    }
+
+                    s.children.insert(
+                        0,
+                        ComplexSelectorChildren::CompoundSelector(CompoundSelector {
+                            span,
+                            nesting_selector: Some(NestingSelector { span }),
+                            type_selector: Default::default(),
+                            subclass_selectors: Default::default(),
+                        }),
+                    );
+                    s.children.insert(
+                        1,
+                        ComplexSelectorChildren::Combinator(Combinator {
+                            span,
+                            value: CombinatorValue::Descendant,
+                        }),
+                    );
+                }
+            }
+        }
+
+        Some(nested)
+    }
 }
 
 impl<I> Parse<QualifiedRule> for Parser<I>
@@ -158,6 +221,11 @@ where
                     prelude = match self.parse() {
                         Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
                         Err(err) => {
+                            // Disable error recovery
+                            if self.ctx.is_trying_nested_selector {
+                                return Err(err);
+                            }
+
                             self.errors.push(err);
                             self.input.reset(&state);
 
@@ -203,6 +271,22 @@ where
                 declarations.extend(rules);
 
                 return Ok(declarations);
+            }
+
+            // .foo {
+            //      a:focus {
+            //
+            //      }
+            // }
+            if self.config.allow_nested_selectors {
+                let state = self.input.state();
+                let nested = self.try_parse_qualified_rule();
+
+                if let Some(nested) = nested {
+                    declarations.push(StyleBlock::QualifiedRule(nested));
+                    continue;
+                }
+                self.input.reset(&state);
             }
 
             match cur!(self) {

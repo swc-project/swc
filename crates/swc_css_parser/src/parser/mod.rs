@@ -19,9 +19,7 @@ mod value;
 
 pub type PResult<T> = Result<T, Error>;
 
-#[derive(
-    Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
-)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct ParserConfig {
     /// If this is `true`, **wrong** comments starting with `//` will be treated
@@ -29,8 +27,34 @@ pub struct ParserConfig {
     ///
     /// This option exists because there are so many css-in-js tools and people
     /// use `//` as a comment because it's javascript file.
+    ///
+    /// Defaults to `false`.
     #[serde(default)]
     pub allow_wrong_line_comments: bool,
+
+    /// If enabled, errors for css modules selectors will be ignored.
+    ///
+    ///
+    /// Defaults to `false`.
+    #[serde(default)]
+    pub css_modules: bool,
+
+    /// If this is `true`, the nested selectors without `&` will be parsed as
+    /// valid selectors
+    ///
+    /// Defaults to `true`.
+    #[serde(default)]
+    pub allow_nested_selectors: bool,
+}
+
+impl Default for ParserConfig {
+    fn default() -> Self {
+        Self {
+            allow_wrong_line_comments: Default::default(),
+            css_modules: Default::default(),
+            allow_nested_selectors: true,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -58,6 +82,7 @@ struct Ctx {
     in_page_at_rule: bool,
     in_container_at_rule: bool,
     in_font_feature_values_at_rule: bool,
+    is_trying_nested_selector: bool,
 }
 
 #[derive(Debug)]

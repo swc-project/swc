@@ -284,8 +284,31 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
-        let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
-        let mut children = vec![child];
+        let mut skipped = None;
+
+        let mut skip_one_space = false;
+        let mut children = if !self.ctx.is_trying_nested_selector {
+            let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+            vec![child]
+        } else {
+            match self.parse_as::<Combinator>() {
+                Ok(
+                    v @ Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    },
+                ) => {
+                    skipped = Some(v);
+                    skip_one_space = true;
+                    vec![]
+                }
+                Ok(c) => vec![ComplexSelectorChildren::Combinator(c)],
+                Err(_) => {
+                    let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+                    vec![child]
+                }
+            }
+        };
 
         loop {
             let span = self.input.cur_span();
@@ -305,21 +328,33 @@ where
                 self.input.skip_ws();
             }
 
-            children.push(ComplexSelectorChildren::Combinator(combinator));
+            if !skip_one_space || combinator.value != CombinatorValue::Descendant {
+                children.push(ComplexSelectorChildren::Combinator(combinator));
+            } else {
+                skipped = Some(combinator)
+            }
+
+            if skip_one_space {
+                skip_one_space = false
+            }
 
             let child = self.parse()?;
 
             children.push(ComplexSelectorChildren::CompoundSelector(child));
         }
 
+        if children.is_empty() {
+            children.extend(skipped.map(ComplexSelectorChildren::Combinator));
+        }
+
         let start_pos = match children.first() {
-            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.lo,
+            Some(child) => child.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.hi,
+            Some(child) => child.span_hi(),
             _ => {
                 unreachable!();
             }
@@ -407,6 +442,40 @@ where
         let start_pos = span.lo;
 
         let mut nesting_selector = None;
+
+        if self.config.css_modules && is!(self, ":") && peeked_is_one_of!(self, "local", "global") {
+            bump!(self);
+
+            let kind: Ident = self.parse()?;
+
+            if eat!(self, "(") {
+                let selectors = self.parse_as::<SelectorList>()?;
+                expect!(self, ")");
+
+                let sel = SubclassSelector::PseudoClass(PseudoClassSelector {
+                    span: span!(self, span.lo),
+                    name: kind,
+                    children: Some(vec![PseudoClassSelectorChildren::SelectorList(selectors)]),
+                });
+                return Ok(CompoundSelector {
+                    span: span!(self, span.lo),
+                    nesting_selector: None,
+                    type_selector: None,
+                    subclass_selectors: vec![sel],
+                });
+            } else {
+                return Ok(CompoundSelector {
+                    span: span!(self, span.lo),
+                    nesting_selector: None,
+                    type_selector: None,
+                    subclass_selectors: vec![SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: span!(self, span.lo),
+                        name: kind,
+                        children: None,
+                    })],
+                });
+            }
+        }
 
         // TODO: move under option, because it is draft
         // TODO validate list of selector, each should start with `&`
