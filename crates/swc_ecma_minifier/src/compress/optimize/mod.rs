@@ -856,7 +856,13 @@ where
                 ..
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
+                    let old = i.id.to_id();
                     self.store_var_for_inlining(&mut i.id, right, false, true);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old);
+                    }
 
                     if right.is_invalid() {
                         return None;
@@ -1651,6 +1657,11 @@ where
                     let old = i.to_id();
 
                     self.store_var_for_inlining(i, right, false, false);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old.clone());
+                    }
 
                     if right.is_invalid() {
                         if let Some(lit) = self

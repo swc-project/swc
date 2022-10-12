@@ -1621,7 +1621,7 @@
         }
         function setFilters() {}
         compile = Sizzle.compile = function(selector, group) {
-            var elementMatchers, setMatchers, matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
+            var matcherCachedRuns, bySet, byElement, superMatcher, i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
             if (!cached) {
                 for(group || (group = tokenize(selector)), i = group.length; i--;)(cached = function matcherFromTokens(tokens) {
                     for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
@@ -1662,12 +1662,12 @@
                         matchers.push(matcher);
                     }
                     return elementMatcher(matchers);
-                }(group[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
-                cached = compilerCache(selector, (matcherCachedRuns = 0, bySet = setMatchers1.length > 0, byElement = elementMatchers1.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
+                }(group[i]))[expando] ? setMatchers.push(cached) : elementMatchers.push(cached);
+                cached = compilerCache(selector, (matcherCachedRuns = 0, bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, expandContext) {
                     var elem, j, matcher, setMatched = [], matchedCount = 0, i = "0", unmatched = seed && [], outermost = null != expandContext, contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", expandContext && context.parentNode || context), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1;
                     for(outermost && (outermostContext = context !== document && context, cachedruns = matcherCachedRuns); null != (elem = elems[i]); i++){
                         if (byElement && elem) {
-                            for(j = 0; matcher = elementMatchers1[j++];)if (matcher(elem, context, xml)) {
+                            for(j = 0; matcher = elementMatchers[j++];)if (matcher(elem, context, xml)) {
                                 results.push(elem);
                                 break;
                             }
@@ -1676,12 +1676,12 @@
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
                     if (matchedCount += i, bySet && i !== matchedCount) {
-                        for(j = 0; matcher = setMatchers1[j++];)matcher(unmatched, setMatched, context, xml);
+                        for(j = 0; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
                             if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
                             setMatched = condense(setMatched);
                         }
-                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers1.length > 1 && Sizzle.uniqueSort(results);
+                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
                     }
                     return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
                 }, bySet ? markFunction(superMatcher) : superMatcher));
@@ -2737,19 +2737,19 @@
         }), fxNow = jQuery.now();
     }
     function Animation(elem, properties, options) {
-        var animation, props, result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
+        var result, stopped, index = 0, length = animationPrefilters.length, deferred = jQuery.Deferred().always(function() {
             delete tick.elem;
         }), tick = function() {
             if (stopped) return !1;
-            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation1.startTime + animation1.duration - currentTime), percent = 1 - (remaining / animation1.duration || 0), index = 0, length = animation1.tweens.length; index < length; index++)animation1.tweens[index].run(percent);
+            for(var currentTime = fxNow || createFxNow(), remaining = Math.max(0, animation.startTime + animation.duration - currentTime), percent = 1 - (remaining / animation.duration || 0), index = 0, length = animation.tweens.length; index < length; index++)animation.tweens[index].run(percent);
             return (deferred.notifyWith(elem, [
-                animation1,
+                animation,
                 percent,
                 remaining
             ]), percent < 1 && length) ? remaining : (deferred.resolveWith(elem, [
-                animation1
+                animation
             ]), !1);
-        }, animation1 = deferred.promise({
+        }, animation = deferred.promise({
             elem: elem,
             props: jQuery.extend({}, properties),
             opts: jQuery.extend(!0, {
@@ -2761,34 +2761,34 @@
             duration: options.duration,
             tweens: [],
             createTween: function(prop, end) {
-                var tween = jQuery.Tween(elem, animation1.opts, prop, end, animation1.opts.specialEasing[prop] || animation1.opts.easing);
-                return animation1.tweens.push(tween), tween;
+                var tween = jQuery.Tween(elem, animation.opts, prop, end, animation.opts.specialEasing[prop] || animation.opts.easing);
+                return animation.tweens.push(tween), tween;
             },
             stop: function(gotoEnd) {
-                var index = 0, length = gotoEnd ? animation1.tweens.length : 0;
+                var index = 0, length = gotoEnd ? animation.tweens.length : 0;
                 if (stopped) return this;
-                for(stopped = !0; index < length; index++)animation1.tweens[index].run(1);
+                for(stopped = !0; index < length; index++)animation.tweens[index].run(1);
                 return gotoEnd ? deferred.resolveWith(elem, [
-                    animation1,
+                    animation,
                     gotoEnd
                 ]) : deferred.rejectWith(elem, [
-                    animation1,
+                    animation,
                     gotoEnd
                 ]), this;
             }
-        }), props1 = animation1.props;
+        }), props = animation.props;
         for(function(props, specialEasing) {
             var value, name1, index, easing, hooks;
             for(index in props)if (easing = specialEasing[name1 = jQuery.camelCase(index)], value = props[index], jQuery.isArray(value) && (easing = value[1], value = props[index] = value[0]), index !== name1 && (props[name1] = value, delete props[index]), (hooks = jQuery.cssHooks[name1]) && ("expand" in hooks)) for(index in value = hooks.expand(value), delete props[name1], value)(index in props) || (props[index] = value[index], specialEasing[index] = easing);
             else specialEasing[name1] = easing;
-        }(props1, animation1.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation1, elem, props1, animation1.opts)) return result;
-        return jQuery.each(props1, function(prop, value) {
-            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation1, prop, value)) return;
-        }), jQuery.isFunction(animation1.opts.start) && animation1.opts.start.call(elem, animation1), jQuery.fx.timer(jQuery.extend(tick, {
+        }(props, animation.opts.specialEasing); index < length; index++)if (result = animationPrefilters[index].call(animation, elem, props, animation.opts)) return result;
+        return jQuery.each(props, function(prop, value) {
+            for(var collection = (tweeners[prop] || []).concat(tweeners["*"]), index = 0, length = collection.length; index < length; index++)if (collection[index].call(animation, prop, value)) return;
+        }), jQuery.isFunction(animation.opts.start) && animation.opts.start.call(elem, animation), jQuery.fx.timer(jQuery.extend(tick, {
             elem: elem,
-            anim: animation1,
-            queue: animation1.opts.queue
-        })), animation1.progress(animation1.opts.progress).done(animation1.opts.done, animation1.opts.complete).fail(animation1.opts.fail).always(animation1.opts.always);
+            anim: animation,
+            queue: animation.opts.queue
+        })), animation.progress(animation.opts.progress).done(animation.opts.done, animation.opts.complete).fail(animation.opts.fail).always(animation.opts.always);
     }
     function Tween(elem, options, prop, end, easing) {
         return new Tween.prototype.init(elem, options, prop, end, easing);

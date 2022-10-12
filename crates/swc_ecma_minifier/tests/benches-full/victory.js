@@ -2265,7 +2265,7 @@
                     return s.length ? s.pop() + " " : "";
                 }
                 return function(a, b) {
-                    var a1, b1, s, q, a2, b2, s1, q1, s2 = [], q2 = [];
+                    var a1, b1, a2, b2, s = [], q = [];
                     return a = parse(a), b = parse(b), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push("translate(", null, pxComma, null, pxParen);
@@ -2277,13 +2277,13 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s2, q2), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q2.push({
-                        i: s2.push(pop(s2) + "rotate(", null, degParen) - 2,
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                        i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
-                    })) : b1 && s2.push(pop(s2) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q2.push({
-                        i: s2.push(pop(s2) + "skewX(", null, degParen) - 2,
+                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
+                        i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
-                    }) : b2 && s2.push(pop(s2) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
+                    }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
                         if (xa !== xb || ya !== yb) {
                             var i = s.push(pop(s) + "scale(", null, ",", null, ")");
                             q.push({
@@ -2294,9 +2294,9 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (1 !== xb || 1 !== yb) && s.push(pop(s) + "scale(" + xb + "," + yb + ")");
-                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s2, q2), a = b = null, function(t) {
-                        for(var o, i = -1, n = q2.length; ++i < n;)s2[(o = q2[i]).i] = o.x(t);
-                        return s2.join("");
+                    }(a.scaleX, a.scaleY, b.scaleX, b.scaleY, s, q), a = b = null, function(t) {
+                        for(var o, i = -1, n = q.length; ++i < n;)s[(o = q[i]).i] = o.x(t);
+                        return s.join("");
                     };
                 };
             }
@@ -2663,7 +2663,6 @@
                     return piecewise = Math.min(domain.length, range.length) > 2 ? polymap : bimap, output = input = null, scale;
                 }
                 function scale(x) {
-                    var deinterpolate1;
                     return (output || (output = piecewise(domain, range, clamp ? function(a, b) {
                         var d = deinterpolate(a = +a, b = +b);
                         return function(x) {
@@ -2672,7 +2671,6 @@
                     } : deinterpolate, interpolate)))(+x);
                 }
                 return scale.invert = function(y) {
-                    var reinterpolate1;
                     return (input || (input = piecewise(range, domain, deinterpolateLinear, clamp ? function(a, b) {
                         var r = reinterpolate(a = +a, b = +b);
                         return function(t) {
@@ -6305,7 +6303,7 @@
                 triangles: function() {
                     var triangles = [], edges = this.edges;
                     return this.cells.forEach(function(cell, i) {
-                        if (m = (halfedges = cell.halfedges).length) for(var a, b, c, halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > (c = s1, (site[0] - c[0]) * (s0[1] - site[1]) - (site[0] - s0[0]) * (c[1] - site[1])) && triangles.push([
+                        if (m = (halfedges = cell.halfedges).length) for(var c, halfedges, m, s0, site = cell.site, j = -1, e1 = edges[halfedges[m - 1]], s1 = e1.left === site ? e1.right : e1.left; ++j < m;)s0 = s1, s1 = (e1 = edges[halfedges[j]]).left === site ? e1.right : e1.left, s0 && s1 && i < s0.index && i < s1.index && 0 > (c = s1, (site[0] - c[0]) * (s0[1] - site[1]) - (site[0] - s0[0]) * (c[1] - site[1])) && triangles.push([
                             site.data,
                             s0.data,
                             s1.data
@@ -6647,7 +6645,7 @@
             };
         },
         "../../../node_modules/delaunator/delaunator.js": function(module1, exports1, __webpack_require__) {
-            var global, factory;
+            var factory;
             factory = function() {
                 'use strict';
                 var EDGE_STACK = new Uint32Array(512), Delaunator = function(coords) {
@@ -6855,7 +6853,7 @@
                             points[2 * f],
                             points[2 * f + 1]
                         ], r = 1e-8 * Math.sqrt(Math.pow(bounds[3] - bounds[1], 2) + Math.pow(bounds[2] - bounds[0], 2)), i = 0, n = points.length / 2; i < n; ++i){
-                            var x, y, r1, p = (x = points[2 * i], [
+                            var x, y, p = (x = points[2 * i], [
                                 x + Math.sin(x + (y = points[2 * i + 1])) * r,
                                 y + Math.cos(x - y) * r
                             ]);
@@ -7902,9 +7900,9 @@
                     return void 0 === lastCallTime || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
                 }
                 function timerExpired() {
-                    var time, timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time1 = now();
-                    if (shouldInvoke(time1)) return trailingEdge(time1);
-                    timerId = setTimeout(timerExpired, (timeSinceLastCall = time1 - lastCallTime, timeSinceLastInvoke = time1 - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
+                    var timeSinceLastCall, timeSinceLastInvoke, timeWaiting, time = now();
+                    if (shouldInvoke(time)) return trailingEdge(time);
+                    timerId = setTimeout(timerExpired, (timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall, maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting));
                 }
                 function trailingEdge(time) {
                     return (timerId = void 0, trailing && lastArgs) ? invokeFunc(time) : (lastArgs = lastThis = void 0, result);
@@ -8522,7 +8520,7 @@
                     },
                     oneOf: function(expectedValues) {
                         return Array.isArray(expectedValues) ? createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
-                            for(var x, y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if (propValue === (y = expectedValues[i]) ? 0 !== propValue || 1 / propValue == 1 / y : propValue != propValue && y != y) return null;
+                            for(var y, propValue = props[propName], i = 0; i < expectedValues.length; i++)if (propValue === (y = expectedValues[i]) ? 0 !== propValue || 1 / propValue == 1 / y : propValue != propValue && y != y) return null;
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
@@ -8614,8 +8612,8 @@
                     });
                 }
                 function getPropType(propValue) {
-                    var propType, propValue1, propType1 = typeof propValue;
-                    return Array.isArray(propValue) ? 'array' : propValue instanceof RegExp ? 'object' : 'symbol' === propType1 || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol) ? 'symbol' : propType1;
+                    var propType = typeof propValue;
+                    return Array.isArray(propValue) ? 'array' : propValue instanceof RegExp ? 'object' : 'symbol' === propType || propValue && ('Symbol' === propValue['@@toStringTag'] || 'function' == typeof Symbol && propValue instanceof Symbol) ? 'symbol' : propType;
                 }
                 function getPreciseType(propValue) {
                     if (null == propValue) return '' + propValue;
@@ -8814,7 +8812,6 @@
                     return -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2;
                 };
             }, toNewName = function(interpolation) {
-                var s;
                 return "curve".concat(interpolation && interpolation[0].toUpperCase() + interpolation.slice(1));
             }, getLineFunction = function(props) {
                 var polar = props.polar, scale = props.scale, horizontal = props.horizontal, interpolationFunction = "function" == typeof props.interpolation && props.interpolation, interpolationName = "string" == typeof props.interpolation && toNewName(props.interpolation);
@@ -8987,9 +8984,9 @@
                 padding: 50,
                 interpolation: "linear"
             }, VictoryArea = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryArea() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryArea), call = (VictoryArea.__proto__ || Object.getPrototypeOf(VictoryArea)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -9309,7 +9306,7 @@
                     }
                 })[sign][axis];
             }, getStandaloneOffset = function(props, calculatedValues) {
-                var arr, style = calculatedValues.style, scale = calculatedValues.scale, orientation = calculatedValues.orientation, padding = calculatedValues.padding, axis = calculatedValues.axis, ticks = calculatedValues.ticks, stringTicks = calculatedValues.stringTicks, isVertical = calculatedValues.isVertical, labelPadding = calculatedValues.labelPadding, polar = props.polar, horizontal = props.horizontal, sharedProps = {
+                var style = calculatedValues.style, scale = calculatedValues.scale, orientation = calculatedValues.orientation, padding = calculatedValues.padding, axis = calculatedValues.axis, ticks = calculatedValues.ticks, stringTicks = calculatedValues.stringTicks, isVertical = calculatedValues.isVertical, labelPadding = calculatedValues.labelPadding, polar = props.polar, horizontal = props.horizontal, sharedProps = {
                     scale: _defineProperty({}, axis, scale),
                     polar: polar,
                     horizontal: horizontal,
@@ -9486,7 +9483,7 @@
                     scale: props.scale && props.scale[otherAxis] ? _defineProperty({}, otherAxis, props.scale[otherAxis]) : void 0
                 };
                 return ticks.reduce(function(childProps, tickValue, index) {
-                    var style1, props, tick, globalTransform1, isVertical1, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
+                    var props, tick, tick1 = stringTicks ? stringTicks[index] : tickValue, text = tickFormat(tickValue, index, ticks), styles = (props = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, sharedProps, {
                         tick: tick1,
                         tickValue: tickValue,
                         index: index,
@@ -9543,9 +9540,9 @@
                 height: 300,
                 padding: 50
             }, VictoryAxis = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryAxis() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryAxis), call = (VictoryAxis.__proto__ || Object.getPrototypeOf(VictoryAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -9949,7 +9946,7 @@
                     tabIndex: tabIndex
                 });
             }, Bar = function(props) {
-                var props1, cornerRadius, props2, width, cornerRadius1, _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius2 = _props.cornerRadius, path = polar ? (props1 = props, Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props1, cornerRadius2)) : (props2 = props).getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props2, barWidth) : props2.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props2, barWidth, cornerRadius2) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props2, barWidth, cornerRadius2), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
+                var props1, props2, _props = props = evaluateProps(props), polar = _props.polar, origin = _props.origin, style = _props.style, barWidth = _props.barWidth, cornerRadius = _props.cornerRadius, path = polar ? (props1 = props, Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalPolarBarPath)(props1, cornerRadius)) : (props2 = props).getPath ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getCustomBarPath)(props2, barWidth) : props2.horizontal ? Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getHorizontalBarPath)(props2, barWidth, cornerRadius) : Object(_path_helper_methods__WEBPACK_IMPORTED_MODULE_6__.getVerticalBarPath)(props2, barWidth, cornerRadius), defaultTransform = polar && origin ? "translate(".concat(origin.x, ", ").concat(origin.y, ")") : void 0;
                 return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.pathComponent, _objectSpread({}, props.events, {
                     "aria-label": props.ariaLabel,
                     style: style,
@@ -10496,9 +10493,9 @@
                 height: 300,
                 padding: 50
             }, VictoryBar = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryBar() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryBar), call = (VictoryBar.__proto__ || Object.getPrototypeOf(VictoryBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -10785,7 +10782,7 @@
                 if (arrayX) throw Error("\n        data should not be given as in array for x\n      ");
                 if (arrayY) return data.map(function(datum) {
                     var dataArray = datum._y.map(function(d) {
-                        var obj, key, value;
+                        var obj;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, datum, ("_y" in (obj = {}) ? Object.defineProperty(obj, "_y", {
                             value: d,
                             enumerable: !0,
@@ -10923,7 +10920,7 @@
                 }
                 return Array.isArray(labelProp) ? labelProp[index] : labelProp;
             }, getLabelProps = function(props, text, type) {
-                var labelOrientation, type1, datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation1 = props.labelOrientation, style = props.style, theme = props.theme, orientation = "object" == typeof labelOrientation1 && labelOrientation1[type] || labelOrientation1, labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
+                var datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation = props.labelOrientation, style = props.style, theme = props.theme, orientation = "object" == typeof labelOrientation && labelOrientation[type] || labelOrientation, labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
                     var sign = {
                         x: "left" === orientation ? -1 : 1,
                         y: "top" === orientation ? -1 : 1
@@ -11005,7 +11002,6 @@
                         datum: datum,
                         positions: positions
                     }, props), dataObj = TYPES.reduce(function(memo, type) {
-                        var props, type1;
                         return memo[type] = "median" === type ? getMedianProps(dataProps) : "min" === type || "max" === type ? getWhiskerProps(dataProps, type) : getBoxProps(dataProps, type), memo;
                     }, {});
                     return acc[eventKey] = dataObj, TYPES.forEach(function(type) {
@@ -11058,9 +11054,9 @@
                     left: 20
                 }
             }, VictoryBoxPlot = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryBoxPlot() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryBoxPlot), call = (VictoryBoxPlot.__proto__ || Object.getPrototypeOf(VictoryBoxPlot)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -11866,9 +11862,9 @@
             var brushContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function VictoryBrushContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictoryBrushContainer), call = (VictoryBrushContainer.__proto__ || Object.getPrototypeOf(VictoryBrushContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -12184,9 +12180,9 @@
                     fill: "none"
                 }
             }, VictoryBrushLine = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryBrushLine() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryBrushLine), call = (VictoryBrushLine.__proto__ || Object.getPrototypeOf(VictoryBrushLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -12803,7 +12799,7 @@
                 };
             }, getDataStyles = function(datum, style, props) {
                 style = style || {};
-                var attr, candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke;
+                var candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke;
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, style, {
                     stroke: "none" === strokeColor || "transparent" === strokeColor ? fill : strokeColor || "black",
                     fill: fill
@@ -13051,9 +13047,9 @@
             ], datumHasXandY = function(datum) {
                 return !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._x) && !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._y);
             }, VictoryCandlestick = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryCandlestick() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryCandlestick), call = (VictoryCandlestick.__proto__ || Object.getPrototypeOf(VictoryCandlestick)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -13460,7 +13456,7 @@
                     var role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
                     }), childProps = function(child, props, calculatedProps) {
-                        var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                        var child1, domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
                             child
                         ]);
                         if (axisChild.length > 0) return axisChild[0], domain = calculatedProps.domain, scale = calculatedProps.scale, stringMap = calculatedProps.stringMap, categories = calculatedProps.categories, {
@@ -13499,7 +13495,7 @@
                 });
             }
             var getChildComponents = function(props, defaultAxes) {
-                var arr, childComponents = react__WEBPACK_IMPORTED_MODULE_2___default.a.Children.toArray(props.children), newChildComponents = function(arr) {
+                var childComponents = react__WEBPACK_IMPORTED_MODULE_2___default.a.Children.toArray(props.children), newChildComponents = function(arr) {
                     if (Array.isArray(arr)) {
                         for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
                         return arr2;
@@ -13568,9 +13564,9 @@
                 height: 300,
                 padding: 50
             }, VictoryChart = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryChart(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryChart), (_this = (call = (VictoryChart.__proto__ || Object.getPrototypeOf(VictoryChart)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {}, props.animate && (_this.state = {
@@ -13923,9 +13919,9 @@
                 }
             }
             var VictoryAccessibleGroup = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryAccessibleGroup() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryAccessibleGroup), call = (VictoryAccessibleGroup.__proto__ || Object.getPrototypeOf(VictoryAccessibleGroup)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -14070,9 +14066,9 @@
                 return self1;
             }
             var VictoryAnimation = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryAnimation(props, context) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryAnimation), (_this = (call = (VictoryAnimation.__proto__ || Object.getPrototypeOf(VictoryAnimation)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
@@ -14132,7 +14128,6 @@
                     {
                         key: "toNewName",
                         value: function(ease) {
-                            var s;
                             return "ease".concat(ease && ease[0].toUpperCase() + ease.slice(1));
                         }
                     },
@@ -14283,9 +14278,9 @@
                 }
             }
             var VictoryClipContainer = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryClipContainer(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryClipContainer), (_this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -14531,9 +14526,9 @@
                 }
             }
             var VictoryContainer = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryContainer(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryContainer), (_this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -15038,7 +15033,7 @@
                     };
                 }), label = renderLabel(calculatedProps, tspanValues);
                 if (props.backgroundStyle) {
-                    var calculatedProps1, tspanValues1, backgroundElement = useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues), backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, [
+                    var backgroundElement = useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues), backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, [
                         backgroundElement,
                         label
                     ]);
@@ -15207,9 +15202,9 @@
                 return self1;
             }
             var Portal = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function Portal(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, Portal), (_this = (call = (Portal.__proto__ || Object.getPrototypeOf(Portal)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).map = {}, _this.index = 1, _this.portalUpdate = _this.portalUpdate.bind(_assertThisInitialized(_this)), _this.portalRegister = _this.portalRegister.bind(_assertThisInitialized(_this)), _this.portalDeregister = _this.portalDeregister.bind(_assertThisInitialized(_this)), _this;
@@ -15294,9 +15289,9 @@
                 }
             }
             var VictoryPortal = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryPortal() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryPortal), call = (VictoryPortal.__proto__ || Object.getPrototypeOf(VictoryPortal)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -16560,7 +16555,7 @@
                 return self1;
             }
             var VictoryTransition = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16568,7 +16563,7 @@
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
-                    var self1, call, _this, child = _this.props.children, polar = child.props.polar;
+                    var call, _this, child = _this.props.children, polar = child.props.polar;
                     return _this.continuous = !polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
                 }
                 return !function(subClass, superClass) {
@@ -16774,12 +16769,12 @@
             ];
             __webpack_exports__.default = function(WrappedComponent, options) {
                 return function(_WrappedComponent) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, addEvents), _this = (call = (addEvents.__proto__ || Object.getPrototypeOf(addEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this);
-                        var self1, call, _this, getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
+                        var call, _this, getScopedEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getScopedEvents.bind(_assertThisInitialized(_this)), boundGetEvents = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEvents.bind(_assertThisInitialized(_this));
                         _this.state = {}, _this.getEvents = function(p, target, eventKey) {
                             return boundGetEvents(p, target, eventKey, getScopedEvents);
                         }, _this.getEventState = _events__WEBPACK_IMPORTED_MODULE_10__.default.getEventState.bind(_assertThisInitialized(_this));
@@ -17044,7 +17039,7 @@
                 return void 0 !== props.tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(props.tickValues);
             }
             function getTickArray(props) {
-                var props1, axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, arr, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
+                var axis, stringMap, categories, ticksFromCategories, ticksFromStringMap, newTickArray, domain, tickValues = props.tickValues, tickFormat = props.tickFormat, axis1 = getAxis(props), stringMap1 = props.stringMap && props.stringMap[axis1], ticks = tickValues;
                 stringMap1 && (axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], ticksFromCategories = (categories = Array.isArray(props.categories) ? props.categories : props.categories && props.categories[axis]) && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsOnlyStrings(categories) ? categories.map(function(tick) {
                     return stringMap[tick];
                 }) : void 0, ticksFromStringMap = stringMap && lodash_values__WEBPACK_IMPORTED_MODULE_2___default()(stringMap), ticks = ticksFromCategories && 0 !== ticksFromCategories.length ? ticksFromCategories : ticksFromStringMap), tickValues && _collection__WEBPACK_IMPORTED_MODULE_13__.default.containsStrings(tickValues) && (ticks = stringMap1 ? tickValues.map(function(tick) {
@@ -17156,7 +17151,6 @@
                 getAxisComponentsWithParent: function(childComponents, type) {
                     var findComponents = function(children) {
                         return children.reduce(function(memo, child) {
-                            var child1;
                             return child.type && "axis" === child.type.role && ("dependent" === type ? child.props.dependentAxis : !child.props.dependentAxis) ? memo.concat(child) : child.props && child.props.children && findComponents(react__WEBPACK_IMPORTED_MODULE_12___default.a.Children.toArray(child.props.children)).length > 0 ? memo.concat(child) : memo;
                         }, []);
                     };
@@ -17572,12 +17566,11 @@
             }
             function formatData(dataset, props, expectedKeys) {
                 if (!(Array.isArray(dataset) || _immutable__WEBPACK_IMPORTED_MODULE_17__.default.isIterable(dataset)) || 1 > getLength(dataset)) return [];
-                var stringMap, props1, data, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
+                var stringMap, hasEventKeyAccessor, key, eventKeyAccessor, defaultKeys = [
                     "x",
                     "y",
                     "y0"
                 ], accessor = (expectedKeys = Array.isArray(expectedKeys) ? expectedKeys : defaultKeys).reduce(function(memo, type) {
-                    var name;
                     return memo[type] = _helpers__WEBPACK_IMPORTED_MODULE_14__.default.createAccessor(void 0 !== props[type] ? props[type] : type), memo;
                 }, {}), preformattedData = lodash_isEqual__WEBPACK_IMPORTED_MODULE_3___default()(expectedKeys, defaultKeys) && "_x" === props.x && "_y" === props.y && "_y0" === props.y0;
                 !1 === preformattedData && (stringMap = {
@@ -17878,14 +17871,14 @@
             }
             function formatDomain(domain, props, axis) {
                 return function(domain, props, axis) {
-                    var dom, almostZero, domainOne;
+                    var almostZero, domainOne;
                     return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
                         0 === domain[0] ? almostZero : domain[0],
                         0 === domain[1] ? almostZero : domain[1]
                     ]);
                 }(function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
-                    var props1, axis1, formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = function(padding) {
+                    var formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = function(padding) {
                         return Array.isArray(padding) ? {
                             left: padding[0],
                             right: padding[1]
@@ -17941,7 +17934,7 @@
             }
             function getDomainFromData(props, axis, dataset) {
                 dataset = dataset || _data__WEBPACK_IMPORTED_MODULE_7__.default.getData(props);
-                var dataset1, axis1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
+                var dataset1, polar = props.polar, _props$startAngle2 = props.startAngle, _props$endAngle2 = props.endAngle, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis);
                 if (dataset.length < 1) return void 0 !== minDomain && void 0 !== maxDomain ? getDomainFromMinMax(minDomain, maxDomain) : void 0;
                 var domain = getDomainFromMinMax(void 0 !== minDomain ? minDomain : getExtremeFromData(dataset, axis, "min"), void 0 !== maxDomain ? maxDomain : getExtremeFromData(dataset, axis, "max"));
                 return polar && "x" === axis && 360 === Math.abs((void 0 === _props$startAngle2 ? 0 : _props$startAngle2) - (void 0 === _props$endAngle2 ? 360 : _props$endAngle2)) ? getSymmetricDomain(domain, (dataset1 = dataset, lodash_flatten__WEBPACK_IMPORTED_MODULE_5___default()(dataset1).map(function(datum) {
@@ -17949,7 +17942,7 @@
                 }))) : domain;
             }
             function getDomainFromMinMax(min, max) {
-                var val, verySmallNumber, minVal, maxVal;
+                var verySmallNumber, minVal, maxVal;
                 return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(+max - 1) : +max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
                     0,
                     maxVal
@@ -18107,12 +18100,12 @@
                                 key: key,
                                 target: target
                             }, "state"), mutatedProps = eventReturn.mutation(lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, mutationTargetProps, mutationTargetState), baseProps), childState = baseState[childName] || {}, updateState = function(state) {
-                                var state1, state2;
-                                return mutatedProps ? "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps)))) : ((state2 = state)[key] && state2[key][target] && delete state2[key][target], state2[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state2[key]).length && delete state2[key], state2);
+                                var state1;
+                                return mutatedProps ? "parent" === target ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], mutatedProps))) : lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state, _defineProperty({}, key, lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(state[key], _defineProperty({}, target, mutatedProps)))) : ((state1 = state)[key] && state1[key][target] && delete state1[key][target], state1[key] && !lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(state1[key]).length && delete state1[key], state1);
                             };
                             return null != childName ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(baseState, _defineProperty({}, childName, updateState(childState))) : updateState(baseState);
                         }, getReturnByChild = function(childName) {
-                            var childName1, mutationKeys = "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
+                            var mutationKeys = "parent" === target ? "parent" : "all" === eventReturn.eventKey ? baseProps[childName] ? lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]), "parent") : lodash_without__WEBPACK_IMPORTED_MODULE_5___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps), "parent") : void 0 === eventReturn.eventKey && "parent" === eventKey ? baseProps[childName] ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps[childName]) : lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(baseProps) : void 0 !== eventReturn.eventKey ? eventReturn.eventKey : eventKey;
                             return Array.isArray(mutationKeys) ? mutationKeys.reduce(function(memo, key) {
                                 return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()(memo, getMutationObject(key, childName));
                             }, {}) : getMutationObject(mutationKeys, childName);
@@ -18138,7 +18131,7 @@
                     }, onEvent = function(evt, childProps, eventKey, eventName) {
                         var eventReturn = events[eventName](evt, childProps, eventKey, _this2);
                         if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(eventReturn)) {
-                            var eventReturn1, eventKey1, callbacks = compileCallbacks(eventReturn);
+                            var callbacks = compileCallbacks(eventReturn);
                             _this2.setState(Array.isArray(eventReturn) ? eventReturn.reduce(function(memo, props) {
                                 return memo = lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
                             }, {}) : parseEvent(eventReturn, eventKey), callbacks);
@@ -18367,15 +18360,15 @@
                     };
                 },
                 getRange: function(props, axis) {
-                    var props1, axis1, padding, props2;
+                    var padding, props1;
                     if (props.range && props.range[axis]) return props.range[axis];
                     if (props.range && Array.isArray(props.range)) return props.range;
-                    return props.polar ? (props2 = props, "x" === axis ? [
-                        degreesToRadians(props2.startAngle || 0),
-                        degreesToRadians(props2.endAngle || 360)
+                    return props.polar ? (props1 = props, "x" === axis ? [
+                        degreesToRadians(props1.startAngle || 0),
+                        degreesToRadians(props1.endAngle || 360)
                     ] : [
-                        props2.innerRadius || 0,
-                        getRadius(props2)
+                        props1.innerRadius || 0,
+                        getRadius(props1)
                     ]) : (padding = getPadding(props), "x" !== axis ? [
                         props.height - padding.bottom,
                         padding.top
@@ -18504,7 +18497,7 @@
                 },
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
-                    var props1, datum, style, horizontal, sign, labelStyle, props2, datum1, sign1, labelStyle1, props3, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
+                    var datum, style, horizontal, sign, labelStyle, datum1, sign1, labelStyle1, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
                         var props1, datum1, style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                         if (!polar) return {
                             x: x,
@@ -18520,7 +18513,7 @@
                         };
                     }(props, datum3), x = _getPosition.x, y = _getPosition.y, _getOffset = function(props, datum) {
                         if (props.polar) return {};
-                        var props1, datum1, horizontal, labelStyle, defaultPadding, sign, padding = (datum1 = (datum1 = datum) || {}, horizontal = props.horizontal, labelStyle = props.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, sign = datum1._y < 0 ? -1 : 1, {
+                        var datum1, horizontal, labelStyle, defaultPadding, sign, padding = (datum1 = (datum1 = datum) || {}, horizontal = props.horizontal, labelStyle = props.style.labels || {}, defaultPadding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, sign = datum1._y < 0 ? -1 : 1, {
                             x: horizontal ? sign * defaultPadding : 0,
                             y: horizontal ? 0 : -1 * sign * defaultPadding
                         });
@@ -18589,8 +18582,8 @@
             __webpack_exports__.default = {
                 deprecated: function(propType, explanation) {
                     return function(props, propName, componentName) {
-                        var obj, key, value, value1 = props[propName];
-                        return null != value1 && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
+                        var obj, value = props[propName];
+                        return null != value && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
                             value: propType,
                             enumerable: !0,
                             configurable: !0,
@@ -18666,7 +18659,6 @@
                 "sqrt"
             ];
             function toNewName(scale) {
-                var s;
                 return "scale".concat(scale && scale[0].toUpperCase() + scale.slice(1));
             }
             function validScale(scale) {
@@ -22392,7 +22384,7 @@
                 });
             }, _approximateTextWidthInternal = function(text, style) {
                 if (void 0 === text || "" === text || null === text) return 0;
-                var arr, widths = _splitToLines(text).map(function(line, index) {
+                var widths = _splitToLines(text).map(function(line, index) {
                     var len = line.toString().length, _prepareParams2 = _prepareParams(style, index), fontSize = _prepareParams2.fontSize, letterSpacing = _prepareParams2.letterSpacing, fontData = fonts[_prepareParams2.fontFamily.split(",").map(function(f) {
                         return f.replace(/'|"/g, "");
                     }).find(function(f) {
@@ -22415,7 +22407,7 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }());
             }, approximateTextSize = function(text, style) {
-                var text1, style1, angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
+                var angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
                     var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
                     return total + lineStyle.lineHeight * height;
                 }, 0), width = _approximateTextWidthInternal(text, style);
@@ -22451,7 +22443,7 @@
                 }
             }
             var Timer = function() {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function Timer() {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -22576,7 +22568,7 @@
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var animate1, data1, after, nodes, child1, data2, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
+                                var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
                                 return function(animate, child, data, exitingNodes, cb) {
                                     var onExit = animate && animate.onExit;
                                     if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
@@ -22601,8 +22593,8 @@
                                 });
                             }
                             if (nodesWillEnter) {
-                                var nodes1, child2, data3, animate2, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
-                                return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                                var animate1, enteringNodes = childTransitions && childTransitions.entering, enter = void 0 !== transitionDurations.enter ? transitionDurations.enter : getChildTransitionDuration(child, "onEnter"), move = void 0 !== transitionDurations.move ? transitionDurations.move : child.props.animate && child.props.animate.duration;
+                                return animate1 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                     duration: nodesShouldEnter && enteringNodes ? enter : move
                                 }), nodesShouldEnter ? function(animate, data, enteringNodes, cb) {
                                     var onEnter = animate && animate.onEnter;
@@ -22617,7 +22609,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate2, data, enteringNodes, function() {
+                                }(animate1, data, enteringNodes, function() {
                                     setState({
                                         nodesWillEnter: !1
                                     });
@@ -22634,7 +22626,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate2, child, data, enteringNodes, function() {
+                                }(animate1, child, data, enteringNodes, function() {
                                     setState({
                                         nodesShouldEnter: !0
                                     });
@@ -22645,8 +22637,8 @@
                                 })
                             };
                         } else {
-                            var child3, data4, animate3, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
-                            return animate3 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
+                            var animate2, load = void 0 !== transitionDurations.load ? transitionDurations.load : getChildTransitionDuration(child, "onLoad");
+                            return animate2 = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
                                 duration: load
                             }), nodesShouldLoad ? function(animate, data, cb) {
                                 if ((animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, {
@@ -22662,7 +22654,7 @@
                                         return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
                                     })
                                 };
-                            }(animate3, data, function() {
+                            }(animate2, data, function() {
                                 setState({
                                     nodesShouldLoad: !1,
                                     nodesDoneLoad: !0
@@ -22682,7 +22674,7 @@
                                     }),
                                     clipWidth: 0
                                 };
-                            }(animate3, child, data, function() {
+                            }(animate2, child, data, function() {
                                 setState({
                                     nodesDoneLoad: !0
                                 });
@@ -23053,7 +23045,7 @@
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
                 return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
-                    var arr, _ref2 = function(arr) {
+                    var _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
                     }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
@@ -23096,9 +23088,9 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
-                    var Constructor, protoProps, staticProps;
+                    var staticProps;
                     function VictoryCombinedContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictoryCombinedContainer), call = (VictoryCombinedContainer.__proto__ || Object.getPrototypeOf(VictoryCombinedContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -23329,9 +23321,9 @@
             var cursorContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function VictoryCursorContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictoryCursorContainer), call = (VictoryCursorContainer.__proto__ || Object.getPrototypeOf(VictoryCursorContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -23802,9 +23794,9 @@
                 height: 300,
                 padding: 50
             }, VictoryErrorBar = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryErrorBar() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryErrorBar), call = (VictoryErrorBar.__proto__ || Object.getPrototypeOf(VictoryErrorBar)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -24062,7 +24054,7 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, range, angularRange, r, props2, calculatedProps1, index1, groupLength, props3, calculatedProps2, index2, groupLength1, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
+                    var props1, range, angularRange, r, props2, calculatedProps1, groupLength, props3, calculatedProps2, groupLength1, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
@@ -24123,9 +24115,9 @@
                 padding: 50,
                 offset: 0
             }, VictoryGroup = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryGroup(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryGroup), _this = (call = (VictoryGroup.__proto__ || Object.getPrototypeOf(VictoryGroup)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
@@ -24345,7 +24337,7 @@
                     var x0 = _ref4.x0, x1 = _ref4.x1;
                     return dataOrBinsContainsDates ? new Date(x0).getTime() !== new Date(x1).getTime() : x0 !== x1;
                 }).map(function(bin) {
-                    var arr, x0 = dataOrBinsContainsDates ? new Date(bin.x0) : bin.x0, x1 = dataOrBinsContainsDates ? new Date(bin.x1) : bin.x1;
+                    var x0 = dataOrBinsContainsDates ? new Date(bin.x0) : bin.x0, x1 = dataOrBinsContainsDates ? new Date(bin.x1) : bin.x1;
                     return {
                         x0: x0,
                         x1: x1,
@@ -24444,7 +24436,7 @@
                     return Math.abs(scale.x(datum.x1) - current);
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var datum1, eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
                         alignment: "middle",
                         barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
                         cornerRadius: cornerRadius,
@@ -24495,9 +24487,9 @@
                 height: 300,
                 padding: 50
             }, VictoryHistogram = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryHistogram() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryHistogram), call = (VictoryHistogram.__proto__ || Object.getPrototypeOf(VictoryHistogram)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -25752,9 +25744,9 @@
                 x: 0,
                 y: 0
             }, VictoryLegend = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryLegend() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryLegend), call = (VictoryLegend.__proto__ || Object.getPrototypeOf(VictoryLegend)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -26045,13 +26037,12 @@
                     return scale.y(void 0 !== d._y1 ? d._y1 : d._y);
                 };
             }, toNewName = function(interpolation) {
-                var s;
                 return "curve".concat(interpolation && interpolation[0].toUpperCase() + interpolation.slice(1));
             }, getLineFunction = function(props) {
-                var scale, polar = props.polar, scale1 = props.scale, horizontal = props.horizontal, openCurve = void 0 === props.openCurve ? !polar : props.openCurve, interpolationFunction = "function" == typeof props.interpolation && props.interpolation, interpolationName = "string" == typeof props.interpolation && (openCurve ? toNewName(props.interpolation) : "".concat(toNewName(props.interpolation), "Closed"));
+                var polar = props.polar, scale = props.scale, horizontal = props.horizontal, openCurve = void 0 === props.openCurve ? !polar : props.openCurve, interpolationFunction = "function" == typeof props.interpolation && props.interpolation, interpolationName = "string" == typeof props.interpolation && (openCurve ? toNewName(props.interpolation) : "".concat(toNewName(props.interpolation), "Closed"));
                 return polar ? d3_shape__WEBPACK_IMPORTED_MODULE_3__.lineRadial().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).angle(function(d) {
-                    return -1 * scale1.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2;
-                }).radius(getYAccessor(scale1)) : d3_shape__WEBPACK_IMPORTED_MODULE_3__.line().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).x(horizontal ? getYAccessor(scale1) : getXAccessor(scale1)).y(horizontal ? getXAccessor(scale1) : getYAccessor(scale1));
+                    return -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2;
+                }).radius(getYAccessor(scale)) : d3_shape__WEBPACK_IMPORTED_MODULE_3__.line().defined(defined).curve(interpolationFunction || d3_shape__WEBPACK_IMPORTED_MODULE_3__[interpolationName]).x(horizontal ? getYAccessor(scale) : getXAccessor(scale)).y(horizontal ? getXAccessor(scale) : getYAccessor(scale));
             }, evaluateProps = function(props) {
                 var ariaLabel = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.ariaLabel, props), id = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateProp(props.id, props), style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.evaluateStyle(lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
                     fill: "none",
@@ -26183,9 +26174,9 @@
                 padding: 50,
                 interpolation: "linear"
             }, VictoryLine = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryLine() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryLine), call = (VictoryLine.__proto__ || Object.getPrototypeOf(VictoryLine)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -26375,21 +26366,21 @@
                     return datum._y;
                 })(data);
             }, getCalculatedValues = function(props) {
-                var props1, padding, colorScale = props.colorScale, styleObject = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getDefaultStyles(props, "pie"), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getStyles(props.style, styleObject, "auto", "100%"), colors = Array.isArray(colorScale) ? colorScale : victory_core__WEBPACK_IMPORTED_MODULE_6__.Style.getColorScale(colorScale), padding1 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getPadding(props), defaultRadius = "number" == typeof props.radius ? props.radius : Math.min(props.width - padding1.left - padding1.right, props.height - padding1.top - padding1.bottom) / 2, origin = getOrigin(props, padding1), data = victory_core__WEBPACK_IMPORTED_MODULE_6__.Data.getData(props), slices = getSlices(props, data);
+                var colorScale = props.colorScale, styleObject = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getDefaultStyles(props, "pie"), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getStyles(props.style, styleObject, "auto", "100%"), colors = Array.isArray(colorScale) ? colorScale : victory_core__WEBPACK_IMPORTED_MODULE_6__.Style.getColorScale(colorScale), padding = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.getPadding(props), defaultRadius = "number" == typeof props.radius ? props.radius : Math.min(props.width - padding.left - padding.right, props.height - padding.top - padding.bottom) / 2, origin = getOrigin(props, padding), data = victory_core__WEBPACK_IMPORTED_MODULE_6__.Data.getData(props), slices = getSlices(props, data);
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, props, {
                     style: style,
                     colors: colors,
-                    padding: padding1,
+                    padding: padding,
                     defaultRadius: defaultRadius,
                     data: data,
                     slices: slices,
                     origin: origin
                 });
             }, getSliceStyle = function(index, calculatedValues) {
-                var style, colors, index1, style1 = calculatedValues.style, colors1 = calculatedValues.colors, fill = style1 && style1.data && style1.data.fill ? style1.data.fill : colors1 && colors1[index % colors1.length];
+                var style = calculatedValues.style, colors = calculatedValues.colors, fill = style && style.data && style.data.fill ? style.data.fill : colors && colors[index % colors.length];
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     fill: fill
-                }, style1.data);
+                }, style.data);
             }, getLabelText = function(props, datum, index) {
                 var text, text1;
                 return void 0 === (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || null === text1 || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
@@ -26406,32 +26397,32 @@
                 var baseAngle = 0;
                 return ((baseAngle = void 0 !== labelPosition.angle ? labelStyle.angle : "centroid" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees((slice.startAngle + slice.endAngle) / 2) : "startAngle" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.startAngle) : victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.endAngle)) < 0 ? 360 - baseAngle : baseAngle) % 360;
             }, getLabelProps = function(text, dataProps, calculatedValues) {
-                var degree, labelPlacement, baseAngle, labelPlacement1, orientation, orientation1, index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                var degree, labelPlacement, index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)), labelPosition = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPosition, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
-                }, dataProps)) || "centroid", labelPlacement2 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                }, dataProps)) || "centroid", labelPlacement1 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)) || "vertical", labelStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     padding: 0
                 }, style.labels), evaluatedStyle = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(labelStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     labelRadius: labelRadius,
                     text: text
-                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle1 = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation2 = (degree = baseAngle1, "perpendicular" === (labelPlacement = labelPlacement2) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation2 || "bottom" === orientation2 ? "middle" : "right" === orientation2 ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation2 || "right" === orientation2 ? "middle" : "bottom" === orientation2 ? "start" : "end"), labelProps = {
+                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation = (degree = baseAngle, "perpendicular" === (labelPlacement = labelPlacement1) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation || "bottom" === orientation ? "middle" : "right" === orientation ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation || "right" === orientation ? "middle" : "bottom" === orientation ? "start" : "end"), labelProps = {
                     width: width,
                     height: height,
                     index: index,
                     datum: datum,
                     data: data,
                     slice: slice,
-                    orientation: orientation2,
+                    orientation: orientation,
                     text: text,
                     style: labelStyle,
                     x: Math.round(position[0]) + origin.x,
                     y: Math.round(position[1]) + origin.y,
                     textAnchor: textAnchor,
                     verticalAnchor: verticalAnchor,
-                    angle: "vertical" === labelPlacement2 ? 0 : "parallel" === labelPlacement2 ? baseAngle1 > 180 && baseAngle1 < 360 ? baseAngle1 + 90 : baseAngle1 - 90 : baseAngle1 > 90 && baseAngle1 < 270 ? baseAngle1 - 180 : baseAngle1
+                    angle: "vertical" === labelPlacement1 ? 0 : "parallel" === labelPlacement1 ? baseAngle > 180 && baseAngle < 360 ? baseAngle + 90 : baseAngle - 90 : baseAngle > 90 && baseAngle < 270 ? baseAngle - 180 : baseAngle
                 };
                 if (!victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.isTooltip(labelComponent)) return labelProps;
                 var tooltipTheme = theme && theme.tooltip || {};
@@ -26620,9 +26611,9 @@
                 ],
                 labelPosition: "centroid"
             }, VictoryPie = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryPie() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryPie), call = (VictoryPie.__proto__ || Object.getPrototypeOf(VictoryPie)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -27215,9 +27206,9 @@
                 height: 300,
                 padding: 50
             }, VictoryPolarAxis = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryPolarAxis() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryPolarAxis), call = (VictoryPolarAxis.__proto__ || Object.getPrototypeOf(VictoryPolarAxis)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -27638,9 +27629,9 @@
                 size: 3,
                 symbol: "circle"
             }, VictoryScatter = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryScatter() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryScatter), call = (VictoryScatter.__proto__ || Object.getPrototypeOf(VictoryScatter)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -27867,7 +27858,7 @@
                 },
                 onMouseDown: function(evt, targetProps) {
                     evt.preventDefault();
-                    var arr, activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
+                    var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
                     var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], y1 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], mutatedProps = {
                         x1: x1,
@@ -28025,9 +28016,9 @@
             var selectionContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function VictorySelectionContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictorySelectionContainer), call = (VictorySelectionContainer.__proto__ || Object.getPrototypeOf(VictorySelectionContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -28176,9 +28167,9 @@
                 return self1;
             }
             var VictorySharedEvents = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictorySharedEvents(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictorySharedEvents), (_this = (call = (VictorySharedEvents.__proto__ || Object.getPrototypeOf(VictorySharedEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = _this.state || {}, _this.getScopedEvents = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getScopedEvents.bind(_assertThisInitialized(_this)), _this.getEventState = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getEventState.bind(_assertThisInitialized(_this)), _this.baseProps = _this.getBaseProps(props), _this.sharedEventsCache = {}, _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
@@ -28516,9 +28507,9 @@
             };
             function getCalculatedProps(props, childComponents) {
                 childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children);
-                var props1, childComponents1, filterNullChildData, props2, datasets, fillInMissingData, xMap, xKeys, xArr, datasets1, role = "stack";
+                var props1, childComponents1, filterNullChildData, fillInMissingData, xMap, xKeys, xArr, datasets, role = "stack";
                 props = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.modifyProps(props, fallbackProps, role);
-                var style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getStyle(props.theme, props.style, role), categories = props.categories || victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getCategories(props, childComponents), datasets2 = props.datasets || (props1 = props, childComponents1 = childComponents, filterNullChildData = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getDataFromChildren(props1, childComponents1).map(function(dataset) {
+                var style = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getStyle(props.theme, props.style, role), categories = props.categories || victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getCategories(props, childComponents), datasets1 = props.datasets || (props1 = props, childComponents1 = childComponents, filterNullChildData = victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getDataFromChildren(props1, childComponents1).map(function(dataset) {
                     return dataset.filter(function(datum) {
                         return null !== datum._x && null !== datum._y;
                     });
@@ -28528,7 +28519,7 @@
                     }), prev;
                 }, {}), xKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(xMap).map(function(k) {
                     return +k;
-                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets1 = filterNullChildData.map(function(dataset) {
+                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets = filterNullChildData.map(function(dataset) {
                     var indexOffset = 0, isDate = dataset[0] && dataset[0]._x instanceof Date;
                     return xArr.map(function(x, index) {
                         x = +x;
@@ -28553,8 +28544,8 @@
                         };
                     });
                 })).map(function(d, i) {
-                    var props, datasets, index, xOffset;
-                    return xOffset = props1.xOffset || 0, datasets1[i].map(function(datum) {
+                    var xOffset;
+                    return xOffset = props1.xOffset || 0, datasets[i].map(function(datum) {
                         var yOffset = function(datum, index, datasets) {
                             if (datum.y0) return datum.y0;
                             var y = datum._y, group = datum._group, firstDatasetBaseline = datasets[0].map(function(d) {
@@ -28571,7 +28562,7 @@
                             return previousPoints.some(function(point) {
                                 return point instanceof Date;
                             }) ? new Date(y0) : y0;
-                        }(datum, i, datasets1) || 0;
+                        }(datum, i, datasets) || 0;
                         return lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, datum, {
                             _y0: datum._y instanceof Date ? yOffset ? new Date(yOffset) : datum._y : yOffset,
                             _y1: null === datum._y ? null : datum._y instanceof Date ? new Date(+datum._y + +yOffset) : datum._y + yOffset,
@@ -28580,7 +28571,7 @@
                     });
                 })), children = childComponents.map(function(c, i) {
                     return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(c, {
-                        data: datasets2[i]
+                        data: datasets1[i]
                     });
                 }), domain = {
                     x: victory_core__WEBPACK_IMPORTED_MODULE_4__.Wrapper.getDomain(lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({}, props, {
@@ -28600,7 +28591,7 @@
                     y: baseScale.y.domain(domain.y).range(props.horizontal ? range.x : range.y)
                 }, _props = props, colorScale = _props.colorScale;
                 return {
-                    datasets: datasets2,
+                    datasets: datasets1,
                     categories: categories,
                     range: range,
                     domain: domain,
@@ -28676,9 +28667,9 @@
                 height: 300,
                 padding: 50
             }, VictoryStack = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryStack(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryStack), _this = (call = (VictoryStack.__proto__ || Object.getPrototypeOf(VictoryStack)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), props.animate && (_this.state = {
@@ -28963,9 +28954,9 @@
                 pointerLength: 10,
                 pointerWidth: 10
             }, VictoryTooltip = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var protoProps, staticProps;
                 function VictoryTooltip(props) {
-                    var _this, self1, call;
+                    var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryTooltip), (_this = (call = (VictoryTooltip.__proto__ || Object.getPrototypeOf(VictoryTooltip)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -29175,7 +29166,7 @@
                         key: "getLabelPadding",
                         value: function(style) {
                             if (!style) return 0;
-                            var arr, paddings = Array.isArray(style) ? style.map(function(s) {
+                            var paddings = Array.isArray(style) ? style.map(function(s) {
                                 return s.padding;
                             }) : [
                                 style.padding
@@ -29579,9 +29570,9 @@
             var voronoiContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function VictoryVoronoiContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictoryVoronoiContainer), call = (VictoryVoronoiContainer.__proto__ || Object.getPrototypeOf(VictoryVoronoiContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -30024,10 +30015,8 @@
                     Math.max.apply(Math, _toConsumableArray(range.y))
                 ];
                 return Object(d3_voronoi__WEBPACK_IMPORTED_MODULE_3__.voronoi)().x(function(d) {
-                    var d1, d2;
                     return props.polar ? -1 * scale.x(void 0 !== d._x1 ? d._x1 : d._x) + Math.PI / 2 : props.horizontal ? scale.y(void 0 !== d._y1 ? d._y1 : d._y) : scale.x(void 0 !== d._x1 ? d._x1 : d._x);
                 }).y(function(d) {
-                    var d1;
                     return props.horizontal ? scale.x(void 0 !== d._x1 ? d._x1 : d._x) : scale.y(void 0 !== d._y1 ? d._y1 : d._y);
                 }).extent([
                     minRange,
@@ -30119,9 +30108,9 @@
                 height: 300,
                 padding: 50
             }, VictoryVoronoi = function(_React$Component) {
-                var Constructor, protoProps, staticProps;
+                var staticProps;
                 function VictoryVoronoi() {
-                    var self1, call;
+                    var call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                     }(this, VictoryVoronoi), call = (VictoryVoronoi.__proto__ || Object.getPrototypeOf(VictoryVoronoi)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -30405,9 +30394,9 @@
             var zoomContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var Constructor, protoProps, staticProps;
+                    var protoProps, staticProps;
                     function VictoryZoomContainer() {
-                        var self1, call;
+                        var call;
                         return function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
                         }(this, VictoryZoomContainer), call = (VictoryZoomContainer.__proto__ || Object.getPrototypeOf(VictoryZoomContainer)).apply(this, arguments), call && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
@@ -30702,7 +30691,7 @@
                     return zoomDomain && !this.checkDomainEquality(zoomDomain, cachedZoomDomain) ? lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, zoomDomain, domain) : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, currentDomain || zoomDomain || originalDomain, domain);
                 },
                 getDomain: function(props) {
-                    var obj, key, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
+                    var obj, value, originalDomain = props.originalDomain, domain = props.domain, children = props.children, zoomDimension = props.zoomDimension, childComponents = react__WEBPACK_IMPORTED_MODULE_4__.Children.toArray(children), childrenDomain = {};
                     return childComponents.length && (childrenDomain = zoomDimension ? (obj = {}, value = victory_core__WEBPACK_IMPORTED_MODULE_5__.Wrapper.getDomainFromChildren(props, zoomDimension, childComponents), zoomDimension in obj ? Object.defineProperty(obj, zoomDimension, {
                         value: value,
                         enumerable: !0,
