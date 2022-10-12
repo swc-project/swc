@@ -182,11 +182,13 @@ impl NestingHandler {
                             for n in &block.value {
                                 match n {
                                     ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) => {
-                                        let mut n = n.clone();
-                                        let rules = self.extract_nested_rules(&mut n);
+                                        let mut q = n.clone();
+                                        self.process_prelude(&rule.prelude, &mut q.prelude);
+
+                                        let rules = self.extract_nested_rules(&mut q);
 
                                         nested_of_media.extend(
-                                            once(Rule::QualifiedRule(n))
+                                            once(Rule::QualifiedRule(q))
                                                 .chain(rules.into_iter())
                                                 .map(rule_to_component_value),
                                         );
