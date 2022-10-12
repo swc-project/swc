@@ -253,6 +253,22 @@ where
                 return Ok(declarations);
             }
 
+            // .foo {
+            //      a:focus {
+            //
+            //      }
+            // }
+            if self.config.allow_nested_selectors {
+                let state = self.input.state();
+                let nested = self.try_parse_qualified_rule();
+
+                if let Some(nested) = nested {
+                    declarations.push(StyleBlock::QualifiedRule(nested));
+                    continue;
+                }
+                self.input.reset(&state);
+            }
+
             match cur!(self) {
                 // <whitespace-token>
                 // Do nothing.
@@ -281,17 +297,6 @@ where
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
                         Err(err) => {
-                            if self.config.allow_nested_selectors {
-                                self.input.reset(&state);
-
-                                let nested = self.try_parse_qualified_rule();
-
-                                if let Some(nested) = nested {
-                                    declarations.push(StyleBlock::QualifiedRule(nested));
-                                    continue;
-                                }
-                            }
-
                             self.errors.push(err);
                             self.input.reset(&state);
 
@@ -372,15 +377,6 @@ where
                 // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
                 // component value and throw away the returned value.
                 _ => {
-                    if self.config.allow_nested_selectors {
-                        let nested = self.try_parse_qualified_rule();
-
-                        if let Some(nested) = nested {
-                            declarations.push(StyleBlock::QualifiedRule(nested));
-                            continue;
-                        }
-                    }
-
                     let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
