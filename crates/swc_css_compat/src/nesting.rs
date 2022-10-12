@@ -174,7 +174,7 @@ impl NestingHandler {
                     continue;
                 }
                 ComponentValue::StyleBlock(StyleBlock::AtRule(ref at_rule)) => {
-                    if let Some(AtRulePrelude::MediaPrelude(media)) = at_rule.prelude.as_deref() {
+                    if let Some(AtRulePrelude::MediaPrelude(..)) = at_rule.prelude.as_deref() {
                         if let Some(block) = &at_rule.block {
                             let mut decls_of_media = vec![];
                             let mut nested_of_media = vec![];
@@ -188,18 +188,7 @@ impl NestingHandler {
                                         nested_of_media.extend(
                                             once(Rule::QualifiedRule(n))
                                                 .chain(rules.into_iter())
-                                                .map(rule_to_component_value)
-                                                .map(|v| {
-                                                    Rule::AtRule(Box::new(AtRule {
-                                                        block: Some(SimpleBlock {
-                                                            value: vec![v],
-
-                                                            ..block.clone()
-                                                        }),
-
-                                                        ..*at_rule.clone()
-                                                    }))
-                                                }),
+                                                .map(rule_to_component_value),
                                         );
                                     }
 
@@ -218,18 +207,19 @@ impl NestingHandler {
                                         ..*block
                                     },
                                 });
-                                nested_rules.push(Rule::AtRule(Box::new(AtRule {
-                                    block: Some(SimpleBlock {
-                                        value: vec![ComponentValue::StyleBlock(
-                                            StyleBlock::QualifiedRule(rule),
-                                        )],
-                                        ..*block
-                                    }),
-                                    ..*at_rule.clone()
-                                })));
+                                nested_of_media.insert(
+                                    0,
+                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(rule)),
+                                );
                             }
 
-                            nested_rules.extend(nested_of_media);
+                            nested_rules.push(Rule::AtRule(Box::new(AtRule {
+                                block: Some(SimpleBlock {
+                                    value: nested_of_media,
+                                    ..*block
+                                }),
+                                ..*at_rule.clone()
+                            })));
                             continue;
                         }
                     }
