@@ -3,6 +3,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
+use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     EqIgnoreSpan, DUMMY_SP,
@@ -249,7 +250,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                 span: *span,
                 name: Ident {
                     span: DUMMY_SP,
-                    value: "url".into(),
+                    value: js_word!("url"),
                     raw: None,
                 },
                 value: Some(Box::new(UrlValue::Str(Str {
@@ -386,25 +387,25 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     if angle == 0.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "bottom".into(),
+                            value: js_word!("bottom"),
                             raw: None,
                         });
                     } else if angle == 90.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "left".into(),
+                            value: js_word!("left"),
                             raw: None,
                         });
                     } else if angle == 180.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "top".into(),
+                            value: js_word!("top"),
                             raw: None,
                         });
                     } else if angle == 270.0 {
                         n.value[0] = ComponentValue::Ident(Ident {
                             span: *span,
-                            value: "right".into(),
+                            value: js_word!("right"),
                             raw: None,
                         });
                     } else {
@@ -419,7 +420,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                             },
                             unit: Ident {
                                 span: unit.span,
-                                value: "deg".into(),
+                                value: js_word!("deg"),
                                 raw: None,
                             },
                         }));
@@ -618,7 +619,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-ms-viewport".into(),
+                                value: js_word!("-ms-viewport"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -634,7 +635,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-o-viewport".into(),
+                                value: js_word!("-o-viewport"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -653,7 +654,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-webkit-keyframes".into(),
+                                value: js_word!("-webkit-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -669,7 +670,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-moz-keyframes".into(),
+                                value: js_word!("-moz-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -685,7 +686,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "-o-keyframes".into(),
+                                value: js_word!("-o-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -1774,7 +1775,7 @@ impl VisitMut for Prefixer {
                                     },
                                     unit: Ident {
                                         span: DUMMY_SP,
-                                        value: "px".into(),
+                                        value: js_word!("px"),
                                         raw: None,
                                     },
                                 }));

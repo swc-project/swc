@@ -1,7 +1,7 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
@@ -11,6 +11,57 @@ pub(crate) mod base54;
 pub(crate) mod size;
 pub(crate) mod sort;
 pub(crate) mod unit;
+
+pub(crate) fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
+    match *s {
+        js_word!("JSON")
+        | js_word!("Array")
+        | js_word!("String")
+        | js_word!("Object")
+        | js_word!("Number")
+        | js_word!("Date")
+        | js_word!("BigInt")
+        | js_word!("Boolean")
+        | js_word!("Math")
+        | js_word!("Error") => return true,
+        _ => {}
+    }
+
+    matches!(
+        &**s,
+        "console"
+            | "clearInterval"
+            | "clearTimeout"
+            | "setInterval"
+            | "setTimeout"
+            | "btoa"
+            | "decodeURI"
+            | "decodeURIComponent"
+            | "encodeURI"
+            | "encodeURIComponent"
+            | "escape"
+            | "eval"
+            | "EvalError"
+            | "Function"
+            | "isFinite"
+            | "isNaN"
+            | "JSON"
+            | "parseFloat"
+            | "parseInt"
+            | "RegExp"
+            | "RangeError"
+            | "ReferenceError"
+            | "SyntaxError"
+            | "TypeError"
+            | "unescape"
+            | "URIError"
+            | "atob"
+            | "globalThis"
+            | "NaN"
+            | "Symbol"
+            | "Promise"
+    )
+}
 
 ///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {

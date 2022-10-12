@@ -2348,7 +2348,7 @@
                 }, _proto.trigger = function(type) {
                     var callbacks = this.listeners[type];
                     if (callbacks) {
-                        if (2 === arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
+                        if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
                         else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
                     }
                 }, _proto.dispose = function() {
@@ -3826,7 +3826,7 @@
             var document1 = __webpack_require__(9144), _objCreate = Object.create || function() {
                 function F() {}
                 return function(o) {
-                    if (1 !== arguments.length) throw Error("Object.create shim only accepts one parameter.");
+                    if (1 != arguments.length) throw Error("Object.create shim only accepts one parameter.");
                     return F.prototype = o, new F();
                 };
             }();
@@ -5413,7 +5413,7 @@
                 return this;
             }, Buffer.prototype.toString = function() {
                 var length = this.length;
-                return 0 === length ? "" : 0 === arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
+                return 0 === length ? "" : 0 == arguments.length ? utf8Slice(this, 0, length) : slowToString.apply(this, arguments);
             }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(b) {
                 if (!Buffer.isBuffer(b)) throw TypeError("Argument must be a Buffer");
                 return this === b || 0 === Buffer.compare(this, b);

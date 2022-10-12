@@ -254,6 +254,11 @@ impl Ident {
 
         Err(buf)
     }
+
+    #[inline]
+    pub fn is_dummy(&self) -> bool {
+        self.sym == js_word!("") && self.span.is_dummy()
+    }
 }
 
 /// See [Ident] for documentation.

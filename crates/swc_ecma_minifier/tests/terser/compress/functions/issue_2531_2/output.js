@@ -1,5 +1,4 @@
 function outer() {
-    var value;
     return function() {
         return "Hello";
     };

@@ -666,7 +666,7 @@
             }
             return parseOnly ? soFar.length : soFar ? Sizzle.error(selector) : tokenCache(selector, groups).slice(0);
         }, compile = Sizzle.compile = function(selector, match) {
-            var elementMatchers, setMatchers, bySet, byElement, superMatcher, i, setMatchers1 = [], elementMatchers1 = [], cached = compilerCache[selector + " "];
+            var bySet, byElement, superMatcher, i, setMatchers = [], elementMatchers = [], cached = compilerCache[selector + " "];
             if (!cached) {
                 for(match || (match = tokenize(selector)), i = match.length; i--;)(cached = function matcherFromTokens(tokens) {
                     for(var checkContext, matcher, j, len = tokens.length, leadingRelative = Expr.relative[tokens[0].type], implicitRelative = leadingRelative || Expr.relative[" "], i = leadingRelative ? 1 : 0, matchContext = addCombinator(function(elem) {
@@ -710,12 +710,12 @@
                         matchers.push(matcher);
                     }
                     return elementMatcher(matchers);
-                }(match[i]))[expando] ? setMatchers1.push(cached) : elementMatchers1.push(cached);
-                (cached = compilerCache(selector, (bySet = setMatchers1.length > 0, byElement = elementMatchers1.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
+                }(match[i]))[expando] ? setMatchers.push(cached) : elementMatchers.push(cached);
+                (cached = compilerCache(selector, (bySet = setMatchers.length > 0, byElement = elementMatchers.length > 0, superMatcher = function(seed, context, xml, results, outermost) {
                     var elem, j, matcher, matchedCount = 0, i = "0", unmatched = seed && [], setMatched = [], contextBackup = outermostContext, elems = seed || byElement && Expr.find.TAG("*", outermost), dirrunsUnique = dirruns += null == contextBackup ? 1 : Math.random() || 0.1, len = elems.length;
                     for(outermost && (outermostContext = context == document || context || outermost); i !== len && null != (elem = elems[i]); i++){
                         if (byElement && elem) {
-                            for(j = 0, context || elem.ownerDocument == document || (setDocument(elem), xml = !documentIsHTML); matcher = elementMatchers1[j++];)if (matcher(elem, context || document, xml)) {
+                            for(j = 0, context || elem.ownerDocument == document || (setDocument(elem), xml = !documentIsHTML); matcher = elementMatchers[j++];)if (matcher(elem, context || document, xml)) {
                                 results.push(elem);
                                 break;
                             }
@@ -724,12 +724,12 @@
                         bySet && ((elem = !matcher && elem) && matchedCount--, seed && unmatched.push(elem));
                     }
                     if (matchedCount += i, bySet && i !== matchedCount) {
-                        for(j = 0; matcher = setMatchers1[j++];)matcher(unmatched, setMatched, context, xml);
+                        for(j = 0; matcher = setMatchers[j++];)matcher(unmatched, setMatched, context, xml);
                         if (seed) {
                             if (matchedCount > 0) for(; i--;)unmatched[i] || setMatched[i] || (setMatched[i] = pop.call(results));
                             setMatched = condense(setMatched);
                         }
-                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers1.length > 1 && Sizzle.uniqueSort(results);
+                        push.apply(results, setMatched), outermost && !seed && setMatched.length > 0 && matchedCount + setMatchers.length > 1 && Sizzle.uniqueSort(results);
                     }
                     return outermost && (dirruns = dirrunsUnique, outermostContext = contextBackup), unmatched;
                 }, bySet ? markFunction(superMatcher) : superMatcher))).selector = selector;
@@ -3042,7 +3042,7 @@
             return this.on(types, selector, data, fn);
         },
         undelegate: function(selector, types, fn) {
-            return 1 === arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
+            return 1 == arguments.length ? this.off(selector, "**") : this.off(types, selector || "**", fn);
         },
         hover: function(fnOver, fnOut) {
             return this.mouseenter(fnOver).mouseleave(fnOut || fnOver);

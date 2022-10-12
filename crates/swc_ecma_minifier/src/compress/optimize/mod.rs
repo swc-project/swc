@@ -246,6 +246,9 @@ struct Vars {
     /// https://github.com/swc-project/swc/issues/4415
     lits_for_cmp: FxHashMap<Id, Box<Expr>>,
 
+    /// This stores [Expr::Array] if all elements are literals.
+    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
@@ -271,11 +274,13 @@ impl Vars {
         let mut changed = false;
         if !self.simple_functions.is_empty()
             || !self.lits_for_cmp.is_empty()
+            || !self.lits_for_array_access.is_empty()
             || !self.removed.is_empty()
         {
             let mut v = Finalizer {
                 simple_functions: &self.simple_functions,
                 lits_for_cmp: &self.lits_for_cmp,
+                lits_for_array_access: &self.lits_for_array_access,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
@@ -856,7 +861,13 @@ where
                 ..
             }) => {
                 if let Pat::Ident(i) = &mut **pat {
+                    let old = i.id.to_id();
                     self.store_var_for_inlining(&mut i.id, right, false, true);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old);
+                    }
 
                     if right.is_invalid() {
                         return None;
@@ -1651,6 +1662,11 @@ where
                     let old = i.to_id();
 
                     self.store_var_for_inlining(i, right, false, false);
+
+                    if i.is_dummy() && self.options.unused {
+                        report_change!("inline: Removed variable ({})", old);
+                        self.vars.removed.insert(old.clone());
+                    }
 
                     if right.is_invalid() {
                         if let Some(lit) = self
