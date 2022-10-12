@@ -53,6 +53,7 @@ where
         StringInput::new(&buf, span.lo, span.hi),
         ParserConfig {
             allow_wrong_line_comments: true,
+            css_modules: true,
         },
     );
 

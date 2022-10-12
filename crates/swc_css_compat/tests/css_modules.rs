@@ -32,7 +32,7 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
         let mut ss: Stylesheet = parse_file(
             &fm,
             ParserConfig {
-                allow_wrong_line_comments: true,
+                css_modules: true,
                 ..Default::default()
             },
             &mut errors,
