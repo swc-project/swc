@@ -292,6 +292,51 @@ where
 
             self.input.skip_ws();
 
+            if self.config.css_modules
+                && is!(self, ":")
+                && peeked_is_one_of!(self, "local", "global")
+            {
+                bump!(self);
+
+                let kind: Ident = self.parse()?;
+
+                if eat!(self, "(") {
+                    let selectors = self.parse_as::<SelectorList>()?;
+                    expect!(self, ")");
+
+                    let sel = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: span!(self, span.lo),
+                        name: kind,
+                        children: Some(vec![PseudoClassSelectorChildren::SelectorList(selectors)]),
+                    });
+                    children.push(ComplexSelectorChildren::CompoundSelector(
+                        CompoundSelector {
+                            span: span!(self, span.lo),
+                            nesting_selector: None,
+                            type_selector: None,
+                            subclass_selectors: vec![sel],
+                        },
+                    ));
+                    continue;
+                } else {
+                    children.push(ComplexSelectorChildren::CompoundSelector(
+                        CompoundSelector {
+                            span: span!(self, span.lo),
+                            nesting_selector: None,
+                            type_selector: None,
+                            subclass_selectors: vec![SubclassSelector::PseudoClass(
+                                PseudoClassSelector {
+                                    span: span!(self, span.lo),
+                                    name: kind,
+                                    children: None,
+                                },
+                            )],
+                        },
+                    ));
+                    continue;
+                }
+            }
+
             // TODO should be refactor after grammar parsing
             if is_one_of!(self, EOF, ",", "{", ")") {
                 break;
