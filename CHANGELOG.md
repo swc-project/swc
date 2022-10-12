@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Enable `reduce_vars` by default (#6096) ([fc5d8a5](https://github.com/swc-project/swc/commit/fc5d8a5d41103adeb0293ed649789a2256b31f97))
 
+
+- **(es/minifier)** Merge assignments using sequential inliner (#6103) ([5875298](https://github.com/swc-project/swc/commit/58752983775337067127f219569bd0c7fbc55564))
+
 ### Miscellaneous Tasks
 
 
