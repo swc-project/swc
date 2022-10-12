@@ -2058,6 +2058,11 @@ where
                                     left_id
                                 );
 
+                                if let Some(usage) = self.data.vars.get_mut(&left_id.to_id()) {
+                                    // We are eliminating one assignment
+                                    usage.assign_count -= 1;
+                                }
+
                                 **a = *e.right.take();
                             }
                         }
