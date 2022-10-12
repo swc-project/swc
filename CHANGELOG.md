@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Fix AST types for namespace (#6112) ([c765f0f](https://github.com/swc-project/swc/commit/c765f0ff73a6cdeeb86521427355a584a424fcc3))
+
+
 - **(es/preset-env)** Update data (#6106) ([8d4d326](https://github.com/swc-project/swc/commit/8d4d32664d7f4feeba5faa3dec95691d5560ca6c))
 
 
