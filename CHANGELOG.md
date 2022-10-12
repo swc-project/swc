@@ -47,6 +47,9 @@
 - **(es/minifier)** Detect type of `.length` (#6120) ([ad960c7](https://github.com/swc-project/swc/commit/ad960c76c059fbd33de1cdb0525aef509124e205))
 
 
+- **(es/minifier)** Inline and remove vars in one pass (#6093) ([5a23949](https://github.com/swc-project/swc/commit/5a23949f1284f71447b9292a374a0cf88759a318))
+
+
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
 
 ### Performance
