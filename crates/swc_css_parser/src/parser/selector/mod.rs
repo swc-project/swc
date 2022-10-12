@@ -284,7 +284,14 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
-        let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+        let child = if !self.ctx.is_trying_nested_selector {
+            ComplexSelectorChildren::CompoundSelector(self.parse()?)
+        } else {
+            match self.parse_as::<Combinator>() {
+                Ok(c) => ComplexSelectorChildren::Combinator(c),
+                Err(_) => ComplexSelectorChildren::CompoundSelector(self.parse()?),
+            }
+        };
         let mut children = vec![child];
 
         loop {
@@ -313,13 +320,13 @@ where
         }
 
         let start_pos = match children.first() {
-            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.lo,
+            Some(child) => child.span_lo(),
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.hi,
+            Some(child) => child.span_hi(),
             _ => {
                 unreachable!();
             }

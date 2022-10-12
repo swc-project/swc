@@ -67,6 +67,7 @@ struct Ctx {
     in_page_at_rule: bool,
     in_container_at_rule: bool,
     in_font_feature_values_at_rule: bool,
+    is_trying_nested_selector: bool,
 }
 
 #[derive(Debug)]

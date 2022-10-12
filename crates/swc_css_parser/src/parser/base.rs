@@ -109,8 +109,17 @@ where
     }
 
     fn try_parse_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
+        if !self.config.allow_nested_selectors {
+            return None;
+        }
+
         let state = self.input.state();
-        let nested: PResult<Box<QualifiedRule>> = self.parse();
+
+        let ctx = Ctx {
+            is_trying_nested_selector: true,
+            ..self.ctx
+        };
+        let nested = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
 
         let mut nested = match nested {
             Ok(v) => v,
