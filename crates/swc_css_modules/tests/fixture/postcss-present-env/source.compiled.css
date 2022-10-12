@@ -26,7 +26,7 @@ html {
 }
 a {
   color: rgb(0 0 100% / 90%);
-  &:hover {
+    &:hover {
     color: rebeccapurple;
   }
 }
