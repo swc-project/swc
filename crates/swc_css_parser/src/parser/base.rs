@@ -363,6 +363,15 @@ where
                 // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
                 // component value and throw away the returned value.
                 _ => {
+                    if self.config.allow_nested_selectors {
+                        let nested = self.try_parse_qualified_rule();
+
+                        if let Some(nested) = nested {
+                            declarations.push(StyleBlock::QualifiedRule(nested));
+                            continue;
+                        }
+                    }
+
                     let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
