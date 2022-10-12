@@ -7,11 +7,8 @@ use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::{
-        optimize::util::extract_class_side_effect, util::is_global_var_with_pure_property_access,
-    },
-    mode::Mode,
-    option::PureGetterOption,
+    compress::optimize::util::extract_class_side_effect, mode::Mode, option::PureGetterOption,
+    util::is_global_var_with_pure_property_access,
 };
 
 #[derive(Debug, Default, Clone, Copy)]

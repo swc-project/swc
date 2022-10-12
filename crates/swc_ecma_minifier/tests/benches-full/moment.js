@@ -1161,7 +1161,7 @@
         return string;
     }
     proto.add = add, proto.calendar = function(time, formats) {
-        if (1 === arguments.length) {
+        if (1 == arguments.length) {
             if (arguments[0]) {
                 var input, input1, arrayTest, dataTypeTest;
                 if (input = arguments[0], isMoment(input) || isDate(input) || isString(input) || isNumber(input) || (arrayTest = isArray(input1 = input), dataTypeTest = !1, arrayTest && (dataTypeTest = 0 === input1.filter(function(item) {

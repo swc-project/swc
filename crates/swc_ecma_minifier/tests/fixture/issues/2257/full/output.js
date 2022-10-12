@@ -3816,7 +3816,7 @@
             var global = __webpack_require__(19514);
             module.exports = function(a, b) {
                 var console1 = global.console;
-                console1 && console1.error && (1 === arguments.length ? console1.error(a) : console1.error(a, b));
+                console1 && console1.error && (1 == arguments.length ? console1.error(a) : console1.error(a, b));
             };
         },
         40969: function(module, __unused_webpack_exports, __webpack_require__) {

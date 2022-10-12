@@ -341,7 +341,7 @@
         var dep = new Dep(), property = Object.getOwnPropertyDescriptor(obj, key);
         if (!property || !1 !== property.configurable) {
             var getter = property && property.get, setter = property && property.set;
-            (!getter || setter) && 2 === arguments.length && (val = obj[key]);
+            (!getter || setter) && 2 == arguments.length && (val = obj[key]);
             var childOb = !shallow && observe(val);
             Object.defineProperty(obj, key, {
                 enumerable: !0,

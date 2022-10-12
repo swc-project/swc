@@ -392,7 +392,7 @@
         },
         option: function(key, value) {
             var parts, curOption, i, options = key;
-            if (0 === arguments.length) return $2.widget.extend({}, this.options);
+            if (0 == arguments.length) return $2.widget.extend({}, this.options);
             if ("string" == typeof key) {
                 if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
                     for(i = 0, curOption = options[key] = $2.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];

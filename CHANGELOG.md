@@ -20,6 +20,9 @@
 
 
 
+- **(bindings)** Apply `resolver` to the output of `parse` apis (#6118) ([0cd8aee](https://github.com/swc-project/swc/commit/0cd8aeeb5c07e1fba76a43b78ed2e3cfabf88256))
+
+
 - **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
 
 
@@ -41,10 +44,22 @@
 - **(es/minifier)** Enable `reduce_funcs` by default (#6097) ([3c6cdbc](https://github.com/swc-project/swc/commit/3c6cdbc61cba7dcca38251413cc9033487677dd4))
 
 
+- **(es/minifier)** Detect type of `.length` (#6120) ([ad960c7](https://github.com/swc-project/swc/commit/ad960c76c059fbd33de1cdb0525aef509124e205))
+
+
 - **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
+
+### Performance
+
+
+
+- **(atoms)** Add more atoms (#6122) ([7343cf3](https://github.com/swc-project/swc/commit/7343cf33891a96c1ac0216e14ef40b8d7b95da9c))
 
 ### Testing
 
+
+
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
 
 
 - **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))

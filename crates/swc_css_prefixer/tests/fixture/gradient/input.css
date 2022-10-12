@@ -141,3 +141,21 @@ div {
 .broken {
     background-image: linear-gradient(to, red 50%);
 }
+
+.unitless-zero {
+    background-image: linear-gradient(0, green, blue);
+    background: repeating-linear-gradient(0, blue, red 33.3%)
+}
+
+.zero-grad {
+    background: linear-gradient(0grad, green, blue);
+    background-image: repeating-linear-gradient(0grad, blue, red 33.3%)
+}
+
+.zero-rad {
+    background: linear-gradient(0rad, green, blue);
+}
+
+.zero-turn {
+    background: linear-gradient(0turn, green, blue);
+}

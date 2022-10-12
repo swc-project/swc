@@ -61,6 +61,8 @@ swc_core = { version = "0.32.2", features = [
   "common_concurrent",
   "bundler",
   "ecma_loader",
+  "ecma_transforms",
+  "ecma_visit",
   "base_node",
   "base_concurrent",
-] }
+  ] }

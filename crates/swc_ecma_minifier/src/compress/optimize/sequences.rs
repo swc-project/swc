@@ -20,13 +20,14 @@ use crate::{
     alias::{collect_infects_from, AccessKind, AliasConfig},
     compress::{
         optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
-        util::{
-            is_directive, is_global_var_with_pure_property_access, is_ident_used_by, replace_expr,
-        },
+        util::{is_directive, is_ident_used_by, replace_expr},
     },
     mode::Mode,
     option::CompressOptions,
-    util::{idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, ModuleItemExt},
+    util::{
+        idents_used_by, idents_used_by_ignoring_nested, is_global_var_with_pure_property_access,
+        ExprOptExt, ModuleItemExt,
+    },
 };
 
 /// Methods related to the option `sequences`. All methods are noop if
