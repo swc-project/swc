@@ -2057,7 +2057,22 @@ where
 
         // x = 1, x += 2 => x = 3
         match b {
-            Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
+            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
+                if let Some(b_left) = b.left.as_ident() {
+                    if b_left.to_id() == left_id.to_id() {
+                        let mut a_expr = take_a!();
+                        let a_expr = self.ignore_return_value(&mut a_expr);
+
+                        if let Some(a) = a_expr {
+                            b.right = Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![Box::new(a), b.right.take()],
+                            }));
+                        }
+                        return Ok(true);
+                    }
+                }
+            }
             Expr::Assign(b) => {
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
