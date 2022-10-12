@@ -799,6 +799,28 @@ where
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 
+                                if args.iter().any(|arg| arg.spread.is_some()) {
+                                    let elems = args
+                                        .take()
+                                        .into_iter()
+                                        .filter_map(|mut arg| {
+                                            self.ignore_return_value(&mut arg.expr)
+                                                .map(Box::new)
+                                                .map(|expr| ExprOrSpread { expr, ..arg })
+                                        })
+                                        .map(Some)
+                                        .collect::<Vec<_>>();
+
+                                    if elems.is_empty() {
+                                        return None;
+                                    }
+
+                                    return Some(Expr::Array(ArrayLit {
+                                        span: callee.span,
+                                        elems,
+                                    }));
+                                }
+
                                 let args = args
                                     .take()
                                     .into_iter()
