@@ -1,9 +1,11 @@
+use std::iter::once;
+
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector,
-    ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
+    AtRule, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
+    CompoundSelector, ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
     PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, Rule, SelectorList,
-    StyleBlock, SubclassSelector,
+    SimpleBlock, StyleBlock, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -205,6 +207,7 @@ impl VisitMut for NestingHandler {
         n.visit_mut_children_with(self);
 
         let mut new = vec![];
+
         for n in n.take() {
             match n {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut n)) => {
@@ -217,6 +220,61 @@ impl VisitMut for NestingHandler {
                             .map(ComponentValue::StyleBlock),
                     );
                 }
+
+                ComponentValue::StyleBlock(StyleBlock::AtRule(at_rule)) => {
+                    if let Some(AtRulePrelude::MediaPrelude(media)) = at_rule.prelude.as_deref() {
+                        if let Some(block) = &at_rule.block {
+                            dbg!(&block.value);
+
+                            for n in &block.value {
+                                match n {
+                                    ComponentValue::StyleBlock(StyleBlock::Declaration(d)) => {}
+
+                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) => {
+                                        let mut n = n.clone();
+                                        let rules = self.extract_nested_rules(&mut n);
+
+                                        new.extend(
+                                            once(n)
+                                                .chain(rules.into_iter())
+                                                .map(StyleBlock::QualifiedRule)
+                                                .map(ComponentValue::StyleBlock),
+                                        );
+                                        // new.extend(
+                                        //     once(n)
+                                        //         .chain(rules.into_iter())
+                                        //         .map(StyleBlock::QualifiedRule)
+                                        //         .map(ComponentValue::StyleBlock)
+                                        //         .map(|v| {
+                                        //
+                                        // ComponentValue::StyleBlock(StyleBlock::AtRule(
+                                        //                 Box::new(AtRule {
+                                        //                     block:
+                                        // Some(SimpleBlock {
+                                        //                         value:
+                                        // vec![v],
+                                        //
+                                        // ..block.clone()
+                                        //                     }),
+                                        //
+                                        // ..*at_rule.clone()
+                                        //                 }),
+                                        //             ))
+                                        //         }),
+                                        // );
+                                    }
+
+                                    _ => {}
+                                }
+                            }
+
+                            continue;
+                        }
+                    }
+
+                    new.push(ComponentValue::StyleBlock(StyleBlock::AtRule(at_rule)));
+                }
+
                 _ => {
                     new.push(n);
                 }
