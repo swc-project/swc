@@ -13,7 +13,7 @@
             var locale, bisector = __webpack_require__(24852), src_ticks = __webpack_require__(73002), t0 = new Date(), t1 = new Date();
             function newInterval(floori, offseti, count, field) {
                 function interval(date) {
-                    return floori(date = 0 === arguments.length ? new Date() : new Date(+date)), date;
+                    return floori(date = 0 == arguments.length ? new Date() : new Date(+date)), date;
                 }
                 return interval.floor = function(date) {
                     return floori(date = new Date(+date)), date;

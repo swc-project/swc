@@ -229,3 +229,35 @@ div {
   background-image: -o-linear-gradient(to, red 50%);
   background-image: linear-gradient(to, red 50%);
 }
+.unitless-zero {
+  background-image: -webkit-linear-gradient(0, green, blue);
+  background-image: -moz-linear-gradient(0, green, blue);
+  background-image: -o-linear-gradient(0, green, blue);
+  background-image: linear-gradient(0, green, blue);
+  background: -webkit-repeating-linear-gradient(0, blue, red 33.3%);
+  background: -moz-repeating-linear-gradient(0, blue, red 33.3%);
+  background: -o-repeating-linear-gradient(0, blue, red 33.3%);
+  background: repeating-linear-gradient(0, blue, red 33.3%);
+}
+.zero-grad {
+  background: -webkit-linear-gradient(bottom, green, blue);
+  background: -moz-linear-gradient(bottom, green, blue);
+  background: -o-linear-gradient(bottom, green, blue);
+  background: linear-gradient(0grad, green, blue);
+  background-image: -webkit-repeating-linear-gradient(bottom, blue, red 33.3%);
+  background-image: -moz-repeating-linear-gradient(bottom, blue, red 33.3%);
+  background-image: -o-repeating-linear-gradient(bottom, blue, red 33.3%);
+  background-image: repeating-linear-gradient(0grad, blue, red 33.3%);
+}
+.zero-rad {
+  background: -webkit-linear-gradient(bottom, green, blue);
+  background: -moz-linear-gradient(bottom, green, blue);
+  background: -o-linear-gradient(bottom, green, blue);
+  background: linear-gradient(0rad, green, blue);
+}
+.zero-turn {
+  background: -webkit-linear-gradient(bottom, green, blue);
+  background: -moz-linear-gradient(bottom, green, blue);
+  background: -o-linear-gradient(bottom, green, blue);
+  background: linear-gradient(0turn, green, blue);
+}

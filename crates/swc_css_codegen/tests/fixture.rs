@@ -4,10 +4,7 @@ use std::{
 };
 
 use swc_common::{FileName, Span};
-use swc_css_ast::{
-    AnPlusBNotation, ComponentValue, CustomIdent, DashedIdent, HexColor, Ident, ImportantFlag,
-    Integer, Number, Str, Stylesheet, Token, TokenAndSpan, UrlValueRaw,
-};
+use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
     CodeGenerator, CodegenConfig, Emit,
@@ -116,6 +113,106 @@ fn run(input: &Path, minify: bool) {
 struct NormalizeTest;
 
 impl VisitMut for NormalizeTest {
+    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
+        n.visit_mut_children_with(self);
+
+        if let AtRuleName::Ident(ident) = &mut n.name {
+            ident.value = ident.value.to_lowercase().into();
+        }
+    }
+
+    fn visit_mut_media_query(&mut self, n: &mut MediaQuery) {
+        n.visit_mut_children_with(self);
+
+        if let Some(modifier) = &mut n.modifier {
+            modifier.value = modifier.value.to_lowercase().into();
+        }
+
+        if let Some(MediaType::Ident(ident)) = &mut n.media_type {
+            ident.value = ident.value.to_lowercase().into();
+        }
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_not(&mut self, n: &mut MediaNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_and(&mut self, n: &mut MediaAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_or(&mut self, n: &mut MediaOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_media_feature_name(&mut self, n: &mut MediaFeatureName) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            MediaFeatureName::Ident(ident) => {
+                ident.value = ident.value.to_lowercase().into();
+            }
+        }
+    }
+
+    fn visit_mut_supports_not(&mut self, n: &mut SupportsNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_supports_and(&mut self, n: &mut SupportsAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_supports_or(&mut self, n: &mut SupportsOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_not(&mut self, n: &mut ContainerQueryNot) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_and(&mut self, n: &mut ContainerQueryAnd) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_container_query_or(&mut self, n: &mut ContainerQueryOr) {
+        n.visit_mut_children_with(self);
+
+        n.keyword = None;
+    }
+
+    fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
+        n.visit_mut_children_with(self);
+
+        if let KeyframeSelector::Ident(ident) = n {
+            ident.value = ident.value.to_lowercase().into();
+        }
+    }
+
+    fn visit_mut_page_selector_pseudo(&mut self, n: &mut PageSelectorPseudo) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+    }
+
     fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
         n.visit_mut_children_with(self);
 
@@ -191,6 +288,50 @@ impl VisitMut for NormalizeTest {
         n.raw = None;
     }
 
+    fn visit_mut_declaration(&mut self, n: &mut Declaration) {
+        n.visit_mut_children_with(self);
+
+        if let DeclarationName::Ident(name) = &mut n.name {
+            name.value = name.value.to_lowercase().into();
+        }
+    }
+
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_url(&mut self, n: &mut Url) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value = n.name.value.to_lowercase().into();
+    }
+
+    fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
+        n.visit_mut_children_with(self);
+
+        n.name.value.value = n.name.value.value.to_lowercase().into();
+    }
+
+    fn visit_mut_attribute_selector_modifier(&mut self, n: &mut AttributeSelectorModifier) {
+        n.visit_mut_children_with(self);
+
+        n.value.value = n.value.value.to_lowercase().into();
+    }
+
     fn visit_mut_an_plus_b_notation(&mut self, n: &mut AnPlusBNotation) {
         n.visit_mut_children_with(self);
 
@@ -201,6 +342,42 @@ impl VisitMut for NormalizeTest {
         if n.b_raw.is_some() {
             n.b_raw = None;
         }
+    }
+
+    fn visit_mut_length(&mut self, n: &mut Length) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_angle(&mut self, n: &mut Angle) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_time(&mut self, n: &mut Time) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_frequency(&mut self, n: &mut Frequency) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_resolution(&mut self, n: &mut Resolution) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
+    }
+
+    fn visit_mut_flex(&mut self, n: &mut Flex) {
+        n.visit_mut_children_with(self);
+
+        n.unit.value = n.unit.value.to_lowercase().into();
     }
 
     fn visit_mut_token_and_span(&mut self, n: &mut TokenAndSpan) {

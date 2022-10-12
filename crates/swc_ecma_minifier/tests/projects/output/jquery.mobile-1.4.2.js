@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var $, window1, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window2, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, doc, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, $7, undefined2, path, $base, dialogHashKey, $8, undefined3, $9, path1, initialHref, $10, loc, $11, undefined4, props, testElement, vendorPrefixes, $12, heldCall, curr, diff, handler, lastCall, $13, baseElement, base, $14, undefined5, originalWidget, keepNativeFactoryDefault, orig, $15, undefined6, pageTransitionQueue, isPageTransitioning, $16, window3, $17, $18, $19, defaultGetMaxScrollForTransition, window4, window5, window6, $20, window7, window8, window9, window10, window11, $21, $22, undefined7, rInitialLetter, iconposClass, $23, $24, $25, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $26, $27, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var $, nsNormalizeDict, oldFind, rbrace, jqmDataRE, $1, window1, compensateToolbars, $2, undefined1, uuid, slice, _cleanData, $3, rcapitals, replaceFunction, $4, bool, docElem, refNode, fakeBody, div, $5, support, $6, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, $7, path1, initialHref, $8, loc, $9, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $10, baseElement, base, $11, undefined5, originalWidget, keepNativeFactoryDefault, orig, $12, undefined6, pageTransitionQueue, isPageTransitioning, $13, window2, $14, defaultGetMaxScrollForTransition, $15, $16, $17, undefined7, rInitialLetter, iconposClass, $18, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, $19, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -202,19 +202,19 @@
                 if (set && (allowDisconnected || instance.element[0].parentNode && 11 !== instance.element[0].parentNode.nodeType)) for(i = 0; i < set.length; i++)instance.options[set[i][0]] && set[i][1].apply(instance.element, args);
             }
         };
-    }(jQuery), $1 = jQuery, window2 = this, compensateToolbars = function(page, desiredHeight) {
+    }(jQuery), $1 = jQuery, window1 = this, compensateToolbars = function(page, desiredHeight) {
         var pageParent = page.parent(), toolbarsAffectingHeight = [], externalHeaders = pageParent.children(":jqmData(role='header')"), internalHeaders = page.children(":jqmData(role='header')"), externalFooters = pageParent.children(":jqmData(role='footer')"), internalFooters = page.children(":jqmData(role='footer')");
         return 0 === internalHeaders.length && externalHeaders.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalHeaders.toArray())), 0 === internalFooters.length && externalFooters.length > 0 && (toolbarsAffectingHeight = toolbarsAffectingHeight.concat(externalFooters.toArray())), $1.each(toolbarsAffectingHeight, function(index, value) {
             desiredHeight -= $1(value).outerHeight();
         }), Math.max(0, desiredHeight);
     }, $1.extend($1.mobile, {
-        window: $1(window2),
+        window: $1(window1),
         document: $1(document1),
         keyCode: $1.ui.keyCode,
         behaviors: {},
         silentScroll: function(ypos) {
             "number" !== $1.type(ypos) && (ypos = $1.mobile.defaultHomeScroll), $1.event.special.scrollstart.enabled = !1, setTimeout(function() {
-                window2.scrollTo(0, ypos), $1.mobile.document.trigger("silentscroll", {
+                window1.scrollTo(0, ypos), $1.mobile.document.trigger("silentscroll", {
                     x: 0,
                     y: ypos
                 });
@@ -255,7 +255,7 @@
             return $newSet;
         },
         getScreenHeight: function() {
-            return window2.innerHeight || $1.mobile.window.height();
+            return window1.innerHeight || $1.mobile.window.height();
         },
         resetActivePageHeight: function(height) {
             var page = $1("." + $1.mobile.activePageClass), pageHeight = page.height(), pageOuterHeight = page.outerHeight(!0);
@@ -392,7 +392,7 @@
         },
         option: function(key, value) {
             var parts, curOption, i, options = key;
-            if (0 === arguments.length) return $2.widget.extend({}, this.options);
+            if (0 == arguments.length) return $2.widget.extend({}, this.options);
             if ("string" == typeof key) {
                 if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
                     for(i = 0, curOption = options[key] = $2.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
@@ -837,15 +837,15 @@
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
             newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
         }
-    }), path1 = ($9 = jQuery).mobile.path, initialHref = location.href, $9.mobile.Navigator = function(history1) {
-        this.history = history1, this.ignoreInitialHashChange = !0, $9.mobile.window.bind({
-            "popstate.history": $9.proxy(this.popstate, this),
-            "hashchange.history": $9.proxy(this.hashchange, this)
+    }), path1 = ($7 = jQuery).mobile.path, initialHref = location.href, $7.mobile.Navigator = function(history1) {
+        this.history = history1, this.ignoreInitialHashChange = !0, $7.mobile.window.bind({
+            "popstate.history": $7.proxy(this.popstate, this),
+            "hashchange.history": $7.proxy(this.hashchange, this)
         });
-    }, $9.extend($9.mobile.Navigator.prototype, {
+    }, $7.extend($7.mobile.Navigator.prototype, {
         squash: function(url, data) {
             var state, href, hash = path1.isPath(url) ? path1.stripHash(url) : url;
-            return href = path1.squash(url), state = $9.extend({
+            return href = path1.squash(url), state = $7.extend({
                 hash: hash,
                 url: href
             }, data), window.history.replaceState(state, state.title || document1.title, href), state;
@@ -855,19 +855,19 @@
             return parsed = path1.parseUrl(url), (loc = path1.parseLocation()).pathname + loc.search === parsed.pathname + parsed.search ? parsed.hash ? parsed.hash : parsed.pathname + parsed.search : path1.isPath(url) ? (resolved = path1.parseUrl(href)).pathname + resolved.search + (path1.isPreservableHash(resolved.hash) ? resolved.hash.replace("#", "") : "") : url;
         },
         go: function(url, data, noEvents) {
-            var state, href, hash, popstateEvent, isPopStateEvent = $9.event.special.navigate.isPushStateEnabled();
-            href = path1.squash(url), hash = this.hash(url, href), noEvents && hash !== path1.stripHash(path1.parseLocation().hash) && (this.preventNextHashChange = noEvents), this.preventHashAssignPopState = !0, window.location.hash = hash, this.preventHashAssignPopState = !1, state = $9.extend({
+            var state, href, hash, popstateEvent, isPopStateEvent = $7.event.special.navigate.isPushStateEnabled();
+            href = path1.squash(url), hash = this.hash(url, href), noEvents && hash !== path1.stripHash(path1.parseLocation().hash) && (this.preventNextHashChange = noEvents), this.preventHashAssignPopState = !0, window.location.hash = hash, this.preventHashAssignPopState = !1, state = $7.extend({
                 url: href,
                 hash: hash,
                 title: document1.title
-            }, data), isPopStateEvent && ((popstateEvent = new $9.Event("popstate")).originalEvent = {
+            }, data), isPopStateEvent && ((popstateEvent = new $7.Event("popstate")).originalEvent = {
                 type: "popstate",
                 state: null
-            }, this.squash(url, state), noEvents || (this.ignorePopState = !0, $9.mobile.window.trigger(popstateEvent))), this.history.add(state.url, state);
+            }, this.squash(url, state), noEvents || (this.ignorePopState = !0, $7.mobile.window.trigger(popstateEvent))), this.history.add(state.url, state);
         },
         popstate: function(event1) {
             var hash, state;
-            if ($9.event.special.navigate.isPushStateEnabled()) {
+            if ($7.event.special.navigate.isPushStateEnabled()) {
                 if (this.preventHashAssignPopState) {
                     this.preventHashAssignPopState = !1, event1.stopImmediatePropagation();
                     return;
@@ -887,14 +887,14 @@
                 this.history.direct({
                     url: (event1.originalEvent.state || {}).url || hash,
                     present: function(historyEntry, direction) {
-                        event1.historyState = $9.extend({}, historyEntry), event1.historyState.direction = direction;
+                        event1.historyState = $7.extend({}, historyEntry), event1.historyState.direction = direction;
                     }
                 });
             }
         },
         hashchange: function(event1) {
             var history1, hash;
-            if (!(!$9.event.special.navigate.isHashChangeEnabled() || $9.event.special.navigate.isPushStateEnabled())) {
+            if (!(!$7.event.special.navigate.isHashChangeEnabled() || $7.event.special.navigate.isPushStateEnabled())) {
                 if (this.preventNextHashChange) {
                     this.preventNextHashChange = !1, event1.stopImmediatePropagation();
                     return;
@@ -902,7 +902,7 @@
                 history1 = this.history, hash = path1.parseLocation().hash, this.history.direct({
                     url: hash,
                     present: function(historyEntry, direction) {
-                        event1.hashchangeState = $9.extend({}, historyEntry), event1.hashchangeState.direction = direction;
+                        event1.hashchangeState = $7.extend({}, historyEntry), event1.hashchangeState.direction = direction;
                     },
                     missing: function() {
                         history1.add(hash, {
@@ -913,11 +913,11 @@
                 });
             }
         }
-    }), ($10 = jQuery).mobile.navigate = function(url, data, noEvents) {
-        $10.mobile.navigate.navigator.go(url, data, noEvents);
-    }, $10.mobile.navigate.history = new $10.mobile.History(), $10.mobile.navigate.navigator = new $10.mobile.Navigator($10.mobile.navigate.history), loc = $10.mobile.path.parseLocation(), $10.mobile.navigate.history.add(loc.href, {
+    }), ($8 = jQuery).mobile.navigate = function(url, data, noEvents) {
+        $8.mobile.navigate.navigator.go(url, data, noEvents);
+    }, $8.mobile.navigate.history = new $8.mobile.History(), $8.mobile.navigate.navigator = new $8.mobile.Navigator($8.mobile.navigate.history), loc = $8.mobile.path.parseLocation(), $8.mobile.navigate.history.add(loc.href, {
         hash: loc.hash
-    }), $11 = jQuery, props = {
+    }), $9 = jQuery, props = {
         animation: {},
         transition: {}
     }, testElement = document1.createElement("a"), vendorPrefixes = [
@@ -925,22 +925,22 @@
         "webkit-",
         "moz-",
         "o-"
-    ], $11.each([
+    ], $9.each([
         "animation",
         "transition"
     ], function(i, test) {
         var testName = 0 === i ? test + "-name" : test;
-        $11.each(vendorPrefixes, function(j, prefix) {
-            if (undefined4 !== testElement.style[$11.camelCase(prefix + testName)]) return props[test].prefix = prefix, !1;
-        }), props[test].duration = $11.camelCase(props[test].prefix + test + "-duration"), props[test].event = $11.camelCase(props[test].prefix + test + "-end"), "" === props[test].prefix && (props[test].event = props[test].event.toLowerCase());
-    }), $11.support.cssTransitions = undefined4 !== props.transition.prefix, $11.support.cssAnimations = undefined4 !== props.animation.prefix, $11(testElement).remove(), $11.fn.animationComplete = function(callback, type, fallbackTime) {
+        $9.each(vendorPrefixes, function(j, prefix) {
+            if (undefined4 !== testElement.style[$9.camelCase(prefix + testName)]) return props[test].prefix = prefix, !1;
+        }), props[test].duration = $9.camelCase(props[test].prefix + test + "-duration"), props[test].event = $9.camelCase(props[test].prefix + test + "-end"), "" === props[test].prefix && (props[test].event = props[test].event.toLowerCase());
+    }), $9.support.cssTransitions = undefined4 !== props.transition.prefix, $9.support.cssAnimations = undefined4 !== props.animation.prefix, $9(testElement).remove(), $9.fn.animationComplete = function(callback, type, fallbackTime) {
         var timer, duration, that = this, animationType = type && "animation" !== type ? "transition" : "animation";
-        return $11.support.cssTransitions && "transition" === animationType || $11.support.cssAnimations && "animation" === animationType ? (fallbackTime === undefined4 && ($11(this).context !== document1 && (duration = 3000 * parseFloat($11(this).css(props[animationType].duration))), (0 === duration || duration === undefined4 || isNaN(duration)) && (duration = $11.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
-            $11(that).off(props[animationType].event), callback.apply(that);
-        }, duration), $11(this).one(props[animationType].event, function() {
+        return $9.support.cssTransitions && "transition" === animationType || $9.support.cssAnimations && "animation" === animationType ? (fallbackTime === undefined4 && ($9(this).context !== document1 && (duration = 3000 * parseFloat($9(this).css(props[animationType].duration))), (0 === duration || duration === undefined4 || isNaN(duration)) && (duration = $9.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
+            $9(that).off(props[animationType].event), callback.apply(that);
+        }, duration), $9(this).one(props[animationType].event, function() {
             clearTimeout(timer), callback.call(this, arguments);
-        })) : (setTimeout($11.proxy(callback, this), 0), $11(this));
-    }, $11.fn.animationComplete.defaultDuration = 1000, function($, window, document1, undefined) {
+        })) : (setTimeout($9.proxy(callback, this), 0), $9(this));
+    }, $9.fn.animationComplete.defaultDuration = 1000, function($, window, document1, undefined) {
         var threshold, i, dataPropertyName = "virtualMouseBindings", touchTargetPropertyName = "virtualTouchID", virtualEventNames = "vmouseover vmousedown vmousemove vmouseup vclick vmouseout vmousecancel".split(" "), touchEventProps = "clientX clientY pageX pageY screenX screenY".split(" "), mouseHookProps = $.event.mouseHooks ? $.event.mouseHooks.props : [], mouseEventProps = $.event.props.concat(mouseHookProps), activeDocHandlers = {}, resetTimerID = 0, startX = 0, startY = 0, didScroll = !1, clickBlockList = [], blockMouseTriggers = !1, blockTouchTriggers = !1, eventCaptureSupported = "addEventListener" in document1, $document = $(document1), nextTouchID = 1, lastTouchID = 0;
         function getNativeEvent(event1) {
             for(; event1 && void 0 !== event1.originalEvent;)event1 = event1.originalEvent;
@@ -1222,50 +1222,50 @@
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
     }(jQuery, this), base = {
-        element: (baseElement = ($13 = jQuery)("head").children("base")).length ? baseElement : $13("<base>", {
-            href: $13.mobile.path.documentBase.hrefNoHash
-        }).prependTo($13("head")),
+        element: (baseElement = ($10 = jQuery)("head").children("base")).length ? baseElement : $10("<base>", {
+            href: $10.mobile.path.documentBase.hrefNoHash
+        }).prependTo($10("head")),
         linkSelector: "[src], link[href], a[rel='external'], :jqmData(ajax='false'), a[target]",
         set: function(href) {
-            $13.mobile.dynamicBaseEnabled && $13.support.dynamicBaseTag && base.element.attr("href", $13.mobile.path.makeUrlAbsolute(href, $13.mobile.path.documentBase));
+            $10.mobile.dynamicBaseEnabled && $10.support.dynamicBaseTag && base.element.attr("href", $10.mobile.path.makeUrlAbsolute(href, $10.mobile.path.documentBase));
         },
         rewrite: function(href, page) {
-            var newPath = $13.mobile.path.get(href);
+            var newPath = $10.mobile.path.get(href);
             page.find(base.linkSelector).each(function(i, link) {
-                var thisAttr = $13(link).is("[href]") ? "href" : $13(link).is("[src]") ? "src" : "action", thisUrl = $13(link).attr(thisAttr);
-                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || $13(link).attr(thisAttr, newPath + thisUrl);
+                var thisAttr = $10(link).is("[href]") ? "href" : $10(link).is("[src]") ? "src" : "action", thisUrl = $10(link).attr(thisAttr);
+                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || $10(link).attr(thisAttr, newPath + thisUrl);
             });
         },
         reset: function() {
-            base.element.attr("href", $13.mobile.path.documentBase.hrefNoSearch);
+            base.element.attr("href", $10.mobile.path.documentBase.hrefNoSearch);
         }
-    }, $13.mobile.base = base, ($14 = jQuery).mobile.widgets = {}, originalWidget = $14.widget, keepNativeFactoryDefault = $14.mobile.keepNative, $14.widget = (orig = $14.widget, function() {
+    }, $10.mobile.base = base, ($11 = jQuery).mobile.widgets = {}, originalWidget = $11.widget, keepNativeFactoryDefault = $11.mobile.keepNative, $11.widget = (orig = $11.widget, function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
-        return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", $14.mobile.widgets[name] = constructor, constructor;
-    }), $14.extend($14.widget, originalWidget), $14.mobile.document.on("create", function(event1) {
-        $14(event1.target).enhanceWithin();
-    }), $14.widget("mobile.page", {
+        return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", $11.mobile.widgets[name] = constructor, constructor;
+    }), $11.extend($11.widget, originalWidget), $11.mobile.document.on("create", function(event1) {
+        $11(event1.target).enhanceWithin();
+    }), $11.widget("mobile.page", {
         options: {
             theme: "a",
             domCache: !1,
-            keepNativeDefault: $14.mobile.keepNative,
+            keepNativeDefault: $11.mobile.keepNative,
             contentTheme: null,
             enhanced: !1
         },
         _createWidget: function() {
-            $14.Widget.prototype._createWidget.apply(this, arguments), this._trigger("init");
+            $11.Widget.prototype._createWidget.apply(this, arguments), this._trigger("init");
         },
         _create: function() {
             if (!1 === this._trigger("beforecreate")) return !1;
             this.options.enhanced || this._enhance(), this._on(this.element, {
                 pagebeforehide: "removeContainerBackground",
                 pagebeforeshow: "_handlePageBeforeShow"
-            }), this.element.enhanceWithin(), "dialog" === $14.mobile.getAttribute(this.element[0], "role") && $14.mobile.dialog && this.element.dialog();
+            }), this.element.enhanceWithin(), "dialog" === $11.mobile.getAttribute(this.element[0], "role") && $11.mobile.dialog && this.element.dialog();
         },
         _enhance: function() {
-            var attrPrefix = "data-" + $14.mobile.ns, self = this;
-            this.options.role && this.element.attr("data-" + $14.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), this.element.find("[" + attrPrefix + "role='content']").each(function() {
-                var $this = $14(this), theme = this.getAttribute(attrPrefix + "theme") || undefined5;
+            var attrPrefix = "data-" + $11.mobile.ns, self = this;
+            this.options.role && this.element.attr("data-" + $11.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), this.element.find("[" + attrPrefix + "role='content']").each(function() {
+                var $this = $11(this), theme = this.getAttribute(attrPrefix + "theme") || undefined5;
                 self.options.contentTheme = theme || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), $this.attr("role", "main").addClass("ui-content");
             });
         },
@@ -1273,13 +1273,13 @@
             var page = this.element;
             !page.data("mobile-page").options.domCache && page.is(":jqmData(external-page='true')") && page.bind("pagehide.remove", callback || function(e, data) {
                 if (!data.samePage) {
-                    var $this = $14(this), prEvent = new $14.Event("pageremove");
+                    var $this = $11(this), prEvent = new $11.Event("pageremove");
                     $this.trigger(prEvent), prEvent.isDefaultPrevented() || $this.removeWithDependents();
                 }
             });
         },
         _setOptions: function(o) {
-            undefined5 !== o.theme && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), undefined5 !== o.contentTheme && this.element.find("[data-" + $14.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
+            undefined5 !== o.theme && this.element.removeClass("ui-page-theme-" + this.options.theme).addClass("ui-page-theme-" + o.theme), undefined5 !== o.contentTheme && this.element.find("[data-" + $11.mobile.ns + "='content']").removeClass("ui-body-" + this.options.contentTheme).addClass("ui-body-" + o.contentTheme);
         },
         _handlePageBeforeShow: function() {
             this.setContainerBackground();
@@ -1295,7 +1295,7 @@
             });
         },
         keepNativeSelector: function() {
-            var options = this.options, keepNative = $14.trim(options.keepNative || ""), globalValue = $14.trim($14.mobile.keepNative), optionValue = $14.trim(options.keepNativeDefault), newDefault = keepNativeFactoryDefault === globalValue ? "" : globalValue, oldDefault = "" === newDefault ? optionValue : "";
+            var options = this.options, keepNative = $11.trim(options.keepNative || ""), globalValue = $11.trim($11.mobile.keepNative), optionValue = $11.trim(options.keepNativeDefault), newDefault = keepNativeFactoryDefault === globalValue ? "" : globalValue, oldDefault = "" === newDefault ? optionValue : "";
             return (keepNative ? [
                 keepNative
             ] : []).concat(newDefault ? [
@@ -1304,7 +1304,7 @@
                 oldDefault
             ] : []).join(", ");
         }
-    }), ($15 = jQuery).widget("mobile.pagecontainer", {
+    }), ($12 = jQuery).widget("mobile.pagecontainer", {
         options: {
             theme: "a"
         },
@@ -1317,7 +1317,7 @@
                 navigate: "_filterNavigateEvents"
             }), this._on({
                 pagechange: "_afterContentChange"
-            }), this.window.one("navigate", $15.proxy(function() {
+            }), this.window.one("navigate", $12.proxy(function() {
                 this.setLastScrollEnabled = !0;
             }, this));
         },
@@ -1342,38 +1342,38 @@
             }
         },
         _delayedRecordScroll: function() {
-            setTimeout($15.proxy(this, "_recordScroll"), 100);
+            setTimeout($12.proxy(this, "_recordScroll"), 100);
         },
         _getScroll: function() {
             return this.window.scrollTop();
         },
         _getMinScroll: function() {
-            return $15.mobile.minScrollBack;
+            return $12.mobile.minScrollBack;
         },
         _getDefaultScroll: function() {
-            return $15.mobile.defaultHomeScroll;
+            return $12.mobile.defaultHomeScroll;
         },
         _filterNavigateEvents: function(e, data) {
             var url;
-            !(e.originalEvent && e.originalEvent.isDefaultPrevented()) && ((url = e.originalEvent.type.indexOf("hashchange") > -1 ? data.state.hash : data.state.url) || (url = this._getHash()), url && "#" !== url && 0 !== url.indexOf("#" + $15.mobile.path.uiStateKey) || (url = location.href), this._handleNavigate(url, data.state));
+            !(e.originalEvent && e.originalEvent.isDefaultPrevented()) && ((url = e.originalEvent.type.indexOf("hashchange") > -1 ? data.state.hash : data.state.url) || (url = this._getHash()), url && "#" !== url && 0 !== url.indexOf("#" + $12.mobile.path.uiStateKey) || (url = location.href), this._handleNavigate(url, data.state));
         },
         _getHash: function() {
-            return $15.mobile.path.parseLocation().hash;
+            return $12.mobile.path.parseLocation().hash;
         },
         getActivePage: function() {
             return this.activePage;
         },
         _getInitialContent: function() {
-            return $15.mobile.firstPage;
+            return $12.mobile.firstPage;
         },
         _getHistory: function() {
-            return $15.mobile.navigate.history;
+            return $12.mobile.navigate.history;
         },
         _getActiveHistory: function() {
-            return $15.mobile.navigate.history.getActive();
+            return $12.mobile.navigate.history.getActive();
         },
         _getDocumentBase: function() {
-            return $15.mobile.path.documentBase;
+            return $12.mobile.path.documentBase;
         },
         back: function() {
             this.go(-1);
@@ -1382,10 +1382,10 @@
             this.go(1);
         },
         go: function(steps) {
-            if ($15.mobile.hashListeningEnabled) window.history.go(steps);
+            if ($12.mobile.hashListeningEnabled) window.history.go(steps);
             else {
-                var activeIndex = $15.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = $15.mobile.navigate.history.stack[index].url;
-                $15.mobile.navigate.history.activeIndex = index, $15.mobile.navigate.history.previousIndex = activeIndex, this.change(url, {
+                var activeIndex = $12.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = $12.mobile.navigate.history.stack[index].url;
+                $12.mobile.navigate.history.activeIndex = index, $12.mobile.navigate.history.previousIndex = activeIndex, this.change(url, {
                     direction: steps >= 1 ? "forward" : "back",
                     changeHash: !1,
                     fromHashChange: !0
@@ -1394,34 +1394,34 @@
         },
         _handleDestination: function(to) {
             var history1;
-            return "string" === $15.type(to) && (to = $15.mobile.path.stripHash(to)), to && (history1 = this._getHistory(), (to = $15.mobile.path.isPath(to) ? to : $15.mobile.path.makeUrlAbsolute("#" + to, this._getDocumentBase())) === $15.mobile.path.makeUrlAbsolute("#" + history1.initialDst, this._getDocumentBase()) && history1.stack.length && history1.stack[0].url !== history1.initialDst.replace($15.mobile.dialogHashKey, "") && (to = this._getInitialContent())), to || this._getInitialContent();
+            return "string" === $12.type(to) && (to = $12.mobile.path.stripHash(to)), to && (history1 = this._getHistory(), (to = $12.mobile.path.isPath(to) ? to : $12.mobile.path.makeUrlAbsolute("#" + to, this._getDocumentBase())) === $12.mobile.path.makeUrlAbsolute("#" + history1.initialDst, this._getDocumentBase()) && history1.stack.length && history1.stack[0].url !== history1.initialDst.replace($12.mobile.dialogHashKey, "") && (to = this._getInitialContent())), to || this._getInitialContent();
         },
         _handleDialog: function(changePageOptions, data) {
             var to, active, activeContent = this.getActivePage();
-            return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (to = data.pageUrl, active = this._getActiveHistory(), $15.extend(changePageOptions, {
+            return activeContent && !activeContent.hasClass("ui-dialog") ? ("back" === data.direction ? this.back() : this.forward(), !1) : (to = data.pageUrl, active = this._getActiveHistory(), $12.extend(changePageOptions, {
                 role: active.role,
                 transition: active.transition,
                 reverse: "back" === data.direction
             }), to);
         },
         _handleNavigate: function(url, data) {
-            var to = $15.mobile.path.stripHash(url), history1 = this._getHistory(), transition = 0 === history1.stack.length ? "none" : undefined6, changePageOptions = {
+            var to = $12.mobile.path.stripHash(url), history1 = this._getHistory(), transition = 0 === history1.stack.length ? "none" : undefined6, changePageOptions = {
                 changeHash: !1,
                 fromHashChange: !0,
                 reverse: "back" === data.direction
             };
-            $15.extend(changePageOptions, data, {
+            $12.extend(changePageOptions, data, {
                 transition: (history1.getLast() || {}).transition || transition
-            }), (!(history1.activeIndex > 0 && to.indexOf($15.mobile.dialogHashKey) > -1) || history1.initialDst === to || !1 !== (to = this._handleDialog(changePageOptions, data))) && this._changeContent(this._handleDestination(to), changePageOptions);
+            }), (!(history1.activeIndex > 0 && to.indexOf($12.mobile.dialogHashKey) > -1) || history1.initialDst === to || !1 !== (to = this._handleDialog(changePageOptions, data))) && this._changeContent(this._handleDestination(to), changePageOptions);
         },
         _changeContent: function(to, opts) {
-            $15.mobile.changePage(to, opts);
+            $12.mobile.changePage(to, opts);
         },
         _getBase: function() {
-            return $15.mobile.base;
+            return $12.mobile.base;
         },
         _getNs: function() {
-            return $15.mobile.ns;
+            return $12.mobile.ns;
         },
         _enhance: function(content, role) {
             return content.page({
@@ -1433,13 +1433,13 @@
         },
         _find: function(absUrl) {
             var page, fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), initialContent = this._getInitialContent();
-            return 0 === (page = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")).length && dataUrl && !$15.mobile.path.isPath(dataUrl) && (page = this.element.children($15.mobile.path.hashToSelector("#" + dataUrl)).attr("data-" + this._getNs() + "url", dataUrl).jqmData("url", dataUrl)), 0 === page.length && $15.mobile.path.isFirstPageUrl(fileUrl) && initialContent && initialContent.parent().length && (page = $15(initialContent)), page;
+            return 0 === (page = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")).length && dataUrl && !$12.mobile.path.isPath(dataUrl) && (page = this.element.children($12.mobile.path.hashToSelector("#" + dataUrl)).attr("data-" + this._getNs() + "url", dataUrl).jqmData("url", dataUrl)), 0 === page.length && $12.mobile.path.isFirstPageUrl(fileUrl) && initialContent && initialContent.parent().length && (page = $12(initialContent)), page;
         },
         _getLoader: function() {
-            return $15.mobile.loading();
+            return $12.mobile.loading();
         },
         _showLoading: function(delay, theme, msg, textonly) {
-            !this._loadMsg && (this._loadMsg = setTimeout($15.proxy(function() {
+            !this._loadMsg && (this._loadMsg = setTimeout($12.proxy(function() {
                 this._getLoader().loader("show", theme, msg, textonly), this._loadMsg = 0;
             }, this), delay));
         },
@@ -1447,27 +1447,27 @@
             clearTimeout(this._loadMsg), this._loadMsg = 0, this._getLoader().loader("hide");
         },
         _showError: function() {
-            this._hideLoading(), this._showLoading(0, $15.mobile.pageLoadErrorMessageTheme, $15.mobile.pageLoadErrorMessage, !0), setTimeout($15.proxy(this, "_hideLoading"), 1500);
+            this._hideLoading(), this._showLoading(0, $12.mobile.pageLoadErrorMessageTheme, $12.mobile.pageLoadErrorMessage, !0), setTimeout($12.proxy(this, "_hideLoading"), 1500);
         },
         _parse: function(html, fileUrl) {
-            var page, all = $15("<div></div>");
-            return all.get(0).innerHTML = html, (page = all.find(":jqmData(role='page'), :jqmData(role='dialog')").first()).length || (page = $15("<div data-" + this._getNs() + "role='page'>" + (html.split(/<\/?body[^>]*>/gim)[1] || "") + "</div>")), page.attr("data-" + this._getNs() + "url", $15.mobile.path.convertUrlToDataUrl(fileUrl)).attr("data-" + this._getNs() + "external-page", !0), page;
+            var page, all = $12("<div></div>");
+            return all.get(0).innerHTML = html, (page = all.find(":jqmData(role='page'), :jqmData(role='dialog')").first()).length || (page = $12("<div data-" + this._getNs() + "role='page'>" + (html.split(/<\/?body[^>]*>/gim)[1] || "") + "</div>")), page.attr("data-" + this._getNs() + "url", $12.mobile.path.convertUrlToDataUrl(fileUrl)).attr("data-" + this._getNs() + "external-page", !0), page;
         },
         _setLoadedTitle: function(page, html) {
             var newPageTitle = html.match(/<title[^>]*>([^<]*)/) && RegExp.$1;
-            newPageTitle && !page.jqmData("title") && (newPageTitle = $15("<div>" + newPageTitle + "</div>").text(), page.jqmData("title", newPageTitle));
+            newPageTitle && !page.jqmData("title") && (newPageTitle = $12("<div>" + newPageTitle + "</div>").text(), page.jqmData("title", newPageTitle));
         },
         _isRewritableBaseTag: function() {
-            return $15.mobile.dynamicBaseEnabled && !$15.support.dynamicBaseTag;
+            return $12.mobile.dynamicBaseEnabled && !$12.support.dynamicBaseTag;
         },
         _createDataUrl: function(absoluteUrl) {
-            return $15.mobile.path.convertUrlToDataUrl(absoluteUrl);
+            return $12.mobile.path.convertUrlToDataUrl(absoluteUrl);
         },
         _createFileUrl: function(absoluteUrl) {
-            return $15.mobile.path.getFilePath(absoluteUrl);
+            return $12.mobile.path.getFilePath(absoluteUrl);
         },
         _triggerWithDeprecated: function(name, data, page) {
-            var deprecatedEvent = $15.Event("page" + name), newEvent = $15.Event(this.widgetName + name);
+            var deprecatedEvent = $12.Event("page" + name), newEvent = $12.Event(this.widgetName + name);
             return (page || this.element).trigger(deprecatedEvent, data), this.element.trigger(newEvent, data), {
                 deprecatedEvent: deprecatedEvent,
                 event: newEvent
@@ -1475,9 +1475,9 @@
         },
         _loadSuccess: function(absUrl, triggerData, settings, deferred) {
             var fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl);
-            return $15.proxy(function(html, textStatus, xhr) {
+            return $12.proxy(function(html, textStatus, xhr) {
                 var content, pageElemRegex = RegExp("(<[^>]+\\bdata-" + this._getNs() + "role=[\"']?page[\"']?[^>]*>)"), dataUrlRegex = RegExp("\\bdata-" + this._getNs() + "url=[\"']?([^\"'>]*)[\"']?");
-                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = $15.mobile.path.getFilePath($15("<div>" + RegExp.$1 + "</div>").text())), undefined6 === settings.prefetch && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.page = content, triggerData.content = content, this._trigger("load", undefined6, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + $15.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), this.element.trigger("pageload"), deferred.resolve(absUrl, settings, content));
+                pageElemRegex.test(html) && RegExp.$1 && dataUrlRegex.test(RegExp.$1) && RegExp.$1 && (fileUrl = $12.mobile.path.getFilePath($12("<div>" + RegExp.$1 + "</div>").text())), undefined6 === settings.prefetch && this._getBase().set(fileUrl), content = this._parse(html, fileUrl), this._setLoadedTitle(content, html), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.page = content, triggerData.content = content, this._trigger("load", undefined6, triggerData) && (this._isRewritableBaseTag() && content && this._getBase().rewrite(fileUrl, content), this._include(content, settings), absUrl.indexOf("&" + $12.mobile.subPageUrlKey) > -1 && (content = this.element.children("[data-" + this._getNs() + "url='" + dataUrl + "']")), settings.showLoadMsg && this._hideLoading(), this.element.trigger("pageload"), deferred.resolve(absUrl, settings, content));
             }, this);
         },
         _loadDefaults: {
@@ -1490,8 +1490,8 @@
             loadMsgDelay: 50
         },
         load: function(url, options) {
-            var fileUrl, dataUrl, pblEvent, triggerData, deferred = options && options.deferred || $15.Deferred(), settings = $15.extend({}, this._loadDefaults, options), content = null, absUrl = $15.mobile.path.makeUrlAbsolute(url, this._findBaseWithDefault());
-            if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $15.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined6), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $15.mobile.path.isEmbeddedPage(fileUrl) && !$15.mobile.path.isFirstPageUrl(fileUrl)) {
+            var fileUrl, dataUrl, pblEvent, triggerData, deferred = options && options.deferred || $12.Deferred(), settings = $12.extend({}, this._loadDefaults, options), content = null, absUrl = $12.mobile.path.makeUrlAbsolute(url, this._findBaseWithDefault());
+            if (settings.reload = settings.reloadPage, settings.data && "get" === settings.type && (absUrl = $12.mobile.path.addSearchParams(absUrl, settings.data), settings.data = undefined6), settings.data && "post" === settings.type && (settings.reload = !0), fileUrl = this._createFileUrl(absUrl), dataUrl = this._createDataUrl(absUrl), 0 === (content = this._find(absUrl)).length && $12.mobile.path.isEmbeddedPage(fileUrl) && !$12.mobile.path.isFirstPageUrl(fileUrl)) {
                 deferred.reject(absUrl, settings);
                 return;
             }
@@ -1506,11 +1506,11 @@
                 deferred: deferred,
                 options: settings
             }, !((pblEvent = this._triggerWithDeprecated("beforeload", triggerData)).deprecatedEvent.isDefaultPrevented() || pblEvent.event.isDefaultPrevented())) {
-                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), undefined6 === settings.prefetch && this._getBase().reset(), !($15.mobile.allowCrossDomainPages || $15.mobile.path.isSameDomain($15.mobile.path.documentUrl, absUrl))) {
+                if (settings.showLoadMsg && this._showLoading(settings.loadMsgDelay), undefined6 === settings.prefetch && this._getBase().reset(), !($12.mobile.allowCrossDomainPages || $12.mobile.path.isSameDomain($12.mobile.path.documentUrl, absUrl))) {
                     deferred.reject(absUrl, settings);
                     return;
                 }
-                $15.ajax({
+                $12.ajax({
                     url: fileUrl,
                     type: settings.type,
                     data: settings.data,
@@ -1522,14 +1522,14 @@
             }
         },
         _loadError: function(absUrl, triggerData, settings, deferred) {
-            return $15.proxy(function(xhr, textStatus, errorThrown) {
-                this._getBase().set($15.mobile.path.get()), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.errorThrown = errorThrown;
+            return $12.proxy(function(xhr, textStatus, errorThrown) {
+                this._getBase().set($12.mobile.path.get()), triggerData.xhr = xhr, triggerData.textStatus = textStatus, triggerData.errorThrown = errorThrown;
                 var plfEvent = this._triggerWithDeprecated("loadfailed", triggerData);
                 !(plfEvent.deprecatedEvent.isDefaultPrevented() || plfEvent.event.isDefaultPrevented()) && (settings.showLoadMsg && this._showError(), deferred.reject(absUrl, settings));
             }, this);
         },
         _getTransitionHandler: function(transition) {
-            return transition = $15.mobile._maybeDegradeTransition(transition), $15.mobile.transitionHandlers[transition] || $15.mobile.defaultTransitionHandler;
+            return transition = $12.mobile._maybeDegradeTransition(transition), $12.mobile.transitionHandlers[transition] || $12.mobile.defaultTransitionHandler;
         },
         _triggerCssTransitionEvents: function(to, from, prefix) {
             var samePage = !1;
@@ -1537,44 +1537,44 @@
                 nextPage: to,
                 samePage: samePage
             }, from)), this._triggerWithDeprecated(prefix + "show", {
-                prevPage: from || $15("")
+                prevPage: from || $12("")
             }, to);
         },
         _cssTransition: function(to, from, options) {
             var promise, transition = options.transition, reverse = options.reverse, deferred = options.deferred;
             this._triggerCssTransitionEvents(to, from, "before"), this._hideLoading(), (promise = new (this._getTransitionHandler(transition))(transition, reverse, to, from).transition()).done(function() {
                 deferred.resolve.apply(deferred, arguments);
-            }), promise.done($15.proxy(function() {
+            }), promise.done($12.proxy(function() {
                 this._triggerCssTransitionEvents(to, from);
             }, this));
         },
         _releaseTransitionLock: function() {
-            isPageTransitioning = !1, pageTransitionQueue.length > 0 && $15.mobile.changePage.apply(null, pageTransitionQueue.pop());
+            isPageTransitioning = !1, pageTransitionQueue.length > 0 && $12.mobile.changePage.apply(null, pageTransitionQueue.pop());
         },
         _removeActiveLinkClass: function(force) {
-            $15.mobile.removeActiveLinkClass(force);
+            $12.mobile.removeActiveLinkClass(force);
         },
         _loadUrl: function(to, triggerData, settings) {
-            settings.target = to, settings.deferred = $15.Deferred(), this.load(to, settings), settings.deferred.done($15.proxy(function(url, options, content) {
+            settings.target = to, settings.deferred = $12.Deferred(), this.load(to, settings), settings.deferred.done($12.proxy(function(url, options, content) {
                 isPageTransitioning = !1, options.absUrl = triggerData.absUrl, this.transition(content, triggerData, options);
-            }, this)), settings.deferred.fail($15.proxy(function() {
+            }, this)), settings.deferred.fail($12.proxy(function() {
                 this._removeActiveLinkClass(!0), this._releaseTransitionLock(), this._triggerWithDeprecated("changefailed", triggerData);
             }, this));
         },
         _triggerPageBeforeChange: function(to, triggerData, settings) {
-            var pbcEvent = new $15.Event("pagebeforechange");
-            return $15.extend(triggerData, {
+            var pbcEvent = new $12.Event("pagebeforechange");
+            return $12.extend(triggerData, {
                 toPage: to,
                 options: settings
-            }), "string" === $15.type(to) ? triggerData.absUrl = $15.mobile.path.makeUrlAbsolute(to, this._findBaseWithDefault()) : triggerData.absUrl = settings.absUrl, this.element.trigger(pbcEvent, triggerData), !pbcEvent.isDefaultPrevented();
+            }), "string" === $12.type(to) ? triggerData.absUrl = $12.mobile.path.makeUrlAbsolute(to, this._findBaseWithDefault()) : triggerData.absUrl = settings.absUrl, this.element.trigger(pbcEvent, triggerData), !pbcEvent.isDefaultPrevented();
         },
         change: function(to, options) {
             if (isPageTransitioning) {
                 pageTransitionQueue.unshift(arguments);
                 return;
             }
-            var settings = $15.extend({}, $15.mobile.changePage.defaults, options), triggerData = {};
-            settings.fromPage = settings.fromPage || this.activePage, this._triggerPageBeforeChange(to, triggerData, settings) && (to = triggerData.toPage, "string" === $15.type(to) ? (isPageTransitioning = !0, this._loadUrl(to, triggerData, settings)) : this.transition(to, triggerData, settings));
+            var settings = $12.extend({}, $12.mobile.changePage.defaults, options), triggerData = {};
+            settings.fromPage = settings.fromPage || this.activePage, this._triggerPageBeforeChange(to, triggerData, settings) && (to = triggerData.toPage, "string" === $12.type(to) ? (isPageTransitioning = !0, this._loadUrl(to, triggerData, settings)) : this.transition(to, triggerData, settings));
         },
         transition: function(toPage, triggerData, settings) {
             var fromPage, url, pageUrl, active, activeIsInitialPage, historyDir, pageTitle, isDialog, alreadyThere, newPageTitle, params, cssTransitionDeferred, beforeTransition;
@@ -1586,8 +1586,8 @@
                 return;
             }
             if (!(!this._triggerPageBeforeChange(toPage, triggerData, settings) || (beforeTransition = this._triggerWithDeprecated("beforetransition", triggerData)).deprecatedEvent.isDefaultPrevented() || beforeTransition.event.isDefaultPrevented())) {
-                if (isPageTransitioning = !0, toPage[0] !== $15.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $15.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, pageUrl = url = settings.dataUrl && $15.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), $15.mobile.path.getFilePath(url), active = $15.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $15.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
-                    isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $15.mobile.navigate.history.direct({
+                if (isPageTransitioning = !0, toPage[0] !== $12.mobile.firstPage[0] || settings.dataUrl || (settings.dataUrl = $12.mobile.path.documentUrl.hrefNoHash), fromPage = settings.fromPage, pageUrl = url = settings.dataUrl && $12.mobile.path.convertUrlToDataUrl(settings.dataUrl) || toPage.jqmData("url"), $12.mobile.path.getFilePath(url), active = $12.mobile.navigate.history.getActive(), activeIsInitialPage = 0 === $12.mobile.navigate.history.activeIndex, historyDir = 0, pageTitle = document1.title, isDialog = ("dialog" === settings.role || "dialog" === toPage.jqmData("role")) && !0 !== toPage.jqmData("dialog"), fromPage && fromPage[0] === toPage[0] && !settings.allowSamePageTransition) {
+                    isPageTransitioning = !1, this._triggerWithDeprecated("transition", triggerData), this.element.trigger("pagechange", triggerData), settings.fromHashChange && $12.mobile.navigate.history.direct({
                         url: url
                     });
                     return;
@@ -1596,26 +1596,26 @@
                     role: settings.role
                 }), settings.fromHashChange && (historyDir = "back" === settings.direction ? -1 : 1);
                 try {
-                    document1.activeElement && "body" !== document1.activeElement.nodeName.toLowerCase() ? $15(document1.activeElement).blur() : $15("input:focus, textarea:focus, select:focus").blur();
+                    document1.activeElement && "body" !== document1.activeElement.nodeName.toLowerCase() ? $12(document1.activeElement).blur() : $12("input:focus, textarea:focus, select:focus").blur();
                 } catch (e) {}
-                alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($15.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $15.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $15.mobile.dialogHashKey : url += "#" + $15.mobile.dialogHashKey, 0 === $15.mobile.navigate.history.activeIndex && url === $15.mobile.navigate.history.initialDst && (url += $15.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document1.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined6) || (isDialog ? $15.mobile.defaultDialogTransition : $15.mobile.defaultPageTransition), !historyDir && alreadyThere && ($15.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$15.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
+                alreadyThere = !1, isDialog && active && (active.url && active.url.indexOf($12.mobile.dialogHashKey) > -1 && this.activePage && !this.activePage.hasClass("ui-dialog") && $12.mobile.navigate.history.activeIndex > 0 && (settings.changeHash = !1, alreadyThere = !0), url = active.url || "", !alreadyThere && url.indexOf("#") > -1 ? url += $12.mobile.dialogHashKey : url += "#" + $12.mobile.dialogHashKey, 0 === $12.mobile.navigate.history.activeIndex && url === $12.mobile.navigate.history.initialDst && (url += $12.mobile.dialogHashKey)), (newPageTitle = active ? toPage.jqmData("title") || toPage.children(":jqmData(role='header')").find(".ui-title").text() : pageTitle) && pageTitle === document1.title && (pageTitle = newPageTitle), toPage.jqmData("title") || toPage.jqmData("title", pageTitle), settings.transition = settings.transition || (historyDir && !activeIsInitialPage ? active.transition : undefined6) || (isDialog ? $12.mobile.defaultDialogTransition : $12.mobile.defaultPageTransition), !historyDir && alreadyThere && ($12.mobile.navigate.history.getActive().pageUrl = pageUrl), url && !settings.fromHashChange && (!$12.mobile.path.isPath(url) && 0 > url.indexOf("#") && (url = "#" + url), params = {
                     transition: settings.transition,
                     title: pageTitle,
                     pageUrl: pageUrl,
                     role: settings.role
-                }, !1 !== settings.changeHash && $15.mobile.hashListeningEnabled ? $15.mobile.navigate(url, params, !0) : toPage[0] !== $15.mobile.firstPage[0] && $15.mobile.navigate.history.add(url, params)), document1.title = pageTitle, $15.mobile.activePage = toPage, this.activePage = toPage, settings.reverse = settings.reverse || historyDir < 0, cssTransitionDeferred = $15.Deferred(), this._cssTransition(toPage, fromPage, {
+                }, !1 !== settings.changeHash && $12.mobile.hashListeningEnabled ? $12.mobile.navigate(url, params, !0) : toPage[0] !== $12.mobile.firstPage[0] && $12.mobile.navigate.history.add(url, params)), document1.title = pageTitle, $12.mobile.activePage = toPage, this.activePage = toPage, settings.reverse = settings.reverse || historyDir < 0, cssTransitionDeferred = $12.Deferred(), this._cssTransition(toPage, fromPage, {
                     transition: settings.transition,
                     reverse: settings.reverse,
                     deferred: cssTransitionDeferred
-                }), cssTransitionDeferred.done($15.proxy(function(name, reverse, $to, $from, alreadyFocused) {
-                    $15.mobile.removeActiveLinkClass(), settings.duplicateCachedPage && settings.duplicateCachedPage.remove(), alreadyFocused || $15.mobile.focusPage(toPage), this._releaseTransitionLock(), this.element.trigger("pagechange", triggerData), this._triggerWithDeprecated("transition", triggerData);
+                }), cssTransitionDeferred.done($12.proxy(function(name, reverse, $to, $from, alreadyFocused) {
+                    $12.mobile.removeActiveLinkClass(), settings.duplicateCachedPage && settings.duplicateCachedPage.remove(), alreadyFocused || $12.mobile.focusPage(toPage), this._releaseTransitionLock(), this.element.trigger("pagechange", triggerData), this._triggerWithDeprecated("transition", triggerData);
                 }, this));
             }
         },
         _findBaseWithDefault: function() {
-            return this.activePage && $15.mobile.getClosestBaseUrl(this.activePage) || $15.mobile.path.documentBase.hrefNoHash;
+            return this.activePage && $12.mobile.getClosestBaseUrl(this.activePage) || $12.mobile.path.documentBase.hrefNoHash;
         }
-    }), $15.mobile.navreadyDeferred = $15.Deferred(), pageTransitionQueue = [], isPageTransitioning = !1, function($, undefined) {
+    }), $12.mobile.navreadyDeferred = $12.Deferred(), pageTransitionQueue = [], isPageTransitioning = !1, function($, undefined) {
         var domreadyDeferred = $.Deferred(), loadDeferred = $.Deferred(), documentUrl = $.mobile.path.documentUrl, $lastVClicked = null;
         function findClosestLink(ele) {
             for(; ele && ("string" != typeof ele.nodeName || "a" !== ele.nodeName.toLowerCase());)ele = ele.parentNode;
@@ -1732,27 +1732,27 @@
         }), $.when(domreadyDeferred, $.mobile.navreadyDeferred).done(function() {
             $.mobile._registerInternalEvents();
         });
-    }(jQuery), $16 = jQuery, window3 = this, $16.mobile.Transition = function() {
+    }(jQuery), $13 = jQuery, window2 = this, $13.mobile.Transition = function() {
         this.init.apply(this, arguments);
-    }, $16.extend($16.mobile.Transition.prototype, {
+    }, $13.extend($13.mobile.Transition.prototype, {
         toPreClass: " ui-page-pre-in",
         init: function(name, reverse, $to, $from) {
-            $16.extend(this, {
+            $13.extend(this, {
                 name: name,
                 reverse: reverse,
                 $to: $to,
                 $from: $from,
-                deferred: new $16.Deferred()
+                deferred: new $13.Deferred()
             });
         },
         cleanFrom: function() {
-            this.$from.removeClass($16.mobile.activePageClass + " out in reverse " + this.name).height("");
+            this.$from.removeClass($13.mobile.activePageClass + " out in reverse " + this.name).height("");
         },
         beforeDoneIn: function() {},
         beforeDoneOut: function() {},
         beforeStartOut: function() {},
         doneIn: function() {
-            this.beforeDoneIn(), this.$to.removeClass("out in reverse " + this.name).height(""), this.toggleViewportClass(), $16.mobile.window.scrollTop() !== this.toScroll && this.scrollPage(), this.sequential || this.$to.addClass($16.mobile.activePageClass), this.deferred.resolve(this.name, this.reverse, this.$to, this.$from, !0);
+            this.beforeDoneIn(), this.$to.removeClass("out in reverse " + this.name).height(""), this.toggleViewportClass(), $13.mobile.window.scrollTop() !== this.toScroll && this.scrollPage(), this.sequential || this.$to.addClass($13.mobile.activePageClass), this.deferred.resolve(this.name, this.reverse, this.$to, this.$from, !0);
         },
         doneOut: function(screenHeight, reverseClass, none, preventFocus) {
             this.beforeDoneOut(), this.startIn(screenHeight, reverseClass, none, preventFocus);
@@ -1761,26 +1761,26 @@
             this.$to.css("z-index", -10), callback.call(this), this.$to.css("z-index", "");
         },
         scrollPage: function() {
-            $16.event.special.scrollstart.enabled = !1, ($16.mobile.hideUrlBar || this.toScroll !== $16.mobile.defaultHomeScroll) && window3.scrollTo(0, this.toScroll), setTimeout(function() {
-                $16.event.special.scrollstart.enabled = !0;
+            $13.event.special.scrollstart.enabled = !1, ($13.mobile.hideUrlBar || this.toScroll !== $13.mobile.defaultHomeScroll) && window2.scrollTo(0, this.toScroll), setTimeout(function() {
+                $13.event.special.scrollstart.enabled = !0;
             }, 150);
         },
         startIn: function(screenHeight, reverseClass, none, preventFocus) {
             this.hideIn(function() {
-                this.$to.addClass($16.mobile.activePageClass + this.toPreClass), preventFocus || $16.mobile.focusPage(this.$to), this.$to.height(screenHeight + this.toScroll), none || this.scrollPage();
-            }), this.$to.removeClass(this.toPreClass).addClass(this.name + " in " + reverseClass), none ? this.doneIn() : this.$to.animationComplete($16.proxy(function() {
+                this.$to.addClass($13.mobile.activePageClass + this.toPreClass), preventFocus || $13.mobile.focusPage(this.$to), this.$to.height(screenHeight + this.toScroll), none || this.scrollPage();
+            }), this.$to.removeClass(this.toPreClass).addClass(this.name + " in " + reverseClass), none ? this.doneIn() : this.$to.animationComplete($13.proxy(function() {
                 this.doneIn();
             }, this));
         },
         startOut: function(screenHeight, reverseClass, none) {
-            this.beforeStartOut(screenHeight, reverseClass, none), this.$from.height(screenHeight + $16.mobile.window.scrollTop()).addClass(this.name + " out" + reverseClass);
+            this.beforeStartOut(screenHeight, reverseClass, none), this.$from.height(screenHeight + $13.mobile.window.scrollTop()).addClass(this.name + " out" + reverseClass);
         },
         toggleViewportClass: function() {
-            $16.mobile.pageContainer.toggleClass("ui-mobile-viewport-transitioning viewport-" + this.name);
+            $13.mobile.pageContainer.toggleClass("ui-mobile-viewport-transitioning viewport-" + this.name);
         },
         transition: function() {
-            var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $16.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $16.mobile.maxTransitionWidth && $16.mobile.window.width() > $16.mobile.maxTransitionWidth;
-            return this.toScroll = $16.mobile.navigate.history.getActive().lastScroll || $16.mobile.defaultHomeScroll, none = !$16.support.cssTransitions || !$16.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($16.mobile.window.scrollTop(), this.toScroll) > $16.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
+            var none, reverseClass = this.reverse ? " reverse" : "", screenHeight = $13.mobile.getScreenHeight(), maxTransitionOverride = !1 !== $13.mobile.maxTransitionWidth && $13.mobile.window.width() > $13.mobile.maxTransitionWidth;
+            return this.toScroll = $13.mobile.navigate.history.getActive().lastScroll || $13.mobile.defaultHomeScroll, none = !$13.support.cssTransitions || !$13.support.cssAnimations || maxTransitionOverride || !this.name || "none" === this.name || Math.max($13.mobile.window.scrollTop(), this.toScroll) > $13.mobile.getMaxScrollForTransition(), this.toggleViewportClass(), this.$from && !none ? this.startOut(screenHeight, reverseClass, none) : this.doneOut(screenHeight, reverseClass, none, !0), this.deferred.promise();
         }
     }), jQuery.mobile.SerialTransition = function() {
         this.init.apply(this, arguments);
@@ -1804,14 +1804,14 @@
         beforeStartOut: function(screenHeight, reverseClass, none) {
             this.doneOut(screenHeight, reverseClass, none);
         }
-    }), $19 = jQuery, defaultGetMaxScrollForTransition = function() {
-        return 3 * $19.mobile.getScreenHeight();
-    }, $19.mobile.transitionHandlers = {
-        sequential: $19.mobile.SerialTransition,
-        simultaneous: $19.mobile.ConcurrentTransition
-    }, $19.mobile.defaultTransitionHandler = $19.mobile.transitionHandlers.sequential, $19.mobile.transitionFallbacks = {}, $19.mobile._maybeDegradeTransition = function(transition) {
-        return transition && !$19.support.cssTransform3d && $19.mobile.transitionFallbacks[transition] && (transition = $19.mobile.transitionFallbacks[transition]), transition;
-    }, $19.mobile.getMaxScrollForTransition = $19.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($20 = jQuery).mobile.transitionHandlers.slide = $20.mobile.transitionHandlers.simultaneous, $20.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($21 = jQuery).mobile.degradeInputs = {
+    }), $14 = jQuery, defaultGetMaxScrollForTransition = function() {
+        return 3 * $14.mobile.getScreenHeight();
+    }, $14.mobile.transitionHandlers = {
+        sequential: $14.mobile.SerialTransition,
+        simultaneous: $14.mobile.ConcurrentTransition
+    }, $14.mobile.defaultTransitionHandler = $14.mobile.transitionHandlers.sequential, $14.mobile.transitionFallbacks = {}, $14.mobile._maybeDegradeTransition = function(transition) {
+        return transition && !$14.support.cssTransform3d && $14.mobile.transitionFallbacks[transition] && (transition = $14.mobile.transitionFallbacks[transition]), transition;
+    }, $14.mobile.getMaxScrollForTransition = $14.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", ($15 = jQuery).mobile.transitionHandlers.slide = $15.mobile.transitionHandlers.simultaneous, $15.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", ($16 = jQuery).mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -1825,10 +1825,10 @@
         time: !1,
         url: !1,
         week: !1
-    }, $21.mobile.page.prototype.options.degradeInputs = $21.mobile.degradeInputs, $21.mobile.degradeInputsWithin = function(target) {
-        (target = $21(target)).find("input").not($21.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, repstr, element = $21(this), type = this.getAttribute("type"), optType = $21.mobile.degradeInputs[type] || "text";
-            $21.mobile.degradeInputs[type] && (hasType = (html = $21("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + $21.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
+    }, $16.mobile.page.prototype.options.degradeInputs = $16.mobile.degradeInputs, $16.mobile.degradeInputsWithin = function(target) {
+        (target = $16(target)).find("input").not($16.mobile.page.prototype.keepNativeSelector()).each(function() {
+            var html, hasType, repstr, element = $16(this), type = this.getAttribute("type"), optType = $16.mobile.degradeInputs[type] || "text";
+            $16.mobile.degradeInputs[type] && (hasType = (html = $16("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + $16.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -1919,9 +1919,9 @@
                 this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
-    }(jQuery, this), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
+    }(jQuery, this), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
-    }, $22.widget("mobile.collapsible", {
+    }, $17.widget("mobile.collapsible", {
         options: {
             enhanced: !1,
             expandCueText: null,
@@ -1939,11 +1939,11 @@
         },
         _create: function() {
             var elem = this.element, ui = {
-                accordion: elem.closest(":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" + ($22.mobile.collapsibleset ? ", :mobile-collapsibleset" : "")).addClass("ui-collapsible-set")
+                accordion: elem.closest(":jqmData(role='collapsible-set'),:jqmData(role='collapsibleset')" + ($17.mobile.collapsibleset ? ", :mobile-collapsibleset" : "")).addClass("ui-collapsible-set")
             };
-            this._ui = ui, this._renderedOptions = this._getOptions(this.options), this.options.enhanced ? (ui.heading = $22(".ui-collapsible-heading", this.element[0]), ui.content = ui.heading.next(), ui.anchor = $22("a", ui.heading[0]).first(), ui.status = ui.anchor.children(".ui-collapsible-heading-status")) : this._enhance(elem, ui), this._on(ui.heading, {
+            this._ui = ui, this._renderedOptions = this._getOptions(this.options), this.options.enhanced ? (ui.heading = $17(".ui-collapsible-heading", this.element[0]), ui.content = ui.heading.next(), ui.anchor = $17("a", ui.heading[0]).first(), ui.status = ui.anchor.children(".ui-collapsible-heading-status")) : this._enhance(elem, ui), this._on(ui.heading, {
                 tap: function() {
-                    ui.heading.find("a").first().addClass($22.mobile.activeBtnClass);
+                    ui.heading.find("a").first().addClass($17.mobile.activeBtnClass);
                 },
                 click: function(event1) {
                     this._handleExpandCollapse(!ui.heading.hasClass("ui-collapsible-heading-collapsed")), event1.preventDefault(), event1.stopPropagation();
@@ -1952,7 +1952,7 @@
         },
         _getOptions: function(options) {
             var key, accordion = this._ui.accordion, accordionWidget = this._ui.accordionWidget;
-            for(key in options = $22.extend({}, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = accordionWidget = accordion.data("mobile-collapsibleset")), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $22.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $22.mobile.collapsible.defaults[key]);
+            for(key in options = $17.extend({}, options), accordion.length && !accordionWidget && (this._ui.accordionWidget = accordionWidget = accordion.data("mobile-collapsibleset")), options)options[key] = null != options[key] ? options[key] : accordionWidget ? accordionWidget.options[key] : accordion.length ? $17.mobile.getAttribute(accordion[0], key.replace(rInitialLetter, "-$1").toLowerCase()) : null, null == options[key] && (options[key] = $17.mobile.collapsible.defaults[key]);
             return options;
         },
         _themeClassFromOption: function(prefix, value) {
@@ -1960,7 +1960,7 @@
         },
         _enhance: function(elem, ui) {
             var iconclass, opts = this._renderedOptions, contentThemeClass = this._themeClassFromOption("ui-body-", opts.contentTheme);
-            return elem.addClass("ui-collapsible " + (opts.inset ? "ui-collapsible-inset " : "") + (opts.inset && opts.corners ? "ui-corner-all " : "") + (contentThemeClass ? "ui-collapsible-themed-content " : "")), ui.originalHeading = elem.children(this.options.heading).first(), ui.content = elem.wrapInner("<div class='ui-collapsible-content " + contentThemeClass + "'></div>").children(".ui-collapsible-content"), ui.heading = ui.originalHeading, ui.heading.is("legend") && (ui.heading = $22("<div role='heading'>" + ui.heading.html() + "</div>"), ui.placeholder = $22("<div><!-- placeholder for legend --></div>").insertBefore(ui.originalHeading), ui.originalHeading.remove()), iconclass = opts.collapsed ? opts.collapsedIcon ? "ui-icon-" + opts.collapsedIcon : "" : opts.expandedIcon ? "ui-icon-" + opts.expandedIcon : "", ui.status = $22("<span class='ui-collapsible-heading-status'></span>"), ui.anchor = ui.heading.detach().addClass("ui-collapsible-heading").append(ui.status).wrapInner("<a href='#' class='ui-collapsible-heading-toggle'></a>").find("a").first().addClass("ui-btn " + (iconclass ? iconclass + " " : "") + (iconclass ? iconposClass(opts.iconpos) + " " : "") + this._themeClassFromOption("ui-btn-", opts.theme) + " " + (opts.mini ? "ui-mini " : "")), ui.heading.insertBefore(ui.content), this._handleExpandCollapse(this.options.collapsed), ui;
+            return elem.addClass("ui-collapsible " + (opts.inset ? "ui-collapsible-inset " : "") + (opts.inset && opts.corners ? "ui-corner-all " : "") + (contentThemeClass ? "ui-collapsible-themed-content " : "")), ui.originalHeading = elem.children(this.options.heading).first(), ui.content = elem.wrapInner("<div class='ui-collapsible-content " + contentThemeClass + "'></div>").children(".ui-collapsible-content"), ui.heading = ui.originalHeading, ui.heading.is("legend") && (ui.heading = $17("<div role='heading'>" + ui.heading.html() + "</div>"), ui.placeholder = $17("<div><!-- placeholder for legend --></div>").insertBefore(ui.originalHeading), ui.originalHeading.remove()), iconclass = opts.collapsed ? opts.collapsedIcon ? "ui-icon-" + opts.collapsedIcon : "" : opts.expandedIcon ? "ui-icon-" + opts.expandedIcon : "", ui.status = $17("<span class='ui-collapsible-heading-status'></span>"), ui.anchor = ui.heading.detach().addClass("ui-collapsible-heading").append(ui.status).wrapInner("<a href='#' class='ui-collapsible-heading-toggle'></a>").find("a").first().addClass("ui-btn " + (iconclass ? iconclass + " " : "") + (iconclass ? iconposClass(opts.iconpos) + " " : "") + this._themeClassFromOption("ui-btn-", opts.theme) + " " + (opts.mini ? "ui-mini " : "")), ui.heading.insertBefore(ui.content), this._handleExpandCollapse(this.options.collapsed), ui;
         },
         refresh: function() {
             this._applyOptions(this.options), this._renderedOptions = this._getOptions(this.options);
@@ -1986,7 +1986,7 @@
         },
         _handleExpandCollapse: function(isCollapse) {
             var opts = this._renderedOptions, ui = this._ui;
-            ui.status.text(isCollapse ? opts.expandCueText : opts.collapseCueText), ui.heading.toggleClass("ui-collapsible-heading-collapsed", isCollapse).find("a").first().toggleClass("ui-icon-" + opts.expandedIcon, !isCollapse).toggleClass("ui-icon-" + opts.collapsedIcon, isCollapse || opts.expandedIcon === opts.collapsedIcon).removeClass($22.mobile.activeBtnClass), this.element.toggleClass("ui-collapsible-collapsed", isCollapse), ui.content.toggleClass("ui-collapsible-content-collapsed", isCollapse).attr("aria-hidden", isCollapse).trigger("updatelayout"), this.options.collapsed = isCollapse, this._trigger(isCollapse ? "collapse" : "expand");
+            ui.status.text(isCollapse ? opts.expandCueText : opts.collapseCueText), ui.heading.toggleClass("ui-collapsible-heading-collapsed", isCollapse).find("a").first().toggleClass("ui-icon-" + opts.expandedIcon, !isCollapse).toggleClass("ui-icon-" + opts.collapsedIcon, isCollapse || opts.expandedIcon === opts.collapsedIcon).removeClass($17.mobile.activeBtnClass), this.element.toggleClass("ui-collapsible-collapsed", isCollapse), ui.content.toggleClass("ui-collapsible-content-collapsed", isCollapse).attr("aria-hidden", isCollapse).trigger("updatelayout"), this.options.collapsed = isCollapse, this._trigger(isCollapse ? "collapse" : "expand");
         },
         expand: function() {
             this._handleExpandCollapse(!1);
@@ -1998,7 +1998,7 @@
             var ui = this._ui;
             !this.options.enhanced && (ui.placeholder ? (ui.originalHeading.insertBefore(ui.placeholder), ui.placeholder.remove(), ui.heading.remove()) : (ui.status.remove(), ui.heading.removeClass("ui-collapsible-heading ui-collapsible-heading-collapsed").children().contents().unwrap()), ui.anchor.contents().unwrap(), ui.content.contents().unwrap(), this.element.removeClass("ui-collapsible ui-collapsible-collapsed ui-collapsible-themed-content ui-collapsible-inset ui-corner-all"));
         }
-    }), $22.mobile.collapsible.defaults = {
+    }), $17.mobile.collapsible.defaults = {
         expandCueText: " click to expand contents",
         collapseCueText: " click to collapse contents",
         collapsedIcon: "plus",
@@ -2342,17 +2342,17 @@
                 });
             }
         });
-    }(jQuery), disabledZoom = (initialContent = (meta = ($25 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $25.mobile.zoom = $25.extend({}, {
+    }(jQuery), disabledZoom = (initialContent = (meta = ($18 = jQuery)("meta[name=viewport]")).attr("content")) + ",maximum-scale=1, user-scalable=no", enabledZoom = initialContent + ",maximum-scale=10, user-scalable=yes", disabledInitially = /(user-scalable[\s]*=[\s]*no)|(maximum-scale[\s]*=[\s]*1)[$,\s]/.test(initialContent), $18.mobile.zoom = $18.extend({}, {
         enabled: !disabledInitially,
         locked: !1,
         disable: function(lock) {
-            disabledInitially || $25.mobile.zoom.locked || (meta.attr("content", disabledZoom), $25.mobile.zoom.enabled = !1, $25.mobile.zoom.locked = lock || !1);
+            disabledInitially || $18.mobile.zoom.locked || (meta.attr("content", disabledZoom), $18.mobile.zoom.enabled = !1, $18.mobile.zoom.locked = lock || !1);
         },
         enable: function(unlock) {
-            disabledInitially || $25.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), $25.mobile.zoom.enabled = !0, $25.mobile.zoom.locked = !1);
+            disabledInitially || $18.mobile.zoom.locked && !0 !== unlock || (meta.attr("content", enabledZoom), $18.mobile.zoom.enabled = !0, $18.mobile.zoom.locked = !1);
         },
         restore: function() {
-            disabledInitially || (meta.attr("content", initialContent), $25.mobile.zoom.enabled = !0);
+            disabledInitially || (meta.attr("content", initialContent), $18.mobile.zoom.enabled = !0);
         }
     }), function($, undefined) {
         $.widget("mobile.textinput", {
@@ -4345,9 +4345,9 @@
                 this._timer && (window.clearTimeout(this._timer), this._timer = 0), this._filterItems((this._search && this._search.val() || "").toLowerCase());
             }
         });
-    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($27 = jQuery).mobile.filterable.prototype.options.filterCallback, $27.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
+    }(jQuery), rDividerListItem = /(^|\s)ui-li-divider(\s|$)/, origDefaultFilterCallback = ($19 = jQuery).mobile.filterable.prototype.options.filterCallback, $19.mobile.filterable.prototype.options.filterCallback = function(index, searchValue) {
         return !this.className.match(rDividerListItem) && origDefaultFilterCallback.call(this, index, searchValue);
-    }, $27.widget("mobile.filterable", $27.mobile.filterable, {
+    }, $19.widget("mobile.filterable", $19.mobile.filterable, {
         options: {
             filterPlaceholder: "Filter items...",
             filterTheme: null
@@ -4359,9 +4359,9 @@
                 "controlgroup",
                 "listview"
             ], createHandlers = {};
-            for(this._super(), $27.extend(this, {
+            for(this._super(), $19.extend(this, {
                 _widget: null
-            }), idx = recognizedWidgets.length - 1; idx > -1; idx--)if (widgetName = recognizedWidgets[idx], $27.mobile[widgetName]) {
+            }), idx = recognizedWidgets.length - 1; idx > -1; idx--)if (widgetName = recognizedWidgets[idx], $19.mobile[widgetName]) {
                 if (this._setWidget(elem.data("mobile-" + widgetName))) break;
                 createHandlers[widgetName + "create"] = "_handleCreate";
             }
@@ -4389,23 +4389,23 @@
             var opts = this.options, updatePlaceholder = !0, textinputOpts = {};
             if (!selector) {
                 if (this._isSearchInternal()) return;
-                updatePlaceholder = !1, selector = $27("<input data-" + $27.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $27("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
+                updatePlaceholder = !1, selector = $19("<input data-" + $19.mobile.ns + "type='search' placeholder='" + opts.filterPlaceholder + "'></input>").jqmData("ui-filterable-" + this.uuid + "-internal", !0), $19("<form class='ui-filterable'></form>").append(selector).submit(function(evt) {
                     evt.preventDefault(), selector.blur();
-                }).insertBefore(this.element), $27.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
+                }).insertBefore(this.element), $19.mobile.textinput && (null != this.options.filterTheme && (textinputOpts.theme = opts.filterTheme), selector.textinput(textinputOpts));
             }
             this._super(selector), this._isSearchInternal() && updatePlaceholder && this._search.attr("placeholder", this.options.filterPlaceholder);
         },
         _setOptions: function(options) {
             var ret = this._super(options);
-            return undefined8 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), undefined8 !== options.filterTheme && this._search && $27.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
+            return undefined8 !== options.filterPlaceholder && this._isSearchInternal() && this._search.attr("placeholder", options.filterPlaceholder), undefined8 !== options.filterTheme && this._search && $19.mobile.textinput && this._search.textinput("option", "theme", options.filterTheme), ret;
         },
         _destroy: function() {
             this._isSearchInternal() && this._search.remove(), this._super();
         },
         _syncTextInputOptions: function(options) {
             var idx, textinputOptions = {};
-            if (this._isSearchInternal() && $27.mobile.textinput) {
-                for(idx in $27.mobile.textinput.prototype.options)undefined8 !== options[idx] && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
+            if (this._isSearchInternal() && $19.mobile.textinput) {
+                for(idx in $19.mobile.textinput.prototype.options)undefined8 !== options[idx] && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
                 this._search.textinput("option", textinputOptions);
             }
         }

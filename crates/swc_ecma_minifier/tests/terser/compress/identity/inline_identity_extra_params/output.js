@@ -1,2 +1,1 @@
-const id = (x) => x;
-console.log(id(1, console.log(2)), 3);
+console.log((console.log(2), 1), 3);

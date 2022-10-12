@@ -6,3 +6,13 @@
         color: red;
     }
 }
+
+@keyframes ONE_TWO_THREE {
+    FROM {
+        transform: translateX(0%);
+    }
+
+    TO {
+        transform: translateX(100%);
+    }
+}

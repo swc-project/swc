@@ -735,51 +735,6 @@ impl VisitMut for UnreachableHandler {
     }
 }
 
-pub(super) fn is_global_var_with_pure_property_access(s: &str) -> bool {
-    matches!(
-        s,
-        "console"
-            | "clearInterval"
-            | "clearTimeout"
-            | "setInterval"
-            | "setTimeout"
-            | "btoa"
-            | "Boolean"
-            | "Date"
-            | "decodeURI"
-            | "decodeURIComponent"
-            | "encodeURI"
-            | "encodeURIComponent"
-            | "escape"
-            | "eval"
-            | "Error"
-            | "EvalError"
-            | "Function"
-            | "isFinite"
-            | "isNaN"
-            | "JSON"
-            | "parseFloat"
-            | "parseInt"
-            | "RegExp"
-            | "RangeError"
-            | "ReferenceError"
-            | "SyntaxError"
-            | "TypeError"
-            | "unescape"
-            | "URIError"
-            | "atob"
-            | "globalThis"
-            | "String"
-            | "Object"
-            | "Array"
-            | "Number"
-            | "NaN"
-            | "Symbol"
-            | "Promise"
-            | "Math"
-    )
-}
-
 // TODO: remove
 pub(crate) fn contains_super<N>(body: &N) -> bool
 where

@@ -56,7 +56,7 @@ impl Compressor {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
-                    a_raw: Some("2".into()),
+                    a_raw: None,
                     b: None,
                     b_raw: None,
                 });
@@ -68,7 +68,7 @@ impl Compressor {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
-                    a_raw: Some("2".into()),
+                    a_raw: None,
                     b: None,
                     b_raw: None,
                 });
@@ -86,7 +86,7 @@ impl Compressor {
                     a: None,
                     a_raw: None,
                     b: *b,
-                    b_raw: b_raw.clone(),
+                    b_raw: None,
                 });
             }
             // `-5n+0` => `-5n`, etc
@@ -100,7 +100,7 @@ impl Compressor {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: *a,
-                    a_raw: a_raw.clone(),
+                    a_raw: None,
                     b: None,
                     b_raw: None,
                 });

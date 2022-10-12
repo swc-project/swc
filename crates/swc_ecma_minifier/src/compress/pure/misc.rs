@@ -9,9 +9,12 @@ use swc_ecma_utils::{
 };
 
 use super::Pure;
-use crate::compress::{
-    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
-    util::{is_global_var_with_pure_property_access, is_pure_undefined},
+use crate::{
+    compress::{
+        pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+        util::is_pure_undefined,
+    },
+    util::is_global_var_with_pure_property_access,
 };
 
 impl Pure<'_> {

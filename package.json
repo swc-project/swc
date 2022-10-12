@@ -178,5 +178,6 @@
         "types.js",
         "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
-    ]
+    ],
+    "packageManager": "yarn@3.2.4"
 }

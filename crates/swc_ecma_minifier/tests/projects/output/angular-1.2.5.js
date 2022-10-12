@@ -579,7 +579,7 @@
         dealoc: jqLiteDealoc,
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
-            var element1, events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
+            var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
             events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
@@ -1487,7 +1487,6 @@
             ],
             transformRequest: [
                 function(d) {
-                    var obj;
                     return isObject(d) && "[object File]" !== toString.call(d) ? toJson(d) : d;
                 }
             ],
@@ -1894,7 +1893,7 @@
             "$sniffer",
             "$rootElement",
             function($rootScope, $browser, $sniffer, $rootElement) {
-                var url, $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
+                var $location, LocationMode, appBase, baseHref = $browser.baseHref(), initialUrl = $browser.url();
                 html5Mode ? (appBase = initialUrl.substring(0, initialUrl.indexOf("/", initialUrl.indexOf("//") + 2)) + (baseHref || "/"), LocationMode = $sniffer.history ? LocationHtml5Url : LocationHashbangInHtml5Url) : (appBase = stripHash(initialUrl), LocationMode = LocationHashbangUrl), ($location = new LocationMode(appBase, "#" + hashPrefix)).$$parse($location.$$rewrite(initialUrl)), $rootElement.on("click", function(event) {
                     if (!event.ctrlKey && !event.metaKey && 2 != event.which) {
                         for(var elm = jqLite(event.target); "a" !== lowercase(elm[0].nodeName);)if (elm[0] === $rootElement[0] || !(elm = elm.parent())[0]) return;

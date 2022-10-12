@@ -368,4 +368,22 @@ pub enum PseudoElementSelectorChildren {
     Ident(Ident),
     #[tag("CompoundSelector")]
     CompoundSelector(CompoundSelector),
+    #[tag("CustomHighlightName")]
+    CustomHighlightName(CustomHighlightName),
+}
+
+#[ast_node("CustomHighlightName")]
+#[derive(Eq, Hash)]
+pub struct CustomHighlightName {
+    pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+    pub value: JsWord,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+    pub raw: Option<JsWord>,
+}
+
+impl EqIgnoreSpan for CustomHighlightName {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
 }

@@ -21,6 +21,7 @@ where
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct Ctx {
     pub in_single_line_selectors: bool,
+    pub allow_to_lowercase: bool,
 }
 
 pub(super) struct WithCtx<'w, I: 'w + CssWriter> {

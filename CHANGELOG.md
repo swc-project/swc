@@ -1,6 +1,15 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/preset-env)** Update data (#6106) ([8d4d326](https://github.com/swc-project/swc/commit/8d4d32664d7f4feeba5faa3dec95691d5560ca6c))
+
+
+- **(swc_core)** Reexport `swc_css_compat` correctly (#6114) ([5fd0e97](https://github.com/swc-project/swc/commit/5fd0e97c15c2f2c4feaacaf74984cca7571e4340))
+
 ### Documentation
 
 
@@ -11,6 +20,21 @@
 
 
 
+- **(bindings)** Apply `resolver` to the output of `parse` apis (#6118) ([0cd8aee](https://github.com/swc-project/swc/commit/0cd8aeeb5c07e1fba76a43b78ed2e3cfabf88256))
+
+
+- **(css/ast)** Support `::highlight()` (#6109) ([1938ed2](https://github.com/swc-project/swc/commit/1938ed26a158510ee15f57ca9f2599b26d0f43ac))
+
+
+- **(css/ast)** Add AST types for gradients (#6111) ([6b3f4bb](https://github.com/swc-project/swc/commit/6b3f4bb1c6933990e2468c1430760bbf57180162))
+
+
+- **(css/codegen)** Support lowercase case insensitivity (#6113) ([a920997](https://github.com/swc-project/swc/commit/a920997f4b1e4a194e2b74bc8a27184d0e438d31))
+
+
+- **(dbg-swc)** Remove comments from the output of `terser` (#6119) ([8549c47](https://github.com/swc-project/swc/commit/8549c4780775ef329b7ea35e56a91de6c1fc9577))
+
+
 - **(es/minifier)** Mark ref to fn as non-call in alias analyzer (#6088) ([b0c5745](https://github.com/swc-project/swc/commit/b0c57458c838097835fd9e1f1af1888867cc1b71))
 
 
@@ -18,6 +42,36 @@
 
 
 - **(es/minifier)** Enable `reduce_funcs` by default (#6097) ([3c6cdbc](https://github.com/swc-project/swc/commit/3c6cdbc61cba7dcca38251413cc9033487677dd4))
+
+
+- **(es/minifier)** Detect type of `.length` (#6120) ([ad960c7](https://github.com/swc-project/swc/commit/ad960c76c059fbd33de1cdb0525aef509124e205))
+
+
+- **(es/minifier)** Inline and remove vars in one pass (#6093) ([5a23949](https://github.com/swc-project/swc/commit/5a23949f1284f71447b9292a374a0cf88759a318))
+
+
+- **(swc_core)** Reexport `swc_css_compat` (#6102) ([16dc746](https://github.com/swc-project/swc/commit/16dc746cd3a1b6e03903d23a9ba78d0c65128710))
+
+### Performance
+
+
+
+- **(atoms)** Add more atoms (#6122) ([7343cf3](https://github.com/swc-project/swc/commit/7343cf33891a96c1ac0216e14ef40b8d7b95da9c))
+
+### Testing
+
+
+
+- **(css/prefixer)** Verify old gradient syntax (#6121) ([7e4d207](https://github.com/swc-project/swc/commit/7e4d20791bbd518a48570dba3386d6bf9d94e0f7))
+
+
+- **(es/minifier)** Organize terser tests (#6116) ([6365acc](https://github.com/swc-project/swc/commit/6365acc9f5cb9a44671316aa03edd0e057a7d7f5))
+
+### Build
+
+
+
+- **(cargo)** Remove unused deps (#6117) ([27bda13](https://github.com/swc-project/swc/commit/27bda13591a57995708f60bdcb3cbe50b9bb42ec))
 
 ## [1.3.6] - 2022-10-08
 
