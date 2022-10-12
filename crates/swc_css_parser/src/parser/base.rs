@@ -136,6 +136,15 @@ where
             }
             QualifiedRulePrelude::SelectorList(s) => {
                 for s in s.children.iter_mut() {
+                    if s.children.iter().any(|s| match s {
+                        ComplexSelectorChildren::CompoundSelector(s) => {
+                            s.nesting_selector.is_some()
+                        }
+                        _ => false,
+                    }) {
+                        continue;
+                    }
+
                     s.children.insert(
                         0,
                         ComplexSelectorChildren::CompoundSelector(CompoundSelector {
