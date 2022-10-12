@@ -33,7 +33,10 @@ new class {
             1,
             2,
             3
-        ], _class_private_field_get(this, _valueOne), _class_private_field_get(this, _valueRest), _class_private_field_set(this, _valueCompound, _class_private_field_get(this, _valueCompound) + 3);
+        ], [
+            _class_private_field_get(this, _valueOne),
+            ..._class_private_field_get(this, _valueRest)
+        ], _class_private_field_set(this, _valueCompound, _class_private_field_get(this, _valueCompound) + 3);
     }
     constructor(){
         _class_private_field_init(this, _value, {

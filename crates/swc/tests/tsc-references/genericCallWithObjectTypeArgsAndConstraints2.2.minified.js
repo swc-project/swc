@@ -14,17 +14,10 @@ var Base = function Base() {
     }
     return Derived;
 }(Base);
-function f(x) {}
 function f3(x, y) {
     return y(null);
 }
-f({
-    foo: new Base(),
-    bar: new Derived()
-}), f({
-    foo: new Derived(),
-    bar: new Derived()
-}), f3(new Base(), function(x) {
+new Base(), new Derived(), new Derived(), new Derived(), f3(new Base(), function(x) {
     return x;
 }), f3(new Derived(), function(x) {
     return x;

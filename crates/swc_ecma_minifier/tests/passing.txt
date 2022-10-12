@@ -38,6 +38,7 @@ arrow/concise_method_with_super/input.js
 arrow/concise_methods_with_computed_property2/input.js
 arrow/export_default_object_expression/input.js
 arrow/issue_2136_2/input.js
+arrow/issue_2136_3/input.js
 arrow/issue_2271/input.js
 arrow/issue_27/input.js
 arrow/issue_3092a/input.js
@@ -425,6 +426,7 @@ drop_unused/issue_1715_4/input.js
 drop_unused/issue_1968/input.js
 drop_unused/issue_2136_1/input.js
 drop_unused/issue_2136_2/input.js
+drop_unused/issue_2136_3/input.js
 drop_unused/issue_2226_1/input.js
 drop_unused/issue_2418_5/input.js
 drop_unused/issue_2660_1/input.js
@@ -741,6 +743,7 @@ identity/inline_identity_duplicate_arg_var/input.js
 identity/inline_identity_extra_params/input.js
 identity/inline_identity_function/input.js
 identity/inline_identity_higher_order/input.js
+identity/inline_identity_inline_function/input.js
 identity/inline_identity_inner_ref/input.js
 identity/inline_identity_lose_this/input.js
 identity/inline_identity_regression/input.js
@@ -1208,6 +1211,7 @@ reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
+reduce_vars/defun_inline_3/input.js
 reduce_vars/defun_reference/input.js
 reduce_vars/defun_single_use_loop/input.js
 reduce_vars/defun_var_3/input.js
@@ -1532,7 +1536,6 @@ template_string/tagged_template_with_ill_formed_unicode_escape/input.js
 template_string/tagged_template_with_invalid_escape/input.js
 template_string/template_concattenating_string/input.js
 template_string/template_ending_with_newline/input.js
-template_string/template_evaluate_undefined/input.js
 template_string/template_literal_plus/input.js
 template_string/template_literal_plus_grouping/input.js
 template_string/template_starting_with_newline/input.js
