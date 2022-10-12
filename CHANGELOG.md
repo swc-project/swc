@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Enable `reduce_vars` by default (#6096) ([fc5d8a5](https://github.com/swc-project/swc/commit/fc5d8a5d41103adeb0293ed649789a2256b31f97))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Deny clippy warnings (#6126) ([d6fd476](https://github.com/swc-project/swc/commit/d6fd47672150aa3a020c55b1c61c4ac593d0c9fe))
+
 ## [1.3.7] - 2022-10-12
 
 ### Bug Fixes
