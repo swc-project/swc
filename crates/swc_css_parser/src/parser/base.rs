@@ -210,22 +210,6 @@ where
                 return Ok(declarations);
             }
 
-            // .foo {
-            //      a:focus {
-            //
-            //      }
-            // }
-            if self.config.legacy_nesting {
-                let state = self.input.state();
-                let nested = self.try_parse_qualified_rule();
-
-                if let Some(nested) = nested {
-                    declarations.push(StyleBlock::QualifiedRule(nested));
-                    continue;
-                }
-                self.input.reset(&state);
-            }
-
             match cur!(self) {
                 // <whitespace-token>
                 // Do nothing.
@@ -250,6 +234,17 @@ where
                 // Consume a declaration from the temporary list. If anything was returned, append
                 // it to decls.
                 tok!("ident") => {
+                    if self.config.legacy_nesting {
+                        let state = self.input.state();
+                        let nested = self.try_parse_qualified_rule();
+
+                        if let Some(nested) = nested {
+                            declarations.push(StyleBlock::QualifiedRule(nested));
+                            continue;
+                        }
+                        self.input.reset(&state);
+                    }
+
                     let state = self.input.state();
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
@@ -334,6 +329,19 @@ where
                 // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
                 // component value and throw away the returned value.
                 _ => {
+                    if self.config.legacy_nesting {
+                        let state = self.input.state();
+                        let nested = self.try_parse_qualified_rule();
+
+                        if let Some(nested) = nested {
+                            declarations.push(StyleBlock::QualifiedRule(nested));
+
+                            continue;
+                        }
+
+                        self.input.reset(&state);
+                    }
+
                     let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
