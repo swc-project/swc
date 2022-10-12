@@ -138,20 +138,20 @@ where
                 for s in s.children.iter_mut() {
                     s.children.insert(
                         0,
+                        ComplexSelectorChildren::CompoundSelector(CompoundSelector {
+                            span: DUMMY_SP,
+                            nesting_selector: Some(NestingSelector { span: DUMMY_SP }),
+                            type_selector: Default::default(),
+                            subclass_selectors: Default::default(),
+                        }),
+                    );
+                    s.children.insert(
+                        1,
                         ComplexSelectorChildren::Combinator(Combinator {
                             span: DUMMY_SP,
                             value: CombinatorValue::Descendant,
                         }),
                     );
-
-                    for s in s.children.iter_mut() {
-                        match s {
-                            ComplexSelectorChildren::CompoundSelector(s) => {
-                                s.nesting_selector = Some(NestingSelector { span: DUMMY_SP })
-                            }
-                            ComplexSelectorChildren::Combinator(_) => {}
-                        }
-                    }
                 }
             }
         }
