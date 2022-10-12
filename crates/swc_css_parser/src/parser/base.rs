@@ -130,7 +130,10 @@ where
         };
 
         match &mut nested.prelude {
-            QualifiedRulePrelude::ListOfComponentValues(_) => {}
+            QualifiedRulePrelude::ListOfComponentValues(_) => {
+                self.input.reset(&state);
+                return None;
+            }
             QualifiedRulePrelude::SelectorList(s) => {
                 for s in s.children.iter_mut() {
                     s.children.insert(
