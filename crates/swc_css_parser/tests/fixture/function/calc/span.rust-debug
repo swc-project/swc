@@ -518,7 +518,7 @@
    :          ^^^^^
    `----
 
-  x Function { value: Atom('calc' type=inline), raw: Atom('calc' type=inline) }
+  x Function { value: Atom('calc' type=static), raw: Atom('calc' type=static) }
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
  6 | --width: calc(10% + 30px);
    :          ^^^^^

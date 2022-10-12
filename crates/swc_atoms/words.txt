@@ -1,5 +1,7 @@
 
 *
+-moz-calc
+-webkit-calc
 a
 abbr
 AbortController
@@ -145,6 +147,7 @@ button
 ByteLengthQueuingStrategy
 Cache
 CacheStorage
+calc
 calcmode
 calcMode
 call

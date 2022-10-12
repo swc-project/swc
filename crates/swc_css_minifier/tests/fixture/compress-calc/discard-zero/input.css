@@ -1,0 +1,35 @@
+.class1 {
+    width: calc(100vw / 2 - 6px + 0px);
+}
+
+.class2 {
+    width: calc(500px - 0px);
+}
+
+.class3 {
+    width: calc( 0 - 10px);
+}
+
+.class4 {
+    width: calc( 0 - calc(1px + 1em) );
+}
+
+.class5 {
+    width: calc( 0 - (100vw - 10px) / 2 );
+}
+
+.class6 {
+    width: calc( 0px - (100vw - 10px));
+}
+
+.class7 {
+    width: calc( 0px - (100vw - 10px) * 2 );
+}
+
+.class8 {
+    width: calc( 0px - (100vw + 10px));
+}
+
+.class9 {
+    width: calc( 0px - (var(--foo, 4px) / 2));
+}
