@@ -1480,7 +1480,7 @@
         }
         function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary, arity) {
             var isCurry = 8 & bitmask;
-            bitmask |= isCurry ? 32 : 64, 4 & (bitmask &= ~(isCurry ? 64 : 32)) || (bitmask &= -4);
+            4 & (bitmask = (bitmask |= isCurry ? 32 : 64) & ~(isCurry ? 64 : 32)) || (bitmask &= -4);
             var newData = [
                 func,
                 bitmask,

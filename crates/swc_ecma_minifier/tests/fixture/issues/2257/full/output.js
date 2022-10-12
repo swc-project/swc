@@ -4663,7 +4663,7 @@
                 return digit + 22 + 75 * (digit < 26);
             }, adapt = function(delta, numPoints, firstTime) {
                 var k = 0;
-                for(delta = firstTime ? floor(delta / 700) : delta >> 1, delta += floor(delta / numPoints); delta > 455; k += 36)delta = floor(delta / 35);
+                for(delta = (delta = firstTime ? floor(delta / 700) : delta >> 1) + floor(delta / numPoints); delta > 455; k += 36)delta = floor(delta / 35);
                 return floor(k + 36 * delta / (delta + 38));
             }, encode = function(input) {
                 var i, currentValue, output = [], inputLength = (input = ucs2decode(input)).length, n = 128, delta = 0, bias = 72;
@@ -6041,7 +6041,7 @@
                     if (number != number) return "NaN";
                     if (number <= -1000000000000000000000 || number >= 1e21) return String(number);
                     if (number < 0 && (sign = "-", number = -number), number > 1e-21) {
-                        if (z = (e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1), z *= 0x10000000000000, (e = 52 - e) > 0) {
+                        if (z = 0x10000000000000 * (z = (e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1)), (e = 52 - e) > 0) {
                             for(multiply(data, 0, z), j = fractDigits; j >= 7;)multiply(data, 1e7, 0), j -= 7;
                             for(multiply(data, pow(10, j, 1), 0), j = e - 1; j >= 23;)divide(data, 8388608), j -= 23;
                             divide(data, 1 << j), multiply(data, 1, 1), divide(data, 2), result = dataToString(data);
@@ -14392,7 +14392,7 @@
                 return Mj(a, O()), a.callbackNode === b ? Nj.bind(null, a) : null;
             }
             function Ii(a, b) {
-                for(b &= ~uj, b &= ~Hi, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
+                for(b = (b &= ~uj) & ~Hi, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
                     var c = 31 - Vc(b), d = 1 << c;
                     a[c] = -1, b &= ~d;
                 }
@@ -14417,7 +14417,7 @@
             }
             function Xj(a, b) {
                 var c = X;
-                X &= -2, X |= 8;
+                X = 8 | (X &= -2);
                 try {
                     return a(b);
                 } finally{
@@ -16034,7 +16034,7 @@
                     }, _proto.componentWillReceiveProps = function(nextProps) {
                         if (this.props.value !== nextProps.value) {
                             var changedBits, oldValue = this.props.value, newValue = nextProps.value;
-                            (oldValue === newValue ? 0 !== oldValue || 1 / oldValue == 1 / newValue : oldValue != oldValue && newValue != newValue) ? changedBits = 0 : (changedBits = "function" == typeof calculateChangedBits ? calculateChangedBits(oldValue, newValue) : 1073741823, 0 != (changedBits |= 0) && this.emitter.set(nextProps.value, changedBits));
+                            (oldValue === newValue ? 0 !== oldValue || 1 / oldValue == 1 / newValue : oldValue != oldValue && newValue != newValue) ? changedBits = 0 : 0 != (changedBits = 0 | (changedBits = "function" == typeof calculateChangedBits ? calculateChangedBits(oldValue, newValue) : 1073741823)) && this.emitter.set(nextProps.value, changedBits);
                         }
                     }, _proto.render = function() {
                         return this.props.children;

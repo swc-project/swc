@@ -1287,7 +1287,7 @@
                     d = !0;
                 }
                 d || (b1 = "", xa(c, function(c, d) {
-                    b1 += d, b1 += ":", b1 += c, b1 += "\r\n";
+                    b1 = (b1 = (b1 = (b1 += d) + ":") + c) + "\r\n";
                 }), c = b1, "string" == typeof a ? null != c && encodeURIComponent(String(c)) : R(a, b, c));
             }
             function Hd(a, b, c) {

@@ -799,7 +799,7 @@
                 getParsingFlags(config).invalidFormat = !0, config._d = new Date(NaN);
                 return;
             }
-            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore += getParsingFlags(tempConfig).charsLeftOver, currentScore += 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
+            for(i = 0; i < config._f.length; i++)currentScore = 0, validFormatFound = !1, tempConfig = copyConfig({}, config), null != config._useUTC && (tempConfig._useUTC = config._useUTC), tempConfig._f = config._f[i], configFromStringAndFormat(tempConfig), isValid(tempConfig) && (validFormatFound = !0), currentScore = (currentScore += getParsingFlags(tempConfig).charsLeftOver) + 10 * getParsingFlags(tempConfig).unusedTokens.length, getParsingFlags(tempConfig).score = currentScore, bestFormatIsValid ? currentScore < scoreToBeat && (scoreToBeat = currentScore, bestMoment = tempConfig) : (null == scoreToBeat || currentScore < scoreToBeat || validFormatFound) && (scoreToBeat = currentScore, bestMoment = tempConfig, validFormatFound && (bestFormatIsValid = !0));
             extend(config, bestMoment || tempConfig);
         }(config) : format ? configFromStringAndFormat(config) : isUndefined(input = (config1 = config)._i) ? config1._d = new Date(hooks.now()) : isDate(input) ? config1._d = new Date(input.valueOf()) : 'string' == typeof input ? function(config) {
             var matched = aspNetJsonRegex.exec(config._i);
@@ -1272,6 +1272,13 @@
                 break;
             case 'second':
                 time = this._d.valueOf(), time += 1000 - (time % 1000 + 1000) % 1000 - 1;
+                time = (time = this._d.valueOf()) + (3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1);
+                break;
+            case 'minute':
+                time = (time = this._d.valueOf()) + (60000 - mod$1(time, 60000) - 1);
+                break;
+            case 'second':
+                time = (time = this._d.valueOf()) + (1000 - mod$1(time, 1000) - 1);
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1362,6 +1369,13 @@
                 break;
             case 'second':
                 time = this._d.valueOf(), time -= (time % 1000 + 1000) % 1000;
+                time = (time = this._d.valueOf()) - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                break;
+            case 'minute':
+                time = (time = this._d.valueOf()) - mod$1(time, 60000);
+                break;
+            case 'second':
+                time = (time = this._d.valueOf()) - mod$1(time, 1000);
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {

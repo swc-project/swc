@@ -110,7 +110,7 @@ export function serializeStyles(args, registered, mergedProps) {
     for(var identifierName = ""; null !== (match = labelPattern.exec(styles));)identifierName += "-" + match[1];
     return {
         name: function(str) {
-            for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+            for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)h = (0xffff & (k = (k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16)) ^ k >>> 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
             switch(len){
                 case 3:
                     h ^= (0xff & str.charCodeAt(i + 2)) << 16;

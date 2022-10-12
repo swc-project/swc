@@ -2117,7 +2117,7 @@
             },
             _create: function() {
                 var listviewClasses = "";
-                listviewClasses += this.options.inset ? " ui-listview-inset" : "", this.options.inset && (listviewClasses += this.options.corners ? " ui-corner-all" : "", listviewClasses += this.options.shadow ? " ui-shadow" : ""), this.element.addClass(" ui-listview" + listviewClasses), this.refresh(!0);
+                listviewClasses += this.options.inset ? " ui-listview-inset" : "", this.options.inset && (listviewClasses = (listviewClasses += this.options.corners ? " ui-corner-all" : "") + (this.options.shadow ? " ui-shadow" : "")), this.element.addClass(" ui-listview" + listviewClasses), this.refresh(!0);
             },
             _findFirstElementByTagName: function(ele, nextProp, lcName, ucName) {
                 var dict = {};
@@ -4577,7 +4577,7 @@
             },
             _setupHeightStyle: function(heightStyle) {
                 var maxHeight, parent = this.element.parent();
-                "fill" === heightStyle ? (maxHeight = parent.height(), maxHeight -= this.element.outerHeight() - this.element.height(), this.element.siblings(":visible").each(function() {
+                "fill" === heightStyle ? (maxHeight = (maxHeight = parent.height()) - (this.element.outerHeight() - this.element.height()), this.element.siblings(":visible").each(function() {
                     var elem = $(this), position = elem.css("position");
                     "absolute" !== position && "fixed" !== position && (maxHeight -= elem.outerHeight(!0));
                 }), this.element.children().not(this.panels).each(function() {
