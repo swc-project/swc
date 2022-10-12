@@ -13615,14 +13615,14 @@
                 return al + bl >>> 0;
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
-                var carry = 0, lo = al;
+                var carry, lo = al;
                 return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, ah + bh + ch + dh + (carry += (lo = lo + dl >>> 0) < dl ? 1 : 0) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
-                var carry = 0, lo = al;
+                var carry, lo = al;
                 return carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0), carry += (lo = lo + cl >>> 0) < cl ? 1 : 0, carry += (lo = lo + dl >>> 0) < dl ? 1 : 0, ah + bh + ch + dh + eh + (carry += (lo = lo + el >>> 0) < el ? 1 : 0) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
