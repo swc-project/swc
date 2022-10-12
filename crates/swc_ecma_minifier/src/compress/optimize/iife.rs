@@ -289,10 +289,11 @@ where
                     trace_op!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
-                _ => {}
+                _ => {
+                    unreachable!("find_body and find_params should match")
+                }
             }
         } else {
-            return;
         }
 
         clean_params(callee);
@@ -360,7 +361,7 @@ where
                 return;
             }
         } else {
-            return;
+            unreachable!("find_body and find_params should match")
         }
 
         for idx in removed {
