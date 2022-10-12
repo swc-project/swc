@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{Span, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -236,7 +236,27 @@ where
                             if self.config.allow_nested_selectors {
                                 self.input.reset(&state);
 
-                                let nested: Box<QualifiedRule> = self.parse()?;
+                                let mut nested: Box<QualifiedRule> = self.parse()?;
+
+                                match &mut nested.prelude {
+                                    QualifiedRulePrelude::ListOfComponentValues(_) => {}
+                                    QualifiedRulePrelude::SelectorList(s) => {
+                                        for s in s.children.iter_mut() {
+                                            for s in s.children.iter_mut() {
+                                                match s {
+                                                    ComplexSelectorChildren::CompoundSelector(
+                                                        s,
+                                                    ) => {
+                                                        s.nesting_selector =
+                                                            Some(NestingSelector { span: DUMMY_SP })
+                                                    }
+                                                    ComplexSelectorChildren::Combinator(_) => {}
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
                                 StyleBlock::QualifiedRule(nested)
                             } else {
                                 self.errors.push(err);
