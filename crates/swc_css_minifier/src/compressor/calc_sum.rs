@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_css_ast::*;
 
 use super::{unit::*, Compressor};
@@ -155,13 +155,13 @@ struct CalcSumContext {
     number: Option<IndexedOperatorAndOperand<Number>>,
     percentage: Option<IndexedOperatorAndOperand<Percentage>>,
     absolute_length: Option<IndexedOperatorAndOperand<Length>>,
-    other_lengths: HashMap<String, IndexedOperatorAndOperand<Length>>,
+    other_lengths: HashMap<JsWord, IndexedOperatorAndOperand<Length>>,
     angle: Option<IndexedOperatorAndOperand<Angle>>,
     duration: Option<IndexedOperatorAndOperand<Time>>,
     frequency: Option<IndexedOperatorAndOperand<Frequency>>,
     resolution: Option<IndexedOperatorAndOperand<Resolution>>,
     flex: Option<IndexedOperatorAndOperand<Flex>>,
-    unknown_dimension: HashMap<String, IndexedOperatorAndOperand<UnknownDimension>>,
+    unknown_dimension: HashMap<JsWord, IndexedOperatorAndOperand<UnknownDimension>>,
     expressions: Vec<CalcProductOrOperator>,
 }
 
@@ -200,7 +200,7 @@ impl CalcSumContext {
         nested_operator: Option<&CalcOperator>,
     ) -> Option<CalcOperator> {
         match nested_operator {
-            None => surrounding_operator.map(|so| (*so).clone()),
+            None => surrounding_operator.cloned(),
             Some(no) => match surrounding_operator {
                 None
                 | Some(CalcOperator {
@@ -287,7 +287,7 @@ impl CalcSumContext {
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value,
                     n.value,
@@ -325,7 +325,7 @@ impl CalcSumContext {
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value.value,
                     p.value.value,
@@ -375,7 +375,7 @@ impl CalcSumContext {
                 let unit = l.unit.value.to_ascii_lowercase();
                 if let Some(result) = get_absolute_length_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
-                        prev_operator,
+                        prev_operator.as_ref(),
                         operator,
                         data.value.value,
                         l.value.value,
@@ -412,14 +412,14 @@ impl CalcSumContext {
         operand: &CalcProduct,
         l: &Length,
     ) {
-        let unit = l.unit.value.to_ascii_lowercase().to_string();
+        let unit = l.unit.value.to_ascii_lowercase();
         match &mut self.other_lengths.get_mut(&unit) {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value.value,
                     l.value.value,
@@ -457,7 +457,7 @@ impl CalcSumContext {
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value.value,
                     a.value.value,
@@ -495,7 +495,7 @@ impl CalcSumContext {
                 let unit = d.unit.value.to_ascii_lowercase();
                 if let Some(result) = get_duration_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
-                        prev_operator,
+                        prev_operator.as_ref(),
                         operator,
                         data.value.value,
                         d.value.value,
@@ -539,7 +539,7 @@ impl CalcSumContext {
                 let unit = f.unit.value.to_ascii_lowercase();
                 if let Some(result) = get_frequency_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
-                        prev_operator,
+                        prev_operator.as_ref(),
                         operator,
                         data.value.value,
                         f.value.value,
@@ -583,7 +583,7 @@ impl CalcSumContext {
                 let unit = r.unit.value.to_ascii_lowercase();
                 if let Some(result) = get_resolution_ratio(prev_unit, unit).and_then(|ratio| {
                     CalcSumContext::try_to_sum_values(
-                        prev_operator,
+                        prev_operator.as_ref(),
                         operator,
                         data.value.value,
                         r.value.value,
@@ -619,7 +619,7 @@ impl CalcSumContext {
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value.value,
                     f.value.value,
@@ -652,14 +652,14 @@ impl CalcSumContext {
         operand: &CalcProduct,
         u: &UnknownDimension,
     ) {
-        let unit = u.unit.value.to_ascii_lowercase().to_string();
+        let unit = u.unit.value.to_ascii_lowercase();
         match &mut self.unknown_dimension.get_mut(&unit) {
             Some(IndexedOperatorAndOperand {
                 operator: prev_operator,
                 operand: IndexedData { pos, data },
             }) => {
                 if let Some(result) = CalcSumContext::try_to_sum_values(
-                    prev_operator,
+                    prev_operator.as_ref(),
                     operator,
                     data.value.value,
                     u.value.value,
@@ -761,7 +761,7 @@ impl CalcSumContext {
     }
 
     fn try_to_sum_values(
-        operator1: &Option<IndexedData<CalcOperator>>,
+        operator1: Option<&IndexedData<CalcOperator>>,
         operator2: Option<&CalcOperator>,
         n1: f64,
         n2: f64,
