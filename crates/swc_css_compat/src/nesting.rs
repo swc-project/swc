@@ -184,7 +184,20 @@ impl NestingHandler {
                                         let rules = self.extract_nested_rules(&mut n);
 
                                         nested_rules.extend(
-                                            once(Rule::QualifiedRule(n)).chain(rules.into_iter()),
+                                            once(Rule::QualifiedRule(n))
+                                                .chain(rules.into_iter())
+                                                .map(rule_to_component_value)
+                                                .map(|v| {
+                                                    Rule::AtRule(Box::new(AtRule {
+                                                        block: Some(SimpleBlock {
+                                                            value: vec![v],
+
+                                                            ..block.clone()
+                                                        }),
+
+                                                        ..*at_rule.clone()
+                                                    }))
+                                                }),
                                         );
                                     }
 
