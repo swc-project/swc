@@ -893,8 +893,7 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
-                        //  | "global"
-                        "local" if self.config.css_modules => {
+                        "local" | "global" if self.config.css_modules => {
                             let selector_list = self.parse()?;
 
                             children
