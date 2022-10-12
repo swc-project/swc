@@ -5000,7 +5000,8 @@
                 }
                 break;
             case 5:
-                var parentType = returnFiber.type, parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode;
+                returnFiber.type;
+                var parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode;
                 switch(fiber.tag){
                     case 5:
                         var _type = fiber.type;
@@ -5008,15 +5009,6 @@
                         break;
                     case 6:
                         var _text = fiber.pendingProps;
-                returnFiber.type;
-                var parentType, parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode;
-                switch(fiber.tag){
-                    case 5:
-                        var parentType1, parentProps1, parentInstance1, type1, _type = fiber.type;
-                        fiber.pendingProps, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedElement(parentInstance, _type);
-                        break;
-                    case 6:
-                        var parentType2, parentProps2, parentInstance2, text, _text = fiber.pendingProps;
                         !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForInsertedHydratedText(parentInstance, _text);
                         break;
                     case 13:
@@ -7021,8 +7013,7 @@
                                         null != nextHtml && setInnerHTML(domElement, nextHtml);
                                     } else propKey === CHILDREN ? "string" == typeof nextProp ? ("textarea" !== tag || "" !== nextProp) && setTextContent(domElement, nextProp) : "number" == typeof nextProp && setTextContent(domElement, "" + nextProp) : propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || propKey === AUTOFOCUS || (registrationNameDependencies.hasOwnProperty(propKey) ? null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement)) : null != nextProp && setValueForProperty(domElement, propKey, nextProp, isCustomComponentTag));
                                 }
-                            }(tag, domElement, rootContainerElement, props1, isCustomComponentTag), tag){
-                            }(tag, domElement, 0, props2, isCustomComponentTag), tag){
+                            }(tag, domElement, 0, props1, isCustomComponentTag), tag){
                                 case "input":
                                     track(domElement), postMountWrapper(domElement, rawProps, !1);
                                     break;
@@ -7051,7 +7042,7 @@
                     if ("string" != typeof newProps && !(null !== workInProgress.stateNode)) throw Error("We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue.");
                     var hostInst2, node4, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) (function(fiber) {
-                        var textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, (node = textInstance)[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
+                        var hostInst, node, textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, (node = textInstance)[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
                         if (shouldUpdate) {
                             var returnFiber = hydrationParentFiber;
                             if (null !== returnFiber) switch(returnFiber.tag){
@@ -7059,11 +7050,9 @@
                                     returnFiber.stateNode.containerInfo, warnForUnmatchedText(textInstance, textContent);
                                     break;
                                 case 5:
-                                    var hostInst, node, parentContainer, parentType = returnFiber.type, parentProps = returnFiber.memoizedProps, parentInstance = returnFiber.stateNode;
-                                    !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance, textContent);
                                     returnFiber.type;
-                                    var hostInst, node, textInstance1, text, textNode, text1, parentContainer, textInstance2, parentType, parentProps, parentInstance, textInstance3, text2, parentProps1 = returnFiber.memoizedProps;
-                                    returnFiber.stateNode, !0 !== parentProps1[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance, textContent);
+                                    var parentProps = returnFiber.memoizedProps;
+                                    returnFiber.stateNode, !0 !== parentProps[SUPPRESS_HYDRATION_WARNING$1] && warnForUnmatchedText(textInstance, textContent);
                             }
                         }
                         return shouldUpdate;
@@ -7552,13 +7541,7 @@
                     var node, props, newProps = finishedWork.memoizedProps, oldProps = null !== current ? current.memoizedProps : newProps, type = finishedWork.type, updatePayload = finishedWork.updateQueue;
                     if (finishedWork.updateQueue = null, null !== updatePayload) {
                         node = instance, props = newProps, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
-                            "input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps);
-                            var node, wasMultiple, value, wasCustomComponentTag = isCustomComponent(tag, lastRawProps);
-                            switch(function(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
-                    var node, props, domElement, updatePayload, type, oldProps, newProps, newProps1 = finishedWork.memoizedProps, oldProps1 = null !== current ? current.memoizedProps : newProps1, type1 = finishedWork.type, updatePayload1 = finishedWork.updateQueue;
-                    if (finishedWork.updateQueue = null, null !== updatePayload1) {
-                        node = instance, props = newProps1, node[internalPropsKey] = props, function(domElement, updatePayload, tag, lastRawProps, nextRawProps) {
-                            var element, props, node, wasMultiple, value;
+                            var node, wasMultiple, value;
                             switch("input" === tag && "radio" === nextRawProps.type && null != nextRawProps.name && updateChecked(domElement, nextRawProps), isCustomComponent(tag, lastRawProps), function(domElement, updatePayload, wasCustomComponentTag, isCustomComponentTag) {
                                 for(var i = 0; i < updatePayload.length; i += 2){
                                     var propKey = updatePayload[i], propValue = updatePayload[i + 1];
@@ -7580,10 +7563,8 @@
                 return;
             case 6:
                 if (!(null !== finishedWork.stateNode)) throw Error("This should have a text node initialized. This error is likely caused by a bug in React. Please file an issue.");
-                var textInstance = finishedWork.stateNode, newText = finishedWork.memoizedProps, oldText = null !== current ? current.memoizedProps : newText;
-                textInstance.nodeValue = newText;
-                var oldText, newText, textInstance = finishedWork.stateNode, newText1 = finishedWork.memoizedProps;
-                null !== current && current.memoizedProps, textInstance.nodeValue = newText1;
+                var textInstance = finishedWork.stateNode, newText = finishedWork.memoizedProps;
+                null !== current && current.memoizedProps, textInstance.nodeValue = newText;
                 return;
             case 3:
                 var _root = finishedWork.stateNode;

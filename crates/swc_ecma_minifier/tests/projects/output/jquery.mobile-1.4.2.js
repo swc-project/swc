@@ -1919,8 +1919,7 @@
                 this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
-    }(jQuery, this), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
-    }(jQuery, 0), $22 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
+    }(jQuery, 0), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
     }, $17.widget("mobile.collapsible", {
         options: {

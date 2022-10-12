@@ -22615,8 +22615,7 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(animate1, child, data, enteringNodes, function() {
-                                }(animate2, 0, data, enteringNodes, function() {
+                                }(animate1, 0, data, enteringNodes, function() {
                                     setState({
                                         nodesShouldEnter: !0
                                     });
@@ -22665,8 +22664,7 @@
                                     }),
                                     clipWidth: 0
                                 };
-                            }(animate2, child, data, function() {
-                            }(animate3, 0, data, function() {
+                            }(animate2, 0, data, function() {
                                 setState({
                                     nodesDoneLoad: !0
                                 });
