@@ -284,16 +284,21 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
+        let mut skipped = None;
+
         let mut skip_one_space = false;
         let mut children = if !self.ctx.is_trying_nested_selector {
             let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
             vec![child]
         } else {
             match self.parse_as::<Combinator>() {
-                Ok(Combinator {
-                    value: CombinatorValue::Descendant,
-                    ..
-                }) => {
+                Ok(
+                    v @ Combinator {
+                        value: CombinatorValue::Descendant,
+                        ..
+                    },
+                ) => {
+                    skipped = Some(v);
                     skip_one_space = true;
                     vec![]
                 }
@@ -304,8 +309,6 @@ where
                 }
             }
         };
-
-        let mut skipped = None;
 
         loop {
             let span = self.input.cur_span();
