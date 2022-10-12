@@ -1,4 +1,4 @@
-use swc_common::{Span, DUMMY_SP};
+use swc_common::Span;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -119,6 +119,9 @@ where
             is_trying_nested_selector: true,
             ..self.ctx
         };
+
+        let span = self.input.cur_span();
+
         let nested = self.with_ctx(ctx).parse_as::<Box<QualifiedRule>>();
 
         let mut nested = match nested {
@@ -148,8 +151,8 @@ where
                     s.children.insert(
                         0,
                         ComplexSelectorChildren::CompoundSelector(CompoundSelector {
-                            span: DUMMY_SP,
-                            nesting_selector: Some(NestingSelector { span: DUMMY_SP }),
+                            span,
+                            nesting_selector: Some(NestingSelector { span }),
                             type_selector: Default::default(),
                             subclass_selectors: Default::default(),
                         }),
@@ -157,7 +160,7 @@ where
                     s.children.insert(
                         1,
                         ComplexSelectorChildren::Combinator(Combinator {
-                            span: DUMMY_SP,
+                            span,
                             value: CombinatorValue::Descendant,
                         }),
                     );
