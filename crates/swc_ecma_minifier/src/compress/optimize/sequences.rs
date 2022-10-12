@@ -2015,7 +2015,7 @@ where
         }
 
         macro_rules! take_a {
-            () => {
+            ($force_drop:expr) => {
                 match a {
                     Mergable::Var(a) => {
                         if self.options.unused {
@@ -2029,7 +2029,7 @@ where
                             }
                         }
 
-                        if can_take_init {
+                        if can_take_init || $force_drop {
                             a.init.take()
                         } else {
                             a.init.clone()
@@ -2060,7 +2060,7 @@ where
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
-                        let mut a_expr = take_a!();
+                        let mut a_expr = take_a!(true);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
@@ -2079,7 +2079,7 @@ where
                         if let Some(bin_op) = b.op.to_update() {
                             b.op = op!("=");
 
-                            let to = take_a!();
+                            let to = take_a!(true);
 
                             b.right = Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
@@ -2123,7 +2123,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = take_a!();
+        let to = take_a!(false);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
