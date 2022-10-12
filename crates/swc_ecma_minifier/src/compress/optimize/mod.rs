@@ -804,9 +804,12 @@ where
                                         .take()
                                         .into_iter()
                                         .filter_map(|mut arg| {
+                                            if arg.spread.is_some() {
+                                                return Some(arg);
+                                            }
                                             self.ignore_return_value(&mut arg.expr)
                                                 .map(Box::new)
-                                                .map(|expr| ExprOrSpread { expr, ..arg })
+                                                .map(|expr| ExprOrSpread { expr, spread: None })
                                         })
                                         .map(Some)
                                         .collect::<Vec<_>>();
