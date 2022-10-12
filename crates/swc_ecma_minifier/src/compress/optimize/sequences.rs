@@ -1316,20 +1316,23 @@ where
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
-            let a_id = a.id();
+            let a = match a {
+                Mergable::Expr(e) => dump(*e, false),
+                Mergable::Var(e) => dump(*e, false),
+            };
 
             Some(
                 span!(
                     Level::ERROR,
                     "merge_sequential_expr",
-                    a_id = tracing::field::debug(&a_id),
+                    a = tracing::field::debug(&a),
                     b = &*b_str
                 )
                 .entered(),
             )
         };
 
-        if b.is_class() || b.is_fn_expr() || b.is_arrow() {
+        if b.is_lit() || b.is_class() || b.is_fn_expr() || b.is_arrow() {
             return Ok(false);
         }
 
@@ -1497,12 +1500,12 @@ where
                 return self.merge_sequential_expr(a, &mut b.right);
             }
 
-            Expr::Assign(b) => {
-                if self.should_not_check_rhs_of_assign(a, b)? {
+            Expr::Assign(b_assign) => {
+                if self.should_not_check_rhs_of_assign(a, b_assign)? {
                     return Ok(false);
                 }
 
-                let b_left = b.left.as_ident();
+                let b_left = b_assign.left.as_ident();
                 let b_left = match b_left {
                     Some(v) => v.clone(),
                     None => return Ok(false),
@@ -1512,12 +1515,26 @@ where
                     return Ok(false);
                 }
 
-                if IdentUsageFinder::find(&b_left.to_id(), &b.right) {
+                if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
                     return Err(());
                 }
 
-                trace_op!("seq: Try rhs of assign with op");
-                return self.merge_sequential_expr(a, &mut b.right);
+                if let Some(a_id) = a.id() {
+                    if a_id == b_left.to_id() {
+                        if self.replace_seq_assignment(a, b)? {
+                            return Ok(true);
+                        }
+                    }
+                }
+
+                // Hack for lifetime of mutable borrow
+                match b {
+                    Expr::Assign(b) => {
+                        trace_op!("seq: Try rhs of assign with op");
+                        return self.merge_sequential_expr(a, &mut b.right);
+                    }
+                    _ => unreachable!(),
+                }
             }
 
             Expr::Array(b) => {
@@ -1997,6 +2014,87 @@ where
             return Ok(false);
         }
 
+        macro_rules! take_a {
+            ($force_drop:expr) => {
+                match a {
+                    Mergable::Var(a) => {
+                        if self.options.unused {
+                            if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                                // We are eliminating one usage, so we use 1 instead of
+                                // 0
+                                if !$force_drop && usage.usage_count == 1 {
+                                    report_change!("sequences: Dropping inlined variable");
+                                    a.name.take();
+                                }
+                            }
+                        }
+
+                        if can_take_init || $force_drop {
+                            a.init.take()
+                        } else {
+                            a.init.clone()
+                        }
+                        .unwrap_or_else(|| undefined(DUMMY_SP))
+                    }
+                    Mergable::Expr(a) => {
+                        if can_remove {
+                            if let Expr::Assign(e) = a {
+                                report_change!(
+                                    "sequences: Dropping assignment as we are going to drop the \
+                                     variable declaration. ({})",
+                                    left_id
+                                );
+
+                                **a = *e.right.take();
+                            }
+                        }
+
+                        Box::new(a.take())
+                    }
+                }
+            };
+        }
+
+        // x = 1, x += 2 => x = 3
+        match b {
+            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
+                if let Some(b_left) = b.left.as_ident() {
+                    if b_left.to_id() == left_id.to_id() {
+                        let mut a_expr = take_a!(true);
+                        let a_expr = self.ignore_return_value(&mut a_expr);
+
+                        if let Some(a) = a_expr {
+                            b.right = Box::new(Expr::Seq(SeqExpr {
+                                span: DUMMY_SP,
+                                exprs: vec![Box::new(a), b.right.take()],
+                            }));
+                        }
+                        return Ok(true);
+                    }
+                }
+            }
+            Expr::Assign(b) => {
+                if let Some(b_left) = b.left.as_ident() {
+                    if b_left.to_id() == left_id.to_id() {
+                        if let Some(bin_op) = b.op.to_update() {
+                            b.op = op!("=");
+
+                            let to = take_a!(true);
+
+                            b.right = Box::new(Expr::Bin(BinExpr {
+                                span: DUMMY_SP,
+                                op: bin_op,
+                                left: to,
+                                right: b.right.take(),
+                            }));
+                            return Ok(true);
+                        }
+                    }
+                }
+            }
+            _ => {}
+        }
+
         {
             let mut v = UsageCounter {
                 expr_usage: Default::default(),
@@ -2025,41 +2123,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = match a {
-            Mergable::Var(a) => {
-                if self.options.unused {
-                    if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                        // We are eliminating one usage, so we use 1 instead of 0
-                        if usage.usage_count == 1 {
-                            report_change!("sequences: Dropping inlined variable");
-                            a.name.take();
-                        }
-                    }
-                }
-
-                if can_take_init {
-                    a.init.take()
-                } else {
-                    a.init.clone()
-                }
-                .unwrap_or_else(|| undefined(DUMMY_SP))
-            }
-            Mergable::Expr(a) => {
-                if can_remove {
-                    if let Expr::Assign(e) = a {
-                        report_change!(
-                            "sequences: Dropping assignment as we are going to drop the variable \
-                             declaration. ({})",
-                            left_id
-                        );
-
-                        **a = *e.right.take();
-                    }
-                }
-
-                Box::new(a.take())
-            }
-        };
+        let to = take_a!(false);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
