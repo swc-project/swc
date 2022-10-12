@@ -31,6 +31,10 @@ pub struct ParserConfig {
     /// use `//` as a comment because it's javascript file.
     #[serde(default)]
     pub allow_wrong_line_comments: bool,
+
+    /// If enabled, errors for css modules selectors will be ignored.
+    #[serde(default)]
+    pub css_modules: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
