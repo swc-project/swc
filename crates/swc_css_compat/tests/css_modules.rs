@@ -38,8 +38,12 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
             &mut errors,
         )
         .unwrap();
-        for err in errors {
+        for err in &errors {
             err.to_diagnostics(&handler).emit();
+        }
+
+        if !errors.is_empty() {
+            panic!("parsing failed")
         }
 
         swc_css_modules::compile(&mut ss, TestConfig {});
