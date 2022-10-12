@@ -1,16 +1,16 @@
 .dark-theme {}
-.dark-theme   .__local__overlay {
+.dark-theme .__local__overlay {
   background: rgba(0, 0, 0, 0.8);
 }
-.dark-theme   .__local__content {
+.dark-theme .__local__content {
   background: var(--accents-1);
   border: 1px solid var(--accents-2);
 }
-.dark-theme   .__local__input {}
-  .dark-theme   .__local__input::placeholder {
+.dark-theme .__local__input {}
+.dark-theme .__local__input::placeholder {
   color: var(--accents-4);
 }
-.dark-theme   .__local__input ~ hr {
+.dark-theme .__local__input ~ hr {
   --loader-color: var(--accents-4);
   width: calc(100% + 16px);
   left: -8px;

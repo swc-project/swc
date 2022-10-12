@@ -1,6 +1,6 @@
 .__local__suggestionHighlight {
   background: var(--geist-highlight-yellow);
 }
-  .dark-theme .__local__suggestionHighlight {
+.dark-theme .__local__suggestionHighlight {
   color: var(--geist-background);
 }
