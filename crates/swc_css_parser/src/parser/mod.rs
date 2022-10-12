@@ -35,6 +35,11 @@ pub struct ParserConfig {
     /// If enabled, errors for css modules selectors will be ignored.
     #[serde(default)]
     pub css_modules: bool,
+
+    /// If this is `true`, the nested selectors without `&` will be parsed as
+    /// valid selectors
+    #[serde(default)]
+    pub allow_nested_selectors: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
