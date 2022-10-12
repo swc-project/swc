@@ -171,6 +171,7 @@ impl NestingHandler {
                     self.process_prelude(&rule.prelude, &mut q.prelude);
 
                     nested_rules.push(Rule::QualifiedRule(q));
+                    continue;
                 }
                 ComponentValue::StyleBlock(StyleBlock::AtRule(ref at_rule)) => {
                     if let Some(AtRulePrelude::MediaPrelude(media)) = at_rule.prelude.as_deref() {
@@ -197,17 +198,16 @@ impl NestingHandler {
                                                 }))
                                             }),
                                     );
-                                    continue;
                                 }
                             }
                         }
+                        continue;
                     }
-                    continue;
                 }
-                _ => {
-                    block_values.push(value);
-                }
+                _ => {}
             }
+
+            block_values.push(value);
         }
         rule.block.value = block_values;
 
