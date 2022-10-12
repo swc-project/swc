@@ -1,4 +1,4 @@
 .foo {}
-.foo:is(.bar, .foo.baz) {
+  .foo:is(  .bar,   .foo.baz) {
   color: red;
 }

@@ -1,15 +1,15 @@
 table.colortable {}
-table.colortable td {
+  table.colortable td {
   text-align: center;
 }
-table.colortable td.c {
+    table.colortable td.c {
   text-transform: uppercase;
 }
-table.colortable td:first-child, 
-table.colortable td:first-child + td {
+    table.colortable td:first-child, 
+    table.colortable td:first-child + td {
   border: 1px solid black;
 }
-table.colortable th {
+  table.colortable th {
   text-align: center;
   background: black;
   color: white;
