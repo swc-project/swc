@@ -305,6 +305,8 @@ where
             }
         };
 
+        let mut skipped = None;
+
         loop {
             let span = self.input.cur_span();
 
@@ -325,6 +327,8 @@ where
 
             if !skip_one_space || combinator.value != CombinatorValue::Descendant {
                 children.push(ComplexSelectorChildren::Combinator(combinator));
+            } else {
+                skipped = Some(combinator)
             }
 
             if skip_one_space {
@@ -334,6 +338,10 @@ where
             let child = self.parse()?;
 
             children.push(ComplexSelectorChildren::CompoundSelector(child));
+        }
+
+        if children.is_empty() {
+            children.extend(skipped.map(ComplexSelectorChildren::Combinator));
         }
 
         let start_pos = match children.first() {
