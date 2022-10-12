@@ -2360,23 +2360,30 @@ where
     }
 
     #[emitter]
-    fn emit_ns_prefix(&mut self, n: &NsPrefix) -> Result {
-        // TODO avoid usage `Ident` for `*`, because it is not ident
-        if let Some(prefix) = &n.prefix {
-            if prefix.value == js_word!("*") {
-                if self.config.minify {
-                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
-                } else if let Some(raw) = &prefix.raw {
-                    write_raw!(self, hi_span_offset!(prefix.span, 1), raw);
-                } else {
-                    write_raw!(self, hi_span_offset!(prefix.span, 1), "*");
-                }
-            } else {
-                emit!(self, n.prefix);
-            }
+    fn emit_namespace_prefix(&mut self, n: &NamespacePrefix) -> Result {
+        if let Some(namespace) = &n.namespace {
+            emit!(self, namespace);
         }
 
         write_raw!(self, hi_span_offset!(n.span, 1), "|");
+    }
+
+    #[emitter]
+    fn emit_namespace(&mut self, n: &Namespace) -> Result {
+        match n {
+            Namespace::Named(n) => emit!(self, n),
+            Namespace::Any(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_named_namespace(&mut self, n: &NamedNamespace) -> Result {
+        emit!(self, n.name);
+    }
+
+    #[emitter]
+    fn emit_any_namespace(&mut self, n: &AnyNamespace) -> Result {
+        write_raw!(self, n.span, "*");
     }
 
     #[emitter]

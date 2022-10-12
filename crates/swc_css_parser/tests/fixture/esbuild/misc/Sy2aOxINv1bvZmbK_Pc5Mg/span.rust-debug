@@ -47,13 +47,19 @@
    : ^^^
    `----
 
-  x NsPrefix
+  x NamespacePrefix
    ,-[$DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1]
  1 | *|* {}
    : ^^
    `----
 
-  x Ident
+  x Namespace
+   ,-[$DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1]
+ 1 | *|* {}
+   : ^
+   `----
+
+  x AnyNamespace
    ,-[$DIR/tests/fixture/esbuild/misc/Sy2aOxINv1bvZmbK_Pc5Mg/input.css:1:1]
  1 | *|* {}
    : ^

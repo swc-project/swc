@@ -13279,13 +13279,19 @@
      : ^^^^^^
      `----
 
-  x NsPrefix
+  x NamespacePrefix
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
  215 | *|html[xmlns*=""] .selector {}
      : ^^
      `----
 
-  x Ident
+  x Namespace
+     ,-[$DIR/tests/recovery/hacks/input.css:215:1]
+ 215 | *|html[xmlns*=""] .selector {}
+     : ^
+     `----
+
+  x AnyNamespace
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
  215 | *|html[xmlns*=""] .selector {}
      : ^
@@ -14971,13 +14977,19 @@
      : ^^^^^^
      `----
 
-  x NsPrefix
+  x NamespacePrefix
      ,-[$DIR/tests/recovery/hacks/input.css:237:1]
  237 | *|html[xmlns*=""] .selector {}
      : ^^
      `----
 
-  x Ident
+  x Namespace
+     ,-[$DIR/tests/recovery/hacks/input.css:237:1]
+ 237 | *|html[xmlns*=""] .selector {}
+     : ^
+     `----
+
+  x AnyNamespace
      ,-[$DIR/tests/recovery/hacks/input.css:237:1]
  237 | *|html[xmlns*=""] .selector {}
      : ^

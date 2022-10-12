@@ -45,21 +45,19 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "NsPrefix",
+                    "type": "NamespacePrefix",
                     "span": {
                       "start": 1,
                       "end": 3,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Ident",
+                    "namespace": {
+                      "type": "AnyNamespace",
                       "span": {
                         "start": 1,
                         "end": 2,
                         "ctxt": 0
-                      },
-                      "value": "*",
-                      "raw": "*"
+                      }
                     }
                   }
                 },
@@ -126,21 +124,29 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "NsPrefix",
+                      "type": "NamespacePrefix",
                       "span": {
                         "start": 8,
                         "end": 12,
                         "ctxt": 0
                       },
-                      "prefix": {
-                        "type": "Ident",
+                      "namespace": {
+                        "type": "NamedNamespace",
                         "span": {
                           "start": 8,
                           "end": 11,
                           "ctxt": 0
                         },
-                        "value": "foo",
-                        "raw": "foo"
+                        "name": {
+                          "type": "Ident",
+                          "span": {
+                            "start": 8,
+                            "end": 11,
+                            "ctxt": 0
+                          },
+                          "value": "foo",
+                          "raw": "foo"
+                        }
                       }
                     },
                     "value": {
@@ -211,21 +217,29 @@
                     "ctxt": 0
                   },
                   "prefix": {
-                    "type": "NsPrefix",
+                    "type": "NamespacePrefix",
                     "span": {
                       "start": 18,
                       "end": 22,
                       "ctxt": 0
                     },
-                    "prefix": {
-                      "type": "Ident",
+                    "namespace": {
+                      "type": "NamedNamespace",
                       "span": {
                         "start": 18,
                         "end": 21,
                         "ctxt": 0
                       },
-                      "value": "foo",
-                      "raw": "foo"
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 18,
+                          "end": 21,
+                          "ctxt": 0
+                        },
+                        "value": "foo",
+                        "raw": "foo"
+                      }
                     }
                   }
                 },
@@ -292,13 +306,13 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "NsPrefix",
+                      "type": "NamespacePrefix",
                       "span": {
                         "start": 27,
                         "end": 28,
                         "ctxt": 0
                       },
-                      "prefix": null
+                      "namespace": null
                     },
                     "value": {
                       "type": "Ident",
@@ -375,21 +389,19 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "NsPrefix",
+                      "type": "NamespacePrefix",
                       "span": {
                         "start": 34,
                         "end": 36,
                         "ctxt": 0
                       },
-                      "prefix": {
-                        "type": "Ident",
+                      "namespace": {
+                        "type": "AnyNamespace",
                         "span": {
                           "start": 34,
                           "end": 35,
                           "ctxt": 0
-                        },
-                        "value": "*",
-                        "raw": "*"
+                        }
                       }
                     },
                     "value": {

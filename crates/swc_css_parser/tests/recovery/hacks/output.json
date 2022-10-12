@@ -13427,21 +13427,19 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "NsPrefix",
+                      "type": "NamespacePrefix",
                       "span": {
                         "start": 4180,
                         "end": 4182,
                         "ctxt": 0
                       },
-                      "prefix": {
-                        "type": "Ident",
+                      "namespace": {
+                        "type": "AnyNamespace",
                         "span": {
                           "start": 4180,
                           "end": 4181,
                           "ctxt": 0
-                        },
-                        "value": "*",
-                        "raw": "*"
+                        }
                       }
                     },
                     "value": {
@@ -15203,21 +15201,19 @@
                       "ctxt": 0
                     },
                     "prefix": {
-                      "type": "NsPrefix",
+                      "type": "NamespacePrefix",
                       "span": {
                         "start": 4658,
                         "end": 4660,
                         "ctxt": 0
                       },
-                      "prefix": {
-                        "type": "Ident",
+                      "namespace": {
+                        "type": "AnyNamespace",
                         "span": {
                           "start": 4658,
                           "end": 4659,
                           "ctxt": 0
-                        },
-                        "value": "*",
-                        "raw": "*"
+                        }
                       }
                     },
                     "value": {

@@ -433,17 +433,31 @@ define!({
 
     pub struct UniversalSelector {
         pub span: Span,
-        pub prefix: Option<NsPrefix>,
+        pub prefix: Option<NamespacePrefix>,
     }
 
-    pub struct NsPrefix {
+    pub struct NamespacePrefix {
         pub span: Span,
-        pub prefix: Option<Ident>,
+        pub namespace: Option<Namespace>,
+    }
+
+    pub enum Namespace {
+        Named(NamedNamespace),
+        Any(AnyNamespace),
+    }
+
+    pub struct NamedNamespace {
+        pub span: Span,
+        pub name: Ident,
+    }
+
+    pub struct AnyNamespace {
+        pub span: Span,
     }
 
     pub struct WqName {
         pub span: Span,
-        pub prefix: Option<NsPrefix>,
+        pub prefix: Option<NamespacePrefix>,
         pub value: Ident,
     }
 

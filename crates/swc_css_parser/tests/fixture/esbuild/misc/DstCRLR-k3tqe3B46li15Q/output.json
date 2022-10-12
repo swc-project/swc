@@ -54,13 +54,13 @@
                         "ctxt": 0
                       },
                       "prefix": {
-                        "type": "NsPrefix",
+                        "type": "NamespacePrefix",
                         "span": {
                           "start": 2,
                           "end": 3,
                           "ctxt": 0
                         },
-                        "prefix": null
+                        "namespace": null
                       },
                       "value": {
                         "type": "Ident",
