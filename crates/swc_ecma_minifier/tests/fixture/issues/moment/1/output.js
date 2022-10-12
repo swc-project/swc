@@ -1273,12 +1273,13 @@
             case "second":
                 time = this._d.valueOf(), time += 1000 - (time % 1000 + 1000) % 1000 - 1;
                 time = (time = this._d.valueOf()) + (3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1);
+                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
                 break;
             case "minute":
-                time = (time = this._d.valueOf()) + (60000 - mod$1(time, 60000) - 1);
+                time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
                 break;
             case "second":
-                time = (time = this._d.valueOf()) + (1000 - mod$1(time, 1000) - 1);
+                time = this._d.valueOf(), time += 1000 - mod$1(time, 1000) - 1;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1370,12 +1371,13 @@
             case "second":
                 time = this._d.valueOf(), time -= (time % 1000 + 1000) % 1000;
                 time = (time = this._d.valueOf()) - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
                 break;
             case "minute":
-                time = (time = this._d.valueOf()) - mod$1(time, 60000);
+                time = this._d.valueOf(), time -= mod$1(time, 60000);
                 break;
             case "second":
-                time = (time = this._d.valueOf()) - mod$1(time, 1000);
+                time = this._d.valueOf(), time -= mod$1(time, 1000);
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {

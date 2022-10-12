@@ -34,13 +34,13 @@ function startOf(units) {
             time = startOfDate(this.year(), this.month(), this.date());
             break;
         case 'hour':
-            time = (time = this._d.valueOf()) - mod$1(time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE), MS_PER_HOUR);
+            time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE), MS_PER_HOUR);
             break;
         case 'minute':
-            time = (time = this._d.valueOf()) - mod$1(time, MS_PER_MINUTE);
+            time = this._d.valueOf(), time -= mod$1(time, MS_PER_MINUTE);
             break;
         case 'second':
-            time = (time = this._d.valueOf()) - mod$1(time, MS_PER_SECOND);
+            time = this._d.valueOf(), time -= mod$1(time, MS_PER_SECOND);
             break;
     }
     return this._d.setTime(time), hooks.updateOffset(this, true), this;
@@ -69,13 +69,13 @@ function endOf(units) {
             time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
             break;
         case 'hour':
-            time = (time = this._d.valueOf()) + (MS_PER_HOUR - mod$1(time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE), MS_PER_HOUR) - 1);
+            time = this._d.valueOf(), time += MS_PER_HOUR - mod$1(time + (this._isUTC ? 0 : this.utcOffset() * MS_PER_MINUTE), MS_PER_HOUR) - 1;
             break;
         case 'minute':
-            time = (time = this._d.valueOf()) + (MS_PER_MINUTE - mod$1(time, MS_PER_MINUTE) - 1);
+            time = this._d.valueOf(), time += MS_PER_MINUTE - mod$1(time, MS_PER_MINUTE) - 1;
             break;
         case 'second':
-            time = (time = this._d.valueOf()) + (MS_PER_SECOND - mod$1(time, MS_PER_SECOND) - 1);
+            time = this._d.valueOf(), time += MS_PER_SECOND - mod$1(time, MS_PER_SECOND) - 1;
             break;
     }
     return this._d.setTime(time), hooks.updateOffset(this, true), this;

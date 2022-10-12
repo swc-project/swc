@@ -6103,7 +6103,7 @@
     }
     function place(b, a, c) {
         var x, a2, y, b2, dx = b.x - a.x, dy = b.y - a.y, d2 = dx * dx + dy * dy;
-        d2 ? (a2 = (a2 = a.r + c.r) * a2) > (b2 = (b2 = b.r + c.r) * b2) ? (x = (d2 + b2 - a2) / (2 * d2), y = Math.sqrt(Math.max(0, b2 / d2 - x * x)), c.x = b.x - x * dx - y * dy, c.y = b.y - x * dy + y * dx) : (x = (d2 + a2 - b2) / (2 * d2), y = Math.sqrt(Math.max(0, a2 / d2 - x * x)), c.x = a.x + x * dx - y * dy, c.y = a.y + x * dy + y * dx) : (c.x = a.x + c.r, c.y = a.y);
+        d2 ? (a2 = a.r + c.r, a2 *= a2, b2 = b.r + c.r, a2 > (b2 *= b2) ? (x = (d2 + b2 - a2) / (2 * d2), y = Math.sqrt(Math.max(0, b2 / d2 - x * x)), c.x = b.x - x * dx - y * dy, c.y = b.y - x * dy + y * dx) : (x = (d2 + a2 - b2) / (2 * d2), y = Math.sqrt(Math.max(0, a2 / d2 - x * x)), c.x = a.x + x * dx - y * dy, c.y = a.y + x * dy + y * dx)) : (c.x = a.x + c.r, c.y = a.y);
     }
     function intersects(a, b) {
         var dr = a.r + b.r - 1e-6, dx = b.x - a.x, dy = b.y - a.y;

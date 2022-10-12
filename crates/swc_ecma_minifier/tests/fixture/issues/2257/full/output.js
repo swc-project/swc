@@ -4663,7 +4663,7 @@
                 return digit + 22 + 75 * (digit < 26);
             }, adapt = function(delta, numPoints, firstTime) {
                 var k = 0;
-                for(delta = (delta = firstTime ? floor(delta / 700) : delta >> 1) + floor(delta / numPoints); delta > 455; k += 36)delta = floor(delta / 35);
+                for(delta = firstTime ? floor(delta / 700) : delta >> 1, delta += floor(delta / numPoints); delta > 455; k += 36)delta = floor(delta / 35);
                 return floor(k + 36 * delta / (delta + 38));
             }, encode = function(input) {
                 var i, currentValue, output = [], inputLength = (input = ucs2decode(input)).length, n = 128, delta = 0, bias = 72;

@@ -1674,12 +1674,12 @@
                 })().toHexString(), !opts || (0, chakra_ui_utils_esm.Qr)(opts) ? fallback : opts.string && opts.colors ? function(str, list) {
                     var index = 0;
                     if (0 === str.length) return list[0];
-                    for(var i = 0; i < str.length; i += 1)index = (index = str.charCodeAt(i) + ((index << 5) - index)) & index;
+                    for(var i = 0; i < str.length; i += 1)index = str.charCodeAt(i) + ((index << 5) - index), index &= index;
                     return list[index = (index % list.length + list.length) % list.length];
                 }(opts.string, opts.colors) : opts.string && !opts.colors ? function(str) {
                     var hash = 0;
                     if (0 === str.length) return hash.toString();
-                    for(var i = 0; i < str.length; i += 1)hash = (hash = str.charCodeAt(i) + ((hash << 5) - hash)) & hash;
+                    for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
                 }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";

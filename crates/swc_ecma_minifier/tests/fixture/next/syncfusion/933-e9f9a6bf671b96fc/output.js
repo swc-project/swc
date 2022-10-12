@@ -4703,7 +4703,7 @@
                 }, Component.prototype.pageID = function(url) {
                     var hash = 0;
                     if (0 === url.length) return hash;
-                    for(var i = 0; i < url.length; i++)hash = (hash = (hash << 5) - hash + url.charCodeAt(i)) & hash;
+                    for(var i = 0; i < url.length; i++)hash = (hash << 5) - hash + url.charCodeAt(i), hash &= hash;
                     return Math.abs(hash);
                 }, Component.prototype.isHistoryChanged = function() {
                     return lastPageID !== this.pageID(location.href) || lastHistoryLen !== history.length;
@@ -9572,7 +9572,7 @@
                 var rectValues, documentWidth = document.documentElement.clientWidth, calculateValue = !1;
                 (0, ej2_base.le)(containerElement) || (rectValues = getClientRectValues(containerElement));
                 var pageX = 'mouse' === getEventType(e.type) ? e.pageX : e.touches[0].pageX, targetRectValues = getClientRectValues(targetElement), borderValue = (0, ej2_base.le)(containerElement) ? 0 : containerElement.offsetWidth - containerElement.clientWidth, left = (0, ej2_base.le)(containerElement) ? 0 : rectValues.left, containerWidth = (0, ej2_base.le)(containerElement) ? 0 : rectValues.width;
-                (0, ej2_base.le)(resizeWestWidth) && (resizeWestWidth = (0, ej2_base.le)(containerElement) ? documentWidth : (resizeWestWidth = targetRectValues.left - left - borderValue / 2 + targetRectValues.width) + (containerWidth - borderValue - resizeWestWidth)), !(0, ej2_base.le)(containerElement) && Math.floor(targetRectValues.left - rectValues.left + targetRectValues.width + (rectValues.right - targetRectValues.right)) - borderValue <= maxWidth ? calculateValue = !0 : (0, ej2_base.le)(containerElement) && pageX >= 0 && (calculateValue = !0);
+                (0, ej2_base.le)(resizeWestWidth) && ((0, ej2_base.le)(containerElement) ? resizeWestWidth = documentWidth : (resizeWestWidth = targetRectValues.left - left - borderValue / 2 + targetRectValues.width, resizeWestWidth += containerWidth - borderValue - resizeWestWidth)), !(0, ej2_base.le)(containerElement) && Math.floor(targetRectValues.left - rectValues.left + targetRectValues.width + (rectValues.right - targetRectValues.right)) - borderValue <= maxWidth ? calculateValue = !0 : (0, ej2_base.le)(containerElement) && pageX >= 0 && (calculateValue = !0);
                 var calculatedWidth = originalWidth - (pageX - originalMouseX);
                 if (setLeft && (calculatedWidth = calculatedWidth > resizeWestWidth ? resizeWestWidth : calculatedWidth), calculateValue && calculatedWidth >= minWidth && calculatedWidth <= maxWidth) {
                     var containerLeft = 0;
