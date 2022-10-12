@@ -639,7 +639,7 @@
                     isNegNum && (num = -num), assert('number' == typeof num), assert(num < 0x4000000);
                     for(var carry = 0, i = 0; i < this.length; i++){
                         var w = (0 | this.words[i]) * num, lo = (0x3ffffff & w) + (0x3ffffff & carry);
-                        carry = (carry = (carry >>= 26) + (w / 0x4000000 | 0)) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
+                        carry = 26 + (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
                     }
                     return 0 !== carry && (this.words[i] = carry, this.length++), isNegNum ? this.ineg() : this;
                 }, BN.prototype.muln = function(num) {
@@ -1116,7 +1116,7 @@
                                 currentLen = 0;
                                 continue;
                             }
-                            current = (current <<= 1) | bit, (++currentLen === windowSize || 0 === i && 0 === j) && (res = this.mul(res, wnd[current]), currentLen = 0, current = 0);
+                            current = 1 | bit, (++currentLen === windowSize || 0 === i && 0 === j) && (res = this.mul(res, wnd[current]), currentLen = 0, current = 0);
                         }
                         start = 26;
                     }
@@ -2932,7 +2932,7 @@
             }
             function bufferToInt(buffer) {
                 let value = 0;
-                for(var i = 0; i < buffer.length; i++)value = (value *= 256) + buffer[i];
+                for(var i = 0; i < buffer.length; i++)value = 256 + buffer[i];
                 return value;
             }
             exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = computeRootHash, exports.generateTree = generateTree, exports.generateTransactionChunks = generateTransactionChunks, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt;
@@ -4386,7 +4386,7 @@
             }
             function bufferToInt(buffer) {
                 let value = 0;
-                for(var i = 0; i < buffer.length; i++)value = (value *= 256) + buffer[i];
+                for(var i = 0; i < buffer.length; i++)value = 256 + buffer[i];
                 return value;
             }
             exports.chunkData = chunkData, exports.generateLeaves = generateLeaves, exports.computeRootHash = computeRootHash, exports.generateTree = generateTree, exports.generateTransactionChunks = generateTransactionChunks, exports.buildLayers = buildLayers, exports.generateProofs = generateProofs, exports.arrayFlatten = arrayFlatten, exports.intToBuffer = intToBuffer, exports.bufferToInt = bufferToInt;
@@ -5585,7 +5585,7 @@
                     let oct = tag;
                     for(tag = 0; (0x80 & oct) == 0x80;){
                         if (oct = buf.readUInt8(fail), buf.isError(oct)) return oct;
-                        tag = (tag <<= 7) | 0x7f & oct;
+                        tag = 7 | 0x7f & oct;
                     }
                 } else tag &= 0x1f;
                 const tagStr = der.tag[tag];
@@ -5676,7 +5676,7 @@
                 let result;
                 const identifiers = [];
                 let ident = 0, subident = 0;
-                for(; !buffer.isEmpty();)ident = (ident <<= 7) | 0x7f & (subident = buffer.readUInt8()), (0x80 & subident) == 0 && (identifiers.push(ident), ident = 0);
+                for(; !buffer.isEmpty();)ident = 7 | 0x7f & (subident = buffer.readUInt8()), (0x80 & subident) == 0 && (identifiers.push(ident), ident = 0);
                 0x80 & subident && identifiers.push(ident);
                 const first = identifiers[0] / 40 | 0, second = identifiers[0] % 40;
                 if (result = relative ? identifiers : [
@@ -7919,7 +7919,7 @@
                     assert('number' == typeof num), assert(num < 0x4000000);
                     for(var carry = 0, i = 0; i < this.length; i++){
                         var w = (0 | this.words[i]) * num, lo = (0x3ffffff & w) + (0x3ffffff & carry);
-                        carry = (carry = (carry >>= 26) + (w / 0x4000000 | 0)) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
+                        carry = 26 + (w / 0x4000000 | 0) + (lo >>> 26), this.words[i] = 0x3ffffff & lo;
                     }
                     return 0 !== carry && (this.words[i] = carry, this.length++), this;
                 }, BN.prototype.muln = function(num) {
@@ -8392,7 +8392,7 @@
                                 currentLen = 0;
                                 continue;
                             }
-                            current = (current <<= 1) | bit, (++currentLen === windowSize || 0 === i && 0 === j) && (res = this.mul(res, wnd[current]), currentLen = 0, current = 0);
+                            current = 1 | bit, (++currentLen === windowSize || 0 === i && 0 === j) && (res = this.mul(res, wnd[current]), currentLen = 0, current = 0);
                         }
                         start = 26;
                     }
@@ -10582,7 +10582,7 @@
                 if (!(0x80 & initial)) return initial;
                 var octetLen = 0xf & initial;
                 if (0 === octetLen || octetLen > 4) return !1;
-                for(var val = 0, i = 0, off = p.place; i < octetLen; i++, off++)val = (val = (val <<= 8) | buf[off]) >>> 0;
+                for(var val = 0, i = 0, off = p.place; i < octetLen; i++, off++)val = (8 | buf[off]) >>> 0;
                 return !(val <= 0x7f) && (p.place = off, val);
             }
             function rmPadding(buf) {
@@ -13615,15 +13615,15 @@
                 return al + bl >>> 0;
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
-                var carry, lo = al;
-                return ah + bh + ch + dh + (carry = (carry = (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0)) + ((lo = lo + cl >>> 0) < cl ? 1 : 0)) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) >>> 0;
+                var carry = 0, lo = al;
+                return ah + bh + ch + dh + (carry = ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
-                var carry, lo = al;
-                return ah + bh + ch + dh + eh + (carry = (carry = (carry = (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0)) + ((lo = lo + cl >>> 0) < cl ? 1 : 0)) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) + ((lo = lo + el >>> 0) < el ? 1 : 0)) >>> 0;
+                var carry = 0, lo = al;
+                return ah + bh + ch + dh + eh + (carry = ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0) + ((lo = lo + el >>> 0) < el ? 1 : 0)) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
@@ -18971,7 +18971,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19024,7 +19024,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19074,7 +19074,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyIndent(i, value[i], stack, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19130,7 +19130,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifySimple(i, value[i], stack);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + ',';
+                                        res = (void 0 !== tmp ? tmp : 'null') + ',';
                                     }
                                     const tmp1 = stringifySimple(i, value[i], stack);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {

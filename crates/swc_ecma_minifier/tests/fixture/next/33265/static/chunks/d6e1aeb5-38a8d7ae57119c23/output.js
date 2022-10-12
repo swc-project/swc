@@ -8774,7 +8774,7 @@
                     },
                     calculateTrackBaseMediaDecodeTime: function(track, keepOriginalTimestamps) {
                         var baseMediaDecodeTime, minSegmentDts = track.minSegmentDts;
-                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime = (baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime) + minSegmentDts), "audio" === track.type && (baseMediaDecodeTime *= track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
+                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime + minSegmentDts), "audio" === track.type && (baseMediaDecodeTime *= track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
                     },
                     collectDtsInfo: function(track, data) {
                         "number" == typeof data.pts && (void 0 === track.timelineStartInfo.pts && (track.timelineStartInfo.pts = data.pts), void 0 === track.minSegmentPts ? track.minSegmentPts = data.pts : track.minSegmentPts = Math.min(track.minSegmentPts, data.pts), void 0 === track.maxSegmentPts ? track.maxSegmentPts = data.pts : track.maxSegmentPts = Math.max(track.maxSegmentPts, data.pts)), "number" == typeof data.dts && (void 0 === track.timelineStartInfo.dts && (track.timelineStartInfo.dts = data.dts), void 0 === track.minSegmentDts ? track.minSegmentDts = data.dts : track.minSegmentDts = Math.min(track.minSegmentDts, data.dts), void 0 === track.maxSegmentDts ? track.maxSegmentDts = data.dts : track.maxSegmentDts = Math.max(track.maxSegmentDts, data.dts));
@@ -9212,7 +9212,7 @@
                                 ]), (0x10 & data) == 0x10 && (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
                                     "i"
                                 ]);
-                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = (text = getCharFromCode(char0)) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length);
+                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length);
                         }
                     };
                 };
@@ -9365,14 +9365,14 @@
                                 });
                                 return;
                             }
-                            if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && (tagSize = (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10))) + 10), !(bufferSize < tagSize)) {
+                            if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10)) + 10), !(bufferSize < tagSize)) {
                                 for(i = 0, tag = {
                                     data: new Uint8Array(tagSize),
                                     frames: [],
                                     pts: buffer[0].pts,
                                     dts: buffer[0].dts
                                 }; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
-                                frameStart = 10, 0x40 & tag.data[5] && (frameStart = (frameStart += 4) + parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
+                                frameStart = 10, 0x40 & tag.data[5] && (frameStart = 4 + parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
                                 do {
                                     if ((frameSize = parseSyncSafeInteger$1(tag.data.subarray(frameStart + 4, frameStart + 8))) < 1) {
                                         this.trigger("log", {
@@ -9386,9 +9386,9 @@
                                         data: tag.data.subarray(frameStart + 10, frameStart + frameSize + 10)
                                     }).key = frame.id, tagParsers[frame.id] && (tagParsers[frame.id](frame), "com.apple.streaming.transportStreamTimestamp" === frame.owner)) {
                                         var d = frame.data, size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                        size = (size *= 4) + (0x03 & d[7]), frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
+                                        size = 4 + (0x03 & d[7]), frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
                                     }
-                                    tag.frames.push(frame), frameStart = (frameStart += 10) + frameSize;
+                                    tag.frames.push(frame), frameStart = 10 + frameSize;
                                 }while (frameStart < tagSize)
                                 this.trigger("data", tag);
                             }
@@ -9926,20 +9926,20 @@
                     },
                     parseAacTimestamp: function(packet) {
                         var frameStart, frameSize, frame;
-                        frameStart = 10, 0x40 & packet[5] && (frameStart = (frameStart += 4) + parseSyncSafeInteger(packet.subarray(10, 14)));
+                        frameStart = 10, 0x40 & packet[5] && (frameStart = 4 + parseSyncSafeInteger(packet.subarray(10, 14)));
                         do {
                             if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
                             if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
                                 frame = packet.subarray(frameStart + 10, frameStart + frameSize + 10);
                                 for(var i = 0; i < frame.byteLength; i++)if (0 === frame[i]) {
                                     if ("com.apple.streaming.transportStreamTimestamp" === unescape(percentEncode(frame, 0, i))) {
-                                        var d = frame.subarray(i + 1), size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-                                        return (size *= 4) + (0x03 & d[7]);
+                                        var d = frame.subarray(i + 1);
+                                        return d[3], d[4], d[5], d[6], d[7], 4 + (0x03 & d[7]);
                                     }
                                     break;
                                 }
                             }
-                            frameStart = (frameStart += 10) + frameSize;
+                            frameStart = 10 + frameSize;
                         }while (frameStart < packet.byteLength)
                         return null;
                     }
@@ -10250,8 +10250,7 @@
                         return ("00" + value.toString(16)).slice(-2);
                     }
                 }, parseType$1 = function(buffer) {
-                    var result = "";
-                    return (result = (result = (result += String.fromCharCode(buffer[0])) + String.fromCharCode(buffer[1])) + String.fromCharCode(buffer[2])) + String.fromCharCode(buffer[3]);
+                    return String.fromCharCode(buffer[0]) + String.fromCharCode(buffer[1]) + String.fromCharCode(buffer[2]) + String.fromCharCode(buffer[3]);
                 }, toUnsigned$2 = bin.toUnsigned, findBox = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) return null;
@@ -10442,7 +10441,7 @@
                                 "tfdt"
                             ]).map(function(tfdt) {
                                 var version, result;
-                                return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result = (result *= 4294967296) + toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
+                                return version = tfdt[0], result = toUnsigned(tfdt[4] << 24 | tfdt[5] << 16 | tfdt[6] << 8 | tfdt[7]), 1 === version && (result = 4294967296 + toUnsigned(tfdt[8] << 24 | tfdt[9] << 16 | tfdt[10] << 8 | tfdt[11])), result;
                             })[0]) || isNaN(baseTime) ? 1 / 0 : baseTime) / scale;
                         });
                     })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
@@ -10534,8 +10533,7 @@
                     tracks: getTracks,
                     getTimescaleFromMediaHeader: getTimescaleFromMediaHeader
                 }, parsePid = function(packet) {
-                    var pid = 0x1f & packet[1];
-                    return (pid <<= 8) | packet[2];
+                    return packet[1], 8 | packet[2];
                 }, parsePayloadUnitStartIndicator = function(packet) {
                     return !!(0x40 & packet[1]);
                 }, parseAdaptionField = function(packet) {

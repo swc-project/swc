@@ -9358,7 +9358,7 @@
                     for(e = o(e = i(e, 1e7), -10000000); e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
-                }(e), t = (t = o(i(t, 100), 0)) / 100, r = (r = o(i(r, 100), 0)) / 100).map(function(e) {
+                }(e), t = o(i(t, 100), 0) / 100, r = o(i(r, 100), 0) / 100).map(function(e) {
                     return (256 + e).toString(16).substr(-2);
                 }).join("");
             };
@@ -15981,7 +15981,7 @@
                                     i += "".concat(t[0], " and ").concat(t[1], " arguments");
                                     break;
                                 default:
-                                    i = (i += t.slice(0, o - 1).join(", ")) + ", and ".concat(t[o - 1], " arguments");
+                                    i = t.slice(0, o - 1).join(", ") + ", and ".concat(t[o - 1], " arguments");
                             }
                             return "".concat(i, " must be specified");
                         }, TypeError), e.exports.codes = l;
@@ -19562,7 +19562,7 @@
                             for(A = 15, k = E; A >= 1 && 0 === j[A]; A--);
                             if (k > A && (k = A), 0 === A) return s[c++] = 20971520, s[c++] = 20971520, d.bits = 1, 0;
                             for(S = 1; S < A && 0 === j[S]; S++);
-                            for(k < S && (k = S), C = 1, _ = 1; _ <= 15; _++)if ((C = (C <<= 1) - j[_]) < 0) return -1;
+                            for(k < S && (k = S), C = 1, _ = 1; _ <= 15; _++)if ((C = 1 - j[_]) < 0) return -1;
                             if (C > 0 && (0 === e || 1 !== A)) return -1;
                             for(_ = 1, B[1] = 0; _ < 15; _++)B[_ + 1] = B[_] + j[_];
                             for(x = 0; x < l; x++)0 !== t[r + x] && (f[B[t[r + x]]++] = x);
@@ -19572,7 +19572,7 @@
                                 do s[v + (F >> O) + (h -= p)] = m << 24 | D << 16 | w | 0;
                                 while (0 !== h)
                                 for(p = 1 << _ - 1; F & p;)p >>= 1;
-                                if (F = 0 !== p ? (F &= p - 1) + p : 0, x++, 0 == --j[_]) {
+                                if (F = 0 !== p ? p - 1 + p : 0, x++, 0 == --j[_]) {
                                     if (_ === A) break;
                                     _ = t[r + f[x]];
                                 }
@@ -27068,7 +27068,7 @@
                         var r = n_;
                         n_ &= -2, n_ |= 8;
                         var r = nx;
-                        nx = 8 | (nx &= -2);
+                        nx = -2;
                         try {
                             return e(t);
                         } finally{

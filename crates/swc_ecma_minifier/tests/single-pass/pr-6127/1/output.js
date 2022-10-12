@@ -5,5 +5,5 @@ console.log((function() {
         190,
         239
     ];
-    return b = 239 | (b = (b = 190 | (b = (b = 173 | (b = (b = 94) << 8)) << 8)) << 8);
+    return b = 1588444911;
 })().toString(16));

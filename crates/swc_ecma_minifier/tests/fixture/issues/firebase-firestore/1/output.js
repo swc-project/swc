@@ -838,7 +838,7 @@
                 const e = t;
                 if (null === e.A) {
                     let t1 = e.path.canonicalString();
-                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 = (t1 = (t1 = (t1 += "|f:") + e.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(",")) + "|ob:") + e.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(e.limit) || (t1 = (t1 += "|l:") + e.limit), e.startAt && (t1 = (t1 += "|lb:") + ce(e.startAt)), e.endAt && (t1 = (t1 += "|ub:") + ce(e.endAt)), e.A = t1;
+                    null !== e.collectionGroup && (t1 += "|cg:" + e.collectionGroup), t1 = "|f:" + e.filters.map((t)=>t.field.canonicalString() + t.op.toString() + xt(t.value)).join(",") + "|ob:" + e.orderBy.map((t)=>t.field.canonicalString() + t.dir).join(","), At(e.limit) || (t1 = "|l:" + e.limit), e.startAt && (t1 = "|lb:" + ce(e.startAt)), e.endAt && (t1 = "|ub:" + ce(e.endAt)), e.A = t1;
                 }
                 return e.A;
             }

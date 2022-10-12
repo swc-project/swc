@@ -2637,7 +2637,7 @@
                         else if ('timeZone' !== prop || util_isUndefined(matchString)) matchString = 'month' !== prop || parseOptions.isIslamic || 'en' !== parseOptions.culture && 'en-GB' !== parseOptions.culture && 'en-US' !== parseOptions.culture ? matchString : matchString[0].toUpperCase() + matchString.substring(1).toLowerCase(), retOptions[prop] = parseOptions[prop][matchString];
                         else {
                             var pos = curObject.pos, val = void 0, tmatch = matches[pos + 1], flag = !util_isUndefined(tmatch);
-                            util_isNullOrUndefined(val = curObject.hourOnly ? 60 * this.getZoneValue(flag, tmatch, matches[pos + 4], num) : (val = 60 * this.getZoneValue(flag, tmatch, matches[pos + 7], num)) + this.getZoneValue(flag, matches[pos + 4], matches[pos + 10], num)) || (retOptions[prop] = val);
+                            util_isNullOrUndefined(val = curObject.hourOnly ? 60 * this.getZoneValue(flag, tmatch, matches[pos + 4], num) : 60 * this.getZoneValue(flag, tmatch, matches[pos + 7], num) + this.getZoneValue(flag, matches[pos + 4], matches[pos + 10], num)) || (retOptions[prop] = val);
                         }
                     }
                     return parseOptions.hour12 && (retOptions.hour12 = !0), retOptions;
@@ -16119,7 +16119,7 @@
                                         svg.style.width = svg.style.height = radius + 'px';
                                         for(var startArc = 90, item = 0; item <= 7; item++){
                                             var start = defineArcPoints(0, 0, 24, startArc), circleEle = svg.querySelector('.' + CLS_SPINCIRCLE + '_' + item);
-                                            circleEle.setAttribute('cx', start.x + ''), circleEle.setAttribute('cy', start.y + ''), startArc = (startArc = startArc >= 360 ? 0 : startArc) + 45;
+                                            circleEle.setAttribute('cx', start.x + ''), circleEle.setAttribute('cy', start.y + ''), startArc = (startArc >= 360 ? 0 : startArc) + 45;
                                         }
                                     }(innerContainer, radius);
                                     break;
@@ -19221,7 +19221,7 @@
                 }, Toolbar.prototype.itemWidthCal = function(items) {
                     var style, _this = this, width = 0;
                     return [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, items)).forEach(function(el) {
-                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width = (width = (width += _this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight)) + parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
+                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width = (_this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight) + parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
                     }), width;
                 }, Toolbar.prototype.getScrollCntEle = function(innerItem) {
                     var trgClass = this.isVertical ? '.e-vscroll-content' : '.e-hscroll-content';
@@ -19404,7 +19404,7 @@
                         }), rVal;
                     }, i = len - 1; i >= 0; i--){
                         var mrgn = void 0, compuStyle = window.getComputedStyle(inEle[i]);
-                        mrgn = this.isVertical ? (mrgn = parseFloat(compuStyle.marginTop)) + parseFloat(compuStyle.marginBottom) : (mrgn = parseFloat(compuStyle.marginRight)) + parseFloat(compuStyle.marginLeft);
+                        mrgn = this.isVertical ? parseFloat(compuStyle.marginTop) + parseFloat(compuStyle.marginBottom) : parseFloat(compuStyle.marginRight) + parseFloat(compuStyle.marginLeft);
                         var fstEleCheck = inEle[i] === this.tbarEle[0];
                         fstEleCheck && (this.tbarEleMrgn = mrgn), eleOffset = this.isVertical ? inEle[i].offsetHeight : inEle[i].offsetWidth;
                         var eleWid_1 = fstEleCheck ? eleOffset + mrgn : eleOffset;
@@ -23108,7 +23108,7 @@
                                 e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, -this.columns) : 0] ? tiles[idx] : tiles[idx - this.columns], this.keySelectionChanges(selectedEle);
                                 break;
                             case 40:
-                                e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1] ? tiles[idx] : tiles[idx = (idx %= tiles.length) + tiles[tiles.length - 1].parentElement.childElementCount], this.keySelectionChanges(selectedEle);
+                                e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1] ? tiles[idx] : tiles[idx = tiles.length + tiles[tiles.length - 1].parentElement.childElementCount], this.keySelectionChanges(selectedEle);
                                 break;
                             case 13:
                                 if (e.preventDefault(), prevSelectedEle) {
@@ -23586,7 +23586,7 @@
                     });
                 }, ToolbarRenderer.prototype.renderColorPickerDropDown = function(args, item, colorPicker, defaultColor) {
                     var range, _this = this, proxy = this, css = classes.i7 + ' ' + classes.Fs + (this.parent.inlineMode ? ' ' + classes.ZV : '');
-                    css = (css += ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ)) + ' ' + this.parent.cssClass;
+                    css = ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ) + ' ' + this.parent.cssClass;
                     var content = proxy.parent.createElement('span', {
                         className: classes.uN
                     }), inlineEle = proxy.parent.createElement('span', {
