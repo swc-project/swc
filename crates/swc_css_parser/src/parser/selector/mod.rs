@@ -452,40 +452,6 @@ where
             });
         }
 
-        if self.config.css_modules && is!(self, ":") && peeked_is_one_of!(self, "local", "global") {
-            bump!(self);
-
-            let kind: Ident = self.parse()?;
-
-            if eat!(self, "(") {
-                let selectors = self.parse_as::<SelectorList>()?;
-                expect!(self, ")");
-
-                let sel = SubclassSelector::PseudoClass(PseudoClassSelector {
-                    span: span!(self, span.lo),
-                    name: kind,
-                    children: Some(vec![PseudoClassSelectorChildren::SelectorList(selectors)]),
-                });
-                return Ok(CompoundSelector {
-                    span: span!(self, span.lo),
-                    nesting_selector: None,
-                    type_selector: None,
-                    subclass_selectors: vec![sel],
-                });
-            } else {
-                return Ok(CompoundSelector {
-                    span: span!(self, span.lo),
-                    nesting_selector: None,
-                    type_selector: None,
-                    subclass_selectors: vec![SubclassSelector::PseudoClass(PseudoClassSelector {
-                        span: span!(self, span.lo),
-                        name: kind,
-                        children: None,
-                    })],
-                });
-            }
-        }
-
         let type_selector = if is_one_of!(self, Ident, "*", "|") {
             Some(self.parse()?)
         } else {
@@ -927,6 +893,13 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
+                        //  | "global"
+                        "local" if self.config.css_modules => {
+                            let selector_list = self.parse()?;
+
+                            children
+                                .push(PseudoClassSelectorChildren::ComplexSelector(selector_list));
+                        }
                         "-moz-any" | "-webkit-any" => {
                             let compound_selector_list = self.parse()?;
 

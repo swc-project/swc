@@ -508,6 +508,7 @@ define!({
         Ident(Ident),
         Str(Str),
         Delimiter(Delimiter),
+        ComplexSelector(ComplexSelector),
         SelectorList(SelectorList),
         ForgivingSelectorList(ForgivingSelectorList),
         CompoundSelectorList(CompoundSelectorList),

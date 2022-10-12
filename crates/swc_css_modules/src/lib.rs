@@ -305,13 +305,13 @@ where
         let mut new_children = Vec::with_capacity(n.children.len());
 
         let old_is_global_mode = self.data.is_global_mode;
+
         self.data.is_global_mode = false;
+
         'complex: for mut n in n.children.take() {
             match &mut n {
-                ComplexSelectorChildren::CompoundSelector(sel) => {
-                    //
-
-                    for sel in &mut sel.subclass_selectors {
+                ComplexSelectorChildren::CompoundSelector(selector) => {
+                    for sel in &mut selector.subclass_selectors {
                         match sel {
                             SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
                                 if !self.data.is_global_mode {
@@ -328,25 +328,20 @@ where
                                 match &*class_sel.name.value {
                                     "local" => {
                                         if let Some(children) = &mut class_sel.children {
-                                            let tokens = to_tokens_vec(&*children);
-
-                                            let mut sel: ComplexSelector = parse_tokens(
-                                                &tokens,
-                                                ParserConfig {
-                                                    ..Default::default()
-                                                },
-                                                &mut vec![],
-                                            )
-                                            .unwrap();
-
-                                            sel.visit_mut_with(self);
-
-                                            new_children.extend(sel.children);
-                                            continue 'complex;
-                                        } else {
-                                            self.data.is_global_mode = false;
-                                            continue 'complex;
+                                            if let Some(
+                                                PseudoClassSelectorChildren::ComplexSelector(
+                                                    complex_selector,
+                                                ),
+                                            ) = children.get_mut(0)
+                                            {
+                                                new_children
+                                                    .extend(complex_selector.children.clone());
+                                            }
                                         }
+
+                                        self.data.is_global_mode = false;
+
+                                        continue 'complex;
                                     }
                                     "global" => {
                                         if let Some(children) = &mut class_sel.children {
@@ -362,12 +357,11 @@ where
                                             .unwrap();
 
                                             new_children.extend(sel.children);
-
-                                            continue 'complex;
                                         } else {
                                             self.data.is_global_mode = true;
-                                            continue 'complex;
                                         }
+
+                                        continue 'complex;
                                     }
 
                                     _ => {}
@@ -386,6 +380,7 @@ where
         }
 
         n.children = new_children;
+
         self.data.is_global_mode = old_is_global_mode;
     }
 

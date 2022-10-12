@@ -2532,6 +2532,7 @@ where
             PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
             PseudoClassSelectorChildren::Str(n) => emit!(self, n),
             PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
+            PseudoClassSelectorChildren::ComplexSelector(n) => emit!(self, n),
             PseudoClassSelectorChildren::SelectorList(n) => emit!(
                 &mut *self.with_ctx(Ctx {
                     in_single_line_selectors: true,
