@@ -107,6 +107,36 @@ where
             }
         }
     }
+
+    fn try_parse_qualified_rule(&mut self) -> PResult<Box<QualifiedRule>> {
+        let mut nested: Box<QualifiedRule> = self.parse()?;
+
+        match &mut nested.prelude {
+            QualifiedRulePrelude::ListOfComponentValues(_) => {}
+            QualifiedRulePrelude::SelectorList(s) => {
+                for s in s.children.iter_mut() {
+                    s.children.insert(
+                        0,
+                        ComplexSelectorChildren::Combinator(Combinator {
+                            span: DUMMY_SP,
+                            value: CombinatorValue::Descendant,
+                        }),
+                    );
+
+                    for s in s.children.iter_mut() {
+                        match s {
+                            ComplexSelectorChildren::CompoundSelector(s) => {
+                                s.nesting_selector = Some(NestingSelector { span: DUMMY_SP })
+                            }
+                            ComplexSelectorChildren::Combinator(_) => {}
+                        }
+                    }
+                }
+            }
+        }
+
+        Ok(nested)
+    }
 }
 
 impl<I> Parse<QualifiedRule> for Parser<I>
@@ -236,26 +266,7 @@ where
                             if self.config.allow_nested_selectors {
                                 self.input.reset(&state);
 
-                                let mut nested: Box<QualifiedRule> = self.parse()?;
-
-                                match &mut nested.prelude {
-                                    QualifiedRulePrelude::ListOfComponentValues(_) => {}
-                                    QualifiedRulePrelude::SelectorList(s) => {
-                                        for s in s.children.iter_mut() {
-                                            for s in s.children.iter_mut() {
-                                                match s {
-                                                    ComplexSelectorChildren::CompoundSelector(
-                                                        s,
-                                                    ) => {
-                                                        s.nesting_selector =
-                                                            Some(NestingSelector { span: DUMMY_SP })
-                                                    }
-                                                    ComplexSelectorChildren::Combinator(_) => {}
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                let nested = self.try_parse_qualified_rule()?;
 
                                 StyleBlock::QualifiedRule(nested)
                             } else {
