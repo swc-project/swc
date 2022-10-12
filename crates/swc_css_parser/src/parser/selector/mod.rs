@@ -284,15 +284,26 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
-        let child = if !self.ctx.is_trying_nested_selector {
-            ComplexSelectorChildren::CompoundSelector(self.parse()?)
+        let mut skip_one_space = false;
+        let mut children = if !self.ctx.is_trying_nested_selector {
+            let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+            vec![child]
         } else {
             match self.parse_as::<Combinator>() {
-                Ok(c) => ComplexSelectorChildren::Combinator(c),
-                Err(_) => ComplexSelectorChildren::CompoundSelector(self.parse()?),
+                Ok(Combinator {
+                    value: CombinatorValue::Descendant,
+                    ..
+                }) => {
+                    skip_one_space = true;
+                    vec![]
+                }
+                Ok(c) => vec![ComplexSelectorChildren::Combinator(c)],
+                Err(_) => {
+                    let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+                    vec![child]
+                }
             }
         };
-        let mut children = vec![child];
 
         loop {
             let span = self.input.cur_span();
@@ -312,7 +323,13 @@ where
                 self.input.skip_ws();
             }
 
-            children.push(ComplexSelectorChildren::Combinator(combinator));
+            if !skip_one_space || combinator.value != CombinatorValue::Descendant {
+                children.push(ComplexSelectorChildren::Combinator(combinator));
+            }
+
+            if skip_one_space {
+                skip_one_space = false
+            }
 
             let child = self.parse()?;
 
