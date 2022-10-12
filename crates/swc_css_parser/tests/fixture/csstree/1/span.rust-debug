@@ -145,6 +145,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/csstree/1/input.css:3:1]
+ 3 | @page :left {
+   :             ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/csstree/1/input.css:4:5]
  4 | margin: 2em;
@@ -322,6 +328,12 @@
  10 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/csstree/1/input.css:6:1]
+ 6 | @media screen and (foo: 1) {
+   :                            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/csstree/1/input.css:7:5]
  7 | ,-> .class {
@@ -384,6 +396,12 @@
  7 | ,-> .class {
  8 | |           color: red;
  9 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/csstree/1/input.css:7:5]
+ 7 | .class {
+   :        ^
    `----
 
   x ComponentValue
@@ -1435,6 +1453,12 @@
  23 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:14:1]
+ 14 | :has(> img) {
+    :             ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:15:5]
  15 | color: green;
@@ -2068,6 +2092,12 @@
     :                                                 ^^^^^^^^^^^^^
     `----
 
+  x LParen
+    ,-[$DIR/tests/fixture/csstree/1/input.css:22:5]
+ 22 | rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+    :                                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:22:5]
  22 | rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
@@ -2090,6 +2120,12 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:22:5]
  22 | rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
     :                                                               ^^^^^^^
+    `----
+
+  x LBracket
+    ,-[$DIR/tests/fixture/csstree/1/input.css:22:5]
+ 22 | rgba(1, 2, 3, 4) #def #123abc "string" 'string' (parenthesis) [ident] !important;
+    :                                                               ^
     `----
 
   x ComponentValue
@@ -2239,6 +2275,12 @@
  31 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:25:1]
+ 25 | @media (device-aspect-ratio: 16/9) {
+    :                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:26:5]
  26 | ,-> *|span:before {
@@ -2351,6 +2393,12 @@
  28 | |           --custom2: ([]) !important;
  29 | |           background: element(#id);
  30 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:26:5]
+ 26 | *|span:before {
+    :               ^
     `----
 
   x ComponentValue
@@ -2812,6 +2860,12 @@
  37 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:33:1]
+ 33 | @supports (box-shadow: 1px 2px black !important) {
+    :                                                  ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:34:5]
  34 | ,-> .rule {
@@ -2874,6 +2928,12 @@
  34 | ,-> .rule {
  35 | |           box-shadow: var(--something, fallback);
  36 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:34:5]
+ 34 | .rule {
+    :       ^
     `----
 
   x ComponentValue
@@ -3149,6 +3209,12 @@
  41 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:39:1]
+ 39 | .-a#-b:-c::-d[-e][*|-f] {
+    :                         ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:40:5]
  40 | -foo: 123;
@@ -3290,6 +3356,12 @@
  49 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:45:1]
+ 45 | @keyframes 'anim' {
+    :                   ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
@@ -3306,6 +3378,12 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
  46 | from  { color: red }
     :       ^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:46:5]
+ 46 | from  { color: red }
+    :       ^
     `----
 
   x ComponentValue
@@ -3366,6 +3444,12 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
  47 | 50.1% { color: green; background: green }
     :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:47:5]
+ 47 | 50.1% { color: green; background: green }
+    :       ^
     `----
 
   x ComponentValue
@@ -3462,6 +3546,12 @@
     ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
  48 | 100%  { ;color: blue;; }
     :       ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:48:5]
+ 48 | 100%  { ;color: blue;; }
+    :       ^
     `----
 
   x ComponentValue
@@ -3585,6 +3675,12 @@
  53 | |       --bad-var:;
  54 | |       number: 0.1.2.3;
  55 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/csstree/1/input.css:51:1]
+ 51 | edge\ .c\61ases {
+    :                 ^
     `----
 
   x ComponentValue

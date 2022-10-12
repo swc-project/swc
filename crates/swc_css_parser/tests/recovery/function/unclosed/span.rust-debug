@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/unclosed/input.css:2:5]
  2 | ,-> width: min(500px;

@@ -94,6 +94,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:1:1]
+ 1 | @page MyPage:blank {
+   :                    ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
  2 | @top-center { content: none }
@@ -122,6 +128,12 @@
    ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
  2 | @top-center { content: none }
    :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:2:5]
+ 2 | @top-center { content: none }
+   :             ^
    `----
 
   x ComponentValue
@@ -274,6 +286,12 @@
  9 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:6:1]
+ 6 | @page :blank {
+   :              ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
  7 | @top-center { content: none }
@@ -302,6 +320,12 @@
    ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
  7 | @top-center { content: none }
    :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/input.css:7:5]
+ 7 | @top-center { content: none }
+   :             ^
    `----
 
   x ComponentValue
@@ -430,6 +454,12 @@
  14 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:11:1]
+ 11 | @page {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
  12 | @top-center { content: none }
@@ -458,6 +488,12 @@
     ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
  12 | @top-center { content: none }
     :             ^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:12:5]
+ 12 | @top-center { content: none }
+    :             ^
     `----
 
   x ComponentValue
@@ -586,6 +622,12 @@
  19 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:16:1]
+ 16 | @page {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
  17 | @top-center { CONTENT: none }
@@ -614,6 +656,12 @@
     ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
  17 | @top-center { CONTENT: none }
     :             ^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/at-page/input.css:17:5]
+ 17 | @top-center { CONTENT: none }
+    :             ^
     `----
 
   x ComponentValue

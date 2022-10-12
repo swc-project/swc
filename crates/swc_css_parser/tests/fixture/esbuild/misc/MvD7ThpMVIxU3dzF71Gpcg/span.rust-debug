@@ -70,3 +70,9 @@
  1 | ::b(c) {}
    :        ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/MvD7ThpMVIxU3dzF71Gpcg/input.css:1:1]
+ 1 | ::b(c) {}
+   :        ^
+   `----

@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Afm91-TMNbzd52HsPrCCNA/input.css:1:1]
+ 1 | a { color: #abbbccff }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/Afm91-TMNbzd52HsPrCCNA/input.css:1:1]
  1 | a { color: #abbbccff }

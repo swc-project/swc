@@ -58,3 +58,9 @@
  1 | :pseudocl\61ss {}
    :                ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/rGv8hpoRRBbCTlyQ-70xVw/input.css:1:1]
+ 1 | :pseudocl\61ss {}
+   :                ^
+   `----

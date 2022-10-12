@@ -100,3 +100,9 @@
  1 | a>b {}
    :     ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/EX6W7U27ut-K7x8AfSlQSg/input.css:1:1]
+ 1 | a>b {}
+   :     ^
+   `----

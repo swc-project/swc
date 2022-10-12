@@ -143,6 +143,12 @@
  23 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/custom-properties/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/custom-properties/input.css:2:5]
  2 | --foo: 'bar';

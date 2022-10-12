@@ -97,6 +97,12 @@
  10 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/whitespaces/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
  2 | prop: ;

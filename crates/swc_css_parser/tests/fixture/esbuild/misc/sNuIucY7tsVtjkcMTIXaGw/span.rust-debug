@@ -64,3 +64,9 @@
  1 | [\2c attr] {}
    :            ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/sNuIucY7tsVtjkcMTIXaGw/input.css:1:1]
+ 1 | [\2c attr] {}
+   :            ^
+   `----

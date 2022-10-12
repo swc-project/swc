@@ -77,6 +77,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/basic/input.css:2:5]
  2 | prop: ;
@@ -207,6 +213,12 @@
  7 | |       prop: !!;
  8 | |       color: red;
  9 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 6 | .class {
+   :        ^
    `----
 
   x ComponentValue
@@ -399,6 +411,12 @@
  12 | |       test;
  13 | |       color: red;
  14 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+ 11 | a {
+    :   ^
     `----
 
   x ComponentValue

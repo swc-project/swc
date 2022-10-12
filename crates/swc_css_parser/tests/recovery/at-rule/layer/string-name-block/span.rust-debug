@@ -79,6 +79,12 @@
  7 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
+ 1 | @layer "framework" {
+   :                    ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
  2 | h1, h2 { color: maroon; background: white;}
@@ -179,6 +185,12 @@
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
  2 | h1, h2 { color: maroon; background: white;}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:2:5]
+ 2 | h1, h2 { color: maroon; background: white;}
+   :        ^
    `----
 
   x ComponentValue
@@ -371,6 +383,12 @@
  6 | `->     }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:4:5]
+ 4 | @media (prefers-color-scheme: dark) {
+   :                                     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
  5 | h1, h2 { color: red; background: black; }
@@ -471,6 +489,12 @@
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
  5 | h1, h2 { color: red; background: black; }
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:5:9]
+ 5 | h1, h2 { color: red; background: black; }
+   :        ^
    `----
 
   x ComponentValue

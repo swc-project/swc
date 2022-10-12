@@ -75,6 +75,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
+ 1 | @media print {
+   :              ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
  2 | color: teal;
@@ -215,6 +221,12 @@
  3 | ,-> main {
  4 | |           color: orange;
  5 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
+ 3 | main {
+   :      ^
    `----
 
   x ComponentValue

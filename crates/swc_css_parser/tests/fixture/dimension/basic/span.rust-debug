@@ -93,6 +93,12 @@
  9 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/dimension/basic/input.css:2:5]
  2 | prop: 10px;

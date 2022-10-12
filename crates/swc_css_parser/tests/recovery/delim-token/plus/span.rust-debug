@@ -77,6 +77,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/delim-token/plus/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/plus/input.css:2:5]
  2 | prop: +;

@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+   :                ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:2:5]
  2 | margin: 2cm;

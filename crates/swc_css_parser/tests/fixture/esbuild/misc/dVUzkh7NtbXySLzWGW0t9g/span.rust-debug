@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
+ 1 | a { color: red } a { color: green } a { color: red }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
@@ -167,6 +173,12 @@
    :                    ^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
+ 1 | a { color: red } a { color: green } a { color: red }
+   :                    ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
@@ -267,6 +279,12 @@
    ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
  1 | a { color: red } a { color: green } a { color: red }
    :                                       ^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/dVUzkh7NtbXySLzWGW0t9g/input.css:1:1]
+ 1 | a { color: red } a { color: green } a { color: red }
+   :                                       ^
    `----
 
   x ComponentValue

@@ -124,3 +124,9 @@
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                                ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
+ 1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
+   :                                                                                                ^
+   `----

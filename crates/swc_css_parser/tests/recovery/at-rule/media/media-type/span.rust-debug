@@ -95,6 +95,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | @media only layer {
+   :                   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
  2 | ,-> a {
@@ -163,6 +169,12 @@
  2 | ,-> a {
  3 | |           color: red;
  4 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:5]
+ 2 | a {
+   :   ^
    `----
 
   x ComponentValue

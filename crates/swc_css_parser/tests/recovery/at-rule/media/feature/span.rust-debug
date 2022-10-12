@@ -82,3 +82,9 @@
  1 | @media screen and {}
    :                   ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/feature/input.css:1:1]
+ 1 | @media screen and {}
+   :                   ^
+   `----

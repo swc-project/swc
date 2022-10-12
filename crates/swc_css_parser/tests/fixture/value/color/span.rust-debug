@@ -284,6 +284,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/color/input.css:1:1]
+ 1 | .hex-color {
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/color/input.css:2:5]
  2 | color: #00ff00;
@@ -571,6 +577,12 @@
  22 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
  23 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/value/color/input.css:8:1]
+ 8 | .rgb {
+   :      ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/color/input.css:9:5]
@@ -2499,6 +2511,12 @@
  41 | |       color: rgba(123 123 123 / none);
  42 | |       color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
  43 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:25:1]
+ 25 | .rgba {
+    :       ^
     `----
 
   x ComponentValue
@@ -4802,6 +4820,12 @@
  57 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:45:1]
+ 45 | .hsl {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:46:5]
  46 | color: hsl(38.824 100% 50%);
@@ -6473,6 +6497,12 @@
  63 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:59:1]
+ 59 | .hsla {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:60:5]
  60 | color: hsla(100, 100%, 50%, .8);
@@ -7056,6 +7086,12 @@
  71 | |       color: hwb(var(--a) var(--b) var(--c));
  72 | |       color: hwb(var(--a) var(--b) var(--c) / var(--d));
  73 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:65:1]
+ 65 | .hwb {
+    :      ^
     `----
 
   x ComponentValue
@@ -8033,6 +8069,12 @@
  81 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:75:1]
+ 75 | .lab {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:76:5]
  76 | color: lab(29.2345% 39.3825 20.0664);
@@ -8799,6 +8841,12 @@
  90 | |       color: lch(var(--a) var(--b) var(--c));
  91 | |       color: lch(var(--a) var(--b) var(--c) / var(--d));
  92 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:83:1]
+ 83 | .lch {
+    :      ^
     `----
 
   x ComponentValue
@@ -9929,6 +9977,12 @@
  97 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:94:1]
+ 94 | .oklab {
+    :        ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:95:5]
  95 | color: oklab(40.101% 0.1147 0.0453);
@@ -10234,6 +10288,12 @@
  103 | |       color: oklch(var(--a) var(--b) var(--c) / var(--d));
  104 | `-> }
      `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/color/input.css:99:1]
+ 99 | .oklch {
+    :        ^
+    `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:100:5]
@@ -10920,6 +10980,12 @@
  128 | |       color: color(var(--a) var(--b) var(--c) var(--d));
  129 | |       color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
  130 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:106:1]
+ 106 | .color {
+     :        ^
      `----
 
   x ComponentValue
@@ -13583,6 +13649,12 @@
  134 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:132:1]
+ 132 | @color-profile --fogra55beta {
+     :                              ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:133:5]
  133 | src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
@@ -13707,6 +13779,12 @@
  141 | |       background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
  142 | |       background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
  143 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:136:1]
+ 136 | .dark_skin {
+     :            ^
      `----
 
   x ComponentValue
@@ -14678,6 +14756,12 @@
  151 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:145:1]
+ 145 | .device-cmyk {
+     :              ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:146:5]
  146 | color: device-cmyk(0 81% 81% 30%);
@@ -15492,6 +15576,12 @@
  158 | |       color: color-mix(in lch, plum, purple);
  159 | |       color: color-mix(in lch, purple 80%, plum 80%);
  160 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:153:1]
+ 153 | .color-mix {
+     :            ^
      `----
 
   x ComponentValue
@@ -16418,6 +16508,12 @@
  165 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:162:1]
+ 162 | .color-contrast {
+     :                 ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:163:5]
  163 | color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
@@ -16919,6 +17015,12 @@
  171 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:167:1]
+ 167 | .foo {
+     :      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:168:5]
  168 | color: device-cmyk(0 81% 81% 30%);
@@ -17256,6 +17358,12 @@
  175 | |       color: lab(45.060% 45.477 35.459);
  176 | |       color: rgb(70.690% 26.851% 19.724%);
  177 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:173:1]
+ 173 | .bar {
+     :      ^
      `----
 
   x ComponentValue
@@ -17691,6 +17799,12 @@
  189 | |       color: device-cmyk(0 calc(20%) 81% 30%);
  190 | |       color: color(display-p3 calc(1 + 2) 0.5 0);
  191 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:179:1]
+ 179 | .calc {
+     :       ^
      `----
 
   x ComponentValue
@@ -20228,6 +20342,12 @@
  203 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:193:1]
+ 193 | .relative {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:194:5]
  194 | color: rgb(from indianred 255 255 255);
@@ -21408,6 +21528,12 @@
  213 | |       color: rgb(constant(--red) constant(--green) constant(--blue));
  214 | |       color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
  215 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/value/color/input.css:206:1]
+ 206 | .var {
+     :      ^
      `----
 
   x ComponentValue

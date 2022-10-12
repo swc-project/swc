@@ -77,6 +77,12 @@
    :          ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:1:1]
+ 1 | :unknown {}
+   :          ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  2 | :unknown() {}
@@ -129,6 +135,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
  2 | :unknown() {}
    :            ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:2:1]
+ 2 | :unknown() {}
+   :            ^
    `----
 
   x Rule
@@ -195,6 +207,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
  3 | :unknown(foo) {}
    :               ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:3:1]
+ 3 | :unknown(foo) {}
+   :               ^
    `----
 
   x Rule
@@ -285,6 +303,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
  4 | :unknown(foo bar) {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:4:1]
+ 4 | :unknown(foo bar) {}
+   :                   ^
    `----
 
   x Rule
@@ -389,6 +413,12 @@
    :                    ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:5:1]
+ 5 | :unknown(foo, bar) {}
+   :                    ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  6 | :unknown([foo]) {}
@@ -477,6 +507,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
  6 | :unknown([foo]) {}
    :                 ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:6:1]
+ 6 | :unknown([foo]) {}
+   :                 ^
    `----
 
   x Rule
@@ -591,6 +627,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
  7 | :unknown((foo bar)) {}
    :                     ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:7:1]
+ 7 | :unknown((foo bar)) {}
+   :                     ^
    `----
 
   x Rule
@@ -731,6 +773,12 @@
    :                       ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:8:1]
+ 8 | :unknown(((foo bar))) {}
+   :                       ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
@@ -855,6 +903,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
  9 | :unknown({foo: bar}) {}
    :                      ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:9:1]
+ 9 | :unknown({foo: bar}) {}
+   :                      ^
    `----
 
   x Rule
@@ -1005,6 +1059,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
  10 | :unknown({{foo: bar}}) {}
     :                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:10:1]
+ 10 | :unknown({{foo: bar}}) {}
+    :                        ^
     `----
 
   x Rule
@@ -1169,6 +1229,12 @@
     :                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:11:1]
+ 11 | :unknown({foo: bar !important}) {}
+    :                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  12 | :unknown("string") {}
@@ -1233,6 +1299,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
  12 | :unknown("string") {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:12:1]
+ 12 | :unknown("string") {}
+    :                    ^
     `----
 
   x Rule
@@ -1337,6 +1409,12 @@
     :                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:13:1]
+ 13 | :unknown("string", foo) {}
+    :                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  14 | :unknown('string') {}
@@ -1401,6 +1479,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
  14 | :unknown('string') {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:14:1]
+ 14 | :unknown('string') {}
+    :                    ^
     `----
 
   x Rule
@@ -1470,6 +1554,12 @@
     :                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:15:1]
+ 15 | :unknown(url(foo.png)) {}
+    :                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
  16 | :unknown({!}) {}
@@ -1560,6 +1650,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:16:1]
+ 16 | :unknown({!}) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  17 | :unknown(!) {}
@@ -1624,6 +1720,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
  17 | :unknown(!) {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:17:1]
+ 17 | :unknown(!) {}
+    :             ^
     `----
 
   x Rule
@@ -1716,6 +1818,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:18:1]
+ 18 | :unknown({;}) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  19 | :unknown(;) {}
@@ -1780,4 +1888,10 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
  19 | :unknown(;) {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/unknown/input.css:19:1]
+ 19 | :unknown(;) {}
+    :             ^
     `----

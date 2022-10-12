@@ -77,6 +77,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/function/mix/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/function/mix/input.css:3:5]
  3 | opacity: mix( 70% by ease ; 0% ; 100% );

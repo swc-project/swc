@@ -253,6 +253,12 @@
  49 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/function/url/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/function/url/input.css:2:5]
  2 | background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);

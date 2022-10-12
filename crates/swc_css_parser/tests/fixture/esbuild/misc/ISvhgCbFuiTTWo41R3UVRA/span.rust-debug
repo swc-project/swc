@@ -58,3 +58,9 @@
  1 | .\2c class {}
    :            ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/ISvhgCbFuiTTWo41R3UVRA/input.css:1:1]
+ 1 | .\2c class {}
+   :            ^
+   `----

@@ -81,6 +81,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/angle/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/angle/input.css:2:5]
  2 | transform: rotate(45deg);

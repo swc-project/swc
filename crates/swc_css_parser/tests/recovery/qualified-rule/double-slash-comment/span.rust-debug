@@ -117,6 +117,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:2:1]
+ 2 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/qualified-rule/double-slash-comment/input.css:3:5]
  3 | color: red;

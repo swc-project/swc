@@ -136,6 +136,12 @@
    :                            ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:1:1]
+ 1 | html > /**/ body .selector {}
+   :                            ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/hacks/input.css:2:1]
  2 | head ~ /**/ body .selector {}
@@ -262,6 +268,12 @@
    :                            ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:2:1]
+ 2 | head ~ /**/ body .selector {}
+   :                            ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/hacks/input.css:4:1]
  4 | .selector { _property: value; }
@@ -314,6 +326,12 @@
    ,-[$DIR/tests/fixture/hacks/input.css:4:1]
  4 | .selector { _property: value; }
    :           ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:4:1]
+ 4 | .selector { _property: value; }
+   :           ^
    `----
 
   x ComponentValue
@@ -410,6 +428,12 @@
    ,-[$DIR/tests/fixture/hacks/input.css:5:1]
  5 | .selector { -property: value; }
    :           ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:5:1]
+ 5 | .selector { -property: value; }
+   :           ^
    `----
 
   x ComponentValue
@@ -508,6 +532,12 @@
    :           ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:6:1]
+ 6 | .selector { property: value\9; }
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/hacks/input.css:6:1]
  6 | .selector { property: value\9; }
@@ -602,6 +632,12 @@
    ,-[$DIR/tests/fixture/hacks/input.css:7:1]
  7 | .selector { property/*\**/: value\9; }
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/hacks/input.css:7:1]
+ 7 | .selector { property/*\**/: value\9; }
+   :           ^
    `----
 
   x ComponentValue

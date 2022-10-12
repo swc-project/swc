@@ -65,6 +65,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                                         ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:2:5]
  2 | ,-> .a {
@@ -127,6 +133,12 @@
  2 | ,-> .a {
  3 | |           color: red;
  4 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:2:5]
+ 2 | .a {
+   :    ^
    `----
 
   x ComponentValue

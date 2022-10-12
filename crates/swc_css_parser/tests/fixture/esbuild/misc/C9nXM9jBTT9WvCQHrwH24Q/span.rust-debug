@@ -70,3 +70,9 @@
  1 | &[a] {}
    :      ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/C9nXM9jBTT9WvCQHrwH24Q/input.css:1:1]
+ 1 | &[a] {}
+   :      ^
+   `----

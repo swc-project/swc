@@ -142,6 +142,12 @@
  17 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:1:1]
+ 1 | .class {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:2:5]
  2 | color: blue;
@@ -256,6 +262,12 @@
  5 | |           ident
  6 | |           color: green;
  7 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:4:5]
+ 4 | &.foo {
+   :       ^
    `----
 
   x ComponentValue
@@ -481,6 +493,12 @@
  16 | `->     }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:9:5]
+ 9 | @supports not (display: grid) {
+   :                               ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:10:9]
  10 | float: right;
@@ -607,6 +625,12 @@
  13 | |               ident
  14 | |               color: red 
  15 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:12:9]
+ 12 | & .class {
+    :          ^
     `----
 
   x ComponentValue
@@ -808,6 +832,12 @@
  35 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:19:1]
+ 19 | .class {
+    :        ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:20:5]
  20 | color: blue;
@@ -922,6 +952,12 @@
  23 | |           ident;
  24 | |           color: green;
  25 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:22:5]
+ 22 | &.foo {
+    :       ^
     `----
 
   x ComponentValue
@@ -1128,6 +1164,12 @@
  34 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:27:5]
+ 27 | @supports not (display: grid) {
+    :                               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:28:9]
  28 | float: right;
@@ -1254,6 +1296,12 @@
  31 | |               ident;
  32 | |               color: red
  33 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:30:9]
+ 30 | & .class {
+    :          ^
     `----
 
   x ComponentValue
@@ -1392,6 +1440,12 @@
  38 | |       color: red;
  39 | |       & test;
  40 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:37:1]
+ 37 | .class {
+    :        ^
     `----
 
   x ComponentValue

@@ -91,6 +91,12 @@
  10 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/calc/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/calc/input.css:2:5]
  2 | width: calc(2px);

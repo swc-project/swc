@@ -73,6 +73,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/single-quotes/input.css:2:5]
  2 | background: url(image'.png);

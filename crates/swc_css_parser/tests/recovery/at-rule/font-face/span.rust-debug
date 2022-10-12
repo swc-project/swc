@@ -57,6 +57,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+ 1 | @font-face {
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:5]
  2 | invalid
@@ -124,6 +130,12 @@
  7 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
+ 5 | @font-face {
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:5]
  6 | invalid;
@@ -186,6 +198,12 @@
  10 | |       123
  11 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
+ 9 | @font-face {
+   :            ^
+   `----
 
   x ComponentValue
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
@@ -252,6 +270,12 @@
  13 | ,-> @font-face {
  14 | |       123;
  15 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
+ 13 | @font-face {
+    :            ^
     `----
 
   x ComponentValue
@@ -336,6 +360,12 @@
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  17 | @font-face foo {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :                ^
     `----
 
   x Rule

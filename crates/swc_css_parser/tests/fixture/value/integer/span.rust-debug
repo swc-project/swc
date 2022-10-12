@@ -89,6 +89,12 @@
  8 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:2:5]
  2 | z-index: 12;

@@ -65,6 +65,12 @@
  2 | `->     prop: #
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:5]
  2 | prop: #

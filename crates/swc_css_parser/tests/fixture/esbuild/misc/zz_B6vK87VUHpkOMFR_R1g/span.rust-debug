@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
+ 1 | a { value: 10e\32x }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }

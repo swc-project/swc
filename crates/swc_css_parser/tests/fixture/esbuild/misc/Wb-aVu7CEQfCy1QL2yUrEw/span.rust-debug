@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1]
+ 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/Wb-aVu7CEQfCy1QL2yUrEw/input.css:1:1]
  1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5; }

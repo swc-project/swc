@@ -123,6 +123,12 @@
  18 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:1:1]
+ 1 | @page :first {
+   :              ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:2:5]
  2 | color: green;
@@ -193,6 +199,12 @@
  5 | |           content: "foo";
  6 | |           color: blue;
  7 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:4:5]
+ 4 | @top-left {
+   :           ^
    `----
 
   x ComponentValue
@@ -312,6 +324,12 @@
  15 | `->     }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:9:5]
+ 9 | @top-right {
+   :            ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:9]
  10 | ,-> @top-right {
@@ -343,6 +361,12 @@
  10 | ,-> @top-right {
  11 | |               content: "zzz";
  12 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/at-rule/page/invalid-nesting/input.css:10:9]
+ 10 | @top-right {
+    :            ^
     `----
 
   x ComponentValue

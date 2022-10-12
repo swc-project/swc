@@ -79,6 +79,12 @@
  7 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/comment/input.css:5:1]
+ 5 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/comment/input.css:6:5]
  6 | color: white; /* comment */
@@ -184,6 +190,12 @@
  11 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/comment/input.css:9:1]
+ 9 | a {
+   :   ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/comment/input.css:10:5]
  10 | color: /* comment */ white;
@@ -287,6 +299,12 @@
  13 | ,-> a /* comment */ {
  14 | |   	color: white;
  15 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/comment/input.css:13:1]
+ 13 | a /* comment */ {
+    :                 ^
     `----
 
   x ComponentValue

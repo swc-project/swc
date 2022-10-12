@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/fit-content/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/fit-content/input.css:2:5]
  2 | grid-template-columns: fit-content(8ch) fit-content(8ch) 1fr;

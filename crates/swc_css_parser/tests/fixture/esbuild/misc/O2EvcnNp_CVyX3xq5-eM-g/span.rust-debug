@@ -83,6 +83,12 @@
  2 | `-> b' }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1]
+ 1 | a:after { content: 'a\
+   :         ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/O2EvcnNp_CVyX3xq5-eM-g/input.css:1:1]
  1 | ,-> a:after { content: 'a\

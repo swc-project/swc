@@ -93,6 +93,12 @@
    :      ^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:1:1]
+ 1 | @page{ }
+   :      ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/page/input.css:2:1]
  2 | @page{}
@@ -123,6 +129,12 @@
    :      ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:2:1]
+ 2 | @page{}
+   :      ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/page/input.css:3:1]
  3 | @page{margin: 1cm}
@@ -151,6 +163,12 @@
    ,-[$DIR/tests/fixture/at-rule/page/input.css:3:1]
  3 | @page{margin: 1cm}
    :      ^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:3:1]
+ 3 | @page{margin: 1cm}
+   :      ^
    `----
 
   x ComponentValue
@@ -237,6 +255,12 @@
    :       ^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:4:1]
+ 4 | @page {margin: 1cm}
+   :       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/page/input.css:4:1]
  4 | @page {margin: 1cm}
@@ -319,6 +343,12 @@
    ,-[$DIR/tests/fixture/at-rule/page/input.css:5:1]
  5 | @page {margin: 1cm;}
    :       ^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:5:1]
+ 5 | @page {margin: 1cm;}
+   :       ^
    `----
 
   x ComponentValue
@@ -429,6 +459,12 @@
    :              ^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:6:1]
+ 6 | @page :first {margin: 2cm}
+   :              ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/page/input.css:6:1]
  6 | @page :first {margin: 2cm}
@@ -535,6 +571,12 @@
    ,-[$DIR/tests/fixture/at-rule/page/input.css:7:1]
  7 | @page :first {margin: 2cm;}
    :              ^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:7:1]
+ 7 | @page :first {margin: 2cm;}
+   :              ^
    `----
 
   x ComponentValue
@@ -645,6 +687,12 @@
    :             ^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:8:1]
+ 8 | @page :first{margin: 2cm;}
+   :             ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/page/input.css:8:1]
  8 | @page :first{margin: 2cm;}
@@ -729,6 +777,12 @@
    :       ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/page/input.css:9:1]
+ 9 | @page {}
+   :       ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:10:1]
  10 | @page :left {}
@@ -781,6 +835,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:10:1]
  10 | @page :left {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:10:1]
+ 10 | @page :left {}
+    :             ^
     `----
 
   x Rule
@@ -837,6 +897,12 @@
     :              ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:11:1]
+ 11 | @page :right {}
+    :              ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:12:1]
  12 | @page LandscapeTable {}
@@ -889,6 +955,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:12:1]
  12 | @page LandscapeTable {}
     :                      ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:12:1]
+ 12 | @page LandscapeTable {}
+    :                      ^
     `----
 
   x Rule
@@ -957,6 +1029,12 @@
     :                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:13:1]
+ 13 | @page CompanyLetterHead:first {} /*  identifier and pseudo page. */
+    :                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:14:1]
  14 | @page:first {}
@@ -1009,6 +1087,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:14:1]
  14 | @page:first {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:14:1]
+ 14 | @page:first {}
+    :             ^
     `----
 
   x Rule
@@ -1081,6 +1165,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:15:1]
  15 | @page toc, index {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:15:1]
+ 15 | @page toc, index {}
+    :                  ^
     `----
 
   x Rule
@@ -1149,6 +1239,12 @@
     :                    ^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:16:1]
+ 16 | @page :blank:first { }
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:17:1]
  17 | ,-> @page {
@@ -1185,6 +1281,12 @@
  20 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:17:1]
+ 17 | @page {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
  18 | @top-left {}
@@ -1215,6 +1317,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:18:5]
+ 18 | @top-left {}
+    :           ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:19:5]
  19 | @bottom-center {}
@@ -1243,6 +1351,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:19:5]
  19 | @bottom-center {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:19:5]
+ 19 | @bottom-center {}
+    :                ^
     `----
 
   x Rule
@@ -1299,6 +1413,12 @@
     :             ^^^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
+ 21 | @page :left { @left-middle {}}
+    :             ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
  21 | @page :left { @left-middle {}}
@@ -1327,6 +1447,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
  21 | @page :left { @left-middle {}}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:21:1]
+ 21 | @page :left { @left-middle {}}
+    :                            ^
     `----
 
   x Rule
@@ -1383,6 +1509,12 @@
     :             ^^^^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
+ 22 | @page :right{ @right-middle {}}
+    :             ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
  22 | @page :right{ @right-middle {}}
@@ -1411,6 +1543,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
  22 | @page :right{ @right-middle {}}
     :                             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:22:1]
+ 22 | @page :right{ @right-middle {}}
+    :                             ^
     `----
 
   x Rule
@@ -1467,6 +1605,12 @@
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+ 24 | @page :left { @bottom-left-corner {}}
+    :             ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
  24 | @page :left { @bottom-left-corner {}}
@@ -1495,6 +1639,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
  24 | @page :left { @bottom-left-corner {}}
     :                                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:24:1]
+ 24 | @page :left { @bottom-left-corner {}}
+    :                                   ^
     `----
 
   x Rule
@@ -1551,6 +1701,12 @@
     :              ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
+ 25 | @page :right { @bottom-right-corner {}}
+    :              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
  25 | @page :right { @bottom-right-corner {}}
@@ -1579,6 +1735,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
  25 | @page :right { @bottom-right-corner {}}
     :                                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:25:1]
+ 25 | @page :right { @bottom-right-corner {}}
+    :                                     ^
     `----
 
   x Rule
@@ -1641,6 +1803,12 @@
  29 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:26:1]
+ 26 | @page :first {
+    :              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
  27 | @bottom-left-corner {}
@@ -1669,6 +1837,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
  27 | @bottom-left-corner {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:27:5]
+ 27 | @bottom-left-corner {}
+    :                     ^
     `----
 
   x ComponentValue
@@ -1701,6 +1875,12 @@
     :                      ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:28:5]
+ 28 | @bottom-right-corner {}
+    :                      ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:30:1]
  30 | @page {}
@@ -1729,6 +1909,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:30:1]
  30 | @page {}
     :       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:30:1]
+ 30 | @page {}
+    :       ^
     `----
 
   x Rule
@@ -1785,6 +1971,12 @@
     :             ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:31:1]
+ 31 | @page :left {}
+    :             ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:32:1]
  32 | @page :first {}
@@ -1837,6 +2029,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:32:1]
  32 | @page :first {}
     :              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:32:1]
+ 32 | @page :first {}
+    :              ^
     `----
 
   x Rule
@@ -1905,6 +2103,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:33:1]
+ 33 | @page :blank:left {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:34:1]
  34 | @page artsy {}
@@ -1957,6 +2161,12 @@
     ,-[$DIR/tests/fixture/at-rule/page/input.css:34:1]
  34 | @page artsy {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:34:1]
+ 34 | @page artsy {}
+    :             ^
     `----
 
   x Rule
@@ -2025,6 +2235,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:35:1]
+ 35 | @page artsy:left {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:36:1]
  36 | @page artsy:first {}
@@ -2091,6 +2307,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:36:1]
+ 36 | @page artsy:first {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/page/input.css:37:1]
  37 | ,-> @page :first {
@@ -2172,6 +2394,12 @@
  47 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:37:1]
+ 37 | @page :first {
+    :              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:38:5]
  38 | color: green;
@@ -2242,6 +2470,12 @@
  41 | |           content: "foo";
  42 | |           color: blue;
  43 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:40:5]
+ 40 | @top-left {
+    :           ^
     `----
 
   x ComponentValue
@@ -2349,6 +2583,12 @@
  46 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:44:5]
+ 44 | @top-right {
+    :            ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:45:9]
  45 | content: "bar";
@@ -2472,6 +2712,12 @@
  60 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:48:1]
+ 48 | @page :first {
+    :              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/page/input.css:49:5]
  49 | color: green;
@@ -2542,6 +2788,12 @@
  52 | |           content: "foo";
  53 | |           color: blue;
  54 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:51:5]
+ 51 | @top-left {
+    :           ^
     `----
 
   x ComponentValue
@@ -2647,6 +2899,12 @@
  55 | ,-> @top-right {
  56 | |           content: "bar";
  57 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/page/input.css:55:5]
+ 55 | @top-right {
+    :            ^
     `----
 
   x ComponentValue

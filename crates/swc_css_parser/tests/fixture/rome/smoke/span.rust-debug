@@ -81,6 +81,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/smoke/input.css:2:1]
+ 2 | body {
+   :      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/smoke/input.css:3:5]
  3 | background: red;

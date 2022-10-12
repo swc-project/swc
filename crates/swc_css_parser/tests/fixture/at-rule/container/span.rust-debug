@@ -203,6 +203,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:1:1]
+ 1 | @container (width <= 150px) {
+   :                             ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
  2 | ,-> #inner {
@@ -265,6 +271,12 @@
  2 | ,-> #inner {
  3 | |           background-color: skyblue;
  4 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:2:5]
+ 2 | #inner {
+   :        ^
    `----
 
   x ComponentValue
@@ -408,6 +420,12 @@
  13 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:7:1]
+ 7 | @supports (container-type: size) {
+   :                                  ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
   8 | ,-> @container ( width <= 150px ) {
@@ -486,6 +504,12 @@
  12 | `->     }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:8:5]
+ 8 | @container ( width <= 150px ) {
+   :                               ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
   9 | ,-> #inner {
@@ -549,6 +573,12 @@
  10 | |               background-color: skyblue;
  11 | `->         }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/container/input.css:9:9]
+ 9 | #inner {
+   :        ^
+   `----
 
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:10:13]
@@ -667,6 +697,12 @@
  19 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:15:1]
+ 15 | @container not (width <= 500px ) {
+    :                                  ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
  16 | ,-> #inner {
@@ -729,6 +765,12 @@
  16 | ,-> #inner {
  17 | |           background-color: skyblue;
  18 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:16:5]
+ 16 | #inner {
+    :        ^
     `----
 
   x ComponentValue
@@ -854,6 +896,12 @@
  25 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:21:1]
+ 21 | @container name not (width <= 500px) {
+    :                                      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
  22 | ,-> #inner {
@@ -916,6 +964,12 @@
  22 | ,-> #inner {
  23 | |           background-color: skyblue;
  24 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:22:5]
+ 22 | #inner {
+    :        ^
     `----
 
   x ComponentValue
@@ -1059,6 +1113,12 @@
  29 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:27:1]
+ 27 | main, aside {
+    :             ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:28:5]
  28 | container: my-layout / inline-size;
@@ -1183,6 +1243,12 @@
  32 | |       display: grid;
  33 | |       grid-template: 'img' auto 'content' auto / 100%;
  34 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:31:1]
+ 31 | .media-object {
+    :               ^
     `----
 
   x ComponentValue
@@ -1410,6 +1476,12 @@
  40 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:36:1]
+ 36 | @container my-layout (inline-size > 45em) {
+    :                                           ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
  37 | ,-> .media-object {
@@ -1472,6 +1544,12 @@
  37 | ,-> .media-object {
  38 | |           grid-template: 'img content' auto / auto 1fr;
  39 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:37:5]
+ 37 | .media-object {
+    :               ^
     `----
 
   x ComponentValue
@@ -1717,6 +1795,12 @@
  44 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:42:1]
+ 42 | @container card (inline-size > 30em) and style(--responsive: true) {
+    :                                                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:43:5]
  43 | .card { margin-block: 2em; }
@@ -1775,6 +1859,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:43:5]
  43 | .card { margin-block: 2em; }
     :       ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:43:5]
+ 43 | .card { margin-block: 2em; }
+    :       ^
     `----
 
   x ComponentValue
@@ -1972,6 +2062,12 @@
  48 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:46:1]
+ 46 | @container card (inline-size > 30em) or style(--responsive: true) {
+    :                                                                   ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:47:5]
  47 | .card { margin-block: 2em; }
@@ -2030,6 +2126,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:47:5]
  47 | .card { margin-block: 2em; }
     :       ^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:47:5]
+ 47 | .card { margin-block: 2em; }
+    :       ^
     `----
 
   x ComponentValue
@@ -2155,6 +2257,12 @@
  52 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:50:1]
+ 50 | @container (inline-size >= 0px) {
+    :                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:51:5]
  51 | h2 { font-size: calc(1.2em + 1cqw); }
@@ -2219,6 +2327,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:51:5]
  51 | h2 { font-size: calc(1.2em + 1cqw); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:51:5]
+ 51 | h2 { font-size: calc(1.2em + 1cqw); }
+    :    ^
     `----
 
   x ComponentValue
@@ -2452,6 +2566,12 @@
  56 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:54:1]
+ 54 | @container (inline-size >= 0px) {
+    :                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:55:5]
  55 | h2 { font-size: calc(1.2em + 1cqh); }
@@ -2516,6 +2636,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:55:5]
  55 | h2 { font-size: calc(1.2em + 1cqh); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:55:5]
+ 55 | h2 { font-size: calc(1.2em + 1cqh); }
+    :    ^
     `----
 
   x ComponentValue
@@ -2749,6 +2875,12 @@
  60 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:58:1]
+ 58 | @container (inline-size >= 0px) {
+    :                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:59:5]
  59 | h2 { font-size: calc(1.2em + 1cqi); }
@@ -2813,6 +2945,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:59:5]
  59 | h2 { font-size: calc(1.2em + 1cqi); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:59:5]
+ 59 | h2 { font-size: calc(1.2em + 1cqi); }
+    :    ^
     `----
 
   x ComponentValue
@@ -3046,6 +3184,12 @@
  64 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:62:1]
+ 62 | @container (inline-size >= 0px) {
+    :                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:63:5]
  63 | h2 { font-size: calc(1.2em + 1cqb); }
@@ -3110,6 +3254,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:63:5]
  63 | h2 { font-size: calc(1.2em + 1cqb); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:63:5]
+ 63 | h2 { font-size: calc(1.2em + 1cqb); }
+    :    ^
     `----
 
   x ComponentValue
@@ -3341,6 +3491,12 @@
  66 | ,-> @container (inline-size >= 0px) {
  67 | |       h2 { font-size: calc(1.2em + 1cqmin); }
  68 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:66:1]
+ 66 | @container (inline-size >= 0px) {
+    :                                 ^
     `----
 
   x ComponentValue
@@ -3407,6 +3563,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:67:5]
  67 | h2 { font-size: calc(1.2em + 1cqmin); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:67:5]
+ 67 | h2 { font-size: calc(1.2em + 1cqmin); }
+    :    ^
     `----
 
   x ComponentValue
@@ -3640,6 +3802,12 @@
  72 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:70:1]
+ 70 | @container (inline-size >= 0px) {
+    :                                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:71:5]
  71 | h2 { font-size: calc(1.2em + 1cqmax); }
@@ -3704,6 +3872,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:71:5]
  71 | h2 { font-size: calc(1.2em + 1cqmax); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:71:5]
+ 71 | h2 { font-size: calc(1.2em + 1cqmax); }
+    :    ^
     `----
 
   x ComponentValue
@@ -3937,6 +4111,12 @@
  78 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:74:1]
+ 74 | @media screen {
+    :               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
  75 | ,-> @container card (inline-size > 30em) and (inline-size < 45em) {
@@ -4049,6 +4229,12 @@
  77 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:75:5]
+ 75 | @container card (inline-size > 30em) and (inline-size < 45em) {
+    :                                                               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:76:9]
  76 | h2 { font-size: calc(1.2em + 1cqmax); }
@@ -4113,6 +4299,12 @@
     ,-[$DIR/tests/fixture/at-rule/container/input.css:76:9]
  76 | h2 { font-size: calc(1.2em + 1cqmax); }
     :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:76:9]
+ 76 | h2 { font-size: calc(1.2em + 1cqmax); }
+    :    ^
     `----
 
   x ComponentValue
@@ -4376,6 +4568,12 @@
  84 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:80:1]
+ 80 | @container (100px > width > 150px) {
+    :                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
  81 | ,-> #inner {
@@ -4438,6 +4636,12 @@
  81 | ,-> #inner {
  82 | |           background-color: skyblue;
  83 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:81:5]
+ 81 | #inner {
+    :        ^
     `----
 
   x ComponentValue
@@ -4557,6 +4761,12 @@
  90 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:86:1]
+ 86 | @container (not (width <= 150px)) {
+    :                                   ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
  87 | ,-> #inner {
@@ -4619,6 +4829,12 @@
  87 | ,-> #inner {
  88 | |           background-color: skyblue;
  89 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:87:5]
+ 87 | #inner {
+    :        ^
     `----
 
   x ComponentValue
@@ -4732,6 +4948,12 @@
  96 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:92:1]
+ 92 | @container ((width <= 150px)) {
+    :                               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
  93 | ,-> #inner {
@@ -4794,6 +5016,12 @@
  93 | ,-> #inner {
  94 | |           background-color: skyblue;
  95 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:93:5]
+ 93 | #inner {
+    :        ^
     `----
 
   x ComponentValue
@@ -4910,6 +5138,12 @@
  103 | `-> }
      `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:98:1]
+ 98 | @container (min-width: 700px) {
+    :                               ^
+    `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
   99 | ,-> .card {
@@ -4977,6 +5211,12 @@
  101 | |           grid-template-columns: 2fr 1fr;
  102 | `->     }
      `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/container/input.css:99:5]
+ 99 | .card {
+    :       ^
+    `----
 
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:100:9]
@@ -5188,6 +5428,12 @@
  111 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:106:1]
+ 106 | @container sidebar (min-width: 400px) {
+     :                                       ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
  107 | ,-> .card {
@@ -5254,6 +5500,12 @@
  108 | |           display: grid;
  109 | |           grid-template-columns: 2fr 1fr;
  110 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:107:5]
+ 107 | .card {
+     :       ^
      `----
 
   x ComponentValue
@@ -5493,6 +5745,12 @@
  117 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:113:1]
+ 113 | @container test style(--responsive: true) {
+     :                                           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
  114 | ,-> #inner {
@@ -5555,6 +5813,12 @@
  114 | ,-> #inner {
  115 | |           background-color: skyblue;
  116 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:114:5]
+ 114 | #inner {
+     :        ^
      `----
 
   x ComponentValue
@@ -5698,6 +5962,12 @@
  123 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:119:1]
+ 119 | @container style(--responsive: true) {
+     :                                      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
  120 | ,-> #inner {
@@ -5760,6 +6030,12 @@
  120 | ,-> #inner {
  121 | |           background-color: skyblue;
  122 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:120:5]
+ 120 | #inner {
+     :        ^
      `----
 
   x ComponentValue
@@ -5885,6 +6161,12 @@
  131 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:125:1]
+ 125 | @container card (inline-size > 30em) {
+     :                                      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
  126 | ,-> @container style(--responsive: true) {
@@ -5993,6 +6275,12 @@
  130 | `->     }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:126:5]
+ 126 | @container style(--responsive: true) {
+     :                                      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
  127 | ,-> #inner {
@@ -6055,6 +6343,12 @@
  127 | ,-> #inner {
  128 | |               background-color: skyblue;
  129 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:127:9]
+ 127 | #inner {
+     :        ^
      `----
 
   x ComponentValue

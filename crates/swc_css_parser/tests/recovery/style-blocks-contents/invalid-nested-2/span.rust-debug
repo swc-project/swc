@@ -78,6 +78,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:1:1]
+ 1 | .class {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:2:5]
  2 | color: red;
@@ -294,6 +300,12 @@
  12 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
+ 7 | article {
+   :         ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:8:5]
  8 | color: green;
@@ -426,6 +438,12 @@
    :   ^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
+ 9 | & { color: blue; }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:9:5]
  9 | & { color: blue; }
@@ -532,6 +550,12 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
  11 | &.foo { color: yellow; } /* valid! */
     :       ^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:11:5]
+ 11 | &.foo { color: yellow; } /* valid! */
+    :       ^
     `----
 
   x ComponentValue

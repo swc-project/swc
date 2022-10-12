@@ -67,6 +67,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | .class {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/unicode-range/input.css:2:5]
  2 | unicode-range: U+1Z1ee1-FFFFFF;

@@ -209,6 +209,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/function/calc/input.css:1:1]
+ 1 | :root {
+   :       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/function/calc/input.css:2:5]
  2 | font-size: calc(100vw / 35);
@@ -481,6 +487,12 @@
  30 | |       width: calc((1 * 2) * (5px + 20em / 2) - 80% / (3 - 1) + 5px);
  31 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/function/calc/input.css:5:1]
+ 5 | div {
+   :     ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/function/calc/input.css:6:5]
@@ -4664,6 +4676,12 @@
  40 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:33:1]
+ 33 | .bar {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/function/calc/input.css:34:5]
  34 | font-size: calc(1rem * pow(1.5, -1));
@@ -6159,6 +6177,12 @@
  42 | ,-> .fade {
  43 | |       background-image: linear-gradient(silver 0%, white 20px, white calc(100% - 20px), silver 100%);
  44 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:42:1]
+ 42 | .fade {
+    :       ^
     `----
 
   x ComponentValue
@@ -6551,6 +6575,12 @@
  49 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:46:1]
+ 46 | div {
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/function/calc/input.css:50:1]
  50 | div { width: calc(100% / 4); }
@@ -6609,6 +6639,12 @@
     ,-[$DIR/tests/fixture/function/calc/input.css:50:1]
  50 | div { width: calc(100% / 4); }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:50:1]
+ 50 | div { width: calc(100% / 4); }
+    :     ^
     `----
 
   x ComponentValue
@@ -6795,6 +6831,12 @@
     ,-[$DIR/tests/fixture/function/calc/input.css:51:1]
  51 | div { margin-top: calc(-120% - 4px); }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:51:1]
+ 51 | div { margin-top: calc(-120% - 4px); }
+    :     ^
     `----
 
   x ComponentValue
@@ -7011,6 +7053,12 @@
     ,-[$DIR/tests/fixture/function/calc/input.css:52:1]
  52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:52:1]
+ 52 | div { width: calc(50% - ( ( 4% ) * 0.5 ) ); }
+    :     ^
     `----
 
   x ComponentValue
@@ -7305,6 +7353,12 @@
  55 | |       background-image: linear-gradient(silver 0%, white 20px,
  56 | |       white calc(100% - 20px), silver 100%);
  57 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:54:1]
+ 54 | .fade {
+    :       ^
     `----
 
   x ComponentValue
@@ -7692,6 +7746,12 @@
  61 | |          but don’t let it go below 12px. */
  62 | |       font-size: max(10 * (1vw + 1vh) / 2, 12px);
  63 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:59:1]
+ 59 | .type {
+    :       ^
     `----
 
   x ComponentValue
@@ -8082,6 +8142,12 @@
  66 | |       /* Force the font-size to stay between 12px and 100px */
  67 | |       font-size: clamp(12px, 10 * (1vw + 1vh) / 2, 100px);
  68 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:65:1]
+ 65 | .type {
+    :       ^
     `----
 
   x ComponentValue
@@ -8592,6 +8658,12 @@
  87 | |       width: round(down, var(--width), 50px);
  88 | |       width: round(to-zero, var(--width), 50px);
  89 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:70:1]
+ 70 | .more {
+    :       ^
     `----
 
   x ComponentValue
@@ -11651,6 +11723,12 @@
  95 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:91:1]
+ 91 | .min-max {
+    :          ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/function/calc/input.css:92:5]
  92 | width: min(10px, 20px, 40px, 100px);
@@ -12680,6 +12758,12 @@
  99 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/function/calc/input.css:97:1]
+ 97 | .rem {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/function/calc/input.css:98:5]
  98 | width: rem(-18px, 5px);
@@ -12920,6 +13004,12 @@
  104 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:101:1]
+ 101 | .sin {
+     :      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/function/calc/input.css:102:5]
  102 | transform: rotate(sin(45deg));
@@ -13244,6 +13334,12 @@
  109 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:106:1]
+ 106 | .cos {
+     :      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/function/calc/input.css:107:5]
  107 | transform: rotate(cos(45deg));
@@ -13568,6 +13664,12 @@
  114 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:111:1]
+ 111 | .asin {
+     :       ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/function/calc/input.css:112:5]
  112 | transform: rotate(asin(45deg));
@@ -13892,6 +13994,12 @@
  119 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:116:1]
+ 116 | .acos {
+     :       ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/function/calc/input.css:117:5]
  117 | transform: rotate(acos(45deg));
@@ -14211,6 +14319,12 @@
  121 | ,-> .atan {
  122 | |       transform: rotate(atan(1 / -1));
  123 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:121:1]
+ 121 | .atan {
+     :       ^
      `----
 
   x ComponentValue
@@ -14406,6 +14520,12 @@
  125 | ,-> .atan2 {
  126 | |       transform: rotate(atan2(1, -1));
  127 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:125:1]
+ 125 | .atan2 {
+     :        ^
      `----
 
   x ComponentValue
@@ -14627,6 +14747,12 @@
  131 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:129:1]
+ 129 | .sqrt {
+     :       ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/function/calc/input.css:130:5]
  130 | size: sqrt(250);
@@ -14772,6 +14898,12 @@
  133 | ,-> .exp {
  134 | |       size: exp(250 * 2);
  135 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:133:1]
+ 133 | .exp {
+     :      ^
      `----
 
   x ComponentValue
@@ -14949,6 +15081,12 @@
  137 | ,-> .abs {
  138 | |       background-position: calc(10% * abs(-10%));
  139 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:137:1]
+ 137 | .abs {
+     :      ^
      `----
 
   x ComponentValue
@@ -15204,6 +15342,12 @@
  147 | |       background-position: sign(   10%   );
  148 | |       width: calc(   (   100px   +   100px   )   *   2   );
  149 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/function/calc/input.css:141:1]
+ 141 | .sign {
+     :       ^
      `----
 
   x ComponentValue

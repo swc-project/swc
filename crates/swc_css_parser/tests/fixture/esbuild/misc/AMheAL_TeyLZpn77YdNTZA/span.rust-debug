@@ -41,6 +41,12 @@
    :                ^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+ 1 | @keyframes abc { \66rom {} }
+   :                ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
@@ -57,4 +63,10 @@
    ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
  1 | @keyframes abc { \66rom {} }
    :                         ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/AMheAL_TeyLZpn77YdNTZA/input.css:1:1]
+ 1 | @keyframes abc { \66rom {} }
+   :                         ^
    `----

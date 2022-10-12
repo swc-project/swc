@@ -58,3 +58,9 @@
  1 | @media \0screen\,screen\9 {}
    :                           ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/fkG7TT4zrV2k19c3t785gQ/input.css:1:1]
+ 1 | @media \0screen\,screen\9 {}
+   :                           ^
+   `----

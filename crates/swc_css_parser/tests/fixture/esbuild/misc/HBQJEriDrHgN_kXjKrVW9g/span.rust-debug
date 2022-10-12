@@ -88,3 +88,9 @@
  1 | [ns|\61ttr] {}
    :             ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
+ 1 | [ns|\61ttr] {}
+   :             ^
+   `----

@@ -40,3 +40,9 @@
  1 | @-webkit-keyframes name {}
    :                         ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/spDFEMXbzLdZOmhoxVkAIQ/input.css:1:1]
+ 1 | @-webkit-keyframes name {}
+   :                         ^
+   `----
