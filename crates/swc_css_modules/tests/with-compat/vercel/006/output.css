@@ -1,0 +1,14 @@
+.__local__createTeamModal {
+  --side-padding: var(--geist-space-8x);
+  --body-padding-top: 0;
+  @media screen and (max-width: 600px) {
+    --side-padding: var(--geist-space-4x);
+       &header {
+      border-bottom: 1px solid var(--accents-2);
+      padding: 13px var(--side-padding);
+    }
+  }
+}
+   .__local__createTeamModal[data-geist-modal-inset] {
+  margin-left: var(--negative-margin);
+}

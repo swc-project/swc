@@ -1,0 +1,16 @@
+.__local__focusVisible {
+  background: var(--accents-1);
+}
+   a.__local__focusVisible:focus {
+  outline: none;
+}
+   a.__local__focusVisible:focus > div.__local__focusVisible {
+  outline: none;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+  text-decoration-color: var(--accents-7);
+}
+   button.__local__focusVisible:focus {
+  box-shadow: 0px 0px 0px 2px var(--accents-7);
+}
