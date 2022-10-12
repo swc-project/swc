@@ -67,7 +67,15 @@
           "end": 72,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 19,
+            "end": 20,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "AtRule",
@@ -94,7 +102,15 @@
                 "end": 51,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 34,
+                  "end": 35,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",

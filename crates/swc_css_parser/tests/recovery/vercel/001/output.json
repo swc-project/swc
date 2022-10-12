@@ -107,7 +107,15 @@
           "end": 306,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 27,
+            "end": 28,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "QualifiedRule",
@@ -205,7 +213,15 @@
                 "end": 86,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 54,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",
@@ -324,7 +340,15 @@
                 "end": 141,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 109,
+                  "end": 110,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",
@@ -659,7 +683,15 @@
                 "end": 272,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 241,
+                  "end": 242,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",

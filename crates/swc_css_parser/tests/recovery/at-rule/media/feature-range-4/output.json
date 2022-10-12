@@ -51,7 +51,15 @@
               "end": 32,
               "ctxt": 0
             },
-            "name": "(",
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 8,
+                "end": 9,
+                "ctxt": 0
+              },
+              "token": "LParen"
+            },
             "value": [
               {
                 "type": "PreservedToken",
@@ -203,7 +211,15 @@
           "end": 35,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 33,
+            "end": 34,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": []
       }
     }

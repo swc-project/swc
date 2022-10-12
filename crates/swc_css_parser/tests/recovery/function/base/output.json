@@ -77,7 +77,15 @@
           "end": 203,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -422,7 +430,15 @@
                       "end": 119,
                       "ctxt": 0
                     },
-                    "name": "[",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 110,
+                        "end": 111,
+                        "ctxt": 0
+                      },
+                      "token": "LBracket"
+                    },
                     "value": [
                       {
                         "type": "Ident",
@@ -494,7 +510,15 @@
                       "end": 147,
                       "ctxt": 0
                     },
-                    "name": "(",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 137,
+                        "end": 138,
+                        "ctxt": 0
+                      },
+                      "token": "LParen"
+                    },
                     "value": [
                       {
                         "type": "Ident",
@@ -575,7 +599,15 @@
                       "end": 177,
                       "ctxt": 0
                     },
-                    "name": "{",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 165,
+                        "end": 166,
+                        "ctxt": 0
+                      },
+                      "token": "LBrace"
+                    },
                     "value": [
                       {
                         "type": "Ident",
