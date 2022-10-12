@@ -67,7 +67,7 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
     .unwrap();
 }
 
-#[testing::fixture("tests/with-css-modules/**/input.css")]
+#[testing::fixture("tests/with-compat/**/input.css")]
 fn test_without_env(input: PathBuf) {
     test_full(input, None)
 }
