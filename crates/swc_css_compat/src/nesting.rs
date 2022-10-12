@@ -176,36 +176,30 @@ impl NestingHandler {
                     if let Some(AtRulePrelude::MediaPrelude(media)) = at_rule.prelude.as_deref() {
                         if let Some(block) = &at_rule.block {
                             for n in &block.value {
-                                match n {
-                                    ComponentValue::StyleBlock(StyleBlock::Declaration(d)) => {}
+                                if let ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) = n
+                                {
+                                    let mut n = n.clone();
+                                    let rules = self.extract_nested_rules(&mut n);
 
-                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) => {
-                                        let mut n = n.clone();
-                                        let rules = self.extract_nested_rules(&mut n);
+                                    nested_rules.extend(
+                                        once(Rule::QualifiedRule(n))
+                                            .chain(rules.into_iter())
+                                            .map(rule_to_component_value)
+                                            .map(|v| {
+                                                Rule::AtRule(Box::new(AtRule {
+                                                    block: Some(SimpleBlock {
+                                                        value: vec![v],
 
-                                        nested_rules.extend(
-                                            once(Rule::QualifiedRule(n))
-                                                .chain(rules.into_iter())
-                                                .map(rule_to_component_value)
-                                                .map(|v| {
-                                                    Rule::AtRule(Box::new(AtRule {
-                                                        block: Some(SimpleBlock {
-                                                            value: vec![v],
+                                                        ..block.clone()
+                                                    }),
 
-                                                            ..block.clone()
-                                                        }),
-
-                                                        ..*at_rule.clone()
-                                                    }))
-                                                }),
-                                        );
-                                    }
-
-                                    _ => {}
+                                                    ..*at_rule.clone()
+                                                }))
+                                            }),
+                                    );
+                                    continue;
                                 }
                             }
-
-                            continue;
                         }
                     }
                     continue;
