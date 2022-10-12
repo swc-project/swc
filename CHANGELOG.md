@@ -5,6 +5,9 @@
 
 
 
+- **(css/minifier)** Compute `calc` expressions (#5966) ([205a317](https://github.com/swc-project/swc/commit/205a317c4d44edb46f96d8b052c5e88990682638))
+
+
 - **(es/minifier)** Enable `reduce_vars` by default (#6096) ([fc5d8a5](https://github.com/swc-project/swc/commit/fc5d8a5d41103adeb0293ed649789a2256b31f97))
 
 
