@@ -7,6 +7,7 @@
 
 use std::path::PathBuf;
 
+use swc_atoms::JsWord;
 use swc_css_ast::Stylesheet;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig},
@@ -41,6 +42,8 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
             err.to_diagnostics(&handler).emit();
         }
 
+        swc_css_modules::compile(&mut ss, TestConfig {});
+
         ss.visit_mut_with(&mut nesting());
 
         let mut s = String::new();
@@ -62,4 +65,12 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
 #[testing::fixture("tests/with-css-modules/**/input.css")]
 fn test_without_env(input: PathBuf) {
     test_full(input, None)
+}
+
+struct TestConfig {}
+
+impl swc_css_modules::TransformConfig for TestConfig {
+    fn new_name_for(&self, local: &JsWord) -> JsWord {
+        format!("__local__{}", local).into()
+    }
 }
