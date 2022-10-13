@@ -389,6 +389,8 @@ where
             return;
         }
 
+        trace_op!("iife: Checking callee");
+
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
