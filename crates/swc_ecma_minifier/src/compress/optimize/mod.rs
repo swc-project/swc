@@ -890,7 +890,7 @@ where
                     self.store_var_for_inlining(&mut i.id, right, false, true);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
                         self.vars.removed.insert(old);
                     }
 
@@ -1716,7 +1716,7 @@ where
                     self.store_var_for_inlining(i, right, false, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
                         self.vars.removed.insert(old.clone());
                     }
 

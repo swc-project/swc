@@ -16,6 +16,15 @@ impl<'b, M> Optimizer<'b, M>
 where
     M: Mode,
 {
+    pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
+        if let Expr::Seq(seq) = e {
+            self.normalize_sequences(seq);
+            if seq.exprs.len() == 1 {
+                *e = *seq.exprs.take().into_iter().next().unwrap();
+            }
+        }
+    }
+
     pub(super) fn access_numeric_property<'e>(
         &mut self,
         _expr: &'e mut Expr,

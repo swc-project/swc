@@ -353,6 +353,8 @@ where
     /// }).x = 10;
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
+        trace_op!("iife: invoke_iife");
+
         if self.options.inline == 0 {
             let skip = match e {
                 Expr::Call(v) => !v.callee.span().is_dummy(),
@@ -360,6 +362,7 @@ where
             };
 
             if skip {
+                log_abort!("skip");
                 return;
             }
         }
@@ -369,7 +372,10 @@ where
             _ => return,
         };
 
+        trace_op!("iife: Checking noinline");
+
         if self.has_noinline(call.span) {
+            log_abort!("iife: Has no inline mark");
             return;
         }
 
@@ -377,21 +383,24 @@ where
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+        self.normalize_expr(callee);
 
         if self.ctx.dont_invoke_iife {
-            log_abort!("iife: [x] Inline is prevented");
+            log_abort!("iife: Inline is prevented");
             return;
         }
+
+        trace_op!("iife: Checking callee");
 
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
-                    log_abort!("iife: [x] Cannot inline async fn");
+                    log_abort!("iife: Cannot inline async fn");
                     return;
                 }
 
                 if f.is_generator {
-                    log_abort!("iife: [x] Cannot inline generator");
+                    log_abort!("iife: Cannot inline generator");
                     return;
                 }
 
@@ -515,6 +524,8 @@ where
                 }
             }
             Expr::Fn(f) => {
+                trace_op!("iife: Expr::Fn(..)");
+
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
@@ -545,6 +556,8 @@ where
                     return;
                 }
 
+                trace_op!("iife: Checking recursiveness");
+
                 if let Some(i) = &f.ident {
                     if self
                         .data
@@ -560,10 +573,12 @@ where
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
-                        log_abort!("iife: [x] Found spread argument");
+                        log_abort!("iife: Found spread argument");
                         return;
                     }
                 }
+
+                trace_op!("iife: Empry function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
@@ -615,11 +630,19 @@ where
                     && self.is_return_arg_simple_enough_for_iife_eval(&e.right)
             }
 
+            Expr::Cond(e) => {
+                self.is_return_arg_simple_enough_for_iife_eval(&e.test)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.cons)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.alt)
+            }
+
             _ => false,
         }
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        trace_op!("can_inline_fn_like");
+
         if contains_this_expr(body) || contains_arguments(body) {
             return false;
         }
@@ -681,6 +704,10 @@ where
                     }) => true,
                     Pat::Ident(id) => {
                         if self.vars.has_pending_inline_for(&id.to_id()) {
+                            log_abort!(
+                                "iife: [x] Cannot inline because pending inline of `{}`",
+                                id.id
+                            );
                             return true;
                         }
 
@@ -753,9 +780,6 @@ where
         if !self.can_inline_fn_like(orig_params, &*body) {
             return None;
         }
-
-        self.changed = true;
-        report_change!("inline: Inlining an iife");
 
         // We remap variables.
         let mut remap = HashMap::default();
