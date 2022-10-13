@@ -386,6 +386,12 @@
  21 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
+ 12 | div {
+    :     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:5]
  13 | color: red;
@@ -676,6 +682,12 @@
  30 | |   
  31 | |       color: blue;
  32 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
+ 23 | div {
+    :     ^
     `----
 
   x ComponentValue

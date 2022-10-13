@@ -163,8 +163,8 @@ impl NestingHandler {
 
     fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Rule> {
         let mut nested_rules = vec![];
-
         let mut block_values = vec![];
+
         for value in rule.block.value.take() {
             match value {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut q)) => {
@@ -206,7 +206,7 @@ impl NestingHandler {
                                     prelude: rule.prelude.clone(),
                                     block: SimpleBlock {
                                         value: decls_of_media,
-                                        ..*block
+                                        ..block.clone()
                                     },
                                 });
                                 nested_of_media.insert(
@@ -218,7 +218,7 @@ impl NestingHandler {
                             nested_rules.push(Rule::AtRule(Box::new(AtRule {
                                 block: Some(SimpleBlock {
                                     value: nested_of_media,
-                                    ..*block
+                                    ..block.clone()
                                 }),
                                 ..*at_rule.clone()
                             })));
