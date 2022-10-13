@@ -239,9 +239,11 @@ where
                         let nested = self.try_parse_qualified_rule();
 
                         if let Some(nested) = nested {
-                            declarations.push(StyleBlock::QualifiedRule(nested));
+                            rules.push(StyleBlock::QualifiedRule(nested));
+
                             continue;
                         }
+
                         self.input.reset(&state);
                     }
 
@@ -334,7 +336,7 @@ where
                         let nested = self.try_parse_qualified_rule();
 
                         if let Some(nested) = nested {
-                            declarations.push(StyleBlock::QualifiedRule(nested));
+                            rules.push(StyleBlock::QualifiedRule(nested));
 
                             continue;
                         }
