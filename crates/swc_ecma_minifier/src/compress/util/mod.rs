@@ -231,10 +231,7 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: &ExprCtx, rhs: &Expr) -> bool {
 
             #[cfg(feature = "debug")]
             {
-                tracing::warn!(
-                    "unimplemented: is_ok_to_negate_rhs: `{}`",
-                    dump(&*rhs, false)
-                );
+                tracing::warn!("unimplemented: is_ok_to_negate_rhs: `{}`", dump(rhs, false));
             }
 
             false
