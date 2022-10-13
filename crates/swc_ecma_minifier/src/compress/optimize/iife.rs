@@ -687,6 +687,10 @@ where
                     }) => true,
                     Pat::Ident(id) => {
                         if self.vars.has_pending_inline_for(&id.to_id()) {
+                            log_abort!(
+                                "iife: [x] Cannot inline because pending inline of `{}`",
+                                id.id
+                            );
                             return true;
                         }
 
