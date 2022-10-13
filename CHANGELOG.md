@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Merge assignments using sequential inliner (#6103) ([5875298](https://github.com/swc-project/swc/commit/58752983775337067127f219569bd0c7fbc55564))
 
+
+- **(es/minifier)** Swap more binary expressions (#6134) ([c37839f](https://github.com/swc-project/swc/commit/c37839fc628d62ec8ddb9372b45db72c6aa9e18d))
+
 ### Miscellaneous Tasks
 
 
