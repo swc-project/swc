@@ -2073,6 +2073,9 @@ where
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
+                        report_change!("sequences: Merged assignment into another assignment");
+                        self.changed = true;
+
                         let mut a_expr = take_a!(true);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
@@ -2090,6 +2093,11 @@ where
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
                         if let Some(bin_op) = b.op.to_update() {
+                            report_change!(
+                                "sequences: Merged assignment into another (op) assignment"
+                            );
+                            self.changed = true;
+
                             b.op = op!("=");
 
                             let to = take_a!(true);
