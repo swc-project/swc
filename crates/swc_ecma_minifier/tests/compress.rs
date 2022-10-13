@@ -409,7 +409,7 @@ fn projects_bench(input: PathBuf) {
             cm.clone(),
             &handler,
             &input,
-            r#"{ "defaults": true, "toplevel": true, "passes": 2 }"#,
+            r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
             None,
             false,
         );
