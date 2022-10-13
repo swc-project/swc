@@ -1,2 +1,3 @@
 //// [symbolProperty50.ts]
-M = {};
+var M;
+M || (M = {});

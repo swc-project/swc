@@ -1,2 +1,3 @@
 //// [parserEnumDeclaration2.d.ts]
-E = {};
+var E;
+E || (E = {});

@@ -1,2 +1,3 @@
 //// [typeOfThisInFunctionExpression.ts]
-M = {};
+var M;
+M || (M = {});

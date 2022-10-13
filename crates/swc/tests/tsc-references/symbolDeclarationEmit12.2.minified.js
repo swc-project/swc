@@ -1,10 +1,11 @@
 //// [symbolDeclarationEmit12.ts]
-!function(M1) {
+var M;
+!function(M) {
     class C {
         [Symbol.toPrimitive](x) {}
         [Symbol.isConcatSpreadable]() {}
         get [Symbol.toPrimitive]() {}
         set [Symbol.toPrimitive](x) {}
     }
-    M1.C = C;
-}(M = {});
+    M.C = C;
+}(M || (M = {}));

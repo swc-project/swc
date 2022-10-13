@@ -12,4 +12,4 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         }, Point;
     }();
     Point.origin = new Point(0, 0), Shapes.Point = Point;
-}(Shapes || (Shapes = {})), new (void 0).Point(3, 4).getDist();
+}(Shapes || (Shapes = {})), new Shapes.Point(3, 4).getDist();

@@ -3391,7 +3391,7 @@
                     else "keydown" === domEventName && 229 === nativeEvent.keyCode && (eventType = "onCompositionStart");
                     if (eventType) {
                         useFallbackCompositionData && !isUsingKoreanIME(nativeEvent) && (isComposing || "onCompositionStart" !== eventType ? "onCompositionEnd" === eventType && isComposing && (fallbackData = getData()) : (root = nativeEventTarget, startText = getText(), isComposing = !0));
-                        var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, void 0);
+                        var eventType, fallbackData, listeners = accumulateTwoPhaseListeners(targetInst, eventType);
                         if (listeners.length > 0) {
                             var event = new SyntheticCompositionEvent(eventType, domEventName, null, nativeEvent, nativeEventTarget);
                             if (dispatchQueue.push({
@@ -4250,9 +4250,9 @@
         else if (!1 === observedBits || 0 === observedBits) ;
         else {
             "number" != typeof observedBits || 1073741823 === observedBits ? (lastContextWithAllBitsObserved = context, resolvedObservedBits = 1073741823) : resolvedObservedBits = observedBits;
-            var contextItem = {
+            var resolvedObservedBits, contextItem = {
                 context: context,
-                observedBits: void 0,
+                observedBits: resolvedObservedBits,
                 next: null
             };
             if (null === lastContextDependency) {

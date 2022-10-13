@@ -851,9 +851,9 @@
                 }
                 function loadFunc() {
                     if (!aborted) {
-                        clearTimeout(timeoutTimer), status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status;
-                        var status, response = failureResponse;
-                        return response = {
+                        clearTimeout(timeoutTimer);
+                        var status, response = failureResponse, err = null;
+                        return 0 !== (status = options.useXDR && void 0 === xhr.status ? 200 : 1223 === xhr.status ? 204 : xhr.status) ? (response = {
                             body: function() {
                                 var body = void 0;
                                 if (body = xhr.response ? xhr.response : xhr.responseText || function(xhr) {
@@ -873,7 +873,7 @@
                             headers: {},
                             url: uri,
                             rawRequest: xhr
-                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders())), callback(null, response, response.body);
+                        }, xhr.getAllResponseHeaders && (response.headers = parseHeaders(xhr.getAllResponseHeaders()))) : err = Error("Internal XMLHttpRequest Error"), callback(err, response, response.body);
                     }
                 }
                 var xhr = options.xhr || null;

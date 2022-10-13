@@ -1,2 +1,3 @@
 //// [generatorOverloads5.ts]
-M = {};
+var M;
+M || (M = {});

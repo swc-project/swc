@@ -1,2 +1,3 @@
 //// [generatorInAmbientContext6.ts]
-(M = {}).generator = function*() {};
+var M;
+(M || (M = {})).generator = function*() {};

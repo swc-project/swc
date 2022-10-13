@@ -3,7 +3,7 @@ var M, M1, M2;
 !function(M) {
     var E1, E2, E3;
     (E1 = M.E1 || (M.E1 = {}))[E1.A = 0] = "A", (E2 = M.E2 || (M.E2 = {}))[E2.C = 0] = "C", (E3 = M.E3 || (M.E3 = {}))[E3.A = 0] = "A";
-}(M = {}), function(M) {
+}(M || (M = {})), function(M) {
     var E1, E2, E3;
     (E1 = M.E1 || (M.E1 = {}))[E1.B = 3] = "B", (E2 = M.E2 || (M.E2 = {}))[E2.B = 3] = "B", (E3 = M.E3 || (M.E3 = {}))[E3.C = 0] = "C";
 }(M || (M = {})), function(M) {

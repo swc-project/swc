@@ -1,11 +1,11 @@
 //// [genericCallWithOverloadedConstructorTypedArguments.ts]
-var GenericParameter;
-!function(NonGenericParameter1) {
+var NonGenericParameter, GenericParameter;
+!function(NonGenericParameter) {
     var b, foo4 = function(cb) {
         return new cb(null);
     };
     foo4(void 0), foo4(b);
-}(NonGenericParameter = {}), function(GenericParameter) {
+}(NonGenericParameter || (NonGenericParameter = {})), function(GenericParameter) {
     var a, b, c, c2, foo5 = function(cb) {
         return cb;
     }, foo6 = function(cb) {

@@ -1,5 +1,6 @@
 //// [ExportVariableWithAccessibleTypeInTypeAnnotation.ts]
-(A = {}).Origin = {
+var A;
+(A || (A = {})).Origin = {
     x: 0,
     y: 0
 };

@@ -15,7 +15,7 @@ var ns;
 !function(ns1) {
     var Foo;
     (Foo = ns1.Foo || (ns1.Foo = {}))[Foo.X = 0] = "X", ns.Foo.X;
-}(ns = {});
+}(ns || (ns = {}));
 //// [more.ts]
 export var Foo;
 !function(Foo) {

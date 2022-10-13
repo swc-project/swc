@@ -7195,7 +7195,7 @@
                 try {
                     segmentDateTime = new Date(comparisonTimeStamp), programDateTime = new Date(programTime);
                 } catch (e) {}
-                var programDateTime, segmentTimeEpoch = (void 0).getTime();
+                var segmentDateTime, programDateTime, segmentTimeEpoch = segmentDateTime.getTime();
                 return (programDateTime.getTime() - segmentTimeEpoch) / 1000;
             }, verifyProgramDateTimeTags = function(playlist) {
                 if (!playlist.segments || 0 === playlist.segments.length) return !1;

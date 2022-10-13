@@ -2980,7 +2980,7 @@
                                     case 4:
                                         for(D = 0; D < h; D++){
                                             b = n[i++], m = (D - D % l) / l, w = D < l ? 0 : y[v - l], 0 === g ? E = x = 0 : (E = y[(g - 1) * h + m * l + D % l], x = m && y[(g - 1) * h + (m - 1) * l + D % l]);
-                                            var b, m, D, w, E, _, x, S = NaN, A = Math.abs(S - void 0), k = Math.abs(S - void 0), T = Math.abs(S - void 0);
+                                            var b, m, D, w, E, _, x, S = w + E - x, A = Math.abs(S - w), k = Math.abs(S - E), T = Math.abs(S - x);
                                             _ = A <= k && A <= T ? w : k <= T ? E : x, y[v++] = (b + _) % 256;
                                         }
                                         break;
@@ -15955,12 +15955,12 @@
                             }), r > 2) ? "one of ".concat(t, " ").concat(e.slice(0, r - 1).join(", "), ", or ") + e[r - 1] : 2 === r ? "one of ".concat(t, " ").concat(e[0], " or ").concat(e[1]) : "of ".concat(t, " ").concat(e[0]);
                         }
                         s("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), s("ERR_INVALID_ARG_TYPE", function(e, t, i) {
-                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (f = "must not be", t = t.replace(/^not /, "")) : f = "must be", l = " argument", (void 0 === s || s > e.length) && (s = e.length), e.substring(s - l.length, s) === l) d = "The ".concat(e, " ").concat(f, " ").concat(c(t, "type"));
+                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be", l = " argument", (void 0 === s || s > e.length) && (s = e.length), e.substring(s - l.length, s) === l) p = "The ".concat(e, " ").concat(d, " ").concat(c(t, "type"));
                             else {
-                                var o, u, l, s, f, d, p = 1 > e.length || -1 === e.indexOf(".", 0) ? "argument" : "property";
-                                d = 'The "'.concat(e, '" ').concat(p, " ").concat(f, " ").concat(c(t, "type"));
+                                var o, u, l, s, f, d, p, h = ("number" != typeof f && (f = 0), f + 1 > e.length || -1 === e.indexOf(".", f)) ? "argument" : "property";
+                                p = 'The "'.concat(e, '" ').concat(h, " ").concat(d, " ").concat(c(t, "type"));
                             }
-                            return d + ". Received type ".concat(n(i));
+                            return p + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
                             var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                             void 0 === u && (u = r(650));
@@ -20586,7 +20586,7 @@
                                 r
                             ] : n ? a.unshift(r) : a.push(r), (i = l(e)) > 0 && a.length > i && !a.warned) {
                                 a.warned = !0;
-                                var i, o, a, s = Error("Possible EventEmitter memory leak detected. " + (void 0).length + " " + String(t) + " listeners added. Use emitter.setMaxListeners() to increase limit");
+                                var i, o, a, s = Error("Possible EventEmitter memory leak detected. " + a.length + " " + String(t) + " listeners added. Use emitter.setMaxListeners() to increase limit");
                                 s.name = "MaxListenersExceededWarning", s.emitter = e, s.type = t, s.count = a.length, console && console.warn && console.warn(s);
                             }
                             return e;
@@ -20660,7 +20660,7 @@
                             else if (!i) return !1;
                             if (i) {
                                 if (t.length > 0 && (a = t[0]), a instanceof Error) throw a;
-                                var a, u = Error("Unhandled error.");
+                                var a, u = Error("Unhandled error." + (a ? " (" + a.message + ")" : ""));
                                 throw u.context = a, u;
                             }
                             var l = o[e];

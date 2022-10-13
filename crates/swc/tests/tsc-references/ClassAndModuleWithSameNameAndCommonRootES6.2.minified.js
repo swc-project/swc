@@ -1,17 +1,19 @@
 //// [class.ts]
-!function(X1) {
-    (X1.Y || (X1.Y = {})).Point = class {
+var X;
+!function(X) {
+    (X.Y || (X.Y = {})).Point = class {
         constructor(x, y){
             this.x = x, this.y = y;
         }
     };
-}(X = {});
+}(X || (X = {}));
 //// [module.ts]
-!function(X1) {
+var X;
+!function(X) {
     var Y;
     let Point;
-    (Point = (Y = X1.Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
-}(X = {});
+    (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+}(X || (X = {}));
 //// [test.ts]
 new X.Y.Point(1, 1), X.Y.Point.Origin;
 //// [simple.ts]

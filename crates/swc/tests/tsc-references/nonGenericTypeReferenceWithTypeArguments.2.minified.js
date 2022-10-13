@@ -1,2 +1,3 @@
 //// [nonGenericTypeReferenceWithTypeArguments.ts]
-E = {};
+var E;
+E || (E = {});

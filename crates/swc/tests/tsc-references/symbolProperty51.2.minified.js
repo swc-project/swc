@@ -1,2 +1,3 @@
 //// [symbolProperty51.ts]
-M = {}, Symbol.iterator;
+var M;
+M || (M = {}), Symbol.iterator;

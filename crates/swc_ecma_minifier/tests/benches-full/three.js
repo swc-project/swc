@@ -2165,7 +2165,7 @@
                 void 0 !== string && 1 > parseFloat(string) && console.warn('THREE.Color: Alpha component of ' + style + ' will be ignored.');
             }
             if (m = /^((?:rgb|hsl)a?)\(\s*([^\)]*)\)/.exec(style)) {
-                var m, color, name = (void 0)[1], components = m[2];
+                var m, color, name = m[1], components = m[2];
                 switch(name){
                     case 'rgb':
                     case 'rgba':

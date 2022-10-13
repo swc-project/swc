@@ -4,7 +4,7 @@ var A, B;
         x: 0,
         y: 0
     };
-}(A = {}), (A || (A = {})).Point = function() {
+}(A || (A = {})), (A || (A = {})).Point = function() {
     return {
         x: 0,
         y: 0

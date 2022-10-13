@@ -1,15 +1,16 @@
 //// [part1.ts]
-!function(A1) {
-    (A1.Utils || (A1.Utils = {})).mirror = function(p) {
+var A;
+!function(A) {
+    (A.Utils || (A.Utils = {})).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
-    }, A1.Origin = {
+    }, A.Origin = {
         x: 0,
         y: 0
     };
-}(A = {});
+}(A || (A = {}));
 //// [part2.ts]
 var A;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

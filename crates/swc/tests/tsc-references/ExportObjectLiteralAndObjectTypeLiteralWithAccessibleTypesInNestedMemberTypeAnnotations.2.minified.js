@@ -1,2 +1,3 @@
 //// [ExportObjectLiteralAndObjectTypeLiteralWithAccessibleTypesInNestedMemberTypeAnnotations.ts]
-(A = {}).UnitSquare = null;
+var A;
+(A || (A = {})).UnitSquare = null;

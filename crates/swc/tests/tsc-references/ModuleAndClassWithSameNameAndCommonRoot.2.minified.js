@@ -1,8 +1,9 @@
 //// [module.ts]
-!function(X1) {
+var X;
+!function(X) {
     var Y, Point;
-    (Point = (Y = X1.Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
-}(X = {});
+    (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+}(X || (X = {}));
 //// [classPoint.ts]
 var X;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

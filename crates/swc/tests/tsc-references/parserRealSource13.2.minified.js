@@ -15,4 +15,4 @@ var TypeScript;
             walker.walk(script, null);
         };
     }(TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
-}(TypeScript = {});
+}(TypeScript || (TypeScript = {}));

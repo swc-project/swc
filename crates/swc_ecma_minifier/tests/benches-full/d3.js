@@ -6363,7 +6363,7 @@
         }, squarify;
     }(phi), resquarify = function custom(ratio) {
         function resquarify(parent, x0, y0, x1, y1) {
-            if ((rows = parent._squarify) && rows.ratio === ratio) for(var rows, row, nodes, i, n, j = -1, m = (void 0).length, value = parent.value; ++j < m;){
+            if ((rows = parent._squarify) && rows.ratio === ratio) for(var rows, row, nodes, i, n, j = -1, m = rows.length, value = parent.value; ++j < m;){
                 for(nodes = (row = rows[j]).children, i = row.value = 0, n = nodes.length; i < n; ++i)row.value += nodes[i].value;
                 row.dice ? treemapDice(row, x0, y0, x1, value ? y0 += (y1 - y0) * row.value / value : y1) : treemapSlice(row, x0, y0, value ? x0 += (x1 - x0) * row.value / value : x1, y1), value -= row.value;
             }

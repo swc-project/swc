@@ -14751,7 +14751,7 @@
                 if (isString(sysDimItemRaw)) coordDim = sysDimItemRaw, sysDimItem = {};
                 else {
                     coordDim = (sysDimItem = sysDimItemRaw).name;
-                    var coordDim, sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, ordinalMeta = (void 0).ordinalMeta;
+                    var coordDim, sysDimItemDimsDef, sysDimItemOtherDims, sysDimItem, ordinalMeta = sysDimItem.ordinalMeta;
                     sysDimItem.ordinalMeta = null, (sysDimItem = clone(sysDimItem)).ordinalMeta = ordinalMeta, sysDimItemDimsDef = sysDimItem.dimsDef, sysDimItemOtherDims = sysDimItem.otherDims, sysDimItem.name = sysDimItem.coordDim = sysDimItem.coordDimIndex = sysDimItem.dimsDef = sysDimItem.otherDims = null;
                 }
                 var dataDims = encodeDefMap.get(coordDim);
@@ -18791,7 +18791,7 @@
                     return;
                 }
                 (angle = 'area' !== roseType ? 0 === sum && stillShowZeroSum ? unitRadian : value * unitRadian : PI2$8 / validDataCount) < minAngle ? (angle = minAngle, restAngle -= minAngle) : valueSumLargerThanMinAngle += value;
-                var angle, endAngle = currentAngle + (void 0) * dir;
+                var angle, endAngle = currentAngle + dir * angle;
                 data.setItemLayout(idx, {
                     angle: angle,
                     startAngle: currentAngle,
@@ -22338,7 +22338,7 @@
     function getEdgeShape(layoutOpt, orient, curvature, sourceLayout, targetLayout) {
         if ('radial' === layoutOpt) {
             x1 = sourceLayout.rawX, y1 = sourceLayout.rawY, x2 = targetLayout.rawX, y2 = targetLayout.rawY;
-            var cpx1, cpy1, cpx2, cpy2, x1, x2, y1, y2, radialCoor1 = radialCoordinate(void 0, void 0), radialCoor2 = radialCoordinate(x1, y1 + (y2 - y1) * curvature), radialCoor3 = radialCoordinate(x2, y2 + (y1 - y2) * curvature), radialCoor4 = radialCoordinate(x2, y2);
+            var cpx1, cpy1, cpx2, cpy2, x1, x2, y1, y2, radialCoor1 = radialCoordinate(x1, y1), radialCoor2 = radialCoordinate(x1, y1 + (y2 - y1) * curvature), radialCoor3 = radialCoordinate(x2, y2 + (y1 - y2) * curvature), radialCoor4 = radialCoordinate(x2, y2);
             return {
                 x1: radialCoor1.x || 0,
                 y1: radialCoor1.y || 0,

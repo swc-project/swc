@@ -1,2 +1,3 @@
 //// [invalidNumberAssignments.ts]
-(M = {}).x = 1, M = 1;
+var M;
+(M || (M = {})).x = 1, M = 1;

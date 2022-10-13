@@ -1,6 +1,6 @@
 //// [checkJsdocTypeTagOnObjectProperty2.ts]
 //// [0.js]
-var obj = {
+var lol, obj = {
     bar: 42,
     method1: function(n1) {
         return "42";
@@ -12,6 +12,6 @@ var obj = {
         var num = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "0";
         return num + 42;
     },
-    lol: void 0
+    lol: lol
 };
 lol = "string", obj.method1(0), obj.method2("0");

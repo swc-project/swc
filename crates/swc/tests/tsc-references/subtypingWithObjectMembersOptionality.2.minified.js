@@ -1,2 +1,3 @@
 //// [subtypingWithObjectMembersOptionality.ts]
-TwoLevels = {};
+var TwoLevels;
+TwoLevels || (TwoLevels = {});

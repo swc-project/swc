@@ -1,5 +1,6 @@
 //// [genericSetterInClassType.ts]
-!function(Generic1) {
+var Generic;
+!function(Generic) {
     var c = new class {
         get y() {
             return 1;
@@ -15,4 +16,4 @@
             this.#value = value;
         }
     }().value = 3;
-}(Generic = {});
+}(Generic || (Generic = {}));

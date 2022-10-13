@@ -6895,7 +6895,7 @@
                             if ((_i2 = _iterator.next()).done) break;
                             _ref = _i2.value;
                         }
-                        var t = void 0, dt = Math.pow(x - points[2 * t], 2) + Math.pow(y - points[2 * t + 1], 2);
+                        var _ref, t = _ref, dt = Math.pow(x - points[2 * t], 2) + Math.pow(y - points[2 * t + 1], 2);
                         dt < dc && (dc = dt, c = t);
                     }
                     return c;
@@ -11610,7 +11610,7 @@
                     };
                 },
                 panBox: function(props, point) {
-                    var domain = props.domain, startX = props.startX, startY = props.startY, brushDimension = this.getDimension(props), brushDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.brushDomain, domain), fullDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.fullDomain, domain), _ref1 = props.x1 ? props : this.getDomainBox(props, fullDomain, brushDomain), x1 = _ref1.x1, x2 = _ref1.x2, y1 = _ref1.y1, y2 = _ref1.y2, x = point.x, y = point.y, delta = {
+                    var domain = props.domain, startX = props.startX, startY = props.startY, brushDimension = this.getDimension(props), brushDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.brushDomain, domain), fullDomain = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, props.fullDomain, domain), _ref = props.x1 ? props : this.getDomainBox(props, fullDomain, brushDomain), x1 = _ref.x1, x2 = _ref.x2, y1 = _ref.y1, y2 = _ref.y2, x = point.x, y = point.y, delta = {
                         x: startX ? startX - x : 0,
                         y: startY ? startY - y : 0
                     };
@@ -12158,8 +12158,8 @@
                 brushAreaStyle: {
                     stroke: "none",
                     fill: "black",
-                    opacity: function(_ref1) {
-                        return _ref1.active ? 0.2 : 0.1;
+                    opacity: function(_ref) {
+                        return _ref.active ? 0.2 : 0.1;
                     }
                 },
                 brushStyle: {
@@ -22517,10 +22517,10 @@
                 getInitialTransitionState: function(oldChildren, nextChildren) {
                     var nodesWillExit = !1, nodesWillEnter = !1, getTransition = function(oldChild, newChild) {
                         if (!newChild || oldChild.type !== newChild.type) return {};
-                        var oldData, nextData, oldDataKeyed, nextDataKeyed, _ref1 = (oldData = getChildData(oldChild), nextData = getChildData(newChild), oldDataKeyed = oldData && getKeyedData(oldData), nextDataKeyed = nextData && getKeyedData(nextData), {
+                        var oldData, nextData, oldDataKeyed, nextDataKeyed, _ref = (oldData = getChildData(oldChild), nextData = getChildData(newChild), oldDataKeyed = oldData && getKeyedData(oldData), nextDataKeyed = nextData && getKeyedData(nextData), {
                             entering: oldDataKeyed && getKeyedDataDifference(nextDataKeyed, oldDataKeyed),
                             exiting: nextDataKeyed && getKeyedDataDifference(oldDataKeyed, nextDataKeyed)
-                        }), entering = _ref1.entering, exiting = _ref1.exiting;
+                        }), entering = _ref.entering, exiting = _ref.exiting;
                         return nodesWillExit = nodesWillExit || !!exiting, nodesWillEnter = nodesWillEnter || !!entering, {
                             entering: entering || !1,
                             exiting: exiting || !1
@@ -22815,8 +22815,8 @@
                         0 === childDomains.length ? 1 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMaxValue(childDomains)
                     ];
                 },
-                addBinsToParentPropsIfHistogram: function(_ref1) {
-                    var children = _ref1.children, props = _ref1.props, childComponents = _ref1.childComponents, parentProps = _ref1.parentProps, someChildrenAreHistograms = children.some(function(child) {
+                addBinsToParentPropsIfHistogram: function(_ref) {
+                    var children = _ref.children, props = _ref.props, childComponents = _ref.childComponents, parentProps = _ref.parentProps, someChildrenAreHistograms = children.some(function(child) {
                         return child.type && "histogram" === child.type.role;
                     }), allChildrenAreHistograms = someChildrenAreHistograms && children.length && children.every(function(child) {
                         return child.type && "histogram" === child.type.role;
@@ -23034,10 +23034,10 @@
                 ] : [];
             }, combineDefaultEvents = function(defaultEvents) {
                 var eventsByTarget = lodash_groupBy__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents, "target");
-                return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref1) {
+                return lodash_toPairs__WEBPACK_IMPORTED_MODULE_7___default()(eventsByTarget).map(function(_ref) {
                     var _ref2 = function(arr) {
                         if (Array.isArray(arr)) return arr;
-                    }(_ref1) || function(arr, i) {
+                    }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
                             for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
@@ -23051,7 +23051,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref1, 2) || function() {
+                    }(_ref, 2) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -24297,8 +24297,8 @@
                 }
                 return target;
             }
-            var dataOrBinsContainDates = function(_ref1) {
-                var data = _ref1.data, bins = _ref1.bins, x = _ref1.x, xAccessor = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.createAccessor(x || "x"), dataIsDates = data.some(function(datum) {
+            var dataOrBinsContainDates = function(_ref) {
+                var data = _ref.data, bins = _ref.bins, x = _ref.x, xAccessor = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.createAccessor(x || "x"), dataIsDates = data.some(function(datum) {
                     return xAccessor(datum) instanceof Date;
                 }), binsHasDates = Array.isArray(bins) && bins.some(function(bin) {
                     return bin instanceof Date;

@@ -1,2 +1,3 @@
 //// [typeGuardOfFormExpr1OrExpr2.ts]
-numOrBool = void 0;
+var strOrNumOrBool, numOrBool;
+void 0 !== numOrBool || (numOrBool = strOrNumOrBool);

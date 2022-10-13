@@ -15,4 +15,4 @@ var M, C = function C() {
         _class_call_check(this, A);
     };
     M.A = A, M.F2 = F2;
-}(M = {}), new C(), new C(), new D(), new C(), new M.A();
+}(M || (M = {})), new C(), new C(), new D(), new C(), new M.A();

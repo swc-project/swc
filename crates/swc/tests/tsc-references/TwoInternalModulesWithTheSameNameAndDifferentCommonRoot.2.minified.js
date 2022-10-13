@@ -1,13 +1,14 @@
 //// [part1.ts]
-!function(Root1) {
+var Root;
+!function(Root) {
     var A;
-    ((A = Root1.A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
+    ((A = Root.A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
         return {
             x: p.y,
             y: p.x
         };
     };
-}(Root = {});
+}(Root || (Root = {}));
 //// [part2.ts]
 var otherRoot;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

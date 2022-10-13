@@ -1,2 +1,3 @@
 //// [subtypingWithObjectMembers5.ts]
-NotOptional = {}, Optional = {};
+var NotOptional, Optional;
+NotOptional || (NotOptional = {}), Optional || (Optional = {});

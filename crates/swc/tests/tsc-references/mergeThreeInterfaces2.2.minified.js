@@ -3,7 +3,7 @@ var M2;
 !function(M2) {
     var a;
     (void 0).foo, a.bar;
-}(M2 = {}), function(M2) {
+}(M2 || (M2 = {})), function(M2) {
     var a;
     (void 0).foo, a.bar, a.baz;
 }(M2 || (M2 = {})), function(M2) {

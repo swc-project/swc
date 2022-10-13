@@ -1,3 +1,4 @@
 //// [asyncQualifiedReturnType_es6.ts]
-(X = {}).MyPromise = class extends Promise {
+var X;
+(X || (X = {})).MyPromise = class extends Promise {
 };

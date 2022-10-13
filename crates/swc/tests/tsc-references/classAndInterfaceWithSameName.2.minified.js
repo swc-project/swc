@@ -1,2 +1,3 @@
 //// [classAndInterfaceWithSameName.ts]
-M = {};
+var M;
+M || (M = {});

@@ -1,2 +1,3 @@
 //// [typeGuardEnums.ts]
-E = {}, V = {};
+var E, V;
+E || (E = {}), V || (V = {});

@@ -6,7 +6,7 @@ var Foo;
         return 5;
     };
     Foo.a = a, Foo.b = !0;
-}(Foo = {}), function(Foo) {
+}(Foo || (Foo = {})), function(Foo) {
     var c = function(a) {
         return a;
     };

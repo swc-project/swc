@@ -1,2 +1,3 @@
 //// [parserEnumDeclaration4.ts]
-_void = {};
+var _void;
+_void || (_void = {});

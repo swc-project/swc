@@ -1,2 +1,3 @@
 //// [assignmentCompatWithObjectMembersStringNumericNames.ts]
-JustStrings = {}, NumbersAndStrings = {};
+var JustStrings, NumbersAndStrings;
+JustStrings || (JustStrings = {}), NumbersAndStrings || (NumbersAndStrings = {});

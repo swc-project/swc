@@ -1,2 +1,3 @@
 //// [subtypingWithNumericIndexer5.ts]
-Generics = {};
+var Generics;
+Generics || (Generics = {});

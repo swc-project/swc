@@ -1,6 +1,7 @@
 //// [asyncAwaitIsolatedModules_es2017.ts]
-!function(M1) {
+var M;
+!function(M) {
     async function f1() {}
-    M1.f1 = f1;
-}(M = {});
+    M.f1 = f1;
+}(M || (M = {}));
 export { };

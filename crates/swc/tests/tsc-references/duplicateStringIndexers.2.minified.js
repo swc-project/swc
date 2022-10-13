@@ -1,2 +1,3 @@
 //// [duplicateStringIndexers.ts]
-test = {};
+var test;
+test || (test = {});

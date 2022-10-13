@@ -1,5 +1,6 @@
 //// [subtypingWithCallSignatures.ts]
-CallSignature = {}, foo1(function(x) {
+var CallSignature;
+CallSignature || (CallSignature = {}), foo1(function(x) {
     return 1;
 }), foo1(function(x) {
     return "";

@@ -7,4 +7,4 @@ var A;
         return null;
     };
     A.fn = fn, A.fng = fng;
-}(A = {}), A.fn, A.fng, A.fn2, A.fng2;
+}(A || (A = {})), A.fn, A.fng, A.fn2, A.fng2;
