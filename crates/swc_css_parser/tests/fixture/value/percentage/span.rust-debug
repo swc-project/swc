@@ -114,6 +114,12 @@
  13 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/percentage/input.css:2:5]
  2 | width: 0%;
@@ -706,6 +712,12 @@
  16 | |       margin: -5%;
  17 | |       margin: -5.5%;
  18 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/percentage/input.css:15:1]
+ 15 | div {
+    :     ^
     `----
 
   x ComponentValue

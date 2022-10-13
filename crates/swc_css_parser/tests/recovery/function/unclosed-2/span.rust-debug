@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
  2 | ,-> grid-template-columns: repeat(4, [col-start] 12px
@@ -157,6 +163,12 @@
    ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start] 12px
    :                                  ^^^^^^^^^^^
+   `----
+
+  x LBracket
+   ,-[$DIR/tests/recovery/function/unclosed-2/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start] 12px
+   :                                  ^
    `----
 
   x ComponentValue

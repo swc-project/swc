@@ -49,6 +49,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | @font-palette-values --SelectedPalette {
+   :                                        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:5]
  2 | font-family: MyVectorColorFont;

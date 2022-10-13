@@ -77,7 +77,15 @@
           "end": 207,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -104,7 +112,15 @@
                   "end": 20,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 18,
+                    "end": 19,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": []
               }
             ],
@@ -135,7 +151,15 @@
                   "end": 36,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 33,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": []
               }
             ],
@@ -166,7 +190,15 @@
                   "end": 61,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 49,
+                    "end": 50,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",
@@ -208,7 +240,15 @@
                   "end": 111,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 74,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",
@@ -250,7 +290,15 @@
                   "end": 139,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 124,
+                    "end": 125,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",
@@ -330,7 +378,15 @@
                   "end": 163,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 151,
+                    "end": 152,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",
@@ -369,7 +425,15 @@
                   "end": 189,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 168,
+                    "end": 169,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",
@@ -418,7 +482,15 @@
                   "end": 204,
                   "ctxt": 0
                 },
-                "name": "[",
+                "name": {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 194,
+                    "end": 195,
+                    "ctxt": 0
+                  },
+                  "token": "LBracket"
+                },
                 "value": [
                   {
                     "type": "Ident",

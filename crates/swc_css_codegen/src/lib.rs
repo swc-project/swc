@@ -1123,7 +1123,7 @@ where
                     },
                     ComponentValue::Ident(_) => match next {
                         Some(ComponentValue::SimpleBlock(SimpleBlock { name, .. })) => {
-                            if *name == '(' {
+                            if name.token == Token::LParen {
                                 true
                             } else {
                                 !self.config.minify
@@ -1225,16 +1225,16 @@ where
 
     #[emitter]
     fn emit_simple_block(&mut self, n: &SimpleBlock) -> Result {
-        let ending = match n.name {
-            '[' => "]",
-            '(' => ")",
-            '{' => "}",
+        let (starting, ending) = match n.name.token {
+            Token::LBracket => ("[", "]"),
+            Token::LParen => ("(", ")"),
+            Token::LBrace => ("{", "}"),
             _ => {
                 unreachable!();
             }
         };
 
-        write_raw!(self, lo_span_offset!(n.span, 1), &n.name.to_string());
+        write_raw!(self, lo_span_offset!(n.span, 1), starting);
 
         let len = n.value.len();
 

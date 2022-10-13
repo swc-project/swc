@@ -47,6 +47,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+ 1 | @property --my-color {
+   :                      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/property/input.css:2:5]
  2 | syntax: '<color>';

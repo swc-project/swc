@@ -70,7 +70,15 @@
           "end": 221,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -174,7 +182,15 @@
                 "end": 81,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 38,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "ListOfComponentValues",
@@ -358,7 +374,15 @@
                 "end": 219,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 117,
+                  "end": 118,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",
@@ -482,7 +506,15 @@
                       "end": 213,
                       "ctxt": 0
                     },
-                    "name": "{",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 159,
+                        "end": 160,
+                        "ctxt": 0
+                      },
+                      "token": "LBrace"
+                    },
                     "value": [
                       {
                         "type": "ListOfComponentValues",
@@ -657,7 +689,15 @@
           "end": 443,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 230,
+            "end": 231,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -761,7 +801,15 @@
                 "end": 304,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 260,
+                  "end": 261,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "ListOfComponentValues",
@@ -913,7 +961,15 @@
                 "end": 441,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 340,
+                  "end": 341,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": [
                 {
                   "type": "Declaration",
@@ -1037,7 +1093,15 @@
                       "end": 435,
                       "ctxt": 0
                     },
-                    "name": "{",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 382,
+                        "end": 383,
+                        "ctxt": 0
+                      },
+                      "token": "LBrace"
+                    },
                     "value": [
                       {
                         "type": "ListOfComponentValues",
@@ -1176,7 +1240,15 @@
           "end": 483,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 452,
+            "end": 453,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",

@@ -106,3 +106,9 @@
  1 | [a|b |= "c"]{}
    :             ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/kubgOdBUY3iT30KfPRcbsA/input.css:1:1]
+ 1 | [a|b |= "c"]{}
+   :             ^
+   `----

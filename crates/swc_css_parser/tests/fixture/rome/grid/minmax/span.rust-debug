@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/grid/minmax/input.css:2:5]
  2 | grid-template-columns: minmax(min-content, 300px) minmax(200px, 1fr) minmax(max-content, max-content);

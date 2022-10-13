@@ -111,6 +111,12 @@
  2 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/supports/input.css:1:1]
+ 1 | @supports not (display: flex) {
+   :                               ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/rome/supports/input.css:4:1]
  4 | ,-> @supports ( box-shadow: 0 0 2px black inset ) or
@@ -645,6 +651,12 @@
    :                                        ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/supports/input.css:7:11]
+ 7 | ( -o-box-shadow: 0 0 2px black inset ) {}
+   :                                        ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/rome/supports/input.css:10:1]
  10 | ,-> @supports ((transition-property: color) or
@@ -904,4 +916,10 @@
     ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
  12 | (transform: rotate(10deg)) {}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/supports/input.css:12:11]
+ 12 | (transform: rotate(10deg)) {}
+    :                            ^
     `----

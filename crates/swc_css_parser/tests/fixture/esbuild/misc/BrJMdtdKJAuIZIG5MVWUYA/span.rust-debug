@@ -59,6 +59,12 @@
    :           ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
+ 1 | .selector { property: value\9; }
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }

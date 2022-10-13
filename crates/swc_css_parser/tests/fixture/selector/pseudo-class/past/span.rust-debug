@@ -190,3 +190,9 @@
  1 | :past(p, li, dt, dd) {}
    :                      ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/past/input.css:1:1]
+ 1 | :past(p, li, dt, dd) {}
+   :                      ^
+   `----

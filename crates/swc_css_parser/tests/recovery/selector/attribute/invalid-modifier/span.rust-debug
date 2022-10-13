@@ -118,3 +118,9 @@
  1 | [href="test" "z"] {}
    :                   ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   :                   ^
+   `----

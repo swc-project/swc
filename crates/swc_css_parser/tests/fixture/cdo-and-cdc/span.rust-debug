@@ -74,6 +74,12 @@
    :           ^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
+ 5 | <!-- .foo { color: red }  -->
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:5:1]
  5 | <!-- .foo { color: red }  -->
@@ -179,6 +185,12 @@
  9 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:7:1]
+ 7 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:8:5]
  8 | color: red;
@@ -276,6 +288,12 @@
  13 | ,-> .class {
  14 | |       color: red;
  15 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/cdo-and-cdc/input.css:13:1]
+ 13 | .class {
+    :        ^
     `----
 
   x ComponentValue

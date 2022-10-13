@@ -182,6 +182,12 @@
    :                  ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:1:1]
+ 1 | :nth-child(2n+1) {}
+   :                  ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:2:1]
  2 | :nth-child(2n +1) {}
@@ -252,6 +258,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:2:1]
  2 | :nth-child(2n +1) {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:2:1]
+ 2 | :nth-child(2n +1) {}
+   :                   ^
    `----
 
   x Rule
@@ -326,6 +338,12 @@
    :                    ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:3:1]
+ 3 | :nth-child(2n + 1) {}
+   :                    ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:4:1]
  4 | :nth-child(2n+ 1) {}
@@ -396,6 +414,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:4:1]
  4 | :nth-child(2n+ 1) {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:4:1]
+ 4 | :nth-child(2n+ 1) {}
+   :                   ^
    `----
 
   x Rule
@@ -470,6 +494,12 @@
    :                  ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:5:1]
+ 5 | :nth-child(2n-1) {}
+   :                  ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:6:1]
  6 | :nth-child(2n -1) {}
@@ -542,6 +572,12 @@
    :                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:6:1]
+ 6 | :nth-child(2n -1) {}
+   :                   ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:7:1]
  7 | :nth-child(2n- 1) {}
@@ -612,6 +648,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:7:1]
  7 | :nth-child(2n- 1) {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:7:1]
+ 7 | :nth-child(2n- 1) {}
+   :                   ^
    `----
 
   x Rule
@@ -686,6 +728,12 @@
    :                    ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:8:1]
+ 8 | :nth-child(2n - 1) {}
+   :                    ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:9:1]
  9 | :nth-child(-2n+1) {}
@@ -758,6 +806,12 @@
    :                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:9:1]
+ 9 | :nth-child(-2n+1) {}
+   :                   ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:10:1]
  10 | :nth-child(-2n +1) {}
@@ -828,6 +882,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:10:1]
  10 | :nth-child(-2n +1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:10:1]
+ 10 | :nth-child(-2n +1) {}
+    :                    ^
     `----
 
   x Rule
@@ -902,6 +962,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:11:1]
+ 11 | :nth-child(-2n + 1) {}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:12:1]
  12 | :nth-child(-2n+ 1) {}
@@ -972,6 +1038,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:12:1]
  12 | :nth-child(-2n+ 1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:12:1]
+ 12 | :nth-child(-2n+ 1) {}
+    :                    ^
     `----
 
   x Rule
@@ -1046,6 +1118,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:13:1]
+ 13 | :nth-child(-2n-1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:14:1]
  14 | :nth-child(-2n -1) {}
@@ -1118,6 +1196,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:14:1]
+ 14 | :nth-child(-2n -1) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:15:1]
  15 | :nth-child(-2n - 1) {}
@@ -1188,6 +1272,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:15:1]
  15 | :nth-child(-2n - 1) {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:15:1]
+ 15 | :nth-child(-2n - 1) {}
+    :                     ^
     `----
 
   x Rule
@@ -1262,6 +1352,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:16:1]
+ 16 | :nth-child(+2n+1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:17:1]
  17 | :nth-child(+2n +1) {}
@@ -1332,6 +1428,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:17:1]
  17 | :nth-child(+2n +1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:17:1]
+ 17 | :nth-child(+2n +1) {}
+    :                    ^
     `----
 
   x Rule
@@ -1406,6 +1508,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:18:1]
+ 18 | :nth-child(+2n + 1) {}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:19:1]
  19 | :nth-child(+2n+ 1) {}
@@ -1476,6 +1584,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:19:1]
  19 | :nth-child(+2n+ 1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:19:1]
+ 19 | :nth-child(+2n+ 1) {}
+    :                    ^
     `----
 
   x Rule
@@ -1550,6 +1664,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:20:1]
+ 20 | :nth-child(+2n-1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:21:1]
  21 | :nth-child(+2n -1) {}
@@ -1622,6 +1742,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:21:1]
+ 21 | :nth-child(+2n -1) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:22:1]
  22 | :nth-child(+2n- 1) {}
@@ -1692,6 +1818,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:22:1]
  22 | :nth-child(+2n- 1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:22:1]
+ 22 | :nth-child(+2n- 1) {}
+    :                    ^
     `----
 
   x Rule
@@ -1764,6 +1896,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:23:1]
  23 | :nth-child(+2n - 1) {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:23:1]
+ 23 | :nth-child(+2n - 1) {}
+    :                     ^
     `----
 
   x Rule
@@ -1838,6 +1976,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:24:1]
+ 24 | :nth-child(n+1) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:25:1]
  25 | :nth-child(n +1) {}
@@ -1908,6 +2052,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:25:1]
  25 | :nth-child(n +1) {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:25:1]
+ 25 | :nth-child(n +1) {}
+    :                  ^
     `----
 
   x Rule
@@ -1982,6 +2132,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:26:1]
+ 26 | :nth-child(n + 1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:27:1]
  27 | :nth-child(n+ 1) {}
@@ -2052,6 +2208,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:27:1]
  27 | :nth-child(n+ 1) {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:27:1]
+ 27 | :nth-child(n+ 1) {}
+    :                  ^
     `----
 
   x Rule
@@ -2126,6 +2288,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:28:1]
+ 28 | :nth-child(n-1) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:29:1]
  29 | :nth-child(n -1) {}
@@ -2198,6 +2366,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:29:1]
+ 29 | :nth-child(n -1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:30:1]
  30 | :nth-child(n- 1) {}
@@ -2268,6 +2442,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:30:1]
  30 | :nth-child(n- 1) {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:30:1]
+ 30 | :nth-child(n- 1) {}
+    :                  ^
     `----
 
   x Rule
@@ -2342,6 +2522,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:31:1]
+ 31 | :nth-child(n - 1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:32:1]
  32 | :nth-child(-n+1) {}
@@ -2414,6 +2600,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:32:1]
+ 32 | :nth-child(-n+1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:33:1]
  33 | :nth-child(-n +1) {}
@@ -2484,6 +2676,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:33:1]
  33 | :nth-child(-n +1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:33:1]
+ 33 | :nth-child(-n +1) {}
+    :                   ^
     `----
 
   x Rule
@@ -2558,6 +2756,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:34:1]
+ 34 | :nth-child(-n + 1) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:35:1]
  35 | :nth-child(-n+ 1) {}
@@ -2628,6 +2832,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:35:1]
  35 | :nth-child(-n+ 1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:35:1]
+ 35 | :nth-child(-n+ 1) {}
+    :                   ^
     `----
 
   x Rule
@@ -2702,6 +2912,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:36:1]
+ 36 | :nth-child(-n-1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:37:1]
  37 | :nth-child(-n -1) {}
@@ -2774,6 +2990,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:37:1]
+ 37 | :nth-child(-n -1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:38:1]
  38 | :nth-child(-n- 1) {}
@@ -2844,6 +3066,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:38:1]
  38 | :nth-child(-n- 1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:38:1]
+ 38 | :nth-child(-n- 1) {}
+    :                   ^
     `----
 
   x Rule
@@ -2916,6 +3144,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:39:1]
  39 | :nth-child(-n - 1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:39:1]
+ 39 | :nth-child(-n - 1) {}
+    :                    ^
     `----
 
   x Rule
@@ -2990,6 +3224,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:40:1]
+ 40 | :nth-child(+n+1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:41:1]
  41 | :nth-child(+n +1) {}
@@ -3060,6 +3300,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:41:1]
  41 | :nth-child(+n +1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:41:1]
+ 41 | :nth-child(+n +1) {}
+    :                   ^
     `----
 
   x Rule
@@ -3134,6 +3380,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:42:1]
+ 42 | :nth-child(+n + 1) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:43:1]
  43 | :nth-child(+n+ 1) {}
@@ -3204,6 +3456,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:43:1]
  43 | :nth-child(+n+ 1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:43:1]
+ 43 | :nth-child(+n+ 1) {}
+    :                   ^
     `----
 
   x Rule
@@ -3278,6 +3536,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:44:1]
+ 44 | :nth-child(+n-1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:45:1]
  45 | :nth-child(+n -1) {}
@@ -3350,6 +3614,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:45:1]
+ 45 | :nth-child(+n -1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:46:1]
  46 | :nth-child(+n- 1) {}
@@ -3420,6 +3690,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:46:1]
  46 | :nth-child(+n- 1) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:46:1]
+ 46 | :nth-child(+n- 1) {}
+    :                   ^
     `----
 
   x Rule
@@ -3492,6 +3768,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:47:1]
  47 | :nth-child(+n - 1) {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:47:1]
+ 47 | :nth-child(+n - 1) {}
+    :                    ^
     `----
 
   x Rule
@@ -3566,6 +3848,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:48:1]
+ 48 | :nth-child(n) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:49:1]
  49 | :nth-child(-n) {}
@@ -3638,6 +3926,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:49:1]
+ 49 | :nth-child(-n) {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:50:1]
  50 | :nth-child(+n) {}
@@ -3710,6 +4004,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:50:1]
+ 50 | :nth-child(+n) {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:51:1]
  51 | :nth-child(2n) {}
@@ -3780,6 +4080,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:51:1]
  51 | :nth-child(2n) {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:51:1]
+ 51 | :nth-child(2n) {}
+    :                ^
     `----
 
   x Rule
@@ -3854,6 +4160,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:52:1]
+ 52 | :nth-child(-2n) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:53:1]
  53 | :nth-child(+2n) {}
@@ -3924,6 +4236,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:53:1]
  53 | :nth-child(+2n) {}
     :                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:53:1]
+ 53 | :nth-child(+2n) {}
+    :                 ^
     `----
 
   x Rule
@@ -3998,6 +4316,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:54:1]
+ 54 | :nth-child(N) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:55:1]
  55 | :nth-child(-N) {}
@@ -4070,6 +4394,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:55:1]
+ 55 | :nth-child(-N) {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:56:1]
  56 | :nth-child(+N) {}
@@ -4142,6 +4472,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:56:1]
+ 56 | :nth-child(+N) {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:57:1]
  57 | :nth-child(2N) {}
@@ -4212,6 +4548,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:57:1]
  57 | :nth-child(2N) {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:57:1]
+ 57 | :nth-child(2N) {}
+    :                ^
     `----
 
   x Rule
@@ -4286,6 +4628,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:58:1]
+ 58 | :nth-child(-2N) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:59:1]
  59 | :nth-child(+2N) {}
@@ -4356,6 +4704,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:59:1]
  59 | :nth-child(+2N) {}
     :                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:59:1]
+ 59 | :nth-child(+2N) {}
+    :                 ^
     `----
 
   x Rule
@@ -4430,6 +4784,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:60:1]
+ 60 | :nth-child(1) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:61:1]
  61 | :nth-child(-1) {}
@@ -4502,6 +4862,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:61:1]
+ 61 | :nth-child(-1) {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:62:1]
  62 | :nth-child(+1) {}
@@ -4572,6 +4938,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:62:1]
  62 | :nth-child(+1) {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:62:1]
+ 62 | :nth-child(+1) {}
+    :                ^
     `----
 
   x Rule
@@ -4646,6 +5018,12 @@
     :                              ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:63:1]
+ 63 | :nth-child(123456n-12345678) {}
+    :                              ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:65:1]
  65 | :Nth-Child(2n+1) {}
@@ -4718,6 +5096,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:65:1]
+ 65 | :Nth-Child(2n+1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:66:1]
  66 | :NTH-CHILD(2n+1) {}
@@ -4790,6 +5174,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:66:1]
+ 66 | :NTH-CHILD(2n+1) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:68:1]
  68 | :nth-child(odd) {}
@@ -4862,6 +5252,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:68:1]
+ 68 | :nth-child(odd) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:69:1]
  69 | :nth-child(ODD) {}
@@ -4934,6 +5330,12 @@
     :                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:69:1]
+ 69 | :nth-child(ODD) {}
+    :                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:70:1]
  70 | :nth-child(oDd) {}
@@ -5004,6 +5406,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:70:1]
  70 | :nth-child(oDd) {}
     :                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:70:1]
+ 70 | :nth-child(oDd) {}
+    :                 ^
     `----
 
   x Rule
@@ -5078,6 +5486,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:71:1]
+ 71 | :nth-child(even) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:72:1]
  72 | :nth-child(eVeN) {}
@@ -5150,6 +5564,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:72:1]
+ 72 | :nth-child(eVeN) {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:73:1]
  73 | :nth-child(EVEN) {}
@@ -5220,6 +5640,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:73:1]
  73 | :nth-child(EVEN) {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:73:1]
+ 73 | :nth-child(EVEN) {}
+    :                  ^
     `----
 
   x Rule
@@ -5294,6 +5720,12 @@
     :                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:75:1]
+ 75 | :nth-child(/*test*/2n/*test*/+/*test*/1/*test*/) {}
+    :                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:76:1]
  76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
@@ -5364,6 +5796,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:76:1]
  76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
     :                                                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:76:1]
+ 76 | :nth-last-child(/*test*/+3n/*test*/-/*test*/2/*test*/) {}
+    :                                                        ^
     `----
 
   x Rule
@@ -5438,6 +5876,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:78:1]
+ 78 | :nth-child(  2n  +  1  ) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:79:1]
  79 | :nth-last-child(  +3n  -  2  ) {}
@@ -5508,6 +5952,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:79:1]
  79 | :nth-last-child(  +3n  -  2  ) {}
     :                                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:79:1]
+ 79 | :nth-last-child(  +3n  -  2  ) {}
+    :                                ^
     `----
 
   x Rule
@@ -5582,6 +6032,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:81:1]
+ 81 | :nth-child(-2n+1) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:82:1]
  82 | :nth-last-child(2n+1) {}
@@ -5652,6 +6108,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:82:1]
  82 | :nth-last-child(2n+1) {}
     :                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:82:1]
+ 82 | :nth-last-child(2n+1) {}
+    :                       ^
     `----
 
   x Rule
@@ -5726,6 +6188,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:83:1]
+ 83 | :nth-of-type(2n+1) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:84:1]
  84 | :nth-last-of-type(2n+1) {}
@@ -5796,6 +6264,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:84:1]
  84 | :nth-last-of-type(2n+1) {}
     :                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:84:1]
+ 84 | :nth-last-of-type(2n+1) {}
+    :                         ^
     `----
 
   x Rule
@@ -5870,6 +6344,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:86:1]
+ 86 | :nth-col(odd) {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1]
  87 | :nth-col(2n+1) {}
@@ -5940,6 +6420,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1]
  87 | :nth-col(2n+1) {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:87:1]
+ 87 | :nth-col(2n+1) {}
+    :                ^
     `----
 
   x Rule
@@ -6014,6 +6500,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:88:1]
+ 88 | :nth-last-col(odd) {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1]
  89 | :nth-last-col(2n+1) {}
@@ -6086,6 +6578,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:89:1]
+ 89 | :nth-last-col(2n+1) {}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1]
  92 | p:nth-child(0){}
@@ -6182,6 +6680,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:92:1]
+ 92 | p:nth-child(0){}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1]
  93 | p:nth-child(+0){}
@@ -6278,6 +6782,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:93:1]
+ 93 | p:nth-child(+0){}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1]
  94 | p:nth-child(-0){}
@@ -6372,6 +6882,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1]
  94 | p:nth-child(-0){}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:94:1]
+ 94 | p:nth-child(-0){}
+    :                ^
     `----
 
   x Rule
@@ -6470,6 +6986,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:95:1]
+ 95 | p:nth-child(1){}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1]
  96 | p:nth-child(+1){}
@@ -6566,6 +7088,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:96:1]
+ 96 | p:nth-child(+1){}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1]
  97 | p:nth-child(-1){}
@@ -6660,6 +7188,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1]
  97 | p:nth-child(-1){}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:97:1]
+ 97 | p:nth-child(-1){}
+    :                ^
     `----
 
   x Rule
@@ -6758,6 +7292,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:98:1]
+ 98 | p:nth-child(3){}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1]
  99 | p:nth-child(+3){}
@@ -6852,6 +7392,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1]
  99 | p:nth-child(+3){}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:99:1]
+ 99 | p:nth-child(+3){}
+    :                ^
     `----
 
   x Rule
@@ -6948,6 +7494,12 @@
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1]
  100 | p:nth-child(-3){}
      :                ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:100:1]
+ 100 | p:nth-child(-3){}
+     :                ^
      `----
 
   x Rule
@@ -7082,6 +7634,12 @@
      :                        ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:102:1]
+ 102 | :nth-child(2n+1 of li) {}
+     :                        ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:103:1]
  103 | :nth-child(   2n+1 of li   ) {}
@@ -7212,6 +7770,12 @@
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:103:1]
  103 | :nth-child(   2n+1 of li   ) {}
      :                              ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:103:1]
+ 103 | :nth-child(   2n+1 of li   ) {}
+     :                              ^
      `----
 
   x Rule
@@ -7376,6 +7940,12 @@
      :                              ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:104:1]
+ 104 | :nth-child(2n+1 of li,.test) {}
+     :                              ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:105:1]
  105 | :nth-child(2n+1 of li, .test) {}
@@ -7538,6 +8108,12 @@
      :                               ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:105:1]
+ 105 | :nth-child(2n+1 of li, .test) {}
+     :                               ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:106:1]
  106 | :nth-child(-n+3 of li.important) {}
@@ -7686,6 +8262,12 @@
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:106:1]
  106 | :nth-child(-n+3 of li.important) {}
      :                                  ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:106:1]
+ 106 | :nth-child(-n+3 of li.important) {}
+     :                                  ^
      `----
 
   x Rule
@@ -7884,4 +8466,10 @@
      ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:107:1]
  107 | tr:nth-child(even of :not([hidden])) {}
      :                                      ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/selector/pseudo-class/an-plus-b/input.css:107:1]
+ 107 | tr:nth-child(even of :not([hidden])) {}
+     :                                      ^
      `----

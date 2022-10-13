@@ -49,6 +49,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:1:1]
+ 1 | @color-profile --fogra39 {
+   :                          ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:2:5]
  2 | src: url('https://example.org/Coated_Fogra39L_VIGC_300.icc');
@@ -140,6 +146,12 @@
  5 | ,-> @color-profile device-cmyk {
  6 | |       src: url('https://drafts.csswg.org/css-color-4/ICCprofiles/Coated_Fogra39L_VIGC_300.icc');
  7 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/color-profile/input.css:5:1]
+ 5 | @color-profile device-cmyk {
+   :                            ^
    `----
 
   x ComponentValue

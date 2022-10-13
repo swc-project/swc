@@ -103,6 +103,12 @@
  19 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+ 1 | @font-face {
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:2:5]
  2 | font-family: 'Ampersand';

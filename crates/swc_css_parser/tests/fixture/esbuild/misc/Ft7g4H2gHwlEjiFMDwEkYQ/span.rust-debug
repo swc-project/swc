@@ -58,3 +58,9 @@
  1 | :pseudo\,class {}
    :                ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
+ 1 | :pseudo\,class {}
+   :                ^
+   `----

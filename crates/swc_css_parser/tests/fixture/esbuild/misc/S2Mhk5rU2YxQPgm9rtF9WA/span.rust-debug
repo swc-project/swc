@@ -59,6 +59,12 @@
    :                                           ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   :                                           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
  1 | @document url("https://www.example.com/") { h1 { color: green } }
@@ -123,6 +129,12 @@
    ,-[$DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
  1 | @document url("https://www.example.com/") { h1 { color: green } }
    :                                                ^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   :                                                ^
    `----
 
   x ComponentValue

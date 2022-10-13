@@ -70,3 +70,9 @@
  1 | @keyframes unset {}
    :                  ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-3/input.css:1:1]
+ 1 | @keyframes unset {}
+   :                  ^
+   `----

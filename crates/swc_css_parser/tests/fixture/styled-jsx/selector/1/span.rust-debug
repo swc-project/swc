@@ -135,6 +135,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | :global(.foo + a) {
+   :                   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:5]
  2 | color: red;

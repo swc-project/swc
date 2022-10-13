@@ -58,3 +58,9 @@
  1 | #\2chash {}
    :          ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/Jir2h5-Giw9AVhE3ep3_sg/input.css:1:1]
+ 1 | #\2chash {}
+   :          ^
+   `----

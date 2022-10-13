@@ -9,7 +9,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, FileName, FilePathMapping,
-    Mark, SourceMap,
+    Mark, SourceMap, DUMMY_SP,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -1852,7 +1852,10 @@ impl Minifier<'_> {
                                     ),
                                     block: swc_css_ast::SimpleBlock {
                                         span: Default::default(),
-                                        name: '{',
+                                        name: swc_css_ast::TokenAndSpan {
+                                            span: DUMMY_SP,
+                                            token: swc_css_ast::Token::LBrace,
+                                        },
                                         value: declaration_list,
                                     },
                                 }
@@ -1885,7 +1888,10 @@ impl Minifier<'_> {
                                 ),
                                 block: Some(swc_css_ast::SimpleBlock {
                                     span: Default::default(),
-                                    name: '{',
+                                    name: swc_css_ast::TokenAndSpan {
+                                        span: DUMMY_SP,
+                                        token: swc_css_ast::Token::LBrace,
+                                    },
                                     // TODO make the `compress_empty` option for CSS minifier and
                                     // remove it
                                     value: vec![swc_css_ast::ComponentValue::Str(

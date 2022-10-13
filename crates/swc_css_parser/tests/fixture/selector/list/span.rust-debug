@@ -123,6 +123,12 @@
    :        ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:1:1]
+ 1 | div, p {}
+   :        ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
  2 | div , p {}
@@ -219,6 +225,12 @@
    :         ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:2:1]
+ 2 | div , p {}
+   :         ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
  3 | div   ,   p   {}
@@ -313,6 +325,12 @@
    ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
  3 | div   ,   p   {}
    :               ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:3:1]
+ 3 | div   ,   p   {}
+   :               ^
    `----
 
   x Rule
@@ -451,6 +469,12 @@
    ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
  4 | a, a[href='place'] {}
    :                    ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:4:1]
+ 4 | a, a[href='place'] {}
+   :                    ^
    `----
 
   x Rule
@@ -627,6 +651,12 @@
    :                            ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:5:1]
+ 5 | a #foo > [foo='bar'], .FOO {}
+   :                            ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
  6 | div, p, a {}
@@ -757,6 +787,12 @@
    ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
  6 | div, p, a {}
    :           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:6:1]
+ 6 | div, p, a {}
+   :           ^
    `----
 
   x Rule
@@ -891,6 +927,12 @@
    :        ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:7:1]
+ 7 | div,p,a{}
+   :        ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
  8 | div   ,   p   ,   a   {}
@@ -1021,6 +1063,12 @@
    ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
  8 | div   ,   p   ,   a   {}
    :                       ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/list/input.css:8:1]
+ 8 | div   ,   p   ,   a   {}
+   :                       ^
    `----
 
   x Rule
@@ -1166,6 +1214,12 @@
     : ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:14:1]
+ 14 | {}
+    : ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
  15 | .foo, .bar, *.baz {}
@@ -1290,6 +1344,12 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
  15 | .foo, .bar, *.baz {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:15:1]
+ 15 | .foo, .bar, *.baz {}
+    :                   ^
     `----
 
   x Rule
@@ -1422,6 +1482,12 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
  16 | input::-moz-placeholder, input::placeholder {}
     :                                             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:16:1]
+ 16 | input::-moz-placeholder, input::placeholder {}
+    :                                             ^
     `----
 
   x Rule
@@ -1700,6 +1766,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:17:1]
+ 17 | a,b,c,d,e,f,g {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
  18 | a, b, c, d, e, f, g {}
@@ -1976,6 +2048,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:18:1]
+ 18 | a, b, c, d, e, f, g {}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
  19 | *, * {}
@@ -2046,6 +2124,12 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
  19 | *, * {}
     :      ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:19:1]
+ 19 | *, * {}
+    :      ^
     `----
 
   x Rule
@@ -2130,6 +2214,12 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
  20 | #id, #id2 {}
     :           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:20:1]
+ 20 | #id, #id2 {}
+    :           ^
     `----
 
   x Rule
@@ -2228,6 +2318,12 @@
     :        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:21:1]
+ 21 | h1, h2 {}
+    :        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
  22 | .class, .foo {}
@@ -2310,6 +2406,12 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
  22 | .class, .foo {}
     :              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:22:1]
+ 22 | .class, .foo {}
+    :              ^
     `----
 
   x Rule
@@ -2408,6 +2510,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:23:1]
+ 23 | [attr], [attrtoo] {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
  24 | a/* { } */ b {}
@@ -2502,4 +2610,10 @@
     ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
  24 | a/* { } */ b {}
     :              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/list/input.css:24:1]
+ 24 | a/* { } */ b {}
+    :              ^
     `----

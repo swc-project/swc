@@ -129,6 +129,12 @@
    :     ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:1:1]
+ 1 | #id {}
+   :     ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/id/input.css:2:1]
  2 | #♥ {}
@@ -183,6 +189,12 @@
    :      ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:2:1]
+ 2 | #♥ {}
+   :      ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/id/input.css:3:1]
  3 | #© {}
@@ -235,6 +247,12 @@
    ,-[$DIR/tests/fixture/selector/id/input.css:3:1]
  3 | #© {}
    :     ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:3:1]
+ 3 | #© {}
+   :     ^
    `----
 
   x Rule
@@ -291,6 +309,12 @@
    :               ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:4:1]
+ 4 | #“‘’” {}
+   :               ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/id/input.css:5:1]
  5 | #☺☃ {}
@@ -345,6 +369,12 @@
    :         ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:5:1]
+ 5 | #☺☃ {}
+   :         ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/id/input.css:6:1]
  6 | #⌘⌥ {}
@@ -397,6 +427,12 @@
    ,-[$DIR/tests/fixture/selector/id/input.css:6:1]
  6 | #⌘⌥ {}
    :         ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:6:1]
+ 6 | #⌘⌥ {}
+   :         ^
    `----
 
   x Rule
@@ -453,6 +489,12 @@
    :                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:7:1]
+ 7 | #𝄞♪♩♫♬ {}
+   :                   ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/id/input.css:8:1]
  8 | #💩 {}
@@ -505,6 +547,12 @@
    ,-[$DIR/tests/fixture/selector/id/input.css:8:1]
  8 | #💩 {}
    :       ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:8:1]
+ 8 | #💩 {}
+   :       ^
    `----
 
   x Rule
@@ -561,6 +609,12 @@
    :     ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/id/input.css:9:1]
+ 9 | #\? {}
+   :     ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:10:1]
  10 | #\@ {}
@@ -615,6 +669,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:10:1]
+ 10 | #\@ {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:11:1]
  11 | #\. {}
@@ -667,6 +727,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:11:1]
  11 | #\. {}
     :     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:11:1]
+ 11 | #\. {}
+    :     ^
     `----
 
   x Rule
@@ -721,6 +787,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:12:1]
  12 | #\3A \) {}
     :         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:12:1]
+ 12 | #\3A \) {}
+    :         ^
     `----
 
   x Rule
@@ -777,6 +849,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:13:1]
+ 13 | #\3A \`\( {}
+    :           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:14:1]
  14 | #\31 23 {}
@@ -831,6 +909,12 @@
     :         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:14:1]
+ 14 | #\31 23 {}
+    :         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:15:1]
  15 | #\31 a2b3c {}
@@ -883,6 +967,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:15:1]
  15 | #\31 a2b3c {}
     :            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:15:1]
+ 15 | #\31 a2b3c {}
+    :            ^
     `----
 
   x Rule
@@ -939,6 +1029,12 @@
     :        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:16:1]
+ 16 | #\<p\> {}
+    :        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:17:1]
  17 | #\<\>\<\<\<\>\>\<\> {}
@@ -991,6 +1087,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:17:1]
  17 | #\<\>\<\<\<\>\>\<\> {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:17:1]
+ 17 | #\<\>\<\<\<\>\>\<\> {}
+    :                     ^
     `----
 
   x Rule
@@ -1047,6 +1149,12 @@
     :                                                                                                                                                                                                                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:18:1]
+ 18 | #\+\+\+\+\+\+\+\+\+\+\[\>\+\+\+\+\+\+\+\>\+\+\+\+\+\+\+\+\+\+\>\+\+\+\>\+\<\<\<\<\-\]\>\+\+\.\>\+\.\+\+\+\+\+\+\+\.\.\+\+\+\.\>\+\+\.\<\<\+\+\+\+\+\+\+\+\+\+\+\+\+\+\+\.\>\.\+\+\+\.\-\-\-\-\-\-\.\-\-\-\-\-\-\-\-\.\>\+\.\>\. {}
+    :                                                                                                                                                                                                                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:19:1]
  19 | #\# {}
@@ -1101,6 +1209,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:19:1]
+ 19 | #\# {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:20:1]
  20 | #\#\# {}
@@ -1153,6 +1267,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:20:1]
  20 | #\#\# {}
     :       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:20:1]
+ 20 | #\#\# {}
+    :       ^
     `----
 
   x Rule
@@ -1209,6 +1329,12 @@
     :             ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:21:1]
+ 21 | #\#\.\#\.\# {}
+    :             ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:22:1]
  22 | #\_ {}
@@ -1261,6 +1387,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:22:1]
  22 | #\_ {}
     :     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:22:1]
+ 22 | #\_ {}
+    :     ^
     `----
 
   x Rule
@@ -1317,6 +1449,12 @@
     :       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:23:1]
+ 23 | #\{\} {}
+    :       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:24:1]
  24 | #\.fake\-class {}
@@ -1369,6 +1507,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:24:1]
  24 | #\.fake\-class {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:24:1]
+ 24 | #\.fake\-class {}
+    :                ^
     `----
 
   x Rule
@@ -1425,6 +1569,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:25:1]
+ 25 | #foo\.bar {}
+    :           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:26:1]
  26 | #\3A hover {}
@@ -1477,6 +1627,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:26:1]
  26 | #\3A hover {}
     :            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:26:1]
+ 26 | #\3A hover {}
+    :            ^
     `----
 
   x Rule
@@ -1533,6 +1689,12 @@
     :                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:27:1]
+ 27 | #\3A hover\3A focus\3A active {}
+    :                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:28:1]
  28 | #\[attr\=value\] {}
@@ -1587,6 +1749,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:28:1]
+ 28 | #\[attr\=value\] {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:29:1]
  29 | #f\/o\/o {}
@@ -1641,6 +1809,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:29:1]
+ 29 | #f\/o\/o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:30:1]
  30 | #f\\o\\o {}
@@ -1695,6 +1869,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:30:1]
+ 30 | #f\\o\\o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:31:1]
  31 | #f\*o\*o {}
@@ -1749,6 +1929,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:31:1]
+ 31 | #f\*o\*o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:32:1]
  32 | #f\!o\!o {}
@@ -1803,6 +1989,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:32:1]
+ 32 | #f\!o\!o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:33:1]
  33 | #f\'o\'o {}
@@ -1857,6 +2049,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:33:1]
+ 33 | #f\'o\'o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:34:1]
  34 | #f\~o\~o {}
@@ -1911,6 +2109,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:34:1]
+ 34 | #f\~o\~o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:35:1]
  35 | #f\+o\+o {}
@@ -1963,6 +2167,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:35:1]
  35 | #f\+o\+o {}
     :          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:35:1]
+ 35 | #f\+o\+o {}
+    :          ^
     `----
 
   x Rule
@@ -2017,6 +2227,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:36:1]
  36 | #id {}
     :     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:36:1]
+ 36 | #id {}
+    :     ^
     `----
 
   x Rule
@@ -2089,6 +2305,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:37:1]
  37 | #id.class {}
     :           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:37:1]
+ 37 | #id.class {}
+    :           ^
     `----
 
   x Rule
@@ -2187,6 +2409,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:38:1]
+ 38 | #id.class[target] {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:39:1]
  39 | div#thing:hover {}
@@ -2281,6 +2509,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:39:1]
  39 | div#thing:hover {}
     :                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:39:1]
+ 39 | div#thing:hover {}
+    :                 ^
     `----
 
   x Rule
@@ -2397,6 +2631,12 @@
     :                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:40:1]
+ 40 | div#thing:nth-child(2n+1) {}
+    :                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:41:1]
  41 | div#thing::before {}
@@ -2491,6 +2731,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:41:1]
  41 | div#thing::before {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:41:1]
+ 41 | div#thing::before {}
+    :                   ^
     `----
 
   x Rule
@@ -2589,6 +2835,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:42:1]
+ 42 | #foo[lang^=en] {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:43:1]
  43 | #\; {}
@@ -2643,6 +2895,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:43:1]
+ 43 | #\; {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:44:1]
  44 | #u-m\00002b {}
@@ -2695,6 +2953,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:44:1]
  44 | #u-m\00002b {}
     :             ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:44:1]
+ 44 | #u-m\00002b {}
+    :             ^
     `----
 
   x Rule
@@ -2751,6 +3015,12 @@
     :      ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:45:1]
+ 45 | #♥ {}
+    :      ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:46:1]
  46 | #“‘’” {}
@@ -2805,6 +3075,12 @@
     :               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:46:1]
+ 46 | #“‘’” {}
+    :               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:47:1]
  47 | #☺☃ {}
@@ -2857,6 +3133,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:47:1]
  47 | #☺☃ {}
     :         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:47:1]
+ 47 | #☺☃ {}
+    :         ^
     `----
 
   x Rule
@@ -2913,6 +3195,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:48:1]
+ 48 | #\@ {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:49:1]
  49 | #\. {}
@@ -2967,6 +3255,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:49:1]
+ 49 | #\. {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:50:1]
  50 | #\3A \) {}
@@ -3019,6 +3313,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:50:1]
  50 | #\3A \) {}
     :         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:50:1]
+ 50 | #\3A \) {}
+    :         ^
     `----
 
   x Rule
@@ -3075,6 +3375,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:51:1]
+ 51 | #\3A \`\( {}
+    :           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:52:1]
  52 | #\31 23 {}
@@ -3129,6 +3435,12 @@
     :         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:52:1]
+ 52 | #\31 23 {}
+    :         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:53:1]
  53 | #\31 a2b3c {}
@@ -3181,6 +3493,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:53:1]
  53 | #\31 a2b3c {}
     :            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:53:1]
+ 53 | #\31 a2b3c {}
+    :            ^
     `----
 
   x Rule
@@ -3237,6 +3555,12 @@
     :        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:54:1]
+ 54 | #\<p\> {}
+    :        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:55:1]
  55 | #\<\>\<\<\<\>\>\<\> {}
@@ -3289,6 +3613,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:55:1]
  55 | #\<\>\<\<\<\>\>\<\> {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:55:1]
+ 55 | #\<\>\<\<\<\>\>\<\> {}
+    :                     ^
     `----
 
   x Rule
@@ -3345,6 +3675,12 @@
     :     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:56:1]
+ 56 | #\# {}
+    :     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:57:1]
  57 | #\#\# {}
@@ -3397,6 +3733,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:57:1]
  57 | #\#\# {}
     :       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:57:1]
+ 57 | #\#\# {}
+    :       ^
     `----
 
   x Rule
@@ -3453,6 +3795,12 @@
     :             ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:58:1]
+ 58 | #\#\.\#\.\# {}
+    :             ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:59:1]
  59 | #\_ {}
@@ -3505,6 +3853,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:59:1]
  59 | #\_ {}
     :     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:59:1]
+ 59 | #\_ {}
+    :     ^
     `----
 
   x Rule
@@ -3561,6 +3915,12 @@
     :       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:60:1]
+ 60 | #\{\} {}
+    :       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:61:1]
  61 | #\.fake\-class {}
@@ -3613,6 +3973,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:61:1]
  61 | #\.fake\-class {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:61:1]
+ 61 | #\.fake\-class {}
+    :                ^
     `----
 
   x Rule
@@ -3669,6 +4035,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:62:1]
+ 62 | #foo\.bar {}
+    :           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:63:1]
  63 | #\3A hover {}
@@ -3721,6 +4093,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:63:1]
  63 | #\3A hover {}
     :            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:63:1]
+ 63 | #\3A hover {}
+    :            ^
     `----
 
   x Rule
@@ -3777,6 +4155,12 @@
     :                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:64:1]
+ 64 | #\3A hover\3A focus\3A active {}
+    :                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:65:1]
  65 | #\[attr\=value\] {}
@@ -3831,6 +4215,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:65:1]
+ 65 | #\[attr\=value\] {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:66:1]
  66 | #f\/o\/o {}
@@ -3885,6 +4275,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:66:1]
+ 66 | #f\/o\/o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:67:1]
  67 | #f\\o\\o {}
@@ -3939,6 +4335,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:67:1]
+ 67 | #f\\o\\o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:68:1]
  68 | #f\*o\*o {}
@@ -3993,6 +4395,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:68:1]
+ 68 | #f\*o\*o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:69:1]
  69 | #f\!o\!o {}
@@ -4045,6 +4453,12 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:69:1]
  69 | #f\!o\!o {}
     :          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:69:1]
+ 69 | #f\!o\!o {}
+    :          ^
     `----
 
   x Rule
@@ -4101,6 +4515,12 @@
     :              ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:70:1]
+ 70 | #f\\\'o\\\'o {}
+    :              ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:71:1]
  71 | #f\~o\~o {}
@@ -4155,6 +4575,12 @@
     :          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:71:1]
+ 71 | #f\~o\~o {}
+    :          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/id/input.css:72:1]
  72 | #f\+o\+o {}
@@ -4207,4 +4633,10 @@
     ,-[$DIR/tests/fixture/selector/id/input.css:72:1]
  72 | #f\+o\+o {}
     :          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/id/input.css:72:1]
+ 72 | #f\+o\+o {}
+    :          ^
     `----

@@ -442,21 +442,7 @@ where
     fn parse(&mut self) -> PResult<SimpleBlock> {
         let span = self.input.cur_span();
         let name = match cur!(self) {
-            tok!("{") => {
-                bump!(self);
-
-                '{'
-            }
-            tok!("(") => {
-                bump!(self);
-
-                '('
-            }
-            tok!("[") => {
-                bump!(self);
-
-                '['
-            }
+            tok!("{") | tok!("(") | tok!("[") => self.input.bump().unwrap(),
             _ => {
                 return Err(Error::new(
                     span,
@@ -492,17 +478,17 @@ where
             match cur!(self) {
                 // ending token
                 // Return the block.
-                tok!("]") if name == '[' => {
+                tok!("]") if simple_block.name.token == Token::LBracket => {
                     bump!(self);
 
                     break;
                 }
-                tok!(")") if name == '(' => {
+                tok!(")") if simple_block.name.token == Token::LParen => {
                     bump!(self);
 
                     break;
                 }
-                tok!("}") if name == '{' => {
+                tok!("}") if simple_block.name.token == Token::LBrace => {
                     bump!(self);
 
                     break;

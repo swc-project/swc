@@ -71,6 +71,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/var/input.css:2:5]
  2 | border: var(#fff);

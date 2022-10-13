@@ -61,9 +61,7 @@ pub enum StyleBlock {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct SimpleBlock {
     pub span: Span,
-    // TODO Create a simple block with its associated token set to the current input token and with
-    // its value initially set to an empty list.
-    pub name: char,
+    pub name: TokenAndSpan,
     pub value: Vec<ComponentValue>,
 }
 

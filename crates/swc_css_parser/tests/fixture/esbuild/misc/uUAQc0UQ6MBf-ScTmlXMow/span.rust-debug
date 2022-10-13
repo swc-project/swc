@@ -46,3 +46,9 @@
  1 | & {}
    :   ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/uUAQc0UQ6MBf-ScTmlXMow/input.css:1:1]
+ 1 | & {}
+   :   ^
+   `----

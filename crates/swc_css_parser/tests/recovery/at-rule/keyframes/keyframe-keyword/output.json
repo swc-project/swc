@@ -40,7 +40,15 @@
           "end": 28,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 16,
+            "end": 17,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "PreservedToken",
@@ -89,7 +97,15 @@
               "end": 26,
               "ctxt": 0
             },
-            "name": "{",
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 24,
+                "end": 25,
+                "ctxt": 0
+              },
+              "token": "LBrace"
+            },
             "value": []
           },
           {
@@ -142,7 +158,15 @@
           "end": 55,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 45,
+            "end": 46,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "PreservedToken",
@@ -191,7 +215,15 @@
               "end": 53,
               "ctxt": 0
             },
-            "name": "{",
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 51,
+                "end": 52,
+                "ctxt": 0
+              },
+              "token": "LBrace"
+            },
             "value": []
           },
           {

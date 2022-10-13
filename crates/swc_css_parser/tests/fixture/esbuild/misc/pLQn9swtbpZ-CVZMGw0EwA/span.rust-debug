@@ -70,3 +70,9 @@
  1 | :pseudo(cl\2css) {}
    :                  ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
+ 1 | :pseudo(cl\2css) {}
+   :                  ^
+   `----

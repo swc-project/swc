@@ -105,6 +105,12 @@
  10 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/basic/input.css:2:5]
  2 | --foo: "http://www.example.com/pinkish.gif";
@@ -624,6 +630,12 @@
  14 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
+ 12 | .foo {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
  13 | background: url(image.png param(var(--url)));
@@ -769,6 +781,12 @@
  16 | ,-> .style {
  17 | |       background: url("foo", "bar");
  18 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
+ 16 | .style {
+    :        ^
     `----
 
   x ComponentValue

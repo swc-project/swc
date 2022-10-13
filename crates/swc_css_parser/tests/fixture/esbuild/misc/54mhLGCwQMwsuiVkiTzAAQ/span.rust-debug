@@ -82,3 +82,9 @@
  1 | [attr="-a"] {}
    :             ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/54mhLGCwQMwsuiVkiTzAAQ/input.css:1:1]
+ 1 | [attr="-a"] {}
+   :             ^
+   `----

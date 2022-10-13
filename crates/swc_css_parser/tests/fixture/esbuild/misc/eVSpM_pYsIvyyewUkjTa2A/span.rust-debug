@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/eVSpM_pYsIvyyewUkjTa2A/input.css:1:1]
+ 1 | a { color: #12223344 }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/eVSpM_pYsIvyyewUkjTa2A/input.css:1:1]
  1 | a { color: #12223344 }

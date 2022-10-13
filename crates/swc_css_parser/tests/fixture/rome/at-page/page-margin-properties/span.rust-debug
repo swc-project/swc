@@ -48,6 +48,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:1:1]
+ 1 | @page {
+   :       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:5]
  2 | ,-> @top-center {
@@ -79,6 +85,12 @@
  2 | ,-> @top-center {
  3 | |   		display: none;
  4 | `-> 	}
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/at-page/page-margin-properties/input.css:2:5]
+ 2 | @top-center {
+   :             ^
    `----
 
   x ComponentValue

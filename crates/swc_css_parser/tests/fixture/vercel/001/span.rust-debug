@@ -81,6 +81,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/vercel/001/input.css:1:1]
+ 1 | :nth-child(4n) {
+   :                ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/vercel/001/input.css:2:5]
  2 | margin-right: 0;

@@ -134,6 +134,12 @@
    :         ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:1:1]
+ 1 | :not(p) {}
+   :         ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1]
  2 | :not(   p   ) {}
@@ -234,6 +240,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1]
  2 | :not(   p   ) {}
    :               ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:2:1]
+ 2 | :not(   p   ) {}
+   :               ^
    `----
 
   x Rule
@@ -343,6 +355,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:5:1]
  5 | ) {}
    :   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:5:1]
+ 5 | ) {}
+   :   ^
    `----
 
   x Rule
@@ -471,6 +489,12 @@
    :                        ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:6:1]
+ 6 | button:not([DISABLED]) {}
+   :                        ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1]
  7 | *:not(FOO) {}
@@ -583,6 +607,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1]
  7 | *:not(FOO) {}
    :            ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:7:1]
+ 7 | *:not(FOO) {}
+   :            ^
    `----
 
   x Rule
@@ -777,6 +807,12 @@
    :                                 ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:8:1]
+ 8 | html|*:not(:link):not(:visited) {}
+   :                                 ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1]
  9 | .selector:not(*:root) {}
@@ -901,6 +937,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1]
  9 | .selector:not(*:root) {}
    :                       ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:9:1]
+ 9 | .selector:not(*:root) {}
+   :                       ^
    `----
 
   x Rule
@@ -1047,6 +1089,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:10:1]
+ 10 | :not(:is(argument)) {}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:11:1]
  11 | p:not(.fancy) {}
@@ -1165,6 +1213,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:11:1]
  11 | p:not(.fancy) {}
     :               ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:11:1]
+ 11 | p:not(.fancy) {}
+    :               ^
     `----
 
   x Rule
@@ -1303,6 +1357,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:12:1]
  12 | body :not(p) {}
     :              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:12:1]
+ 12 | body :not(p) {}
+    :              ^
     `----
 
   x Rule
@@ -1509,6 +1569,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:13:1]
+ 13 | body :not(div):not(span) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:14:1]
  14 | body :not(div, .fancy) {}
@@ -1677,6 +1743,12 @@
     :                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:14:1]
+ 14 | body :not(div, .fancy) {}
+    :                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:15:1]
  15 | h2 :not(span.foo) {}
@@ -1831,6 +1903,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:15:1]
  15 | h2 :not(span.foo) {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:15:1]
+ 15 | h2 :not(span.foo) {}
+    :                   ^
     `----
 
   x Rule
@@ -2049,6 +2127,12 @@
     :                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:16:1]
+ 16 | body > h2:not(:first-of-type):not(:last-of-type) {}
+    :                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:17:1]
  17 | :not(em, strong#foo) {}
@@ -2203,6 +2287,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:17:1]
  17 | :not(em, strong#foo) {}
     :                      ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:17:1]
+ 17 | :not(em, strong#foo) {}
+    :                      ^
     `----
 
   x Rule
@@ -2397,6 +2487,12 @@
     :                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:18:1]
+ 18 | html|*:not(:link):not(:visited) {}
+    :                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:19:1]
  19 | *:not(FOO) {}
@@ -2509,6 +2605,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:19:1]
  19 | *:not(FOO) {}
     :            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:19:1]
+ 19 | *:not(FOO) {}
+    :            ^
     `----
 
   x Rule
@@ -2637,6 +2739,12 @@
     :                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:20:1]
+ 20 | button:not([DISABLED]) {}
+    :                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:21:1]
  21 | a:not(:hover) {}
@@ -2755,6 +2863,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:21:1]
  21 | a:not(:hover) {}
     :               ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:21:1]
+ 21 | a:not(:hover) {}
+    :               ^
     `----
 
   x Rule
@@ -2919,6 +3033,12 @@
     :                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:22:1]
+ 22 | a:where(:not(:hover)) {}
+    :                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:23:1]
  23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
@@ -3303,6 +3423,12 @@
     :                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:23:1]
+ 23 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+    :                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:24:1]
  24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
@@ -3655,6 +3781,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:24:1]
  24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
     :                                           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:24:1]
+ 24 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+    :                                           ^
     `----
 
   x Rule
@@ -3811,6 +3943,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1]
  25 | ul li:not(:first-of-type) {}
     :                           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:25:1]
+ 25 | ul li:not(:first-of-type) {}
+    :                           ^
     `----
 
   x Rule
@@ -4087,4 +4225,10 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6]
  29 | :nth-last-of-type(6)) {}
     :                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/not/input.css:29:6]
+ 29 | :nth-last-of-type(6)) {}
+    :                       ^
     `----

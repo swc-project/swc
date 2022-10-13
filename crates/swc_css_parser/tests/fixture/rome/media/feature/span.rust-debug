@@ -112,6 +112,12 @@
    :                           ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:1:1]
+ 1 | @media screen and (color) {}
+   :                           ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
  2 | @media only screen and (color) {}
@@ -218,6 +224,12 @@
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
  2 | @media only screen and (color) {}
    :                                ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:2:1]
+ 2 | @media only screen and (color) {}
+   :                                ^
    `----
 
   x Rule
@@ -358,6 +370,12 @@
    :                                           ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:3:1]
+ 3 | @media only screen and (min-width: 800px) {}
+   :                                           ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
  4 | @media screen and (min-width       :          800px        ) {}
@@ -488,6 +506,12 @@
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
  4 | @media screen and (min-width       :          800px        ) {}
    :                                                              ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:4:1]
+ 4 | @media screen and (min-width       :          800px        ) {}
+   :                                                              ^
    `----
 
   x Rule
@@ -776,6 +800,12 @@
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
  5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
    :                                                                                    ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:5:1]
+ 5 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) {}
+   :                                                                                    ^
    `----
 
   x Rule
@@ -1142,4 +1172,10 @@
    ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
  6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
    :                                                                                                          ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/feature/input.css:6:1]
+ 6 | @media screen and (min-width: 800px) and (min-width: 800px) and (min-width: 800px) and (min-width: 800px){}
+   :                                                                                                          ^
    `----

@@ -93,6 +93,12 @@
  9 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:2:5]
  2 | prop: func(1 + 2);
@@ -453,6 +459,12 @@
    :            ^^^^^^^^^
    `----
 
+  x LBracket
+   ,-[$DIR/tests/recovery/function/base/input.css:5:5]
+ 5 | prop: func([foo bar]);
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:5:5]
  5 | prop: func([foo bar]);
@@ -535,6 +547,12 @@
    ,-[$DIR/tests/recovery/function/base/input.css:6:5]
  6 | prop: func((foo, bar));
    :            ^^^^^^^^^^
+   `----
+
+  x LParen
+   ,-[$DIR/tests/recovery/function/base/input.css:6:5]
+ 6 | prop: func((foo, bar));
+   :            ^
    `----
 
   x ComponentValue
@@ -631,6 +649,12 @@
    ,-[$DIR/tests/recovery/function/base/input.css:7:5]
  7 | prop: func({ foo: bar });
    :            ^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/function/base/input.css:7:5]
+ 7 | prop: func({ foo: bar });
+   :            ^
    `----
 
   x ComponentValue

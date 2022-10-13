@@ -88,3 +88,9 @@
  1 | [ns|\2c attr] {}
    :               ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/sEqPCrxONsC0GxTLw0X7IA/input.css:1:1]
+ 1 | [ns|\2c attr] {}
+   :               ^
+   `----

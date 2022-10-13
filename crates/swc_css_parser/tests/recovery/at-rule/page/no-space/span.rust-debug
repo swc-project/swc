@@ -67,6 +67,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :                   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
  2 | @top-center { content: none }
@@ -95,6 +101,12 @@
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
  2 | @top-center { content: none }
    :             ^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:2:5]
+ 2 | @top-center { content: none }
+   :             ^
    `----
 
   x ComponentValue

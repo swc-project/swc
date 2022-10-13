@@ -70,3 +70,9 @@
  1 | @keyframes default {}
    :                    ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
+ 1 | @keyframes default {}
+   :                    ^
+   `----

@@ -83,6 +83,12 @@
  8 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/functions/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/functions/input.css:2:5]
  2 | --fancy: 2px;

@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
  1 | a { value: @\6beyword }

@@ -213,6 +213,12 @@
  39 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/url/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/url/input.css:2:5]
  2 | background: url(https://example.com/image.png);

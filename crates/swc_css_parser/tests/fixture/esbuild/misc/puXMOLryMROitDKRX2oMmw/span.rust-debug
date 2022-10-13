@@ -58,3 +58,9 @@
  1 | #--0 {}
    :      ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/puXMOLryMROitDKRX2oMmw/input.css:1:1]
+ 1 | #--0 {}
+   :      ^
+   `----

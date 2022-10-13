@@ -46,3 +46,9 @@
  1 | ,-> , {
  2 | `-> }
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/selector/list/input.css:1:1]
+ 1 | , {
+   :   ^
+   `----

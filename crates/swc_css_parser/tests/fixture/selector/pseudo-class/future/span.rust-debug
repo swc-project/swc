@@ -190,3 +190,9 @@
  1 | :future(p, li, dt, dd) {}
    :                        ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/future/input.css:1:1]
+ 1 | :future(p, li, dt, dd) {}
+   :                        ^
+   `----
