@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Fix AST types for simple block (#6131) ([e63fa28](https://github.com/swc-project/swc/commit/e63fa28008fc643c4ddc973d2b39d2da093b44c5))
+
+
 - **(css/modules)** Fix parsing and refactor code (#6132) ([39cfade](https://github.com/swc-project/swc/commit/39cfade7f8b199b9db3240ffd561524f2f209798))
 
 ### Features
