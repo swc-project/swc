@@ -239,6 +239,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:1:1]
+ 1 | @supports (display: grid) {
+   :                           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:2:5]
  2 | ,-> div {
@@ -307,6 +313,12 @@
  2 | ,-> div {
  3 | |           display: grid;
  4 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:2:5]
+ 2 | div {
+   :     ^
    `----
 
   x ComponentValue
@@ -462,6 +474,12 @@
  17 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:7:1]
+ 7 | @supports (display: flex) {
+   :                           ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:8:5]
   8 | ,-> body {
@@ -531,6 +549,12 @@
   9 | |           color: blue;
  10 | `->     }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/supports/input.css:8:5]
+ 8 | body {
+   :      ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/supports/input.css:9:9]
@@ -724,6 +748,12 @@
  16 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:12:5]
+ 12 | @media screen and (min-width: 900px) {
+    :                                      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:13:9]
  13 | ,-> article {
@@ -792,6 +822,12 @@
  13 | ,-> article {
  14 | |               display: flex;
  15 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:13:9]
+ 13 | article {
+    :         ^
     `----
 
   x ComponentValue
@@ -920,6 +956,12 @@
     :                                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:18:1]
+ 18 | @supports   (   display   :   flex   )   {}
+    :                                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:19:1]
  19 | @supports not (display: flex) {}
@@ -1016,6 +1058,12 @@
     :                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:19:1]
+ 19 | @supports not (display: flex) {}
+    :                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
  20 | @SUPPORTS not (display: flex) {}
@@ -1110,6 +1158,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
  20 | @SUPPORTS not (display: flex) {}
     :                               ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:20:1]
+ 20 | @SUPPORTS not (display: flex) {}
+    :                               ^
     `----
 
   x Rule
@@ -1638,6 +1692,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
  21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
     :                                                                                                                                                                                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:21:1]
+ 21 | @supports (box-shadow: 0 0 2px black inset ) or (-moz-box-shadow: 0 0 2px black inset ) or (-webkit-box-shadow: 0 0 2px black inset ) or (-o-box-shadow: 0 0 2px black inset ) {}
+    :                                                                                                                                                                                ^
     `----
 
   x Rule
@@ -2179,6 +2239,12 @@
  27 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:25:3]
+ 25 | ( -o-box-shadow: 0 0 2px black inset ) {
+    :                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:28:1]
  28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
@@ -2437,6 +2503,12 @@
     :                                                                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:28:1]
+ 28 | @supports ((transition-property: color) or (animation-name: foo)) and (transform: rotate(10deg)) {}
+    :                                                                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
  29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
@@ -2693,6 +2765,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
  29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
     :                                                                                                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:29:1]
+ 29 | @supports (transition-property: color) or ((animation-name: foo) and (transform: rotate(10deg))) {}
+    :                                                                                                  ^
     `----
 
   x Rule
@@ -2953,6 +3031,12 @@
     :                                                                                                                                                      ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:30:1]
+ 30 | @supports   (   transition-property   :   color   )   or   (   (   animation-name   :   foo   )   and   (   transform   :    rotate(10deg)   )   )   {}
+    :                                                                                                                                                      ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:31:1]
  31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
@@ -3211,6 +3295,12 @@
     :                                                                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:31:1]
+ 31 | @supports(transition-property:color)or ((animation-name:foo)and (transform:rotate(10deg))){}
+    :                                                                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:32:1]
  32 | @supports ((display: flex)) {}
@@ -3313,6 +3403,12 @@
     :                             ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:32:1]
+ 32 | @supports ((display: flex)) {}
+    :                             ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:33:1]
  33 | @supports (display: flex !important) {}
@@ -3409,6 +3505,12 @@
     :                                      ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:33:1]
+ 33 | @supports (display: flex !important) {}
+    :                                      ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
  34 | @supports NOT (display: flex) {}
@@ -3503,6 +3605,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
  34 | @supports NOT (display: flex) {}
     :                               ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:34:1]
+ 34 | @supports NOT (display: flex) {}
+    :                               ^
     `----
 
   x Rule
@@ -3763,6 +3871,12 @@
     :                                                                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:35:1]
+ 35 | @supports ((transition-property: color) OR (animation-name: foo)) AND (transform: rotate(10deg)) {}
+    :                                                                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:36:1]
  36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
@@ -4021,6 +4135,12 @@
     :                                                                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:36:1]
+ 36 | @supports (transition-property: color) OR ((animation-name: foo) AND (transform: rotate(10deg))) {}
+    :                                                                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
  37 | @supports (NOT (display: flex)) {}
@@ -4127,6 +4247,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
  37 | @supports (NOT (display: flex)) {}
     :                                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:37:1]
+ 37 | @supports (NOT (display: flex)) {}
+    :                                 ^
     `----
 
   x Rule
@@ -4282,6 +4408,12 @@
  43 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:39:1]
+ 39 | @supports selector(col || td) {
+    :                               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:40:5]
  40 | ,-> col.selected || td {
@@ -4404,6 +4536,12 @@
  40 | ,-> col.selected || td {
  41 | |           background: tan;
  42 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:40:5]
+ 40 | col.selected || td {
+    :                    ^
     `----
 
   x ComponentValue
@@ -4559,6 +4697,12 @@
  49 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:45:1]
+ 45 | @supports selector(:focus-visible) {
+    :                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:46:5]
  46 | ,-> a:focus-visible {
@@ -4645,6 +4789,12 @@
  46 | ,-> a:focus-visible {
  47 | |           background: yellow;
  48 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:46:5]
+ 46 | a:focus-visible {
+    :                 ^
     `----
 
   x ComponentValue
@@ -4776,6 +4926,12 @@
  55 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:51:1]
+ 51 | @supports (--element(".minwidth")) {
+    :                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:52:5]
  52 | ,-> [--self] {
@@ -4844,6 +5000,12 @@
  52 | ,-> [--self] {
  53 | |           background: greenyellow;
  54 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:52:5]
+ 52 | [--self] {
+    :          ^
     `----
 
   x ComponentValue
@@ -4975,6 +5137,12 @@
  59 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:57:1]
+ 57 | @supports (ident: 1) {
+    :                      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:58:5]
  58 | * { background: red; }
@@ -5027,6 +5195,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:58:5]
  58 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:58:5]
+ 58 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -5176,6 +5350,12 @@
  63 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:61:1]
+ 61 | @supports ((ident: 1)) {
+    :                        ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:62:5]
  62 | * { background: red; }
@@ -5228,6 +5408,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:62:5]
  62 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:62:5]
+ 62 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -5322,6 +5508,12 @@
     :           ^^^^^^^^^^^^^
     `----
 
+  x LParen
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
+ 65 | @supports (ident "str") {
+    :           ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
  65 | @supports (ident "str") {
@@ -5363,6 +5555,12 @@
  65 | ,-> @supports (ident "str") {
  66 | |       * { background: red; }
  67 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:65:1]
+ 65 | @supports (ident "str") {
+    :                         ^
     `----
 
   x ComponentValue
@@ -5417,6 +5615,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:66:5]
  66 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:66:5]
+ 66 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -5517,6 +5721,12 @@
     :            ^^^^^^^^^^^^^
     `----
 
+  x LParen
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
+ 69 | @supports ((ident "str")) {
+    :            ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
  69 | @supports ((ident "str")) {
@@ -5558,6 +5768,12 @@
  69 | ,-> @supports ((ident "str")) {
  70 | |       * { background: red; }
  71 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:69:1]
+ 69 | @supports ((ident "str")) {
+    :                           ^
     `----
 
   x ComponentValue
@@ -5612,6 +5828,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:70:5]
  70 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:70:5]
+ 70 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -5803,6 +6025,12 @@
  75 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:73:1]
+ 73 | @supports func(10, 20, 40) {
+    :                            ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:74:5]
  74 | * { background: red; }
@@ -5855,6 +6083,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:74:5]
  74 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:74:5]
+ 74 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -6052,6 +6286,12 @@
  79 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:77:1]
+ 77 | @supports (func(10, 20, 40)) {
+    :                              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:78:5]
  78 | * { background: red; }
@@ -6104,6 +6344,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:78:5]
  78 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:78:5]
+ 78 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -6349,6 +6595,12 @@
  83 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:81:1]
+ 81 | @supports (   func(   10   ,   20   ,   40   )  ) {
+    :                                                   ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:82:5]
  82 | * { background: red; }
@@ -6401,6 +6653,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:82:5]
  82 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:82:5]
+ 82 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -6553,6 +6811,12 @@
  94 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:85:1]
+ 85 | @supports (animation-name: test) {
+    :                                  ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | ,-> @-custom-keyframe anim {
@@ -6649,6 +6913,12 @@
  93 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
+ 86 | @-custom-keyframe anim {
+    :                        ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:86:5]
  86 | ,-> @-custom-keyframe anim {
@@ -6698,6 +6968,12 @@
  87 | ,-> from {
  88 | |               color: black;
  89 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:87:9]
+ 87 | from {
+    :      ^
     `----
 
   x ComponentValue
@@ -6837,6 +7113,12 @@
  92 | `->         }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
+ 90 | to {
+    :    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:90:9]
  90 | ,-> to {
@@ -6974,6 +7256,12 @@
     :           ^^^^^^^
     `----
 
+  x LParen
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
+ 96 | @supports (--var) {
+    :           ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
  96 | @supports (--var) {
@@ -6991,6 +7279,12 @@
  96 | ,-> @supports (--var) {
  97 | |       * { background: red; }
  98 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:96:1]
+ 96 | @supports (--var) {
+    :                   ^
     `----
 
   x ComponentValue
@@ -7045,6 +7339,12 @@
     ,-[$DIR/tests/fixture/at-rule/supports/input.css:97:5]
  97 | * { background: red; }
     :   ^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/supports/input.css:97:5]
+ 97 | * { background: red; }
+    :   ^
     `----
 
   x ComponentValue
@@ -7182,6 +7482,12 @@
  104 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:100:1]
+ 100 | @supports (--foo: green) {
+     :                          ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:101:5]
  101 | ,-> body {
@@ -7250,6 +7556,12 @@
  101 | ,-> body {
  102 | |           color: var(--varName);
  103 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:101:5]
+ 101 | body {
+     :      ^
      `----
 
   x ComponentValue
@@ -7522,6 +7834,12 @@
  111 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:106:1]
+ 106 | @supports not selector(:is(a, b)) {
+     :                                   ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:107:5]
  107 | ,-> ul > li,
@@ -7701,6 +8019,12 @@
  108 | ,-> ol > li {
  109 | |           color: red;
  110 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:108:5]
+ 108 | ol > li {
+     :         ^
      `----
 
   x ComponentValue
@@ -7977,6 +8301,12 @@
  118 | |         color: red
  119 | |       }
  120 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:113:1]
+ 113 | @supports selector(:nth-child(1n of a, b)) {
+     :                                            ^
      `----
 
   x ComponentValue
@@ -8326,6 +8656,12 @@
  119 | `->     }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:117:3]
+ 117 | ) {
+     :   ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:118:7]
  118 | color: red
@@ -8476,6 +8812,12 @@
  131 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:122:1]
+ 122 | @supports (animation-name: test) {
+     :                                  ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | ,-> @-custom-keyframe anim {
@@ -8572,6 +8914,12 @@
  130 | `->     }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
+ 123 | @-custom-keyframe anim {
+     :                        ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:123:5]
  123 | ,-> @-custom-keyframe anim {
@@ -8621,6 +8969,12 @@
  124 | ,-> from {
  125 | |               color: black;
  126 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:124:9]
+ 124 | from {
+     :      ^
      `----
 
   x ComponentValue
@@ -8758,6 +9112,12 @@
  127 | ,-> to {
  128 | |               color: white
  129 | `->         }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:127:9]
+ 127 | to {
+     :    ^
      `----
 
   x ComponentValue
@@ -8958,6 +9318,12 @@
  137 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:133:1]
+ 133 | @supports selector(:focus-visible) {
+     :                                    ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:134:5]
  134 | ,-> a:focus-visible {
@@ -9044,6 +9410,12 @@
  134 | ,-> a:focus-visible {
  135 | |           background: yellow;
  136 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:134:5]
+ 134 | a:focus-visible {
+     :                 ^
      `----
 
   x ComponentValue
@@ -9307,6 +9679,12 @@
  143 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:139:1]
+ 139 | @supports (width: calc(100px + 100px)) {
+     :                                        ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:140:5]
  140 | ,-> div {
@@ -9375,6 +9753,12 @@
  140 | ,-> div {
  141 | |           background: red;
  142 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:140:5]
+ 140 | div {
+     :     ^
      `----
 
   x ComponentValue

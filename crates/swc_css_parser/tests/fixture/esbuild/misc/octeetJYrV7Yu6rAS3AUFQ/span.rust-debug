@@ -58,3 +58,9 @@
  1 | .selector\ {}
    :            ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/octeetJYrV7Yu6rAS3AUFQ/input.css:1:1]
+ 1 | .selector\ {}
+   :            ^
+   `----

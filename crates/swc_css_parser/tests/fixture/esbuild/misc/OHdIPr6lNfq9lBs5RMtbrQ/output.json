@@ -40,7 +40,15 @@
           "end": 30,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 19,
+            "end": 20,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "KeyframeBlock",
@@ -68,7 +76,15 @@
                 "end": 28,
                 "ctxt": 0
               },
-              "name": "{",
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 26,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
               "value": []
             }
           }

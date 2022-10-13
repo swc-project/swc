@@ -171,6 +171,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
+ 1 | p :global(span:not(.test)) {
+   :                            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:2:5]
  2 | color: green;

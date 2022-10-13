@@ -53,6 +53,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:1]
+ 1 | @keyframes foo {
+   :                ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:1]
  1 | ,-> @keyframes foo {
@@ -102,6 +108,12 @@
  2 | ,-> 10 {
  3 | |   
  4 | `-> 	}
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:5]
+ 2 | 10 {
+   :    ^
    `----
 
   x ComponentValue

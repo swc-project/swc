@@ -67,6 +67,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:1:1]
+ 1 | @font-feature-values "Otaru Kisa" {
+   :                                   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:2:5]
  2 | @annotation { circled: 1; black-boxed: 3; }
@@ -95,6 +101,12 @@
    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:2:5]
  2 | @annotation { circled: 1; black-boxed: 3; }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:2:5]
+ 2 | @annotation { circled: 1; black-boxed: 3; }
+   :             ^
    `----
 
   x ComponentValue
@@ -208,6 +220,12 @@
  7 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:5:1]
+ 5 | @font-feature-values Otaru {
+   :                            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:6:5]
  6 | @annotation { circled: 1; black-boxed: 3; }
@@ -236,6 +254,12 @@
    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:6:5]
  6 | @annotation { circled: 1; black-boxed: 3; }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:6:5]
+ 6 | @annotation { circled: 1; black-boxed: 3; }
+   :             ^
    `----
 
   x ComponentValue
@@ -355,6 +379,12 @@
  11 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:9:1]
+ 9 | @font-feature-values Otaru Kisa {
+   :                                 ^
+   `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:10:5]
  10 | @annotation { circled: 1; black-boxed: 3; }
@@ -383,6 +413,12 @@
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:10:5]
  10 | @annotation { circled: 1; black-boxed: 3; }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:10:5]
+ 10 | @annotation { circled: 1; black-boxed: 3; }
+    :             ^
     `----
 
   x ComponentValue
@@ -502,6 +538,12 @@
  15 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:13:1]
+ 13 | @font-feature-values Taisho Gothic {
+    :                                    ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:14:5]
  14 | @annotation { boxed: 1; circled: 4; }
@@ -530,6 +572,12 @@
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:14:5]
  14 | @annotation { boxed: 1; circled: 4; }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:14:5]
+ 14 | @annotation { boxed: 1; circled: 4; }
+    :             ^
     `----
 
   x ComponentValue
@@ -655,6 +703,12 @@
  19 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:17:1]
+ 17 | @font-feature-values Taisho Gothic, Bar {
+    :                                         ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:18:5]
  18 | @annotation { boxed: 1; circled: 4; }
@@ -683,6 +737,12 @@
     ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:18:5]
  18 | @annotation { boxed: 1; circled: 4; }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:18:5]
+ 18 | @annotation { boxed: 1; circled: 4; }
+    :             ^
     `----
 
   x ComponentValue
@@ -842,6 +902,12 @@
  23 | |       font-family: Otaru Kisa, Taisho Gothic;
  24 | |       font-variant: annotation(circled);
  25 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/font-feature-values/input.css:21:1]
+ 21 | h3.title {
+    :          ^
     `----
 
   x ComponentValue

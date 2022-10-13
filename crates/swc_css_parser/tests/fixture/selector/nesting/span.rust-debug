@@ -183,6 +183,12 @@
  13 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:1:1]
+ 1 | table.colortable {
+   :                  ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/nesting/input.css:2:5]
  2 | ,-> & td {
@@ -277,6 +283,12 @@
  4 | |           &.c { text-transform:uppercase }
  5 | |           &:first-child, &:first-child + td { border:1px solid black }
  6 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:2:5]
+ 2 | & td {
+   :      ^
    `----
 
   x ComponentValue
@@ -385,6 +397,12 @@
    ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
  4 | &.c { text-transform:uppercase }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:4:9]
+ 4 | &.c { text-transform:uppercase }
+   :     ^
    `----
 
   x ComponentValue
@@ -567,6 +585,12 @@
    :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
+ 5 | &:first-child, &:first-child + td { border:1px solid black }
+   :                                   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/nesting/input.css:5:9]
  5 | &:first-child, &:first-child + td { border:1px solid black }
@@ -747,6 +771,12 @@
  12 | `->     }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/nesting/input.css:8:5]
+ 8 | & th {
+   :      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/nesting/input.css:9:7]
  9 | text-align:center;
@@ -931,6 +961,12 @@
  16 | |       color: blue;
  17 | |       & > .bar { color: red; }
  18 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:15:1]
+ 15 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -1053,6 +1089,12 @@
     :          ^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:17:5]
+ 17 | & > .bar { color: red; }
+    :          ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:17:5]
  17 | & > .bar { color: red; }
@@ -1153,6 +1195,12 @@
  21 | |       color: blue;
  22 | |       &.bar { color: red; }
  23 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:20:1]
+ 20 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -1261,6 +1309,12 @@
     ,-[$DIR/tests/fixture/selector/nesting/input.css:22:5]
  22 | &.bar { color: red; }
     :       ^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:22:5]
+ 22 | &.bar { color: red; }
+    :       ^
     `----
 
   x ComponentValue
@@ -1393,6 +1447,12 @@
  26 | |       color: blue;
  27 | |       & + .baz, &.qux { color: red; }
  28 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:25:1]
+ 25 | .foo, .bar {
+    :            ^
     `----
 
   x ComponentValue
@@ -1551,6 +1611,12 @@
     :                 ^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
+ 27 | & + .baz, &.qux { color: red; }
+    :                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:27:5]
  27 | & + .baz, &.qux { color: red; }
@@ -1651,6 +1717,12 @@
  31 | |       color: blue;
  32 | |       & .bar & .baz & .qux { color: red; }
  33 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:30:1]
+ 30 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -1869,6 +1941,12 @@
     :                      ^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:32:5]
+ 32 | & .bar & .baz & .qux { color: red; }
+    :                      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:32:5]
  32 | & .bar & .baz & .qux { color: red; }
@@ -1971,6 +2049,12 @@
  38 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:35:1]
+ 35 | .foo {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:36:5]
  36 | color: blue;
@@ -2059,6 +2143,12 @@
     ,-[$DIR/tests/fixture/selector/nesting/input.css:37:5]
  37 | & { padding: 2ch; }
     :   ^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:37:5]
+ 37 | & { padding: 2ch; }
+    :   ^
     `----
 
   x ComponentValue
@@ -2208,6 +2298,12 @@
  48 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:46:1]
+ 46 | .error, #test {
+    :               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:47:5]
  47 | &:hover > .baz { color: red; }
@@ -2302,6 +2398,12 @@
     ,-[$DIR/tests/fixture/selector/nesting/input.css:47:5]
  47 | &:hover > .baz { color: red; }
     :                ^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:47:5]
+ 47 | &:hover > .baz { color: red; }
+    :                ^
     `----
 
   x ComponentValue
@@ -2401,6 +2503,12 @@
  50 | ,-> .foo {
  51 | |       &:is(.bar, &.baz) { color: red; }
  52 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:50:1]
+ 50 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -2547,6 +2655,12 @@
     :                   ^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:51:5]
+ 51 | &:is(.bar, &.baz) { color: red; }
+    :                   ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:51:5]
  51 | &:is(.bar, &.baz) { color: red; }
@@ -2674,6 +2788,12 @@
  62 | |           }
  63 | |       }
  64 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:54:1]
+ 54 | figure {
+    :        ^
     `----
 
   x ComponentValue
@@ -2820,6 +2940,12 @@
  61 | |                 font-size: .9rem;
  62 | |           }
  63 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:57:5]
+ 57 | & > figcaption {
+    :                ^
     `----
 
   x ComponentValue
@@ -3054,6 +3180,12 @@
  62 | `->         }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:60:9]
+ 60 | & > p {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:61:15]
  61 | font-size: .9rem;
@@ -3174,6 +3306,12 @@
  69 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:66:1]
+ 66 | .foo {
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/nesting/input.css:67:5]
  67 | color: blue;
@@ -3286,6 +3424,12 @@
     ,-[$DIR/tests/fixture/selector/nesting/input.css:68:5]
  68 | &__bar { color: red; }
     :        ^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/nesting/input.css:68:5]
+ 68 | &__bar { color: red; }
+    :        ^
     `----
 
   x ComponentValue

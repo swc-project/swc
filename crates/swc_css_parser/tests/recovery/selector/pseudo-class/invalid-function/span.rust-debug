@@ -98,3 +98,9 @@
  2 | |   
  3 | `-> }
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-function/input.css:1:1]
+ 1 | : nth-child(2) {
+   :                ^
+   `----

@@ -98,3 +98,9 @@
  2 | |   
  3 | `-> }
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :              ^
+   `----

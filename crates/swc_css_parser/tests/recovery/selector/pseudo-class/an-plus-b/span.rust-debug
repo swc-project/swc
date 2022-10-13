@@ -70,3 +70,9 @@
  1 | :nth-child(unknown) {}
    :                     ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
+ 1 | :nth-child(unknown) {}
+   :                     ^
+   `----

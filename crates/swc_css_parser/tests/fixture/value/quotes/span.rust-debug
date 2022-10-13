@@ -209,6 +209,12 @@
  29 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
+ 1 | a::before {
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/quotes/input.css:2:5]
  2 | content: "This string is demarcated by double quotes.";
@@ -1129,6 +1135,12 @@
  34 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/quotes/input.css:32:1]
+ 32 | o very long title"] {
+    :                     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:33:5]
  33 | color: red;
@@ -1276,6 +1288,12 @@
  37 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/quotes/input.css:35:1]
+ 35 | a[title="a not so very long title"] {
+    :                                     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:36:5]
  36 | color: red;
@@ -1381,6 +1399,12 @@
  41 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/quotes/input.css:39:1]
+ 39 | div {
+    :     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:40:5]
  40 | family-name: "A;' /**/";
@@ -1481,6 +1505,12 @@
  45 | |       content: ";'@ /**/\"";
  46 | |       content: '\'"\\';
  47 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/quotes/input.css:44:1]
+ 44 | .foo {
+    :      ^
     `----
 
   x ComponentValue

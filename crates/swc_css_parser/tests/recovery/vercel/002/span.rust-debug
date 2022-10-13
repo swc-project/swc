@@ -99,6 +99,12 @@
  12 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/vercel/002/input.css:1:1]
+ 1 | .slide {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/002/input.css:2:5]
  2 | width: __styled-jsx-placeholder__7px;

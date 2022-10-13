@@ -293,6 +293,12 @@
  59 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/number/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:2:5]
  2 | property: 10;

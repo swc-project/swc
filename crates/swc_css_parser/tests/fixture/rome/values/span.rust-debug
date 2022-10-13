@@ -103,6 +103,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/values/input.css:1:1]
+ 1 | p::before {
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/values/input.css:2:5]
  2 | content: ' content ';
@@ -210,6 +216,12 @@
   9 | |   	margin-top: -5%;
  10 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/values/input.css:5:1]
+ 5 | .number {
+   :         ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/values/input.css:6:5]
@@ -454,6 +466,12 @@
  14 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/values/input.css:12:1]
+ 12 | foo {
+    :     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/rome/values/input.css:13:5]
  13 | color: yellow
@@ -560,6 +578,12 @@
  17 | |   	color: yellow;
  18 | |   	background: none
  19 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/rome/values/input.css:16:1]
+ 16 | bar {
+    :     ^
     `----
 
   x ComponentValue

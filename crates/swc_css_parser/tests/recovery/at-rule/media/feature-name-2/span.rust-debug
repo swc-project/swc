@@ -53,6 +53,12 @@
    :        ^^^^^^^^^^
    `----
 
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
+ 1 | @media ("string") {}
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
  1 | @media ("string") {}
@@ -69,4 +75,10 @@
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
  1 | @media ("string") {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-2/input.css:1:1]
+ 1 | @media ("string") {}
+   :                   ^
    `----

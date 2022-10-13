@@ -57,6 +57,12 @@
  5 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:1:1]
+ 1 | @counter-style thumbs {
+   :                       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:2:5]
  2 | system: cyclic;
@@ -226,6 +232,12 @@
  7 | ,-> ul {
  8 | |       list-style: thumbs;
  9 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/counter-style/input.css:7:1]
+ 7 | ul {
+   :    ^
    `----
 
   x ComponentValue

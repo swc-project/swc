@@ -73,6 +73,12 @@
    :      ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
+ 1 | .one {}
+   :      ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:2:1]
  2 | .foo.bar {}
@@ -145,6 +151,12 @@
    :          ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:2:1]
+ 2 | .foo.bar {}
+   :          ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
  3 | .foo#id {}
@@ -215,6 +227,12 @@
    ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
  3 | .foo#id {}
    :         ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
+ 3 | .foo#id {}
+   :         ^
    `----
 
   x Rule
@@ -295,6 +313,12 @@
    :                ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:4:1]
+ 4 | .class[target] {}
+   :                ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:5:1]
  5 | .class#id[target] {}
@@ -391,6 +415,12 @@
    :                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:5:1]
+ 5 | .class#id[target] {}
+   :                   ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
  6 | #id.class {}
@@ -461,6 +491,12 @@
    ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
  6 | #id.class {}
    :           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
+ 6 | #id.class {}
+   :           ^
    `----
 
   x Rule
@@ -557,6 +593,12 @@
    ,-[$DIR/tests/fixture/selector/compound/input.css:7:1]
  7 | #id.class[target] {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:7:1]
+ 7 | #id.class[target] {}
+   :                   ^
    `----
 
   x Rule
@@ -655,6 +697,12 @@
    :                 ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
+ 8 | div#thing:hover {}
+   :                 ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
  9 | div#thing::before {}
@@ -749,6 +797,12 @@
    ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
  9 | div#thing::before {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
+ 9 | div#thing::before {}
+   :                   ^
    `----
 
   x Rule
@@ -871,6 +925,12 @@
     :                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:10:1]
+ 10 | a[href='place']:hover {}
+    :                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/compound/input.css:11:1]
  11 | a[href='place']::before {}
@@ -991,6 +1051,12 @@
     :                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:11:1]
+ 11 | a[href='place']::before {}
+    :                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/compound/input.css:12:1]
  12 | .one.two.three {}
@@ -1081,6 +1147,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:12:1]
+ 12 | .one.two.three {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/compound/input.css:13:1]
  13 | button.btn-primary {}
@@ -1159,6 +1231,12 @@
     :                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:13:1]
+ 13 | button.btn-primary {}
+    :                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]
  14 | *#z98y {}
@@ -1223,6 +1301,12 @@
     ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]
  14 | *#z98y {}
     :        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]
+ 14 | *#z98y {}
+    :        ^
     `----
 
   x Rule
@@ -1295,6 +1379,12 @@
     ,-[$DIR/tests/fixture/selector/compound/input.css:15:1]
  15 | #one#two {}
     :          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:15:1]
+ 15 | #one#two {}
+    :          ^
     `----
 
   x Rule
@@ -1385,4 +1475,10 @@
     ,-[$DIR/tests/fixture/selector/compound/input.css:16:1]
  16 | #one.two.three {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/compound/input.css:16:1]
+ 16 | #one.two.three {}
+    :                ^
     `----

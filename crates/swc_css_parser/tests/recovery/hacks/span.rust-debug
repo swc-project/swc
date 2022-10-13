@@ -391,6 +391,12 @@
    :                       ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/hacks/input.css:3:1]
+ 3 | .selector:not(*:root) {}
+   :                       ^
+   `----
+
   x Rule
    ,-[$DIR/tests/recovery/hacks/input.css:5:1]
  5 | @media screen and (min-width:0\0) {}
@@ -523,6 +529,12 @@
    :                                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/hacks/input.css:5:1]
+ 5 | @media screen and (min-width:0\0) {}
+   :                                   ^
+   `----
+
   x Rule
    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
  9 | .selector:not(*:root) {}
@@ -649,6 +661,12 @@
    :                       ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/hacks/input.css:9:1]
+ 9 | .selector:not(*:root) {}
+   :                       ^
+   `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:11:1]
  11 | @supports (-webkit-appearance:none) {}
@@ -733,6 +751,12 @@
     :                                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:11:1]
+ 11 | @supports (-webkit-appearance:none) {}
+    :                                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
@@ -785,6 +809,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
     :           ^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
+    :           ^
     `----
 
   x ComponentValue
@@ -955,6 +985,12 @@
     :           ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
+    :           ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
@@ -1121,6 +1157,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:16:1]
  16 | @media \\0 screen {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:16:1]
+ 16 | @media \\0 screen {}
+    :                   ^
     `----
 
   x Rule
@@ -1315,6 +1357,12 @@
     :                                                                                  ^^^^^^^^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:18:1]
+ 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+    :                                                                                  ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
@@ -1373,6 +1421,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     :                                                                                              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:18:1]
+ 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+    :                                                                                              ^
     `----
 
   x Rule
@@ -1481,6 +1535,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:22:1]
  22 | body:empty .selector {}
     :                      ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:22:1]
+ 22 | body:empty .selector {}
+    :                      ^
     `----
 
   x Rule
@@ -1645,6 +1705,12 @@
     :                                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:24:1]
+ 24 | body:last-child .selector, x:-moz-any-link {}
+    :                                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
  26 | @media \0 all {}
@@ -1697,6 +1763,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
  26 | @media \0 all {}
     :               ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:26:1]
+ 26 | @media \0 all {}
+    :               ^
     `----
 
   x Rule
@@ -1915,6 +1987,12 @@
     :                                                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:28:1]
+ 28 | body:last-child .selector, x:-moz-any-link, x:default {}
+    :                                                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:30:1]
  30 | body:not(:-moz-handler-blocked) .selector {}
@@ -2065,6 +2143,12 @@
     :                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:30:1]
+ 30 | body:not(:-moz-handler-blocked) .selector {}
+    :                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:32:1]
  32 | @media screen and (-moz-images-in-menus:0) {}
@@ -2179,6 +2263,12 @@
     :                                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:32:1]
+ 32 | @media screen and (-moz-images-in-menus:0) {}
+    :                                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
@@ -2291,6 +2381,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     :                                                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:34:1]
+ 34 | @media screen and (min--moz-device-pixel-ratio:0) {}
+    :                                                   ^
     `----
 
   x Rule
@@ -2453,6 +2549,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:36:1]
  36 | _::-moz-progress-bar, body:last-child .selector {}
     :                                                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:36:1]
+ 36 | _::-moz-progress-bar, body:last-child .selector {}
+    :                                                 ^
     `----
 
   x Rule
@@ -2647,6 +2749,12 @@
     :                                                                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:38:1]
+ 38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
+    :                                                                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:39:1]
  39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
@@ -2839,6 +2947,12 @@
     :                                                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:39:1]
+ 39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
+    :                                                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:41:1]
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
@@ -2951,6 +3065,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:41:1]
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
     :                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:41:1]
+ 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
+    :                                                ^
     `----
 
   x ComponentValue
@@ -3073,6 +3193,12 @@
     :                                                                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:41:1]
+ 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
+    :                                                                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
@@ -3185,6 +3311,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:42:1]
+ 42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
+    :                                         ^
     `----
 
   x ComponentValue
@@ -3307,6 +3439,12 @@
     :                                                                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:42:1]
+ 42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
+    :                                                                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:44:1]
  44 | @supports (-moz-appearance:meterbar) {}
@@ -3389,6 +3527,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:44:1]
  44 | @supports (-moz-appearance:meterbar) {}
     :                                      ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:44:1]
+ 44 | @supports (-moz-appearance:meterbar) {}
+    :                                      ^
     `----
 
   x Rule
@@ -3553,6 +3697,12 @@
     :                                                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:46:1]
+ 46 | _::-moz-range-track, body:last-child .selector {}
+    :                                                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:48:1]
  48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
@@ -3695,6 +3845,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:48:1]
  48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     :                                                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:48:1]
+ 48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
+    :                                                         ^
     `----
 
   x Rule
@@ -3841,6 +3997,12 @@
     :                                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:50:1]
+ 50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
+    :                                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:52:1]
  52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
@@ -3983,6 +4145,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:52:1]
  52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     :                                                                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:52:1]
+ 52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
+    :                                                                        ^
     `----
 
   x Rule
@@ -4147,6 +4315,12 @@
     :                                                                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:54:1]
+ 54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
+    :                                                                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:56:1]
  56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
@@ -4291,6 +4465,12 @@
     :                                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:56:1]
+ 56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
+    :                                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:58:1]
  58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
@@ -4433,6 +4613,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:58:1]
  58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     :                                                                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:58:1]
+ 58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
+    :                                                                            ^
     `----
 
   x Rule
@@ -4627,6 +4813,12 @@
     :                                                                              ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:60:1]
+ 60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
+    :                                                                              ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:62:1]
  62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
@@ -4795,6 +4987,12 @@
     :                                                                                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:62:1]
+ 62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
+    :                                                                                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:64:1]
  64 | _:-moz-tree-row(hover), .selector {}
@@ -4913,6 +5111,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:64:1]
  64 | _:-moz-tree-row(hover), .selector {}
     :                                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:64:1]
+ 64 | _:-moz-tree-row(hover), .selector {}
+    :                                   ^
     `----
 
   x Rule
@@ -5107,6 +5311,12 @@
     :                                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:66:1]
+ 66 | _::selection, .selector:not([attr*='']) {}
+    :                                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:70:1]
  70 | @supports (-webkit-appearance:none) {}
@@ -5189,6 +5399,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:70:1]
  70 | @supports (-webkit-appearance:none) {}
     :                                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:70:1]
+ 70 | @supports (-webkit-appearance:none) {}
+    :                                     ^
     `----
 
   x Rule
@@ -5305,6 +5521,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:72:1]
+ 72 | * html .selector  {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:73:1]
  73 | .unused-class.selector {}
@@ -5375,6 +5597,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:73:1]
  73 | .unused-class.selector {}
     :                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:73:1]
+ 73 | .unused-class.selector {}
+    :                        ^
     `----
 
   x Rule
@@ -5501,6 +5729,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:75:1]
  75 | html > body .selector {}
     :                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:75:1]
+ 75 | html > body .selector {}
+    :                       ^
     `----
 
   x Rule
@@ -5635,6 +5869,12 @@
     :                              ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:79:1]
+ 79 | *:first-child+html .selector {}
+    :                              ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:80:1]
  80 | .selector, x:-IE7 {}
@@ -5741,6 +5981,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:80:1]
  80 | .selector, x:-IE7 {}
     :                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:80:1]
+ 80 | .selector, x:-IE7 {}
+    :                   ^
     `----
 
   x Rule
@@ -5857,6 +6103,12 @@
     :                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:81:1]
+ 81 | *+html .selector {}
+    :                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:82:1]
  82 | body*.selector {}
@@ -5959,6 +6211,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:82:1]
+ 82 | body*.selector {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:84:1]
  84 | .selector\ {}
@@ -6013,6 +6271,12 @@
     :            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:84:1]
+ 84 | .selector\ {}
+    :            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:86:1]
  86 | html > /**/ body .selector {}
@@ -6139,6 +6403,12 @@
     :                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:86:1]
+ 86 | html > /**/ body .selector {}
+    :                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:87:1]
  87 | head ~ /**/ body .selector {}
@@ -6263,6 +6533,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:87:1]
  87 | head ~ /**/ body .selector {}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:87:1]
+ 87 | head ~ /**/ body .selector {}
+    :                            ^
     `----
 
   x Rule
@@ -6457,6 +6733,12 @@
     :                                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:89:1]
+ 89 | _::selection, .selector:not([attr*='']) {}
+    :                                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:91:1]
  91 | :root .selector {}
@@ -6539,6 +6821,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:91:1]
  91 | :root .selector {}
     :                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:91:1]
+ 91 | :root .selector {}
+    :                 ^
     `----
 
   x Rule
@@ -6647,6 +6935,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:92:1]
  92 | body:last-child .selector {}
     :                           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:92:1]
+ 92 | body:last-child .selector {}
+    :                           ^
     `----
 
   x Rule
@@ -6775,6 +7069,12 @@
     :                               ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:93:1]
+ 93 | body:nth-of-type(1) .selector {}
+    :                               ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:94:1]
  94 | body:first-of-type .selector {}
@@ -6881,6 +7181,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:94:1]
  94 | body:first-of-type .selector {}
     :                              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:94:1]
+ 94 | body:first-of-type .selector {}
+    :                              ^
     `----
 
   x Rule
@@ -7021,6 +7327,12 @@
     :                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:95:1]
+ 95 | .selector:not([attr*='']) {}
+    :                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/recovery/hacks/input.css:97:1]
  97 | .selector { _property: value; }
@@ -7073,6 +7385,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:97:1]
  97 | .selector { _property: value; }
     :           ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:97:1]
+ 97 | .selector { _property: value; }
+    :           ^
     `----
 
   x ComponentValue
@@ -7169,6 +7487,12 @@
     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
  98 | .selector { -property: value; }
     :           ^^^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/hacks/input.css:98:1]
+ 98 | .selector { -property: value; }
+    :           ^
     `----
 
   x ComponentValue
@@ -7267,6 +7591,12 @@
      :           ^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:100:1]
+ 100 | .selector { property: value\9; }
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:100:1]
  100 | .selector { property: value\9; }
@@ -7363,6 +7693,12 @@
      :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:101:1]
+ 101 | .selector { property/*\**/: value\9; }
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:101:1]
  101 | .selector { property/*\**/: value\9; }
@@ -7463,6 +7799,12 @@
  104 | |       !property: value;
  105 | |       color: red;
  106 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:103:1]
+ 103 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -7649,6 +7991,12 @@
  108 | |       $property: value;
  109 | |       color: red;
  110 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:107:1]
+ 107 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -7837,6 +8185,12 @@
  114 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:111:1]
+ 111 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:113:5]
  113 | color: red;
@@ -8021,6 +8375,12 @@
  116 | |       *property: value;
  117 | |       color: red;
  118 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
+ 115 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -8209,6 +8569,12 @@
  122 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
+ 119 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:120:5]
  120 | )property: value;
@@ -8393,6 +8759,12 @@
  124 | |       =property: value;
  125 | |       color: red;
  126 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:123:1]
+ 123 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -8581,6 +8953,12 @@
  130 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:127:1]
+ 127 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:128:5]
  128 | %property: value;
@@ -8765,6 +9143,12 @@
  132 | |       +property: value;
  133 | |       color: red;
  134 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:131:1]
+ 131 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -8953,6 +9337,12 @@
  138 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:135:1]
+ 135 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:137:5]
  137 | color: red;
@@ -9119,6 +9509,12 @@
  140 | |       ,property: value;
  141 | |       color: red;
  142 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:139:1]
+ 139 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -9307,6 +9703,12 @@
  146 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:143:1]
+ 143 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:144:5]
  144 | .property: value;
@@ -9491,6 +9893,12 @@
  148 | |       /property: value;
  149 | |       color: red;
  150 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:147:1]
+ 147 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -9679,6 +10087,12 @@
  154 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:151:1]
+ 151 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:152:5]
  152 | `property: value;
@@ -9863,6 +10277,12 @@
  156 | |       ]property: value;
  157 | |       color: red;
  158 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:155:1]
+ 155 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -10051,6 +10471,12 @@
  162 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:159:1]
+ 159 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:160:5]
  160 | #property: value;
@@ -10223,6 +10649,12 @@
  164 | |       ~property: value;
  165 | |       color: red;
  166 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:163:1]
+ 163 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -10411,6 +10843,12 @@
  170 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:167:1]
+ 167 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:168:5]
  168 | ?property: value;
@@ -10597,6 +11035,12 @@
  174 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:171:1]
+ 171 | .selector {
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:172:5]
  172 | :property: value;
@@ -10781,6 +11225,12 @@
  176 | |       |property: value;
  177 | |       color: red;
  178 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:175:1]
+ 175 | .selector {
+     :           ^
      `----
 
   x ComponentValue
@@ -10963,6 +11413,12 @@
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:180:1]
+ 180 | .selector { property: value !ie; }
+     :           ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
@@ -11125,6 +11581,12 @@
      :                 ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:182:1]
+ 182 | @media screen\9 {}
+     :                 ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:184:1]
  184 | @media \0screen\,screen\9 {}
@@ -11179,6 +11641,12 @@
      :                           ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:184:1]
+ 184 | @media \0screen\,screen\9 {}
+     :                           ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
  186 | @media \0screen {}
@@ -11231,6 +11699,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
  186 | @media \0screen {}
      :                 ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:186:1]
+ 186 | @media \0screen {}
+     :                 ^
      `----
 
   x Rule
@@ -11363,6 +11837,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:188:1]
  188 | @media screen and (min-width:0\0) {}
      :                                   ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:188:1]
+ 188 | @media screen and (min-width:0\0) {}
+     :                                   ^
      `----
 
   x Rule
@@ -11503,6 +11983,12 @@
      :                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:190:1]
+ 190 | _:-ms-input-placeholder, :root .selector {}
+     :                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:192:1]
  192 | _:-ms-fullscreen, :root .selector {}
@@ -11639,6 +12125,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:192:1]
  192 | _:-ms-fullscreen, :root .selector {}
      :                                   ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:192:1]
+ 192 | _:-ms-fullscreen, :root .selector {}
+     :                                   ^
      `----
 
   x Rule
@@ -11815,6 +12307,12 @@
      :                                                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:194:1]
+ 194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
+     :                                                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
  196 | @media screen { @media (min-width: 0px) {} }
@@ -11867,6 +12365,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
  196 | @media screen { @media (min-width: 0px) {} }
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:196:1]
+ 196 | @media screen { @media (min-width: 0px) {} }
+     :               ^
      `----
 
   x ComponentValue
@@ -11987,6 +12491,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
  196 | @media screen { @media (min-width: 0px) {} }
      :                                         ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:196:1]
+ 196 | @media screen { @media (min-width: 0px) {} }
+     :                                         ^
      `----
 
   x Rule
@@ -12115,6 +12625,12 @@
      :                       ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:200:1]
+ 200 | .selector:not(*:root) {}
+     :                       ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:202:1]
  202 | @supports (-webkit-appearance:none) {}
@@ -12199,6 +12715,12 @@
      :                                     ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:202:1]
+ 202 | @supports (-webkit-appearance:none) {}
+     :                                     ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
@@ -12251,6 +12773,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
+     :           ^
      `----
 
   x ComponentValue
@@ -12419,6 +12947,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
+     :           ^
      `----
 
   x ComponentValue
@@ -12643,6 +13177,12 @@
      :                            ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:207:1]
+ 207 | html:first-child .selector {}
+     :                            ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:209:1]
  209 | _:-o-prefocus, body:last-child .selector {}
@@ -12803,6 +13343,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:209:1]
  209 | _:-o-prefocus, body:last-child .selector {}
      :                                          ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:209:1]
+ 209 | _:-o-prefocus, body:last-child .selector {}
+     :                                          ^
      `----
 
   x Rule
@@ -13003,6 +13549,12 @@
      :                                                                                                       ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:211:1]
+ 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
+     :                                                                                                       ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
@@ -13117,6 +13669,12 @@
      :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:213:1]
+ 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
+     :                                   ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
@@ -13229,6 +13787,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      :                                                              ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:213:1]
+ 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
+     :                                                              ^
      `----
 
   x Rule
@@ -13379,6 +13943,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
  215 | *|html[xmlns*=""] .selector {}
      :                             ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:215:1]
+ 215 | *|html[xmlns*=""] .selector {}
+     :                             ^
      `----
 
   x Rule
@@ -13573,6 +14143,12 @@
      :                                                                                  ^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:217:1]
+ 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+     :                                                                                  ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
@@ -13631,6 +14207,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      :                                                                                              ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:217:1]
+ 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+     :                                                                                              ^
      `----
 
   x Rule
@@ -13759,6 +14341,12 @@
      :                       ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:221:1]
+ 221 | .selector:not(*:root) {}
+     :                       ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:223:1]
  223 | @supports (-webkit-appearance:none) {}
@@ -13843,6 +14431,12 @@
      :                                     ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:223:1]
+ 223 | @supports (-webkit-appearance:none) {}
+     :                                     ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
@@ -13895,6 +14489,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
+     :           ^
      `----
 
   x ComponentValue
@@ -14063,6 +14663,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
+     :           ^
      `----
 
   x ComponentValue
@@ -14311,6 +14917,12 @@
      :                                   ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:228:1]
+ 228 | @media screen and (min-width:0\0) {}
+     :                                   ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
  230 | @media screen { @media (min-width: 0px) {} }
@@ -14363,6 +14975,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
  230 | @media screen { @media (min-width: 0px) {} }
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:230:1]
+ 230 | @media screen { @media (min-width: 0px) {} }
+     :               ^
      `----
 
   x ComponentValue
@@ -14485,6 +15103,12 @@
      :                                         ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:230:1]
+ 230 | @media screen { @media (min-width: 0px) {} }
+     :                                         ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:232:1]
  232 | html:first-child .selector {}
@@ -14591,6 +15215,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:232:1]
  232 | html:first-child .selector {}
      :                            ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:232:1]
+ 232 | html:first-child .selector {}
+     :                            ^
      `----
 
   x Rule
@@ -14779,6 +15409,12 @@
      :                                           ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:234:1]
+ 234 | html[xmlns*=""] body:last-child .selector {}
+     :                                           ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:235:1]
  235 | html[xmlns*=""]:root .selector  {}
@@ -14927,6 +15563,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:235:1]
  235 | html[xmlns*=""]:root .selector  {}
      :                                 ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:235:1]
+ 235 | html[xmlns*=""]:root .selector  {}
+     :                                 ^
      `----
 
   x Rule
@@ -15079,6 +15721,12 @@
      :                             ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:237:1]
+ 237 | *|html[xmlns*=""] .selector {}
+     :                             ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:239:1]
  239 | _::-moz-svg-foreign-content, :root .selector {}
@@ -15217,6 +15865,12 @@
      :                                              ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:239:1]
+ 239 | _::-moz-svg-foreign-content, :root .selector {}
+     :                                              ^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
  241 | @media \\0 screen {}
@@ -15269,6 +15923,12 @@
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
  241 | @media \\0 screen {}
      :                   ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:241:1]
+ 241 | @media \\0 screen {}
+     :                   ^
      `----
 
   x Rule
@@ -15341,6 +16001,12 @@
  246 | |       font-size/**/: big;
  247 | |       $(var)-size: 100%;
  248 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:243:1]
+ 243 | a {
+     :   ^
      `----
 
   x ComponentValue
@@ -15703,6 +16369,12 @@
      :  ^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:250:1]
+ 250 | a{*b:c}
+     :  ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  250 | a{*b:c}
@@ -15826,6 +16498,12 @@
  254 | `-> }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:252:1]
+ 252 | div {
+     :     ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:253:5]
  253 | color: red;
@@ -15928,6 +16606,12 @@
      :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:257:1]
+ 257 | selector { property:value; p\roperty: normal-value; }
+     :          ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:257:1]
  257 | selector { property:value; p\roperty: normal-value; }
@@ -16073,6 +16757,12 @@
  260 | ,-> div {
  261 | |       color: red;
  262 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/recovery/hacks/input.css:260:1]
+ 260 | div {
+     :     ^
      `----
 
   x ComponentValue

@@ -88,3 +88,9 @@
  1 | [\2a|attr] {}
    :            ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/9aSeJQPn4WHMexejaMQQoQ/input.css:1:1]
+ 1 | [\2a|attr] {}
+   :            ^
+   `----

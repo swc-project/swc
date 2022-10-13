@@ -639,15 +639,16 @@ where
             };
             let block = match lowercased_name {
                 "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
-                | "-ms-keyframes" => {
+                | "-ms-keyframes"
+                    if is!(parser, "{") =>
+                {
                     let span_block = parser.input.cur_span();
+                    let name = parser.input.bump().unwrap();
                     let mut block = SimpleBlock {
                         span: Default::default(),
-                        name: '{',
+                        name,
                         value: vec![],
                     };
-
-                    expect!(parser, "{");
 
                     parser.input.skip_ws();
 

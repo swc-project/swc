@@ -206,6 +206,12 @@
    :                ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:1:1]
+ 1 | @\media screen {}
+   :                ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/media/input.css:2:1]
  2 | @\media \screen {}
@@ -258,6 +264,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:2:1]
  2 | @\media \screen {}
    :                 ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:2:1]
+ 2 | @\media \screen {}
+   :                 ^
    `----
 
   x Rule
@@ -314,6 +326,12 @@
    :            ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:4:1]
+ 4 | @media all {}
+   :            ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/media/input.css:5:1]
  5 | @media screen {}
@@ -368,6 +386,12 @@
    :               ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:5:1]
+ 5 | @media screen {}
+   :               ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/media/input.css:6:1]
  6 | @media print {}
@@ -420,6 +444,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:6:1]
  6 | @media print {}
    :              ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:6:1]
+ 6 | @media print {}
+   :              ^
    `----
 
   x Rule
@@ -522,6 +552,12 @@
    ,-[$DIR/tests/fixture/at-rule/media/input.css:7:1]
  7 | @media screen and (color) {}
    :                           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:7:1]
+ 7 | @media screen and (color) {}
+   :                           ^
    `----
 
   x Rule
@@ -692,6 +728,12 @@
    :                                                   ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:8:1]
+ 8 | @media screen and (color), projection and (color) {}
+   :                                                   ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
  9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
@@ -860,6 +902,12 @@
    :                                                                                    ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/media/input.css:9:1]
+ 9 | @media    screen    and    (   color   )   ,   projection    and   (   color   )   {}
+   :                                                                                    ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:10:1]
  10 | @media print and (min-resolution: 118dpcm) {}
@@ -992,6 +1040,12 @@
     :                                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:10:1]
+ 10 | @media print and (min-resolution: 118dpcm) {}
+    :                                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:11:1]
  11 | @media    all    {}
@@ -1044,6 +1098,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:11:1]
  11 | @media    all    {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:11:1]
+ 11 | @media    all    {}
+    :                  ^
     `----
 
   x Rule
@@ -1148,6 +1208,12 @@
     :                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:12:1]
+ 12 | @media screen and (color) {}
+    :                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:13:1]
  13 | @media   screen   and    (   color   )   {}
@@ -1248,6 +1314,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:13:1]
  13 | @media   screen   and    (   color   )   {}
     :                                          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:13:1]
+ 13 | @media   screen   and    (   color   )   {}
+    :                                          ^
     `----
 
   x Rule
@@ -1356,6 +1428,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:15:1]
  15 | @media not all and (monochrome) {}
     :                                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:15:1]
+ 15 | @media not all and (monochrome) {}
+    :                                 ^
     `----
 
   x Rule
@@ -1532,6 +1610,12 @@
     :                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:16:1]
+ 16 | @media not screen and (color), print and (color) {}
+    :                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:17:1]
  17 | @media not (device-aspect-ratio: 16/9) {}
@@ -1650,6 +1734,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:17:1]
  17 | @media not (device-aspect-ratio: 16/9) {}
     :                                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:17:1]
+ 17 | @media not (device-aspect-ratio: 16/9) {}
+    :                                        ^
     `----
 
   x Rule
@@ -1772,6 +1862,12 @@
     :                                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:18:1]
+ 18 | @media not (device-aspect-ratio: 16 / 9) {}
+    :                                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:19:1]
  19 | @media not all {}
@@ -1832,6 +1928,12 @@
     :                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:19:1]
+ 19 | @media not all {}
+    :                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:20:1]
  20 | @media    not   all   {}
@@ -1890,6 +1992,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:20:1]
  20 | @media    not   all   {}
     :                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:20:1]
+ 20 | @media    not   all   {}
+    :                       ^
     `----
 
   x Rule
@@ -2000,6 +2108,12 @@
     :                                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:22:1]
+ 22 | @media only screen and (color) {}
+    :                                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:23:1]
  23 | @media   only   screen   and   (   color   )   {}
@@ -2106,6 +2220,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:23:1]
  23 | @media   only   screen   and   (   color   )   {}
     :                                                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:23:1]
+ 23 | @media   only   screen   and   (   color   )   {}
+    :                                                ^
     `----
 
   x Rule
@@ -2222,6 +2342,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:25:1]
+ 25 | @media (min-width: 20px) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:26:1]
  26 | @media(min-width: 20px){}
@@ -2334,6 +2460,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:26:1]
  26 | @media(min-width: 20px){}
     :                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:26:1]
+ 26 | @media(min-width: 20px){}
+    :                        ^
     `----
 
   x Rule
@@ -2450,6 +2582,12 @@
     :                                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:27:1]
+ 27 | @media   (   min-width   :   20px   )   {}
+    :                                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:28:1]
  28 | @media (device-aspect-ratio: 16/9) {}
@@ -2558,6 +2696,12 @@
     :                                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:28:1]
+ 28 | @media (device-aspect-ratio: 16/9) {}
+    :                                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:29:1]
  29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
@@ -2664,6 +2808,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:29:1]
  29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
     :                                                           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:29:1]
+ 29 | @media    (   device-aspect-ratio   :    16   /   9   )   {}
+    :                                                           ^
     `----
 
   x Rule
@@ -2828,6 +2978,12 @@
     :                                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:30:1]
+ 30 | @media (grid) and (max-width: 15em) {}
+    :                                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:31:1]
  31 | @media (monochrome) {}
@@ -2910,6 +3066,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:31:1]
  31 | @media (monochrome) {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:31:1]
+ 31 | @media (monochrome) {}
+    :                     ^
     `----
 
   x Rule
@@ -3102,6 +3264,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:33:1]
  33 | @media (min-width: 20em) and (min-width: 20em) {}
     :                                                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:33:1]
+ 33 | @media (min-width: 20em) and (min-width: 20em) {}
+    :                                                ^
     `----
 
   x Rule
@@ -3294,6 +3462,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:34:1]
  34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
     :                                                                           ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:34:1]
+ 34 | @media   (min-width   :   20em   )   and   (   min-width   :   20em   )   {}
+    :                                                                           ^
     `----
 
   x Rule
@@ -3566,6 +3740,12 @@
     :                                                                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:35:1]
+ 35 | @media (min-width: 1024px) and (min-width: 1024px) and (min-width: 1024px) {}
+    :                                                                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:36:1]
  36 | @media(min-width:20em)and (min-width: 20em){}
@@ -3756,6 +3936,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:36:1]
  36 | @media(min-width:20em)and (min-width: 20em){}
     :                                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:36:1]
+ 36 | @media(min-width:20em)and (min-width: 20em){}
+    :                                            ^
     `----
 
   x Rule
@@ -3950,6 +4136,12 @@
     :                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:37:1]
+ 37 | @media(min-width:20em)and (min-width:20em){}
+    :                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:39:1]
  39 | @media (update: slow) or (hover: none) {}
@@ -4104,6 +4296,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:39:1]
  39 | @media (update: slow) or (hover: none) {}
     :                                        ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:39:1]
+ 39 | @media (update: slow) or (hover: none) {}
+    :                                        ^
     `----
 
   x Rule
@@ -4262,6 +4460,12 @@
     :                                                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:40:1]
+ 40 | @media   (   update   :   slow   )    or   (   hover   :   none   )    {}
+    :                                                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:41:1]
  41 | @media(update: slow)or (hover: none){}
@@ -4418,6 +4622,12 @@
     :                                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:41:1]
+ 41 | @media(update: slow)or (hover: none){}
+    :                                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:43:1]
  43 | @media (height < 600px) {}
@@ -4530,6 +4740,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:43:1]
  43 | @media (height < 600px) {}
     :                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:43:1]
+ 43 | @media (height < 600px) {}
+    :                         ^
     `----
 
   x Rule
@@ -4646,6 +4862,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:44:1]
+ 44 | @media (height <= 600px) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:45:1]
  45 | @media (height > 600px) {}
@@ -4758,6 +4980,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:45:1]
  45 | @media (height > 600px) {}
     :                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:45:1]
+ 45 | @media (height > 600px) {}
+    :                         ^
     `----
 
   x Rule
@@ -4874,6 +5102,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:46:1]
+ 46 | @media (height >= 600px) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:47:1]
  47 | @media (height = 600px) {}
@@ -4988,6 +5222,12 @@
     :                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:47:1]
+ 47 | @media (height = 600px) {}
+    :                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:48:1]
  48 | @media   (   height   <   600px   )   {}
@@ -5100,6 +5340,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:48:1]
  48 | @media   (   height   <   600px   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:48:1]
+ 48 | @media   (   height   <   600px   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -5216,6 +5462,12 @@
     :                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:49:1]
+ 49 | @media   (   height   <=   600px   )   {}
+    :                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:50:1]
  50 | @media   (   height   >   600px   )   {}
@@ -5328,6 +5580,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:50:1]
  50 | @media   (   height   >   600px   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:50:1]
+ 50 | @media   (   height   >   600px   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -5444,6 +5702,12 @@
     :                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:51:1]
+ 51 | @media   (   height   >=   600px   )   {}
+    :                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:52:1]
  52 | @media   (   height   =   600px   )   {}
@@ -5556,6 +5820,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:52:1]
  52 | @media   (   height   =   600px   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:52:1]
+ 52 | @media   (   height   =   600px   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -5672,6 +5942,12 @@
     :                     ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:53:1]
+ 53 | @media(height=600px){}
+    :                     ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:54:1]
  54 | @media(height>=600px) {}
@@ -5786,6 +6062,12 @@
     :                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:54:1]
+ 54 | @media(height>=600px) {}
+    :                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:56:1]
  56 | @media (600px < height) {}
@@ -5898,6 +6180,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:56:1]
  56 | @media (600px < height) {}
     :                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:56:1]
+ 56 | @media (600px < height) {}
+    :                         ^
     `----
 
   x Rule
@@ -6014,6 +6302,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:57:1]
+ 57 | @media (600px <= height) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:58:1]
  58 | @media (600px > height) {}
@@ -6126,6 +6420,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:58:1]
  58 | @media (600px > height) {}
     :                         ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:58:1]
+ 58 | @media (600px > height) {}
+    :                         ^
     `----
 
   x Rule
@@ -6242,6 +6542,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:59:1]
+ 59 | @media (600px >= height) {}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:60:1]
  60 | @media (600px = height) {}
@@ -6356,6 +6662,12 @@
     :                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:60:1]
+ 60 | @media (600px = height) {}
+    :                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:61:1]
  61 | @media   (   600px   <   height   )   {}
@@ -6468,6 +6780,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:61:1]
  61 | @media   (   600px   <   height   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:61:1]
+ 61 | @media   (   600px   <   height   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -6584,6 +6902,12 @@
     :                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:62:1]
+ 62 | @media   (   600px   <=   height   )   {}
+    :                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:63:1]
  63 | @media   (   600px   >   height   )   {}
@@ -6696,6 +7020,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:63:1]
  63 | @media   (   600px   >   height   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:63:1]
+ 63 | @media   (   600px   >   height   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -6812,6 +7142,12 @@
     :                                        ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:64:1]
+ 64 | @media   (   600px   >=   height   )   {}
+    :                                        ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:65:1]
  65 | @media   (   600px   =   height   )   {}
@@ -6924,6 +7260,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:65:1]
  65 | @media   (   600px   =   height   )   {}
     :                                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:65:1]
+ 65 | @media   (   600px   =   height   )   {}
+    :                                       ^
     `----
 
   x Rule
@@ -7040,6 +7382,12 @@
     :                      ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:66:1]
+ 66 | @media(600px=height) {}
+    :                      ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:67:1]
  67 | @media(600px>=height) {}
@@ -7154,6 +7502,12 @@
     :                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:67:1]
+ 67 | @media(600px>=height) {}
+    :                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:69:1]
  69 | @media (400px < width < 700px) {}
@@ -7298,6 +7652,12 @@
     :                                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:69:1]
+ 69 | @media (400px < width < 700px) {}
+    :                                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:70:1]
  70 | @media (400px <= width < 700px) {}
@@ -7442,6 +7802,12 @@
     :                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:70:1]
+ 70 | @media (400px <= width < 700px) {}
+    :                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:71:1]
  71 | @media (400px < width <= 700px) {}
@@ -7584,6 +7950,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:71:1]
  71 | @media (400px < width <= 700px) {}
     :                                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:71:1]
+ 71 | @media (400px < width <= 700px) {}
+    :                                 ^
     `----
 
   x Rule
@@ -7730,6 +8102,12 @@
     :                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:72:1]
+ 72 | @media (400px <= width <= 700px) {}
+    :                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:73:1]
  73 | @media(400px<width<700px){}
@@ -7874,6 +8252,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:73:1]
+ 73 | @media(400px<width<700px){}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:74:1]
  74 | @media(400px<=width<=700px){}
@@ -8016,6 +8400,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:74:1]
  74 | @media(400px<=width<=700px){}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:74:1]
+ 74 | @media(400px<=width<=700px){}
+    :                            ^
     `----
 
   x Rule
@@ -8162,6 +8552,12 @@
     :                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:75:1]
+ 75 | @media   (   400px   <   width   <   700px   )   {}
+    :                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:76:1]
  76 | @media   (   400px   <=   width   <   700px   )   {}
@@ -8306,6 +8702,12 @@
     :                                                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:76:1]
+ 76 | @media   (   400px   <=   width   <   700px   )   {}
+    :                                                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:77:1]
  77 | @media   (   400px   <   width   <=   700px   )   {}
@@ -8448,6 +8850,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:77:1]
  77 | @media   (   400px   <   width   <=   700px   )   {}
     :                                                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:77:1]
+ 77 | @media   (   400px   <   width   <=   700px   )   {}
+    :                                                   ^
     `----
 
   x Rule
@@ -8594,6 +9002,12 @@
     :                                                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:78:1]
+ 78 | @media   (   400px   <=   width   <=   700px   )   {}
+    :                                                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:79:1]
  79 | @media(400px<width<700px){}
@@ -8738,6 +9152,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:79:1]
+ 79 | @media(400px<width<700px){}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:80:1]
  80 | @media(400px<=width<=700px){}
@@ -8880,6 +9300,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:80:1]
  80 | @media(400px<=width<=700px){}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:80:1]
+ 80 | @media(400px<=width<=700px){}
+    :                            ^
     `----
 
   x Rule
@@ -9026,6 +9452,12 @@
     :                                ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:82:1]
+ 82 | @media (400px > width > 700px) {}
+    :                                ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:83:1]
  83 | @media (400px >= width > 700px) {}
@@ -9170,6 +9602,12 @@
     :                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:83:1]
+ 83 | @media (400px >= width > 700px) {}
+    :                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:84:1]
  84 | @media (400px > width >= 700px) {}
@@ -9312,6 +9750,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:84:1]
  84 | @media (400px > width >= 700px) {}
     :                                 ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:84:1]
+ 84 | @media (400px > width >= 700px) {}
+    :                                 ^
     `----
 
   x Rule
@@ -9458,6 +9902,12 @@
     :                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:85:1]
+ 85 | @media (400px >= width >= 700px) {}
+    :                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:86:1]
  86 | @media(400px>width>700px){}
@@ -9600,6 +10050,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:86:1]
  86 | @media(400px>width>700px){}
     :                          ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:86:1]
+ 86 | @media(400px>width>700px){}
+    :                          ^
     `----
 
   x Rule
@@ -9746,6 +10202,12 @@
     :                             ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:87:1]
+ 87 | @media(400px>=width>=700px) {}
+    :                             ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:88:1]
  88 | @media   (   400px   >   width   >   700px   )   {}
@@ -9890,6 +10352,12 @@
     :                                                  ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:88:1]
+ 88 | @media   (   400px   >   width   >   700px   )   {}
+    :                                                  ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:89:1]
  89 | @media   (   400px   >=   width   >   700px   )   {}
@@ -10034,6 +10502,12 @@
     :                                                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:89:1]
+ 89 | @media   (   400px   >=   width   >   700px   )   {}
+    :                                                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:90:1]
  90 | @media   (   400px   >   width   >=   700px   )   {}
@@ -10176,6 +10650,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:90:1]
  90 | @media   (   400px   >   width   >=   700px   )   {}
     :                                                   ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:90:1]
+ 90 | @media   (   400px   >   width   >=   700px   )   {}
+    :                                                   ^
     `----
 
   x Rule
@@ -10322,6 +10802,12 @@
     :                                                    ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:91:1]
+ 91 | @media   (   400px   >=   width   >=   700px   )   {}
+    :                                                    ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:92:1]
  92 | @media(400px>width>700px){}
@@ -10466,6 +10952,12 @@
     :                          ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:92:1]
+ 92 | @media(400px>width>700px){}
+    :                          ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:93:1]
  93 | @media(400px>=width>=700px){}
@@ -10608,6 +11100,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:93:1]
  93 | @media(400px>=width>=700px){}
     :                            ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:93:1]
+ 93 | @media(400px>=width>=700px){}
+    :                            ^
     `----
 
   x Rule
@@ -10772,6 +11270,12 @@
     :                                           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:95:1]
+ 95 | @media (--modern) and (min-width: 1024px) {}
+    :                                           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:97:1]
  97 | @media (not (color)) or (hover) {}
@@ -10928,6 +11432,12 @@
     :                                 ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:97:1]
+ 97 | @media (not (color)) or (hover) {}
+    :                                 ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/at-rule/media/input.css:98:1]
  98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
@@ -11082,6 +11592,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:98:1]
  98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
     :                                                              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:98:1]
+ 98 | @media   (   not    (   color   )   )   or   (   hover   )   {}
+    :                                                              ^
     `----
 
   x Rule
@@ -11310,6 +11826,12 @@
     ,-[$DIR/tests/fixture/at-rule/media/input.css:99:1]
  99 | @media ((color) or (hover)) and (width > 1024px) {}
     :                                                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/media/input.css:99:1]
+ 99 | @media ((color) or (hover)) and (width > 1024px) {}
+    :                                                  ^
     `----
 
   x Rule
@@ -11556,6 +12078,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:100:1]
  100 | @media (((color)) or ((hover))) and (width > 1024px) {}
      :                                                      ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:100:1]
+ 100 | @media (((color)) or ((hover))) and (width > 1024px) {}
+     :                                                      ^
      `----
 
   x Rule
@@ -11840,6 +12368,12 @@
      :                                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:101:1]
+ 101 | @media (((((color)) or ((hover))))) and (width > 1024px) {}
+     :                                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:102:1]
  102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
@@ -12122,6 +12656,12 @@
      :                                                                                                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:102:1]
+ 102 | @media   (   (   (   (   (   color   )   )   or   (   (   hover   )   )   )   )   )   and   (   width   >   1024px   )   {}
+     :                                                                                                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:104:1]
  104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
@@ -12408,6 +12948,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:104:1]
  104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
      :                                                                          ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:104:1]
+ 104 | @media ((min-width: 800px) and (min-width: 800px)) or (min-width: 800px) {}
+     :                                                                          ^
      `----
 
   x Rule
@@ -12698,6 +13244,12 @@
      :                                                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:105:1]
+ 105 | @media (min-width: 800px) and ((min-width: 800px) or (min-width: 800px)) {}
+     :                                                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:107:1]
  107 | @media    NOT   all   {}
@@ -12756,6 +13308,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:107:1]
  107 | @media    NOT   all   {}
      :                       ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:107:1]
+ 107 | @media    NOT   all   {}
+     :                       ^
      `----
 
   x Rule
@@ -12866,6 +13424,12 @@
      :                                ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:108:1]
+ 108 | @media ONLY screen AND (color) {}
+     :                                ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:109:1]
  109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
@@ -13152,6 +13716,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:109:1]
  109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
      :                                                                          ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:109:1]
+ 109 | @media ((min-width: 800px) AND (min-width: 800px)) OR (min-width: 800px) {}
+     :                                                                          ^
      `----
 
   x Rule
@@ -13442,6 +14012,12 @@
      :                                                                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:110:1]
+ 110 | @media (min-width: 800px) AND ((min-width: 800px) OR (min-width: 800px)) {}
+     :                                                                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:112:1]
  112 | @media {}
@@ -13472,6 +14048,12 @@
      :        ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:112:1]
+ 112 | @media {}
+     :        ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:113:1]
  113 | @media    {}
@@ -13500,6 +14082,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:113:1]
  113 | @media    {}
      :           ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:113:1]
+ 113 | @media    {}
+     :           ^
      `----
 
   x Rule
@@ -13556,6 +14144,12 @@
      :            ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:115:1]
+ 115 | @media tty {}
+     :            ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
  117 | ,-> @media print {
@@ -13620,6 +14214,12 @@
  120 | |           color: orange;
  121 | |       }
  122 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:117:1]
+ 117 | @media print {
+     :              ^
      `----
 
   x ComponentValue
@@ -13731,6 +14331,12 @@
  121 | `->     }
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:119:5]
+ 119 | main {
+     :      ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/media/input.css:120:9]
  120 | color: orange;
@@ -13837,6 +14443,12 @@
  127 | |           color: orange;
  128 | |       }
  129 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:124:1]
+ 124 | @media print {
+     :              ^
      `----
 
   x ComponentValue
@@ -13946,6 +14558,12 @@
  126 | ,-> main {
  127 | |           color: orange;
  128 | `->     }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:126:5]
+ 126 | main {
+     :      ^
      `----
 
   x ComponentValue
@@ -14146,6 +14764,12 @@
      :                                 ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:131:1]
+ 131 | @media (NOT (color)) OR (hover) {}
+     :                                 ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:133:1]
  133 | @media (width > calc(5px + 1rem)) {}
@@ -14306,6 +14930,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:133:1]
  133 | @media (width > calc(5px + 1rem)) {}
      :                                   ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:133:1]
+ 133 | @media (width > calc(5px + 1rem)) {}
+     :                                   ^
      `----
 
   x Rule
@@ -14470,6 +15100,12 @@
      :                                       ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:134:1]
+ 134 | @media (width < calc(Infinity * 1px)) {}
+     :                                       ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:135:1]
  135 | @media (max-width: calc(5px + 1rem)) {}
@@ -14632,6 +15268,12 @@
      :                                      ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:135:1]
+ 135 | @media (max-width: calc(5px + 1rem)) {}
+     :                                      ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:136:1]
  136 | @media (width: calc(5px + 1rem)) {}
@@ -14792,6 +15434,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:136:1]
  136 | @media (width: calc(5px + 1rem)) {}
      :                                  ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:136:1]
+ 136 | @media (width: calc(5px + 1rem)) {}
+     :                                  ^
      `----
 
   x Rule
@@ -15034,6 +15682,12 @@
      :                                                            ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:137:1]
+ 137 | @media (calc(100px + 10px) < width <= calc(1000px + 10px)) {}
+     :                                                            ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:138:1]
  138 | @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}
@@ -15274,6 +15928,12 @@
      :                                                                    ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:138:1]
+ 138 | @media (-webkit-calc(10px + 100px) < width <= calc(1000px + 10px)) {}
+     :                                                                    ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
@@ -15332,6 +15992,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
  142 | @media (height << 600px) {}
      :        ^^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :        ^
      `----
 
   x ComponentValue
@@ -15412,6 +16078,12 @@
      :                          ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:142:1]
+ 142 | @media (height << 600px) {}
+     :                          ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
@@ -15470,6 +16142,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
  143 | @media (height foo bar) {}
      :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :        ^
      `----
 
   x ComponentValue
@@ -15538,6 +16216,12 @@
      :                         ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:143:1]
+ 143 | @media (height foo bar) {}
+     :                         ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
@@ -15596,6 +16280,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
  144 | @media (height foo("bar")) {}
      :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :        ^
      `----
 
   x ComponentValue
@@ -15658,6 +16348,12 @@
      :                            ^^
      `----
 
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:144:1]
+ 144 | @media (height foo("bar")) {}
+     :                            ^
+     `----
+
   x Rule
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
@@ -15716,6 +16412,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :        ^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :        ^
      `----
 
   x ComponentValue
@@ -15782,6 +16484,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
  145 | @media (height + 600px) {}
      :                         ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:145:1]
+ 145 | @media (height + 600px) {}
+     :                         ^
      `----
 
   x Rule
@@ -15862,6 +16570,12 @@
      :                   ^^^^^^^^^^^^^
      `----
 
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                   ^
+     `----
+
   x ComponentValue
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
@@ -15902,6 +16616,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
  146 | @media screen and (min-width: ) {}
      :                                 ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:146:1]
+ 146 | @media screen and (min-width: ) {}
+     :                                 ^
      `----
 
   x Rule
@@ -15962,6 +16682,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :        ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :        ^
      `----
 
   x ComponentValue
@@ -16028,6 +16754,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
  147 | @media (aspect-ratio: 12/) {}
      :                            ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:147:1]
+ 147 | @media (aspect-ratio: 12/) {}
+     :                            ^
      `----
 
   x Rule
@@ -16112,6 +16844,12 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
  148 | @media func(100px) {}
      :                    ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:148:1]
+ 148 | @media func(100px) {}
+     :                    ^
      `----
 
   x Rule
@@ -16214,4 +16952,10 @@
      ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
  149 | @media screen and func(100px) {}
      :                               ^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/media/input.css:149:1]
+ 149 | @media screen and func(100px) {}
+     :                               ^
      `----

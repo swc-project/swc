@@ -53,6 +53,12 @@
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
@@ -213,4 +219,10 @@
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
  1 | @media (400px > = width > = 700px) {}
    :                                    ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-3/input.css:1:1]
+ 1 | @media (400px > = width > = 700px) {}
+   :                                    ^
    `----

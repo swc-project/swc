@@ -78,6 +78,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
+ 1 | :root {
+   :       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:5]
  2 | --main-color: #06c;
@@ -219,6 +225,12 @@
  8 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
+ 6 | .foo {
+   :      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/dashed-ident/input.css:7:5]
  7 | --fg-color: blue;
@@ -354,6 +366,12 @@
  12 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:10:1]
+ 10 | #foo h1 {
+    :         ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/dashed-ident/input.css:11:5]
  11 | color: var(--main-color);
@@ -456,6 +474,12 @@
     :           ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:14:1]
+ 14 | @--custom {}
+    :           ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
  15 | @--library1-custom {}
@@ -496,4 +520,10 @@
     ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
  15 | @--library1-custom {}
     :                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/dashed-ident/input.css:15:1]
+ 15 | @--library1-custom {}
+    :                    ^
     `----

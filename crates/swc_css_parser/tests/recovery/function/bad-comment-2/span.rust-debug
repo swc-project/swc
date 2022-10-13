@@ -81,6 +81,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
  2 | ,-> background: url(

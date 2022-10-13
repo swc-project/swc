@@ -65,6 +65,12 @@
  2 | `->   prop: "string
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+ 1 | div {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:3]
  2 | prop: "string

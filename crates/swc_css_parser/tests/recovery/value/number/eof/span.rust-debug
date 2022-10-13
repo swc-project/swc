@@ -65,6 +65,12 @@
  2 | `->   prop: 12
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/number/eof/input.css:2:3]
  2 | prop: 12

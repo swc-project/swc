@@ -55,6 +55,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
+ 1 | @top-left {
+   :           ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:5]
  2 | content: "foo";

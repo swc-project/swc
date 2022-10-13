@@ -115,6 +115,12 @@
  16 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+ 1 | .div {
+   :      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/function/rgb/input.css:2:5]
  2 | color: rgb("test");

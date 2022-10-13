@@ -99,6 +99,12 @@
  12 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/min-and-max/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/min-and-max/input.css:2:5]
  2 | width: max(500px);

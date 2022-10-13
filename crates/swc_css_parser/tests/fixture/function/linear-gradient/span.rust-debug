@@ -117,6 +117,12 @@
  15 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:5]
  2 | background: linear-gradient(white, gray);

@@ -33,6 +33,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
+ 1 | {
+   : ^
+   `----
+
   x Rule
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
  5 | {}
@@ -51,6 +57,12 @@
    : ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
+ 5 | {}
+   : ^
+   `----
+
   x Rule
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  7 | ,-> {
@@ -70,6 +82,12 @@
  7 | ,-> {
  8 | |       color: red;
  9 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+ 7 | {
+   : ^
    `----
 
   x ComponentValue

@@ -82,6 +82,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:1:1]
+ 1 | ::highlight(sample) {
+   :                     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:2:5]
  2 | background-color: rgba(0, 0, 255, 0.3);
@@ -310,6 +316,12 @@
  8 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:5:1]
+ 5 | :root::highlight(example-highlight) {
+   :                                     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:6:5]
  6 | background-color: yellow;
@@ -481,6 +493,12 @@
  12 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:10:1]
+ 10 | div::highlight(bar) {
+    :                     ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:11:5]
  11 | color: red;
@@ -608,6 +626,12 @@
  14 | ,-> div::highlight(foo) {
  15 | |       color: green;
  16 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-element/highlight/input.css:14:1]
+ 14 | div::highlight(foo) {
+    :                     ^
     `----
 
   x ComponentValue

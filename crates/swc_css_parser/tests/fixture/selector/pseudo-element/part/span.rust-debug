@@ -95,6 +95,12 @@
    :                                     ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:1:1]
+ 1 | tabbed-custom-element::part(active) {}
+   :                                     ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  2 | tabbed-custom-element::part(   active   ) {}
@@ -183,4 +189,10 @@
    ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
  2 | tabbed-custom-element::part(   active   ) {}
    :                                           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-element/part/input.css:2:1]
+ 2 | tabbed-custom-element::part(   active   ) {}
+   :                                           ^
    `----

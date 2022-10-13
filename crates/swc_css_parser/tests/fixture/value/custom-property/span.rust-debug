@@ -289,6 +289,12 @@
  57 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
+ 1 | :root {
+   :       ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
  2 | --:value;
@@ -3662,6 +3668,12 @@
     :      ^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
+ 59 | :root{--a:1}
+    :      ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:59:1]
  59 | :root{--a:1}
@@ -3758,6 +3770,12 @@
     :       ^^^^^^^^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
+ 60 | :root {--foo: }
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  60 | :root {--foo: }
@@ -3845,6 +3863,12 @@
  63 | `-> }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:61:1]
+ 61 | :root {
+    :       ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:62:5]
  62 | ,-> --foo: 
@@ -3930,6 +3954,12 @@
  65 | ,-> :root {
  66 | |       --var:  value;
  67 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
+ 65 | :root {
+    :       ^
     `----
 
   x ComponentValue

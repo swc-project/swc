@@ -63,6 +63,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:1:1]
+ 1 | .style {
+   :        ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start]);
@@ -145,6 +151,12 @@
    ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start]);
    :                                  ^^^^^^^^^^^
+   `----
+
+  x LBracket
+   ,-[$DIR/tests/fixture/rome/grid/repeat/line-name/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start]);
+   :                                  ^
    `----
 
   x ComponentValue

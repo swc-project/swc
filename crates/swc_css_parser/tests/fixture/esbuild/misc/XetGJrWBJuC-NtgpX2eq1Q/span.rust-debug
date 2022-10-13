@@ -58,3 +58,9 @@
  1 | #\30hash {}
    :          ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/XetGJrWBJuC-NtgpX2eq1Q/input.css:1:1]
+ 1 | #\30hash {}
+   :          ^
+   `----

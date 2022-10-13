@@ -112,3 +112,9 @@
  1 | @media (aspect-ratio: 12/9) {}
    :                             ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/media/ratio/input.css:1:1]
+ 1 | @media (aspect-ratio: 12/9) {}
+   :                             ^
+   `----

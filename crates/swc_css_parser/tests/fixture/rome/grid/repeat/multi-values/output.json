@@ -70,7 +70,15 @@
           "end": 106,
           "ctxt": 0
         },
-        "name": "{",
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 8,
+            "end": 9,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
         "value": [
           {
             "type": "Declaration",
@@ -134,7 +142,15 @@
                       "end": 55,
                       "ctxt": 0
                     },
-                    "name": "[",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 44,
+                        "end": 45,
+                        "ctxt": 0
+                      },
+                      "token": "LBracket"
+                    },
                     "value": [
                       {
                         "type": "Ident",
@@ -165,7 +181,15 @@
                       "end": 80,
                       "ctxt": 0
                     },
-                    "name": "[",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 68,
+                        "end": 69,
+                        "ctxt": 0
+                      },
+                      "token": "LBracket"
+                    },
                     "value": [
                       {
                         "type": "Ident",
@@ -196,7 +220,15 @@
                       "end": 102,
                       "ctxt": 0
                     },
-                    "name": "[",
+                    "name": {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 93,
+                        "end": 94,
+                        "ctxt": 0
+                      },
+                      "token": "LBracket"
+                    },
                     "value": [
                       {
                         "type": "Ident",

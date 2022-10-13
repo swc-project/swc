@@ -64,3 +64,9 @@
  1 | [\61ttr] {}
    :          ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/lFIVvsKPgxD4lJlULqKluw/input.css:1:1]
+ 1 | [\61ttr] {}
+   :          ^
+   `----

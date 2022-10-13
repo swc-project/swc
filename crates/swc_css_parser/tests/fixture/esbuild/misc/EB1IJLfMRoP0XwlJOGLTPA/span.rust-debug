@@ -64,3 +64,9 @@
  1 | div {}
    :     ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/EB1IJLfMRoP0XwlJOGLTPA/input.css:1:1]
+ 1 | div {}
+   :     ^
+   `----

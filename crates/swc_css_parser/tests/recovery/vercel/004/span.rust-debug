@@ -111,6 +111,12 @@
  9 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/vercel/004/input.css:1:1]
+ 1 | a.invert {
+   :          ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/004/input.css:2:5]
  2 | margin: 0;

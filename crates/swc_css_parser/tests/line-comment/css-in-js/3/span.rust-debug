@@ -73,6 +73,12 @@
  4 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/line-comment/css-in-js/3/input.css:1:1]
+ 1 | foo {
+   :     ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/line-comment/css-in-js/3/input.css:2:5]
  2 | color: red;

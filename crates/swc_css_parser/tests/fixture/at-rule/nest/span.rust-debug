@@ -100,6 +100,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:1:1]
+ 1 | .foo {
+   :      ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:2:5]
  2 | color: red;
@@ -236,6 +242,12 @@
  5 | `->     }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:3:5]
+ 3 | @nest & > .bar {
+   :                ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:4:9]
  4 | color: blue;
@@ -343,6 +355,12 @@
  12 | |       }
  13 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/at-rule/nest/input.css:8:1]
+ 8 | .foo {
+   :      ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/nest/input.css:9:5]
@@ -480,6 +498,12 @@
  12 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:10:5]
+ 10 | @nest .parent & {
+    :                 ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:11:9]
  11 | color: blue;
@@ -586,6 +610,12 @@
  18 | |           color: blue;
  19 | |       }
  20 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:15:1]
+ 15 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -736,6 +766,12 @@
  19 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:17:5]
+ 17 | @nest :not(&) {
+    :               ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:18:9]
  18 | color: blue;
@@ -854,6 +890,12 @@
  29 | |           }
  30 | |       }
  31 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:22:1]
+ 22 | .foo {
+    :      ^
     `----
 
   x ComponentValue
@@ -1004,6 +1046,12 @@
  30 | `->     }
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:25:5]
+ 25 | @nest .bar & {
+    :              ^
+    `----
+
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/nest/input.css:26:9]
  26 | color: red;
@@ -1114,6 +1162,12 @@
  27 | ,-> &.baz {
  28 | |               color: green;
  29 | `->         }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/at-rule/nest/input.css:27:9]
+ 27 | &.baz {
+    :       ^
     `----
 
   x ComponentValue

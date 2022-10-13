@@ -81,6 +81,12 @@
  6 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+ 1 | .geist-list {
+   :             ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/003/input.css:2:5]
  2 | display: flex;
@@ -392,6 +398,12 @@
  11 | |       min-width: 0;
  12 | `-> }
     `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/vercel/003/input.css:7:1]
+ 7 | .geist-list :global(> .geist-list-item) {
+   :                                         ^
+   `----
 
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/003/input.css:8:5]

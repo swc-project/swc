@@ -65,6 +65,12 @@
    :   ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
+ 1 | a { prop: url(foo.png
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/eof-whitespaces/input.css:1:1]
  1 | a { prop: url(foo.png   

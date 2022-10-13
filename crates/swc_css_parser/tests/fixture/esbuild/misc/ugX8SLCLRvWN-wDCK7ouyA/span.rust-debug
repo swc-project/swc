@@ -35,6 +35,12 @@
    :               ^^^^^^^^^^^^^^^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:1]
+ 1 | @-ms-viewport { width: 100vw }
+   :               ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/esbuild/misc/ugX8SLCLRvWN-wDCK7ouyA/input.css:1:1]
  1 | @-ms-viewport { width: 100vw }

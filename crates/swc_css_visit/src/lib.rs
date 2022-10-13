@@ -18,7 +18,7 @@ define!({
 
     pub struct SimpleBlock {
         pub span: Span,
-        pub name: char,
+        pub name: TokenAndSpan,
         pub value: Vec<ComponentValue>,
     }
 

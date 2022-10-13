@@ -82,3 +82,9 @@
  1 | div::bef\ore {}
    :              ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
+ 1 | div::bef\ore {}
+   :              ^
+   `----

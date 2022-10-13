@@ -125,6 +125,12 @@
  17 | `-> }
     `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/hex-colors/input.css:1:1]
+ 1 | a {
+   :   ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/hex-colors/input.css:2:3]
  2 | color: #000000;

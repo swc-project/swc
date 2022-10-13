@@ -82,3 +82,9 @@
  1 | div#id {}
    :        ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
+ 1 | div#id {}
+   :        ^
+   `----

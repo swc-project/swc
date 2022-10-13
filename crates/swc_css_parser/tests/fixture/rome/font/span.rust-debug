@@ -39,6 +39,12 @@
  3 | `-> }
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/rome/font/input.css:1:1]
+ 1 | @font-face {
+   :            ^
+   `----
+
   x ComponentValue
    ,-[$DIR/tests/fixture/rome/font/input.css:2:5]
  2 | src: url("");

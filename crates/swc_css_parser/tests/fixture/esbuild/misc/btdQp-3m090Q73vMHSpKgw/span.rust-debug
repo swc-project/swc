@@ -88,3 +88,9 @@
  1 | \2a|div {}
    :         ^^
    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
+ 1 | \2a|div {}
+   :         ^
+   `----

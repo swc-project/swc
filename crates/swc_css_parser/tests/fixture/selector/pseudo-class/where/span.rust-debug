@@ -170,6 +170,12 @@
    :               ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:1:1]
+ 1 | :where(ul) li {}
+   :               ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1]
  2 | :where(ul, ol) li {}
@@ -342,6 +348,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1]
  2 | :where(ul, ol) li {}
    :                   ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:2:1]
+ 2 | :where(ul, ol) li {}
+   :                   ^
    `----
 
   x Rule
@@ -572,6 +584,12 @@
    :                                      ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:3:1]
+ 3 | :where(header, main, footer) p:hover {}
+   :                                      ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1]
  4 | div:where(.cool, .fun) {}
@@ -720,6 +738,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1]
  4 | div:where(.cool, .fun) {}
    :                        ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:4:1]
+ 4 | div:where(.cool, .fun) {}
+   :                        ^
    `----
 
   x Rule
@@ -1268,6 +1292,12 @@
    :                                                                           ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:5:1]
+ 5 | :where(ol, ul, menu, dir) :where(ol, ul, menu, dir) :where(ul, menu, dir) {}
+   :                                                                           ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
@@ -1422,6 +1452,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
  6 | *|*:where(:hover, :focus) {}
    :                           ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:6:1]
+ 6 | *|*:where(:hover, :focus) {}
+   :                           ^
    `----
 
   x Rule
@@ -1602,6 +1638,12 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
  7 | *|*:where(*:hover, *:focus) {}
    :                             ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:7:1]
+ 7 | *|*:where(*:hover, *:focus) {}
+   :                             ^
    `----
 
   x Rule
@@ -1808,6 +1850,12 @@
    :                                     ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:8:1]
+ 8 | :where(ul, ol, .lwheret) > [hidden] {}
+   :                                     ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1]
  9 | :where(p, p:unsupported) {}
@@ -1964,6 +2012,12 @@
    :                          ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:9:1]
+ 9 | :where(p, p:unsupported) {}
+   :                          ^
+   `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1]
  10 | :where(:valid, :unsupported) {}
@@ -2088,6 +2142,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1]
  10 | :where(:valid, :unsupported) {}
     :                              ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:10:1]
+ 10 | :where(:valid, :unsupported) {}
+    :                              ^
     `----
 
   x Rule
@@ -2250,6 +2310,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1]
  11 | a:where(:not(:hover)) {}
     :                       ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:11:1]
+ 11 | a:where(:not(:hover)) {}
+    :                       ^
     `----
 
   x Rule
@@ -2444,6 +2510,12 @@
     :                                         ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:12:1]
+ 12 | :where(:nth-child(6), :nth-child(6) #id){}
+    :                                         ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1]
  13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
@@ -2634,6 +2706,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1]
  13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
     :                                                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:13:1]
+ 13 | :where(:nth-last-child(7), :nth-last-child(7 ) #id){}
+    :                                                    ^
     `----
 
   x Rule
@@ -2934,6 +3012,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1]
  14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
     :                                                                    ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:14:1]
+ 14 | :where(:nth-of-type(8) #a, :nth-of-type(8) #b, :nth-of-type(8) #c) {}
+    :                                                                    ^
     `----
 
   x Rule
@@ -3419,6 +3503,12 @@
     :                            ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:19:8]
+ 19 | :nth-last-of-type(9)   #e) {}
+    :                            ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:20:1]
  20 | ,-> :where(:nth-child(6),
@@ -3695,6 +3785,12 @@
     :                       ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:23:8]
+ 23 | :nth-last-of-type(6)) {}
+    :                       ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
  26 | h1:where(<> p) {}
@@ -3831,6 +3927,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
  26 | h1:where(<> p) {}
     :                ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
+ 26 | h1:where(<> p) {}
+    :                ^
     `----
 
   x Rule
@@ -4019,6 +4121,12 @@
     :                   ^^
     `----
 
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
+ 27 | h1:where(a, <> p) {}
+    :                   ^
+    `----
+
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
  28 | h1:where(<> p,a) {}
@@ -4191,6 +4299,12 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
  28 | h1:where(<> p,a) {}
     :                  ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
+ 28 | h1:where(<> p,a) {}
+    :                  ^
     `----
 
   x Rule
@@ -4413,4 +4527,10 @@
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
  29 | h1:where(a, <> p,a) {}
     :                     ^^
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:29:1]
+ 29 | h1:where(a, <> p,a) {}
+    :                     ^
     `----

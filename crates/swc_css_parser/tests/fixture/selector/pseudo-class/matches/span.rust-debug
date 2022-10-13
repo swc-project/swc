@@ -143,6 +143,12 @@
    :                 ^^
    `----
 
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:1:1]
+ 1 | :matches(ul) li {}
+   :                 ^
+   `----
+
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  2 | :matches(ul, ol) li {}
@@ -315,4 +321,10 @@
    ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
  2 | :matches(ul, ol) li {}
    :                     ^^
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/selector/pseudo-class/matches/input.css:2:1]
+ 2 | :matches(ul, ol) li {}
+   :                     ^
    `----
