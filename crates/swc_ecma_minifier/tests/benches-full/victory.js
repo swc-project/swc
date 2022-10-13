@@ -8793,8 +8793,7 @@
                 return target;
             }
             var defined = function(d) {
-                var y = void 0 !== d._y1 ? d._y1 : d._y;
-                return null != y && null !== d._y0;
+                return null != (void 0 !== d._y1 ? d._y1 : d._y) && null !== d._y0;
             }, getXAccessor = function(scale) {
                 return function(d) {
                     return scale.x(void 0 !== d._x1 ? d._x1 : d._x);
@@ -8949,8 +8948,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
+                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
                         labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
                     }), childProps;
                 }, initialChildProps);
@@ -10162,11 +10160,9 @@
                         y0: y0,
                         x0: x0
                     };
-                    childProps[eventKey] = {
+                    return childProps[eventKey] = {
                         data: dataProps
-                    };
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
+                    }, (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
         },
@@ -18562,8 +18558,7 @@
             __webpack_require__.r(__webpack_exports__);
             var lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isRegExp.js"), lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0__), lodash_find__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/find.js"), lodash_find__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_find__WEBPACK_IMPORTED_MODULE_1__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_2__), _log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/victory-util/log.js"), prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_4__), makeChainable = function(validator) {
                 var _chainable = function(isRequired, props, propName, componentName) {
-                    var value = props[propName];
-                    if (null == value) return isRequired ? Error("Required `".concat(propName, "` was not specified in `").concat(componentName, "`.")) : null;
+                    if (null == props[propName]) return isRequired ? Error("Required `".concat(propName, "` was not specified in `").concat(componentName, "`.")) : null;
                     for(var _len = arguments.length, rest = Array(_len > 4 ? _len - 4 : 0), _key = 4; _key < _len; _key++)rest[_key - 4] = arguments[_key];
                     return validator.apply(void 0, [
                         props,
@@ -18582,8 +18577,8 @@
             __webpack_exports__.default = {
                 deprecated: function(propType, explanation) {
                     return function(props, propName, componentName) {
-                        var obj, value = props[propName];
-                        return null != value && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
+                        var obj;
+                        return null != props[propName] && _log__WEBPACK_IMPORTED_MODULE_3__.default.warn("\"".concat(propName, "\" property of \"").concat(componentName, "\" has been deprecated ").concat(explanation)), prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.checkPropTypes((propName in (obj = {}) ? Object.defineProperty(obj, propName, {
                             value: propType,
                             enumerable: !0,
                             configurable: !0,
@@ -24454,11 +24449,9 @@
                         x0: x0,
                         getPath: getPath
                     };
-                    childProps[eventKey] = {
+                    return childProps[eventKey] = {
                         data: dataProps
-                    };
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
+                    }, (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
         },
@@ -26026,8 +26019,7 @@
                 return target;
             }
             var defined = function(d) {
-                var y = void 0 !== d._y1 ? d._y1 : d._y;
-                return null != y && null !== d._y0;
+                return null != (void 0 !== d._y1 ? d._y1 : d._y) && null !== d._y0;
             }, getXAccessor = function(scale) {
                 return function(d) {
                     return scale.x(void 0 !== d._x1 ? d._x1 : d._x);
@@ -26139,8 +26131,7 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
+                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
                         labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
                     }), childProps;
                 }, initialChildProps);
@@ -26383,7 +26374,7 @@
                 }, style.data);
             }, getLabelText = function(props, datum, index) {
                 var text, text1;
-                return void 0 === (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || null === text1 || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
+                return null == (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
             }, getLabelArc = function(radius, labelRadius, style) {
                 var padding = style && style.padding || 0, arcRadius = labelRadius || radius + padding;
                 return d3_shape__WEBPACK_IMPORTED_MODULE_5__.arc().outerRadius(arcRadius).innerRadius(arcRadius);
@@ -27596,11 +27587,9 @@
                         symbol: getSymbol(datum, props),
                         style: style.data
                     };
-                    childProps[eventKey] = {
+                    return childProps[eventKey] = {
                         data: dataProps
-                    };
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getProps(props, index)), childProps;
+                    }, (null != victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
         },
@@ -30073,11 +30062,9 @@
                         size: props.size,
                         style: style.data
                     };
-                    childProps[eventKey] = {
+                    return childProps[eventKey] = {
                         data: dataProps
-                    };
-                    var text = victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getText(props, datum, index);
-                    return (null != text || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getProps(props, index)), childProps;
+                    }, (null != victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
         },

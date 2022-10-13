@@ -1,5 +1,5 @@
 function f1() {
-    return ("function" == typeof b ? b() : b) !== void 0 && c();
+    return void 0 !== ("function" == typeof b ? b() : b) && c();
 }
 function f2(b1) {
     return "stirng" == typeof ("function" == typeof (b1 = c()) ? b1() : b1) && d();

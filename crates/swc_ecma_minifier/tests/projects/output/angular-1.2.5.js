@@ -480,7 +480,7 @@
     }
     function hashKey(obj) {
         var key, objType = typeof obj;
-        return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? key = obj.$$hashKey() : key === undefined && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
+        return "object" == objType && null !== obj ? "function" == typeof (key = obj.$$hashKey) ? key = obj.$$hashKey() : undefined === key && (key = obj.$$hashKey = nextUid()) : key = obj, objType + ":" + key;
     }
     function HashMap(array) {
         forEach(array, this.put, this);
@@ -565,7 +565,7 @@
                     else for(key in arg1)fn(this[i], key, arg1[key]);
                     return this;
                 }
-                for(var value = fn.$dv, jj = value === undefined ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
+                for(var value = fn.$dv, jj = undefined === value ? Math.min(this.length, 1) : this.length, j = 0; j < jj; j++){
                     var nodeValue = fn(this[j], arg1, arg2);
                     value = value ? value + nodeValue : nodeValue;
                 }
@@ -937,7 +937,7 @@
         var lastCookies = {}, lastCookieString = "", cookiePath = self.baseHref();
         self.cookies = function(name, value) {
             var cookieLength, cookieArray, cookie, i, index;
-            if (name) value === undefined ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
+            if (name) undefined === value ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
                 if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && undefined === lastCookies[name = unescape(cookie.substring(0, index))] && (lastCookies[name] = unescape(cookie.substring(index + 1)));
                 return lastCookies;
@@ -1076,7 +1076,7 @@
                     },
                     $set: function(key, value, writeAttr, attrName) {
                         var nodeName, booleanKey = getBooleanAttrName(this.$$element[0], key);
-                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null === value || value === undefined ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
+                        booleanKey && (this.$$element.prop(key, value), attrName = booleanKey), this[key] = value, attrName ? this.$attr[key] = attrName : (attrName = this.$attr[key]) || (this.$attr[key] = attrName = snake_case(key, "-")), ("A" === (nodeName = nodeName_(this.$$element)) && "href" === key || "IMG" === nodeName && "src" === key) && (this[key] = value = $$sanitizeUri(value, "src" === key)), !1 !== writeAttr && (null == value ? this.$$element.removeAttr(attrName) : this.$$element.attr(attrName, value));
                         var $$observers = this.$$observers;
                         $$observers && forEach($$observers[key], function(fn) {
                             try {
@@ -1352,7 +1352,7 @@
                     if (name === ignoreDirective) return null;
                     var match = null;
                     if (hasDirectives.hasOwnProperty(name)) for(var directive, directives = $injector.get(name + Suffix), i = 0, ii = directives.length; i < ii; i++)try {
-                        directive = directives[i], (maxPriority === undefined || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
+                        directive = directives[i], (undefined === maxPriority || maxPriority > directive.priority) && -1 != directive.restrict.indexOf(location) && (startAttrName && (directive = inherit(directive, {
                             $$start: startAttrName,
                             $$end: endAttrName
                         })), tDirectives.push(directive), match = directive);
@@ -2466,20 +2466,20 @@
     function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
         return ensureSafeMemberName(key0, fullExp), ensureSafeMemberName(key1, fullExp), ensureSafeMemberName(key2, fullExp), ensureSafeMemberName(key3, fullExp), ensureSafeMemberName(key4, fullExp), options.unwrapPromises ? function(scope, locals) {
             var promise, pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
-            return null === pathVal || pathVal === undefined || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key1 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key2 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key3 && null !== pathVal && pathVal !== undefined && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key4 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
             })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
             var pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
-            return null === pathVal || pathVal === undefined ? pathVal : (pathVal = pathVal[key0], key1 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key1], key2 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key2], key3 && null !== pathVal && pathVal !== undefined && (pathVal = pathVal[key3], key4 && null !== pathVal && pathVal !== undefined)))) ? pathVal = pathVal[key4] : pathVal;
+            return null == pathVal ? pathVal : (pathVal = pathVal[key0], key1 && null != pathVal && (pathVal = pathVal[key1], key2 && null != pathVal && (pathVal = pathVal[key2], key3 && null != pathVal && (pathVal = pathVal[key3], key4 && null != pathVal)))) ? pathVal = pathVal[key4] : pathVal;
         };
     }
     function getterFn(path, options, fullExp) {
@@ -2982,12 +2982,12 @@
                     trustAs: function(type, trustedValue) {
                         var Constructor = byType.hasOwnProperty(type) ? byType[type] : null;
                         if (!Constructor) throw $sceMinErr("icontext", "Attempted to trust a value in invalid context. Context: {0}; Value: {1}", type, trustedValue);
-                        if (null === trustedValue || trustedValue === undefined || "" === trustedValue) return trustedValue;
+                        if (null == trustedValue || "" === trustedValue) return trustedValue;
                         if ("string" != typeof trustedValue) throw $sceMinErr("itype", "Attempted to trust a non-string value in a content requiring a string: Context: {0}", type);
                         return new Constructor(trustedValue);
                     },
                     getTrusted: function(type, maybeTrusted) {
-                        if (null === maybeTrusted || maybeTrusted === undefined || "" === maybeTrusted) return maybeTrusted;
+                        if (null == maybeTrusted || "" === maybeTrusted) return maybeTrusted;
                         var constructor = byType.hasOwnProperty(type) ? byType[type] : null;
                         if (constructor && maybeTrusted instanceof constructor) return maybeTrusted.$$unwrapTrustedValue();
                         if (type === SCE_CONTEXTS.RESOURCE_URL) {
@@ -3752,7 +3752,7 @@
         };
     }, ngBindDirective = ngDirective(function(scope, element, attr) {
         element.addClass("ng-binding").data("$binding", attr.ngBind), scope.$watch(attr.ngBind, function(value) {
-            element.text(value == undefined ? "" : value);
+            element.text(undefined == value ? "" : value);
         });
     }), ngBindTemplateDirective = [
         "$interpolate",
