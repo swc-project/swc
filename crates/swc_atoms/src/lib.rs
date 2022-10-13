@@ -1,12 +1,4 @@
-//! [JsWord] is an interned string.
-//!
-//! This type should be used instead of [String] for values, because lots of
-//! values are duplicated. For example, if an identifier is named `myVariable`,
-//! there will be lots of identifier usages with the value `myVariable`.
-//!
-//! This type
-//!  - makes equality comparison faster.
-//!  - reduces memory usage.
+//! See [JsWord] and [Atom]
 
 #![allow(clippy::unreadable_literal)]
 
