@@ -353,6 +353,8 @@ where
     /// }).x = 10;
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
+        trace_op!("iife: invoke_iife");
+
         if self.options.inline == 0 {
             let skip = match e {
                 Expr::Call(v) => !v.callee.span().is_dummy(),
@@ -370,6 +372,7 @@ where
         };
 
         if self.has_noinline(call.span) {
+            log_abort!("iife: Has no inline mark");
             return;
         }
 
@@ -379,19 +382,19 @@ where
         };
 
         if self.ctx.dont_invoke_iife {
-            log_abort!("iife: [x] Inline is prevented");
+            log_abort!("iife: Inline is prevented");
             return;
         }
 
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
-                    log_abort!("iife: [x] Cannot inline async fn");
+                    log_abort!("iife: Cannot inline async fn");
                     return;
                 }
 
                 if f.is_generator {
-                    log_abort!("iife: [x] Cannot inline generator");
+                    log_abort!("iife: Cannot inline generator");
                     return;
                 }
 
@@ -560,7 +563,7 @@ where
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
-                        log_abort!("iife: [x] Found spread argument");
+                        log_abort!("iife: Found spread argument");
                         return;
                     }
                 }
