@@ -10251,7 +10251,7 @@ fn issue_6039_2() {
 }
 
 #[test]
-fn pr_6127() {
+fn pr_6127_1() {
     run_default_exec_test(
         r###"
         var executionContext = 10123400
