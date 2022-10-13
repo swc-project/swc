@@ -2051,7 +2051,7 @@ where
                     }
                     Mergable::Expr(a) => {
                         if can_remove || $force_drop {
-                            if let Expr::Assign(e) = a {
+                            if let Expr::Assign(e @ AssignExpr { op: op!("="), .. }) = a {
                                 report_change!(
                                     "sequences: Dropping assignment as we are going to drop the \
                                      variable declaration. ({})",
