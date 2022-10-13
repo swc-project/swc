@@ -120,109 +120,30 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | ,-> // Line comment
- 4 | `->     top: 0;
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
+ 4 | top: 0;
+   : ^^^^^^
    `----
 
   x StyleBlock
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | ,-> // Line comment
- 4 | `->     top: 0;
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
+ 4 | top: 0;
+   : ^^^^^^
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   : ^
+  x Declaration
+   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
+ 4 | top: 0;
+   : ^^^^^^
    `----
 
-  x Delim { value: '/' }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   : ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :  ^
-   `----
-
-  x Delim { value: '/' }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :  ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :   ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :   ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :    ^^^^
-   `----
-
-  x Ident { value: Atom('Line' type=inline), raw: Atom('Line' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :    ^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :        ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :        ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :         ^^^^^^^
-   `----
-
-  x Ident { value: Atom('comment' type=inline), raw: Atom('comment' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | // Line comment
-   :         ^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | ,-> // Line comment
- 4 | `->     top: 0;
-   `----
-
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:3:5]
- 3 | ,-> // Line comment
- 4 | `->     top: 0;
-   `----
-
-  x ComponentValue
+  x DeclarationName
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
  4 | top: 0;
    : ^^^
    `----
 
-  x Ident { value: Atom('top' type=static), raw: Atom('top' type=static) }
+  x Ident
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
  4 | top: 0;
    : ^^^
@@ -231,47 +152,11 @@
   x ComponentValue
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
  4 | top: 0;
-   :    ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :    ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :     ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :     ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
    :      ^
    `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x Integer
    ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
  4 | top: 0;
    :      ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :       ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/line-comment/css-in-js/4/input.css:4:5]
- 4 | top: 0;
-   :       ^
    `----

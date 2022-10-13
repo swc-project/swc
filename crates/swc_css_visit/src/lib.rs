@@ -11,11 +11,6 @@ use swc_visit::define;
 pub trait Node {}
 
 define!({
-    pub struct Tokens {
-        pub span: Span,
-        pub tokens: Vec<TokenAndSpan>,
-    }
-
     pub struct TokenAndSpan {
         pub span: Span,
         pub token: Token,
@@ -567,7 +562,7 @@ define!({
     pub enum Rule {
         QualifiedRule(Box<QualifiedRule>),
         AtRule(Box<AtRule>),
-        Invalid(Tokens),
+        ListOfComponentValues(Box<ListOfComponentValues>),
     }
 
     pub struct ImportPrelude {

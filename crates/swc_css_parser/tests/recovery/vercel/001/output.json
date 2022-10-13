@@ -696,13 +696,13 @@
             }
           },
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 277,
               "end": 305,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

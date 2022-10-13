@@ -283,6 +283,6 @@ fn rule_to_component_value(rule: Rule) -> ComponentValue {
     match rule {
         Rule::QualifiedRule(q) => ComponentValue::StyleBlock(StyleBlock::QualifiedRule(q)),
         Rule::AtRule(r) => ComponentValue::StyleBlock(StyleBlock::AtRule(r)),
-        Rule::Invalid(..) => ComponentValue::Rule(rule),
+        Rule::ListOfComponentValues(..) => ComponentValue::Rule(rule),
     }
 }

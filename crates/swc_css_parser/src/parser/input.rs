@@ -1,7 +1,7 @@
 use std::{fmt::Debug, mem::take};
 
 use swc_common::{BytePos, Span, SyntaxContext};
-use swc_css_ast::{Token, TokenAndSpan, Tokens};
+use swc_css_ast::{Token, TokenAndSpan};
 
 use super::PResult;
 use crate::error::{Error, ErrorKind};
@@ -187,6 +187,12 @@ pub struct TokensState {
 pub struct TokensInput<'a> {
     tokens: &'a Tokens,
     idx: usize,
+}
+
+#[derive(Debug)]
+pub struct Tokens {
+    pub span: Span,
+    pub tokens: Vec<TokenAndSpan>,
 }
 
 impl<'a> TokensInput<'a> {
