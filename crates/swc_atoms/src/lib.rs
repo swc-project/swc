@@ -1,12 +1,4 @@
-//! [JsWord] is an interned string.
-//!
-//! This type should be used instead of [String] for values, because lots of
-//! values are duplicated. For example, if an identifier is named `myVariable`,
-//! there will be lots of identifier usages with the value `myVariable`.
-//!
-//! This type
-//!  - makes equality comparison faster.
-//!  - reduces memory usage.
+//! See [JsWord] and [Atom]
 
 #![allow(clippy::unreadable_literal)]
 
@@ -26,7 +18,7 @@ use std::{
 use rkyv_latest as rkyv;
 use rustc_hash::FxHashSet;
 use serde::Serializer;
-use triomphe::Arc;
+use triomphe::{Arc, HeaderWithLength, ThinArc};
 
 include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 
@@ -51,8 +43,12 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 /// - Long texts, which is **not likely to be duplicated**. This does not mean
 ///   "longer than xx" as this is a type.
 /// - Raw values.
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
-pub struct Atom(Arc<str>);
+#[derive(Clone)]
+pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
+
+fn _assert_size() {
+    let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
+}
 
 impl Atom {
     /// Creates a bad [Atom] from a string.
@@ -69,8 +65,14 @@ impl Atom {
     pub fn new<S>(s: S) -> Self
     where
         Arc<str>: From<S>,
+        S: AsRef<str>,
     {
-        Self(s.into())
+        let len = s.as_ref().as_bytes().len();
+
+        Self(ThinArc::from_header_and_slice(
+            HeaderWithLength::new((), len),
+            s.as_ref().as_bytes(),
+        ))
     }
 }
 
@@ -79,7 +81,11 @@ impl Deref for Atom {
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        unsafe {
+            // Safety: We only consturct this type from valid str
+
+            std::str::from_utf8_unchecked(&self.0.slice)
+        }
     }
 }
 
@@ -87,7 +93,7 @@ macro_rules! impl_eq {
     ($T:ty) => {
         impl PartialEq<$T> for Atom {
             fn eq(&self, other: &$T) -> bool {
-                *self.0 == **other
+                &**self == &**other
             }
         }
     };
@@ -115,7 +121,7 @@ macro_rules! impl_from_deref {
 
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
-        &*self.0 == other
+        &**self == other
     }
 }
 
@@ -141,31 +147,62 @@ impl From<JsWord> for Atom {
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
-        &self.0
+        self
     }
 }
 
 impl Borrow<str> for Atom {
     fn borrow(&self) -> &str {
-        &self.0
+        self
     }
 }
 
 impl fmt::Debug for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(&*self.0, f)
+        fmt::Debug::fmt(&**self, f)
     }
 }
 
 impl Display for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        Display::fmt(&*self.0, f)
+        Display::fmt(&**self, f)
     }
 }
 
 impl Default for Atom {
     fn default() -> Self {
         atom!("")
+    }
+}
+
+impl PartialOrd for Atom {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        (**self).partial_cmp(&**other)
+    }
+}
+
+impl Ord for Atom {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        (**self).cmp(&**other)
+    }
+}
+
+impl PartialEq for Atom {
+    fn eq(&self, other: &Self) -> bool {
+        // Fast path
+        if self.0.as_ptr() == other.0.as_ptr() {
+            return true;
+        }
+
+        (**self).eq(&**other)
+    }
+}
+
+impl Eq for Atom {}
+
+impl Hash for Atom {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        (**self).hash(state)
     }
 }
 
@@ -201,7 +238,7 @@ impl serde::ser::Serialize for Atom {
     where
         S: Serializer,
     {
-        serializer.serialize_str(&self.0)
+        serializer.serialize_str(self)
     }
 }
 
@@ -247,7 +284,7 @@ impl rkyv::Archive for Atom {
 
     #[allow(clippy::unit_arg)]
     unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        rkyv::string::ArchivedString::resolve_from_str(&self.0, pos, resolver, out)
+        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
     }
 }
 
@@ -255,7 +292,7 @@ impl rkyv::Archive for Atom {
 #[cfg(feature = "__rkyv")]
 impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.0.to_string(), serializer)
+        String::serialize(&self.to_string(), serializer)
     }
 }
 
