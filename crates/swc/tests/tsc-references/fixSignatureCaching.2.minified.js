@@ -343,7 +343,7 @@ import _instanceof from "@swc/helpers/src/_instanceof.mjs";
                     cache.mobile = cache.phone = phone, cache.tablet = null;
                     return;
                 }
-                impl.isMobileFallback(userAgent) ? undefined === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
+                impl.isMobileFallback(userAgent) ? (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth), undefined === phoneSized ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null)) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
             }
         }, impl.mobileGrade = function(t) {
             var $isMobile = null !== t.mobile();

@@ -16693,7 +16693,7 @@
                             if (delegate) {
                                 var delegateResult = function maybeInvokeDelegate(delegate, context) {
                                     var method = delegate.iterator[context.method];
-                                    if (method === undefined) {
+                                    if (undefined === method) {
                                         if (context.delegate = null, "throw" === context.method) {
                                             if (delegate.iterator.return && (context.method = "return", context.arg = undefined, maybeInvokeDelegate(delegate, context), "throw" === context.method)) return ContinueSentinel;
                                             context.method = "throw", context.arg = TypeError("The iterator does not provide a 'throw' method");
