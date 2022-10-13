@@ -159,7 +159,7 @@ impl Borrow<str> for Atom {
 
 impl fmt::Debug for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        fmt::Debug::fmt(&*self.0, f)
+        fmt::Debug::fmt(&**self, f)
     }
 }
 
