@@ -160,7 +160,7 @@
                 }), size;
             }
             $.fn["inner" + name] = function(size) {
-                return size === undefined ? orig["inner" + name].call(this) : this.each(function() {
+                return undefined === size ? orig["inner" + name].call(this) : this.each(function() {
                     $(this).css(type, reduce(this, size) + "px");
                 });
             }, $.fn["outer" + name] = function(size, margin) {
@@ -182,7 +182,7 @@
                 return this.unbind(".ui-disableSelection");
             },
             zIndex: function(zIndex) {
-                if (zIndex !== undefined) return this.css("zIndex", zIndex);
+                if (undefined !== zIndex) return this.css("zIndex", zIndex);
                 if (this.length) for(var position, value, elem = $(this[0]); elem.length && elem[0] !== document1;){
                     if (("absolute" === (position = elem.css("position")) || "relative" === position || "fixed" === position) && !isNaN(value = parseInt(elem.css("zIndex"), 10)) && 0 !== value) return value;
                     elem = elem.parent();
@@ -348,7 +348,7 @@
             $2.widget(childPrototype.namespace + "." + childPrototype.widgetName, constructor, child._proto);
         }), delete existingConstructor._childConstructors) : base._childConstructors.push(constructor), $2.widget.bridge(name, constructor), constructor;
     }, $2.widget.extend = function(target) {
-        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && value !== undefined1 && ($2.isPlainObject(value) ? target[key] = $2.isPlainObject(target[key]) ? $2.widget.extend({}, target[key], value) : $2.widget.extend({}, value) : target[key] = value);
+        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined1 !== value && ($2.isPlainObject(value) ? target[key] = $2.isPlainObject(target[key]) ? $2.widget.extend({}, target[key], value) : $2.widget.extend({}, value) : target[key] = value);
         return target;
     }, $2.widget.bridge = function(name, object) {
         var fullName = object.prototype.widgetFullName || name;
@@ -358,7 +358,7 @@
                 options
             ].concat(args)) : options, isMethodCall ? this.each(function() {
                 var methodValue, instance = $2.data(this, fullName);
-                return "instance" === options ? (returnValue = instance, !1) : instance ? $2.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && methodValue !== undefined1 ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : $2.error("no such method '" + options + "' for " + name + " widget instance") : $2.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
+                return "instance" === options ? (returnValue = instance, !1) : instance ? $2.isFunction(instance[options]) && "_" !== options.charAt(0) ? (methodValue = instance[options].apply(instance, args)) !== instance && undefined1 !== methodValue ? (returnValue = methodValue && methodValue.jquery ? returnValue.pushStack(methodValue.get()) : methodValue, !1) : void 0 : $2.error("no such method '" + options + "' for " + name + " widget instance") : $2.error("cannot call methods on " + name + " prior to initialization; attempted to call method '" + options + "'");
             }) : this.each(function() {
                 var instance = $2.data(this, fullName);
                 instance ? instance.option(options || {})._init() : $2.data(this, fullName, new object(options, this));
@@ -396,10 +396,10 @@
             if ("string" == typeof key) {
                 if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
                     for(i = 0, curOption = options[key] = $2.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
-                    if (key = parts.pop(), value === undefined1) return undefined1 === curOption[key] ? null : curOption[key];
+                    if (key = parts.pop(), undefined1 === value) return undefined1 === curOption[key] ? null : curOption[key];
                     curOption[key] = value;
                 } else {
-                    if (value === undefined1) return undefined1 === this.options[key] ? null : this.options[key];
+                    if (undefined1 === value) return undefined1 === this.options[key] ? null : this.options[key];
                     options[key] = value;
                 }
             }
@@ -525,7 +525,7 @@
             }
         });
     }(jQuery, this), function($, window, undefined) {
-        var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (doc_mode === undefined || doc_mode > 7);
+        var fake_onhashchange, str_hashchange = "hashchange", doc = document1, special = $.event.special, doc_mode = doc.documentMode, supports_onhashchange = "on" + str_hashchange in window && (undefined === doc_mode || doc_mode > 7);
         function get_fragment(url) {
             return "#" + (url = url || location.href).replace(/^[^#]*#?(.*)$/, "$1");
         }
@@ -729,7 +729,7 @@
         },
         makeUrlAbsolute: function(relUrl, absUrl) {
             if (!path.isRelativeUrl(relUrl)) return relUrl;
-            absUrl === undefined2 && (absUrl = this.documentBase);
+            undefined2 === absUrl && (absUrl = this.documentBase);
             var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname, pathname = path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname);
             return protocol + doubleSlash + authority + pathname + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
@@ -742,7 +742,7 @@
             return path.isEmbeddedPage(u) ? u.hash.split(dialogHashKey)[0].replace(/^#/, "").replace(/\?.*$/, "") : path.isSameDomain(u, this.documentBase) ? u.hrefNoHash.replace(this.documentBase.domain, "").split(dialogHashKey)[0] : window.decodeURIComponent(absUrl);
         },
         get: function(newPath) {
-            return newPath === undefined2 && (newPath = path.parseLocation().hash), path.stripHash(newPath).replace(/[^\/]*\.[^\/*]+$/, "");
+            return undefined2 === newPath && (newPath = path.parseLocation().hash), path.stripHash(newPath).replace(/[^\/]*\.[^\/*]+$/, "");
         },
         set: function(path) {
             location.hash = path;
@@ -835,7 +835,7 @@
         },
         direct: function(opts) {
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
-            newActiveIndex !== undefined3 && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : newActiveIndex === undefined3 && opts.missing && opts.missing(this.getActive());
+            undefined3 !== newActiveIndex && (this.activeIndex = newActiveIndex, this.previousIndex = a), newActiveIndex < a ? (opts.present || opts.back || jQuery.noop)(this.getActive(), "back") : newActiveIndex > a ? (opts.present || opts.forward || jQuery.noop)(this.getActive(), "forward") : undefined3 === newActiveIndex && opts.missing && opts.missing(this.getActive());
         }
     }), path1 = ($7 = jQuery).mobile.path, initialHref = location.href, $7.mobile.Navigator = function(history1) {
         this.history = history1, this.ignoreInitialHashChange = !0, $7.mobile.window.bind({
@@ -935,7 +935,7 @@
         }), props[test].duration = $9.camelCase(props[test].prefix + test + "-duration"), props[test].event = $9.camelCase(props[test].prefix + test + "-end"), "" === props[test].prefix && (props[test].event = props[test].event.toLowerCase());
     }), $9.support.cssTransitions = undefined4 !== props.transition.prefix, $9.support.cssAnimations = undefined4 !== props.animation.prefix, $9(testElement).remove(), $9.fn.animationComplete = function(callback, type, fallbackTime) {
         var timer, duration, that = this, animationType = type && "animation" !== type ? "transition" : "animation";
-        return $9.support.cssTransitions && "transition" === animationType || $9.support.cssAnimations && "animation" === animationType ? (fallbackTime === undefined4 && ($9(this).context !== document1 && (duration = 3000 * parseFloat($9(this).css(props[animationType].duration))), (0 === duration || duration === undefined4 || isNaN(duration)) && (duration = $9.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
+        return $9.support.cssTransitions && "transition" === animationType || $9.support.cssAnimations && "animation" === animationType ? (undefined4 === fallbackTime && ($9(this).context !== document1 && (duration = 3000 * parseFloat($9(this).css(props[animationType].duration))), (0 === duration || undefined4 === duration || isNaN(duration)) && (duration = $9.fn.animationComplete.defaultDuration)), timer = setTimeout(function() {
             $9(that).off(props[animationType].event), callback.apply(that);
         }, duration), $9(this).one(props[animationType].event, function() {
             clearTimeout(timer), callback.call(this, arguments);
@@ -1979,7 +1979,7 @@
                 "ui-icon-" + (undefined7 !== opts.collapsedIcon ? opts.collapsedIcon : currentOpts.collapsedIcon)
             ] : [
                 "ui-icon-" + (undefined7 !== opts.expandedIcon ? opts.expandedIcon : currentOpts.expandedIcon)
-            ]).join(" "))), undefined7 !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined7 !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), hasCorners !== undefined7 && elem.toggleClass("ui-corner-all", hasCorners), undefined7 !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
+            ]).join(" "))), undefined7 !== opts.theme && (oldTheme = this._themeClassFromOption("ui-btn-", currentOpts.theme), newTheme = this._themeClassFromOption("ui-btn-", opts.theme), anchor.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.contentTheme && (oldTheme = this._themeClassFromOption("ui-body-", currentOpts.contentTheme), newTheme = this._themeClassFromOption("ui-body-", opts.contentTheme), ui.content.removeClass(oldTheme).addClass(newTheme)), undefined7 !== opts.inset && (elem.toggleClass("ui-collapsible-inset", opts.inset), hasCorners = !!(opts.inset && (opts.corners || currentOpts.corners))), undefined7 !== opts.corners && (hasCorners = !!(opts.corners && (opts.inset || currentOpts.inset))), undefined7 !== hasCorners && elem.toggleClass("ui-corner-all", hasCorners), undefined7 !== opts.mini && anchor.toggleClass("ui-mini", opts.mini);
         },
         _setOptions: function(options) {
             this._applyOptions(options), this._super(options), this._renderedOptions = this._getOptions(this.options);
@@ -2047,7 +2047,7 @@
             },
             _setOptions: function(options) {
                 var ret, hasCorners, elem = this.element, themeClass = this._themeClassFromOption("ui-group-theme-", options.theme);
-                return themeClass && elem.removeClass(this._themeClassFromOption("ui-group-theme-", this.options.theme)).addClass(themeClass), undefined !== options.inset && (hasCorners = !!(options.inset && (options.corners || this.options.corners))), undefined !== options.corners && (hasCorners = !!(options.corners && (options.inset || this.options.inset))), hasCorners !== undefined && elem.toggleClass("ui-corner-all", hasCorners), ret = this._super(options), this.element.children(":mobile-collapsible").collapsible("refresh"), ret;
+                return themeClass && elem.removeClass(this._themeClassFromOption("ui-group-theme-", this.options.theme)).addClass(themeClass), undefined !== options.inset && (hasCorners = !!(options.inset && (options.corners || this.options.corners))), undefined !== options.corners && (hasCorners = !!(options.corners && (options.inset || this.options.inset))), undefined !== hasCorners && elem.toggleClass("ui-corner-all", hasCorners), ret = this._super(options), this.element.children(":mobile-collapsible").collapsible("refresh"), ret;
             },
             _destroy: function() {
                 var el = this.element;
@@ -2907,7 +2907,7 @@
             },
             keyupTimeout: null,
             _prepareHeightUpdate: function(delay) {
-                this.keyupTimeout && clearTimeout(this.keyupTimeout), delay === undefined ? this._updateHeight() : this.keyupTimeout = this._delay("_updateHeight", delay);
+                this.keyupTimeout && clearTimeout(this.keyupTimeout), undefined === delay ? this._updateHeight() : this.keyupTimeout = this._delay("_updateHeight", delay);
             },
             _timeout: function() {
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
@@ -3189,7 +3189,7 @@
                     b: 30,
                     l: 15
                 };
-                if (value !== undefined) switch(ar = String(value).split(","), $.each(ar, function(idx, val) {
+                if (undefined !== value) switch(ar = String(value).split(","), $.each(ar, function(idx, val) {
                     ar[idx] = parseInt(val, 10);
                 }), ar.length){
                     case 1:
@@ -4646,7 +4646,7 @@
             },
             enable: function(index) {
                 var disabled = this.options.disabled;
-                !1 !== disabled && (index === undefined ? disabled = !1 : (index = this._getIndex(index), disabled = $.isArray(disabled) ? $.map(disabled, function(num) {
+                !1 !== disabled && (undefined === index ? disabled = !1 : (index = this._getIndex(index), disabled = $.isArray(disabled) ? $.map(disabled, function(num) {
                     return num !== index ? num : null;
                 }) : $.map(this.tabs, function(li, num) {
                     return num !== index ? num : null;
@@ -4655,7 +4655,7 @@
             disable: function(index) {
                 var disabled = this.options.disabled;
                 if (!0 !== disabled) {
-                    if (index === undefined) disabled = !0;
+                    if (undefined === index) disabled = !0;
                     else {
                         if (index = this._getIndex(index), -1 !== $.inArray(index, disabled)) return;
                         disabled = $.isArray(disabled) ? $.merge([
