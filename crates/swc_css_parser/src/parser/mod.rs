@@ -19,7 +19,9 @@ mod value;
 
 pub type PResult<T> = Result<T, Error>;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
+#[derive(
+    Default, Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize,
+)]
 #[serde(rename_all = "camelCase")]
 pub struct ParserConfig {
     /// If this is `true`, **wrong** comments starting with `//` will be treated
@@ -45,16 +47,6 @@ pub struct ParserConfig {
     /// Defaults to `false`.
     #[serde(default)]
     pub legacy_nesting: bool,
-}
-
-impl Default for ParserConfig {
-    fn default() -> Self {
-        Self {
-            allow_wrong_line_comments: Default::default(),
-            legacy_nesting: Default::default(),
-            css_modules: Default::default(),
-        }
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

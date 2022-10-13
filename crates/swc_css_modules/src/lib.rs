@@ -124,8 +124,8 @@ where
                     KeyframesName::CustomIdent(custom_ident) => {
                         *n = KeyframesName::CustomIdent(custom_ident.clone());
                     }
-                    KeyframesName::Str(str) => {
-                        *n = KeyframesName::Str(str.clone());
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
                     }
                     _ => {
                         unreachable!();
@@ -143,8 +143,8 @@ where
                     KeyframesName::CustomIdent(custom_ident) => {
                         *n = KeyframesName::CustomIdent(custom_ident.clone());
                     }
-                    KeyframesName::Str(str) => {
-                        *n = KeyframesName::Str(str.clone());
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
                     }
                     _ => {
                         unreachable!();
@@ -162,8 +162,8 @@ where
                     KeyframesName::CustomIdent(custom_ident) => {
                         *n = KeyframesName::CustomIdent(custom_ident.clone());
                     }
-                    KeyframesName::Str(str) => {
-                        *n = KeyframesName::Str(str.clone());
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
                     }
                     _ => {
                         unreachable!();
@@ -179,8 +179,8 @@ where
                     KeyframesName::CustomIdent(custom_ident) => {
                         *n = KeyframesName::CustomIdent(custom_ident.clone());
                     }
-                    KeyframesName::Str(str) => {
-                        *n = KeyframesName::Str(str.clone());
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
                     }
                     _ => {
                         unreachable!();
