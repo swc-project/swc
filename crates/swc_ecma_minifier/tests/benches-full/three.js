@@ -1406,8 +1406,8 @@
             var te = this.elements;
             return te[0] *= s, te[4] *= s, te[8] *= s, te[12] *= s, te[1] *= s, te[5] *= s, te[9] *= s, te[13] *= s, te[2] *= s, te[6] *= s, te[10] *= s, te[14] *= s, te[3] *= s, te[7] *= s, te[11] *= s, te[15] *= s, this;
         }, _proto.determinant = function() {
-            var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14], n41 = te[3], n42 = te[7];
-            return n41 * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + n42 * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
+            var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14], n41 = te[3];
+            return n41 * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
         }, _proto.transpose = function() {
             var tmp, te = this.elements;
             return tmp = te[1], te[1] = te[4], te[4] = tmp, tmp = te[2], te[2] = te[8], te[8] = tmp, tmp = te[6], te[6] = te[9], te[9] = tmp, tmp = te[3], te[3] = te[12], te[12] = tmp, tmp = te[7], te[7] = te[13], te[13] = tmp, tmp = te[11], te[11] = te[14], te[14] = tmp, this;
@@ -1423,8 +1423,8 @@
             var te = this.elements, x = v.x, y = v.y, z = v.z;
             return te[0] *= x, te[4] *= y, te[8] *= z, te[1] *= x, te[5] *= y, te[9] *= z, te[2] *= x, te[6] *= y, te[10] *= z, te[3] *= x, te[7] *= y, te[11] *= z, this;
         }, _proto.getMaxScaleOnAxis = function() {
-            var te = this.elements, scaleXSq = te[0] * te[0] + te[1] * te[1] + te[2] * te[2];
-            return Math.sqrt(Math.max(scaleXSq, te[4] * te[4] + te[5] * te[5] + te[6] * te[6], te[8] * te[8] + te[9] * te[9] + te[10] * te[10]));
+            var te = this.elements;
+            return Math.sqrt(Math.max(te[0] * te[0] + te[1] * te[1] + te[2] * te[2], te[4] * te[4] + te[5] * te[5] + te[6] * te[6], te[8] * te[8] + te[9] * te[9] + te[10] * te[10]));
         }, _proto.makeTranslation = function(x, y, z) {
             return this.set(1, 0, 0, x, 0, 1, 0, y, 0, 0, 1, z, 0, 0, 0, 1), this;
         }, _proto.makeRotationX = function(theta) {
@@ -2956,7 +2956,7 @@
     function checkIntersection(object, material, raycaster, ray, pA, pB, pC, point) {
         if (null === (1 === material.side ? ray.intersectTriangle(pC, pB, pA, !0, point) : ray.intersectTriangle(pA, pB, pC, 2 !== material.side, point))) return null;
         _intersectionPointWorld.copy(point), _intersectionPointWorld.applyMatrix4(object.matrixWorld);
-        var intersect, distance = raycaster.ray.origin.distanceTo(_intersectionPointWorld);
+        var distance = raycaster.ray.origin.distanceTo(_intersectionPointWorld);
         return distance < raycaster.near || distance > raycaster.far ? null : {
             distance: distance,
             point: _intersectionPointWorld.clone(),
@@ -3015,23 +3015,11 @@
                 if (geometry.isBufferGeometry) {
                     var index = geometry.index, position = geometry.attributes.position, morphPosition = geometry.morphAttributes.position, morphTargetsRelative = geometry.morphTargetsRelative, uv = geometry.attributes.uv, uv2 = geometry.attributes.uv2, groups = geometry.groups, drawRange = geometry.drawRange;
                     if (null !== index) {
-                        if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3){
-                            var a = index.getX(j);
-                            (intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, a, index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
-                        }
-                        else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3){
-                            var _a = index.getX(_i);
-                            (intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _a, index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
-                        }
+                        if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3)(intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(j), index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
+                        else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(_i), index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
                     } else if (void 0 !== position) {
-                        if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3){
-                            var _a2 = _j;
-                            (intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _a2, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
-                        }
-                        else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3){
-                            var _a3 = _i3;
-                            (intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _a3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
-                        }
+                        if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3)(intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _j, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
+                        else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _i3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
                     }
                 } else if (geometry.isGeometry) {
                     var intersection, uvs, isMultiMaterial = Array.isArray(material), vertices = geometry.vertices, faces = geometry.faces, faceVertexUvs = geometry.faceVertexUvs[0];
@@ -5597,12 +5585,7 @@
         };
     }
     function painterSortStable(a, b) {
-        if (a.groupOrder !== b.groupOrder) return a.groupOrder - b.groupOrder;
-        if (a.renderOrder !== b.renderOrder) return a.renderOrder - b.renderOrder;
-        if (a.program !== b.program) return a.program.id - b.program.id;
-        if (a.material.id !== b.material.id) return a.material.id - b.material.id;
-        if (a.z !== b.z) return a.z - b.z;
-        else return a.id - b.id;
+        return a.groupOrder !== b.groupOrder ? a.groupOrder - b.groupOrder : a.renderOrder !== b.renderOrder ? a.renderOrder - b.renderOrder : a.program !== b.program ? a.program.id - b.program.id : a.material.id !== b.material.id ? a.material.id - b.material.id : a.z !== b.z ? a.z - b.z : a.id - b.id;
     }
     function reversePainterSortStable(a, b) {
         return a.groupOrder !== b.groupOrder ? a.groupOrder - b.groupOrder : a.renderOrder !== b.renderOrder ? a.renderOrder - b.renderOrder : a.z !== b.z ? b.z - a.z : a.id - b.id;
@@ -6115,7 +6098,7 @@
                     locked = !1, currentStencilMask = null, currentStencilFunc = null, currentStencilRef = null, currentStencilFuncMask = null, currentStencilFail = null, currentStencilZFail = null, currentStencilZPass = null, currentStencilClear = null;
                 }
             };
-        }(), enabledCapabilities = {}, currentProgram = null, currentBlendingEnabled = null, currentBlending = null, currentBlendEquation = null, currentBlendSrc = null, currentBlendDst = null, currentBlendEquationAlpha = null, currentBlendSrcAlpha = null, currentBlendDstAlpha = null, currentPremultipledAlpha = !1, currentFlipSided = null, currentCullFace = null, currentLineWidth = null, currentPolygonOffsetFactor = null, currentPolygonOffsetUnits = null, maxTextures = gl.getParameter(35661), lineWidthAvailable = !1, version = 0, glVersion = gl.getParameter(7938);
+        }(), enabledCapabilities = {}, currentProgram = null, currentBlendingEnabled = null, currentBlending = null, currentBlendEquation = null, currentBlendSrc = null, currentBlendDst = null, currentBlendEquationAlpha = null, currentBlendSrcAlpha = null, currentBlendDstAlpha = null, currentPremultipledAlpha = !1, currentFlipSided = null, currentCullFace = null, currentLineWidth = null, currentPolygonOffsetFactor = null, currentPolygonOffsetUnits = null, maxTextures = gl.getParameter(35661), lineWidthAvailable = !1, glVersion = gl.getParameter(7938);
         -1 !== glVersion.indexOf('WebGL') ? lineWidthAvailable = parseFloat(/^WebGL (\d)/.exec(glVersion)[1]) >= 1.0 : -1 !== glVersion.indexOf('OpenGL ES') && (lineWidthAvailable = parseFloat(/^OpenGL ES (\d)/.exec(glVersion)[1]) >= 2.0);
         var currentTextureSlot = null, currentBoundTextures = {}, currentScissor = new Vector4(), currentViewport = new Vector4();
         function createTexture(type, target, count) {
@@ -6312,8 +6295,8 @@
             return 1003 === f || 1004 === f || 1005 === f ? 9728 : 9729;
         }
         function onTextureDispose(event) {
-            var texture, textureProperties, texture1 = event.target;
-            texture1.removeEventListener('dispose', onTextureDispose), texture = texture1, void 0 !== (textureProperties = properties.get(texture)).__webglInit && (_gl.deleteTexture(textureProperties.__webglTexture), properties.remove(texture)), texture1.isVideoTexture && _videoTextures.delete(texture1), info.memory.textures--;
+            var textureProperties, texture = event.target;
+            texture.removeEventListener('dispose', onTextureDispose), void 0 !== (textureProperties = properties.get(texture)).__webglInit && (_gl.deleteTexture(textureProperties.__webglTexture), properties.remove(texture)), texture.isVideoTexture && _videoTextures.delete(texture), info.memory.textures--;
         }
         function onRenderTargetDispose(event) {
             var renderTarget = event.target;
@@ -6328,8 +6311,8 @@
         }
         var textureUnits = 0;
         function setTexture2D(texture, slot) {
-            var texture1, frame, textureProperties = properties.get(texture);
-            if (texture.isVideoTexture && (texture1 = texture, frame = info.render.frame, _videoTextures.get(texture1) !== frame && (_videoTextures.set(texture1, frame), texture1.update())), texture.version > 0 && textureProperties.__version !== texture.version) {
+            var frame, textureProperties = properties.get(texture);
+            if (texture.isVideoTexture && (frame = info.render.frame, _videoTextures.get(texture) !== frame && (_videoTextures.set(texture, frame), texture.update())), texture.version > 0 && textureProperties.__version !== texture.version) {
                 var image = texture.image;
                 if (void 0 === image) console.warn('THREE.WebGLRenderer: Texture marked for update but image is undefined');
                 else if (!1 === image.complete) console.warn('THREE.WebGLRenderer: Texture marked for update but image is incomplete');
@@ -6725,8 +6708,8 @@
                 uniforms.fogColor.value.copy(fog.color), fog.isFog ? (uniforms.fogNear.value = fog.near, uniforms.fogFar.value = fog.far) : fog.isFogExp2 && (uniforms.fogDensity.value = fog.density);
             },
             refreshMaterialUniforms: function(uniforms, material, pixelRatio, height) {
-                var uniforms1, material1, uniforms2, material2, uniforms3, material3, uniforms4, material4, uniforms5, material5, uniforms6, material6, uniforms7, material7, uniforms8, material8, uniforms9, material9, uniforms10, material10, uniforms11, material11, pixelRatio1, height1, uvScaleMap, uniforms12, material12, uvScaleMap1;
-                material.isMeshBasicMaterial ? refreshUniformsCommon(uniforms, material) : material.isMeshLambertMaterial ? (refreshUniformsCommon(uniforms, material), uniforms1 = uniforms, (material1 = material).emissiveMap && (uniforms1.emissiveMap.value = material1.emissiveMap)) : material.isMeshToonMaterial ? (refreshUniformsCommon(uniforms, material), uniforms2 = uniforms, (material2 = material).gradientMap && (uniforms2.gradientMap.value = material2.gradientMap), material2.emissiveMap && (uniforms2.emissiveMap.value = material2.emissiveMap), material2.bumpMap && (uniforms2.bumpMap.value = material2.bumpMap, uniforms2.bumpScale.value = material2.bumpScale, 1 === material2.side && (uniforms2.bumpScale.value *= -1)), material2.normalMap && (uniforms2.normalMap.value = material2.normalMap, uniforms2.normalScale.value.copy(material2.normalScale), 1 === material2.side && uniforms2.normalScale.value.negate()), material2.displacementMap && (uniforms2.displacementMap.value = material2.displacementMap, uniforms2.displacementScale.value = material2.displacementScale, uniforms2.displacementBias.value = material2.displacementBias)) : material.isMeshPhongMaterial ? (refreshUniformsCommon(uniforms, material), uniforms3 = uniforms, material3 = material, uniforms3.specular.value.copy(material3.specular), uniforms3.shininess.value = Math.max(material3.shininess, 1e-4), material3.emissiveMap && (uniforms3.emissiveMap.value = material3.emissiveMap), material3.bumpMap && (uniforms3.bumpMap.value = material3.bumpMap, uniforms3.bumpScale.value = material3.bumpScale, 1 === material3.side && (uniforms3.bumpScale.value *= -1)), material3.normalMap && (uniforms3.normalMap.value = material3.normalMap, uniforms3.normalScale.value.copy(material3.normalScale), 1 === material3.side && uniforms3.normalScale.value.negate()), material3.displacementMap && (uniforms3.displacementMap.value = material3.displacementMap, uniforms3.displacementScale.value = material3.displacementScale, uniforms3.displacementBias.value = material3.displacementBias)) : material.isMeshStandardMaterial ? (refreshUniformsCommon(uniforms, material), material.isMeshPhysicalMaterial ? (uniforms4 = uniforms, refreshUniformsStandard(uniforms4, material4 = material), uniforms4.reflectivity.value = material4.reflectivity, uniforms4.clearcoat.value = material4.clearcoat, uniforms4.clearcoatRoughness.value = material4.clearcoatRoughness, material4.sheen && uniforms4.sheen.value.copy(material4.sheen), material4.clearcoatMap && (uniforms4.clearcoatMap.value = material4.clearcoatMap), material4.clearcoatRoughnessMap && (uniforms4.clearcoatRoughnessMap.value = material4.clearcoatRoughnessMap), material4.clearcoatNormalMap && (uniforms4.clearcoatNormalScale.value.copy(material4.clearcoatNormalScale), uniforms4.clearcoatNormalMap.value = material4.clearcoatNormalMap, 1 === material4.side && uniforms4.clearcoatNormalScale.value.negate()), uniforms4.transmission.value = material4.transmission, material4.transmissionMap && (uniforms4.transmissionMap.value = material4.transmissionMap)) : refreshUniformsStandard(uniforms, material)) : material.isMeshMatcapMaterial ? (refreshUniformsCommon(uniforms, material), uniforms5 = uniforms, (material5 = material).matcap && (uniforms5.matcap.value = material5.matcap), material5.bumpMap && (uniforms5.bumpMap.value = material5.bumpMap, uniforms5.bumpScale.value = material5.bumpScale, 1 === material5.side && (uniforms5.bumpScale.value *= -1)), material5.normalMap && (uniforms5.normalMap.value = material5.normalMap, uniforms5.normalScale.value.copy(material5.normalScale), 1 === material5.side && uniforms5.normalScale.value.negate()), material5.displacementMap && (uniforms5.displacementMap.value = material5.displacementMap, uniforms5.displacementScale.value = material5.displacementScale, uniforms5.displacementBias.value = material5.displacementBias)) : material.isMeshDepthMaterial ? (refreshUniformsCommon(uniforms, material), uniforms6 = uniforms, (material6 = material).displacementMap && (uniforms6.displacementMap.value = material6.displacementMap, uniforms6.displacementScale.value = material6.displacementScale, uniforms6.displacementBias.value = material6.displacementBias)) : material.isMeshDistanceMaterial ? (refreshUniformsCommon(uniforms, material), uniforms7 = uniforms, (material7 = material).displacementMap && (uniforms7.displacementMap.value = material7.displacementMap, uniforms7.displacementScale.value = material7.displacementScale, uniforms7.displacementBias.value = material7.displacementBias), uniforms7.referencePosition.value.copy(material7.referencePosition), uniforms7.nearDistance.value = material7.nearDistance, uniforms7.farDistance.value = material7.farDistance) : material.isMeshNormalMaterial ? (refreshUniformsCommon(uniforms, material), uniforms8 = uniforms, (material8 = material).bumpMap && (uniforms8.bumpMap.value = material8.bumpMap, uniforms8.bumpScale.value = material8.bumpScale, 1 === material8.side && (uniforms8.bumpScale.value *= -1)), material8.normalMap && (uniforms8.normalMap.value = material8.normalMap, uniforms8.normalScale.value.copy(material8.normalScale), 1 === material8.side && uniforms8.normalScale.value.negate()), material8.displacementMap && (uniforms8.displacementMap.value = material8.displacementMap, uniforms8.displacementScale.value = material8.displacementScale, uniforms8.displacementBias.value = material8.displacementBias)) : material.isLineBasicMaterial ? (uniforms9 = uniforms, material9 = material, uniforms9.diffuse.value.copy(material9.color), uniforms9.opacity.value = material9.opacity, material.isLineDashedMaterial && (uniforms10 = uniforms, material10 = material, uniforms10.dashSize.value = material10.dashSize, uniforms10.totalSize.value = material10.dashSize + material10.gapSize, uniforms10.scale.value = material10.scale)) : material.isPointsMaterial ? (uniforms11 = uniforms, material11 = material, pixelRatio1 = pixelRatio, height1 = height, uniforms11.diffuse.value.copy(material11.color), uniforms11.opacity.value = material11.opacity, uniforms11.size.value = material11.size * pixelRatio1, uniforms11.scale.value = 0.5 * height1, material11.map && (uniforms11.map.value = material11.map), material11.alphaMap && (uniforms11.alphaMap.value = material11.alphaMap), material11.map ? uvScaleMap = material11.map : material11.alphaMap && (uvScaleMap = material11.alphaMap), void 0 !== uvScaleMap && (!0 === uvScaleMap.matrixAutoUpdate && uvScaleMap.updateMatrix(), uniforms11.uvTransform.value.copy(uvScaleMap.matrix))) : material.isSpriteMaterial ? (uniforms12 = uniforms, material12 = material, uniforms12.diffuse.value.copy(material12.color), uniforms12.opacity.value = material12.opacity, uniforms12.rotation.value = material12.rotation, material12.map && (uniforms12.map.value = material12.map), material12.alphaMap && (uniforms12.alphaMap.value = material12.alphaMap), material12.map ? uvScaleMap1 = material12.map : material12.alphaMap && (uvScaleMap1 = material12.alphaMap), void 0 !== uvScaleMap1 && (!0 === uvScaleMap1.matrixAutoUpdate && uvScaleMap1.updateMatrix(), uniforms12.uvTransform.value.copy(uvScaleMap1.matrix))) : material.isShadowMaterial ? (uniforms.color.value.copy(material.color), uniforms.opacity.value = material.opacity) : material.isShaderMaterial && (material.uniformsNeedUpdate = !1);
+                var uniforms1, uniforms2, uniforms3, uniforms4, uniforms5, uniforms6, uniforms7, uniforms8, uniforms9, uniforms10, uniforms11, uvScaleMap, uniforms12, uvScaleMap1;
+                material.isMeshBasicMaterial ? refreshUniformsCommon(uniforms, material) : material.isMeshLambertMaterial ? (refreshUniformsCommon(uniforms, material), uniforms1 = uniforms, material.emissiveMap && (uniforms1.emissiveMap.value = material.emissiveMap)) : material.isMeshToonMaterial ? (refreshUniformsCommon(uniforms, material), uniforms2 = uniforms, material.gradientMap && (uniforms2.gradientMap.value = material.gradientMap), material.emissiveMap && (uniforms2.emissiveMap.value = material.emissiveMap), material.bumpMap && (uniforms2.bumpMap.value = material.bumpMap, uniforms2.bumpScale.value = material.bumpScale, 1 === material.side && (uniforms2.bumpScale.value *= -1)), material.normalMap && (uniforms2.normalMap.value = material.normalMap, uniforms2.normalScale.value.copy(material.normalScale), 1 === material.side && uniforms2.normalScale.value.negate()), material.displacementMap && (uniforms2.displacementMap.value = material.displacementMap, uniforms2.displacementScale.value = material.displacementScale, uniforms2.displacementBias.value = material.displacementBias)) : material.isMeshPhongMaterial ? (refreshUniformsCommon(uniforms, material), (uniforms3 = uniforms).specular.value.copy(material.specular), uniforms3.shininess.value = Math.max(material.shininess, 1e-4), material.emissiveMap && (uniforms3.emissiveMap.value = material.emissiveMap), material.bumpMap && (uniforms3.bumpMap.value = material.bumpMap, uniforms3.bumpScale.value = material.bumpScale, 1 === material.side && (uniforms3.bumpScale.value *= -1)), material.normalMap && (uniforms3.normalMap.value = material.normalMap, uniforms3.normalScale.value.copy(material.normalScale), 1 === material.side && uniforms3.normalScale.value.negate()), material.displacementMap && (uniforms3.displacementMap.value = material.displacementMap, uniforms3.displacementScale.value = material.displacementScale, uniforms3.displacementBias.value = material.displacementBias)) : material.isMeshStandardMaterial ? (refreshUniformsCommon(uniforms, material), material.isMeshPhysicalMaterial ? (refreshUniformsStandard(uniforms4 = uniforms, material), uniforms4.reflectivity.value = material.reflectivity, uniforms4.clearcoat.value = material.clearcoat, uniforms4.clearcoatRoughness.value = material.clearcoatRoughness, material.sheen && uniforms4.sheen.value.copy(material.sheen), material.clearcoatMap && (uniforms4.clearcoatMap.value = material.clearcoatMap), material.clearcoatRoughnessMap && (uniforms4.clearcoatRoughnessMap.value = material.clearcoatRoughnessMap), material.clearcoatNormalMap && (uniforms4.clearcoatNormalScale.value.copy(material.clearcoatNormalScale), uniforms4.clearcoatNormalMap.value = material.clearcoatNormalMap, 1 === material.side && uniforms4.clearcoatNormalScale.value.negate()), uniforms4.transmission.value = material.transmission, material.transmissionMap && (uniforms4.transmissionMap.value = material.transmissionMap)) : refreshUniformsStandard(uniforms, material)) : material.isMeshMatcapMaterial ? (refreshUniformsCommon(uniforms, material), uniforms5 = uniforms, material.matcap && (uniforms5.matcap.value = material.matcap), material.bumpMap && (uniforms5.bumpMap.value = material.bumpMap, uniforms5.bumpScale.value = material.bumpScale, 1 === material.side && (uniforms5.bumpScale.value *= -1)), material.normalMap && (uniforms5.normalMap.value = material.normalMap, uniforms5.normalScale.value.copy(material.normalScale), 1 === material.side && uniforms5.normalScale.value.negate()), material.displacementMap && (uniforms5.displacementMap.value = material.displacementMap, uniforms5.displacementScale.value = material.displacementScale, uniforms5.displacementBias.value = material.displacementBias)) : material.isMeshDepthMaterial ? (refreshUniformsCommon(uniforms, material), uniforms6 = uniforms, material.displacementMap && (uniforms6.displacementMap.value = material.displacementMap, uniforms6.displacementScale.value = material.displacementScale, uniforms6.displacementBias.value = material.displacementBias)) : material.isMeshDistanceMaterial ? (refreshUniformsCommon(uniforms, material), uniforms7 = uniforms, material.displacementMap && (uniforms7.displacementMap.value = material.displacementMap, uniforms7.displacementScale.value = material.displacementScale, uniforms7.displacementBias.value = material.displacementBias), uniforms7.referencePosition.value.copy(material.referencePosition), uniforms7.nearDistance.value = material.nearDistance, uniforms7.farDistance.value = material.farDistance) : material.isMeshNormalMaterial ? (refreshUniformsCommon(uniforms, material), uniforms8 = uniforms, material.bumpMap && (uniforms8.bumpMap.value = material.bumpMap, uniforms8.bumpScale.value = material.bumpScale, 1 === material.side && (uniforms8.bumpScale.value *= -1)), material.normalMap && (uniforms8.normalMap.value = material.normalMap, uniforms8.normalScale.value.copy(material.normalScale), 1 === material.side && uniforms8.normalScale.value.negate()), material.displacementMap && (uniforms8.displacementMap.value = material.displacementMap, uniforms8.displacementScale.value = material.displacementScale, uniforms8.displacementBias.value = material.displacementBias)) : material.isLineBasicMaterial ? ((uniforms9 = uniforms).diffuse.value.copy(material.color), uniforms9.opacity.value = material.opacity, material.isLineDashedMaterial && ((uniforms10 = uniforms).dashSize.value = material.dashSize, uniforms10.totalSize.value = material.dashSize + material.gapSize, uniforms10.scale.value = material.scale)) : material.isPointsMaterial ? ((uniforms11 = uniforms).diffuse.value.copy(material.color), uniforms11.opacity.value = material.opacity, uniforms11.size.value = material.size * pixelRatio, uniforms11.scale.value = 0.5 * height, material.map && (uniforms11.map.value = material.map), material.alphaMap && (uniforms11.alphaMap.value = material.alphaMap), material.map ? uvScaleMap = material.map : material.alphaMap && (uvScaleMap = material.alphaMap), void 0 !== uvScaleMap && (!0 === uvScaleMap.matrixAutoUpdate && uvScaleMap.updateMatrix(), uniforms11.uvTransform.value.copy(uvScaleMap.matrix))) : material.isSpriteMaterial ? ((uniforms12 = uniforms).diffuse.value.copy(material.color), uniforms12.opacity.value = material.opacity, uniforms12.rotation.value = material.rotation, material.map && (uniforms12.map.value = material.map), material.alphaMap && (uniforms12.alphaMap.value = material.alphaMap), material.map ? uvScaleMap1 = material.map : material.alphaMap && (uvScaleMap1 = material.alphaMap), void 0 !== uvScaleMap1 && (!0 === uvScaleMap1.matrixAutoUpdate && uvScaleMap1.updateMatrix(), uniforms12.uvTransform.value.copy(uvScaleMap1.matrix))) : material.isShadowMaterial ? (uniforms.color.value.copy(material.color), uniforms.opacity.value = material.opacity) : material.isShaderMaterial && (material.uniformsNeedUpdate = !1);
             }
         };
     }
@@ -6798,8 +6781,8 @@
             console.log('THREE.WebGLRenderer: Context Restored.'), _isContextLost = !1, initGLContext();
         }
         function onMaterialDispose(event) {
-            var material, material1 = event.target;
-            material1.removeEventListener('dispose', onMaterialDispose), releaseMaterialProgramReference(material = material1), properties.remove(material);
+            var material = event.target;
+            material.removeEventListener('dispose', onMaterialDispose), releaseMaterialProgramReference(material), properties.remove(material);
         }
         function releaseMaterialProgramReference(material) {
             var programInfo = properties.get(material).program;
@@ -6939,7 +6922,7 @@
         }
         function initMaterial(material, scene, object) {
             !0 !== scene.isScene && (scene = _emptyScene);
-            var material1, materialProperties = properties.get(material), lights = currentRenderState.state.lights, shadowsArray = currentRenderState.state.shadowsArray, lightsStateVersion = lights.state.version, parameters = programCache.getParameters(material, lights.state, shadowsArray, scene, object), programCacheKey = programCache.getProgramCacheKey(parameters), program = materialProperties.program, programChange = !0;
+            var materialProperties = properties.get(material), lights = currentRenderState.state.lights, shadowsArray = currentRenderState.state.shadowsArray, lightsStateVersion = lights.state.version, parameters = programCache.getParameters(material, lights.state, shadowsArray, scene, object), programCacheKey = programCache.getProgramCacheKey(parameters), program = materialProperties.program, programChange = !0;
             if (void 0 === program) material.addEventListener('dispose', onMaterialDispose);
             else if (program.cacheKey !== programCacheKey) releaseMaterialProgramReference(material);
             else if (materialProperties.lightsStateVersion !== lightsStateVersion) programChange = !1;
@@ -6950,7 +6933,7 @@
             } else programChange = !1;
             programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.program = program, materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
             var uniforms = materialProperties.uniforms;
-            (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = (material1 = material).isMeshLambertMaterial || material1.isMeshToonMaterial || material1.isMeshPhongMaterial || material1.isMeshStandardMaterial || material1.isShadowMaterial || material1.isShaderMaterial && !0 === material1.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
+            (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
             var progUniforms = materialProperties.program.getUniforms(), uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
             materialProperties.uniformsList = uniformsList;
         }
@@ -8378,7 +8361,7 @@
             }(radius), function() {
                 for(var vertex = new Vector3(), i = 0; i < vertexBuffer.length; i += 3){
                     vertex.x = vertexBuffer[i + 0], vertex.y = vertexBuffer[i + 1], vertex.z = vertexBuffer[i + 2];
-                    var vector, u = azimuth(vertex) / 2 / Math.PI + 0.5, v = Math.atan2(-(vector = vertex).y, Math.sqrt(vector.x * vector.x + vector.z * vector.z)) / Math.PI + 0.5;
+                    var u = azimuth(vertex) / 2 / Math.PI + 0.5, v = Math.atan2(-vertex.y, Math.sqrt(vertex.x * vertex.x + vertex.z * vertex.z)) / Math.PI + 0.5;
                     uvBuffer.push(u, 1 - v);
                 }
                 (function() {
@@ -8654,9 +8637,8 @@
                         if (hx === qx) return m1;
                         var tan, stop = m1, mx = m1.x, my = m1.y, tanMin = 1 / 0;
                         p1 = m1;
-                        do {
-                            hx >= p1.x && p1.x >= mx && hx !== p1.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p1.x, p1.y) && (tan = Math.abs(hy - p1.y) / (hx - p1.x), locallyInside(p1, hole) && (tan < tanMin || tan === tanMin && (p1.x > m1.x || p1.x === m1.x && (m = m1, p = p1, 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next)))) && (m1 = p1, tanMin = tan)), p1 = p1.next;
-                        }while (p1 !== stop)
+                        do hx >= p1.x && p1.x >= mx && hx !== p1.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p1.x, p1.y) && (tan = Math.abs(hy - p1.y) / (hx - p1.x), locallyInside(p1, hole) && (tan < tanMin || tan === tanMin && (p1.x > m1.x || p1.x === m1.x && (m = m1, p = p1, 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next)))) && (m1 = p1, tanMin = tan)), p1 = p1.next;
+                        while (p1 !== stop)
                         return m1;
                     }(hole, outerNode)) {
                         var b = splitPolygon(outerNode, hole);
@@ -8933,12 +8915,12 @@
                         var _j2 = i, _k2 = i - 1;
                         _k2 < 0 && (_k2 = contour.length - 1);
                         for(var _s = 0, sl = steps + 2 * bevelSegments; _s < sl; _s++){
-                            var slen1 = vlen * _s, slen2 = vlen * (_s + 1), a = layeroffset + _j2 + slen1, _b2 = layeroffset + _k2 + slen1;
+                            var slen1 = vlen * _s, slen2 = vlen * (_s + 1), a = layeroffset + _j2 + slen1;
                             !function(a, b, c, d) {
                                 addVertex(a), addVertex(b), addVertex(d), addVertex(b), addVertex(c), addVertex(d);
                                 var nextIndex = verticesArray.length / 3, uvs = uvgen.generateSideWallUV(scope, verticesArray, nextIndex - 6, nextIndex - 3, nextIndex - 2, nextIndex - 1);
                                 addUV(uvs[0]), addUV(uvs[1]), addUV(uvs[3]), addUV(uvs[1]), addUV(uvs[2]), addUV(uvs[3]);
-                            }(a, _b2, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
+                            }(a, layeroffset + _k2 + slen1, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
                         }
                     }
                 }
@@ -8959,7 +8941,7 @@
                 (function() {
                     var start = verticesArray.length / 3;
                     if (bevelEnabled) {
-                        for(var layer = 0, offset = 0 * vlen, _i9 = 0; _i9 < flen; _i9++){
+                        for(var offset = 0 * vlen, _i9 = 0; _i9 < flen; _i9++){
                             var face = faces[_i9];
                             f3(face[2] + offset, face[1] + offset, face[0] + offset);
                         }
@@ -10809,6 +10791,35 @@
         var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t;
         return (2 * p1 - 2 * p2 + v0 + v1) * (t * t2) + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
     }
+    function QuadraticBezier(t, p0, p1, p2) {
+        var k;
+        return (k = 1 - t) * k * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
+    }
+    function CubicBezier(t, p0, p1, p2, p3) {
+        var k, k1;
+        return (k = 1 - t) * k * k * p0 + 3 * (k1 = 1 - t) * k1 * t * p1 + 3 * (1 - t) * t * t * p2 + t * t * t * p3;
+    }
+    function CubicBezierCurve(v0, v1, v2, v3) {
+        void 0 === v0 && (v0 = new Vector2()), void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), void 0 === v3 && (v3 = new Vector2()), Curve.call(this), this.type = 'CubicBezierCurve', this.v0 = v0, this.v1 = v1, this.v2 = v2, this.v3 = v3;
+    }
+    function CubicBezierCurve3(v0, v1, v2, v3) {
+        void 0 === v0 && (v0 = new Vector3()), void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), void 0 === v3 && (v3 = new Vector3()), Curve.call(this), this.type = 'CubicBezierCurve3', this.v0 = v0, this.v1 = v1, this.v2 = v2, this.v3 = v3;
+    }
+    function LineCurve(v1, v2) {
+        void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), Curve.call(this), this.type = 'LineCurve', this.v1 = v1, this.v2 = v2;
+    }
+    function LineCurve3(v1, v2) {
+        void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), Curve.call(this), this.type = 'LineCurve3', this.v1 = v1, this.v2 = v2;
+    }
+    function QuadraticBezierCurve(v0, v1, v2) {
+        void 0 === v0 && (v0 = new Vector2()), void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), Curve.call(this), this.type = 'QuadraticBezierCurve', this.v0 = v0, this.v1 = v1, this.v2 = v2;
+    }
+    function QuadraticBezierCurve3(v0, v1, v2) {
+        void 0 === v0 && (v0 = new Vector3()), void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), Curve.call(this), this.type = 'QuadraticBezierCurve3', this.v0 = v0, this.v1 = v1, this.v2 = v2;
+    }
+    function SplineCurve(points) {
+        void 0 === points && (points = []), Curve.call(this), this.type = 'SplineCurve', this.points = points;
+    }
     CatmullRomCurve3.prototype = Object.create(Curve.prototype), CatmullRomCurve3.prototype.constructor = CatmullRomCurve3, CatmullRomCurve3.prototype.isCatmullRomCurve3 = !0, CatmullRomCurve3.prototype.getPoint = function(t, optionalTarget) {
         void 0 === optionalTarget && (optionalTarget = new Vector3());
         var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - (this.closed ? 0 : 1)) * t, intPoint = Math.floor(p), weight = p - intPoint;
@@ -10841,37 +10852,7 @@
             this.points.push(new Vector3().fromArray(point));
         }
         return this.closed = json.closed, this.curveType = json.curveType, this.tension = json.tension, this;
-    };
-    function QuadraticBezier(t, p0, p1, p2) {
-        var k;
-        return (k = 1 - t) * k * p0 + 2 * (1 - t) * t * p1 + t * t * p2;
-    }
-    function CubicBezier(t, p0, p1, p2, p3) {
-        var k, k1;
-        return (k = 1 - t) * k * k * p0 + 3 * (k1 = 1 - t) * k1 * t * p1 + 3 * (1 - t) * t * t * p2 + t * t * t * p3;
-    }
-    function CubicBezierCurve(v0, v1, v2, v3) {
-        void 0 === v0 && (v0 = new Vector2()), void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), void 0 === v3 && (v3 = new Vector2()), Curve.call(this), this.type = 'CubicBezierCurve', this.v0 = v0, this.v1 = v1, this.v2 = v2, this.v3 = v3;
-    }
-    function CubicBezierCurve3(v0, v1, v2, v3) {
-        void 0 === v0 && (v0 = new Vector3()), void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), void 0 === v3 && (v3 = new Vector3()), Curve.call(this), this.type = 'CubicBezierCurve3', this.v0 = v0, this.v1 = v1, this.v2 = v2, this.v3 = v3;
-    }
-    function LineCurve(v1, v2) {
-        void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), Curve.call(this), this.type = 'LineCurve', this.v1 = v1, this.v2 = v2;
-    }
-    function LineCurve3(v1, v2) {
-        void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), Curve.call(this), this.type = 'LineCurve3', this.v1 = v1, this.v2 = v2;
-    }
-    function QuadraticBezierCurve(v0, v1, v2) {
-        void 0 === v0 && (v0 = new Vector2()), void 0 === v1 && (v1 = new Vector2()), void 0 === v2 && (v2 = new Vector2()), Curve.call(this), this.type = 'QuadraticBezierCurve', this.v0 = v0, this.v1 = v1, this.v2 = v2;
-    }
-    function QuadraticBezierCurve3(v0, v1, v2) {
-        void 0 === v0 && (v0 = new Vector3()), void 0 === v1 && (v1 = new Vector3()), void 0 === v2 && (v2 = new Vector3()), Curve.call(this), this.type = 'QuadraticBezierCurve3', this.v0 = v0, this.v1 = v1, this.v2 = v2;
-    }
-    function SplineCurve(points) {
-        void 0 === points && (points = []), Curve.call(this), this.type = 'SplineCurve', this.points = points;
-    }
-    CubicBezierCurve.prototype = Object.create(Curve.prototype), CubicBezierCurve.prototype.constructor = CubicBezierCurve, CubicBezierCurve.prototype.isCubicBezierCurve = !0, CubicBezierCurve.prototype.getPoint = function(t, optionalTarget) {
+    }, CubicBezierCurve.prototype = Object.create(Curve.prototype), CubicBezierCurve.prototype.constructor = CubicBezierCurve, CubicBezierCurve.prototype.isCubicBezierCurve = !0, CubicBezierCurve.prototype.getPoint = function(t, optionalTarget) {
         void 0 === optionalTarget && (optionalTarget = new Vector2());
         var point = optionalTarget, v0 = this.v0, v1 = this.v1, v2 = this.v2, v3 = this.v3;
         return point.set(CubicBezier(t, v0.x, v1.x, v2.x, v3.x), CubicBezier(t, v0.y, v1.y, v2.y, v3.y)), point;
@@ -12497,7 +12478,7 @@
             }
         }
     });
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _directoryRe = /((?:WC+[\/:])*)/.source.replace('WC', _wordChar), _nodeRe = /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot), _trackRe = RegExp("^" + _directoryRe + _nodeRe + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _directoryRe = /((?:WC+[\/:])*)/.source.replace('WC', _wordChar), _trackRe = RegExp("^" + _directoryRe + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'
@@ -13983,11 +13964,11 @@
         new Vector3(-PHI, INV_PHI, 0)
     ], PMREMGenerator = function() {
         function PMREMGenerator(renderer) {
-            var maxSamples, weights, poleAxis;
-            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = (maxSamples = 20, weights = new Float32Array(maxSamples), poleAxis = new Vector3(0, 1, 0), new RawShaderMaterial({
+            var weights, poleAxis;
+            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = (weights = new Float32Array(20), poleAxis = new Vector3(0, 1, 0), new RawShaderMaterial({
                 name: 'SphericalGaussianBlur',
                 defines: {
-                    n: maxSamples
+                    n: 20
                 },
                 uniforms: {
                     envMap: {
@@ -14048,13 +14029,13 @@
             var cubeUVRenderTarget = this._allocateTargets(texture);
             return this._textureToCubeUV(texture, cubeUVRenderTarget), this._applyPMREM(cubeUVRenderTarget), this._cleanup(cubeUVRenderTarget), cubeUVRenderTarget;
         }, _proto._allocateTargets = function(texture) {
-            var texture1, params = {
+            var params = {
                 magFilter: 1003,
                 minFilter: 1003,
                 generateMipmaps: !1,
                 type: 1009,
                 format: 1023,
-                encoding: void 0 !== (texture1 = texture) && 1009 === texture1.type && (3000 === texture1.encoding || 3001 === texture1.encoding || 3007 === texture1.encoding) ? texture.encoding : 3002,
+                encoding: void 0 !== texture && 1009 === texture.type && (3000 === texture.encoding || 3001 === texture.encoding || 3007 === texture.encoding) ? texture.encoding : 3002,
                 depthBuffer: !1
             }, cubeUVRenderTarget = _createRenderTarget(params);
             return cubeUVRenderTarget.depthBuffer = !texture, this._pingPongRenderTarget = _createRenderTarget(params), cubeUVRenderTarget;
