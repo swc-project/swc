@@ -9,6 +9,7 @@ mod alpha_value;
 mod angle;
 mod calc_sum;
 mod color;
+mod container;
 mod ctx;
 mod declaration;
 mod easing_function;
@@ -17,6 +18,7 @@ mod frequency;
 mod import;
 mod keyframes;
 mod length;
+mod math;
 mod media;
 mod selector;
 mod supports;
@@ -166,6 +168,12 @@ impl VisitMut for Compressor {
         self.compress_media_in_parens(n);
     }
 
+    fn visit_mut_media_feature_value(&mut self, n: &mut MediaFeatureValue) {
+        n.visit_mut_children_with(self);
+
+        self.compress_calc_sum_in_media_feature_value(n);
+    }
+
     fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
         n.visit_mut_children_with(self);
 
@@ -176,6 +184,12 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_supports_in_parens(n);
+    }
+
+    fn visit_mut_size_feature_value(&mut self, n: &mut SizeFeatureValue) {
+        n.visit_mut_children_with(self);
+
+        self.compress_calc_sum_in_size_feature_value(n);
     }
 
     fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
