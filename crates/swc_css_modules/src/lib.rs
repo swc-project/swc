@@ -3,17 +3,14 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRuleName, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
-    CustomIdent, Declaration, DeclarationName, DeclarationOrAtRule, Delimiter, DelimiterValue,
-    Ident, KeyframesName, PseudoClassSelector, PseudoClassSelectorChildren, QualifiedRule,
-    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector, Token, TokenAndSpan,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
+    DeclarationOrAtRule, Delimiter, DelimiterValue, Ident, KeyframesName,
+    PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, StyleBlock, Stylesheet,
+    SubclassSelector,
 };
-use swc_css_parser::parse_tokens;
 use swc_css_visit::{VisitMut, VisitMutWith};
-use util::to_tokens::to_tokens;
 
 pub mod imports;
-mod util;
 
 /// Various configurations for the css modules.
 ///
@@ -94,74 +91,108 @@ impl<C> VisitMut for Compiler<C>
 where
     C: TransformConfig,
 {
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        n.visit_mut_children_with(self);
+    // TODO handle `@counter-style`, CSS modules doesn't support it, but we should
+    // to fix it
+    fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
+        match n {
+            KeyframesName::CustomIdent(n) if !self.data.is_global_mode => {
+                n.raw = None;
 
-        match &n.name {
-            AtRuleName::Ident(Ident { value, .. }) if &**value == "keyframes" => {
-                if let Some(AtRulePrelude::ListOfComponentValues(prelude)) = n.prelude.as_deref() {
-                    // Check if prelude is `:globals(ident)`
-                    let tokens = to_tokens(&prelude);
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                );
+            }
+            KeyframesName::Str(n) if !self.data.is_global_mode => {
+                n.raw = None;
 
-                    if let Ok(sel) = parse_tokens::<PseudoClassSelector>(
-                        &tokens,
-                        Default::default(),
-                        &mut vec![],
-                    ) {
-                        if &*sel.name.value == "global" {
-                            if let Some(children) = sel.children {
-                                if children.len() == 1 {
-                                    if let PseudoClassSelectorChildren::PreservedToken(
-                                        TokenAndSpan {
-                                            token: Token::Ident { value, raw },
-                                            span,
-                                        },
-                                    ) = &children[0]
-                                    {
-                                        n.prelude =
-                                            Some(Box::new(AtRulePrelude::KeyframesPrelude(
-                                                KeyframesName::CustomIdent(CustomIdent {
-                                                    span: *span,
-                                                    value: value.clone(),
-                                                    raw: Some(raw.clone()),
-                                                }),
-                                            )));
-                                    }
-                                }
-                            }
-                        }
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                );
+            }
+            KeyframesName::PseudoFunction(pseudo_function)
+                if pseudo_function.pseudo.value == js_word!("local") =>
+            {
+                match &pseudo_function.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(str) => {
+                        *n = KeyframesName::Str(str.clone());
+                    }
+                    _ => {
+                        unreachable!();
                     }
                 }
+
+                n.visit_mut_with(self);
+
+                return;
+            }
+            KeyframesName::PseudoPrefix(pseudo_prefix)
+                if pseudo_prefix.pseudo.value == js_word!("local") =>
+            {
+                match &pseudo_prefix.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(str) => {
+                        *n = KeyframesName::Str(str.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                n.visit_mut_with(self);
+
+                return;
+            }
+            KeyframesName::PseudoFunction(pseudo_function)
+                if pseudo_function.pseudo.value == js_word!("global") =>
+            {
+                match &pseudo_function.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(str) => {
+                        *n = KeyframesName::Str(str.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                return;
+            }
+            KeyframesName::PseudoPrefix(pseudo_prefix)
+                if pseudo_prefix.pseudo.value == js_word!("global") =>
+            {
+                match &pseudo_prefix.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(str) => {
+                        *n = KeyframesName::Str(str.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                return;
             }
             _ => {}
         }
-    }
 
-    fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
         n.visit_mut_children_with(self);
-
-        match n {
-            KeyframesName::CustomIdent(n) => {
-                n.raw = None;
-                rename(
-                    &mut self.config,
-                    &mut self.result,
-                    &mut self.data.orig_to_renamed,
-                    &mut self.data.renamed_to_orig,
-                    &mut n.value,
-                )
-            }
-            KeyframesName::Str(n) => {
-                n.raw = None;
-                rename(
-                    &mut self.config,
-                    &mut self.result,
-                    &mut self.data.orig_to_renamed,
-                    &mut self.data.renamed_to_orig,
-                    &mut n.value,
-                )
-            }
-        }
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {

@@ -662,8 +662,22 @@ define!({
     }
 
     pub enum KeyframesName {
-        CustomIdent(CustomIdent),
-        Str(Str),
+        CustomIdent(Box<CustomIdent>),
+        Str(Box<Str>),
+        PseudoPrefix(Box<KeyframesPseudoPrefix>),
+        PseudoFunction(Box<KeyframesPseudoFunction>),
+    }
+
+    pub struct KeyframesPseudoPrefix {
+        pub span: Span,
+        pub pseudo: Ident,
+        pub name: KeyframesName,
+    }
+
+    pub struct KeyframesPseudoFunction {
+        pub span: Span,
+        pub pseudo: Ident,
+        pub name: KeyframesName,
     }
 
     pub struct KeyframeBlock {

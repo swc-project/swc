@@ -180,7 +180,9 @@ where
                     KeyframesName::Str(_) => {
                         formatting_space!(self);
                     }
-                    KeyframesName::CustomIdent(_) => {
+                    KeyframesName::CustomIdent(_)
+                    | KeyframesName::PseudoPrefix(_)
+                    | KeyframesName::PseudoFunction(_) => {
                         space!(self);
                     }
                 }
@@ -371,7 +373,26 @@ where
         match n {
             KeyframesName::CustomIdent(n) => emit!(self, n),
             KeyframesName::Str(n) => emit!(self, n),
+            KeyframesName::PseudoFunction(n) => emit!(self, n),
+            KeyframesName::PseudoPrefix(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_keyframes_pseudo_function(&mut self, n: &KeyframesPseudoFunction) -> Result {
+        write_raw!(self, ":");
+        emit!(self, n.pseudo);
+        write_raw!(self, "(");
+        emit!(self, n.name);
+        write_raw!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_keyframes_pseudo_prefix(&mut self, n: &KeyframesPseudoPrefix) -> Result {
+        write_raw!(self, ":");
+        emit!(self, n.pseudo);
+        space!(self);
+        emit!(self, n.name);
     }
 
     #[emitter]
