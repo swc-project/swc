@@ -8301,9 +8301,9 @@
                         if (!isNaN(parseFloat(c)) && isFinite(c)) {
                             var nr = this.getNumberAt(row, column);
                             if (nr) {
-                                var fp = nr.value.indexOf(".") >= 0 ? nr.start + nr.value.indexOf(".") + 1 : nr.end, decimals = nr.start + nr.value.length - fp;
-                                parseFloat(nr.value), fp !== nr.end && column < fp ? amount *= Math.pow(10, nr.end - column - 1) : amount *= Math.pow(10, nr.end - column);
-                                var nnr = (amount / Math.pow(10, decimals)).toFixed(decimals), replaceRange = new Range(row, nr.start, row, nr.end);
+                                var fp = nr.value.indexOf(".") >= 0 ? nr.start + nr.value.indexOf(".") + 1 : nr.end, decimals = nr.start + nr.value.length - fp, t = parseFloat(nr.value);
+                                t *= Math.pow(10, decimals), fp !== nr.end && column < fp ? amount *= Math.pow(10, nr.end - column - 1) : amount *= Math.pow(10, nr.end - column);
+                                var nnr = (t = (t += amount) / Math.pow(10, decimals)).toFixed(decimals), replaceRange = new Range(row, nr.start, row, nr.end);
                                 this.session.replace(replaceRange, nnr), this.moveCursorTo(row, Math.max(nr.start + 1, column + nnr.length - nr.value.length));
                             }
                         } else this.toggleWord();
@@ -10627,7 +10627,7 @@ margin: 0 10px;\
                         if (changes & this.CHANGE_FULL || changes & this.CHANGE_SIZE || changes & this.CHANGE_TEXT || changes & this.CHANGE_LINES || changes & this.CHANGE_SCROLL || changes & this.CHANGE_H_SCROLL) {
                             if (changes |= this.$computeLayerConfig() | this.$loop.clear(), config.firstRow != this.layerConfig.firstRow && config.firstRowScreen == this.layerConfig.firstRowScreen) {
                                 var st = this.scrollTop + (config.firstRow - this.layerConfig.firstRow) * this.lineHeight;
-                                st > 0 && (this.scrollTop = st, changes = this.CHANGE_SCROLL | (this.$computeLayerConfig() | this.$loop.clear()));
+                                st > 0 && (this.scrollTop = st, changes = (changes |= this.CHANGE_SCROLL) | (this.$computeLayerConfig() | this.$loop.clear()));
                             }
                             config = this.layerConfig, this.$updateScrollBarV(), changes & this.CHANGE_H_SCROLL && this.$updateScrollBarH(), dom.translate(this.content, -this.scrollLeft, -config.offset);
                             var width = config.width + 2 * this.$padding + "px", height = config.minHeight + "px";

@@ -19221,7 +19221,7 @@
                 }, Toolbar.prototype.itemWidthCal = function(items) {
                     var style, _this = this, width = 0;
                     return [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, items)).forEach(function(el) {
-                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width = (_this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight) + parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
+                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width = (width += _this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight) + parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
                     }), width;
                 }, Toolbar.prototype.getScrollCntEle = function(innerItem) {
                     var trgClass = this.isVertical ? '.e-vscroll-content' : '.e-hscroll-content';
@@ -23108,7 +23108,7 @@
                                 e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, -this.columns) : 0] ? tiles[idx] : tiles[idx - this.columns], this.keySelectionChanges(selectedEle);
                                 break;
                             case 40:
-                                e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1] ? tiles[idx] : tiles[idx = tiles.length + tiles[tiles.length - 1].parentElement.childElementCount], this.keySelectionChanges(selectedEle);
+                                e.preventDefault(), selectedEle = tiles[idx = prevSelectedEle ? this.tilePosition(tiles, prevSelectedEle, this.columns) : tiles.length - 1] ? tiles[idx] : tiles[idx = (idx %= tiles.length) + tiles[tiles.length - 1].parentElement.childElementCount], this.keySelectionChanges(selectedEle);
                                 break;
                             case 13:
                                 if (e.preventDefault(), prevSelectedEle) {
@@ -23586,7 +23586,7 @@
                     });
                 }, ToolbarRenderer.prototype.renderColorPickerDropDown = function(args, item, colorPicker, defaultColor) {
                     var range, _this = this, proxy = this, css = classes.i7 + ' ' + classes.Fs + (this.parent.inlineMode ? ' ' + classes.ZV : '');
-                    css = ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ) + ' ' + this.parent.cssClass;
+                    css = (css += ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ)) + ' ' + this.parent.cssClass;
                     var content = proxy.parent.createElement('span', {
                         className: classes.uN
                     }), inlineEle = proxy.parent.createElement('span', {

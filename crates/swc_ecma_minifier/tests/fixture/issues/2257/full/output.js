@@ -14392,7 +14392,7 @@
                 return Mj(a, O()), a.callbackNode === b ? Nj.bind(null, a) : null;
             }
             function Ii(a, b) {
-                for(b = ~uj & ~Hi, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
+                for(b = (b &= ~uj) & ~Hi, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
                     var c = 31 - Vc(b), d = 1 << c;
                     a[c] = -1, b &= ~d;
                 }
@@ -14417,7 +14417,7 @@
             }
             function Xj(a, b) {
                 var c = X;
-                X = -2;
+                X = 8 | (X &= -2);
                 try {
                     return a(b);
                 } finally{
