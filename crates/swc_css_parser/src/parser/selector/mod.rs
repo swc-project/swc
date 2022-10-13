@@ -284,31 +284,8 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<ComplexSelector> {
-        let mut skipped = None;
-
-        let mut skip_one_space = false;
-        let mut children = if !self.ctx.is_trying_nested_selector {
-            let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
-            vec![child]
-        } else {
-            match self.parse_as::<Combinator>() {
-                Ok(
-                    v @ Combinator {
-                        value: CombinatorValue::Descendant,
-                        ..
-                    },
-                ) => {
-                    skipped = Some(v);
-                    skip_one_space = true;
-                    vec![]
-                }
-                Ok(c) => vec![ComplexSelectorChildren::Combinator(c)],
-                Err(_) => {
-                    let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
-                    vec![child]
-                }
-            }
-        };
+        let child = ComplexSelectorChildren::CompoundSelector(self.parse()?);
+        let mut children = vec![child];
 
         loop {
             let span = self.input.cur_span();
@@ -328,33 +305,21 @@ where
                 self.input.skip_ws();
             }
 
-            if !skip_one_space || combinator.value != CombinatorValue::Descendant {
-                children.push(ComplexSelectorChildren::Combinator(combinator));
-            } else {
-                skipped = Some(combinator)
-            }
-
-            if skip_one_space {
-                skip_one_space = false
-            }
+            children.push(ComplexSelectorChildren::Combinator(combinator));
 
             let child = self.parse()?;
 
             children.push(ComplexSelectorChildren::CompoundSelector(child));
         }
 
-        if children.is_empty() {
-            children.extend(skipped.map(ComplexSelectorChildren::Combinator));
-        }
-
         let start_pos = match children.first() {
-            Some(child) => child.span_lo(),
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.lo,
             _ => {
                 unreachable!();
             }
         };
         let last_pos = match children.last() {
-            Some(child) => child.span_hi(),
+            Some(ComplexSelectorChildren::CompoundSelector(child)) => child.span.hi,
             _ => {
                 unreachable!();
             }
