@@ -27,7 +27,7 @@ where
         self.parse()
     }
 
-    pub(super) fn try_parse_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
+    pub(super) fn try_parse_legacy_nested_qualified_rule(&mut self) -> Option<Box<QualifiedRule>> {
         if !self.config.legacy_nesting {
             return None;
         }

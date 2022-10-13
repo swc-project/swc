@@ -236,7 +236,7 @@ where
                 tok!("ident") => {
                     if self.config.legacy_nesting {
                         let state = self.input.state();
-                        let nested = self.try_parse_qualified_rule();
+                        let nested = self.try_parse_legacy_nested_qualified_rule();
 
                         if let Some(nested) = nested {
                             rules.push(StyleBlock::QualifiedRule(nested));
@@ -333,7 +333,7 @@ where
                 _ => {
                     if self.config.legacy_nesting {
                         let state = self.input.state();
-                        let nested = self.try_parse_qualified_rule();
+                        let nested = self.try_parse_legacy_nested_qualified_rule();
 
                         if let Some(nested) = nested {
                             rules.push(StyleBlock::QualifiedRule(nested));
