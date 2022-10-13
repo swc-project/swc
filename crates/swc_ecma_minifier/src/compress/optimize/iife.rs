@@ -615,6 +615,12 @@ where
                     && self.is_return_arg_simple_enough_for_iife_eval(&e.right)
             }
 
+            Expr::Cond(e) => {
+                self.is_return_arg_simple_enough_for_iife_eval(&e.test)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.cons)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.alt)
+            }
+
             _ => false,
         }
     }
