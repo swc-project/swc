@@ -1,3 +1,3 @@
 //// [mergedInterfacesWithIndexers.ts]
 var a;
-a[1], a["1"], a.hi;
+(void 0)[1], a["1"], a.hi;

@@ -1,22 +1,20 @@
 //// [function.ts]
-var A;
-!function(A) {
+!function(A1) {
     var Point = function() {
         return {
             x: 0,
             y: 0
         };
     };
-    A.Point = Point;
-}(A || (A = {}));
+    A1.Point = Point;
+}(A = {});
 //// [module.ts]
-var A;
-!function(A) {
-    (A.Point || (A.Point = {})).Origin = {
+!function(A1) {
+    (A1.Point || (A1.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-}(A || (A = {}));
+}(A = {});
 //// [test.ts]
 A.Point, A.Point(), A.Point.Origin;
 //// [simple.ts]
@@ -32,4 +30,4 @@ var B;
         x: 0,
         y: 0
     };
-}(B || (B = {})), B.Point, B.Point(), B.Point.Origin;
+}(B = {}), B.Point, B.Point(), B.Point.Origin;

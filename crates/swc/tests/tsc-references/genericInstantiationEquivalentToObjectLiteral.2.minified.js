@@ -1,3 +1,3 @@
 //// [genericInstantiationEquivalentToObjectLiteral.ts]
-var y;
-f(y), f(y), f2(y), f2(y);
+var x, y;
+y = x = void 0, f(x), f(y), f2(x), f2(y);

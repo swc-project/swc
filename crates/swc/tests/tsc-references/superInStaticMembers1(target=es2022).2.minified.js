@@ -8,22 +8,16 @@ export default class {
 }
 //// [locals.ts]
 super.w(), (()=>{
-    var { Reflect  } = {
+    var { Reflect: Reflect1  } = {
         Reflect: null
     };
     super.w();
 })(), (()=>{
-    var [Reflect] = [
+    var [Reflect1] = [
         null
     ];
     super.w();
-})(), super.w(), super.w(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), super.w(), super.w(), super.w(), super.w();
+})(), super.w(), super.w(), Reflect = {}, super.w(), Reflect = {}, super.w(), super.w(), super.w(), super.w(), super.w();
 export { };
 //// [varInContainingScopeStaticField1.ts]
 super.w();
@@ -68,20 +62,16 @@ export { };
 //// [valueNamespaceInContainingScopeStaticBlock.ts]
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect = {}, super.w();
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {});
+Reflect = {};
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect = {}, super.w();
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {});
+Reflect = {};
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 super.w();

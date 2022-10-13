@@ -1,7 +1,7 @@
 //// [emptyVariableDeclarationBindingPatterns01_ES6.ts]
 !function() {
-    var a, {} = a;
-    let {} = a, {} = a;
+    var a, {} = void 0;
+    let {} = a;
     var [] = a;
     let [] = a, [] = a;
     var {} = a, [] = a;

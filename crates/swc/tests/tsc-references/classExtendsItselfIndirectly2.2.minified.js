@@ -10,7 +10,7 @@ var M, N, O, C = function(_E) {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(N.E);
+}((void 0).E);
 !function(M) {
     var D = function(C) {
         "use strict";
@@ -42,7 +42,7 @@ var M, N, O, C = function(_E) {
             return _class_call_check(this, C2), _super.apply(this, arguments);
         }
         return C2;
-    }(Q1.E2);
+    }((void 0).E2);
     P = P1 || (P1 = {}), D2 = function(C2) {
         "use strict";
         _inherits(D2, C2);

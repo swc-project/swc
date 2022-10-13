@@ -1,6 +1,5 @@
 //// [twoInterfacesDifferentRootModule.ts]
-var M2;
-!function(M2) {
+!function(M21) {
     var a, b;
-    a.foo, a.bar, b.foo, b.bar;
-}(M2 || (M2 = {}));
+    (void 0).foo, a.bar, b.foo, b.bar;
+}(M2 = {});

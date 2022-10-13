@@ -1,3 +1,3 @@
 //// [classAppearsToHaveMembersOfObject.ts]
 var c;
-c.toString(), c.hasOwnProperty("");
+(void 0).toString(), c.hasOwnProperty("");

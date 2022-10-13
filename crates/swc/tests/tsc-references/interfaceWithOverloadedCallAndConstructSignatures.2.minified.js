@@ -1,3 +1,3 @@
 //// [interfaceWithOverloadedCallAndConstructSignatures.ts]
 var f;
-f(), f(""), new f(), new f("");
+(void 0)(), f(""), new f(), new f("");

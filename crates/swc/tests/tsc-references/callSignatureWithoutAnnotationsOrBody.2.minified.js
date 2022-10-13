@@ -1,3 +1,3 @@
 //// [callSignatureWithoutAnnotationsOrBody.ts]
 var i, a;
-i(), i.f(), a(), a.f();
+(void 0)(), i.f(), a(), a.f();

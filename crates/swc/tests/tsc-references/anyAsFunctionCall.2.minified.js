@@ -1,3 +1,3 @@
 //// [anyAsFunctionCall.ts]
 var x;
-x(), x("hello"), x(x);
+(void 0)(), x("hello"), x(x);

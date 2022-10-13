@@ -1,7 +1,7 @@
 //// [computedPropertyNames11_ES5.ts]
 import _define_enumerable_properties from "@swc/helpers/src/_define_enumerable_properties.mjs";
 var s, n, a, _mutatorMap = {};
-_mutatorMap[s] = _mutatorMap[s] || {}, _mutatorMap[s].get = function() {
+_mutatorMap[void 0] = _mutatorMap[s] || {}, _mutatorMap[s].get = function() {
     return 0;
 }, _mutatorMap[n] = _mutatorMap[n] || {}, _mutatorMap[n].set = function(v) {}, _mutatorMap[s + s] = _mutatorMap[s + s] || {}, _mutatorMap[s + s].get = function() {
     return 0;

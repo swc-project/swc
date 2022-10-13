@@ -28,7 +28,7 @@ new (function() {
     }
     return C.prototype.f = function() {
         var x;
-        return x.foo() + x.foo() + x.notHere();
+        return (void 0).foo() + x.foo() + x.notHere();
     }, C;
 }())().f(), i.foo.notHere(), i.foo.foo(), a().notHere(), a().foo();
 var b = {

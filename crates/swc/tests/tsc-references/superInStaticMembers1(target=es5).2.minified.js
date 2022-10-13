@@ -18,7 +18,7 @@ import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var _this = this, _superprop_get_w = ()=>super.w, C = function(B1) {
+var _superprop_get_w = ()=>super.w, C = function(B1) {
     "use strict";
     _inherits(C, B1);
     var _super = _create_super(C);
@@ -33,25 +33,13 @@ C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
-    function() {
-        var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
-    function() {
-        var Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    }(),
+    void (Reflect = {}, _get(_get_prototype_of(C), "w", C).call(C)),
+    void (Reflect = {}, _get(_get_prototype_of(C), "w", C).call(C)),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C)
-], _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), function() {
-    var Reflect;
-    Reflect || (Reflect = {}), _superprop_get_w().call(_this);
-}(), function() {
-    var Reflect;
-    Reflect || (Reflect = {}), _superprop_get_w().call(_this);
-}(), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this), _superprop_get_w().call(_this);
+], _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this), Reflect = {}, _superprop_get_w().call(this), Reflect = {}, _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this), _superprop_get_w().call(this);
 //// [varInContainingScopeStaticField1.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -196,11 +184,10 @@ var Reflect, C = function(B1) {
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-Reflect || (Reflect = {}), super.w.call(this);
+Reflect = {}, super.w.call(this);
 //// [constEnumInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";
@@ -219,11 +206,10 @@ var Reflect, C = function(B1) {
 }(B);
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-Reflect || (Reflect = {}), super.w.call(this);
+Reflect = {}, super.w.call(this);
 //// [namespaceImportInContainingScopeStaticField.ts]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _get from "@swc/helpers/src/_get.mjs";

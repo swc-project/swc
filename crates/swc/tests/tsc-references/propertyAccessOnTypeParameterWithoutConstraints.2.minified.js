@@ -8,7 +8,7 @@ new (function() {
     }
     return C.prototype.f = function() {
         var x;
-        return x.toString() + x.toString();
+        return (void 0).toString() + x.toString();
     }, C;
 }())().f(), i.foo.toString(), i.foo.toString(), a().toString(), a().toString(), ({
     foo: function(x) {

@@ -3,7 +3,7 @@ var M, M2, E;
 !function(M) {
     var y;
     M.y = y;
-}(M || (M = {})), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
+}(M = {}), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
     y: 3
 }, M = {
     y: 3

@@ -1,5 +1,5 @@
 //// [interfaceDoesNotDependOnBaseTypes.ts]
 var x;
-"string" != typeof x && (x.push(""), x.push([
+(void 0).push(""), x.push([
     ""
-]));
+]);

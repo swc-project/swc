@@ -14,48 +14,36 @@ class C extends B {
 C._ = [
     void _get(_get_prototype_of(C), "w", C).call(C),
     (()=>{
-        var { Reflect  } = {
+        var { Reflect: Reflect1  } = {
             Reflect: null
         };
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        var [Reflect] = [
+        var [Reflect1] = [
             null
         ];
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
-    (()=>{
-        let Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    })(),
-    (()=>{
-        let Reflect;
-        Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C);
-    })(),
+    void (Reflect = {}, _get(_get_prototype_of(C), "w", C).call(C)),
+    void (Reflect = {}, _get(_get_prototype_of(C), "w", C).call(C)),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C)
 ], (()=>{
-    var { Reflect  } = {
+    var { Reflect: Reflect1  } = {
         Reflect: null
     };
     super.w();
 })(), (()=>{
-    var [Reflect] = [
+    var [Reflect1] = [
         null
     ];
     super.w();
-})(), super.w(), super.w(), super.w(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), (()=>{
-    let Reflect;
-    Reflect || (Reflect = {}), super.w();
-})(), super.w(), super.w(), super.w(), super.w();
+})(), super.w(), super.w(), super.w(), Reflect = {}, super.w(), Reflect = {}, super.w(), super.w(), super.w(), super.w(), super.w();
 //// [varInContainingScopeStaticField1.ts]
 import _get from "@swc/helpers/src/_get.mjs";
 import _get_prototype_of from "@swc/helpers/src/_get_prototype_of.mjs";
@@ -131,8 +119,7 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect = {}, super.w();
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
 var Reflect;
@@ -143,8 +130,7 @@ class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {}), super.w();
+Reflect = {}, super.w();
 export { };
 //// [namespaceImportInContainingScopeStaticField.ts]
 import _get from "@swc/helpers/src/_get.mjs";

@@ -1,10 +1,10 @@
 //// [callWithSpreadES6.ts]
 var a, obj, xa;
 [
-    ...a
+    ...void 0
 ], [
-    ...a
-], obj.foo(1, 2, "abc"), obj.foo(1, 2, ...a), obj.foo(1, 2, ...a, "abc"), obj.foo(1, 2, "abc"), obj.foo(1, 2, ...a), obj.foo(1, 2, ...a, "abc"), xa[1].foo(1, 2, "abc"), xa[1].foo(1, 2, ...a), xa[1].foo(1, 2, ...a, "abc"), xa[1].foo(...[
+    ...void 0
+], (void 0).foo(1, 2, "abc"), obj.foo(1, 2, ...a), obj.foo(1, 2, ...a, "abc"), obj.foo(1, 2, "abc"), obj.foo(1, 2, ...a), obj.foo(1, 2, ...a, "abc"), xa[1].foo(1, 2, "abc"), xa[1].foo(1, 2, ...a), xa[1].foo(1, 2, ...a, "abc"), xa[1].foo(...[
     1,
     2,
     "abc"

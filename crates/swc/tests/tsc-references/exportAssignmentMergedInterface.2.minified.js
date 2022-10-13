@@ -14,5 +14,5 @@ define([
     var x;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), x("test"), x(42), x.b, x.c, x.d;
+    }), x("test"), x(42), x.b, x.c, (void 0).d;
 });

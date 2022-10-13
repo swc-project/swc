@@ -1,6 +1,6 @@
 //// [genericCallWithOverloadedFunctionTypedArguments.ts]
-var NonGenericParameter, GenericParameter;
-!function(NonGenericParameter) {
+var GenericParameter;
+!function(NonGenericParameter1) {
     var foo4 = function(cb) {
         return cb;
     };
@@ -9,7 +9,7 @@ var NonGenericParameter, GenericParameter;
     }), foo4(function(x) {
         return x;
     });
-}(NonGenericParameter || (NonGenericParameter = {})), function(GenericParameter) {
+}(NonGenericParameter = {}), function(GenericParameter) {
     var a, foo5 = function(cb) {
         return cb;
     }, foo6 = function(cb) {

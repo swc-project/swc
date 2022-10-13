@@ -3,7 +3,4 @@ var Errors;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-!function(Errors) {
-    var WithNonGenericSignaturesInBaseType, WithGenericSignaturesInBaseType;
-    WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {});
-}(Errors || (Errors = {}));
+Errors || (Errors = {}), WithNonGenericSignaturesInBaseType = {}, b2 = void 0, b15 = void 0, b15a = void 0, WithGenericSignaturesInBaseType = {}, b2 = void 0;

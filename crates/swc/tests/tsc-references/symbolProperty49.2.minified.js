@@ -1,6 +1,5 @@
 //// [symbolProperty49.ts]
-var M;
-!function(M) {
+!function(M1) {
     var Symbol;
-    Symbol.iterator, M.Symbol = Symbol;
-}(M || (M = {}));
+    (void 0).iterator, M1.Symbol = Symbol;
+}(M = {});

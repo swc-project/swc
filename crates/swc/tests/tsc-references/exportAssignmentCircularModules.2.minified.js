@@ -5,7 +5,7 @@ define([
 ], function(require, _foo1) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo1.x, Foo;
+    return (Foo = {}).x = _foo1.x, Foo;
 });
 //// [foo_1.ts]
 define([
@@ -14,7 +14,7 @@ define([
 ], function(require, _foo2) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo2.x, Foo;
+    return (Foo = {}).x = _foo2.x, Foo;
 });
 //// [foo_2.ts]
 define([
@@ -23,5 +23,5 @@ define([
 ], function(require, _foo0) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).x = _foo0.x, Foo;
+    return (Foo = {}).x = _foo0.x, Foo;
 });

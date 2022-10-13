@@ -11598,7 +11598,7 @@
                     listener
                 ] : prepend ? existing.unshift(listener) : existing.push(listener), (m = _getMaxListeners(target)) > 0 && existing.length > m && !existing.warned) {
                     existing.warned = !0;
-                    var m, events, existing, w = Error('Possible EventEmitter memory leak detected. ' + existing.length + ' ' + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
+                    var m, events, existing, w = Error('Possible EventEmitter memory leak detected. ' + (void 0).length + ' ' + String(type) + " listeners added. Use emitter.setMaxListeners() to increase limit");
                     w.name = 'MaxListenersExceededWarning', w.emitter = target, w.type = type, w.count = existing.length, ProcessEmitWarning(w);
                 }
                 return target;
@@ -11695,7 +11695,7 @@
                 else if (!doError) return !1;
                 if (doError) {
                     if (args.length > 0 && (er = args[0]), er instanceof Error) throw er;
-                    var er, err = Error('Unhandled error.' + (er ? ' (' + er.message + ')' : ''));
+                    var er, err = Error("Unhandled error.");
                     throw err.context = er, err;
                 }
                 var handler = events[type];

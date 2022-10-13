@@ -1,8 +1,7 @@
 //// [nonInstantiatedModule.ts]
+var M, M2, M3;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-(M || (M = {})).a = 1;
-var M, M2, M3, m = M;
-M.a, m.a, function(M2) {
+(M || (M = {})).a = 1, (void 0).a, (void 0).a, function(M2) {
     (M2.Point || (M2.Point = {})).Origin = function() {
         return {
             x: 0,

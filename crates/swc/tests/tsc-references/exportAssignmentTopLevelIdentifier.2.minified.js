@@ -4,7 +4,7 @@ define([
 ], function(require) {
     "use strict";
     var Foo;
-    return (Foo || (Foo = {})).answer = 42, Foo;
+    return (Foo = {}).answer = 42, Foo;
 });
 //// [foo_1.ts]
 define([

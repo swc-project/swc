@@ -1,6 +1,5 @@
 //// [ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.ts]
-var A;
-!function(A) {
+!function(A1) {
     var beez;
-    A.beez2 = [], A.beez = beez;
-}(A || (A = {}));
+    A1.beez2 = [], A1.beez = beez;
+}(A = {});

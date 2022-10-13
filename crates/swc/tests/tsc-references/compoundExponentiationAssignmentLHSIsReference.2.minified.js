@@ -1,6 +1,6 @@
 //// [compoundExponentiationAssignmentLHSIsReference.ts]
 x1 = Math.pow(x1, value);
-var value, x1, x3, ref = x3.a;
+var value, x1, x3, ref = (void 0).a;
 x3.a = Math.pow(ref, value);
 var ref1 = x3.a;
 x3.a = Math.pow(ref1, value), x1 = Math.pow(x1, value);

@@ -1,3 +1,3 @@
 //// [interfaceExtendingClassWithProtecteds2.ts]
 var i;
-i.z, i.x, i.y;
+(void 0).z, i.x, i.y;

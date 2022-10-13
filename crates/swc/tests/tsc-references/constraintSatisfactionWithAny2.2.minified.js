@@ -1,3 +1,3 @@
 //// [constraintSatisfactionWithAny2.ts]
 var a;
-foo(a), foo(a);
+foo(void 0), foo(a);

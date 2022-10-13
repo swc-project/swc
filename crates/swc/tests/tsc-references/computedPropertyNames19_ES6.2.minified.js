@@ -1,5 +1,4 @@
 //// [computedPropertyNames19_ES6.ts]
-var M;
-!function(M) {
+!function(M1) {
     this.bar;
-}(M || (M = {}));
+}(M = {});

@@ -1,3 +1,2 @@
 //// [assignmentCompatWithStringIndexer3.ts]
-var Generics;
-Generics || (Generics = {});
+b1 = void 0, Generics = {};

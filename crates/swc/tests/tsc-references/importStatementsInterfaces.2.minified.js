@@ -1,8 +1,7 @@
 //// [importStatementsInterfaces.ts]
-var C, D, E;
-C || (C = {}), D || (D = {}), function(E) {
+C = {}, D = {}, function(E1) {
     var xDist = function(x) {
         return 0 - x.x;
     };
-    E.xDist = xDist;
-}(E || (E = {}));
+    E1.xDist = xDist;
+}(E = {});

@@ -8,7 +8,7 @@ new (function() {
     }
     return C.prototype.f = function() {
         var x;
-        return x.getDate() + x.getDate();
+        return (void 0).getDate() + x.getDate();
     }, C;
 }())().f(), i.foo.getDate(), i.foo.getDate(), a().getDate(), a().getDate(), ({
     foo: function(x) {

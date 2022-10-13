@@ -3,3 +3,4 @@ var c = "FAIL";
     var a1;
     a1 && a1(), c = "PASS";
 })(0), console.log(c);
+console.log(c = "PASS");

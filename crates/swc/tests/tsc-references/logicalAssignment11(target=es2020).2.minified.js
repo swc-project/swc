@@ -1,3 +1,3 @@
 //// [logicalAssignment11.ts]
 let x;
-(x ?? "x").length, (x ?? "x").length;
+((void 0) ?? "x").length, (x ?? "x").length;

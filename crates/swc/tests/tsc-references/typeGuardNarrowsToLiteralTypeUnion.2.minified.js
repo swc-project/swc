@@ -1,3 +1,3 @@
 //// [typeGuardNarrowsToLiteralTypeUnion.ts]
 var value;
-isFoo(value) ? doThis(value) : doThat(value);
+isFoo(void 0) ? doThis(value) : doThat(value);

@@ -1,6 +1,6 @@
 //// [genericCallWithTupleType.ts]
 var i1, i2;
-i1.tuple1 = [
+(void 0).tuple1 = [
     "foo",
     5
 ], i1.tuple1[0], i1.tuple1[1], i1.tuple1 = [

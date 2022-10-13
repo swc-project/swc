@@ -1,9 +1,9 @@
 //// [implementingAnInterfaceExtendingClassWithPrivates2.ts]
-var M, M2;
+var M2;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-M || (M = {}), function(M2) {
+M = {}, function(M2) {
     var b;
-    b.z, b.x, b.y;
+    (void 0).z, b.x, b.y;
 }(M2 || (M2 = {}));

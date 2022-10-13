@@ -7,7 +7,7 @@ new (function() {
     }
     return C.prototype.f = function() {
         var x;
-        return x.notHere() + x.notHere();
+        return (void 0).notHere() + x.notHere();
     }, C;
 }())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();
 var i, a, b = {

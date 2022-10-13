@@ -1,3 +1,3 @@
 //// [anyAsGenericFunctionCall.ts]
 var x;
-x(), x("hello"), x(x), x(x);
+(void 0)(), x("hello"), x(x), x(x);

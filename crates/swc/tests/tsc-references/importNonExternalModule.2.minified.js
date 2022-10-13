@@ -3,8 +3,7 @@ define([
     "require"
 ], function(require) {
     "use strict";
-    var foo;
-    (foo || (foo = {})).answer = 42;
+    (foo = {}).answer = 42;
 });
 //// [foo_1.ts]
 define([

@@ -28,7 +28,7 @@ var i, a, B = function(A) {
     var _proto = C.prototype;
     return _proto.f = function() {
         var x;
-        return x.foo() + x.foo();
+        return (void 0).foo() + x.foo();
     }, _proto.g = function(x) {
         return x.foo() + x.foo();
     }, C;

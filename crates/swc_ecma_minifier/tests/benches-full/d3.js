@@ -245,7 +245,7 @@
         }(values, valueof))).length) {
             if ((p = +p) <= 0 || n < 2) return min(values);
             if (p >= 1) return max(values);
-            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = max(quickselect(values, i0).subarray(0, i0 + 1));
+            var n, i = NaN * p, i0 = Math.floor(i), value0 = max(quickselect(values, i0).subarray(0, i0 + 1));
             return value0 + (min(values.subarray(i0 + 1)) - value0) * (i - i0);
         }
     }
@@ -253,7 +253,7 @@
         if (n = values.length) {
             if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
             if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-            var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+            var n, i = NaN * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
             return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
         }
     }
@@ -4825,7 +4825,7 @@
             0
         ], angle = 0, winding = 0, sum = new Adder();
         1 === sinPhi ? phi = halfPi$2 + 1e-6 : -1 === sinPhi && (phi = -halfPi$2 - 1e-6);
-        for(var i = 0, n = polygon.length; i < n; ++i)if (m = (ring = polygon[i]).length) for(var ring, m, point0 = ring[m - 1], lambda0 = longitude(point0), phi0 = point0[1] / 2 + quarterPi, sinPhi0 = sin$1(phi0), cosPhi0 = cos$1(phi0), j = 0; j < m; ++j, lambda0 = lambda1, sinPhi0 = sinPhi1, cosPhi0 = cosPhi1, point0 = point1){
+        for(var i = 0, n = polygon.length; i < n; ++i)if (m = (ring = polygon[i]).length) for(var ring, m, point0 = (void 0)[NaN], lambda0 = longitude(point0), phi0 = point0[1] / 2 + quarterPi, sinPhi0 = sin$1(phi0), cosPhi0 = cos$1(phi0), j = 0; j < m; ++j, lambda0 = lambda1, sinPhi0 = sinPhi1, cosPhi0 = cosPhi1, point0 = point1){
             var point1 = ring[j], lambda1 = longitude(point1), phi1 = point1[1] / 2 + quarterPi, sinPhi1 = sin$1(phi1), cosPhi1 = cos$1(phi1), delta = lambda1 - lambda0, sign = delta >= 0 ? 1 : -1, absDelta = sign * delta, antimeridian = absDelta > pi$3, k = sinPhi0 * sinPhi1;
             if (sum.add(atan2(k * sign * sin$1(absDelta), cosPhi0 * cosPhi1 + k * cos$1(absDelta))), angle += antimeridian ? delta + sign * tau$4 : delta, antimeridian ^ lambda0 >= lambda ^ lambda1 >= lambda) {
                 var arc = cartesianCross(cartesian(point0), cartesian(point1));
@@ -6179,7 +6179,7 @@
     function packChildren(padding, k) {
         return function(node) {
             if (children = node.children) {
-                var children, i, e, n = children.length, r = padding(node) * k || 0;
+                var children, i, e, n = (void 0).length, r = padding(node) * k || 0;
                 if (r) for(i = 0; i < n; ++i)children[i].r += r;
                 if (e = packEnclose(children), r) for(i = 0; i < n; ++i)children[i].r -= r;
                 node.r = e + r;
@@ -6363,7 +6363,7 @@
         }, squarify;
     }(phi), resquarify = function custom(ratio) {
         function resquarify(parent, x0, y0, x1, y1) {
-            if ((rows = parent._squarify) && rows.ratio === ratio) for(var rows, row, nodes, i, n, j = -1, m = rows.length, value = parent.value; ++j < m;){
+            if ((rows = parent._squarify) && rows.ratio === ratio) for(var rows, row, nodes, i, n, j = -1, m = (void 0).length, value = parent.value; ++j < m;){
                 for(nodes = (row = rows[j]).children, i = row.value = 0, n = nodes.length; i < n; ++i)row.value += nodes[i].value;
                 row.dice ? treemapDice(row, x0, y0, x1, value ? y0 += (y1 - y0) * row.value / value : y1) : treemapSlice(row, x0, y0, value ? x0 += (x1 - x0) * row.value / value : x1, y1), value -= row.value;
             }
@@ -10201,7 +10201,7 @@
         return inside;
     }, exports1.polygonHull = function(points) {
         if ((n = points.length) < 3) return null;
-        var i, n, sortedPoints = Array(n), flippedPoints = Array(n);
+        var i, n, sortedPoints = Array(void 0), flippedPoints = Array(n);
         for(i = 0; i < n; ++i)sortedPoints[i] = [
             +points[i][0],
             +points[i][1],

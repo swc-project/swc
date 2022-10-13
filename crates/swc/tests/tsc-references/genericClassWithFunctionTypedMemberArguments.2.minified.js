@@ -34,7 +34,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
     });
 }(ImmediatelyFix || (ImmediatelyFix = {})), function(WithCandidates) {
     var c, c2;
-    c.foo2(1, function(a) {
+    (void 0).foo2(1, function(a) {
         return "";
     }), c.foo2(1, function(a) {
         return "";

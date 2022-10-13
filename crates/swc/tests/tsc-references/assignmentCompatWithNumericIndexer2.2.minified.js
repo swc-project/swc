@@ -1,3 +1,2 @@
 //// [assignmentCompatWithNumericIndexer2.ts]
-var Generics;
-Generics || (Generics = {});
+b = void 0, b2 = void 0, Generics = {};
