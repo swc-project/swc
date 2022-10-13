@@ -362,6 +362,7 @@ where
             };
 
             if skip {
+                log_abort!("skip");
                 return;
             }
         }
@@ -370,6 +371,8 @@ where
             Expr::Call(v) => v,
             _ => return,
         };
+
+        trace_op!("iife: Checking noinline");
 
         if self.has_noinline(call.span) {
             log_abort!("iife: Has no inline mark");
@@ -518,6 +521,8 @@ where
                 }
             }
             Expr::Fn(f) => {
+                trace_op!("iife: Expr::Fn(..)");
+
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
@@ -548,6 +553,8 @@ where
                     return;
                 }
 
+                trace_op!("iife: Checking recursiveness");
+
                 if let Some(i) = &f.ident {
                     if self
                         .data
@@ -567,6 +574,8 @@ where
                         return;
                     }
                 }
+
+                trace_op!("iife: Empry function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
