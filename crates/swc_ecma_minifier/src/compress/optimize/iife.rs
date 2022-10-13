@@ -626,6 +626,8 @@ where
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        trace_op!("can_inline_fn_like");
+
         if contains_this_expr(body) || contains_arguments(body) {
             return false;
         }
