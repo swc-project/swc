@@ -31,6 +31,12 @@
 
 - **(ci)** Deny clippy warnings (#6126) ([d6fd476](https://github.com/swc-project/swc/commit/d6fd47672150aa3a020c55b1c61c4ac593d0c9fe))
 
+### Performance
+
+
+
+- **(atoms)** Use thin pointer for `Atom` (#6135) ([9c8ec0e](https://github.com/swc-project/swc/commit/9c8ec0ea560ba97abcb864d482202bd8173a4e80))
+
 ### Refactor
 
 
