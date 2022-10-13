@@ -10260,3 +10260,13 @@ fn pr_6127_1() {
     "###,
     );
 }
+
+#[test]
+fn pr_6127_2() {
+    run_default_exec_test(
+        r###"
+        var executionContext = 10123400
+        console.log(executionContext = (-2 | 8));
+    "###,
+    );
+}
