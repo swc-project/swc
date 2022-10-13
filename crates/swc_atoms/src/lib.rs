@@ -51,7 +51,7 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 /// - Long texts, which is **not likely to be duplicated**. This does not mean
 ///   "longer than xx" as this is a type.
 /// - Raw values.
-#[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone)]
 pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
 
 fn _assert_size() {
@@ -180,6 +180,37 @@ impl Display for Atom {
 impl Default for Atom {
     fn default() -> Self {
         atom!("")
+    }
+}
+
+impl PartialOrd for Atom {
+    fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
+        (**self).partial_cmp(&**other)
+    }
+}
+
+impl Ord for Atom {
+    fn cmp(&self, other: &Self) -> std::cmp::Ordering {
+        (**self).cmp(&**other)
+    }
+}
+
+impl PartialEq for Atom {
+    fn eq(&self, other: &Self) -> bool {
+        // Fast path
+        if self.0.as_ptr() == other.0.as_ptr() {
+            return true;
+        }
+
+        (**self).eq(&**other)
+    }
+}
+
+impl Eq for Atom {}
+
+impl Hash for Atom {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        (**self).hash(state)
     }
 }
 
