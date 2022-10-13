@@ -760,9 +760,6 @@ where
             return None;
         }
 
-        self.changed = true;
-        report_change!("inline: Inlining an iife");
-
         // We remap variables.
         let mut remap = HashMap::default();
         let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
