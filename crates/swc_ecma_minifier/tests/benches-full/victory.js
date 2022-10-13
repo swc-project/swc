@@ -1118,7 +1118,7 @@
             }), __webpack_require__.d(__webpack_exports__, "Hcl", function() {
                 return Hcl;
             });
-            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = t1 * t1 * t1;
+            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = 6 / 29 * t1 * t1;
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
@@ -2277,10 +2277,10 @@
                                 x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(ya, yb)
                             });
                         } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+                    }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                         i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a1, b1)
-                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
+                    })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                         i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                         x: Object(_number_js__WEBPACK_IMPORTED_MODULE_0__.default)(a2, b2)
                     }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -3095,7 +3095,7 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "calendar", function() {
                 return calendar;
             });
-            var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/src/nice.js"), durationMonth = 2592000000, durationYear = 31536000000;
+            var d3_array__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-array/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-interpolate/src/index.js"), d3_time__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-time/src/index.js"), d3_time_format__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/d3-time-format/src/index.js"), _array__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/d3-scale/src/array.js"), _continuous__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/d3-scale/src/continuous.js"), _nice__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/d3-scale/src/nice.js");
             function date(t) {
                 return new Date(t);
             }
@@ -3182,17 +3182,17 @@
                     [
                         month,
                         1,
-                        durationMonth
+                        2592000000
                     ],
                     [
                         month,
                         3,
-                        3 * durationMonth
+                        7776000000
                     ],
                     [
                         year,
                         1,
-                        durationYear
+                        31536000000
                     ]
                 ];
                 function tickFormat(date) {
@@ -3203,7 +3203,7 @@
                         var target = Math.abs(stop - start) / interval, i = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.bisector)(function(i) {
                             return i[2];
                         }).right(tickIntervals, target);
-                        i === tickIntervals.length ? (step = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start / durationYear, stop / durationYear, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start, stop, interval), 1), interval = millisecond);
+                        i === tickIntervals.length ? (step = Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start / 31536000000, stop / 31536000000, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(Object(d3_array__WEBPACK_IMPORTED_MODULE_0__.tickStep)(start, stop, interval), 1), interval = millisecond);
                     }
                     return null == step ? interval : interval.every(step);
                 }
@@ -6703,7 +6703,7 @@
                     }
                     return new Delaunator(coords);
                 }, Delaunator.prototype.update = function() {
-                    for(var ax, ay, bx, by, cx, cy, dx, dy, ex, ey, bl, cl, d, i0, i1, i2, coords = this.coords, hullPrev = this._hullPrev, hullNext = this._hullNext, hullTri = this._hullTri, hullHash = this._hullHash, n = coords.length >> 1, minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, i = 0; i < n; i++){
+                    for(var bx, by, cx, cy, dx, dy, ex, ey, bl, cl, d, i0, i1, i2, coords = this.coords, hullPrev = this._hullPrev, hullNext = this._hullNext, hullTri = this._hullTri, hullHash = this._hullHash, n = coords.length >> 1, minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0, i = 0; i < n; i++){
                         var x = coords[2 * i], y = coords[2 * i + 1];
                         x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y), this._ids[i] = i;
                     }
@@ -6739,9 +6739,9 @@
                         var i$6 = i1, x$1 = i1x, y$1 = i1y;
                         i1 = i2, i1x = i2x, i1y = i2y, i2 = i$6, i2x = x$1, i2y = y$1;
                     }
-                    var center = (ax = i0x, ay = i0y, bx = i1x, by = i1y, cx = i2x, cy = i2y, dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), {
-                        x: ax + (ey * bl - dy * cl) * d,
-                        y: ay + (dx * cl - ex * bl) * d
+                    var center = (bx = i1x, by = i1y, cx = i2x, cy = i2y, dx = bx - i0x, dy = by - i0y, ex = cx - i0x, ey = cy - i0y, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), {
+                        x: i0x + (ey * bl - dy * cl) * d,
+                        y: i0y + (dx * cl - ex * bl) * d
                     });
                     this._cx = center.x, this._cy = center.y;
                     for(var i$7 = 0; i$7 < n; i$7++)this._dists[i$7] = dist(coords[2 * i$7], coords[2 * i$7 + 1], center.x, center.y);
@@ -6770,7 +6770,7 @@
                     this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
                 }, Delaunator.prototype._hashKey = function(x, y) {
                     var dx, dy, p;
-                    return Math.floor((dx = x - this._cx, p = dx / (Math.abs(dx) + Math.abs(dy = y - this._cy)), (dy > 0 ? 3 - p : 1 + p) / 4 * this._hashSize)) % this._hashSize;
+                    return Math.floor((p = (dx = x - this._cx) / (Math.abs(dx) + Math.abs(dy = y - this._cy)), (dy > 0 ? 3 - p : 1 + p) / 4 * this._hashSize)) % this._hashSize;
                 }, Delaunator.prototype._legalize = function(a) {
                     for(var triangles = this._triangles, halfedges = this._halfedges, coords = this.coords, i = 0, ar = 0;;){
                         var b = halfedges[a], a0 = a - a % 3;
@@ -6853,10 +6853,10 @@
                             points[2 * f],
                             points[2 * f + 1]
                         ], r = 1e-8 * Math.sqrt(Math.pow(bounds[3] - bounds[1], 2) + Math.pow(bounds[2] - bounds[0], 2)), i = 0, n = points.length / 2; i < n; ++i){
-                            var x, y, p = (x = points[2 * i], [
-                                x + Math.sin(x + (y = points[2 * i + 1])) * r,
+                            var x, y, p = [
+                                (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
                                 y + Math.cos(x - y) * r
-                            ]);
+                            ];
                             points[2 * i] = p[0], points[2 * i + 1] = p[1];
                         }
                         delaunator = new _delaunator.default(points);
@@ -8442,7 +8442,7 @@
                             var propValue = props[propName];
                             if (!Array.isArray(propValue)) {
                                 var propType = getPropType(propValue);
-                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `') + componentName + '`, expected an array.');
+                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected an array.');
                             }
                             for(var i = 0; i < propValue.length; i++){
                                 var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
@@ -8455,7 +8455,7 @@
                         var propValue = props[propName];
                         if (!isValidElement(propValue)) {
                             var propType = getPropType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `') + componentName + '`, expected a single ReactElement.');
+                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected a single ReactElement.');
                         }
                         return null;
                     }),
@@ -8463,7 +8463,7 @@
                         var propValue = props[propName];
                         if (!ReactIs.isValidElementType(propValue)) {
                             var propType = getPropType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `') + componentName + '`, expected a single ReactElement type.');
+                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected a single ReactElement type.');
                         }
                         return null;
                     }),
@@ -8471,7 +8471,7 @@
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if (!(props[propName] instanceof expectedClass)) {
                                 var propValue, expectedClassName = expectedClass.name || ANONYMOUS, actualClassName = (propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS;
-                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName + '` supplied to `') + componentName + "`, expected instance of `" + expectedClassName + '`.');
+                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName) + '` supplied to `' + componentName + "`, expected instance of `" + expectedClassName + '`.');
                             }
                             return null;
                         });
@@ -8510,7 +8510,7 @@
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if ('function' != typeof typeChecker) return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
                             var propValue = props[propName], propType = getPropType(propValue);
-                            if ('object' !== propType) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType + '` supplied to `') + componentName + '`, expected an object.');
+                            if ('object' !== propType) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected an object.');
                             for(var key in propValue)if (has(propValue, key)) {
                                 var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
                                 if (error instanceof Error) return error;
@@ -8524,7 +8524,7 @@
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName + '`, expected one of ') + valuesString + '.');
+                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName) + '`, expected one of ' + valuesString + '.');
                         }) : (arguments.length > 1 ? printWarning('Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + " arguments. A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).") : printWarning('Invalid argument supplied to oneOf, expected an array.'), emptyFunctionThatReturnsNull);
                     },
                     oneOfType: function(arrayOfTypeCheckers) {
@@ -8606,7 +8606,7 @@
                         var propValue = props[propName];
                         if (getPropType(propValue) !== expectedType) {
                             var preciseType = getPreciseType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType + '` supplied to `') + componentName + "`, expected `" + expectedType + '`.');
+                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType) + '` supplied to `' + componentName + "`, expected `" + expectedType + '`.');
                         }
                         return null;
                     });
@@ -8781,13 +8781,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -9042,13 +9042,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -9712,13 +9712,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -9886,13 +9886,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -10242,13 +10242,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -10608,13 +10608,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -11155,13 +11155,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -11459,13 +11459,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -11826,13 +11826,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -12593,13 +12593,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -13149,13 +13149,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -13452,7 +13452,7 @@
                     var role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
                     }), childProps = function(child, props, calculatedProps) {
-                        var child1, domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                        var domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
                             child
                         ]);
                         if (axisChild.length > 0) return axisChild[0], domain = calculatedProps.domain, scale = calculatedProps.scale, stringMap = calculatedProps.stringMap, categories = calculatedProps.categories, {
@@ -13465,12 +13465,12 @@
                             domain: domain,
                             scale: scale
                         };
-                        var categories1 = calculatedProps.categories, domain1 = calculatedProps.domain, range = calculatedProps.range, scale1 = calculatedProps.scale;
+                        var categories1 = calculatedProps.categories, domain1 = calculatedProps.domain, range = calculatedProps.range;
                         return {
                             categories: categories1,
                             domain: domain1,
                             range: range,
-                            scale: scale1,
+                            scale: calculatedProps.scale,
                             stringMap: calculatedProps.stringMap,
                             horizontal: calculatedProps.horizontal
                         };
@@ -13660,13 +13660,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -14096,7 +14096,7 @@
                         key: "componentDidUpdate",
                         value: function(prevProps) {
                             var _queue, arr;
-                            !react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default()(this.props, prevProps) && (this.interpolator && this.state.animationInfo && this.state.animationInfo.progress < 1 ? this.setState({
+                            react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default()(this.props, prevProps) || (this.interpolator && this.state.animationInfo && this.state.animationInfo.progress < 1 ? this.setState({
                                 data: this.interpolator(1),
                                 animationInfo: {
                                     progress: 1,
@@ -14325,13 +14325,13 @@
                                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                                     }))), ownKeys.forEach(function(key) {
-                                        var obj, key1, value;
-                                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                        var obj, value;
+                                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                             value: value,
                                             enumerable: !0,
                                             configurable: !0,
                                             writable: !0
-                                        }) : obj[key1] = value;
+                                        }) : obj[key] = value;
                                     });
                                 }
                                 return target;
@@ -14504,13 +14504,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -14977,13 +14977,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -15387,13 +15387,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15452,13 +15452,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15516,13 +15516,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15630,13 +15630,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15791,13 +15791,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15950,13 +15950,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -15971,8 +15971,8 @@
                     tabIndex: tabIndex
                 });
             }, Whisker = function(props) {
-                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, style = _props.style, baseProps = _objectSpread({}, events, {
-                    style: style,
+                var _props = props = evaluateProps(props), ariaLabel = _props.ariaLabel, groupComponent = _props.groupComponent, lineComponent = _props.lineComponent, events = _props.events, className = _props.className, majorWhisker = _props.majorWhisker, minorWhisker = _props.minorWhisker, transform = _props.transform, clipPath = _props.clipPath, role = _props.role, shapeRendering = _props.shapeRendering, baseProps = _objectSpread({}, events, {
+                    style: _props.style,
                     desc: _props.desc,
                     tabIndex: _props.tabIndex,
                     className: className,
@@ -16605,10 +16605,10 @@
                                 oldProps: animate.parentState.nodesWillExit ? props : null,
                                 nextProps: nextProps
                             };
-                            var oldChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(nextProps.children), _Transitions$getIniti = _victory_util_transitions__WEBPACK_IMPORTED_MODULE_10__.default.getInitialTransitionState(oldChildren, nextChildren), nodesWillExit = _Transitions$getIniti.nodesWillExit, nodesWillEnter = _Transitions$getIniti.nodesWillEnter;
+                            var oldChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children), nextChildren = react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(nextProps.children), _Transitions$getIniti = _victory_util_transitions__WEBPACK_IMPORTED_MODULE_10__.default.getInitialTransitionState(oldChildren, nextChildren), nodesWillExit = _Transitions$getIniti.nodesWillExit;
                             return {
                                 nodesWillExit: nodesWillExit,
-                                nodesWillEnter: nodesWillEnter,
+                                nodesWillEnter: _Transitions$getIniti.nodesWillEnter,
                                 childrenTransitions: _Transitions$getIniti.childrenTransitions,
                                 nodesShouldEnter: _Transitions$getIniti.nodesShouldEnter,
                                 oldProps: nodesWillExit ? props : null,
@@ -17624,7 +17624,7 @@
                 return props.categories && !Array.isArray(props.categories) ? props.categories[axis] : props.categories;
             }
             function getStringsFromAxes(props, axis) {
-                var tickValueArray, tickValues = props.tickValues, tickFormat = props.tickFormat;
+                var tickValues = props.tickValues, tickFormat = props.tickFormat;
                 return (tickValues && (Array.isArray(tickValues) || tickValues[axis]) ? tickValues[axis] || tickValues : tickFormat && Array.isArray(tickFormat) ? tickFormat : []).filter(function(val) {
                     return "string" == typeof val;
                 });
@@ -17866,27 +17866,20 @@
                 };
             }
             function formatDomain(domain, props, axis) {
-                return function(domain, props, axis) {
-                    var almostZero, domainOne;
-                    return "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props, axis) ? domain : (almostZero = domain[0] < 0 || domain[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
-                        0 === domain[0] ? almostZero : domain[0],
-                        0 === domain[1] ? almostZero : domain[1]
-                    ]);
-                }(function(domain, props, axis) {
+                var domain1, props1, axis1, almostZero;
+                return domain1 = function(domain, props, axis) {
                     if (!props.domainPadding) return domain;
-                    var formatPadding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding = function(padding) {
-                        return Array.isArray(padding) ? {
-                            left: padding[0],
-                            right: padding[1]
-                        } : {
-                            left: padding,
-                            right: padding
-                        };
-                    }(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domainPadding) ? props.domainPadding[axis] : props.domainPadding);
-                    if (!padding.left && !padding.right) return domain;
-                    var min = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain), max = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain), currentAxis = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getCurrentAxis(axis, props.horizontal), range = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getRange(props, currentAxis), rangeExtent = Math.abs(range[0] - range[1]), paddedRangeExtent = Math.max(rangeExtent - padding.left - padding.right, 1), paddedDomainExtent = Math.abs(max.valueOf() - min.valueOf()) / paddedRangeExtent * rangeExtent, simplePadding = {
-                        left: paddedDomainExtent * padding.left / rangeExtent,
-                        right: paddedDomainExtent * padding.right / rangeExtent
+                    var padding, minDomain = getMinFromProps(props, axis), maxDomain = getMaxFromProps(props, axis), padding1 = Array.isArray(padding = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_4___default()(props.domainPadding) ? props.domainPadding[axis] : props.domainPadding) ? {
+                        left: padding[0],
+                        right: padding[1]
+                    } : {
+                        left: padding,
+                        right: padding
+                    };
+                    if (!padding1.left && !padding1.right) return domain;
+                    var min = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMinValue(domain), max = _collection__WEBPACK_IMPORTED_MODULE_10__.default.getMaxValue(domain), currentAxis = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getCurrentAxis(axis, props.horizontal), range = _helpers__WEBPACK_IMPORTED_MODULE_9__.default.getRange(props, currentAxis), rangeExtent = Math.abs(range[0] - range[1]), paddedRangeExtent = Math.max(rangeExtent - padding1.left - padding1.right, 1), paddedDomainExtent = Math.abs(max.valueOf() - min.valueOf()) / paddedRangeExtent * rangeExtent, simplePadding = {
+                        left: paddedDomainExtent * padding1.left / rangeExtent,
+                        right: paddedDomainExtent * padding1.right / rangeExtent
                     }, paddedDomain = {
                         min: min.valueOf() - simplePadding.left,
                         max: max.valueOf() + simplePadding.right
@@ -17895,14 +17888,14 @@
                     };
                     if (addsQuadrants && !1 !== singleQuadrantDomainPadding) {
                         var initialPadding = {
-                            left: Math.abs(max - min) * padding.left / rangeExtent,
-                            right: Math.abs(max - min) * padding.right / rangeExtent
+                            left: Math.abs(max - min) * padding1.left / rangeExtent,
+                            right: Math.abs(max - min) * padding1.right / rangeExtent
                         }, adjustedDomain = {
                             min: adjust(min.valueOf() - initialPadding.left, "min"),
                             max: adjust(max.valueOf() + initialPadding.right, "max")
                         }, finalPadding = {
-                            left: Math.abs(adjustedDomain.max - adjustedDomain.min) * padding.left / rangeExtent,
-                            right: Math.abs(adjustedDomain.max - adjustedDomain.min) * padding.right / rangeExtent
+                            left: Math.abs(adjustedDomain.max - adjustedDomain.min) * padding1.left / rangeExtent,
+                            right: Math.abs(adjustedDomain.max - adjustedDomain.min) * padding1.right / rangeExtent
                         };
                         paddedDomain = {
                             min: adjust(min.valueOf() - finalPadding.left, "min"),
@@ -17914,7 +17907,10 @@
                         max: void 0 !== maxDomain ? maxDomain : paddedDomain.max
                     };
                     return min instanceof Date || max instanceof Date ? getDomainFromMinMax(new Date(finalDomain.min), new Date(finalDomain.max)) : getDomainFromMinMax(finalDomain.min, finalDomain.max);
-                }(domain, props, axis), props, axis);
+                }(domain, props, axis), props1 = props, axis1 = axis, "log" !== _scale__WEBPACK_IMPORTED_MODULE_8__.default.getScaleType(props1, axis1) ? domain1 : (almostZero = domain1[0] < 0 || domain1[1] < 0 ? -1 / Number.MAX_SAFE_INTEGER : 1 / Number.MAX_SAFE_INTEGER, [
+                    0 === domain1[0] ? almostZero : domain1[0],
+                    0 === domain1[1] ? almostZero : domain1[1]
+                ]);
             }
             function getDomainFromCategories(props, axis, categories) {
                 categories = categories || _data__WEBPACK_IMPORTED_MODULE_7__.default.getCategories(props, axis);
@@ -18356,16 +18352,14 @@
                     };
                 },
                 getRange: function(props, axis) {
-                    var padding, props1;
-                    if (props.range && props.range[axis]) return props.range[axis];
-                    if (props.range && Array.isArray(props.range)) return props.range;
-                    return props.polar ? (props1 = props, "x" === axis ? [
-                        degreesToRadians(props1.startAngle || 0),
-                        degreesToRadians(props1.endAngle || 360)
+                    var padding;
+                    return props.range && props.range[axis] ? props.range[axis] : props.range && Array.isArray(props.range) ? props.range : props.polar ? "x" === axis ? [
+                        degreesToRadians(props.startAngle || 0),
+                        degreesToRadians(props.endAngle || 360)
                     ] : [
-                        props1.innerRadius || 0,
-                        getRadius(props1)
-                    ]) : (padding = getPadding(props), "x" !== axis ? [
+                        props.innerRadius || 0,
+                        getRadius(props)
+                    ] : (padding = getPadding(props), "x" !== axis ? [
                         props.height - padding.bottom,
                         padding.top
                     ] : [
@@ -18474,7 +18468,7 @@
                 return "perpendicular" === labelPlacement || "vertical" === labelPlacement && (90 === degrees || 270 === degrees) ? "middle" : degrees <= 90 || degrees > 270 ? "start" : "end";
             }
             function getPolarVerticalAnchor(props, degrees) {
-                var degrees1, labelPlacement = getLabelPlacement(props), orientation = (degrees1 = degrees) < 45 || degrees1 > 315 ? "right" : degrees1 >= 45 && degrees1 <= 135 ? "top" : degrees1 > 135 && degrees1 < 225 ? "left" : "bottom";
+                var labelPlacement = getLabelPlacement(props), orientation = degrees < 45 || degrees > 315 ? "right" : degrees >= 45 && degrees <= 135 ? "top" : degrees > 135 && degrees < 225 ? "left" : "bottom";
                 return "parallel" === labelPlacement || "left" === orientation || "right" === orientation ? "middle" : "top" === orientation ? "end" : "start";
             }
             function getDegrees(props, datum) {
@@ -18494,13 +18488,13 @@
                 getDegrees: getDegrees,
                 getProps: function(props, index) {
                     var datum, style, horizontal, sign, labelStyle, datum1, sign1, labelStyle1, datum2, labelStyle2, scale = props.scale, data = props.data, style1 = props.style, horizontal1 = props.horizontal, polar = props.polar, width = props.width, height = props.height, theme = props.theme, labelComponent = props.labelComponent, datum3 = data[index], degrees = getDegrees(props, datum3), textAnchor = polar ? getPolarTextAnchor(props, degrees) : (datum = (datum = datum3) || {}, style = props.style, horizontal = props.horizontal, sign = datum._y >= 0 ? 1 : -1, labelStyle = style && style.labels || {}, datum.verticalAnchor || labelStyle.verticalAnchor ? datum.verticalAnchor || labelStyle.verticalAnchor : horizontal ? sign >= 0 ? "start" : "end" : "middle"), verticalAnchor = polar ? getPolarVerticalAnchor(props, degrees) : (sign1 = (datum1 = (datum1 = datum3) || {})._y >= 0 ? 1 : -1, labelStyle1 = props.style && props.style.labels || {}, datum1.verticalAnchor || labelStyle1.verticalAnchor ? datum1.verticalAnchor || labelStyle1.verticalAnchor : props.horizontal ? "middle" : sign1 >= 0 ? "end" : "start"), angle = (datum2 = (datum2 = datum3) || {}, labelStyle2 = props.style && props.style.labels || {}, void 0 === datum2.angle ? labelStyle2.angle : datum2.angle), text = getText(props, datum3, index), labelPlacement = getLabelPlacement(props), _getPosition = function(props, datum) {
-                        var props1, datum1, style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
+                        var style, degrees, labelStyle, padding, angle, polar = props.polar, _Helpers$scalePoint = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.scalePoint(props, datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
                         if (!polar) return {
                             x: x,
                             y: y
                         };
-                        var polarPadding = (props1 = props, datum1 = datum, style = props1.style, degrees = getDegrees(props1, datum1), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props1) || 0, {
-                            x: padding * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
+                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, {
+                            x: (padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0) * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
                         return {
@@ -22368,7 +22362,7 @@
                 var angleInRadian = angle * Math.PI / 180;
                 return Math.abs(Math.cos(angleInRadian) * axisSize) + Math.abs(Math.sin(angleInRadian) * dependentSize);
             }, convertLengthToPixels = function(length, fontSize) {
-                var result, attribute = length.match(/[a-zA-Z%]+/) && length.match(/[a-zA-Z%]+/)[0], value = length.match(/[0-9.,]+/);
+                var attribute = length.match(/[a-zA-Z%]+/) && length.match(/[a-zA-Z%]+/)[0], value = length.match(/[0-9.,]+/);
                 return attribute ? absoluteMeasurementUnitsToPixels.hasOwnProperty(attribute) ? value * absoluteMeasurementUnitsToPixels[attribute] : relativeMeasurementUnitsCoef.hasOwnProperty(attribute) ? (fontSize ? value * fontSize : value * defaultStyle.fontSize) * relativeMeasurementUnitsCoef[attribute] : value : value || 0;
             }, _prepareParams = function(inputStyle, index) {
                 var lineStyle = Array.isArray(inputStyle) ? inputStyle[index] : inputStyle, style = lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default()({}, lineStyle, defaultStyle);
@@ -22626,7 +22620,8 @@
                                         nodesShouldEnter: !0
                                     });
                                 });
-                            } else if (!state && animate && animate.onExit) return after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
+                            }
+                            if (!state && animate && animate.onExit) return after = animate.onEnter && animate.onEnter.after ? animate.onEnter.after : lodash_identity__WEBPACK_IMPORTED_MODULE_1___default.a, {
                                 data: data.map(function(datum, idx) {
                                     return lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, datum, after(datum, idx, data));
                                 })
@@ -22854,13 +22849,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var obj, key1, value;
-                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                var obj, value;
+                                obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : obj[key1] = value;
+                                }) : obj[key] = value;
                             });
                         }
                         return target;
@@ -22869,11 +22864,11 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, categories = props.categories, parentProps = {
+                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, parentProps = {
                         polar: polar,
                         startAngle: startAngle,
                         endAngle: endAngle,
-                        categories: categories,
+                        categories: props.categories,
                         minDomain: props.minDomain,
                         maxDomain: props.maxDomain
                     }, stack = 0, children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children);
@@ -23016,13 +23011,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -23237,13 +23232,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -23505,13 +23500,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -23868,13 +23863,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -24034,7 +24029,7 @@
             }
             function getChildren(props, childComponents, calculatedProps) {
                 props = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.modifyProps(props, fallbackProps, "stack"), childComponents = childComponents || react__WEBPACK_IMPORTED_MODULE_1___default.a.Children.toArray(props.children);
-                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, theme, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
+                var props1, calculatedProps1, categories, domain, range, scale, horizontal, origin, padding, width, datasets = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).datasets, _props2 = props, labelComponent = _props2.labelComponent, polar = _props2.polar, childProps = (props1 = props, categories = (calculatedProps1 = calculatedProps).categories, domain = calculatedProps1.domain, range = calculatedProps1.range, scale = calculatedProps1.scale, horizontal = calculatedProps1.horizontal, origin = calculatedProps1.origin, padding = calculatedProps1.padding, width = props1.width, {
                     height: props1.height,
                     width: width,
                     theme: props1.theme,
@@ -24049,11 +24044,11 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, range, angularRange, r, props2, calculatedProps1, groupLength, props3, calculatedProps2, groupLength1, role = child.type && child.type.role, xOffset = polar ? (props2 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (props1 = props2, angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props3 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
+                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
-                    }(props3, "x", calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                    }(props2, "x", calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
                     }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -24210,13 +24205,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -24291,13 +24286,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -24604,13 +24599,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -25546,13 +25541,13 @@
                             'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var obj, key1, value;
-                                obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                                var obj, value;
+                                obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                     value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : obj[key1] = value;
+                                }) : obj[key] = value;
                             });
                         }
                         return target;
@@ -26007,13 +26002,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -26251,13 +26246,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -26373,8 +26368,8 @@
                     fill: fill
                 }, style.data);
             }, getLabelText = function(props, datum, index) {
-                var text, text1;
-                return null == (text1 = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
+                var text;
+                return null == (text = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text) ? text : "".concat(text);
             }, getLabelArc = function(radius, labelRadius, style) {
                 var padding = style && style.padding || 0, arcRadius = labelRadius || radius + padding;
                 return d3_shape__WEBPACK_IMPORTED_MODULE_5__.arc().outerRadius(arcRadius).innerRadius(arcRadius);
@@ -26388,18 +26383,18 @@
                 var baseAngle = 0;
                 return ((baseAngle = void 0 !== labelPosition.angle ? labelStyle.angle : "centroid" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees((slice.startAngle + slice.endAngle) / 2) : "startAngle" === labelPosition ? victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.startAngle) : victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.radiansToDegrees(slice.endAngle)) < 0 ? 360 - baseAngle : baseAngle) % 360;
             }, getLabelProps = function(text, dataProps, calculatedValues) {
-                var degree, labelPlacement, index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                var index = dataProps.index, datum = dataProps.datum, data = dataProps.data, slice = dataProps.slice, labelComponent = dataProps.labelComponent, theme = dataProps.theme, style = calculatedValues.style, defaultRadius = calculatedValues.defaultRadius, origin = calculatedValues.origin, width = calculatedValues.width, height = calculatedValues.height, labelRadius = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelRadius, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)), labelPosition = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPosition, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
-                }, dataProps)) || "centroid", labelPlacement1 = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
+                }, dataProps)) || "centroid", labelPlacement = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(calculatedValues.labelPlacement, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     text: text
                 }, dataProps)) || "vertical", labelStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     padding: 0
                 }, style.labels), evaluatedStyle = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(labelStyle, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({
                     labelRadius: labelRadius,
                     text: text
-                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation = (degree = baseAngle, "perpendicular" === (labelPlacement = labelPlacement1) ? degree > 90 && degree < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? degree >= 0 && degree <= 180 ? "right" : "left" : degree < 45 || degree > 315 ? "top" : degree >= 45 && degree < 135 ? "right" : degree >= 135 && degree < 225 ? "bottom" : "left"), textAnchor = labelStyle.textAnchor || ("top" === orientation || "bottom" === orientation ? "middle" : "right" === orientation ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation || "right" === orientation ? "middle" : "bottom" === orientation ? "start" : "end"), labelProps = {
+                }, dataProps)), position = getLabelPosition(getLabelArc(defaultRadius, labelRadius, evaluatedStyle), slice, labelPosition), baseAngle = getBaseLabelAngle(slice, labelPosition, labelStyle), orientation = "perpendicular" === labelPlacement ? baseAngle > 90 && baseAngle < 270 ? "bottom" : "top" : "parallel" === labelPlacement ? baseAngle >= 0 && baseAngle <= 180 ? "right" : "left" : baseAngle < 45 || baseAngle > 315 ? "top" : baseAngle >= 45 && baseAngle < 135 ? "right" : baseAngle >= 135 && baseAngle < 225 ? "bottom" : "left", textAnchor = labelStyle.textAnchor || ("top" === orientation || "bottom" === orientation ? "middle" : "right" === orientation ? "start" : "end"), verticalAnchor = labelStyle.verticalAnchor || ("left" === orientation || "right" === orientation ? "middle" : "bottom" === orientation ? "start" : "end"), labelProps = {
                     width: width,
                     height: height,
                     index: index,
@@ -26413,7 +26408,7 @@
                     y: Math.round(position[1]) + origin.y,
                     textAnchor: textAnchor,
                     verticalAnchor: verticalAnchor,
-                    angle: "vertical" === labelPlacement1 ? 0 : "parallel" === labelPlacement1 ? baseAngle > 180 && baseAngle < 360 ? baseAngle + 90 : baseAngle - 90 : baseAngle > 90 && baseAngle < 270 ? baseAngle - 180 : baseAngle
+                    angle: "vertical" === labelPlacement ? 0 : "parallel" === labelPlacement ? baseAngle > 180 && baseAngle < 360 ? baseAngle + 90 : baseAngle - 90 : baseAngle > 90 && baseAngle < 270 ? baseAngle - 180 : baseAngle
                 };
                 if (!victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.isTooltip(labelComponent)) return labelProps;
                 var tooltipTheme = theme && theme.tooltip || {};
@@ -26482,13 +26477,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -27332,13 +27327,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -27696,13 +27691,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -27849,9 +27844,9 @@
                     evt.preventDefault();
                     var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
-                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], y1 = polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0], mutatedProps = {
+                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], mutatedProps = {
                         x1: x1,
-                        y1: y1,
+                        y1: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0],
                         select: !0,
                         x2: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1],
                         y2: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[1],
@@ -27954,13 +27949,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -27985,13 +27980,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -28756,13 +28751,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -28849,13 +28844,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -29177,7 +29172,7 @@
                     {
                         key: "getDimensions",
                         value: function(props, labelSize) {
-                            var calculatedHeight, calculatedWidth, orientation = props.orientation, pointerLength = props.pointerLength, pointerWidth = props.pointerWidth, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, flyoutPadding = props.flyoutPadding, cornerRadius = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(props.cornerRadius, props);
+                            var orientation = props.orientation, pointerLength = props.pointerLength, pointerWidth = props.pointerWidth, flyoutHeight = props.flyoutHeight, flyoutWidth = props.flyoutWidth, flyoutPadding = props.flyoutPadding, cornerRadius = victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(props.cornerRadius, props);
                             return {
                                 flyoutHeight: flyoutHeight ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutHeight, props) : Math.max("top" === orientation || "bottom" === orientation ? 2 * cornerRadius : 2 * cornerRadius + pointerWidth, labelSize.height + flyoutPadding.top + flyoutPadding.bottom),
                                 flyoutWidth: flyoutWidth ? victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.evaluateProp(flyoutWidth, props) : Math.max("left" === orientation || "right" === orientation ? 2 * cornerRadius + pointerLength : 2 * cornerRadius, labelSize.width + flyoutPadding.left + flyoutPadding.right)
@@ -29539,13 +29534,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;
@@ -30172,13 +30167,13 @@
                         'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                             return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                         }))), ownKeys.forEach(function(key) {
-                            var obj, key1, value;
-                            obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                            var obj, value;
+                            obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                                 value: value,
                                 enumerable: !0,
                                 configurable: !0,
                                 writable: !0
-                            }) : obj[key1] = value;
+                            }) : obj[key] = value;
                         });
                     }
                     return target;
@@ -30240,13 +30235,13 @@
                     'function' == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
-                        var obj, key1, value;
-                        obj = target, key1 = key, value = source[key], key1 in obj ? Object.defineProperty(obj, key1, {
+                        var obj, value;
+                        obj = target, value = source[key], key in obj ? Object.defineProperty(obj, key, {
                             value: value,
                             enumerable: !0,
                             configurable: !0,
                             writable: !0
-                        }) : obj[key1] = value;
+                        }) : obj[key] = value;
                     });
                 }
                 return target;

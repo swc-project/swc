@@ -8,7 +8,6 @@
         return a < b ? -1 : a > b ? 1 : a >= b ? 0 : NaN;
     }
     function bisector(f) {
-        var f1;
         let delta = f, compare = f;
         function left(a, x, lo, hi) {
             for(null == lo && (lo = 0), null == hi && (hi = a.length); lo < hi;){
@@ -17,7 +16,7 @@
             }
             return lo;
         }
-        return 1 === f.length && (delta = (d, x)=>f(d) - x, f1 = f, compare = (d, x)=>ascending(f1(d), x)), {
+        return 1 === f.length && (delta = (d, x)=>f(d) - x, compare = (d, x)=>ascending(f(d), x)), {
             left,
             center: function(a, x, lo, hi) {
                 null == lo && (lo = 0), null == hi && (hi = a.length);
@@ -1653,10 +1652,10 @@
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
-            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
+            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
                 i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
             }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -2078,13 +2077,13 @@
         empty: selection_prototype.empty,
         each: selection_prototype.each,
         on: function(name, listener) {
-            var id, name1, listener1, on0, on1, sit, id1 = this._id;
-            return arguments.length < 2 ? get$1(this.node(), id1).on.on(name) : this.each((id = id1, name1 = name, listener1 = listener, sit = (name1 + "").trim().split(/^|\s+/).every(function(t) {
+            var on0, on1, sit, id = this._id;
+            return arguments.length < 2 ? get$1(this.node(), id).on.on(name) : this.each((sit = (name + "").trim().split(/^|\s+/).every(function(t) {
                 var i = t.indexOf(".");
                 return i >= 0 && (t = t.slice(0, i)), !t || "start" === t;
             }) ? init : set$2, function() {
                 var schedule = sit(this, id), on = schedule.on;
-                on !== on0 && (on1 = (on0 = on).copy()).on(name1, listener1), schedule.on = on1;
+                on !== on0 && (on1 = (on0 = on).copy()).on(name, listener), schedule.on = on1;
             }));
         },
         attr: function(name, value) {
@@ -3218,8 +3217,8 @@
                         for(var x = point[0], y = point[1], contains = -1, i = 0, n = ring.length, j = n - 1; i < n; j = i++){
                             var pi = ring[i], xi = pi[0], yi = pi[1], pj = ring[j], xj = pj[0], yj = pj[1];
                             if (function(a, b, c) {
-                                var i, a1, b1, c1, p, q, r;
-                                return a1 = a, b1 = b, c1 = c, (b1[0] - a1[0]) * (c1[1] - a1[1]) == (c1[0] - a1[0]) * (b1[1] - a1[1]) && (p = a[i = +(a[0] === b[0])], q = c[i], r = b[i], p <= q && q <= r || r <= q && q <= p);
+                                var i, p, q, r;
+                                return (b[0] - a[0]) * (c[1] - a[1]) == (c[0] - a[0]) * (b[1] - a[1]) && (p = a[i = +(a[0] === b[0])], q = c[i], r = b[i], p <= q && q <= r || r <= q && q <= p);
                             }(pi, pj, point)) return 0;
                             yi > y != yj > y && x < (xj - xi) * (y - yi) / (yj - yi) + xi && (contains = -contains);
                         }
@@ -3811,10 +3810,10 @@
                 ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
                 for(let i = 0, n = points.length / 2; i < n; ++i){
                     var x, y;
-                    const p = (x = points[2 * i], [
-                        x + Math.sin(x + (y = points[2 * i + 1])) * r,
+                    const p = [
+                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
                         y + Math.cos(x - y) * r
-                    ]);
+                    ];
                     points[2 * i] = p[0], points[2 * i + 1] = p[1];
                 }
                 this._delaunator = new Delaunator(points);
@@ -3955,7 +3954,7 @@
             }
             for(10 === text.charCodeAt(N - 1) && --N, 13 === text.charCodeAt(N - 1) && --N; (t = token()) !== EOF;){
                 for(var row = []; t !== EOL && t !== EOF;)row.push(t), t = token();
-                (!f || null != (row = f(row, n++))) && rows.push(row);
+                f && null == (row = f(row, n++)) || rows.push(row);
             }
             return rows;
         }
@@ -4663,7 +4662,7 @@
     function centroidRingPointFirst(lambda, phi) {
         lambda00$2 = lambda, phi00$2 = phi, lambda *= radians$1, phi *= radians$1, centroidStream.point = centroidRingPoint;
         var cosPhi = cos$1(phi);
-        x0 = cosPhi * cos$1(lambda), centroidPointCartesian(x0, y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi));
+        centroidPointCartesian(x0 = cosPhi * cos$1(lambda), y0 = cosPhi * sin$1(lambda), z0 = sin$1(phi));
     }
     function centroidRingPoint(lambda, phi) {
         lambda *= radians$1;
@@ -4911,8 +4910,8 @@
                 stream.lineStart(), clean = 1;
             },
             point: function(lambda1, phi1) {
-                var lambda01, phi01, lambda11, phi11, cosPhi0, cosPhi1, sinLambda0Lambda1, sign1 = lambda1 > 0 ? pi$3 : -pi$3, delta = abs$2(lambda1 - lambda0);
-                1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, lambda11 = lambda1, phi11 = phi1, phi0 = abs$2(sinLambda0Lambda1 = sin$1(lambda01 - lambda11)) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi11)) * sin$1(lambda11) - sin$1(phi11) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi11) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
+                var lambda01, phi01, lambda11, cosPhi0, cosPhi1, sinLambda0Lambda1, sign1 = lambda1 > 0 ? pi$3 : -pi$3, delta = abs$2(lambda1 - lambda0);
+                1e-6 > abs$2(delta - pi$3) ? (stream.point(lambda0, phi0 = (phi0 + phi1) / 2 > 0 ? halfPi$2 : -halfPi$2), stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), stream.point(lambda1, phi0), clean = 0) : sign0 !== sign1 && delta >= pi$3 && (1e-6 > abs$2(lambda0 - sign0) && (lambda0 -= 1e-6 * sign0), 1e-6 > abs$2(lambda1 - sign1) && (lambda1 -= 1e-6 * sign1), lambda01 = lambda0, phi01 = phi0, phi0 = abs$2(sinLambda0Lambda1 = sin$1(lambda01 - (lambda11 = lambda1))) > 1e-6 ? atan((sin$1(phi01) * (cosPhi1 = cos$1(phi1)) * sin$1(lambda11) - sin$1(phi1) * (cosPhi0 = cos$1(phi01)) * sin$1(lambda01)) / (cosPhi0 * cosPhi1 * sinLambda0Lambda1)) : (phi01 + phi1) / 2, stream.point(sign0, phi0), stream.lineEnd(), stream.lineStart(), stream.point(sign1, phi0), clean = 0), stream.point(lambda0 = lambda1, phi0 = phi1), sign0 = sign1;
             },
             lineEnd: function() {
                 stream.lineEnd(), lambda0 = phi0 = NaN;
@@ -5584,7 +5583,6 @@
     };
     var cosMinDistance = cos$1(30 * radians$1);
     function resample(project, delta2) {
-        var project1;
         return +delta2 ? function(project, delta2) {
             function resampleLineTo(x0, y0, lambda0, a0, b0, c0, x1, y1, lambda1, a1, b1, c1, depth, stream) {
                 var dx = x1 - x0, dy = y1 - y0, d2 = dx * dx + dy * dy;
@@ -5632,11 +5630,11 @@
                 }
                 return resampleStream;
             };
-        }(project, delta2) : (project1 = project, transformer({
+        }(project, delta2) : transformer({
             point: function(x, y) {
-                x = project1(x, y), this.stream.point(x[0], x[1]);
+                x = project(x, y), this.stream.point(x[0], x[1]);
             }
-        }));
+        });
     }
     var transformRadians = transformer({
         point: function(x, y) {
@@ -7565,7 +7563,7 @@
     } : exports1.utcFormat(isoSpecifier), parseIso = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
         var date = new Date(string);
         return isNaN(date) ? null : date;
-    } : exports1.utcParse(isoSpecifier), durationMonth = 2592000000, durationYear = 31536000000;
+    } : exports1.utcParse(isoSpecifier);
     function date$1(t) {
         return new Date(t);
     }
@@ -7652,17 +7650,17 @@
             [
                 month,
                 1,
-                durationMonth
+                2592000000
             ],
             [
                 month,
                 3,
-                3 * durationMonth
+                7776000000
             ],
             [
                 year,
                 1,
-                durationYear
+                31536000000
             ]
         ];
         function tickFormat(date) {
@@ -7673,7 +7671,7 @@
                 var step, target = Math.abs(stop - start) / interval, i = bisector(function(i) {
                     return i[2];
                 }).right(tickIntervals, target);
-                return i === tickIntervals.length ? (step = tickStep(start / durationYear, stop / durationYear, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(tickStep(start, stop, interval), 1), interval = millisecond), interval.every(step);
+                return i === tickIntervals.length ? (step = tickStep(start / 31536000000, stop / 31536000000, interval), interval = year) : i ? (step = (i = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i])[1], interval = i[0]) : (step = Math.max(tickStep(start, stop, interval), 1), interval = millisecond), interval.every(step);
             }
             return interval;
         }
@@ -10136,8 +10134,8 @@
     }, exports1.partition = function() {
         var dx = 1, dy = 1, padding = 0, round = !1;
         function partition(root) {
-            var dy1, n, n1 = root.height + 1;
-            return root.x0 = root.y0 = padding, root.x1 = dx, root.y1 = dy / n1, root.eachBefore((dy1 = dy, n = n1, function(node) {
+            var dy1, n = root.height + 1;
+            return root.x0 = root.y0 = padding, root.x1 = dx, root.y1 = dy / n, root.eachBefore((dy1 = dy, function(node) {
                 node.children && treemapDice(node, node.x0, dy1 * (node.depth + 1) / n, node.x1, dy1 * (node.depth + 2) / n);
                 var x0 = node.x0, y0 = node.y0, x1 = node.x1 - padding, y1 = node.y1 - padding;
                 x1 < x0 && (x0 = x1 = (x0 + x1) / 2), y1 < y0 && (y0 = y1 = (y0 + y1) / 2), node.x0 = x0, node.y0 = y0, node.x1 = x1, node.y1 = y1;

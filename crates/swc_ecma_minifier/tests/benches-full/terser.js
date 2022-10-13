@@ -454,7 +454,7 @@
                     return ch >= "0" && ch <= "7";
                 }
                 function read_escaped_char(in_string, strict_hex, template_string) {
-                    var ch, strict_octal, p, ch1 = next(!0, in_string);
+                    var ch, p, ch1 = next(!0, in_string);
                     switch(ch1.charCodeAt(0)){
                         case 110:
                             return "\n";
@@ -487,7 +487,7 @@
                             const represents_null_character = "0" === ch1 && !is_octal(peek());
                             represents_null_character || parse_error("Octal escape sequences are not allowed in template strings");
                         }
-                        return ch = ch1, strict_octal = strict_hex, ((p = peek()) >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_octal && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
+                        return ch = ch1, ((p = peek()) >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_hex && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
                     }
                     return ch1;
                 }
@@ -831,23 +831,21 @@
                                 else {
                                     init1 = is("keyword", "var") ? (next(), var_(!0)) : is("keyword", "let") ? (next(), let_(!0)) : is("keyword", "const") ? (next(), const_(!0)) : expression(!0, !0);
                                     var init2, obj, init3, is_await, lhs, obj1, is_in = is("operator", "in"), is_of = is("name", "of");
-                                    if (await_tok && !is_of && token_error(await_tok, for_await_error), is_in || is_of) {
-                                        return (init1 instanceof AST_Definitions ? init1.definitions.length > 1 && token_error(init1.start, "Only one variable declaration allowed in for..in loop") : is_assignable(init1) || (init1 = to_destructuring(init1)) instanceof AST_Destructuring || token_error(init1.start, "Invalid left-hand side in for..in loop"), next(), is_in) ? (init2 = init1, obj = expression(!0), expect(")"), new AST_ForIn({
-                                            init: init2,
-                                            object: obj,
-                                            body: in_loop(function() {
-                                                return statement(!1, !0);
-                                            })
-                                        })) : (init3 = init1, is_await = !!await_tok, lhs = init3 instanceof AST_Definitions ? init3.definitions[0].name : null, obj1 = expression(!0), expect(")"), new AST_ForOf({
-                                            await: is_await,
-                                            init: init3,
-                                            name: lhs,
-                                            object: obj1,
-                                            body: in_loop(function() {
-                                                return statement(!1, !0);
-                                            })
-                                        }));
-                                    }
+                                    if (await_tok && !is_of && token_error(await_tok, for_await_error), is_in || is_of) return (init1 instanceof AST_Definitions ? init1.definitions.length > 1 && token_error(init1.start, "Only one variable declaration allowed in for..in loop") : is_assignable(init1) || (init1 = to_destructuring(init1)) instanceof AST_Destructuring || token_error(init1.start, "Invalid left-hand side in for..in loop"), next(), is_in) ? (init2 = init1, obj = expression(!0), expect(")"), new AST_ForIn({
+                                        init: init2,
+                                        object: obj,
+                                        body: in_loop(function() {
+                                            return statement(!1, !0);
+                                        })
+                                    })) : (init3 = init1, is_await = !!await_tok, lhs = init3 instanceof AST_Definitions ? init3.definitions[0].name : null, obj1 = expression(!0), expect(")"), new AST_ForOf({
+                                        await: is_await,
+                                        init: init3,
+                                        name: lhs,
+                                        object: obj1,
+                                        body: in_loop(function() {
+                                            return statement(!1, !0);
+                                        })
+                                    }));
                                 }
                                 return init = init1, expect(";"), test = is("punc", ";") ? null : expression(!0), expect(";"), step = is("punc", ")") ? null : expression(!0), expect(")"), new AST_For({
                                     init: init,
@@ -1351,30 +1349,21 @@
                                         end: default_value.end
                                     }) : ex;
                                 };
-                                if (ex instanceof AST_Object) return insert_default(new AST_Destructuring({
+                                return ex instanceof AST_Object ? insert_default(new AST_Destructuring({
                                     start: ex.start,
                                     end: ex.end,
                                     is_array: !1,
                                     names: ex.properties.map((prop)=>to_fun_args(prop))
-                                }), default_seen_above);
-                                if (ex instanceof AST_ObjectKeyVal) return ex.value = to_fun_args(ex.value), insert_default(ex, default_seen_above);
-                                if (ex instanceof AST_Hole) return ex;
-                                if (ex instanceof AST_Destructuring) return ex.names = ex.names.map((name)=>to_fun_args(name)), insert_default(ex, default_seen_above);
-                                if (ex instanceof AST_SymbolRef) return insert_default(new AST_SymbolFunarg({
+                                }), default_seen_above) : ex instanceof AST_ObjectKeyVal ? (ex.value = to_fun_args(ex.value), insert_default(ex, default_seen_above)) : ex instanceof AST_Hole ? ex : ex instanceof AST_Destructuring ? (ex.names = ex.names.map((name)=>to_fun_args(name)), insert_default(ex, default_seen_above)) : ex instanceof AST_SymbolRef ? insert_default(new AST_SymbolFunarg({
                                     name: ex.name,
                                     start: ex.start,
                                     end: ex.end
-                                }), default_seen_above);
-                                if (ex instanceof AST_Expansion) return ex.expression = to_fun_args(ex.expression), insert_default(ex, default_seen_above);
-                                if (ex instanceof AST_Array) return insert_default(new AST_Destructuring({
+                                }), default_seen_above) : ex instanceof AST_Expansion ? (ex.expression = to_fun_args(ex.expression), insert_default(ex, default_seen_above)) : ex instanceof AST_Array ? insert_default(new AST_Destructuring({
                                     start: ex.start,
                                     end: ex.end,
                                     is_array: !0,
                                     names: ex.elements.map((elm)=>to_fun_args(elm))
-                                }), default_seen_above);
-                                if (ex instanceof AST_Assign) return insert_default(to_fun_args(ex.left, ex.right), default_seen_above);
-                                if (ex instanceof AST_DefaultAssign) return ex.left = to_fun_args(ex.left), ex;
-                                croak("Invalid function parameter", ex.start.line, ex.start.col);
+                                }), default_seen_above) : ex instanceof AST_Assign ? insert_default(to_fun_args(ex.left, ex.right), default_seen_above) : ex instanceof AST_DefaultAssign ? (ex.left = to_fun_args(ex.left), ex) : void croak("Invalid function parameter", ex.start.line, ex.start.col);
                             })(e)), !!async);
                         var ex = async ? new AST_Call({
                             expression: async,
@@ -4307,7 +4296,7 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
+            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -6492,7 +6481,7 @@
                 var obj = tw.parent(level + 1);
                 mark_escaped(tw, d, scope, obj, obj, level + 2, depth);
             } else if (parent instanceof AST_PropAccess && node === parent.expression && (value = read_property(value, parent.property), mark_escaped(tw, d, scope, parent, value, level + 1, depth + 1), value)) return;
-            !(level > 0) && (!(parent instanceof AST_Sequence) || node === parent.tail_node()) && (parent instanceof AST_SimpleStatement || (d.direct_access = !0));
+            level > 0 || parent instanceof AST_Sequence && node !== parent.tail_node() || parent instanceof AST_SimpleStatement || (d.direct_access = !0);
         }
     }
     def_eval(AST_PropAccess, function(compressor, depth) {
@@ -8242,7 +8231,7 @@
                 if (has_break || node instanceof AST_Lambda || node instanceof AST_SimpleStatement) return !0;
                 if (!is_break(node, tw)) return;
                 let parent = tw.parent();
-                (!(parent instanceof AST_SwitchBranch) || parent.body[parent.body.length - 1] !== node) && (has_break = !0);
+                parent instanceof AST_SwitchBranch && parent.body[parent.body.length - 1] === node || (has_break = !0);
             });
             return root.walk(tw), has_break;
         }
@@ -9710,8 +9699,8 @@
             return !0;
         }(compressor) && !(self1.names[self1.names.length - 1] instanceof AST_Expansion)) {
             for(var keep = [], i = 0; i < self1.names.length; i++){
-                var compressor1, def, elem = self1.names[i];
-                elem instanceof AST_ObjectKeyVal && "string" == typeof elem.key && elem.value instanceof AST_SymbolDeclaration && (compressor1 = compressor, !((def = elem.value.definition()).references.length || def.global && (!compressor1.toplevel.vars || compressor1.top_retain && compressor1.top_retain(def)))) || keep.push(elem);
+                var def, elem = self1.names[i];
+                elem instanceof AST_ObjectKeyVal && "string" == typeof elem.key && elem.value instanceof AST_SymbolDeclaration && !((def = elem.value.definition()).references.length || def.global && (!compressor.toplevel.vars || compressor.top_retain && compressor.top_retain(def))) || keep.push(elem);
             }
             keep.length != self1.names.length && (self1.names = keep);
         }
@@ -17915,9 +17904,9 @@
                         return value.length ? value.map(symdef) : void 0;
                     case "variables":
                     case "globals":
-                        var map, callback, result;
-                        return value.size ? (map = value, callback = symdef, result = [], map.forEach(function(def) {
-                            result.push(callback(def));
+                        var result;
+                        return value.size ? (result = [], value.forEach(function(def) {
+                            result.push(symdef(def));
                         }), result) : void 0;
                 }
                 if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {
