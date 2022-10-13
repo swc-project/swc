@@ -10249,3 +10249,14 @@ fn issue_6039_2() {
     "###,
     );
 }
+
+#[test]
+fn pr_6127() {
+    run_default_exec_test(
+        r###"
+        var executionContext = 10123400
+        executionContext &= -2, executionContext |= 8;
+        console.log(executionContext)
+    "###,
+    );
+}
