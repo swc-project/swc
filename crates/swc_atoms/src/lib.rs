@@ -54,6 +54,10 @@ include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
 #[derive(Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
 
+fn _assert_size() {
+    let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
+}
+
 impl Atom {
     /// Creates a bad [Atom] from a string.
     ///
