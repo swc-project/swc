@@ -155,13 +155,13 @@ impl From<JsWord> for Atom {
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
-        &**self
+        self
     }
 }
 
 impl Borrow<str> for Atom {
     fn borrow(&self) -> &str {
-        &**self
+        self
     }
 }
 
@@ -246,7 +246,7 @@ impl serde::ser::Serialize for Atom {
     where
         S: Serializer,
     {
-        serializer.serialize_str(&**self)
+        serializer.serialize_str(self)
     }
 }
 
@@ -292,7 +292,7 @@ impl rkyv::Archive for Atom {
 
     #[allow(clippy::unit_arg)]
     unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        rkyv::string::ArchivedString::resolve_from_str(&**self, pos, resolver, out)
+        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
     }
 }
 
