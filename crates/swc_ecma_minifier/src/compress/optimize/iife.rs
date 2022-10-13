@@ -383,6 +383,7 @@ where
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+        self.normalize_expr(callee);
 
         if self.ctx.dont_invoke_iife {
             log_abort!("iife: Inline is prevented");
