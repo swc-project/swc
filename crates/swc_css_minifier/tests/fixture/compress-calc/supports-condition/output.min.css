@@ -1,1 +1,1 @@
-@supports(width:200px){div{background:red}}
+@supports(width:calc(200px)){div{background:red}}@supports(width:calc(calc(200px))){div{background:red}}

@@ -989,7 +989,11 @@ impl Compressor {
                                         // they’re treated like any other
                                         // keyword"
                                     }
-                                    CalcValueOrOperator::Value(calc_value) => {
+                                    // `calc` and other math functions can be used in `@supports` to
+                                    // check availability, we should leave them as is
+                                    CalcValueOrOperator::Value(calc_value)
+                                        if !self.in_supports_conidition =>
+                                    {
                                         *component_value =
                                             transform_calc_value_into_component_value(calc_value);
                                     }

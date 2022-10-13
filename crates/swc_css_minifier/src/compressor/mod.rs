@@ -36,6 +36,7 @@ pub fn compressor() -> impl VisitMut {
 struct Compressor {
     ctx: Ctx,
     need_utf8_at_rule: bool,
+    in_supports_conidition: bool,
 }
 
 impl Compressor {
@@ -175,7 +176,13 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+        let old_in_support_condition = self.in_supports_conidition;
+
+        self.in_supports_conidition = true;
+
         n.visit_mut_children_with(self);
+
+        self.in_supports_conidition = old_in_support_condition;
 
         self.compress_supports_condition(n);
     }
