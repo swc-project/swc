@@ -25,6 +25,9 @@
 
 - **(es/minifier)** Swap more binary expressions (#6134) ([c37839f](https://github.com/swc-project/swc/commit/c37839fc628d62ec8ddb9372b45db72c6aa9e18d))
 
+
+- **(es/minifier)** Change default pass limit to 3 (#6138) ([3a29bfe](https://github.com/swc-project/swc/commit/3a29bfee9b3be0e85fe9e45272b7151c449779db))
+
 ### Miscellaneous Tasks
 
 
