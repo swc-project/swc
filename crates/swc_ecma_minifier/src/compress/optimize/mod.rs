@@ -892,6 +892,7 @@ where
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
+                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
                         self.vars.removed.insert(old);
                     }
 
