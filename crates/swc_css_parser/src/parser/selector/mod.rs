@@ -858,6 +858,12 @@ where
                     let mut children = vec![];
 
                     match &*names.0.to_ascii_lowercase() {
+                        "local" | "global" if self.config.css_modules => {
+                            let selector_list = self.parse()?;
+
+                            children
+                                .push(PseudoClassSelectorChildren::ComplexSelector(selector_list));
+                        }
                         "-moz-any" | "-webkit-any" => {
                             let compound_selector_list = self.parse()?;
 

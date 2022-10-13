@@ -797,6 +797,72 @@ where
 {
     fn parse(&mut self) -> PResult<KeyframesName> {
         match cur!(self) {
+            tok!(":") if self.config.css_modules => {
+                let span = self.input.cur_span();
+
+                bump!(self);
+
+                match cur!(self) {
+                    Token::Function { value, .. }
+                        if (&*value.to_ascii_lowercase() == "local"
+                            || &*value.to_ascii_lowercase() == "global") =>
+                    {
+                        let span = self.input.cur_span();
+                        let pseudo = match bump!(self) {
+                            Token::Function { value, raw, .. } => Ident {
+                                span: span!(self, span.lo),
+                                value,
+                                raw: Some(raw),
+                            },
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        self.input.skip_ws();
+
+                        let name = self.parse()?;
+
+                        self.input.skip_ws();
+
+                        expect!(self, ")");
+
+                        Ok(KeyframesName::PseudoFunction(Box::new(
+                            KeyframesPseudoFunction {
+                                span: span!(self, span.lo),
+                                pseudo,
+                                name,
+                            },
+                        )))
+                    }
+                    Token::Ident { value, .. }
+                        if (&*value.to_ascii_lowercase() == "local"
+                            || &*value.to_ascii_lowercase() == "global") =>
+                    {
+                        let pseudo = self.parse()?;
+
+                        self.input.skip_ws();
+
+                        let name = self.parse()?;
+
+                        Ok(KeyframesName::PseudoPrefix(Box::new(
+                            KeyframesPseudoPrefix {
+                                span: span!(self, span.lo),
+                                pseudo,
+                                name,
+                            },
+                        )))
+                    }
+                    _ => {
+                        let span = self.input.cur_span();
+
+                        Err(Error::new(
+                            span,
+                            ErrorKind::Expected("ident or function (local or scope) token"),
+                        ))
+                    }
+                }
+            }
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
@@ -807,9 +873,9 @@ where
                     ));
                 }
 
-                Ok(KeyframesName::CustomIdent(custom_ident))
+                Ok(KeyframesName::CustomIdent(Box::new(custom_ident)))
             }
-            tok!("string") => Ok(KeyframesName::Str(self.parse()?)),
+            tok!("string") => Ok(KeyframesName::Str(Box::new(self.parse()?))),
             _ => {
                 let span = self.input.cur_span();
 

@@ -1,0 +1,10 @@
+@keyframes test {}
+@keyframes "test" {}
+@keyframes :local(test) {}
+@keyframes :local("test") {}
+@keyframes :local test {}
+@keyframes :local "test" {}
+@keyframes :global(test) {}
+@keyframes :global("test") {}
+@keyframes :global test {}
+@keyframes :global "test" {}

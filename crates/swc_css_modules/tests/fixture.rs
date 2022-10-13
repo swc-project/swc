@@ -5,6 +5,7 @@ use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType},
     CodeGenerator, CodegenConfig, Emit,
 };
+use swc_css_parser::parser::ParserConfig;
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.css", exclude("compiled\\.css"))]
@@ -12,7 +13,15 @@ fn imports(input: PathBuf) {
     testing::run_test(false, |cm, _| {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
-        let ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let ss = swc_css_parser::parse_file(
+            &fm,
+            ParserConfig {
+                css_modules: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
         let result = swc_css_modules::imports::analyze_imports(&ss);
 
         if result.is_empty() {
@@ -37,7 +46,15 @@ fn compile(input: PathBuf) {
     testing::run_test(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
-        let mut ss = swc_css_parser::parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut ss = swc_css_parser::parse_file(
+            &fm,
+            ParserConfig {
+                css_modules: true,
+                ..Default::default()
+            },
+            &mut errors,
+        )
+        .unwrap();
         let _result = swc_css_modules::imports::analyze_imports(&ss);
 
         let transform_result = swc_css_modules::compile(&mut ss, TestConfig {});

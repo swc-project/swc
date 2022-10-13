@@ -1,0 +1,9 @@
+.suggestionHighlight {
+    background: var(--geist-highlight-yellow);
+  
+    /* white text on a yellow background is not readable, 
+         so we need make the highlighted text's color black */
+    :global(.dark-theme) & {
+      color: var(--geist-background);
+    }
+  }

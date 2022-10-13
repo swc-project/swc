@@ -3,17 +3,14 @@ use serde::Serialize;
 use swc_atoms::{js_word, JsWord};
 use swc_common::util::take::Take;
 use swc_css_ast::{
-    AtRule, AtRuleName, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
-    CustomIdent, Declaration, DeclarationName, DeclarationOrAtRule, Delimiter, DelimiterValue,
-    Ident, KeyframesName, PseudoClassSelector, PseudoClassSelectorChildren, QualifiedRule,
-    QualifiedRulePrelude, StyleBlock, Stylesheet, SubclassSelector, Token, TokenAndSpan,
+    ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
+    DeclarationOrAtRule, Delimiter, DelimiterValue, Ident, KeyframesName,
+    PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, StyleBlock, Stylesheet,
+    SubclassSelector,
 };
-use swc_css_parser::{parse_tokens, parser::ParserConfig};
 use swc_css_visit::{VisitMut, VisitMutWith};
-use util::to_tokens::{to_tokens, to_tokens_vec};
 
 pub mod imports;
-mod util;
 
 /// Various configurations for the css modules.
 ///
@@ -87,57 +84,120 @@ struct Data {
     orig_to_renamed: FxHashMap<JsWord, JsWord>,
 
     is_global_mode: bool,
+    is_in_local_pseudo_class: bool,
 }
 
 impl<C> VisitMut for Compiler<C>
 where
     C: TransformConfig,
 {
-    fn visit_mut_at_rule(&mut self, n: &mut AtRule) {
-        n.visit_mut_children_with(self);
+    // TODO handle `@counter-style`, CSS modules doesn't support it, but we should
+    // to fix it
+    fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
+        match n {
+            KeyframesName::CustomIdent(n) if !self.data.is_global_mode => {
+                n.raw = None;
 
-        match &n.name {
-            AtRuleName::Ident(Ident { value, .. }) if &**value == "keyframes" => {
-                if let Some(AtRulePrelude::ListOfComponentValues(prelude)) = n.prelude.as_deref() {
-                    // Check if prelude is `:globals(ident)`
-                    let tokens = to_tokens(&prelude);
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                );
+            }
+            KeyframesName::Str(n) if !self.data.is_global_mode => {
+                n.raw = None;
 
-                    if let Ok(sel) = parse_tokens::<PseudoClassSelector>(
-                        &tokens,
-                        Default::default(),
-                        &mut vec![],
-                    ) {
-                        if &*sel.name.value == "global" {
-                            if let Some(children) = sel.children {
-                                if children.len() == 1 {
-                                    if let PseudoClassSelectorChildren::PreservedToken(
-                                        TokenAndSpan {
-                                            token: Token::Ident { value, raw },
-                                            span,
-                                        },
-                                    ) = &children[0]
-                                    {
-                                        n.prelude =
-                                            Some(Box::new(AtRulePrelude::KeyframesPrelude(
-                                                KeyframesName::CustomIdent(CustomIdent {
-                                                    span: *span,
-                                                    value: value.clone(),
-                                                    raw: Some(raw.clone()),
-                                                }),
-                                            )));
-                                    }
-                                }
-                            }
-                        }
+                rename(
+                    &mut self.config,
+                    &mut self.result,
+                    &mut self.data.orig_to_renamed,
+                    &mut self.data.renamed_to_orig,
+                    &mut n.value,
+                );
+            }
+            KeyframesName::PseudoFunction(pseudo_function)
+                if pseudo_function.pseudo.value == js_word!("local") =>
+            {
+                match &pseudo_function.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
+                    }
+                    _ => {
+                        unreachable!();
                     }
                 }
+
+                n.visit_mut_with(self);
+
+                return;
+            }
+            KeyframesName::PseudoPrefix(pseudo_prefix)
+                if pseudo_prefix.pseudo.value == js_word!("local") =>
+            {
+                match &pseudo_prefix.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                n.visit_mut_with(self);
+
+                return;
+            }
+            KeyframesName::PseudoFunction(pseudo_function)
+                if pseudo_function.pseudo.value == js_word!("global") =>
+            {
+                match &pseudo_function.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                return;
+            }
+            KeyframesName::PseudoPrefix(pseudo_prefix)
+                if pseudo_prefix.pseudo.value == js_word!("global") =>
+            {
+                match &pseudo_prefix.name {
+                    KeyframesName::CustomIdent(custom_ident) => {
+                        *n = KeyframesName::CustomIdent(custom_ident.clone());
+                    }
+                    KeyframesName::Str(string) => {
+                        *n = KeyframesName::Str(string.clone());
+                    }
+                    _ => {
+                        unreachable!();
+                    }
+                }
+
+                return;
             }
             _ => {}
         }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_qualified_rule(&mut self, n: &mut QualifiedRule) {
         let old_compose_stack = self.data.composes_for_current.take();
+
         self.data.composes_for_current = Some(Default::default());
 
         n.visit_mut_children_with(self);
@@ -300,126 +360,90 @@ where
     }
 
     fn visit_mut_complex_selector(&mut self, n: &mut ComplexSelector) {
-        n.visit_mut_children_with(self);
-
         let mut new_children = Vec::with_capacity(n.children.len());
 
         let old_is_global_mode = self.data.is_global_mode;
-        self.data.is_global_mode = false;
+
         'complex: for mut n in n.children.take() {
-            match &mut n {
-                ComplexSelectorChildren::CompoundSelector(sel) => {
-                    //
-
-                    for sel in &mut sel.subclass_selectors {
-                        match sel {
-                            SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
-                                if !self.data.is_global_mode {
-                                    process_local(
-                                        &mut self.config,
-                                        &mut self.result,
-                                        &mut self.data.orig_to_renamed,
-                                        &mut self.data.renamed_to_orig,
-                                        sel,
-                                    );
-                                }
-                            }
-                            SubclassSelector::PseudoClass(class_sel) => {
-                                match &*class_sel.name.value {
-                                    "local" => {
-                                        if let Some(children) = &mut class_sel.children {
-                                            let tokens = to_tokens_vec(&*children);
-
-                                            let mut sel: ComplexSelector = parse_tokens(
-                                                &tokens,
-                                                ParserConfig {
-                                                    ..Default::default()
-                                                },
-                                                &mut vec![],
-                                            )
-                                            .unwrap();
-
-                                            sel.visit_mut_with(self);
-
-                                            new_children.extend(sel.children);
-                                            continue 'complex;
-                                        } else {
-                                            self.data.is_global_mode = false;
-                                            continue 'complex;
-                                        }
-                                    }
-                                    "global" => {
-                                        if let Some(children) = &mut class_sel.children {
-                                            let tokens = to_tokens_vec(&*children);
-
-                                            let sel: ComplexSelector = parse_tokens(
-                                                &tokens,
-                                                ParserConfig {
-                                                    ..Default::default()
-                                                },
-                                                &mut vec![],
-                                            )
-                                            .unwrap();
-
-                                            new_children.extend(sel.children);
-
-                                            continue 'complex;
-                                        } else {
-                                            self.data.is_global_mode = true;
-                                            continue 'complex;
-                                        }
-                                    }
-
-                                    _ => {}
-                                }
-                            }
-                            _ => {
-                                sel.visit_mut_children_with(self);
+            if let ComplexSelectorChildren::CompoundSelector(selector) = &mut n {
+                for sel in &mut selector.subclass_selectors {
+                    match sel {
+                        SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
+                            if !self.data.is_global_mode {
+                                process_local(
+                                    &mut self.config,
+                                    &mut self.result,
+                                    &mut self.data.orig_to_renamed,
+                                    &mut self.data.renamed_to_orig,
+                                    sel,
+                                );
                             }
                         }
+                        SubclassSelector::PseudoClass(class_sel) => match &*class_sel.name.value {
+                            "local" => {
+                                if let Some(children) = &mut class_sel.children {
+                                    if let Some(PseudoClassSelectorChildren::ComplexSelector(
+                                        complex_selector,
+                                    )) = children.get_mut(0)
+                                    {
+                                        let old_is_global_mode = self.data.is_global_mode;
+                                        let old_inside = self.data.is_global_mode;
+
+                                        self.data.is_global_mode = false;
+                                        self.data.is_in_local_pseudo_class = true;
+
+                                        complex_selector.visit_mut_with(self);
+
+                                        new_children.extend(complex_selector.children.clone());
+
+                                        self.data.is_global_mode = old_is_global_mode;
+                                        self.data.is_in_local_pseudo_class = old_inside;
+                                    }
+                                } else {
+                                    self.data.is_global_mode = false;
+                                }
+
+                                continue 'complex;
+                            }
+                            "global" => {
+                                if let Some(children) = &mut class_sel.children {
+                                    if let Some(PseudoClassSelectorChildren::ComplexSelector(
+                                        complex_selector,
+                                    )) = children.get_mut(0)
+                                    {
+                                        new_children.extend(complex_selector.children.clone());
+                                    }
+                                } else {
+                                    self.data.is_global_mode = true;
+                                }
+
+                                continue 'complex;
+                            }
+                            _ => {}
+                        },
+                        _ => {}
                     }
                 }
-                ComplexSelectorChildren::Combinator(_) => {}
             }
 
             new_children.push(n);
         }
 
         n.children = new_children;
+
         self.data.is_global_mode = old_is_global_mode;
+
+        if self.data.is_in_local_pseudo_class {
+            return;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_complex_selectors(&mut self, n: &mut Vec<ComplexSelector>) {
         n.visit_mut_children_with(self);
 
         n.retain_mut(|s| !s.children.is_empty());
-    }
-
-    fn visit_mut_keyframes_name(&mut self, n: &mut KeyframesName) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            KeyframesName::CustomIdent(n) => {
-                n.raw = None;
-                rename(
-                    &mut self.config,
-                    &mut self.result,
-                    &mut self.data.orig_to_renamed,
-                    &mut self.data.renamed_to_orig,
-                    &mut n.value,
-                )
-            }
-            KeyframesName::Str(n) => {
-                n.raw = None;
-                rename(
-                    &mut self.config,
-                    &mut self.result,
-                    &mut self.data.orig_to_renamed,
-                    &mut self.data.renamed_to_orig,
-                    &mut n.value,
-                )
-            }
-        }
     }
 }
 

@@ -14,17 +14,17 @@ impl Compressor {
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if self.is_ident_shorter_than_str(&string.value) {
-                        KeyframesName::CustomIdent(CustomIdent {
+                        KeyframesName::CustomIdent(Box::new(CustomIdent {
                             span: string.span,
                             value: string.value.clone(),
                             raw: None,
-                        })
+                        }))
                     } else {
-                        KeyframesName::Str(Str {
+                        KeyframesName::Str(Box::new(Str {
                             span: string.span,
                             value: string.value.clone(),
                             raw: None,
-                        })
+                        }))
                     },
                 )));
             }

@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/modules)** Fix parsing and refactor code (#6132) ([39cfade](https://github.com/swc-project/swc/commit/39cfade7f8b199b9db3240ffd561524f2f209798))
+
 ### Features
 
 

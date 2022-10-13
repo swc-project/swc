@@ -1,0 +1,23 @@
+:global(.dark-theme) {
+    .overlay {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  
+    .content {
+      background: var(--accents-1);
+      border: 1px solid var(--accents-2);
+    }
+  
+    .input {
+      &::placeholder {
+        color: var(--accents-4);
+      }
+  
+      ~ hr {
+        --loader-color: var(--accents-4);
+        width: calc(100% + 16px);
+        left: -8px;
+        background: var(--accents-2);
+      }
+    }
+}

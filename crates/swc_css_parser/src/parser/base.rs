@@ -154,32 +154,67 @@ where
                 // value to the qualified rule’s prelude.
                 _ => {
                     let state = self.input.state();
+                    let selector_list: PResult<SelectorList> = self.parse();
 
-                    prelude = match self.parse() {
-                        Ok(selector_list) => QualifiedRulePrelude::SelectorList(selector_list),
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
-
-                            let span = self.input.cur_span();
-                            let mut children = vec![];
-
-                            while !is_one_of!(self, EOF, "{") {
-                                if is!(self, ";") {
-                                    let span = self.input.cur_span();
-
-                                    return Err(Error::new(span, ErrorKind::UnexpectedChar(';')));
-                                }
-
-                                if let Some(token_and_span) = self.input.bump() {
-                                    children.push(ComponentValue::PreservedToken(token_and_span));
-                                }
+                    prelude = match selector_list {
+                        Ok(mut selector_list) => {
+                            if self.ctx.is_trying_legacy_nesting {
+                                selector_list = self
+                                    .legacy_nested_selector_list_to_modern_selector_list(
+                                        selector_list,
+                                    )?;
                             }
 
-                            QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
-                                span: span!(self, span.lo),
-                                children,
-                            })
+                            QualifiedRulePrelude::SelectorList(selector_list)
+                        }
+                        Err(err) => {
+                            if self.ctx.is_trying_legacy_nesting {
+                                self.input.reset(&state);
+
+                                let relative_selector_list: PResult<RelativeSelectorList> =
+                                    self.parse();
+
+                                match relative_selector_list {
+                                    Ok(relative_selector_list) => {
+                                        let selector_list = self
+                                            .legacy_relative_selector_list_to_modern_selector_list(
+                                                relative_selector_list,
+                                            )?;
+
+                                        QualifiedRulePrelude::SelectorList(selector_list)
+                                    }
+                                    _ => {
+                                        return Err(err);
+                                    }
+                                }
+                            } else {
+                                self.errors.push(err);
+                                self.input.reset(&state);
+
+                                let span = self.input.cur_span();
+                                let mut children = vec![];
+
+                                while !is_one_of!(self, EOF, "{") {
+                                    if is!(self, ";") {
+                                        let span = self.input.cur_span();
+
+                                        return Err(Error::new(
+                                            span,
+                                            ErrorKind::UnexpectedChar(';'),
+                                        ));
+                                    }
+
+                                    if let Some(token_and_span) = self.input.bump() {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
+                                }
+
+                                QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
+                                    span: span!(self, span.lo),
+                                    children,
+                                })
+                            }
                         }
                     };
                 }
@@ -229,6 +264,26 @@ where
                 // Consume a declaration from the temporary list. If anything was returned, append
                 // it to decls.
                 tok!("ident") => {
+                    if self.config.legacy_nesting {
+                        let state = self.input.state();
+                        let ctx = Ctx {
+                            is_trying_legacy_nesting: true,
+                            ..self.ctx
+                        };
+                        let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+
+                        match legacy_nested {
+                            Ok(legacy_nested) => {
+                                rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
+
+                                continue;
+                            }
+                            _ => {
+                                self.input.reset(&state);
+                            }
+                        };
+                    }
+
                     let state = self.input.state();
                     let prop = match self.parse() {
                         Ok(v) => StyleBlock::Declaration(v),
@@ -313,6 +368,26 @@ where
                 // input token is anything other than a <semicolon-token> or <EOF-token>, consume a
                 // component value and throw away the returned value.
                 _ => {
+                    if self.config.legacy_nesting {
+                        let state = self.input.state();
+                        let ctx = Ctx {
+                            is_trying_legacy_nesting: true,
+                            ..self.ctx
+                        };
+                        let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+
+                        match legacy_nested {
+                            Ok(legacy_nested) => {
+                                rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
+
+                                continue;
+                            }
+                            _ => {
+                                self.input.reset(&state);
+                            }
+                        };
+                    }
+
                     let span = self.input.cur_span();
 
                     self.errors.push(Error::new(
