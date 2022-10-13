@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Change default pass limit to 3 (#6138) ([3a29bfe](https://github.com/swc-project/swc/commit/3a29bfee9b3be0e85fe9e45272b7151c449779db))
 
+
+- **(es/minifier)** Improve trivial rules (#6136) ([ec0d6d5](https://github.com/swc-project/swc/commit/ec0d6d5a0d52d86824493556ac9b75237197711e))
+
 ### Miscellaneous Tasks
 
 
