@@ -4023,8 +4023,7 @@
         return didPerformWorkStackCursor.current;
     }
     function isContextProvider(type) {
-        var childContextTypes = type.childContextTypes;
-        return null != childContextTypes;
+        return null != type.childContextTypes;
     }
     function popContext(fiber) {
         pop(didPerformWorkStackCursor, fiber), pop(contextStackCursor, fiber);
@@ -4537,13 +4536,7 @@
             var addendum = "";
             addendum = void 0 === contextType ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file." : "object" != typeof contextType ? " However, it is set to a " + typeof contextType + "." : contextType.$$typeof === REACT_PROVIDER_TYPE ? " Did you accidentally pass the Context.Provider instead?" : void 0 !== contextType._context ? " Did you accidentally pass the Context.Consumer instead?" : " However, it is set to an object with keys {" + Object.keys(contextType).join(", ") + "}.", error("%s defines an invalid contextType. contextType should point to the Context object returned by React.createContext().%s", getComponentName(ctor) || "Component", addendum);
         }
-        if ("object" == typeof contextType && null !== contextType) context = readContext(contextType);
-        else {
-            unmaskedContext = getUnmaskedContext(workInProgress, ctor, !0);
-            var contextTypes = ctor.contextTypes;
-            context = (isLegacyContextConsumer = null != contextTypes) ? getMaskedContext(workInProgress, unmaskedContext) : emptyContextObject;
-        }
-        if (1 & workInProgress.mode) {
+        if ("object" == typeof contextType && null !== contextType ? context = readContext(contextType) : (unmaskedContext = getUnmaskedContext(workInProgress, ctor, !0), context = (isLegacyContextConsumer = null != ctor.contextTypes) ? getMaskedContext(workInProgress, unmaskedContext) : emptyContextObject), 1 & workInProgress.mode) {
             disableLogs();
             try {
                 new ctor(props, context);
@@ -7152,8 +7145,7 @@
     function unwindInterruptedWork(interruptedWork) {
         switch(interruptedWork.tag){
             case 1:
-                var childContextTypes = interruptedWork.type.childContextTypes;
-                null != childContextTypes && popContext(interruptedWork);
+                null != interruptedWork.type.childContextTypes && popContext(interruptedWork);
                 break;
             case 3:
                 popHostContainer(interruptedWork), popTopLevelContextObject(interruptedWork), resetWorkInProgressVersions();
@@ -7435,7 +7427,7 @@
             var tag = node.tag, isHost = 5 === tag || 6 === tag;
             if (isHost) {
                 var parentNode, reactRootContainer, stateNode = isHost ? node.stateNode : node.stateNode.instance;
-                before ? 8 === parent.nodeType ? parent.parentNode.insertBefore(stateNode, before) : parent.insertBefore(stateNode, before) : (8 === parent.nodeType ? (parentNode = parent.parentNode).insertBefore(stateNode, parent) : (parentNode = parent).appendChild(stateNode), (null === (reactRootContainer = parent._reactRootContainer) || void 0 === reactRootContainer) && null === parentNode.onclick && trapClickOnNonInteractiveElement(parentNode));
+                before ? 8 === parent.nodeType ? parent.parentNode.insertBefore(stateNode, before) : parent.insertBefore(stateNode, before) : (8 === parent.nodeType ? (parentNode = parent.parentNode).insertBefore(stateNode, parent) : (parentNode = parent).appendChild(stateNode), null == parent._reactRootContainer && null === parentNode.onclick && trapClickOnNonInteractiveElement(parentNode));
             } else if (4 === tag) ;
             else {
                 var child = node.child;

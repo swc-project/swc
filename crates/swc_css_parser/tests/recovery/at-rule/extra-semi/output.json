@@ -47,13 +47,13 @@
       "block": null
     },
     {
-      "type": "Tokens",
+      "type": "ListOfComponentValues",
       "span": {
         "start": 17,
         "end": 44,
         "ctxt": 0
       },
-      "tokens": [
+      "children": [
         {
           "type": "PreservedToken",
           "span": {

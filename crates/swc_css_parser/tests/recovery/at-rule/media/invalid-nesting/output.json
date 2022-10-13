@@ -110,13 +110,13 @@
         "name": "{",
         "value": [
           {
-            "type": "Tokens",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 33,
               "end": 57,
               "ctxt": 0
             },
-            "tokens": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {

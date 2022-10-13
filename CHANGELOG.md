@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/modules)** Fix parsing and refactor code (#6132) ([39cfade](https://github.com/swc-project/swc/commit/39cfade7f8b199b9db3240ffd561524f2f209798))
+
 ### Features
 
 
@@ -13,11 +19,20 @@
 
 - **(es/minifier)** Merge assignments using sequential inliner (#6103) ([5875298](https://github.com/swc-project/swc/commit/58752983775337067127f219569bd0c7fbc55564))
 
+
+- **(es/minifier)** Swap more binary expressions (#6134) ([c37839f](https://github.com/swc-project/swc/commit/c37839fc628d62ec8ddb9372b45db72c6aa9e18d))
+
 ### Miscellaneous Tasks
 
 
 
 - **(ci)** Deny clippy warnings (#6126) ([d6fd476](https://github.com/swc-project/swc/commit/d6fd47672150aa3a020c55b1c61c4ac593d0c9fe))
+
+### Refactor
+
+
+
+- **(css/ast)** Refactor AST types (#6124) ([85b2188](https://github.com/swc-project/swc/commit/85b218820492d4567e17998513067fa6b3490346))
 
 ## [1.3.7] - 2022-10-12
 

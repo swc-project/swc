@@ -67,6 +67,7 @@ impl Default for BlockContentsGrammar {
 
 #[derive(Debug, Default, Clone, Copy)]
 struct Ctx {
+    is_top_level: bool,
     block_contents_grammar: BlockContentsGrammar,
 
     in_supports_at_rule: bool,
@@ -114,9 +115,4 @@ where
     pub fn parse_all(&mut self) -> PResult<Stylesheet> {
         self.parse()
     }
-}
-
-#[derive(Clone, Copy)]
-pub struct RuleContext {
-    is_top_level: bool,
 }

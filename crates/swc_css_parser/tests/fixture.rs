@@ -8,7 +8,10 @@ use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
     parse_tokens,
-    parser::{input::ParserInput, PResult, Parser, ParserConfig},
+    parser::{
+        input::{ParserInput, Tokens},
+        PResult, Parser, ParserConfig,
+    },
 };
 use swc_css_visit::{Visit, VisitWith};
 use testing::NormalizedOutput;
@@ -386,8 +389,6 @@ impl Visit for SpanVisualizer<'_> {
 
     mtd!(DashedIdent, visit_dashed_ident);
 
-    mtd!(Tokens, visit_tokens);
-
     mtd!(Dimension, visit_dimension);
 
     mtd!(Length, visit_length);
@@ -503,7 +504,7 @@ impl Visit for SpanVisualizer<'_> {
     }
 }
 
-fn stylesheet_span_visualizer(input: PathBuf) {
+fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
@@ -512,8 +513,11 @@ fn stylesheet_span_visualizer(input: PathBuf) {
             return Ok(());
         }
 
-        let config = ParserConfig {
-            ..Default::default()
+        let config = match config {
+            Some(config) => config,
+            _ => ParserConfig {
+                ..Default::default()
+            },
         };
 
         let fm = cm.load_file(&input).unwrap();
@@ -562,6 +566,17 @@ fn line_comments_pass(input: PathBuf) {
     )
 }
 
+#[testing::fixture("tests/line-comment/**/input.css")]
+fn span_visualizer_line_comment(input: PathBuf) {
+    stylesheet_span_visualizer(
+        input,
+        Some(ParserConfig {
+            allow_wrong_line_comments: true,
+            ..Default::default()
+        }),
+    )
+}
+
 // TODO fix exclude
 #[testing::fixture(
     "tests/recovery/**/input.css",
@@ -584,8 +599,7 @@ fn recovery(input: PathBuf) {
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]
-#[testing::fixture("tests/line-comment/**/input.css")]
 #[testing::fixture("tests/recovery/**/input.css")]
 fn span_visualizer(input: PathBuf) {
-    stylesheet_span_visualizer(input)
+    stylesheet_span_visualizer(input, None)
 }

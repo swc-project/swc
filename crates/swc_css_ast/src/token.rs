@@ -8,13 +8,6 @@ use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
-#[ast_node("Tokens")]
-#[derive(Default, Eq, Hash, EqIgnoreSpan)]
-pub struct Tokens {
-    pub span: Span,
-    pub tokens: Vec<TokenAndSpan>,
-}
-
 #[ast_node("PreservedToken")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct TokenAndSpan {

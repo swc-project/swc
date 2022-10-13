@@ -457,6 +457,14 @@ impl Pure<'_> {
             (Expr::Update(..) | Expr::Assign(..), Expr::Lit(..)) if is_for_rel => false,
 
             (
+                Expr::Ident(..),
+                Expr::Ident(Ident {
+                    sym: js_word!("undefined"),
+                    ..
+                }),
+            ) => true,
+
+            (
                 Expr::Member(..)
                 | Expr::Call(..)
                 | Expr::Assign(..)

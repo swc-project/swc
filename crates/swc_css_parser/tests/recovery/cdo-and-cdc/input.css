@@ -8,3 +8,25 @@ test
 
 -->
 }
+
+div {
+    color: red;
+<!--
+
+test
+
+-->
+
+    color: blue;
+}
+
+div {
+    color: red;
+<!--
+
+test
+
+-->;
+
+    color: blue;
+}

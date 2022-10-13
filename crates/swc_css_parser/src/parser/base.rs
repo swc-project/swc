@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{BlockContentsGrammar, Ctx, RuleContext},
+    parser::{BlockContentsGrammar, Ctx},
     Parse,
 };
 
@@ -14,7 +14,11 @@ where
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
         let start = self.input.cur_span();
-        let rules = self.parse_rule_list(RuleContext { is_top_level: true })?;
+        let ctx = Ctx {
+            is_top_level: true,
+            ..self.ctx
+        };
+        let rules = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
 
         let last = self.input.last_pos();
 
@@ -25,11 +29,11 @@ where
     }
 }
 
-impl<I> Parser<I>
+impl<I> Parse<Vec<Rule>> for Parser<I>
 where
     I: ParserInput,
 {
-    pub(crate) fn parse_rule_list(&mut self, ctx: RuleContext) -> PResult<Vec<Rule>> {
+    fn parse(&mut self) -> PResult<Vec<Rule>> {
         // Create an initially empty list of rules.
         let mut rules = vec![];
 
@@ -52,7 +56,7 @@ where
                 // <CDC-token>
                 tok!("<!--") | tok!("-->") => {
                     // If the top-level flag is set, do nothing.
-                    if ctx.is_top_level {
+                    if self.ctx.is_top_level {
                         bump!(self);
                     }
                     // Otherwise, reconsume the current input token. Consume a qualified rule. If
@@ -81,26 +85,29 @@ where
                             self.input.reset(&state);
 
                             let span = self.input.cur_span();
-                            let mut tokens = vec![];
+                            let mut children = vec![];
 
                             while !is_one_of!(self, EOF, "}") {
-                                let token = self.input.bump();
-
-                                tokens.extend(token);
+                                if let Some(token_and_span) = self.input.bump() {
+                                    children.push(ComponentValue::PreservedToken(token_and_span));
+                                }
 
                                 if is!(self, ";") {
-                                    let token = self.input.bump();
-
-                                    tokens.extend(token);
+                                    if let Some(token_and_span) = self.input.bump() {
+                                        children
+                                            .push(ComponentValue::PreservedToken(token_and_span));
+                                    }
 
                                     break;
                                 }
                             }
 
-                            rules.push(Rule::Invalid(Tokens {
-                                span: span!(self, span.lo),
-                                tokens,
-                            }));
+                            rules.push(Rule::ListOfComponentValues(Box::new(
+                                ListOfComponentValues {
+                                    span: span!(self, span.lo),
+                                    children,
+                                },
+                            )));
                         }
                     };
                 }
@@ -520,9 +527,11 @@ where
                     }
                     // TODO improve grammar validation
                     BlockContentsGrammar::RuleList | BlockContentsGrammar::Stylesheet => {
-                        let rule_list = self.parse_rule_list(RuleContext {
+                        let ctx = Ctx {
                             is_top_level: false,
-                        })?;
+                            ..self.ctx
+                        };
+                        let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
                         let rule_list: Vec<ComponentValue> =
                             rule_list.into_iter().map(ComponentValue::Rule).collect();
 
