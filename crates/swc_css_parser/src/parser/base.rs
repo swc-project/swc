@@ -159,35 +159,10 @@ where
                     prelude = match selector_list {
                         Ok(mut selector_list) => {
                             if self.ctx.is_trying_legacy_nesting {
-                                for s in selector_list.children.iter_mut() {
-                                    if s.children.iter().any(|s| match s {
-                                        ComplexSelectorChildren::CompoundSelector(s) => {
-                                            s.nesting_selector.is_some()
-                                        }
-                                        _ => false,
-                                    }) {
-                                        continue;
-                                    }
-
-                                    s.children.insert(
-                                        0,
-                                        ComplexSelectorChildren::CompoundSelector(
-                                            CompoundSelector {
-                                                span,
-                                                nesting_selector: Some(NestingSelector { span }),
-                                                type_selector: Default::default(),
-                                                subclass_selectors: Default::default(),
-                                            },
-                                        ),
-                                    );
-                                    s.children.insert(
-                                        1,
-                                        ComplexSelectorChildren::Combinator(Combinator {
-                                            span,
-                                            value: CombinatorValue::Descendant,
-                                        }),
-                                    );
-                                }
+                                selector_list = self
+                                    .legacy_nested_selector_list_to_modern_selector_list(
+                                        selector_list,
+                                    )?;
                             }
 
                             QualifiedRulePrelude::SelectorList(selector_list)
@@ -201,57 +176,10 @@ where
 
                                 match relative_selector_list {
                                     Ok(relative_selector_list) => {
-                                        let mut selector_list = SelectorList {
-                                            span: relative_selector_list.span,
-                                            children: Vec::with_capacity(
-                                                relative_selector_list.children.len(),
-                                            ),
-                                        };
-
-                                        for relative_selector in
-                                            relative_selector_list.children.into_iter()
-                                        {
-                                            let mut complex_selector =
-                                                relative_selector.selector.clone();
-
-                                            complex_selector.children.insert(
-                                                0,
-                                                ComplexSelectorChildren::CompoundSelector(
-                                                    CompoundSelector {
-                                                        span,
-                                                        nesting_selector: Some(NestingSelector {
-                                                            span,
-                                                        }),
-                                                        type_selector: Default::default(),
-                                                        subclass_selectors: Default::default(),
-                                                    },
-                                                ),
-                                            );
-
-                                            match relative_selector.combinator {
-                                                Some(combinator) => {
-                                                    complex_selector.children.insert(
-                                                        1,
-                                                        ComplexSelectorChildren::Combinator(
-                                                            combinator,
-                                                        ),
-                                                    );
-                                                }
-                                                _ => {
-                                                    complex_selector.children.insert(
-                                                        1,
-                                                        ComplexSelectorChildren::Combinator(
-                                                            Combinator {
-                                                                span,
-                                                                value: CombinatorValue::Descendant,
-                                                            },
-                                                        ),
-                                                    );
-                                                }
-                                            }
-
-                                            selector_list.children.push(complex_selector);
-                                        }
+                                        let selector_list = self
+                                            .legacy_relative_selector_list_to_modern_selector_list(
+                                                relative_selector_list,
+                                            )?;
 
                                         QualifiedRulePrelude::SelectorList(selector_list)
                                     }
