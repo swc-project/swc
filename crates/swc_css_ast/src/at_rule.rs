@@ -101,9 +101,31 @@ pub enum DocumentPreludeMatchingFunction {
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum KeyframesName {
     #[tag("CustomIdent")]
-    CustomIdent(CustomIdent),
+    CustomIdent(Box<CustomIdent>),
     #[tag("Str")]
-    Str(Str),
+    Str(Box<Str>),
+    /// Only for CSS modules
+    #[tag("KeyframesPseudoPrefix")]
+    PseudoPrefix(Box<KeyframesPseudoPrefix>),
+    /// Only for CSS modules
+    #[tag("KeyframesPseudoFunction")]
+    PseudoFunction(Box<KeyframesPseudoFunction>),
+}
+
+#[ast_node("KeyframesPseudo")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct KeyframesPseudoPrefix {
+    pub span: Span,
+    pub pseudo: Ident,
+    pub name: KeyframesName,
+}
+
+#[ast_node("KeyframesPseudo")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct KeyframesPseudoFunction {
+    pub span: Span,
+    pub pseudo: Ident,
+    pub name: KeyframesName,
 }
 
 #[ast_node("KeyframeBlock")]

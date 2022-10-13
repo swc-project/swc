@@ -170,4 +170,12 @@ macro_rules! tok {
     ("important") => {
         ident_tok!("important")
     };
+
+    ("local") => {
+        ident_tok!("local")
+    };
+
+    ("global") => {
+        ident_tok!("global")
+    };
 }

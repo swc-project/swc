@@ -180,7 +180,9 @@ where
                     KeyframesName::Str(_) => {
                         formatting_space!(self);
                     }
-                    KeyframesName::CustomIdent(_) => {
+                    KeyframesName::CustomIdent(_)
+                    | KeyframesName::PseudoPrefix(_)
+                    | KeyframesName::PseudoFunction(_) => {
                         space!(self);
                     }
                 }
@@ -371,7 +373,26 @@ where
         match n {
             KeyframesName::CustomIdent(n) => emit!(self, n),
             KeyframesName::Str(n) => emit!(self, n),
+            KeyframesName::PseudoFunction(n) => emit!(self, n),
+            KeyframesName::PseudoPrefix(n) => emit!(self, n),
         }
+    }
+
+    #[emitter]
+    fn emit_keyframes_pseudo_function(&mut self, n: &KeyframesPseudoFunction) -> Result {
+        write_raw!(self, ":");
+        emit!(self, n.pseudo);
+        write_raw!(self, "(");
+        emit!(self, n.name);
+        write_raw!(self, ")");
+    }
+
+    #[emitter]
+    fn emit_keyframes_pseudo_prefix(&mut self, n: &KeyframesPseudoPrefix) -> Result {
+        write_raw!(self, ":");
+        emit!(self, n.pseudo);
+        space!(self);
+        emit!(self, n.name);
     }
 
     #[emitter]
@@ -2532,6 +2553,7 @@ where
             PseudoClassSelectorChildren::Ident(n) => emit!(self, n),
             PseudoClassSelectorChildren::Str(n) => emit!(self, n),
             PseudoClassSelectorChildren::Delimiter(n) => emit!(self, n),
+            PseudoClassSelectorChildren::ComplexSelector(n) => emit!(self, n),
             PseudoClassSelectorChildren::SelectorList(n) => emit!(
                 &mut *self.with_ctx(Ctx {
                     in_single_line_selectors: true,

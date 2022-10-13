@@ -1,0 +1,18 @@
+.focusVisible {
+    background: var(--accents-1);
+  
+    a:focus {
+      outline: none;
+    }
+    a:focus > div {
+      outline: none;
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 2px;
+      text-decoration-color: var(--accents-7);
+    }
+    button:focus {
+      box-shadow: 0px 0px 0px 2px var(--accents-7);
+    }
+}
+  

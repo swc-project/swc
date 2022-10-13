@@ -333,6 +333,9 @@ pub enum PseudoClassSelectorChildren {
     #[tag("Delimiter")]
     Delimiter(Delimiter),
 
+    #[tag("ComplexSelector")]
+    ComplexSelector(ComplexSelector),
+
     #[tag("SelectorList")]
     SelectorList(SelectorList),
 

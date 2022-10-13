@@ -1,4 +1,10 @@
 {
+  "c1": [
+    {
+      "type": "local",
+      "name": "__local__c1"
+    }
+  ],
   "c3": [
     {
       "type": "local",
@@ -9,12 +15,6 @@
     {
       "type": "local",
       "name": "__local__c4"
-    }
-  ],
-  "c1": [
-    {
-      "type": "local",
-      "name": "__local__c1"
     }
   ]
 }

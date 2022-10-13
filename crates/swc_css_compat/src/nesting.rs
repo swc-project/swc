@@ -1,9 +1,11 @@
-use swc_common::util::take::Take;
+use std::iter::once;
+
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
-    ComplexSelector, ComplexSelectorChildren, ComponentValue, CompoundSelector,
-    ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
+    AtRule, AtRulePrelude, ComplexSelector, ComplexSelectorChildren, ComponentValue,
+    CompoundSelector, ForgivingComplexSelector, ForgivingSelectorList, PseudoClassSelector,
     PseudoClassSelectorChildren, QualifiedRule, QualifiedRulePrelude, Rule, SelectorList,
-    StyleBlock, SubclassSelector,
+    SimpleBlock, StyleBlock, SubclassSelector,
 };
 use swc_css_visit::{VisitMut, VisitMutWith};
 
@@ -159,8 +161,8 @@ impl NestingHandler {
         }
     }
 
-    fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Box<QualifiedRule>> {
-        let mut rules = vec![];
+    fn extract_nested_rules(&mut self, rule: &mut QualifiedRule) -> Vec<Rule> {
+        let mut nested_rules = vec![];
 
         let mut block_values = vec![];
         for value in rule.block.value.take() {
@@ -168,16 +170,70 @@ impl NestingHandler {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut q)) => {
                     self.process_prelude(&rule.prelude, &mut q.prelude);
 
-                    rules.push(q);
+                    nested_rules.push(Rule::QualifiedRule(q));
+                    continue;
                 }
-                _ => {
-                    block_values.push(value);
+                ComponentValue::StyleBlock(StyleBlock::AtRule(ref at_rule)) => {
+                    if let Some(AtRulePrelude::MediaPrelude(..)) = at_rule.prelude.as_deref() {
+                        if let Some(block) = &at_rule.block {
+                            let mut decls_of_media = vec![];
+                            let mut nested_of_media = vec![];
+
+                            for n in &block.value {
+                                match n {
+                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)) => {
+                                        let mut q = n.clone();
+                                        self.process_prelude(&rule.prelude, &mut q.prelude);
+
+                                        let rules = self.extract_nested_rules(&mut q);
+
+                                        nested_of_media.extend(
+                                            once(Rule::QualifiedRule(q))
+                                                .chain(rules.into_iter())
+                                                .map(rule_to_component_value),
+                                        );
+                                    }
+
+                                    _ => {
+                                        decls_of_media.push(n.clone());
+                                    }
+                                }
+                            }
+
+                            if !decls_of_media.is_empty() {
+                                let rule = Box::new(QualifiedRule {
+                                    span: DUMMY_SP,
+                                    prelude: rule.prelude.clone(),
+                                    block: SimpleBlock {
+                                        value: decls_of_media,
+                                        ..*block
+                                    },
+                                });
+                                nested_of_media.insert(
+                                    0,
+                                    ComponentValue::StyleBlock(StyleBlock::QualifiedRule(rule)),
+                                );
+                            }
+
+                            nested_rules.push(Rule::AtRule(Box::new(AtRule {
+                                block: Some(SimpleBlock {
+                                    value: nested_of_media,
+                                    ..*block
+                                }),
+                                ..*at_rule.clone()
+                            })));
+                            continue;
+                        }
+                    }
                 }
+                _ => {}
             }
+
+            block_values.push(value);
         }
         rule.block.value = block_values;
 
-        rules
+        nested_rules
     }
 }
 
@@ -191,7 +247,7 @@ impl VisitMut for NestingHandler {
                 Rule::QualifiedRule(mut n) => {
                     let rules = self.extract_nested_rules(&mut n);
                     new.push(Rule::QualifiedRule(n));
-                    new.extend(rules.into_iter().map(Rule::QualifiedRule));
+                    new.extend(rules);
                 }
                 _ => {
                     new.push(n);
@@ -205,23 +261,28 @@ impl VisitMut for NestingHandler {
         n.visit_mut_children_with(self);
 
         let mut new = vec![];
+
         for n in n.take() {
             match n {
                 ComponentValue::StyleBlock(StyleBlock::QualifiedRule(mut n)) => {
                     let rules = self.extract_nested_rules(&mut n);
                     new.push(ComponentValue::StyleBlock(StyleBlock::QualifiedRule(n)));
-                    new.extend(
-                        rules
-                            .into_iter()
-                            .map(StyleBlock::QualifiedRule)
-                            .map(ComponentValue::StyleBlock),
-                    );
+                    new.extend(rules.into_iter().map(rule_to_component_value));
                 }
+
                 _ => {
                     new.push(n);
                 }
             }
         }
         *n = new;
+    }
+}
+
+fn rule_to_component_value(rule: Rule) -> ComponentValue {
+    match rule {
+        Rule::QualifiedRule(q) => ComponentValue::StyleBlock(StyleBlock::QualifiedRule(q)),
+        Rule::AtRule(r) => ComponentValue::StyleBlock(StyleBlock::AtRule(r)),
+        Rule::Invalid(..) => ComponentValue::Rule(rule),
     }
 }

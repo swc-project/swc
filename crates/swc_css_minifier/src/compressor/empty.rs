@@ -36,9 +36,9 @@ impl Compressor {
                         .or_insert(1);
                 }
                 Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
-                    CustomIdent { value: name, .. },
+                    box CustomIdent { value: name, .. },
                 )))
-                | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(Str {
+                | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
                     value: name,
                     ..
                 }))) => {
@@ -72,9 +72,9 @@ impl Compressor {
                 }
             }
             Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::CustomIdent(
-                CustomIdent { value: name, .. },
+                box CustomIdent { value: name, .. },
             )))
-            | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(Str {
+            | Some(box AtRulePrelude::KeyframesPrelude(KeyframesName::Str(box Str {
                 value: name,
                 ..
             }))) => {
