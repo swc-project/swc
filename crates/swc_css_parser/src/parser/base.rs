@@ -158,7 +158,7 @@ where
 
                     prelude = match selector_list {
                         Ok(mut selector_list) => {
-                            if self.ctx.is_trying_nested_selector {
+                            if self.ctx.is_trying_legacy_nesting {
                                 for s in selector_list.children.iter_mut() {
                                     if s.children.iter().any(|s| match s {
                                         ComplexSelectorChildren::CompoundSelector(s) => {
@@ -193,8 +193,7 @@ where
                             QualifiedRulePrelude::SelectorList(selector_list)
                         }
                         Err(err) => {
-                            // Disable error recovery
-                            if self.ctx.is_trying_nested_selector {
+                            if self.ctx.is_trying_legacy_nesting {
                                 self.input.reset(&state);
 
                                 let relative_selector_list: PResult<RelativeSelectorList> =
@@ -340,7 +339,7 @@ where
                     if self.config.legacy_nesting {
                         let state = self.input.state();
                         let ctx = Ctx {
-                            is_trying_nested_selector: true,
+                            is_trying_legacy_nesting: true,
                             ..self.ctx
                         };
                         let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
@@ -444,7 +443,7 @@ where
                     if self.config.legacy_nesting {
                         let state = self.input.state();
                         let ctx = Ctx {
-                            is_trying_nested_selector: true,
+                            is_trying_legacy_nesting: true,
                             ..self.ctx
                         };
                         let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
