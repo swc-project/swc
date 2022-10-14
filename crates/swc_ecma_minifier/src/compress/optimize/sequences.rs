@@ -592,6 +592,9 @@ where
             }
 
             Stmt::Decl(Decl::Fn(..)) => {
+                // TODO(kdy1): Check side effects of default paramters.
+                // Function declarations can have side-effects, but in real world code it's very
+                // unrealistic so I didn't bother to implement the check for it.
                 vec![]
             }
 
