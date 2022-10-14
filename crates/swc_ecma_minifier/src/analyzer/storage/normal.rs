@@ -153,21 +153,15 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self
-            .vars
-            .entry(i.to_id())
-            .and_modify(|v| {
-                if has_init && (v.declared || v.var_initialized) {
-                    trace_op!("declare_decl(`{}`): Already declared", i);
+        let v = self.vars.entry(i.to_id()).or_default();
 
-                    v.mutated = true;
-                    v.reassigned_with_var_decl = true;
-                    v.assign_count += 1;
-                }
-            })
-            .or_insert_with(|| VarUsageInfo {
-                ..Default::default()
-            });
+        if has_init && (v.declared || v.var_initialized) {
+            trace_op!("declare_decl(`{}`): Already declared", i);
+
+            v.mutated = true;
+            v.reassigned_with_var_decl = true;
+            v.assign_count += 1;
+        }
 
         // This is not delcared yet, so this is the first declaration.
         if !v.declared {
