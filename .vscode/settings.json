@@ -29,6 +29,7 @@
     "rust-analyzer.checkOnSave.features": [
         // We use this to make IDE faster
         "rust-analyzer",
-        "rkyv-impl"
+        "rkyv-impl",
+        "debug"
     ]
 }

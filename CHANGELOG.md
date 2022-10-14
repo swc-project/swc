@@ -1,6 +1,26 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(repo)** Document maintenance (#6145) ([f1bb365](https://github.com/swc-project/swc/commit/f1bb365e8e31ee6f0d9aead16a3bca7fec9c0401))
+
+### Features
+
+
+
+- **(css/modules)** Add a lifetime to config parameter (#6144) ([1196d60](https://github.com/swc-project/swc/commit/1196d60182e6fcc7b9ba35150f9f5ea4f4ea0881))
+
+
+- **(es/minifier)** Ignore return value if a param of IIFE is not used (#6115) ([d334c6e](https://github.com/swc-project/swc/commit/d334c6e78393ee9cc853c46d9144f22033ce62d0))
+
+
+- **(es/utils)** Add indexed API to the parallel helper (#6149) ([6a42e51](https://github.com/swc-project/swc/commit/6a42e511e8ba8d8d5f7de83df64883edd00a7ab3))
+
+## [1.3.8] - 2022-10-14
+
 ### Bug Fixes
 
 
@@ -9,6 +29,9 @@
 
 
 - **(css/modules)** Fix parsing and refactor code (#6132) ([39cfade](https://github.com/swc-project/swc/commit/39cfade7f8b199b9db3240ffd561524f2f209798))
+
+
+- **(es/minifier)** Preserve return values of recursive IIFE (#6142) ([3d271e8](https://github.com/swc-project/swc/commit/3d271e82a2ec3ac69ee36e5b1f090bf323f56046))
 
 ### Features
 
@@ -24,6 +47,12 @@
 
 
 - **(es/minifier)** Swap more binary expressions (#6134) ([c37839f](https://github.com/swc-project/swc/commit/c37839fc628d62ec8ddb9372b45db72c6aa9e18d))
+
+
+- **(es/minifier)** Change default pass limit to 3 (#6138) ([3a29bfe](https://github.com/swc-project/swc/commit/3a29bfee9b3be0e85fe9e45272b7151c449779db))
+
+
+- **(es/minifier)** Improve trivial rules (#6136) ([ec0d6d5](https://github.com/swc-project/swc/commit/ec0d6d5a0d52d86824493556ac9b75237197711e))
 
 ### Miscellaneous Tasks
 

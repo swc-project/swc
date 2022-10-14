@@ -291,7 +291,7 @@ fn find_config(dir: &Path) -> String {
 }
 
 #[testing::fixture("tests/fixture/**/input.js")]
-#[testing::fixture("tests/single-pass/**/input.js")]
+#[testing::fixture("tests/pass-1/**/input.js")]
 fn custom_fixture(input: PathBuf) {
     let dir = input.parent().unwrap();
     let config = find_config(dir);
@@ -409,7 +409,7 @@ fn projects_bench(input: PathBuf) {
             cm.clone(),
             &handler,
             &input,
-            r#"{ "defaults": true, "toplevel": true, "passes": 2 }"#,
+            r#"{ "defaults": true, "toplevel": true, "passes": 3 }"#,
             None,
             false,
         );

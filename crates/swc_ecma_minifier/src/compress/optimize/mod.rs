@@ -623,7 +623,8 @@ where
                     "ignore_return_value: Dropping unused expr: {}",
                     dump(&*e, false)
                 );
-                self.changed = true;
+                // We don't need to run this again
+                // self.changed = true;
                 return None;
             }
 
@@ -890,7 +891,7 @@ where
                     self.store_var_for_inlining(&mut i.id, right, false, true);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
                         self.vars.removed.insert(old);
                     }
 
@@ -1575,6 +1576,7 @@ where
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
     }
 
@@ -1716,7 +1718,7 @@ where
                     self.store_var_for_inlining(i, right, false, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
                         self.vars.removed.insert(old.clone());
                     }
 

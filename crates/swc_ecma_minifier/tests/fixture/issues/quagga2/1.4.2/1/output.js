@@ -6854,7 +6854,7 @@
                                         if ("Exif" !== function(buffer, start, length) {
                                             for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                                             return outstr;
-                                        }(file, start, 4)) return !1;
+                                        }(file, start, 0)) return !1;
                                         var bigEnd, tiffOffset = start + 6;
                                         if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                                         else {
@@ -6869,10 +6869,10 @@
                                                 tag && (tags[tag] = function(file, entryOffset, tiffStart, dirStart, bigEnd) {
                                                     var type = file.getUint16(entryOffset + 2, !bigEnd), numValues = file.getUint32(entryOffset + 4, !bigEnd);
                                                     return 3 === type && 1 === numValues ? file.getUint16(entryOffset + 8, !bigEnd) : null;
-                                                }(file, entryOffset, tiffStart, dirStart, bigEnd));
+                                                }(file, entryOffset, 0, 0, bigEnd));
                                             }
                                             return tags;
-                                        }(file, tiffOffset, tiffOffset + firstIFDOffset, exifTags, bigEnd);
+                                        }(file, 0, tiffOffset + firstIFDOffset, exifTags, bigEnd);
                                     }(dataView, offset + 4, exifTags);
                                     offset += 2 + dataView.getUint16(offset + 2);
                                 }
