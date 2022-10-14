@@ -1965,7 +1965,7 @@ where
                 if let Some(usage) = self.data.vars.get(&left.to_id()) {
                     let is_lit = match a.init.as_deref() {
                         Some(e) => is_trivial_lit(e),
-                        _ => !usage.reassigned(),
+                        _ => !usage.reassigned() && !usage.used_above_decl,
                     };
 
                     if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
