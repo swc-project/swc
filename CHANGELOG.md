@@ -10,6 +10,9 @@
 
 - **(css/modules)** Fix parsing and refactor code (#6132) ([39cfade](https://github.com/swc-project/swc/commit/39cfade7f8b199b9db3240ffd561524f2f209798))
 
+
+- **(es/minifier)** Preserve return values of recursive IIFE (#6142) ([3d271e8](https://github.com/swc-project/swc/commit/3d271e82a2ec3ac69ee36e5b1f090bf323f56046))
+
 ### Features
 
 
