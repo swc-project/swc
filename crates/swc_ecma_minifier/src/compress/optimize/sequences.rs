@@ -962,18 +962,16 @@ where
             Pat::Invalid(_) => false,
 
             Pat::Array(p) => {
-                for elem in &p.elems {
-                    if let Some(elem) = elem {
-                        if !self.is_pat_skippable_for_seq(a, elem) {
-                            return false;
-                        }
+                for elem in p.elems.iter().flatten() {
+                    if !self.is_pat_skippable_for_seq(a, elem) {
+                        return false;
                     }
                 }
 
                 true
             }
             Pat::Rest(p) => {
-                if !self.is_pat_skippable_for_seq(a, &*p.arg) {
+                if !self.is_pat_skippable_for_seq(a, &p.arg) {
                     return false;
                 }
 
