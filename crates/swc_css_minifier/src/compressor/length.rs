@@ -98,16 +98,9 @@ impl Compressor {
 }
 
 impl Compressor {
-    pub(super) fn compress_component_value_for_length(
-        &mut self,
-        component_value: &mut ComponentValue,
-    ) {
-        if self.ctx.in_math_function {
-            return;
-        }
-
-        match &component_value {
-            ComponentValue::Dimension(Dimension::Length(Length {
+    pub(super) fn length_to_zero(&mut self, n: &mut Dimension) -> Option<Number> {
+        match &n {
+            Dimension::Length(Length {
                 value:
                     Number {
                         value: number_value,
@@ -115,14 +108,24 @@ impl Compressor {
                     },
                 span,
                 ..
-            })) if *number_value == 0.0 => {
-                *component_value = ComponentValue::Number(Number {
-                    span: *span,
-                    value: 0.0,
-                    raw: None,
-                });
+            }) if *number_value == 0.0 => Some(Number {
+                span: *span,
+                value: 0.0,
+                raw: None,
+            }),
+            _ => None,
+        }
+    }
+
+    pub(super) fn compress_component_value_for_length(&mut self, n: &mut ComponentValue) {
+        if self.ctx.in_math_function {
+            return;
+        }
+
+        if let ComponentValue::Dimension(dimension) = n {
+            if let Some(number) = self.length_to_zero(dimension) {
+                *n = ComponentValue::Number(number)
             }
-            _ => {}
         }
     }
 
