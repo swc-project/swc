@@ -1952,12 +1952,12 @@
         },
         11864: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var utils = __webpack_require__(99677), bind = __webpack_require__(81470), Axios = __webpack_require__(250), mergeConfig = __webpack_require__(10882), defaults = __webpack_require__(52275);
+            var utils = __webpack_require__(99677), bind = __webpack_require__(81470), Axios = __webpack_require__(250), mergeConfig = __webpack_require__(10882);
             function createInstance(defaultConfig) {
                 var context = new Axios(defaultConfig), instance = bind(Axios.prototype.request, context);
                 return utils.extend(instance, Axios.prototype, context), utils.extend(instance, context), instance;
             }
-            var axios = createInstance(defaults);
+            var axios = createInstance(__webpack_require__(52275));
             axios.Axios = Axios, axios.create = function(instanceConfig) {
                 return createInstance(mergeConfig(axios.defaults, instanceConfig));
             }, axios.Cancel = __webpack_require__(69651), axios.CancelToken = __webpack_require__(88149), axios.isCancel = __webpack_require__(37606), axios.all = function(promises) {

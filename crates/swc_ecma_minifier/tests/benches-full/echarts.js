@@ -35453,12 +35453,6 @@
         'OTransform',
         'MozTransform',
         'msTransform'
-    ]), TRANSITION_VENDOR = testStyle([
-        'webkitTransition',
-        'transition',
-        'OTransition',
-        'MozTransition',
-        'msTransition'
     ]);
     function toCSSVendorPrefix(styleVendor, styleProp) {
         if (!styleVendor) return styleProp;
@@ -35470,7 +35464,13 @@
         var stl = el.currentStyle || document.defaultView && document.defaultView.getComputedStyle(el);
         return stl ? style ? stl[style] : stl : null;
     }
-    var CSS_TRANSITION_VENDOR = toCSSVendorPrefix(TRANSITION_VENDOR, 'transition'), CSS_TRANSFORM_VENDOR = toCSSVendorPrefix(TRANSFORM_VENDOR, 'transform'), gCssText = "position:absolute;display:block;border-style:solid;white-space:nowrap;z-index:9999999;" + (env1.transform3dSupported ? 'will-change:transform;' : '');
+    var CSS_TRANSITION_VENDOR = toCSSVendorPrefix(testStyle([
+        'webkitTransition',
+        'transition',
+        'OTransition',
+        'MozTransition',
+        'msTransition'
+    ]), 'transition'), CSS_TRANSFORM_VENDOR = toCSSVendorPrefix(TRANSFORM_VENDOR, 'transform'), gCssText = "position:absolute;display:block;border-style:solid;white-space:nowrap;z-index:9999999;" + (env1.transform3dSupported ? 'will-change:transform;' : '');
     function assembleTransform(x, y, toString) {
         var x0 = x.toFixed(0) + 'px', y0 = y.toFixed(0) + 'px';
         if (!env1.transformSupported) return toString ? "top:" + y0 + ";left:" + x0 + ";" : [
