@@ -164,20 +164,19 @@ impl Storage for ProgramData {
                     v.reassigned_with_var_decl = true;
                     v.assign_count += 1;
                 }
-
-                if v.used_in_non_child_fn {
-                    v.is_fn_local = false;
-                }
-
-                v.var_initialized |= has_init;
             })
             .or_insert_with(|| VarUsageInfo {
                 var_kind: kind,
-                var_initialized: has_init,
                 no_side_effect_for_member_access: ctx.in_decl_with_no_side_effect_for_member_access,
 
                 ..Default::default()
             });
+
+        if v.used_in_non_child_fn {
+            v.is_fn_local = false;
+        }
+
+        v.var_initialized |= has_init;
 
         v.declared_count += 1;
         v.declared = true;
