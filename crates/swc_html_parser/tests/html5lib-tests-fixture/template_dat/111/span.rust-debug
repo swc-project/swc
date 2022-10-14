@@ -1,18 +1,18 @@
 
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^
    `----
 
   x DocumentType
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    : ^^^^^^^^^^^^^^^
    `----
@@ -22,67 +22,67 @@
   x Element
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                          ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                          ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                              ^^^^^^^^^^^^^
    `----
 
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                              ^^^^^^^^^^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                  ^^^^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                  ^^^^
    `----
 
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                                ^
    `----
 
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111.fragment_template/input.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat/111/input.html:1:1]
  1 | <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
    :                                                ^
    `----
