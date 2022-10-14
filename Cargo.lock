@@ -3183,7 +3183,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.135.1"
+version = "0.135.2"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3293,7 +3293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.8.1"
+version = "0.8.2"
 dependencies = [
  "rustc-hash",
  "serde",

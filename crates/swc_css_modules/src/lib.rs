@@ -52,7 +52,7 @@ pub struct TransformResult {
 }
 
 /// Returns a map from local name to exported name.
-pub fn compile(ss: &mut Stylesheet, config: impl TransformConfig) -> TransformResult {
+pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> TransformResult {
     let mut compiler = Compiler {
         config,
         data: Default::default(),
