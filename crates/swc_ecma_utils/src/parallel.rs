@@ -180,7 +180,7 @@ where
         I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        for (idx, n) in nodes.iter().enumerate() {
+        for (idx, n) in nodes.into_iter().enumerate() {
             op(self, idx, n);
         }
     }
