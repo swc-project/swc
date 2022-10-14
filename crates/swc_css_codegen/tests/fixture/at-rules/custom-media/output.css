@@ -16,7 +16,7 @@
 @custom-media --md-and-larger1 --screen and (width >= 570px);
 @custom-media --md-and-larger2 (--screen) and (width >= 570px);
 @custom-media --md-and-larger3 only screen and (width >= 570px);
-@custom-media --md-larger4 (width >=570px);
+@custom-media --md-larger4 (width >= 570px);
 @custom-media --md-smaller4 (width < 1000px);
 @custom-media --mq-a (max-width: 30em), (max-height: 30em);
 @custom-media --mq-b screen and (max-width: 30em);
@@ -28,164 +28,138 @@
 @custom-media --concat (min-width: 320px) and (max-width: 640px);
 @custom-media -- (min-width: 320px) and (max-width: 640px);
 @custom-media ------- (min-width: 320px) and (max-width: 640px);
-
 @media (--concat) {
-    body {
-        order: 7;
-    }
+  body {
+    order: 7;
+  }
 }
-
 @media (--concat) and (min-aspect-ratio: 16/9) {
-    body {
-        order: 8;
-    }
+  body {
+    order: 8;
+  }
 }
-
-@media ( --mq-a ) {
-    body {
-        order: 1000;
-    }
-}
-
-@media (	--mq-a	) {
-    body {
-        order: 1001;
-    }
-}
-
-@media ( --mq-a ), (   --mq-a    ) {
-    body {
-        order: 1002;
-    }
-}
-
-@media (	--mq-a	), (			--mq-a				) {
-    body {
-        order: 1003;
-    }
-}
-
-@media ( --mq-a   ), (   --mq-a           ) {
-    body {
-        order: 1004;
-    }
-}
-
-@media (--mq-a), (--mq-a) {
-    body {
-        order: 1005;
-    }
-}
-
-@media (trailer--) {
-    body {
-        order: 1006;
-    }
-}
-
-@media (--min) and (--max) {
-    body {
-        order: 6;
-    }
-}
-
-@media (--circular-mq-a) {
-    body {
-        order: 3;
-    }
-}
-
-@media (--circular-mq-b) {
-    body {
-        order: 4;
-    }
-}
-
-@media (--unresolved-mq) {
-    body {
-        order: 5;
-    }
-}
-
 @media (--mq-a) {
-    body {
-        order: 1;
-    }
+  body {
+    order: 1000;
+  }
 }
-
-@media (--mq-b) {
-    body {
-        order: 1;
-    }
+@media (--mq-a) {
+  body {
+    order: 1001;
+  }
 }
-
 @media (--mq-a), (--mq-a) {
-    body {
-        order: 1;
-    }
+  body {
+    order: 1002;
+  }
 }
-
+@media (--mq-a), (--mq-a) {
+  body {
+    order: 1003;
+  }
+}
+@media (--mq-a), (--mq-a) {
+  body {
+    order: 1004;
+  }
+}
+@media (--mq-a), (--mq-a) {
+  body {
+    order: 1005;
+  }
+}
+@media (trailer--) {
+  body {
+    order: 1006;
+  }
+}
+@media (--min) and (--max) {
+  body {
+    order: 6;
+  }
+}
+@media (--circular-mq-a) {
+  body {
+    order: 3;
+  }
+}
+@media (--circular-mq-b) {
+  body {
+    order: 4;
+  }
+}
+@media (--unresolved-mq) {
+  body {
+    order: 5;
+  }
+}
+@media (--mq-a) {
+  body {
+    order: 1;
+  }
+}
+@media (--mq-b) {
+  body {
+    order: 1;
+  }
+}
+@media (--mq-a), (--mq-a) {
+  body {
+    order: 1;
+  }
+}
 @media not all and (--mq-a) {
-    body {
-        order: 2;
-    }
+  body {
+    order: 2;
+  }
 }
-
 @media (--not-mq-a) {
-    body {
-        order: 1;
-    }
+  body {
+    order: 1;
+  }
 }
-
 @media not all and (--not-mq-a) {
-    body {
-        order: 2;
-    }
+  body {
+    order: 2;
+  }
 }
-
-
 @media (--🧑🏾‍🎤) {
-    .a {
-        order: 1;
-    }
+  .a {
+    order: 1;
+  }
 }
-
 @media (--\(\)-escaped) {
-    .a {
-        order: 2;
-    }
+  .a {
+    order: 2;
+  }
 }
-
 @media (--modern) and (width > 1024px) {
-    .a { order: 3; }
+  .a {
+    order: 3;
+  }
 }
-
 @media (--md-and-larger1) {
-    body {
-        background-color: red;
-    }
+  body {
+    background-color: red;
+  }
 }
-
 @media (--md-and-larger2) {
-    body {
-        background-color: yellow;
-    }
+  body {
+    background-color: yellow;
+  }
 }
-
 @media (--md-and-larger3) {
-    body {
-        background-color: green;
-    }
+  body {
+    background-color: green;
+  }
 }
-
 @media (--screen) and (--md-larger4) {
-    body {
-        background-color: green;
-    }
+  body {
+    background-color: green;
+  }
 }
-
 @media (--md-larger4) and (--md-smaller4) {
-    body {
-        background-color: green;
-    }
+  body {
+    background-color: green;
+  }
 }
