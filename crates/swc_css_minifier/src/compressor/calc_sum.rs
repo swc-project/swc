@@ -45,6 +45,80 @@ fn try_to_extract_into_calc_value(calc_sum: &CalcSum) -> Option<CalcValue> {
     None
 }
 
+fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Option<ComponentValue> {
+    match &calc_value {
+        CalcValue::Number(n) => Some(ComponentValue::Number(n.clone())),
+        CalcValue::Dimension(Dimension::Length(l)) => {
+            Some(ComponentValue::Dimension(Dimension::Length(Length {
+                span: l.span,
+                value: l.value.clone(),
+                unit: l.unit.clone(),
+            })))
+        }
+        CalcValue::Dimension(Dimension::Angle(a)) => {
+            Some(ComponentValue::Dimension(Dimension::Angle(Angle {
+                span: a.span,
+                value: a.value.clone(),
+                unit: a.unit.clone(),
+            })))
+        }
+        CalcValue::Dimension(Dimension::Time(t)) => {
+            Some(ComponentValue::Dimension(Dimension::Time(Time {
+                span: t.span,
+                value: t.value.clone(),
+                unit: t.unit.clone(),
+            })))
+        }
+        CalcValue::Dimension(Dimension::Frequency(f)) => {
+            Some(ComponentValue::Dimension(Dimension::Frequency(Frequency {
+                span: f.span,
+                value: f.value.clone(),
+                unit: f.unit.clone(),
+            })))
+        }
+        CalcValue::Dimension(Dimension::Resolution(r)) => Some(ComponentValue::Dimension(
+            Dimension::Resolution(Resolution {
+                span: r.span,
+                value: r.value.clone(),
+                unit: r.unit.clone(),
+            }),
+        )),
+        CalcValue::Dimension(Dimension::Flex(f)) => {
+            Some(ComponentValue::Dimension(Dimension::Flex(Flex {
+                span: f.span,
+                value: f.value.clone(),
+                unit: f.unit.clone(),
+            })))
+        }
+        CalcValue::Dimension(Dimension::UnknownDimension(u)) => Some(ComponentValue::Dimension(
+            Dimension::UnknownDimension(UnknownDimension {
+                span: u.span,
+                value: u.value.clone(),
+                unit: u.unit.clone(),
+            }),
+        )),
+        CalcValue::Percentage(p) => Some(ComponentValue::Percentage(Percentage {
+            span: p.span,
+            value: p.value.clone(),
+        })),
+        CalcValue::Function(f) => Some(ComponentValue::Function(Function {
+            span: f.span,
+            name: f.name.clone(),
+            value: f.value.to_vec(),
+        })),
+        CalcValue::Sum(_) => {
+            // Do nothing, we cannot transform a CalcSum into a ComponentValue
+            None
+        }
+        CalcValue::Constant(_) => {
+            // https://www.w3.org/TR/css-values-4/#calc-constants
+            // "These keywords are only usable within a calculation"
+            // "If used outside of a calculation, they’re treated like any other keyword"
+            None
+        }
+    }
+}
+
 // We want to track the position of data (dimension, percentage, operator...) in
 // a Vec<CalcProductOrOperator>
 #[derive(Debug, Clone)]
@@ -183,6 +257,20 @@ impl CalcSumContext {
                 CalcValueOrOperator::Value(CalcValue::Sum(s)) => {
                     let mut sum = s.clone();
                     self.nested_fold(operator, &mut sum);
+                }
+                CalcValueOrOperator::Value(CalcValue::Function(Function {
+                    name, value, ..
+                })) if is_calc_function_name(name) && value.len() == 1 => {
+                    match &value[0] {
+                        ComponentValue::CalcSum(calc_sum) => {
+                            let mut sum = calc_sum.clone();
+                            self.nested_fold(operator, &mut sum);
+                        }
+                        _ => {
+                            // Other cases (constant, function...), just push the data
+                            self.push(operator, operand);
+                        }
+                    }
                 }
                 _ => {
                     // Other cases (constant, function...), just push the data
@@ -998,11 +1086,23 @@ impl Compressor {
                                             transform_calc_value_into_component_value(calc_value);
                                     }
                                     _ => {}
+                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
+                        CalcProductOrOperator::Product(CalcProduct {
+                            expressions: calc_product_expressions,
+                            ..
+                        }) if calc_product_expressions.len() == 1 => {
+                            if let CalcValueOrOperator::Value(calc_value) =
+                                &calc_product_expressions[0]
+                            {
+                                if let Some(cv) =
+                                    transform_calc_value_into_component_value(calc_value)
+                                {
+                                    *component_value = cv;
                                 }
                             }
-                            _ => {}
                         }
-                    }
+                        _ => {}
+                    },
                     _ => {}
                 }
             }
