@@ -9,6 +9,7 @@ use swc_html_parser::{
 use swc_html_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::NormalizedOutput;
 
+#[allow(dead_code)]
 pub fn document_test(input: PathBuf, config: ParserConfig) {
     testing::run_test2(false, |cm, handler| {
         let json_path = input.parent().unwrap().join("output.json");
@@ -213,6 +214,7 @@ impl VisitMut for DomVisualizer<'_> {
     }
 }
 
+#[allow(dead_code)]
 pub fn document_dom_visualizer(input: PathBuf, config: ParserConfig) {
     let dir = input.parent().unwrap().to_path_buf();
 

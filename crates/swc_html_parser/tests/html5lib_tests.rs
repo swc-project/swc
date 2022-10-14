@@ -1,42 +1,28 @@
-#![deny(warnings)]
-#![allow(clippy::if_same_then_else)]
-#![allow(clippy::needless_update)]
-#![allow(clippy::redundant_clone)]
-#![allow(clippy::while_let_on_iterator)]
+use std::{fs, mem::take, path::PathBuf};
 
-use std::path::PathBuf;
-
-use common::{document_dom_visualizer, document_span_visualizer};
-use swc_html_parser::parser::ParserConfig;
-
-use crate::common::document_test;
+use common::{document_span_visualizer, DomVisualizer};
+use serde_json::Value;
+use swc_atoms::{js_word, JsWord};
+use swc_common::{
+    collections::AHashSet,
+    input::{SourceFileInput, StringInput},
+    BytePos,
+};
+use swc_html_ast::*;
+use swc_html_parser::{
+    error::ErrorKind,
+    lexer::{Lexer, State},
+    parser::{input::ParserInput, PResult, Parser, ParserConfig},
+};
+use swc_html_visit::VisitMutWith;
+use testing::NormalizedOutput;
 
 #[path = "common/mod.rs"]
 mod common;
 
-#[testing::fixture("tests/fixture/**/*.html")]
-fn pass(input: PathBuf) {
-    document_test(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
-}
-
-#[testing::fixture("tests/fixture/**/*.html")]
+#[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
-        input,
-        ParserConfig {
-            ..Default::default()
-        },
-    )
-}
-
-#[testing::fixture("tests/fixture/**/*.html")]
-fn dom_visualizer(input: PathBuf) {
-    document_dom_visualizer(
         input,
         ParserConfig {
             ..Default::default()
@@ -674,15 +660,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let mut file_stem = counter.to_string();
 
-            // TODO workaround, fix - https://github.com/html5lib/html5lib-tests/pull/151
-            let need_skip_fragment = relative_path_to_test.contains("template_dat")
-                && matches!(counter, 109 | 110 | 111);
-
-            if !need_skip_fragment {
-                if !document_fragment.is_empty() {
-                    file_stem += ".fragment_";
-                    file_stem += &document_fragment.join("").replace(' ', "_");
-                }
+            if !document_fragment.is_empty() {
+                file_stem += ".fragment_";
+                file_stem += &document_fragment.join("").replace(' ', "_");
             }
 
             if scripting_enabled {
