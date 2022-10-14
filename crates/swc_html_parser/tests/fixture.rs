@@ -23,50 +23,10 @@ use swc_html_parser::{
 use swc_html_visit::VisitMutWith;
 use testing::NormalizedOutput;
 
-use crate::common::DomVisualizer;
+use crate::common::{document_test, DomVisualizer};
 
 #[path = "common/mod.rs"]
 mod common;
-
-fn document_test(input: PathBuf, config: ParserConfig) {
-    testing::run_test2(false, |cm, handler| {
-        let json_path = input.parent().unwrap().join("output.json");
-        let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm));
-        let mut parser = Parser::new(lexer, config);
-        let document: PResult<Document> = parser.parse_document();
-        let errors = parser.take_errors();
-
-        for err in &errors {
-            err.to_diagnostics(&handler).emit();
-        }
-
-        if !errors.is_empty() {
-            return Err(());
-        }
-
-        match document {
-            Ok(document) => {
-                let actual_json = serde_json::to_string_pretty(&document)
-                    .map(NormalizedOutput::from)
-                    .expect("failed to serialize document");
-
-                actual_json.compare_to_file(&json_path).unwrap();
-
-                Ok(())
-            }
-            Err(err) => {
-                let mut d = err.to_diagnostics(&handler);
-
-                d.note(&format!("current token = {}", parser.dump_cur()));
-                d.emit();
-
-                Err(())
-            }
-        }
-    })
-    .unwrap();
-}
 
 #[testing::fixture("tests/fixture/**/*.html")]
 fn pass(input: PathBuf) {
@@ -78,19 +38,7 @@ fn pass(input: PathBuf) {
     )
 }
 
-#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
-fn pass_iframe_srcdoc(input: PathBuf) {
-    document_test(
-        input,
-        ParserConfig {
-            iframe_srcdoc: true,
-            ..Default::default()
-        },
-    )
-}
-
 #[testing::fixture("tests/fixture/**/*.html")]
-#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 #[testing::fixture("tests/html5lib-tests-fixture/**/*.html")]
 fn span_visualizer(input: PathBuf) {
     document_span_visualizer(
@@ -103,7 +51,6 @@ fn span_visualizer(input: PathBuf) {
 
 #[testing::fixture("tests/fixture/**/*.html")]
 #[testing::fixture("tests/recovery/**/*.html")]
-#[testing::fixture("tests/iframe_srcdoc/**/*.html")]
 fn dom_visualizer(input: PathBuf) {
     document_dom_visualizer(
         input,
