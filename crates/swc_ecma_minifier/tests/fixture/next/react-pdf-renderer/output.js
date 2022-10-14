@@ -22045,7 +22045,7 @@
                                     if ((192 & t[1]) != 128) return e.lastNeed = 1, "�";
                                     if (e.lastNeed > 2 && t.length > 2 && (192 & t[2]) != 128) return e.lastNeed = 2, "�";
                                 }
-                            }(this, e, t);
+                            }(this, e, 0);
                             return void 0 !== r ? r : this.lastNeed <= e.length ? (e.copy(this.lastChar, t, 0, this.lastNeed), this.lastChar.toString(this.encoding, 0, this.lastTotal)) : void (e.copy(this.lastChar, t, 0, e.length), this.lastNeed -= e.length);
                         }
                         function l(e, t) {
