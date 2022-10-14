@@ -4,7 +4,7 @@ use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    ExprExt, ExprFactory, Type,
+    ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
@@ -1060,6 +1060,12 @@ impl Pure<'_> {
                 match &mut **callee {
                     Expr::Fn(callee) => {
                         if let Some(body) = &mut callee.function.body {
+                            if let Some(ident) = &callee.ident {
+                                if IdentUsageFinder::find(&ident.to_id(), body) {
+                                    return;
+                                }
+                            }
+
                             for stmt in &mut body.stmts {
                                 self.ignore_return_value_of_return_stmt(stmt, opts);
                             }
