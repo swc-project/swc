@@ -29192,10 +29192,7 @@
             scaleX: symbolScale1[0],
             scaleY: symbolScale1[1],
             rotation: rotation
-        }), pathForLineWidth.updateTransform(), valueLineWidth /= pathForLineWidth.getLineScale(), valueLineWidth *= symbolScale1[opt.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
-        }), pathForLineWidth.updateTransform(), valueLineWidth = (valueLineWidth /= pathForLineWidth.getLineScale()) * symbolScale1[opt2.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
-        }), pathForLineWidth.updateTransform(), valueLineWidth = pathForLineWidth.getLineScale() * symbolScale1[opt2.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
-        }), pathForLineWidth.updateTransform(), valueLineWidth = (valueLineWidth /= pathForLineWidth.getLineScale()) * symbolScale1[opt2.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
+        }), pathForLineWidth.updateTransform(), valueLineWidth = (valueLineWidth /= pathForLineWidth.getLineScale()) * symbolScale1[opt.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
         var symbolSize1 = symbolMeta.symbolSize, symbolOffset = itemModel.get('symbolOffset');
         return isArray(symbolOffset) && (symbolOffset = [
             parsePercent$1(symbolOffset[0], symbolSize1[0]),
