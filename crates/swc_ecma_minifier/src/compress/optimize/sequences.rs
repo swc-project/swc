@@ -602,7 +602,7 @@ where
                         return None;
                     }
 
-                    if !self.is_skippable_for_seq(None, &p.pat) {
+                    if !self.is_pat_skippable_for_seq(None, &p.pat) {
                         return None;
                     }
                 }
