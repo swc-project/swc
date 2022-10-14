@@ -15449,7 +15449,7 @@
                             for(var i = 0; i < lastLevelTicks.length - 1; i++){
                                 var approxInterval1, approxInterval2, approxInterval3, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
                                 if (startTick !== endTick) {
-                                    var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
+                                    var interval = void 0, getterName = void 0, setterName = void 0;
                                     switch(unitName){
                                         case 'year':
                                             interval = Math.max(1, Math.round(approxInterval / 86400000 / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
@@ -18719,7 +18719,6 @@
             incremental: !!incremental
         });
         el2.__startPoint = startPoint, el2.__baseDimIdx = baseDimIdx, el2.__largeDataIndices = largeDataIndices, el2.__barWidth = barWidth, group.add(el2), el = el2, globalStyle = data.getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el2).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el2.on('mousedown', largePathUpdateDataIndex), el2.on('mousemove', largePathUpdateDataIndex));
-        el2.__startPoint = startPoint, el2.__baseDimIdx = baseDimIdx, el2.__largeDataIndices = largeDataIndices, el2.__barWidth = barWidth, group.add(el2), el = el2, seriesModel1 = 0, globalStyle = (data = data1).getVisual('style'), el.useStyle(extend({}, globalStyle)), el.style.fill = null, el.style.stroke = globalStyle.fill, el.style.lineWidth = data.getLayout('barWidth'), getECData(el2).seriesIndex = seriesModel.seriesIndex, seriesModel.get('silent') || (el2.on('mousedown', largePathUpdateDataIndex), el2.on('mousemove', largePathUpdateDataIndex));
     }
     var largePathUpdateDataIndex = throttle(function(event) {
         var dataIndex = function(largePath, x, y) {
@@ -23739,7 +23738,6 @@
                                     return inner$8(mapping).drColorMappingBy = colorMappingBy, mapping;
                                 }
                             }
-                        }(node, nodeModel, nodeLayout, nodeItemStyleModel, visuals1, viewChildren);
                         }(0, nodeModel, nodeLayout, 0, visuals1, viewChildren);
                         each(viewChildren, function(child, index) {
                             if (child.depth >= viewRootAncestors.length || child === viewRootAncestors[child.depth]) {
@@ -27476,15 +27474,7 @@
                             depth: maxDepth
                         }, !0);
                     });
-                }(nodes, nodeAlign, orient, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
-                    } else {
-                        'justify' === nodeAlign && (nodes1 = nodes, maxDepth1 = maxDepth, each(nodes1, function(node) {
-                            isNodeDepth(node) || node.outEdges.length || node.setLayout({
-                                depth: maxDepth1
-                            }, !0);
-                        }));
-                    }
-                }(nodes, nodeAlign, 0, maxDepth), nodes1 = nodes, kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, orient1 = orient, each(nodes1, function(node) {
+                }(nodes, nodeAlign, 0, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
                     var nodeDepth = node.getLayout().depth * kx;
                     'vertical' === orient ? node.setLayout({
                         y: nodeDepth
@@ -29231,7 +29221,6 @@
             } else boundingLength = null != symbolBoundingData ? convertToCoordOnAxis(valueAxis, symbolBoundingData) - zeroPx : symbolRepeat ? opt.coordSysExtent[valueDim.index][pxSignIdx] - zeroPx : layout[valueDim.wh];
             outputSymbolMeta.boundingLength = boundingLength, symbolRepeat && (outputSymbolMeta.repeatCutLength = layout[valueDim.wh]), outputSymbolMeta.pxSign = boundingLength > 0 ? 1 : boundingLength < 0 ? -1 : 0;
         })(itemModel, symbolRepeat, layout, opt, symbolMeta), boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, outputSymbolMeta = symbolMeta, valueDim = opt.valueDim, categorySize = Math.abs(layout[(categoryDim = opt.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data.getItemVisual(dataIndex, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
-        })(itemModel, symbolRepeat1, layout1, opt, symbolMeta), data1 = data, dataIndex1 = dataIndex, layout = layout1, symbolRepeat = symbolRepeat1, symbolClip = 0, boundingLength = symbolMeta.boundingLength, pxSign = symbolMeta.pxSign, symbolPatternSize = symbolPatternSize1, opt1 = opt, outputSymbolMeta = symbolMeta, valueDim = opt1.valueDim, categorySize = Math.abs(layout[(categoryDim = opt1.categoryDim).wh]), (parsedSymbolSize = isArray(symbolSize = data1.getItemVisual(dataIndex1, 'symbolSize')) ? symbolSize.slice() : null == symbolSize ? [
             '100%',
             '100%'
         ] : [
@@ -29265,8 +29254,7 @@
             barRectShape[valueDim.wh] = pxSign * Math.max(Math.abs(layout[valueDim.wh]), Math.abs(pathPosition[valueDim.index] + sizeFix)), barRectShape[categoryDim.wh] = layout[categoryDim.wh];
             var clipShape = outputSymbolMeta.clipShape = {};
             clipShape[categoryDim.xy] = -layout[categoryDim.xy], clipShape[categoryDim.wh] = opt.ecSize[categoryDim.wh], clipShape[valueDim.xy] = 0, clipShape[valueDim.wh] = layout[valueDim.wh];
-        }(itemModel, symbolSize1, layout, symbolRepeat, symbolClip, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
-        }(itemModel, symbolSize1, layout1, symbolRepeat1, 0, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
+        }(itemModel, symbolSize1, layout, symbolRepeat, 0, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
     }
     function convertToCoordOnAxis(axis, value) {
         return axis.toGlobalCoord(axis.dataToCoord(axis.scale.parse(value)));
@@ -31914,7 +31902,6 @@
                     dataByCoordSys: dataByCoordSys.list
                 });
             }(dataByCoordSys, point, payload, dispatchAction), zr = api.getZr(), highDownKey = 'axisPointerLastHighlights', lastHighlights = inner$c(zr)[highDownKey] || {}, newHighlights = inner$c(zr)[highDownKey] = {}, each(axesInfo, function(axisInfo, key) {
-            }(dataByCoordSys, point, payload, dispatchAction), axesInfo1 = axesInfo2, dispatchAction1 = 0, zr = (api1 = api).getZr(), highDownKey = 'axisPointerLastHighlights', lastHighlights = inner$c(zr)[highDownKey] || {}, newHighlights = inner$c(zr)[highDownKey] = {}, each(axesInfo1, function(axisInfo, key) {
                 var option = axisInfo.axisPointerModel.option;
                 'show' === option.status && each(option.seriesDataIndices, function(batchItem) {
                     newHighlights[batchItem.seriesIndex + ' | ' + batchItem.dataIndex] = batchItem;
