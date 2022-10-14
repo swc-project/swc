@@ -16116,7 +16116,7 @@
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, makeElement), function(innerContainer, radius) {
+                                    }(innerContainer, uniqueID, 0), function(innerContainer, radius) {
                                         var svg = innerContainer.querySelector('svg.e-spin-bootstrap');
                                         svg.style.width = svg.style.height = radius + 'px';
                                         for(var startArc = 90, item = 0; item <= 7; item++){
@@ -16267,7 +16267,7 @@
                                                 }
                                             })(easing(currentTime, start, change, duration), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < duration ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
                                         })(spinnerInfo);
-                                    })(1, 149, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 75, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
+                                    })(1, 0, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
                                     uniqueID: id,
                                     container: inner,
@@ -16282,7 +16282,7 @@
                                         !function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, i, function(begin, stop) {
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, function(begin, stop) {
                                         var series = [], increment = !1, count = 1;
                                         return function formSeries(i) {
                                             series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));

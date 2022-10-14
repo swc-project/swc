@@ -5959,7 +5959,7 @@
                     state.z2 = el.z2 + (null != z2EmphasisLift ? z2EmphasisLift : 10);
                 }
                 return state;
-            }(this, stateName, targetStates, state1);
+            }(this, 0, targetStates, state1);
             if ('blur' === stateName) return state = state1, hasBlur = indexOf(this.currentStates, stateName) >= 0, currentOpacity = this.style.opacity, fromState = hasBlur ? null : function(el, props, toStateName, defaultValue) {
                 for(var style = el.style, fromState = {}, i = 0; i < props.length; i++){
                     var propName = props[i], val = style[propName];
@@ -5984,7 +5984,7 @@
                     state.z2 = el.z2 + (null != z2SelectLift ? z2SelectLift : 9);
                 }
                 return state;
-            }(this, stateName, state1);
+            }(this, 0, state1);
         }
         return state1;
     }
@@ -15449,7 +15449,7 @@
                             for(var i = 0; i < lastLevelTicks.length - 1; i++){
                                 var approxInterval1, approxInterval2, approxInterval3, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
                                 if (startTick !== endTick) {
-                                    var interval = void 0, getterName = void 0, setterName = void 0, isDate = !1;
+                                    var interval = void 0, getterName = void 0, setterName = void 0;
                                     switch(unitName){
                                         case 'year':
                                             interval = Math.max(1, Math.round(approxInterval / 86400000 / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
@@ -15462,7 +15462,7 @@
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
+                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':
@@ -15486,7 +15486,7 @@
                                             value: dateTime,
                                             notAdd: !0
                                         });
-                                    })(interval, startTick, endTick, getterName, setterName, isDate, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
+                                    })(interval, startTick, endTick, getterName, setterName, 0, newAddedTicks), 'year' === unitName && levelTicks.length > 1 && 0 === i && levelTicks.unshift({
                                         value: levelTicks[0].value - interval
                                     });
                                 }
@@ -23738,7 +23738,7 @@
                                     return inner$8(mapping).drColorMappingBy = colorMappingBy, mapping;
                                 }
                             }
-                        }(node, nodeModel, nodeLayout, nodeItemStyleModel, visuals1, viewChildren);
+                        }(0, nodeModel, nodeLayout, 0, visuals1, viewChildren);
                         each(viewChildren, function(child, index) {
                             if (child.depth >= viewRootAncestors.length || child === viewRootAncestors[child.depth]) {
                                 var childVisual = function(nodeModel, visuals, child, index, mapping, seriesModel) {
@@ -27474,7 +27474,7 @@
                             depth: maxDepth
                         }, !0);
                     });
-                }(nodes, nodeAlign, orient, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
+                }(nodes, nodeAlign, 0, maxDepth), kx = 'vertical' === orient ? (height - nodeWidth) / maxDepth : (width - nodeWidth) / maxDepth, each(nodes, function(node) {
                     var nodeDepth = node.getLayout().depth * kx;
                     'vertical' === orient ? node.setLayout({
                         y: nodeDepth
@@ -29254,7 +29254,7 @@
             barRectShape[valueDim.wh] = pxSign * Math.max(Math.abs(layout[valueDim.wh]), Math.abs(pathPosition[valueDim.index] + sizeFix)), barRectShape[categoryDim.wh] = layout[categoryDim.wh];
             var clipShape = outputSymbolMeta.clipShape = {};
             clipShape[categoryDim.xy] = -layout[categoryDim.xy], clipShape[categoryDim.wh] = opt.ecSize[categoryDim.wh], clipShape[valueDim.xy] = 0, clipShape[valueDim.wh] = layout[valueDim.wh];
-        }(itemModel, symbolSize1, layout, symbolRepeat, symbolClip, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
+        }(itemModel, symbolSize1, layout, symbolRepeat, 0, symbolOffset, symbolPosition, symbolMeta.valueLineWidth, symbolMeta.boundingLength, symbolMeta.repeatCutLength, opt, symbolMeta), symbolMeta;
     }
     function convertToCoordOnAxis(axis, value) {
         return axis.toGlobalCoord(axis.dataToCoord(axis.scale.parse(value)));
@@ -32125,10 +32125,7 @@
                 var elStyle = buildElStyle(axisPointerModel), pointerOption = pointerShapeBuilder$1[axisPointerType](axis, polar, coordValue, otherExtent);
                 pointerOption.style = elStyle, elOption.graphicKey = pointerOption.type, elOption.pointer = pointerOption;
             }
-            var labelMargin = axisPointerModel.get([
-                'label',
-                'margin'
-            ]), labelPos = function(value, axisModel, axisPointerModel, polar, labelMargin) {
+            var labelPos = function(value, axisModel, axisPointerModel, polar, labelMargin) {
                 var position, align, verticalAlign, axis = axisModel.axis, coord = axis.dataToCoord(value), axisAngle = polar.getAngleAxis().getExtent()[0];
                 axisAngle = axisAngle / 180 * Math.PI;
                 var radiusExtent = polar.getRadiusAxis().getExtent();
@@ -32157,7 +32154,10 @@
                     align: align,
                     verticalAlign: verticalAlign
                 };
-            }(value, axisModel, axisPointerModel, polar, labelMargin);
+            }(value, axisModel, 0, polar, axisPointerModel.get([
+                'label',
+                'margin'
+            ]));
             buildLabelElOption(elOption, axisModel, axisPointerModel, api, labelPos);
         }, PolarAxisPointer;
     }(BaseAxisPointer), pointerShapeBuilder$1 = {

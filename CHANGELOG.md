@@ -7,6 +7,9 @@
 
 - **(css/modules)** Add a lifetime to config parameter (#6144) ([1196d60](https://github.com/swc-project/swc/commit/1196d60182e6fcc7b9ba35150f9f5ea4f4ea0881))
 
+
+- **(es/minifier)** Ignore return value if a param of IIFE is not used (#6115) ([d334c6e](https://github.com/swc-project/swc/commit/d334c6e78393ee9cc853c46d9144f22033ce62d0))
+
 ## [1.3.8] - 2022-10-14
 
 ### Bug Fixes

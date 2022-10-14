@@ -4607,7 +4607,7 @@
                             return bestPosition || specifiedPosition;
                         }(boxPosition, axis);
                         styleBox.move(bestPosition.toCSSCompatValues(containerBox));
-                    }(window1, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
+                    }(0, styleBox, containerBox, boxPositions), cue.displayState = styleBox.div, boxPositions.push(BoxPosition.getSimpleBoxPosition(styleBox));
                 }();
             }, WebVTT1.Parser = function(window1, vttjs, decoder) {
                 decoder || (decoder = vttjs, vttjs = {}), vttjs || (vttjs = {}), this.window = window1, this.vttjs = vttjs, this.state = "INITIAL", this.buffer = "", this.decoder = decoder || new TextDecoder("utf8"), this.regionList = [];
