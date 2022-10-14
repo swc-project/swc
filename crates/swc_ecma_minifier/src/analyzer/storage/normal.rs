@@ -172,7 +172,6 @@ impl Storage for ProgramData {
                 v.var_initialized |= has_init;
             })
             .or_insert_with(|| VarUsageInfo {
-                is_fn_local: true,
                 var_kind: kind,
                 var_initialized: has_init,
                 no_side_effect_for_member_access: ctx.in_decl_with_no_side_effect_for_member_access,
