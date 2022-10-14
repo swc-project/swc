@@ -626,7 +626,7 @@ static IGNORE_TAG_OMISSION: &[&str] = &[
         "tests18_dat/12/input.html",
         "tests18_dat/21/input.html",
         "tests19_dat/103/input.html",
-        "tests20_dat/41/input.html",
+        "tests20_dat/42/input.html",
         "tests26_dat/2/input.html",
         "plain-text-unsafe_dat/0/input.html",
         "template_dat/107/input.html",
