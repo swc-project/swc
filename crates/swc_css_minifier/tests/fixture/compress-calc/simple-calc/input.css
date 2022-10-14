@@ -148,3 +148,7 @@
 .class36 {
     width: calc(1.1E+1px + 1.1E+1px);
 }
+
+.class37 {
+    width: calc(calc(calc(100px + 100px)));
+}

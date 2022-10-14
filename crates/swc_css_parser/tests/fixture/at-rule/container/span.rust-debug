@@ -131,7 +131,9 @@
  128 | |               background-color: skyblue;
  129 | |           }
  130 | |       }
- 131 | `-> }
+ 131 | |   }
+ 132 | |   
+ 133 | `-> @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      `----
 
   x Rule
@@ -6391,4 +6393,358 @@
      ,-[$DIR/tests/fixture/at-rule/container/input.css:128:13]
  128 | background-color: skyblue;
      :                   ^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :  ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :  ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :            ^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                         ^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                         ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x CalcSum
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x CalcProduct
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                              ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                 ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                     ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x TagNameSelector
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x WqName
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                      ^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                         ^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                         ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                   ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                   ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                   ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^^^^^^^^
+     `----
+
+  x CalcSum
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^^^^^^^^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x CalcProduct
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                           ^^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                              ^
+     `----
+
+  x CalcOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                              ^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x CalcProduct
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x Dimension
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x Length
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                ^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
+ 133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
+     :                                                                 ^^^
      `----
