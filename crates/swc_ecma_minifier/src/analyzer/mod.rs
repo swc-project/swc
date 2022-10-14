@@ -1,4 +1,4 @@
-use std::{collections::HashSet, hash::BuildHasherDefault};
+use std::{collections::HashSet, hash::BuildHasherDefault, iter::repeat};
 
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
@@ -8,6 +8,7 @@ use swc_common::{
     SyntaxContext,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{find_pat_ids, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
@@ -352,6 +353,19 @@ where
     scope: S::ScopeData,
     ctx: Ctx,
     used_recursively: AHashMap<Id, RecursiveUsage>,
+}
+
+impl<S> Parallel for UsageAnalyzer<S>
+where
+    S: Storage,
+{
+    fn create(&self) -> Self {
+        Self { ..*self }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.data.merge_from_parallel(other.data)
+    }
 }
 
 impl<S> UsageAnalyzer<S>
@@ -1329,7 +1343,14 @@ where
     }
 
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        let mut had_cond = false;
+        let has_cond_idx = if self.ctx.in_cond {
+            0
+        } else {
+            stmts
+                .iter()
+                .position(|s| can_end_conditionally(s))
+                .unwrap_or(usize::MAX)
+        };
 
         for stmt in stmts {
             let ctx = Ctx {
