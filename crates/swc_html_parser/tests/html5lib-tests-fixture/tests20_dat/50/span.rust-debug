@@ -1,8 +1,20 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Child
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
+ 1 | <!doctype html><svg><title>abc
+   : ^^^^^^^^^^^^^^^
+   `----
+
+  x DocumentType
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
+ 1 | <!doctype html><svg><title>abc
+   : ^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -11,36 +23,36 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                ^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                ^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   :         ^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                     ^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   :         ^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                     ^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   :               ^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                            ^^^
    `----
 
-  x Element
+  x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/50/input.html:1:1]
- 1 | <option><span><option>
-   :               ^^^^^^^^
+ 1 | <!doctype html><svg><title>abc
+   :                            ^^^
    `----

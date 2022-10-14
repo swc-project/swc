@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 33,
+    "end": 41,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 33,
+                "end": 41,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -58,7 +58,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 33,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -66,14 +66,14 @@
                   "attributes": [],
                   "children": [
                     {
-                      "type": "Comment",
+                      "type": "Text",
                       "span": {
                         "start": 23,
-                        "end": 33,
+                        "end": 24,
                         "ctxt": 0
                       },
-                      "data": "foo",
-                      "raw": "<!--foo-->"
+                      "data": "c",
+                      "raw": "c"
                     }
                   ],
                   "content": null,

@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 49,
+    "end": 61,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 49,
+                "end": 61,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -58,7 +58,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 49,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -68,23 +68,23 @@
                       "type": "Attribute",
                       "span": {
                         "start": 23,
-                        "end": 43,
+                        "end": 55,
                         "ctxt": 0
                       },
                       "namespace": null,
                       "prefix": null,
                       "name": "encoding",
                       "rawName": "encoding",
-                      "value": "text/html",
-                      "rawValue": "\"text/html\""
+                      "value": "aPPlication/xhtmL+xMl",
+                      "rawValue": "\"aPPlication/xhtmL+xMl\""
                     }
                   ],
                   "children": [
                     {
                       "type": "Element",
                       "span": {
-                        "start": 44,
-                        "end": 49,
+                        "start": 56,
+                        "end": 61,
                         "ctxt": 0
                       },
                       "tagName": "div",

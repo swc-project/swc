@@ -1,19 +1,19 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><table><form></table><form>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
+ 1 | <!doctype html><table><form></table><form>
    : ^^^^^^^^^^^^^^^
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
+ 1 | <!doctype html><table><form></table><form>
    : ^^^^^^^^^^^^^^^
    `----
 
@@ -23,36 +23,24 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><table><form></table><form>
+   :                ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><table><form></table><form>
+   :                ^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                     ^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><table><form></table><form>
+   :                       ^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                     ^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                                    ^^^
-   `----
-
-  x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/48/input.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                                    ^^^
+ 1 | <!doctype html><table><form></table><form>
+   :                       ^^^^^^
    `----
