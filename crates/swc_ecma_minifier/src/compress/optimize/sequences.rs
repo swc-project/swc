@@ -591,6 +591,10 @@ where
                 vec![Mergable::Expr(&mut s.arg)]
             }
 
+            Stmt::Decl(Decl::Fn(..)) => {
+                vec![]
+            }
+
             _ => return None,
         })
     }
