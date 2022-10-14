@@ -18,7 +18,8 @@ pub(crate) trait Storage: Sized + Default + Send + Sync {
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData;
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
-    fn merge_from_parallel(&mut self, child: Self);
+
+    fn merge_from_parallel(&mut self, other: Self);
 
     fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool);
 

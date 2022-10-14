@@ -361,11 +361,17 @@ where
     S: Storage,
 {
     fn create(&self) -> Self {
-        Self { ..*self }
+        Self {
+            data: Default::default(),
+            scope: Default::default(),
+            used_recursively: self.used_recursively.clone(),
+            ..*self
+        }
     }
 
     fn merge(&mut self, other: Self) {
-        self.data.merge_from_parallel(other.data)
+        self.data.merge_from_parallel(other.data);
+        self.scope.merge(other.scope, false);
     }
 }
 
@@ -1349,15 +1355,15 @@ where
         } else {
             stmts
                 .iter()
-                .position(|s| can_end_conditionally(s))
-                .unwrap_or(usize::MAX)
+                .position(can_end_conditionally)
+                .map_or(usize::MAX, |idx| idx + 1)
         };
 
         self.maybe_par_idx(*HEAVY_TASK_PARALLELS, stmts, |visitor, idx, stmt| {
             let ctx = Ctx {
                 in_cond: idx >= has_cond_idx,
                 is_delete_arg: false,
-                ..self.ctx
+                ..visitor.ctx
             };
 
             stmt.visit_with(&mut *visitor.with_ctx(ctx));

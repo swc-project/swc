@@ -138,6 +138,8 @@ impl Storage for ProgramData {
         }
     }
 
+    fn merge_from_parallel(&mut self, other: Self) {}
+
     fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool) {
         self.report(i.to_id(), ctx, is_assign, &mut Default::default());
     }
