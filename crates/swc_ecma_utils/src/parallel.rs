@@ -28,9 +28,12 @@ pub trait Parallel: swc_common::sync::Send + swc_common::sync::Sync {
 #[cfg(feature = "concurrent")]
 #[allow(clippy::len_without_is_empty)]
 pub trait Items:
-    rayon::iter::IntoParallelIterator<Item = Self::Elem> + IntoIterator<Item = Self::Elem>
+    rayon::iter::IntoParallelIterator<Iter = Self::ParIter> + IntoIterator<Item = Self::Elem>
 {
     type Elem: Send + Sync;
+
+    type ParIter: rayon::iter::ParallelIterator<Item = Self::Elem>
+        + rayon::iter::IndexedParallelIterator;
 
     fn len(&self) -> usize;
 }
@@ -49,6 +52,8 @@ where
     T: Send + Sync,
 {
     type Elem = T;
+    #[cfg(feature = "concurrent")]
+    type ParIter = rayon::vec::IntoIter<T>;
 
     fn len(&self) -> usize {
         Vec::len(self)
@@ -60,6 +65,8 @@ where
     T: Send + Sync,
 {
     type Elem = &'a mut T;
+    #[cfg(feature = "concurrent")]
+    type ParIter = rayon::slice::IterMut<'a, T>;
 
     fn len(&self) -> usize {
         Vec::len(self)
@@ -71,6 +78,8 @@ where
     T: Send + Sync,
 {
     type Elem = &'a mut T;
+    #[cfg(feature = "concurrent")]
+    type ParIter = rayon::slice::IterMut<'a, T>;
 
     fn len(&self) -> usize {
         <[T]>::len(self)
@@ -82,6 +91,8 @@ where
     T: Send + Sync,
 {
     type Elem = &'a T;
+    #[cfg(feature = "concurrent")]
+    type ParIter = rayon::slice::Iter<'a, T>;
 
     fn len(&self) -> usize {
         <[T]>::len(self)
@@ -89,7 +100,7 @@ where
 }
 
 pub trait ParallelExt: Parallel {
-    /// Invoke `op` in parallel, if `swc_ecma_transforms_base` is compiled with
+    /// Invoke `op` in parallel, if `swc_ecma_utils` is compiled with
     /// concurrent feature enabled and `nodes.len()` is bigger than threshold.
     ///
     ///
@@ -97,7 +108,20 @@ pub trait ParallelExt: Parallel {
     fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
         I: Items,
-        F: Send + Sync + Fn(&mut Self, I::Elem);
+        F: Send + Sync + Fn(&mut Self, I::Elem),
+    {
+        self.maybe_par_idx(threshold, nodes, |v, _, n| op(v, n))
+    }
+
+    /// Invoke `op` in parallel, if `swc_ecma_utils` is compiled with
+    /// concurrent feature enabled and `nodes.len()` is bigger than threshold.
+    ///
+    ///
+    /// This configures [GLOBALS], while not configuring [HANDLER] nor [HELPERS]
+    fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    where
+        I: Items,
+        F: Send + Sync + Fn(&mut Self, usize, I::Elem);
 }
 
 #[cfg(feature = "concurrent")]
@@ -105,10 +129,10 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn maybe_par<I, F>(&mut self, threshold: usize, nodes: I, op: F)
+    fn maybe_par_idx<I, F>(&mut self, threshold: usize, nodes: I, op: F)
     where
         I: Items,
-        F: Send + Sync + Fn(&mut Self, I::Elem),
+        F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
         if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
             GLOBALS.with(|globals| {
@@ -116,10 +140,11 @@ where
 
                 let visitor = nodes
                     .into_par_iter()
-                    .map(|node| {
+                    .enumerate()
+                    .map(|(idx, node)| {
                         GLOBALS.set(globals, || {
                             let mut visitor = Parallel::create(&*self);
-                            op(&mut visitor, node);
+                            op(&mut visitor, idx, node);
 
                             visitor
                         })
@@ -139,8 +164,8 @@ where
             return;
         }
 
-        for n in nodes {
-            op(self, n);
+        for (idx, n) in nodes.into_iter().enumerate() {
+            op(self, idx, n);
         }
     }
 }
@@ -150,13 +175,13 @@ impl<T> ParallelExt for T
 where
     T: Parallel,
 {
-    fn maybe_par<I, F>(&mut self, _threshold: usize, nodes: I, op: F)
+    fn maybe_par_idx<I, F>(&mut self, _threshold: usize, nodes: I, op: F)
     where
         I: Items,
-        F: Send + Sync + Fn(&mut Self, I::Elem),
+        F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        for n in nodes {
-            op(self, n);
+        for (idx, n) in nodes.iter().enumerate() {
+            op(self, idx, n);
         }
     }
 }
