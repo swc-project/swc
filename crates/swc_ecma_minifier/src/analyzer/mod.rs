@@ -1,4 +1,4 @@
-use std::{collections::HashSet, hash::BuildHasherDefault, iter::repeat};
+use std::{collections::HashSet, hash::BuildHasherDefault};
 
 use indexmap::IndexSet;
 use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
@@ -21,6 +21,7 @@ use crate::{
     alias::{collect_infects_from, Access, AccessKind, AliasConfig},
     marks::Marks,
     util::can_end_conditionally,
+    HEAVY_TASK_PARALLELS,
 };
 
 mod ctx;
@@ -1352,17 +1353,15 @@ where
                 .unwrap_or(usize::MAX)
         };
 
-        for stmt in stmts {
+        self.maybe_par_idx(*HEAVY_TASK_PARALLELS, stmts, |visitor, idx, stmt| {
             let ctx = Ctx {
-                in_cond: self.ctx.in_cond || had_cond,
+                in_cond: idx >= has_cond_idx,
                 is_delete_arg: false,
                 ..self.ctx
             };
 
-            stmt.visit_with(&mut *self.with_ctx(ctx));
-
-            had_cond |= can_end_conditionally(stmt);
-        }
+            stmt.visit_with(&mut *visitor.with_ctx(ctx));
+        });
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
