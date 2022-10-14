@@ -591,10 +591,23 @@ where
                 vec![Mergable::Expr(&mut s.arg)]
             }
 
-            Stmt::Decl(Decl::Fn(..)) => {
-                // TODO(kdy1): Check side effects of default paramters.
-                // Function declarations can have side-effects, but in real world code it's very
-                // unrealistic so I didn't bother to implement the check for it.
+            Stmt::Decl(Decl::Fn(f)) => {
+                // Check for side effects
+
+                if !f.function.decorators.is_empty() {
+                    return None;
+                }
+                for p in &f.function.params {
+                    if !p.decorators.is_empty() {
+                        return None;
+                    }
+
+                    if !self.is_skippable_for_seq(None, &p.pat) {
+                        return None;
+                    }
+                }
+
+                // Side-effect free function can be skipped.
                 vec![]
             }
 
@@ -941,6 +954,59 @@ where
         }
 
         Ok(())
+    }
+
+    fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
+        match p {
+            Pat::Ident(_) => true,
+            Pat::Invalid(_) => false,
+
+            Pat::Array(p) => {
+                for elem in &p.elems {
+                    if let Some(elem) = elem {
+                        if !self.is_pat_skippable_for_seq(a, elem) {
+                            return false;
+                        }
+                    }
+                }
+
+                true
+            }
+            Pat::Rest(p) => {
+                if !self.is_pat_skippable_for_seq(a, &*p.arg) {
+                    return false;
+                }
+
+                true
+            }
+            Pat::Object(p) => {
+                for prop in &p.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, key, .. }) => {
+                            if let PropName::Computed(key) = key {
+                                if !self.is_skippable_for_seq(a, &key.expr) {
+                                    return false;
+                                }
+                            }
+
+                            if !self.is_pat_skippable_for_seq(a, value) {
+                                return false;
+                            }
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { .. }) => return false,
+                        ObjectPatProp::Rest(RestPat { arg, .. }) => {
+                            if !self.is_pat_skippable_for_seq(a, arg) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                true
+            }
+            Pat::Assign(..) => false,
+            Pat::Expr(e) => self.is_skippable_for_seq(a, e),
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
