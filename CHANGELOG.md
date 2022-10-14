@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Documentation
+
+
+
+- **(repo)** Document maintenance (#6145) ([f1bb365](https://github.com/swc-project/swc/commit/f1bb365e8e31ee6f0d9aead16a3bca7fec9c0401))
+
 ### Features
 
 
