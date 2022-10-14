@@ -13268,6 +13268,7 @@
                         var textGuideLineConfig = el.textGuideLineConfig;
                         labelLine.z = z, labelLine.zlevel = zlevel, isFinite(maxZ2) && (labelLine.z2 = maxZ2 + (textGuideLineConfig && textGuideLineConfig.showAbove ? 1 : -1));
                     }
+                    return maxZ2;
                 }(view.group, model.get('z') || 0, model.get('zlevel') || 0, -1 / 0);
             }
             function clearStates(model, view) {
