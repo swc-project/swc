@@ -166,11 +166,14 @@ impl Storage for ProgramData {
                 }
             })
             .or_insert_with(|| VarUsageInfo {
-                var_kind: kind,
-                no_side_effect_for_member_access: ctx.in_decl_with_no_side_effect_for_member_access,
-
                 ..Default::default()
             });
+
+        // This is not delcared yet, so this is the first declaration.
+        if !v.declared {
+            v.var_kind = kind;
+            v.no_side_effect_for_member_access = ctx.in_decl_with_no_side_effect_for_member_access;
+        }
 
         if v.used_in_non_child_fn {
             v.is_fn_local = false;
