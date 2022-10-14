@@ -5946,7 +5946,7 @@
                         ref: a1.ref,
                         props: a1.props,
                         _owner: a1._owner
-                    }), b.push(c));
+                    }), b.push(c)), 1;
                     if (h = 0, d = "" === d ? "." : d + ":", I(a)) for(var g = 0; g < a.length; g++){
                         k = a[g];
                         var f = d + Q(k, g);
@@ -5954,6 +5954,7 @@
                     }
                     else if ("function" == typeof (f = null === (a2 = a) || "object" != typeof a2 ? null : "function" == typeof (a2 = z && a2[z] || a2["@@iterator"]) ? a2 : null)) for(a = f.call(a), g = 0; !(k = a.next()).done;)f = d + Q(k = k.value, g++), h += R(k, b, e, f, c);
                     else if ("object" === k) throw Error("Objects are not valid as a React child (found: " + ("[object Object]" === (b = String(a)) ? "object with keys {" + Object.keys(a).join(", ") + "}" : b) + "). If you meant to render a collection of children, use an array instead.");
+                    return h;
                 }(a, d, "", "", function(a) {
                     return b.call(e, a, c++);
                 }), d;
