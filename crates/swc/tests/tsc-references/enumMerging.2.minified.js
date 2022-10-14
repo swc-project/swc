@@ -20,5 +20,5 @@ var M1, M2, M3, M4, M5, M6;
     (Color = (A = M6.A || (M6.A = {})).Color || (A.Color = {}))[Color.Red = 0] = "Red", Color[Color.Green = 1] = "Green", Color[Color.Blue = 2] = "Blue";
 }(M6 || (M6 = {})), function(M6) {
     var A, Color, A1;
-    (Color = (A = A1 = M6.A || (M6.A = {})).Color || (A.Color = {}))[Color.Yellow = 1] = "Yellow", (void 0).Color.Yellow, A1.Color.Red;
+    (Color = (A = A1 = M6.A || (M6.A = {})).Color || (A.Color = {}))[Color.Yellow = 1] = "Yellow", A1.Color.Yellow, A1.Color.Red;
 }(M6 || (M6 = {}));

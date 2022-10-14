@@ -5,5 +5,5 @@ import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(Errors) {
     var WithNonGenericSignaturesInBaseType, WithGenericSignaturesInBaseType;
-    WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}), b15 = void 0, b15a = void 0, WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {});
+    WithNonGenericSignaturesInBaseType || (WithNonGenericSignaturesInBaseType = {}), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {});
 }(Errors || (Errors = {}));

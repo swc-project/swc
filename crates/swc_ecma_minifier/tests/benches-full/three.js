@@ -3051,7 +3051,7 @@
                 heightSegments: heightSegments,
                 depthSegments: depthSegments
             };
-            var _this, scope = _assertThisInitialized(void 0);
+            var _this, scope = _assertThisInitialized(_this);
             widthSegments = Math.floor(widthSegments), heightSegments = Math.floor(heightSegments);
             var indices = [], vertices = [], normals = [], uvs = [], numberOfVertices = 0, groupStart = 0;
             function buildPlane(u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex) {
@@ -8249,7 +8249,7 @@
                 thetaStart: thetaStart,
                 thetaLength: thetaLength
             };
-            var _this, scope = _assertThisInitialized(void 0);
+            var _this, scope = _assertThisInitialized(_this);
             radialSegments = Math.floor(radialSegments), heightSegments = Math.floor(heightSegments);
             var indices = [], vertices = [], normals = [], uvs = [], index = 0, indexArray = [], halfHeight = height / 2, groupStart = 0;
             function generateCap(top) {
@@ -8834,7 +8834,7 @@
             }, shapes = Array.isArray(shapes) ? shapes : [
                 shapes
             ];
-            for(var _this, scope = _assertThisInitialized(void 0), verticesArray = [], uvArray = [], i = 0, l = shapes.length; i < l; i++)!function(shape) {
+            for(var _this, scope = _assertThisInitialized(_this), verticesArray = [], uvArray = [], i = 0, l = shapes.length; i < l; i++)!function(shape) {
                 var placeholder = [], curveSegments = void 0 !== options.curveSegments ? options.curveSegments : 12, steps = void 0 !== options.steps ? options.steps : 1, depth = void 0 !== options.depth ? options.depth : 100, bevelEnabled = void 0 === options.bevelEnabled || options.bevelEnabled, bevelThickness = void 0 !== options.bevelThickness ? options.bevelThickness : 6, bevelSize = void 0 !== options.bevelSize ? options.bevelSize : bevelThickness - 2, bevelOffset = void 0 !== options.bevelOffset ? options.bevelOffset : 0, bevelSegments = void 0 !== options.bevelSegments ? options.bevelSegments : 3, extrudePath = options.extrudePath, uvgen = void 0 !== options.UVGenerator ? options.UVGenerator : WorldUVGenerator;
                 void 0 !== options.amount && (console.warn('THREE.ExtrudeBufferGeometry: amount has been renamed to depth.'), depth = options.amount);
                 var extrudePts, extrudeByPath = !1;

@@ -386,7 +386,7 @@
                 if (null == valueof && (valueof = _number__WEBPACK_IMPORTED_MODULE_0__.default), n = values.length) {
                     if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-                    var n, i = NaN * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
                     return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             };
@@ -16559,7 +16559,7 @@
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
-                    var call, _this, child = (void 0).props.children, polar = child.props.polar;
+                    var call, _this, child = _this.props.children, polar = child.props.polar;
                     return _this.continuous = !polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
                 }
                 return !function(subClass, superClass) {
@@ -25300,7 +25300,7 @@
                 if (n = (values = Float64Array.from(Object(_number_js__WEBPACK_IMPORTED_MODULE_3__.numbers)(values, valueof))).length) {
                     if ((p = +p) <= 0 || n < 2) return Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values);
                     if (p >= 1) return Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(values);
-                    var n, i = NaN * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1));
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = Object(_max_js__WEBPACK_IMPORTED_MODULE_0__.default)(Object(_quickselect_js__WEBPACK_IMPORTED_MODULE_2__.default)(values, i0).subarray(0, i0 + 1));
                     return value0 + (Object(_min_js__WEBPACK_IMPORTED_MODULE_1__.default)(values.subarray(i0 + 1)) - value0) * (i - i0);
                 }
             }
@@ -25308,7 +25308,7 @@
                 if (n = values.length) {
                     if ((p = +p) <= 0 || n < 2) return +valueof(values[0], 0, values);
                     if (p >= 1) return +valueof(values[n - 1], n - 1, values);
-                    var n, i = NaN * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
+                    var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
                     return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
                 }
             }

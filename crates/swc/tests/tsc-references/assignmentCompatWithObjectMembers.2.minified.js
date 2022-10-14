@@ -6,5 +6,5 @@ SimpleTypes || (SimpleTypes = {}), function(ObjectTypes) {
     }, b2 = {
         foo: b2
     };
-    t = void 0, t2 = void 0, b2 = a2 = b2, a2 = b, a2 = t2, a2 = t;
+    b2 = a2 = b2, a2 = b, a2 = t2, a2 = t;
 }(ObjectTypes || (ObjectTypes = {}));

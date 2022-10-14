@@ -30241,7 +30241,7 @@
                 newArray1,
                 newArray2
             ];
-        }(pathToBezierCurves(void 0), pathToBezierCurves(toPathProxy));
+        }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
         !function(path, morphingData, morphT) {
             if (isIndividualMorphingPath(path)) {
                 updateIndividualMorphingPath(path, morphingData, morphT);

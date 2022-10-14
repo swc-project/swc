@@ -18814,7 +18814,7 @@
                             if (i.strm = e, r = i.last_flush, i.last_flush = t, 42 === i.status) {
                                 if (2 === i.wrap) e.adler = 0, h(i, 31), h(i, 139), h(i, 8), i.gzhead ? (h(i, (i.gzhead.text ? 1 : 0) + (i.gzhead.hcrc ? 2 : 0) + (i.gzhead.extra ? 4 : 0) + (i.gzhead.name ? 8 : 0) + (i.gzhead.comment ? 16 : 0)), h(i, 255 & i.gzhead.time), h(i, i.gzhead.time >> 8 & 255), h(i, i.gzhead.time >> 16 & 255), h(i, i.gzhead.time >> 24 & 255), h(i, 9 === i.level ? 2 : i.strategy >= 2 || i.level < 2 ? 4 : 0), h(i, 255 & i.gzhead.os), i.gzhead.extra && i.gzhead.extra.length && (h(i, 255 & i.gzhead.extra.length), h(i, i.gzhead.extra.length >> 8 & 255)), i.gzhead.hcrc && (e.adler = u(e.adler, i.pending_buf, i.pending, 0)), i.gzindex = 0, i.status = 69) : (h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 0), h(i, 9 === i.level ? 2 : i.strategy >= 2 || i.level < 2 ? 4 : 0), h(i, 3), i.status = 113);
                                 else {
-                                    var r, i, a, l, g = 8 + ((void 0).w_bits - 8 << 4) << 8;
+                                    var r, i, a, l, g = 8 + (i.w_bits - 8 << 4) << 8;
                                     g |= (i.strategy >= 2 || i.level < 2 ? 0 : i.level < 6 ? 1 : 6 === i.level ? 2 : 3) << 6, 0 !== i.strstart && (g |= 32), g += 31 - g % 31, i.status = 113, y(i, g), 0 !== i.strstart && (y(i, e.adler >>> 16), y(i, 65535 & e.adler)), e.adler = 1;
                                 }
                             }
