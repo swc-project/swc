@@ -243,12 +243,28 @@ impl Storage for ProgramData {
             v.var_kind = kind;
             v.no_side_effect_for_member_access = ctx.in_decl_with_no_side_effect_for_member_access;
         }
+        let mut v = self.vars.entry(i.to_id()).or_default();
+
+        v.var_initialized |= has_init;
+
+        if v.var_kind.is_none() {
+            v.var_kind = kind;
+        }
+
+        v.no_side_effect_for_member_access &= ctx.in_decl_with_no_side_effect_for_member_access;
 
         if v.used_in_non_child_fn {
             v.is_fn_local = false;
         }
 
         v.var_initialized |= has_init;
+        if has_init && (v.declared || v.var_initialized) {
+            trace_op!("declare_decl(`{}`): Already declared", i);
+
+            v.mutated = true;
+            v.reassigned_with_var_decl = true;
+            v.assign_count += 1;
+        }
 
         v.declared_count += 1;
         v.declared = true;
