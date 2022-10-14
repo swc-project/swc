@@ -2328,9 +2328,6 @@ where
             value: vec![],
         };
 
-        println!("FUCK {:?}", function);
-        println!("FUCK {:?}", self.ctx.block_contents_grammar);
-
         // Repeatedly consume the next input token and process it as follows:
         loop {
             // <EOF-token>
