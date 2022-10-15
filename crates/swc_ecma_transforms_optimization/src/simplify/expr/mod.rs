@@ -1584,6 +1584,18 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        let old = self.in_callee;
+        self.in_callee = true;
+
+        n.tag.visit_mut_with(self);
+
+        self.in_callee = false;
+        n.tpl.visit_mut_with(self);
+
+        self.in_callee = old;
+    }
+
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
     }
