@@ -7214,33 +7214,34 @@
             }
             function calculatePosition(currentElement, positionX, positionY, parentElement, targetValues) {
                 return (popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (positionX || (positionX = 'left'), positionY || (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, function(posX, posY, pos) {
+                    var value, value1, value2, value3, value4, value5, value6, value7, value8;
                     switch(elementRect = element.getBoundingClientRect(), posY + posX){
                         case 'topcenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementHCenter(), pos), value = getElementTop(), pos.top = value;
                             break;
                         case 'topright':
-                            setPosx(getElementRight(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementRight(), pos), value1 = getElementTop(), pos.top = value1;
                             break;
                         case 'centercenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementHCenter(), pos), value2 = getElementVCenter(), pos.top = value2;
                             break;
                         case 'centerright':
-                            setPosx(getElementRight(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementRight(), pos), value3 = getElementVCenter(), pos.top = value3;
                             break;
                         case 'centerleft':
-                            setPosx(getElementLeft(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementLeft(), pos), value4 = getElementVCenter(), pos.top = value4;
                             break;
                         case 'bottomcenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementHCenter(), pos), value5 = getElementBottom(), pos.top = value5;
                             break;
                         case 'bottomright':
-                            setPosx(getElementRight(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementRight(), pos), value6 = getElementBottom(), pos.top = value6;
                             break;
                         case 'bottomleft':
-                            setPosx(getElementLeft(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementLeft(), pos), value7 = getElementBottom(), pos.top = value7;
                             break;
                         default:
-                            setPosx(getElementLeft(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementLeft(), pos), value8 = getElementTop(), pos.top = value8;
                     }
                     return pos;
                 }(positionX.toLowerCase(), positionY.toLowerCase(), {
@@ -7253,9 +7254,6 @@
             }
             function setPosx(value, pos) {
                 pos.left = value;
-            }
-            function setPosy(value, pos) {
-                pos.top = value;
             }
             function getBodyScrollTop() {
                 return parentDocument.documentElement.scrollTop || parentDocument.body.scrollTop;
@@ -16179,11 +16177,8 @@
                 svgMaterial.setAttribute('class', cls), svgMaterial.setAttribute('id', uniqueID), matCirclePath.setAttribute('class', CLS_SPINCIRCLE), innerContainer.insertBefore(svgMaterial, innerContainer.firstChild), svgMaterial.appendChild(matCirclePath);
             }
             function mat_calculate_attributes(radius, container, type, cls) {
-                var radius1, offset, diameter = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize = getStrokeSize(diameter), transformOrigin = diameter / 2 + 'px';
+                var radius1, offset, diameter = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize = 0.1 * diameter, transformOrigin = diameter / 2 + 'px';
                 svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.width = svg.style.height = diameter + 'px', svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, path.setAttribute('d', 'M' + (radius1 = diameter / 2) + ',' + (offset = strokeSize / 2) + 'A' + (radius1 - offset) + ',' + (radius1 - offset) + ' 0 1 1 ' + offset + ',' + radius1), 'Material' === type && (path.setAttribute('stroke-width', strokeSize + ''), path.setAttribute('stroke-dasharray', (diameter - strokeSize) * Math.PI * 0.75 + ''), path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, 1, 75) + ''));
-            }
-            function getStrokeSize(diameter) {
-                return 0.1 * diameter;
             }
             function getDashOffset(diameter, strokeSize, value, max) {
                 return (diameter - strokeSize) * Math.PI * (3 * max / 100 - value / 100);
@@ -16257,7 +16252,7 @@
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {
                                     (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = getStrokeSize(diameter), rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
+                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
                                         (function mat_animation(spinnerInfo) {
                                             var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, duration));
                                             (function(value, container) {

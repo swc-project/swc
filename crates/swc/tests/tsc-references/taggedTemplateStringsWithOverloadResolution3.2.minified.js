@@ -216,13 +216,7 @@ function _templateObject21() {
         return data;
     }, data;
 }
-function fn1() {
-    return null;
-}
 function fn2() {}
-fn1(_templateObject(), void 0), fn1(_templateObject1(), {});
+_templateObject(), _templateObject1();
 var d1 = fn2(_templateObject2(), 0, void 0), d2 = fn2(_templateObject3(), 0, void 0);
-function fn3() {
-    return null;
-}
-d1.foo(), d2(), _templateObject4(), _templateObject5(), fn3(_templateObject6(), 3), fn3(_templateObject7(), "", 3, ""), fn3(_templateObject8(), 5, 5, 5), fn3(_templateObject9(), 4), fn3(_templateObject10(), "", "", ""), fn3(_templateObject11(), "", "", 3), fn3(_templateObject12()), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), _templateObject21();
+d1.foo(), d2(), _templateObject4(), _templateObject5(), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), _templateObject21();

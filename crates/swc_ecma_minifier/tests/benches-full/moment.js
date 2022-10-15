@@ -981,9 +981,6 @@
     function localeData() {
         return this._locale;
     }
-    function mod$1(dividend, divisor) {
-        return (dividend % divisor + divisor) % divisor;
-    }
     function localStartOfDate(y, m, d) {
         return y < 100 && y >= 0 ? new Date(y + 400, m, d) - 12622780800000 : new Date(y, m, d).valueOf();
     }
@@ -1268,13 +1265,13 @@
                 time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
                 break;
             case 'hour':
-                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
+                time = this._d.valueOf(), time += 3600000 - ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % 3600000 + 3600000) % 3600000 - 1;
                 break;
             case 'minute':
-                time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
+                time = this._d.valueOf(), time += 60000 - (time % 60000 + 60000) % 60000 - 1;
                 break;
             case 'second':
-                time = this._d.valueOf(), time += 1000 - mod$1(time, 1000) - 1;
+                time = this._d.valueOf(), time += 1000 - (time % 1000 + 1000) % 1000 - 1;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1358,13 +1355,13 @@
                 time = startOfDate(this.year(), this.month(), this.date());
                 break;
             case 'hour':
-                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                time = this._d.valueOf(), time -= ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % 3600000 + 3600000) % 3600000;
                 break;
             case 'minute':
-                time = this._d.valueOf(), time -= mod$1(time, 60000);
+                time = this._d.valueOf(), time -= (time % 60000 + 60000) % 60000;
                 break;
             case 'second':
-                time = this._d.valueOf(), time -= mod$1(time, 1000);
+                time = this._d.valueOf(), time -= (time % 1000 + 1000) % 1000;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {

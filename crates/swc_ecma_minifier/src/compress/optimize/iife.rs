@@ -812,7 +812,7 @@ where
                         self.data
                             .vars
                             .get(id)
-                            .map(|usage| usage.ref_count == 1 && usage.used_as_callee)
+                            .map(|usage| usage.ref_count == 1 && usage.callee_count > 0)
                             .unwrap_or(false)
                     }) {
                         return true;
