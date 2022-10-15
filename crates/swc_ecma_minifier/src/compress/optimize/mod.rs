@@ -2587,7 +2587,10 @@ where
     /// We don't optimize [Tpl] contained in [TaggedTpl].
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        n.tag.visit_mut_with(self);
+        n.tag.visit_mut_with(&mut *self.with_ctx(Ctx {
+            is_this_aware_callee: true,
+            ..self.ctx
+        }));
 
         n.tpl.exprs.visit_mut_with(self);
     }
