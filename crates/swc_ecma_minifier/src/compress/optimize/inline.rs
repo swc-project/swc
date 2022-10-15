@@ -6,6 +6,7 @@ use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
 use super::Optimizer;
 use crate::{
     alias::{collect_infects_from, AliasConfig},
+    analyzer::VarUsageInfo,
     compress::optimize::util::is_valid_for_lhs,
     mode::Mode,
     util::{
@@ -352,7 +353,7 @@ where
                     }
                 }
 
-                if !usage.used_as_callee {
+                if usage.callee_count == 0 {
                     if let Expr::Fn(..) | Expr::Arrow(..) = init {
                         return;
                     }
@@ -408,8 +409,21 @@ where
     }
 
     /// Check if the body of a function is simple enough to inline.
-    fn is_fn_body_simple_enough_to_inline(&self, body: &BlockStmt, param_count: usize) -> bool {
-        let cost_limit = 3 + param_count * 2;
+    fn is_fn_body_simple_enough_to_inline(
+        &self,
+        body: &BlockStmt,
+        param_count: usize,
+        usage: &VarUsageInfo,
+    ) -> bool {
+        let param_cost = param_count * 2;
+        // if it's passed as value but not called, the function expr cannot be removed
+        let func_body_cost = if usage.ref_count == usage.callee_count {
+            // length of "function c(){}"
+            14 / usage.usage_count
+        } else {
+            0
+        } as usize;
+        let cost_limit = 3 + param_cost + func_body_cost;
 
         if body.stmts.len() == 1 {
             match &body.stmts[0] {
@@ -541,25 +555,27 @@ where
                     match &f.function.body {
                         Some(body) => {
                             if !usage.used_recursively
-                            // only callees can be inlined multiple times
-                                && usage.used_as_callee
+                                // only callees can be inlined multiple times
+                                && usage.callee_count > 0
+                                // prefer single inline
+                                && usage.ref_count > 1
                                 && self.is_fn_body_simple_enough_to_inline(
                                     body,
                                     f.function.params.len(),
+                                    usage,
                                 )
                             {
+                                if f.function.params.iter().any(|param| {
+                                    matches!(param.pat, Pat::Rest(..) | Pat::Assign(..))
+                                }) {
+                                    return;
+                                }
                                 trace_op!(
                                     "inline: Decided to inline function '{}{:?}' as it's very \
                                      simple",
                                     f.ident.sym,
                                     f.ident.span.ctxt
                                 );
-
-                                if f.function.params.iter().any(|param| {
-                                    matches!(param.pat, Pat::Rest(..) | Pat::Assign(..))
-                                }) {
-                                    return;
-                                }
 
                                 for i in collect_infects_from(
                                     &f.function,
@@ -576,15 +592,10 @@ where
 
                                 self.vars.simple_functions.insert(
                                     i.to_id(),
-                                    match decl {
-                                        Decl::Fn(f) => Box::new(Expr::Fn(FnExpr {
-                                            ident: None,
-                                            function: f.function.clone(),
-                                        })),
-                                        _ => {
-                                            unreachable!()
-                                        }
-                                    },
+                                    Box::new(Expr::Fn(FnExpr {
+                                        ident: None,
+                                        function: f.function.clone(),
+                                    })),
                                 );
 
                                 return;
@@ -607,7 +618,7 @@ where
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.used_as_callee
+                && (usage.callee_count > 0
                     || !usage.executed_multiple_time
                         && (usage.is_fn_local || !usage.used_in_non_child_fn))
                 && !usage.inline_prevented

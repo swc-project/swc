@@ -1013,7 +1013,7 @@
             };
         }
         function baseMatchesProperty(path, srcValue) {
-            return isKey(path) && isStrictComparable(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
+            return isKey(path) && srcValue == srcValue && !isObject(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                 var objValue = get(object, path);
                 return undefined === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
             };
@@ -1645,7 +1645,7 @@
                 result[length] = [
                     key,
                     value,
-                    isStrictComparable(value)
+                    value == value && !isObject(value)
                 ];
             }
             return result;
@@ -1718,9 +1718,6 @@
         function isPrototype(value) {
             var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
             return value === proto;
-        }
-        function isStrictComparable(value) {
-            return value == value && !isObject(value);
         }
         function matchesStrictComparable(key, srcValue) {
             return function(object) {
