@@ -9,7 +9,7 @@ use swc_common::{
     collections::AHashMap,
     sync::{Lazy, OnceCell},
 };
-use wasmer::{Module, Store};
+use wasmer::{BaseTunables, Module, Store};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
@@ -238,4 +238,9 @@ impl PluginModuleCache {
 /// Creates an instnace of  [Store].
 ///
 /// This function exitsts because we need to disable simd.
-fn new_store() -> Store {}
+fn new_store() -> Store {
+    let config = wasmer_compiler_cranelift::Cranelift::default();
+    let engine = wasmer_engine_universal::Universal::new(config).engine();
+    let tunables = BaseTunables::for_target(engine.target());
+    Store::new_with_tunables(&engine, tunables)
+}
