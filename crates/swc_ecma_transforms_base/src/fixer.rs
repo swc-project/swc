@@ -569,6 +569,7 @@ impl VisitMut for Fixer<'_> {
                     || obj.is_class()
                     || obj.is_yield_expr()
                     || obj.is_await_expr()
+                    || obj.is_opt_chain()
                     || (obj.is_call() && matches!(self.ctx, Context::Callee { is_new: true }))
                     || matches!(**obj, Expr::New(NewExpr { args: None, .. })) =>
             {
