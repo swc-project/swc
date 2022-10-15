@@ -7,8 +7,6 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::FoldWith;
 use testing::NormalizedOutput;
 
-#[testing::fixture("tests/fixture/**/input.js")]
-#[testing::fixture("tests/single-pass/**/input.js")]
 #[testing::fixture("tests/terser/compress/**/input.js")]
 fn snapshot(input: PathBuf) {
     let dir = input.parent().unwrap();
