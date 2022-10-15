@@ -4250,6 +4250,8 @@ dependencies = [
  "tracing",
  "wasmer",
  "wasmer-cache",
+ "wasmer-compiler-cranelift",
+ "wasmer-engine-universal",
  "wasmer-wasi",
 ]
 
