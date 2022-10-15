@@ -1665,6 +1665,16 @@ where
                 };
 
                 if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    if is_trivial_lit(&b_assign.right) {
+                        // As we are not *skipping* lhs, we can inline here
+                        if let Some(a_id) = a.id() {
+                            if a_id == b_left.to_id() {
+                                if self.replace_seq_assignment(a, b)? {
+                                    return Ok(true);
+                                }
+                            }
+                        }
+                    }
                     return Ok(false);
                 }
 
@@ -2224,8 +2234,8 @@ where
                         .unwrap_or_else(|| undefined(DUMMY_SP))
                     }
                     Mergable::Expr(a) => {
-                        if can_remove {
-                            if let Expr::Assign(e) = a {
+                        if can_remove || $force_drop {
+                            if let Expr::Assign(e @ AssignExpr { op: op!("="), .. }) = a {
                                 report_change!(
                                     "sequences: Dropping assignment as we are going to drop the \
                                      variable declaration. ({})",
