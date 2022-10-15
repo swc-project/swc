@@ -14,6 +14,9 @@
 - **(es/minifier)** Consider function body cost while inlining function (#5342) ([b40d486](https://github.com/swc-project/swc/commit/b40d4862534d53b763bff24a55e7d9bf41007d82))
 
 
+- **(es/minifier)** Preserve `this` of tagged template literals (#6165) ([aec5cda](https://github.com/swc-project/swc/commit/aec5cdacc64296269d4c75f834d2a3021ca2db4b))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
