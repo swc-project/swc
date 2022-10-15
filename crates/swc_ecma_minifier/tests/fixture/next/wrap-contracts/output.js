@@ -13615,15 +13615,15 @@
                 return al + bl >>> 0;
             }
             function sum64_4_hi(ah, al, bh, bl, ch, cl, dh, dl) {
-                var carry, lo = al;
-                return ah + bh + ch + dh + (carry = (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0)) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) >>> 0;
+                var carry = 0, lo = al;
+                return ah + bh + ch + dh + (carry = ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0)) >>> 0;
             }
             function sum64_4_lo(ah, al, bh, bl, ch, cl, dh, dl) {
                 return al + bl + cl + dl >>> 0;
             }
             function sum64_5_hi(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
-                var carry, lo = al;
-                return ah + bh + ch + dh + eh + (carry = (carry = 0 + ((lo = lo + bl >>> 0) < al ? 1 : 0)) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0) + ((lo = lo + el >>> 0) < el ? 1 : 0)) >>> 0;
+                var carry = 0, lo = al;
+                return ah + bh + ch + dh + eh + (carry = ((lo = lo + bl >>> 0) < al ? 1 : 0) + ((lo = lo + cl >>> 0) < cl ? 1 : 0) + ((lo = lo + dl >>> 0) < dl ? 1 : 0) + ((lo = lo + el >>> 0) < el ? 1 : 0)) >>> 0;
             }
             function sum64_5_lo(ah, al, bh, bl, ch, cl, dh, dl, eh, el) {
                 return al + bl + cl + dl + el >>> 0;
@@ -18971,7 +18971,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyFnReplacer(i, value, stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19024,7 +19024,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyArrayReplacer(i, value[i], stack, replacer, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19074,7 +19074,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifyIndent(i, value[i], stack, spacer, indentation);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + join;
+                                        res = (void 0 !== tmp ? tmp : 'null') + join;
                                     }
                                     const tmp1 = stringifyIndent(i, value[i], stack, spacer, indentation);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
@@ -19130,7 +19130,7 @@
                                     let i = 0;
                                     for(; i < maximumValuesToStringify - 1; i++){
                                         const tmp = stringifySimple(i, value[i], stack);
-                                        res = (res += void 0 !== tmp ? tmp : 'null') + ',';
+                                        res = (void 0 !== tmp ? tmp : 'null') + ',';
                                     }
                                     const tmp1 = stringifySimple(i, value[i], stack);
                                     if (res += void 0 !== tmp1 ? tmp1 : 'null', value.length - 1 > maximumBreadth) {
