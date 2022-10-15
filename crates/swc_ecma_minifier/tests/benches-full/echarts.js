@@ -15429,9 +15429,7 @@
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
-                                            interval = (approxInterval2 = (approxInterval2 = approxInterval) / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
-                                            interval = (approxInterval2 = approxInterval / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC), isDate = !0;
+                                            interval = (approxInterval2 = approxInterval / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':

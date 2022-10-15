@@ -9348,17 +9348,12 @@
             var n = r(7507);
             e.exports = function(e, t, r) {
                 var i, o, a, u;
-                return e = function(e) {
+                return "#" + n(e = function(e) {
                     var t, r;
                     for(e = (r = e = (t = e) > 1e7 ? 1e7 : t) < -10000000 ? -10000000 : r; e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
-                }(e), t = (o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o, r = (u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u, "#" + n(e, t /= 100, r /= 100).map(function(e) {
-                return "#" + n(e = function(e) {
-                    for(e = o(e = i(e, 1e7), -10000000); e < 0;)e += 360;
-                    for(; e > 359;)e -= 360;
-                    return e;
-                }(e), t = o(i(t, 100), 0) / 100, r = o(i(r, 100), 0) / 100).map(function(e) {
+                }(e), t = ((o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o) / 100, r = ((u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u) / 100).map(function(e) {
                     return (256 + e).toString(16).substr(-2);
                 }).join("");
             };
@@ -27066,9 +27061,7 @@
                     },
                     unbatchedUpdates: function(e, t) {
                         var r = n_;
-                        n_ &= -2, n_ |= 8;
-                        var r = nx;
-                        nx = 8 | (nx &= -2);
+                        n_ = 8 | (n_ &= -2);
                         try {
                             return e(t);
                         } finally{
