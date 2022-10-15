@@ -4,12 +4,13 @@ use std::{
 };
 
 use anyhow::{Context, Error};
+use enumset::EnumSet;
 use parking_lot::Mutex;
 use swc_common::{
     collections::AHashMap,
     sync::{Lazy, OnceCell},
 };
-use wasmer::{BaseTunables, Module, Store};
+use wasmer::{BaseTunables, Engine, Module, Store, Target, Triple};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
@@ -239,8 +240,13 @@ impl PluginModuleCache {
 ///
 /// This function exitsts because we need to disable simd.
 fn new_store() -> Store {
+    // Use empty enumset to disable simd.
+    let target = Target::new(Triple::host(), EnumSet::new());
+
     let config = wasmer_compiler_cranelift::Cranelift::default();
-    let engine = wasmer_engine_universal::Universal::new(config).engine();
+    let engine = wasmer_engine_universal::Universal::new(config)
+        .target(target)
+        .engine();
     let tunables = BaseTunables::for_target(engine.target());
     Store::new_with_tunables(&engine, tunables)
 }
