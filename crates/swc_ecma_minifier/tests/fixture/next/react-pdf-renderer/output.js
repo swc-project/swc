@@ -26501,8 +26501,7 @@
                     return t > (e = e.childExpirationTime) ? t : e;
                 }
                 function ie(e) {
-                    var t = to();
-                    return tu(99, it.bind(null, e, t)), null;
+                    return tu(99, it.bind(null, e, to())), null;
                 }
                 function it(e, t) {
                     if (ir(), (48 & nx) != 0) throw Error(d(327));
