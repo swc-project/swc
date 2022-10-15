@@ -2028,7 +2028,7 @@ where
         }
 
         macro_rules! take_a {
-            ($force_drop:expr, $op:expr) => {
+            ($force_drop:expr, $drop_op:expr) => {
                 match a {
                     Mergable::Var(a) => {
                         if self.options.unused {
@@ -2052,7 +2052,7 @@ where
                     Mergable::Expr(a) => {
                         if can_remove || $force_drop {
                             if let Expr::Assign(e) = a {
-                                if e.op == op!("=") || can_drop_op_for(e.op, $op) {
+                                if e.op == op!("=") || $drop_op {
                                     report_change!(
                                         "sequences: Dropping assignment as we are going to drop \
                                          the variable declaration. ({})",
@@ -2078,7 +2078,7 @@ where
                         report_change!("sequences: Merged assignment into another assignment");
                         self.changed = true;
 
-                        let mut a_expr = take_a!(true, None);
+                        let mut a_expr = take_a!(true, false);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
@@ -2093,25 +2093,28 @@ where
             }
             Expr::Assign(b) => {
                 if let Some(b_left) = b.left.as_ident() {
-                    if b_left.to_id() == left_id.to_id() {
-                        if let Some(bin_op) = b.op.to_update() {
-                            report_change!(
-                                "sequences: Merged assignment into another (op) assignment"
-                            );
-                            self.changed = true;
-                            let b_op = b.op;
+                    if let Mergable::Expr(Expr::Assign(AssignExpr { op: a_op, .. })) = a {
+                        if can_drop_op_for(*a_op, b.op) {
+                            if b_left.to_id() == left_id.to_id() {
+                                if let Some(bin_op) = b.op.to_update() {
+                                    report_change!(
+                                        "sequences: Merged assignment into another (op) assignment"
+                                    );
+                                    self.changed = true;
 
-                            b.op = op!("=");
+                                    b.op = op!("=");
 
-                            let to = take_a!(true, Some(b_op));
+                                    let to = take_a!(true, true);
 
-                            b.right = Box::new(Expr::Bin(BinExpr {
-                                span: DUMMY_SP,
-                                op: bin_op,
-                                left: to,
-                                right: b.right.take(),
-                            }));
-                            return Ok(true);
+                                    b.right = Box::new(Expr::Bin(BinExpr {
+                                        span: DUMMY_SP,
+                                        op: bin_op,
+                                        left: to,
+                                        right: b.right.take(),
+                                    }));
+                                    return Ok(true);
+                                }
+                            }
                         }
                     }
                 }
@@ -2147,7 +2150,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = take_a!(false, None);
+        let to = take_a!(false, false);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
@@ -2277,11 +2280,7 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
 }
 
 /// This assumes `a.left.to_id() == b.left.to_id()`
-fn can_drop_op_for(a: AssignOp, b: Option<AssignOp>) -> bool {
-    let b = match b {
-        Some(v) => v,
-        None => return false,
-    };
+fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     match (a, b) {
         (op!("+="), op!("+=")) => true,
         _ => false,
