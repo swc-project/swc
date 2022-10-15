@@ -1359,15 +1359,25 @@ where
                 .map_or(usize::MAX, |idx| idx + 1)
         };
 
-        self.maybe_par_idx(*HEAVY_TASK_PARALLELS, stmts, |visitor, idx, stmt| {
+        // self.maybe_par_idx(*HEAVY_TASK_PARALLELS, stmts, |visitor, idx, stmt| {
+        //     let ctx = Ctx {
+        //         in_cond: idx >= has_cond_idx,
+        //         is_delete_arg: false,
+        //         ..visitor.ctx
+        //     };
+
+        //     stmt.visit_with(&mut *visitor.with_ctx(ctx));
+        // });
+
+        for (idx, stmt) in stmts.iter().enumerate() {
             let ctx = Ctx {
                 in_cond: idx >= has_cond_idx,
                 is_delete_arg: false,
-                ..visitor.ctx
+                ..self.ctx
             };
 
-            stmt.visit_with(&mut *visitor.with_ctx(ctx));
-        });
+            stmt.visit_with(&mut *self.with_ctx(ctx));
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
