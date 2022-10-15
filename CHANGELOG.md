@@ -8,6 +8,9 @@
 - **(css/parser)** Improve handling of math functions in at-rules (#6140) ([26aeb18](https://github.com/swc-project/swc/commit/26aeb18c0cbb3299951be7b7a9398705d33374cd))
 
 
+- **(es/codegen)** Emit `readonly` for `TsIndexSignature` (#6172) ([083924c](https://github.com/swc-project/swc/commit/083924c0e1bf738ae8e6b945dac00dda18dfeb26))
+
+
 - **(es/minifier)** Fix ordering issue of analyzer (#6150) ([6d0ca05](https://github.com/swc-project/swc/commit/6d0ca05cb50c0b33fa0786824e07950d4db91819))
 
 
