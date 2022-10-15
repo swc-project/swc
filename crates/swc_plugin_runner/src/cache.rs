@@ -238,7 +238,7 @@ impl PluginModuleCache {
 
 /// Creates an instnace of  [Store].
 ///
-/// This function exitsts because we need to disable simd.
+/// This function exists because we need to disable simd.
 fn new_store() -> Store {
     // Use empty enumset to disable simd.
     let target = Target::new(Triple::host(), EnumSet::new());
