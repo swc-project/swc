@@ -49,6 +49,7 @@ use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_visit::VisitMutWith;
 use swc_timer::timer;
 
+pub use self::analyzer::dump_snapshot;
 pub use crate::pass::unique_scope::unique_scope;
 use crate::{
     analyzer::ModuleInfo,

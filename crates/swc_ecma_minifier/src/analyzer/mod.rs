@@ -1579,3 +1579,34 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
         _ => false,
     }
 }
+
+#[derive(Debug)]
+struct TestSnapshot {
+    vars: Vec<(Id, VarUsageInfo)>,
+}
+
+/// This is **NOT** a public api.
+#[doc(hidden)]
+pub fn dump_snapshot(program: &Module) -> String {
+    let marks = Marks::new();
+
+    let data = analyze(program, &Default::default(), Some(marks));
+
+    // Iteration order of hashmap is not deterministic
+    let mut snapshot = TestSnapshot {
+        vars: data
+            .vars
+            .into_iter()
+            .map(|(id, mut v)| {
+                v.infects = Default::default();
+                v.accessed_props = Default::default();
+
+                (id, v)
+            })
+            .collect(),
+    };
+
+    snapshot.vars.sort_by(|a, b| a.0.cmp(&b.0));
+
+    format!("{:#?}", snapshot)
+}
