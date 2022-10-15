@@ -149,7 +149,7 @@ impl PluginModuleCache {
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
         let module_bytes_hash = Hash::generate(&module_bytes);
 
-        let wasmer_store = Store::default();
+        let wasmer_store = new_store();
 
         let load_cold_wasm_bytes = || {
             let span = tracing::span!(
@@ -205,7 +205,7 @@ impl PluginModuleCache {
         //TODO: In native runtime we have to reconstruct module using raw bytes in
         // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
 
-        let wasmer_store = Store::default();
+        let wasmer_store = new_store();
         let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
 
         Ok(module)
@@ -234,3 +234,8 @@ impl PluginModuleCache {
         }
     }
 }
+
+/// Creates an instnace of  [Store].
+///
+/// This function exitsts because we need to disable simd.
+fn new_store() -> Store {}
