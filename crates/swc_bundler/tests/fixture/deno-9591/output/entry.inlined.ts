@@ -242,7 +242,7 @@ let NATIVE_OS = "linux";
 const navigator = globalThis.navigator;
 if (globalThis.Deno != null) {
     NATIVE_OS = Deno.build.os;
-} else if (navigator?.appVersion?.includes?.("Win") ?? false) {
+} else if ((navigator?.appVersion)?.includes?.("Win") ?? false) {
     NATIVE_OS = "windows";
 }
 const isWindows = NATIVE_OS == "windows";

@@ -147,7 +147,7 @@ const osType = (()=>{
         return Deno.build.os;
     }
     const navigator = globalThis.navigator;
-    if (navigator?.appVersion?.includes?.("Win") ?? false) {
+    if ((navigator?.appVersion)?.includes?.("Win") ?? false) {
         return "windows";
     }
     return "linux";
