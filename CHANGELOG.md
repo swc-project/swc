@@ -11,6 +11,9 @@
 - **(es/minifier)** Fix ordering issue of analyzer (#6150) ([6d0ca05](https://github.com/swc-project/swc/commit/6d0ca05cb50c0b33fa0786824e07950d4db91819))
 
 
+- **(es/minifier)** Consider function body cost while inlining function (#5342) ([b40d486](https://github.com/swc-project/swc/commit/b40d4862534d53b763bff24a55e7d9bf41007d82))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
