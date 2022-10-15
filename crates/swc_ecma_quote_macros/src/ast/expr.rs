@@ -63,7 +63,7 @@ impl_struct!(
     ]
 );
 impl_struct!(ClassExpr, [ident, class]);
-impl_struct!(Tpl, [exprs, quasis]);
+impl_struct!(Tpl, [span, exprs, quasis]);
 impl_struct!(UnaryExpr, [span, op, arg]);
 impl_struct!(UpdateExpr, [span, op, prefix, arg]);
 impl_struct!(BinExpr, [span, op, left, right]);
