@@ -577,7 +577,7 @@ impl VisitMut for Fixer<'_> {
 
             MemberExpr {
                 obj,
-                prop: MemberProp::Ident(..),
+                prop: MemberProp::Ident(..) | MemberProp::PrivateName(..),
                 ..
             } if obj.is_opt_chain() => {
                 self.wrap(obj);
