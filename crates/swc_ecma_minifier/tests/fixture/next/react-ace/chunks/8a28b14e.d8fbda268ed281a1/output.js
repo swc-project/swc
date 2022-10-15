@@ -825,7 +825,7 @@
                                     selectionStart = range.start.row < row - 1 ? 0 : selectionStart, selectionEnd += prevLine.length + 1, line = prevLine + "\n" + line;
                                 } else if (range.end.row != row) {
                                     var nextLine = host.session.getLine(row + 1);
-                                    selectionEnd = (range.end.row > row + 1 ? nextLine.length : selectionEnd) + (line.length + 1), line = line + "\n" + nextLine;
+                                    selectionEnd = range.end.row > row + 1 ? nextLine.length : selectionEnd, selectionEnd += line.length + 1, line = line + "\n" + nextLine;
                                 } else isMobile && row > 0 && (line = "\n" + line, selectionEnd += 1, selectionStart += 1);
                                 line.length > 400 && (selectionStart < 400 && selectionEnd < 400 ? line = line.slice(0, 400) : (line = "\n", selectionStart == selectionEnd ? selectionStart = selectionEnd = 0 : (selectionStart = 0, selectionEnd = 1)));
                             }
@@ -8302,8 +8302,8 @@
                             var nr = this.getNumberAt(row, column);
                             if (nr) {
                                 var fp = nr.value.indexOf(".") >= 0 ? nr.start + nr.value.indexOf(".") + 1 : nr.end, decimals = nr.start + nr.value.length - fp, t = parseFloat(nr.value);
-                                t *= Math.pow(10, decimals), fp !== nr.end && column < fp ? amount *= Math.pow(10, nr.end - column - 1) : amount *= Math.pow(10, nr.end - column);
-                                var nnr = (t = (t += amount) / Math.pow(10, decimals)).toFixed(decimals), replaceRange = new Range(row, nr.start, row, nr.end);
+                                t *= Math.pow(10, decimals), fp !== nr.end && column < fp ? amount *= Math.pow(10, nr.end - column - 1) : amount *= Math.pow(10, nr.end - column), t += amount;
+                                var nnr = (t /= Math.pow(10, decimals)).toFixed(decimals), replaceRange = new Range(row, nr.start, row, nr.end);
                                 this.session.replace(replaceRange, nnr), this.moveCursorTo(row, Math.max(nr.start + 1, column + nnr.length - nr.value.length));
                             }
                         } else this.toggleWord();
@@ -9025,7 +9025,7 @@
                 function stringifyDelta(d) {
                     if (Array.isArray(d = d || this)) return d.map(stringifyDelta).join("\n");
                     var type = "";
-                    return d.action ? type = ("insert" == d.action ? "+" : "-") + "[" + d.lines + "]" : d.value && (type = Array.isArray(d.value) ? d.value.map(stringifyRange).join("\n") : stringifyRange(d.value)), d.start && (type += stringifyRange(d)), (d.id || d.rev) && (type += "\t(" + (d.id || d.rev) + ")"), type;
+                    return d.action ? (type = "insert" == d.action ? "+" : "-", type += "[" + d.lines + "]") : d.value && (type = Array.isArray(d.value) ? d.value.map(stringifyRange).join("\n") : stringifyRange(d.value)), d.start && (type += stringifyRange(d)), (d.id || d.rev) && (type += "\t(" + (d.id || d.rev) + ")"), type;
                 }
                 function stringifyRange(r) {
                     return r.start.row + ":" + r.start.column + "=>" + r.end.row + ":" + r.end.column;
@@ -10627,7 +10627,7 @@ margin: 0 10px;\
                         if (changes & this.CHANGE_FULL || changes & this.CHANGE_SIZE || changes & this.CHANGE_TEXT || changes & this.CHANGE_LINES || changes & this.CHANGE_SCROLL || changes & this.CHANGE_H_SCROLL) {
                             if (changes |= this.$computeLayerConfig() | this.$loop.clear(), config.firstRow != this.layerConfig.firstRow && config.firstRowScreen == this.layerConfig.firstRowScreen) {
                                 var st = this.scrollTop + (config.firstRow - this.layerConfig.firstRow) * this.lineHeight;
-                                st > 0 && (this.scrollTop = st, changes = (changes |= this.CHANGE_SCROLL) | (this.$computeLayerConfig() | this.$loop.clear()));
+                                st > 0 && (this.scrollTop = st, changes |= this.CHANGE_SCROLL, changes |= this.$computeLayerConfig() | this.$loop.clear());
                             }
                             config = this.layerConfig, this.$updateScrollBarV(), changes & this.CHANGE_H_SCROLL && this.$updateScrollBarH(), dom.translate(this.content, -this.scrollLeft, -config.offset);
                             var width = config.width + 2 * this.$padding + "px", height = config.minHeight + "px";

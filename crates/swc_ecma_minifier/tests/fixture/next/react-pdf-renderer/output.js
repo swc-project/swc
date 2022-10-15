@@ -9348,12 +9348,12 @@
             var n = r(7507);
             e.exports = function(e, t, r) {
                 var i, o, a, u;
-                return "#" + n(e = function(e) {
+                return e = function(e) {
                     var t, r;
                     for(e = (r = e = (t = e) > 1e7 ? 1e7 : t) < -10000000 ? -10000000 : r; e < 0;)e += 360;
                     for(; e > 359;)e -= 360;
                     return e;
-                }(e), t = ((o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o) / 100, r = ((u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u) / 100).map(function(e) {
+                }(e), t = (o = (i = t) > 100 ? 100 : i) < 0 ? 0 : o, r = (u = (a = r) > 100 ? 100 : a) < 0 ? 0 : u, "#" + n(e, t /= 100, r /= 100).map(function(e) {
                     return (256 + e).toString(16).substr(-2);
                 }).join("");
             };
@@ -19557,7 +19557,7 @@
                             for(A = 15, k = E; A >= 1 && 0 === j[A]; A--);
                             if (k > A && (k = A), 0 === A) return s[c++] = 20971520, s[c++] = 20971520, d.bits = 1, 0;
                             for(S = 1; S < A && 0 === j[S]; S++);
-                            for(k < S && (k = S), C = 1, _ = 1; _ <= 15; _++)if ((C = (C <<= 1) - j[_]) < 0) return -1;
+                            for(k < S && (k = S), C = 1, _ = 1; _ <= 15; _++)if (C <<= 1, (C -= j[_]) < 0) return -1;
                             if (C > 0 && (0 === e || 1 !== A)) return -1;
                             for(_ = 1, B[1] = 0; _ < 15; _++)B[_ + 1] = B[_] + j[_];
                             for(x = 0; x < l; x++)0 !== t[r + x] && (f[B[t[r + x]]++] = x);
@@ -19567,7 +19567,7 @@
                                 do s[v + (F >> O) + (h -= p)] = m << 24 | D << 16 | w | 0;
                                 while (0 !== h)
                                 for(p = 1 << _ - 1; F & p;)p >>= 1;
-                                if (F = 0 !== p ? (F &= p - 1) + p : 0, x++, 0 == --j[_]) {
+                                if (0 !== p ? (F &= p - 1, F += p) : F = 0, x++, 0 == --j[_]) {
                                     if (_ === A) break;
                                     _ = t[r + f[x]];
                                 }
@@ -27061,7 +27061,7 @@
                     },
                     unbatchedUpdates: function(e, t) {
                         var r = n_;
-                        n_ = 8 | (n_ &= -2);
+                        n_ &= -2, n_ |= 8;
                         try {
                             return e(t);
                         } finally{

@@ -3208,8 +3208,8 @@
             }
             function Q(a) {
                 var b = null !== a.alternate && a.alternate.child === a.child, c = 0, d = 0;
-                if (b) for(var e = a.child; null !== e;)c |= e.lanes | e.childLanes, d = (d |= 14680064 & e.subtreeFlags) | 14680064 & e.flags, e.return = a, e = e.sibling;
-                else for(e = a.child; null !== e;)c |= e.lanes | e.childLanes, d = (d |= e.subtreeFlags) | e.flags, e.return = a, e = e.sibling;
+                if (b) for(var e = a.child; null !== e;)c |= e.lanes | e.childLanes, d |= 14680064 & e.subtreeFlags, d |= 14680064 & e.flags, e.return = a, e = e.sibling;
+                else for(e = a.child; null !== e;)c |= e.lanes | e.childLanes, d |= e.subtreeFlags, d |= e.flags, e.return = a, e = e.sibling;
                 return a.subtreeFlags |= d, a.childLanes = c, b;
             }
             Ti = function(a, b) {
@@ -4235,7 +4235,7 @@
                 null === rk ? rk = a : rk.push.apply(rk, a);
             }
             function Bk(a, b) {
-                for(b = (b &= ~pk) & ~ok, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
+                for(b &= ~pk, b &= ~ok, a.suspendedLanes |= b, a.pingedLanes &= ~b, a = a.expirationTimes; 0 < b;){
                     var c = 31 - nc(b), d = 1 << c;
                     a[c] = -1, b &= ~d;
                 }

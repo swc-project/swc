@@ -1,9 +1,9 @@
 console.log((function() {
-    var b, a = [
+    var a = [
         94,
         173,
         190,
         239
-    ];
-    return b = 1588444911;
+    ], b = 0;
+    return b |= 94, b <<= 8, b |= 173, b <<= 8, b |= 190, b <<= 8, b |= 239;
 })().toString(16));

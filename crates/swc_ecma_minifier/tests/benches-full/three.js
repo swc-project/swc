@@ -15066,7 +15066,7 @@
         toHalfFloat: function(val) {
             _floatView[0] = val;
             var x = _int32View[0], bits = x >> 16 & 0x8000, m = x >> 12 & 0x07ff, e = x >> 23 & 0xff;
-            return e < 103 ? bits : e > 142 ? bits = (bits |= 0x7c00) | ((255 == e ? 0 : 1) && 0x007fffff & x) : e < 113 ? (m |= 0x0800, bits |= (m >> 114 - e) + (m >> 113 - e & 1)) : bits = (bits |= e - 112 << 10 | m >> 1) + (1 & m);
+            return e < 103 ? bits : e > 142 ? (bits |= 0x7c00, bits |= (255 == e ? 0 : 1) && 0x007fffff & x) : e < 113 ? (m |= 0x0800, bits |= (m >> 114 - e) + (m >> 113 - e & 1)) : (bits |= e - 112 << 10 | m >> 1, bits += 1 & m);
         }
     }, exports1.DecrementStencilOp = 7683, exports1.DecrementWrapStencilOp = 34056, exports1.DefaultLoadingManager = DefaultLoadingManager, exports1.DepthFormat = 1026, exports1.DepthStencilFormat = 1027, exports1.DepthTexture = DepthTexture, exports1.DirectionalLight = DirectionalLight, exports1.DirectionalLightHelper = DirectionalLightHelper, exports1.DiscreteInterpolant = DiscreteInterpolant, exports1.DodecahedronBufferGeometry = DodecahedronBufferGeometry, exports1.DodecahedronGeometry = DodecahedronGeometry, exports1.DoubleSide = 2, exports1.DstAlphaFactor = 206, exports1.DstColorFactor = 208, exports1.DynamicBufferAttribute = function(array, itemSize) {
         return console.warn('THREE.DynamicBufferAttribute has been removed. Use new THREE.BufferAttribute().setUsage( THREE.DynamicDrawUsage ) instead.'), new BufferAttribute(array, itemSize).setUsage(35048);

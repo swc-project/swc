@@ -12350,7 +12350,7 @@
     function decodePolygon(coordinate, encodeOffsets, encodeScale) {
         for(var result = [], prevX = encodeOffsets[0], prevY = encodeOffsets[1], i = 0; i < coordinate.length; i += 2){
             var x = coordinate.charCodeAt(i) - 64, y = coordinate.charCodeAt(i + 1) - 64;
-            y = y >> 1 ^ -(1 & y), x = (x >> 1 ^ -(1 & x)) + prevX, y += prevY, prevX = x, prevY = y, result.push([
+            x = x >> 1 ^ -(1 & x), y = y >> 1 ^ -(1 & y), x += prevX, y += prevY, prevX = x, prevY = y, result.push([
                 x / encodeScale,
                 y / encodeScale
             ]);
@@ -15424,17 +15424,17 @@
                                         case 'half-year':
                                         case 'quarter':
                                         case 'month':
-                                            interval = (approxInterval1 = approxInterval / 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
+                                            approxInterval1 = approxInterval, interval = (approxInterval1 /= 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
                                             break;
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            interval = (approxInterval2 = approxInterval / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
+                                            approxInterval2 = approxInterval, interval = (approxInterval2 /= 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':
                                         case 'hour':
-                                            interval = (approxInterval3 = approxInterval / 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
+                                            approxInterval3 = approxInterval, interval = (approxInterval3 /= 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
                                             break;
                                         case 'minute':
                                             interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
@@ -29190,7 +29190,7 @@
             scaleX: symbolScale1[0],
             scaleY: symbolScale1[1],
             rotation: rotation
-        }), pathForLineWidth.updateTransform(), valueLineWidth = (valueLineWidth /= pathForLineWidth.getLineScale()) * symbolScale1[opt.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
+        }), pathForLineWidth.updateTransform(), valueLineWidth /= pathForLineWidth.getLineScale(), valueLineWidth *= symbolScale1[opt.valueDim.index]), outputSymbolMeta1.valueLineWidth = valueLineWidth;
         var symbolSize1 = symbolMeta.symbolSize, symbolOffset = itemModel.get('symbolOffset');
         return isArray(symbolOffset) && (symbolOffset = [
             parsePercent$1(symbolOffset[0], symbolSize1[0]),

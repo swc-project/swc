@@ -7805,7 +7805,7 @@
     }
     function unbatchedUpdates(fn, a) {
         var prevExecutionContext = executionContext;
-        executionContext = 8 | (executionContext &= -2);
+        executionContext &= -2, executionContext |= 8;
         try {
             return fn(a);
         } finally{

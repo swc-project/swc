@@ -836,7 +836,7 @@
         }
         for(cur = line; merged = collapsedSpanAtSide(cur, !1);){
             var found$1 = merged.find(0, !0);
-            len = (len -= cur.text.length - found$1.from.ch) + ((cur = found$1.to.line).text.length - found$1.to.ch);
+            len -= cur.text.length - found$1.from.ch, len += (cur = found$1.to.line).text.length - found$1.to.ch;
         }
         return len;
     }
