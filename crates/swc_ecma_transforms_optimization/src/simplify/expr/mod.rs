@@ -1504,7 +1504,9 @@ impl VisitMut for SimplifyExpr {
                     }
                 }
 
-                Expr::Lit(..) | Expr::Ident(..) if self.in_callee => {
+                Expr::Lit(..) | Expr::Ident(..)
+                    if self.in_callee && !expr.may_have_side_effects(&self.expr_ctx) =>
+                {
                     if exprs.is_empty() {
                         self.changed = true;
 
