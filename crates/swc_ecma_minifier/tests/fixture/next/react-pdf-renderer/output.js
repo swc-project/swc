@@ -26492,11 +26492,8 @@
                     var t = e.expirationTime;
                     return t > (e = e.childExpirationTime) ? t : e;
                 }
-                function ie(e) {
-                    return tu(99, it.bind(null, e, to())), null;
                 function n9(e) {
-                    var t = to();
-                    return tu(99, ie.bind(null, e, t)), null;
+                    return tu(99, ie.bind(null, e, to())), null;
                 }
                 function ie(e, t) {
                     if (it(), (48 & n_) != 0) throw Error(d(327));

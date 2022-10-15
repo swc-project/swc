@@ -171,7 +171,7 @@ impl Default for VarUsageInfo {
             var_initialized: Default::default(),
             declared_as_catch_param: Default::default(),
             no_side_effect_for_member_access: Default::default(),
-            used_as_callee: Default::default(),
+            callee_count: Default::default(),
             used_as_arg: Default::default(),
             indexed_with_dynamic_key: Default::default(),
             pure_fn: Default::default(),
