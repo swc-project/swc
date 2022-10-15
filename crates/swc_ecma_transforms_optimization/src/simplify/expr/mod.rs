@@ -1513,7 +1513,9 @@ impl VisitMut for SimplifyExpr {
                     }
                 }
 
-                Expr::Lit(..) | Expr::Ident(..) if self.in_callee => {
+                Expr::Lit(..) | Expr::Ident(..)
+                    if self.in_callee && !expr.may_have_side_effects(&self.expr_ctx) =>
+                {
                     if exprs.is_empty() {
                         self.changed = true;
 
@@ -1591,6 +1593,18 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = true;
         n.visit_mut_children_with(self);
         self.is_modifying = old;
+    }
+
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        let old = self.in_callee;
+        self.in_callee = true;
+
+        n.tag.visit_mut_with(self);
+
+        self.in_callee = false;
+        n.tpl.visit_mut_with(self);
+
+        self.in_callee = old;
     }
 
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
