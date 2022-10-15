@@ -4,6 +4,9 @@
 rustdocflags = ["--cfg", "docsrs"]
 rustflags    = []
 
+[target.x86_64-unknown-linux-gnu]
+rustflags = ["-C", "target-feature=+sse2"]
+
 [target.aarch64-apple-darwin]
 rustflags = []
 
