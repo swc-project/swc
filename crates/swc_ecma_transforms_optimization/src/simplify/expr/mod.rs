@@ -1584,19 +1584,6 @@ impl VisitMut for SimplifyExpr {
         self.is_modifying = old;
     }
 
-    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        let check_this = !matches!(&*n.tag, Expr::Ident(..) | Expr::Member(..));
-
-        n.visit_mut_children_with(self);
-
-        if check_this && matches!(&*n.tag, Expr::Member(..)) {
-            n.tag = Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), n.tag.take()],
-            }));
-        }
-    }
-
     fn visit_mut_with_stmt(&mut self, n: &mut WithStmt) {
         n.obj.visit_mut_with(self);
     }
