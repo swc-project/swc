@@ -29,6 +29,9 @@
 
 
 
+- **(css/minifier)** Handle zero in at-rules (#6155) ([0f38e38](https://github.com/swc-project/swc/commit/0f38e38984fe5508a1dd51275e81c21a0345f063))
+
+
 - **(css/modules)** Add a lifetime to config parameter (#6144) ([1196d60](https://github.com/swc-project/swc/commit/1196d60182e6fcc7b9ba35150f9f5ea4f4ea0881))
 
 
