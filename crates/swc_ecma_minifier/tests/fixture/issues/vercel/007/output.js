@@ -9,7 +9,7 @@ import _JSXStyle from "styled-jsx/style";
                 top ? "column" : "column-reverse"
             ]
         ]
-    ]), _JSXStyle.dynamic([
+    ]), Sidebar, _JSXStyle.dynamic([
         [
             "4507deac72c40d6c",
             [
