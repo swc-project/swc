@@ -8072,8 +8072,7 @@
         0 === workInProgressRootExitStatus && (workInProgressRootExitStatus = 5);
     }
     function commitRoot(root) {
-        var renderPriorityLevel = getCurrentPriorityLevel();
-        return runWithPriority$1(99, commitRootImpl.bind(null, root, renderPriorityLevel)), null;
+        return runWithPriority$1(99, commitRootImpl.bind(null, root, getCurrentPriorityLevel())), null;
     }
     function commitRootImpl(root, renderPriorityLevel) {
         do flushPassiveEffects();

@@ -14843,8 +14843,7 @@
                 0 === V && (V = 5);
             }
             function Uj(a) {
-                var b = eg();
-                return gg(99, dk.bind(null, a, b)), null;
+                return gg(99, dk.bind(null, a, eg())), null;
             }
             function dk(a, b) {
                 do Oj();

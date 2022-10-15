@@ -7,6 +7,12 @@
 
 - **(css/parser)** Improve handling of math functions in at-rules (#6140) ([26aeb18](https://github.com/swc-project/swc/commit/26aeb18c0cbb3299951be7b7a9398705d33374cd))
 
+
+- **(es/minifier)** Fix ordering issue of analyzer (#6150) ([6d0ca05](https://github.com/swc-project/swc/commit/6d0ca05cb50c0b33fa0786824e07950d4db91819))
+
+
+- **(es/quote)** Fix handling of template literals (#6157) ([6502979](https://github.com/swc-project/swc/commit/65029793a6915c11156dcc5c0265d3e2df41e2b4))
+
 ### Documentation
 
 
