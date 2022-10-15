@@ -310,17 +310,13 @@ impl ProgramData {
 
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
-            // trace!("insert({}{:?})", i.0, i.1);
+        let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
 
-            let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+        let e = self.vars.entry(i.clone()).or_default();
 
-            VarUsageInfo {
-                is_fn_local: true,
-                used_above_decl: !simple_assign,
-                ..Default::default()
-            }
-        });
+        if !e.declared {
+            e.used_above_decl |= !simple_assign;
+        }
 
         e.inline_prevented |= ctx.inline_prevented;
 
