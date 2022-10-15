@@ -129,3 +129,5 @@ main, aside {
         }
     }
 }
+
+@container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}

@@ -1,0 +1,4 @@
+@container (inline-size >= calc(100px + 100px)) {
+    /* only applies when an inline-size container is available */
+    h2 { font-size: calc(1.2em + 1cqi); }
+}

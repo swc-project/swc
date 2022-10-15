@@ -9,6 +9,7 @@ mod alpha_value;
 mod angle;
 mod calc_sum;
 mod color;
+mod container;
 mod ctx;
 mod declaration;
 mod easing_function;
@@ -17,6 +18,7 @@ mod frequency;
 mod import;
 mod keyframes;
 mod length;
+mod math;
 mod media;
 mod selector;
 mod supports;
@@ -34,6 +36,7 @@ pub fn compressor() -> impl VisitMut {
 struct Compressor {
     ctx: Ctx,
     need_utf8_at_rule: bool,
+    in_supports_conidition: bool,
 }
 
 impl Compressor {
@@ -166,8 +169,20 @@ impl VisitMut for Compressor {
         self.compress_media_in_parens(n);
     }
 
-    fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+    fn visit_mut_media_feature_value(&mut self, n: &mut MediaFeatureValue) {
         n.visit_mut_children_with(self);
+
+        self.compress_calc_sum_in_media_feature_value(n);
+    }
+
+    fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
+        let old_in_support_condition = self.in_supports_conidition;
+
+        self.in_supports_conidition = true;
+
+        n.visit_mut_children_with(self);
+
+        self.in_supports_conidition = old_in_support_condition;
 
         self.compress_supports_condition(n);
     }
@@ -176,6 +191,12 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_supports_in_parens(n);
+    }
+
+    fn visit_mut_size_feature_value(&mut self, n: &mut SizeFeatureValue) {
+        n.visit_mut_children_with(self);
+
+        self.compress_calc_sum_in_size_feature_value(n);
     }
 
     fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {

@@ -1,0 +1,31 @@
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqw + 1cqw); }
+}
+
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqh + 1cqh); }
+}
+
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqi + 1cqi); }
+}
+
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqb + 1cqb); }
+}
+
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqmin + 1cqmin); }
+}
+
+@container (inline-size >= 0px) {
+    h2 { font-size: calc(1cqmax + 1cqmax); }
+}
+
+@container (inline-size >= calc(100px + 100px)) {
+    h2 { font-size: calc(1cqw + 1cqw); }
+}
+
+@container (inline-size >= calc(calc(100px + 100px))) {
+    h2 { font-size: calc(1cqw + 1cqw); }
+}

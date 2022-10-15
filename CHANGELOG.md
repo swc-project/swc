@@ -1,6 +1,15 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/parser)** Improve handling of math functions in at-rules (#6140) ([26aeb18](https://github.com/swc-project/swc/commit/26aeb18c0cbb3299951be7b7a9398705d33374cd))
+
+
+- **(es/quote)** Fix handling of template literals (#6157) ([6502979](https://github.com/swc-project/swc/commit/65029793a6915c11156dcc5c0265d3e2df41e2b4))
+
 ### Documentation
 
 
@@ -15,6 +24,9 @@
 
 
 - **(es/minifier)** Ignore return value if a param of IIFE is not used (#6115) ([d334c6e](https://github.com/swc-project/swc/commit/d334c6e78393ee9cc853c46d9144f22033ce62d0))
+
+
+- **(es/utils)** Add indexed API to the parallel helper (#6149) ([6a42e51](https://github.com/swc-project/swc/commit/6a42e511e8ba8d8d5f7de83df64883edd00a7ab3))
 
 ## [1.3.8] - 2022-10-14
 

@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 4690,
+    "end": 4769,
     "ctxt": 0
   },
   "rules": [
@@ -13778,77 +13778,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4168,
-                          "end": 4171,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 5.0,
-                            "raw_value": "5",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4171,
-                          "end": 4172,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4172,
-                          "end": 4173,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4173,
-                          "end": 4174,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4174,
                           "end": 4178,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 1.0,
-                            "raw_value": "1",
-                            "unit": "rem",
-                            "raw_unit": "rem",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4168,
+                              "end": 4171,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4168,
+                                  "end": 4171,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4168,
+                                    "end": 4169,
+                                    "ctxt": 0
+                                  },
+                                  "value": 5.0,
+                                  "raw": "5"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4169,
+                                    "end": 4171,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4172,
+                              "end": 4173,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4174,
+                              "end": 4178,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4174,
+                                  "end": 4178,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4174,
+                                    "end": 4175,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1.0,
+                                  "raw": "1"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4175,
+                                    "end": 4178,
+                                    "ctxt": 0
+                                  },
+                                  "value": "rem",
+                                  "raw": "rem"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -13957,74 +13979,71 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4205,
-                          "end": 4213,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Ident": {
-                            "value": "Infinity",
-                            "raw": "Infinity"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4213,
-                          "end": 4214,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4214,
-                          "end": 4215,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "*"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4215,
-                          "end": 4216,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4216,
                           "end": 4219,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 1.0,
-                            "raw_value": "1",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4205,
+                              "end": 4219,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Ident",
+                                "span": {
+                                  "start": 4205,
+                                  "end": 4213,
+                                  "ctxt": 0
+                                },
+                                "value": "Infinity",
+                                "raw": "Infinity"
+                              },
+                              {
+                                "type": "CalcOperator",
+                                "span": {
+                                  "start": 4214,
+                                  "end": 4215,
+                                  "ctxt": 0
+                                },
+                                "value": "*"
+                              },
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4216,
+                                  "end": 4219,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4216,
+                                    "end": 4217,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1.0,
+                                  "raw": "1"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4217,
+                                    "end": 4219,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -14132,77 +14151,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4249,
-                          "end": 4252,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 5.0,
-                            "raw_value": "5",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4252,
-                          "end": 4253,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4253,
-                          "end": 4254,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4254,
-                          "end": 4255,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4255,
                           "end": 4259,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 1.0,
-                            "raw_value": "1",
-                            "unit": "rem",
-                            "raw_unit": "rem",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4249,
+                              "end": 4252,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4249,
+                                  "end": 4252,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4249,
+                                    "end": 4250,
+                                    "ctxt": 0
+                                  },
+                                  "value": 5.0,
+                                  "raw": "5"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4250,
+                                    "end": 4252,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4253,
+                              "end": 4254,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4255,
+                              "end": 4259,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4255,
+                                  "end": 4259,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4255,
+                                    "end": 4256,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1.0,
+                                  "raw": "1"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4256,
+                                    "end": 4259,
+                                    "ctxt": 0
+                                  },
+                                  "value": "rem",
+                                  "raw": "rem"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -14310,77 +14351,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4285,
-                          "end": 4288,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 5.0,
-                            "raw_value": "5",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4288,
-                          "end": 4289,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4289,
-                          "end": 4290,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4290,
-                          "end": 4291,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4291,
                           "end": 4295,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 1.0,
-                            "raw_value": "1",
-                            "unit": "rem",
-                            "raw_unit": "rem",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4285,
+                              "end": 4288,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4285,
+                                  "end": 4288,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4285,
+                                    "end": 4286,
+                                    "ctxt": 0
+                                  },
+                                  "value": 5.0,
+                                  "raw": "5"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4286,
+                                    "end": 4288,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4289,
+                              "end": 4290,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4291,
+                              "end": 4295,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4291,
+                                  "end": 4295,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4291,
+                                    "end": 4292,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1.0,
+                                  "raw": "1"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4292,
+                                    "end": 4295,
+                                    "ctxt": 0
+                                  },
+                                  "value": "rem",
+                                  "raw": "rem"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -14478,77 +14541,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4314,
-                          "end": 4319,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 100.0,
-                            "raw_value": "100",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4319,
-                          "end": 4320,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4320,
-                          "end": 4321,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4321,
-                          "end": 4322,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4322,
                           "end": 4326,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 10.0,
-                            "raw_value": "10",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4314,
+                              "end": 4319,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4314,
+                                  "end": 4319,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4314,
+                                    "end": 4317,
+                                    "ctxt": 0
+                                  },
+                                  "value": 100.0,
+                                  "raw": "100"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4317,
+                                    "end": 4319,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4320,
+                              "end": 4321,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4322,
+                              "end": 4326,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4322,
+                                  "end": 4326,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4322,
+                                    "end": 4324,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4324,
+                                    "end": 4326,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   },
@@ -14583,77 +14668,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4344,
-                          "end": 4350,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 1000.0,
-                            "raw_value": "1000",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4350,
-                          "end": 4351,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4351,
-                          "end": 4352,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4352,
-                          "end": 4353,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4353,
                           "end": 4357,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 10.0,
-                            "raw_value": "10",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4344,
+                              "end": 4350,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4344,
+                                  "end": 4350,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4344,
+                                    "end": 4348,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1000.0,
+                                  "raw": "1000"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4348,
+                                    "end": 4350,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4351,
+                              "end": 4352,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4353,
+                              "end": 4357,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4353,
+                                  "end": 4357,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4353,
+                                    "end": 4355,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4355,
+                                    "end": 4357,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -14751,77 +14858,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4384,
-                          "end": 4388,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 10.0,
-                            "raw_value": "10",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4388,
-                          "end": 4389,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4389,
-                          "end": 4390,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4390,
-                          "end": 4391,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4391,
                           "end": 4396,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 100.0,
-                            "raw_value": "100",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4384,
+                              "end": 4388,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4384,
+                                  "end": 4388,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4384,
+                                    "end": 4386,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4386,
+                                    "end": 4388,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4389,
+                              "end": 4390,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4391,
+                              "end": 4396,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4391,
+                                  "end": 4396,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4391,
+                                    "end": 4394,
+                                    "ctxt": 0
+                                  },
+                                  "value": 100.0,
+                                  "raw": "100"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4394,
+                                    "end": 4396,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   },
@@ -14856,77 +14985,99 @@
                     },
                     "value": [
                       {
-                        "type": "PreservedToken",
+                        "type": "CalcSum",
                         "span": {
                           "start": 4414,
-                          "end": 4420,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Dimension": {
-                            "value": 1000.0,
-                            "raw_value": "1000",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4420,
-                          "end": 4421,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4421,
-                          "end": 4422,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "Delim": {
-                            "value": "+"
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4422,
-                          "end": 4423,
-                          "ctxt": 0
-                        },
-                        "token": {
-                          "WhiteSpace": {
-                            "value": " "
-                          }
-                        }
-                      },
-                      {
-                        "type": "PreservedToken",
-                        "span": {
-                          "start": 4423,
                           "end": 4427,
                           "ctxt": 0
                         },
-                        "token": {
-                          "Dimension": {
-                            "value": 10.0,
-                            "raw_value": "10",
-                            "unit": "px",
-                            "raw_unit": "px",
-                            "type": "integer"
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4414,
+                              "end": 4420,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4414,
+                                  "end": 4420,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4414,
+                                    "end": 4418,
+                                    "ctxt": 0
+                                  },
+                                  "value": 1000.0,
+                                  "raw": "1000"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4418,
+                                    "end": 4420,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4421,
+                              "end": 4422,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4423,
+                              "end": 4427,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4423,
+                                  "end": 4427,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4423,
+                                    "end": 4425,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4425,
+                                    "end": 4427,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
                           }
-                        }
+                        ]
                       }
                     ]
                   }
@@ -16090,6 +16241,407 @@
           "span": {
             "start": 4687,
             "end": 4688,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": []
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 4690,
+        "end": 4728,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4691,
+          "end": 4696,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4696,
+          "end": 4725,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4696,
+              "end": 4725,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "keyword": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 4696,
+                "end": 4725,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeaturePlain",
+                  "span": {
+                    "start": 4696,
+                    "end": 4725,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4697,
+                      "end": 4706,
+                      "ctxt": 0
+                    },
+                    "value": "min-width",
+                    "raw": "min-width"
+                  },
+                  "value": {
+                    "type": "Function",
+                    "span": {
+                      "start": 4707,
+                      "end": 4724,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4707,
+                        "end": 4711,
+                        "ctxt": 0
+                      },
+                      "value": "calc",
+                      "raw": "calc"
+                    },
+                    "value": [
+                      {
+                        "type": "CalcSum",
+                        "span": {
+                          "start": 4712,
+                          "end": 4723,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4712,
+                              "end": 4716,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4712,
+                                  "end": 4716,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4712,
+                                    "end": 4714,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4714,
+                                    "end": 4716,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4717,
+                              "end": 4718,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4719,
+                              "end": 4723,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4719,
+                                  "end": 4723,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4719,
+                                    "end": 4721,
+                                    "ctxt": 0
+                                  },
+                                  "value": 10.0,
+                                  "raw": "10"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4721,
+                                    "end": 4723,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4726,
+          "end": 4728,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 4726,
+            "end": 4727,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": []
+      }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 4729,
+        "end": 4768,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 4730,
+          "end": 4735,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 4736,
+          "end": 4765,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 4736,
+              "end": 4765,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "keyword": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 4736,
+                "end": 4765,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "MediaFeatureRange",
+                  "span": {
+                    "start": 4736,
+                    "end": 4765,
+                    "ctxt": 0
+                  },
+                  "left": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4737,
+                      "end": 4742,
+                      "ctxt": 0
+                    },
+                    "value": "width",
+                    "raw": "width"
+                  },
+                  "comparison": ">",
+                  "right": {
+                    "type": "Function",
+                    "span": {
+                      "start": 4745,
+                      "end": 4764,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 4745,
+                        "end": 4749,
+                        "ctxt": 0
+                      },
+                      "value": "calc",
+                      "raw": "calc"
+                    },
+                    "value": [
+                      {
+                        "type": "CalcSum",
+                        "span": {
+                          "start": 4750,
+                          "end": 4763,
+                          "ctxt": 0
+                        },
+                        "expressions": [
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4750,
+                              "end": 4755,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4750,
+                                  "end": 4755,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4750,
+                                    "end": 4753,
+                                    "ctxt": 0
+                                  },
+                                  "value": 220.0,
+                                  "raw": "220"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4753,
+                                    "end": 4755,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "type": "CalcOperator",
+                            "span": {
+                              "start": 4756,
+                              "end": 4757,
+                              "ctxt": 0
+                            },
+                            "value": "+"
+                          },
+                          {
+                            "type": "CalcProduct",
+                            "span": {
+                              "start": 4758,
+                              "end": 4763,
+                              "ctxt": 0
+                            },
+                            "expressions": [
+                              {
+                                "type": "Length",
+                                "span": {
+                                  "start": 4758,
+                                  "end": 4763,
+                                  "ctxt": 0
+                                },
+                                "value": {
+                                  "type": "Number",
+                                  "span": {
+                                    "start": 4758,
+                                    "end": 4761,
+                                    "ctxt": 0
+                                  },
+                                  "value": 100.0,
+                                  "raw": "100"
+                                },
+                                "unit": {
+                                  "type": "Ident",
+                                  "span": {
+                                    "start": 4761,
+                                    "end": 4763,
+                                    "ctxt": 0
+                                  },
+                                  "value": "px",
+                                  "raw": "px"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 4766,
+          "end": 4768,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 4766,
+            "end": 4767,
             "ctxt": 0
           },
           "token": "LBrace"

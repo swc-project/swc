@@ -1879,7 +1879,14 @@ where
             tok!("ident") => Ok(MediaFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
-                Ok(MediaFeatureValue::Function(self.parse()?))
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                    ..self.ctx
+                };
+
+                Ok(MediaFeatureValue::Function(
+                    self.with_ctx(ctx).parse_as::<Function>()?,
+                ))
             }
             _ => Err(Error::new(
                 span,
@@ -2492,7 +2499,14 @@ where
             tok!("ident") => Ok(SizeFeatureValue::Ident(self.parse()?)),
             tok!("dimension") => Ok(SizeFeatureValue::Dimension(self.parse()?)),
             Token::Function { value, .. } if is_math_function(value) => {
-                Ok(SizeFeatureValue::Function(self.parse()?))
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                    ..self.ctx
+                };
+
+                Ok(SizeFeatureValue::Function(
+                    self.with_ctx(ctx).parse_as::<Function>()?,
+                ))
             }
             _ => Err(Error::new(
                 span,
