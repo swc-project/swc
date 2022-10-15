@@ -59,4 +59,12 @@ impl Compressor {
             _ => {}
         }
     }
+
+    pub(super) fn compress_size_feature_value_length(&mut self, n: &mut SizeFeatureValue) {
+        if let SizeFeatureValue::Dimension(dimension) = n {
+            if let Some(number) = self.length_to_zero(dimension) {
+                *n = SizeFeatureValue::Number(number)
+            }
+        }
+    }
 }

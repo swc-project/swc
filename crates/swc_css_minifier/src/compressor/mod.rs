@@ -173,6 +173,7 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_calc_sum_in_media_feature_value(n);
+        self.compress_media_feature_value_length(n);
     }
 
     fn visit_mut_supports_condition(&mut self, n: &mut SupportsCondition) {
@@ -197,6 +198,7 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_calc_sum_in_size_feature_value(n);
+        self.compress_size_feature_value_length(n);
     }
 
     fn visit_mut_keyframe_selector(&mut self, n: &mut KeyframeSelector) {
