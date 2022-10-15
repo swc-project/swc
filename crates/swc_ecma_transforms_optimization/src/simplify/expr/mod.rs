@@ -663,13 +663,22 @@ impl SimplifyExpr {
                 {
                     if *left_op == *op {
                         if let Known(value) = self.perform_arithmetic_op(*op, left_rhs, right) {
+                            let value_expr = if !value.is_nan() {
+                                Expr::Lit(Lit::Num(Number {
+                                    value,
+                                    span: *span,
+                                    raw: None,
+                                }))
+                            } else {
+                                Expr::Ident(Ident::new(
+                                    js_word!("NaN"),
+                                    span.with_ctxt(self.expr_ctx.unresolved_ctxt),
+                                ))
+                            };
+
                             self.changed = true;
                             *left = left_lhs.take();
-                            *right = Box::new(Expr::Lit(Lit::Num(Number {
-                                value,
-                                span: *span,
-                                raw: None,
-                            })))
+                            *right = Box::new(value_expr);
                         }
                     }
                 }
