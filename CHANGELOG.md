@@ -17,6 +17,9 @@
 - **(es/minifier)** Preserve `this` of tagged template literals (#6165) ([aec5cda](https://github.com/swc-project/swc/commit/aec5cdacc64296269d4c75f834d2a3021ca2db4b))
 
 
+- **(es/minifier)** Don't create a numeric literal with `NaN` value (#6166) ([2e153e5](https://github.com/swc-project/swc/commit/2e153e5555a8d03bc04da0cbcc849aa1f05a16e3))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
