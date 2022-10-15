@@ -2028,7 +2028,7 @@ where
         }
 
         macro_rules! take_a {
-            ($force_drop:expr) => {
+            ($force_drop:expr, $op:expr) => {
                 match a {
                     Mergable::Var(a) => {
                         if self.options.unused {
@@ -2051,14 +2051,16 @@ where
                     }
                     Mergable::Expr(a) => {
                         if can_remove || $force_drop {
-                            if let Expr::Assign(e @ AssignExpr { op: op!("="), .. }) = a {
-                                report_change!(
-                                    "sequences: Dropping assignment as we are going to drop the \
-                                     variable declaration. ({})",
-                                    left_id
-                                );
+                            if let Expr::Assign(e) = a {
+                                if e.op == op!("=") || can_drop_op_for(e.op, $op) {
+                                    report_change!(
+                                        "sequences: Dropping assignment as we are going to drop \
+                                         the variable declaration. ({})",
+                                        left_id
+                                    );
 
-                                **a = *e.right.take();
+                                    **a = *e.right.take();
+                                }
                             }
                         }
 
@@ -2076,7 +2078,7 @@ where
                         report_change!("sequences: Merged assignment into another assignment");
                         self.changed = true;
 
-                        let mut a_expr = take_a!(true);
+                        let mut a_expr = take_a!(true, None);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
@@ -2097,10 +2099,11 @@ where
                                 "sequences: Merged assignment into another (op) assignment"
                             );
                             self.changed = true;
+                            let b_op = b.op;
 
                             b.op = op!("=");
 
-                            let to = take_a!(true);
+                            let to = take_a!(true, Some(b_op));
 
                             b.right = Box::new(Expr::Bin(BinExpr {
                                 span: DUMMY_SP,
@@ -2144,7 +2147,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = take_a!(false);
+        let to = take_a!(false, None);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
@@ -2269,6 +2272,18 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
         Expr::Paren(e) => is_trivial_lit(&e.expr),
         Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
         Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
+        _ => false,
+    }
+}
+
+/// This assumes `a.left.to_id() == b.left.to_id()`
+fn can_drop_op_for(a: AssignOp, b: Option<AssignOp>) -> bool {
+    let b = match b {
+        Some(v) => v,
+        None => return false,
+    };
+    match (a, b) {
+        (op!("+="), op!("+=")) => true,
         _ => false,
     }
 }
