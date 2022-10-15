@@ -4,12 +4,13 @@ use std::{
 };
 
 use anyhow::{Context, Error};
+use enumset::EnumSet;
 use parking_lot::Mutex;
 use swc_common::{
     collections::AHashMap,
     sync::{Lazy, OnceCell},
 };
-use wasmer::{Module, Store};
+use wasmer::{BaseTunables, CpuFeature, Engine, Module, Store, Target, Triple};
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
@@ -30,7 +31,7 @@ compile_error!(
 /// however it is not gauranteed to be compatible across wasmer's
 /// internal changes.
 /// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v3";
+const MODULE_SERIALIZATION_VERSION: &str = "v4";
 
 /// A shared instance to plugin's module bytecode cache.
 pub static PLUGIN_MODULE_CACHE: Lazy<PluginModuleCache> = Lazy::new(Default::default);
@@ -149,7 +150,7 @@ impl PluginModuleCache {
             std::fs::read(&binary_path).context("Cannot read plugin from specified path")?;
         let module_bytes_hash = Hash::generate(&module_bytes);
 
-        let wasmer_store = Store::default();
+        let wasmer_store = new_store();
 
         let load_cold_wasm_bytes = || {
             let span = tracing::span!(
@@ -205,7 +206,7 @@ impl PluginModuleCache {
         //TODO: In native runtime we have to reconstruct module using raw bytes in
         // memory cache. requires https://github.com/wasmerio/wasmer/pull/2821
 
-        let wasmer_store = Store::default();
+        let wasmer_store = new_store();
         let module = Module::new(&wasmer_store, in_memory_module_bytes)?;
 
         Ok(module)
@@ -233,4 +234,21 @@ impl PluginModuleCache {
                 .insert(binary_path, module_bytes);
         }
     }
+}
+
+/// Creates an instnace of  [Store].
+///
+/// This function exists because we need to disable simd.
+fn new_store() -> Store {
+    // Use empty enumset to disable simd.
+    let mut set = EnumSet::new();
+    set.insert(CpuFeature::SSE2);
+    let target = Target::new(Triple::host(), set);
+
+    let config = wasmer_compiler_cranelift::Cranelift::default();
+    let engine = wasmer_engine_universal::Universal::new(config)
+        .target(target)
+        .engine();
+    let tunables = BaseTunables::for_target(engine.target());
+    Store::new_with_tunables(&engine, tunables)
 }
