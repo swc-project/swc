@@ -148,58 +148,64 @@ impl Storage for ProgramData {
             match self.vars.entry(id.clone()) {
                 Entry::Occupied(mut e) => {
                     e.get_mut().inline_prevented |= v.inline_prevented;
-                    e.get_mut().cond_init |= v.cond_init;
-                    e.get_mut().var_initialized |= v.var_initialized;
 
                     e.get_mut().ref_count += v.ref_count;
 
-                    e.get_mut().reassigned_with_assignment |= v.reassigned_with_assignment;
-                    e.get_mut().reassigned_with_var_decl |= v.reassigned_with_var_decl;
-                    e.get_mut().mutated |= v.mutated;
-
-                    e.get_mut().has_property_access |= v.has_property_access;
-                    e.get_mut().has_property_mutation |= v.has_property_mutation;
-                    e.get_mut().exported |= v.exported;
-
+                    e.get_mut().cond_init |= v.cond_init;
                     e.get_mut().declared |= v.declared;
                     e.get_mut().declared_count += v.declared_count;
                     e.get_mut().declared_as_fn_param |= v.declared_as_fn_param;
                     e.get_mut().declared_as_fn_decl |= v.declared_as_fn_decl;
                     e.get_mut().declared_as_fn_expr |= v.declared_as_fn_expr;
 
-                    // If a var is registered at a parent scope, it means that it's delcared before
-                    // usages.
-                    //
-                    // e.get_mut().used_above_decl |= var_info.used_above_decl;
-                    e.get_mut().executed_multiple_time |= v.executed_multiple_time;
-                    e.get_mut().used_in_cond |= v.used_in_cond;
                     e.get_mut().assign_count += v.assign_count;
                     e.get_mut().mutation_by_call_count += v.mutation_by_call_count;
+
                     e.get_mut().usage_count += v.usage_count;
+
+                    e.get_mut().reassigned_with_assignment |= v.reassigned_with_assignment;
+                    e.get_mut().reassigned_with_var_decl |= v.reassigned_with_var_decl;
+
+                    e.get_mut().mutated |= v.mutated;
+
+                    e.get_mut().has_property_access |= v.has_property_access;
+                    e.get_mut().has_property_mutation |= v.has_property_mutation;
+
+                    e.get_mut().exported |= v.exported;
+
+                    e.get_mut().used_above_decl |= v.used_above_decl;
+                    e.get_mut().is_fn_local &= v.is_fn_local;
+
+                    e.get_mut().executed_multiple_time |= v.executed_multiple_time;
+                    e.get_mut().used_in_cond |= v.used_in_cond;
+
+                    if e.get_mut().var_kind.is_none() {
+                        e.get_mut().var_kind = v.var_kind;
+                    }
+                    e.get_mut().var_initialized |= v.var_initialized;
 
                     e.get_mut().declared_as_catch_param |= v.declared_as_catch_param;
 
-                    e.get_mut().infects.extend(v.infects);
-
-                    e.get_mut().no_side_effect_for_member_access =
-                        e.get_mut().no_side_effect_for_member_access
-                            && v.no_side_effect_for_member_access;
+                    e.get_mut().no_side_effect_for_member_access |=
+                        v.no_side_effect_for_member_access;
 
                     e.get_mut().used_as_callee |= v.used_as_callee;
+
                     e.get_mut().used_as_arg |= v.used_as_arg;
+
                     e.get_mut().indexed_with_dynamic_key |= v.indexed_with_dynamic_key;
 
                     e.get_mut().pure_fn |= v.pure_fn;
 
-                    e.get_mut().used_recursively |= v.used_recursively;
-
-                    e.get_mut().is_fn_local &= v.is_fn_local;
-                    e.get_mut().used_in_non_child_fn |= v.used_in_non_child_fn;
-                    e.get_mut().used_above_decl |= v.used_above_decl;
+                    e.get_mut().infects.extend(v.infects);
 
                     for (k, v) in *v.accessed_props {
                         *e.get_mut().accessed_props.entry(k).or_default() += v;
                     }
+
+                    e.get_mut().used_in_non_child_fn |= v.used_in_non_child_fn;
+
+                    e.get_mut().used_recursively |= v.used_recursively;
                 }
                 Entry::Vacant(e) => {
                     e.insert(v);
