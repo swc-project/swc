@@ -1605,6 +1605,7 @@ pub fn dump_snapshot(program: &Module) -> String {
             })
             .collect(),
     };
+    snapshot.vars.sort_by_key(|(id, _)| id.clone());
 
     snapshot.vars.sort_by(|a, b| a.0.cmp(&b.0));
 
