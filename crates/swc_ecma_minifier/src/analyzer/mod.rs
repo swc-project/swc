@@ -205,46 +205,6 @@ impl VarUsageInfo {
     }
 }
 
-impl Default for VarUsageInfo {
-    fn default() -> Self {
-        Self {
-            inline_prevented: Default::default(),
-            ref_count: Default::default(),
-            cond_init: Default::default(),
-            declared: Default::default(),
-            declared_count: Default::default(),
-            declared_as_fn_param: Default::default(),
-            declared_as_fn_decl: Default::default(),
-            declared_as_fn_expr: Default::default(),
-            assign_count: Default::default(),
-            mutation_by_call_count: Default::default(),
-            usage_count: Default::default(),
-            reassigned_with_assignment: Default::default(),
-            reassigned_with_var_decl: Default::default(),
-            mutated: Default::default(),
-            has_property_access: Default::default(),
-            has_property_mutation: Default::default(),
-            exported: Default::default(),
-            used_above_decl: Default::default(),
-            is_fn_local: true,
-            executed_multiple_time: Default::default(),
-            used_in_cond: Default::default(),
-            var_kind: Default::default(),
-            var_initialized: Default::default(),
-            declared_as_catch_param: Default::default(),
-            no_side_effect_for_member_access: true,
-            used_as_callee: Default::default(),
-            used_as_arg: Default::default(),
-            indexed_with_dynamic_key: Default::default(),
-            pure_fn: Default::default(),
-            infects: Default::default(),
-            used_in_non_child_fn: Default::default(),
-            accessed_props: Default::default(),
-            used_recursively: Default::default(),
-        }
-    }
-}
-
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
     Fn,
