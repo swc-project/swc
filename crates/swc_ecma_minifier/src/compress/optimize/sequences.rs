@@ -771,10 +771,12 @@ where
             )
         };
 
+        let mut start_idx = 0;
+
         loop {
             let mut did_work = false;
 
-            for idx in 0..exprs.len() {
+            for idx in start_idx..exprs.len() {
                 for j in idx..exprs.len() {
                     let (a1, a2) = exprs.split_at_mut(idx);
 
@@ -866,6 +868,7 @@ where
                             Mergable::Expr(e) => e,
                         },
                     )? {
+                        start_idx = idx;
                         did_work = true;
                         break;
                     }
