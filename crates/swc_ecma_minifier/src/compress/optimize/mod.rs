@@ -2269,6 +2269,9 @@ where
                     _ => false,
                 };
 
+                #[cfg(feature = "debug")]
+                let _span = tracing::span!(tracing::Level::ERROR, "seq_expr").entered();
+
                 let can_remove = !last
                     && (idx != 0
                         || !is_injected_zero
