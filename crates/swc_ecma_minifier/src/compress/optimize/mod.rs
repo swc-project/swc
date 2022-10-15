@@ -2263,6 +2263,10 @@ where
             .enumerate()
             .identify_last()
             .filter_map(|(last, (idx, expr))| {
+                #[cfg(feature = "debug")]
+                let _span =
+                    tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
+
                 expr.visit_mut_with(&mut *self.with_ctx(ctx));
                 let is_injected_zero = match &**expr {
                     Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
