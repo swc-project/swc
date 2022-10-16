@@ -31,6 +31,9 @@
 
 - **(es/quote)** Fix handling of template literals (#6157) ([6502979](https://github.com/swc-project/swc/commit/65029793a6915c11156dcc5c0265d3e2df41e2b4))
 
+
+- **(es/typescript)** Don't generate class field for abstract properties (#6174) ([9d93b6c](https://github.com/swc-project/swc/commit/9d93b6cd856f27192b88b09bbc6e1032cea74afe))
+
 ### Documentation
 
 
@@ -51,6 +54,9 @@
 
 
 - **(es/utils)** Add indexed API to the parallel helper (#6149) ([6a42e51](https://github.com/swc-project/swc/commit/6a42e511e8ba8d8d5f7de83df64883edd00a7ab3))
+
+### Miscellaneous Tasks
+- **general**: Add lock action ([55a836a](https://github.com/swc-project/swc/commit/55a836ac823c62d83ecd7eb63dea4cb9e51604d4))
 
 ## [1.3.8] - 2022-10-14
 
