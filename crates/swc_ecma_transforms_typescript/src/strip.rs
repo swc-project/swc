@@ -1972,7 +1972,12 @@ where
             {
                 false
             }
-            ClassMember::ClassProp(ClassProp { declare: true, .. }) => false,
+            ClassMember::ClassProp(
+                ClassProp { declare: true, .. }
+                | ClassProp {
+                    is_abstract: true, ..
+                },
+            ) => false,
             ClassMember::ClassProp(ClassProp {
                 value: None,
                 ref decorators,
