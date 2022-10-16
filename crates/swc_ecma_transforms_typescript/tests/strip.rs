@@ -4637,3 +4637,21 @@ test!(
     foo();
     "#
 );
+
+test_with_config!(
+    issue_6023,
+    strip::Config {
+        use_define_for_class_fields: true,
+        ..Default::default()
+    },
+    "
+    abstract class Shape {
+        abstract height: number;
+        abstract width: number;
+    }
+    ",
+    "
+    class Shape {
+    }
+    "
+);
