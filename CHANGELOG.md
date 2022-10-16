@@ -23,6 +23,9 @@
 - **(es/minifier)** Don't create a numeric literal with `NaN` value (#6166) ([2e153e5](https://github.com/swc-project/swc/commit/2e153e5555a8d03bc04da0cbcc849aa1f05a16e3))
 
 
+- **(es/modules)** Resolve `jsc.paths` for export alls (#6170) ([82cca67](https://github.com/swc-project/swc/commit/82cca674e34022212b507f7cbbe3e903b7591f95))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
