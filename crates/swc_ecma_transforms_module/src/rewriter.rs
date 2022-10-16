@@ -69,4 +69,17 @@ where
             src.value = new;
         }
     }
+
+    fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
+        let mut src = &mut n.src;
+
+        let new = self
+            .resolver
+            .resolve_import(&self.base, &src.value)
+            .with_context(|| format!("failed to resolve import `{}`", src.value))
+            .unwrap();
+
+        src.raw = None;
+        src.value = new;
+    }
 }
