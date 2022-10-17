@@ -1,19 +1,19 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
+ 1 | <!doctype html><svg><foreignObject><p>
    : ^^^^^^^^^^^^^^^
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
+ 1 | <!doctype html><svg><foreignObject><p>
    : ^^^^^^^^^^^^^^^
    `----
 
@@ -23,36 +23,36 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                ^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                ^^^^^^^^^^^^^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                     ^^^^^^^^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                     ^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                     ^^^^^^^^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                     ^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                            ^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                                    ^^^
    `----
 
-  x Text
+  x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/49/input.html:1:1]
- 1 | <!doctype html><svg><title>abc
-   :                            ^^^
+ 1 | <!doctype html><svg><foreignObject><p>
+   :                                    ^^^
    `----

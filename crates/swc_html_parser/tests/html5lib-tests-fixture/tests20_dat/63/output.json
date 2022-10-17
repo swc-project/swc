@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 29,
+    "end": 30,
     "ctxt": 0
   },
   "mode": "quirks",
@@ -47,7 +47,7 @@
               "type": "Element",
               "span": {
                 "start": 1,
-                "end": 29,
+                "end": 30,
                 "ctxt": 0
               },
               "tagName": "math",
@@ -58,7 +58,7 @@
                   "type": "Element",
                   "span": {
                     "start": 7,
-                    "end": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "tagName": "annotation-xml",
@@ -66,29 +66,14 @@
                   "attributes": [],
                   "children": [
                     {
-                      "type": "Element",
+                      "type": "Text",
                       "span": {
-                        "start": 23,
-                        "end": 29,
+                        "start": 29,
+                        "end": 30,
                         "ctxt": 0
                       },
-                      "tagName": "svg",
-                      "namespace": "http://www.w3.org/2000/svg",
-                      "attributes": [],
-                      "children": [
-                        {
-                          "type": "Text",
-                          "span": {
-                            "start": 28,
-                            "end": 29,
-                            "ctxt": 0
-                          },
-                          "data": "x",
-                          "raw": "x"
-                        }
-                      ],
-                      "content": null,
-                      "isSelfClosing": false
+                      "data": "x",
+                      "raw": "x"
                     }
                   ],
                   "content": null,

@@ -1,7 +1,7 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
@@ -11,42 +11,42 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    :                       ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    :                                            ^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/57/input.html:1:1]
- 1 | <math><annotation-xml encoding="Text/htmL"><div>
+ 1 | <math><annotation-xml encoding="text/html"><div>
    :                                            ^^^^^
    `----

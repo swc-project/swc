@@ -2,7 +2,7 @@
   "type": "Document",
   "span": {
     "start": 1,
-    "end": 28,
+    "end": 31,
     "ctxt": 0
   },
   "mode": "no-quirks",
@@ -73,10 +73,10 @@
               "type": "Element",
               "span": {
                 "start": 19,
-                "end": 28,
+                "end": 31,
                 "ctxt": 0
               },
-              "tagName": "summary",
+              "tagName": "figcaption",
               "namespace": "http://www.w3.org/1999/xhtml",
               "attributes": [],
               "children": [],

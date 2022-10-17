@@ -1,19 +1,19 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <!doctype html><p><figcaption>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
+ 1 | <!doctype html><p><figcaption>
    : ^^^^^^^^^^^^^^^
    `----
 
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
+ 1 | <!doctype html><p><figcaption>
    : ^^^^^^^^^^^^^^^
    `----
 
@@ -23,24 +23,24 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
+ 1 | <!doctype html><p><figcaption>
    :                ^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
+ 1 | <!doctype html><p><figcaption>
    :                ^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
-   :                   ^^^^^^^^^
+ 1 | <!doctype html><p><figcaption>
+   :                   ^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/44/input.html:1:1]
- 1 | <!doctype html><p><summary>
-   :                   ^^^^^^^^^
+ 1 | <!doctype html><p><figcaption>
+   :                   ^^^^^^^^^^^^
    `----

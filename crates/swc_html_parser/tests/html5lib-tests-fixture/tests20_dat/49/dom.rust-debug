@@ -3,5 +3,5 @@
 |   <head>
 |   <body>
 |     <svg svg>
-|       <svg title>
-|         "abc"
+|       <svg foreignObject>
+|         <p>

@@ -1,8 +1,8 @@
 
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
@@ -11,36 +11,36 @@
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   :                       ^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   :                       ^
    `----
 
-  x Comment
+  x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat/61/input.html:1:1]
- 1 | <math><annotation-xml><!--foo-->
-   :                       ^^^^^^^^^^
+ 1 | <math><annotation-xml>c</annotation-xml>
+   :                       ^
    `----
