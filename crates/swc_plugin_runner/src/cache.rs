@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::{
     env::current_dir,
     path::{Path, PathBuf},
@@ -242,6 +244,7 @@ impl PluginModuleCache {
 fn new_store() -> Store {
     // Use empty enumset to disable simd.
     let mut set = EnumSet::new();
+    #[cfg(target_arch = "x86_64")]
     set.insert(CpuFeature::SSE2);
     let target = Target::new(Triple::host(), set);
 

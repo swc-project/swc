@@ -51,8 +51,8 @@ swc_plugin_proxy = { version = "0.22.11", path = "../swc_plugin_proxy" }
 
 tracing                   = "0.1.32"
 wasmer                    = { version = "2.3.0", default-features = false }
-wasmer-compiler-cranelift = "2.3.0"
-wasmer-engine-universal   = "2.3.0"
+wasmer-compiler-cranelift = { version = "2.3.0", default-features = false }
+wasmer-engine-universal   = { version = "2.3.0", default-features = false }
 wasmer-wasi               = { version = "2.3.0", default-features = false }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
