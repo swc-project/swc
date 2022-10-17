@@ -1740,6 +1740,7 @@ impl Minifier<'_> {
 
             options.codegen.minify = true;
             options.codegen.target = options.parser.target;
+            options.codegen.omit_last_semi = true;
 
             let mut emitter = swc_ecma_codegen::Emitter {
                 cfg: options.codegen,
