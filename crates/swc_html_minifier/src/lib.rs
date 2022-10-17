@@ -173,6 +173,8 @@ static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("object", "usemap"),
 ];
 
+static ALLOW_TO_TRIM_SVG_ATTRIBUTES: &[(&str, &str)] = &[("a", "href")];
+
 static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
     ("img", "srcset"),
     ("source", "srcset"),
@@ -397,6 +399,9 @@ impl Minifier<'_> {
         match element.namespace {
             Namespace::HTML => {
                 ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+            }
+            Namespace::SVG => {
+                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
             }
             _ => false,
         }
@@ -656,6 +661,18 @@ impl Minifier<'_> {
                 )
             }
         }
+    }
+
+    fn is_javascript_url_attribute(&self, element: &Element, value: &str) -> bool {
+        if value.trim().starts_with("javascript:") {
+            match (element.namespace, &element.tag_name) {
+                (Namespace::HTML | Namespace::SVG, &js_word!("a")) => return true,
+                (Namespace::HTML, &js_word!("iframe")) => return true,
+                _ => {}
+            }
+        }
+
+        false
     }
 
     fn is_preserved_comment(&self, data: &str) -> bool {
@@ -2385,6 +2402,19 @@ impl VisitMut for Minifier<'_> {
                             self.minify_css(value, CssMinificationMode::ListOfDeclarations)
                         {
                             n.value = Some(minified.into());
+                        }
+                    } else if self.need_minify_js()
+                        && self.is_javascript_url_attribute(current_element, &value)
+                    {
+                        let value = value.replace("javascript:", "");
+
+                        if let Some(minified) = self.minify_js(value, false, true) {
+                            let mut with_javascript = String::with_capacity(11 + minified.len());
+
+                            with_javascript.push_str("javascript:");
+                            with_javascript.push_str(&minified);
+
+                            n.value = Some(with_javascript.into());
                         }
                     } else {
                         n.value = Some(value.into());
