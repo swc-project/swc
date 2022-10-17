@@ -26,6 +26,9 @@
 - **(es/modules)** Resolve `jsc.paths` for export alls (#6170) ([82cca67](https://github.com/swc-project/swc/commit/82cca674e34022212b507f7cbbe3e903b7591f95))
 
 
+- **(es/parser)** Fix parsing of arrow in cond (#6067) ([0ca5ded](https://github.com/swc-project/swc/commit/0ca5ded61833906181348ce215dfba3ed4f1bde6))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
