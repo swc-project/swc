@@ -292,7 +292,7 @@ impl Visit for SpanVisualizer<'_> {
     mtd!(Comment, visit_comment);
 }
 
-pub fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
+pub fn document_span_visualizer(input: PathBuf, config: ParserConfig, relative_to_file: bool) {
     let dir = input.parent().unwrap().to_path_buf();
 
     let output = testing::run_test2(false, |cm, handler| {
@@ -325,7 +325,11 @@ pub fn document_span_visualizer(input: PathBuf, config: ParserConfig) {
     })
     .unwrap_err();
 
-    output
-        .compare_to_file(&dir.join("span.rust-debug"))
-        .unwrap();
+    let output_path = if relative_to_file {
+        input.with_extension("span.rust-debug")
+    } else {
+        dir.join("span.rust-debug")
+    };
+
+    output.compare_to_file(&output_path).unwrap();
 }

@@ -27,6 +27,7 @@ fn span_visualizer(input: PathBuf) {
         ParserConfig {
             ..Default::default()
         },
+        true,
     )
 }
 
@@ -568,9 +569,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             .replace(['/', '.'], "_");
         let tests_base = tests_base.unwrap();
 
-        let dir = tests_base
-            .join("html5lib-tests-fixture")
-            .join(&relative_path_to_test);
+        let dir = tests_base.join("html5lib-tests-fixture");
 
         fs::create_dir_all(dir.clone()).expect("failed to create directory for fixtures");
 
@@ -658,7 +657,10 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 }
             }
 
-            let mut file_stem = counter.to_string();
+            let mut file_stem = relative_path_to_test.to_string();
+
+            file_stem.push('.');
+            file_stem.push_str(&counter.to_string());
 
             // TODO workaround, fix - https://github.com/html5lib/html5lib-tests/pull/151
             let need_skip_fragment = relative_path_to_test.contains("template_dat")
@@ -675,17 +677,16 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 file_stem += ".script_on";
             }
 
-            let test_case_dir = dir.join(file_stem);
+            let mut html_path = dir.clone();
 
-            fs::create_dir_all(test_case_dir.clone())
-                .expect("failed to create directory for fixtures");
-
-            let html_path = test_case_dir.join("input.html");
+            html_path.push(file_stem.clone() + ".html");
 
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file");
 
-            let dom_snapshot_path = test_case_dir.join("dom.rust-debug");
+            let mut dom_snapshot_path = dir.clone();
+
+            dom_snapshot_path.push(file_stem.clone() + ".dom.rust-debug");
 
             let mut dom = document.join("\n");
 
@@ -697,7 +698,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 .expect("Something went wrong when writing to the file");
 
             let errors = errors.join("\n");
-            let errors_snapshot_path = test_case_dir.join("output.stderr");
+            let mut errors_snapshot_path = dir.clone();
+
+            errors_snapshot_path.push(file_stem.clone() + ".output.stderr");
 
             fs::write(errors_snapshot_path, errors)
                 .expect("Something went wrong when writing to the file");
@@ -714,12 +717,10 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             return Ok(());
         }
 
-        let parent = input.parent().unwrap();
-        let parent_str = parent.to_string_lossy();
-
-        let scripting_enabled = parent_str.contains("script_on");
-        let json_path = parent.join("output.json");
         let fm = cm.load_file(&input).unwrap();
+
+        let file_name = input.file_name().unwrap().to_string_lossy();
+        let scripting_enabled = file_name.contains("script_on");
 
         let lexer = Lexer::new(SourceFileInput::from(&*fm));
         let config = ParserConfig {
@@ -727,13 +728,15 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             iframe_srcdoc: false,
         };
         let mut parser = Parser::new(lexer, config);
-        let document_or_document_fragment = if parent_str.contains("fragment") {
+
+        let document_or_document_fragment = if file_name.contains("fragment") {
             let mut context_element_namespace = Namespace::HTML;
             let mut context_element_tag_name = "unknown";
+            let mut splitted = file_name.split('.');
+            let index = splitted.clone().count() - 2;
 
-            let context_element = parent_str
-                .split('.')
-                .last()
+            let context_element = splitted
+                .nth(index)
                 .expect("failed to get context element from filename")
                 .replace("fragment_", "");
 
@@ -776,39 +779,40 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             DocumentOrDocumentFragment::Document(parser.parse_document())
         };
 
-        let parent_parent = parent.parent().unwrap().to_string_lossy();
         // `scripted` for browser tests with JS
         // `search` proposed, but not merged in spec
-        let need_skip_tests =
-            parent_parent.contains("scripted") || parent_parent.contains("search");
+        let need_skip_tests = file_name.contains("scripted") || file_name.contains("search");
 
         if !need_skip_tests {
             let errors = parser.take_errors();
-            let errors_path = input.parent().unwrap().join("output.stderr");
+            let errors_path = input.with_extension("output.stderr");
+
             let contents =
                 fs::read_to_string(errors_path).expect("Something went wrong reading the file");
 
             // TODO bug in tests - https://github.com/html5lib/html5lib-tests/issues/138
-            let actual_number_of_errors =
-                if parent_parent.contains("tests19_dat") && parent_str.contains("84") {
-                    errors.len() + 1
-                } else if (parent_parent.contains("math_dat") || parent_parent.contains("svg_dat"))
-                    && (parent_str.contains("5.fragment_tbody")
-                        || parent_str.contains("6.fragment_tbody")
-                        || parent_str.contains("7.fragment_tbody"))
-                {
-                    errors.len() - 1
-                } else if parent_parent.contains("foreign-fragment_dat")
-                    && parent_str.contains("3.fragment_svg_path")
-                {
-                    errors.len() - 1
-                } else {
-                    errors.len()
-                };
+            let actual_number_of_errors = if file_name.contains("tests19_dat.84") {
+                errors.len() + 1
+            } else if file_name.contains("math_dat.5.fragment_tbody")
+                || file_name.contains("math_dat.6.fragment_tbody")
+                || file_name.contains("math_dat.7.fragment_tbody")
+                || file_name.contains("svg_dat.5.fragment_tbody")
+                || file_name.contains("svg_dat.6.fragment_tbody")
+                || file_name.contains("svg_dat.7.fragment_tbody")
+            {
+                errors.len() - 1
+            } else if file_name.contains("foreign-fragment_dat.3.fragment_svg_path") {
+                errors.len() - 1
+            } else {
+                errors.len()
+            };
+
             let expected_number_of_errors = contents.lines().count();
 
             assert_eq!(actual_number_of_errors, expected_number_of_errors);
         }
+
+        let json_path = input.with_extension("output.json");
 
         match document_or_document_fragment {
             DocumentOrDocumentFragment::Document(Ok(mut document)) => {
@@ -818,7 +822,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
                 actual_json.compare_to_file(&json_path).unwrap();
 
-                if parent_parent.contains("scripted") || parent_parent.contains("search") {
+                if file_name.contains("scripted") || file_name.contains("search") {
                     return Ok(());
                 }
 
@@ -830,7 +834,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&parent.join("dom.rust-debug"))
+                    .compare_to_file(&input.with_extension("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())
@@ -854,7 +858,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 });
 
                 NormalizedOutput::from(dom_buf)
-                    .compare_to_file(&parent.join("dom.rust-debug"))
+                    .compare_to_file(&input.with_extension("dom.rust-debug"))
                     .unwrap();
 
                 Ok(())

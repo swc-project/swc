@@ -26,6 +26,7 @@ fn span_visualizer(input: PathBuf) {
         ParserConfig {
             ..Default::default()
         },
+        false,
     )
 }
 
