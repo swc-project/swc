@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Shadow parts example</title>
+  <style>
+    tabbed-custom-element::part(tab) {
+      color: #0c0c0dcc;
+      border-bottom: transparent solid 2px;
+    }
+
+    tabbed-custom-element::part(tab):hover {
+      background-color: #0c0c0d19;
+      border-color: #0c0c0d33;
+    }
+
+    tabbed-custom-element::part(tab):hover:active {
+      background-color: #0c0c0d33;
+    }
+
+    tabbed-custom-element::part(tab):focus {
+      box-shadow:
+              0 0 0 1px #0a84ff inset,
+              0 0 0 1px #0a84ff,
+              0 0 0 4px rgba(10, 132, 255, 0.3);
+    }
+
+    tabbed-custom-element::part(active) {
+      color: #0060df;
+      border-color: #0a84ff !important;
+    }
+
+    tabbed-custom-element-exportparts::part(bgtab) {
+      font-weight: bold;
+    }
+    tabbed-custom-element-exportparts::part(active) {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<h1>Shadow part styling for tabbed custom element</h1>
+
+<template id="tabbed-custom-element">
+  <style type="text/css">
+    *, ::before, ::after {
+      box-sizing: border-box;
+      padding: 1rem;
+    }
+    :host {
+      display: flex;
+    }
+  </style>
+  <div part="tab active">Tab 1</div>
+  <div part="tab">Tab 2</div>
+  <div part="tab">Tab 3</div>
+</template>
+
+<tabbed-custom-element></tabbed-custom-element>
+
+<hr>
+
+<template id="tabbed-custom-element-exportparts">
+  <tabbed-custom-element exportparts="           tab: bgtab         "></tabbed-custom-element>
+  <tabbed-custom-element exportparts="           tab: bgtab, active         "></tabbed-custom-element>
+  <tabbed-custom-element exportparts="           tab   :   bgtab, active         "></tabbed-custom-element>
+</template>
+
+<tabbed-custom-element-exportparts></tabbed-custom-element-exportparts>
+
+<script type="module">
+  globalThis.customElements.define("tabbed-custom-element", class extends HTMLElement {
+    constructor() {
+      super();
+
+      const template = document.getElementById("tabbed-custom-element").content;
+      const shadowRoot = this.attachShadow({ mode: "open" });
+
+      shadowRoot.appendChild(template.cloneNode(true));
+
+      let tabs = [];
+      let children = this.shadowRoot.children;
+
+      for (let elem of children) {
+        if (elem.getAttribute('part')) {
+          tabs.push(elem);
+        }
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', (e) => {
+          tabs.forEach((tab) => {
+            tab.part = 'tab';
+          })
+          e.target.part = 'tab active';
+        });
+      })
+    }
+  });
+</script>
+<script type="module">
+  globalThis.customElements.define("tabbed-custom-element-exportparts", class extends HTMLElement {
+    constructor() {
+      super();
+
+      const template = document.getElementById("tabbed-custom-element-exportparts").content;
+      const shadowRoot = this.attachShadow({ mode: "open" });
+
+      shadowRoot.appendChild(template.cloneNode(true));
+    }
+  });
+</script>
+</body>
+</html>
