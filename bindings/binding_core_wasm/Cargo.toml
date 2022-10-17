@@ -22,7 +22,7 @@ plugin = ["swc_core/plugin_transform_host_js", "cranelift-codegen"]
 [dependencies]
 anyhow = "1"
 cranelift-codegen = { version = "0.82.3", optional = true, default-features = false }
-swc_core = { version = "0.38.19", features = [
+swc_core = { version = "0.38.20", features = [
   "common_perf",
   "binding_macro_wasm",
   "ecma_transforms",
