@@ -32,6 +32,9 @@
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
+- **(es/plugin)** Fix plugin on non `x86_64` (#6178) ([cb8f350](https://github.com/swc-project/swc/commit/cb8f3500b2eac333eb126ab3844271d344e58a35))
+
+
 - **(es/quote)** Fix handling of template literals (#6157) ([6502979](https://github.com/swc-project/swc/commit/65029793a6915c11156dcc5c0265d3e2df41e2b4))
 
 
