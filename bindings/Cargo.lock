@@ -179,7 +179,6 @@ name = "binding_core_wasm"
 version = "1.3.9"
 dependencies = [
  "anyhow",
- "cranelift-codegen",
  "swc_core",
  "tracing",
  "wasm-bindgen",
