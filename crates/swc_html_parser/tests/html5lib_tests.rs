@@ -660,9 +660,15 @@ fn html5lib_test_tree_construction(input: PathBuf) {
 
             let mut file_stem = counter.to_string();
 
-            if !document_fragment.is_empty() {
-                file_stem += ".fragment_";
-                file_stem += &document_fragment.join("").replace(' ', "_");
+            // TODO workaround, fix - https://github.com/html5lib/html5lib-tests/pull/151
+            let need_skip_fragment = relative_path_to_test.contains("template_dat")
+                && matches!(counter, 109 | 110 | 111);
+
+            if !need_skip_fragment {
+                if !document_fragment.is_empty() {
+                    file_stem += ".fragment_";
+                    file_stem += &document_fragment.join("").replace(' ', "_");
+                }
             }
 
             if scripting_enabled {
