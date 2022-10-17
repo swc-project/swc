@@ -88,43 +88,5 @@ var h = D((q, C) => {
             if (e === null || typeof e != "object") throw new TypeError('The "pathObject" argument must be of type Object. Received type ' + typeof e);
             return _("/", e)
         },
-        parse: function (e) {
-            c(e);
-            var r = {
-                root: "",
-                dir: "",
-                base: "",
-                ext: "",
-                name: ""
-            };
-            if (e.length === 0) return r;
-            var i = e.charCodeAt(0),
-                l = i === 47,
-                s;
-            l ? (r.root = "/", s = 1) : s = 0;
-            for (var n = -1, t = 0, a = -1, v = !0, u = e.length - 1, o = 0; u >= s; --u) {
-                if (i = e.charCodeAt(u), i === 47) {
-                    if (!v) {
-                        t = u + 1;
-                        break
-                    }
-                    continue
-                }
-                a === -1 && (v = !1, a = u + 1), i === 46 ? n === -1 ? n = u : o !== 1 && (o = 1) : n !== -1 && (o = -1)
-            }
-            return n === -1 || a === -1 || o === 0 || o === 1 && n === a - 1 && n === t + 1 ? a !== -1 && (t === 0 && l ? r.base = r.name = e.slice(1, a) : r.base = r.name = e.slice(t, a)) : (t === 0 && l ? (r.name = e.slice(1, n), r.base = e.slice(1, a)) : (r.name = e.slice(t, n), r.base = e.slice(t, a)), r.ext = e.slice(n, a)), t > 0 ? r.dir = e.slice(0, t - 1) : l && (r.dir = "/"), r
-        },
-        sep: "/",
-        delimiter: ":",
-        win32: null,
-        posix: null
     };
-    g.posix = g;
-    C.exports = g
 });
-var E = R(h());
-var export_default = E.default;
-export {
-    export_default as
-        default
-};
