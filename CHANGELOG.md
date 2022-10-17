@@ -10,6 +10,12 @@
 
 - **(css/minifier)** Handle nested `calc()` (#6153) ([d4a733d](https://github.com/swc-project/swc/commit/d4a733d76461995b7549f5470e53df913a30ef0f))
 
+### Testing
+
+
+
+- **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
+
 ## [1.3.9] - 2022-10-17
 
 ### Bug Fixes
