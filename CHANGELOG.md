@@ -73,6 +73,9 @@
 
 - **(es/plugin)** Fix Wasm build, really (#6180) ([ea4ae3d](https://github.com/swc-project/swc/commit/ea4ae3dfbcd3546ed5d734c1c7c3c8cd091cce6a))
 
+
+- **(es/plugin)** Fix Wasm build (#6181) ([d13a397](https://github.com/swc-project/swc/commit/d13a3973603e8d7666be9ced5f616bfecfc29efa))
+
 ## [1.3.8] - 2022-10-14
 
 ### Bug Fixes
