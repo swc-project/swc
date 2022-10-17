@@ -2,30 +2,6 @@ var h = D((q, C) => {
     "use strict";
 
     var g = {
-        resolve: function () {
-            for (var e = "", r = !1, i, l = arguments.length - 1; l >= -1 && !r; l--) {
-                var s;
-                l >= 0 ? s = arguments[l] : (i === void 0 && (i = __process$.cwd()), s = i), c(s), s.length !== 0 && (e = s + "/" + e, r = s.charCodeAt(0) === 47)
-            }
-            return e = b(e, !r), r ? e.length > 0 ? "/" + e : "/" : e.length > 0 ? e : "."
-        },
-        normalize: function (e) {
-            if (c(e), e.length === 0) return ".";
-            var r = e.charCodeAt(0) === 47,
-                i = e.charCodeAt(e.length - 1) === 47;
-            return e = b(e, !r), e.length === 0 && !r && (e = "."), e.length > 0 && i && (e += "/"), r ? "/" + e : e
-        },
-        isAbsolute: function (e) {
-            return c(e), e.length > 0 && e.charCodeAt(0) === 47
-        },
-        join: function () {
-            if (arguments.length === 0) return ".";
-            for (var e, r = 0; r < arguments.length; ++r) {
-                var i = arguments[r];
-                c(i), i.length > 0 && (e === void 0 ? e = i : e += "/" + i)
-            }
-            return e === void 0 ? "." : g.normalize(e)
-        },
         relative: function (e, r) {
             if (c(e), c(r), e === r || (e = g.resolve(e), r = g.resolve(r), e === r)) return "";
             for (var i = 1; i < e.length && e.charCodeAt(i) === 47; ++i);
