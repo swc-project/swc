@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::{
     env::current_dir,
     path::{Path, PathBuf},
@@ -239,7 +241,6 @@ impl PluginModuleCache {
 /// Creates an instnace of  [Store].
 ///
 /// This function exists because we need to disable simd.
-#[allow(unused_mut)]
 fn new_store() -> Store {
     // Use empty enumset to disable simd.
     let mut set = EnumSet::new();
