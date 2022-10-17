@@ -17,10 +17,11 @@ default = ["swc_v1"]
 swc_v1  = []
 swc_v2  = []
 # This feature exists to allow cargo operations
-plugin = ["swc_core/plugin_transform_host_js"]
+plugin = ["swc_core/plugin_transform_host_js", "cranelift-codegen"]
 
 [dependencies]
 anyhow = "1"
+cranelift-codegen = { version = "0.82.3", optional = true, default-features = false }
 swc_core = { version = "0.38.19", features = [
   "common_perf",
   "binding_macro_wasm",
