@@ -689,6 +689,9 @@ where
                         let new = self.vars.lits_for_array_access.get(&obj.to_id());
 
                         if let Some(new) = new {
+                            report_change!("inline: Inlined array access");
+                            self.changed = true;
+
                             me.obj = new.clone();
                             // TODO(kdy1): Optimize performance by skipping visiting of children
                             // nodes.
