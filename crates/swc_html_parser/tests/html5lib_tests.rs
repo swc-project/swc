@@ -566,7 +566,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             .expect("failed to get relative filename")
             .to_str()
             .unwrap()
-            .replace(['/', '.'], "_");
+            .replace(['/', '\\', '.'], "_");
         let tests_base = tests_base.unwrap();
 
         let dir = tests_base.join("html5lib-tests-fixture");
@@ -680,8 +680,6 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             let mut html_path = dir.clone();
 
             html_path.push(file_stem.clone() + ".html");
-
-            eprintln!("{:?}", html_path);
 
             fs::write(html_path, data.join("\n"))
                 .expect("Something went wrong when writing to the file {:?}");
