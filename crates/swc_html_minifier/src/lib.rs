@@ -663,13 +663,11 @@ impl Minifier<'_> {
         }
     }
 
-    fn is_javascript_url_attribute(&self, element: &Element, value: &str) -> bool {
-        if value.trim().starts_with("javascript:") {
-            match (element.namespace, &element.tag_name) {
-                (Namespace::HTML | Namespace::SVG, &js_word!("a")) => return true,
-                (Namespace::HTML, &js_word!("iframe")) => return true,
-                _ => {}
-            }
+    fn is_javascript_url_element(&self, element: &Element) -> bool {
+        match (element.namespace, &element.tag_name) {
+            (Namespace::HTML | Namespace::SVG, &js_word!("a")) => return true,
+            (Namespace::HTML, &js_word!("iframe")) => return true,
+            _ => {}
         }
 
         false
@@ -2393,31 +2391,42 @@ impl VisitMut for Minifier<'_> {
                 _ if self.is_trimable_separated_attribute(current_element, &n.name) => {
                     let mut value = value.to_string();
 
-                    if self.options.normalize_attributes {
-                        value = value.trim().to_string();
-                    }
+                    let fallback = |n: &mut Attribute| {
+                        if self.options.normalize_attributes {
+                            n.value = Some(value.trim().into());
+                        }
+                    };
 
                     if self.need_minify_css() && n.name == js_word!("style") && !value.is_empty() {
-                        if let Some(minified) =
-                            self.minify_css(value, CssMinificationMode::ListOfDeclarations)
+                        let value = value.trim();
+
+                        if let Some(minified) = self
+                            .minify_css(value.to_string(), CssMinificationMode::ListOfDeclarations)
                         {
                             n.value = Some(minified.into());
+                        } else {
+                            fallback(n);
                         }
                     } else if self.need_minify_js()
-                        && self.is_javascript_url_attribute(current_element, &value)
+                        && self.is_javascript_url_element(current_element)
                     {
-                        let value = value.replace("javascript:", "");
+                        if value.trim().to_lowercase().starts_with("javascript:") {
+                            value = value.trim().chars().skip(11).collect();
 
-                        if let Some(minified) = self.minify_js(value, false, true) {
-                            let mut with_javascript = String::with_capacity(11 + minified.len());
+                            if let Some(minified) = self.minify_js(value, false, true) {
+                                let mut with_javascript =
+                                    String::with_capacity(11 + minified.len());
 
-                            with_javascript.push_str("javascript:");
-                            with_javascript.push_str(&minified);
+                                with_javascript.push_str("javascript:");
+                                with_javascript.push_str(&minified);
 
-                            n.value = Some(with_javascript.into());
+                                n.value = Some(with_javascript.into());
+                            }
+                        } else {
+                            fallback(n);
                         }
                     } else {
-                        n.value = Some(value.into());
+                        fallback(n);
                     }
                 }
                 _ if self.options.minify_additional_attributes.is_some() => {
