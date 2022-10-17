@@ -813,7 +813,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let return_type = if !(self.ctx().in_cond_expr && self.ctx().will_expect_colon_for_cond)
+        let return_type = if !self.ctx().will_expect_colon_for_cond
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
@@ -832,6 +832,7 @@ impl<I: Tokens> Parser<I> {
                     SyntaxError::LineBreakBeforeArrow
                 );
             }
+
             if !can_be_arrow {
                 syntax_error!(self, span!(self, expr_start), SyntaxError::ArrowNotAllowed);
             }
