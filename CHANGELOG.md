@@ -64,6 +64,12 @@
 ### Miscellaneous Tasks
 - **general**: Add lock action ([55a836a](https://github.com/swc-project/swc/commit/55a836ac823c62d83ecd7eb63dea4cb9e51604d4))
 
+### Build
+
+
+
+- **(es/plugin)** Fix Wasm build (#6179) ([7c40e44](https://github.com/swc-project/swc/commit/7c40e44d3f434035651941753a1a5aac19737446))
+
 ## [1.3.8] - 2022-10-14
 
 ### Bug Fixes
