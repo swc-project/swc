@@ -93,7 +93,7 @@ impl Storage for ProgramData {
                         e.get_mut().no_side_effect_for_member_access
                             && var_info.no_side_effect_for_member_access;
 
-                    e.get_mut().used_as_callee |= var_info.used_as_callee;
+                    e.get_mut().callee_count += var_info.callee_count;
                     e.get_mut().used_as_arg |= var_info.used_as_arg;
                     e.get_mut().indexed_with_dynamic_key |= var_info.indexed_with_dynamic_key;
 
@@ -153,32 +153,27 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self
-            .vars
-            .entry(i.to_id())
-            .and_modify(|v| {
-                if has_init && (v.declared || v.var_initialized) {
-                    trace_op!("declare_decl(`{}`): Already declared", i);
+        let v = self.vars.entry(i.to_id()).or_default();
 
-                    v.mutated = true;
-                    v.reassigned_with_var_decl = true;
-                    v.assign_count += 1;
-                }
+        if has_init && (v.declared || v.var_initialized) {
+            trace_op!("declare_decl(`{}`): Already declared", i);
 
-                if v.used_in_non_child_fn {
-                    v.is_fn_local = false;
-                }
+            v.mutated = true;
+            v.reassigned_with_var_decl = true;
+            v.assign_count += 1;
+        }
 
-                v.var_initialized |= has_init;
-            })
-            .or_insert_with(|| VarUsageInfo {
-                is_fn_local: true,
-                var_kind: kind,
-                var_initialized: has_init,
-                no_side_effect_for_member_access: ctx.in_decl_with_no_side_effect_for_member_access,
+        // This is not delcared yet, so this is the first declaration.
+        if !v.declared {
+            v.var_kind = kind;
+            v.no_side_effect_for_member_access = ctx.in_decl_with_no_side_effect_for_member_access;
+        }
 
-                ..Default::default()
-            });
+        if v.used_in_non_child_fn {
+            v.is_fn_local = false;
+        }
+
+        v.var_initialized |= has_init;
 
         v.declared_count += 1;
         v.declared = true;
@@ -320,7 +315,7 @@ impl VarDataLike for VarUsageInfo {
     }
 
     fn mark_used_as_callee(&mut self) {
-        self.used_as_callee = true;
+        self.callee_count += 1;
     }
 
     fn mark_used_as_arg(&mut self) {

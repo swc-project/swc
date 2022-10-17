@@ -629,6 +629,7 @@ define!({
         PagePrelude(PageSelectorList),
         LayerPrelude(LayerPrelude),
         ContainerPrelude(ContainerCondition),
+        CustomMediaPrelude(CustomMediaQuery),
     }
 
     pub struct ListOfComponentValues {
@@ -986,6 +987,23 @@ define!({
 
     pub enum SizeFeatureName {
         Ident(Ident),
+    }
+
+    pub struct ExtensionName {
+        pub span: Span,
+        pub value: JsWord,
+        pub raw: Option<JsWord>,
+    }
+
+    pub struct CustomMediaQuery {
+        pub span: Span,
+        pub name: ExtensionName,
+        pub media: CustomMediaQueryMediaType,
+    }
+
+    pub enum CustomMediaQueryMediaType {
+        Ident(Ident),
+        MediaQueryList(MediaQueryList),
     }
 
     pub enum GeneralEnclosed {

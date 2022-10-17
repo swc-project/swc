@@ -14,13 +14,4 @@ var Base = function Base() {
     }
     return Derived;
 }(Base);
-function f3(x, y) {
-    return y(null);
-}
-new Base(), new Derived(), new Derived(), new Derived(), f3(new Base(), function(x) {
-    return x;
-}), f3(new Derived(), function(x) {
-    return x;
-}), f3(null, null), f3(null, function(x) {
-    return x;
-});
+new Base(), new Derived(), new Derived(), new Derived(), new Base(), new Derived(), (null)(null);

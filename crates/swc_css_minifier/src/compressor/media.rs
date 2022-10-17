@@ -339,50 +339,42 @@ impl Compressor {
                     ComponentValue::CalcSum(CalcSum {
                         expressions: calc_sum_expressions,
                         ..
-                    }) if calc_sum_expressions.len() == 1 => {
-                        match &calc_sum_expressions[0] {
-                            CalcProductOrOperator::Product(CalcProduct {
-                                expressions: calc_product_expressions,
-                                ..
-                            }) if calc_product_expressions.len() == 1 => {
-                                match &calc_product_expressions[0] {
-                                    CalcValueOrOperator::Value(CalcValue::Sum(_)) => {
-                                        // Do nothing, we cannot transform a
-                                        // CalcSum into a ComponentValue
+                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
+                        CalcProductOrOperator::Product(CalcProduct {
+                            expressions: calc_product_expressions,
+                            ..
+                        }) if calc_product_expressions.len() == 1 => {
+                            if let CalcValueOrOperator::Value(calc_value) =
+                                &calc_product_expressions[0]
+                            {
+                                match transform_calc_value_into_component_value(calc_value) {
+                                    Some(ComponentValue::Function(function)) => {
+                                        *n = MediaFeatureValue::Function(function);
                                     }
-                                    CalcValueOrOperator::Value(CalcValue::Constant(_)) => {
-                                        // https://www.w3.org/TR/css-values-4/#calc-constants
-                                        // "These keywords are only usable
-                                        // within a calculation"
-                                        // "If used outside of a calculation,
-                                        // they’re treated like any other
-                                        // keyword"
+                                    Some(ComponentValue::Dimension(dimension)) => {
+                                        *n = MediaFeatureValue::Dimension(dimension);
                                     }
-                                    CalcValueOrOperator::Value(calc_value) => {
-                                        match transform_calc_value_into_component_value(calc_value)
-                                        {
-                                            ComponentValue::Function(function) => {
-                                                *n = MediaFeatureValue::Function(function);
-                                            }
-                                            ComponentValue::Dimension(dimension) => {
-                                                *n = MediaFeatureValue::Dimension(dimension);
-                                            }
-                                            ComponentValue::Number(number) => {
-                                                *n = MediaFeatureValue::Number(number);
-                                            }
-                                            _ => {}
-                                        }
+                                    Some(ComponentValue::Number(number)) => {
+                                        *n = MediaFeatureValue::Number(number);
                                     }
                                     _ => {}
                                 }
                             }
-                            _ => {}
                         }
-                    }
+                        _ => {}
+                    },
                     _ => {}
                 }
             }
             _ => {}
+        }
+    }
+
+    pub(super) fn compress_media_feature_value_length(&mut self, n: &mut MediaFeatureValue) {
+        if let MediaFeatureValue::Dimension(dimension) = n {
+            if let Some(number) = self.length_to_zero(dimension) {
+                *n = MediaFeatureValue::Number(number)
+            }
         }
     }
 }

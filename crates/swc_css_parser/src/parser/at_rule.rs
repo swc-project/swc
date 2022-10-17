@@ -557,6 +557,15 @@ where
 
                     Ok(Some(prelude))
                 }
+                "custom-media" => {
+                    parser.input.skip_ws();
+
+                    let prelude = Box::new(AtRulePrelude::CustomMediaPrelude(parser.parse()?));
+
+                    parser.input.skip_ws();
+
+                    Ok(Some(prelude))
+                }
                 _ => {
                     let span = parser.input.cur_span();
 
@@ -2513,5 +2522,65 @@ where
                 ErrorKind::Expected("number, ident, dimension or function token"),
             )),
         }
+    }
+}
+
+impl<I> Parse<ExtensionName> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ExtensionName> {
+        let span = self.input.cur_span();
+
+        if !is!(self, Ident) {
+            return Err(Error::new(span, ErrorKind::Expected("indent token")));
+        }
+
+        match bump!(self) {
+            Token::Ident { value, raw } => {
+                if !value.starts_with("--") {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("Extension name should start with '--'"),
+                    ));
+                }
+
+                Ok(ExtensionName {
+                    span,
+                    value,
+                    raw: Some(raw),
+                })
+            }
+            _ => {
+                unreachable!()
+            }
+        }
+    }
+}
+
+impl<I> Parse<CustomMediaQuery> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<CustomMediaQuery> {
+        let span = self.input.cur_span();
+        let name = self.parse()?;
+
+        self.input.skip_ws();
+
+        let media = match cur!(self) {
+            _ if is_case_insensitive_ident!(self, "true")
+                || is_case_insensitive_ident!(self, "false") =>
+            {
+                CustomMediaQueryMediaType::Ident(self.parse()?)
+            }
+            _ => CustomMediaQueryMediaType::MediaQueryList(self.parse()?),
+        };
+
+        Ok(CustomMediaQuery {
+            span: span!(self, span.lo),
+            name,
+            media,
+        })
     }
 }

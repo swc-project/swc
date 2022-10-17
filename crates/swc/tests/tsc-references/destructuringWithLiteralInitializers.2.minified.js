@@ -1,11 +1,5 @@
 //// [destructuringWithLiteralInitializers.ts]
 import _sliced_to_array from "@swc/helpers/src/_sliced_to_array.mjs";
-function f2(param) {
-    param.x, param.y;
-}
-function f3(param) {
-    param.x, param.y;
-}
 function f4() {
     var ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0,
@@ -51,16 +45,28 @@ function g5() {
 }({
     x: 1,
     y: 1
-}), f2({
+}), function(param) {
+    param.x, param.y;
+}({
     x: 1
-}), f2({
+}), function(param) {
+    param.x, param.y;
+}({
     x: 1,
     y: 1
-}), f3({}), f3({
+}), function(param) {
+    param.x, param.y;
+}({}), function(param) {
+    param.x, param.y;
+}({
     x: 1
-}), f3({
+}), function(param) {
+    param.x, param.y;
+}({
     y: 1
-}), f3({
+}), function(param) {
+    param.x, param.y;
+}({
     x: 1,
     y: 1
 }), f4(), f4({

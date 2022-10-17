@@ -15,3 +15,15 @@
         color: red;
     }
 }
+
+@media (min-width: calc(10px * 0)) {
+    .class1 {
+        color: red;
+    }
+}
+
+@media (min-width: calc(0px + 0px)) {
+    .class1 {
+        color: red;
+    }
+}

@@ -37,6 +37,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     ///`parseMaybeAssign` (overridden)
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
@@ -78,6 +79,7 @@ impl<I: Tokens> Parser<I> {
     /// operators like `+=`.
     ///
     /// `parseMaybeAssign`
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr_base);
 
@@ -86,7 +88,7 @@ impl<I: Tokens> Parser<I> {
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let ctx = Context {
-                is_direct_child_of_cond: false,
+                will_expect_colon_for_cond: false,
                 ..self.ctx()
             };
             let res = self.with_ctx(ctx).try_parse_ts(|p| {
@@ -195,6 +197,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Spec: 'ConditionalExpression'
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_cond_expr);
 
@@ -206,7 +209,7 @@ impl<I: Tokens> Parser<I> {
         if eat!(self, '?') {
             let ctx = Context {
                 in_cond_expr: true,
-                is_direct_child_of_cond: true,
+                will_expect_colon_for_cond: true,
                 include_in_expr: true,
                 ..self.ctx()
             };
@@ -214,7 +217,8 @@ impl<I: Tokens> Parser<I> {
             expect!(self, ':');
             let ctx = Context {
                 in_cond_expr: true,
-                is_direct_child_of_cond: true,
+                will_expect_colon_for_cond: false,
+                dont_parse_colon_as_type_ann: false,
                 ..self.ctx()
             };
             let alt = self.with_ctx(ctx).parse_assignment_expr()?;
@@ -231,6 +235,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse a primary expression or arrow function
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
 
@@ -300,7 +305,7 @@ impl<I: Tokens> Parser<I> {
 
                 tok!('[') => {
                     let ctx = Context {
-                        is_direct_child_of_cond: false,
+                        will_expect_colon_for_cond: false,
                         dont_parse_colon_as_type_ann: false,
                         ..self.ctx()
                     };
@@ -479,6 +484,7 @@ impl<I: Tokens> Parser<I> {
         )
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
@@ -536,6 +542,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_member_expr_or_new_expr);
 
@@ -666,6 +673,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
 
@@ -673,11 +681,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse `Arguments[Yield, Await]`
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
         let ctx = Context {
-            is_direct_child_of_cond: false,
+            will_expect_colon_for_cond: false,
             ..self.ctx()
         };
 
@@ -734,6 +743,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse paren expression or arrow function expression.
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_paren_expr_or_arrow_fn(
         &mut self,
         can_be_arrow: bool,
@@ -749,7 +759,7 @@ impl<I: Tokens> Parser<I> {
         // expressions, we can parse both as expression.
 
         let ctx = Context {
-            is_direct_child_of_cond: false,
+            will_expect_colon_for_cond: false,
             ..self.ctx()
         };
 
@@ -762,7 +772,7 @@ impl<I: Tokens> Parser<I> {
             .iter()
             .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
 
-        let is_direct_child_of_cond = self.ctx().is_direct_child_of_cond;
+        let will_expect_colon_for_cond = self.ctx().will_expect_colon_for_cond;
         // This is slow path. We handle arrow in conditional expression.
         if self.syntax().typescript() && self.ctx().in_cond_expr && is!(self, ':') {
             // TODO: Remove clone
@@ -784,7 +794,7 @@ impl<I: Tokens> Parser<I> {
                     params.is_simple_parameter_list(),
                 )?;
 
-                if is_direct_child_of_cond && !is_one_of!(p, ':', ';', ',', ')') {
+                if will_expect_colon_for_cond && !is!(p, ':') {
                     trace_cur!(p, parse_arrow_in_cond__fail);
                     unexpected!(p, "fail")
                 }
@@ -803,12 +813,20 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let return_type = if !(self.ctx().in_cond_expr && self.ctx().is_direct_child_of_cond)
+        let return_type = if !self.ctx().will_expect_colon_for_cond
             && self.input.syntax().typescript()
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
         {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            self.try_parse_ts(|p| {
+                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+
+                if !is!(p, "=>") {
+                    unexpected!(p, "fail")
+                }
+
+                Ok(Some(return_type))
+            })
         } else {
             None
         };
@@ -822,6 +840,7 @@ impl<I: Tokens> Parser<I> {
                     SyntaxError::LineBreakBeforeArrow
                 );
             }
+
             if !can_be_arrow {
                 syntax_error!(self, span!(self, expr_start), SyntaxError::ArrowNotAllowed);
             }
@@ -1568,7 +1587,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     // Returns (args_or_pats, trailing_comma)
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
+        self.with_ctx(Context {
+            will_expect_colon_for_cond: false,
+            ..self.ctx()
+        })
+        .parse_args_or_pats_inner()
+    }
+
+    fn parse_args_or_pats_inner(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
         expect!(self, '(');
@@ -1651,7 +1679,7 @@ impl<I: Tokens> Parser<I> {
                         let test = arg.expr;
                         let ctx = Context {
                             in_cond_expr: true,
-                            is_direct_child_of_cond: true,
+                            will_expect_colon_for_cond: true,
                             include_in_expr: true,
                             ..self.ctx()
                         };
@@ -1659,7 +1687,7 @@ impl<I: Tokens> Parser<I> {
                         expect!(self, ':');
                         let ctx = Context {
                             in_cond_expr: true,
-                            is_direct_child_of_cond: true,
+                            will_expect_colon_for_cond: false,
                             ..self.ctx()
                         };
                         let alt = self.with_ctx(ctx).parse_assignment_expr()?;

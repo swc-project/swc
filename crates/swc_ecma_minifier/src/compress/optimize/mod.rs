@@ -2263,11 +2263,18 @@ where
             .enumerate()
             .identify_last()
             .filter_map(|(last, (idx, expr))| {
+                #[cfg(feature = "debug")]
+                let _span =
+                    tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
+
                 expr.visit_mut_with(&mut *self.with_ctx(ctx));
                 let is_injected_zero = match &**expr {
                     Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                     _ => false,
                 };
+
+                #[cfg(feature = "debug")]
+                let _span = tracing::span!(tracing::Level::ERROR, "seq_expr").entered();
 
                 let can_remove = !last
                     && (idx != 0
@@ -2580,7 +2587,10 @@ where
     /// We don't optimize [Tpl] contained in [TaggedTpl].
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        n.tag.visit_mut_with(self);
+        n.tag.visit_mut_with(&mut *self.with_ctx(Ctx {
+            is_this_aware_callee: true,
+            ..self.ctx
+        }));
 
         n.tpl.exprs.visit_mut_with(self);
     }

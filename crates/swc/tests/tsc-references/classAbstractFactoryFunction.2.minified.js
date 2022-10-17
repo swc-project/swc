@@ -14,10 +14,4 @@ var A = function A() {
     }
     return B;
 }(A);
-function NewA(Factory) {
-    return new A;
-}
-function NewB(Factory) {
-    return new B;
-}
-NewA(A), NewA(B), NewB(A), NewB(B);
+new A, new A, new B, new B;

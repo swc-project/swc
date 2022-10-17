@@ -34,8 +34,8 @@
     right: calc(max(100vw, 0rem));
 }
 
-.class10 { 
-    top: 0.000px; 
+.class10 {
+    top: 0.000px;
 }
 
 @media (min-width: 0px) {
@@ -50,8 +50,8 @@
     }
 }
 
-.class11 { 
-    font: normal normal 400 0px/ 0px cursive; 
+.class11 {
+    font: normal normal 400 0px/ 0px cursive;
 }
 
 .class12 {
@@ -63,16 +63,16 @@
     margin: 0q;
 }
 
-.class14 { 
-    transform: translate(0px); 
+.class14 {
+    transform: translate(0px);
 }
 
 .class15 {
     padding: min(1vw, 0in) max(1vw, 0px) clamp(0em, 1vw, 10px) 0px;
 }
 
-.class16 { 
-    padding: 1px 0vmax 2px 3px; 
+.class16 {
+    padding: 1px 0vmax 2px 3px;
 }
 
 .class17 {
@@ -286,3 +286,8 @@
 .class90 {
     width: 0.075pt;
 }
+
+@media(min-width:0px){.class1{color:red}}
+@media(min-width:0){.class1{color:red}}
+@container (inline-size >= 0){h2 {font-size: calc(1.2em + 1cqi)}}
+@container (inline-size >= 0px){h2 {font-size: calc(1.2em + 1cqi)}}
