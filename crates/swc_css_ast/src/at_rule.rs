@@ -1,5 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
+use swc_atoms::JsWord;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
@@ -63,6 +64,8 @@ pub enum AtRulePrelude {
     LayerPrelude(LayerPrelude),
     #[tag("ContainerCondition")]
     ContainerPrelude(ContainerCondition),
+    #[tag("CustomMedia")]
+    CustomMediaPrelude(CustomMediaQuery),
 }
 
 #[ast_node]
@@ -800,4 +803,37 @@ pub enum SizeFeatureValue {
 pub enum SizeFeatureName {
     #[tag("Ident")]
     Ident(Ident),
+}
+
+#[ast_node("ExtensionName")]
+#[derive(Eq, Hash)]
+pub struct ExtensionName {
+    pub span: Span,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+    pub value: JsWord,
+    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+    pub raw: Option<JsWord>,
+}
+
+impl EqIgnoreSpan for ExtensionName {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+
+#[ast_node("CustomMedia")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct CustomMediaQuery {
+    pub span: Span,
+    pub name: ExtensionName,
+    pub media: CustomMediaQueryMediaType,
+}
+
+#[ast_node]
+#[derive(Eq, Hash, Is, EqIgnoreSpan)]
+pub enum CustomMediaQueryMediaType {
+    #[tag("Ident")]
+    Ident(Ident),
+    #[tag("MediaQueryList")]
+    MediaQueryList(MediaQueryList),
 }

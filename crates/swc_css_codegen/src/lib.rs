@@ -138,15 +138,15 @@ where
             AtRulePrelude::ListOfComponentValues(n) => emit!(self, n),
             AtRulePrelude::CharsetPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::PropertyPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::CounterStylePrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::ColorProfilePrelude(n) => {
                 space!(self);
@@ -154,11 +154,11 @@ where
             }
             AtRulePrelude::DocumentPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::FontPaletteValuesPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::FontFeatureValuesPrelude(n) => {
                 let need_space = !matches!(n.font_family.get(0), Some(FamilyName::Str(_)));
@@ -169,11 +169,11 @@ where
                     formatting_space!(self);
                 }
 
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::NestPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::KeyframesPrelude(n) => {
                 match n {
@@ -187,7 +187,7 @@ where
                     }
                 }
 
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::ImportPrelude(n) => {
                 match &*n.href {
@@ -199,7 +199,7 @@ where
                     }
                 }
 
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::NamespacePrelude(n) => emit!(self, n),
             AtRulePrelude::MediaPrelude(n) => {
@@ -230,7 +230,7 @@ where
                     formatting_space!(self);
                 }
 
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::SupportsPrelude(n) => {
                 let need_space = !matches!(
@@ -262,11 +262,11 @@ where
                     }
                 }
 
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::LayerPrelude(n) => {
                 space!(self);
-                emit!(self, n)
+                emit!(self, n);
             }
             AtRulePrelude::ContainerPrelude(n) => {
                 let need_space = match n.name {
@@ -289,7 +289,11 @@ where
                     formatting_space!(self);
                 }
 
-                emit!(self, n)
+                emit!(self, n);
+            }
+            AtRulePrelude::CustomMediaPrelude(n) => {
+                space!(self);
+                emit!(self, n);
             }
         }
     }
@@ -1088,6 +1092,21 @@ where
         emit!(self, n.right);
     }
 
+    #[emitter]
+    fn emit_custom_media_query(&mut self, n: &CustomMediaQuery) -> Result {
+        emit!(self, n.name);
+        space!(self);
+        emit!(self, n.media);
+    }
+
+    #[emitter]
+    fn emit_custom_media_query_media_type(&mut self, n: &CustomMediaQueryMediaType) -> Result {
+        match n {
+            CustomMediaQueryMediaType::MediaQueryList(n) => emit!(self, n),
+            CustomMediaQueryMediaType::Ident(n) => emit!(self, n),
+        }
+    }
+
     fn emit_list_of_component_values_inner(
         &mut self,
         nodes: &[ComponentValue],
@@ -1473,21 +1492,6 @@ where
     }
 
     #[emitter]
-    fn emit_custom_highlight_name(&mut self, n: &CustomHighlightName) -> Result {
-        if self.config.minify {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
-
-            write_raw!(self, n.span, &serialized);
-        } else if let Some(raw) = &n.raw {
-            write_raw!(self, n.span, raw);
-        } else {
-            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
-
-            write_raw!(self, n.span, &serialized);
-        }
-    }
-
-    #[emitter]
     fn emit_custom_ident(&mut self, n: &CustomIdent) -> Result {
         if self.config.minify {
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
@@ -1512,6 +1516,36 @@ where
             write_raw!(self, n.span, raw);
         } else {
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
+
+            write_raw!(self, n.span, &serialized);
+        }
+    }
+
+    #[emitter]
+    fn emit_extension_name(&mut self, n: &ExtensionName) -> Result {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
+
+            write_raw!(self, n.span, &serialized);
+        }
+    }
+
+    #[emitter]
+    fn emit_custom_highlight_name(&mut self, n: &CustomHighlightName) -> Result {
+        if self.config.minify {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
+
+            write_raw!(self, n.span, &serialized);
+        } else if let Some(raw) = &n.raw {
+            write_raw!(self, n.span, raw);
+        } else {
+            let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         }
