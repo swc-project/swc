@@ -241,6 +241,7 @@ impl PluginModuleCache {
 /// Creates an instnace of  [Store].
 ///
 /// This function exists because we need to disable simd.
+#[cfg(not(target_arch = "wasm32"))]
 fn new_store() -> Store {
     // Use empty enumset to disable simd.
     let mut set = EnumSet::new();
@@ -254,4 +255,9 @@ fn new_store() -> Store {
         .engine();
     let tunables = BaseTunables::for_target(engine.target());
     Store::new_with_tunables(&engine, tunables)
+}
+
+#[cfg(target_arch = "wasm32")]
+fn new_store() -> Store {
+    Store::default()
 }
