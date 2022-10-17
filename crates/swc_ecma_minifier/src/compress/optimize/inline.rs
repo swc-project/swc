@@ -690,6 +690,8 @@ where
 
                         if let Some(new) = new {
                             me.obj = new.clone();
+                            // TODO(kdy1): Optimize performance by skipping visiting of children
+                            // nodes.
                             e.visit_mut_with(&mut expr_simplifier(
                                 self.marks.unresolved_mark,
                                 Default::default(),
