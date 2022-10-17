@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(css/minifier)** Handle nested `calc()` (#6153) ([d4a733d](https://github.com/swc-project/swc/commit/d4a733d76461995b7549f5470e53df913a30ef0f))
+
+## [1.3.9] - 2022-10-17
+
 ### Bug Fixes
 
 
