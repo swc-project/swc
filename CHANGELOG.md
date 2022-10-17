@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Support `@custom-media` at-rule (#6152) ([d46a19b](https://github.com/swc-project/swc/commit/d46a19b55420ab3a88a4399eac4768f8a5fae838))
+
+
 - **(css/minifier)** Handle nested `calc()` (#6153) ([d4a733d](https://github.com/swc-project/swc/commit/d4a733d76461995b7549f5470e53df913a30ef0f))
 
 ## [1.3.9] - 2022-10-17
