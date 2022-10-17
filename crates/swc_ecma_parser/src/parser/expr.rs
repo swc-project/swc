@@ -1580,6 +1580,14 @@ impl<I: Tokens> Parser<I> {
     // Returns (args_or_pats, trailing_comma)
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
+        self.with_ctx(Context {
+            will_expect_colon_for_cond: false,
+            ..self.ctx()
+        })
+        .parse_args_or_pats_inner()
+    }
+
+    fn parse_args_or_pats_inner(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
         expect!(self, '(');
