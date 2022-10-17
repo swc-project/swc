@@ -9,7 +9,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName,
-    FilePathMapping, Mark, SourceMap, Span, SyntaxContext, DUMMY_SP,
+    FilePathMapping, Mark, SourceMap, DUMMY_SP,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -1215,27 +1215,23 @@ impl Minifier<'_> {
     }
 
     fn merge_text_children(&self, left: &Element, right: &Element) -> Vec<Child> {
-        left.children
-            .iter()
-            .zip(right.children.iter())
-            .map(|(x, y)| match (x, y) {
-                (Child::Text(left), Child::Text(right)) => {
-                    let mut data = String::with_capacity(left.data.len() + right.data.len());
+        let data = left.children.iter().chain(right.children.iter()).fold(
+            String::new(),
+            |mut acc, child| match child {
+                Child::Text(text) => {
+                    acc.push_str(&text.data);
 
-                    data.push_str(&left.data);
-                    data.push_str(&right.data);
+                    acc
+                }
+                _ => acc,
+            },
+        );
 
-                    Child::Text(Text {
-                        span: Span::new(left.span.lo, right.span.hi, SyntaxContext::empty()),
-                        data: data.into(),
-                        raw: None,
-                    })
-                }
-                _ => {
-                    unreachable!();
-                }
-            })
-            .collect()
+        vec![Child::Text(Text {
+            span: DUMMY_SP,
+            data: data.into(),
+            raw: None,
+        })]
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
