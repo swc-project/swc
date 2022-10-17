@@ -12,8 +12,9 @@ use swc_common::{
     collections::AHashMap,
     sync::{Lazy, OnceCell},
 };
-use wasmer::{BaseTunables, CpuFeature, Engine, Module, Store, Target, Triple};
-#[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+#[cfg(not(target_arch = "wasm32"))]
+use wasmer::{BaseTunables, CpuFeature, Engine, Target, Triple};
+use wasmer::{Module, Store};
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
 #[cfg(all(not(feature = "filesystem_cache"), not(feature = "memory_cache")))]
