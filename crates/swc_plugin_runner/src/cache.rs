@@ -242,6 +242,7 @@ impl PluginModuleCache {
 ///
 /// This function exists because we need to disable simd.
 #[cfg(not(target_arch = "wasm32"))]
+#[allow(unused_mut)]
 fn new_store() -> Store {
     // Use empty enumset to disable simd.
     let mut set = EnumSet::new();
