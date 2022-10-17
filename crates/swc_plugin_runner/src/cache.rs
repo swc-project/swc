@@ -15,6 +15,7 @@ use swc_common::{
 #[cfg(not(target_arch = "wasm32"))]
 use wasmer::{BaseTunables, CpuFeature, Engine, Target, Triple};
 use wasmer::{Module, Store};
+#[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
 #[cfg(all(not(feature = "filesystem_cache"), not(feature = "memory_cache")))]

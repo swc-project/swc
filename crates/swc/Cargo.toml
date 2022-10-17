@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.232.34"
+version       = "0.232.35"
 
 [lib]
 bench = false
@@ -94,7 +94,7 @@ swc_ecma_visit = { version = "0.80.11", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.13.8", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.16.8", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "0.22.11", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "0.77.17", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_runner = { version = "0.77.18", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.17.8", path = "../swc_timer" }
 swc_visit = { version = "0.5.2", path = "../swc_visit" }
 tracing = "0.1.32"
