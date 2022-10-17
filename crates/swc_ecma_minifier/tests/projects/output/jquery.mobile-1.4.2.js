@@ -36,7 +36,7 @@
             allowCrossDomainPages: !1,
             dialogHashKey: "&ui-state=dialog"
         });
-    }(jQuery, this), nsNormalizeDict = {}, oldFind = ($ = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $.extend($.mobile, {
+    }(jQuery, 0), nsNormalizeDict = {}, oldFind = ($ = jQuery).find, rbrace = /(?:\{[\s\S]*\}|\[[\s\S]*\])$/, jqmDataRE = /:jqmData\(([^)]*)\)/g, $.extend($.mobile, {
         ns: "",
         getAttribute: function(element, key) {
             var data;
@@ -953,12 +953,14 @@
             }
             return flags;
         }
-        function disableTouchBindings() {
-            blockTouchTriggers = !0;
-        }
+        $.vmouse = {
+            moveDistanceThreshold: 10,
+            clickDistanceThreshold: 10,
+            resetTimerDuration: 1500
+        };
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
-                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
+                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, blockTouchTriggers = !0;
             }, $.vmouse.resetTimerDuration);
         }
         function clearResetTimer() {
@@ -998,7 +1000,7 @@
         }
         function handleTouchEnd(event1) {
             if (!blockTouchTriggers) {
-                disableTouchBindings();
+                blockTouchTriggers = !0;
                 var ve, t, flags = getVirtualBindingFlags(event1.target);
                 triggerVirtualEvent("vmouseup", event1, flags), !didScroll && (ve = triggerVirtualEvent("vclick", event1, flags)) && ve.isDefaultPrevented() && (t = getNativeEvent(event1).changedTouches[0], clickBlockList.push({
                     touchID: lastTouchID,
@@ -1015,11 +1017,7 @@
             return !1;
         }
         function dummyMouseHandler() {}
-        for(i = 0, $.vmouse = {
-            moveDistanceThreshold: 10,
-            clickDistanceThreshold: 10,
-            resetTimerDuration: 1500
-        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
+        for(i = 0; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
             var realType = eventType.substr(1);
             return {
                 setup: function() {
@@ -1042,7 +1040,7 @@
                 ele = ele.parentNode;
             }
         }, !0);
-    }(jQuery, window, document1), function($, window, undefined) {
+    }(jQuery, 0, document1), function($, window, undefined) {
         var $document = $(document1), supportTouch = $.mobile.support.touch, scrollEvent = "touchmove scroll", touchStartEvent = supportTouch ? "touchstart" : "mousedown", touchStopEvent = supportTouch ? "touchend" : "mouseup", touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
         function triggerCustomEvent(obj, eventType, event1, bubble) {
             var originalType = event1.type;
@@ -1866,7 +1864,7 @@
                 }).attr("data-" + $.mobile.ns + "rel", "back").text(text || this.options.closeBtnText || "").prependTo(dst)), this._headerCloseButton = btn;
             }
         });
-    }(jQuery, this), function($, window, undefined) {
+    }(jQuery, 0), function($, window, undefined) {
         $.widget("mobile.dialog", {
             options: {
                 closeBtn: "left",
@@ -1919,7 +1917,7 @@
                 this._isCloseable && (this._isCloseable = !1, $.mobile.hashListeningEnabled && hist.activeIndex > 0 ? $.mobile.back() : $.mobile.pageContainer.pagecontainer("back"));
             }
         });
-    }(jQuery, this), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
+    }(jQuery, 0), $17 = jQuery, rInitialLetter = /([A-Z])/g, iconposClass = function(iconpos) {
         return "ui-btn-icon-" + (null === iconpos ? "left" : iconpos);
     }, $17.widget("mobile.collapsible", {
         options: {

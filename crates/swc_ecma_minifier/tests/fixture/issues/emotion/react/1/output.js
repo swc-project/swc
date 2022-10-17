@@ -43,14 +43,8 @@
                     }), this.tags = [], this.ctr = 0;
                 }, StyleSheet;
             }(), abs = Math.abs, Utility_from = String.fromCharCode;
-            function trim(value) {
-                return value.trim();
-            }
             function replace(value, pattern, replacement) {
                 return value.replace(pattern, replacement);
-            }
-            function indexof(value, search) {
-                return value.indexOf(search);
             }
             function Utility_charat(value, index) {
                 return 0 | value.charCodeAt(index);
@@ -59,9 +53,6 @@
                 return value.slice(begin, end);
             }
             function Utility_strlen(value) {
-                return value.length;
-            }
-            function Utility_sizeof(value) {
                 return value.length;
             }
             function Utility_append(value, array) {
@@ -90,9 +81,6 @@
             }
             function peek() {
                 return Utility_charat(characters, position);
-            }
-            function slice(begin, end) {
-                return Utility_substr(characters, begin, end);
             }
             function token(type) {
                 switch(type){
@@ -129,11 +117,9 @@
             function alloc(value) {
                 return line = column = 1, Tokenizer_length = Utility_strlen(characters = value), position = 0, [];
             }
-            function dealloc(value) {
-                return characters = "", value;
-            }
             function delimit(type) {
-                return trim(slice(position - 1, function delimiter(type) {
+                var begin, end;
+                return (begin = position - 1, end = function delimiter(type) {
                     for(; next();)switch(character){
                         case type:
                             return position;
@@ -147,11 +133,11 @@
                             next();
                     }
                     return position;
-                }(91 === type ? type + 2 : 40 === type ? type + 1 : type)));
+                }(91 === type ? type + 2 : 40 === type ? type + 1 : type), Utility_substr(characters, begin, end)).trim();
             }
             var MS = "-ms-", MOZ = "-moz-", WEBKIT = "-webkit-", COMMENT = "comm", Enum_RULESET = "rule", DECLARATION = "decl";
             function serialize(children, callback) {
-                for(var output = "", length = Utility_sizeof(children), i = 0; i < length; i++)output += callback(children[i], i, children, callback) || "";
+                for(var output = "", length = children.length, i = 0; i < length; i++)output += callback(children[i], i, children, callback) || "";
                 return output;
             }
             function stringify(element, index, children, callback) {
@@ -169,7 +155,7 @@
             function ruleset(value, root, parent, index, offset, rules, points, type, props, children, length) {
                 for(var post = offset - 1, rule = 0 === offset ? rules : [
                     ""
-                ], size = Utility_sizeof(rule), i = 0, j = 0, k = 0; i < index; ++i)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)(z = trim(j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x]))) && (props[k++] = z);
+                ], size = rule.length, i = 0, j = 0, k = 0; i < index; ++i)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)(z = (j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x])).trim()) && (props[k++] = z);
                 return node(value, root, parent, 0 === offset ? Enum_RULESET : type, props, children, length);
             }
             function declaration(value, root, parent, length) {
@@ -177,7 +163,7 @@
             }
             var identifierWithPointTracking = function(begin, points, index) {
                 for(var previous = 0, character = 0; previous = character, character = peek(), 38 === previous && 12 === character && (points[index] = 1), !token(character);)next();
-                return slice(begin, position);
+                return Utility_substr(characters, begin, position);
             }, toRules = function(parsed, points) {
                 var index = -1, character = 44;
                 do switch(token(character)){
@@ -197,12 +183,15 @@
                 }
                 while (character = next())
                 return parsed;
+            }, getRules = function(value, points) {
+                var value1;
+                return value1 = toRules(alloc(value), points), characters = "", value1;
             }, fixedElements = new WeakMap(), compat = function(element) {
                 if ("rule" === element.type && element.parent && element.length) {
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var points = [], rules = dealloc(toRules(alloc(value), points)), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
+                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -299,13 +288,13 @@
                                             case 102:
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             case 115:
-                                                return ~indexof(value, "stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     case 4949:
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~indexof(value, "!important") && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
                                             case 101:
@@ -501,7 +490,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var callback, container, _insert, currentSheet, collection, length, key = options.key;
+                var collection, length, callback, container, _insert, currentSheet, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -513,7 +502,7 @@
                     for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
-                var serializer = (length = Utility_sizeof(collection = [
+                var serializer = (length = (collection = [
                     compat,
                     removeLabel
                 ].concat(stylisPlugins, [
@@ -523,12 +512,12 @@
                     }, function(element) {
                         !element.root && (element = element.return) && callback(element);
                     })
-                ])), function(element, index, children, callback) {
+                ])).length, function(element, index, children, callback) {
                     for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
-                    var value;
-                    return serialize(dealloc(function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                    var value, value1;
+                    return serialize((value1 = function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
                         for(var value1, index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character1 = 0, type = "", props = rules, children = rulesets, reference = rule, characters1 = type; scanning;)switch(previous = character1, character1 = next()){
                             case 34:
                             case 39:
@@ -548,8 +537,8 @@
                                 break;
                             case 92:
                                 characters1 += function(index, count) {
-                                    for(; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
-                                    return slice(index, position + (count < 6 && 32 == peek() && 32 == next()));
+                                    for(var end; --count && next() && !(character < 48) && !(character > 102) && (!(character > 57) || !(character < 65)) && (!(character > 70) || !(character < 97)););
+                                    return end = position + (count < 6 && 32 == peek() && 32 == next()), Utility_substr(characters, index, end);
                                 }(position - 1, 7);
                                 continue;
                             case 47:
@@ -559,7 +548,7 @@
                                         Utility_append(node(value1 = function(type, index) {
                                             for(; next();)if (type + character === 57) break;
                                             else if (type + character === 84 && 47 === peek()) break;
-                                            return "/*" + slice(index, position - 1) + "*" + Utility_from(47 === type ? type : next());
+                                            return "/*" + Utility_substr(characters, index, position - 1) + "*" + Utility_from(47 === type ? type : next());
                                         }(next(), position), root, parent, COMMENT, Utility_from(character), Utility_substr(value1, 2, -2), 0), declarations);
                                         break;
                                     default:
@@ -615,7 +604,7 @@
                                     case 64:
                                         45 === peek() && (characters1 += delimit(next())), atrule = peek(), offset = Utility_strlen(type = characters1 += function(index) {
                                             for(; !token(peek());)next();
-                                            return slice(index, position);
+                                            return Utility_substr(characters, index, position);
                                         }(position)), character1++;
                                         break;
                                     case 45:
@@ -627,7 +616,7 @@
                         ""
                     ], value = alloc(value = styles), 0, [
                         0
-                    ], value)), serializer);
+                    ], value), characters = "", value1), serializer);
                 };
                 _insert = function(selector, serialized, sheet, shouldCache) {
                     currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);

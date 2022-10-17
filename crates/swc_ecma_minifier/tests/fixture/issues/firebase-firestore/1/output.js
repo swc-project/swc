@@ -997,9 +997,6 @@
                     this.path = t, this.collectionGroup = e, this.explicitOrderBy = n, this.filters = s, this.limit = i, this.limitType = r, this.startAt = o, this.endAt = c, this.V = null, this.S = null, this.startAt, this.endAt;
                 }
             }
-            function we(t) {
-                return new fe(t);
-            }
             function _e(t) {
                 return !At(t.limit) && "F" === t.limitType;
             }
@@ -1916,7 +1913,7 @@
             }
             function Es(t) {
                 let e = "";
-                for(let n = 0; n < t.length; n++)e.length > 0 && (e = As(e)), e = function(t, e) {
+                for(let n = 0; n < t.length; n++)e.length > 0 && (e += ""), e = function(t, e) {
                     let n = e;
                     const s = t.length;
                     for(let e1 = 0; e1 < s; e1++){
@@ -1934,10 +1931,7 @@
                     }
                     return n;
                 }(t.get(n), e);
-                return As(e);
-            }
-            function As(t) {
-                return t + "";
+                return e + "";
             }
             class Ps {
                 constructor(t, e, n){
@@ -3260,9 +3254,6 @@
             function Jr() {
                 return "undefined" != typeof document ? document : null;
             }
-            function Yr(t) {
-                return new Bn(t, !0);
-            }
             class Xr {
                 constructor(t, e, n = 1e3, s = 1.5, i = 6e4){
                     this.Oe = t, this.timerId = e, this.Qi = n, this.Wi = s, this.Gi = i, this.zi = 0, this.Hi = null, this.Ji = Date.now(), this.reset();
@@ -3624,16 +3615,13 @@
             function wo(t) {
                 return 0 === t.Wr.size;
             }
-            function _o(t) {
-                t.Jr = void 0;
-            }
             async function mo(t) {
                 t.Qr.forEach((e, n)=>{
                     uo(t, e);
                 });
             }
             async function go(t, e) {
-                _o(t), fo(t) ? (t.Hr.qr(e), lo(t)) : t.Hr.set("Unknown");
+                t.Jr = void 0, fo(t) ? (t.Hr.qr(e), lo(t)) : t.Hr.set("Unknown");
             }
             async function yo(t, e, n) {
                 if (t.Hr.set("Online"), e instanceof xn && 2 === e.state && e.cause) try {
@@ -3681,7 +3669,7 @@
                     Ci: go.bind(null, t),
                     Rr: yo.bind(null, t)
                 }, t1.$r(), new to(e, t1.sr, t1.credentials, t1.N, n)), t.Gr.push(async (e)=>{
-                    e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown")) : (await t.Yr.stop(), _o(t));
+                    e ? (t.Yr.dr(), fo(t) ? lo(t) : t.Hr.set("Unknown")) : (await t.Yr.stop(), t.Jr = void 0);
                 })), t.Yr;
             }
             class xo {
@@ -4188,10 +4176,11 @@
             }
             function yc(t) {
                 for(; t.Mo.size > 0 && t.Lo.size < t.maxConcurrentLimboResolutions;){
+                    var t1;
                     const e = t.Mo.values().next().value;
                     t.Mo.delete(e);
                     const n = new Pt(ht.fromString(e)), s = t.jo.next();
-                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(we(n.path)), s, 2, X.T));
+                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee((t1 = n.path, new fe(t1))), s, 2, X.T));
                 }
             }
             async function pc(t, e, n) {
@@ -4252,7 +4241,8 @@
                     this.synchronizeTabs = !1;
                 }
                 async initialize(t) {
-                    this.N = Yr(t.databaseInfo.databaseId), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
+                    var t1;
+                    this.N = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
                 }
                 Yo(t) {
                     return null;
@@ -4279,9 +4269,9 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1;
-                    const e = Yr(t.databaseInfo.databaseId), n = (s = t.databaseInfo, new zr(s));
-                    return t1 = t.credentials, new no(t1, n, e);
+                    var s, t1, t2;
+                    const e = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), n = (s = t.databaseInfo, new zr(s));
+                    return t2 = t.credentials, new no(t2, n, e);
                 }
                 createRemoteStore(t) {
                     var e, n, s, i, r;
@@ -4534,7 +4524,7 @@
             }
             class Ra extends Aa {
                 constructor(t, e, n){
-                    super(t, e, we(n)), this._path = n, this.type = "collection";
+                    super(t, e, new fe(n)), this._path = n, this.type = "collection";
                 }
                 get id() {
                     return this._query.path.lastSegment();

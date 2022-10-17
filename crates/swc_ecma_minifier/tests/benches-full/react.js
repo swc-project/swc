@@ -61,7 +61,7 @@
     var didWarnStateUpdateForUnmountedComponent = {};
     function warnNoop(publicInstance, callerName) {
         var _constructor = publicInstance.constructor, componentName = _constructor && (_constructor.displayName || _constructor.name) || 'ReactClass', warningKey = componentName + "." + callerName;
-        !didWarnStateUpdateForUnmountedComponent[warningKey] && (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
+        didWarnStateUpdateForUnmountedComponent[warningKey] || (error("Can't call %s on a component that is not yet mounted. This is a no-op, but it might indicate a bug in your application. Instead, assign to `this.state` directly or define a `state = {};` class property with the desired state in the %s component.", callerName, componentName), didWarnStateUpdateForUnmountedComponent[warningKey] = !0);
     }
     var ReactNoopUpdateQueue = {
         isMounted: function(publicInstance) {
@@ -291,7 +291,7 @@
                         return c;
                     });
                 } else null != mappedChild && (isValidElement(mappedChild) && (oldElement = mappedChild, newKey = escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey('' + mappedChild.key) + '/' : '') + childKey, mappedChild = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props)), array.push(mappedChild));
-                return;
+                return 1;
             }
             var subtreeCount = 0, nextNamePrefix = '' === nameSoFar ? '.' : nameSoFar + ':';
             if (Array.isArray(children)) for(var i = 0; i < children.length; i++)nextName = nextNamePrefix + getElementKey(child = children[i], i), subtreeCount += mapIntoArray(child, array, escapedPrefix, nextName, callback);
@@ -306,6 +306,7 @@
                     throw Error("Objects are not valid as a React child (found: " + ('[object Object]' === childrenString ? 'object with keys {' + Object.keys(children).join(', ') + '}' : childrenString) + "). If you meant to render a collection of children, use an array instead.");
                 }
             }
+            return subtreeCount;
         }(children, result, '', '', function(child) {
             return func.call(context, child, count++);
         }), result;
@@ -575,7 +576,7 @@
         if (!validType) {
             var source, typeString, info = '';
             (void 0 === type || 'object' == typeof type && null !== type && 0 === Object.keys(type).length) && (info += " You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.");
-            var sourceInfo = null != props ? void 0 !== (source = props.__source) ? '\n\nCheck your code at ' + source.fileName.replace(/^.*[\\\/]/, '') + ':' + source.lineNumber + '.' : '' : '';
+            var sourceInfo = null != props && void 0 !== (source = props.__source) ? '\n\nCheck your code at ' + source.fileName.replace(/^.*[\\\/]/, '') + ':' + source.lineNumber + '.' : '';
             sourceInfo ? info += sourceInfo : info += getDeclarationErrorAddendum(), null === type ? typeString = 'null' : Array.isArray(type) ? typeString = 'array' : void 0 !== type && type.$$typeof === REACT_ELEMENT_TYPE ? (typeString = "<" + (getComponentName(type.type) || 'Unknown') + " />", info = ' Did you accidentally export a JSX literal instead of a component?') : typeString = typeof type, error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
         }
         var element = createElement.apply(this, arguments);

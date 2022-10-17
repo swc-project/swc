@@ -22,21 +22,19 @@ var i, Base = function Base() {
     }
     return Derived2;
 }(Base);
-function f(a) {
-    return [
-        a.x,
-        a.y
-    ];
-}
 function f2(a) {
     return function(x) {
         return a.y;
     };
 }
-f({
+!function(a) {
+    a.x, a.y;
+}({
     x: new Derived(),
     y: new Derived2()
-}), f({
+}), function(a) {
+    a.x, a.y;
+}({
     x: new Base(),
     y: new Derived2()
 }), f2({

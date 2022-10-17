@@ -4,7 +4,10 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::Compressor;
-use crate::util::dedup;
+use crate::{
+    compressor::math::{is_calc_function_name, transform_calc_value_into_component_value},
+    util::dedup,
+};
 
 impl Compressor {
     fn is_first_media_in_parens(&self, media_condition: &MediaCondition) -> bool {
@@ -324,6 +327,54 @@ impl Compressor {
                 }
             }
             _ => {}
+        }
+    }
+
+    pub(super) fn compress_calc_sum_in_media_feature_value(&mut self, n: &mut MediaFeatureValue) {
+        match n {
+            MediaFeatureValue::Function(Function { name, value, .. })
+                if is_calc_function_name(name) && value.len() == 1 =>
+            {
+                match &value[0] {
+                    ComponentValue::CalcSum(CalcSum {
+                        expressions: calc_sum_expressions,
+                        ..
+                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
+                        CalcProductOrOperator::Product(CalcProduct {
+                            expressions: calc_product_expressions,
+                            ..
+                        }) if calc_product_expressions.len() == 1 => {
+                            if let CalcValueOrOperator::Value(calc_value) =
+                                &calc_product_expressions[0]
+                            {
+                                match transform_calc_value_into_component_value(calc_value) {
+                                    Some(ComponentValue::Function(function)) => {
+                                        *n = MediaFeatureValue::Function(function);
+                                    }
+                                    Some(ComponentValue::Dimension(dimension)) => {
+                                        *n = MediaFeatureValue::Dimension(dimension);
+                                    }
+                                    Some(ComponentValue::Number(number)) => {
+                                        *n = MediaFeatureValue::Number(number);
+                                    }
+                                    _ => {}
+                                }
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
+                }
+            }
+            _ => {}
+        }
+    }
+
+    pub(super) fn compress_media_feature_value_length(&mut self, n: &mut MediaFeatureValue) {
+        if let MediaFeatureValue::Dimension(dimension) = n {
+            if let Some(number) = self.length_to_zero(dimension) {
+                *n = MediaFeatureValue::Number(number)
+            }
         }
     }
 }

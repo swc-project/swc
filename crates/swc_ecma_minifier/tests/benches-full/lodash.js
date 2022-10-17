@@ -629,12 +629,10 @@
             if (isArr) {
                 if (length = (array = value).length, result1 = new array.constructor(length), length && 'string' == typeof array[0] && hasOwnProperty.call(array, 'index') && (result1.index = array.index, result1.input = array.input), result = result1, !isDeep) return copyArray(value, result);
             } else {
-                var array, length, result1, source, object1, source1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+                var array, length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
-                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) {
-                        return isFlat ? (source = value, object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(source, getSymbolsIn(source), object1)) : (source1 = value, object2 = baseAssign(result, value), copyObject(source1, getSymbols(source1), object2));
-                    }
+                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
@@ -846,7 +844,6 @@
             return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
         }
         function baseGetTag(value) {
-            var value1;
             return null == value ? undefined === value ? '[object Undefined]' : '[object Null]' : symToStringTag && symToStringTag in Object1(value) ? function(value) {
                 var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
                 try {
@@ -855,7 +852,7 @@
                 } catch (e) {}
                 var result = nativeObjectToString.call(value);
                 return unmasked && (isOwn ? value[symToStringTag] = tag : delete value[symToStringTag]), result;
-            }(value) : (value1 = value, nativeObjectToString.call(value1));
+            }(value) : nativeObjectToString.call(value);
         }
         function baseGt(value, other) {
             return value > other;
@@ -989,8 +986,7 @@
             return !0;
         }
         function baseIsNative(value) {
-            var func;
-            return !(!isObject(value) || (func = value, maskSrcKey && maskSrcKey in func)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
+            return !(!isObject(value) || maskSrcKey && maskSrcKey in value) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
         }
         function baseIteratee(value) {
             return 'function' == typeof value ? value : null == value ? identity : 'object' == typeof value ? isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value) : property(value);
@@ -1017,7 +1013,7 @@
             };
         }
         function baseMatchesProperty(path, srcValue) {
-            return isKey(path) && isStrictComparable(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
+            return isKey(path) && srcValue == srcValue && !isObject(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                 var objValue = get(object, path);
                 return undefined === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
             };
@@ -1640,8 +1636,8 @@
             return result = result === iteratee ? baseIteratee : result, arguments.length ? result(arguments[0], arguments[1]) : result;
         }
         function getMapData(map, key) {
-            var value, type, data = map.__data__;
-            return ('string' == (type = typeof (value = key)) || 'number' == type || 'symbol' == type || 'boolean' == type ? '__proto__' !== value : null === value) ? data['string' == typeof key ? 'string' : 'hash'] : data.map;
+            var type, data = map.__data__;
+            return ('string' == (type = typeof key) || 'number' == type || 'symbol' == type || 'boolean' == type ? '__proto__' !== key : null === key) ? data['string' == typeof key ? 'string' : 'hash'] : data.map;
         }
         function getMatchData(object) {
             for(var result = keys(object), length = result.length; length--;){
@@ -1649,7 +1645,7 @@
                 result[length] = [
                     key,
                     value,
-                    isStrictComparable(value)
+                    value == value && !isObject(value)
                 ];
             }
             return result;
@@ -1723,9 +1719,6 @@
             var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
             return value === proto;
         }
-        function isStrictComparable(value) {
-            return value == value && !isObject(value);
-        }
         function matchesStrictComparable(key, srcValue) {
             return function(object) {
                 return null != object && object[key] === srcValue && (undefined !== srcValue || key in Object1(object));
@@ -1756,15 +1749,15 @@
             });
         } : identity);
         function setWrapToString(wrapper, reference, bitmask) {
-            var details, bitmask1, match, source = reference + '';
+            var details, match, source = reference + '';
             return setToString(wrapper, function(source, details) {
                 var length = details.length;
                 if (!length) return source;
                 var lastIndex = length - 1;
                 return details[lastIndex] = (length > 1 ? '& ' : '') + details[lastIndex], details = details.join(length > 2 ? ', ' : ' '), source.replace(reWrapComment, '{\n/* [wrapped with ' + details + '] */\n');
-            }(source, (details = (match = source.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], bitmask1 = bitmask, arrayEach(wrapFlags, function(pair) {
+            }(source, (details = (match = source.match(reWrapDetails)) ? match[1].split(reSplitDetails) : [], arrayEach(wrapFlags, function(pair) {
                 var value = '_.' + pair[0];
-                bitmask1 & pair[1] && !arrayIncludes(details, value) && details.push(value);
+                bitmask & pair[1] && !arrayIncludes(details, value) && details.push(value);
             }), details.sort())));
         }
         function shortOut(func) {
@@ -2656,7 +2649,7 @@
             return index < 0 && (index = nativeMax(length + index, 0)), baseIndexOf(array, value, index);
         }, lodash.inRange = function(number, start, end) {
             var number1, start1, end1;
-            return start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), number1 = number = toNumber(number), number1 >= nativeMin(start1 = start, end1 = end) && number1 < nativeMax(start1, end1);
+            return start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), (number1 = number = toNumber(number)) >= nativeMin(start1 = start, end1 = end) && number1 < nativeMax(start1, end1);
         }, lodash.invoke = invoke, lodash.isArguments = isArguments, lodash.isArray = isArray, lodash.isArrayBuffer = isArrayBuffer, lodash.isArrayLike = isArrayLike, lodash.isArrayLikeObject = isArrayLikeObject, lodash.isBoolean = function(value) {
             return !0 === value || !1 === value || isObjectLike(value) && baseGetTag(value) == boolTag;
         }, lodash.isBuffer = isBuffer, lodash.isDate = isDate, lodash.isElement = function(value) {

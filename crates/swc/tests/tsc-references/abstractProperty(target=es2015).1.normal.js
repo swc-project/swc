@@ -4,9 +4,6 @@ class A {
     foo() {
         console.log(this.x);
     }
-    constructor(){
-        _define_property(this, "x", void 0);
-    }
 }
 class B extends A {
     constructor(...args){

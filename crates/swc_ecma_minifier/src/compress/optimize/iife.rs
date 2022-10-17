@@ -157,21 +157,6 @@ where
             Callee::Expr(e) => &mut **e,
         };
 
-        fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
-            match callee {
-                Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
-                Expr::Fn(callee) => Some(
-                    callee
-                        .function
-                        .params
-                        .iter_mut()
-                        .map(|param| &mut param.pat)
-                        .collect(),
-                ),
-                _ => None,
-            }
-        }
-
         fn clean_params(callee: &mut Expr) {
             match callee {
                 Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
@@ -192,17 +177,6 @@ where
                 .is_some()
             {
                 return;
-            }
-        }
-
-        fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
-            match callee {
-                Expr::Arrow(e) => match &mut e.body {
-                    BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
-                    BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
-                },
-                Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
-                _ => None,
             }
         }
 
@@ -315,11 +289,104 @@ where
                     trace_op!("inline: Inlining arguments");
                     optimizer.inline_vars_in_node(body, vars);
                 }
-                _ => {}
+                _ => {
+                    unreachable!("find_body and find_params should match")
+                }
             }
         }
 
         clean_params(callee);
+    }
+
+    /// If a parameter is not used, we can ignore return value of the
+    /// corresponding argument.
+    pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {
+        if !self.options.unused {
+            return;
+        }
+
+        let callee = match &mut e.callee {
+            Callee::Super(_) | Callee::Import(_) => return,
+            Callee::Expr(e) => &mut **e,
+        };
+
+        match find_body(callee) {
+            Some(body) => match body {
+                Either::Left(body) => {
+                    if contains_arguments(body) {
+                        return;
+                    }
+                }
+                Either::Right(body) => {
+                    if contains_arguments(body) {
+                        return;
+                    }
+                }
+            },
+            None => return,
+        }
+
+        if let Expr::Fn(FnExpr {
+            ident: Some(ident), ..
+        }) = callee
+        {
+            if self
+                .data
+                .vars
+                .get(&ident.to_id())
+                .filter(|usage| usage.used_recursively)
+                .is_some()
+            {
+                return;
+            }
+        }
+
+        let mut removed = vec![];
+        let params = find_params(callee);
+        if let Some(mut params) = params {
+            // We check for parameter and argument
+            for (idx, param) in params.iter_mut().enumerate() {
+                if let Pat::Ident(param) = &mut **param {
+                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                        if usage.ref_count == 0 {
+                            removed.push(idx);
+                        }
+                    }
+                }
+            }
+
+            if removed.is_empty() {
+                log_abort!("`removed` is empty");
+                return;
+            }
+        } else {
+            unreachable!("find_body and find_params should match")
+        }
+
+        for idx in removed {
+            if let Some(arg) = e.args.get_mut(idx) {
+                if arg.spread.is_some() {
+                    break;
+                }
+
+                // Optimize
+                let new = self.ignore_return_value(&mut arg.expr);
+
+                if let Some(new) = new {
+                    arg.expr = Box::new(new);
+                } else {
+                    // Use `0` if it's removed.
+                    arg.expr = Number {
+                        span: arg.expr.span(),
+                        value: 0.0,
+                        raw: None,
+                    }
+                    .into();
+                }
+            } else {
+                break;
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -353,6 +420,8 @@ where
     /// }).x = 10;
     /// ```
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
+        trace_op!("iife: invoke_iife");
+
         if self.options.inline == 0 {
             let skip = match e {
                 Expr::Call(v) => !v.callee.span().is_dummy(),
@@ -360,6 +429,7 @@ where
             };
 
             if skip {
+                log_abort!("skip");
                 return;
             }
         }
@@ -369,7 +439,10 @@ where
             _ => return,
         };
 
+        trace_op!("iife: Checking noinline");
+
         if self.has_noinline(call.span) {
+            log_abort!("iife: Has no inline mark");
             return;
         }
 
@@ -377,21 +450,24 @@ where
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+        self.normalize_expr(callee);
 
         if self.ctx.dont_invoke_iife {
-            log_abort!("iife: [x] Inline is prevented");
+            log_abort!("iife: Inline is prevented");
             return;
         }
+
+        trace_op!("iife: Checking callee");
 
         match callee {
             Expr::Arrow(f) => {
                 if f.is_async {
-                    log_abort!("iife: [x] Cannot inline async fn");
+                    log_abort!("iife: Cannot inline async fn");
                     return;
                 }
 
                 if f.is_generator {
-                    log_abort!("iife: [x] Cannot inline generator");
+                    log_abort!("iife: Cannot inline generator");
                     return;
                 }
 
@@ -515,6 +591,8 @@ where
                 }
             }
             Expr::Fn(f) => {
+                trace_op!("iife: Expr::Fn(..)");
+
                 if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
@@ -545,6 +623,8 @@ where
                     return;
                 }
 
+                trace_op!("iife: Checking recursiveness");
+
                 if let Some(i) = &f.ident {
                     if self
                         .data
@@ -560,10 +640,12 @@ where
 
                 for arg in &call.args {
                     if arg.spread.is_some() {
-                        log_abort!("iife: [x] Found spread argument");
+                        log_abort!("iife: Found spread argument");
                         return;
                     }
                 }
+
+                trace_op!("iife: Empry function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
@@ -615,11 +697,19 @@ where
                     && self.is_return_arg_simple_enough_for_iife_eval(&e.right)
             }
 
+            Expr::Cond(e) => {
+                self.is_return_arg_simple_enough_for_iife_eval(&e.test)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.cons)
+                    && self.is_return_arg_simple_enough_for_iife_eval(&e.alt)
+            }
+
             _ => false,
         }
     }
 
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
+        trace_op!("can_inline_fn_like");
+
         if contains_this_expr(body) || contains_arguments(body) {
             return false;
         }
@@ -681,6 +771,10 @@ where
                     }) => true,
                     Pat::Ident(id) => {
                         if self.vars.has_pending_inline_for(&id.to_id()) {
+                            log_abort!(
+                                "iife: [x] Cannot inline because pending inline of `{}`",
+                                id.id
+                            );
                             return true;
                         }
 
@@ -718,7 +812,7 @@ where
                         self.data
                             .vars
                             .get(id)
-                            .map(|usage| usage.ref_count == 1 && usage.used_as_callee)
+                            .map(|usage| usage.ref_count == 1 && usage.callee_count > 0)
                             .unwrap_or(false)
                     }) {
                         return true;
@@ -753,9 +847,6 @@ where
         if !self.can_inline_fn_like(orig_params, &*body) {
             return None;
         }
-
-        self.changed = true;
-        report_change!("inline: Inlining an iife");
 
         // We remap variables.
         let mut remap = HashMap::default();
@@ -988,5 +1079,30 @@ where
 
             _ => false,
         }
+    }
+}
+
+fn find_params(callee: &mut Expr) -> Option<Vec<&mut Pat>> {
+    match callee {
+        Expr::Arrow(callee) => Some(callee.params.iter_mut().collect()),
+        Expr::Fn(callee) => Some(
+            callee
+                .function
+                .params
+                .iter_mut()
+                .map(|param| &mut param.pat)
+                .collect(),
+        ),
+        _ => None,
+    }
+}
+fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
+    match callee {
+        Expr::Arrow(e) => match &mut e.body {
+            BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
+            BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
+        },
+        Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
+        _ => None,
     }
 }

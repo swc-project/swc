@@ -7214,33 +7214,34 @@
             }
             function calculatePosition(currentElement, positionX, positionY, parentElement, targetValues) {
                 return (popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (positionX || (positionX = 'left'), positionY || (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, function(posX, posY, pos) {
+                    var value, value1, value2, value3, value4, value5, value6, value7, value8;
                     switch(elementRect = element.getBoundingClientRect(), posY + posX){
                         case 'topcenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementHCenter(), pos), value = getElementTop(), pos.top = value;
                             break;
                         case 'topright':
-                            setPosx(getElementRight(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementRight(), pos), value1 = getElementTop(), pos.top = value1;
                             break;
                         case 'centercenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementHCenter(), pos), value2 = getElementVCenter(), pos.top = value2;
                             break;
                         case 'centerright':
-                            setPosx(getElementRight(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementRight(), pos), value3 = getElementVCenter(), pos.top = value3;
                             break;
                         case 'centerleft':
-                            setPosx(getElementLeft(), pos), setPosy(getElementVCenter(), pos);
+                            setPosx(getElementLeft(), pos), value4 = getElementVCenter(), pos.top = value4;
                             break;
                         case 'bottomcenter':
-                            setPosx(getElementHCenter(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementHCenter(), pos), value5 = getElementBottom(), pos.top = value5;
                             break;
                         case 'bottomright':
-                            setPosx(getElementRight(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementRight(), pos), value6 = getElementBottom(), pos.top = value6;
                             break;
                         case 'bottomleft':
-                            setPosx(getElementLeft(), pos), setPosy(getElementBottom(), pos);
+                            setPosx(getElementLeft(), pos), value7 = getElementBottom(), pos.top = value7;
                             break;
                         default:
-                            setPosx(getElementLeft(), pos), setPosy(getElementTop(), pos);
+                            setPosx(getElementLeft(), pos), value8 = getElementTop(), pos.top = value8;
                     }
                     return pos;
                 }(positionX.toLowerCase(), positionY.toLowerCase(), {
@@ -7253,9 +7254,6 @@
             }
             function setPosx(value, pos) {
                 pos.left = value;
-            }
-            function setPosy(value, pos) {
-                pos.top = value;
             }
             function getBodyScrollTop() {
                 return parentDocument.documentElement.scrollTop || parentDocument.body.scrollTop;
@@ -16116,7 +16114,7 @@
                                             var bootCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                                             bootCircle.setAttribute('class', CLS_SPINCIRCLE + '_' + item), bootCircle.setAttribute('r', "2"), bootCircle.setAttribute('transform', "translate(32,32)"), svgBoot.appendChild(bootCircle);
                                         }
-                                    }(innerContainer, uniqueID, makeElement), function(innerContainer, radius) {
+                                    }(innerContainer, uniqueID, 0), function(innerContainer, radius) {
                                         var svg = innerContainer.querySelector('svg.e-spin-bootstrap');
                                         svg.style.width = svg.style.height = radius + 'px';
                                         for(var startArc = 90, item = 0; item <= 7; item++){
@@ -16179,11 +16177,8 @@
                 svgMaterial.setAttribute('class', cls), svgMaterial.setAttribute('id', uniqueID), matCirclePath.setAttribute('class', CLS_SPINCIRCLE), innerContainer.insertBefore(svgMaterial, innerContainer.firstChild), svgMaterial.appendChild(matCirclePath);
             }
             function mat_calculate_attributes(radius, container, type, cls) {
-                var radius1, offset, diameter = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize = getStrokeSize(diameter), transformOrigin = diameter / 2 + 'px';
+                var radius1, offset, diameter = 2 * radius, svg = container.querySelector('svg.' + cls), path = svg.querySelector('path.e-path-circle'), strokeSize = 0.1 * diameter, transformOrigin = diameter / 2 + 'px';
                 svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.width = svg.style.height = diameter + 'px', svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, path.setAttribute('d', 'M' + (radius1 = diameter / 2) + ',' + (offset = strokeSize / 2) + 'A' + (radius1 - offset) + ',' + (radius1 - offset) + ' 0 1 1 ' + offset + ',' + radius1), 'Material' === type && (path.setAttribute('stroke-width', strokeSize + ''), path.setAttribute('stroke-dasharray', (diameter - strokeSize) * Math.PI * 0.75 + ''), path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, 1, 75) + ''));
-            }
-            function getStrokeSize(diameter) {
-                return 0.1 * diameter;
             }
             function getDashOffset(diameter, strokeSize, value, max) {
                 return (diameter - strokeSize) * Math.PI * (3 * max / 100 - value / 100);
@@ -16257,7 +16252,7 @@
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {
                                     (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = getStrokeSize(diameter), rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
+                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
                                         (function mat_animation(spinnerInfo) {
                                             var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, duration));
                                             (function(value, container) {
@@ -16267,7 +16262,7 @@
                                                 }
                                             })(easing(currentTime, start, change, duration), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < duration ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
                                         })(spinnerInfo);
-                                    })(1, 149, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 75, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
+                                    })(1, 0, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
                                     uniqueID: id,
                                     container: inner,
@@ -16282,7 +16277,7 @@
                                         !function boot_animate(radius) {
                                             globalTimeOut[id].isAnimate && (++count, circle.setAttribute('r', radius + ''), count >= series.length && (count = 0), globalTimeOut[id].timeOut = setTimeout(boot_animate.bind(null, series[count]), 18));
                                         }(start);
-                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, i, function(begin, stop) {
+                                    }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, function(begin, stop) {
                                         var series = [], increment = !1, count = 1;
                                         return function formSeries(i) {
                                             series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));

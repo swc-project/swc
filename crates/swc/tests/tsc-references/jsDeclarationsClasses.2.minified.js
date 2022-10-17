@@ -119,7 +119,7 @@ export var M = function(_superClass) {
         return _class_call_check(this, M), _this.prop = 12, _possible_constructor_return(_this);
     }
     return _inherits(M, null), _create_super(M), M;
-}(null);
+}(0);
 export var N = function(L) {
     "use strict";
     _inherits(N, L);
@@ -148,7 +148,7 @@ export var VariableBase = function(x) {
         return _class_call_check(this, VariableBase), _super.apply(this, arguments);
     }
     return VariableBase;
-}(null);
+}(0);
 export var HasStatics = function() {
     "use strict";
     function HasStatics() {

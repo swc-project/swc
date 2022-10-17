@@ -623,7 +623,8 @@ where
                     "ignore_return_value: Dropping unused expr: {}",
                     dump(&*e, false)
                 );
-                self.changed = true;
+                // We don't need to run this again
+                // self.changed = true;
                 return None;
             }
 
@@ -890,7 +891,7 @@ where
                     self.store_var_for_inlining(&mut i.id, right, false, true);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
                         self.vars.removed.insert(old);
                     }
 
@@ -1575,6 +1576,7 @@ where
             e.args.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
+        self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
     }
 
@@ -1716,7 +1718,7 @@ where
                     self.store_var_for_inlining(i, right, false, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({})", old);
+                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
                         self.vars.removed.insert(old.clone());
                     }
 
@@ -2261,11 +2263,18 @@ where
             .enumerate()
             .identify_last()
             .filter_map(|(last, (idx, expr))| {
+                #[cfg(feature = "debug")]
+                let _span =
+                    tracing::span!(tracing::Level::ERROR, "seq_expr_with_children").entered();
+
                 expr.visit_mut_with(&mut *self.with_ctx(ctx));
                 let is_injected_zero = match &**expr {
                     Expr::Lit(Lit::Num(v)) => v.span.is_dummy(),
                     _ => false,
                 };
+
+                #[cfg(feature = "debug")]
+                let _span = tracing::span!(tracing::Level::ERROR, "seq_expr").entered();
 
                 let can_remove = !last
                     && (idx != 0
@@ -2578,7 +2587,10 @@ where
     /// We don't optimize [Tpl] contained in [TaggedTpl].
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
-        n.tag.visit_mut_with(self);
+        n.tag.visit_mut_with(&mut *self.with_ctx(Ctx {
+            is_this_aware_callee: true,
+            ..self.ctx
+        }));
 
         n.tpl.exprs.visit_mut_with(self);
     }
