@@ -818,7 +818,15 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
             && !self.ctx().dont_parse_colon_as_type_ann
         {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            self.try_parse_ts(|p| {
+                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+
+                if !is!(p, "=>") {
+                    unexpected!(p, "fail")
+                }
+
+                Ok(Some(return_type))
+            })
         } else {
             None
         };
