@@ -8,6 +8,9 @@
 - **(css/parser)** Improve handling of math functions in at-rules (#6140) ([26aeb18](https://github.com/swc-project/swc/commit/26aeb18c0cbb3299951be7b7a9398705d33374cd))
 
 
+- **(es/codegen)** Emit `readonly` for `TsIndexSignature` (#6172) ([083924c](https://github.com/swc-project/swc/commit/083924c0e1bf738ae8e6b945dac00dda18dfeb26))
+
+
 - **(es/minifier)** Fix ordering issue of analyzer (#6150) ([6d0ca05](https://github.com/swc-project/swc/commit/6d0ca05cb50c0b33fa0786824e07950d4db91819))
 
 
@@ -17,10 +20,25 @@
 - **(es/minifier)** Preserve `this` of tagged template literals (#6165) ([aec5cda](https://github.com/swc-project/swc/commit/aec5cdacc64296269d4c75f834d2a3021ca2db4b))
 
 
+- **(es/minifier)** Don't create a numeric literal with `NaN` value (#6166) ([2e153e5](https://github.com/swc-project/swc/commit/2e153e5555a8d03bc04da0cbcc849aa1f05a16e3))
+
+
+- **(es/modules)** Resolve `jsc.paths` for export alls (#6170) ([82cca67](https://github.com/swc-project/swc/commit/82cca674e34022212b507f7cbbe3e903b7591f95))
+
+
+- **(es/parser)** Fix parsing of arrow in cond (#6067) ([0ca5ded](https://github.com/swc-project/swc/commit/0ca5ded61833906181348ce215dfba3ed4f1bde6))
+
+
 - **(es/plugin)** Disable SIMD (#6163) ([899021e](https://github.com/swc-project/swc/commit/899021e440c40b954825d1c0996fd1c14b1af457))
 
 
+- **(es/plugin)** Fix plugin on non `x86_64` (#6178) ([cb8f350](https://github.com/swc-project/swc/commit/cb8f3500b2eac333eb126ab3844271d344e58a35))
+
+
 - **(es/quote)** Fix handling of template literals (#6157) ([6502979](https://github.com/swc-project/swc/commit/65029793a6915c11156dcc5c0265d3e2df41e2b4))
+
+
+- **(es/typescript)** Don't generate class field for abstract properties (#6174) ([9d93b6c](https://github.com/swc-project/swc/commit/9d93b6cd856f27192b88b09bbc6e1032cea74afe))
 
 ### Documentation
 
@@ -42,6 +60,21 @@
 
 
 - **(es/utils)** Add indexed API to the parallel helper (#6149) ([6a42e51](https://github.com/swc-project/swc/commit/6a42e511e8ba8d8d5f7de83df64883edd00a7ab3))
+
+### Miscellaneous Tasks
+- **general**: Add lock action ([55a836a](https://github.com/swc-project/swc/commit/55a836ac823c62d83ecd7eb63dea4cb9e51604d4))
+
+### Build
+
+
+
+- **(es/plugin)** Fix Wasm build (#6179) ([7c40e44](https://github.com/swc-project/swc/commit/7c40e44d3f434035651941753a1a5aac19737446))
+
+
+- **(es/plugin)** Fix Wasm build, really (#6180) ([ea4ae3d](https://github.com/swc-project/swc/commit/ea4ae3dfbcd3546ed5d734c1c7c3c8cd091cce6a))
+
+
+- **(es/plugin)** Fix Wasm build (#6181) ([d13a397](https://github.com/swc-project/swc/commit/d13a3973603e8d7666be9ced5f616bfecfc29efa))
 
 ## [1.3.8] - 2022-10-14
 

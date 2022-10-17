@@ -297,6 +297,11 @@ where
     fn emit_ts_index_signature(&mut self, n: &TsIndexSignature) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        if n.readonly {
+            keyword!("readonly");
+            formatting_space!();
+        }
+
         punct!("[");
         self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         punct!("]");
