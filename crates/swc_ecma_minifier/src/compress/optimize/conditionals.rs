@@ -350,6 +350,9 @@ where
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
+        debug_assert_valid(cons);
+        debug_assert_valid(alt);
+
         if cons.eq_ignore_span(alt) && !matches!(&*cons, Expr::Yield(..) | Expr::Fn(..)) {
             report_change!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
