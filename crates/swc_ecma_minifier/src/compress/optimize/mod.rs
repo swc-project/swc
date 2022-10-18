@@ -2790,6 +2790,8 @@ where
                 return false;
             }
 
+            debug_assert_valid(&*var);
+
             true
         });
 
