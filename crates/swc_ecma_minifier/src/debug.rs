@@ -222,4 +222,11 @@ impl Visit for AssertValid {
             panic!("Found empty var declarators");
         }
     }
+
+    #[cfg(debug_assertions)]
+    fn visit_seq_expr(&mut self, v: &SeqExpr) {
+        v.visit_children_with(self);
+
+        assert!(v.exprs.len() >= 2);
+    }
 }
