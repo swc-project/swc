@@ -33,3 +33,7 @@
 .class9 {
     width: calc( 0px - (var(--foo, 4px) / 2));
 }
+
+.class10 {
+    width: calc(0 - (pi * 3px) - 0px - 4em);
+}

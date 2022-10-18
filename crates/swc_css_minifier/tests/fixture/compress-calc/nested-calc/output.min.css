@@ -1,1 +1,1 @@
-.class1{width:calc(50% - 25px)}.class2{width:calc(1px + 2px/2)}.class3{width:calc((0em - 10px)/2)}.class4{width:calc(2.25rem - 0px)}.class5{width:calc(100vh - 15rem - 100px)}.class6{width:calc(100% - 10px - 2vw)}.class7{width:calc(100% - 10px + 2vw)}.class8{width:300px}
+.class1{width:calc(50% - 25px)}.class2{width:calc(1px + 2px/2)}.class3{width:calc(-10px/2)}.class4{width:2.25rem}.class5{width:calc(100vh - 15rem - 100px)}.class6{width:calc(100% - 10px - 2vw)}.class7{width:calc(100% - 10px + 2vw)}.class8{width:300px}
