@@ -5,6 +5,7 @@ use retain_mut::RetainMut;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
     StmtLike,
@@ -340,10 +341,7 @@ where
                     if !exprs.is_empty() {
                         new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: take(&mut exprs),
-                            })),
+                            expr: Expr::from_exprs(take(&mut exprs)),
                         })))
                     }
 
