@@ -9,6 +9,7 @@ use swc_common::{
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
     Type, Value,
@@ -2384,15 +2385,26 @@ where
 
         self.remove_duplicate_var_decls(s);
 
+        debug_assert_valid(s);
+
         // visit_mut_children_with above may produce easily optimizable block
         // statements.
         self.try_removing_block(s, false, false);
 
+        debug_assert_valid(s);
+
         // These methods may modify prepend_stmts or append_stmts.
         self.optimize_loops_if_cond_is_false(s);
+
+        debug_assert_valid(s);
+
         self.optimize_loops_with_break(s);
 
+        debug_assert_valid(s);
+
         self.try_removing_block(s, false, false);
+
+        debug_assert_valid(s);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
             let span = s.span();
