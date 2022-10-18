@@ -585,10 +585,7 @@ where
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: Box::new(Expr::Seq(SeqExpr {
-                        span: alt.span,
-                        exprs: alt.exprs.take(),
-                    })),
+                    right: Expr::from_exprs(alt.exprs.take()),
                 }));
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -608,10 +605,7 @@ where
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
-                    right: Box::new(Expr::Seq(SeqExpr {
-                        span: cons.span,
-                        exprs: cons.exprs.take(),
-                    })),
+                    right: Expr::from_exprs(cons.exprs.take()),
                 }));
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
