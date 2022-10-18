@@ -281,11 +281,9 @@ where
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 None => {
-                                    stmt.init =
-                                        Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: take(&mut exprs),
-                                        }))))
+                                    stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(take(
+                                        &mut exprs,
+                                    ))))
                                 }
                                 _ => {
                                     unreachable!()
