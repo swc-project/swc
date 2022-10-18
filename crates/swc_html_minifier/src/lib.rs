@@ -565,14 +565,18 @@ impl Minifier<'_> {
             Namespace::HTML | Namespace::SVG => {
                 match *tag_name {
                     js_word!("html") => match attribute.name {
-                        js_word!("xmlns") => match &*attribute_value.trim().to_ascii_lowercase() {
-                            "http://www.w3.org/1999/xhtml" => return true,
-                            _ => {}
-                        },
+                        js_word!("xmlns") => {
+                            if &*attribute_value.trim().to_ascii_lowercase()
+                                == "http://www.w3.org/1999/xhtml"
+                            {
+                                return true;
+                            }
+                        }
                         js_word!("xmlns:xlink") => {
-                            match &*attribute_value.trim().to_ascii_lowercase() {
-                                "http://www.w3.org/1999/xlink" => return true,
-                                _ => {}
+                            if &*attribute_value.trim().to_ascii_lowercase()
+                                == "http://www.w3.org/1999/xlink"
+                            {
+                                return true;
                             }
                         }
                         _ => {}
@@ -618,23 +622,22 @@ impl Minifier<'_> {
                             _ => {}
                         }
                     }
-                    js_word!("link") => match attribute.name {
-                        js_word!("type") => match &*attribute_value.trim().to_ascii_lowercase() {
-                            "text/css" => return true,
-                            _ => {}
-                        },
-                        _ => {}
-                    },
-                    js_word!("svg") => match attribute.name {
-                        js_word!("xmlns") => {
-                            if &*attribute_value.trim().to_ascii_lowercase()
-                                == "http://www.w3.org/2000/svg"
-                            {
-                                return true;
-                            }
+                    js_word!("link") => {
+                        if attribute.name == js_word!("type")
+                            && &*attribute_value.trim().to_ascii_lowercase() == "text/css"
+                        {
+                            return true;
                         }
-                        _ => {}
-                    },
+                    }
+
+                    js_word!("svg") => {
+                        if attribute.name == js_word!("xmlns")
+                            && &*attribute_value.trim().to_ascii_lowercase()
+                                == "http://www.w3.org/2000/svg"
+                        {
+                            return true;
+                        }
+                    }
                     _ => {}
                 }
 
