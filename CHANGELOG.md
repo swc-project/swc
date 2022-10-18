@@ -20,6 +20,9 @@
 - **(css/minifier)** Handle nested `calc()` (#6153) ([d4a733d](https://github.com/swc-project/swc/commit/d4a733d76461995b7549f5470e53df913a30ef0f))
 
 
+- **(es/compat)** Support readonly and writeonly for private fields (#6182) ([aefc11b](https://github.com/swc-project/swc/commit/aefc11b8a7355c496b60cda4ed7998a97f1bd8d4))
+
+
 - **(es/minifier)** Make sequential inliner self-repeat (#6168) ([3f0fcf4](https://github.com/swc-project/swc/commit/3f0fcf4fa9dbc654f56f60863ca7058522202ade))
 
 
