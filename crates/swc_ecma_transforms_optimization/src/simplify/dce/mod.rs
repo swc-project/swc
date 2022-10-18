@@ -924,6 +924,8 @@ impl VisitMut for TreeShaker {
             }
         }
 
+        debug_assert_valid(s);
+
         if let Stmt::Decl(Decl::Var(v)) = s {
             let span = v.span;
             let cnt = v.decls.len();
@@ -966,6 +968,8 @@ impl VisitMut for TreeShaker {
                     });
                 }
             }
+
+            debug_assert_valid(s);
         }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
