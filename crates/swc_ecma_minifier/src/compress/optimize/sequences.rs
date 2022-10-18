@@ -2192,6 +2192,15 @@ where
 
                         Box::new(a.take())
                     }
+
+                    Mergable::FnDecl(a) => {
+                        // We can inline a function declaration as a function expression.
+
+                        Box::new(Expr::Fn(FnExpr {
+                            ident: Some(a.ident.take()),
+                            function: a.function.take(),
+                        }))
+                    }
                 }
             };
         }
@@ -2379,6 +2388,7 @@ impl Mergable<'_> {
                 Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
                 _ => None,
             },
+            Mergable::FnDecl(f) => Some(f.ident.to_id()),
         }
     }
 }
