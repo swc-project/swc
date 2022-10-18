@@ -879,10 +879,14 @@ impl Pure<'_> {
                     if tpl.exprs.is_empty() {
                         e.take();
                     } else {
-                        *e = Expr::Seq(SeqExpr {
-                            span: tpl.span,
-                            exprs: tpl.exprs.take(),
-                        });
+                        if tpl.exprs.len() == 1 {
+                            *e = *tpl.exprs.remove(0);
+                        } else {
+                            *e = Expr::Seq(SeqExpr {
+                                span: tpl.span,
+                                exprs: tpl.exprs.take(),
+                            });
+                        }
                     }
 
                     return;
