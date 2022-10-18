@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+    <style>
+        a {
+            color:red
+        }
+    </style><style>
+        b {
+            color:blue
+        }
+    </style>
+    <!-- test -->
+    <style>
+        p {
+            color: white;
+            background-color: blue;
+            padding: 5px;
+            border: 1px solid black;
+        }
+    </style>
+    <style>
+        p {
+            color: blue;
+            background-color: yellow;
+        }
+    </style>
+    <style media="all and (max-width: 500px)">
+        p {
+            color: blue;
+            background-color: yellow;
+        }
+    </style>
+    <style type="text/css">
+        .first {
+            color: red;
+        }
+    </style>
+    <style type="text/css">
+        .second {
+            color: red;
+        }
+    </style>
+    <style media="all">
+        p {
+            color: blue;
+        }
+    </style>
+    <style media="all">
+        p {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div>test</div>
+<style>a { color: red }</style>
+<style></style>
+<div>test</div>
+<style></style>
+<style>a { color: red }</style>
+</body>
+</html>

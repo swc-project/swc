@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+<a href="   javascript: alert(  'test'  )  ">a</a>
+<a href="   JAVASCRIPT: alert(  'test'  )  ">b</a>
+<a href="   JAVASCRIPT: broken;;(  ">b</a>
+<iframe src="javascript: alert(  'test'  )  " frameborder="0"></iframe>
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <!-- A link around a shape -->
+    <a href="javascript: alert(  'test'  )  ">
+        <circle cx="50" cy="40" r="35" />
+    </a>
+    <!-- A link around a text -->
+    <a href="   javascript: alert(  'test'  )  ">
+        <text x="50" y="90" text-anchor="middle">&lt;circle&gt;</text>
+    </a>
+</svg>
+</body>
+</html>
