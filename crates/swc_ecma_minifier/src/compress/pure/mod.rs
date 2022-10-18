@@ -4,6 +4,7 @@
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -718,6 +719,8 @@ impl VisitMut for Pure<'_> {
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        debug_assert_valid(s);
+
         #[cfg(feature = "debug")]
         if self.config.debug_infinite_loop {
             let text = dump(&*s, false);
@@ -738,11 +741,19 @@ impl VisitMut for Pure<'_> {
 
         self.loop_to_for_stmt(s);
 
+        debug_assert_valid(s);
+
         self.drop_instant_break(s);
+
+        debug_assert_valid(s);
 
         self.optimize_labeled_stmt(s);
 
+        debug_assert_valid(s);
+
         self.drop_useless_continue(s);
+
+        debug_assert_valid(s);
 
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
@@ -760,10 +771,7 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        #[cfg(debug_assertions)]
-        {
-            s.visit_with(&mut AssertValid);
-        }
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
