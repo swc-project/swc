@@ -1,3 +1,4 @@
+use swc_atoms::js_word;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -23,7 +24,6 @@ where
                 unreachable!()
             }
         };
-        let lowercased_name = &*at_keyword_name.0.to_ascii_lowercase();
         let at_rule_name = if at_keyword_name.0.starts_with("--") {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(
@@ -51,9 +51,16 @@ where
             prelude: None,
             block: None,
         };
+        let lowercased_name = match &at_rule.name {
+            AtRuleName::Ident(ident) => ident.value.to_ascii_lowercase(),
+            AtRuleName::DashedIdent(dashed_ident) => dashed_ident.value.to_ascii_lowercase(),
+        };
         let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<Box<AtRulePrelude>>> {
             match lowercased_name {
-                "viewport" | "-ms-viewport" | "-o-viewport" | "font-face" => {
+                js_word!("viewport")
+                | js_word!("-ms-viewport")
+                | js_word!("-o-viewport")
+                | js_word!("font-face") => {
                     parser.input.skip_ws();
 
                     if !is!(parser, "{") {
@@ -64,7 +71,7 @@ where
 
                     Ok(None)
                 }
-                "charset" => {
+                js_word!("charset") => {
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
@@ -87,7 +94,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "container" => {
+                js_word!("container") => {
                     parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::ContainerPrelude(parser.parse()?);
@@ -102,7 +109,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "counter-style" => {
+                js_word!("counter-style") => {
                     parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::CounterStylePrelude(parser.parse()?);
@@ -117,7 +124,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "font-palette-values" => {
+                js_word!("font-palette-values") => {
                     parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::FontPaletteValuesPrelude(parser.parse()?);
@@ -132,7 +139,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "font-feature-values" => {
+                js_word!("font-feature-values") => {
                     parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::FontFeatureValuesPrelude(parser.parse()?);
@@ -147,15 +154,20 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
-                | "ornaments" | "annotation"
+                js_word!("stylistic")
+                | js_word!("historical-forms")
+                | js_word!("styleset")
+                | js_word!("character-variant")
+                | js_word!("swash")
+                | js_word!("ornaments")
+                | js_word!("annotation")
                     if parser.ctx.in_font_feature_values_at_rule =>
                 {
                     parser.input.skip_ws();
 
                     Ok(None)
                 }
-                "layer" => {
+                js_word!("layer") => {
                     parser.input.skip_ws();
 
                     let prelude = if is!(parser, Ident) {
@@ -219,7 +231,7 @@ where
 
                     Ok(prelude.map(Box::new))
                 }
-                "document" | "-moz-document" => {
+                js_word!("document") | js_word!("-moz-document") => {
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
@@ -253,7 +265,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "page" => {
+                js_word!("page") => {
                     parser.input.skip_ws();
 
                     let prelude = if !is!(parser, "{") {
@@ -266,29 +278,29 @@ where
 
                     Ok(prelude.map(Box::new))
                 }
-                "top-left-corner"
-                | "top-left"
-                | "top-center"
-                | "top-right"
-                | "top-right-corner"
-                | "bottom-left-corner"
-                | "bottom-left"
-                | "bottom-center"
-                | "bottom-right"
-                | "bottom-right-corner"
-                | "left-top"
-                | "left-middle"
-                | "left-bottom"
-                | "right-top"
-                | "right-middle"
-                | "right-bottom"
+                js_word!("top-left-corner")
+                | js_word!("top-left")
+                | js_word!("top-center")
+                | js_word!("top-right")
+                | js_word!("top-right-corner")
+                | js_word!("bottom-left-corner")
+                | js_word!("bottom-left")
+                | js_word!("bottom-center")
+                | js_word!("bottom-right")
+                | js_word!("bottom-right-corner")
+                | js_word!("left-top")
+                | js_word!("left-middle")
+                | js_word!("left-bottom")
+                | js_word!("right-top")
+                | js_word!("right-middle")
+                | js_word!("right-bottom")
                     if parser.ctx.in_page_at_rule =>
                 {
                     parser.input.skip_ws();
 
                     Ok(None)
                 }
-                "property" => {
+                js_word!("property") => {
                     parser.input.skip_ws();
 
                     let prelude = AtRulePrelude::PropertyPrelude(parser.parse()?);
@@ -303,7 +315,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "namespace" => {
+                js_word!("namespace") => {
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
@@ -348,7 +360,7 @@ where
 
                     Ok(Some(Box::new(prelude)))
                 }
-                "color-profile" => {
+                js_word!("color-profile") => {
                     parser.input.skip_ws();
 
                     let name = match cur!(parser) {
@@ -378,7 +390,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "nest" => {
+                js_word!("nest") => {
                     parser.input.skip_ws();
 
                     let prelude = Box::new(AtRulePrelude::NestPrelude(parser.parse()?));
@@ -393,7 +405,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "media" => {
+                js_word!("media") => {
                     parser.input.skip_ws();
 
                     let media = if !is!(parser, "{") {
@@ -408,7 +420,7 @@ where
 
                     Ok(media)
                 }
-                "supports" => {
+                js_word!("supports") => {
                     parser.input.skip_ws();
 
                     let prelude = Box::new(AtRulePrelude::SupportsPrelude(parser.parse()?));
@@ -417,7 +429,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "import" => {
+                js_word!("import") => {
                     parser.input.skip_ws();
 
                     let span = parser.input.cur_span();
@@ -541,8 +553,11 @@ where
 
                     Ok(Some(prelude))
                 }
-                "keyframes" | "-webkit-keyframes" | "-moz-keyframes" | "-o-keyframes"
-                | "-ms-keyframes" => {
+                js_word!("keyframes")
+                | js_word!("-webkit-keyframes")
+                | js_word!("-moz-keyframes")
+                | js_word!("-o-keyframes")
+                | js_word!("-ms-keyframes") => {
                     parser.input.skip_ws();
 
                     let prelude = Box::new(AtRulePrelude::KeyframesPrelude(parser.parse()?));
@@ -557,7 +572,7 @@ where
 
                     Ok(Some(prelude))
                 }
-                "custom-media" => {
+                js_word!("custom-media") => {
                     parser.input.skip_ws();
 
                     let prelude = Box::new(AtRulePrelude::CustomMediaPrelude(parser.parse()?));
@@ -575,69 +590,71 @@ where
         };
         let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
             let ctx = match lowercased_name {
-                "viewport"
-                | "-o-viewport"
-                | "-ms-viewport"
-                | "font-face"
-                | "font-palette-values"
-                | "stylistic"
-                | "historical-forms"
-                | "styleset"
-                | "character-variant"
-                | "swash"
-                | "ornaments"
-                | "annotation"
-                | "property"
-                | "color-profile"
-                | "counter-style"
-                | "top-left-corner"
-                | "top-left"
-                | "top-center"
-                | "top-right"
-                | "top-right-corner"
-                | "bottom-left-corner"
-                | "bottom-left"
-                | "bottom-center"
-                | "bottom-right"
-                | "bottom-right-corner"
-                | "left-top"
-                | "left-middle"
-                | "left-bottom"
-                | "right-top"
-                | "right-middle"
-                | "right-bottom" => Ctx {
+                js_word!("viewport")
+                | js_word!("-o-viewport")
+                | js_word!("-ms-viewport")
+                | js_word!("font-face")
+                | js_word!("font-palette-values")
+                | js_word!("stylistic")
+                | js_word!("historical-forms")
+                | js_word!("styleset")
+                | js_word!("character-variant")
+                | js_word!("swash")
+                | js_word!("ornaments")
+                | js_word!("annotation")
+                | js_word!("property")
+                | js_word!("color-profile")
+                | js_word!("counter-style")
+                | js_word!("top-left-corner")
+                | js_word!("top-left")
+                | js_word!("top-center")
+                | js_word!("top-right")
+                | js_word!("top-right-corner")
+                | js_word!("bottom-left-corner")
+                | js_word!("bottom-left")
+                | js_word!("bottom-center")
+                | js_word!("bottom-right")
+                | js_word!("bottom-right-corner")
+                | js_word!("left-top")
+                | js_word!("left-middle")
+                | js_word!("left-bottom")
+                | js_word!("right-top")
+                | js_word!("right-middle")
+                | js_word!("right-bottom") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "font-feature-values" => Ctx {
+                js_word!("font-feature-values") => Ctx {
                     in_font_feature_values_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "page" => Ctx {
+                js_word!("page") => Ctx {
                     in_page_at_rule: true,
                     block_contents_grammar: BlockContentsGrammar::DeclarationList,
                     ..parser.ctx
                 },
-                "layer" => Ctx {
+                js_word!("layer") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::Stylesheet,
                     ..parser.ctx
                 },
-                "media" | "supports" | "container" | "document" | "-moz-document" => {
-                    match parser.ctx.block_contents_grammar {
-                        BlockContentsGrammar::StyleBlock => Ctx {
-                            in_container_at_rule: lowercased_name == "container",
-                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                            ..parser.ctx
-                        },
-                        _ => Ctx {
-                            in_container_at_rule: lowercased_name == "container",
-                            block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                            ..parser.ctx
-                        },
-                    }
-                }
-                "nest" => Ctx {
+                js_word!("media")
+                | js_word!("supports")
+                | js_word!("container")
+                | js_word!("document")
+                | js_word!("-moz-document") => match parser.ctx.block_contents_grammar {
+                    BlockContentsGrammar::StyleBlock => Ctx {
+                        in_container_at_rule: lowercased_name == js_word!("container"),
+                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                        ..parser.ctx
+                    },
+                    _ => Ctx {
+                        in_container_at_rule: lowercased_name == js_word!("container"),
+                        block_contents_grammar: BlockContentsGrammar::Stylesheet,
+                        ..parser.ctx
+                    },
+                },
+                js_word!("nest") => Ctx {
                     block_contents_grammar: BlockContentsGrammar::StyleBlock,
                     ..parser.ctx
                 },
@@ -647,8 +664,11 @@ where
                 },
             };
             let block = match lowercased_name {
-                "keyframes" | "-moz-keyframes" | "-o-keyframes" | "-webkit-keyframes"
-                | "-ms-keyframes"
+                js_word!("keyframes")
+                | js_word!("-moz-keyframes")
+                | js_word!("-o-keyframes")
+                | js_word!("-webkit-keyframes")
+                | js_word!("-ms-keyframes")
                     if is!(parser, "{") =>
                 {
                     let span_block = parser.input.cur_span();
