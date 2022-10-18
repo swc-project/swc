@@ -82,6 +82,10 @@ impl Visit for AssertValid {
     fn visit_seq_expr(&mut self, v: &SeqExpr) {
         v.visit_children_with(self);
 
-        assert!(v.exprs.len() >= 2);
+        assert!(
+            v.exprs.len() >= 2,
+            "SeqExpr(len = {}) is invalid",
+            v.exprs.len()
+        );
     }
 }
