@@ -1442,7 +1442,7 @@ where
         }
 
         match a {
-            Mergable::Var(..) => {}
+            Mergable::Var(..) | Mergable::FnDecl(..) => {}
             Mergable::Expr(a) => {
                 if let Expr::Seq(a) = a {
                     for a in a.exprs.iter_mut().rev() {
