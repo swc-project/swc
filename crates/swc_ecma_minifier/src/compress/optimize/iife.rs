@@ -982,6 +982,9 @@ where
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
 
+                    if e.exprs.len() == 1 {
+                        return Some(*e.exprs.pop().unwrap());
+                    }
                     return Some(Expr::Seq(e));
                 }
                 _ => {}
@@ -1003,6 +1006,10 @@ where
             exprs,
         };
         self.merge_sequences_in_seq_expr(&mut e);
+
+        if e.exprs.len() == 1 {
+            return Some(*e.exprs.pop().unwrap());
+        }
 
         Some(Expr::Seq(e))
     }
