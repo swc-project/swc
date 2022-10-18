@@ -2738,7 +2738,11 @@ where
 
         var.init.visit_mut_with(self);
 
+        debug_assert_valid(&var.init);
+
         self.remove_duplicate_name_of_function(var);
+
+        debug_assert_valid(&var.init);
 
         if let VarDeclarator {
             name: Pat::Ident(id),
@@ -2758,6 +2762,8 @@ where
         };
 
         self.store_var_for_prop_hoisting(var);
+
+        debug_assert_valid(&var.init);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
