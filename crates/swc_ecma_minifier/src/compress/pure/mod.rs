@@ -326,6 +326,10 @@ impl VisitMut for Pure<'_> {
             return;
         }
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         if self.options.unused {
             if let Expr::Unary(UnaryExpr {
                 span,
@@ -352,7 +356,15 @@ impl VisitMut for Pure<'_> {
 
         self.eval_nested_tpl(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_tpl_as_str(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_str_addition(e);
 
@@ -375,57 +387,163 @@ impl VisitMut for Pure<'_> {
 
         self.compress_array_join(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.unsafe_optimize_fn_as_arrow(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_opt_chain(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_number_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_arguments_member_access(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_number_method_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.swap_bin_operands(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_bools(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.drop_logical_operands(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.lift_minus(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
         self.convert_tpl_to_str(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.drop_useless_addition_of_str(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_useless_deletes(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.remove_useless_logical_rhs(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.handle_negated_seq(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.concat_str(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_array_method_call(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
         self.eval_fn_method_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_str_method_call(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_conds_as_logical(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.compress_cond_with_logical_as_logical(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.lift_seqs_of_bin(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.lift_seqs_of_cond_assign(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_nullish_coalescing(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.compress_negated_bin_eq(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_useless_cond_expr(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_builtin_object(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
