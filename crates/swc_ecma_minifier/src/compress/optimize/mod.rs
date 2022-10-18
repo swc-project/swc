@@ -2582,33 +2582,32 @@ where
         }
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
-
-        #[cfg(debug_assertions)]
-        {
-            s.visit_with(&mut AssertValid);
-        }
-
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         self.compress_if_without_alt(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         self.compress_if_stmt_as_cond(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         self.compress_if_stmt_as_expr(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         self.optimize_const_switches(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         self.optimize_switches(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
 
         #[cfg(feature = "debug")]
         if self.debug_infinite_loop {
@@ -2620,13 +2619,7 @@ where
         }
 
         debug_assert_eq!(self.prepend_stmts.len(), len);
-
-        #[cfg(debug_assertions)]
-        {
-            s.visit_with(&mut AssertValid);
-        }
-
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
