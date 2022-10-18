@@ -2714,6 +2714,8 @@ where
             n.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        debug_assert_valid(n);
+
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
                 if let Some(e) = &var.init {
@@ -2879,6 +2881,7 @@ where
                         if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
                             if usage.declared_as_catch_param {
                                 var.init = None;
+                                debug_assert_valid(var);
                                 return true;
                             }
                         }
@@ -2886,6 +2889,8 @@ where
 
                     return false;
                 }
+
+                debug_assert_valid(var);
 
                 true
             });
