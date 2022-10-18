@@ -11,7 +11,7 @@ where
     N: VisitWith<AssertValid>,
 {
     #[cfg(debug_assertions)]
-    node.visit_with(&mut AssertValid { _priv: () });
+    node.visit_with(&mut AssertValid);
 }
 
 #[cfg(debug_assertions)]
@@ -26,9 +26,7 @@ impl Drop for Ctx<'_> {
     }
 }
 
-pub struct AssertValid {
-    _priv: (),
-}
+pub struct AssertValid;
 
 impl Visit for AssertValid {
     noop_visit_type!();
