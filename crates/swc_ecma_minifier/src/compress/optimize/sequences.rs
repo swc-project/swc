@@ -591,6 +591,26 @@ where
                 vec![Mergable::Expr(&mut s.arg)]
             }
 
+            Stmt::Decl(Decl::Fn(f)) => {
+                // Check for side effects
+
+                if !f.function.decorators.is_empty() {
+                    return None;
+                }
+                for p in &f.function.params {
+                    if !p.decorators.is_empty() {
+                        return None;
+                    }
+
+                    if !self.is_pat_skippable_for_seq(None, &p.pat) {
+                        return None;
+                    }
+                }
+
+                // Side-effect free function can be skipped.
+                vec![]
+            }
+
             _ => return None,
         })
     }
@@ -771,169 +791,232 @@ where
             )
         };
 
-        for idx in 0..exprs.len() {
-            for j in idx..exprs.len() {
-                let (a1, a2) = exprs.split_at_mut(idx);
+        loop {
+            let mut did_work = false;
 
-                if a1.is_empty() || a2.is_empty() {
-                    break;
-                }
+            for idx in 0..exprs.len() {
+                for j in idx..exprs.len() {
+                    let (a1, a2) = exprs.split_at_mut(idx);
 
-                let a = a1.last_mut().unwrap();
+                    if a1.is_empty() || a2.is_empty() {
+                        break;
+                    }
 
-                if self.options.unused && self.options.sequences() {
-                    if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx]) {
-                        // We try dropping variable assignments first.
+                    let a = a1.last_mut().unwrap();
 
-                        // Currently, we only drop variable declarations if they have the same name.
-                        if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
-                            if an.to_id() == bn.to_id() {
-                                // We need to preserve side effect of `av.init`
+                    if self.options.unused && self.options.sequences() {
+                        if let (Mergable::Var(av), Mergable::Var(bv)) = (&mut *a, &mut a2[j - idx])
+                        {
+                            // We try dropping variable assignments first.
 
-                                match bv.init.as_deref_mut() {
-                                    Some(b_init) => {
-                                        if IdentUsageFinder::find(&an.to_id(), b_init) {
-                                            log_abort!(
-                                                "We can't duplicated binding because initializer \
-                                                 uses the previous declaration of the variable"
-                                            );
-                                            break;
+                            // Currently, we only drop variable declarations if they have the same
+                            // name.
+                            if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
+                                if an.to_id() == bn.to_id() {
+                                    // We need to preserve side effect of `av.init`
+
+                                    match bv.init.as_deref_mut() {
+                                        Some(b_init) => {
+                                            if IdentUsageFinder::find(&an.to_id(), b_init) {
+                                                log_abort!(
+                                                    "We can't duplicated binding because \
+                                                     initializer uses the previous declaration of \
+                                                     the variable"
+                                                );
+                                                break;
+                                            }
+
+                                            if let Some(a_init) = av.init.take() {
+                                                let b_seq = b_init.force_seq();
+                                                b_seq.exprs.insert(0, a_init);
+
+                                                self.changed = true;
+                                                report_change!(
+                                                    "Moving initializer sequentially as they have \
+                                                     a same name"
+                                                );
+                                                av.name.take();
+                                                continue;
+                                            } else {
+                                                self.changed = true;
+                                                report_change!(
+                                                    "Dropping the previous var declaration of {} \
+                                                     which does not have an initializer",
+                                                    an.id
+                                                );
+                                                av.name.take();
+                                                continue;
+                                            }
                                         }
+                                        None => {
+                                            // As variable name is same, we can move initializer
 
-                                        if let Some(a_init) = av.init.take() {
-                                            let b_seq = b_init.force_seq();
-                                            b_seq.exprs.insert(0, a_init);
-
+                                            // Th code below
+                                            //
+                                            //      var a = 5;
+                                            //      var a;
+                                            //
+                                            //      console.log(a)
+                                            //
+                                            // prints 5
+                                            bv.init = av.init.take();
                                             self.changed = true;
                                             report_change!(
-                                                "Moving initializer sequentially as they have a \
-                                                 same name"
+                                                "Moving initializer to the next variable \
+                                                 declaration as they have the same name"
                                             );
                                             av.name.take();
                                             continue;
-                                        } else {
-                                            self.changed = true;
-                                            report_change!(
-                                                "Dropping the previous var declaration of {} \
-                                                 which does not have an initializer",
-                                                an.id
-                                            );
-                                            av.name.take();
-                                            continue;
                                         }
-                                    }
-                                    None => {
-                                        // As variable name is same, we can move initializer
-
-                                        // Th code below
-                                        //
-                                        //      var a = 5;
-                                        //      var a;
-                                        //
-                                        //      console.log(a)
-                                        //
-                                        // prints 5
-                                        bv.init = av.init.take();
-                                        self.changed = true;
-                                        report_change!(
-                                            "Moving initializer to the next variable declaration \
-                                             as they have the same name"
-                                        );
-                                        av.name.take();
-                                        continue;
                                     }
                                 }
                             }
                         }
                     }
-                }
 
-                // Merge sequentially
+                    // Merge sequentially
 
-                if self.merge_sequential_expr(
-                    a,
-                    match &mut a2[j - idx] {
-                        Mergable::Var(b) => match b.init.as_deref_mut() {
-                            Some(v) => v,
-                            None => continue,
+                    if self.merge_sequential_expr(
+                        a,
+                        match &mut a2[j - idx] {
+                            Mergable::Var(b) => match b.init.as_deref_mut() {
+                                Some(v) => v,
+                                None => continue,
+                            },
+                            Mergable::Expr(e) => e,
                         },
-                        Mergable::Expr(e) => e,
-                    },
-                )? {
-                    break;
-                }
-
-                // This logic is required to handle
-                //
-                // var b;
-                // (function () {
-                //     function f() {
-                //         a++;
-                //     }
-                //     f();
-                //     var c = f();
-                //     var a = void 0;
-                //     c || (b = a);
-                // })();
-                // console.log(b);
-                //
-                //
-                // at the code above, c cannot be shifted to `c` in `c || (b = a)`
-                //
-
-                match a {
-                    Mergable::Var(VarDeclarator {
-                        init: Some(init), ..
-                    }) => {
-                        if !self.is_skippable_for_seq(None, init) {
-                            break;
-                        }
+                    )? {
+                        did_work = true;
+                        break;
                     }
-                    Mergable::Expr(Expr::Assign(a)) => {
-                        if let Some(a) = a.left.as_expr() {
-                            if !self.is_skippable_for_seq(None, a) {
+
+                    // This logic is required to handle
+                    //
+                    // var b;
+                    // (function () {
+                    //     function f() {
+                    //         a++;
+                    //     }
+                    //     f();
+                    //     var c = f();
+                    //     var a = void 0;
+                    //     c || (b = a);
+                    // })();
+                    // console.log(b);
+                    //
+                    //
+                    // at the code above, c cannot be shifted to `c` in `c || (b = a)`
+                    //
+
+                    match a {
+                        Mergable::Var(VarDeclarator {
+                            init: Some(init), ..
+                        }) => {
+                            if !self.is_skippable_for_seq(None, init) {
                                 break;
                             }
                         }
+                        Mergable::Expr(Expr::Assign(a)) => {
+                            if let Some(a) = a.left.as_expr() {
+                                if !self.is_skippable_for_seq(None, a) {
+                                    break;
+                                }
+                            }
 
-                        if !self.is_skippable_for_seq(None, &a.right) {
-                            break;
+                            if !self.is_skippable_for_seq(None, &a.right) {
+                                break;
+                            }
                         }
+                        _ => {}
                     }
-                    _ => {}
-                }
 
-                match &a2[j - idx] {
-                    Mergable::Var(e2) => {
-                        if let Some(e2) = &e2.init {
+                    match &a2[j - idx] {
+                        Mergable::Var(e2) => {
+                            if let Some(e2) = &e2.init {
+                                if !self.is_skippable_for_seq(Some(a), e2) {
+                                    break;
+                                }
+                            }
+
+                            if let Some(id) = a1.last_mut().unwrap().id() {
+                                if IdentUsageFinder::find(&id, &**e2) {
+                                    break;
+                                }
+                            }
+                        }
+                        Mergable::Expr(e2) => {
                             if !self.is_skippable_for_seq(Some(a), e2) {
                                 break;
                             }
-                        }
 
-                        if let Some(id) = a1.last_mut().unwrap().id() {
-                            if IdentUsageFinder::find(&id, &**e2) {
-                                break;
-                            }
-                        }
-                    }
-                    Mergable::Expr(e2) => {
-                        if !self.is_skippable_for_seq(Some(a), e2) {
-                            break;
-                        }
-
-                        if let Some(id) = a1.last_mut().unwrap().id() {
-                            // TODO(kdy1): Optimize
-                            if IdentUsageFinder::find(&id, &**e2) {
-                                break;
+                            if let Some(id) = a1.last_mut().unwrap().id() {
+                                // TODO(kdy1): Optimize
+                                if IdentUsageFinder::find(&id, &**e2) {
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
+
+            if !did_work {
+                break;
+            }
         }
 
         Ok(())
+    }
+
+    fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
+        match p {
+            Pat::Ident(_) => true,
+            Pat::Invalid(_) => false,
+
+            Pat::Array(p) => {
+                for elem in p.elems.iter().flatten() {
+                    if !self.is_pat_skippable_for_seq(a, elem) {
+                        return false;
+                    }
+                }
+
+                true
+            }
+            Pat::Rest(p) => {
+                if !self.is_pat_skippable_for_seq(a, &p.arg) {
+                    return false;
+                }
+
+                true
+            }
+            Pat::Object(p) => {
+                for prop in &p.props {
+                    match prop {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { value, key, .. }) => {
+                            if let PropName::Computed(key) = key {
+                                if !self.is_skippable_for_seq(a, &key.expr) {
+                                    return false;
+                                }
+                            }
+
+                            if !self.is_pat_skippable_for_seq(a, value) {
+                                return false;
+                            }
+                        }
+                        ObjectPatProp::Assign(AssignPatProp { .. }) => return false,
+                        ObjectPatProp::Rest(RestPat { arg, .. }) => {
+                            if !self.is_pat_skippable_for_seq(a, arg) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+
+                true
+            }
+            Pat::Assign(..) => false,
+            Pat::Expr(e) => self.is_skippable_for_seq(a, e),
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

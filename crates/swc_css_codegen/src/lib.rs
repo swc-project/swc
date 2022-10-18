@@ -2486,7 +2486,17 @@ where
                         formatting_space!(self);
                     }
                     _ => {
-                        space!(self)
+                        let next = nodes.get(idx + 1);
+
+                        match next {
+                            Some(PseudoClassSelectorChildren::Delimiter(Delimiter {
+                                value: DelimiterValue::Comma,
+                                ..
+                            })) => {}
+                            _ => {
+                                space!(self)
+                            }
+                        }
                     }
                 }
             }

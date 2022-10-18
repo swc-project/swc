@@ -1,6 +1,15 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(css/codegen)** Fix codegen of pseudo class selectors (#6186) ([4fba0db](https://github.com/swc-project/swc/commit/4fba0db3d9a4ffc6c13e134b3c75441737ff83d5))
+
+
+- **(html/minifier)** Avoid `;` at the end of js (#6188) ([5571c0c](https://github.com/swc-project/swc/commit/5571c0c2029577929ec547948319497144c34c28))
+
 ### Features
 
 
@@ -10,11 +19,26 @@
 
 - **(css/minifier)** Handle nested `calc()` (#6153) ([d4a733d](https://github.com/swc-project/swc/commit/d4a733d76461995b7549f5470e53df913a30ef0f))
 
+
+- **(es/minifier)** Make sequential inliner self-repeat (#6168) ([3f0fcf4](https://github.com/swc-project/swc/commit/3f0fcf4fa9dbc654f56f60863ca7058522202ade))
+
+
+- **(es/minifier)** Skip function declarations in sequential inliner (#6147) ([f2e8f98](https://github.com/swc-project/swc/commit/f2e8f98d381cff75229e29564ce5a7458175fea9))
+
+### Refactor
+
+
+
+- **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))
+
 ### Testing
 
 
 
 - **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
+
+
+- **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
 
 ## [1.3.9] - 2022-10-17
 
