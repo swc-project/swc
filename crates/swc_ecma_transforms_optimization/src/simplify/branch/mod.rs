@@ -108,6 +108,8 @@ impl VisitMut for Remover {
             Expr::Seq(s) => {
                 if s.exprs.is_empty() {
                     *e = Expr::dummy();
+                } else if s.exprs.len() == 1 {
+                    *e = *s.exprs.pop().unwrap();
                 }
             }
 
