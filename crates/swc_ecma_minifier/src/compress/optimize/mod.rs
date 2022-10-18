@@ -2458,6 +2458,14 @@ where
 
         self.remove_duplicate_var_decls(s);
 
+        match s {
+            Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
+                s.take();
+                return;
+            }
+            _ => {}
+        }
+
         debug_assert_valid(s);
 
         // visit_mut_children_with above may produce easily optimizable block
