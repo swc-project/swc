@@ -549,6 +549,10 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
+        if s.expr.is_seq() {
+            debug_assert_valid(&s.expr);
+        }
+
         self.ignore_return_value(
             &mut s.expr,
             DropOpts {
@@ -557,6 +561,10 @@ impl VisitMut for Pure<'_> {
                 drop_str_lit: false,
             },
         );
+
+        if s.expr.is_seq() {
+            debug_assert_valid(&s.expr);
+        }
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
