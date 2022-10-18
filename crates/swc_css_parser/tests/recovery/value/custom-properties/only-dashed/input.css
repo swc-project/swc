@@ -1,3 +1,7 @@
 :root {
     --:value;
 }
+
+.a {
+    counter-reset: -- --a -a;
+}

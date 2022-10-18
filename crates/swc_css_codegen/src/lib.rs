@@ -1140,7 +1140,7 @@ where
                         })) => false,
                         _ => !self.config.minify,
                     },
-                    ComponentValue::Ident(_) => match next {
+                    ComponentValue::Ident(_) | ComponentValue::DashedIdent(_) => match next {
                         Some(ComponentValue::SimpleBlock(SimpleBlock { name, .. })) => {
                             if name.token == Token::LParen {
                                 true
@@ -1509,12 +1509,16 @@ where
     #[emitter]
     fn emit_dashed_ident(&mut self, n: &DashedIdent) -> Result {
         if self.config.minify {
+            write_raw!(self, lo_span_offset!(n.span, 2), "--");
+
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), true);
 
             write_raw!(self, n.span, &serialized);
         } else if let Some(raw) = &n.raw {
             write_raw!(self, n.span, raw);
         } else {
+            write_raw!(self, lo_span_offset!(n.span, 2), "--");
+
             let serialized = serialize_ident(&n.value, n.raw.as_deref(), false);
 
             write_raw!(self, n.span, &serialized);
