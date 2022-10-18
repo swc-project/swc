@@ -37,11 +37,22 @@ table.colortable {
     & { padding: 2ch; }
 }
 
-/* TODO fix me */
-/*.foo {*/
-/*    color: blue;*/
-/*    && { padding: 2ch; }*/
-/*}*/
+.foo {
+    color: blue;
+    && { padding: 2ch; }
+}
+
+.foo {
+    color: blue;
+    &&&& { padding: 2ch; }
+    &&&& > p {
+          font-size: .9rem;
+    }
+
+    & > figcaption {
+        &&&& { padding: 2ch; }
+    }
+}
 
 .error, #test {
     &:hover > .baz { color: red; }
