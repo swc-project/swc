@@ -1741,23 +1741,63 @@ where
             _ => {}
         }
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.remove_invalid(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.optimize_str_access_to_arguments(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.replace_props(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.drop_unused_assignments(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_lits(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.compress_typeofs(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_logical_exprs_as_bang_bang(e, false);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.inline(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.handle_property_access(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         if let Expr::Bin(bin) = e {
             let expr = self.optimize_lit_cmp(bin);
@@ -1768,19 +1808,47 @@ where
             }
         }
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_cond_expr_if_similar(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         if self.options.negate_iife {
             self.negate_iife_in_cond(e);
+
+            if e.is_seq() {
+                debug_assert_valid(e);
+            }
         }
 
         self.collapse_assignment_to_vars(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.evaluate(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.invoke_iife(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_bangbang(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         match e {
             Expr::Seq(s) if s.exprs.is_empty() => {
