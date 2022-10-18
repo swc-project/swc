@@ -4,7 +4,6 @@ use rustc_hash::FxHashMap;
 use swc_atoms::js_word;
 use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
 };
@@ -983,8 +982,6 @@ where
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
 
-                    debug_assert_valid(&e.exprs);
-
                     let mut e = Expr::Seq(e);
                     self.normalize_expr(&mut e);
                     return Some(e);
@@ -1008,8 +1005,6 @@ where
             exprs,
         };
         self.merge_sequences_in_seq_expr(&mut e);
-
-        debug_assert_valid(&e.exprs);
 
         let mut e = Expr::Seq(e);
         self.normalize_expr(&mut e);
