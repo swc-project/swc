@@ -594,21 +594,7 @@ where
             Stmt::Decl(Decl::Fn(f)) => {
                 // Check for side effects
 
-                if !f.function.decorators.is_empty() {
-                    return None;
-                }
-                for p in &f.function.params {
-                    if !p.decorators.is_empty() {
-                        return None;
-                    }
-
-                    if !self.is_pat_skippable_for_seq(None, &p.pat) {
-                        return None;
-                    }
-                }
-
-                // Side-effect free function can be skipped.
-                vec![]
+                vec![Mergable::FnDecl(f)]
             }
 
             _ => return None,
