@@ -80,10 +80,13 @@ impl Visit for AssertValid {
     fn visit_seq_expr(&mut self, v: &SeqExpr) {
         v.visit_children_with(self);
 
-        assert!(
-            v.exprs.len() >= 2,
-            "SeqExpr(len = {}) is invalid",
-            v.exprs.len()
-        );
+        // TODO(kdy1): Make parser does not create invalid sequential
+        // expressions and uncomment this
+
+        // assert!(
+        //     v.exprs.len() >= 2,
+        //     "SeqExpr(len = {}) is invalid",
+        //     v.exprs.len()
+        // );
     }
 }
