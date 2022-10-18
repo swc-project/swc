@@ -1053,11 +1053,11 @@
         }), $.event.special.scrollstart = {
             enabled: !0,
             setup: function() {
-                var scrolling, timer, thisObject = this, $this = $(thisObject);
+                var scrolling, timer, thisObject = this;
                 function trigger(event1, state) {
                     triggerCustomEvent(thisObject, (scrolling = state) ? "scrollstart" : "scrollstop", event1);
                 }
-                $this.bind(scrollEvent, function(event1) {
+                $(thisObject).bind(scrollEvent, function(event1) {
                     $.event.special.scrollstart.enabled && (scrolling || trigger(event1, !0), clearTimeout(timer), timer = setTimeout(function() {
                         trigger(event1, !1);
                     }, 50));

@@ -89,4 +89,4 @@ function unix() {
 function toDate() {
     return new Date(this.valueOf());
 }
-console.log(MS_PER_400_YEARS);
+console.log(3506328 * (60 * (60 * 1000)));
