@@ -2043,6 +2043,8 @@ where
     fn visit_mut_for_stmt(&mut self, s: &mut ForStmt) {
         self.visit_with_prepend(&mut s.init);
 
+        debug_assert_valid(&s.init);
+
         s.test.visit_mut_with(self);
         s.update.visit_mut_with(self);
 
