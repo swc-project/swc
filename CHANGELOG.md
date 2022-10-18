@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(html/minifier)** Avoid `;` at the end of js (#6188) ([5571c0c](https://github.com/swc-project/swc/commit/5571c0c2029577929ec547948319497144c34c28))
+
 ### Features
 
 
