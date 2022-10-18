@@ -806,6 +806,10 @@ impl VisitMut for TreeShaker {
                 *n = *a.right.take();
             }
         }
+
+        if !n.is_invalid() {
+            debug_assert_valid(n);
+        }
     }
 
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
