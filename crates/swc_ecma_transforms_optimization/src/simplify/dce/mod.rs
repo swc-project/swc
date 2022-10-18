@@ -953,18 +953,10 @@ impl VisitMut for TreeShaker {
                 if exprs.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
-                } else if exprs.len() == 1 {
-                    *s = Stmt::Expr(ExprStmt {
-                        span,
-                        expr: exprs.into_iter().next().unwrap(),
-                    });
                 } else {
                     *s = Stmt::Expr(ExprStmt {
                         span,
-                        expr: Box::new(Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })),
+                        expr: Expr::from_exprs(exprs),
                     });
                 }
             }
