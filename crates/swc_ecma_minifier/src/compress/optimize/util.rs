@@ -19,9 +19,29 @@ where
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
-                self.normalize_sequences(seq);
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.take().into_iter().next().unwrap();
+                    self.normalize_expr(e);
+                    return;
+                }
+
+                if seq.exprs.iter().any(|v| v.is_seq()) {
+                    let mut new = vec![];
+
+                    for e in seq.exprs.take() {
+                        match *e {
+                            Expr::Seq(s) => {
+                                new.extend(s.exprs);
+                            }
+                            _ => new.push(e),
+                        }
+                    }
+
+                    seq.exprs = new;
+                }
+
+                for e in &mut seq.exprs {
+                    self.normalize_expr(e);
                 }
             }
 
