@@ -2069,7 +2069,7 @@ where
                             }
                         }
 
-                        (left_id.clone(), right)
+                        (left_id.clone(), Some(right))
                     }
                     _ => return Ok(false),
                 }
@@ -2102,35 +2102,57 @@ where
                     }
 
                     match &mut a.init {
-                        Some(v) => (left, v),
+                        Some(v) => (left, Some(v)),
                         None => {
                             if usage.declared_count > 1 {
                                 return Ok(false);
                             }
 
                             right_val = undefined(DUMMY_SP);
-                            (left, &mut right_val)
+                            (left, Some(&mut right_val))
                         }
                     }
                 } else {
                     return Ok(false);
                 }
             }
+
+            Mergable::FnDecl(a) => {
+                if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
+                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                        return Ok(false);
+                    }
+
+                    if usage.inline_prevented {
+                        return Ok(false);
+                    }
+
+                    if contains_arguments(&a.function) {
+                        return Ok(false);
+                    }
+
+                    (a.ident.clone(), None)
+                } else {
+                    return Ok(false);
+                }
+            }
         };
 
-        if a_right.is_this()
-            || matches!(
-                &**a_right,
-                Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                })
-            )
-        {
-            return Ok(false);
-        }
-        if contains_arguments(&**a_right) {
-            return Ok(false);
+        if let Some(a_right) = a_right {
+            if a_right.is_this()
+                || matches!(
+                    &**a_right,
+                    Expr::Ident(Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    })
+                )
+            {
+                return Ok(false);
+            }
+            if contains_arguments(&**a_right) {
+                return Ok(false);
+            }
         }
 
         macro_rules! take_a {
