@@ -1,5 +1,8 @@
 export default function _classApplyDescriptorUpdate(receiver, descriptor) {
     if (descriptor.set) {
+        if (!descriptor.get) {
+            throw new TypeError("attempted to read set only private field");
+        }
         if (!("__destrWrapper" in descriptor)) {
             descriptor.__destrWrapper = {
                 set value(v) {

@@ -70,6 +70,15 @@ pub(super) struct PrivateKind {
 }
 
 impl PrivateKind {
+    fn is_readonly(&self) -> bool {
+        self.is_method && !self.has_setter
+    }
+
+    fn is_writeonly(&self) -> bool {
+        // a private method can still be read
+        self.is_method && !self.has_getter && self.has_setter
+    }
+
     fn is_method(&self) -> bool {
         self.is_method && !self.has_getter && !self.has_setter
     }
@@ -274,9 +283,9 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let var = alias_ident_for(&obj, "_ref");
 
                 let this = if matches!(*obj, Expr::This(..)) {
-                    ThisExpr { span: DUMMY_SP }.as_arg()
+                    Box::new(ThisExpr { span: DUMMY_SP }.into())
                 } else if *op == op!("=") {
-                    obj.as_arg()
+                    obj
                 } else {
                     self.vars.push(VarDeclarator {
                         span: DUMMY_SP,
@@ -284,27 +293,31 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         init: None,
                         definite: false,
                     });
-                    AssignExpr {
-                        span: obj.span(),
-                        left: PatOrExpr::Pat(var.clone().into()),
-                        op: op!("="),
-                        right: obj,
-                    }
-                    .as_arg()
+                    Box::new(
+                        AssignExpr {
+                            span: obj.span(),
+                            left: PatOrExpr::Pat(var.clone().into()),
+                            op: op!("="),
+                            right: obj,
+                        }
+                        .into(),
+                    )
                 };
 
                 let value = if *op == op!("=") {
-                    right.take().as_arg()
+                    right.take()
                 } else {
                     let left = Box::new(self.visit_mut_private_get(&mut left, Some(var)).0);
 
-                    BinExpr {
-                        span: DUMMY_SP,
-                        left,
-                        op: op.to_update().unwrap(),
-                        right: right.take(),
-                    }
-                    .as_arg()
+                    Box::new(
+                        BinExpr {
+                            span: DUMMY_SP,
+                            left,
+                            op: op.to_update().unwrap(),
+                            right: right.take(),
+                        }
+                        .into(),
+                    )
                 };
 
                 if kind.is_static {
@@ -314,9 +327,26 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                             class_static_private_field_spec_set,
                             "classStaticPrivateFieldSpecSet"
                         ),
-                        args: vec![this, class_name.clone().as_arg(), ident.as_arg(), value],
+                        args: vec![
+                            this.as_arg(),
+                            class_name.clone().as_arg(),
+                            ident.as_arg(),
+                            value.as_arg(),
+                        ],
 
                         type_args: Default::default(),
+                    });
+                } else if kind.is_readonly() {
+                    let err = Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(read_only_error, "readOnlyError"),
+                        args: vec![format!("#{}", n.id.sym).as_arg()],
+                        type_args: None,
+                    })
+                    .into();
+                    *e = Expr::Seq(SeqExpr {
+                        span: *span,
+                        exprs: vec![this, value, err],
                     });
                 } else {
                     let set = helper!(class_private_field_set, "classPrivateFieldSet");
@@ -324,7 +354,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     *e = Expr::Call(CallExpr {
                         span: DUMMY_SP,
                         callee: set,
-                        args: vec![this, ident.as_arg(), value],
+                        args: vec![this.as_arg(), ident.as_arg(), value.as_arg()],
 
                         type_args: Default::default(),
                     });
@@ -642,7 +672,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                         "classPrivateFieldDestructureSet"
                     );
 
-                    return (
+                    (
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
@@ -652,12 +682,12 @@ impl<'a> PrivateAccessVisitor<'a> {
                         }
                         .make_member(quote_ident!("value")),
                         Some(*obj),
-                    );
+                    )
                 }
                 PrivateAccessType::Update => {
                     let set = helper!(class_private_field_update, "classPrivateFieldUpdate");
 
-                    return (
+                    (
                         CallExpr {
                             span: DUMMY_SP,
                             callee: set,
@@ -667,87 +697,113 @@ impl<'a> PrivateAccessVisitor<'a> {
                         }
                         .make_member(quote_ident!("value")),
                         Some(*obj),
-                    );
+                    )
                 }
-                _ => {}
-            }
 
-            let get = if self.c.private_as_properties {
-                helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
-            } else if kind.is_method() {
-                helper!(class_private_method_get, "classPrivateMethodGet")
-            } else {
-                helper!(class_private_field_get, "classPrivateFieldGet")
-            };
-
-            match &*obj {
-                Expr::This(this) => (
-                    if kind.is_method() && !self.c.private_as_properties {
+                PrivateAccessType::Get if kind.is_writeonly() => {
+                    let helper = helper!(write_only_error, "writeOnlyError");
+                    let expr = Box::new(
                         CallExpr {
                             span: DUMMY_SP,
-                            callee: get,
-                            args: vec![obj.clone().as_arg(), ident.as_arg(), method_name.as_arg()],
-                            type_args: Default::default(),
-                        }
-                        .into()
-                    } else {
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: get,
-                            args: vec![this.as_arg(), ident.as_arg()],
-
-                            type_args: Default::default(),
-                        }
-                        .into()
-                    },
-                    Some(Expr::This(*this)),
-                ),
-                _ => {
-                    let mut aliased = false;
-                    let var = obj_alias.unwrap_or_else(|| {
-                        let (var, a) = alias_if_required(&obj, "_ref");
-                        if a {
-                            aliased = true;
-                            self.vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: var.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
-                        }
-                        var
-                    });
-
-                    let first_arg = if is_alias_initialized {
-                        var.clone().as_arg()
-                    } else if aliased {
-                        AssignExpr {
-                            span: DUMMY_SP,
-                            left: PatOrExpr::Pat(var.clone().into()),
-                            op: op!("="),
-                            right: obj.take(),
-                        }
-                        .as_arg()
-                    } else {
-                        var.clone().as_arg()
-                    };
-
-                    let args = if kind.is_method() {
-                        vec![first_arg, ident.as_arg(), method_name.as_arg()]
-                    } else {
-                        vec![first_arg, ident.as_arg()]
-                    };
-
-                    (
-                        CallExpr {
-                            span: DUMMY_SP,
-                            callee: get,
-                            args,
-                            type_args: Default::default(),
+                            callee: helper,
+                            args: vec![format!("#{}", n.id.sym).as_arg()],
+                            type_args: None,
                         }
                         .into(),
-                        Some(Expr::Ident(var)),
+                    );
+                    (
+                        SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![obj.clone(), expr],
+                        }
+                        .into(),
+                        Some(*obj),
                     )
+                }
+
+                PrivateAccessType::Get => {
+                    let get = if self.c.private_as_properties {
+                        helper!(class_private_field_loose_base, "classPrivateFieldLooseBase")
+                    } else if kind.is_method() {
+                        helper!(class_private_method_get, "classPrivateMethodGet")
+                    } else {
+                        helper!(class_private_field_get, "classPrivateFieldGet")
+                    };
+
+                    match &*obj {
+                        Expr::This(this) => (
+                            if kind.is_method() && !self.c.private_as_properties {
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: get,
+                                    args: vec![
+                                        obj.clone().as_arg(),
+                                        ident.as_arg(),
+                                        method_name.as_arg(),
+                                    ],
+                                    type_args: Default::default(),
+                                }
+                                .into()
+                            } else {
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: get,
+                                    args: vec![this.as_arg(), ident.as_arg()],
+
+                                    type_args: Default::default(),
+                                }
+                                .into()
+                            },
+                            Some(Expr::This(*this)),
+                        ),
+                        _ => {
+                            let mut aliased = false;
+                            let var = obj_alias.unwrap_or_else(|| {
+                                let (var, a) = alias_if_required(&obj, "_ref");
+                                if a {
+                                    aliased = true;
+                                    self.vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: var.clone().into(),
+                                        init: None,
+                                        definite: false,
+                                    });
+                                }
+                                var
+                            });
+
+                            let first_arg = if is_alias_initialized {
+                                var.clone().as_arg()
+                            } else if aliased {
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    left: PatOrExpr::Pat(var.clone().into()),
+                                    op: op!("="),
+                                    right: obj.take(),
+                                }
+                                .as_arg()
+                            } else {
+                                var.clone().as_arg()
+                            };
+
+                            let args = if kind.is_method() {
+                                vec![first_arg, ident.as_arg(), method_name.as_arg()]
+                            } else {
+                                vec![first_arg, ident.as_arg()]
+                            };
+
+                            (
+                                CallExpr {
+                                    span: DUMMY_SP,
+                                    callee: get,
+                                    args,
+                                    type_args: Default::default(),
+                                }
+                                .into(),
+                                Some(Expr::Ident(var)),
+                            )
+                        }
+                    }
                 }
             }
         }

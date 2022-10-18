@@ -1,8 +1,8 @@
 //// [privateWriteOnlyAccessorRead.ts]
-import _class_private_field_get from "@swc/helpers/src/_class_private_field_get.mjs";
 import _class_private_field_init from "@swc/helpers/src/_class_private_field_init.mjs";
 import _class_private_field_set from "@swc/helpers/src/_class_private_field_set.mjs";
 import _extends from "@swc/helpers/src/_extends.mjs";
+import _write_only_error from "@swc/helpers/src/_write_only_error.mjs";
 import _class_private_field_destructure from "@swc/helpers/src/_class_private_field_destructure.mjs";
 var _value = /*#__PURE__*/ new WeakMap(), _valueRest = /*#__PURE__*/ new WeakMap(), _valueOne = /*#__PURE__*/ new WeakMap(), _valueCompound = /*#__PURE__*/ new WeakMap();
 class Test {
@@ -10,14 +10,14 @@ class Test {
         const foo = {
             bar: 1
         };
-        console.log(_class_private_field_get(this, _value)); // error
+        console.log((this, _write_only_error("#value"))); // error
         _class_private_field_set(this, _value, {
             foo
         }); // ok
         _class_private_field_set(this, _value, {
             foo
         }); // ok
-        _class_private_field_get(this, _value).foo = foo; // error
+        (this, _write_only_error("#value")).foo = foo; // error
         ({ o: _class_private_field_destructure(this, _value).value  } = {
             o: {
                 foo
@@ -27,15 +27,15 @@ class Test {
         _tmp = {
             foo
         }, _class_private_field_destructure(this, _value).value = _extends({}, _tmp), _tmp; //ok
-        ({ foo: _class_private_field_get(this, _value).foo  } = {
+        ({ foo: (this, _write_only_error("#value")).foo  } = {
             foo
         }); //error
         var _tmp1;
         _tmp1 = {
             foo
-        }, _class_private_field_get(this, _value).foo = _extends({}, _tmp1.foo), ({ foo: {}  } = _tmp1), _tmp1; //error
+        }, (this, _write_only_error("#value")).foo = _extends({}, _tmp1.foo), ({ foo: {}  } = _tmp1), _tmp1; //error
         let r = {
-            o: _class_private_field_get(this, _value)
+            o: (this, _write_only_error("#value"))
         }; //error
         [_class_private_field_destructure(this, _valueOne).value, ..._class_private_field_destructure(this, _valueRest).value] = [
             1,
@@ -43,10 +43,10 @@ class Test {
             3
         ];
         let arr = [
-            _class_private_field_get(this, _valueOne),
-            ..._class_private_field_get(this, _valueRest)
+            (this, _write_only_error("#valueOne")),
+            ...(this, _write_only_error("#valueRest"))
         ];
-        _class_private_field_set(this, _valueCompound, _class_private_field_get(this, _valueCompound) + 3);
+        _class_private_field_set(this, _valueCompound, (this, _write_only_error("#valueCompound")) + 3);
     }
     constructor(){
         _class_private_field_init(this, _value, {
