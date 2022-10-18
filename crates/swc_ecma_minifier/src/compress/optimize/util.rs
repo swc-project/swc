@@ -19,6 +19,10 @@ where
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
+                for e in &mut seq.exprs {
+                    self.normalize_expr(e);
+                }
+
                 if seq.exprs.len() == 1 {
                     *e = *seq.exprs.take().into_iter().next().unwrap();
                     self.normalize_expr(e);
@@ -38,10 +42,6 @@ where
                     }
 
                     seq.exprs = new;
-                }
-
-                for e in &mut seq.exprs {
-                    self.normalize_expr(e);
                 }
             }
 
