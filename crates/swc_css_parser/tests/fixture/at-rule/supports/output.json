@@ -6613,7 +6613,7 @@
                 "end": 2454,
                 "ctxt": 0
               },
-              "value": "--foo",
+              "value": "foo",
               "raw": "--foo"
             },
             "value": [
@@ -6777,7 +6777,7 @@
                             "end": 2504,
                             "ctxt": 0
                           },
-                          "value": "--varName",
+                          "value": "varName",
                           "raw": "--varName"
                         }
                       ]

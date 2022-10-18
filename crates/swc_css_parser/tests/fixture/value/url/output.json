@@ -790,7 +790,7 @@
                           "end": 720,
                           "ctxt": 0
                         },
-                        "value": "--color",
+                        "value": "color",
                         "raw": "--color"
                       },
                       {
@@ -818,7 +818,7 @@
                               "end": 740,
                               "ctxt": 0
                             },
-                            "value": "--primary-color",
+                            "value": "primary-color",
                             "raw": "--primary-color"
                           }
                         ]
@@ -996,7 +996,7 @@
                 "end": 829,
                 "ctxt": 0
               },
-              "value": "--foo",
+              "value": "foo",
               "raw": "--foo"
             },
             "value": [
@@ -1179,7 +1179,7 @@
                           "end": 1017,
                           "ctxt": 0
                         },
-                        "value": "--foo",
+                        "value": "foo",
                         "raw": "--foo"
                       }
                     ]

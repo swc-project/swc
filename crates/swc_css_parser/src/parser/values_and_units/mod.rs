@@ -1032,7 +1032,7 @@ where
 
                 let ident = self.try_parse_variable_function(|parser| match cur!(parser) {
                     Token::Ident { value, .. } => {
-                        if value.starts_with("--") {
+                        if value.starts_with("--") && value.len() > 2 {
                             is_custom_params = true;
 
                             Ok(ComponentValue::DashedIdent(parser.parse()?))
@@ -1456,9 +1456,16 @@ where
                     ));
                 }
 
+                if value.len() < 3 {
+                    return Err(Error::new(
+                        span,
+                        ErrorKind::Expected("dashed-ident must be at least 3 characters"),
+                    ));
+                }
+
                 Ok(DashedIdent {
                     span,
-                    value,
+                    value: value[2..].into(),
                     raw: Some(raw),
                 })
             }

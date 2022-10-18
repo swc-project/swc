@@ -95,7 +95,7 @@
                 "end": 25,
                 "ctxt": 0
               },
-              "value": "--main-color",
+              "value": "main-color",
               "raw": "--main-color"
             },
             "value": [
@@ -131,7 +131,7 @@
                 "end": 51,
                 "ctxt": 0
               },
-              "value": "--accent-color",
+              "value": "accent-color",
               "raw": "--accent-color"
             },
             "value": [
@@ -244,7 +244,7 @@
                 "end": 83,
                 "ctxt": 0
               },
-              "value": "--fg-color",
+              "value": "fg-color",
               "raw": "--fg-color"
             },
             "value": [
@@ -431,7 +431,7 @@
                       "end": 131,
                       "ctxt": 0
                     },
-                    "value": "--main-color",
+                    "value": "main-color",
                     "raw": "--main-color"
                   }
                 ]

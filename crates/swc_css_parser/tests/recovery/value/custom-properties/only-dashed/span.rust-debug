@@ -1,0 +1,130 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   :  ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^
+   `----
+
+  x Ident { value: Atom('--' type=inline), raw: Atom('--' type=inline) }
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :   ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :    ^^^^^
+   `----
+
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :    ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :         ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :         ^
+   `----

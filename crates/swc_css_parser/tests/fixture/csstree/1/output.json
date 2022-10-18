@@ -2341,7 +2341,7 @@
                       "end": 824,
                       "ctxt": 0
                     },
-                    "value": "--custom1",
+                    "value": "custom1",
                     "raw": "--custom1"
                   },
                   "value": [
@@ -2460,7 +2460,7 @@
                       "end": 869,
                       "ctxt": 0
                     },
-                    "value": "--custom2",
+                    "value": "custom2",
                     "raw": "--custom2"
                   },
                   "value": [
@@ -2855,7 +2855,7 @@
                             "end": 1029,
                             "ctxt": 0
                           },
-                          "value": "--something",
+                          "value": "something",
                           "raw": "--something"
                         },
                         {
@@ -3636,7 +3636,7 @@
                 "end": 1296,
                 "ctxt": 0
               },
-              "value": "--empty-var",
+              "value": "empty-var",
               "raw": "--empty-var"
             },
             "value": [],
@@ -3656,7 +3656,7 @@
                 "end": 1313,
                 "ctxt": 0
               },
-              "value": "--bad-var",
+              "value": "bad-var",
               "raw": "--bad-var"
             },
             "value": [],
