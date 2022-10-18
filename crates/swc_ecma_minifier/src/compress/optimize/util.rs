@@ -17,11 +17,21 @@ where
     M: Mode,
 {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
-        if let Expr::Seq(seq) = e {
-            self.normalize_sequences(seq);
-            if seq.exprs.len() == 1 {
-                *e = *seq.exprs.take().into_iter().next().unwrap();
+        match e {
+            Expr::Seq(seq) => {
+                self.normalize_sequences(seq);
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.take().into_iter().next().unwrap();
+                }
             }
+
+            Expr::Cond(cond) => {
+                self.normalize_expr(&mut cond.test);
+                self.normalize_expr(&mut cond.cons);
+                self.normalize_expr(&mut cond.alt);
+            }
+
+            _ => {}
         }
     }
 
