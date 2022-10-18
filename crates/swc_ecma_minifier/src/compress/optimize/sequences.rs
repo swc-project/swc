@@ -675,6 +675,10 @@ where
             if let Some(Stmt::Expr(es)) = stmt.as_stmt_mut() {
                 if let Expr::Seq(e) = &mut *es.expr {
                     e.exprs.retain(|e| !e.is_invalid());
+                    if e.exprs.len() == 1 {
+                        es.expr = e.exprs.pop().unwrap();
+                        return true;
+                    }
                 }
             }
 
