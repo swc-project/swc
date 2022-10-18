@@ -822,7 +822,7 @@ impl VisitMut for Pure<'_> {
 
         #[cfg(debug_assertions)]
         {
-            e.visit_with(&mut AssertValid);
+            e.exprs.visit_with(&mut AssertValid);
         }
     }
 
