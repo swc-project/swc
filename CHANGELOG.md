@@ -31,6 +31,9 @@
 
 - **(html/minifier)** Merge identical metadata elements (#6183) ([41093b0](https://github.com/swc-project/swc/commit/41093b022d8d3304f9d235fd5b9dd386fecb8c3c))
 
+
+- **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
+
 ### Refactor
 
 
