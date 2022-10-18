@@ -1041,18 +1041,22 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Seq(e) => {
-                self.drop_useless_ident_ref_in_seq(e);
+            Expr::Seq(seq) => {
+                self.drop_useless_ident_ref_in_seq(seq);
 
-                if let Some(last) = e.exprs.last_mut() {
+                if let Some(last) = seq.exprs.last_mut() {
                     // Non-last elements are already processed.
                     self.ignore_return_value(last, opts);
                 }
 
-                let len = e.exprs.len();
-                e.exprs.retain(|e| !e.is_invalid());
-                if e.exprs.len() != len {
+                let len = seq.exprs.len();
+                seq.exprs.retain(|e| !e.is_invalid());
+                if seq.exprs.len() != len {
                     self.changed = true;
+                }
+
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.remove(0);
                 }
                 return;
             }
