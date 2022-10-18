@@ -51,6 +51,10 @@ where
                 self.normalize_expr(&mut cond.alt);
             }
 
+            Expr::Assign(a) => {
+                self.normalize_expr(&mut a.right);
+            }
+
             _ => {}
         }
     }
