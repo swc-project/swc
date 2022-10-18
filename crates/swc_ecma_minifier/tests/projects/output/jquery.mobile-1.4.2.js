@@ -730,8 +730,8 @@
         makeUrlAbsolute: function(relUrl, absUrl) {
             if (!path.isRelativeUrl(relUrl)) return relUrl;
             undefined2 === absUrl && (absUrl = this.documentBase);
-            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname, pathname = path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname);
-            return protocol + doubleSlash + authority + pathname + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
+            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname;
+            return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
             var u = path.parseUrl(url), p = "object" == typeof params ? jQuery.param(params) : params, s = u.search || "?";

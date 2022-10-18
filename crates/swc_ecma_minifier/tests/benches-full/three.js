@@ -1406,8 +1406,8 @@
             var te = this.elements;
             return te[0] *= s, te[4] *= s, te[8] *= s, te[12] *= s, te[1] *= s, te[5] *= s, te[9] *= s, te[13] *= s, te[2] *= s, te[6] *= s, te[10] *= s, te[14] *= s, te[3] *= s, te[7] *= s, te[11] *= s, te[15] *= s, this;
         }, _proto.determinant = function() {
-            var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14], n41 = te[3];
-            return n41 * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
+            var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
+            return te[3] * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
         }, _proto.transpose = function() {
             var tmp, te = this.elements;
             return tmp = te[1], te[1] = te[4], te[4] = tmp, tmp = te[2], te[2] = te[8], te[8] = tmp, tmp = te[6], te[6] = te[9], te[9] = tmp, tmp = te[3], te[3] = te[12], te[12] = tmp, tmp = te[7], te[7] = te[13], te[13] = tmp, tmp = te[11], te[11] = te[14], te[14] = tmp, this;
@@ -8915,12 +8915,12 @@
                         var _j2 = i, _k2 = i - 1;
                         _k2 < 0 && (_k2 = contour.length - 1);
                         for(var _s = 0, sl = steps + 2 * bevelSegments; _s < sl; _s++){
-                            var slen1 = vlen * _s, slen2 = vlen * (_s + 1), a = layeroffset + _j2 + slen1;
+                            var slen1 = vlen * _s, slen2 = vlen * (_s + 1);
                             !function(a, b, c, d) {
                                 addVertex(a), addVertex(b), addVertex(d), addVertex(b), addVertex(c), addVertex(d);
                                 var nextIndex = verticesArray.length / 3, uvs = uvgen.generateSideWallUV(scope, verticesArray, nextIndex - 6, nextIndex - 3, nextIndex - 2, nextIndex - 1);
                                 addUV(uvs[0]), addUV(uvs[1]), addUV(uvs[3]), addUV(uvs[1]), addUV(uvs[2]), addUV(uvs[3]);
-                            }(a, layeroffset + _k2 + slen1, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
+                            }(layeroffset + _j2 + slen1, layeroffset + _k2 + slen1, layeroffset + _k2 + slen2, layeroffset + _j2 + slen2);
                         }
                     }
                 }
@@ -12478,7 +12478,7 @@
             }
         }
     });
-    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _directoryRe = /((?:WC+[\/:])*)/.source.replace('WC', _wordChar), _trackRe = RegExp("^" + _directoryRe + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
+    var _RESERVED_CHARS_RE = '\\[\\]\\.:\\/', _reservedRe = RegExp('[' + _RESERVED_CHARS_RE + ']', 'g'), _wordChar = '[^' + _RESERVED_CHARS_RE + ']', _wordCharOrDot = '[^' + _RESERVED_CHARS_RE.replace('\\.', '') + ']', _trackRe = RegExp("^" + /((?:WC+[\/:])*)/.source.replace('WC', _wordChar) + /(WCOD+)?/.source.replace('WCOD', _wordCharOrDot) + /(?:\.(WC+)(?:\[(.+)\])?)?/.source.replace('WC', _wordChar) + /\.(WC+)(?:\[(.+)\])?/.source.replace('WC', _wordChar) + '$'), _supportedObjectNames = [
         'material',
         'materials',
         'bones'

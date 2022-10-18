@@ -1988,7 +1988,7 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
+                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
                         }
                         function appendText(end) {
                             if (end > start) {

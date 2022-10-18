@@ -5004,7 +5004,7 @@
                         }(cx, cy, rx, ry, startAngle, endAngle, anticlockwise, min2, max2), xi = mathCos$1(endAngle) * rx + cx, yi = mathSin$1(endAngle) * ry + cy;
                         break;
                     case CMD.R:
-                        x0 = xi = data[i++], fromLine(x0, y0 = yi = data[i++], x0 + data[i++], y0 + data[i++], min2, max2);
+                        fromLine(x0 = xi = data[i++], y0 = yi = data[i++], x0 + data[i++], y0 + data[i++], min2, max2);
                         break;
                     case CMD.Z:
                         xi = x0, yi = y0;
@@ -6228,10 +6228,10 @@
                             ctlPtx = cpx, ctlPty = cpy, len = path.len(), pathData = path.data, prevCmd === CMD.Q && (ctlPtx += cpx - pathData[len - 4], ctlPty += cpy - pathData[len - 3]), cpx += p[off++], cpy += p[off++], cmd = CMD.Q, path.addData(cmd, ctlPtx, ctlPty, cpx, cpy);
                             break;
                         case 'A':
-                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, processArc(x1, y1, cpx = p[off++], cpy = p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
+                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], processArc(x1 = cpx, y1 = cpy, cpx = p[off++], cpy = p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
                             break;
                         case 'a':
-                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], x1 = cpx, y1 = cpy, processArc(x1, y1, cpx += p[off++], cpy += p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
+                            rx = p[off++], ry = p[off++], psi = p[off++], fa = p[off++], fs = p[off++], processArc(x1 = cpx, y1 = cpy, cpx += p[off++], cpy += p[off++], fa, fs, rx, ry, psi, cmd = CMD.A, path);
                     }
                 }
                 ('z' === cmdStr || 'Z' === cmdStr) && (cmd = CMD.Z, path.addData(cmd), cpx = subpathX, cpy = subpathY), prevCmd = cmd;
@@ -10820,7 +10820,7 @@
                                     }(cx, cy, ry, theta, theta + dTheta, anticlockwise, _x, y, tmpPt), xi = Math.cos(theta + dTheta) * rx + cx, yi = Math.sin(theta + dTheta) * ry + cy;
                                     break;
                                 case CMD$3.R:
-                                    x0 = xi = data[i++], d = projectPointToRect(x0, y0 = yi = data[i++], data[i++], data[i++], x, y, tmpPt);
+                                    d = projectPointToRect(x0 = xi = data[i++], y0 = yi = data[i++], data[i++], data[i++], x, y, tmpPt);
                                     break;
                                 case CMD$3.Z:
                                     d = projectPointToLine(xi, yi, x0, y0, x, y, tmpPt, !0), xi = x0, yi = y0;
@@ -15580,9 +15580,9 @@
         return __extends(LogScale, _super), LogScale.prototype.getTicks = function(expandToNicedExtent) {
             var originalScale = this._originalScale, extent = this._extent, originalExtent = originalScale.getExtent();
             return map(intervalScaleProto.getTicks.call(this, expandToNicedExtent), function(tick) {
-                var originalVal, originalVal1, val = tick.value, powVal = round(mathPow$1(this.base, val));
-                return powVal = val === extent[0] && this._fixMin ? round(powVal, getPrecisionSafe(originalExtent[0])) : powVal, {
-                    value: powVal = val === extent[1] && this._fixMax ? round(powVal, getPrecisionSafe(originalExtent[1])) : powVal
+                var val, originalVal, val1, originalVal1, val2 = tick.value, powVal = round(mathPow$1(this.base, val2));
+                return powVal = val2 === extent[0] && this._fixMin ? round(powVal, getPrecisionSafe(originalExtent[0])) : powVal, {
+                    value: powVal = val2 === extent[1] && this._fixMax ? round(powVal, getPrecisionSafe(originalExtent[1])) : powVal
                 };
             }, this);
         }, LogScale.prototype.setExtent = function(start, end) {
@@ -18595,13 +18595,13 @@
     }
     var getLayout = {
         cartesian2d: function(data, dataIndex, itemModel) {
-            var itemModel1, rawLayout, borderColor, layout = data.getItemLayout(dataIndex), fixedLineWidth = itemModel ? (itemModel1 = itemModel, rawLayout = layout, (borderColor = itemModel1.get([
+            var borderColor, layout = data.getItemLayout(dataIndex), fixedLineWidth = itemModel && (borderColor = itemModel.get([
                 'itemStyle',
                 'borderColor'
-            ])) && 'none' !== borderColor ? Math.min(itemModel1.get([
+            ])) && 'none' !== borderColor ? Math.min(itemModel.get([
                 'itemStyle',
                 'borderWidth'
-            ]) || 0, isNaN(rawLayout.width) ? Number.MAX_VALUE : Math.abs(rawLayout.width), isNaN(rawLayout.height) ? Number.MAX_VALUE : Math.abs(rawLayout.height)) : 0) : 0, signX = layout.width > 0 ? 1 : -1, signY = layout.height > 0 ? 1 : -1;
+            ]) || 0, isNaN(layout.width) ? Number.MAX_VALUE : Math.abs(layout.width), isNaN(layout.height) ? Number.MAX_VALUE : Math.abs(layout.height)) : 0, signX = layout.width > 0 ? 1 : -1, signY = layout.height > 0 ? 1 : -1;
             return {
                 x: layout.x + signX * fixedLineWidth / 2,
                 y: layout.y + signY * fixedLineWidth / 2,
@@ -27367,7 +27367,7 @@
     }(SeriesModel);
     function sankeyLayout(ecModel, api) {
         ecModel.eachSeriesByType('sankey', function(seriesModel) {
-            var keyAttr, nodeWidth = seriesModel.get('nodeWidth'), nodeGap = seriesModel.get('nodeGap'), layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
+            var orient, keyAttr, nodeWidth = seriesModel.get('nodeWidth'), nodeGap = seriesModel.get('nodeGap'), layoutInfo = getLayoutRect(seriesModel.getBoxLayoutParams(), {
                 width: api.getWidth(),
                 height: api.getHeight()
             });
@@ -27381,7 +27381,7 @@
             });
             var iterations = 0 !== filter(nodes, function(node) {
                 return 0 === node.getLayout().value;
-            }).length ? 0 : seriesModel.get('layoutIterations'), orient = seriesModel.get('orient');
+            }).length ? 0 : seriesModel.get('layoutIterations');
             (function(nodes, edges, nodeWidth, width, height, orient, nodeAlign) {
                 for(var kx, remainEdges = [], indegreeArr = [], zeroIndegrees = [], nextTargetNode = [], x = 0, i = 0; i < edges.length; i++)remainEdges[i] = 1;
                 for(var i = 0; i < nodes.length; i++)indegreeArr[i] = nodes[i].inEdges.length, 0 === indegreeArr[i] && zeroIndegrees.push(nodes[i]);
@@ -27439,7 +27439,7 @@
                         x: nodeDepth
                     }, !0);
                 });
-            })(nodes, edges, nodeWidth, width, height, orient, seriesModel.get('nodeAlign')), function(nodes, edges, height, width, nodeGap, iterations, orient) {
+            })(nodes, edges, nodeWidth, width, height, orient = seriesModel.get('orient'), seriesModel.get('nodeAlign')), function(nodes, edges, height, width, nodeGap, iterations, orient) {
                 var nodesByBreadth, keyAttr, groupResult, minKy, nodesByBreadth1 = (nodesByBreadth = [], keyAttr = 'vertical' === orient ? 'y' : 'x', (groupResult = groupData(nodes, function(node) {
                     return node.getLayout()[keyAttr];
                 })).keys.sort(function(a, b) {
