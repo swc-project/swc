@@ -3,6 +3,7 @@ use std::{fmt::Write, iter::once, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
@@ -711,6 +712,12 @@ impl Pure<'_> {
     }
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
+        if e.is_invalid() {
+            return;
+        }
+
+        debug_assert_valid(e);
+
         self.optimize_expr_in_bool_ctx(e, true);
 
         match e {
