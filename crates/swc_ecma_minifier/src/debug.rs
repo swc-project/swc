@@ -1,5 +1,4 @@
 use std::{
-    fmt::Debug,
     io::Write,
     process::{Command, Stdio},
 };
@@ -10,7 +9,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 pub use swc_ecma_transforms_optimization::{debug_assert_valid, AssertValid};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::debug;
 
 pub(crate) struct Debugger {}
@@ -68,10 +67,7 @@ where
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
 pub(crate) fn invoke(module: &Module) {
-    #[cfg(debug_assertions)]
-    {
-        module.visit_with(&mut AssertValid);
-    }
+    debug_assert_valid(module);
 
     let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
 
@@ -154,17 +150,5 @@ pub(crate) fn invoke(module: &Module) {
             code,
             String::from_utf8_lossy(&output.stdout)
         )
-    }
-}
-
-#[cfg(debug_assertions)]
-struct Ctx<'a> {
-    v: &'a dyn Debug,
-}
-
-#[cfg(debug_assertions)]
-impl Drop for Ctx<'_> {
-    fn drop(&mut self) {
-        eprintln!("Context: {:?}", self.v);
     }
 }
