@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Make sequential inliner self-repeat (#6168) ([3f0fcf4](https://github.com/swc-project/swc/commit/3f0fcf4fa9dbc654f56f60863ca7058522202ade))
 
+
+- **(es/minifier)** Skip function declarations in sequential inliner (#6147) ([f2e8f98](https://github.com/swc-project/swc/commit/f2e8f98d381cff75229e29564ce5a7458175fea9))
+
 ### Refactor
 
 
