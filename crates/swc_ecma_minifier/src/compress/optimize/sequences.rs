@@ -1111,6 +1111,15 @@ where
 
                             _ => None,
                         },
+
+                        Mergable::FnDecl(a) => Some(collect_infects_from(
+                            &a.function,
+                            AliasConfig {
+                                marks: Some(self.marks),
+                                ignore_nested: true,
+                                need_all: true,
+                            },
+                        )),
                     };
 
                     if let Some(ids_used_by_a_init) = ids_used_by_a_init {
