@@ -1721,6 +1721,10 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 return None;
             }
 
+            if exprs.len() == 1 {
+                return Some(*exprs.pop().unwrap());
+            }
+
             Some(Expr::Seq(SeqExpr { span, exprs }))
         }
 
