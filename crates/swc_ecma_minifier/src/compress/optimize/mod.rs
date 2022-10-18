@@ -2023,9 +2023,25 @@ where
             }
         }
 
+        #[cfg(debug_assertions)]
+        {
+            n.visit_with(&mut AssertValid);
+        }
+
         if let Some(body) = &mut n.body {
             self.merge_if_returns(&mut body.stmts, false, true);
+
+            #[cfg(debug_assertions)]
+            {
+                body.visit_with(&mut AssertValid);
+            }
+
             self.drop_else_token(&mut body.stmts);
+        }
+
+        #[cfg(debug_assertions)]
+        {
+            n.visit_with(&mut AssertValid);
         }
 
         {
