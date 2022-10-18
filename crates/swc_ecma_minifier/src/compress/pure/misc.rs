@@ -19,17 +19,31 @@ use crate::{
 
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
-        if let Expr::Bin(BinExpr { left, right, .. }) = e {
-            self.remove_invalid(left);
-            self.remove_invalid(right);
+        match e {
+            Expr::Seq(seq) => {
+                for e in &mut seq.exprs {
+                    self.remove_invalid(e);
+                }
 
-            if left.is_invalid() {
-                *e = *right.take();
-                self.remove_invalid(e);
-            } else if right.is_invalid() {
-                *e = *left.take();
-                self.remove_invalid(e);
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.pop().unwrap();
+                }
             }
+
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.remove_invalid(left);
+                self.remove_invalid(right);
+
+                if left.is_invalid() {
+                    *e = *right.take();
+                    self.remove_invalid(e);
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                    self.remove_invalid(e);
+                }
+            }
+
+            _ => {}
         }
     }
 
