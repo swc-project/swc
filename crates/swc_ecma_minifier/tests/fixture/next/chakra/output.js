@@ -371,9 +371,6 @@
                 ];
                 return allow3Char && hex[0].startsWith(hex[0].charAt(1)) && hex[1].startsWith(hex[1].charAt(1)) && hex[2].startsWith(hex[2].charAt(1)) ? hex[0].charAt(0) + hex[1].charAt(0) + hex[2].charAt(0) : hex.join("");
             }
-            function convertHexToDecimal(h) {
-                return parseIntFromHex(h) / 255;
-            }
             function parseIntFromHex(val) {
                 return parseInt(val, 16);
             }
@@ -597,7 +594,7 @@
                             r: parseIntFromHex(match[1]),
                             g: parseIntFromHex(match[2]),
                             b: parseIntFromHex(match[3]),
-                            a: convertHexToDecimal(match[4]),
+                            a: parseIntFromHex(match[4]) / 255,
                             format: named ? "name" : "hex8"
                         } : (match = matchers.hex6.exec(color)) ? {
                             r: parseIntFromHex(match[1]),
@@ -608,7 +605,7 @@
                             r: parseIntFromHex(match[1] + match[1]),
                             g: parseIntFromHex(match[2] + match[2]),
                             b: parseIntFromHex(match[3] + match[3]),
-                            a: convertHexToDecimal(match[4] + match[4]),
+                            a: parseIntFromHex(match[4] + match[4]) / 255,
                             format: named ? "name" : "hex8"
                         } : !!(match = matchers.hex3.exec(color)) && {
                             r: parseIntFromHex(match[1] + match[1]),

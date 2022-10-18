@@ -730,8 +730,8 @@
         makeUrlAbsolute: function(relUrl, absUrl) {
             if (!path.isRelativeUrl(relUrl)) return relUrl;
             undefined2 === absUrl && (absUrl = this.documentBase);
-            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname, pathname = path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname);
-            return protocol + doubleSlash + authority + pathname + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
+            var relObj = path.parseUrl(relUrl), absObj = path.parseUrl(absUrl), protocol = relObj.protocol || absObj.protocol, doubleSlash = relObj.protocol ? relObj.doubleSlash : relObj.doubleSlash || absObj.doubleSlash, authority = relObj.authority || absObj.authority, hasPath = "" !== relObj.pathname;
+            return protocol + doubleSlash + authority + path.makePathAbsolute(relObj.pathname || absObj.filename, absObj.pathname) + (relObj.search || !hasPath && absObj.search || "") + relObj.hash;
         },
         addSearchParams: function(url, params) {
             var u = path.parseUrl(url), p = "object" == typeof params ? jQuery.param(params) : params, s = u.search || "?";
@@ -953,12 +953,14 @@
             }
             return flags;
         }
-        function disableTouchBindings() {
-            blockTouchTriggers = !0;
-        }
+        $.vmouse = {
+            moveDistanceThreshold: 10,
+            clickDistanceThreshold: 10,
+            resetTimerDuration: 1500
+        };
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
-                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, disableTouchBindings();
+                resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, blockTouchTriggers = !0;
             }, $.vmouse.resetTimerDuration);
         }
         function clearResetTimer() {
@@ -998,7 +1000,7 @@
         }
         function handleTouchEnd(event1) {
             if (!blockTouchTriggers) {
-                disableTouchBindings();
+                blockTouchTriggers = !0;
                 var ve, t, flags = getVirtualBindingFlags(event1.target);
                 triggerVirtualEvent("vmouseup", event1, flags), !didScroll && (ve = triggerVirtualEvent("vclick", event1, flags)) && ve.isDefaultPrevented() && (t = getNativeEvent(event1).changedTouches[0], clickBlockList.push({
                     touchID: lastTouchID,
@@ -1015,11 +1017,7 @@
             return !1;
         }
         function dummyMouseHandler() {}
-        for(i = 0, $.vmouse = {
-            moveDistanceThreshold: 10,
-            clickDistanceThreshold: 10,
-            resetTimerDuration: 1500
-        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
+        for(i = 0; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
             var realType = eventType.substr(1);
             return {
                 setup: function() {

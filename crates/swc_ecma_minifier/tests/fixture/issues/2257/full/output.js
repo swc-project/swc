@@ -10000,10 +10000,10 @@
                         asterisk: !1,
                         pattern: null
                     });
-                    return attachKeys(path, keys);
+                    return path.keys = keys, path;
                 }(path, keys) : isarray(path) ? function(path, keys, options) {
-                    for(var parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
-                    return attachKeys(RegExp("(?:" + parts.join("|") + ")", flags(options)), keys);
+                    for(var re, parts = [], i = 0; i < path.length; i++)parts.push(pathToRegexp(path[i], keys, options).source);
+                    return (re = RegExp("(?:" + parts.join("|") + ")", flags(options))).keys = keys, re;
                 }(path, keys, options) : (keys1 = keys, tokensToRegExp(parse(path, options1 = options), keys1, options1));
             }, module.exports.parse = parse, module.exports.compile = function(str, options) {
                 return tokensToFunction(parse(str, options), options);
@@ -10077,15 +10077,12 @@
             function escapeString(str) {
                 return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, "\\$1");
             }
-            function attachKeys(re, keys) {
-                return re.keys = keys, re;
-            }
             function flags(options) {
                 return options && options.sensitive ? "" : "i";
             }
             function tokensToRegExp(tokens, keys, options) {
                 isarray(keys) || (options = keys || options, keys = []);
-                for(var strict = (options = options || {}).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
+                for(var re, keys1, strict = (options = options || {}).strict, end = !1 !== options.end, route = "", i = 0; i < tokens.length; i++){
                     var token = tokens[i];
                     if ("string" == typeof token) route += escapeString(token);
                     else {
@@ -10094,7 +10091,7 @@
                     }
                 }
                 var delimiter = escapeString(options.delimiter || "/"), endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", attachKeys(RegExp("^" + route, flags(options)), keys);
+                return strict || (route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + "(?:" + delimiter + "(?=$))?"), end ? route += "$" : route += strict && endsWithDelimiter ? "" : "(?=" + delimiter + "|$)", re = RegExp("^" + route, flags(options)), keys1 = keys, re.keys = keys1, re;
             }
         },
         97671: function(module) {
@@ -14843,8 +14840,7 @@
                 0 === V && (V = 5);
             }
             function Uj(a) {
-                var b = eg();
-                return gg(99, dk.bind(null, a, b)), null;
+                return gg(99, dk.bind(null, a, eg())), null;
             }
             function dk(a, b) {
                 do Oj();

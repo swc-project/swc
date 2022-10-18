@@ -737,7 +737,7 @@
         } else config._isValid = !1;
     }
     function configFromRFC2822(config) {
-        var year, weekdayStr, config1, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
+        var year, yearStr, monthStr, dayStr, hourStr, minuteStr, secondStr, result, weekdayStr, config1, match = rfc2822.exec(config._i.replace(/\([^)]*\)|[\n\t]/g, " ").replace(/(\s\s+)/g, " ").replace(/^\s\s*/, "").replace(/\s\s*$/, ""));
         if (match) {
             if (yearStr = match[4], monthStr = match[3], dayStr = match[2], hourStr = match[5], minuteStr = match[6], secondStr = match[7], result = [
                 (year = parseInt(yearStr, 10)) <= 49 ? 2000 + year : year <= 999 ? 1900 + year : year,
@@ -980,9 +980,6 @@
     });
     function localeData() {
         return this._locale;
-    }
-    function mod$1(dividend, divisor) {
-        return (dividend % divisor + divisor) % divisor;
     }
     function localStartOfDate(y, m, d) {
         return y < 100 && y >= 0 ? new Date(y + 400, m, d) - 12622780800000 : new Date(y, m, d).valueOf();
@@ -1268,13 +1265,13 @@
                 time = startOfDate(this.year(), this.month(), this.date() + 1) - 1;
                 break;
             case "hour":
-                time = this._d.valueOf(), time += 3600000 - mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000) - 1;
+                time = this._d.valueOf(), time += 3600000 - ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % 3600000 + 3600000) % 3600000 - 1;
                 break;
             case "minute":
-                time = this._d.valueOf(), time += 60000 - mod$1(time, 60000) - 1;
+                time = this._d.valueOf(), time += 60000 - (time % 60000 + 60000) % 60000 - 1;
                 break;
             case "second":
-                time = this._d.valueOf(), time += 1000 - mod$1(time, 1000) - 1;
+                time = this._d.valueOf(), time += 1000 - (time % 1000 + 1000) % 1000 - 1;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1358,13 +1355,13 @@
                 time = startOfDate(this.year(), this.month(), this.date());
                 break;
             case "hour":
-                time = this._d.valueOf(), time -= mod$1(time + (this._isUTC ? 0 : 60000 * this.utcOffset()), 3600000);
+                time = this._d.valueOf(), time -= ((time + (this._isUTC ? 0 : 60000 * this.utcOffset())) % 3600000 + 3600000) % 3600000;
                 break;
             case "minute":
-                time = this._d.valueOf(), time -= mod$1(time, 60000);
+                time = this._d.valueOf(), time -= (time % 60000 + 60000) % 60000;
                 break;
             case "second":
-                time = this._d.valueOf(), time -= mod$1(time, 1000);
+                time = this._d.valueOf(), time -= (time % 1000 + 1000) % 1000;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {

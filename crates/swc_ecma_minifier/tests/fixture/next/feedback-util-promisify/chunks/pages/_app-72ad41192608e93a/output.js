@@ -463,7 +463,7 @@
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
                             else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                            var t1, f1, t2, f2, t3, f3, t4, f4, n = this.length - r;
+                            var t1, f1, t2, f2, t3, f3, t4, f4, t5, f5, n = this.length - r;
                             if ((void 0 === t || t > n) && (t = n), e.length > 0 && (t < 0 || r < 0) || r > this.length) throw RangeError("Attempt to write outside buffer bounds");
                             f || (f = "utf8");
                             for(var i = !1;;)switch(f){
@@ -485,22 +485,20 @@
                                 case "utf-8":
                                     return t2 = r, f2 = t, blitBuffer(utf8ToBytes(e, this.length - t2), this, t2, f2);
                                 case "ascii":
+                                    return t3 = r, f3 = t, blitBuffer(asciiToBytes(e), this, t3, f3);
                                 case "latin1":
                                 case "binary":
-                                    return t1 = r, f1 = t, blitBuffer(function(e) {
-                                        for(var r = [], t = 0; t < e.length; ++t)r.push(255 & e.charCodeAt(t));
-                                        return r;
-                                    }(e), this, t1, f1);
+                                    return t1 = r, f1 = t, blitBuffer(asciiToBytes(e), this, t1, f1);
                                 case "base64":
-                                    return t3 = r, f3 = t, blitBuffer(base64ToBytes(e), this, t3, f3);
+                                    return t4 = r, f4 = t, blitBuffer(base64ToBytes(e), this, t4, f4);
                                 case "ucs2":
                                 case "ucs-2":
                                 case "utf16le":
                                 case "utf-16le":
-                                    return t4 = r, f4 = t, blitBuffer(function(e, r) {
+                                    return t5 = r, f5 = t, blitBuffer(function(e, r) {
                                         for(var t, f, i = [], o = 0; o < e.length && !((r -= 2) < 0); ++o)f = (t = e.charCodeAt(o)) >> 8, i.push(t % 256), i.push(f);
                                         return i;
-                                    }(e, this.length - t4), this, t4, f4);
+                                    }(e, this.length - t5), this, t5, f5);
                                 default:
                                     if (i) throw TypeError("Unknown encoding: " + f);
                                     f = ("" + f).toLowerCase(), i = !0;
@@ -688,6 +686,10 @@
                                 } else throw Error("Invalid code point");
                             }
                             return i;
+                        }
+                        function asciiToBytes(e) {
+                            for(var r = [], t = 0; t < e.length; ++t)r.push(255 & e.charCodeAt(t));
+                            return r;
                         }
                         function base64ToBytes(e) {
                             return f.toByteArray(function(e) {

@@ -571,12 +571,9 @@
         var match = fn && fn.toString().match(/^\s*function (\w+)/);
         return match ? match[1] : '';
     }
-    function isSameType(a, b) {
-        return getType(a) === getType(b);
-    }
     function getTypeIndex(type, expectedTypes) {
-        if (!Array.isArray(expectedTypes)) return isSameType(expectedTypes, type) ? 0 : -1;
-        for(var i = 0, len = expectedTypes.length; i < len; i++)if (isSameType(expectedTypes[i], type)) return i;
+        if (!Array.isArray(expectedTypes)) return getType(expectedTypes) === getType(type) ? 0 : -1;
+        for(var i = 0, len = expectedTypes.length; i < len; i++)if (getType(expectedTypes[i]) === getType(type)) return i;
         return -1;
     }
     function styleValue(value, type) {
@@ -1919,9 +1916,9 @@
                 exp: val,
                 key: null
             };
-            for(str = val, index$1 = expressionPos = expressionEndPos = 0; !eof();)isStringStart(chr = next()) ? parseString(chr) : 0x5B === chr && function(chr) {
+            for(str = val, index$1 = expressionPos = expressionEndPos = 0; !(index$1 >= len);)isStringStart(chr = next()) ? parseString(chr) : 0x5B === chr && function(chr) {
                 var inBracket = 1;
-                for(expressionPos = index$1; !eof();){
+                for(expressionPos = index$1; !(index$1 >= len);){
                     if (isStringStart(chr = next())) {
                         parseString(chr);
                         continue;
@@ -1942,14 +1939,11 @@
     function next() {
         return str.charCodeAt(++index$1);
     }
-    function eof() {
-        return index$1 >= len;
-    }
     function isStringStart(chr) {
         return 0x22 === chr || 0x27 === chr;
     }
     function parseString(chr) {
-        for(var stringQuote = chr; !eof() && (chr = next()) !== stringQuote;);
+        for(var stringQuote = chr; !(index$1 >= len) && (chr = next()) !== stringQuote;);
     }
     function createOnceHandler$1(event, handler, capture) {
         var _target = target$1;

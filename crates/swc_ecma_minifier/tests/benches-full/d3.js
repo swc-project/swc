@@ -2017,9 +2017,6 @@
     function transition(name) {
         return selection().transition(name);
     }
-    function newId() {
-        return ++id;
-    }
     var selection_prototype = selection.prototype;
     function quadInOut(t) {
         return ((t *= 2) <= 1 ? t * t : --t * (2 - t) + 1) / 2;
@@ -2059,7 +2056,7 @@
             return new Selection$1(this._groups, this._parents);
         },
         transition: function() {
-            for(var name = this._name, id0 = this._id, id1 = newId(), groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)if (node = group[i]) {
+            for(var name = this._name, id0 = this._id, id1 = ++id, groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)if (node = group[i]) {
                 var inherit = get$1(node, id0);
                 schedule(node, name, id1, i, group, {
                     time: inherit.time + inherit.delay + inherit.duration,
@@ -2303,13 +2300,13 @@
             interrupt(this, name);
         });
     }, selection.prototype.transition = function(name) {
-        var id, timing;
-        name instanceof Transition ? (id = name._id, name = name._name) : (id = newId(), (timing = defaultTiming).time = now(), name = null == name ? null : name + "");
-        for(var groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)(node = group[i]) && schedule(node, name, id, i, group, timing || function(node, id) {
+        var id1, timing;
+        name instanceof Transition ? (id1 = name._id, name = name._name) : (id1 = ++id, (timing = defaultTiming).time = now(), name = null == name ? null : name + "");
+        for(var groups = this._groups, m = groups.length, j = 0; j < m; ++j)for(var node, group = groups[j], n = group.length, i = 0; i < n; ++i)(node = group[i]) && schedule(node, name, id1, i, group, timing || function(node, id) {
             for(var timing; !(timing = node.__transition) || !(timing = timing[id]);)if (!(node = node.parentNode)) throw Error(`transition ${id} not found`);
             return timing;
-        }(node, id));
-        return new Transition(groups, this._parents, name, id);
+        }(node, id1));
+        return new Transition(groups, this._parents, name, id1);
     };
     var root$1 = [
         null
@@ -4429,9 +4426,6 @@
     function asin(x) {
         return x > 1 ? halfPi$2 : x < -1 ? -halfPi$2 : Math.asin(x);
     }
-    function haversin(x) {
-        return (x = sin$1(x / 2)) * x;
-    }
     function noop$2() {}
     function streamGeometry(geometry, stream) {
         geometry && streamGeometryType.hasOwnProperty(geometry.type) && streamGeometryType[geometry.type](geometry, stream);
@@ -5146,10 +5140,10 @@
             return !0;
         },
         Point: function(object, point) {
-            return containsPoint(object.coordinates, point);
+            return 0 === distance(object.coordinates, point);
         },
         MultiPoint: function(object, point) {
-            for(var coordinates = object.coordinates, i = -1, n = coordinates.length; ++i < n;)if (containsPoint(coordinates[i], point)) return !0;
+            for(var coordinates = object.coordinates, i = -1, n = coordinates.length; ++i < n;)if (0 === distance(coordinates[i], point)) return !0;
             return !1;
         },
         LineString: function(object, point) {
@@ -5173,9 +5167,6 @@
     };
     function containsGeometry(geometry, point) {
         return !!(geometry && containsGeometryType.hasOwnProperty(geometry.type)) && containsGeometryType[geometry.type](geometry, point);
-    }
-    function containsPoint(coordinates, point) {
-        return 0 === distance(coordinates, point);
     }
     function containsLine(coordinates, point) {
         for(var ao, bo, ab, i = 0, n = coordinates.length; i < n; i++){
@@ -8607,12 +8598,9 @@
     function LinearClosed(context) {
         this._context = context;
     }
-    function sign$1(x) {
-        return x < 0 ? -1 : 1;
-    }
     function slope3(that, x2, y2) {
         var h0 = that._x1 - that._x0, h1 = x2 - that._x1, s0 = (that._y1 - that._y0) / (h0 || h1 < 0 && -0), s1 = (y2 - that._y1) / (h1 || h0 < 0 && -0);
-        return (sign$1(s0) + sign$1(s1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs((s0 * h1 + s1 * h0) / (h0 + h1))) || 0;
+        return ((s0 < 0 ? -1 : 1) + (s1 < 0 ? -1 : 1)) * Math.min(Math.abs(s0), Math.abs(s1), 0.5 * Math.abs((s0 * h1 + s1 * h0) / (h0 + h1))) || 0;
     }
     function slope2(that, t) {
         var h = that._x1 - that._x0;
@@ -9924,7 +9912,7 @@
             return fitHeight(projection, height, object);
         }, projection;
     }, exports1.geoInterpolate = function(a, b) {
-        var x0 = a[0] * radians$1, y0 = a[1] * radians$1, x1 = b[0] * radians$1, y1 = b[1] * radians$1, cy0 = cos$1(y0), sy0 = sin$1(y0), cy1 = cos$1(y1), sy1 = sin$1(y1), kx0 = cy0 * cos$1(x0), ky0 = cy0 * sin$1(x0), kx1 = cy1 * cos$1(x1), ky1 = cy1 * sin$1(x1), d = 2 * asin(sqrt(haversin(y1 - y0) + cy0 * cy1 * haversin(x1 - x0))), k = sin$1(d), interpolate = d ? function(t) {
+        var x, x1, x0 = a[0] * radians$1, y0 = a[1] * radians$1, x11 = b[0] * radians$1, y1 = b[1] * radians$1, cy0 = cos$1(y0), sy0 = sin$1(y0), cy1 = cos$1(y1), sy1 = sin$1(y1), kx0 = cy0 * cos$1(x0), ky0 = cy0 * sin$1(x0), kx1 = cy1 * cos$1(x11), ky1 = cy1 * sin$1(x11), d = 2 * asin(sqrt((x = sin$1((x = y1 - y0) / 2)) * x + cy0 * cy1 * ((x1 = sin$1((x1 = x11 - x0) / 2)) * x1))), k = sin$1(d), interpolate = d ? function(t) {
             var B = sin$1(t *= d) / k, A = sin$1(d - t) / k, x = A * kx0 + B * kx1, y = A * ky0 + B * ky1;
             return [
                 atan2(y, x) * degrees$2,

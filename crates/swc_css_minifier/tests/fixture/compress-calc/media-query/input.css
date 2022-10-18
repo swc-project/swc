@@ -3,3 +3,27 @@
         color: red;
     }
 }
+
+@media (min-width: calc(calc(10px + 10px))) {
+    .class1 {
+        color: red;
+    }
+}
+
+@media (color: calc(0 + 1)) {
+    .class1 {
+        color: red;
+    }
+}
+
+@media (min-width: calc(10px * 0)) {
+    .class1 {
+        color: red;
+    }
+}
+
+@media (min-width: calc(0px + 0px)) {
+    .class1 {
+        color: red;
+    }
+}

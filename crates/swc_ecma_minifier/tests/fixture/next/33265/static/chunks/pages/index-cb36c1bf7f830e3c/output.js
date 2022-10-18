@@ -1988,7 +1988,7 @@
                     domBuilder.startDocument(), _copy(defaultNSMap, defaultNSMap = {}), function(source, defaultNSMapCopy, entityMap, domBuilder, errorHandler) {
                         function entityReplacer(a) {
                             var code, k = a.slice(1, -1);
-                            return k in entityMap ? entityMap[k] : "#" === k.charAt(0) ? (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code) : (errorHandler.error("entity not found:" + a), a);
+                            return k in entityMap ? entityMap[k] : "#" !== k.charAt(0) ? (errorHandler.error("entity not found:" + a), a) : (code = parseInt(k.substr(1).replace("x", "0x"))) > 0xffff ? String.fromCharCode(0xd800 + ((code -= 0x10000) >> 10), 0xdc00 + (0x3ff & code)) : String.fromCharCode(code);
                         }
                         function appendText(end) {
                             if (end > start) {
@@ -5443,7 +5443,7 @@
                 else if (void 0 === length && "string" == typeof offset) encoding = offset, length = this.length, offset = 0;
                 else if (isFinite(offset)) offset >>>= 0, isFinite(length) ? (length >>>= 0, void 0 === encoding && (encoding = "utf8")) : (encoding = length, length = void 0);
                 else throw Error("Buffer.write(string, encoding, offset[, length]) is no longer supported");
-                var offset1, length1, offset2, length2, offset3, length3, offset4, length4, remaining = this.length - offset;
+                var offset1, length1, offset2, length2, offset3, length3, offset4, length4, offset5, length5, remaining = this.length - offset;
                 if ((void 0 === length || length > remaining) && (length = remaining), string.length > 0 && (length < 0 || offset < 0) || offset > this.length) throw RangeError("Attempt to write outside buffer bounds");
                 encoding || (encoding = "utf8");
                 for(var loweredCase = !1;;)switch(encoding){
@@ -5465,22 +5465,20 @@
                     case "utf-8":
                         return offset2 = offset, length2 = length, blitBuffer(utf8ToBytes(string, this.length - offset2), this, offset2, length2);
                     case "ascii":
+                        return offset3 = offset, length3 = length, blitBuffer(asciiToBytes(string), this, offset3, length3);
                     case "latin1":
                     case "binary":
-                        return offset1 = offset, length1 = length, blitBuffer(function(str) {
-                            for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
-                            return byteArray;
-                        }(string), this, offset1, length1);
+                        return offset1 = offset, length1 = length, blitBuffer(asciiToBytes(string), this, offset1, length1);
                     case "base64":
-                        return offset3 = offset, length3 = length, blitBuffer(base64ToBytes(string), this, offset3, length3);
+                        return offset4 = offset, length4 = length, blitBuffer(base64ToBytes(string), this, offset4, length4);
                     case "ucs2":
                     case "ucs-2":
                     case "utf16le":
                     case "utf-16le":
-                        return offset4 = offset, length4 = length, blitBuffer(function(str, units) {
+                        return offset5 = offset, length5 = length, blitBuffer(function(str, units) {
                             for(var c, hi, byteArray = [], i = 0; i < str.length && !((units -= 2) < 0); ++i)hi = (c = str.charCodeAt(i)) >> 8, byteArray.push(c % 256), byteArray.push(hi);
                             return byteArray;
-                        }(string, this.length - offset4), this, offset4, length4);
+                        }(string, this.length - offset5), this, offset5, length5);
                     default:
                         if (loweredCase) throw TypeError("Unknown encoding: " + encoding);
                         encoding = ("" + encoding).toLowerCase(), loweredCase = !0;
@@ -5668,6 +5666,10 @@
                     } else throw Error("Invalid code point");
                 }
                 return bytes;
+            }
+            function asciiToBytes(str) {
+                for(var byteArray = [], i = 0; i < str.length; ++i)byteArray.push(0xff & str.charCodeAt(i));
+                return byteArray;
             }
             function base64ToBytes(str) {
                 return base64.toByteArray(function(str) {
