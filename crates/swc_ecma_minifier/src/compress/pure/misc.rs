@@ -719,6 +719,9 @@ impl Pure<'_> {
                     e.take();
                     return;
                 }
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.remove(0);
+                }
             }
 
             Expr::Call(CallExpr { span, args, .. }) if span.has_mark(self.marks.pure) => {
