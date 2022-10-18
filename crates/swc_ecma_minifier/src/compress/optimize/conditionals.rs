@@ -3,6 +3,7 @@ use std::mem::swap;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
@@ -282,7 +283,10 @@ where
         };
 
         let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true);
+
         if let Some(v) = new_expr {
+            debug_assert_valid(&v);
+
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
                 span: stmt.span,
