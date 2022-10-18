@@ -5,7 +5,6 @@ use retain_mut::RetainMut;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
     StmtLike,
