@@ -960,8 +960,6 @@ impl VisitMut for TreeShaker {
                     });
                 }
             }
-
-            debug_assert_valid(s);
         }
 
         if let Stmt::Decl(Decl::Var(v)) = s {
@@ -969,6 +967,8 @@ impl VisitMut for TreeShaker {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
             }
         }
+
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
