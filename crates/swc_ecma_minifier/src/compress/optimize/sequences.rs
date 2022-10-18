@@ -945,6 +945,13 @@ where
                                 }
                             }
                         }
+
+                        // Function declaration is side-effect free.
+                        //
+                        // TODO(kdy1): Paramters with default value can have side effect. But this
+                        // is very unrealistic in real-world code, so I'm
+                        // postponing handling for it.
+                        Mergable::FnDecl(..) => {}
                     }
                 }
             }
@@ -1037,6 +1044,15 @@ where
                         Mergable::Expr(a) => {
                             if is_ident_used_by(e.to_id(), &**a) {
                                 log_abort!("ident used by a (expr)");
+                                return false;
+                            }
+                        }
+
+                        Mergable::FnDecl(a) => {
+                            // TODO(kdy1): I'm not sure if we can remove this check. I added this
+                            // just to be safe, and we may remove this check in future.
+                            if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (fn)");
                                 return false;
                             }
                         }
