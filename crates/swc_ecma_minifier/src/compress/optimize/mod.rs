@@ -2350,6 +2350,9 @@ where
             ..self.ctx
         };
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
+        debug_assert_valid(s);
+
         if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
             match s {
                 // We use var decl with no declarator to indicate we dropped an decl.
@@ -2381,6 +2384,8 @@ where
         }) = s
         {
             *s = *body.take();
+
+            debug_assert_valid(s);
         }
 
         self.remove_duplicate_var_decls(s);
