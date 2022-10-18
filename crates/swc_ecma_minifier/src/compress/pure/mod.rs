@@ -322,8 +322,14 @@ impl VisitMut for Pure<'_> {
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if e.is_lit() {
-            return;
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.pop().unwrap();
+                }
+            }
+            Expr::Invalid(..) | Expr::Lit(..) => return,
+            _ => {}
         }
 
         if e.is_seq() {
