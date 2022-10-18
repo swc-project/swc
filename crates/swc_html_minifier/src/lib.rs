@@ -18,7 +18,7 @@ use swc_html_visit::{VisitMut, VisitMutWith};
 
 use crate::option::{
     CollapseWhitespaces, CssOptions, JsOptions, JsParserOptions, JsonOptions, MinifierType,
-    MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions,
+    MinifyCssOption, MinifyJsOption, MinifyJsonOption, MinifyOptions, RemoveRedundantAttributes,
 };
 
 pub mod option;
@@ -563,44 +563,79 @@ impl Minifier<'_> {
 
         match namespace {
             Namespace::HTML | Namespace::SVG => {
-                // Legacy attributes, not in spec
-                if *tag_name == js_word!("script") {
-                    match attribute.name {
-                        js_word!("type") => {
-                            let value = if let Some(next) = attribute_value.split(';').next() {
-                                next
-                            } else {
-                                attribute_value
-                            };
-
-                            match value {
-                                // Legacy JavaScript MIME types
-                                "application/javascript"
-                                | "application/ecmascript"
-                                | "application/x-ecmascript"
-                                | "application/x-javascript"
-                                | "text/ecmascript"
-                                | "text/javascript1.0"
-                                | "text/javascript1.1"
-                                | "text/javascript1.2"
-                                | "text/javascript1.3"
-                                | "text/javascript1.4"
-                                | "text/javascript1.5"
-                                | "text/jscript"
-                                | "text/livescript"
-                                | "text/x-ecmascript"
-                                | "text/x-javascript" => return true,
+                match *tag_name {
+                    js_word!("html") => match attribute.name {
+                        js_word!("xmlns") => match &*attribute_value.trim().to_ascii_lowercase() {
+                            "http://www.w3.org/1999/xhtml" => return true,
+                            _ => {}
+                        },
+                        js_word!("xmlns:xlink") => {
+                            match &*attribute_value.trim().to_ascii_lowercase() {
+                                "http://www.w3.org/1999/xlink" => return true,
                                 _ => {}
                             }
                         }
-                        js_word!("language") => match &*attribute_value.trim().to_ascii_lowercase()
-                        {
-                            "javascript" | "javascript1.2" | "javascript1.3" | "javascript1.4"
-                            | "javascript1.5" | "javascript1.6" | "javascript1.7" => return true,
+                        _ => {}
+                    },
+                    js_word!("script") => {
+                        match attribute.name {
+                            js_word!("type") => {
+                                let value = if let Some(next) = attribute_value.split(';').next() {
+                                    next
+                                } else {
+                                    attribute_value
+                                };
+
+                                match value {
+                                    // Legacy JavaScript MIME types
+                                    "application/javascript"
+                                    | "application/ecmascript"
+                                    | "application/x-ecmascript"
+                                    | "application/x-javascript"
+                                    | "text/ecmascript"
+                                    | "text/javascript1.0"
+                                    | "text/javascript1.1"
+                                    | "text/javascript1.2"
+                                    | "text/javascript1.3"
+                                    | "text/javascript1.4"
+                                    | "text/javascript1.5"
+                                    | "text/jscript"
+                                    | "text/livescript"
+                                    | "text/x-ecmascript"
+                                    | "text/x-javascript" => return true,
+                                    "text/javascript" => return true,
+                                    _ => {}
+                                }
+                            }
+                            js_word!("language") => {
+                                match &*attribute_value.trim().to_ascii_lowercase() {
+                                    "javascript" | "javascript1.2" | "javascript1.3"
+                                    | "javascript1.4" | "javascript1.5" | "javascript1.6"
+                                    | "javascript1.7" => return true,
+                                    _ => {}
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                    js_word!("link") => match attribute.name {
+                        js_word!("type") => match &*attribute_value.trim().to_ascii_lowercase() {
+                            "text/css" => return true,
                             _ => {}
                         },
                         _ => {}
-                    }
+                    },
+                    js_word!("svg") => match attribute.name {
+                        js_word!("xmlns") => {
+                            if &*attribute_value.trim().to_ascii_lowercase()
+                                == "http://www.w3.org/2000/svg"
+                            {
+                                return true;
+                            }
+                        }
+                        _ => {}
+                    },
+                    _ => {}
                 }
 
                 let default_attributes = if namespace == Namespace::HTML {
@@ -635,7 +670,43 @@ impl Minifier<'_> {
 
                 match (attribute_info.inherited, &attribute_info.initial) {
                     (None, Some(initial)) | (Some(false), Some(initial)) => {
-                        initial == normalized_value
+                        match self.options.remove_redundant_attributes {
+                            RemoveRedundantAttributes::None => false,
+                            RemoveRedundantAttributes::Smart => {
+                                if initial == normalized_value {
+                                    // It is safe to remove deprecated redundant attributes, they
+                                    // should not be used
+                                    if attribute_info.deprecated == Some(true) {
+                                        return true;
+                                    }
+
+                                    // It it safe to remove svg redundant attributes, they used for
+                                    // styling
+                                    if namespace == Namespace::SVG {
+                                        return true;
+                                    }
+
+                                    // It it safe to remove redundant attributes for metadata
+                                    // elements
+                                    if namespace == Namespace::HTML
+                                        && matches!(
+                                            *tag_name,
+                                            js_word!("base")
+                                                | js_word!("link")
+                                                | js_word!("noscript")
+                                                | js_word!("script")
+                                                | js_word!("style")
+                                                | js_word!("title")
+                                        )
+                                    {
+                                        return true;
+                                    }
+                                }
+
+                                false
+                            }
+                            RemoveRedundantAttributes::All => initial == normalized_value,
+                        }
                     }
                     _ => false,
                 }
@@ -2242,7 +2313,7 @@ impl VisitMut for Minifier<'_> {
 
         for (i, i1) in n.attributes.iter().enumerate() {
             if i1.value.is_some() {
-                if self.options.remove_redundant_attributes
+                if self.options.remove_redundant_attributes != RemoveRedundantAttributes::None
                     && self.is_default_attribute_value(n.namespace, &n.tag_name, i1)
                 {
                     remove_list.push(i);

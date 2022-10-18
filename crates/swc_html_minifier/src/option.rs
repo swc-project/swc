@@ -44,6 +44,20 @@ pub enum CollapseWhitespaces {
     OnlyMetadata,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+#[serde(rename_all = "kebab-case")]
+pub enum RemoveRedundantAttributes {
+    /// Do not remove redundant attributes
+    None,
+    /// Remove all redundant attributes
+    All,
+    /// Remove deprecated and svg redundant (they used for styling) and `xmlns`
+    /// attributes (for example the `type` attribute for the `style` tag and
+    /// `xmlns` for svg)
+    Smart,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
@@ -136,8 +150,8 @@ pub struct MinifyOptions {
     /// libraries
     #[serde(default = "true_by_default")]
     pub remove_empty_attributes: bool,
-    #[serde(default = "true_by_default")]
-    pub remove_redundant_attributes: bool,
+    #[serde(default = "smart_by_default")]
+    pub remove_redundant_attributes: RemoveRedundantAttributes,
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
     /// Merge the same metadata elements into one (for example, consecutive
@@ -202,6 +216,10 @@ const fn minify_js_by_default() -> MinifyJsOption {
 
 const fn minify_css_by_default() -> MinifyCssOption {
     MinifyCssOption::Bool(true)
+}
+
+const fn smart_by_default() -> RemoveRedundantAttributes {
+    RemoveRedundantAttributes::Smart
 }
 
 fn default_preserve_comments() -> Option<Vec<CachedRegex>> {

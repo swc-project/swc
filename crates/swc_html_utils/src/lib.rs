@@ -25,6 +25,8 @@ pub struct AttributeInfo {
     pub inherited: Option<bool>,
     #[serde(default)]
     pub boolean: Option<bool>,
+    #[serde(default)]
+    pub deprecated: Option<bool>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
