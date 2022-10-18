@@ -985,10 +985,9 @@ where
 
                     debug_assert_valid(&e.exprs);
 
-                    if e.exprs.len() == 1 {
-                        return Some(*e.exprs.pop().unwrap());
-                    }
-                    return Some(Expr::Seq(e));
+                    let mut e = Expr::Seq(e);
+                    self.normalize_expr(&mut e);
+                    return Some(e);
                 }
                 _ => {}
             }
@@ -1012,11 +1011,9 @@ where
 
         debug_assert_valid(&e.exprs);
 
-        if e.exprs.len() == 1 {
-            return Some(*e.exprs.pop().unwrap());
-        }
-
-        Some(Expr::Seq(e))
+        let mut e = Expr::Seq(e);
+        self.normalize_expr(&mut e);
+        Some(e)
     }
 
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {
