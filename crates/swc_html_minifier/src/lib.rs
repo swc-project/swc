@@ -8,8 +8,8 @@ use serde_json::Value;
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
 use swc_common::{
-    collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, FileName, FilePathMapping,
-    Mark, SourceMap, DUMMY_SP,
+    collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName,
+    FilePathMapping, Mark, SourceMap, DUMMY_SP,
 };
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
@@ -1216,6 +1216,39 @@ impl Minifier<'_> {
         true
     }
 
+    fn allow_elements_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
+        if let Some(left) = left {
+            return matches!((left, right), (Child::Element(left), right)
+                if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+                    && left.tag_name == js_word!("style")
+                    && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
+                    && right.tag_name == js_word!("style")
+                    && left.attributes.eq_ignore_span(&right.attributes));
+        }
+
+        false
+    }
+
+    fn merge_text_children(&self, left: &Element, right: &Element) -> Vec<Child> {
+        let data = left.children.iter().chain(right.children.iter()).fold(
+            String::new(),
+            |mut acc, child| match child {
+                Child::Text(text) => {
+                    acc.push_str(&text.data);
+
+                    acc
+                }
+                _ => acc,
+            },
+        );
+
+        vec![Child::Text(Text {
+            span: DUMMY_SP,
+            data: data.into(),
+            raw: None,
+        })]
+    }
+
     fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
@@ -1227,7 +1260,7 @@ impl Minifier<'_> {
         let mode = self.get_whitespace_minification_for_tag(namespace, tag_name);
 
         let child_will_be_retained =
-            |child: &mut Child, prev_children: &Vec<Child>, next_children: &Vec<Child>| {
+            |child: &mut Child, prev_children: &mut Vec<Child>, next_children: &mut Vec<Child>| {
                 match child {
                     Child::Comment(comment) if self.options.remove_comments => {
                         self.is_preserved_comment(&comment.data)
@@ -1246,6 +1279,16 @@ impl Minifier<'_> {
                             && self.empty_children(&element.children)
                             && element.content.is_none() =>
                     {
+                        false
+                    }
+                    Child::Element(element)
+                        if self.options.merge_metadata_elements
+                            && self.allow_elements_to_merge(prev_children.last(), element) =>
+                    {
+                        if let Some(Child::Element(prev)) = prev_children.last_mut() {
+                            prev.children = self.merge_text_children(prev, element);
+                        }
+
                         false
                     }
                     Child::Text(text) if text.data.is_empty() => false,
@@ -1554,7 +1597,7 @@ impl Minifier<'_> {
                 }
             };
 
-            let result = child_will_be_retained(&mut child, &new_children, children);
+            let result = child_will_be_retained(&mut child, &mut new_children, children);
 
             if result {
                 new_children.push(child);

@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Skip function declarations in sequential inliner (#6147) ([f2e8f98](https://github.com/swc-project/swc/commit/f2e8f98d381cff75229e29564ce5a7458175fea9))
 
+
+- **(html/minifier)** Merge identical metadata elements (#6183) ([41093b0](https://github.com/swc-project/swc/commit/41093b022d8d3304f9d235fd5b9dd386fecb8c3c))
+
 ### Refactor
 
 
