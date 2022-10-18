@@ -281,9 +281,13 @@ where
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 None => {
-                                    stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(take(
-                                        &mut exprs,
-                                    ))))
+                                    if exprs.is_empty() {
+                                        stmt.init = None;
+                                    } else {
+                                        stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(
+                                            take(&mut exprs),
+                                        )))
+                                    }
                                 }
                                 _ => {
                                     unreachable!()
