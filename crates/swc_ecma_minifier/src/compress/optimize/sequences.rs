@@ -272,6 +272,12 @@ where
                                                 seq.exprs.extend(take(&mut exprs));
                                                 seq.exprs.extend(extra);
 
+                                                if seq.exprs.len() == 1 {
+                                                    stmt.init = Some(VarDeclOrExpr::Expr(
+                                                        seq.exprs.pop().unwrap(),
+                                                    ));
+                                                }
+
                                                 new_stmts.push(T::from_stmt(Stmt::For(stmt)));
 
                                                 continue;
