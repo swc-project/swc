@@ -851,6 +851,14 @@ impl VisitMut for Pure<'_> {
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        match s {
+            Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+            _ => {}
+        }
+
         debug_assert_valid(s);
 
         #[cfg(feature = "debug")]
