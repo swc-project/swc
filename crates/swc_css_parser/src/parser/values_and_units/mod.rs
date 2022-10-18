@@ -6,8 +6,6 @@ use crate::{
     error::{Error, ErrorKind},
     Parse,
 };
-#[cfg(test)]
-mod tests;
 
 impl<I> Parser<I>
 where

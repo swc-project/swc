@@ -1118,7 +1118,7 @@
             }), __webpack_require__.d(__webpack_exports__, "Hcl", function() {
                 return Hcl;
             });
-            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = 6 / 29 * t1 * t1;
+            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
@@ -13446,32 +13446,27 @@
                 childComponents = childComponents || getChildComponents(props);
                 var baseStyle = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).style.parent, height = props.height, polar = props.polar, theme = props.theme, width = props.width, _calculatedProps = calculatedProps, origin = _calculatedProps.origin, horizontal = _calculatedProps.horizontal, parentName = props.name || "chart";
                 return childComponents.map(function(child, index) {
-                    var role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
+                    var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
-                    }), childProps = function(child, props, calculatedProps) {
-                        var domain, scale, stringMap, categories, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
-                            child
-                        ]);
-                        if (axisChild.length > 0) return axisChild[0], domain = calculatedProps.domain, scale = calculatedProps.scale, stringMap = calculatedProps.stringMap, categories = calculatedProps.categories, {
-                            stringMap: stringMap,
-                            horizontal: calculatedProps.horizontal,
-                            categories: categories,
-                            startAngle: props.startAngle,
-                            endAngle: props.endAngle,
-                            innerRadius: props.innerRadius,
-                            domain: domain,
-                            scale: scale
-                        };
-                        var categories1 = calculatedProps.categories, domain1 = calculatedProps.domain, range = calculatedProps.range;
-                        return {
-                            categories: categories1,
-                            domain: domain1,
-                            range: range,
-                            scale: calculatedProps.scale,
-                            stringMap: calculatedProps.stringMap,
-                            horizontal: calculatedProps.horizontal
-                        };
-                    }(child, props, calculatedProps), name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index), newProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({
+                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                        child1
+                    ])).length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
+                        stringMap: stringMap,
+                        horizontal: calculatedProps1.horizontal,
+                        categories: categories,
+                        startAngle: props1.startAngle,
+                        endAngle: props1.endAngle,
+                        innerRadius: props1.innerRadius,
+                        domain: domain,
+                        scale: scale
+                    }) : {
+                        categories: calculatedProps1.categories,
+                        domain: calculatedProps1.domain,
+                        range: calculatedProps1.range,
+                        scale: calculatedProps1.scale,
+                        stringMap: calculatedProps1.stringMap,
+                        horizontal: calculatedProps1.horizontal
+                    }), name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index), newProps = lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({
                         horizontal: horizontal,
                         height: height,
                         polar: polar,
@@ -22861,10 +22856,10 @@
                     });
                 },
                 getDataFromChildren: function(props, childComponents) {
-                    var polar = props.polar, startAngle = props.startAngle, endAngle = props.endAngle, parentProps = {
-                        polar: polar,
-                        startAngle: startAngle,
-                        endAngle: endAngle,
+                    var parentProps = {
+                        polar: props.polar,
+                        startAngle: props.startAngle,
+                        endAngle: props.endAngle,
                         categories: props.categories,
                         minDomain: props.minDomain,
                         maxDomain: props.maxDomain
@@ -27841,8 +27836,8 @@
                     evt.preventDefault();
                     var activateSelectedData = targetProps.activateSelectedData, allowSelection = targetProps.allowSelection, polar = targetProps.polar, selectedData = targetProps.selectedData;
                     if (!allowSelection) return {};
-                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, x1 = polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0], mutatedProps = {
-                        x1: x1,
+                    var dimension = this.getDimension(targetProps), parentSVG = targetProps.parentSVG || victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getParentSVG(evt), _Selection$getSVGEven = victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getSVGEventCoordinates(evt, parentSVG), x = _Selection$getSVGEven.x, y = _Selection$getSVGEven.y, mutatedProps = {
+                        x1: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[0],
                         y1: polar || "x" !== dimension ? y : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).y[0],
                         select: !0,
                         x2: polar || "y" !== dimension ? x : victory_core__WEBPACK_IMPORTED_MODULE_5__.Selection.getDomainCoordinates(targetProps).x[1],

@@ -4,7 +4,7 @@ use swc_css_ast::*;
 use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
-    parser::{value::is_math_function, BlockContentsGrammar, Ctx},
+    parser::{values_and_units::is_math_function, BlockContentsGrammar, Ctx},
     Parse,
 };
 

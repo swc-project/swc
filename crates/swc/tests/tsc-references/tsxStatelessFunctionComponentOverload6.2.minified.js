@@ -13,7 +13,7 @@ define([
         get: function() {
             return MainButton;
         }
-    }), _extends = _extends.default;
+    });
     var obj1, obj = {
         children: "hi",
         to: "boo"
@@ -21,7 +21,7 @@ define([
     function MainButton(props) {
         return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
     }
-    _extends({}, obj), _extends({}, {
+    (_extends = _extends.default)({}, obj), _extends({}, {
         to: 10000
     }, obj), _extends({}, obj1), _extends({}, obj1, {
         to: "/to/somewhere"

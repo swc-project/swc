@@ -2209,8 +2209,8 @@
                     fontFamily: c,
                     fontWeight: f,
                     fontStyle: d
-                }) : null, S = x ? x.data : c, A = {
-                    font: S,
+                }) : null, S = {
+                    font: x ? x.data : c,
                     color: l,
                     opacity: _,
                     fontSize: h,
@@ -2224,25 +2224,25 @@
                     strike: "line-through" === v || "underline line-through" === v || "line-through underline" === v,
                     strikeColor: b || l,
                     underlineColor: b || l,
-                    link: n || (null === (O = r.props) || void 0 === O ? void 0 : O.src) || (null === (C = r.props) || void 0 === C ? void 0 : C.href),
+                    link: n || (null === (k = r.props) || void 0 === k ? void 0 : k.src) || (null === (O = r.props) || void 0 === O ? void 0 : O.href),
                     lineHeight: g ? g * h : null
-                }, k = 0; k < r.children.length; k += 1){
-                    var O, C, P, F = r.children[k];
-                    F.type === T.Image ? o.push({
+                }, A = 0; A < r.children.length; A += 1){
+                    var k, O, C, P = r.children[A];
+                    P.type === T.Image ? o.push({
                         string: String.fromCharCode(0xfffc),
-                        attributes: U.default({}, A, {
+                        attributes: U.default({}, S, {
                             attachment: {
-                                width: F.style.width || h,
-                                height: F.style.height || h,
-                                image: F.image.data
+                                width: P.style.width || h,
+                                height: P.style.height || h,
+                                image: P.image.data
                             }
                         })
-                    }) : F.type === T.TextInstance ? o.push({
-                        string: Z(F.value, D),
-                        attributes: A
-                    }) : F && (P = o).push.apply(P, e(t, F, A.link, i + 1));
+                    }) : P.type === T.TextInstance ? o.push({
+                        string: Z(P.value, D),
+                        attributes: S
+                    }) : P && (C = o).push.apply(C, e(t, P, S.link, i + 1));
                 }
-                for(var R = 0; R < tT.length; R += 1)o = (0, tT[R])(o);
+                for(var F = 0; F < tT.length; F += 1)o = (0, tT[F])(o);
                 return o;
             }, tC = function(e, t) {
                 var r = tO(e, t);

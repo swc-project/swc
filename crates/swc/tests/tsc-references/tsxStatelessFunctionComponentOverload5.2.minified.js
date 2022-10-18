@@ -13,14 +13,14 @@ define([
         get: function() {
             return MainButton;
         }
-    }), _extends = _extends.default;
+    });
     var obj3, obj0 = {
         to: "world"
     };
     function MainButton(props) {
         return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
     }
-    _extends({
+    (_extends = _extends.default)({
         onClick: function(e) {}
     }, obj0), _extends({}, {
         to: "10000"
