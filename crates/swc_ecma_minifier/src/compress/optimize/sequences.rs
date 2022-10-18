@@ -691,6 +691,7 @@ where
 
                     !v.decls.is_empty()
                 }
+                Some(Stmt::Decl(Decl::Fn(f))) => !f.ident.is_dummy(),
                 Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
 
                 _ => true,
@@ -870,6 +871,7 @@ where
                                 None => continue,
                             },
                             Mergable::Expr(e) => e,
+                            Mergable::FnDecl(..) => continue,
                         },
                     )? {
                         did_work = true;
@@ -913,6 +915,7 @@ where
                                 break;
                             }
                         }
+
                         _ => {}
                     }
 
@@ -2293,6 +2296,7 @@ impl Visit for UsageCounter<'_> {
 enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),
+    FnDecl(&'a mut FnDecl),
 }
 
 impl Mergable<'_> {
