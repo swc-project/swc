@@ -326,10 +326,7 @@ where
                             if !exprs.is_empty() {
                                 new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: take(&mut exprs),
-                                    })),
+                                    expr: Expr::from_exprs(take(&mut exprs)),
                                 })))
                             }
 
@@ -356,10 +353,7 @@ where
         if !exprs.is_empty() {
             new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Box::new(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: take(&mut exprs),
-                })),
+                expr: Expr::from_exprs(take(&mut exprs)),
             })))
         }
 
