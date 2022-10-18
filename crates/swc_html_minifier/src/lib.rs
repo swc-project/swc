@@ -450,6 +450,7 @@ impl Minifier<'_> {
                 {
                     true
                 }
+                _ if attribute_name == "exportparts" => true,
                 _ => COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name)),
             },
             Namespace::SVG => {
@@ -2413,6 +2414,8 @@ impl VisitMut for Minifier<'_> {
                                     }
                                 } else if matches!(n.name, js_word!("points")) {
                                     self.collapse_whitespace(value.trim())
+                                } else if matches!(n.name, js_word!("exportparts")) {
+                                    value.chars().filter(|c| !c.is_whitespace()).collect()
                                 } else {
                                     value.trim().to_string()
                                 }
