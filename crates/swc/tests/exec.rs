@@ -57,7 +57,7 @@ fn init_helpers() -> Arc<PathBuf> {
         let helper_dir = project_root.join("packages").join("swc-helpers");
 
         let yarn = find_executable("yarn").expect("failed to find yarn");
-        let npm = find_executable("npm").expect("failed to find yarn");
+        let npm = find_executable("npm").expect("failed to find npm");
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");

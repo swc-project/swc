@@ -6549,6 +6549,100 @@ function set_privateFieldValue(newValue) {
 "#
 );
 
+test!(
+    syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    set_only_getter,
+    r#"
+class Cl {
+  #privateField = 0;
+  counter = 0;
+
+  get #privateFieldValue() {
+    return this.#privateField;
+  }
+
+  get self() {
+    this.counter++;
+    return this;
+  }
+
+  constructor() {
+    this.self.#privateFieldValue = 1;
+    ([this.self.#privateFieldValue] = [1]);
+  }
+}
+
+const cl = new Cl();
+"#,
+    r##"
+var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
+class Cl {
+    get self() {
+        this.counter++;
+        return this;
+    }
+    constructor(){
+        _classPrivateFieldInit(this, _privateFieldValue, {
+            get: get_privateFieldValue,
+            set: void 0
+        });
+        _classPrivateFieldInit(this, _privateField, {
+            writable: true,
+            value: 0
+        });
+        _defineProperty(this, "counter", 0);
+        this.self, _readOnlyError("#privateFieldValue");
+        [_classPrivateFieldDestructureSet(this.self, _privateFieldValue).value] = [
+            1
+        ];
+    }
+}
+function get_privateFieldValue() {
+    return _classPrivateFieldGet(this, _privateField);
+}
+const cl = new Cl();
+"##
+);
+
+test!(
+    syntax(),
+    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    get_only_setter,
+    r#"
+class Cl {
+  #privateField = 0;
+
+  set #privateFieldValue(newValue) {
+    this.#privateField = newValue;
+  }
+
+  constructor() {
+    this.publicField = this.#privateFieldValue;
+  }
+}
+"#,
+    r##"
+var _privateField = new WeakMap(), _privateFieldValue = new WeakMap();
+class Cl {
+    constructor(){
+        _classPrivateFieldInit(this, _privateFieldValue, {
+            get: void 0,
+            set: set_privateFieldValue
+        });
+        _classPrivateFieldInit(this, _privateField, {
+            writable: true,
+            value: 0
+        });
+        this.publicField = (this, _writeOnlyError("#privateFieldValue"));
+    }
+}
+function set_privateFieldValue(newValue) {
+    _classPrivateFieldSet(this, _privateField, newValue);
+}
+"##
+);
+
 #[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(&input).unwrap();

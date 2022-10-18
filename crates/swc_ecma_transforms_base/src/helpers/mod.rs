@@ -334,6 +334,7 @@ define_helpers!(Helpers {
         set_prototype_of,
         is_native_function
     ),
+    write_only_error: (),
 
     class_private_field_destructure: (
         class_extract_field_descriptor,
