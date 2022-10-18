@@ -8,14 +8,14 @@ use crate::{error::Error, Parse};
 
 #[macro_use]
 mod macros;
-mod at_rule;
-mod base;
+mod at_rules;
 pub mod input;
-mod selector;
+mod selectors;
+mod syntax;
 #[cfg(test)]
 mod tests;
 mod util;
-mod value;
+mod values_and_units;
 
 pub type PResult<T> = Result<T, Error>;
 

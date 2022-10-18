@@ -1105,6 +1105,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(Context {
             allow_direct_super: false,
             in_class_field: false,
+            will_expect_colon_for_cond: false,
             ..self.ctx()
         })
         .parse_with(|p| {

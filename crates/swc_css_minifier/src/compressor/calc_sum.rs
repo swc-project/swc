@@ -184,6 +184,20 @@ impl CalcSumContext {
                     let mut sum = s.clone();
                     self.nested_fold(operator, &mut sum);
                 }
+                CalcValueOrOperator::Value(CalcValue::Function(Function {
+                    name, value, ..
+                })) if is_calc_function_name(name) && value.len() == 1 => {
+                    match &value[0] {
+                        ComponentValue::CalcSum(calc_sum) => {
+                            let mut sum = calc_sum.clone();
+                            self.nested_fold(operator, &mut sum);
+                        }
+                        _ => {
+                            // Other cases (constant, function...), just push the data
+                            self.push(operator, operand);
+                        }
+                    }
+                }
                 _ => {
                     // Other cases (constant, function...), just push the data
                     self.push(operator, operand);
@@ -970,39 +984,23 @@ impl Compressor {
                     ComponentValue::CalcSum(CalcSum {
                         expressions: calc_sum_expressions,
                         ..
-                    }) if calc_sum_expressions.len() == 1 => {
-                        match &calc_sum_expressions[0] {
-                            CalcProductOrOperator::Product(CalcProduct {
-                                expressions: calc_product_expressions,
-                                ..
-                            }) if calc_product_expressions.len() == 1 => {
-                                match &calc_product_expressions[0] {
-                                    CalcValueOrOperator::Value(CalcValue::Sum(_)) => {
-                                        // Do nothing, we cannot transform a
-                                        // CalcSum into a ComponentValue
-                                    }
-                                    CalcValueOrOperator::Value(CalcValue::Constant(_)) => {
-                                        // https://www.w3.org/TR/css-values-4/#calc-constants
-                                        // "These keywords are only usable
-                                        // within a calculation"
-                                        // "If used outside of a calculation,
-                                        // they’re treated like any other
-                                        // keyword"
-                                    }
-                                    // `calc` and other math functions can be used in `@supports` to
-                                    // check availability, we should leave them as is
-                                    CalcValueOrOperator::Value(calc_value)
-                                        if !self.in_supports_conidition =>
-                                    {
-                                        *component_value =
-                                            transform_calc_value_into_component_value(calc_value);
-                                    }
-                                    _ => {}
+                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
+                        CalcProductOrOperator::Product(CalcProduct {
+                            expressions: calc_product_expressions,
+                            ..
+                        }) if calc_product_expressions.len() == 1 => {
+                            if let CalcValueOrOperator::Value(calc_value) =
+                                &calc_product_expressions[0]
+                            {
+                                if let Some(cv) =
+                                    transform_calc_value_into_component_value(calc_value)
+                                {
+                                    *component_value = cv;
                                 }
                             }
-                            _ => {}
                         }
-                    }
+                        _ => {}
+                    },
                     _ => {}
                 }
             }
