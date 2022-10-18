@@ -1208,6 +1208,13 @@ where
                                 return false;
                             }
                         }
+                        Mergable::FnDecl(a) => {
+                            // TODO(kdy1): I'm not sure if this check is required.
+                            if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a ()");
+                                return false;
+                            }
+                        }
                     }
                 }
 
@@ -1416,6 +1423,7 @@ where
             let a = match a {
                 Mergable::Expr(e) => dump(*e, false),
                 Mergable::Var(e) => dump(*e, false),
+                Mergable::FnDecl(e) => dump(*e, false),
             };
 
             Some(
@@ -1486,6 +1494,12 @@ where
                         return Ok(false);
                     }
                 },
+
+                Mergable::FnDecl(..) => {
+                    // A function declaration is always inlinable as it can be
+                    // viewed as a variable with an identifier name and a
+                    // function expression as a initialized.
+                }
             }
         }
 
