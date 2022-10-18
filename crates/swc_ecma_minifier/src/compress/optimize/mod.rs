@@ -1946,12 +1946,7 @@ where
             }
         }
 
-        match &mut *n.expr {
-            Expr::Seq(seq) if seq.exprs.len() == 1 => {
-                n.expr = seq.exprs.take().into_iter().next().unwrap();
-            }
-            _ => {}
-        }
+        self.normalize_expr(&mut n.expr);
 
         #[cfg(debug_assertions)]
         {
