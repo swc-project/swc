@@ -4321,9 +4321,6 @@
         function next_indent() {
             return indentation + options.indent_level;
         }
-        var add_mapping = mappings ? function(token, name) {
-            mapping_token = token, mapping_name = name;
-        } : noop;
         function get() {
             return might_add_newline && ensure_line_len(), OUTPUT.toString();
         }
@@ -4408,7 +4405,9 @@
                 var ret = cont();
                 return print("]"), ret;
             },
-            add_mapping: add_mapping,
+            add_mapping: mappings ? function(token, name) {
+                mapping_token = token, mapping_name = name;
+            } : noop,
             option: function(opt) {
                 return options[opt];
             },

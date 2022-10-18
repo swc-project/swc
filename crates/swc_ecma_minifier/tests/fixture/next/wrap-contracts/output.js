@@ -5972,14 +5972,14 @@
         },
         1609: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var utils = __webpack_require__(4867), bind = __webpack_require__(1849), Axios = __webpack_require__(321), mergeConfig = __webpack_require__(7185), defaults = __webpack_require__(5546);
+            var utils = __webpack_require__(4867), bind = __webpack_require__(1849), Axios = __webpack_require__(321), mergeConfig = __webpack_require__(7185);
             function createInstance(defaultConfig) {
                 var context = new Axios(defaultConfig), instance = bind(Axios.prototype.request, context);
                 return utils.extend(instance, Axios.prototype, context), utils.extend(instance, context), instance.create = function(instanceConfig) {
                     return createInstance(mergeConfig(defaultConfig, instanceConfig));
                 }, instance;
             }
-            var axios = createInstance(defaults);
+            var axios = createInstance(__webpack_require__(5546));
             axios.Axios = Axios, axios.CanceledError = __webpack_require__(644), axios.CancelToken = __webpack_require__(4972), axios.isCancel = __webpack_require__(6502), axios.VERSION = __webpack_require__(7288).version, axios.toFormData = __webpack_require__(7675), axios.AxiosError = __webpack_require__(723), axios.Cancel = axios.CanceledError, axios.all = function(promises) {
                 return Promise.all(promises);
             }, axios.spread = __webpack_require__(8713), axios.isAxiosError = __webpack_require__(6268), module.exports = axios, module.exports.default = axios;
@@ -6037,11 +6037,11 @@
         },
         644: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var AxiosError = __webpack_require__(723), utils = __webpack_require__(4867);
+            var AxiosError = __webpack_require__(723);
             function CanceledError(message) {
                 AxiosError.call(this, null == message ? 'canceled' : message, AxiosError.ERR_CANCELED), this.name = 'CanceledError';
             }
-            utils.inherits(CanceledError, AxiosError, {
+            __webpack_require__(4867).inherits(CanceledError, AxiosError, {
                 __CANCEL__: !0
             }), module.exports = CanceledError;
         },
