@@ -1,9 +1,6 @@
-#![cfg_attr(not(debug_assertions), allow(unused))]
-
 use std::{
     fmt::Debug,
     io::Write,
-    mem::forget,
     process::{Command, Stdio},
 };
 
@@ -13,9 +10,7 @@ use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
 pub use swc_ecma_transforms_optimization::{debug_assert_valid, AssertValid};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith, VisitWith};
 use tracing::debug;
 
 pub(crate) struct Debugger {}
