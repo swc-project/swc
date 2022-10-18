@@ -366,6 +366,8 @@ where
         }
 
         if let Some(mut cur) = cur {
+            self.normalize_expr(&mut cur);
+
             match &*cur {
                 Expr::Seq(seq)
                     if !should_preserve_last_return
