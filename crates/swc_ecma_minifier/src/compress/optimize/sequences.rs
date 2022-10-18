@@ -1834,6 +1834,14 @@ where
                     crate::debug::dump(&*b, false)
                 );
             }
+
+            Mergable::FnDecl(a) => {
+                trace_op!(
+                    "sequences: Trying to merge `{}` => `{}`",
+                    crate::debug::dump(&**a, false),
+                    crate::debug::dump(&*b, false)
+                );
+            }
         }
 
         if self.replace_seq_update(a, b)? {
