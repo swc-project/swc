@@ -581,10 +581,7 @@ where
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        });
+                        *e = *Expr::from_exprs(exprs);
                         e.visit_mut_with(self);
                     }
                 }
