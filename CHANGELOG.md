@@ -16,6 +16,9 @@
 
 - **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
 
+
+- **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
+
 ## [1.3.9] - 2022-10-17
 
 ### Bug Fixes
