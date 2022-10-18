@@ -834,6 +834,8 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        debug_assert_valid(m);
+
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if self.bindings.is_empty() {
