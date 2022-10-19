@@ -161,7 +161,7 @@ div {
   }
 }
 * {
-  counter-reset: -- --a -a;
+  counter-reset: --a --a -a;
   --dash: -;
 }
 #test_1 span::before {
@@ -187,4 +187,7 @@ div {
 #control_3 span::before {
   counter-increment: -a;
   content: counter(-a);
+}
+* {
+  counter-reset: --a "string";
 }

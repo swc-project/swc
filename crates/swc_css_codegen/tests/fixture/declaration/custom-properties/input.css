@@ -69,7 +69,7 @@ div {
 @supports ( . --x : y , z ) { a { color: red; } }
 
 * {
-    counter-reset: -- --a -a;
+    counter-reset: --a --a -a;
     --dash:-;
 }
 
@@ -101,4 +101,8 @@ div {
 #control_3 span::before {
     counter-increment: -a;
     content: counter(-a);
+}
+
+* {
+    counter-reset: --a "string";
 }

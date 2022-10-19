@@ -19,6 +19,9 @@
 
 - **(html/minifier)** Compress `exportparts` (#6187) ([0ba464d](https://github.com/swc-project/swc/commit/0ba464d64338973d3fa2080bb3b47ac1574cced0))
 
+
+- **(html/minifier)** Fix bugs of merging and removing metadata elements (#6200) ([3546632](https://github.com/swc-project/swc/commit/35466322d6c2e3d09c9d43e0ce773203c9d239b1))
+
 ### Features
 
 
@@ -45,6 +48,9 @@
 
 ### Refactor
 
+
+
+- **(css/ast)** Refactor dashed ident (#6198) ([6c170e5](https://github.com/swc-project/swc/commit/6c170e59c792dea637a694ad97157c77a2176327))
 
 
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))

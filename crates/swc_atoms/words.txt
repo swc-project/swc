@@ -726,6 +726,7 @@ counter-style
 createClass
 createReactClass
 cubic-bezier
+custom-media
 cursor
 data
 datalist

@@ -620,7 +620,7 @@
                 "end": 142,
                 "ctxt": 0
               },
-              "value": "--foo",
+              "value": "foo",
               "raw": "--foo"
             },
             "value": [
@@ -732,7 +732,7 @@
                 "end": 172,
                 "ctxt": 0
               },
-              "value": "--foo",
+              "value": "foo",
               "raw": "--foo"
             },
             "value": [

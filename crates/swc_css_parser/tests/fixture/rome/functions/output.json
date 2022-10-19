@@ -94,7 +94,7 @@
                 "end": 18,
                 "ctxt": 0
               },
-              "value": "--fancy",
+              "value": "fancy",
               "raw": "--fancy"
             },
             "value": [
@@ -161,7 +161,7 @@
                       "end": 45,
                       "ctxt": 0
                     },
-                    "value": "--fancy",
+                    "value": "fancy",
                     "raw": "--fancy"
                   }
                 ]
