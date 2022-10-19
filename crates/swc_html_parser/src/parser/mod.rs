@@ -8388,7 +8388,7 @@ where
         // node document is the same as that of the node in which the adjusted
         // insertion location finds itself.
         let (data, raw) = match &token_and_info.token {
-            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            Token::Comment { data, raw } => (data.clone(), raw.clone()),
             _ => {
                 unreachable!()
             }
@@ -8407,7 +8407,7 @@ where
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
         let (data, raw) = match &token_and_info.token {
-            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            Token::Comment { data, raw } => (data.clone(), raw.clone()),
             _ => {
                 unreachable!()
             }
@@ -8427,7 +8427,7 @@ where
         token_and_info: &mut TokenAndInfo,
     ) -> PResult<()> {
         let (data, raw) = match &token_and_info.token {
-            Token::Comment { data, raw } => (data.clone(), Some(raw.clone())),
+            Token::Comment { data, raw } => (data.clone(), raw.clone()),
             _ => {
                 unreachable!()
             }
