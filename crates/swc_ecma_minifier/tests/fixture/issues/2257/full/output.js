@@ -6024,7 +6024,7 @@
             $({
                 target: "Number",
                 proto: !0,
-                forced: !!nativeToFixed || !fails(function() {
+                forced: nativeToFixed && !0 || !fails(function() {
                     nativeToFixed.call({});
                 })
             }, {
