@@ -422,25 +422,21 @@ where
             // When the length of raw is more than the length of temporary buffer we emit a
             // raw character in the first character token
             let mut once_raw = raw;
-            let mut once_emitted = false;
+
+            let is_value_eq_raw = if let Some(raw) = &once_raw {
+                *raw == self.temporary_buffer
+            } else {
+                true
+            };
 
             for c in take(&mut self.temporary_buffer).chars() {
                 self.emit_token(Token::Character {
                     value: c,
-                    // TODO improve me
-                    is_value_eq_raw: false,
-                    raw: match once_raw {
-                        Some(_) => {
-                            once_emitted = true;
-                            once_raw.take().map(|x| x.into())
-                        }
-                        _ => {
-                            if once_emitted {
-                                None
-                            } else {
-                                Some(Atom::new(String::from(c)))
-                            }
-                        }
+                    is_value_eq_raw,
+                    raw: if is_value_eq_raw {
+                        None
+                    } else {
+                        once_raw.take().map(Atom::new)
                     },
                 });
             }
