@@ -76,6 +76,7 @@ pub enum Token {
     },
     Character {
         value: char,
+        is_value_eq_raw: bool,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: Option<Atom>,
     },

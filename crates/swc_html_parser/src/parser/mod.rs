@@ -676,7 +676,11 @@ where
             // A character token that is U+0000 NULL
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
-            Token::Character { value, raw } if *value == '\x00' => {
+            Token::Character {
+                value,
+                raw,
+                is_value_eq_raw,
+            } if *value == '\x00' => {
                 self.errors.push(Error::new(
                     token_and_info.span,
                     ErrorKind::UnexpectedNullCharacter,
@@ -684,6 +688,7 @@ where
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
+                    is_value_eq_raw: *is_value_eq_raw,
                     raw: raw.clone(),
                 };
 
@@ -8479,10 +8484,13 @@ where
                             Token::Character {
                                 value: c,
                                 raw: raw_c,
+                                is_value_eq_raw,
                             } => {
                                 data.borrow_mut().push(*c);
 
-                                if let Some(raw_c) = raw_c {
+                                if *is_value_eq_raw {
+                                    raw_data.borrow_mut().push(*c);
+                                } else if let Some(raw_c) = raw_c {
                                     raw_data.borrow_mut().push_str(raw_c);
                                 }
                             }
@@ -8513,11 +8521,14 @@ where
                                 match &token_and_info.token {
                                     Token::Character {
                                         value: c,
+                                        is_value_eq_raw,
                                         raw: raw_c,
                                     } => {
                                         data.borrow_mut().push(*c);
 
-                                        if let Some(raw_c) = raw_c {
+                                        if *is_value_eq_raw {
+                                            raw_data.borrow_mut().push(*c);
+                                        } else if let Some(raw_c) = raw_c {
                                             raw_data.borrow_mut().push_str(raw_c);
                                         }
                                     }
@@ -8545,6 +8556,7 @@ where
         let (data, raw) = match &token_and_info.token {
             Token::Character {
                 value: c,
+                is_value_eq_raw,
                 raw: raw_c,
             } => {
                 let mut data = String::with_capacity(64);
@@ -8553,7 +8565,9 @@ where
 
                 let mut raw = String::with_capacity(64);
 
-                if let Some(raw_c) = raw_c {
+                if *is_value_eq_raw {
+                    raw.push(*c);
+                } else if let Some(raw_c) = raw_c {
                     raw.push_str(raw_c);
                 }
 
