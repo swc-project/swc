@@ -38,7 +38,7 @@
         return !!hasOwnProperty.call(validatedAttributeNameCache, attributeName) || !hasOwnProperty.call(illegalAttributeNameCache, attributeName) && (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName) ? (validatedAttributeNameCache[attributeName] = !0, !0) : (illegalAttributeNameCache[attributeName] = !0, error("Invalid attribute name: `%s`", attributeName), !1));
     }
     function shouldIgnoreAttribute(name, propertyInfo, isCustomComponentTag) {
-        return null !== propertyInfo ? 0 === propertyInfo.type : !isCustomComponentTag && !!(name.length > 2) && ("o" === name[0] || "O" === name[0]) && ("n" === name[1] || "N" === name[1]);
+        return null !== propertyInfo ? 0 === propertyInfo.type : !isCustomComponentTag && name.length > 2 && ("o" === name[0] || "O" === name[0]) && ("n" === name[1] || "N" === name[1]);
     }
     function shouldRemoveAttributeWithWarning(name, value, propertyInfo, isCustomComponentTag) {
         if (null !== propertyInfo && 0 === propertyInfo.type) return !1;
