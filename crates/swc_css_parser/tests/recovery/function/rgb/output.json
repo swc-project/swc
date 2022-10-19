@@ -870,7 +870,7 @@
                           "end": 334,
                           "ctxt": 0
                         },
-                        "value": "--red",
+                        "value": "red",
                         "raw": "--red"
                       }
                     ]
@@ -941,7 +941,7 @@
                           "end": 362,
                           "ctxt": 0
                         },
-                        "value": "--red",
+                        "value": "red",
                         "raw": "--red"
                       }
                     ]
@@ -971,7 +971,7 @@
                           "end": 375,
                           "ctxt": 0
                         },
-                        "value": "--green",
+                        "value": "green",
                         "raw": "--green"
                       }
                     ]

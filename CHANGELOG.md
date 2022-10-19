@@ -8,10 +8,19 @@
 - **(css/codegen)** Fix codegen of pseudo class selectors (#6186) ([4fba0db](https://github.com/swc-project/swc/commit/4fba0db3d9a4ffc6c13e134b3c75441737ff83d5))
 
 
+- **(css/minifier)** Don't touch `@supports` (#6199) ([ac7cfa1](https://github.com/swc-project/swc/commit/ac7cfa13b62b81018cccb8c424adb1cae679446c))
+
+
+- **(es/minifier)** Remove wrong rule (#6201) ([842abd4](https://github.com/swc-project/swc/commit/842abd45759a31e9b6ef2b3a0679dee3ad335791))
+
+
 - **(html/minifier)** Avoid `;` at the end of js (#6188) ([5571c0c](https://github.com/swc-project/swc/commit/5571c0c2029577929ec547948319497144c34c28))
 
 
 - **(html/minifier)** Compress `exportparts` (#6187) ([0ba464d](https://github.com/swc-project/swc/commit/0ba464d64338973d3fa2080bb3b47ac1574cced0))
+
+
+- **(html/minifier)** Fix bugs of merging and removing metadata elements (#6200) ([3546632](https://github.com/swc-project/swc/commit/35466322d6c2e3d09c9d43e0ce773203c9d239b1))
 
 ### Features
 
@@ -37,8 +46,17 @@
 
 - **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
 
+### Performance
+
+
+
+- **(es/transforms)** Exclude old inlining pass (#6203) ([27896f4](https://github.com/swc-project/swc/commit/27896f4751e72c12eaadeb302848083df8e8e842))
+
 ### Refactor
 
+
+
+- **(css/ast)** Refactor dashed ident (#6198) ([6c170e5](https://github.com/swc-project/swc/commit/6c170e59c792dea637a694ad97157c77a2176327))
 
 
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))

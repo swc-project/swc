@@ -2,7 +2,7 @@
   x Stylesheet
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
-  2 | |       --:value;
+  2 | |       ---:value;
   3 | |   
   4 | |       --important:value!important;
   5 | |       --important1: value!important;
@@ -73,7 +73,7 @@
   x Rule
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
-  2 | |       --:value;
+  2 | |       ---:value;
   3 | |   
   4 | |       --important:value!important;
   5 | |       --important1: value!important;
@@ -134,7 +134,7 @@
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
-  2 | |       --:value;
+  2 | |       ---:value;
   3 | |   
   4 | |       --important:value!important;
   5 | |       --important1: value!important;
@@ -231,7 +231,7 @@
   x SimpleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
   1 | ,-> :root {
-  2 | |       --:value;
+  2 | |       ---:value;
   3 | |   
   4 | |       --important:value!important;
   5 | |       --important1: value!important;
@@ -297,44 +297,44 @@
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   : ^^^^^^^^
+ 2 | ---:value;
+   : ^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   : ^^^^^^^^
+ 2 | ---:value;
+   : ^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   : ^^^^^^^^
+ 2 | ---:value;
+   : ^^^^^^^^^
    `----
 
   x DeclarationName
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   : ^^
+ 2 | ---:value;
+   : ^^^
    `----
 
   x DashedIdent
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   : ^^
+ 2 | ---:value;
+   : ^^^
    `----
 
   x ComponentValue
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   :    ^^^^^
+ 2 | ---:value;
+   :     ^^^^^
    `----
 
   x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:2:5]
- 2 | --:value;
-   :    ^^^^^
+ 2 | ---:value;
+   :     ^^^^^
    `----
 
   x ComponentValue

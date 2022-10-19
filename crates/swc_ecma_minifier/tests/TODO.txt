@@ -82,6 +82,7 @@ conditionals/ifs_5/input.js
 conditionals/ifs_6/input.js
 conditionals/ifs_same_consequent/input.js
 conditionals/issue_1154/input.js
+conditionals/issue_2535_2/input.js
 dead_code/dead_code_const_annotation/input.js
 dead_code/dead_code_const_annotation_complex_scope/input.js
 dead_code/dead_code_constant_boolean_should_warn_more/input.js
@@ -210,7 +211,6 @@ harmony/issue_1898/input.js
 harmony/issue_2349b/input.js
 harmony/issue_2794_1/input.js
 harmony/issue_2794_2/input.js
-harmony/issue_2794_3/input.js
 harmony/issue_2874_1/input.js
 harmony/issue_2874_2/input.js
 harmony/module_enabled/input.js

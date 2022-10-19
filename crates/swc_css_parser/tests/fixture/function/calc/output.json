@@ -287,7 +287,7 @@
                 "end": 62,
                 "ctxt": 0
               },
-              "value": "--width",
+              "value": "width",
               "raw": "--width"
             },
             "value": [
@@ -2480,7 +2480,7 @@
                                   "end": 620,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]
@@ -8623,7 +8623,7 @@
                                   "end": 2287,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]
@@ -8790,7 +8790,7 @@
                                   "end": 2334,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]
@@ -8957,7 +8957,7 @@
                                   "end": 2376,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]
@@ -9124,7 +9124,7 @@
                                   "end": 2420,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]
@@ -9291,7 +9291,7 @@
                                   "end": 2467,
                                   "ctxt": 0
                                 },
-                                "value": "--width",
+                                "value": "width",
                                 "raw": "--width"
                               }
                             ]

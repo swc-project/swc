@@ -213,7 +213,11 @@ impl VisitMut for Compressor {
             ..self.ctx
         }));
 
-        self.compress_calc_sum(n);
+        // Don't touch `@supports`, it can be used to check a browser's support for one
+        // or more specific CSS features
+        if !self.in_supports_conidition {
+            self.compress_calc_sum(n);
+        }
     }
 
     fn visit_mut_component_value(&mut self, n: &mut ComponentValue) {
