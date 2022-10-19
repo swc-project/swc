@@ -1614,9 +1614,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc-rust"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bcc30df9dfdb5bb6cb2470de65ca604c3eaa3e5dc2ad02a9a98f567df5844472"
+checksum = "6973866e0bc6504c03a16b6817b7e70839cc8a1dbd5d6dab00c65d8034868d8b"
 dependencies = [
  "cty",
  "mimalloc-rust-sys",
@@ -1624,9 +1624,9 @@ dependencies = [
 
 [[package]]
 name = "mimalloc-rust-sys"
-version = "1.7.3-source"
+version = "1.7.6-source"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3adc8731262b982f4e0860770dba118305cafe1b2e7ebe95b29b2c2f46a70666"
+checksum = "7a50daf45336b979a202a19f53b4b382f2c4bd50f392a8dbdb4c6c56ba5dfa64"
 dependencies = [
  "cc",
  "cty",
@@ -4045,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.91.0"
+version = "0.92.1"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4056,7 +4056,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "0.27.0"
+version = "0.28.1"
 dependencies = [
  "bytecheck",
  "is-macro",
@@ -4069,7 +4069,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.36.0"
+version = "0.37.1"
 dependencies = [
  "auto_impl",
  "bitflags",
@@ -4097,7 +4097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.88.0"
+version = "0.89.1"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4127,7 +4127,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "0.33.0"
+version = "0.34.1"
 dependencies = [
  "criterion",
  "serde",
@@ -4154,7 +4154,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "0.27.0"
+version = "0.28.1"
 dependencies = [
  "serde",
  "swc_atoms",
