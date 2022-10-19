@@ -4,7 +4,7 @@ use std::{
     rc::{Rc, Weak},
 };
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::Span;
 use swc_html_ast::*;
 
@@ -24,7 +24,7 @@ pub enum Data {
         name: Option<JsWord>,
         public_id: Option<JsWord>,
         system_id: Option<JsWord>,
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
     Element {
         namespace: Namespace,
@@ -38,7 +38,7 @@ pub enum Data {
     },
     Comment {
         data: JsWord,
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
 }
 

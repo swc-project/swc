@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -676,7 +676,7 @@ where
             // A character token that is U+0000 NULL
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
-            Token::Character { value, raw } if *value == '\x00' => {
+            Token::Character { value, .. } if *value == '\x00' => {
                 self.errors.push(Error::new(
                     token_and_info.span,
                     ErrorKind::UnexpectedNullCharacter,
@@ -684,8 +684,10 @@ where
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
-                    raw: raw.clone(),
+                    raw: Some(Raw::Atom(Atom::new(String::from('\x00')))),
                 };
+
+                println!("{:?}", token_and_info.token);
 
                 self.insert_character(token_and_info)?;
             }
@@ -8482,7 +8484,9 @@ where
                             } => {
                                 data.borrow_mut().push(*c);
 
-                                if let Some(raw_c) = raw_c {
+                                if let Some(Raw::Same) = raw_c {
+                                    raw_data.borrow_mut().push(*c);
+                                } else if let Some(Raw::Atom(raw_c)) = raw_c {
                                     raw_data.borrow_mut().push_str(raw_c);
                                 }
                             }
@@ -8517,7 +8521,9 @@ where
                                     } => {
                                         data.borrow_mut().push(*c);
 
-                                        if let Some(raw_c) = raw_c {
+                                        if let Some(Raw::Same) = raw_c {
+                                            raw_data.borrow_mut().push(*c);
+                                        } else if let Some(Raw::Atom(raw_c)) = raw_c {
                                             raw_data.borrow_mut().push_str(raw_c);
                                         }
                                     }
@@ -8547,13 +8553,15 @@ where
                 value: c,
                 raw: raw_c,
             } => {
-                let mut data = String::with_capacity(255);
+                let mut data = String::with_capacity(64);
 
                 data.push(*c);
 
-                let mut raw = String::with_capacity(255);
+                let mut raw = String::with_capacity(64);
 
-                if let Some(raw_c) = raw_c {
+                if let Some(Raw::Same) = raw_c {
+                    raw.push(*c);
+                } else if let Some(Raw::Atom(raw_c)) = raw_c {
                     raw.push_str(raw_c);
                 }
 

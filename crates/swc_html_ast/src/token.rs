@@ -1,4 +1,4 @@
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("TokenAndSpan")]
@@ -15,11 +15,29 @@ pub struct AttributeToken {
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw_name: Option<JsWord>,
+    pub raw_name: Option<Atom>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw_value: Option<JsWord>,
+    pub raw_value: Option<Atom>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
+pub enum Raw {
+    Same,
+    Atom(Atom),
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, EqIgnoreSpan)]
@@ -50,13 +68,13 @@ pub enum Token {
         system_id: Option<JsWord>,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         // Raw value
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
     StartTag {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_tag_name: Option<JsWord>,
+        raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
@@ -64,7 +82,7 @@ pub enum Token {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw_tag_name: Option<JsWord>,
+        raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
@@ -72,12 +90,12 @@ pub enum Token {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         data: JsWord,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: Option<JsWord>,
+        raw: Option<Atom>,
     },
     Character {
         value: char,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: Option<JsWord>,
+        raw: Option<Raw>,
     },
     Eof,
 }
