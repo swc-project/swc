@@ -14,6 +14,9 @@
 - **(es/minifier)** Remove wrong rule (#6201) ([842abd4](https://github.com/swc-project/swc/commit/842abd45759a31e9b6ef2b3a0679dee3ad335791))
 
 
+- **(html/ast)** Fix compilation (#6211) ([1b0dad1](https://github.com/swc-project/swc/commit/1b0dad1e845b2a648103383be6d952e5997d0387))
+
+
 - **(html/minifier)** Avoid `;` at the end of js (#6188) ([5571c0c](https://github.com/swc-project/swc/commit/5571c0c2029577929ec547948319497144c34c28))
 
 
