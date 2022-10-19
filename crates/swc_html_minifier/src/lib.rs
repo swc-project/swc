@@ -1204,7 +1204,25 @@ impl Minifier<'_> {
         None
     }
 
-    fn empty_children(&self, children: &Vec<Child>) -> bool {
+    fn is_empty_metadata_element(&self, child: &Child) -> bool {
+        if let Child::Element(element) = child {
+            if (!self.is_element_displayed(element.namespace, &element.tag_name)
+                || (matches!(element.namespace, Namespace::HTML | Namespace::SVG)
+                    && element.tag_name == js_word!("script"))
+                || (element.namespace == Namespace::HTML
+                    && element.tag_name == js_word!("noscript")))
+                && element.attributes.is_empty()
+                && self.is_empty_children(&element.children)
+                && element.content.is_none()
+            {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    fn is_empty_children(&self, children: &Vec<Child>) -> bool {
         for child in children {
             match child {
                 Child::Text(text) if text.data.chars().all(is_whitespace) => {
@@ -1251,6 +1269,10 @@ impl Minifier<'_> {
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
+        if children.is_empty() {
+            return vec![];
+        }
+
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
             _ => {
@@ -1265,22 +1287,6 @@ impl Minifier<'_> {
                 match child {
                     Child::Comment(comment) if self.options.remove_comments => {
                         self.is_preserved_comment(&comment.data)
-                    }
-                    Child::Element(element)
-                        if self.options.remove_empty_metadata_elements
-                            && (!self
-                                .is_element_displayed(element.namespace, &element.tag_name)
-                                || (matches!(
-                                    element.namespace,
-                                    Namespace::HTML | Namespace::SVG
-                                ) && element.tag_name == js_word!("script"))
-                                || (element.namespace == Namespace::HTML
-                                    && element.tag_name == js_word!("noscript")))
-                            && element.attributes.is_empty()
-                            && self.empty_children(&element.children)
-                            && element.content.is_none() =>
-                    {
-                        false
                     }
                     Child::Element(element)
                         if self.options.merge_metadata_elements
@@ -1601,6 +1607,31 @@ impl Minifier<'_> {
             let result = child_will_be_retained(&mut child, &mut new_children, children);
 
             if result {
+                if self.options.remove_redundant_attributes
+                    && self.is_empty_metadata_element(&child)
+                {
+                    let need_continue = {
+                        let next_element = if let Some(Child::Element(element)) = children.get(0) {
+                            Some(element)
+                        } else if let Some(Child::Element(element)) = children.get(1) {
+                            Some(element)
+                        } else {
+                            None
+                        };
+
+                        if let Some(element) = next_element {
+                            self.options.merge_metadata_elements
+                                && !self.allow_elements_to_merge(Some(&child), element)
+                        } else {
+                            true
+                        }
+                    };
+
+                    if need_continue {
+                        continue;
+                    }
+                }
+
                 new_children.push(child);
             }
         }
