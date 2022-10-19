@@ -684,8 +684,7 @@ where
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
-                    is_value_eq_raw: false,
-                    raw: Some(Atom::new(String::from('\x00'))),
+                    raw: Some(Raw::Atom(Atom::new(String::from('\x00')))),
                 };
 
                 println!("{:?}", token_and_info.token);
@@ -8482,13 +8481,12 @@ where
                             Token::Character {
                                 value: c,
                                 raw: raw_c,
-                                is_value_eq_raw,
                             } => {
                                 data.borrow_mut().push(*c);
 
-                                if *is_value_eq_raw {
+                                if let Some(Raw::Same) = raw_c {
                                     raw_data.borrow_mut().push(*c);
-                                } else if let Some(raw_c) = raw_c {
+                                } else if let Some(Raw::Atom(raw_c)) = raw_c {
                                     raw_data.borrow_mut().push_str(raw_c);
                                 }
                             }
@@ -8519,14 +8517,13 @@ where
                                 match &token_and_info.token {
                                     Token::Character {
                                         value: c,
-                                        is_value_eq_raw,
                                         raw: raw_c,
                                     } => {
                                         data.borrow_mut().push(*c);
 
-                                        if *is_value_eq_raw {
+                                        if let Some(Raw::Same) = raw_c {
                                             raw_data.borrow_mut().push(*c);
-                                        } else if let Some(raw_c) = raw_c {
+                                        } else if let Some(Raw::Atom(raw_c)) = raw_c {
                                             raw_data.borrow_mut().push_str(raw_c);
                                         }
                                     }
@@ -8554,7 +8551,6 @@ where
         let (data, raw) = match &token_and_info.token {
             Token::Character {
                 value: c,
-                is_value_eq_raw,
                 raw: raw_c,
             } => {
                 let mut data = String::with_capacity(64);
@@ -8563,9 +8559,9 @@ where
 
                 let mut raw = String::with_capacity(64);
 
-                if *is_value_eq_raw {
+                if let Some(Raw::Same) = raw_c {
                     raw.push(*c);
-                } else if let Some(raw_c) = raw_c {
+                } else if let Some(Raw::Atom(raw_c)) = raw_c {
                     raw.push_str(raw_c);
                 }
 

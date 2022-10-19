@@ -35,6 +35,24 @@ pub struct AttributeToken {
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
+pub enum Raw {
+    Same,
+    Atom(Atom),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, serde::Serialize, serde::Deserialize, EqIgnoreSpan)]
+#[cfg_attr(
+    feature = "rkyv",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(
+    feature = "rkyv",
+    archive(bound(
+        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+                     rkyv::ser::SharedSerializeRegistry",
+        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
+    ))
+)]
 pub enum Token {
     Doctype {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
@@ -76,9 +94,8 @@ pub enum Token {
     },
     Character {
         value: char,
-        is_value_eq_raw: bool,
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-        raw: Option<Atom>,
+        raw: Option<Raw>,
     },
     Eof,
 }

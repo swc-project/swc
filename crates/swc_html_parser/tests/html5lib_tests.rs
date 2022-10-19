@@ -206,12 +206,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         *is_self_closing = false;
                         *attributes = vec![];
                     }
-                    Token::Character {
-                        ref mut raw,
-                        ref mut is_value_eq_raw,
-                        ..
-                    } => {
-                        *is_value_eq_raw = true;
+                    Token::Character { ref mut raw, .. } => {
                         *raw = None;
                     }
                     Token::Comment { ref mut raw, .. } => {
@@ -338,7 +333,6 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                                     for c in data.chars() {
                                         tokens.push(Token::Character {
                                             value: c,
-                                            is_value_eq_raw: true,
                                             raw: None,
                                         })
                                     }

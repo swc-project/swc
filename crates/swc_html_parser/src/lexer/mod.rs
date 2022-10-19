@@ -2,7 +2,7 @@ use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem
 
 use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
-use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
+use swc_html_ast::{AttributeToken, Raw, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
 
 use crate::{
@@ -364,8 +364,7 @@ where
         for c in take(&mut self.temporary_buffer).chars() {
             self.emit_token(Token::Character {
                 value: c,
-                is_value_eq_raw: true,
-                raw: None,
+                raw: Some(Raw::Same),
             });
         }
     }
@@ -432,11 +431,10 @@ where
             for c in take(&mut self.temporary_buffer).chars() {
                 self.emit_token(Token::Character {
                     value: c,
-                    is_value_eq_raw,
                     raw: if is_value_eq_raw {
-                        None
+                        Some(Raw::Same)
                     } else {
-                        once_raw.take().map(Atom::new)
+                        once_raw.take().map(|x| Raw::Atom(Atom::new(x)))
                     },
                 });
             }
@@ -845,8 +843,7 @@ where
     fn emit_character_token(&mut self, value: char) -> LexResult<()> {
         self.emit_token(Token::Character {
             value,
-            is_value_eq_raw: true,
-            raw: None,
+            raw: Some(Raw::Same),
         });
 
         Ok(())
@@ -859,8 +856,7 @@ where
 
             l.emit_token(Token::Character {
                 value: value.0,
-                is_value_eq_raw: false,
-                raw: Some(Atom::new(&**buf)),
+                raw: Some(Raw::Atom(Atom::new(&**buf))),
             });
 
             Ok(())
@@ -882,8 +878,7 @@ where
 
                 l.emit_token(Token::Character {
                     value: '\n',
-                    is_value_eq_raw: false,
-                    raw: Some(Atom::new(&**buf)),
+                    raw: Some(Raw::Atom(Atom::new(&**buf))),
                 });
 
                 Ok(())
@@ -891,8 +886,7 @@ where
         } else {
             self.emit_token(Token::Character {
                 value: c,
-                is_value_eq_raw: true,
-                raw: None,
+                raw: Some(Raw::Same),
             });
 
             Ok(())
