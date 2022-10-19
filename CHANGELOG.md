@@ -55,6 +55,9 @@
 
 - **(es/transforms)** Exclude old inlining pass (#6203) ([27896f4](https://github.com/swc-project/swc/commit/27896f4751e72c12eaadeb302848083df8e8e842))
 
+
+- **(html/ast)** Use `Atom` for `raw` (#6210) ([420ba32](https://github.com/swc-project/swc/commit/420ba32e8c3b4f8ea34e3b17c82af31e2934059b))
+
 ### Refactor
 
 
@@ -72,6 +75,12 @@
 
 
 - **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
+
+### Build
+
+
+
+- **(bindings)** Update mimalloc (#6208) ([8ab10f6](https://github.com/swc-project/swc/commit/8ab10f661b55f6440d740efb4c7477f92f70c8c4))
 
 ## [1.3.9] - 2022-10-17
 
