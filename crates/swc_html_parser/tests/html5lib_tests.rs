@@ -799,9 +799,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 || file_name.contains("svg_dat.5.fragment_tbody")
                 || file_name.contains("svg_dat.6.fragment_tbody")
                 || file_name.contains("svg_dat.7.fragment_tbody")
+                || file_name.contains("foreign-fragment_dat.3.fragment_svg_path")
             {
-                errors.len() - 1
-            } else if file_name.contains("foreign-fragment_dat.3.fragment_svg_path") {
                 errors.len() - 1
             } else {
                 errors.len()
