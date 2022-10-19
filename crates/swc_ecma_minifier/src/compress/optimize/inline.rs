@@ -206,6 +206,13 @@ where
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
                     }) => arg.is_lit(),
+
+                    Expr::Bin(BinExpr {
+                        left,
+                        op: op!(bin, "+") | op!("*") | op!(bin, "-") | op!("/"),
+                        right,
+                        ..
+                    }) => left.is_lit() && right.is_lit(),
                     Expr::This(..) => usage.is_fn_local,
                     Expr::Arrow(arr) => {
                         !(usage.used_as_arg && ref_count > 1)
