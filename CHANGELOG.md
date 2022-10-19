@@ -19,6 +19,9 @@
 
 - **(html/minifier)** Compress `exportparts` (#6187) ([0ba464d](https://github.com/swc-project/swc/commit/0ba464d64338973d3fa2080bb3b47ac1574cced0))
 
+
+- **(html/minifier)** Fix bugs of merging and removing metadata elements (#6200) ([3546632](https://github.com/swc-project/swc/commit/35466322d6c2e3d09c9d43e0ce773203c9d239b1))
+
 ### Features
 
 
