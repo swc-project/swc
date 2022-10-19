@@ -299,12 +299,10 @@ where
         }
 
         let lt = bin.left.get_type();
-        if !in_bool_ctx {
-            match lt {
-                // Don't change type
-                Known(Type::Bool) => {}
-                _ => return,
-            }
+        match lt {
+            // Don't change type
+            Known(Type::Bool) => {}
+            _ => return,
         }
 
         let rt = bin.right.get_type();
@@ -313,20 +311,38 @@ where
             _ => return,
         }
 
-        if let op!("&&") = bin.op {
-            let rb = bin.right.as_pure_bool(&self.expr_ctx);
-            let rb = match rb {
-                Value::Known(v) => v,
-                _ => return,
-            };
+        match bin.op {
+            op!("&&") => {
+                let rb = bin.right.as_pure_bool(&self.expr_ctx);
+                let rb = match rb {
+                    Value::Known(v) => v,
+                    _ => return,
+                };
 
-            if rb {
-                self.changed = true;
-                report_change!("Optimizing: e && true => !!e");
+                if rb {
+                    self.changed = true;
+                    report_change!("Optimizing: e && true => !!e");
 
-                self.negate_twice(&mut bin.left, false);
-                *e = *bin.left.take();
+                    self.negate_twice(&mut bin.left, false);
+                    *e = *bin.left.take();
+                }
             }
+            op!("||") => {
+                let rb = bin.right.as_pure_bool(&self.expr_ctx);
+                let rb = match rb {
+                    Value::Known(v) => v,
+                    _ => return,
+                };
+
+                if !rb {
+                    self.changed = true;
+                    report_change!("Optimizing: e || false => !!e");
+
+                    self.negate_twice(&mut bin.left, false);
+                    *e = *bin.left.take();
+                }
+            }
+            _ => {}
         }
     }
 
