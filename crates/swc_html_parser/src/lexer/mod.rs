@@ -826,7 +826,7 @@ where
 
         self.emit_token(Token::Comment {
             data: comment.data.into(),
-            raw: comment.raw.into(),
+            raw: Some(comment.raw.into()),
         });
     }
 
