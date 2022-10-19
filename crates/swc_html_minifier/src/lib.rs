@@ -1681,7 +1681,7 @@ impl Minifier<'_> {
             let result = child_will_be_retained(&mut child, &mut new_children, children);
 
             if result {
-                if self.options.remove_redundant_attributes
+                if self.options.remove_empty_metadata_elements
                     && self.is_empty_metadata_element(&child)
                 {
                     let need_continue = {
