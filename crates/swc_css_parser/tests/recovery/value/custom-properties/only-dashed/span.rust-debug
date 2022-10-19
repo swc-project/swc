@@ -1,0 +1,263 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | |   }
+ 4 | |   
+ 5 | |   .a {
+ 6 | |       counter-reset: -- --a -a;
+ 7 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x PseudoClassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   : ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   :  ^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | ,-> :root {
+ 2 | |       --:value;
+ 3 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
+ 1 | :root {
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^
+   `----
+
+  x Ident { value: Atom('--' type=inline), raw: Atom('--' type=inline) }
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   : ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :   ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :    ^^^^^
+   `----
+
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :    ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :         ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:2:5]
+ 2 | --:value;
+   :         ^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | ,-> .a {
+ 6 | |       counter-reset: -- --a -a;
+ 7 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | ,-> .a {
+ 6 | |       counter-reset: -- --a -a;
+ 7 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   : ^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   : ^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   : ^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   : ^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   : ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   :  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | ,-> .a {
+ 6 | |       counter-reset: -- --a -a;
+ 7 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
+ 5 | .a {
+   :    ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   : ^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                ^^
+   `----
+
+  x Ident { value: Atom('--' type=inline), raw: Atom('--' type=inline) }
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                   ^^^
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                   ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                       ^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:6:5]
+ 6 | counter-reset: -- --a -a;
+   :                       ^^
+   `----

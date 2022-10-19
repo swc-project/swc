@@ -4047,7 +4047,7 @@
                 "end": 1323,
                 "ctxt": 0
               },
-              "value": "--zero-size",
+              "value": "zero-size",
               "raw": "--zero-size"
             },
             "value": [
@@ -4245,7 +4245,7 @@
                 "end": 1387,
                 "ctxt": 0
               },
-              "value": "--small-icon",
+              "value": "small-icon",
               "raw": "--small-icon"
             },
             "value": [

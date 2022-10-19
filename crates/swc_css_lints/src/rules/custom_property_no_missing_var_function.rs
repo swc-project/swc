@@ -51,7 +51,7 @@ impl Visit for CustomPropertyNoMissingVarFunction {
             self.ctx.report(
                 dashed_ident,
                 format!(
-                    "Unexpected missing var function for '{}'.",
+                    "Unexpected missing var function for '--{}'.",
                     dashed_ident.value
                 ),
             );
