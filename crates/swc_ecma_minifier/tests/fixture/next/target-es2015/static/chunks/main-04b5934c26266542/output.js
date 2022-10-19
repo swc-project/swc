@@ -2211,7 +2211,7 @@
                                     inflightCache: _this.sdc,
                                     persistCache: !_this.isPreview,
                                     isPrefetch: !0,
-                                    unstable_skipClientCache: options.unstable_skipClientCache || !!options.priority
+                                    unstable_skipClientCache: options.unstable_skipClientCache || options.priority && !0
                                 }).then(()=>!1)),
                             _this.pageLoader[options.priority ? "loadPage" : "prefetch"](route)
                         ]);
