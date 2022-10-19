@@ -1047,11 +1047,7 @@
                 fatalError: function(error) {
                     throw new ParseError(error, this.locator);
                 }
-            }, "endDTD,startEntity,endEntity,attributeDecl,elementDecl,externalEntityDecl,internalEntityDecl,resolveEntity,getExternalSubset,notationDecl,unparsedEntityDecl".replace(/\w+/g, function(key) {
-                DOMHandler.prototype[key] = function() {
-                    return null;
-                };
-            }), exports.DOMParser = DOMParser, dom.DOMImplementation, dom.XMLSerializer;
+            }, exports.DOMParser = DOMParser, dom.DOMImplementation, dom.XMLSerializer;
         },
         1146: function(__unused_webpack_module, exports, __webpack_require__) {
             var NAMESPACE = __webpack_require__(2167).NAMESPACE;

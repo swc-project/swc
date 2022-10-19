@@ -1,2 +1,2 @@
 //// [templateStringWithEmbeddedNewOperator.ts]
-"abc".concat(new String("Hi"), "def");
+new String("Hi");

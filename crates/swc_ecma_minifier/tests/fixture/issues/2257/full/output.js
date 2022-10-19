@@ -7416,7 +7416,7 @@
         },
         54878: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), fails = __webpack_require__(60232), anObject = __webpack_require__(83941), isCallable = __webpack_require__(67106), toInteger = __webpack_require__(86361), toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), requireObjectCoercible = __webpack_require__(79602), advanceStringIndex = __webpack_require__(88770), getMethod = __webpack_require__(84316), getSubstitution = __webpack_require__(33371), regExpExec = __webpack_require__(21135), REPLACE = __webpack_require__(81019)("replace"), max = Math.max, min = Math.min, REPLACE_KEEPS_$0 = "$0" === "a".replace(/./, "$0"), REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = !!/./[REPLACE] && "" === /./[REPLACE]("a", "$0");
+            var fixRegExpWellKnownSymbolLogic = __webpack_require__(29045), fails = __webpack_require__(60232), anObject = __webpack_require__(83941), isCallable = __webpack_require__(67106), toInteger = __webpack_require__(86361), toLength = __webpack_require__(31998), toString1 = __webpack_require__(72729), requireObjectCoercible = __webpack_require__(79602), advanceStringIndex = __webpack_require__(88770), getMethod = __webpack_require__(84316), getSubstitution = __webpack_require__(33371), regExpExec = __webpack_require__(21135), REPLACE = __webpack_require__(81019)("replace"), max = Math.max, min = Math.min, REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE = !!/./[REPLACE] && "" === /./[REPLACE]("a", "$0");
             fixRegExpWellKnownSymbolLogic("replace", function(_, nativeReplace, maybeCallNative) {
                 var UNSAFE_SUBSTITUTE = REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE ? "$" : "$0";
                 return [
@@ -7465,7 +7465,7 @@
                         a: "7"
                     }, result;
                 }, "7" !== "".replace(re, "$<a>");
-            }) || !REPLACE_KEEPS_$0 || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
+            }) || "$0" !== "a".replace(/./, "$0") || REGEXP_REPLACE_SUBSTITUTES_UNDEFINED_CAPTURE);
         },
         49000: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";

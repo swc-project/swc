@@ -17,4 +17,4 @@ function _templateObject1() {
         return data;
     }, data;
 }
-"".concat(579), "leading ".concat(579), "".concat(579, " trailing"), "Hello ".concat(123, " World"), "".concat(1, " end of string"), tag(_templateObject(), 123), tag(_templateObject1());
+tag(_templateObject(), 123), tag(_templateObject1());

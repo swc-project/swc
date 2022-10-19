@@ -10906,12 +10906,7 @@
                 };
             }, getText = function(props, type) {
                 var datum = props.datum, index = props.index, labels = props.labels, labelProp = props["".concat(type, "Labels")];
-                if (!labelProp && !labels) return null;
-                if (!0 === labelProp || !0 === labels) {
-                    var dataName = "_".concat(type);
-                    return "".concat(datum[dataName]);
-                }
-                return Array.isArray(labelProp) ? labelProp[index] : labelProp;
+                return labelProp || labels ? !0 === labelProp || !0 === labels ? "".concat(datum["_".concat(type)]) : Array.isArray(labelProp) ? labelProp[index] : labelProp : null;
             }, getLabelProps = function(props, text, type) {
                 var datum = props.datum, positions = props.positions, index = props.index, boxWidth = props.boxWidth, horizontal = props.horizontal, labelOrientation = props.labelOrientation, style = props.style, theme = props.theme, orientation = "object" == typeof labelOrientation && labelOrientation[type] || labelOrientation, labelStyle = style["".concat(type, "Labels")] || style.labels, whiskerWidth = "number" == typeof props.whiskerWidth ? props.whiskerWidth : boxWidth, width = "min" === type || "max" === type ? whiskerWidth : boxWidth, getOffset = function(coord) {
                     var sign = {
@@ -11084,7 +11079,7 @@
                                 }, []);
                             })), labelComponents = lodash_flatten__WEBPACK_IMPORTED_MODULE_1___default()(types.map(function(type) {
                                 return _this.dataKeys.map(function(key, index) {
-                                    var name = "".concat(type, "Labels"), baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, name, index);
+                                    var baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, "".concat(type, "Labels"), index);
                                     if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_2___default.a.cloneElement(baseComponent, labelProps);
                                 }).filter(Boolean);
                             })), children = _toConsumableArray(dataComponents).concat(_toConsumableArray(labelComponents));
@@ -12799,12 +12794,7 @@
                 });
             }, getText = function(props, type) {
                 var datum = props.datum, index = props.index, labels = props.labels, labelProp = props["".concat(type, "Labels")];
-                if (!labelProp && !labels) return null;
-                if (!0 === labelProp || !0 === labels) {
-                    var dataName = "_".concat(type);
-                    return "".concat(datum[dataName]);
-                }
-                return Array.isArray(labelProp) ? labelProp[index] : labelProp;
+                return labelProp || labels ? !0 === labelProp || !0 === labels ? "".concat(datum["_".concat(type)]) : Array.isArray(labelProp) ? labelProp[index] : labelProp : null;
             }, getCandleWidth = function(props, style) {
                 var data = props.data, candleWidth = props.candleWidth, scale = props.scale, defaultCandleWidth = props.defaultCandleWidth;
                 if (candleWidth) return lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(candleWidth) ? victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.evaluateProp(candleWidth, props) : candleWidth;
@@ -13086,7 +13076,7 @@
                                 "high"
                             ].map(function(type) {
                                 return _this.dataKeys.map(function(key, index) {
-                                    var name = "".concat(type, "Labels"), baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, name, index);
+                                    var baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, "".concat(type, "Labels"), index);
                                     if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(baseComponent, labelProps);
                                 }).filter(Boolean);
                             })), labelsComponents = this.dataKeys.map(function(_dataKey, index) {
