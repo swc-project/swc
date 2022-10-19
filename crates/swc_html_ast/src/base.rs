@@ -63,7 +63,6 @@ pub struct DocumentType {
     pub public_id: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub system_id: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<Atom>,
 }
 
@@ -126,11 +125,9 @@ pub struct Attribute {
     pub prefix: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_name: Option<Atom>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_value: Option<Atom>,
 }
 
@@ -149,7 +146,6 @@ pub struct Text {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<Atom>,
 }
 
@@ -165,7 +161,6 @@ pub struct Comment {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw: Option<Atom>,
 }
 
