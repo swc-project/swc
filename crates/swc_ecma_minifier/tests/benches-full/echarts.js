@@ -10053,7 +10053,7 @@
             return dataIndices;
         }, SeriesModel.prototype.isSelected = function(dataIndex, dataType) {
             var selectedMap = this.option.selectedMap;
-            return !!selectedMap && !!selectedMap[getSelectionKey(this.getData(dataType), dataIndex)];
+            return !!selectedMap && (selectedMap[getSelectionKey(this.getData(dataType), dataIndex)] || !1);
         }, SeriesModel.prototype._innerSelect = function(data, innerDataIndices) {
             var _a, _b, selectedMode = this.option.selectedMode, len = innerDataIndices.length;
             if (selectedMode && len) {

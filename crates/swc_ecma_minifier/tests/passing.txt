@@ -289,7 +289,6 @@ conditionals/ifs_4/input.js
 conditionals/issue_1645_1/input.js
 conditionals/issue_1645_2/input.js
 conditionals/issue_2535_1/input.js
-conditionals/issue_2535_2/input.js
 conditionals/issue_2560/input.js
 conditionals/issue_2994/input.js
 conditionals/no_evaluate/input.js
@@ -682,6 +681,7 @@ harmony/issue_2345/input.js
 harmony/issue_2349/input.js
 harmony/issue_2676/input.js
 harmony/issue_2762/input.js
+harmony/issue_2794_3/input.js
 harmony/issue_2794_4/input.js
 harmony/issue_2794_5/input.js
 harmony/issue_2794_6/input.js
