@@ -844,11 +844,11 @@ where
 
     fn handle_raw_and_emit_character_token(&mut self, c: char) -> LexResult<()> {
         self.with_char_buf(|l, buf| {
+            buf.push(c);
+
             let is_cr = c == '\r';
 
             if is_cr {
-                buf.push(c);
-
                 if l.input.cur() == Some('\n') {
                     l.input.bump();
 
@@ -862,8 +862,6 @@ where
 
                 Ok(())
             } else {
-                buf.push(c);
-
                 l.emit_token(Token::Character {
                     value: c,
                     raw: Some(Atom::new(&**buf)),
