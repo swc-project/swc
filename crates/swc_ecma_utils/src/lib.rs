@@ -1270,7 +1270,11 @@ pub trait ExprExt {
 
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
-                            "concat" => true,
+                            "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
+                            | "indexOf" | "lastIndexOf" | "localeCompare" | "replace" | "slice"
+                            | "split" | "startsWith" | "substr" | "substring"
+                            | "toLocaleLowerCase" | "toLocaleUpperCase" | "toLowerCase"
+                            | "toString" | "toUpperCase" | "trim" | "trimEnd" | "trimStart" => true,
                             _ => false,
                         },
 
