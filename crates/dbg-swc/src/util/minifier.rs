@@ -32,6 +32,8 @@ pub fn get_minified(
             &MinifyOptions {
                 compress: if compress {
                     Some(CompressOptions {
+                        // This disturbs diffing with terser
+                        join_vars: false,
                         ..Default::default()
                     })
                 } else {
