@@ -46,6 +46,12 @@
 
 - **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
 
+### Performance
+
+
+
+- **(es/transforms)** Exclude old inlining pass (#6203) ([27896f4](https://github.com/swc-project/swc/commit/27896f4751e72c12eaadeb302848083df8e8e842))
+
 ### Refactor
 
 
