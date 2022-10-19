@@ -1271,10 +1271,10 @@ pub trait ExprExt {
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
                             "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
-                            | "indexOf" | "lastIndexOf" | "localeCompare" | "replace" | "slice"
-                            | "split" | "startsWith" | "substr" | "substring"
-                            | "toLocaleLowerCase" | "toLocaleUpperCase" | "toLowerCase"
-                            | "toString" | "toUpperCase" | "trim" | "trimEnd" | "trimStart" => true,
+                            | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
+                            | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
+                            | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
+                            | "trim" | "trimEnd" | "trimStart" => true,
                             _ => false,
                         },
 
