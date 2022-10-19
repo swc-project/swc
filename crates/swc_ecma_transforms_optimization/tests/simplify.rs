@@ -8,7 +8,9 @@ use swc_ecma_transforms_base::{helpers::inject_helpers, resolver};
 use swc_ecma_transforms_compat::{es2015, es2016, es2017, es2018, es2022::class_properties, es3};
 use swc_ecma_transforms_module::{common_js::common_js, import_analysis::import_analyzer};
 use swc_ecma_transforms_optimization::simplify::{
-    dce::dce, dead_branch_remover, expr_simplifier, inlining::inlining, simplifier,
+    dce::{self, dce},
+    dead_branch_remover, expr_simplifier,
+    inlining::{self, inlining},
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_transform};
@@ -23,7 +25,12 @@ fn test(src: &str, expected: &str) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                simplifier(unresolved_mark, Default::default())
+                Repeat::new(chain!(
+                    expr_simplifier(unresolved_mark, Default::default()),
+                    inlining::inlining(Default::default()),
+                    dead_branch_remover(unresolved_mark),
+                    dce::dce(Default::default(), unresolved_mark)
+                )),
             )
         },
         src,
@@ -46,7 +53,12 @@ macro_rules! to {
 
                 chain!(
                     resolver(unresolved_mark, top_level_mark, false),
-                    simplifier(unresolved_mark, Default::default())
+                    Repeat::new(chain!(
+                        expr_simplifier(unresolved_mark, Default::default()),
+                        inlining::inlining(Default::default()),
+                        dead_branch_remover(unresolved_mark),
+                        dce::dce(Default::default(), unresolved_mark)
+                    )),
                 )
             },
             $name,
@@ -574,7 +586,12 @@ test!(
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
             class_properties(Some(t.comments.clone()), Default::default()),
-            simplifier(unresolved_mark, Default::default()),
+            Repeat::new(chain!(
+                expr_simplifier(unresolved_mark, Default::default()),
+                inlining::inlining(Default::default()),
+                dead_branch_remover(unresolved_mark),
+                dce::dce(Default::default(), unresolved_mark)
+            )),
             es2018(Default::default()),
             es2017(
                 Default::default(),

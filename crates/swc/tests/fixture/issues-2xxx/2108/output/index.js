@@ -1,6 +1,6 @@
 "use strict";
 function foo() {
-    let arr;
+    let arr = [];
     arr = [
         1,
         2,
