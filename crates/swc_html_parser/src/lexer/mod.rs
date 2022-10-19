@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, collections::VecDeque, mem::take, rc::Rc};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{collections::AHashSet, input::Input, BytePos, Span};
 use swc_html_ast::{AttributeToken, Token, TokenAndSpan};
 use swc_html_utils::{Entity, HTML_ENTITIES};
@@ -559,7 +559,7 @@ where
             force_quirks: current_doctype_token.force_quirks,
             public_id: current_doctype_token.public_id.map(JsWord::from),
             system_id: current_doctype_token.system_id.map(JsWord::from),
-            raw: Some(JsWord::from(raw)),
+            raw: Some(Atom::new(raw)),
         };
 
         self.emit_token(token);
@@ -695,7 +695,7 @@ where
 
                     let start_tag_token = Token::StartTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
+                        raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
@@ -715,9 +715,9 @@ where
                                 AttributeToken {
                                     span: attribute.span,
                                     name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
+                                    raw_name: attribute.raw_name.map(Atom::new),
                                     value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
+                                    raw_value: attribute.raw_value.map(Atom::new),
                                 }
                             })
                             .collect(),
@@ -738,7 +738,7 @@ where
 
                     let end_tag_token = Token::EndTag {
                         tag_name: current_tag_token.tag_name.into(),
-                        raw_tag_name: current_tag_token.raw_tag_name.map(JsWord::from),
+                        raw_tag_name: current_tag_token.raw_tag_name.map(Atom::new),
                         is_self_closing: current_tag_token.is_self_closing,
                         attributes: current_tag_token
                             .attributes
@@ -758,9 +758,9 @@ where
                                 AttributeToken {
                                     span: attribute.span,
                                     name,
-                                    raw_name: attribute.raw_name.map(JsWord::from),
+                                    raw_name: attribute.raw_name.map(Atom::new),
                                     value: attribute.value.map(JsWord::from),
-                                    raw_value: attribute.raw_value.map(JsWord::from),
+                                    raw_value: attribute.raw_value.map(Atom::new),
                                 }
                             })
                             .collect(),
@@ -826,7 +826,7 @@ where
 
         self.emit_token(Token::Comment {
             data: comment.data.into(),
-            raw: Some(comment.raw.into()),
+            raw: Some(Atom::new(comment.raw)),
         });
     }
 
@@ -843,10 +843,10 @@ where
     }
 
     fn handle_raw_and_emit_character_token(&mut self, c: char) -> LexResult<()> {
-        let is_cr = c == '\r';
+        self.with_char_buf(|l, buf| {
+            let is_cr = c == '\r';
 
-        if is_cr {
-            self.with_char_buf(|l, buf| {
+            if is_cr {
                 buf.push(c);
 
                 if l.input.cur() == Some('\n') {
@@ -857,23 +857,21 @@ where
 
                 l.emit_token(Token::Character {
                     value: '\n',
-                    raw: Some((&**buf).into()),
+                    raw: Some(Atom::new(&**buf)),
                 });
 
                 Ok(())
-            })
-        } else {
-            self.with_char_buf(|l, buf| {
+            } else {
                 buf.push(c);
 
                 l.emit_token(Token::Character {
                     value: c,
-                    raw: Some((&**buf).into()),
+                    raw: Some(Atom::new(&**buf)),
                 });
 
                 Ok(())
-            })
-        }
+            }
+        })
     }
 
     #[inline(always)]
@@ -883,7 +881,7 @@ where
 
             l.emit_token(Token::Character {
                 value: value.0,
-                raw: Some((&**buf).into()),
+                raw: Some(Atom::new(&**buf)),
             });
 
             Ok(())

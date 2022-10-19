@@ -8547,11 +8547,11 @@ where
                 value: c,
                 raw: raw_c,
             } => {
-                let mut data = String::with_capacity(255);
+                let mut data = String::with_capacity(64);
 
                 data.push(*c);
 
-                let mut raw = String::with_capacity(255);
+                let mut raw = String::with_capacity(64);
 
                 if let Some(raw_c) = raw_c {
                     raw.push_str(raw_c);

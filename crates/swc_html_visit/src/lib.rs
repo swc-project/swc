@@ -2,7 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::ptr_arg)]
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::Span;
 use swc_html_ast::*;
 use swc_visit::define;
@@ -40,7 +40,7 @@ define!({
         pub name: Option<JsWord>,
         pub public_id: Option<JsWord>,
         pub system_id: Option<JsWord>,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub enum Namespace {
@@ -67,21 +67,21 @@ define!({
         pub namespace: Option<Namespace>,
         pub prefix: Option<JsWord>,
         pub name: JsWord,
-        pub raw_name: Option<JsWord>,
+        pub raw_name: Option<Atom>,
         pub value: Option<JsWord>,
-        pub raw_value: Option<JsWord>,
+        pub raw_value: Option<Atom>,
     }
 
     pub struct Text {
         pub span: Span,
         pub data: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 
     pub struct Comment {
         pub span: Span,
         pub data: JsWord,
-        pub raw: Option<JsWord>,
+        pub raw: Option<Atom>,
     }
 });
 
