@@ -364,7 +364,7 @@ where
         for c in take(&mut self.temporary_buffer).chars() {
             self.emit_token(Token::Character {
                 value: c,
-                raw: Some(String::from(c).into()),
+                raw: Some(Atom::new(String::from(c))),
             });
         }
     }
@@ -435,7 +435,7 @@ where
                             if once_emitted {
                                 None
                             } else {
-                                Some(String::from(c).into())
+                                Some(Atom::new(String::from(c)))
                             }
                         }
                     },
