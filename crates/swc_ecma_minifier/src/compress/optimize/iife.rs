@@ -301,7 +301,7 @@ where
     /// If a parameter is not used, we can ignore return value of the
     /// corresponding argument.
     pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {
-        if !self.options.unused {
+        if !self.options.unused && !self.options.reduce_vars {
             return;
         }
 
