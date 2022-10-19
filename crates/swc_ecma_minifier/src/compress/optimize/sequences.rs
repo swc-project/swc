@@ -951,7 +951,15 @@ where
                         // TODO(kdy1): Paramters with default value can have side effect. But this
                         // is very unrealistic in real-world code, so I'm
                         // postponing handling for it.
-                        Mergable::FnDecl(..) => {}
+                        Mergable::FnDecl(f) => {
+                            if f.function
+                                .params
+                                .iter()
+                                .any(|p| !self.is_pat_skippable_for_seq(Some(a), &p.pat))
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
             }
