@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -676,11 +676,7 @@ where
             // A character token that is U+0000 NULL
             //
             // Parse error. Insert a U+FFFD REPLACEMENT CHARACTER character.
-            Token::Character {
-                value,
-                raw,
-                is_value_eq_raw,
-            } if *value == '\x00' => {
+            Token::Character { value, .. } if *value == '\x00' => {
                 self.errors.push(Error::new(
                     token_and_info.span,
                     ErrorKind::UnexpectedNullCharacter,
@@ -688,9 +684,11 @@ where
 
                 token_and_info.token = Token::Character {
                     value: '\u{FFFD}',
-                    is_value_eq_raw: *is_value_eq_raw,
-                    raw: raw.clone(),
+                    is_value_eq_raw: false,
+                    raw: Some(Atom::new(String::from('\x00'))),
                 };
+
+                println!("{:?}", token_and_info.token);
 
                 self.insert_character(token_and_info)?;
             }
