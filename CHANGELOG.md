@@ -50,6 +50,9 @@
 
 
 
+- **(css/ast)** Refactor dashed ident (#6198) ([6c170e5](https://github.com/swc-project/swc/commit/6c170e59c792dea637a694ad97157c77a2176327))
+
+
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))
 
 ### Testing
