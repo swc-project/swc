@@ -1270,6 +1270,10 @@ impl Minifier<'_> {
     }
 
     fn minify_children(&mut self, children: &mut Vec<Child>) -> Vec<Child> {
+        if children.is_empty() {
+            return vec![];
+        }
+
         let (namespace, tag_name) = match &self.current_element {
             Some(element) => (element.namespace, &element.tag_name),
             _ => {
