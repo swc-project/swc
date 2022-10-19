@@ -44,6 +44,12 @@ pub enum CollapseWhitespaces {
     OnlyMetadata,
 }
 
+impl Default for CollapseWhitespaces {
+    fn default() -> Self {
+        CollapseWhitespaces::OnlyMetadata
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
@@ -56,6 +62,12 @@ pub enum RemoveRedundantAttributes {
     /// attributes (for example the `type` attribute for the `style` tag and
     /// `xmlns` for svg)
     Smart,
+}
+
+impl Default for RemoveRedundantAttributes {
+    fn default() -> Self {
+        RemoveRedundantAttributes::Smart
+    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -130,7 +142,7 @@ pub struct CssOptions {
 pub struct MinifyOptions {
     #[serde(default)]
     pub force_set_html5_doctype: bool,
-    #[serde(default = "default_collapse_whitespaces")]
+    #[serde(default)]
     pub collapse_whitespaces: CollapseWhitespaces,
     // Remove safe empty elements with metadata content, i.e. the `script` and `style` element
     // without content and attributes, `meta` and `link` elements without attributes and etc
@@ -150,7 +162,7 @@ pub struct MinifyOptions {
     /// libraries
     #[serde(default = "true_by_default")]
     pub remove_empty_attributes: bool,
-    #[serde(default = "smart_by_default")]
+    #[serde(default)]
     pub remove_redundant_attributes: RemoveRedundantAttributes,
     #[serde(default = "true_by_default")]
     pub collapse_boolean_attributes: bool,
@@ -198,10 +210,6 @@ impl Default for MinifyOptions {
     }
 }
 
-const fn default_collapse_whitespaces() -> CollapseWhitespaces {
-    CollapseWhitespaces::OnlyMetadata
-}
-
 const fn true_by_default() -> bool {
     true
 }
@@ -216,10 +224,6 @@ const fn minify_js_by_default() -> MinifyJsOption {
 
 const fn minify_css_by_default() -> MinifyCssOption {
     MinifyCssOption::Bool(true)
-}
-
-const fn smart_by_default() -> RemoveRedundantAttributes {
-    RemoveRedundantAttributes::Smart
 }
 
 fn default_preserve_comments() -> Option<Vec<CachedRegex>> {
