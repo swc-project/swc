@@ -1254,7 +1254,11 @@ pub trait ExprExt {
         }
 
         match self.as_expr() {
-            Expr::Member(MemberExpr { obj, .. }) => {
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                ..
+            }) => {
                 obj.is_global_ref_to(ctx, "Math")
                     || match &**obj {
                         // Allow dummy span
@@ -1263,6 +1267,13 @@ pub trait ExprExt {
                             sym: js_word!("Math"),
                             ..
                         }) => span.ctxt == SyntaxContext::empty(),
+
+                        // Some methods of string are pure
+                        Expr::Lit(Lit::Str(..)) => match &*prop.sym {
+                            "concat" => true,
+                            _ => false,
+                        },
+
                         _ => false,
                     }
             }
