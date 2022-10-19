@@ -11,7 +11,6 @@ use swc_common::{
     collections::AHashMap, comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName,
     FilePathMapping, Mark, SourceMap, DUMMY_SP,
 };
-use swc_ecma_transforms_base::perf::Items;
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
