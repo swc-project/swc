@@ -6,7 +6,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_html"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.90.1"
+version = "0.91.0"
 
 [package.metadata.docs.rs]
 all-features = true
@@ -19,8 +19,8 @@ bench = false
 minifier = ["swc_html_minifier"]
 
 [dependencies]
-swc_html_ast = {version = "0.26.12", path = "../swc_html_ast"}
-swc_html_codegen = {version = "0.35.14", path = "../swc_html_codegen"}
-swc_html_minifier = {version = "0.87.1", path = "../swc_html_minifier", optional = true}
-swc_html_parser = {version = "0.32.13", path = "../swc_html_parser"}
-swc_html_visit = {version = "0.26.12", path = "../swc_html_visit"}
+swc_html_ast = {version = "0.27.0", path = "../swc_html_ast"}
+swc_html_codegen = {version = "0.36.0", path = "../swc_html_codegen"}
+swc_html_minifier = {version = "0.88.0", path = "../swc_html_minifier", optional = true}
+swc_html_parser = {version = "0.33.0", path = "../swc_html_parser"}
+swc_html_visit = {version = "0.27.0", path = "../swc_html_visit"}
