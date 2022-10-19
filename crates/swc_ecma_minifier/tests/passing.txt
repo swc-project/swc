@@ -274,7 +274,9 @@ conditionals/cond_4/input.js
 conditionals/cond_5/input.js
 conditionals/cond_7/input.js
 conditionals/cond_7_1/input.js
+conditionals/cond_8/input.js
 conditionals/cond_8b/input.js
+conditionals/cond_8c/input.js
 conditionals/cond_9/input.js
 conditionals/condition_symbol_matches_consequent/input.js
 conditionals/delete_conditional_1/input.js
