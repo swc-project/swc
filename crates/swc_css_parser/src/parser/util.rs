@@ -4,6 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
+use crate::{Tokens, TokensInput};
 
 impl<I> Parser<I>
 where
@@ -13,7 +14,9 @@ where
     #[inline]
     pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<I> {
         let orig_ctx = self.ctx;
+
         self.ctx = ctx;
+
         WithCtx {
             orig_ctx,
             inner: self,
@@ -26,6 +29,16 @@ where
         Self: Parse<T>,
     {
         self.parse()
+    }
+
+    pub fn parse_according_to_grammar<'a, T>(&mut self, tokens: &'a Tokens) -> PResult<T>
+    where
+        Parser<TokensInput<'a>>: Parse<T>,
+    {
+        let lexer = TokensInput::new(tokens);
+        let mut parser = Parser::new(lexer, self.config);
+
+        parser.parse()
     }
 
     pub(super) fn legacy_nested_selector_list_to_modern_selector_list(

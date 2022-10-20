@@ -5,7 +5,7 @@ use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{BlockContentsGrammar, Ctx},
-    Parse,
+    Parse, Tokens,
 };
 
 impl<I> Parse<Stylesheet> for Parser<I>
@@ -124,16 +124,15 @@ where
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut prelude = QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
+        let mut prelude = Tokens {
             span: Default::default(),
-            children: vec![],
-        });
+            tokens: vec![],
+        };
 
         // Repeatedly consume the next input token:
         loop {
             // <EOF-token>
             // This is a parse error. Return nothing.
-            // But we return for error recovery blocks
             if is!(self, EOF) {
                 let span = self.input.cur_span();
 
@@ -151,6 +150,38 @@ where
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
+                    let prelude = match self.parse_according_to_grammar::<SelectorList>(&prelude) {
+                        Ok(selector_list) => {
+                            if self.ctx.is_trying_legacy_nesting {
+                                QualifiedRulePrelude::SelectorList(
+                                    self.legacy_nested_selector_list_to_modern_selector_list(
+                                        selector_list,
+                                    )?,
+                                )
+                            } else {
+                                QualifiedRulePrelude::SelectorList(selector_list)
+                            }
+                        }
+                        Err(err) => {
+                            if self.ctx.is_trying_legacy_nesting {
+                                match self
+                                    .parse_according_to_grammar::<RelativeSelectorList>(&prelude)
+                                {
+                                    Ok(relative_selector_list) => {
+                                        self.legacy_relative_selector_list_to_modern_selector_list(
+                                            relative_selector_list,
+                                        )?;
+                                    }
+                                    _ => {
+                                        // Ignore
+                                    }
+                                }
+                            }
+
+                            return Err(err);
+                        }
+                    };
+
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
                         prelude,
@@ -160,70 +191,9 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    let state = self.input.state();
-                    let selector_list: PResult<SelectorList> = self.parse();
+                    let item = self.input.bump().unwrap();
 
-                    prelude = match selector_list {
-                        Ok(mut selector_list) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                selector_list = self
-                                    .legacy_nested_selector_list_to_modern_selector_list(
-                                        selector_list,
-                                    )?;
-                            }
-
-                            QualifiedRulePrelude::SelectorList(selector_list)
-                        }
-                        Err(err) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                self.input.reset(&state);
-
-                                let relative_selector_list: PResult<RelativeSelectorList> =
-                                    self.parse();
-
-                                match relative_selector_list {
-                                    Ok(relative_selector_list) => {
-                                        let selector_list = self
-                                            .legacy_relative_selector_list_to_modern_selector_list(
-                                                relative_selector_list,
-                                            )?;
-
-                                        QualifiedRulePrelude::SelectorList(selector_list)
-                                    }
-                                    _ => {
-                                        return Err(err);
-                                    }
-                                }
-                            } else {
-                                self.errors.push(err);
-                                self.input.reset(&state);
-
-                                let span = self.input.cur_span();
-                                let mut children = vec![];
-
-                                while !is_one_of!(self, EOF, "{") {
-                                    if is!(self, ";") {
-                                        let span = self.input.cur_span();
-
-                                        return Err(Error::new(
-                                            span,
-                                            ErrorKind::UnexpectedChar(';'),
-                                        ));
-                                    }
-
-                                    if let Some(token_and_span) = self.input.bump() {
-                                        children
-                                            .push(ComponentValue::PreservedToken(token_and_span));
-                                    }
-                                }
-
-                                QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
-                                    span: span!(self, span.lo),
-                                    children,
-                                })
-                            }
-                        }
-                    };
+                    prelude.tokens.push(item);
                 }
             }
         }
