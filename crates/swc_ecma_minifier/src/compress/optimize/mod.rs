@@ -2463,7 +2463,9 @@ where
         match s {
             Stmt::Decl(Decl::Var(v)) if v.decls.is_empty() => {
                 s.take();
-                return;
+                if self.prepend_stmts.is_empty() && self.append_stmts.is_empty() {
+                    return;
+                }
             }
             _ => {}
         }
