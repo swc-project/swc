@@ -1,0 +1,21 @@
+a {color: blue;font-weight: bold}  p {color: blue;font-weight: bold}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{font-size:2em;color:red;line-height:1.5}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}h3{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1 {color: blue}h1{font-weight: bold}
+.break { color: red; }
+h1{display:block}h1{text-decoration:underline}
+.break { color: red; }
+h1{color:red;display:block}h1{text-decoration:underline}
+.break { color: red; }
+h1{font-size:2em;color:#000}h1{background:#fff;line-height:1.5}
+.break { color: red; }
+@media print{h1{display:block}h1{color:red}}
+.break { color: red; }
+code::selection{background:red}code::-moz-selection{background:red}
