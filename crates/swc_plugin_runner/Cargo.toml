@@ -64,7 +64,7 @@ swc_atoms       = { version = "0.4.23", path = '../swc_atoms' }
 swc_ecma_loader = { version = "0.41.11", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.122.15", path = "../swc_ecma_parser" }
 swc_ecma_visit  = { version = "0.80.13", path = "../swc_ecma_visit" }
-swc_node_base   = { path = "../swc_node_base" }
+swc_node_base   = { version = "0.5.0", path = "../swc_node_base" }
 testing         = { version = "0.31.10", path = "../testing" }
 # This allows we can run non-wasm32 target build command while some pkg select features for wasmer/js omits its transitive deps
 wasmer      = "2.3.0"
