@@ -299,3 +299,109 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
         display: flex;
     }
 }
+.break { color: red; }
+@container my-layout (inline-size > 45em) {
+    .foo {
+        color: red;
+    }
+}
+@container my-layout (inline-size > 45em) {
+    .foo {
+        background: yellow;
+    }
+    .bar {
+        color: white;
+    }
+}
+.break { color: red; }
+@layer foo {
+    .foo {
+        color: red;
+    }
+}
+@layer foo {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
+.break { color: red; }
+.foo {
+    color: red;
+}
+.bar {
+    color: red;
+}
+.break { color: red; }
+.foo {
+    color: red;
+}
+.foo {
+    background: green;
+}
+.break { color: red; }
+.foo {
+    background: red;
+}
+.bar {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+.foo, .bar {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+.foo {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    background: red;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+@media (hover) {
+    .foo {
+        color: red;
+    }
+}
+@media (hover) {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
+.break { color: red; }
+@supports (flex: 1) {
+    .foo {
+        color: red;
+    }
+}
+@supports (flex: 1) {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
