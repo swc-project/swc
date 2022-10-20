@@ -137,7 +137,7 @@ impl Scope {
 
         for id in queue {
             let fid = fast_id(id.clone());
-            if to.get(&fid).is_some() || previous.get(&fid).is_some() {
+            if to.get(&fid).is_some() || previous.get(&fid).is_some() || id.0 == js_word!("eval") {
                 continue;
             }
 
@@ -273,7 +273,11 @@ impl Scope {
 
         for id in queue {
             let fid = fast_id(id.clone());
-            if preserved.contains(&id) || to.get(&fid).is_some() || previous.get(&fid).is_some() {
+            if preserved.contains(&id)
+                || to.get(&fid).is_some()
+                || previous.get(&fid).is_some()
+                || id.0 == js_word!("eval")
+            {
                 continue;
             }
 
