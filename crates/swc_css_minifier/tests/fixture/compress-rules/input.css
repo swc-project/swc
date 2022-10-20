@@ -277,3 +277,25 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
         color: red;
     }
 }
+.break { color: red; }
+@supports (display: flex) {
+    .class {
+        display: flex;
+    }
+}
+@supports (display: grid) {
+    .class {
+        display: flex;
+    }
+}
+.break { color: red; }
+@media (min-width: 200px) {
+    article {
+        display: flex;
+    }
+}
+@media (min-width: 600px) {
+    article {
+        display: flex;
+    }
+}
