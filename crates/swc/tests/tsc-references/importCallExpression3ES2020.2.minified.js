@@ -5,9 +5,8 @@ export class B {
     }
 }
 //// [2.ts]
-async function foo() {
+!async function() {
     class C extends (await import("./0")).B {
     }
     new C().print();
-}
-foo();
+}();
