@@ -23,3 +23,5 @@ code::selection{background:red}code::-moz-selection{background:red}
 .foo { &.bar { color: red; } }.foo { &.bar { color: red; } }
 .break { color: red; }
 .foo { &.bar { color: red; } &.bar { color: red; } }
+.break { color: red; }
+.foo { @media screen { &.bar { color: red; } &.bar { color: red; }} }
