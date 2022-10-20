@@ -4146,11 +4146,7 @@ where
                             && !is_last_semicolon
                             && is_next_equals_sign_or_ascii_alphanumeric
                         {
-                            let old_temporary_buffer = self.temporary_buffer.clone();
-
-                            self.flush_code_points_consumed_as_character_reference(Some(
-                                old_temporary_buffer,
-                            ));
+                            self.flush_code_points_consumed_as_character_reference(None);
                             self.state = self.return_state.clone();
                         }
                         // Otherwise:
