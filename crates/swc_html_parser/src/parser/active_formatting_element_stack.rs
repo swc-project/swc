@@ -54,22 +54,18 @@ impl ActiveFormattingElementStack {
                         continue;
                     }
 
-                    (node.clone(), token_and_info.clone())
+                    (node.clone(), token_and_info)
                 }
             };
 
             let attributes_in_element = match &token_and_info_in_element.token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    attributes.clone()
-                }
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => attributes,
                 _ => {
                     unreachable!()
                 }
             };
             let attributes_in_new_element = match &new_element.1.token {
-                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => {
-                    attributes.clone()
-                }
+                Token::StartTag { attributes, .. } | Token::EndTag { attributes, .. } => attributes,
                 _ => {
                     unreachable!()
                 }

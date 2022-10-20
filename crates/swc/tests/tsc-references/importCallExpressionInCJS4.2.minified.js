@@ -17,9 +17,8 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 const _interopRequireWildcard = require("@swc/helpers/lib/_interop_require_wildcard.js").default;
-async function foo() {
+!async function() {
     class C extends (await Promise.resolve().then(()=>_interopRequireWildcard(require("./0")))).B {
     }
     new C().print();
-}
-foo();
+}();

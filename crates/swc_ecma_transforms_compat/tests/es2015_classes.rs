@@ -6824,11 +6824,11 @@ function Test() {
   var _this;
   woops.super.test();
   _this = _super.call(this);
-  _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this));
+  Foo.prototype.test.call(_assertThisInitialized(_this));
   _this = _super.call(this, ...arguments);
   _this = _super.call(this, "test", ...arguments);
-  _get(Test.prototype, "test", _this).apply(_assertThisInitialized(_this), arguments);
-  _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this), "test", ...arguments);
+  Foo.prototype.test.apply(_assertThisInitialized(_this), arguments);
+  Foo.prototype.test.call(_assertThisInitialized(_this), "test", ...arguments);
   return _this;
 }
 
@@ -6867,8 +6867,8 @@ let Test = /*#__PURE__*/function (Foo) {
   function Test() {
     _classCallCheck(this, Test);
     var _this = _super.call(this);
-    _get(Test.prototype, "test", _this);
-    _get(Test.prototype, "test", _this).whatever;
+    Foo.prototype.test;
+    Foo.prototype.test.whatever;
     return _this;
   }
 
@@ -6912,9 +6912,9 @@ let Test = /*#__PURE__*/function (Foo) {
     _classCallCheck(this, Test);
     var _this = _super.call(this);
 
-    _get(Test.prototype, "test", _this).whatever();
+    Foo.prototype.test.whatever();
 
-    _get(Test.prototype, "test", _this).call(_assertThisInitialized(_this));
+    Foo.prototype.test.call(_assertThisInitialized(_this));
 
     return _this;
   }
@@ -6922,7 +6922,7 @@ let Test = /*#__PURE__*/function (Foo) {
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return _get(Test, "wow", this).call(this);
+      return Foo.wow.call(this);
     }
   }]);
   return Test;
@@ -6958,14 +6958,14 @@ let Test = /*#__PURE__*/function () {
 
   function Test() {
     _classCallCheck(this, Test);
-    _get(Test.prototype, "hasOwnProperty", this).call(this, "test");
-    return _get(Test.prototype, "constructor", this);
+    Object.prototype.hasOwnProperty.call(this, "test");
+    return Object.prototype.constructor;
   }
 
   _createClass(Test, null, [{
     key: "test",
     value: function test() {
-      return _get(Test, "constructor", this);
+      return Function.prototype.constructor;
     }
   }]);
   return Test;
@@ -7372,4 +7372,31 @@ D ??= function D() {
   _classCallCheck(this, D);
 };
 "#
+);
+
+test_exec!(
+    syntax(),
+    |t| classes(
+        Some(t.comments.clone()),
+        Config {
+            constant_super: true,
+            ..Default::default()
+        }
+    ),
+    issue_5936,
+    "
+class Superclass {
+  doStuff() {
+  }
+}
+
+class Subclass extends Superclass {
+  doStuff() {
+    console.log('hola');
+    super.doStuff();
+  }
+}
+
+expect(() => new Subclass().doStuff()).not.toThrowError()
+"
 );

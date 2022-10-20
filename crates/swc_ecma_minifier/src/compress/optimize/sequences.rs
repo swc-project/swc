@@ -594,21 +594,7 @@ where
             Stmt::Decl(Decl::Fn(f)) => {
                 // Check for side effects
 
-                if !f.function.decorators.is_empty() {
-                    return None;
-                }
-                for p in &f.function.params {
-                    if !p.decorators.is_empty() {
-                        return None;
-                    }
-
-                    if !self.is_pat_skippable_for_seq(None, &p.pat) {
-                        return None;
-                    }
-                }
-
-                // Side-effect free function can be skipped.
-                vec![]
+                vec![Mergable::FnDecl(f)]
             }
 
             _ => return None,
@@ -705,6 +691,7 @@ where
 
                     !v.decls.is_empty()
                 }
+                Some(Stmt::Decl(Decl::Fn(f))) => !f.ident.is_dummy(),
                 Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
 
                 _ => true,
@@ -884,6 +871,7 @@ where
                                 None => continue,
                             },
                             Mergable::Expr(e) => e,
+                            Mergable::FnDecl(..) => continue,
                         },
                     )? {
                         did_work = true;
@@ -927,6 +915,7 @@ where
                                 break;
                             }
                         }
+
                         _ => {}
                     }
 
@@ -954,6 +943,21 @@ where
                                 if IdentUsageFinder::find(&id, &**e2) {
                                     break;
                                 }
+                            }
+                        }
+
+                        // Function declaration is side-effect free.
+                        //
+                        // TODO(kdy1): Paramters with default value can have side effect. But this
+                        // is very unrealistic in real-world code, so I'm
+                        // postponing handling for it.
+                        Mergable::FnDecl(f) => {
+                            if f.function
+                                .params
+                                .iter()
+                                .any(|p| !self.is_pat_skippable_for_seq(Some(a), &p.pat))
+                            {
+                                break;
                             }
                         }
                     }
@@ -1051,6 +1055,15 @@ where
                                 return false;
                             }
                         }
+
+                        Mergable::FnDecl(a) => {
+                            // TODO(kdy1): I'm not sure if we can remove this check. I added this
+                            // just to be safe, and we may remove this check in future.
+                            if is_ident_used_by(e.to_id(), &**a) {
+                                log_abort!("ident used by a (fn)");
+                                return false;
+                            }
+                        }
                     }
 
                     // We can't proceed if the rhs (a.id = b.right) is
@@ -1106,6 +1119,15 @@ where
 
                             _ => None,
                         },
+
+                        Mergable::FnDecl(a) => Some(collect_infects_from(
+                            &a.function,
+                            AliasConfig {
+                                marks: Some(self.marks),
+                                ignore_nested: true,
+                                need_all: true,
+                            },
+                        )),
                     };
 
                     if let Some(ids_used_by_a_init) = ids_used_by_a_init {
@@ -1191,6 +1213,13 @@ where
                         Mergable::Expr(a) => {
                             if is_ident_used_by(left_id.to_id(), &**a) {
                                 log_abort!("e.left is used by a (expr)");
+                                return false;
+                            }
+                        }
+                        Mergable::FnDecl(a) => {
+                            // TODO(kdy1): I'm not sure if this check is required.
+                            if is_ident_used_by(left_id.to_id(), &**a) {
+                                log_abort!("e.left is used by a ()");
                                 return false;
                             }
                         }
@@ -1402,6 +1431,7 @@ where
             let a = match a {
                 Mergable::Expr(e) => dump(*e, false),
                 Mergable::Var(e) => dump(*e, false),
+                Mergable::FnDecl(e) => dump(*e, false),
             };
 
             Some(
@@ -1420,7 +1450,7 @@ where
         }
 
         match a {
-            Mergable::Var(..) => {}
+            Mergable::Var(..) | Mergable::FnDecl(..) => {}
             Mergable::Expr(a) => {
                 if let Expr::Seq(a) = a {
                     for a in a.exprs.iter_mut().rev() {
@@ -1472,6 +1502,12 @@ where
                         return Ok(false);
                     }
                 },
+
+                Mergable::FnDecl(..) => {
+                    // A function declaration is always inlinable as it can be
+                    // viewed as a variable with an identifier name and a
+                    // function expression as a initialized.
+                }
             }
         }
 
@@ -1806,6 +1842,14 @@ where
                     crate::debug::dump(&*b, false)
                 );
             }
+
+            Mergable::FnDecl(a) => {
+                trace_op!(
+                    "sequences: Trying to merge `{}` => `{}`",
+                    crate::debug::dump(&**a, false),
+                    crate::debug::dump(&*b, false)
+                );
+            }
         }
 
         if self.replace_seq_update(a, b)? {
@@ -2033,7 +2077,7 @@ where
                             }
                         }
 
-                        (left_id.clone(), right)
+                        (left_id.clone(), Some(right))
                     }
                     _ => return Ok(false),
                 }
@@ -2066,35 +2110,57 @@ where
                     }
 
                     match &mut a.init {
-                        Some(v) => (left, v),
+                        Some(v) => (left, Some(v)),
                         None => {
                             if usage.declared_count > 1 {
                                 return Ok(false);
                             }
 
                             right_val = undefined(DUMMY_SP);
-                            (left, &mut right_val)
+                            (left, Some(&mut right_val))
                         }
                     }
                 } else {
                     return Ok(false);
                 }
             }
+
+            Mergable::FnDecl(a) => {
+                if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
+                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                        return Ok(false);
+                    }
+
+                    if usage.inline_prevented {
+                        return Ok(false);
+                    }
+
+                    if contains_arguments(&a.function) {
+                        return Ok(false);
+                    }
+
+                    (a.ident.clone(), None)
+                } else {
+                    return Ok(false);
+                }
+            }
         };
 
-        if a_right.is_this()
-            || matches!(
-                &**a_right,
-                Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                })
-            )
-        {
-            return Ok(false);
-        }
-        if contains_arguments(&**a_right) {
-            return Ok(false);
+        if let Some(a_right) = a_right {
+            if a_right.is_this()
+                || matches!(
+                    &**a_right,
+                    Expr::Ident(Ident {
+                        sym: js_word!("arguments"),
+                        ..
+                    })
+                )
+            {
+                return Ok(false);
+            }
+            if contains_arguments(&**a_right) {
+                return Ok(false);
+            }
         }
 
         macro_rules! take_a {
@@ -2133,6 +2199,15 @@ where
                         }
 
                         Box::new(a.take())
+                    }
+
+                    Mergable::FnDecl(a) => {
+                        // We can inline a function declaration as a function expression.
+
+                        Box::new(Expr::Fn(FnExpr {
+                            ident: Some(a.ident.take()),
+                            function: a.function.take(),
+                        }))
                     }
                 }
             };
@@ -2307,6 +2382,7 @@ impl Visit for UsageCounter<'_> {
 enum Mergable<'a> {
     Var(&'a mut VarDeclarator),
     Expr(&'a mut Expr),
+    FnDecl(&'a mut FnDecl),
 }
 
 impl Mergable<'_> {
@@ -2320,6 +2396,7 @@ impl Mergable<'_> {
                 Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
                 _ => None,
             },
+            Mergable::FnDecl(f) => Some(f.ident.to_id()),
         }
     }
 }

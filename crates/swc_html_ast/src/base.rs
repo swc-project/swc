@@ -1,6 +1,6 @@
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 #[ast_node("Document")]
@@ -63,8 +63,7 @@ pub struct DocumentType {
     pub public_id: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub system_id: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for DocumentType {
@@ -126,12 +125,10 @@ pub struct Attribute {
     pub prefix: Option<JsWord>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw_name: Option<JsWord>,
+    pub raw_name: Option<Atom>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw_value: Option<JsWord>,
+    pub raw_value: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Attribute {
@@ -149,8 +146,7 @@ pub struct Text {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Text {
@@ -165,8 +161,7 @@ pub struct Comment {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub data: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
-    pub raw: Option<JsWord>,
+    pub raw: Option<Atom>,
 }
 
 impl EqIgnoreSpan for Comment {
