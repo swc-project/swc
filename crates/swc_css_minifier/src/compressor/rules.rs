@@ -31,7 +31,7 @@ impl Default for CompatibilityChecker {
     }
 }
 
-// TODO improve me https://github.com/cssnano/cssnano/blob/master/packages/postcss-merge-rules/src/lib/ensureCompatibility.js#L62
+// TODO improve me https://github.com/cssnano/cssnano/blob/master/packages/postcss-merge-rules/src/lib/ensureCompatibility.js#L62, need browserslist
 impl Visit for CompatibilityChecker {
     fn visit_pseudo_class_selector(&mut self, _n: &PseudoClassSelector) {
         self.allow_to_merge = false;
@@ -220,8 +220,8 @@ impl Compressor {
             }
         }
 
-        // Merge when declarations are exactly equal
-        // e.g. h1 { color: red } h2 { color: red }
+        // Merge when both selectors are exactly equal
+        // e.g. a { color: blue } a { font-weight: bold }
         if left.prelude.eq_ignore_span(&right.prelude) {
             let block = self.merge_simple_block(&left.block, &right.block);
             let mut qualified_rule = QualifiedRule {
@@ -246,9 +246,50 @@ impl Compressor {
         None
     }
 
+    fn is_mergeable_at_rule(&self, at_rule: &AtRule) -> bool {
+        let name = match &at_rule.name {
+            AtRuleName::Ident(Ident { value, .. }) => value,
+            _ => return false,
+        };
+
+        match name.to_ascii_lowercase() {
+            js_word!("media") | js_word!("container") => true,
+            _ => false,
+        }
+    }
+
+    fn try_merge_at_rule(&mut self, left: &AtRule, right: &AtRule) -> Option<AtRule> {
+        // Merge when both media queries are exactly equal
+        // e.g. @media print { .color { color: red; } } @media print { .color { color:
+        // blue; } }
+        if left.prelude.eq_ignore_span(&right.prelude) {
+            if let Some(left_block) = &left.block {
+                if let Some(right_block) = &right.block {
+                    let block = self.merge_simple_block(left_block, right_block);
+                    let mut at_rule = AtRule {
+                        span: Span::new(
+                            left.span.span_lo(),
+                            right.span.span_lo(),
+                            SyntaxContext::empty(),
+                        ),
+                        name: left.name.clone(),
+                        prelude: left.prelude.clone(),
+                        block: Some(block),
+                    };
+
+                    at_rule.visit_mut_children_with(self);
+
+                    return Some(at_rule);
+                }
+            }
+        }
+
+        None
+    }
+
     pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut names: AHashMap<Name, isize> = Default::default();
-        let mut prev_qualified_rule: Option<QualifiedRule> = None;
+        let mut prev_rule: Option<Rule> = None;
         let mut remove_rules_list = vec![];
         let mut prev_index = 0;
         let mut index = 0;
@@ -263,16 +304,31 @@ impl Compressor {
                 Rule::QualifiedRule(box QualifiedRule { block, .. }) if block.value.is_empty() => {
                     false
                 }
-                Rule::QualifiedRule(box current_qualified_rule @ QualifiedRule { .. })
-                    if prev_qualified_rule.is_some() =>
+                Rule::AtRule(box at_rule @ AtRule { .. })
+                    if self.is_mergeable_at_rule(at_rule)
+                        && matches!(prev_rule, Some(Rule::AtRule(_))) =>
                 {
-                    if let Some(qualified_rule) = self.try_merge_qualified_rules(
-                        prev_qualified_rule.as_ref().unwrap(),
-                        current_qualified_rule,
-                    ) {
-                        *rule = Rule::QualifiedRule(Box::new(qualified_rule));
+                    if let Some(Rule::AtRule(box prev_rule)) = &prev_rule {
+                        if let Some(at_rule) = self.try_merge_at_rule(prev_rule, at_rule) {
+                            *rule = Rule::AtRule(Box::new(at_rule));
 
-                        remove_rules_list.push(prev_index);
+                            remove_rules_list.push(prev_index);
+                        }
+                    }
+
+                    true
+                }
+                Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. })
+                    if matches!(prev_rule, Some(Rule::QualifiedRule(_))) =>
+                {
+                    if let Some(Rule::QualifiedRule(box prev_rule)) = &prev_rule {
+                        if let Some(qualified_rule) =
+                            self.try_merge_qualified_rules(prev_rule, qualified_rule)
+                        {
+                            *rule = Rule::QualifiedRule(Box::new(qualified_rule));
+
+                            remove_rules_list.push(prev_index);
+                        }
                     }
 
                     true
@@ -286,12 +342,18 @@ impl Compressor {
 
             if result {
                 match rule {
+                    Rule::AtRule(box at_rule @ AtRule { .. })
+                        if self.is_mergeable_at_rule(at_rule) =>
+                    {
+                        prev_index = index;
+                        prev_rule = Some(Rule::AtRule(Box::new(at_rule.clone())));
+                    }
                     Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. }) => {
                         prev_index = index;
-                        prev_qualified_rule = Some(qualified_rule.clone());
+                        prev_rule = Some(Rule::QualifiedRule(Box::new(qualified_rule.clone())));
                     }
                     _ => {
-                        prev_qualified_rule = None;
+                        prev_rule = None;
                     }
                 }
 
