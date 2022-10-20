@@ -261,9 +261,10 @@ impl Compressor {
     }
 
     fn try_merge_at_rule(&mut self, left: &AtRule, right: &AtRule) -> Option<AtRule> {
-        // Merge when both media queries are exactly equal
-        // e.g. @media print { .color { color: red; } } @media print { .color { color:
-        // blue; } }
+        // Merge when both at-rule's prelude is exactly equal
+        // e.g.
+        // @media print { .color { color: red; } }
+        // @media print { .color { color: blue; } }
         if left.prelude.eq_ignore_span(&right.prelude) {
             if let Some(left_block) = &left.block {
                 if let Some(right_block) = &right.block {
