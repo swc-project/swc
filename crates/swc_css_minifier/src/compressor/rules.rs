@@ -347,7 +347,7 @@ impl Compressor {
                     ) {
                         *rule = ComponentValue::Rule(Rule::QualifiedRule(Box::new(qualified_rule)));
 
-                        // rule.visit_mut_children_with(self);
+                        rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
@@ -365,7 +365,7 @@ impl Compressor {
                             qualified_rule,
                         )));
 
-                        // rule.visit_mut_children_with(self);
+                        rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
