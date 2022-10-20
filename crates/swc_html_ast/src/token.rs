@@ -14,11 +14,9 @@ pub struct AttributeToken {
     pub span: Span,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub name: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_name: Option<Atom>,
     #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub raw_value: Option<Atom>,
 }
 
@@ -66,14 +64,12 @@ pub enum Token {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         // System identifier
         system_id: Option<JsWord>,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         // Raw value
         raw: Option<Atom>,
     },
     StartTag {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
@@ -81,7 +77,6 @@ pub enum Token {
     EndTag {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
@@ -89,12 +84,10 @@ pub enum Token {
     Comment {
         #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         data: JsWord,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: Option<Atom>,
     },
     Character {
         value: char,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         raw: Option<Raw>,
     },
     Eof,

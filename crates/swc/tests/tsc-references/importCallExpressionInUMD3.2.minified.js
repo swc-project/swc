@@ -25,12 +25,11 @@
     ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.2Ts = {}, global.interopRequireWildcardMjs);
 }(this, function(exports, _interopRequireWildcard) {
     "use strict";
-    async function foo() {
+    Object.defineProperty(exports, "__esModule", {
+        value: !0
+    }), _interopRequireWildcard = _interopRequireWildcard.default, async function() {
         class C extends (await import("./0")).B {
         }
         new C().print();
-    }
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    }), _interopRequireWildcard = _interopRequireWildcard.default, foo();
+    }();
 });
