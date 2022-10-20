@@ -384,6 +384,24 @@ impl Compressor {
                     }
                 })
                 .collect::<Vec<_>>();
+
+            // To merge
+            // .foo {
+            //     background: red;
+            // }
+            //
+            // .bar {
+            //     background: red;
+            // }
+            //
+            // .foo {
+            //     color: green;
+            // }
+            //
+            // .bar {
+            //     color: green;
+            // }
+            self.compress_stylesheet(stylesheet);
         }
     }
 
@@ -535,6 +553,26 @@ impl Compressor {
                     }
                 })
                 .collect::<Vec<_>>();
+
+            // To merge
+            // .foo {
+            //     & .foo {
+            //         background: red;
+            //     }
+            //
+            //     & .bar {
+            //         background: red;
+            //     }
+            //
+            //     & .foo {
+            //         color: green;
+            //     }
+            //
+            //     & .bar {
+            //         color: green;
+            //     }
+            // }
+            self.compress_simple_block(simple_block);
         }
     }
 }
