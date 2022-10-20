@@ -305,40 +305,109 @@ impl Compressor {
 
     pub(super) fn compress_simple_block(&self, simple_block: &mut SimpleBlock) {
         let mut names: AHashMap<Name, isize> = Default::default();
+        let mut prev_qualified_rule: Option<QualifiedRule> = None;
+        let mut remove_rules_list = vec![];
+        let mut index = 0;
 
-        simple_block.value.retain(|rule| match rule {
-            ComponentValue::Rule(Rule::QualifiedRule(box QualifiedRule { block, .. }))
-            | ComponentValue::Rule(Rule::AtRule(box AtRule {
-                block: Some(block), ..
-            }))
-            | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(box QualifiedRule {
-                block,
-                ..
-            }))
-            | ComponentValue::StyleBlock(StyleBlock::AtRule(box AtRule {
-                block: Some(block),
-                ..
-            }))
-            | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(box AtRule {
-                block: Some(block),
-                ..
-            }))
-            | ComponentValue::KeyframeBlock(KeyframeBlock { block, .. })
-                if block.value.is_empty() =>
-            {
-                false
-            }
-            _ => {
-                if let ComponentValue::Rule(rule) = rule {
-                    self.collect_names(rule, &mut names);
+        simple_block.value.retain_mut(|rule| {
+            let result = match rule {
+                ComponentValue::Rule(Rule::AtRule(box AtRule {
+                    block: Some(block), ..
+                }))
+                | ComponentValue::Rule(Rule::QualifiedRule(box QualifiedRule { block, .. }))
+                | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(box QualifiedRule {
+                    block,
+                    ..
+                }))
+                | ComponentValue::StyleBlock(StyleBlock::AtRule(box AtRule {
+                    block: Some(block),
+                    ..
+                }))
+                | ComponentValue::DeclarationOrAtRule(DeclarationOrAtRule::AtRule(box AtRule {
+                    block: Some(block),
+                    ..
+                }))
+                | ComponentValue::KeyframeBlock(KeyframeBlock { block, .. })
+                    if block.value.is_empty() =>
+                {
+                    false
                 }
+                ComponentValue::Rule(Rule::QualifiedRule(
+                    box current_qualified_rule @ QualifiedRule { .. },
+                )) if prev_qualified_rule.is_some() => {
+                    if let Some(qualified_rule) = self.try_merge_qualified_rules(
+                        prev_qualified_rule.as_ref().unwrap(),
+                        current_qualified_rule,
+                    ) {
+                        *rule = ComponentValue::Rule(Rule::QualifiedRule(Box::new(qualified_rule)));
 
-                true
+                        remove_rules_list.push(index - 1);
+                    }
+
+                    true
+                }
+                ComponentValue::StyleBlock(StyleBlock::QualifiedRule(
+                    box current_qualified_rule @ QualifiedRule { .. },
+                )) if prev_qualified_rule.is_some() => {
+                    if let Some(qualified_rule) = self.try_merge_qualified_rules(
+                        prev_qualified_rule.as_ref().unwrap(),
+                        current_qualified_rule,
+                    ) {
+                        *rule = ComponentValue::StyleBlock(StyleBlock::QualifiedRule(Box::new(
+                            qualified_rule,
+                        )));
+
+                        remove_rules_list.push(index - 1);
+                    }
+
+                    true
+                }
+                _ => {
+                    if let ComponentValue::Rule(rule) = rule {
+                        self.collect_names(rule, &mut names);
+                    }
+
+                    true
+                }
+            };
+
+            if result {
+                match rule {
+                    ComponentValue::Rule(Rule::QualifiedRule(
+                        box qualified_rule @ QualifiedRule { .. },
+                    ))
+                    | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(
+                        box qualified_rule @ QualifiedRule { .. },
+                    )) => {
+                        prev_qualified_rule = Some(qualified_rule.clone());
+                    }
+                    _ => {
+                        prev_qualified_rule = None;
+                    }
+                }
             }
+
+            index += 1;
+
+            result
         });
 
         if !names.is_empty() {
             self.discard_overridden(ParentNode::SimpleBlock(simple_block), &mut names);
+        }
+
+        if !remove_rules_list.is_empty() {
+            simple_block.value = take(&mut simple_block.value)
+                .into_iter()
+                .enumerate()
+                .filter_map(|(idx, value)| {
+                    if remove_rules_list.contains(&idx) {
+                        None
+                    } else {
+                        Some(value)
+                    }
+                })
+                .collect::<Vec<_>>();
         }
     }
 }

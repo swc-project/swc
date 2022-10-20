@@ -19,3 +19,7 @@ h1{font-size:2em;color:#000}h1{background:#fff;line-height:1.5}
 @media print{h1{display:block}h1{color:red}}
 .break { color: red; }
 code::selection{background:red}code::-moz-selection{background:red}
+.break { color: red; }
+.foo { &.bar { color: red; } }.foo { &.bar { color: red; } }
+.break { color: red; }
+.foo { &.bar { color: red; } &.bar { color: red; } }
