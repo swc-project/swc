@@ -2516,7 +2516,8 @@ where
         self.prepend_stmts = old_prepend;
         self.append_stmts = old_append;
 
-        let len = self.prepend_stmts.len();
+        let prepend_len = self.prepend_stmts.len();
+        let append_len = self.append_stmts.len();
 
         #[cfg(feature = "debug")]
         if self.debug_infinite_loop {
@@ -2527,7 +2528,8 @@ where
             }
         }
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
 
         if let Stmt::Expr(ExprStmt { expr, .. }) = s {
             if is_pure_undefined(&self.expr_ctx, expr) {
@@ -2565,7 +2567,8 @@ where
             }
         }
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
 
         match s {
             // We use var decl with no declarator to indicate we dropped an decl.
@@ -2576,32 +2579,38 @@ where
             _ => {}
         }
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         self.compress_if_without_alt(s);
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         self.compress_if_stmt_as_cond(s);
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         self.compress_if_stmt_as_expr(s);
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         self.optimize_const_switches(s);
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         self.optimize_switches(s);
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
         #[cfg(feature = "debug")]
@@ -2613,7 +2622,8 @@ where
             }
         }
 
-        debug_assert_eq!(self.prepend_stmts.len(), len);
+        debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
+        debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
     }
 
