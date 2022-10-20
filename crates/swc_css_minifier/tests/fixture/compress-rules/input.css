@@ -213,3 +213,28 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
 .foo{@media screen { color: red; }}.foo{@media print { color: red; } @media print { color: red; }}
 .break { color: red; }
 .foo{@media screen { color: red; }}.foo{@media print { color: red; } @media screen { color: red; }}
+.break { color: red; }
+.foo {
+    color: red;
+
+    @nest & > .bar {
+        color: blue;
+    }
+    @nest & > .baz {
+        color: blue;
+    }
+}
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    @media (min-width: 50em) {
+        .foo {
+            background: blue;
+        }
+    }
+
+    @media (min-width: 50em) {
+        .foo {
+            background: blue;
+        }
+    }
+}
