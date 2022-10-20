@@ -279,9 +279,9 @@ impl Compressor {
                         prev_qualified_rule = None;
                     }
                 }
-            }
 
-            index += 1;
+                index += 1;
+            }
 
             result
         });
@@ -389,9 +389,9 @@ impl Compressor {
                         prev_qualified_rule = None;
                     }
                 }
-            }
 
-            index += 1;
+                index += 1;
+            }
 
             result
         });
