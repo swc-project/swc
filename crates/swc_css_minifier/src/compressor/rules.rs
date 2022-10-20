@@ -3,7 +3,7 @@ use std::mem::take;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{collections::AHashMap, EqIgnoreSpan, Span, Spanned, SyntaxContext};
 use swc_css_ast::*;
-use swc_css_visit::{Visit, VisitWith};
+use swc_css_visit::{Visit, VisitMutWith, VisitWith};
 
 use super::Compressor;
 
@@ -196,15 +196,16 @@ impl Compressor {
                 QualifiedRulePrelude::SelectorList(current_selector_list),
             ) = (&left.prelude, &right.prelude)
             {
+                let selector_list =
+                    self.merge_selector_list(prev_selector_list, current_selector_list);
+
                 return Some(QualifiedRule {
                     span: Span::new(
                         left.span.span_lo(),
                         right.span.span_lo(),
                         SyntaxContext::empty(),
                     ),
-                    prelude: QualifiedRulePrelude::SelectorList(
-                        self.merge_selector_list(prev_selector_list, current_selector_list),
-                    ),
+                    prelude: QualifiedRulePrelude::SelectorList(selector_list),
                     block: left.block.clone(),
                 });
             }
@@ -231,7 +232,7 @@ impl Compressor {
         None
     }
 
-    pub(super) fn compress_stylesheet(&self, stylesheet: &mut Stylesheet) {
+    pub(super) fn compress_stylesheet(&mut self, stylesheet: &mut Stylesheet) {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_qualified_rule: Option<QualifiedRule> = None;
         let mut remove_rules_list = vec![];
@@ -256,6 +257,8 @@ impl Compressor {
                         current_qualified_rule,
                     ) {
                         *rule = Rule::QualifiedRule(Box::new(qualified_rule));
+
+                        rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
@@ -305,7 +308,7 @@ impl Compressor {
         }
     }
 
-    pub(super) fn compress_simple_block(&self, simple_block: &mut SimpleBlock) {
+    pub(super) fn compress_simple_block(&mut self, simple_block: &mut SimpleBlock) {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_qualified_rule: Option<QualifiedRule> = None;
         let mut remove_rules_list = vec![];
@@ -344,6 +347,8 @@ impl Compressor {
                     ) {
                         *rule = ComponentValue::Rule(Rule::QualifiedRule(Box::new(qualified_rule)));
 
+                        // rule.visit_mut_children_with(self);
+
                         remove_rules_list.push(prev_index);
                     }
 
@@ -359,6 +364,8 @@ impl Compressor {
                         *rule = ComponentValue::StyleBlock(StyleBlock::QualifiedRule(Box::new(
                             qualified_rule,
                         )));
+
+                        // rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
