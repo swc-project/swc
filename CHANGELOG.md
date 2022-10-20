@@ -73,6 +73,9 @@
 
 - **(html/ast)** Use `Atom` for `raw` (#6210) ([420ba32](https://github.com/swc-project/swc/commit/420ba32e8c3b4f8ea34e3b17c82af31e2934059b))
 
+
+- **(html/parser)** Improve performance a bit (#6213) ([ba5d272](https://github.com/swc-project/swc/commit/ba5d272ae111b3da765c842bfd100013833c1eac))
+
 ### Refactor
 
 
