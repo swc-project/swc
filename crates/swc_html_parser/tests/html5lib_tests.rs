@@ -2,7 +2,7 @@ use std::{fs, mem::take, path::PathBuf};
 
 use common::{document_span_visualizer, DomVisualizer};
 use serde_json::Value;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet,
     input::{SourceFileInput, StringInput},
@@ -210,7 +210,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                         *raw = None;
                     }
                     Token::Comment { ref mut raw, .. } => {
-                        *raw = js_word!("");
+                        *raw = None;
                     }
                     _ => {}
                 }
@@ -355,7 +355,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
 
                                     vec![Token::Comment {
                                         data: data.into(),
-                                        raw: js_word!(""),
+                                        raw: None,
                                     }]
                                 }
                                 _ => {
@@ -799,9 +799,8 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 || file_name.contains("svg_dat.5.fragment_tbody")
                 || file_name.contains("svg_dat.6.fragment_tbody")
                 || file_name.contains("svg_dat.7.fragment_tbody")
+                || file_name.contains("foreign-fragment_dat.3.fragment_svg_path")
             {
-                errors.len() - 1
-            } else if file_name.contains("foreign-fragment_dat.3.fragment_svg_path") {
                 errors.len() - 1
             } else {
                 errors.len()

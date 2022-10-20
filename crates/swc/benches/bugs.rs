@@ -2,7 +2,7 @@ extern crate swc_node_base;
 
 use std::{io::stderr, path::Path};
 
-use criterion::{criterion_group, criterion_main, Bencher, Criterion};
+use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{Config, IsModule, Options};
 use swc_common::{errors::Handler, sync::Lrc, FilePathMapping, SourceMap};
 use swc_ecma_utils::swc_common::GLOBALS;
@@ -37,7 +37,7 @@ fn bench_file(b: &mut Bencher, path: &Path) {
                 .unwrap()
             })
         };
-        println!("{}", result.code);
+        black_box(result);
     });
 }
 
