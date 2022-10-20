@@ -405,6 +405,7 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
         color: #fff;
     }
 }
+.break { color: red; }
 .foo {
     & .foo {
         background: red;
@@ -421,4 +422,40 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
     & .bar {
         color: green;
     }
+}
+.break { color: red; }
+.foo {
+ background: red;
+}
+
+.bar {
+    background: red;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
 }
