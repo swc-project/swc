@@ -47,6 +47,9 @@
 - **(es/minifier)** Skip function declarations in sequential inliner (#6147) ([f2e8f98](https://github.com/swc-project/swc/commit/f2e8f98d381cff75229e29564ce5a7458175fea9))
 
 
+- **(es/minifier)** Merge functions using sequential inliner (#6148) ([12443db](https://github.com/swc-project/swc/commit/12443db39aebb216aa9da58917b74c8360310eca))
+
+
 - **(html/ast)** Add `raw` to comment tokens (#6202) ([99ea286](https://github.com/swc-project/swc/commit/99ea28674af1c1bbaa104089b7f7bd36356df208))
 
 
