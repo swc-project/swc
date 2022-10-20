@@ -58,6 +58,9 @@
 
 - **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
 
+
+- **(html/minifier)** Improve removal of redundant attributes (#6197) ([aa3fab1](https://github.com/swc-project/swc/commit/aa3fab1957b949c81bb1556b7d925d28c310eba0))
+
 ### Miscellaneous Tasks
 
 
