@@ -180,7 +180,7 @@ impl Compressor {
     }
 
     fn try_merge_qualified_rules(
-        &self,
+        &mut self,
         left: &QualifiedRule,
         right: &QualifiedRule,
     ) -> Option<QualifiedRule> {
@@ -198,8 +198,7 @@ impl Compressor {
             {
                 let selector_list =
                     self.merge_selector_list(prev_selector_list, current_selector_list);
-
-                return Some(QualifiedRule {
+                let mut qualified_rule = QualifiedRule {
                     span: Span::new(
                         left.span.span_lo(),
                         right.span.span_lo(),
@@ -207,22 +206,31 @@ impl Compressor {
                     ),
                     prelude: QualifiedRulePrelude::SelectorList(selector_list),
                     block: left.block.clone(),
-                });
+                };
+
+                qualified_rule.visit_mut_children_with(self);
+
+                return Some(qualified_rule);
             }
         }
 
         // Merge when declarations are exactly equal
         // e.g. h1 { color: red } h2 { color: red }
         if left.prelude.eq_ignore_span(&right.prelude) {
-            return Some(QualifiedRule {
+            let block = self.merge_simple_block(&left.block, &right.block);
+            let mut qualified_rule = QualifiedRule {
                 span: Span::new(
                     left.span.span_lo(),
                     right.span.span_lo(),
                     SyntaxContext::empty(),
                 ),
                 prelude: left.prelude.clone(),
-                block: self.merge_simple_block(&left.block, &right.block),
-            });
+                block,
+            };
+
+            qualified_rule.visit_mut_children_with(self);
+
+            return Some(qualified_rule);
         }
 
         // Partial merge: check if the rule contains a subset of the last; if
@@ -257,8 +265,6 @@ impl Compressor {
                         current_qualified_rule,
                     ) {
                         *rule = Rule::QualifiedRule(Box::new(qualified_rule));
-
-                        rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
@@ -347,8 +353,6 @@ impl Compressor {
                     ) {
                         *rule = ComponentValue::Rule(Rule::QualifiedRule(Box::new(qualified_rule)));
 
-                        rule.visit_mut_children_with(self);
-
                         remove_rules_list.push(prev_index);
                     }
 
@@ -364,8 +368,6 @@ impl Compressor {
                         *rule = ComponentValue::StyleBlock(StyleBlock::QualifiedRule(Box::new(
                             qualified_rule,
                         )));
-
-                        rule.visit_mut_children_with(self);
 
                         remove_rules_list.push(prev_index);
                     }
