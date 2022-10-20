@@ -10249,3 +10249,81 @@ fn issue_6039_2() {
     "###,
     );
 }
+
+#[test]
+fn issue_6217_1() {
+    run_exec_test(
+        r###"
+        var foo = function foo() {
+            var walker = 0;
+            var arr = [];
+            function bar(defaultValue) {
+                var myIndex = walker;
+                walker += 1;
+                console.log({
+                    arr: arr
+                });
+                if (arr.length < myIndex + 1) {
+                    arr[myIndex] = defaultValue;
+                }
+            }
+            return bar;
+        };
+        var bar = foo();
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
+        bar(null);
+    "###,
+        r###"
+        {
+            "arguments": false,
+            "arrows": false,
+            "booleans": false,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": false,
+            "computed_props": false,
+            "conditionals": false,
+            "dead_code": false,
+            "directives": false,
+            "drop_console": false,
+            "drop_debugger": false,
+            "evaluate": false,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": false,
+            "hoist_vars": false,
+            "if_return": false,
+            "join_vars": false,
+            "keep_classnames": false,
+            "keep_fargs": false,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": false,
+            "negate_iife": false,
+            "properties": false,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": false,
+            "switches": false,
+            "typeofs": false,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": false,
+            "const_to_let": false,
+            "pristine_globals": false
+        }
+        "###,
+        false,
+    );
+}
