@@ -1823,8 +1823,6 @@ function copyBytes(src, dst, off = 0) {
     return src.byteLength;
 }
 const DEFAULT_BUF_SIZE = 4096;
-"\r".charCodeAt(0);
-"\n".charCodeAt(0);
 class AbstractBufBase {
     usedBufferBytes = 0;
     err = null;

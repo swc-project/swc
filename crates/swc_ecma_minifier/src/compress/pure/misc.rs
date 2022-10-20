@@ -1096,7 +1096,9 @@ impl Pure<'_> {
                 Expr::New(NewExpr { callee, args, .. })
                     if callee.is_one_of_global_ref_to(
                         &self.expr_ctx,
-                        &["Map", "Set", "Array", "Object", "Boolean", "Number"],
+                        &[
+                            "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
+                        ],
                     ) =>
                 {
                     report_change!("Dropping a pure new expression");
