@@ -253,7 +253,9 @@ impl Compressor {
         };
 
         match name.to_ascii_lowercase() {
-            js_word!("media") | js_word!("container") | js_word!("nest") => true,
+            js_word!("media") | js_word!("supports") | js_word!("container") | js_word!("nest") => {
+                true
+            }
             _ => false,
         }
     }

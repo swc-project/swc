@@ -238,3 +238,17 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
         }
     }
 }
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}
+@supports (flex-wrap: wrap) {
+    .class-1 { color: red }
+}
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}

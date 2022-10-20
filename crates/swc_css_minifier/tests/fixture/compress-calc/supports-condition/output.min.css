@@ -1,1 +1,1 @@
-@supports(width:calc(100px + 100px)){div{background:red}}@supports(width:calc(100px + 100px)){div{background:red}}@supports(width:calc(0px*100)){div{background:red}}@supports(width:calc(0px + 0px)){div{background:red}}@supports(width:calc(100px*sqrt(9))){div{background:red}}
+@supports(width:calc(100px + 100px)){div{background:red}}@supports(width:calc(0px*100)){div{background:red}}@supports(width:calc(0px + 0px)){div{background:red}}@supports(width:calc(100px*sqrt(9))){div{background:red}}
