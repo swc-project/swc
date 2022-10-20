@@ -235,6 +235,7 @@ impl Compressor {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_qualified_rule: Option<QualifiedRule> = None;
         let mut remove_rules_list = vec![];
+        let mut prev_index = 0;
         let mut index = 0;
 
         stylesheet.rules.retain_mut(|rule| {
@@ -256,7 +257,7 @@ impl Compressor {
                     ) {
                         *rule = Rule::QualifiedRule(Box::new(qualified_rule));
 
-                        remove_rules_list.push(index - 1);
+                        remove_rules_list.push(prev_index);
                     }
 
                     true
@@ -271,6 +272,7 @@ impl Compressor {
             if result {
                 match rule {
                     Rule::QualifiedRule(box qualified_rule @ QualifiedRule { .. }) => {
+                        prev_index = index;
                         prev_qualified_rule = Some(qualified_rule.clone());
                     }
                     _ => {
@@ -307,6 +309,7 @@ impl Compressor {
         let mut names: AHashMap<Name, isize> = Default::default();
         let mut prev_qualified_rule: Option<QualifiedRule> = None;
         let mut remove_rules_list = vec![];
+        let mut prev_index = 0;
         let mut index = 0;
 
         simple_block.value.retain_mut(|rule| {
@@ -341,7 +344,7 @@ impl Compressor {
                     ) {
                         *rule = ComponentValue::Rule(Rule::QualifiedRule(Box::new(qualified_rule)));
 
-                        remove_rules_list.push(index - 1);
+                        remove_rules_list.push(prev_index);
                     }
 
                     true
@@ -357,7 +360,7 @@ impl Compressor {
                             qualified_rule,
                         )));
 
-                        remove_rules_list.push(index - 1);
+                        remove_rules_list.push(prev_index);
                     }
 
                     true
@@ -379,6 +382,7 @@ impl Compressor {
                     | ComponentValue::StyleBlock(StyleBlock::QualifiedRule(
                         box qualified_rule @ QualifiedRule { .. },
                     )) => {
+                        prev_index = index;
                         prev_qualified_rule = Some(qualified_rule.clone());
                     }
                     _ => {
