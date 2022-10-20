@@ -103,3 +103,107 @@ h1{display:block;display:block}h2{display:block;display:block}
 .a {-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
 .break { color: red; }
 h1,h2{display:block}h2,h1{display:block}
+.break { color: red; }
+.one, .two, .three { font-family: "lorem"; font-weight: normal; } .four { font-family: "lorem", serif; font-weight: normal; }.five { font-family: "lorem"; font-weight: normal; } @font-face { font-family: "lorem"; font-weight: normal; src: url(/assets/lorem.eot); src: url(/assets/lorem.eot?#iefix) format("embedded-opentype"), url(/assets/lorem.woff) format("woff"), url(/assets/lorem.ttf) format("truetype"); }
+.break { color: red; }
+.foo { font-weight: normal; } .bar { font-family: "my-font"; font-weight: normal; } @font-face { font-family: "my-font"; font-weight: normal; src: url("my-font.ttf"); }
+.break { color: red; }
+.a{font-family:Arial;font-family:Helvetica;}.b{font-family:Arial;}
+.break { color: red; }
+.a{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
+.break { color: red; }
+body { overflow: hidden; overflow-y: scroll; overflow-x: hidden;} main { overflow: hidden }
+.break { color: red; }
+.a{ border-color:transparent; border-bottom-color:#111111; border-bottom-style:solid; }.b{ border-color:transparent; border-bottom-color:#222222; border-bottom-style:solid; }
+.break { color: red; }
+.fb-col-md-6 { color: red; border-color:blue; flex: 0 0 auto; flex-basis: 50%; } .fb-col-md-7 { color: red; border-color:blue; flex: 0 0 auto; flex-basis: 58.3%; }
+.break { color: red; }
+.one { border: 1px solid black; border-top: none; } .two { border: 1px solid black; }
+.break { color: red; }
+.dispendium-theme.fr-toolbar.fr-top { border-radius: 0; background-clip: padding-box; box-shadow: none; border: 1px solid #E0E0E0; border-bottom: 0; } .dispendium-theme.fr-toolbar.fr-bottom { border-radius: 0; background-clip: padding-box; box-shadow: none; border: 1px solid #E0E0E0; border-top: 0; }
+.break { color: red; }
+.share .comment-count:before { content: ' '; position: absolute; width: 0; height: 0; right: 7px; top: 26px; border: 5px solid; border-color: #326891 #326891 transparent transparent; } .share .comment-count:after { content: ' '; position: absolute; width: 0; height: 0; right: 8px; top: 24px; border: 5px solid; border-color: #fff #fff transparent transparent; }
+.break { color: red; }
+@keyframes foo{0%{visibility:visible;transform:scale3d(.85,.85,.85);opacity:0}to{visibility:visible;opacity:1}}
+.break { color: red; }
+.foo{background:#fff;-webkit-background-clip:text}.bar{background:#000;-webkit-background-clip:text}
+.break { color: red; }
+.a{background-color:#fff}.a{background-color:#717F83;color:#fff}
+.break { color: red; }
+::placeholder{color:blue}h1{color:blue}
+.break { color: red; }
+div{color:#fff}a ~ b{color:#fff}
+.break { color: red; }
+div{color:#fff}a > b{color:#fff}
+.break { color: red; }
+div{color:#fff}[href]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href~="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href|="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href^="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href$="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href*="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href="foo" i]{color:#fff}
+.break { color: red; }
+:active{color:blue}h1{color:blue}
+.break { color: red; }
+:after{color:blue}h1{color:blue}
+.break { color: red; }
+::after{color:blue}h1{color:blue}
+.break { color: red; }
+::placeholder{color:blue}h1{color:blue}
+.break { color: red; }
+:host(tag){display:block}a{display:block}
+.break { color: red; }
+p {color: blue} :unknown {color: blue}
+.break { color: red; }
+p {color: blue} ::unknown {color: blue}
+.break { color: red; }
+@media print{h1{display:block}}@media print{h1{color:red}}
+.break { color: red; }
+@media print{h1{display:block}}@MEDIA print{h1{color:red}}
+.break { color: red; }
+@media (min-width: 48rem){.wrapper{display: block}}@supports (display: flex){@media (min-width: 48rem){.wrapper{display:flex}}}
+.break { color: red; }
+@media print{h1{display:block}}@media print{h1{color:red}h2{padding:10px}}
+.break { color: red; }
+@media print{h1{display:block;color:red}h2{padding:10px}}@media print{}
+.break { color: red; }
+@media (width:40px){.red{color:red}}@media (width:40px){.green{color:green}}@media (width:40px){.blue{color:blue}}@supports (--var:var){.white{color:white}}@supports (--var:var){.black{color:black}}
+.break { color: red; }
+@media (width:40px){.red{color:red}}@media (width:40px){.green{color:green}}@media (width:40px){.blue{color:blue}}@supports (--var:var){@media (width:40px){.white{color:white}}}@supports (--var:var){@media (width:40px){.black{color:black}}}
+.break { color: red; }
+@media print{h1{display:block}}@media screen{h1{color:red}h2{padding:10px}}
+.break { color: red; }
+@media (min-width: 48rem){.wrapper{display: block}}@supports (display: flex){@media (min-width: 48rem){.wrapper{display:flex}}}
+.break { color: red; }
+@media print{h1{display:block}}@supports (color:red){@media print and (color:1){h1{color:red}h2{padding:10px}}}
+.break { color: red; }
+@media (width:40px){h1{border:1px solid red;background-color:red;background-position:50% 100%}}@media (width:40px){h1{border:1px solid red;background-color:red}}@media (width:40px){h1{border:1px solid red}}
+.break { color: red; }
+@media (width:40px){h1{color:black}h2{color:black;font-weight:bold}}@media (width:40px){h3{color:black;font-weight:bold}}
+.break { color: red; }
+.a{color:red;display:flex;font-size:10px;}.c{all:unset;color:red;display:flex;font-size:10px;}
+.break { color: red; }
+.foo{color:red}.bar{all:unset;color:red}
+.break { color: red; }
+.a{color:red;display:flex;font-size:10px;direction:tlr;}.c{all:unset;color:red;display:flex;font-size:10px;direction:tlr;}
+.break { color: red; }
+a{color : green;} a:focus-visible{ color : green;} a:focus-visible{ background : red}
+.break { color: red; }
+a,a:link{color:#555}a:visited{color:#555}
+.break { color: red; }
+h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
+.break { color: red; }
+.foo{@media screen { color: red; }}.bar{@media screen { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media screen { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; }}

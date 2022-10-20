@@ -40,6 +40,12 @@ impl Visit for CompatibilityChecker {
     fn visit_pseudo_element_selector(&mut self, _n: &PseudoElementSelector) {
         self.allow_to_merge = false;
     }
+
+    fn visit_attribute_selector(&mut self, n: &AttributeSelector) {
+        if n.modifier.is_some() {
+            self.allow_to_merge = false;
+        }
+    }
 }
 
 impl Compressor {
