@@ -1,5 +1,5 @@
-function f1(n, c, r, t, u) {
-    return n("c") + c;
+function f1(n, eval, c, r, t) {
+    return n("c") + eval;
 }
 function f2(a, b, c, d, e) {
     return a + eval("c");
