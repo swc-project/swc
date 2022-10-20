@@ -71,7 +71,8 @@
   "body": {},
   "br": {
     "clear": {
-      "initial": "none"
+      "initial": "none",
+      "deprecated": true
     }
   },
   "button": {
@@ -174,24 +175,25 @@
   "hgroup": {},
   "hr": {
     "align": {
-      "initial": "center"
+      "initial": "center",
+      "deprecated": true
     },
     "noshade": {
-      "booean": true
+      "booean": true,
+      "deprecated": true
     },
     "width": {
-      "initial": "100%"
+      "initial": "100%",
+      "deprecated": true
     },
     "size": {
-      "initial": "2"
+      "initial": "2",
+      "deprecated": true
     }
   },
   "html": {
     "xmlns": {
       "initial": "http://www.w3.org/1999/xhtml"
-    },
-    "xmlns:xlink": {
-      "initial": "http://www.w3.org/1999/xlink"
     }
   },
   "i": {},
@@ -206,7 +208,8 @@
       "initial": "auto"
     },
     "frameborder": {
-      "initial": "1"
+      "initial": "1",
+      "deprecated": true
     },
     "height": {
       "initial": "150"
@@ -221,13 +224,15 @@
       "initial": "strict-origin-when-cross-origin"
     },
     "scrolling": {
-      "initial": "auto"
+      "initial": "auto",
+      "deprecated": true
     },
     "seamless": {
       "boolean": true
     },
     "vspace": {
-      "initial": "0"
+      "initial": "0",
+      "deprecated": true
     },
     "width": {
       "initial": "300"
@@ -312,10 +317,12 @@
   "mark": {},
   "marquee": {
     "scrollamount": {
-      "initial": "6"
+      "initial": "6",
+      "deprecated": true
     },
     "scrolldelay": {
-      "initial": "85"
+      "initial": "85",
+      "deprecated": true
     },
     "truespeed": {
       "boolean": true
@@ -396,7 +403,8 @@
       "boolean": true
     },
     "charset": {
-      "initial": "utf-8"
+      "initial": "utf-8",
+      "deprecated": true
     },
     "defer": {
       "boolean": true
@@ -405,7 +413,8 @@
       "initial": "auto"
     },
     "language": {
-      "initial": "javascript"
+      "initial": "javascript",
+      "deprecated": true
     },
     "nomodule": {
       "boolean": true
@@ -440,7 +449,8 @@
       "boolean": true
     },
     "type": {
-      "initial": "text/css"
+      "initial": "text/css",
+      "deprecated": true
     }
   },
   "sub": {},
