@@ -353,18 +353,39 @@ impl<'a> SuperFieldAccessFolder<'a> {
     }
 
     fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
-        let proto_arg = self.proto_arg();
+        if self.constant_super {
+            Expr::Member(MemberExpr {
+                span: super_token,
+                obj: Box::new({
+                    let name = self.super_class.clone().unwrap_or_else(|| {
+                        quote_ident!(if self.is_static { "Function" } else { "Object" })
+                    });
+                    // in static default super class is Function.prototype
+                    if self.is_static && self.super_class.is_some() {
+                        Expr::Ident(name)
+                    } else {
+                        name.make_member(quote_ident!("prototype"))
+                    }
+                }),
+                prop: match prop {
+                    SuperProp::Ident(i) => MemberProp::Ident(i),
+                    SuperProp::Computed(c) => MemberProp::Computed(c),
+                },
+            })
+        } else {
+            let proto_arg = self.proto_arg();
 
-        let prop_arg = prop_arg(prop).as_arg();
+            let prop_arg = prop_arg(prop).as_arg();
 
-        let this_arg = self.this_arg(super_token).as_arg();
+            let this_arg = self.this_arg(super_token).as_arg();
 
-        Expr::Call(CallExpr {
-            span: super_token,
-            callee: helper!(get, "get"),
-            args: vec![proto_arg.as_arg(), prop_arg, this_arg],
-            type_args: Default::default(),
-        })
+            Expr::Call(CallExpr {
+                span: super_token,
+                callee: helper!(get, "get"),
+                args: vec![proto_arg.as_arg(), prop_arg, this_arg],
+                type_args: Default::default(),
+            })
+        }
     }
 
     fn super_to_set_call(
