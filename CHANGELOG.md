@@ -50,6 +50,9 @@
 - **(es/minifier)** Merge functions using sequential inliner (#6148) ([12443db](https://github.com/swc-project/swc/commit/12443db39aebb216aa9da58917b74c8360310eca))
 
 
+- **(es/minifier)** Mark more expressions as pure (#6204) ([cc848db](https://github.com/swc-project/swc/commit/cc848db80e75f8bf07c2ca4acb0be3cf46ff75ca))
+
+
 - **(html/ast)** Add `raw` to comment tokens (#6202) ([99ea286](https://github.com/swc-project/swc/commit/99ea28674af1c1bbaa104089b7f7bd36356df208))
 
 
