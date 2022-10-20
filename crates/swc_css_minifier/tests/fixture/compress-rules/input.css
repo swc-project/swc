@@ -100,4 +100,6 @@ h1{ & h2{} & h3{}}
 .break { color: red; }
 h1{display:block;display:block}h2{display:block;display:block}
 .break { color: red; }
-.a{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
+.a {-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
+.break { color: red; }
+h1,h2{display:block}h2,h1{display:block}
