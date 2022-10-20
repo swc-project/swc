@@ -1,4 +1,1 @@
-function f() {
-    return 2;
-}
-console.log(f(), 3);
+console.log(2, 3);

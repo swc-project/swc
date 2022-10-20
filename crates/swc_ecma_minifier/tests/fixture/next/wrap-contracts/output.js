@@ -6313,15 +6313,11 @@
         },
         5546: function(module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var process = __webpack_require__(3454), utils = __webpack_require__(4867), normalizeHeaderName = __webpack_require__(6016), AxiosError = __webpack_require__(723), transitionalDefaults = __webpack_require__(7874), toFormData = __webpack_require__(7675), DEFAULT_CONTENT_TYPE = {
+            var adapter, process = __webpack_require__(3454), utils = __webpack_require__(4867), normalizeHeaderName = __webpack_require__(6016), AxiosError = __webpack_require__(723), transitionalDefaults = __webpack_require__(7874), toFormData = __webpack_require__(7675), DEFAULT_CONTENT_TYPE = {
                 'Content-Type': 'application/x-www-form-urlencoded'
             };
             function setContentTypeIfUnset(headers, value) {
                 !utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type']) && (headers['Content-Type'] = value);
-            }
-            function getDefaultAdapter() {
-                var adapter;
-                return 'undefined' != typeof XMLHttpRequest ? adapter = __webpack_require__(5448) : void 0 !== process && '[object process]' === Object.prototype.toString.call(process) && (adapter = __webpack_require__(5448)), adapter;
             }
             function stringifySafely(rawValue, parser, encoder) {
                 if (utils.isString(rawValue)) try {
@@ -6333,7 +6329,7 @@
             }
             var defaults = {
                 transitional: transitionalDefaults,
-                adapter: getDefaultAdapter(),
+                adapter: ('undefined' != typeof XMLHttpRequest ? adapter = __webpack_require__(5448) : void 0 !== process && '[object process]' === Object.prototype.toString.call(process) && (adapter = __webpack_require__(5448)), adapter),
                 transformRequest: [
                     function(data, headers) {
                         if (normalizeHeaderName(headers, 'Accept'), normalizeHeaderName(headers, 'Content-Type'), utils.isFormData(data) || utils.isArrayBuffer(data) || utils.isBuffer(data) || utils.isStream(data) || utils.isFile(data) || utils.isBlob(data)) return data;
@@ -17511,14 +17507,13 @@
                         function deprecate(e, t) {
                             if (config("noDeprecation")) return e;
                             var r = !1;
-                            function deprecated() {
+                            return function() {
                                 if (!r) {
                                     if (config("throwDeprecation")) throw Error(t);
                                     config("traceDeprecation") ? console.trace(t) : console.warn(t), r = !0;
                                 }
                                 return e.apply(this, arguments);
-                            }
-                            return deprecated;
+                            };
                         }
                         function config(e) {
                             try {
@@ -19163,7 +19158,7 @@
                             return bigint ? String(value) : void 0;
                     }
                 }
-                function stringify(value, replacer, space) {
+                return function(value, replacer, space) {
                     if (arguments.length > 1) {
                         let spacer = '';
                         if ('number' == typeof space ? spacer = ' '.repeat(Math.min(space, 10)) : 'string' == typeof space && (spacer = space.slice(0, 10)), null != replacer) {
@@ -19175,8 +19170,7 @@
                         if (0 !== spacer.length) return stringifyIndent('', value, [], spacer, '');
                     }
                     return stringifySimple('', value, []);
-                }
-                return stringify;
+                };
             }
         },
         2399: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -20316,14 +20310,13 @@
                     return exports.deprecate(fn, msg).apply(this, arguments);
                 };
                 var warned = !1;
-                function deprecated() {
+                return function() {
                     if (!warned) {
                         if (process.throwDeprecation) throw Error(msg);
                         process.traceDeprecation ? console.trace(msg) : console.error(msg), warned = !0;
                     }
                     return fn.apply(this, arguments);
-                }
-                return deprecated;
+                };
             };
             var debugs = {}, debugEnvRegex = /^$/;
             if (process.env.NODE_DEBUG) {
