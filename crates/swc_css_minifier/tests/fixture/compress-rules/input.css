@@ -209,3 +209,7 @@ h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
 .foo{@media screen { color: red; }}.foo{@media print { color: red; }}
 .break { color: red; }
 @supports (display: flex) { .flex-container > * {text-shadow: 0px 0px 2px blue;float: none;} }@supports (display: flex) { .flex-container { display: flex;} }
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; } @media print { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; } @media screen { color: red; }}
