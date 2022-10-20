@@ -540,8 +540,5 @@ impl Compressor {
 }
 
 fn need_keep_by_name(name: &JsWord) -> bool {
-    matches!(
-        name.to_ascii_lowercase(),
-        js_word!("color-profile") | js_word!("layer")
-    )
+    matches!(name.to_ascii_lowercase(), js_word!("color-profile"))
 }
