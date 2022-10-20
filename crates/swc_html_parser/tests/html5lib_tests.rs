@@ -670,6 +670,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
                 && matches!(counter, 109 | 110 | 111);
 
             if !need_skip_fragment && !document_fragment.is_empty() {
+            if !document_fragment.is_empty() {
                 file_stem += ".fragment_";
                 file_stem += &document_fragment.join("").replace(' ', "_");
             }
