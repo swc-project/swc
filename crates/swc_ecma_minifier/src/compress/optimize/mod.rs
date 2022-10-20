@@ -2490,6 +2490,8 @@ where
         debug_assert_valid(s);
 
         if !self.prepend_stmts.is_empty() || !self.append_stmts.is_empty() {
+            report_change!("Creating a fake block because of prepend or append");
+
             let span = s.span();
             *s = Stmt::Block(BlockStmt {
                 span: span.apply_mark(self.marks.fake_block),
