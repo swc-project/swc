@@ -11,6 +11,9 @@
 - **(css/minifier)** Don't touch `@supports` (#6199) ([ac7cfa1](https://github.com/swc-project/swc/commit/ac7cfa13b62b81018cccb8c424adb1cae679446c))
 
 
+- **(es/compat)** Fix super method call in loose mode (#6207) ([0e2de30](https://github.com/swc-project/swc/commit/0e2de3069df7d5e718562a030d8d22208353fb71))
+
+
 - **(es/minifier)** Remove wrong rule (#6201) ([842abd4](https://github.com/swc-project/swc/commit/842abd45759a31e9b6ef2b3a0679dee3ad335791))
 
 
@@ -51,6 +54,12 @@
 
 
 - **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix auto-publish action (#6214) ([e9ac7a7](https://github.com/swc-project/swc/commit/e9ac7a73963df586d577d3bb374a93695c68a90e))
 
 ### Performance
 
