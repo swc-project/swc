@@ -8595,69 +8595,6 @@
  114 | }
      `----
 
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
- 114 | }
-     : ^
-     `----
-
-  x RBrace
-     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
- 114 | }
-     : ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
- 114 | }
-     :  ^
- 115 | .selector {
-     `----
-
-  x WhiteSpace { value: Atom('
-  | ' type=inline) }
-     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
- 114 | }
-     :  ^
- 115 | .selector {
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     : ^
-     `----
-
-  x Delim { value: '.' }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     : ^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     :  ^^^^^^^^
-     `----
-
-  x Ident { value: Atom('selector' type=dynamic), raw: Atom('selector' type=dynamic) }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     :  ^^^^^^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     :          ^
-     `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-     ,-[$DIR/tests/recovery/hacks/input.css:115:1]
- 115 | .selector {
-     :          ^
-     `----
-
   x SimpleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
  115 | ,-> .selector { 

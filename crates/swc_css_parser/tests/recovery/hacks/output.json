@@ -8620,7 +8620,7 @@
               "type": "ListOfComponentValues",
               "span": {
                 "start": 2546,
-                "end": 2592,
+                "end": 2580,
                 "ctxt": 0
               },
               "children": [
@@ -8778,68 +8778,6 @@
                   "token": {
                     "WhiteSpace": {
                       "value": "\n"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 2580,
-                    "end": 2581,
-                    "ctxt": 0
-                  },
-                  "token": "RBrace"
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 2581,
-                    "end": 2582,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": "\n"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 2582,
-                    "end": 2583,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Delim": {
-                      "value": "."
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 2583,
-                    "end": 2591,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Ident": {
-                      "value": "selector",
-                      "raw": "selector"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 2591,
-                    "end": 2592,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": " "
                     }
                   }
                 }

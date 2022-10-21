@@ -122,7 +122,7 @@
               "type": "ListOfComponentValues",
               "span": {
                 "start": 30,
-                "end": 69,
+                "end": 58,
                 "ctxt": 0
               },
               "children": [
@@ -248,55 +248,6 @@
                   "token": {
                     "WhiteSpace": {
                       "value": "\n"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 58,
-                    "end": 59,
-                    "ctxt": 0
-                  },
-                  "token": "RBrace"
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 59,
-                    "end": 61,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": "\n\n"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 61,
-                    "end": 68,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "Ident": {
-                      "value": "article",
-                      "raw": "article"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 68,
-                    "end": 69,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": " "
                     }
                   }
                 }

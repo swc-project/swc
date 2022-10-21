@@ -456,8 +456,6 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
             }
         }
 
-        println!("TOKEN {:?}", token_and_span);
-
         Some(token_and_span)
     }
 }

@@ -313,58 +313,6 @@
  5 | }
    `----
 
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:5:1]
- 5 | }
-   : ^
-   `----
-
-  x RBrace
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:5:1]
- 5 | }
-   : ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:5:1]
- 5 | ,-> }
- 6 | `-> 
- 7 |     article {
-   `----
-
-  x WhiteSpace { value: Atom('
-  | 
-  | ' type=inline) }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:5:1]
- 5 | ,-> }
- 6 | `-> 
- 7 |     article {
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
- 7 | article {
-   : ^^^^^^^
-   `----
-
-  x Ident { value: Atom('article' type=static), raw: Atom('article' type=static) }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
- 7 | article {
-   : ^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
- 7 | article {
-   :        ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
- 7 | article {
-   :        ^
-   `----
-
   x SimpleBlock
     ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-2/input.css:7:1]
   7 | ,-> article {
