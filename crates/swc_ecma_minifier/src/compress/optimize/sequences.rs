@@ -1665,6 +1665,20 @@ where
                 };
 
                 if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
+                    // Let's be safe
+                    if IdentUsageFinder::find(&b_left.to_id(), &b_assign.right) {
+                        return Ok(false);
+                    }
+
+                    // As we are not *skipping* lhs, we can inline here
+                    if let Some(a_id) = a.id() {
+                        if a_id == b_left.to_id() {
+                            if self.replace_seq_assignment(a, b)? {
+                                return Ok(true);
+                            }
+                        }
+                    }
+
                     return Ok(false);
                 }
 
@@ -2202,7 +2216,7 @@ where
         }
 
         macro_rules! take_a {
-            ($force_drop:expr) => {
+            ($force_drop:expr, $drop_op:expr) => {
                 match a {
                     Mergable::Var(a) => {
                         if self.options.unused {
@@ -2225,14 +2239,16 @@ where
                     }
                     Mergable::Expr(a) => {
                         if can_remove || $force_drop {
-                            if let Expr::Assign(e @ AssignExpr { op: op!("="), .. }) = a {
-                                report_change!(
-                                    "sequences: Dropping assignment as we are going to drop the \
-                                     variable declaration. ({})",
-                                    left_id
-                                );
+                            if let Expr::Assign(e) = a {
+                                if e.op == op!("=") || $drop_op {
+                                    report_change!(
+                                        "sequences: Dropping assignment as we are going to drop \
+                                         the variable declaration. ({})",
+                                        left_id
+                                    );
 
-                                **a = *e.right.take();
+                                    **a = *e.right.take();
+                                }
                             }
                         }
 
@@ -2256,7 +2272,10 @@ where
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 if let Some(b_left) = b.left.as_ident() {
                     if b_left.to_id() == left_id.to_id() {
-                        let mut a_expr = take_a!(true);
+                        report_change!("sequences: Merged assignment into another assignment");
+                        self.changed = true;
+
+                        let mut a_expr = take_a!(true, false);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
@@ -2271,19 +2290,28 @@ where
             }
             Expr::Assign(b) => {
                 if let Some(b_left) = b.left.as_ident() {
-                    if b_left.to_id() == left_id.to_id() {
-                        if let Some(bin_op) = b.op.to_update() {
-                            b.op = op!("=");
+                    if let Mergable::Expr(Expr::Assign(AssignExpr { op: a_op, .. })) = a {
+                        if can_drop_op_for(*a_op, b.op) {
+                            if b_left.to_id() == left_id.to_id() {
+                                if let Some(bin_op) = b.op.to_update() {
+                                    report_change!(
+                                        "sequences: Merged assignment into another (op) assignment"
+                                    );
+                                    self.changed = true;
 
-                            let to = take_a!(true);
+                                    b.op = op!("=");
 
-                            b.right = Box::new(Expr::Bin(BinExpr {
-                                span: DUMMY_SP,
-                                op: bin_op,
-                                left: to,
-                                right: b.right.take(),
-                            }));
-                            return Ok(true);
+                                    let to = take_a!(true, true);
+
+                                    b.right = Box::new(Expr::Bin(BinExpr {
+                                        span: DUMMY_SP,
+                                        op: bin_op,
+                                        left: to,
+                                        right: b.right.take(),
+                                    }));
+                                    return Ok(true);
+                                }
+                            }
                         }
                     }
                 }
@@ -2319,7 +2347,7 @@ where
             left_id.span.ctxt
         );
 
-        let to = take_a!(false);
+        let to = take_a!(false, false);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 
@@ -2446,6 +2474,14 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
         Expr::Paren(e) => is_trivial_lit(&e.expr),
         Expr::Bin(e) => is_trivial_lit(&e.left) && is_trivial_lit(&e.right),
         Expr::Unary(e @ UnaryExpr { op: op!("!"), .. }) => is_trivial_lit(&e.arg),
+        _ => false,
+    }
+}
+
+/// This assumes `a.left.to_id() == b.left.to_id()`
+fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
+    match (a, b) {
+        (op!("+="), op!("+=")) => true,
         _ => false,
     }
 }
