@@ -5,7 +5,7 @@ use super::{input::ParserInput, PResult, Parser};
 use crate::{
     error::{Error, ErrorKind},
     parser::{BlockContentsGrammar, Ctx},
-    Parse, Tokens,
+    Parse,
 };
 
 impl<I> Parse<Stylesheet> for Parser<I>
@@ -122,17 +122,20 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         let create_prelude = |p: &mut Parser<I>,
-                              mut tokens: Tokens|
+                              mut list_of_component_values: ListOfComponentValues|
          -> PResult<QualifiedRulePrelude> {
-            let span = match (tokens.tokens.first(), tokens.tokens.last()) {
+            let span = match (
+                list_of_component_values.children.first(),
+                list_of_component_values.children.last(),
+            ) {
                 (Some(first), Some(last)) => {
                     Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
                 }
                 _ => DUMMY_SP,
             };
-            tokens.span = span;
+            list_of_component_values.span = span;
 
-            match p.parse_according_to_grammar::<SelectorList>(&tokens) {
+            match p.parse_according_to_grammar::<SelectorList>(&list_of_component_values) {
                 Ok(selector_list) => {
                     if p.ctx.is_trying_legacy_nesting {
                         let selector_list =
@@ -145,7 +148,9 @@ where
                 }
                 Err(err) => {
                     if p.ctx.is_trying_legacy_nesting {
-                        match p.parse_according_to_grammar::<RelativeSelectorList>(&tokens) {
+                        match p.parse_according_to_grammar::<RelativeSelectorList>(
+                            &list_of_component_values,
+                        ) {
                             Ok(relative_selector_list) => {
                                 let selector_list = p
                                     .legacy_relative_selector_list_to_modern_selector_list(
@@ -159,8 +164,10 @@ where
                     } else {
                         p.errors.push(err);
 
-                        let list_of_component_values =
-                            p.parse_according_to_grammar::<ListOfComponentValues>(&tokens)?;
+                        let list_of_component_values = p
+                            .parse_according_to_grammar::<ListOfComponentValues>(
+                                &list_of_component_values,
+                            )?;
 
                         Ok(QualifiedRulePrelude::ListOfComponentValues(
                             list_of_component_values,
@@ -173,9 +180,9 @@ where
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut prelude = Tokens {
+        let mut list_of_component_values = ListOfComponentValues {
             span: Default::default(),
-            tokens: vec![],
+            children: vec![],
         };
 
         // Repeatedly consume the next input token:
@@ -201,16 +208,20 @@ where
 
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
-                        prelude: create_prelude(self, prelude)?,
+                        prelude: create_prelude(self, list_of_component_values)?,
                         block,
                     });
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    let item = self.input.bump().unwrap();
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                        ..self.ctx
+                    };
+                    let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
-                    prelude.tokens.push(item);
+                    list_of_component_values.children.push(component_value);
                 }
             }
         }

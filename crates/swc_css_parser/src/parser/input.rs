@@ -1,7 +1,7 @@
 use std::{fmt::Debug, mem::take};
 
 use swc_common::{BytePos, Span, SyntaxContext};
-use swc_css_ast::{Token, TokenAndSpan};
+use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
 use crate::error::{Error, ErrorKind};
@@ -260,6 +260,122 @@ impl<'a> Iterator for TokensInput<'a> {
         };
 
         self.idx += 1;
+
+        Some(token_and_span)
+    }
+}
+
+#[derive(Debug)]
+pub struct ListOfComponentValuesState {
+    idx: Vec<usize>,
+}
+
+#[derive(Debug)]
+pub struct ListOfComponentValuesInput<'a> {
+    list: &'a ListOfComponentValues,
+    idx: Vec<usize>,
+}
+
+impl<'a> ListOfComponentValuesInput<'a> {
+    pub fn new(list: &'a ListOfComponentValues) -> Self {
+        ListOfComponentValuesInput { list, idx: vec![0] }
+    }
+
+    fn get_component_value(
+        &self,
+        list: &'a Vec<ComponentValue>,
+        deep: usize,
+    ) -> Option<&TokenAndSpan> {
+        let index = match self.idx.get(deep) {
+            Some(index) => index,
+            _ => return None,
+        };
+
+        match list.get(*index) {
+            Some(ComponentValue::PreservedToken(token_and_span)) => Some(token_and_span),
+            Some(ComponentValue::Function(function)) => {
+                self.get_component_value(&function.value, deep + 1)
+            }
+            Some(ComponentValue::SimpleBlock(simple_block)) => {
+                self.get_component_value(&simple_block.value, deep + 1)
+            }
+            None => return None,
+            _ => {
+                unreachable!("Not allowed in the list of component values")
+            }
+        }
+    }
+
+    fn cur(&mut self) -> PResult<&TokenAndSpan> {
+        let token_and_span = match self.get_component_value(&self.list.children, 0) {
+            Some(token_and_span) => token_and_span,
+            None => {
+                let bp = self.list.span.hi;
+                let span = Span::new(bp, bp, SyntaxContext::empty());
+
+                return Err(Error::new(span, ErrorKind::Eof));
+            }
+        };
+
+        Ok(token_and_span)
+    }
+}
+
+impl<'a> ParserInput for ListOfComponentValuesInput<'a> {
+    type State = ListOfComponentValuesState;
+
+    fn start_pos(&mut self) -> BytePos {
+        self.list.span.lo
+    }
+
+    fn state(&mut self) -> Self::State {
+        ListOfComponentValuesState {
+            idx: self.idx.clone(),
+        }
+    }
+
+    fn reset(&mut self, state: &Self::State) {
+        self.idx = state.idx.clone();
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        vec![]
+    }
+
+    fn skip_ws(&mut self) -> Option<BytePos> {
+        let mut last_pos = None;
+
+        while let Ok(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = self.cur()
+        {
+            last_pos = Some(span.hi);
+
+            if let Some(idx) = self.idx.last_mut() {
+                *idx += 1;
+            }
+        }
+
+        last_pos
+    }
+}
+
+impl<'a> Iterator for ListOfComponentValuesInput<'a> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token_and_span = match self.cur() {
+            Ok(token_and_span) => token_and_span.clone(),
+            _ => return None,
+        };
+
+        let index = match self.idx.last_mut() {
+            Some(index) => index,
+            _ => return None,
+        };
+
+        *index += 1;
 
         Some(token_and_span)
     }

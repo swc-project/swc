@@ -4,7 +4,7 @@ use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
-use crate::{Tokens, TokensInput};
+use crate::parser::input::ListOfComponentValuesInput;
 
 impl<I> Parser<I>
 where
@@ -31,11 +31,14 @@ where
         self.parse()
     }
 
-    pub fn parse_according_to_grammar<'a, T>(&mut self, tokens: &'a Tokens) -> PResult<T>
+    pub fn parse_according_to_grammar<'a, T>(
+        &mut self,
+        list_of_component_values: &'a ListOfComponentValues,
+    ) -> PResult<T>
     where
-        Parser<TokensInput<'a>>: Parse<T>,
+        Parser<ListOfComponentValuesInput<'a>>: Parse<T>,
     {
-        let lexer = TokensInput::new(tokens);
+        let lexer = ListOfComponentValuesInput::new(list_of_component_values);
         let mut parser = Parser::new(lexer, self.config);
 
         parser.parse()
