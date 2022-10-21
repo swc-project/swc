@@ -17,6 +17,9 @@
 - **(es/minifier)** Remove wrong rule (#6201) ([842abd4](https://github.com/swc-project/swc/commit/842abd45759a31e9b6ef2b3a0679dee3ad335791))
 
 
+- **(es/minifier)** Fix detection of direct `eval` (#6215) ([780b5de](https://github.com/swc-project/swc/commit/780b5de6787306f3293471f7259e87fcfa54b6d6))
+
+
 - **(html/ast)** Fix compilation (#6211) ([1b0dad1](https://github.com/swc-project/swc/commit/1b0dad1e845b2a648103383be6d952e5997d0387))
 
 
