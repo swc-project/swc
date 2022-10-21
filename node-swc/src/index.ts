@@ -38,7 +38,7 @@ const bindings: typeof import('./binding') = (() => {
 /**
  * Version of the swc binding.
  */
-export const version = require("./package.json").version;
+export const version: string = require("./package.json").version;
 
 export function plugins(ps: Plugin[]): Plugin {
   return mod => {
