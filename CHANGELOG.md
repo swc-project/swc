@@ -101,6 +101,9 @@
 
 
 
+- **(css/minifier)** Add tests for layer (#6221) ([055bdcd](https://github.com/swc-project/swc/commit/055bdcd997579b5de9851871684707adb7a3cfe7))
+
+
 - **(es/minifier)** Add a test for a fixed issue (#6218) ([725b118](https://github.com/swc-project/swc/commit/725b1185f32837b2cd599441a7ca4e5966cd2264))
 
 
