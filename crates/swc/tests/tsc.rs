@@ -413,6 +413,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
 }
 
 fn compile(output: &Path, test_unit_data: TestUnitData) {
+    let _testing = testing::init();
+
     let cm = test_unit_data.cm;
 
     let c = Compiler::new(cm.clone());

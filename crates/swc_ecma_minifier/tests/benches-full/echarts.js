@@ -14602,8 +14602,8 @@
                 },
                 keyedColumns: getDimValueSimply,
                 original: function(dataItem, dimName, dataIndex, dimIndex) {
-                    var value = dataItem && (null == dataItem.value ? dataItem : dataItem.value);
-                    return !(!this._rawData.pure && isObject(dataItem)) || dataItem instanceof Array || (this.hasItemOption = !0), parseDataValue(value instanceof Array ? value[dimIndex] : value, this._dimensionInfos[dimName]);
+                    var dataItem1, value = dataItem && (null == dataItem.value ? dataItem : dataItem.value);
+                    return !(!this._rawData.pure && isObject(dataItem1 = dataItem)) || dataItem1 instanceof Array || (this.hasItemOption = !0), parseDataValue(value instanceof Array ? value[dimIndex] : value, this._dimensionInfos[dimName]);
                 },
                 typedArray: function(dataItem, dimName, dataIndex, dimIndex) {
                     return dataItem[dimIndex];
@@ -31120,8 +31120,8 @@
         }(api, el, dataIndex, elOption, seriesModel, morphPreparation), toBeReplacedIdx >= 0 ? group.replaceAt(el, toBeReplacedIdx) : group.add(el), el;
     }
     function doesElNeedRecreate(el, elOption) {
-        var elInner = inner$9(el), elOptionType = elOption.type, elOptionShape = elOption.shape, elOptionStyle = elOption.style;
-        return null != elOptionType && elOptionType !== elInner.customGraphicType || 'path' === elOptionType && elOptionShape && (hasOwn(elOptionShape, 'pathData') || hasOwn(elOptionShape, 'd')) && getPathData(elOptionShape) !== elInner.customPathData || 'image' === elOptionType && hasOwn(elOptionStyle, 'image') && elOptionStyle.image !== elInner.customImagePath;
+        var shape, elInner = inner$9(el), elOptionType = elOption.type, elOptionShape = elOption.shape, elOptionStyle = elOption.style;
+        return null != elOptionType && elOptionType !== elInner.customGraphicType || 'path' === elOptionType && (shape = elOptionShape) && (hasOwn(shape, 'pathData') || hasOwn(shape, 'd')) && getPathData(elOptionShape) !== elInner.customPathData || 'image' === elOptionType && hasOwn(elOptionStyle, 'image') && elOptionStyle.image !== elInner.customImagePath;
     }
     function processTxInfo(elOption, state, attachedTxInfo) {
         var stateOpt = state ? retrieveStateOption(elOption, state) : elOption, styleOpt = state ? retrieveStyleOptionOnState(elOption, stateOpt, EMPHASIS) : elOption.style, elType = elOption.type, txCfg = stateOpt ? stateOpt.textConfig : null, txConOptNormal = elOption.textContent, txConOpt = txConOptNormal ? state ? retrieveStateOption(txConOptNormal, state) : txConOptNormal : null;
@@ -31208,7 +31208,7 @@
                     this._processResultIndividuals(combineResult, toIdx, null);
                 }
             } else {
-                var morphFrom = morphDuration && from && (from !== to || isIndividualMorphingPath(from) || isCombiningPath(from)) ? from : null, transFromProps = {};
+                var path, morphFrom = morphDuration && from && (from !== to || isIndividualMorphingPath(path = from) || isCombiningPath(path)) ? from : null, transFromProps = {};
                 prepareShapeOrExtraTransitionFrom('shape', to, morphFrom, toElOption, transFromProps, !1), prepareShapeOrExtraTransitionFrom('extra', to, morphFrom, toElOption, transFromProps, !1), prepareTransformTransitionFrom(to, morphFrom, toElOption, transFromProps, !1), prepareStyleTransitionFrom(to, morphFrom, toElOption, toElOption.style, transFromProps, !1), applyPropsFinal(to, allPropsFinal, toElOption.style), morphFrom && morphPath(morphFrom, to, elAnimationConfig), applyTransitionFrom(to, toDataIndex, toElOption, this._seriesModel, transFromProps, !1);
             }
         }, MorphPreparation.prototype._manyToOneForSingleTo = function(toIdx, fromIdxStart, fromCount) {

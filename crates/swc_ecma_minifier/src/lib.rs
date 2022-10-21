@@ -104,6 +104,8 @@ pub fn optimize(
     let mut marks = Marks::new();
     marks.unresolved_mark = extra.unresolved_mark;
 
+    debug_assert_valid(&m);
+
     if let Some(defs) = options.compress.as_ref().map(|c| &c.global_defs) {
         let _timer = timer!("inline global defs");
         // Apply global defs.
@@ -166,6 +168,7 @@ pub fn optimize(
         let _timer = timer!("precompress");
 
         m.visit_mut_with(&mut precompress_optimizer());
+        debug_assert_valid(&m);
     }
 
     if options.compress.is_some() {
@@ -175,6 +178,7 @@ pub fn optimize(
             marks,
             extra.unresolved_mark,
         ));
+        debug_assert_valid(&m);
     }
     m.visit_mut_with(&mut unique_scope());
 
@@ -192,7 +196,8 @@ pub fn optimize(
     }
     if let Some(options) = &options.compress {
         if options.unused {
-            perform_dce(&mut m, options, extra)
+            perform_dce(&mut m, options, extra);
+            debug_assert_valid(&m);
         }
     }
 
