@@ -1,3 +1,6 @@
+#![allow(clippy::redundant_clone)]
+#![allow(clippy::while_let_on_iterator)]
+
 use std::{fs, mem::take, path::PathBuf};
 
 use common::{document_span_visualizer, DomVisualizer};
@@ -666,11 +669,9 @@ fn html5lib_test_tree_construction(input: PathBuf) {
             let need_skip_fragment = relative_path_to_test.contains("template_dat")
                 && matches!(counter, 109 | 110 | 111);
 
-            if !need_skip_fragment {
-                if !document_fragment.is_empty() {
-                    file_stem += ".fragment_";
-                    file_stem += &document_fragment.join("").replace(' ', "_");
-                }
+            if !need_skip_fragment && !document_fragment.is_empty() {
+                file_stem += ".fragment_";
+                file_stem += &document_fragment.join("").replace(' ', "_");
             }
 
             if scripting_enabled {

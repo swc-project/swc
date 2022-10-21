@@ -94,14 +94,23 @@
 
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))
 
+
+- **(es/minifier)** Don't create invalid nodes (#6191) ([ea03ce1](https://github.com/swc-project/swc/commit/ea03ce1a82b0d5b49e0e324f09922efdca10ffbd))
+
 ### Testing
 
+
+
+- **(es/minifier)** Add a test for a fixed issue (#6218) ([725b118](https://github.com/swc-project/swc/commit/725b1185f32837b2cd599441a7ca4e5966cd2264))
 
 
 - **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
 
 
 - **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
+
+
+- **(html/parser)** Resolve TODOs (#6223) ([6505c64](https://github.com/swc-project/swc/commit/6505c6491a1fa241907329ee5c6ff073c3176dd6))
 
 ### Build
 

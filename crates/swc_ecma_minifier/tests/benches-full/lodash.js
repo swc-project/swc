@@ -1013,7 +1013,8 @@
             };
         }
         function baseMatchesProperty(path, srcValue) {
-            return isKey(path) && srcValue == srcValue && !isObject(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
+            var value;
+            return isKey(path) && (value = srcValue) == value && !isObject(value) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                 var objValue = get(object, path);
                 return undefined === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
             };

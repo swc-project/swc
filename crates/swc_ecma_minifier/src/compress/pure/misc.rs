@@ -3,6 +3,7 @@ use std::{fmt::Write, iter::once, num::FpCategory};
 use swc_atoms::js_word;
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{
     ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
@@ -19,17 +20,31 @@ use crate::{
 
 impl Pure<'_> {
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
-        if let Expr::Bin(BinExpr { left, right, .. }) = e {
-            self.remove_invalid(left);
-            self.remove_invalid(right);
+        match e {
+            Expr::Seq(seq) => {
+                for e in &mut seq.exprs {
+                    self.remove_invalid(e);
+                }
 
-            if left.is_invalid() {
-                *e = *right.take();
-                self.remove_invalid(e);
-            } else if right.is_invalid() {
-                *e = *left.take();
-                self.remove_invalid(e);
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.pop().unwrap();
+                }
             }
+
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.remove_invalid(left);
+                self.remove_invalid(right);
+
+                if left.is_invalid() {
+                    *e = *right.take();
+                    self.remove_invalid(e);
+                } else if right.is_invalid() {
+                    *e = *left.take();
+                    self.remove_invalid(e);
+                }
+            }
+
+            _ => {}
         }
     }
 
@@ -697,6 +712,12 @@ impl Pure<'_> {
     }
 
     pub(super) fn ignore_return_value(&mut self, e: &mut Expr, opts: DropOpts) {
+        if e.is_invalid() {
+            return;
+        }
+
+        debug_assert_valid(e);
+
         self.optimize_expr_in_bool_ctx(e, true);
 
         match e {
@@ -704,6 +725,9 @@ impl Pure<'_> {
                 if seq.exprs.is_empty() {
                     e.take();
                     return;
+                }
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.remove(0);
                 }
             }
 
@@ -855,10 +879,14 @@ impl Pure<'_> {
                     if tpl.exprs.is_empty() {
                         e.take();
                     } else {
-                        *e = Expr::Seq(SeqExpr {
-                            span: tpl.span,
-                            exprs: tpl.exprs.take(),
-                        });
+                        if tpl.exprs.len() == 1 {
+                            *e = *tpl.exprs.remove(0);
+                        } else {
+                            *e = Expr::Seq(SeqExpr {
+                                span: tpl.span,
+                                exprs: tpl.exprs.take(),
+                            });
+                        }
                     }
 
                     return;
@@ -1013,18 +1041,22 @@ impl Pure<'_> {
                 }
             }
 
-            Expr::Seq(e) => {
-                self.drop_useless_ident_ref_in_seq(e);
+            Expr::Seq(seq) => {
+                self.drop_useless_ident_ref_in_seq(seq);
 
-                if let Some(last) = e.exprs.last_mut() {
+                if let Some(last) = seq.exprs.last_mut() {
                     // Non-last elements are already processed.
                     self.ignore_return_value(last, opts);
                 }
 
-                let len = e.exprs.len();
-                e.exprs.retain(|e| !e.is_invalid());
-                if e.exprs.len() != len {
+                let len = seq.exprs.len();
+                seq.exprs.retain(|e| !e.is_invalid());
+                if seq.exprs.len() != len {
                     self.changed = true;
+                }
+
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.remove(0);
                 }
                 return;
             }

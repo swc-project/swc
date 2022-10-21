@@ -108,6 +108,8 @@ impl VisitMut for Remover {
             Expr::Seq(s) => {
                 if s.exprs.is_empty() {
                     *e = Expr::dummy();
+                } else if s.exprs.len() == 1 {
+                    *e = *s.exprs.pop().unwrap();
                 }
             }
 
@@ -1717,6 +1719,10 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 
             if exprs.is_empty() {
                 return None;
+            }
+
+            if exprs.len() == 1 {
+                return Some(*exprs.pop().unwrap());
             }
 
             Some(Expr::Seq(SeqExpr { span, exprs }))
