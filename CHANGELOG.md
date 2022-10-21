@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Preserve `this` in more cases (#6226) ([e9d421b](https://github.com/swc-project/swc/commit/e9d421bd959c93fa0ef1261865e50937321d5717))
+
 ### Miscellaneous Tasks
 
 
