@@ -6,3 +6,6 @@ let o = {
 (1, o.f)``;
 (true ? o.f : false)``;
 (true && o.f)``;
+
+let a;
+(a = o.f)``;
