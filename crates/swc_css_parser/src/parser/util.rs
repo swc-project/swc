@@ -40,8 +40,11 @@ where
     {
         let lexer = ListOfComponentValuesInput::new(list_of_component_values);
         let mut parser = Parser::new(lexer, self.config);
+        let res = parser.parse();
 
-        parser.parse()
+        self.errors.extend(parser.take_errors());
+
+        res
     }
 
     pub(super) fn legacy_nested_selector_list_to_modern_selector_list(
