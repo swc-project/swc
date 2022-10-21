@@ -31,10 +31,14 @@
 
 @layer {
     @layer foo {
-        color: red;
+        .class {
+            color: red;
+        }
     }
     @layer foo {
-        color: red;
+        .class {
+            color: red;
+        }
     }
 }
 
