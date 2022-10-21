@@ -2492,7 +2492,7 @@ fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     }
 
     if a == b {
-        return matches!(a, op!("+=") | op!("-=") | op!("*="));
+        return matches!(a, op!("+=") | op!("*="));
     }
 
     false
