@@ -7,6 +7,12 @@
 
 - **(bindings)** Fix type (#6184) ([2bafd53](https://github.com/swc-project/swc/commit/2bafd53e96b7101b9e7ceb6b34a88c8c826ef9d5))
 
+### Testing
+
+
+
+- **(es/preset-env)** Ensure custom transforms are working (#6227) ([de03675](https://github.com/swc-project/swc/commit/de036754c4e76ec9ea0deda30a87cd8949e03df5))
+
 ## [1.3.10] - 2022-10-21
 
 ### Bug Fixes
