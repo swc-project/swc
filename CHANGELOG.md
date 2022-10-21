@@ -70,6 +70,9 @@
 
 - **(ci)** Fix auto-publish action (#6214) ([e9ac7a7](https://github.com/swc-project/swc/commit/e9ac7a73963df586d577d3bb374a93695c68a90e))
 
+
+- **(deps)** Update jemallocator (#6216) ([283549c](https://github.com/swc-project/swc/commit/283549c677c3da89c4ff010d4b340d996c445bef))
+
 ### Performance
 
 
@@ -93,6 +96,9 @@
 
 ### Testing
 
+
+
+- **(es/minifier)** Add a test for a fixed issue (#6218) ([725b118](https://github.com/swc-project/swc/commit/725b1185f32837b2cd599441a7ca4e5966cd2264))
 
 
 - **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
