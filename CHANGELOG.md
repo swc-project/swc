@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Preserve `this` in more cases (#6226) ([e9d421b](https://github.com/swc-project/swc/commit/e9d421bd959c93fa0ef1261865e50937321d5717))
 
+### Features
+
+
+
+- **(css/minifier)** Merge rules (#6220) ([8b6b9c0](https://github.com/swc-project/swc/commit/8b6b9c0961b76a8b9a3eff208af73a48005b6aeb))
+
 ### Miscellaneous Tasks
 
 
