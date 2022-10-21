@@ -483,7 +483,7 @@ impl SimplifyExpr {
                             self.changed = true;
 
                             // 0 && $right
-                            *expr = *(left.take());
+                            *expr = *left.take();
                             return;
                         }
                     } else if val {
@@ -500,7 +500,14 @@ impl SimplifyExpr {
                     if !left.may_have_side_effects(&self.expr_ctx) {
                         self.changed = true;
 
-                        *expr = *node.take();
+                        if node.directness_maters() {
+                            *expr = Expr::Seq(SeqExpr {
+                                span: node.span(),
+                                exprs: vec![0.into(), node.take()],
+                            });
+                        } else {
+                            *expr = *node.take();
+                        }
                     } else {
                         self.changed = true;
 
