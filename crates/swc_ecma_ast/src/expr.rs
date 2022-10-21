@@ -8,7 +8,7 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
-use swc_atoms::Atom;
+use swc_atoms::{js_word, Atom};
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -214,6 +214,17 @@ impl Expr {
                 exprs,
             }))
         }
+    }
+
+    /// Returns true for `eval` and member expressions.
+    pub fn directness_maters(&self) -> bool {
+        matches!(
+            self,
+            Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) | Expr::Member(..)
+        )
     }
 }
 
