@@ -4,6 +4,7 @@
 use rayon::prelude::*;
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{undefined, ExprCtx};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -321,8 +322,18 @@ impl VisitMut for Pure<'_> {
             e.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
-        if e.is_lit() {
-            return;
+        match e {
+            Expr::Seq(seq) => {
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.pop().unwrap();
+                }
+            }
+            Expr::Invalid(..) | Expr::Lit(..) => return,
+            _ => {}
+        }
+
+        if e.is_seq() {
+            debug_assert_valid(e);
         }
 
         if self.options.unused {
@@ -351,7 +362,15 @@ impl VisitMut for Pure<'_> {
 
         self.eval_nested_tpl(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_tpl_as_str(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_str_addition(e);
 
@@ -374,61 +393,171 @@ impl VisitMut for Pure<'_> {
 
         self.compress_array_join(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.unsafe_optimize_fn_as_arrow(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_opt_chain(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_number_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_arguments_member_access(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_number_method_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.swap_bin_operands(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_bools(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.drop_logical_operands(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.lift_minus(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
         self.convert_tpl_to_str(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.drop_useless_addition_of_str(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_useless_deletes(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.remove_useless_logical_rhs(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.handle_negated_seq(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.concat_str(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.eval_array_method_call(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
         self.eval_fn_method_call(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.eval_str_method_call(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_conds_as_logical(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.compress_cond_with_logical_as_logical(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.lift_seqs_of_bin(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.lift_seqs_of_cond_assign(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_nullish_coalescing(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
 
         self.compress_negated_bin_eq(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.compress_useless_cond_expr(e);
 
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_builtin_object(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
+
+        if s.expr.is_seq() {
+            debug_assert_valid(&s.expr);
+        }
 
         self.ignore_return_value(
             &mut s.expr,
@@ -438,6 +567,10 @@ impl VisitMut for Pure<'_> {
                 drop_str_lit: false,
             },
         );
+
+        if s.expr.is_seq() {
+            debug_assert_valid(&s.expr);
+        }
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
@@ -689,7 +822,7 @@ impl VisitMut for Pure<'_> {
 
         #[cfg(debug_assertions)]
         {
-            e.visit_with(&mut AssertValid);
+            e.exprs.visit_with(&mut AssertValid);
         }
     }
 
@@ -718,6 +851,16 @@ impl VisitMut for Pure<'_> {
             s.visit_mut_children_with(&mut *self.with_ctx(ctx));
         }
 
+        match s {
+            Stmt::Expr(ExprStmt { expr, .. }) if expr.is_invalid() => {
+                *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
+                return;
+            }
+            _ => {}
+        }
+
+        debug_assert_valid(s);
+
         #[cfg(feature = "debug")]
         if self.config.debug_infinite_loop {
             let text = dump(&*s, false);
@@ -738,11 +881,19 @@ impl VisitMut for Pure<'_> {
 
         self.loop_to_for_stmt(s);
 
+        debug_assert_valid(s);
+
         self.drop_instant_break(s);
+
+        debug_assert_valid(s);
 
         self.optimize_labeled_stmt(s);
 
+        debug_assert_valid(s);
+
         self.drop_useless_continue(s);
+
+        debug_assert_valid(s);
 
         if let Stmt::Expr(es) = s {
             if es.expr.is_invalid() {
@@ -760,10 +911,7 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        #[cfg(debug_assertions)]
-        {
-            s.visit_with(&mut AssertValid);
-        }
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {

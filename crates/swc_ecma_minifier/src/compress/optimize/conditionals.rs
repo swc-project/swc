@@ -3,6 +3,7 @@ use std::mem::swap;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{ExprExt, ExprFactory, StmtExt, StmtLike};
 
 use super::Optimizer;
@@ -282,7 +283,10 @@ where
         };
 
         let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true);
+
         if let Some(v) = new_expr {
+            debug_assert_valid(&v);
+
             self.changed = true;
             *s = Stmt::Expr(ExprStmt {
                 span: stmt.span,
@@ -346,6 +350,9 @@ where
         alt: &mut Expr,
         is_for_if_stmt: bool,
     ) -> Option<Expr> {
+        debug_assert_valid(cons);
+        debug_assert_valid(alt);
+
         if cons.eq_ignore_span(alt) && !matches!(&*cons, Expr::Yield(..) | Expr::Fn(..)) {
             report_change!("conditionals: cons is same as alt");
             return Some(Expr::Seq(SeqExpr {
@@ -578,10 +585,7 @@ where
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("||"),
-                    right: Box::new(Expr::Seq(SeqExpr {
-                        span: alt.span,
-                        exprs: alt.exprs.take(),
-                    })),
+                    right: Expr::from_exprs(alt.exprs.take()),
                 }));
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
@@ -601,10 +605,7 @@ where
                     span: DUMMY_SP,
                     left: test.take(),
                     op: op!("&&"),
-                    right: Box::new(Expr::Seq(SeqExpr {
-                        span: cons.span,
-                        exprs: cons.exprs.take(),
-                    })),
+                    right: Expr::from_exprs(cons.exprs.take()),
                 }));
                 Some(Expr::Seq(SeqExpr {
                     span: DUMMY_SP,

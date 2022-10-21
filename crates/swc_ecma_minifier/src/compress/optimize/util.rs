@@ -17,11 +17,45 @@ where
     M: Mode,
 {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
-        if let Expr::Seq(seq) = e {
-            self.normalize_sequences(seq);
-            if seq.exprs.len() == 1 {
-                *e = *seq.exprs.take().into_iter().next().unwrap();
+        match e {
+            Expr::Seq(seq) => {
+                for e in &mut seq.exprs {
+                    self.normalize_expr(e);
+                }
+
+                if seq.exprs.len() == 1 {
+                    *e = *seq.exprs.take().into_iter().next().unwrap();
+                    self.normalize_expr(e);
+                    return;
+                }
+
+                if seq.exprs.iter().any(|v| v.is_seq()) {
+                    let mut new = vec![];
+
+                    for e in seq.exprs.take() {
+                        match *e {
+                            Expr::Seq(s) => {
+                                new.extend(s.exprs);
+                            }
+                            _ => new.push(e),
+                        }
+                    }
+
+                    seq.exprs = new;
+                }
             }
+
+            Expr::Cond(cond) => {
+                self.normalize_expr(&mut cond.test);
+                self.normalize_expr(&mut cond.cons);
+                self.normalize_expr(&mut cond.alt);
+            }
+
+            Expr::Assign(a) => {
+                self.normalize_expr(&mut a.right);
+            }
+
+            _ => {}
         }
     }
 

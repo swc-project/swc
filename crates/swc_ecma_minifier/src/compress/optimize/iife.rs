@@ -301,7 +301,7 @@ where
     /// If a parameter is not used, we can ignore return value of the
     /// corresponding argument.
     pub(super) fn ignore_unused_args_of_iife(&mut self, e: &mut CallExpr) {
-        if !self.options.unused {
+        if !self.options.unused && !self.options.reduce_vars {
             return;
         }
 
@@ -450,7 +450,6 @@ where
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
-        self.normalize_expr(callee);
 
         if self.ctx.dont_invoke_iife {
             log_abort!("iife: Inline is prevented");
@@ -582,10 +581,7 @@ where
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
-                        *e = Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        });
+                        *e = *Expr::from_exprs(exprs);
                         e.visit_mut_with(self);
                     }
                 }
@@ -986,7 +982,9 @@ where
                     };
                     self.merge_sequences_in_seq_expr(&mut e);
 
-                    return Some(Expr::Seq(e));
+                    let mut e = Expr::Seq(e);
+                    self.normalize_expr(&mut e);
+                    return Some(e);
                 }
                 _ => {}
             }
@@ -1008,7 +1006,9 @@ where
         };
         self.merge_sequences_in_seq_expr(&mut e);
 
-        Some(Expr::Seq(e))
+        let mut e = Expr::Seq(e);
+        self.normalize_expr(&mut e);
+        Some(e)
     }
 
     fn can_be_inlined_for_iife(&self, arg: &Expr) -> bool {

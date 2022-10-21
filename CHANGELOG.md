@@ -50,6 +50,9 @@
 - **(es/minifier)** Merge functions using sequential inliner (#6148) ([12443db](https://github.com/swc-project/swc/commit/12443db39aebb216aa9da58917b74c8360310eca))
 
 
+- **(es/minifier)** Mark more expressions as pure (#6204) ([cc848db](https://github.com/swc-project/swc/commit/cc848db80e75f8bf07c2ca4acb0be3cf46ff75ca))
+
+
 - **(html/ast)** Add `raw` to comment tokens (#6202) ([99ea286](https://github.com/swc-project/swc/commit/99ea28674af1c1bbaa104089b7f7bd36356df208))
 
 
@@ -58,11 +61,17 @@
 
 - **(html/minifier)** Compress `javascript:` URLs (#6185) ([8f00d1a](https://github.com/swc-project/swc/commit/8f00d1a934fbc52594b62ab4c6d0eff9c2e73e60))
 
+
+- **(html/minifier)** Improve removal of redundant attributes (#6197) ([aa3fab1](https://github.com/swc-project/swc/commit/aa3fab1957b949c81bb1556b7d925d28c310eba0))
+
 ### Miscellaneous Tasks
 
 
 
 - **(ci)** Fix auto-publish action (#6214) ([e9ac7a7](https://github.com/swc-project/swc/commit/e9ac7a73963df586d577d3bb374a93695c68a90e))
+
+
+- **(deps)** Update jemallocator (#6216) ([283549c](https://github.com/swc-project/swc/commit/283549c677c3da89c4ff010d4b340d996c445bef))
 
 ### Performance
 
@@ -85,14 +94,26 @@
 
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))
 
+
+- **(es/minifier)** Don't create invalid nodes (#6191) ([ea03ce1](https://github.com/swc-project/swc/commit/ea03ce1a82b0d5b49e0e324f09922efdca10ffbd))
+
 ### Testing
 
+
+
+- **(css/minifier)** Add tests for layer (#6221) ([055bdcd](https://github.com/swc-project/swc/commit/055bdcd997579b5de9851871684707adb7a3cfe7))
+
+
+- **(es/minifier)** Add a test for a fixed issue (#6218) ([725b118](https://github.com/swc-project/swc/commit/725b1185f32837b2cd599441a7ca4e5966cd2264))
 
 
 - **(html/parser)** Update html5lib-test (#6156) ([7a38fde](https://github.com/swc-project/swc/commit/7a38fde2305f20ead731c8c1938c9f2c7919f2df))
 
 
 - **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
+
+
+- **(html/parser)** Resolve TODOs (#6223) ([6505c64](https://github.com/swc-project/swc/commit/6505c6491a1fa241907329ee5c6ff073c3176dd6))
 
 ### Build
 

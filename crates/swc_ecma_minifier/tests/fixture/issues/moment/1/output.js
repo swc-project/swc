@@ -260,7 +260,7 @@
         var month = config._locale.monthsParse(input, token, config._strict);
         null != month ? array[1] = month : getParsingFlags(config).invalidMonth = input;
     });
-    var defaultLocaleMonths = "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), defaultLocaleMonthsShort = "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
+    var defaultLocaleMonthsShort = "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"), MONTHS_IN_FORMAT = /D[oD]?(\[[^\[\]]*\]|\s)+MMMM?/;
     function handleStrictParse(monthName, format, strict) {
         var i, ii, mom, llc = monthName.toLocaleLowerCase();
         if (!this._monthsParse) for(i = 0, this._monthsParse = [], this._longMonthsParse = [], this._shortMonthsParse = []; i < 12; ++i)mom = createUTC([
@@ -400,7 +400,7 @@
     ], function(input, week, config, token) {
         week[token] = toInt(input);
     });
-    var defaultLocaleWeekdays = "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"), defaultLocaleWeekdaysMin = "Su_Mo_Tu_We_Th_Fr_Sa".split("_");
+    var defaultLocaleWeekdaysShort = "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_");
     function handleStrictParse$1(weekdayName, format, strict) {
         var i, ii, mom, llc = weekdayName.toLocaleLowerCase();
         if (!this._weekdaysParse) for(i = 0, this._weekdaysParse = [], this._shortWeekdaysParse = [], this._minWeekdaysParse = []; i < 7; ++i)mom = createUTC([
@@ -520,14 +520,14 @@
             y: "a year",
             yy: "%d years"
         },
-        months: defaultLocaleMonths,
+        months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
         monthsShort: defaultLocaleMonthsShort,
         week: {
             dow: 0,
             doy: 6
         },
-        weekdays: defaultLocaleWeekdays,
-        weekdaysMin: defaultLocaleWeekdaysMin,
+        weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
+        weekdaysMin: "Su_Mo_Tu_We_Th_Fr_Sa".split("_"),
         weekdaysShort: defaultLocaleWeekdaysShort,
         meridiemParse: /[ap]\.?m?\.?/i
     }, locales = {}, localeFamilies = {};

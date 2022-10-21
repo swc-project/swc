@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.5.6"
+version       = "0.5.7"
 
 [lib]
 bench = false
@@ -17,4 +17,4 @@ bench = false
 mimalloc-rust = { version = "0.2" }
 
 [target.'cfg(all(target_os = "linux", target_env = "gnu", any(target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
-tikv-jemallocator = { version = "0.4", features = ["disable_initial_exec_tls"] }
+tikv-jemallocator = { version = "0.5", features = ["disable_initial_exec_tls"] }

@@ -12799,7 +12799,8 @@
       "initial": "default"
     },
     "type": {
-      "initial": "text/css"
+      "initial": "text/css",
+      "deprecated": true
     },
     "media": {
       "initial": "all"

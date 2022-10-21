@@ -6661,12 +6661,18 @@
                 depthNear: cameraVR.near,
                 depthFar: cameraVR.far
             }), _currentDepthNear = cameraVR.near, _currentDepthFar = cameraVR.far);
-            var ipd, projL, projR, near, far, topFov, bottomFov, leftFov, rightFov, zOffset, xOffset, near2, far2, parent = camera.parent, cameras = cameraVR.cameras;
+            var parent = camera.parent, cameras = cameraVR.cameras;
             updateCamera(cameraVR, parent);
             for(var i = 0; i < cameras.length; i++)updateCamera(cameras[i], parent);
             camera.matrixWorld.copy(cameraVR.matrixWorld);
             for(var children = camera.children, _i3 = 0, l = children.length; _i3 < l; _i3++)children[_i3].updateMatrixWorld(!0);
-            return 2 === cameras.length ? (cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld), ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], xOffset = -((zOffset = ipd / (-(leftFov = (projL[8] - 1) / projL[0]) + (rightFov = (projR[8] + 1) / projR[0]))) * leftFov), cameraL.matrixWorld.decompose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.translateX(xOffset), cameraVR.translateZ(zOffset), cameraVR.matrixWorld.compose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.matrixWorldInverse.copy(cameraVR.matrixWorld).invert(), near2 = near + zOffset, far2 = far + zOffset, cameraVR.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2)) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
+            return 2 === cameras.length ? function(camera, cameraL, cameraR) {
+                cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld);
+                var ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], rightFov = (projR[8] + 1) / projR[0], zOffset = ipd / (-leftFov + rightFov), xOffset = -(zOffset * leftFov);
+                cameraL.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale), camera.translateX(xOffset), camera.translateZ(zOffset), camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale), camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
+                var near2 = near + zOffset, far2 = far + zOffset;
+                camera.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2);
+            }(cameraVR, cameraL, cameraR) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
         animation.setAnimationLoop(function(time, frame) {

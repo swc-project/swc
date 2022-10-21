@@ -806,6 +806,10 @@ impl VisitMut for TreeShaker {
                 *n = *a.right.take();
             }
         }
+
+        if !n.is_invalid() {
+            debug_assert_valid(n);
+        }
     }
 
     fn visit_mut_import_specifiers(&mut self, ss: &mut Vec<ImportSpecifier>) {
@@ -830,6 +834,8 @@ impl VisitMut for TreeShaker {
     }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
+        debug_assert_valid(m);
+
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if self.bindings.is_empty() {
@@ -924,6 +930,8 @@ impl VisitMut for TreeShaker {
             }
         }
 
+        debug_assert_valid(s);
+
         if let Stmt::Decl(Decl::Var(v)) = s {
             let span = v.span;
             let cnt = v.decls.len();
@@ -951,18 +959,10 @@ impl VisitMut for TreeShaker {
                 if exprs.is_empty() {
                     *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
                     return;
-                } else if exprs.len() == 1 {
-                    *s = Stmt::Expr(ExprStmt {
-                        span,
-                        expr: exprs.into_iter().next().unwrap(),
-                    });
                 } else {
                     *s = Stmt::Expr(ExprStmt {
                         span,
-                        expr: Box::new(Expr::Seq(SeqExpr {
-                            span: DUMMY_SP,
-                            exprs,
-                        })),
+                        expr: Expr::from_exprs(exprs),
                     });
                 }
             }
@@ -973,6 +973,8 @@ impl VisitMut for TreeShaker {
                 *s = Stmt::Empty(EmptyStmt { span: DUMMY_SP });
             }
         }
+
+        debug_assert_valid(s);
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {

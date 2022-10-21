@@ -1,0 +1,68 @@
+@layer default, theme, components;
+@layer foo.bar;
+@layer foo.bar, baz;
+
+@layer framework {
+    @layer layout {
+        @layer base {
+        }
+    }
+}
+@layer a{
+    @layer b {
+        div {color: yellow; margin: 0px;}
+    }
+}
+
+@layer framework {
+    @layer base {
+        p { margin-block: 0.75em; }
+    }
+
+    @layer theme {
+        p { color: #222; }
+    }
+}
+
+@layer framework.theme {
+    /* These styles will be added to the theme layer inside the framework layer */
+    blockquote { color: rebeccapurple; }
+}
+
+@layer {
+    @layer foo {
+        color: red;
+    }
+    @layer foo {
+        color: red;
+    }
+}
+
+@layer {
+    @layer foo { color: red; }
+}
+@layer {
+    @layer foo { color: red; }
+}
+
+@layer framework {
+    h1, h2 { color: maroon; background: white;}
+
+    @media (prefers-color-scheme: dark) {
+        h1, h2 { color: red; background: black; }
+    }
+}
+
+@layer foo {
+    .foo {
+        color: red;
+    }
+}
+@layer foo {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
