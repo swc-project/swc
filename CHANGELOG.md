@@ -109,6 +109,9 @@
 
 - **(html/parser)** Refactor tests to make `git` faster (#6158) ([a4acc7a](https://github.com/swc-project/swc/commit/a4acc7ab07a5e12179176b0c6928207228b67c85))
 
+
+- **(html/parser)** Resolve TODOs (#6223) ([6505c64](https://github.com/swc-project/swc/commit/6505c6491a1fa241907329ee5c6ff073c3176dd6))
+
 ### Build
 
 
