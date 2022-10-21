@@ -94,6 +94,9 @@
 
 - **(css/parser)** Improve project structure (#6110) ([6e2e2ad](https://github.com/swc-project/swc/commit/6e2e2ada4eab95a75554eecc8fab423bb8c94033))
 
+
+- **(es/minifier)** Don't create invalid nodes (#6191) ([ea03ce1](https://github.com/swc-project/swc/commit/ea03ce1a82b0d5b49e0e324f09922efdca10ffbd))
+
 ### Testing
 
 
