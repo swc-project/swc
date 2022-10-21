@@ -31,9 +31,17 @@ impl Visit for EvalFinder {
 
     fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
 
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == js_word!("eval") {
-            self.found = true;
+    fn visit_callee(&mut self, c: &Callee) {
+        c.visit_children_with(self);
+
+        if let Callee::Expr(e) = c {
+            if let Expr::Ident(Ident {
+                sym: js_word!("eval"),
+                ..
+            }) = &**e
+            {
+                self.found = true
+            }
         }
     }
 

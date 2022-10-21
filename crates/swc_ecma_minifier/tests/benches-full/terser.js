@@ -3,7 +3,7 @@
         'exports',
         'source-map'
     ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
-}(this, function(exports, MOZ_SourceMap) {
+}(this, function(exports1, MOZ_SourceMap) {
     'use strict';
     let mangle_options;
     var def_is_string, def_find_defs, MOZ_SourceMap__default = MOZ_SourceMap && 'object' == typeof MOZ_SourceMap && 'default' in MOZ_SourceMap ? MOZ_SourceMap : {
@@ -4085,14 +4085,14 @@
         AST_Node.from_mozilla_ast = function(node) {
             var save_stack = FROM_MOZ_STACK;
             FROM_MOZ_STACK = [];
-            var ast1 = from_moz(node);
-            return FROM_MOZ_STACK = save_stack, ast1;
+            var ast = from_moz(node);
+            return FROM_MOZ_STACK = save_stack, ast;
         };
         var TO_MOZ_STACK = null;
         function to_moz(node) {
             null === TO_MOZ_STACK && (TO_MOZ_STACK = []), TO_MOZ_STACK.push(node);
-            var ast1 = null != node ? node.to_mozilla_ast(TO_MOZ_STACK[TO_MOZ_STACK.length - 2]) : null;
-            return TO_MOZ_STACK.pop(), 0 === TO_MOZ_STACK.length && (TO_MOZ_STACK = null), ast1;
+            var ast = null != node ? node.to_mozilla_ast(TO_MOZ_STACK[TO_MOZ_STACK.length - 2]) : null;
+            return TO_MOZ_STACK.pop(), 0 === TO_MOZ_STACK.length && (TO_MOZ_STACK = null), ast;
         }
         function to_moz_in_destructuring() {
             for(var i = TO_MOZ_STACK.length; i--;)if (TO_MOZ_STACK[i] instanceof AST_Destructuring) return !0;
@@ -18048,5 +18048,5 @@
             return error.defs;
         }
     }
-    exports._default_options = _default_options, exports._run_cli = run_cli, exports.minify = minify;
+    exports1._default_options = _default_options, exports1._run_cli = run_cli, exports1.minify = minify;
 });
