@@ -439,7 +439,7 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
             Token::Function { .. } | Token::LParen | Token::LBrace | Token::LBracket => {
                 self.idx.push(0);
             }
-            token @ _ => {
+            token => {
                 match token {
                     Token::RBrace | Token::RBracket | Token::RParen => {
                         self.idx.pop();
