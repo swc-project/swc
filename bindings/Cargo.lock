@@ -186,9 +186,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.20.47"
+version = "0.20.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a78703308a0484db355fb51435a2452c6efffe86e96d0a5b543aacb8b64f3465"
+checksum = "ac6b78c495bec96bc6b19121c324cb3919d729245b7f4304cffdb7799e70fe8a"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2414,9 +2414,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.232.47"
+version = "0.232.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9c651d1029f007f66ababac91c98ad805d1ab8a26eb627dd387f8f50ced92bdb"
+checksum = "84f43b16267f2c0b456897d801ba48748dcfc606f87898342477c59d8d780e71"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2480,9 +2480,9 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.192.42"
+version = "0.192.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1beba822ce4bf4680cb3bc8b952fb69d3600bc8c9e2d20087474fb2db55c1c8b"
+checksum = "8d85b1a0ace7261fa3aebcc488c56d592c579e83b316f72d3adc4cd076d166c0"
 dependencies = [
  "ahash",
  "anyhow",
@@ -2605,9 +2605,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.40.6"
+version = "0.40.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fc9590bd8596f780d7ba4602729a83e5706a3926dac0ea1f4434cca76edf60c8"
+checksum = "69d6c115328c39ba386f6fbcfc8d07625dc7b7c14b8ffb02afb57ddda3069f1e"
 dependencies = [
  "binding_macros",
  "swc",
@@ -2694,9 +2694,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.66.29"
+version = "0.66.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "076f1773c446fe601ff68fa6bba959a7f79300fbbec6732da5b3def13a28d1b2"
+checksum = "5639b86e772fb603a4bcd32d19aec6b515bf4b2a41b2285271fd6486dbe61011"
 dependencies = [
  "ahash",
  "auto_impl",
@@ -3132,9 +3132,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.18.47"
+version = "0.18.48"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c6cc10b7d0fc2cdd29001bbd6bb41044f1d68800e46e01c41b1c2c480a3685cf"
+checksum = "613d098fea4a48f632aa790e0b5b0c461b0dcabcb6b143426e047897ea434db7"
 dependencies = [
  "anyhow",
  "dashmap",
