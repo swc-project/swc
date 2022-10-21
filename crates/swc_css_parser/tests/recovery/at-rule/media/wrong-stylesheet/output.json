@@ -72,135 +72,118 @@
         },
         "value": [
           {
-            "type": "ListOfComponentValues",
-            "span": {
-              "start": 20,
-              "end": 32,
-              "ctxt": 0
-            },
-            "children": [
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 20,
-                  "end": 25,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "color",
-                    "raw": "color"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 25,
-                  "end": 26,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 26,
-                  "end": 27,
-                  "ctxt": 0
-                },
-                "token": {
-                  "WhiteSpace": {
-                    "value": " "
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 27,
-                  "end": 31,
-                  "ctxt": 0
-                },
-                "token": {
-                  "Ident": {
-                    "value": "teal",
-                    "raw": "teal"
-                  }
-                }
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 31,
-                  "end": 32,
-                  "ctxt": 0
-                },
-                "token": "Semi"
-              }
-            ]
-          },
-          {
             "type": "QualifiedRule",
             "span": {
-              "start": 37,
+              "start": 20,
               "end": 72,
               "ctxt": 0
             },
             "prelude": {
-              "type": "SelectorList",
+              "type": "ListOfComponentValues",
               "span": {
-                "start": 37,
-                "end": 41,
+                "start": 20,
+                "end": 42,
                 "ctxt": 0
               },
               "children": [
                 {
-                  "type": "ComplexSelector",
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 20,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Ident": {
+                      "value": "color",
+                      "raw": "color"
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 25,
+                    "end": 26,
+                    "ctxt": 0
+                  },
+                  "token": "Colon"
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 26,
+                    "end": 27,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 27,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "Ident": {
+                      "value": "teal",
+                      "raw": "teal"
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 31,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "token": "Semi"
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 32,
+                    "end": 37,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": "\n    "
+                    }
+                  }
+                },
+                {
+                  "type": "PreservedToken",
                   "span": {
                     "start": 37,
                     "end": 41,
                     "ctxt": 0
                   },
-                  "children": [
-                    {
-                      "type": "CompoundSelector",
-                      "span": {
-                        "start": 37,
-                        "end": 41,
-                        "ctxt": 0
-                      },
-                      "nestingSelector": null,
-                      "typeSelector": {
-                        "type": "TagNameSelector",
-                        "span": {
-                          "start": 37,
-                          "end": 41,
-                          "ctxt": 0
-                        },
-                        "name": {
-                          "type": "WqName",
-                          "span": {
-                            "start": 37,
-                            "end": 41,
-                            "ctxt": 0
-                          },
-                          "prefix": null,
-                          "value": {
-                            "type": "Ident",
-                            "span": {
-                              "start": 37,
-                              "end": 41,
-                              "ctxt": 0
-                            },
-                            "value": "main",
-                            "raw": "main"
-                          }
-                        }
-                      },
-                      "subclassSelectors": []
+                  "token": {
+                    "Ident": {
+                      "value": "main",
+                      "raw": "main"
                     }
-                  ]
+                  }
+                },
+                {
+                  "type": "PreservedToken",
+                  "span": {
+                    "start": 41,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "token": {
+                    "WhiteSpace": {
+                      "value": " "
+                    }
+                  }
                 }
               ]
             },

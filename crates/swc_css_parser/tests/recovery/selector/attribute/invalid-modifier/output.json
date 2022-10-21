@@ -22,90 +22,91 @@
         },
         "children": [
           {
-            "type": "PreservedToken",
+            "type": "SimpleBlock",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
-            },
-            "token": "LBracket"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 2,
-              "end": 6,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "href",
-                "raw": "href"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 6,
-              "end": 7,
-              "ctxt": 0
-            },
-            "token": {
-              "Delim": {
-                "value": "="
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 7,
-              "end": 13,
-              "ctxt": 0
-            },
-            "token": {
-              "String": {
-                "value": "test",
-                "raw": "\"test\""
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 13,
-              "end": 14,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 14,
-              "end": 17,
-              "ctxt": 0
-            },
-            "token": {
-              "String": {
-                "value": "z",
-                "raw": "\"z\""
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 17,
               "end": 18,
               "ctxt": 0
             },
-            "token": "RBracket"
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 1,
+                "end": 2,
+                "ctxt": 0
+              },
+              "token": "LBracket"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "href",
+                    "raw": "href"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 6,
+                  "end": 7,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "="
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 7,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "token": {
+                  "String": {
+                    "value": "test",
+                    "raw": "\"test\""
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 13,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 14,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "token": {
+                  "String": {
+                    "value": "z",
+                    "raw": "\"z\""
+                  }
+                }
+              }
+            ]
           },
           {
             "type": "PreservedToken",

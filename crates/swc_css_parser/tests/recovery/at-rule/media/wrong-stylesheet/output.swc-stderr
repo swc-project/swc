@@ -4,9 +4,3 @@
  2 | color: teal;
    :       ^
    `----
-
-  x Unexpected character `';'`
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
- 2 | color: teal;
-   :            ^
-   `----

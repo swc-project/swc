@@ -66,8 +66,8 @@
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
- 120 | )property: value;
+     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
+ 119 | .selector {
      : ^
      `----
 
@@ -213,10 +213,4 @@
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  250 | a{*b:c}
      :   ^
-     `----
-
-  x Unexpected character `';'`
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :                 ^
      `----

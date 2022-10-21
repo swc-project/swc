@@ -1,5 +1,5 @@
 
-  x Invalid attribute matcher value
+  x Unexpected end of file
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :              ^

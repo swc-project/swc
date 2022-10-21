@@ -47,7 +47,13 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
-   :       ^
+   :       ^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | .class[attr= {
+   :       ^^^^^^^
    `----
 
   x LBracket

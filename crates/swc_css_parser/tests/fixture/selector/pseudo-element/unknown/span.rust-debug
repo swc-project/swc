@@ -10,16 +10,7 @@
   7 | |   ::unknown((foo bar)) {}
   8 | |   ::unknown(((foo bar))) {}
   9 | |   ::unknown({foo: bar}) {}
- 10 | |   ::unknown({{foo: bar}}) {}
- 11 | |   ::unknown({foo: bar !important}) {}
- 12 | |   ::unknown("string") {}
- 13 | |   ::unknown("string", foo) {}
- 14 | |   ::unknown('string') {}
- 15 | |   ::unknown(url(foo.png)) {}
- 16 | |   ::unknown({!}) {}
- 17 | |   ::unknown(!) {}
- 18 | |   ::unknown({;}) {}
- 19 | `-> ::unknown(;) {}
+ 10 | `-> ::unknown({{foo: bar}}) {}
     `----
 
   x Rule
@@ -781,43 +772,49 @@
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x SelectorList
+  x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^
    `----
 
-  x ComplexSelector
+  x Colon
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   : ^
    `----
 
-  x CompoundSelector
+  x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   :  ^
    `----
 
-  x SubclassSelector
+  x Colon
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   :  ^
    `----
 
-  x PseudoElementSelector
+  x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   : ^^^^^^^^^^^^^^^^^^^^^
+   :   ^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :   ^^^^^^^^
    `----
 
   x Ident
@@ -826,10 +823,10 @@
    :   ^^^^^^^
    `----
 
-  x PseudoElementSelectorChildren
+  x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   :           ^
+   :           ^^^^^^^^^^
    `----
 
   x LBrace
@@ -838,64 +835,82 @@
    :           ^
    `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :            ^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :            ^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :            ^^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
    :            ^^^
    `----
 
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+  x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
    :            ^^^
    `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   :               ^
+   :                 ^^^
    `----
 
-  x Colon
+  x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   :               ^
+   :                 ^^^
    `----
 
-  x PseudoElementSelectorChildren
+  x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   :                ^
+   :                     ^^^^
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :                     ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :                     ^
+   `----
+
+  x RParen
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
+ 9 | ::unknown({foo: bar}) {}
+   :                      ^
    `----
 
   x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
  9 | ::unknown({foo: bar}) {}
-   :                ^
-   `----
-
-  x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
- 9 | ::unknown({foo: bar}) {}
-   :                 ^^^
-   `----
-
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
-   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
- 9 | ::unknown({foo: bar}) {}
-   :                 ^^^
-   `----
-
-  x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
- 9 | ::unknown({foo: bar}) {}
-   :                    ^
-   `----
-
-  x RBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
- 9 | ::unknown({foo: bar}) {}
-   :                    ^
+   :                      ^
    `----
 
   x SimpleBlock
@@ -913,43 +928,49 @@
   x Rule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x SelectorList
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^
     `----
 
-  x ComplexSelector
+  x Colon
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    : ^
     `----
 
-  x CompoundSelector
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^
     `----
 
-  x SubclassSelector
+  x Colon
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :  ^
     `----
 
-  x PseudoElementSelector
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
+    :   ^^^^^^^^
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
+ 10 | ::unknown({{foo: bar}}) {}
+    :   ^^^^^^^^
     `----
 
   x Ident
@@ -958,10 +979,10 @@
     :   ^^^^^^^
     `----
 
-  x PseudoElementSelectorChildren
+  x SimpleBlock
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
-    :           ^
+    :           ^^^^^^^^^^^
     `----
 
   x LBrace
@@ -970,7 +991,19 @@
     :           ^
     `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
+    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
+ 10 | ::unknown({{foo: bar}}) {}
+    :            ^^^^^^^^^
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
+ 10 | ::unknown({{foo: bar}}) {}
+    :            ^^^^^^^^^
+    `----
+
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :            ^
@@ -982,7 +1015,7 @@
     :            ^
     `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :             ^^^
@@ -994,7 +1027,7 @@
     :             ^^^
     `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :                ^
@@ -1006,7 +1039,7 @@
     :                ^
     `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :                 ^
@@ -1018,7 +1051,7 @@
     :                 ^
     `----
 
-  x PseudoElementSelectorChildren
+  x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :                  ^^^
@@ -1028,869 +1061,4 @@
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
  10 | ::unknown({{foo: bar}}) {}
     :                  ^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                     ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                     ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                      ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                      ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                         ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
- 10 | ::unknown({{foo: bar}}) {}
-    :                         ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :           ^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :           ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :            ^^^
-    `----
-
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :            ^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :               ^
-    `----
-
-  x Colon
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :               ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                 ^^^
-    `----
-
-  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                 ^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                    ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                    ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                     ^
-    `----
-
-  x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                     ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                      ^^^^^^^^^
-    `----
-
-  x Ident { value: Atom('important' type=static), raw: Atom('important' type=static) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                      ^^^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                               ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                               ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                                  ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
- 11 | ::unknown({foo: bar !important}) {}
-    :                                  ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    :           ^^^^^^^^
-    `----
-
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    :           ^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    :                     ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
- 12 | ::unknown("string") {}
-    :                     ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :           ^^^^^^^^
-    `----
-
-  x String { value: Atom('string' type=static), raw: Atom('"string"' type=dynamic) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :           ^^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                   ^
-    `----
-
-  x Comma
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                   ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                    ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                    ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                     ^^^
-    `----
-
-  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                     ^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                          ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
- 13 | ::unknown("string", foo) {}
-    :                          ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    : ^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    :           ^^^^^^^^
-    `----
-
-  x String { value: Atom('string' type=static), raw: Atom(''string'' type=dynamic) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    :           ^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    :                     ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
- 14 | ::unknown('string') {}
-    :                     ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    :           ^^^^^^^^^^^^
-    `----
-
-  x Url { name: Atom('url' type=static), raw_name: Atom('url' type=static), before: Atom('' type=static), after: Atom('' type=static), value: Atom('foo.png' type=inline), raw_value: Atom('foo.png'
-  | type=inline) }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    :           ^^^^^^^^^^^^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    :                         ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
- 15 | ::unknown(url(foo.png)) {}
-    :                         ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :           ^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :           ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :            ^
-    `----
-
-  x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :            ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :             ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :             ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :                ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
- 16 | ::unknown({!}) {}
-    :                ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    :           ^
-    `----
-
-  x Delim { value: '!' }
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    :           ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    :              ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
- 17 | ::unknown(!) {}
-    :              ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    : ^^^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :           ^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :           ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :            ^
-    `----
-
-  x Semi
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :            ^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :             ^
-    `----
-
-  x RBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :             ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :                ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:18:1]
- 18 | ::unknown({;}) {}
-    :                ^
-    `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^^^^
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    : ^^^^^^^^^^^^
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    :   ^^^^^^^
-    `----
-
-  x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    :           ^
-    `----
-
-  x Semi
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    :           ^
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    :              ^^
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:19:1]
- 19 | ::unknown(;) {}
-    :              ^
     `----

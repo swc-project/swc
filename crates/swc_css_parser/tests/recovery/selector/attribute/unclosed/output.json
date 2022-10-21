@@ -49,53 +49,63 @@
             }
           },
           {
-            "type": "PreservedToken",
+            "type": "SimpleBlock",
             "span": {
               "start": 7,
-              "end": 8,
-              "ctxt": 0
-            },
-            "token": "LBracket"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 8,
-              "end": 12,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "attr",
-                "raw": "attr"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 12,
-              "end": 13,
-              "ctxt": 0
-            },
-            "token": {
-              "Delim": {
-                "value": "="
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 13,
               "end": 14,
               "ctxt": 0
             },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "token": "LBracket"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 8,
+                  "end": 12,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "attr",
+                    "raw": "attr"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 12,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "="
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 13,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
               }
-            }
+            ]
           }
         ]
       },

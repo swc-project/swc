@@ -44,42 +44,39 @@
             }
           },
           {
-            "type": "PreservedToken",
+            "type": "Function",
             "span": {
               "start": 3,
-              "end": 13,
-              "ctxt": 0
-            },
-            "token": {
-              "Function": {
-                "value": "nth-child",
-                "raw": "nth-child"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 13,
-              "end": 14,
-              "ctxt": 0
-            },
-            "token": {
-              "Number": {
-                "value": 2.0,
-                "raw": "2",
-                "type": "integer"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 14,
               "end": 15,
               "ctxt": 0
             },
-            "token": "RParen"
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 3,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": "nth-child",
+              "raw": "nth-child"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 13,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Number": {
+                    "value": 2.0,
+                    "raw": "2",
+                    "type": "integer"
+                  }
+                }
+              }
+            ]
           },
           {
             "type": "PreservedToken",

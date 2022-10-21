@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -121,6 +121,55 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
+        let create_prelude = |p: &mut Parser<I>,
+                              mut tokens: Tokens|
+         -> PResult<QualifiedRulePrelude> {
+            let span = match (tokens.tokens.first(), tokens.tokens.last()) {
+                (Some(first), Some(last)) => {
+                    Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
+                }
+                _ => DUMMY_SP,
+            };
+            tokens.span = span;
+
+            match p.parse_according_to_grammar::<SelectorList>(&tokens) {
+                Ok(selector_list) => {
+                    if p.ctx.is_trying_legacy_nesting {
+                        let selector_list =
+                            p.legacy_nested_selector_list_to_modern_selector_list(selector_list)?;
+
+                        Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                    } else {
+                        Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                    }
+                }
+                Err(err) => {
+                    if p.ctx.is_trying_legacy_nesting {
+                        match p.parse_according_to_grammar::<RelativeSelectorList>(&tokens) {
+                            Ok(relative_selector_list) => {
+                                let selector_list = p
+                                    .legacy_relative_selector_list_to_modern_selector_list(
+                                        relative_selector_list,
+                                    )?;
+
+                                Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                            }
+                            _ => Err(err),
+                        }
+                    } else {
+                        p.errors.push(err);
+
+                        let list_of_component_values =
+                            p.parse_according_to_grammar::<ListOfComponentValues>(&tokens)?;
+
+                        Ok(QualifiedRulePrelude::ListOfComponentValues(
+                            list_of_component_values,
+                        ))
+                    }
+                }
+            }
+        };
+
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
@@ -150,41 +199,9 @@ where
                     };
                     let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
 
-                    let prelude = match self.parse_according_to_grammar::<SelectorList>(&prelude) {
-                        Ok(selector_list) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                QualifiedRulePrelude::SelectorList(
-                                    self.legacy_nested_selector_list_to_modern_selector_list(
-                                        selector_list,
-                                    )?,
-                                )
-                            } else {
-                                QualifiedRulePrelude::SelectorList(selector_list)
-                            }
-                        }
-                        Err(err) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                match self
-                                    .parse_according_to_grammar::<RelativeSelectorList>(&prelude)
-                                {
-                                    Ok(relative_selector_list) => {
-                                        self.legacy_relative_selector_list_to_modern_selector_list(
-                                            relative_selector_list,
-                                        )?;
-                                    }
-                                    _ => {
-                                        // Ignore
-                                    }
-                                }
-                            }
-
-                            return Err(err);
-                        }
-                    };
-
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
-                        prelude,
+                        prelude: create_prelude(self, prelude)?,
                         block,
                     });
                 }
@@ -900,6 +917,35 @@ where
         Ok(ImportantFlag {
             span: span!(self, span.lo),
             value: ident,
+        })
+    }
+}
+
+impl<I> Parse<ListOfComponentValues> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ListOfComponentValues> {
+        let span = self.input.cur_span();
+        let ctx = Ctx {
+            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+            ..self.ctx
+        };
+        let mut children = vec![];
+
+        loop {
+            if is!(self, EOF) {
+                break;
+            }
+
+            let components_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+
+            children.push(components_value);
+        }
+
+        Ok(ListOfComponentValues {
+            span: span!(self, span.lo),
+            children,
         })
     }
 }

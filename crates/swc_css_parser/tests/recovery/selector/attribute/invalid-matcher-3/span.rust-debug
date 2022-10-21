@@ -35,7 +35,13 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
-   :  ^
+   :  ^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
+ 1 | a[title * = "title" i ] {
+   :  ^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x LBracket
@@ -162,18 +168,6 @@
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
  1 | a[title * = "title" i ] {
    :                      ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
- 1 | a[title * = "title" i ] {
-   :                       ^
-   `----
-
-  x RBracket
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-3/input.css:1:1]
- 1 | a[title * = "title" i ] {
-   :                       ^
    `----
 
   x ComponentValue

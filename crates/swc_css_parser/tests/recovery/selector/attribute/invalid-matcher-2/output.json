@@ -22,76 +22,77 @@
         },
         "children": [
           {
-            "type": "PreservedToken",
+            "type": "SimpleBlock",
             "span": {
               "start": 1,
-              "end": 2,
-              "ctxt": 0
-            },
-            "token": "LBracket"
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 2,
-              "end": 6,
-              "ctxt": 0
-            },
-            "token": {
-              "Ident": {
-                "value": "href",
-                "raw": "href"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 6,
-              "end": 7,
-              "ctxt": 0
-            },
-            "token": {
-              "Delim": {
-                "value": "#"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 7,
-              "end": 8,
-              "ctxt": 0
-            },
-            "token": {
-              "Delim": {
-                "value": "="
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 8,
-              "end": 14,
-              "ctxt": 0
-            },
-            "token": {
-              "String": {
-                "value": "test",
-                "raw": "\"test\""
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 14,
               "end": 15,
               "ctxt": 0
             },
-            "token": "RBracket"
+            "name": {
+              "type": "PreservedToken",
+              "span": {
+                "start": 1,
+                "end": 2,
+                "ctxt": 0
+              },
+              "token": "LBracket"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2,
+                  "end": 6,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "href",
+                    "raw": "href"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 6,
+                  "end": 7,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "#"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 7,
+                  "end": 8,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Delim": {
+                    "value": "="
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 8,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "token": {
+                  "String": {
+                    "value": "test",
+                    "raw": "\"test\""
+                  }
+                }
+              }
+            ]
           },
           {
             "type": "PreservedToken",

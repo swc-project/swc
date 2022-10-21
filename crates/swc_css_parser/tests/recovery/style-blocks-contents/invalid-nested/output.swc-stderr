@@ -5,8 +5,8 @@
    :       ^
    `----
 
-  x Unexpected character `';'`
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:5]
- 3 | & test;
-   :       ^
-   `----
+  x Unexpected end of file
+    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:12:3]
+ 12 |  
+    : ^
+    `----
