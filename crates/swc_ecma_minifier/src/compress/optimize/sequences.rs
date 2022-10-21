@@ -2290,8 +2290,15 @@ where
             }
             Expr::Assign(b) => {
                 if let Some(b_left) = b.left.as_ident() {
-                    if let Mergable::Expr(Expr::Assign(AssignExpr { op: a_op, .. })) = a {
-                        if can_drop_op_for(*a_op, b.op) {
+                    let a_op = match a {
+                        Mergable::Var(_) => Some(op!("=")),
+                        Mergable::Expr(Expr::Assign(AssignExpr { op: a_op, .. })) => Some(*a_op),
+                        Mergable::FnDecl(_) => Some(op!("=")),
+                        _ => None,
+                    };
+
+                    if let Some(a_op) = a_op {
+                        if can_drop_op_for(a_op, b.op) {
                             if b_left.to_id() == left_id.to_id() {
                                 if let Some(bin_op) = b.op.to_update() {
                                     report_change!(
