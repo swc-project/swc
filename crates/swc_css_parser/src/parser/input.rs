@@ -1,6 +1,6 @@
 use std::{fmt::Debug, mem::take};
 
-use swc_common::{BytePos, Span, SyntaxContext};
+use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
@@ -282,22 +282,87 @@ impl<'a> ListOfComponentValuesInput<'a> {
     }
 
     fn get_component_value(
-        &self,
-        list: &'a Vec<ComponentValue>,
+        &mut self,
+        list: Vec<ComponentValue>,
         deep: usize,
-    ) -> Option<&TokenAndSpan> {
+    ) -> Option<TokenAndSpan> {
         let index = match self.idx.get(deep) {
             Some(index) => index,
             _ => return None,
         };
 
         match list.get(*index) {
-            Some(ComponentValue::PreservedToken(token_and_span)) => Some(token_and_span),
+            Some(ComponentValue::PreservedToken(token_and_span)) => Some(token_and_span.clone()),
             Some(ComponentValue::Function(function)) => {
-                self.get_component_value(&function.value, deep + 1)
+                if self.idx.len() - 1 == deep {
+                    return Some(TokenAndSpan {
+                        span: Span::new(
+                            function.span_lo(),
+                            function.name.span_hi() + BytePos(1),
+                            Default::default(),
+                        ),
+                        token: Token::Function {
+                            value: function.name.value.clone(),
+                            raw: function.name.value.clone(),
+                        },
+                    });
+                }
+
+                let res = self.get_component_value(function.value.clone(), deep + 1);
+
+                if res.is_none() {
+                    return Some(TokenAndSpan {
+                        span: Span::new(
+                            function.span_hi() - BytePos(1),
+                            function.span_hi(),
+                            Default::default(),
+                        ),
+                        token: Token::RParen,
+                    });
+                }
+
+                res
             }
             Some(ComponentValue::SimpleBlock(simple_block)) => {
-                self.get_component_value(&simple_block.value, deep + 1)
+                if self.idx.len() - 1 == deep {
+                    return Some(simple_block.name.clone());
+                }
+
+                let res = self.get_component_value(simple_block.value.clone(), deep + 1);
+
+                if res.is_none() {
+                    return Some(match simple_block.name.token {
+                        Token::LBracket => TokenAndSpan {
+                            span: Span::new(
+                                simple_block.span_hi() - BytePos(1),
+                                simple_block.span_hi(),
+                                Default::default(),
+                            ),
+                            token: Token::RBracket,
+                        },
+                        Token::LParen => TokenAndSpan {
+                            span: Span::new(
+                                simple_block.span_hi() - BytePos(1),
+                                simple_block.span_hi(),
+                                Default::default(),
+                            ),
+                            token: Token::RParen,
+                        },
+                        Token::LBrace => TokenAndSpan {
+                            span: Span::new(
+                                simple_block.span_hi() - BytePos(1),
+                                simple_block.span_hi(),
+                                Default::default(),
+                            ),
+                            token: Token::RBrace,
+                        },
+                        _ => {
+                            unreachable!();
+                        }
+                    });
+                }
+
+                res
             }
             None => return None,
             _ => {
@@ -306,8 +371,8 @@ impl<'a> ListOfComponentValuesInput<'a> {
         }
     }
 
-    fn cur(&mut self) -> PResult<&TokenAndSpan> {
-        let token_and_span = match self.get_component_value(&self.list.children, 0) {
+    fn cur(&mut self) -> PResult<TokenAndSpan> {
+        let token_and_span = match self.get_component_value(self.list.children.clone(), 0) {
             Some(token_and_span) => token_and_span,
             None => {
                 let bp = self.list.span.hi;
@@ -366,16 +431,32 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
 
     fn next(&mut self) -> Option<Self::Item> {
         let token_and_span = match self.cur() {
-            Ok(token_and_span) => token_and_span.clone(),
+            Ok(token_and_span) => token_and_span,
             _ => return None,
         };
 
-        let index = match self.idx.last_mut() {
-            Some(index) => index,
-            _ => return None,
-        };
+        match &token_and_span.token {
+            Token::Function { .. } | Token::LParen | Token::LBrace | Token::LBracket => {
+                self.idx.push(0);
+            }
+            token @ _ => {
+                match token {
+                    Token::RBrace | Token::RBracket | Token::RParen => {
+                        self.idx.pop();
+                    }
+                    _ => {}
+                }
 
-        *index += 1;
+                let index = match self.idx.last_mut() {
+                    Some(index) => index,
+                    _ => return None,
+                };
+
+                *index += 1;
+            }
+        }
+
+        println!("TOKEN {:?}", token_and_span);
 
         Some(token_and_span)
     }
