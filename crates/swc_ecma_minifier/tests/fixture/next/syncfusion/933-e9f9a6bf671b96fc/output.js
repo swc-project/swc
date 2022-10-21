@@ -19185,7 +19185,7 @@
                 }, Toolbar.prototype.itemWidthCal = function(items) {
                     var style, _this = this, width = 0;
                     return [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, items)).forEach(function(el) {
-                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width += _this.isVertical ? el.offsetHeight : el.offsetWidth, width += parseFloat(_this.isVertical ? style.marginTop : style.marginRight), width += parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
+                        (0, ej2_base.pn)(el) && (style = window.getComputedStyle(el), width = (_this.isVertical ? el.offsetHeight : el.offsetWidth) + parseFloat(_this.isVertical ? style.marginTop : style.marginRight), width += parseFloat(_this.isVertical ? style.marginBottom : style.marginLeft));
                     }), width;
                 }, Toolbar.prototype.getScrollCntEle = function(innerItem) {
                     var trgClass = this.isVertical ? '.e-vscroll-content' : '.e-hscroll-content';
@@ -23519,7 +23519,7 @@
                     });
                 }, ToolbarRenderer.prototype.renderColorPickerDropDown = function(args, item, colorPicker, defaultColor) {
                     var range, _this = this, proxy = this, css = classes.i7 + ' ' + classes.Fs + (this.parent.inlineMode ? ' ' + classes.ZV : '');
-                    css += ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ), css += ' ' + this.parent.cssClass;
+                    css = ' ' + ('backgroundcolor' === item ? classes.Z8 : classes.UQ) + ' ' + this.parent.cssClass;
                     var content = proxy.parent.createElement('span', {
                         className: classes.uN
                     }), inlineEle = proxy.parent.createElement('span', {

@@ -68,7 +68,7 @@
                 }, BigInt(0));
                 if (void 0 !== _ref$signed && _ref$signed) {
                     var max = BYTE_TABLE[bytes.length] / BigInt(2) - BigInt(1);
-                    (number = BigInt(number)) > max && (number -= max, number -= max, number -= BigInt(2));
+                    (number = BigInt(number)) > max && (number = max - max, number -= BigInt(2));
                 }
                 return Number(number);
             }, numberToBytes = function(number, _temp2) {

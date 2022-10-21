@@ -9364,7 +9364,7 @@
                                     pts: buffer[0].pts,
                                     dts: buffer[0].dts
                                 }; i < tagSize;)tag.data.set(buffer[0].data.subarray(0, tagSize - i), i), i += buffer[0].data.byteLength, bufferSize -= buffer[0].data.byteLength, buffer.shift();
-                                frameStart = 10, 0x40 & tag.data[5] && (frameStart += 4, frameStart += parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
+                                frameStart = 10, 0x40 & tag.data[5] && (frameStart = 4 + parseSyncSafeInteger$1(tag.data.subarray(10, 14)), tagSize -= parseSyncSafeInteger$1(tag.data.subarray(16, 20)));
                                 do {
                                     if ((frameSize = parseSyncSafeInteger$1(tag.data.subarray(frameStart + 4, frameStart + 8))) < 1) {
                                         this.trigger("log", {
@@ -9380,7 +9380,7 @@
                                         var d = frame.data, size = (0x01 & d[3]) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
                                         size *= 4, size += 0x03 & d[7], frame.timeStamp = size, void 0 === tag.pts && void 0 === tag.dts && (tag.pts = frame.timeStamp, tag.dts = frame.timeStamp), this.trigger("timestamp", frame);
                                     }
-                                    tag.frames.push(frame), frameStart += 10, frameStart += frameSize;
+                                    tag.frames.push(frame), frameStart = 10 + frameSize;
                                 }while (frameStart < tagSize)
                                 this.trigger("data", tag);
                             }
@@ -9920,7 +9920,7 @@
                     },
                     parseAacTimestamp: function(packet) {
                         var frameStart, frameSize, frame;
-                        frameStart = 10, 0x40 & packet[5] && (frameStart += 4, frameStart += parseSyncSafeInteger(packet.subarray(10, 14)));
+                        frameStart = 10, 0x40 & packet[5] && (frameStart = 4 + parseSyncSafeInteger(packet.subarray(10, 14)));
                         do {
                             if ((frameSize = parseSyncSafeInteger(packet.subarray(frameStart + 4, frameStart + 8))) < 1) break;
                             if ("PRIV" === String.fromCharCode(packet[frameStart], packet[frameStart + 1], packet[frameStart + 2], packet[frameStart + 3])) {
@@ -9933,7 +9933,7 @@
                                     break;
                                 }
                             }
-                            frameStart += 10, frameStart += frameSize;
+                            frameStart = 10 + frameSize;
                         }while (frameStart < packet.byteLength)
                         return null;
                     }
@@ -10247,6 +10247,9 @@
                     var result = "";
                     return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]);
                 }, toUnsigned$2 = bin.toUnsigned, findBox_1 = function findBox(data, path) {
+                }, parseType$1 = function(buffer) {
+                    return String.fromCharCode(buffer[0]), String.fromCharCode(buffer[1]), String.fromCharCode(buffer[2]) + String.fromCharCode(buffer[3]);
+                }, toUnsigned$2 = bin.toUnsigned, findBox = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) return null;
                     for(i = 0; i < data.byteLength;)size = toUnsigned$2(data[i] << 24 | data[i + 1] << 16 | data[i + 2] << 8 | data[i + 3]), type = parseType_1(data.subarray(i + 4, i + 8)), end = size > 1 ? i + size : data.byteLength, type === path[0] && (1 === path.length ? results.push(data.subarray(i + 8, end)) : (subresults = findBox(data.subarray(i + 8, end), path.slice(1))).length && (results = results.concat(subresults))), i = end;

@@ -1,4 +1,4 @@
 //// [destructuringControlFlow.ts]
-(0, [
+[
     "foo"
-][1]).toUpperCase();
+][1].toUpperCase();
