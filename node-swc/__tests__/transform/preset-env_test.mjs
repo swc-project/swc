@@ -19,12 +19,44 @@ it("should respect custom transform option", async () => {
                 targets: {
                     chrome: "79",
                 },
-                include: ["transform-regenerator"],
+                include: [
+                    "transform-async-to-generator",
+                    "transform-regenerator",
+                ],
             },
         }
     );
     expect(code).toMatchInlineSnapshot(`
-        "var __generator = this && this.__generator || function(thisArg, body) {
+        "function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+            try {
+                var info = gen[key](arg);
+                var value = info.value;
+            } catch (error) {
+                reject(error);
+                return;
+            }
+            if (info.done) {
+                resolve(value);
+            } else {
+                Promise.resolve(value).then(_next, _throw);
+            }
+        }
+        function _asyncToGenerator(fn) {
+            return function() {
+                var self = this, args = arguments;
+                return new Promise(function(resolve, reject) {
+                    var gen = fn.apply(self, args);
+                    function _next(value) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                    }
+                    function _throw(err) {
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                    }
+                    _next(undefined);
+                });
+            };
+        }
+        var __generator = this && this.__generator || function(thisArg, body) {
             var f, y, t, g, _ = {
                 label: 0,
                 sent: function() {
@@ -123,8 +155,27 @@ it("should respect custom transform option", async () => {
         const { foo , ...rest } = {
             ...spread
         };
-        async function bar() {
-            await 1;
+        function bar() {
+            return _bar.apply(this, arguments);
+        }
+        function _bar() {
+            _bar = _asyncToGenerator(function() {
+                return __generator(this, function(_state) {
+                    switch(_state.label){
+                        case 0:
+                            return [
+                                4,
+                                1
+                            ];
+                        case 1:
+                            _state.sent();
+                            return [
+                                2
+                            ];
+                    }
+                });
+            });
+            return _bar.apply(this, arguments);
         }
         function baz() {
             return __generator(this, function(_state) {
