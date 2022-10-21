@@ -8766,7 +8766,7 @@
                     },
                     calculateTrackBaseMediaDecodeTime: function(track, keepOriginalTimestamps) {
                         var baseMediaDecodeTime, minSegmentDts = track.minSegmentDts;
-                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime, baseMediaDecodeTime += minSegmentDts, baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime), "audio" === track.type && (baseMediaDecodeTime *= track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
+                        return keepOriginalTimestamps || (minSegmentDts -= track.timelineStartInfo.dts), baseMediaDecodeTime = Math.max(0, baseMediaDecodeTime = track.timelineStartInfo.baseMediaDecodeTime + minSegmentDts), "audio" === track.type && (baseMediaDecodeTime *= track.samplerate / ONE_SECOND_IN_TS$3, baseMediaDecodeTime = Math.floor(baseMediaDecodeTime)), baseMediaDecodeTime;
                     },
                     collectDtsInfo: function(track, data) {
                         "number" == typeof data.pts && (void 0 === track.timelineStartInfo.pts && (track.timelineStartInfo.pts = data.pts), void 0 === track.minSegmentPts ? track.minSegmentPts = data.pts : track.minSegmentPts = Math.min(track.minSegmentPts, data.pts), void 0 === track.maxSegmentPts ? track.maxSegmentPts = data.pts : track.maxSegmentPts = Math.max(track.maxSegmentPts, data.pts)), "number" == typeof data.dts && (void 0 === track.timelineStartInfo.dts && (track.timelineStartInfo.dts = data.dts), void 0 === track.minSegmentDts ? track.minSegmentDts = data.dts : track.minSegmentDts = Math.min(track.minSegmentDts, data.dts), void 0 === track.maxSegmentDts ? track.maxSegmentDts = data.dts : track.maxSegmentDts = Math.max(track.maxSegmentDts, data.dts));
@@ -9204,7 +9204,7 @@
                                 ]), (0x10 & data) == 0x10 && (this.column_ = ((0xe & data) >> 1) * 4), this.isColorPAC(char1) && (0xe & char1) == 0xe && this.addFormatting(packet.pts, [
                                     "i"
                                 ]);
-                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0), text += getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length);
+                            } else this.isNormalChar(char0) && (0x00 === char1 && (char1 = null), text = getCharFromCode(char0) + getCharFromCode(char1), this[this.mode_](packet.pts, text), this.column_ += text.length);
                         }
                     };
                 };
@@ -9357,7 +9357,7 @@
                                 });
                                 return;
                             }
-                            if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10)), tagSize += 10), !(bufferSize < tagSize)) {
+                            if (buffer.push(chunk), bufferSize += chunk.data.byteLength, 1 === buffer.length && (tagSize = parseSyncSafeInteger$1(chunk.data.subarray(6, 10)) + 10), !(bufferSize < tagSize)) {
                                 for(i = 0, tag = {
                                     data: new Uint8Array(tagSize),
                                     frames: [],
@@ -10248,7 +10248,7 @@
                     return result += String.fromCharCode(buffer[0]), result += String.fromCharCode(buffer[1]), result += String.fromCharCode(buffer[2]), result += String.fromCharCode(buffer[3]);
                 }, toUnsigned$2 = bin.toUnsigned, findBox_1 = function findBox(data, path) {
                 }, parseType$1 = function(buffer) {
-                    return String.fromCharCode(buffer[0]), String.fromCharCode(buffer[1]), String.fromCharCode(buffer[2]) + String.fromCharCode(buffer[3]);
+                    return String.fromCharCode(buffer[0]) + String.fromCharCode(buffer[1]) + String.fromCharCode(buffer[2]) + String.fromCharCode(buffer[3]);
                 }, toUnsigned$2 = bin.toUnsigned, findBox = function findBox(data, path) {
                     var i, size, type, end, subresults, results = [];
                     if (!path.length) return null;

@@ -4581,7 +4581,7 @@
             },
             _setupHeightStyle: function(heightStyle) {
                 var maxHeight, parent = this.element.parent();
-                "fill" === heightStyle ? (maxHeight = parent.height(), maxHeight -= this.element.outerHeight() - this.element.height(), this.element.siblings(":visible").each(function() {
+                "fill" === heightStyle ? (maxHeight = parent.height() - (this.element.outerHeight() - this.element.height()), this.element.siblings(":visible").each(function() {
                     var elem = $(this), position = elem.css("position");
                     "absolute" !== position && "fixed" !== position && (maxHeight -= elem.outerHeight(!0));
                 }), this.element.children().not(this.panels).each(function() {
