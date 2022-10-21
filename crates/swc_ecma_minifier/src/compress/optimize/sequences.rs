@@ -2481,7 +2481,7 @@ pub(crate) fn is_trivial_lit(e: &Expr) -> bool {
 /// This assumes `a.left.to_id() == b.left.to_id()`
 fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     if a == b {
-        return matches!(a, op!("+=") | op!("-="));
+        return matches!(a, op!("+=") | op!("-=") | op!("*="));
     }
 
     false
