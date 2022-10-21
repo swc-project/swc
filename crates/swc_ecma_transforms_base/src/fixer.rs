@@ -578,6 +578,8 @@ impl VisitMut for Fixer<'_> {
             _ => {}
         }
 
+        dbg!(&*n.obj);
+
         if let Expr::OptChain(OptChainExpr {
             base: OptChainBase::Member(MemberExpr { obj, .. }),
             ..
