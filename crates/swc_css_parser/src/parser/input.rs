@@ -268,17 +268,23 @@ impl<'a> Iterator for TokensInput<'a> {
 #[derive(Debug)]
 pub struct ListOfComponentValuesState {
     idx: Vec<usize>,
+    balance_stack: Vec<char>,
 }
 
 #[derive(Debug)]
 pub struct ListOfComponentValuesInput<'a> {
     list: &'a ListOfComponentValues,
     idx: Vec<usize>,
+    balance_stack: Vec<char>,
 }
 
 impl<'a> ListOfComponentValuesInput<'a> {
     pub fn new(list: &'a ListOfComponentValues) -> Self {
-        ListOfComponentValuesInput { list, idx: vec![0] }
+        ListOfComponentValuesInput {
+            list,
+            idx: vec![0],
+            balance_stack: vec![],
+        }
     }
 
     fn get_component_value(
@@ -399,11 +405,13 @@ impl<'a> ParserInput for ListOfComponentValuesInput<'a> {
     fn state(&mut self) -> Self::State {
         ListOfComponentValuesState {
             idx: self.idx.clone(),
+            balance_stack: self.balance_stack.clone(),
         }
     }
 
     fn reset(&mut self, state: &Self::State) {
         self.idx = state.idx.clone();
+        self.balance_stack = state.balance_stack.clone();
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
@@ -439,13 +447,38 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
         };
 
         match &token_and_span.token {
-            Token::Function { .. } | Token::LParen | Token::LBrace | Token::LBracket => {
+            Token::Function { .. } | Token::LParen | Token::LBracket | Token::LBrace => {
                 self.idx.push(0);
+
+                let balance = match &token_and_span.token {
+                    Token::Function { .. } | Token::LParen => ')',
+                    Token::LBracket => ']',
+                    Token::LBrace => '}',
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                self.balance_stack.push(balance);
             }
             token => {
                 match token {
                     Token::RBrace | Token::RBracket | Token::RParen => {
-                        self.idx.pop();
+                        let value = match token {
+                            Token::RBracket => ']',
+                            Token::RParen => ')',
+                            Token::RBrace => '}',
+                            _ => {
+                                unreachable!();
+                            }
+                        };
+
+                        if let Some(last) = self.balance_stack.last() {
+                            if value == *last {
+                                self.balance_stack.pop();
+                                self.idx.pop();
+                            }
+                        }
                     }
                     _ => {}
                 }

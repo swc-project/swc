@@ -8575,6 +8575,132 @@
      :           ^
      `----
 
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^
+     `----
+
+  x RParen
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :  ^^^^^^^^
+     `----
+
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :  ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :          ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :          ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :           ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :            ^^^^^
+     `----
+
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :            ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :                 ^
+     `----
+
+  x Semi
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     :                 ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:121:5]
+ 121 | color: red;
+     :        ^^^
+     `----
+
   x Rule
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
  123 | ,-> .selector { 
@@ -10157,6 +10283,132 @@
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
  155 | .selector {
      :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^^^^^^^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^
+     `----
+
+  x RBracket
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     : ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :  ^^^^^^^^
+     `----
+
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :  ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :          ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :          ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :           ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :            ^^^^^
+     `----
+
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :            ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :                 ^
+     `----
+
+  x Semi
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
+     :                 ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     :        ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/recovery/hacks/input.css:157:5]
+ 157 | color: red;
+     :        ^^^
      `----
 
   x Rule

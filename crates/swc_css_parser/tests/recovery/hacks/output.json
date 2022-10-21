@@ -8817,7 +8817,117 @@
           },
           "token": "LBrace"
         },
-        "value": []
+        "value": [
+          {
+            "type": "ListOfComponentValues",
+            "span": {
+              "start": 2652,
+              "end": 2669,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2652,
+                  "end": 2653,
+                  "ctxt": 0
+                },
+                "token": "RParen"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2653,
+                  "end": 2661,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2661,
+                  "end": 2662,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2662,
+                  "end": 2663,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2663,
+                  "end": 2668,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 2668,
+                  "end": 2669,
+                  "ctxt": 0
+                },
+                "token": "Semi"
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 2674,
+              "end": 2684,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 2674,
+                "end": 2679,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 2681,
+                  "end": 2684,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
       }
     },
     {
@@ -10392,7 +10502,117 @@
           },
           "token": "LBrace"
         },
-        "value": []
+        "value": [
+          {
+            "type": "ListOfComponentValues",
+            "span": {
+              "start": 3129,
+              "end": 3146,
+              "ctxt": 0
+            },
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3129,
+                  "end": 3130,
+                  "ctxt": 0
+                },
+                "token": "RBracket"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3130,
+                  "end": 3138,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "property",
+                    "raw": "property"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3138,
+                  "end": 3139,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3139,
+                  "end": 3140,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3140,
+                  "end": 3145,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "value",
+                    "raw": "value"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 3145,
+                  "end": 3146,
+                  "ctxt": 0
+                },
+                "token": "Semi"
+              }
+            ]
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 3151,
+              "end": 3161,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 3151,
+                "end": 3156,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Ident",
+                "span": {
+                  "start": 3158,
+                  "end": 3161,
+                  "ctxt": 0
+                },
+                "value": "red",
+                "raw": "red"
+              }
+            ],
+            "important": null
+          }
+        ]
       }
     },
     {

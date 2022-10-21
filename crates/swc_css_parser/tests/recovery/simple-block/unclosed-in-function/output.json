@@ -172,13 +172,35 @@
                         "token": "RParen"
                       },
                       {
+                        "type": "Delimiter",
+                        "span": {
+                          "start": 55,
+                          "end": 56,
+                          "ctxt": 0
+                        },
+                        "value": ";"
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 57,
+                          "end": 58,
+                          "ctxt": 0
+                        },
+                        "token": "RBrace"
+                      },
+                      {
                         "type": "PreservedToken",
                         "span": {
                           "start": 58,
                           "end": 59,
                           "ctxt": 0
                         },
-                        "token": "RParen"
+                        "token": {
+                          "WhiteSpace": {
+                            "value": "\n"
+                          }
+                        }
                       }
                     ]
                   }

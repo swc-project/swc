@@ -60,6 +60,12 @@
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
+     ,-[$DIR/tests/recovery/hacks/input.css:120:5]
+ 120 | )property: value;
+     : ^
+     `----
+
+  x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:124:5]
  124 | =property: value;
      : ^
@@ -98,6 +104,12 @@
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:152:5]
  152 | `property: value;
+     : ^
+     `----
+
+  x Expected whitespace, semicolon, EOF, at-keyword or ident token
+     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
+ 156 | ]property: value;
      : ^
      `----
 

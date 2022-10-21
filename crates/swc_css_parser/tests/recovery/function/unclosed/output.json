@@ -84,7 +84,7 @@
             "type": "Declaration",
             "span": {
               "start": 11,
-              "end": 30,
+              "end": 31,
               "ctxt": 0
             },
             "name": {
@@ -102,7 +102,7 @@
                 "type": "Function",
                 "span": {
                   "start": 18,
-                  "end": 30,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "name": {
@@ -163,6 +163,19 @@
                       "ctxt": 0
                     },
                     "token": "RBrace"
+                  },
+                  {
+                    "type": "PreservedToken",
+                    "span": {
+                      "start": 30,
+                      "end": 31,
+                      "ctxt": 0
+                    },
+                    "token": {
+                      "WhiteSpace": {
+                        "value": "\n"
+                      }
+                    }
                   }
                 ]
               }

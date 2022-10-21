@@ -99,6 +99,10 @@ where
         // The <any-value> production matches any sequence of one or more tokens,
         // so long as the sequence ...
         loop {
+            if is!(self, EOF) {
+                break;
+            }
+
             match cur!(self) {
                 // ... <bad-string-token>, <bad-url-token>,
                 tok!("bad-string") | tok!("bad-url") => {
