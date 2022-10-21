@@ -1,1 +1,1 @@
-table.colortable{& td{text-align:center;&.c{text-transform:uppercase}&:first-child,&:first-child+td{border:1px solid black}}& th{text-align:center;background:black;color:white}}table.colortable{& th{text-align:center;background:black;color:white}}.foo{display:grid}.foo{color:red}.foo{color:blue}
+table.colortable{& td{text-align:center;&.c{text-transform:uppercase}&:first-child,&:first-child+td{border:1px solid black}}& th{text-align:center;background:black;color:white}}.foo{display:grid;color:red;color:blue}

@@ -13,13 +13,13 @@ mod container;
 mod ctx;
 mod declaration;
 mod easing_function;
-mod empty;
 mod frequency;
 mod import;
 mod keyframes;
 mod length;
 mod math;
 mod media;
+mod rules;
 mod selector;
 mod supports;
 mod time;
@@ -59,7 +59,7 @@ impl VisitMut for Compressor {
     fn visit_mut_stylesheet(&mut self, n: &mut Stylesheet) {
         n.visit_mut_children_with(self);
 
-        self.compress_empty_stylesheet(n);
+        self.compress_stylesheet(n);
 
         if !self.need_utf8_at_rule {
             match n.rules.get(0) {
@@ -77,7 +77,7 @@ impl VisitMut for Compressor {
     fn visit_mut_simple_block(&mut self, n: &mut SimpleBlock) {
         n.visit_mut_children_with(self);
 
-        self.compress_empty_simple_block(n);
+        self.compress_simple_block(n);
     }
 
     fn visit_mut_time(&mut self, n: &mut Time) {

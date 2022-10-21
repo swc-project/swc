@@ -1,1 +1,1 @@
-ul{list-style:thumbs}@color-profile --swop5c{}.header{background-color:color(--swop5c 0%70%20%0%)}div{color:var(--my-color)}@page:first{color:green;@top-left{content:"foo";color:blue}@top-right{content:"bar"}}@layer utilities{}@layer utilities{}div{color:red}div{color:red}
+ul{list-style:thumbs}@color-profile --swop5c{}.header{background-color:color(--swop5c 0%70%20%0%)}div{color:var(--my-color)}@page:first{color:green;@top-left{content:"foo";color:blue}@top-right{content:"bar"}}div{color:red}

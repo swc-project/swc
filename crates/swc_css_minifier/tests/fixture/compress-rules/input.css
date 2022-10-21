@@ -1,0 +1,461 @@
+a {color: blue;font-weight: bold}  p {color: blue;font-weight: bold}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{font-size:2em;color:red;line-height:1.5}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}h3{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}h2{color:red;line-height:1.5;font-size:2em}
+.break { color: red; }
+h1 {color: blue}h1{font-weight: bold}
+.break { color: red; }
+h1{display:block}h1{text-decoration:underline}
+.break { color: red; }
+h1{color:red;display:block}h1{text-decoration:underline}
+.break { color: red; }
+h1{font-size:2em;color:#000}h1{background:#fff;line-height:1.5}
+.break { color: red; }
+@media print{h1{display:block}h1{color:red}}
+.break { color: red; }
+code::selection{background:red}code::-moz-selection{background:red}
+.break { color: red; }
+.foo { &.bar { color: red; } }.foo { &.bar { color: red; } }
+.break { color: red; }
+.foo { &.bar { color: red; } &.bar { color: red; } }
+.break { color: red; }
+.foo { @media screen { &.bar { color: red; } &.bar { color: red; }} }
+.break { color: red; }
+@media print{h1{display:block}p{display:block}}
+.break { color: red; }
+@media print{h1{color:red;text-decoration:none}h2{text-decoration:none}}h3{text-decoration:none}
+.break { color: red; }
+h3{text-decoration:none}@media print{h1{color:red;text-decoration:none}h2{text-decoration:none}}
+.break { color: red; }
+@media screen and (max-width:480px){h1{display:block}}@media screen and (min-width:480px){h2{display:block}}
+.break { color: red; }
+@media screen and (max-width:200px){h1{color:red}}@media screen and (min-width:480px){h1{display:block}}
+.break { color: red; }
+@-webkit-keyframes test{0%{color:#000}to{color:#fff}}@keyframes test{0%{color:#000}to{color:#fff}}
+.break { color: red; }
+h1{display:block}@media print{h1{color:red}}
+.break { color: red; }
+@media print{h1{display:block}}h1{color:red}
+.break { color: red; }
+h1{color:red}h2{color:red;text-decoration:underline}
+.break { color: red; }
+h1{color:red}h2{color:red;text-decoration:underline}h3{color:green;text-decoration:underline}
+.break { color: red; }
+h1{color:red;text-decoration:underline}h2{text-decoration:underline;color:green}h3{font-weight:bold;color:green}
+.break { color: red; }
+.test0{color:red;border:none;margin:0}.test1{color:green;border:none;margin:0}
+.break { color: red; }
+h1{color:red;font-weight:bold}h2{font-weight:bold}h3{text-decoration:none}
+.break { color: red; }
+.test-1,.test-2{margin-top:10px}.another-test{margin-top:10px;margin-bottom:30px}
+.break { color: red; }
+.test-1{margin-top:10px;margin-bottom:20px}.test-2{margin-top:10px}.another-test{margin-top:10px;margin-bottom:30px}
+.break { color: red; }
+.foo{margin:0;display:block}.barim{display:block;line-height:1}.bazaz{font-size:3em;margin:0}
+.break { color: red; }
+.foobam{font-family:serif;display:block}.barim{display:block;line-height:1}.bazaz{font-size:3em;font-family:serif}
+.break { color: red; }
+.foo{font-family:serif;display:block}.barim{display:block;line-height:1}.bazaz{font-size:3em;font-family:serif}
+.break { color: red; }
+h1{border:1px solid red;background-color:red;background-position:50% 100%}h1{border:1px solid red;background-color:red}h1{border:1px solid red}
+.break { color: red; }
+h1{color:black}h2{color:black;font-weight:bold}h3{color:black;font-weight:bold}
+.break { color: red; }
+.test0{color:red;border:none;margin:0}.longlonglonglong{color:green;border:none;margin:0}
+.break { color: red; }
+code::-moz-selection{background:red}code::-moz-selection{background:red}
+.break { color: red; }
+code:-ms-input-placeholder{background:red}code::-ms-input-placeholder{background:red}
+.break { color: red; }
+input[type=range] { -webkit-appearance: none !important; } input[type=range]::-webkit-slider-runnable-track { height: 2px; width: 100px; background: red; border: none; } input[type=range]::-webkit-slider-thumb { -webkit-appearance: none !important; border: none; width: 10px; height: 10px; background: red; } input[type=range]::-moz-range-thumb { border: none; width: 10px; height: 10px; background: red; }
+.break { color: red; }
+h1{color:red;text-align:right;text-decoration:underline}h2{text-align:right;text-decoration:underline}
+.break { color: red; }
+h1{color:red;text-align:right;text-decoration:underline}h2{text-align:right;text-decoration:underline;color:green}
+.break { color: red; }
+h1{background:white;color:red;text-align:right;text-decoration:underline}h2{text-align:right;text-decoration:underline;color:red}
+.break { color: red; }
+h1{color:red;text-align:center;text-transform:small-caps}h2{text-align:center;color:red}
+.break { color: red; }
+h1{text-align:left;text-transform:small-caps}h2{text-align:right;text-transform:small-caps}
+.break { color: red; }
+@keyframes a {0%{transform-origin:right bottom;transform:rotate(-90deg);opacity:0}100%{transform-origin:right bottom;transform:rotate(0);opacity:1}}
+.break { color: red; }
+h2{margin-bottom:20px}h1{margin:10px;margin-bottom:20px}
+.break { color: red; }
+h2{color:red;margin-bottom:20px}h1{color:red;margin:10px;margin-bottom:20px}
+.break { color: red; }
+h2{margin:0;margin-bottom:20px}h1{margin:0;margin-top:20px}
+.break { color: red; }
+h2{margin:0}h1{margin-top:20px;margin:0}
+.break { color: red; }
+.box1{display:inline-block;display:block}.box2{display:inline-block}
+.break { color: red; }
+h1{ & h2{} & h3{}}
+.break { color: red; }
+h1{display:block;display:block}h2{display:block;display:block}
+.break { color: red; }
+.a {-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
+.break { color: red; }
+h1,h2{display:block}h2,h1{display:block}
+.break { color: red; }
+.one, .two, .three { font-family: "lorem"; font-weight: normal; } .four { font-family: "lorem", serif; font-weight: normal; }.five { font-family: "lorem"; font-weight: normal; } @font-face { font-family: "lorem"; font-weight: normal; src: url(/assets/lorem.eot); src: url(/assets/lorem.eot?#iefix) format("embedded-opentype"), url(/assets/lorem.woff) format("woff"), url(/assets/lorem.ttf) format("truetype"); }
+.break { color: red; }
+.foo { font-weight: normal; } .bar { font-family: "my-font"; font-weight: normal; } @font-face { font-family: "my-font"; font-weight: normal; src: url("my-font.ttf"); }
+.break { color: red; }
+.a{font-family:Arial;font-family:Helvetica;}.b{font-family:Arial;}
+.break { color: red; }
+.a{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);-webkit-overflow-scrolling: touch}.b{-webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);}
+.break { color: red; }
+body { overflow: hidden; overflow-y: scroll; overflow-x: hidden;} main { overflow: hidden }
+.break { color: red; }
+.a{ border-color:transparent; border-bottom-color:#111111; border-bottom-style:solid; }.b{ border-color:transparent; border-bottom-color:#222222; border-bottom-style:solid; }
+.break { color: red; }
+.fb-col-md-6 { color: red; border-color:blue; flex: 0 0 auto; flex-basis: 50%; } .fb-col-md-7 { color: red; border-color:blue; flex: 0 0 auto; flex-basis: 58.3%; }
+.break { color: red; }
+.one { border: 1px solid black; border-top: none; } .two { border: 1px solid black; }
+.break { color: red; }
+.dispendium-theme.fr-toolbar.fr-top { border-radius: 0; background-clip: padding-box; box-shadow: none; border: 1px solid #E0E0E0; border-bottom: 0; } .dispendium-theme.fr-toolbar.fr-bottom { border-radius: 0; background-clip: padding-box; box-shadow: none; border: 1px solid #E0E0E0; border-top: 0; }
+.break { color: red; }
+.share .comment-count:before { content: ' '; position: absolute; width: 0; height: 0; right: 7px; top: 26px; border: 5px solid; border-color: #326891 #326891 transparent transparent; } .share .comment-count:after { content: ' '; position: absolute; width: 0; height: 0; right: 8px; top: 24px; border: 5px solid; border-color: #fff #fff transparent transparent; }
+.break { color: red; }
+@keyframes foo{0%{visibility:visible;transform:scale3d(.85,.85,.85);opacity:0}to{visibility:visible;opacity:1}}
+.break { color: red; }
+.foo{background:#fff;-webkit-background-clip:text}.bar{background:#000;-webkit-background-clip:text}
+.break { color: red; }
+.a{background-color:#fff}.a{background-color:#717F83;color:#fff}
+.break { color: red; }
+::placeholder{color:blue}h1{color:blue}
+.break { color: red; }
+div{color:#fff}a ~ b{color:#fff}
+.break { color: red; }
+div{color:#fff}a > b{color:#fff}
+.break { color: red; }
+div{color:#fff}[href]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href~="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href|="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href^="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href$="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href*="foo"]{color:#fff}
+.break { color: red; }
+div{color:#fff}[href="foo" i]{color:#fff}
+.break { color: red; }
+:active{color:blue}h1{color:blue}
+.break { color: red; }
+:after{color:blue}h1{color:blue}
+.break { color: red; }
+::after{color:blue}h1{color:blue}
+.break { color: red; }
+::placeholder{color:blue}h1{color:blue}
+.break { color: red; }
+:host(tag){display:block}a{display:block}
+.break { color: red; }
+p {color: blue} :unknown {color: blue}
+.break { color: red; }
+p {color: blue} ::unknown {color: blue}
+.break { color: red; }
+@media print{h1{display:block}}@media print{h1{color:red}}
+.break { color: red; }
+@media print{h1{display:block}}@MEDIA print{h1{color:red}}
+.break { color: red; }
+@media (min-width: 48rem){.wrapper{display: block}}@supports (display: flex){@media (min-width: 48rem){.wrapper{display:flex}}}
+.break { color: red; }
+@media print{h1{display:block}}@media print{h1{color:red}h2{padding:10px}}
+.break { color: red; }
+@media print{h1{display:block;color:red}h2{padding:10px}}@media print{}
+.break { color: red; }
+@media (width:40px){.red{color:red}}@media (width:40px){.green{color:green}}@media (width:40px){.blue{color:blue}}@supports (--var:var){.white{color:white}}@supports (--var:var){.black{color:black}}
+.break { color: red; }
+@media (width:40px){.red{color:red}}@media (width:40px){.green{color:green}}@media (width:40px){.blue{color:blue}}@supports (--var:var){@media (width:40px){.white{color:white}}}@supports (--var:var){@media (width:40px){.black{color:black}}}
+.break { color: red; }
+@media print{h1{display:block}}@media screen{h1{color:red}h2{padding:10px}}
+.break { color: red; }
+@media (min-width: 48rem){.wrapper{display: block}}@supports (display: flex){@media (min-width: 48rem){.wrapper{display:flex}}}
+.break { color: red; }
+@media print{h1{display:block}}@supports (color:red){@media print and (color:1){h1{color:red}h2{padding:10px}}}
+.break { color: red; }
+@media (width:40px){h1{border:1px solid red;background-color:red;background-position:50% 100%}}@media (width:40px){h1{border:1px solid red;background-color:red}}@media (width:40px){h1{border:1px solid red}}
+.break { color: red; }
+@media (width:40px){h1{color:black}h2{color:black;font-weight:bold}}@media (width:40px){h3{color:black;font-weight:bold}}
+.break { color: red; }
+.a{color:red;display:flex;font-size:10px;}.c{all:unset;color:red;display:flex;font-size:10px;}
+.break { color: red; }
+.foo{color:red}.bar{all:unset;color:red}
+.break { color: red; }
+.a{color:red;display:flex;font-size:10px;direction:tlr;}.c{all:unset;color:red;display:flex;font-size:10px;direction:tlr;}
+.break { color: red; }
+a{color : green;} a:focus-visible{ color : green;} a:focus-visible{ background : red}
+.break { color: red; }
+a,a:link{color:#555}a:visited{color:#555}
+.break { color: red; }
+h1{color:#001;color:#002;color:#003}h2{color:#001;color:#002}
+.break { color: red; }
+.foo{@media screen { color: red; }}.bar{@media screen { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media screen { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; }}
+.break { color: red; }
+@supports (display: flex) { .flex-container > * {text-shadow: 0px 0px 2px blue;float: none;} }@supports (display: flex) { .flex-container { display: flex;} }
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; } @media print { color: red; }}
+.break { color: red; }
+.foo{@media screen { color: red; }}.foo{@media print { color: red; } @media screen { color: red; }}
+.break { color: red; }
+.foo {
+    color: red;
+
+    @nest & > .bar {
+        color: blue;
+    }
+    @nest & > .baz {
+        color: blue;
+    }
+}
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    @media (min-width: 50em) {
+        .foo {
+            background: blue;
+        }
+    }
+
+    @media (min-width: 50em) {
+        .foo {
+            background: blue;
+        }
+    }
+}
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}
+@supports (flex-wrap: wrap) {
+    .class-1 { color: red }
+}
+.break { color: red; }
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}
+@supports (flex-wrap: wrap) {
+    .class { color: red }
+}
+.break { color: red; }
+.foo {
+    @media (min-width: 800px) {
+        & .bar {
+            color: red;
+        }
+        & .baz {
+            color: red;
+        }
+    }
+    @supports (flex-wrap: wrap) {
+        & .class { color: red }
+    }
+    @supports (flex-wrap: wrap) {
+        & .class { color: red }
+    }
+}
+.break { color: red; }
+.class {
+    color: red;
+
+    & {
+        color: red;
+    }
+}
+.break { color: red; }
+@supports (display: flex) {
+    .class {
+        display: flex;
+    }
+}
+@supports (display: grid) {
+    .class {
+        display: flex;
+    }
+}
+.break { color: red; }
+@media (min-width: 200px) {
+    article {
+        display: flex;
+    }
+}
+@media (min-width: 600px) {
+    article {
+        display: flex;
+    }
+}
+.break { color: red; }
+@container my-layout (inline-size > 45em) {
+    .foo {
+        color: red;
+    }
+}
+@container my-layout (inline-size > 45em) {
+    .foo {
+        background: yellow;
+    }
+    .bar {
+        color: white;
+    }
+}
+.break { color: red; }
+@layer foo {
+    .foo {
+        color: red;
+    }
+}
+@layer foo {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
+.break { color: red; }
+.foo {
+    color: red;
+}
+.bar {
+    color: red;
+}
+.break { color: red; }
+.foo {
+    color: red;
+}
+.foo {
+    background: green;
+}
+.break { color: red; }
+.foo {
+    background: red;
+}
+.bar {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+.foo, .bar {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+.foo {
+    background: red;
+}
+.foo {
+    color: green;
+}
+.bar {
+    background: red;
+}
+.bar {
+    color: green;
+}
+.break { color: red; }
+@media (hover) {
+    .foo {
+        color: red;
+    }
+}
+@media (hover) {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
+.break { color: red; }
+@supports (flex: 1) {
+    .foo {
+        color: red;
+    }
+}
+@supports (flex: 1) {
+    .foo {
+        background: #fff;
+    }
+    .baz {
+        color: #fff;
+    }
+}
+.break { color: red; }
+.foo {
+    & .foo {
+        background: red;
+    }
+
+    & .bar {
+        background: red;
+    }
+
+    & .foo {
+        color: green;
+    }
+
+    & .bar {
+        color: green;
+    }
+}
+.break { color: red; }
+.foo {
+ background: red;
+}
+
+.bar {
+    background: red;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
+}
+
+.foo {
+    color: green;
+}
+
+.bar {
+    color: green;
+}
