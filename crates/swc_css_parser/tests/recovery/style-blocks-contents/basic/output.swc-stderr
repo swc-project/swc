@@ -24,7 +24,7 @@
     `----
 
   x Unexpected end of file
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:3]
- 40 |  
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:1]
+ 40 | }
     : ^
     `----

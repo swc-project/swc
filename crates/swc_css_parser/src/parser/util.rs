@@ -1,6 +1,6 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_common::DUMMY_SP;
+use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, Ctx, PResult, Parse, Parser};
@@ -31,7 +31,18 @@ where
         self.parse()
     }
 
-    pub fn parse_according_to_grammar<'a, T>(
+    pub(super) fn create_locv(&self, children: Vec<ComponentValue>) -> ListOfComponentValues {
+        let span = match (children.first(), children.last()) {
+            (Some(first), Some(last)) => {
+                Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
+            }
+            _ => DUMMY_SP,
+        };
+
+        ListOfComponentValues { span, children }
+    }
+
+    pub(super) fn parse_according_to_grammar<'a, T>(
         &mut self,
         list_of_component_values: &'a ListOfComponentValues,
     ) -> PResult<T>

@@ -303,7 +303,10 @@ impl<'a> ListOfComponentValuesInput<'a> {
                         ),
                         token: Token::Function {
                             value: function.name.value.clone(),
-                            raw: function.name.value.clone(),
+                            raw: match &function.name.raw {
+                                Some(raw) => raw.clone(),
+                                _ => function.name.value.clone(),
+                            },
                         },
                     });
                 }

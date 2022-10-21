@@ -11,12 +11,6 @@
      :          ^
      `----
 
-  x Expected function or ident tokens
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :           ^
-     `----
-
   x Expected important
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
@@ -66,12 +60,6 @@
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:119:1]
- 119 | .selector {
-     : ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:124:5]
  124 | =property: value;
      : ^
@@ -110,12 +98,6 @@
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:152:5]
  152 | `property: value;
-     : ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:156:5]
- 156 | ]property: value;
      : ^
      `----
 
@@ -213,4 +195,10 @@
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  250 | a{*b:c}
      :   ^
+     `----
+
+  x Unexpected end of file
+     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
+ 114 | }
+     : ^
      `----

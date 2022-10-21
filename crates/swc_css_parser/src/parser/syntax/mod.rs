@@ -1,4 +1,4 @@
-use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::Span;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -122,18 +122,9 @@ where
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
         let create_prelude = |p: &mut Parser<I>,
-                              mut list_of_component_values: ListOfComponentValues|
+                              list: Vec<ComponentValue>|
          -> PResult<QualifiedRulePrelude> {
-            let span = match (
-                list_of_component_values.children.first(),
-                list_of_component_values.children.last(),
-            ) {
-                (Some(first), Some(last)) => {
-                    Span::new(first.span_lo(), last.span_hi(), SyntaxContext::empty())
-                }
-                _ => DUMMY_SP,
-            };
-            list_of_component_values.span = span;
+            let list_of_component_values = p.create_locv(list);
 
             match p.parse_according_to_grammar::<SelectorList>(&list_of_component_values) {
                 Ok(selector_list) => {
@@ -180,10 +171,7 @@ where
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut list_of_component_values = ListOfComponentValues {
-            span: Default::default(),
-            children: vec![],
-        };
+        let mut prelude = vec![];
 
         // Repeatedly consume the next input token:
         loop {
@@ -200,28 +188,38 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                        ..self.ctx
-                    };
-                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                    let mut block = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<SimpleBlock>()?;
+
+                    block.value = self
+                        .parse_according_to_grammar::<Vec<StyleBlock>>(
+                            &self.create_locv(block.value),
+                        )?
+                        .into_iter()
+                        .map(ComponentValue::StyleBlock)
+                        .collect();
 
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
-                        prelude: create_prelude(self, list_of_component_values)?,
+                        prelude: create_prelude(self, prelude)?,
                         block,
                     });
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                        ..self.ctx
-                    };
-                    let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+                    let component_value = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<ComponentValue>()?;
 
-                    list_of_component_values.children.push(component_value);
+                    prelude.push(component_value);
                 }
             }
         }
@@ -260,7 +258,14 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    rules.push(StyleBlock::AtRule(self.parse()?));
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                        ..self.ctx
+                    };
+
+                    rules.push(StyleBlock::AtRule(Box::new(
+                        self.with_ctx(ctx).parse_as::<AtRule>()?,
+                    )));
                 }
                 // <ident-token>
                 // Initialize a temporary list initially filled with the current input token. As
