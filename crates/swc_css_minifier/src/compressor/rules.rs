@@ -227,7 +227,7 @@ impl Compressor {
             let mut qualified_rule = QualifiedRule {
                 span: Span::new(
                     left.span.span_lo(),
-                    right.span.span_lo(),
+                    right.span.span_hi(),
                     SyntaxContext::empty(),
                 ),
                 prelude: left.prelude.clone(),
