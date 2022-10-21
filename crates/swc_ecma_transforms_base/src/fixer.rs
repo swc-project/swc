@@ -575,7 +575,15 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(obj);
             }
 
-            MemberExpr { obj, .. } if matches!(&**obj, Expr::OptChain(..)) => {
+            MemberExpr { obj, .. }
+                if match &**obj {
+                    Expr::OptChain(OptChainExpr {
+                        base: OptChainBase::Member(MemberExpr { obj, .. }),
+                        ..
+                    }) => obj.is_member(),
+                    _ => false,
+                } =>
+            {
                 self.wrap(obj);
             }
 
