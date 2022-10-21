@@ -1,5 +1,6 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::{undefined, StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -55,6 +56,8 @@ where
 
         for stmt in stmts.iter_mut() {
             self.merge_nested_if_returns(stmt, terminates);
+
+            debug_assert_valid(&*stmt);
         }
 
         if terminates || is_fn_body {
@@ -69,12 +72,18 @@ where
         match s {
             Stmt::Block(s) => {
                 self.merge_if_returns(&mut s.stmts, terminate, false);
+
+                debug_assert_valid(&*s);
             }
             Stmt::If(s) => {
                 self.merge_nested_if_returns(&mut s.cons, can_work);
 
+                debug_assert_valid(&s.cons);
+
                 if let Some(alt) = s.alt.as_deref_mut() {
                     self.merge_nested_if_returns(alt, can_work);
+
+                    debug_assert_valid(&*alt);
                 }
             }
             _ => {}
@@ -366,6 +375,8 @@ where
         }
 
         if let Some(mut cur) = cur {
+            self.normalize_expr(&mut cur);
+
             match &*cur {
                 Expr::Seq(seq)
                     if !should_preserve_last_return

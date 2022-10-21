@@ -272,6 +272,12 @@ where
                                                 seq.exprs.extend(take(&mut exprs));
                                                 seq.exprs.extend(extra);
 
+                                                if seq.exprs.len() == 1 {
+                                                    stmt.init = Some(VarDeclOrExpr::Expr(
+                                                        seq.exprs.pop().unwrap(),
+                                                    ));
+                                                }
+
                                                 new_stmts.push(T::from_stmt(Stmt::For(stmt)));
 
                                                 continue;
@@ -281,11 +287,13 @@ where
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 None => {
-                                    stmt.init =
-                                        Some(VarDeclOrExpr::Expr(Box::new(Expr::Seq(SeqExpr {
-                                            span: DUMMY_SP,
-                                            exprs: take(&mut exprs),
-                                        }))))
+                                    if exprs.is_empty() {
+                                        stmt.init = None;
+                                    } else {
+                                        stmt.init = Some(VarDeclOrExpr::Expr(Expr::from_exprs(
+                                            take(&mut exprs),
+                                        )))
+                                    }
                                 }
                                 _ => {
                                     unreachable!()
@@ -326,10 +334,7 @@ where
                             if !exprs.is_empty() {
                                 new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: Box::new(Expr::Seq(SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: take(&mut exprs),
-                                    })),
+                                    expr: Expr::from_exprs(take(&mut exprs)),
                                 })))
                             }
 
@@ -341,10 +346,7 @@ where
                     if !exprs.is_empty() {
                         new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
-                            expr: Box::new(Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: take(&mut exprs),
-                            })),
+                            expr: Expr::from_exprs(take(&mut exprs)),
                         })))
                     }
 
@@ -356,10 +358,7 @@ where
         if !exprs.is_empty() {
             new_stmts.push(T::from_stmt(Stmt::Expr(ExprStmt {
                 span: DUMMY_SP,
-                expr: Box::new(Expr::Seq(SeqExpr {
-                    span: DUMMY_SP,
-                    exprs: take(&mut exprs),
-                })),
+                expr: Expr::from_exprs(take(&mut exprs)),
             })))
         }
 
@@ -676,6 +675,10 @@ where
             if let Some(Stmt::Expr(es)) = stmt.as_stmt_mut() {
                 if let Expr::Seq(e) = &mut *es.expr {
                     e.exprs.retain(|e| !e.is_invalid());
+                    if e.exprs.len() == 1 {
+                        es.expr = e.exprs.pop().unwrap();
+                        return true;
+                    }
                 }
             }
 

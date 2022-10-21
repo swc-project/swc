@@ -1,9 +1,5 @@
-#![cfg_attr(not(debug_assertions), allow(unused))]
-
 use std::{
-    fmt::Debug,
     io::Write,
-    mem::forget,
     process::{Command, Stdio},
 };
 
@@ -11,10 +7,9 @@ use swc_common::{sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
+pub use swc_ecma_transforms_optimization::{debug_assert_valid, AssertValid};
 use swc_ecma_utils::{drop_span, DropSpan};
-use swc_ecma_visit::{
-    noop_visit_mut_type, noop_visit_type, FoldWith, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_mut_type, FoldWith, VisitMut, VisitMutWith};
 use tracing::debug;
 
 pub(crate) struct Debugger {}
@@ -72,10 +67,7 @@ where
 /// If the cargo feature `debug` is disabled or the environment variable
 /// `SWC_RUN` is not `1`, this function is noop.
 pub(crate) fn invoke(module: &Module) {
-    #[cfg(debug_assertions)]
-    {
-        module.visit_with(&mut AssertValid);
-    }
+    debug_assert_valid(module);
 
     let _noop_sub = tracing::subscriber::set_default(tracing::subscriber::NoSubscriber::default());
 
@@ -158,68 +150,5 @@ pub(crate) fn invoke(module: &Module) {
             code,
             String::from_utf8_lossy(&output.stdout)
         )
-    }
-}
-
-#[cfg(debug_assertions)]
-struct Ctx<'a> {
-    v: &'a dyn Debug,
-}
-
-#[cfg(debug_assertions)]
-impl Drop for Ctx<'_> {
-    fn drop(&mut self) {
-        eprintln!("Context: {:?}", self.v);
-    }
-}
-
-pub(crate) struct AssertValid;
-
-impl Visit for AssertValid {
-    noop_visit_type!();
-
-    #[cfg(debug_assertions)]
-    fn visit_expr(&mut self, n: &Expr) {
-        let ctx = Ctx { v: n };
-        n.visit_children_with(self);
-        forget(ctx);
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_invalid(&mut self, _: &Invalid) {
-        panic!("Invalid node found");
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_number(&mut self, n: &Number) {
-        assert!(!n.value.is_nan(), "NaN should be an identifier");
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_setter_prop(&mut self, p: &SetterProp) {
-        p.body.visit_with(self);
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_stmt(&mut self, n: &Stmt) {
-        let ctx = Ctx { v: n };
-        n.visit_children_with(self);
-        forget(ctx);
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_tpl(&mut self, l: &Tpl) {
-        l.visit_children_with(self);
-
-        assert_eq!(l.exprs.len() + 1, l.quasis.len());
-    }
-
-    #[cfg(debug_assertions)]
-    fn visit_var_declarators(&mut self, v: &[VarDeclarator]) {
-        v.visit_children_with(self);
-
-        if v.is_empty() {
-            panic!("Found empty var declarators");
-        }
     }
 }

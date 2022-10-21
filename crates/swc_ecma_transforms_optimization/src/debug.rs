@@ -11,7 +11,7 @@ where
     N: VisitWith<AssertValid>,
 {
     #[cfg(debug_assertions)]
-    node.visit_with(&mut AssertValid { _priv: () });
+    node.visit_with(&mut AssertValid);
 }
 
 #[cfg(debug_assertions)]
@@ -26,9 +26,7 @@ impl Drop for Ctx<'_> {
     }
 }
 
-pub struct AssertValid {
-    _priv: (),
-}
+pub struct AssertValid;
 
 impl Visit for AssertValid {
     noop_visit_type!();
@@ -76,5 +74,19 @@ impl Visit for AssertValid {
         if v.is_empty() {
             panic!("Found empty var declarators");
         }
+    }
+
+    #[cfg(debug_assertions)]
+    fn visit_seq_expr(&mut self, v: &SeqExpr) {
+        v.visit_children_with(self);
+
+        // TODO(kdy1): Make parser does not create invalid sequential
+        // expressions and uncomment this
+
+        // assert!(
+        //     v.exprs.len() >= 2,
+        //     "SeqExpr(len = {}) is invalid",
+        //     v.exprs.len()
+        // );
     }
 }
