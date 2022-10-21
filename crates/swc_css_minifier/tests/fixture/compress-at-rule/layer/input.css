@@ -43,10 +43,18 @@
 }
 
 @layer {
-    @layer foo { color: red; }
+    @layer foo {
+        .class {
+            color: red;
+        }
+    }
 }
 @layer {
-    @layer foo { color: red; }
+    @layer foo {
+        .class {
+            color: red;
+        }
+    }
 }
 
 @layer framework {
