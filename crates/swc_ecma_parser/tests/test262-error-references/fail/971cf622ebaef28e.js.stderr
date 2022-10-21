@@ -1,5 +1,5 @@
 
-  x Declaration is now allowed
+  x Declaration is not allowed
    ,-[$DIR/tests/test262-parser/fail/971cf622ebaef28e.js:1:1]
  1 | with(true) class a {}
    :            ^^^^^

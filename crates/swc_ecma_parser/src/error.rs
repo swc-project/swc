@@ -280,7 +280,7 @@ impl SyntaxError {
     pub fn msg(&self) -> Cow<'static, str> {
         match self {
             SyntaxError::PrivateNameInInterface => {
-                "private names are now allowed in interface".into()
+                "private names are not allowed in interface".into()
             }
             SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
                                            and topLevelAwait:true for ecmascript"
@@ -512,7 +512,7 @@ impl SyntaxError {
             SyntaxError::TS2703 => {
                 "The operand of a delete operator must be a property reference.".into()
             }
-            SyntaxError::DeclNotAllowed => "Declaration is now allowed".into(),
+            SyntaxError::DeclNotAllowed => "Declaration is not allowed".into(),
             SyntaxError::InvalidSuperCall => "Invalid `super()`".into(),
             SyntaxError::InvalidSuper => "Invalid access to super".into(),
             SyntaxError::InvalidSuperPrivateName => {
