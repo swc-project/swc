@@ -575,6 +575,10 @@ impl VisitMut for Fixer<'_> {
                 self.wrap(obj);
             }
 
+            MemberExpr { obj, .. } if matches!(&**obj, Expr::OptChain(..)) => {
+                self.wrap(obj);
+            }
+
             _ => {}
         }
     }
