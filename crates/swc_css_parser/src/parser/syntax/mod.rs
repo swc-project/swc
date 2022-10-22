@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{Span, Spanned};
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -252,19 +252,33 @@ where
                 // <semicolon-token>
                 // Do nothing.
                 tok!(";") => {
-                    bump!(self);
+                    let token_and_span = self.input.bump().unwrap();
+
+                    // For recovery mode
+                    // TODO revisit it after refactor parser
+                    if let Some(StyleBlock::ListOfComponentValues(list_of_component_values)) =
+                        declarations.last_mut()
+                    {
+                        list_of_component_values.span = Span::new(
+                            list_of_component_values.span_lo(),
+                            token_and_span.span_hi(),
+                            Default::default(),
+                        );
+                        list_of_component_values
+                            .children
+                            .push(ComponentValue::PreservedToken(token_and_span));
+                    }
                 }
                 // <at-keyword-token>
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                        ..self.ctx
-                    };
-
                     rules.push(StyleBlock::AtRule(Box::new(
-                        self.with_ctx(ctx).parse_as::<AtRule>()?,
+                        self.with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                            ..self.ctx
+                        })
+                        .parse_as::<AtRule>()?,
                     )));
                 }
                 // <ident-token>
@@ -276,11 +290,12 @@ where
                 tok!("ident") => {
                     if self.config.legacy_nesting {
                         let state = self.input.state();
-                        let ctx = Ctx {
-                            is_trying_legacy_nesting: true,
-                            ..self.ctx
-                        };
-                        let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+                        let legacy_nested = self
+                            .with_ctx(Ctx {
+                                is_trying_legacy_nesting: true,
+                                ..self.ctx
+                            })
+                            .parse_as::<QualifiedRule>();
 
                         match legacy_nested {
                             Ok(legacy_nested) => {
@@ -294,39 +309,36 @@ where
                         };
                     }
 
-                    let state = self.input.state();
-                    let prop = match self.parse() {
-                        Ok(v) => StyleBlock::Declaration(v),
-                        Err(err) => {
-                            self.errors.push(err);
-                            self.input.reset(&state);
-
-                            let span = self.input.cur_span();
-                            let mut children = vec![];
-
-                            while !is_one_of!(self, EOF) {
-                                if let Some(token_and_span) = self.input.bump() {
-                                    children.push(ComponentValue::PreservedToken(token_and_span));
-                                }
-
-                                if is!(self, ";") {
-                                    if let Some(token_and_span) = self.input.bump() {
-                                        children
-                                            .push(ComponentValue::PreservedToken(token_and_span));
-                                    }
-
-                                    break;
-                                }
-                            }
-
-                            StyleBlock::ListOfComponentValues(ListOfComponentValues {
-                                span: span!(self, span.lo),
-                                children,
-                            })
-                        }
+                    let span = self.input.cur_span();
+                    let mut temporary_list = ListOfComponentValues {
+                        span: Default::default(),
+                        children: vec![],
                     };
 
-                    declarations.push(prop);
+                    while !is_one_of!(self, ";", EOF) {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        };
+
+                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+
+                        temporary_list.children.push(component_value);
+                    }
+
+                    let decl_or_list_of_component_values =
+                        match self.parse_according_to_grammar::<Declaration>(&temporary_list) {
+                            Ok(decl) => StyleBlock::Declaration(Box::new(decl)),
+                            Err(err) => {
+                                self.errors.push(err);
+
+                                temporary_list.span = span!(self, span.lo);
+
+                                StyleBlock::ListOfComponentValues(temporary_list)
+                            }
+                        };
+
+                    declarations.push(decl_or_list_of_component_values);
                 }
 
                 // <delim-token> with a value of "&" (U+0026 AMPERSAND)
@@ -881,6 +893,25 @@ where
                     }
                 }
             }
+
+            match value.last() {
+                Some(ComponentValue::PreservedToken(TokenAndSpan {
+                    span,
+                    token: Token::BadUrl { .. },
+                    ..
+                }))
+                | Some(ComponentValue::PreservedToken(TokenAndSpan {
+                    span,
+                    token: Token::BadString { .. },
+                    ..
+                })) => {
+                    return Err(Error::new(
+                        *span,
+                        ErrorKind::Unexpected("token in <declaration-value>"),
+                    ));
+                }
+                _ => {}
+            };
         }
 
         // 5. If the last two non-<whitespace-token>s in the declaration’s value are a

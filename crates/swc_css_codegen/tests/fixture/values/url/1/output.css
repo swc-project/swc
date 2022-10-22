@@ -45,8 +45,7 @@ div {
   background: url('\"foo\"');
 }
 .bar {
-  background: url(http://example.com/image.svg param(--color var(--primary-color);
-  ));}
+  background: url(http://example.com/image.svg param(--color var(--primary-color)));}
 .baz {
   background: url("http://example.com/image.svg" param(--color var(--primary-color)));
 }

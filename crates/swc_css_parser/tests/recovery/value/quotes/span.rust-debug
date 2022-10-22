@@ -101,30 +101,50 @@
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";
+ 4 |     }
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | ,-> content: "tes
  3 | `->     t";
+ 4 |     }
    `----
 
-  x Declaration
-   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
- 2 | ,-> content: "tes
- 3 | `->     t";
-   `----
-
-  x DeclarationName
+  x ComponentValue
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | content: "tes
    : ^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('content' type=static), raw: Atom('content' type=static) }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
  2 | content: "tes
    : ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :        ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :         ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | content: "tes
+   :         ^
    `----
 
   x ComponentValue
@@ -140,12 +160,25 @@
    `----
 
   x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | ,-> content: "tes
+ 3 | `->     t";
+   `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:5]
+ 2 | ,-> content: "tes
+ 3 | `->     t";
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
  3 | t";
    : ^
    `----
 
-  x Ident
+  x Ident { value: Atom('t' type=inline), raw: Atom('t' type=inline) }
    ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
  3 | t";
    : ^
@@ -161,4 +194,19 @@
    ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
  3 | t";
    :  ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :    ^
+ 4 | }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :    ^
+ 4 | }
    `----

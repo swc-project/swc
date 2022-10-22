@@ -78,31 +78,49 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
- 2 | background-image: url(   ./image.jpg  a  );
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
+  x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
    : ^^^^^^^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('background-image' type=dynamic), raw: Atom('background-image' type=dynamic) }
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
    : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                 ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                  ^
    `----
 
   x ComponentValue
@@ -115,4 +133,16 @@
    ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
  2 | background-image: url(   ./image.jpg  a  );
    :                   ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                                           ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace-in-middle/input.css:2:5]
+ 2 | background-image: url(   ./image.jpg  a  );
+   :                                           ^
    `----

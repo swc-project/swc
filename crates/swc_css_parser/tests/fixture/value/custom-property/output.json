@@ -430,7 +430,7 @@
             "type": "Declaration",
             "span": {
               "start": 206,
-              "end": 216,
+              "end": 215,
               "ctxt": 0
             },
             "name": {
@@ -450,7 +450,7 @@
             "type": "Declaration",
             "span": {
               "start": 221,
-              "end": 236,
+              "end": 231,
               "ctxt": 0
             },
             "name": {
@@ -544,7 +544,7 @@
             "type": "Declaration",
             "span": {
               "start": 297,
-              "end": 322,
+              "end": 314,
               "ctxt": 0
             },
             "name": {

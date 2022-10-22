@@ -24,3 +24,9 @@
    :    ^
  4 | }
    `----
+
+  x Unexpected token in <declaration-value>
+   ,-[$DIR/tests/recovery/value/quotes/input.css:3:5]
+ 3 | t";
+   :  ^^
+   `----

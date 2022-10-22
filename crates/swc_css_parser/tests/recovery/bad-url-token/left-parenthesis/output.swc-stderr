@@ -10,3 +10,9 @@
  2 | background: url(image(.png);
    :                      ^
    `----
+
+  x Unexpected token in <declaration-value>
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :             ^^^^^^^^^^^^^^^
+   `----

@@ -658,19 +658,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:10:5]
  10 | --empty: ;
-    : ^^^^^^^^^^
+    : ^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:10:5]
  10 | --empty: ;
-    : ^^^^^^^^^^
+    : ^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/custom-property/input.css:10:5]
  10 | --empty: ;
-    : ^^^^^^^^^^
+    : ^^^^^^^^^
     `----
 
   x DeclarationName
@@ -688,19 +688,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:11:5]
  11 | --empty2: /**/;
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:11:5]
  11 | --empty2: /**/;
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/custom-property/input.css:11:5]
  11 | --empty2: /**/;
-    : ^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -802,19 +802,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:14:5]
  14 | --empty5:/* 1 */ /* 2 */;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:14:5]
  14 | --empty5:/* 1 */ /* 2 */;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/custom-property/input.css:14:5]
  14 | --empty5:/* 1 */ /* 2 */;
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^^^^^
     `----
 
   x DeclarationName

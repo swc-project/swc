@@ -82,31 +82,49 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
  2 | background: url(image(.png);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
  2 | background: url(image(.png);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
- 2 | background: url(image(.png);
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x DeclarationName
+  x ComponentValue
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
  2 | background: url(image(.png);
    : ^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('background' type=dynamic), raw: Atom('background' type=dynamic) }
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
  2 | background: url(image(.png);
    : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :           ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :            ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :            ^
    `----
 
   x ComponentValue
@@ -119,6 +137,18 @@
    ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
  2 | background: url(image(.png);
    :             ^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :                            ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/bad-url-token/left-parenthesis/input.css:2:5]
+ 2 | background: url(image(.png);
+   :                            ^
    `----
 
   x ComponentValue

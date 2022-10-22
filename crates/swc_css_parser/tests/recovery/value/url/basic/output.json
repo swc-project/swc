@@ -123,23 +123,49 @@
             "important": null
           },
           {
-            "type": "Declaration",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 60,
-              "end": 86,
+              "end": 88,
               "ctxt": 0
             },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 60,
-                "end": 70,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 60,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "background",
+                    "raw": "background"
+                  }
+                }
               },
-              "value": "background",
-              "raw": "background"
-            },
-            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 70,
+                  "end": 71,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 71,
+                  "end": 72,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
               {
                 "type": "PreservedToken",
                 "span": {
@@ -155,18 +181,7 @@
                     "raw_value": "var(--foo"
                   }
                 }
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "ListOfComponentValues",
-            "span": {
-              "start": 86,
-              "end": 88,
-              "ctxt": 0
-            },
-            "children": [
+              },
               {
                 "type": "PreservedToken",
                 "span": {
@@ -556,23 +571,49 @@
         },
         "value": [
           {
-            "type": "Declaration",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 305,
-              "end": 347,
+              "end": 350,
               "ctxt": 0
             },
-            "name": {
-              "type": "Ident",
-              "span": {
-                "start": 305,
-                "end": 315,
-                "ctxt": 0
+            "children": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 305,
+                  "end": 315,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "background",
+                    "raw": "background"
+                  }
+                }
               },
-              "value": "background",
-              "raw": "background"
-            },
-            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 315,
+                  "end": 316,
+                  "ctxt": 0
+                },
+                "token": "Colon"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 316,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
               {
                 "type": "PreservedToken",
                 "span": {
@@ -588,18 +629,7 @@
                     "raw_value": "image.png param(var(--url"
                   }
                 }
-              }
-            ],
-            "important": null
-          },
-          {
-            "type": "ListOfComponentValues",
-            "span": {
-              "start": 347,
-              "end": 350,
-              "ctxt": 0
-            },
-            "children": [
+              },
               {
                 "type": "PreservedToken",
                 "span": {

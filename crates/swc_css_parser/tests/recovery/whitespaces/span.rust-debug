@@ -106,19 +106,19 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
  2 | prop: ;
-   : ^^^^^^^
+   : ^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
  2 | prop: ;
-   : ^^^^^^^
+   : ^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/whitespaces/input.css:2:5]
  2 | prop: ;
-   : ^^^^^^^
+   : ^^^^^^
    `----
 
   x DeclarationName
@@ -136,19 +136,19 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
  3 | prop:    ;
-   : ^^^^^^^^^^
+   : ^^^^^^^^^
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
  3 | prop:    ;
-   : ^^^^^^^^^^
+   : ^^^^^^^^^
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/whitespaces/input.css:3:5]
  3 | prop:    ;
-   : ^^^^^^^^^^
+   : ^^^^^^^^^
    `----
 
   x DeclarationName
@@ -166,22 +166,22 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
  4 | ,-> prop:
- 5 | |   
- 6 | `-> ;
+ 5 | `-> 
+ 6 |     ;
    `----
 
   x StyleBlock
    ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
  4 | ,-> prop:
- 5 | |   
- 6 | `-> ;
+ 5 | `-> 
+ 6 |     ;
    `----
 
   x Declaration
    ,-[$DIR/tests/recovery/whitespaces/input.css:4:5]
  4 | ,-> prop:
- 5 | |   
- 6 | `-> ;
+ 5 | `-> 
+ 6 |     ;
    `----
 
   x DeclarationName
