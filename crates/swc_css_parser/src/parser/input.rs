@@ -269,14 +269,14 @@ impl<'a> Iterator for TokensInput<'a> {
 #[derive(Debug)]
 pub struct ListOfComponentValuesState {
     idx: Vec<usize>,
-    balance_stack: Vec<char>,
+    balance_stack: Vec<Token>,
 }
 
 #[derive(Debug)]
 pub struct ListOfComponentValuesInput<'a> {
     list: &'a ListOfComponentValues,
     idx: Vec<usize>,
-    balance_stack: Vec<char>,
+    balance_stack: Vec<Token>,
 }
 
 #[derive(Debug)]
@@ -490,9 +490,9 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
                 self.idx.push(0);
 
                 let balance = match &token_and_span.token {
-                    Token::Function { .. } | Token::LParen => ')',
-                    Token::LBracket => ']',
-                    Token::LBrace => '}',
+                    Token::Function { .. } | Token::LParen => Token::RParen,
+                    Token::LBracket => Token::RBracket,
+                    Token::LBrace => Token::RBrace,
                     _ => {
                         unreachable!();
                     }
@@ -503,17 +503,8 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
             token => {
                 match token {
                     Token::RBrace | Token::RBracket | Token::RParen => {
-                        let value = match token {
-                            Token::RBracket => ']',
-                            Token::RParen => ')',
-                            Token::RBrace => '}',
-                            _ => {
-                                unreachable!();
-                            }
-                        };
-
                         if let Some(last) = self.balance_stack.last() {
-                            if value == *last {
+                            if token == last {
                                 self.balance_stack.pop();
                                 self.idx.pop();
                             }
