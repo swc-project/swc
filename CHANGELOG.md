@@ -28,6 +28,9 @@
 
 - **(css/parser)** Use new approach for parsing invalid tokens (#6224) ([ac619e8](https://github.com/swc-project/swc/commit/ac619e88bf68018ef9b4faef52ed3849549e6fd5))
 
+
+- **(css/parser)** Fix parsing of declarations (#6234) ([e4fe840](https://github.com/swc-project/swc/commit/e4fe8403d790911c617754358630ad56afd14a89))
+
 ### Testing
 
 
