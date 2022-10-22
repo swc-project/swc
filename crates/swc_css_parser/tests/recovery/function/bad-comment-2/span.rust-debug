@@ -103,24 +103,40 @@
  5 | `->     );
    `----
 
-  x Declaration
-   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
- 2 | ,-> background: url(
- 3 | |           /* test */
- 4 | |           "test.png"
- 5 | `->     );
-   `----
-
-  x DeclarationName
+  x ComponentValue
    ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
  2 | background: url(
    : ^^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('background' type=dynamic), raw: Atom('background' type=dynamic) }
    ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
  2 | background: url(
    : ^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
+ 2 | background: url(
+   :           ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
+ 2 | background: url(
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
+ 2 | background: url(
+   :            ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:2:5]
+ 2 | background: url(
+   :            ^
    `----
 
   x ComponentValue
@@ -143,4 +159,16 @@
  3 | |           /* test */
  4 | |           "test.png"
  5 | `->     );
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:5:5]
+ 5 | );
+   :  ^
+   `----
+
+  x Semi
+   ,-[$DIR/tests/recovery/function/bad-comment-2/input.css:5:5]
+ 5 | );
+   :  ^
    `----

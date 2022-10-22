@@ -17,20 +17,20 @@
     :                      ^
     `----
 
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
- 3 | background: url(var(--foo));
-   :                           ^
-   `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
- 13 | background: url(image.png param(var(--url)));
-    :                                           ^
-    `----
-
   x Unexpected character in url
    ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
  3 | background: url(var(--foo));
    :                    ^
    `----
+
+  x Unexpected token in <declaration-value>
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:5]
+ 3 | background: url(var(--foo));
+   :             ^^^^^^^^^^^^^^
+   `----
+
+  x Unexpected token in <declaration-value>
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:5]
+ 13 | background: url(image.png param(var(--url)));
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----

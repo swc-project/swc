@@ -3686,19 +3686,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:52:5]
  52 | --empty-var: ;
-    : ^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/csstree/1/input.css:52:5]
  52 | --empty-var: ;
-    : ^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/csstree/1/input.css:52:5]
  52 | --empty-var: ;
-    : ^^^^^^^^^^^^^^
+    : ^^^^^^^^^^^^^
     `----
 
   x DeclarationName
@@ -3716,19 +3716,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/csstree/1/input.css:53:5]
  53 | --bad-var:;
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/csstree/1/input.css:53:5]
  53 | --bad-var:;
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/csstree/1/input.css:53:5]
  53 | --bad-var:;
-    : ^^^^^^^^^^^
+    : ^^^^^^^^^^
     `----
 
   x DeclarationName

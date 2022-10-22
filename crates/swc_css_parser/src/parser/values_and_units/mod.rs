@@ -25,9 +25,7 @@ where
 
             match cur!(self) {
                 // ... <bad-string-token>, <bad-url-token>,
-                tok!("bad-string") | tok!("bad-url") => {
-                    break;
-                }
+                tok!("bad-string") | tok!("bad-url") => break,
 
                 // ... unmatched <)-token>, <]-token>, or <}-token>,
                 tok!(")") | tok!("]") | tok!("}") => {
