@@ -171,7 +171,7 @@ where
                     parser.input.skip_ws();
 
                     let prelude = if is!(parser, Ident) {
-                        let mut name_list = vec![];
+                        let mut name_list: Vec<LayerName> = vec![];
 
                         while is!(parser, Ident) {
                             name_list.push(parser.parse()?);
@@ -185,23 +185,26 @@ where
                             }
                         }
 
-                        match name_list.len() == 1 {
-                            // Block
-                            true => Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(
-                                name_list.remove(0),
-                            ))),
-                            // Statement
-                            false => {
-                                let first = name_list[0].span;
-                                let last = name_list[name_list.len() - 1].span;
+                        if is!(parser, ";") {
+                            let first = name_list[0].span;
+                            let last = name_list[name_list.len() - 1].span;
 
-                                Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
-                                    LayerNameList {
-                                        name_list,
-                                        span: Span::new(first.lo, last.hi, Default::default()),
-                                    },
-                                )))
+                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
+                                LayerNameList {
+                                    name_list,
+                                    span: Span::new(first.lo, last.hi, Default::default()),
+                                },
+                            )))
+                        } else {
+                            if name_list.len() > 1 {
+                                let span = parser.input.cur_span();
+
+                                return Err(Error::new(span, ErrorKind::Expected("';' token")));
                             }
+
+                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(
+                                name_list.remove(0),
+                            )))
                         }
                     } else {
                         None

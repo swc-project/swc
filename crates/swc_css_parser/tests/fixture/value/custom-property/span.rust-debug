@@ -3779,19 +3779,19 @@
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  60 | :root {--foo: }
-    :        ^^^^^^^^
+    :        ^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  60 | :root {--foo: }
-    :        ^^^^^^^^
+    :        ^^^^^^^
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/custom-property/input.css:60:1]
  60 | :root {--foo: }
-    :        ^^^^^^^^
+    :        ^^^^^^^
     `----
 
   x DeclarationName
@@ -3871,20 +3871,23 @@
 
   x ComponentValue
     ,-[$DIR/tests/fixture/value/custom-property/input.css:62:5]
- 62 | ,-> --foo: 
- 63 | `-> }
+ 62 | --foo: 
+    : ^^^^^^^^
+ 63 | }
     `----
 
   x StyleBlock
     ,-[$DIR/tests/fixture/value/custom-property/input.css:62:5]
- 62 | ,-> --foo: 
- 63 | `-> }
+ 62 | --foo: 
+    : ^^^^^^^^
+ 63 | }
     `----
 
   x Declaration
     ,-[$DIR/tests/fixture/value/custom-property/input.css:62:5]
- 62 | ,-> --foo: 
- 63 | `-> }
+ 62 | --foo: 
+    : ^^^^^^^^
+ 63 | }
     `----
 
   x DeclarationName

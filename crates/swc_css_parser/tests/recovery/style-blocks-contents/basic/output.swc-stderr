@@ -23,14 +23,8 @@
     :      ^
     `----
 
-  x Invalid selector
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :       ^
-    `----
-
-  x Unexpected character `';'`
-    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
- 39 | & test;
-    :       ^
+  x Unexpected end of file
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:40:1]
+ 40 | }
+    : ^
     `----

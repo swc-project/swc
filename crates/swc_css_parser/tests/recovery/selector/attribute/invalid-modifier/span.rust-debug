@@ -20,7 +20,13 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
-   : ^
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   : ^^^^^^^^^^^^^^^^^
    `----
 
   x LBracket
@@ -87,18 +93,6 @@
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
- 1 | [href="test" "z"] {}
-   :                 ^
-   `----
-
-  x RBracket
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
- 1 | [href="test" "z"] {}
-   :                 ^
    `----
 
   x ComponentValue

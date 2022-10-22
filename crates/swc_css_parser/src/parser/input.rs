@@ -1,7 +1,8 @@
 use std::{fmt::Debug, mem::take};
 
-use swc_common::{BytePos, Span, SyntaxContext};
-use swc_css_ast::{Token, TokenAndSpan};
+use swc_atoms::JsWord;
+use swc_common::{BytePos, Span, Spanned, SyntaxContext};
+use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
 use crate::error::{Error, ErrorKind};
@@ -260,6 +261,284 @@ impl<'a> Iterator for TokensInput<'a> {
         };
 
         self.idx += 1;
+
+        Some(token_and_span)
+    }
+}
+
+#[derive(Debug)]
+pub struct ListOfComponentValuesState {
+    idx: Vec<usize>,
+    balance_stack: Vec<BalanceToken>,
+}
+
+#[derive(Debug)]
+pub struct ListOfComponentValuesInput<'a> {
+    list: &'a ListOfComponentValues,
+    idx: Vec<usize>,
+    balance_stack: Vec<BalanceToken>,
+}
+
+#[derive(Debug, Clone)]
+#[allow(clippy::enum_variant_names)]
+enum BalanceToken {
+    /// `]`
+    RBracket,
+
+    /// `)`
+    RParen,
+
+    /// `}`
+    RBrace,
+}
+
+#[derive(Debug)]
+pub enum TokenOrBlock {
+    Token(TokenAndSpan),
+    Function(Span, JsWord, JsWord),
+    LBracket(Span),
+    LParen(Span),
+    LBrace(Span),
+    RParen(Span),
+    RBracket(Span),
+    RBrace(Span),
+}
+
+impl<'a> ListOfComponentValuesInput<'a> {
+    pub fn new(list: &'a ListOfComponentValues) -> Self {
+        let mut idx = Vec::with_capacity(16);
+
+        idx.push(0);
+
+        ListOfComponentValuesInput {
+            list,
+            idx,
+            balance_stack: Vec::with_capacity(16),
+        }
+    }
+
+    fn get_component_value(
+        &mut self,
+        list: &'a [ComponentValue],
+        deep: usize,
+    ) -> Option<TokenOrBlock> {
+        let index = match self.idx.get(deep) {
+            Some(index) => index,
+            _ => return None,
+        };
+
+        match list.get(*index) {
+            Some(ComponentValue::PreservedToken(token_and_span)) => {
+                Some(TokenOrBlock::Token(token_and_span.clone()))
+            }
+            Some(ComponentValue::Function(function)) => {
+                if self.idx.len() - 1 == deep {
+                    return Some(TokenOrBlock::Function(
+                        Span::new(
+                            function.span_lo(),
+                            function.name.span_hi() + BytePos(1),
+                            Default::default(),
+                        ),
+                        function.name.value.clone(),
+                        match &function.name.raw {
+                            Some(raw) => raw.clone(),
+                            _ => function.name.value.clone(),
+                        },
+                    ));
+                }
+
+                let res = self.get_component_value(&function.value, deep + 1);
+
+                if res.is_none() {
+                    return Some(TokenOrBlock::RParen(Span::new(
+                        function.span_hi() - BytePos(1),
+                        function.span_hi(),
+                        Default::default(),
+                    )));
+                }
+
+                res
+            }
+            Some(ComponentValue::SimpleBlock(simple_block)) => {
+                if self.idx.len() - 1 == deep {
+                    let close = match simple_block.name.token {
+                        Token::LBracket => TokenOrBlock::LBracket(simple_block.name.span),
+                        Token::LParen => TokenOrBlock::LParen(simple_block.name.span),
+                        Token::LBrace => TokenOrBlock::LBrace(simple_block.name.span),
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    return Some(close);
+                }
+
+                let res = self.get_component_value(&simple_block.value, deep + 1);
+
+                if res.is_none() {
+                    let span = Span::new(
+                        simple_block.span_hi() - BytePos(1),
+                        simple_block.span_hi(),
+                        Default::default(),
+                    );
+                    let close = match simple_block.name.token {
+                        Token::LBracket => TokenOrBlock::RBracket(span),
+                        Token::LParen => TokenOrBlock::RParen(span),
+                        Token::LBrace => TokenOrBlock::RBrace(span),
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    return Some(close);
+                }
+
+                res
+            }
+            None => return None,
+            _ => {
+                unreachable!("Not allowed in the list of component values")
+            }
+        }
+    }
+
+    fn cur(&mut self) -> PResult<TokenAndSpan> {
+        let token_and_span = match self.get_component_value(&self.list.children, 0) {
+            Some(token_or_block) => match token_or_block {
+                TokenOrBlock::Token(token_and_span) => token_and_span,
+                TokenOrBlock::Function(span, value, raw) => TokenAndSpan {
+                    span,
+                    token: Token::Function { value, raw },
+                },
+                TokenOrBlock::LBracket(span) => TokenAndSpan {
+                    span,
+                    token: Token::LBracket,
+                },
+                TokenOrBlock::LBrace(span) => TokenAndSpan {
+                    span,
+                    token: Token::LBrace,
+                },
+                TokenOrBlock::LParen(span) => TokenAndSpan {
+                    span,
+                    token: Token::LParen,
+                },
+                TokenOrBlock::RBracket(span) => TokenAndSpan {
+                    span,
+                    token: Token::RBracket,
+                },
+                TokenOrBlock::RBrace(span) => TokenAndSpan {
+                    span,
+                    token: Token::RBrace,
+                },
+                TokenOrBlock::RParen(span) => TokenAndSpan {
+                    span,
+                    token: Token::RParen,
+                },
+            },
+            None => {
+                let bp = self.list.span.hi;
+                let span = Span::new(bp, bp, SyntaxContext::empty());
+
+                return Err(Error::new(span, ErrorKind::Eof));
+            }
+        };
+
+        Ok(token_and_span)
+    }
+}
+
+impl<'a> ParserInput for ListOfComponentValuesInput<'a> {
+    type State = ListOfComponentValuesState;
+
+    fn start_pos(&mut self) -> BytePos {
+        self.list.span.lo
+    }
+
+    fn state(&mut self) -> Self::State {
+        ListOfComponentValuesState {
+            idx: self.idx.clone(),
+            balance_stack: self.balance_stack.clone(),
+        }
+    }
+
+    fn reset(&mut self, state: &Self::State) {
+        self.idx = state.idx.clone();
+        self.balance_stack = state.balance_stack.clone();
+    }
+
+    fn take_errors(&mut self) -> Vec<Error> {
+        vec![]
+    }
+
+    fn skip_ws(&mut self) -> Option<BytePos> {
+        let mut last_pos = None;
+
+        while let Ok(TokenAndSpan {
+            token: tok!(" "),
+            span,
+        }) = self.cur()
+        {
+            last_pos = Some(span.hi);
+
+            if let Some(idx) = self.idx.last_mut() {
+                *idx += 1;
+            }
+        }
+
+        last_pos
+    }
+}
+
+impl<'a> Iterator for ListOfComponentValuesInput<'a> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let token_and_span = match self.cur() {
+            Ok(token_and_span) => token_and_span,
+            _ => return None,
+        };
+
+        match &token_and_span.token {
+            Token::Function { .. } | Token::LParen | Token::LBracket | Token::LBrace => {
+                self.idx.push(0);
+
+                let balance = match &token_and_span.token {
+                    Token::Function { .. } | Token::LParen => BalanceToken::RParen,
+                    Token::LBracket => BalanceToken::RBracket,
+                    Token::LBrace => BalanceToken::RBrace,
+                    _ => {
+                        unreachable!();
+                    }
+                };
+
+                self.balance_stack.push(balance);
+            }
+            token => {
+                match token {
+                    Token::RBrace | Token::RBracket | Token::RParen => {
+                        if let Some(last) = self.balance_stack.last() {
+                            match (token, last) {
+                                (Token::RBrace, BalanceToken::RBrace)
+                                | (Token::RParen, BalanceToken::RParen)
+                                | (Token::RBracket, BalanceToken::RBracket) => {
+                                    self.balance_stack.pop();
+                                    self.idx.pop();
+                                }
+                                _ => {}
+                            }
+                        }
+                    }
+                    _ => {}
+                }
+
+                let index = match self.idx.last_mut() {
+                    Some(index) => index,
+                    _ => return None,
+                };
+
+                *index += 1;
+            }
+        }
 
         Some(token_and_span)
     }

@@ -83,14 +83,26 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
- 2 | color: teal;
-   : ^^^^^^^^^^^^
+ 2 | ,-> color: teal;
+ 3 | |       main {
+ 4 | |           color: orange;
+ 5 | `->     }
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
- 2 | color: teal;
-   : ^^^^^^^^^^^^
+ 2 | ,-> color: teal;
+ 3 | |       main {
+ 4 | |           color: orange;
+ 5 | `->     }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | ,-> color: teal;
+ 3 | |       main {
+ 4 | |           color: orange;
+ 5 | `->     }
    `----
 
   x ComponentValue
@@ -154,66 +166,40 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | ,-> main {
- 4 | |           color: orange;
- 5 | `->     }
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | ,-> color: teal;
+ 3 | `->     main {
    `----
 
-  x Rule
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | ,-> main {
- 4 | |           color: orange;
- 5 | `->     }
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:5]
+ 2 | ,-> color: teal;
+ 3 | `->     main {
    `----
 
-  x QualifiedRule
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | ,-> main {
- 4 | |           color: orange;
- 5 | `->     }
-   `----
-
-  x SelectorList
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
  3 | main {
    : ^^^^
    `----
 
-  x ComplexSelector
+  x Ident { value: Atom('main' type=static), raw: Atom('main' type=static) }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
  3 | main {
    : ^^^^
    `----
 
-  x CompoundSelector
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
  3 | main {
-   : ^^^^
+   :     ^
    `----
 
-  x TypeSelector
+  x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
  3 | main {
-   : ^^^^
-   `----
-
-  x TagNameSelector
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | main {
-   : ^^^^
-   `----
-
-  x WqName
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | main {
-   : ^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:3:5]
- 3 | main {
-   : ^^^^
+   :     ^
    `----
 
   x SimpleBlock

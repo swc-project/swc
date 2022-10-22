@@ -121,19 +121,62 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<QualifiedRule> {
+        let create_prelude = |p: &mut Parser<I>,
+                              list: Vec<ComponentValue>|
+         -> PResult<QualifiedRulePrelude> {
+            let list_of_component_values = p.create_locv(list);
+
+            match p.parse_according_to_grammar::<SelectorList>(&list_of_component_values) {
+                Ok(selector_list) => {
+                    if p.ctx.is_trying_legacy_nesting {
+                        let selector_list =
+                            p.legacy_nested_selector_list_to_modern_selector_list(selector_list)?;
+
+                        Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                    } else {
+                        Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                    }
+                }
+                Err(err) => {
+                    if p.ctx.is_trying_legacy_nesting {
+                        match p.parse_according_to_grammar::<RelativeSelectorList>(
+                            &list_of_component_values,
+                        ) {
+                            Ok(relative_selector_list) => {
+                                let selector_list = p
+                                    .legacy_relative_selector_list_to_modern_selector_list(
+                                        relative_selector_list,
+                                    )?;
+
+                                Ok(QualifiedRulePrelude::SelectorList(selector_list))
+                            }
+                            _ => Err(err),
+                        }
+                    } else {
+                        p.errors.push(err);
+
+                        let list_of_component_values = p
+                            .parse_according_to_grammar::<ListOfComponentValues>(
+                                &list_of_component_values,
+                            )?;
+
+                        Ok(QualifiedRulePrelude::ListOfComponentValues(
+                            list_of_component_values,
+                        ))
+                    }
+                }
+            }
+        };
+
         let span = self.input.cur_span();
         // Create a new qualified rule with its prelude initially set to an empty list,
         // and its value initially set to nothing.
-        let mut prelude = QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
-            span: Default::default(),
-            children: vec![],
-        });
+        let mut prelude = vec![];
 
         // Repeatedly consume the next input token:
         loop {
             // <EOF-token>
             // This is a parse error. Return nothing.
-            // But we return for error recovery blocks
             if is!(self, EOF) {
                 let span = self.input.cur_span();
 
@@ -145,85 +188,38 @@ where
                 // Consume a simple block and assign it to the qualified rule’s block. Return the
                 // qualified rule.
                 tok!("{") => {
-                    let ctx = Ctx {
-                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                        ..self.ctx
-                    };
-                    let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                    let mut block = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<SimpleBlock>()?;
+
+                    block.value = self
+                        .parse_according_to_grammar::<Vec<StyleBlock>>(
+                            &self.create_locv(block.value),
+                        )?
+                        .into_iter()
+                        .map(ComponentValue::StyleBlock)
+                        .collect();
 
                     return Ok(QualifiedRule {
                         span: span!(self, span.lo),
-                        prelude,
+                        prelude: create_prelude(self, prelude)?,
                         block,
                     });
                 }
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the qualified rule’s prelude.
                 _ => {
-                    let state = self.input.state();
-                    let selector_list: PResult<SelectorList> = self.parse();
+                    let component_value = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<ComponentValue>()?;
 
-                    prelude = match selector_list {
-                        Ok(mut selector_list) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                selector_list = self
-                                    .legacy_nested_selector_list_to_modern_selector_list(
-                                        selector_list,
-                                    )?;
-                            }
-
-                            QualifiedRulePrelude::SelectorList(selector_list)
-                        }
-                        Err(err) => {
-                            if self.ctx.is_trying_legacy_nesting {
-                                self.input.reset(&state);
-
-                                let relative_selector_list: PResult<RelativeSelectorList> =
-                                    self.parse();
-
-                                match relative_selector_list {
-                                    Ok(relative_selector_list) => {
-                                        let selector_list = self
-                                            .legacy_relative_selector_list_to_modern_selector_list(
-                                                relative_selector_list,
-                                            )?;
-
-                                        QualifiedRulePrelude::SelectorList(selector_list)
-                                    }
-                                    _ => {
-                                        return Err(err);
-                                    }
-                                }
-                            } else {
-                                self.errors.push(err);
-                                self.input.reset(&state);
-
-                                let span = self.input.cur_span();
-                                let mut children = vec![];
-
-                                while !is_one_of!(self, EOF, "{") {
-                                    if is!(self, ";") {
-                                        let span = self.input.cur_span();
-
-                                        return Err(Error::new(
-                                            span,
-                                            ErrorKind::UnexpectedChar(';'),
-                                        ));
-                                    }
-
-                                    if let Some(token_and_span) = self.input.bump() {
-                                        children
-                                            .push(ComponentValue::PreservedToken(token_and_span));
-                                    }
-                                }
-
-                                QualifiedRulePrelude::ListOfComponentValues(ListOfComponentValues {
-                                    span: span!(self, span.lo),
-                                    children,
-                                })
-                            }
-                        }
-                    };
+                    prelude.push(component_value);
                 }
             }
         }
@@ -262,7 +258,14 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    rules.push(StyleBlock::AtRule(self.parse()?));
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
+                        ..self.ctx
+                    };
+
+                    rules.push(StyleBlock::AtRule(Box::new(
+                        self.with_ctx(ctx).parse_as::<AtRule>()?,
+                    )));
                 }
                 // <ident-token>
                 // Initialize a temporary list initially filled with the current input token. As
@@ -301,7 +304,7 @@ where
                             let span = self.input.cur_span();
                             let mut children = vec![];
 
-                            while !is_one_of!(self, EOF, "}") {
+                            while !is_one_of!(self, EOF) {
                                 if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
@@ -930,6 +933,35 @@ where
         Ok(ImportantFlag {
             span: span!(self, span.lo),
             value: ident,
+        })
+    }
+}
+
+impl<I> Parse<ListOfComponentValues> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<ListOfComponentValues> {
+        let span = self.input.cur_span();
+        let ctx = Ctx {
+            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+            ..self.ctx
+        };
+        let mut children = vec![];
+
+        loop {
+            if is!(self, EOF) {
+                break;
+            }
+
+            let components_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
+
+            children.push(components_value);
+        }
+
+        Ok(ListOfComponentValues {
+            span: span!(self, span.lo),
+            children,
         })
     }
 }

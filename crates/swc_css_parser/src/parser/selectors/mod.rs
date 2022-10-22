@@ -957,6 +957,8 @@ where
                         }
                         "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
                         | "nth-col" | "nth-last-col" => {
+                            self.input.skip_ws();
+
                             let an_plus_b = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::AnPlusB(an_plus_b));
@@ -1168,8 +1170,6 @@ where
     I: ParserInput,
 {
     fn parse(&mut self) -> PResult<AnPlusB> {
-        self.input.skip_ws();
-
         let span = self.input.cur_span();
 
         match cur!(self) {

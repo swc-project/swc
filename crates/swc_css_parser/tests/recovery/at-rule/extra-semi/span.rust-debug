@@ -4,8 +4,8 @@
  1 | ,-> @import "x.css";;
  2 | |   
  3 | |   .color {
- 4 | `->     color: red;
- 5 |     }
+ 4 | |       color: red;
+ 5 | `-> }
    `----
 
   x Rule
@@ -43,7 +43,17 @@
  1 | ,-> @import "x.css";;
  2 | |   
  3 | |   .color {
- 4 | `->     color: red;
+ 4 | |       color: red;
+ 5 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | |   
+ 3 | |   .color {
+ 4 | |       color: red;
+ 5 | `-> }
    `----
 
   x ComponentValue
@@ -110,10 +120,11 @@
    :       ^
    `----
 
-  x ComponentValue
+  x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
- 3 | .color {
-   :        ^
+ 3 | ,-> .color {
+ 4 | |       color: red;
+ 5 | `-> }
    `----
 
   x LBrace
@@ -123,52 +134,33 @@
    `----
 
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
- 3 | ,-> .color {
- 4 | `->     color: red;
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
    `----
 
-  x WhiteSpace { value: Atom('
-  |     ' type=inline) }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:3:1]
- 3 | ,-> .color {
- 4 | `->     color: red;
+  x StyleBlock
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x Declaration
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
+ 4 | color: red;
+   : ^^^^^^^^^^
+   `----
+
+  x DeclarationName
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
  4 | color: red;
    : ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
+  x Ident
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
  4 | color: red;
    : ^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :      ^
-   `----
-
-  x Colon
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :      ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :       ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :       ^
    `----
 
   x ComponentValue
@@ -177,20 +169,8 @@
    :        ^^^
    `----
 
-  x Ident { value: Atom('red' type=inline), raw: Atom('red' type=inline) }
+  x Ident
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
  4 | color: red;
    :        ^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :           ^
-   `----
-
-  x Semi
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:5]
- 4 | color: red;
-   :           ^
    `----

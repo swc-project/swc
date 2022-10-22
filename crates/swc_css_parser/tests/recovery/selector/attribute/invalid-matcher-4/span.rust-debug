@@ -35,7 +35,13 @@
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
-   :  ^
+   :  ^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+ 1 | a[title%="title"] {
+   :  ^^^^^^^^^^^^^^^^
    `----
 
   x LBracket
@@ -90,18 +96,6 @@
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
- 1 | a[title%="title"] {
-   :                 ^
-   `----
-
-  x RBracket
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
- 1 | a[title%="title"] {
-   :                 ^
    `----
 
   x ComponentValue

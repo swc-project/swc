@@ -2,22 +2,15 @@
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
- 2 | |   
- 3 | `-> }
+ 2 | `-> 
+ 3 |     }
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
- 2 | |   
- 3 | `-> }
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
- 1 | ,-> .class[attr= {
- 2 | |   
- 3 | `-> }
+ 2 | `-> 
+ 3 |     }
    `----
 
   x ComponentValue
@@ -92,15 +85,30 @@
    :             ^
    `----
 
-  x SimpleBlock
+  x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
- 1 | ,-> .class[attr= {
- 2 | |   
- 3 | `-> }
+ 1 | .class[attr= {
+   :              ^
    `----
 
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | `-> 
+ 3 |     }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | 
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | `-> 
+ 3 |     }
    `----

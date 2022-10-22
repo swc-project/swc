@@ -11,12 +11,6 @@
      :          ^
      `----
 
-  x Expected function or ident tokens
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :           ^
-     `----
-
   x Expected important
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  180 | .selector { property: value !ie; }
@@ -215,8 +209,8 @@
      :   ^
      `----
 
-  x Unexpected character `';'`
-     ,-[$DIR/tests/recovery/hacks/input.css:112:5]
- 112 | &property: value;
-     :                 ^
+  x Unexpected end of file
+     ,-[$DIR/tests/recovery/hacks/input.css:114:1]
+ 114 | }
+     : ^
      `----
