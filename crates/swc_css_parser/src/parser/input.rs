@@ -269,14 +269,27 @@ impl<'a> Iterator for TokensInput<'a> {
 #[derive(Debug)]
 pub struct ListOfComponentValuesState {
     idx: Vec<usize>,
-    balance_stack: Vec<Token>,
+    balance_stack: Vec<BalanceToken>,
 }
 
 #[derive(Debug)]
 pub struct ListOfComponentValuesInput<'a> {
     list: &'a ListOfComponentValues,
     idx: Vec<usize>,
-    balance_stack: Vec<Token>,
+    balance_stack: Vec<BalanceToken>,
+}
+
+#[derive(Debug, Clone)]
+#[allow(clippy::enum_variant_names)]
+enum BalanceToken {
+    /// `]`
+    RBracket,
+
+    /// `)`
+    RParen,
+
+    /// `}`
+    RBrace,
 }
 
 #[derive(Debug)]
@@ -490,9 +503,9 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
                 self.idx.push(0);
 
                 let balance = match &token_and_span.token {
-                    Token::Function { .. } | Token::LParen => Token::RParen,
-                    Token::LBracket => Token::RBracket,
-                    Token::LBrace => Token::RBrace,
+                    Token::Function { .. } | Token::LParen => BalanceToken::RParen,
+                    Token::LBracket => BalanceToken::RBracket,
+                    Token::LBrace => BalanceToken::RBrace,
                     _ => {
                         unreachable!();
                     }
@@ -504,9 +517,14 @@ impl<'a> Iterator for ListOfComponentValuesInput<'a> {
                 match token {
                     Token::RBrace | Token::RBracket | Token::RParen => {
                         if let Some(last) = self.balance_stack.last() {
-                            if token == last {
-                                self.balance_stack.pop();
-                                self.idx.pop();
+                            match (token, last) {
+                                (Token::RBrace, BalanceToken::RBrace)
+                                | (Token::RParen, BalanceToken::RParen)
+                                | (Token::RBracket, BalanceToken::RBracket) => {
+                                    self.balance_stack.pop();
+                                    self.idx.pop();
+                                }
+                                _ => {}
                             }
                         }
                     }
