@@ -1,5 +1,6 @@
 use std::{fmt::Debug, mem::take};
 
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 
@@ -278,6 +279,18 @@ pub struct ListOfComponentValuesInput<'a> {
     balance_stack: Vec<char>,
 }
 
+#[derive(Debug)]
+pub enum TokenOrBlock {
+    Token(TokenAndSpan),
+    Function(Span, JsWord, JsWord),
+    LBracket(Span),
+    LParen(Span),
+    LBrace(Span),
+    RParen(Span),
+    RBracket(Span),
+    RBrace(Span),
+}
+
 impl<'a> ListOfComponentValuesInput<'a> {
     pub fn new(list: &'a ListOfComponentValues) -> Self {
         ListOfComponentValuesInput {
@@ -289,86 +302,78 @@ impl<'a> ListOfComponentValuesInput<'a> {
 
     fn get_component_value(
         &mut self,
-        list: Vec<ComponentValue>,
+        list: &'a Vec<ComponentValue>,
         deep: usize,
-    ) -> Option<TokenAndSpan> {
+    ) -> Option<TokenOrBlock> {
         let index = match self.idx.get(deep) {
             Some(index) => index,
             _ => return None,
         };
 
         match list.get(*index) {
-            Some(ComponentValue::PreservedToken(token_and_span)) => Some(token_and_span.clone()),
+            Some(ComponentValue::PreservedToken(token_and_span)) => {
+                Some(TokenOrBlock::Token(token_and_span.clone()))
+            }
             Some(ComponentValue::Function(function)) => {
                 if self.idx.len() - 1 == deep {
-                    return Some(TokenAndSpan {
-                        span: Span::new(
+                    return Some(TokenOrBlock::Function(
+                        Span::new(
                             function.span_lo(),
                             function.name.span_hi() + BytePos(1),
                             Default::default(),
                         ),
-                        token: Token::Function {
-                            value: function.name.value.clone(),
-                            raw: match &function.name.raw {
-                                Some(raw) => raw.clone(),
-                                _ => function.name.value.clone(),
-                            },
+                        function.name.value.clone(),
+                        match &function.name.raw {
+                            Some(raw) => raw.clone(),
+                            _ => function.name.value.clone(),
                         },
-                    });
+                    ));
                 }
 
-                let res = self.get_component_value(function.value.clone(), deep + 1);
+                let res = self.get_component_value(&function.value, deep + 1);
 
                 if res.is_none() {
-                    return Some(TokenAndSpan {
-                        span: Span::new(
-                            function.span_hi() - BytePos(1),
-                            function.span_hi(),
-                            Default::default(),
-                        ),
-                        token: Token::RParen,
-                    });
+                    return Some(TokenOrBlock::RParen(Span::new(
+                        function.span_hi() - BytePos(1),
+                        function.span_hi(),
+                        Default::default(),
+                    )));
                 }
 
                 res
             }
             Some(ComponentValue::SimpleBlock(simple_block)) => {
                 if self.idx.len() - 1 == deep {
-                    return Some(simple_block.name.clone());
-                }
-
-                let res = self.get_component_value(simple_block.value.clone(), deep + 1);
-
-                if res.is_none() {
-                    return Some(match simple_block.name.token {
-                        Token::LBracket => TokenAndSpan {
-                            span: Span::new(
-                                simple_block.span_hi() - BytePos(1),
-                                simple_block.span_hi(),
-                                Default::default(),
-                            ),
-                            token: Token::RBracket,
-                        },
-                        Token::LParen => TokenAndSpan {
-                            span: Span::new(
-                                simple_block.span_hi() - BytePos(1),
-                                simple_block.span_hi(),
-                                Default::default(),
-                            ),
-                            token: Token::RParen,
-                        },
-                        Token::LBrace => TokenAndSpan {
-                            span: Span::new(
-                                simple_block.span_hi() - BytePos(1),
-                                simple_block.span_hi(),
-                                Default::default(),
-                            ),
-                            token: Token::RBrace,
-                        },
+                    let close = match simple_block.name.token {
+                        Token::LBracket => TokenOrBlock::LBracket(simple_block.name.span),
+                        Token::LParen => TokenOrBlock::LParen(simple_block.name.span),
+                        Token::LBrace => TokenOrBlock::LBrace(simple_block.name.span),
                         _ => {
                             unreachable!();
                         }
-                    });
+                    };
+
+                    return Some(close);
+                }
+
+                let res = self.get_component_value(&simple_block.value, deep + 1);
+
+                if res.is_none() {
+                    let span = Span::new(
+                        simple_block.span_hi() - BytePos(1),
+                        simple_block.span_hi(),
+                        Default::default(),
+                    );
+                    let close = match simple_block.name.token {
+                        Token::LBracket => TokenOrBlock::RBracket(span),
+                        Token::LParen => TokenOrBlock::RParen(span),
+                        Token::LBrace => TokenOrBlock::RBrace(span),
+                        _ => {
+                            unreachable!();
+                        }
+                    };
+
+                    return Some(close);
                 }
 
                 res
@@ -381,8 +386,38 @@ impl<'a> ListOfComponentValuesInput<'a> {
     }
 
     fn cur(&mut self) -> PResult<TokenAndSpan> {
-        let token_and_span = match self.get_component_value(self.list.children.clone(), 0) {
-            Some(token_and_span) => token_and_span,
+        let token_and_span = match self.get_component_value(&self.list.children, 0) {
+            Some(token_or_block) => match token_or_block {
+                TokenOrBlock::Token(token_and_span) => token_and_span,
+                TokenOrBlock::Function(span, value, raw) => TokenAndSpan {
+                    span,
+                    token: Token::Function { value, raw },
+                },
+                TokenOrBlock::LBracket(span) => TokenAndSpan {
+                    span,
+                    token: Token::LBracket,
+                },
+                TokenOrBlock::LBrace(span) => TokenAndSpan {
+                    span,
+                    token: Token::LBrace,
+                },
+                TokenOrBlock::LParen(span) => TokenAndSpan {
+                    span,
+                    token: Token::LParen,
+                },
+                TokenOrBlock::RBracket(span) => TokenAndSpan {
+                    span,
+                    token: Token::RBracket,
+                },
+                TokenOrBlock::RBrace(span) => TokenAndSpan {
+                    span,
+                    token: Token::RBrace,
+                },
+                TokenOrBlock::RParen(span) => TokenAndSpan {
+                    span,
+                    token: Token::RParen,
+                },
+            },
             None => {
                 let bp = self.list.span.hi;
                 let span = Span::new(bp, bp, SyntaxContext::empty());
