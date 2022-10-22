@@ -293,16 +293,20 @@ pub enum TokenOrBlock {
 
 impl<'a> ListOfComponentValuesInput<'a> {
     pub fn new(list: &'a ListOfComponentValues) -> Self {
+        let mut idx = Vec::with_capacity(16);
+
+        idx.push(0);
+
         ListOfComponentValuesInput {
             list,
-            idx: vec![0],
-            balance_stack: vec![],
+            idx,
+            balance_stack: Vec::with_capacity(16),
         }
     }
 
     fn get_component_value(
         &mut self,
-        list: &'a Vec<ComponentValue>,
+        list: &'a [ComponentValue],
         deep: usize,
     ) -> Option<TokenOrBlock> {
         let index = match self.idx.get(deep) {
