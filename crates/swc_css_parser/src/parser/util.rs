@@ -51,7 +51,7 @@ where
     {
         let lexer = ListOfComponentValuesInput::new(list_of_component_values);
         let mut parser = Parser::new(lexer, self.config);
-        let res = parser.parse();
+        let res = parser.with_ctx(self.ctx).parse_as();
 
         self.errors.extend(parser.take_errors());
 

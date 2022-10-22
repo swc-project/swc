@@ -2487,7 +2487,7 @@
     :                              ^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:51:5]
  51 | h2 { font-size: calc(1.2em + 1cqw); }
     :                              ^^^^
@@ -2796,7 +2796,7 @@
     :                              ^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:55:5]
  55 | h2 { font-size: calc(1.2em + 1cqh); }
     :                              ^^^^
@@ -3105,7 +3105,7 @@
     :                              ^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:59:5]
  59 | h2 { font-size: calc(1.2em + 1cqi); }
     :                              ^^^^
@@ -3414,7 +3414,7 @@
     :                              ^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:63:5]
  63 | h2 { font-size: calc(1.2em + 1cqb); }
     :                              ^^^^
@@ -3723,7 +3723,7 @@
     :                              ^^^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:67:5]
  67 | h2 { font-size: calc(1.2em + 1cqmin); }
     :                              ^^^^^^
@@ -4032,7 +4032,7 @@
     :                              ^^^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:71:5]
  71 | h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^^
@@ -4459,7 +4459,7 @@
     :                              ^^^^^^
     `----
 
-  x UnknownDimension
+  x Length
     ,-[$DIR/tests/fixture/at-rule/container/input.css:76:9]
  76 | h2 { font-size: calc(1.2em + 1cqmax); }
     :                              ^^^^^^
@@ -6731,7 +6731,7 @@
      :                                                                ^^^^
      `----
 
-  x UnknownDimension
+  x Length
      ,-[$DIR/tests/fixture/at-rule/container/input.css:133:1]
  133 | @container(inline-size>=calc(200px)){h2{font-size:calc(1.2em + 1cqi)}}
      :                                                                ^^^^
