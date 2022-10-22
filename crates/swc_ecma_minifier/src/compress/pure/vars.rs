@@ -441,6 +441,10 @@ impl VisitMut for VarMover {
         let has_init = d.iter().any(|v| v.init.is_some());
 
         if has_init {
+            if self.target == VarDeclKind::Let {
+                return;
+            }
+
             let mut new = Vec::with_capacity(d.len());
 
             d.take().into_iter().for_each(|v| {
