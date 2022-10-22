@@ -22,6 +22,12 @@
 
 - **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))
 
+### Refactor
+
+
+
+- **(css/parser)** Use new approach for parsing invalid tokens (#6224) ([ac619e8](https://github.com/swc-project/swc/commit/ac619e88bf68018ef9b4faef52ed3849549e6fd5))
+
 ### Testing
 
 
