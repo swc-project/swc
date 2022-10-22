@@ -304,7 +304,7 @@ where
                             let span = self.input.cur_span();
                             let mut children = vec![];
 
-                            while !is_one_of!(self, EOF, "}") {
+                            while !is_one_of!(self, EOF) {
                                 if let Some(token_and_span) = self.input.bump() {
                                     children.push(ComponentValue::PreservedToken(token_and_span));
                                 }
