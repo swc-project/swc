@@ -179,6 +179,9 @@ pub struct Options {
     #[serde(skip_deserializing, default)]
     pub top_level_mark: Option<Mark>,
 
+    #[serde(skip_deserializing, default)]
+    pub unresolved_mark: Option<Mark>,
+
     #[cfg(not(target_arch = "wasm32"))]
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
@@ -338,7 +341,7 @@ impl Options {
             }
         });
 
-        let unresolved_mark = Mark::new();
+        let unresolved_mark = self.unresolved_mark.unwrap_or_else(Mark::new);
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
 
         let es_version = target.unwrap_or_default();
