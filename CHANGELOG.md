@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Preserve `this` in more cases (#6226) ([e9d421b](https://github.com/swc-project/swc/commit/e9d421bd959c93fa0ef1261865e50937321d5717))
 
+
+- **(es/minifier)** Fix `collapse_vars` (#6235) ([48bb0cc](https://github.com/swc-project/swc/commit/48bb0cc51d34cc568a1dd3e083e5a8a79e4f6252))
+
 ### Features
 
 
