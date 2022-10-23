@@ -3288,6 +3288,7 @@
             this._triangles = new Uint32Array(3 * maxTriangles), this._halfedges = new Int32Array(3 * maxTriangles), this._hashSize = Math.ceil(Math.sqrt(n)), this._hullPrev = new Uint32Array(n), this._hullNext = new Uint32Array(n), this._hullTri = new Uint32Array(n), this._hullHash = new Int32Array(this._hashSize).fill(-1), this._ids = new Uint32Array(n), this._dists = new Float64Array(n), this.update();
         }
         update() {
+            let i0, i1, i2;
             const { coords , _hullPrev: hullPrev , _hullNext: hullNext , _hullTri: hullTri , _hullHash: hullHash  } = this, n = coords.length >> 1;
             let minX = 1 / 0, minY = 1 / 0, maxX = -1 / 0, maxY = -1 / 0;
             for(let i = 0; i < n; i++){
@@ -3296,42 +3297,42 @@
             }
             const cx = (minX + maxX) / 2, cy = (minY + maxY) / 2;
             let minDist = 1 / 0;
-            for(let i1 = 0; i1 < n; i1++){
-                const d = dist(cx, cy, coords[2 * i1], coords[2 * i1 + 1]);
-                d < minDist && (i0 = i1, minDist = d);
+            for(let i3 = 0; i3 < n; i3++){
+                const d = dist(cx, cy, coords[2 * i3], coords[2 * i3 + 1]);
+                d < minDist && (i0 = i3, minDist = d);
             }
             const i0x = coords[2 * i0], i0y = coords[2 * i0 + 1];
             minDist = 1 / 0;
-            for(let i2 = 0; i2 < n; i2++){
-                if (i2 === i0) continue;
-                const d1 = dist(i0x, i0y, coords[2 * i2], coords[2 * i2 + 1]);
-                d1 < minDist && d1 > 0 && (i11 = i2, minDist = d1);
+            for(let i4 = 0; i4 < n; i4++){
+                if (i4 === i0) continue;
+                const d1 = dist(i0x, i0y, coords[2 * i4], coords[2 * i4 + 1]);
+                d1 < minDist && d1 > 0 && (i1 = i4, minDist = d1);
             }
-            let i1x = coords[2 * i11], i1y = coords[2 * i11 + 1], minRadius = 1 / 0;
-            for(let i3 = 0; i3 < n; i3++){
-                if (i3 === i0 || i3 === i11) continue;
+            let i1x = coords[2 * i1], i1y = coords[2 * i1 + 1], minRadius = 1 / 0;
+            for(let i5 = 0; i5 < n; i5++){
+                if (i5 === i0 || i5 === i1) continue;
                 const r = function(ax, ay, bx, by, cx, cy) {
                     const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex), x = (ey * bl - dy * cl) * d, y = (dx * cl - ex * bl) * d;
                     return x * x + y * y;
-                }(i0x, i0y, i1x, i1y, coords[2 * i3], coords[2 * i3 + 1]);
-                r < minRadius && (i21 = i3, minRadius = r);
+                }(i0x, i0y, i1x, i1y, coords[2 * i5], coords[2 * i5 + 1]);
+                r < minRadius && (i2 = i5, minRadius = r);
             }
-            let i2x = coords[2 * i21], i2y = coords[2 * i21 + 1];
+            let i2x = coords[2 * i2], i2y = coords[2 * i2 + 1];
             if (minRadius === 1 / 0) {
-                for(let i4 = 0; i4 < n; i4++)this._dists[i4] = coords[2 * i4] - coords[0] || coords[2 * i4 + 1] - coords[1];
+                for(let i6 = 0; i6 < n; i6++)this._dists[i6] = coords[2 * i6] - coords[0] || coords[2 * i6 + 1] - coords[1];
                 quicksort(this._ids, this._dists, 0, n - 1);
                 const hull = new Uint32Array(n);
                 let j = 0;
-                for(let i5 = 0, d0 = -1 / 0; i5 < n; i5++){
-                    const id = this._ids[i5];
+                for(let i7 = 0, d0 = -1 / 0; i7 < n; i7++){
+                    const id = this._ids[i7];
                     this._dists[id] > d0 && (hull[j++] = id, d0 = this._dists[id]);
                 }
                 this.hull = hull.subarray(0, j), this.triangles = new Uint32Array(0), this.halfedges = new Uint32Array(0);
                 return;
             }
             if (orient(i0x, i0y, i1x, i1y, i2x, i2y)) {
-                const i6 = i11, x1 = i1x, y1 = i1y;
-                i11 = i21, i1x = i2x, i1y = i2y, i21 = i6, i2x = x1, i2y = y1;
+                const i8 = i1, x1 = i1x, y1 = i1y;
+                i1 = i2, i1x = i2x, i1y = i2y, i2 = i8, i2x = x1, i2y = y1;
             }
             const center = function(ax, ay, bx, by, cx, cy) {
                 const dx = bx - ax, dy = by - ay, ex = cx - ax, ey = cy - ay, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, d = 0.5 / (dx * ey - dy * ex);
@@ -3341,13 +3342,13 @@
                 };
             }(i0x, i0y, i1x, i1y, i2x, i2y);
             this._cx = center.x, this._cy = center.y;
-            for(let i7 = 0; i7 < n; i7++)this._dists[i7] = dist(coords[2 * i7], coords[2 * i7 + 1], center.x, center.y);
+            for(let i9 = 0; i9 < n; i9++)this._dists[i9] = dist(coords[2 * i9], coords[2 * i9 + 1], center.x, center.y);
             quicksort(this._ids, this._dists, 0, n - 1), this._hullStart = i0;
             let hullSize = 3;
-            hullNext[i0] = hullPrev[i21] = i11, hullNext[i11] = hullPrev[i0] = i21, hullNext[i21] = hullPrev[i11] = i0, hullTri[i0] = 0, hullTri[i11] = 1, hullTri[i21] = 2, hullHash.fill(-1), hullHash[this._hashKey(i0x, i0y)] = i0, hullHash[this._hashKey(i1x, i1y)] = i11, hullHash[this._hashKey(i2x, i2y)] = i21, this.trianglesLen = 0, this._addTriangle(i0, i11, i21, -1, -1, -1);
-            for(let i0, i11, i21, xp, yp, k = 0; k < this._ids.length; k++){
-                const i8 = this._ids[k], x2 = coords[2 * i8], y2 = coords[2 * i8 + 1];
-                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x2 - xp) && 0.0000000000000002220446049250313 >= Math.abs(y2 - yp) || (xp = x2, yp = y2, i8 === i0 || i8 === i11 || i8 === i21)) continue;
+            hullNext[i0] = hullPrev[i2] = i1, hullNext[i1] = hullPrev[i0] = i2, hullNext[i2] = hullPrev[i1] = i0, hullTri[i0] = 0, hullTri[i1] = 1, hullTri[i2] = 2, hullHash.fill(-1), hullHash[this._hashKey(i0x, i0y)] = i0, hullHash[this._hashKey(i1x, i1y)] = i1, hullHash[this._hashKey(i2x, i2y)] = i2, this.trianglesLen = 0, this._addTriangle(i0, i1, i2, -1, -1, -1);
+            for(let k = 0, xp, yp; k < this._ids.length; k++){
+                const i10 = this._ids[k], x2 = coords[2 * i10], y2 = coords[2 * i10 + 1];
+                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x2 - xp) && 0.0000000000000002220446049250313 >= Math.abs(y2 - yp) || (xp = x2, yp = y2, i10 === i0 || i10 === i1 || i10 === i2)) continue;
                 let start = 0;
                 for(let j1 = 0, key = this._hashKey(x2, y2); j1 < this._hashSize && (-1 === (start = hullHash[(key + j1) % this._hashSize]) || start === hullNext[start]); j1++);
                 let e = start = hullPrev[start], q;
@@ -3356,15 +3357,15 @@
                     break;
                 }
                 if (-1 === e) continue;
-                let t = this._addTriangle(e, i8, hullNext[e], -1, -1, hullTri[e]);
-                hullTri[i8] = this._legalize(t + 2), hullTri[e] = t, hullSize++;
+                let t = this._addTriangle(e, i10, hullNext[e], -1, -1, hullTri[e]);
+                hullTri[i10] = this._legalize(t + 2), hullTri[e] = t, hullSize++;
                 let n1 = hullNext[e];
-                for(; q = hullNext[n1], orient(x2, y2, coords[2 * n1], coords[2 * n1 + 1], coords[2 * q], coords[2 * q + 1]);)t = this._addTriangle(n1, i8, q, hullTri[i8], -1, hullTri[n1]), hullTri[i8] = this._legalize(t + 2), hullNext[n1] = n1, hullSize--, n1 = q;
-                if (e === start) for(; orient(x2, y2, coords[2 * (q = hullPrev[e])], coords[2 * q + 1], coords[2 * e], coords[2 * e + 1]);)t = this._addTriangle(q, i8, e, -1, hullTri[e], hullTri[q]), this._legalize(t + 2), hullTri[q] = t, hullNext[e] = e, hullSize--, e = q;
-                this._hullStart = hullPrev[i8] = e, hullNext[e] = hullPrev[n1] = i8, hullNext[i8] = n1, hullHash[this._hashKey(x2, y2)] = i8, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
+                for(; q = hullNext[n1], orient(x2, y2, coords[2 * n1], coords[2 * n1 + 1], coords[2 * q], coords[2 * q + 1]);)t = this._addTriangle(n1, i10, q, hullTri[i10], -1, hullTri[n1]), hullTri[i10] = this._legalize(t + 2), hullNext[n1] = n1, hullSize--, n1 = q;
+                if (e === start) for(; orient(x2, y2, coords[2 * (q = hullPrev[e])], coords[2 * q + 1], coords[2 * e], coords[2 * e + 1]);)t = this._addTriangle(q, i10, e, -1, hullTri[e], hullTri[q]), this._legalize(t + 2), hullTri[q] = t, hullNext[e] = e, hullSize--, e = q;
+                this._hullStart = hullPrev[i10] = e, hullNext[e] = hullPrev[n1] = i10, hullNext[i10] = n1, hullHash[this._hashKey(x2, y2)] = i10, hullHash[this._hashKey(coords[2 * e], coords[2 * e + 1])] = e;
             }
             this.hull = new Uint32Array(hullSize);
-            for(let i9 = 0, e1 = this._hullStart; i9 < hullSize; i9++)this.hull[i9] = e1, e1 = hullNext[e1];
+            for(let i11 = 0, e1 = this._hullStart; i11 < hullSize; i11++)this.hull[i11] = e1, e1 = hullNext[e1];
             this.triangles = this._triangles.subarray(0, this.trianglesLen), this.halfedges = this._halfedges.subarray(0, this.trianglesLen);
         }
         _hashKey(x, y) {
@@ -3631,8 +3632,9 @@
             return V[v] || V[v + 1] ? this._clipInfinite(i, points, V[v], V[v + 1], V[v + 2], V[v + 3]) : this._clipFinite(i, points);
         }
         _clipFinite(i, points) {
+            let e0, e1;
             const n = points.length;
-            let P = null, e0, e1, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
+            let P = null, x0, y0, x1 = points[n - 2], y1 = points[n - 1], c0, c1 = this._regioncode(x1, y1);
             for(let j = 0; j < n; j += 2)if (x0 = x1, y0 = y1, x1 = points[j], y1 = points[j + 1], c0 = c1, c1 = this._regioncode(x1, y1), 0 === c0 && 0 === c1) e0 = e1, e1 = 0, P ? P.push(x1, y1) : P = [
                 x1,
                 y1
