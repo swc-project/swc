@@ -1,11 +1,10 @@
 //// [rectangle.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Rectangle = function Rectangle() {
-    "use strict";
-    _class_call_check(this, Rectangle), console.log("I'm a rectangle!");
-};
 module.exports = {
-    Rectangle: Rectangle
+    Rectangle: function Rectangle() {
+        "use strict";
+        _class_call_check(this, Rectangle), console.log("I'm a rectangle!");
+    }
 };
 //// [index.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";

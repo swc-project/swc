@@ -1267,12 +1267,12 @@
                         r.exports = function(r) {
                             var y, i = this;
                             if ("function" != typeof i || "[object Function]" !== o.call(i)) throw TypeError("Function.prototype.bind called on incompatible " + i);
-                            for(var a = e.call(arguments, 1), binder = function() {
+                            for(var a = e.call(arguments, 1), p = Math.max(0, i.length - a.length), f = [], u = 0; u < p; u++)f.push("$" + u);
+                            if (y = Function("binder", "return function (" + f.join(",") + "){ return binder.apply(this,arguments); }")(function() {
                                 if (!(this instanceof y)) return i.apply(r, a.concat(e.call(arguments)));
                                 var t = i.apply(this, a.concat(e.call(arguments)));
                                 return Object(t) === t ? t : this;
-                            }, p = Math.max(0, i.length - a.length), f = [], u = 0; u < p; u++)f.push("$" + u);
-                            if (y = Function("binder", "return function (" + f.join(",") + "){ return binder.apply(this,arguments); }")(binder), i.prototype) {
+                            }), i.prototype) {
                                 var s = function() {};
                                 s.prototype = i.prototype, y.prototype = new s(), s.prototype = null;
                             }

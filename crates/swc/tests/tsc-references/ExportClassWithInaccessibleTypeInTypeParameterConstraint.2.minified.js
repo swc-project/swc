@@ -4,10 +4,6 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
 !function(A) {
-    var Point = function Point() {
-        "use strict";
-        _class_call_check(this, Point);
-    };
     A.Origin = {
         x: 0,
         y: 0
@@ -20,7 +16,10 @@ import _create_super from "@swc/helpers/src/_create_super.mjs";
             return _class_call_check(this, Point3d), _super.apply(this, arguments);
         }
         return Point3d;
-    }(Point);
+    }(function Point() {
+        "use strict";
+        _class_call_check(this, Point);
+    });
     A.Point3d = Point3d, A.Origin3d = {
         x: 0,
         y: 0,

@@ -6,8 +6,8 @@ module.exports = function Obj() {
 };
 //// [index.js]
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
-var Obj = require("./obj"), Container = function Container() {
+var Obj = require("./obj");
+module.exports = function Container() {
     "use strict";
     _class_call_check(this, Container), this.usage = new Obj();
 };
-module.exports = Container;

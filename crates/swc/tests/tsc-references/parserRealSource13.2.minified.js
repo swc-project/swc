@@ -7,11 +7,11 @@ var TypeScript;
             return callback[callbackString] ? callback[callbackString](pre, ast) : !callback.DefaultCallback || callback.DefaultCallback(pre, ast);
         }
         AstWalkerWithDetailCallback.walk = function(script, callback) {
-            var pre = function(cur, parent) {
+            var walker = TypeScript.getAstWalkerFactory().getWalker(function(cur, parent) {
                 return walker.options.goChildren = AstWalkerCallback(!0, cur, callback), cur;
-            }, post = function(cur, parent) {
+            }, function(cur, parent) {
                 return AstWalkerCallback(!1, cur, callback), cur;
-            }, walker = TypeScript.getAstWalkerFactory().getWalker(pre, post);
+            });
             walker.walk(script, null);
         };
     }(TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
