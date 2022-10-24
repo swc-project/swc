@@ -5,6 +5,9 @@
 
 
 
+- **(css/parser)** Add more error recovery (#6240) ([6341554](https://github.com/swc-project/swc/commit/634155462828b36f71cebfdb0937f2cd5f7e62e0))
+
+
 - **(es/minifier)** Preserve `this` in more cases (#6226) ([e9d421b](https://github.com/swc-project/swc/commit/e9d421bd959c93fa0ef1261865e50937321d5717))
 
 
