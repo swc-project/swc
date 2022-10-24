@@ -1273,6 +1273,12 @@ where
                     break;
                 }
 
+                if is_one_of!(self, ";", ":") {
+                    let tok = self.input.bump().unwrap();
+                    values.push(ComponentValue::PreservedToken(tok));
+                    continue;
+                }
+
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::DeclarationValue,
                     ..self.ctx
