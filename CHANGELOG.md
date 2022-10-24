@@ -16,6 +16,9 @@
 
 - **(css/minifier)** Merge rules (#6220) ([8b6b9c0](https://github.com/swc-project/swc/commit/8b6b9c0961b76a8b9a3eff208af73a48005b6aeb))
 
+
+- **(es)** Expose `unresolved_mark` (#6236) ([0b267ed](https://github.com/swc-project/swc/commit/0b267edea2fb7b64a40b6a220e3bb391173e0516))
+
 ### Miscellaneous Tasks
 
 
