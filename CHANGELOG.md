@@ -46,6 +46,12 @@
 
 - **(es/preset-env)** Ensure custom transforms are working (#6227) ([de03675](https://github.com/swc-project/swc/commit/de036754c4e76ec9ea0deda30a87cd8949e03df5))
 
+### Build
+
+
+
+- **(bindings)** Revert jemallloc bump (#6241) ([c28533f](https://github.com/swc-project/swc/commit/c28533f725377c2c9746ae752749e17dd37b6bed))
+
 ## [1.3.10] - 2022-10-21
 
 ### Bug Fixes
