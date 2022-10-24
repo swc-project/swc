@@ -255,7 +255,7 @@
    :                ^
    `----
 
-  x Semi
+  x Delimiter
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
    :                ^
@@ -264,22 +264,10 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
-   :                 ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
- 3 | -chrome-: only(; z-index: 10;);
-   :                 ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
- 3 | -chrome-: only(; z-index: 10;);
    :                  ^^^^^^^
    `----
 
-  x Ident { value: Atom('z-index' type=inline), raw: Atom('z-index' type=inline) }
+  x Ident
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
    :                  ^^^^^^^
@@ -300,22 +288,10 @@
   x ComponentValue
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
-   :                          ^
-   `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
- 3 | -chrome-: only(; z-index: 10;);
-   :                          ^
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
- 3 | -chrome-: only(; z-index: 10;);
    :                           ^^
    `----
 
-  x Number { value: 10.0, raw: Atom('10' type=inline), type_flag: Integer }
+  x Integer
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
    :                           ^^
@@ -327,7 +303,7 @@
    :                             ^
    `----
 
-  x Semi
+  x Delimiter
    ,-[$DIR/tests/fixture/only/1/input.css:3:7]
  3 | -chrome-: only(; z-index: 10;);
    :                             ^
