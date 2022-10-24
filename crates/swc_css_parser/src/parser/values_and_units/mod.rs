@@ -1273,18 +1273,29 @@ where
                     break;
                 }
 
-                if is_one_of!(self, ";", ":") {
-                    let tok = self.input.bump().unwrap();
-                    values.push(ComponentValue::PreservedToken(tok));
-                    continue;
-                }
+                let value = match self.try_parse(|p| {
+                    let ctx = Ctx {
+                        block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                        ..p.ctx
+                    };
 
-                let ctx = Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                    ..self.ctx
+                    p.with_ctx(ctx).parse_as::<ComponentValue>()
+                }) {
+                    Some(v) => v,
+                    None => {
+                        if is_one_of!(self, ";", ":") {
+                            let tok = self.input.bump().unwrap();
+                            ComponentValue::PreservedToken(tok)
+                        } else {
+                            return Err(Error::new(
+                                self.input.cur_span(),
+                                ErrorKind::Expected("Declaration value"),
+                            ));
+                        }
+                    }
                 };
 
-                values.push(self.with_ctx(ctx).parse_as::<ComponentValue>()?);
+                values.push(value);
             },
         };
 
