@@ -7,7 +7,7 @@ use swc_css_ast::{ComponentValue, ListOfComponentValues, Token, TokenAndSpan};
 use super::PResult;
 use crate::error::{Error, ErrorKind};
 
-pub trait ParserInput: Iterator<Item = TokenAndSpan> {
+pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
     type State: Debug;
 
     fn start_pos(&mut self) -> BytePos;
@@ -22,7 +22,7 @@ pub trait ParserInput: Iterator<Item = TokenAndSpan> {
     fn skip_ws(&mut self) -> Option<BytePos>;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub(super) struct Buffer<I>
 where
     I: ParserInput,
@@ -184,7 +184,7 @@ pub struct TokensState {
     idx: usize,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct TokensInput<'a> {
     tokens: &'a Tokens,
     idx: usize,
@@ -272,7 +272,7 @@ pub struct ListOfComponentValuesState {
     balance_stack: Vec<BalanceToken>,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ListOfComponentValuesInput<'a> {
     list: &'a ListOfComponentValues,
     idx: Vec<usize>,

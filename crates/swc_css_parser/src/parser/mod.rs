@@ -78,7 +78,7 @@ struct Ctx {
     is_trying_legacy_nesting: bool,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Parser<I>
 where
     I: ParserInput,

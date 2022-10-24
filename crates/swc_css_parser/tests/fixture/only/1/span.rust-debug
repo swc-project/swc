@@ -1,0 +1,310 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :  ^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :  ^^^^^
+   `----
+
+  x MediaQueryList
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaQuery
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaCondition
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaConditionAllType
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaInParens
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :               ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('-webkit-min-device-pixel-ratio' type=dynamic), raw: Atom('-webkit-min-device-pixel-ratio' type=dynamic) }
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                                                 ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                                                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                                                  ^
+   `----
+
+  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                                                  ^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+   :                                                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | `->     }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | `->     }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | `->     }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   :  ^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | ,-> .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | `->     }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/only/1/input.css:2:5]
+ 2 | .gradientWrapper {
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   : ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :           ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                  ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                         ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                           ^^
+   `----
+
+  x Integer
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                           ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                             ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/only/1/input.css:3:7]
+ 3 | -chrome-: only(; z-index: 10;);
+   :                             ^
+   `----

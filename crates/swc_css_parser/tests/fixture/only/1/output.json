@@ -1,0 +1,301 @@
+{
+  "type": "Stylesheet",
+  "span": {
+    "start": 1,
+    "end": 123,
+    "ctxt": 0
+  },
+  "rules": [
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 1,
+        "end": 123,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 2,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "media",
+        "raw": "media"
+      },
+      "prelude": {
+        "type": "MediaQueryList",
+        "span": {
+          "start": 15,
+          "end": 52,
+          "ctxt": 0
+        },
+        "queries": [
+          {
+            "type": "MediaQuery",
+            "span": {
+              "start": 15,
+              "end": 52,
+              "ctxt": 0
+            },
+            "modifier": null,
+            "mediaType": null,
+            "keyword": null,
+            "condition": {
+              "type": "MediaCondition",
+              "span": {
+                "start": 15,
+                "end": 52,
+                "ctxt": 0
+              },
+              "conditions": [
+                {
+                  "type": "Function",
+                  "span": {
+                    "start": 15,
+                    "end": 52,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 15,
+                      "end": 18,
+                      "ctxt": 0
+                    },
+                    "value": "and",
+                    "raw": "and"
+                  },
+                  "value": [
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 19,
+                        "end": 49,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Ident": {
+                          "value": "-webkit-min-device-pixel-ratio",
+                          "raw": "-webkit-min-device-pixel-ratio"
+                        }
+                      }
+                    },
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 49,
+                        "end": 50,
+                        "ctxt": 0
+                      },
+                      "token": "Colon"
+                    },
+                    {
+                      "type": "PreservedToken",
+                      "span": {
+                        "start": 50,
+                        "end": 51,
+                        "ctxt": 0
+                      },
+                      "token": {
+                        "Number": {
+                          "value": 0.0,
+                          "raw": "0",
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "block": {
+        "type": "SimpleBlock",
+        "span": {
+          "start": 53,
+          "end": 123,
+          "ctxt": 0
+        },
+        "name": {
+          "type": "PreservedToken",
+          "span": {
+            "start": 53,
+            "end": 54,
+            "ctxt": 0
+          },
+          "token": "LBrace"
+        },
+        "value": [
+          {
+            "type": "QualifiedRule",
+            "span": {
+              "start": 59,
+              "end": 121,
+              "ctxt": 0
+            },
+            "prelude": {
+              "type": "SelectorList",
+              "span": {
+                "start": 59,
+                "end": 75,
+                "ctxt": 0
+              },
+              "children": [
+                {
+                  "type": "ComplexSelector",
+                  "span": {
+                    "start": 59,
+                    "end": 75,
+                    "ctxt": 0
+                  },
+                  "children": [
+                    {
+                      "type": "CompoundSelector",
+                      "span": {
+                        "start": 59,
+                        "end": 75,
+                        "ctxt": 0
+                      },
+                      "nestingSelector": null,
+                      "typeSelector": null,
+                      "subclassSelectors": [
+                        {
+                          "type": "ClassSelector",
+                          "span": {
+                            "start": 59,
+                            "end": 75,
+                            "ctxt": 0
+                          },
+                          "text": {
+                            "type": "Ident",
+                            "span": {
+                              "start": 60,
+                              "end": 75,
+                              "ctxt": 0
+                            },
+                            "value": "gradientWrapper",
+                            "raw": "gradientWrapper"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "block": {
+              "type": "SimpleBlock",
+              "span": {
+                "start": 76,
+                "end": 121,
+                "ctxt": 0
+              },
+              "name": {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 76,
+                  "end": 77,
+                  "ctxt": 0
+                },
+                "token": "LBrace"
+              },
+              "value": [
+                {
+                  "type": "Declaration",
+                  "span": {
+                    "start": 84,
+                    "end": 114,
+                    "ctxt": 0
+                  },
+                  "name": {
+                    "type": "Ident",
+                    "span": {
+                      "start": 84,
+                      "end": 92,
+                      "ctxt": 0
+                    },
+                    "value": "-chrome-",
+                    "raw": "-chrome-"
+                  },
+                  "value": [
+                    {
+                      "type": "Function",
+                      "span": {
+                        "start": 94,
+                        "end": 114,
+                        "ctxt": 0
+                      },
+                      "name": {
+                        "type": "Ident",
+                        "span": {
+                          "start": 94,
+                          "end": 98,
+                          "ctxt": 0
+                        },
+                        "value": "only",
+                        "raw": "only"
+                      },
+                      "value": [
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 99,
+                            "end": 100,
+                            "ctxt": 0
+                          },
+                          "value": ";"
+                        },
+                        {
+                          "type": "Ident",
+                          "span": {
+                            "start": 101,
+                            "end": 108,
+                            "ctxt": 0
+                          },
+                          "value": "z-index",
+                          "raw": "z-index"
+                        },
+                        {
+                          "type": "PreservedToken",
+                          "span": {
+                            "start": 108,
+                            "end": 109,
+                            "ctxt": 0
+                          },
+                          "token": "Colon"
+                        },
+                        {
+                          "type": "Integer",
+                          "span": {
+                            "start": 110,
+                            "end": 112,
+                            "ctxt": 0
+                          },
+                          "value": 10,
+                          "raw": "10"
+                        },
+                        {
+                          "type": "Delimiter",
+                          "span": {
+                            "start": 112,
+                            "end": 113,
+                            "ctxt": 0
+                          },
+                          "value": ";"
+                        }
+                      ]
+                    }
+                  ],
+                  "important": null
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
