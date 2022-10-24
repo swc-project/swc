@@ -31,6 +31,21 @@ where
         self.parse()
     }
 
+    pub(super) fn try_parse<Ret>(
+        &mut self,
+        op: impl FnOnce(&mut Parser<I>) -> PResult<Ret>,
+    ) -> Option<Ret> {
+        let mut parser = self.clone();
+
+        match op(&mut parser) {
+            Ok(v) => {
+                *self = parser;
+                Some(v)
+            }
+            Err(..) => None,
+        }
+    }
+
     pub(super) fn create_locv(&self, children: Vec<ComponentValue>) -> ListOfComponentValues {
         let span = match (children.first(), children.last()) {
             (Some(first), Some(last)) => {

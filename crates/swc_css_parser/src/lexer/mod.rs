@@ -1,4 +1,4 @@
-use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, mem::take, rc::Rc};
+use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{js_word, JsWord};
 use swc_common::{input::Input, BytePos, Span};
@@ -11,7 +11,7 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Lexer<I>
 where
     I: Input,
@@ -27,7 +27,7 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     sub_raw_buf: Rc<RefCell<String>>,
-    errors: Vec<Error>,
+    errors: Rc<RefCell<Vec<Error>>>,
 }
 
 impl<I> Lexer<I>
@@ -48,7 +48,7 @@ where
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             sub_raw_buf: Rc::new(RefCell::new(String::with_capacity(32))),
-            errors: vec![],
+            errors: Default::default(),
         }
     }
 
@@ -155,7 +155,7 @@ where
     }
 
     fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors)
+        self.errors.take()
     }
 
     fn skip_ws(&mut self) -> Option<BytePos> {
@@ -220,7 +220,7 @@ where
 
     #[cold]
     fn emit_error(&mut self, kind: ErrorKind) {
-        self.errors.push(Error::new(
+        self.errors.borrow_mut().push(Error::new(
             Span::new(self.cur_pos, self.input.cur_pos(), Default::default()),
             kind,
         ));
@@ -510,6 +510,7 @@ where
                             let span = Span::new(self.start_pos, end, Default::default());
 
                             self.errors
+                                .borrow_mut()
                                 .push(Error::new(span, ErrorKind::UnterminatedBlockComment));
 
                             return;
