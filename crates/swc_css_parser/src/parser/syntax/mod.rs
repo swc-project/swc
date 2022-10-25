@@ -132,37 +132,39 @@ where
                 unreachable!()
             }
         };
-        let at_rule_name = if at_keyword_name.0.starts_with("--") {
-            AtRuleName::DashedIdent(DashedIdent {
-                span: Span::new(
-                    at_rule_span.lo + BytePos(1),
-                    at_rule_span.hi,
-                    Default::default(),
-                ),
-                value: at_keyword_name.0,
-                raw: Some(at_keyword_name.1),
-            })
+        let (normalized_at_rule_name, name) = if at_keyword_name.0.starts_with("--") {
+            (
+                at_keyword_name.0.to_ascii_lowercase(),
+                AtRuleName::DashedIdent(DashedIdent {
+                    span: Span::new(
+                        at_rule_span.lo + BytePos(1),
+                        at_rule_span.hi,
+                        Default::default(),
+                    ),
+                    value: at_keyword_name.0,
+                    raw: Some(at_keyword_name.1),
+                }),
+            )
         } else {
-            AtRuleName::Ident(Ident {
-                span: Span::new(
-                    at_rule_span.lo + BytePos(1),
-                    at_rule_span.hi,
-                    Default::default(),
-                ),
-                value: at_keyword_name.0,
-                raw: Some(at_keyword_name.1),
-            })
+            (
+                at_keyword_name.0.to_ascii_lowercase(),
+                AtRuleName::Ident(Ident {
+                    span: Span::new(
+                        at_rule_span.lo + BytePos(1),
+                        at_rule_span.hi,
+                        Default::default(),
+                    ),
+                    value: at_keyword_name.0,
+                    raw: Some(at_keyword_name.1),
+                }),
+            )
         };
         let mut prelude = vec![];
         let mut at_rule = AtRule {
-            span: span!(self, at_rule_span.lo),
-            name: at_rule_name,
+            span: Default::default(),
+            name,
             prelude: None,
             block: None,
-        };
-        let lowercased_name = match &at_rule.name {
-            AtRuleName::Ident(ident) => ident.value.to_ascii_lowercase(),
-            AtRuleName::DashedIdent(dashed_ident) => dashed_ident.value.to_ascii_lowercase(),
         };
 
         loop {
@@ -189,12 +191,12 @@ where
 
                     at_rule.prelude = match self
                         .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&lowercased_name)
+                            parser.parse_at_rule_prelude(&normalized_at_rule_name)
                         }) {
                         Ok(at_rule_prelude) => match at_rule_prelude {
-                            None if lowercased_name == js_word!("layer") => {
+                            None if normalized_at_rule_name == js_word!("layer") => {
                                 self.errors.push(Error::new(
-                                    at_rule.span,
+                                    at_rule_span,
                                     ErrorKind::Expected("at least one name"),
                                 ));
 
@@ -236,7 +238,7 @@ where
 
                     at_rule.prelude = match self
                         .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&lowercased_name)
+                            parser.parse_at_rule_prelude(&normalized_at_rule_name)
                         }) {
                         Ok(at_rule_prelude) => match at_rule_prelude {
                             Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
@@ -270,7 +272,7 @@ where
 
                     at_rule.block = match self.parse_according_to_grammar(
                         &self.create_locv(block.value.clone()),
-                        |parser| parser.parse_at_rule_block(&lowercased_name),
+                        |parser| parser.parse_at_rule_block(&normalized_at_rule_name),
                     ) {
                         Ok(block_contents) => {
                             block.value = block_contents;
