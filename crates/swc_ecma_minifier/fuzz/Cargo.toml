@@ -17,6 +17,7 @@ swc_ecma_ast = { version = "0.94.14", path = "../../swc_ecma_ast", features = [
   "arbitrary",
 ] }
 swc_ecma_codegen = { version = "0.127.24", path = "../../swc_ecma_codegen" }
+swc_ecma_testing = { version = "0.20.7", path = "../../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "0.111.34", path = "../../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "0.80.14", path = "../../swc_ecma_visit" }
 
