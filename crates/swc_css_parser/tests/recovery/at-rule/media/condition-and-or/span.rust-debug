@@ -29,88 +29,244 @@
    :  ^^^^^
    `----
 
-  x MediaQueryList
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :        ^^^^^^
+   `----
+
+  x Ident { value: Atom('screen' type=inline), raw: Atom('screen' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :        ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :               ^^^
+   `----
+
+  x Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :               ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                   ^^^^^^^^^^^^^^^^^^
+   `----
+
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                    ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                             ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                              ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                               ^^^^^
+   `----
+
+  x Dimension { value: 900.0, raw_value: Atom('900' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                               ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                     ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                      ^^
+   `----
+
+  x Ident { value: Atom('or' type=static), raw: Atom('or' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                      ^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                        ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                         ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaQuery
+  x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                         ^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaCondition
+  x LParen
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                         ^^^^^^^^^^^^^^^^^^^
+   :                                         ^
    `----
 
-  x MediaConditionAllType
-   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
- 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                         ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaInParens
-   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
- 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                         ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaFeature
-   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
- 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                         ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaFeaturePlain
-   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
- 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                         ^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaFeatureName
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('min-width' type=dynamic), raw: Atom('min-width' type=dynamic) }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^
    `----
 
-  x MediaFeatureValue
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                   ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                   ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                    ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
+ 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
+   :                                                    ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^
    `----
 
-  x Dimension
+  x Dimension { value: 1200.0, raw_value: Atom('1200' type=inline), unit: Atom('px' type=static), raw_unit: Atom('px' type=static), type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^
    `----
 
-  x Length
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                                     ^^^^^^
+   :                                                            ^
    `----
 
-  x Number
+  x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                                     ^^^^
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
- 1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
-   :                                                         ^^
+   :                                                            ^
    `----
 
   x SimpleBlock

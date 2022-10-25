@@ -908,33 +908,79 @@
         "raw": "media"
       },
       "prelude": {
-        "type": "MediaQueryList",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 242,
-          "end": 248,
+          "start": 237,
+          "end": 249,
           "ctxt": 0
         },
-        "queries": [
+        "children": [
           {
-            "type": "MediaQuery",
+            "type": "PreservedToken",
+            "span": {
+              "start": 237,
+              "end": 238,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 238,
+              "end": 241,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "\\0",
+                "raw": "\\\\0"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 241,
+              "end": 242,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
             "span": {
               "start": 242,
               "end": 248,
               "ctxt": 0
             },
-            "modifier": null,
-            "mediaType": {
-              "type": "Ident",
-              "span": {
-                "start": 242,
-                "end": 248,
-                "ctxt": 0
-              },
-              "value": "screen",
-              "raw": "screen"
+            "token": {
+              "Ident": {
+                "value": "screen",
+                "raw": "screen"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 248,
+              "end": 249,
+              "ctxt": 0
             },
-            "keyword": null,
-            "condition": null
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           }
         ]
       },
@@ -16511,33 +16557,79 @@
         "raw": "media"
       },
       "prelude": {
-        "type": "MediaQueryList",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 4750,
-          "end": 4756,
+          "start": 4745,
+          "end": 4757,
           "ctxt": 0
         },
-        "queries": [
+        "children": [
           {
-            "type": "MediaQuery",
+            "type": "PreservedToken",
+            "span": {
+              "start": 4745,
+              "end": 4746,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 4746,
+              "end": 4749,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "\\0",
+                "raw": "\\\\0"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 4749,
+              "end": 4750,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
             "span": {
               "start": 4750,
               "end": 4756,
               "ctxt": 0
             },
-            "modifier": null,
-            "mediaType": {
-              "type": "Ident",
-              "span": {
-                "start": 4750,
-                "end": 4756,
-                "ctxt": 0
-              },
-              "value": "screen",
-              "raw": "screen"
+            "token": {
+              "Ident": {
+                "value": "screen",
+                "raw": "screen"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 4756,
+              "end": 4757,
+              "ctxt": 0
             },
-            "keyword": null,
-            "condition": null
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           }
         ]
       },

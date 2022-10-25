@@ -35,28 +35,76 @@
    :  ^^^^
    `----
 
-  x PageSelectorList
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :       ^^^^
+   `----
+
+  x Ident { value: Atom('Page' type=inline), raw: Atom('Page' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :       ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :           ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :            ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
+ 1 | @page Page: blank {
+   :            ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :             ^^^^^
    `----
 
-  x PageSelector
+  x Ident { value: Atom('blank' type=inline), raw: Atom('blank' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
    :             ^^^^^
    `----
 
-  x PageSelectorType
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
-   :             ^^^^^
+   :                  ^
    `----
 
-  x Ident
+  x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/page/no-space/input.css:1:1]
  1 | @page Page: blank {
-   :             ^^^^^
+   :                  ^
    `----
 
   x SimpleBlock

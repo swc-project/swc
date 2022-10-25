@@ -126,7 +126,10 @@ where
          -> PResult<QualifiedRulePrelude> {
             let list_of_component_values = p.create_locv(list);
 
-            match p.parse_according_to_grammar::<SelectorList>(&list_of_component_values) {
+            match p
+                .parse_according_to_grammar::<SelectorList>(&list_of_component_values, |parser| {
+                    parser.parse()
+                }) {
                 Ok(selector_list) => {
                     if p.ctx.is_trying_legacy_nesting {
                         let selector_list =
@@ -141,6 +144,7 @@ where
                     if p.ctx.is_trying_legacy_nesting {
                         match p.parse_according_to_grammar::<RelativeSelectorList>(
                             &list_of_component_values,
+                            |parser| parser.parse(),
                         ) {
                             Ok(relative_selector_list) => {
                                 let selector_list = p
@@ -154,11 +158,6 @@ where
                         }
                     } else {
                         p.errors.push(err);
-
-                        let list_of_component_values = p
-                            .parse_according_to_grammar::<ListOfComponentValues>(
-                                &list_of_component_values,
-                            )?;
 
                         Ok(QualifiedRulePrelude::ListOfComponentValues(
                             list_of_component_values,
@@ -198,6 +197,7 @@ where
                     block.value = self
                         .parse_according_to_grammar::<Vec<StyleBlock>>(
                             &self.create_locv(block.value),
+                            |parser| parser.parse(),
                         )?
                         .into_iter()
                         .map(ComponentValue::StyleBlock)
@@ -313,17 +313,19 @@ where
                         temporary_list.children.push(component_value);
                     }
 
-                    let decl_or_list_of_component_values =
-                        match self.parse_according_to_grammar::<Declaration>(&temporary_list) {
-                            Ok(decl) => StyleBlock::Declaration(Box::new(decl)),
-                            Err(err) => {
-                                self.errors.push(err);
+                    let decl_or_list_of_component_values = match self
+                        .parse_according_to_grammar::<Declaration>(&temporary_list, |parser| {
+                            parser.parse_as()
+                        }) {
+                        Ok(decl) => StyleBlock::Declaration(Box::new(decl)),
+                        Err(err) => {
+                            self.errors.push(err);
 
-                                temporary_list.span = span!(self, span.lo);
+                            temporary_list.span = span!(self, span.lo);
 
-                                StyleBlock::ListOfComponentValues(temporary_list)
-                            }
-                        };
+                            StyleBlock::ListOfComponentValues(temporary_list)
+                        }
+                    };
 
                     declarations.push(decl_or_list_of_component_values);
                 }

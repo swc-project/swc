@@ -23,12 +23,6 @@
     :            ^^^
     `----
 
-  x Expected '{' token
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
- 21 | @font-face ;
-    :            ^
-    `----
-
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:5]
  10 | 123

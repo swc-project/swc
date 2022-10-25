@@ -32,28 +32,52 @@
    :  ^^^^
    `----
 
-  x PageSelectorList
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+   :      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+   :      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+   :       ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
+ 1 | @page :unknown {
+   :       ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^
    `----
 
-  x PageSelector
+  x Ident { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
    :        ^^^^^^^
    `----
 
-  x PageSelectorType
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
-   :        ^^^^^^^
+   :               ^
    `----
 
-  x Ident
+  x WhiteSpace { value: Atom(' ' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/page/invalid-pseudo/input.css:1:1]
  1 | @page :unknown {
-   :        ^^^^^^^
+   :               ^
    `----
 
   x SimpleBlock

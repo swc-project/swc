@@ -6,7 +6,7 @@
   (;property: value;);}
 .selector {
   [;property: value;];}
-@media screen {}
+@media \\0 screen {}
 @media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
   .selector {}
 }
@@ -182,7 +182,7 @@ html[xmlns*=""]:root .selector {}
 *|html[xmlns*=""] .selector {}
 _::-moz-svg-foreign-content, 
 :root .selector {}
-@media screen {}
+@media \\0 screen {}
 a {
   *color : black;_background: white;
   font-size: big;

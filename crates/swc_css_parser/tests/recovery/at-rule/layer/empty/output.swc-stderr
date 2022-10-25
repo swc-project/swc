@@ -1,6 +1,6 @@
 
-  x Expected '{' token
+  x Expected at least one name
    ,-[$DIR/tests/recovery/at-rule/layer/empty/input.css:1:1]
  1 | @layer ;
-   :        ^
+   : ^^^^^^
    `----

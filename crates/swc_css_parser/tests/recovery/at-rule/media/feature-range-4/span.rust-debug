@@ -179,6 +179,18 @@
    :                          ^^^^^
    `----
 
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-4/input.css:1:1]
+ 1 | @media (400px >= width ! 700px) {}
+   :                                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/feature-range-4/input.css:1:1]
+ 1 | @media (400px >= width ! 700px) {}
+   :                                ^
+   `----
+
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-4/input.css:1:1]
  1 | @media (400px >= width ! 700px) {}

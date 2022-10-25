@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, JsWord};
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 
@@ -45,6 +45,7 @@ where
                 raw: Some(at_keyword_name.1),
             })
         };
+        let mut prelude = vec![];
         let mut at_rule = AtRule {
             span: span!(self, at_rule_span.lo),
             name: at_rule_name,
@@ -54,542 +55,6 @@ where
         let lowercased_name = match &at_rule.name {
             AtRuleName::Ident(ident) => ident.value.to_ascii_lowercase(),
             AtRuleName::DashedIdent(dashed_ident) => dashed_ident.value.to_ascii_lowercase(),
-        };
-        let parse_prelude = |parser: &mut Parser<I>| -> PResult<Option<Box<AtRulePrelude>>> {
-            match lowercased_name {
-                js_word!("viewport")
-                | js_word!("-ms-viewport")
-                | js_word!("-o-viewport")
-                | js_word!("font-face") => {
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(None)
-                }
-                js_word!("charset") => {
-                    parser.input.skip_ws();
-
-                    let span = parser.input.cur_span();
-                    let charset = match cur!(parser) {
-                        tok!("string") => parser.parse()?,
-                        _ => {
-                            return Err(Error::new(span, ErrorKind::InvalidCharsetAtRule));
-                        }
-                    };
-
-                    let prelude = AtRulePrelude::CharsetPrelude(charset);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, ";") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("container") => {
-                    parser.input.skip_ws();
-
-                    let prelude = AtRulePrelude::ContainerPrelude(parser.parse()?);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("counter-style") => {
-                    parser.input.skip_ws();
-
-                    let prelude = AtRulePrelude::CounterStylePrelude(parser.parse()?);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("font-palette-values") => {
-                    parser.input.skip_ws();
-
-                    let prelude = AtRulePrelude::FontPaletteValuesPrelude(parser.parse()?);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("font-feature-values") => {
-                    parser.input.skip_ws();
-
-                    let prelude = AtRulePrelude::FontFeatureValuesPrelude(parser.parse()?);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("stylistic")
-                | js_word!("historical-forms")
-                | js_word!("styleset")
-                | js_word!("character-variant")
-                | js_word!("swash")
-                | js_word!("ornaments")
-                | js_word!("annotation")
-                    if parser.ctx.in_font_feature_values_at_rule =>
-                {
-                    parser.input.skip_ws();
-
-                    Ok(None)
-                }
-                js_word!("layer") => {
-                    parser.input.skip_ws();
-
-                    let prelude = if is!(parser, Ident) {
-                        let mut name_list: Vec<LayerName> = vec![];
-
-                        while is!(parser, Ident) {
-                            name_list.push(parser.parse()?);
-
-                            parser.input.skip_ws();
-
-                            if is!(parser, ",") {
-                                eat!(parser, ",");
-
-                                parser.input.skip_ws();
-                            }
-                        }
-
-                        if is!(parser, ";") {
-                            let first = name_list[0].span;
-                            let last = name_list[name_list.len() - 1].span;
-
-                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
-                                LayerNameList {
-                                    name_list,
-                                    span: Span::new(first.lo, last.hi, Default::default()),
-                                },
-                            )))
-                        } else {
-                            if name_list.len() > 1 {
-                                let span = parser.input.cur_span();
-
-                                return Err(Error::new(span, ErrorKind::Expected("';' token")));
-                            }
-
-                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(
-                                name_list.remove(0),
-                            )))
-                        }
-                    } else {
-                        None
-                    };
-
-                    parser.input.skip_ws();
-
-                    match prelude {
-                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(_))) | None => {
-                            if !is!(parser, "{") {
-                                let span = parser.input.cur_span();
-
-                                return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                            }
-                        }
-                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(_))) => {
-                            if !is!(parser, ";") {
-                                let span = parser.input.cur_span();
-
-                                return Err(Error::new(span, ErrorKind::Expected("';' token")));
-                            }
-                        }
-                        _ => {
-                            unreachable!();
-                        }
-                    }
-
-                    Ok(prelude.map(Box::new))
-                }
-                js_word!("document") | js_word!("-moz-document") => {
-                    parser.input.skip_ws();
-
-                    let span = parser.input.cur_span();
-                    let url_match_fn = parser.parse()?;
-                    let mut matching_functions = vec![url_match_fn];
-
-                    loop {
-                        parser.input.skip_ws();
-
-                        if !eat!(parser, ",") {
-                            break;
-                        }
-
-                        parser.input.skip_ws();
-
-                        matching_functions.push(parser.parse()?);
-                    }
-
-                    let prelude = AtRulePrelude::DocumentPrelude(DocumentPrelude {
-                        span: span!(parser, span.lo),
-                        matching_functions,
-                    });
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("page") => {
-                    parser.input.skip_ws();
-
-                    let prelude = if !is!(parser, "{") {
-                        Some(AtRulePrelude::PagePrelude(parser.parse()?))
-                    } else {
-                        None
-                    };
-
-                    parser.input.skip_ws();
-
-                    Ok(prelude.map(Box::new))
-                }
-                js_word!("top-left-corner")
-                | js_word!("top-left")
-                | js_word!("top-center")
-                | js_word!("top-right")
-                | js_word!("top-right-corner")
-                | js_word!("bottom-left-corner")
-                | js_word!("bottom-left")
-                | js_word!("bottom-center")
-                | js_word!("bottom-right")
-                | js_word!("bottom-right-corner")
-                | js_word!("left-top")
-                | js_word!("left-middle")
-                | js_word!("left-bottom")
-                | js_word!("right-top")
-                | js_word!("right-middle")
-                | js_word!("right-bottom")
-                    if parser.ctx.in_page_at_rule =>
-                {
-                    parser.input.skip_ws();
-
-                    Ok(None)
-                }
-                js_word!("property") => {
-                    parser.input.skip_ws();
-
-                    let prelude = AtRulePrelude::PropertyPrelude(parser.parse()?);
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("namespace") => {
-                    parser.input.skip_ws();
-
-                    let span = parser.input.cur_span();
-                    let mut prefix = None;
-
-                    if is!(parser, Ident) {
-                        prefix = match cur!(parser) {
-                            tok!("ident") => Some(parser.parse()?),
-                            _ => {
-                                unreachable!()
-                            }
-                        };
-
-                        parser.input.skip_ws();
-                    }
-
-                    let uri = match cur!(parser) {
-                        tok!("string") => NamespacePreludeUri::Str(parser.parse()?),
-                        tok!("url") => NamespacePreludeUri::Url(parser.parse()?),
-                        tok!("function") => NamespacePreludeUri::Url(parser.parse()?),
-                        _ => {
-                            let span = parser.input.cur_span();
-
-                            return Err(Error::new(
-                                span,
-                                ErrorKind::Expected("string, url or function tokens"),
-                            ));
-                        }
-                    };
-
-                    let prelude = AtRulePrelude::NamespacePrelude(NamespacePrelude {
-                        span: span!(parser, span.lo),
-                        prefix,
-                        uri: Box::new(uri),
-                    });
-
-                    if !is!(parser, ";") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
-                    }
-
-                    Ok(Some(Box::new(prelude)))
-                }
-                js_word!("color-profile") => {
-                    parser.input.skip_ws();
-
-                    let name = match cur!(parser) {
-                        Token::Ident { value, .. } => {
-                            if value.starts_with("--") {
-                                ColorProfileName::DashedIdent(parser.parse()?)
-                            } else {
-                                ColorProfileName::Ident(parser.parse()?)
-                            }
-                        }
-                        _ => {
-                            let span = parser.input.cur_span();
-
-                            return Err(Error::new(span, ErrorKind::Expected("ident")));
-                        }
-                    };
-
-                    let prelude = Box::new(AtRulePrelude::ColorProfilePrelude(name));
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(prelude))
-                }
-                js_word!("nest") => {
-                    parser.input.skip_ws();
-
-                    let prelude = Box::new(AtRulePrelude::NestPrelude(parser.parse()?));
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(prelude))
-                }
-                js_word!("media") => {
-                    parser.input.skip_ws();
-
-                    let media = if !is!(parser, "{") {
-                        let media_query_list = parser.parse()?;
-
-                        Some(Box::new(AtRulePrelude::MediaPrelude(media_query_list)))
-                    } else {
-                        None
-                    };
-
-                    parser.input.skip_ws();
-
-                    Ok(media)
-                }
-                js_word!("supports") => {
-                    parser.input.skip_ws();
-
-                    let prelude = Box::new(AtRulePrelude::SupportsPrelude(parser.parse()?));
-
-                    parser.input.skip_ws();
-
-                    Ok(Some(prelude))
-                }
-                js_word!("import") => {
-                    parser.input.skip_ws();
-
-                    let span = parser.input.cur_span();
-                    let href = Box::new(match cur!(parser) {
-                        tok!("string") => ImportPreludeHref::Str(parser.parse()?),
-                        tok!("url") => ImportPreludeHref::Url(parser.parse()?),
-                        tok!("function") => ImportPreludeHref::Url(parser.parse()?),
-                        _ => {
-                            return Err(Error::new(
-                                span,
-                                ErrorKind::Expected("string, url or function token"),
-                            ))
-                        }
-                    });
-
-                    parser.input.skip_ws();
-
-                    let layer_name = match cur!(parser) {
-                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
-                            let name = ImportPreludeLayerName::Ident(parser.parse()?);
-
-                            parser.input.skip_ws();
-
-                            Some(Box::new(name))
-                        }
-                        Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"layer" =>
-                        {
-                            let ctx = Ctx {
-                                in_import_at_rule: true,
-                                block_contents_grammar: BlockContentsGrammar::DeclarationValue,
-                                ..parser.ctx
-                            };
-
-                            let func = parser.with_ctx(ctx).parse_as::<Function>()?;
-                            if func.value.len() != 1 {
-                                parser.errors.push(Error::new(
-                                    func.span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                                None
-                            } else if let ComponentValue::LayerName(LayerName {
-                                name: name_raw,
-                                ..
-                            }) = &func.value[0]
-                            {
-                                parser.input.skip_ws();
-
-                                if name_raw.is_empty() {
-                                    parser.errors.push(Error::new(
-                                        func.span,
-                                        ErrorKind::Expected(
-                                            "layer function inside @import expected to have \
-                                             exactly one ident argument",
-                                        ),
-                                    ));
-                                    None
-                                } else {
-                                    Some(Box::new(ImportPreludeLayerName::Function(func)))
-                                }
-                            } else {
-                                parser.errors.push(Error::new(
-                                    func.span,
-                                    ErrorKind::Expected(
-                                        "layer function inside @import expected to have exactly \
-                                         one ident argument",
-                                    ),
-                                ));
-                                None
-                            }
-                        }
-                        _ => None,
-                    };
-
-                    let supports = match cur!(parser) {
-                        Token::Function { value, .. }
-                            if *value.to_ascii_lowercase() == *"supports" =>
-                        {
-                            bump!(parser);
-
-                            parser.input.skip_ws();
-
-                            let supports =
-                                if is_case_insensitive_ident!(parser, "not") || is!(parser, "(") {
-                                    ImportPreludeSupportsType::SupportsCondition(parser.parse()?)
-                                } else {
-                                    ImportPreludeSupportsType::Declaration(parser.parse()?)
-                                };
-
-                            expect!(parser, ")");
-
-                            Some(Box::new(supports))
-                        }
-                        _ => None,
-                    };
-
-                    let media = if !is!(parser, ";") {
-                        Some(parser.parse()?)
-                    } else {
-                        None
-                    };
-
-                    parser.input.skip_ws();
-
-                    let prelude = Box::new(AtRulePrelude::ImportPrelude(ImportPrelude {
-                        span: span!(parser, span.lo),
-                        href,
-                        layer_name,
-                        supports,
-                        media,
-                    }));
-
-                    if !is!(parser, ";") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("';' token")));
-                    }
-
-                    Ok(Some(prelude))
-                }
-                js_word!("keyframes")
-                | js_word!("-webkit-keyframes")
-                | js_word!("-moz-keyframes")
-                | js_word!("-o-keyframes")
-                | js_word!("-ms-keyframes") => {
-                    parser.input.skip_ws();
-
-                    let prelude = Box::new(AtRulePrelude::KeyframesPrelude(parser.parse()?));
-
-                    parser.input.skip_ws();
-
-                    if !is!(parser, "{") {
-                        let span = parser.input.cur_span();
-
-                        return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                    }
-
-                    Ok(Some(prelude))
-                }
-                js_word!("custom-media") => {
-                    parser.input.skip_ws();
-
-                    let prelude = Box::new(AtRulePrelude::CustomMediaPrelude(parser.parse()?));
-
-                    parser.input.skip_ws();
-
-                    Ok(Some(prelude))
-                }
-                _ => {
-                    let span = parser.input.cur_span();
-
-                    return Err(Error::new(span, ErrorKind::Ignore));
-                }
-            }
         };
         let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
             let ctx = match lowercased_name {
@@ -727,6 +192,39 @@ where
                 tok!(";") => {
                     self.input.bump();
 
+                    let list_of_component_values = self.create_locv(prelude);
+
+                    at_rule.prelude = match self
+                        .parse_according_to_grammar(&list_of_component_values, |parser| {
+                            parser.parse_at_rule_prelude(&lowercased_name)
+                        }) {
+                        Ok(at_rule_prelude) => match at_rule_prelude {
+                            None if lowercased_name == js_word!("layer") => {
+                                self.errors.push(Error::new(
+                                    at_rule.span,
+                                    ErrorKind::Expected("at least one name"),
+                                ));
+
+                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                    list_of_component_values,
+                                )))
+                            }
+                            _ => at_rule_prelude.map(Box::new),
+                        },
+                        Err(err) => {
+                            if *err.kind() != ErrorKind::Ignore {
+                                self.errors.push(err);
+                            }
+
+                            if list_of_component_values.children.len() > 0 {
+                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                    list_of_component_values,
+                                )))
+                            } else {
+                                None
+                            }
+                        }
+                    };
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(at_rule);
@@ -753,7 +251,42 @@ where
                         }
                     };
 
+                    let list_of_component_values = self.create_locv(prelude);
+
                     at_rule.block = Some(block);
+                    at_rule.prelude = match self
+                        .parse_according_to_grammar(&list_of_component_values, |parser| {
+                            parser.parse_at_rule_prelude(&lowercased_name)
+                        }) {
+                        Ok(at_rule_prelude) => match at_rule_prelude {
+                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
+                                name_list,
+                            ))) if name_list.name_list.len() > 1 => {
+                                self.errors.push(Error::new(
+                                    name_list.span,
+                                    ErrorKind::Expected("only one name"),
+                                ));
+
+                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                    list_of_component_values,
+                                )))
+                            }
+                            _ => at_rule_prelude.map(Box::new),
+                        },
+                        Err(err) => {
+                            if *err.kind() != ErrorKind::Ignore {
+                                self.errors.push(err);
+                            }
+
+                            if list_of_component_values.children.len() > 0 {
+                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                                    list_of_component_values,
+                                )))
+                            } else {
+                                None
+                            }
+                        }
+                    };
                     at_rule.span = span!(self, at_rule_span.lo);
 
                     return Ok(at_rule);
@@ -762,65 +295,492 @@ where
                 // Reconsume the current input token. Consume a component value. Append the returned
                 // value to the at-rule’s prelude.
                 _ => {
-                    let state = self.input.state();
+                    let component_value = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<ComponentValue>()?;
 
-                    match parse_prelude(self) {
-                        Ok(prelude) => {
-                            if let Some(prelude) = prelude {
-                                at_rule.prelude = Some(prelude);
-                            }
-                        }
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            self.input.reset(&state);
-
-                            let span = self.input.cur_span();
-
-                            let mut list_of_component_value = match at_rule.prelude.as_deref_mut() {
-                                Some(AtRulePrelude::ListOfComponentValues(
-                                    ref mut list_of_component_value,
-                                )) => list_of_component_value,
-                                _ => {
-                                    at_rule.prelude =
-                                        Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                            ListOfComponentValues {
-                                                span: span!(self, span.lo),
-                                                children: vec![],
-                                            },
-                                        )));
-
-                                    match at_rule.prelude.as_deref_mut() {
-                                        Some(AtRulePrelude::ListOfComponentValues(
-                                            ref mut list_of_component_value,
-                                        )) => list_of_component_value,
-                                        _ => {
-                                            unreachable!();
-                                        }
-                                    }
-                                }
-                            };
-
-                            let ctx = Ctx {
-                                block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                                ..self.ctx
-                            };
-                            let component_value =
-                                self.with_ctx(ctx).parse_as::<ComponentValue>()?;
-
-                            list_of_component_value.children.push(component_value);
-                            list_of_component_value.span = Span::new(
-                                list_of_component_value.span.lo,
-                                span.hi,
-                                Default::default(),
-                            );
-                        }
-                    }
+                    prelude.push(component_value);
                 }
             }
         }
+    }
+}
+
+impl<I> Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse_at_rule_prelude(&mut self, name: &JsWord) -> PResult<Option<AtRulePrelude>> {
+        let prelude = match *name {
+            js_word!("charset") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::CharsetPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("color-profile") => {
+                self.input.skip_ws();
+
+                let name = match cur!(self) {
+                    Token::Ident { value, .. } => {
+                        if value.starts_with("--") {
+                            ColorProfileName::DashedIdent(self.parse()?)
+                        } else {
+                            ColorProfileName::Ident(self.parse()?)
+                        }
+                    }
+                    _ => {
+                        let span = self.input.cur_span();
+
+                        return Err(Error::new(span, ErrorKind::Expected("ident token")));
+                    }
+                };
+
+                let prelude = AtRulePrelude::ColorProfilePrelude(name);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("container") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::ContainerPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("counter-style") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::CounterStylePrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("custom-media") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::CustomMediaPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("document") | js_word!("-moz-document") => {
+                self.input.skip_ws();
+
+                let span = self.input.cur_span();
+                let url_match_fn = self.parse()?;
+                let mut matching_functions = vec![url_match_fn];
+
+                loop {
+                    self.input.skip_ws();
+
+                    if !eat!(self, ",") {
+                        break;
+                    }
+
+                    self.input.skip_ws();
+
+                    matching_functions.push(self.parse()?);
+                }
+
+                let prelude = AtRulePrelude::DocumentPrelude(DocumentPrelude {
+                    span: span!(self, span.lo),
+                    matching_functions,
+                });
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("font-feature-values") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::FontFeatureValuesPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("import") => {
+                self.input.skip_ws();
+
+                let span = self.input.cur_span();
+                let href = Box::new(match cur!(self) {
+                    tok!("string") => ImportPreludeHref::Str(self.parse()?),
+                    tok!("url") => ImportPreludeHref::Url(self.parse()?),
+                    tok!("function") => ImportPreludeHref::Url(self.parse()?),
+                    _ => {
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("string, url or function token"),
+                        ))
+                    }
+                });
+
+                self.input.skip_ws();
+
+                let layer_name = if !is!(self, EOF) {
+                    match cur!(self) {
+                        Token::Ident { value, .. } if *value.to_ascii_lowercase() == *"layer" => {
+                            let name = ImportPreludeLayerName::Ident(self.parse()?);
+
+                            self.input.skip_ws();
+
+                            Some(Box::new(name))
+                        }
+                        Token::Function { value, .. }
+                            if *value.to_ascii_lowercase() == *"layer" =>
+                        {
+                            let span = self.input.cur_span();
+
+                            let ctx = Ctx {
+                                in_import_at_rule: true,
+                                block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                                ..self.ctx
+                            };
+
+                            let func = self.with_ctx(ctx).parse_as::<Function>()?;
+
+                            self.input.skip_ws();
+
+                            if func.value.len() != 1 {
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "layer function inside @import expected to have exactly \
+                                         one ident argument",
+                                    ),
+                                ));
+                            } else if let ComponentValue::LayerName(LayerName {
+                                name: name_raw,
+                                ..
+                            }) = &func.value[0]
+                            {
+                                self.input.skip_ws();
+
+                                if name_raw.is_empty() {
+                                    return Err(Error::new(
+                                        span,
+                                        ErrorKind::Expected(
+                                            "layer function inside @import expected to have \
+                                             exactly one ident argument",
+                                        ),
+                                    ));
+                                } else {
+                                    Some(Box::new(ImportPreludeLayerName::Function(func)))
+                                }
+                            } else {
+                                return Err(Error::new(
+                                    span,
+                                    ErrorKind::Expected(
+                                        "layer function inside @import expected to have exactly \
+                                         one ident argument",
+                                    ),
+                                ));
+                            }
+                        }
+                        _ => None,
+                    }
+                } else {
+                    None
+                };
+
+                let supports = if !is!(self, EOF) {
+                    match cur!(self) {
+                        Token::Function { value, .. }
+                            if *value.to_ascii_lowercase() == *"supports" =>
+                        {
+                            bump!(self);
+
+                            self.input.skip_ws();
+
+                            let supports =
+                                if is_case_insensitive_ident!(self, "not") || is!(self, "(") {
+                                    ImportPreludeSupportsType::SupportsCondition(self.parse()?)
+                                } else {
+                                    ImportPreludeSupportsType::Declaration(self.parse()?)
+                                };
+
+                            expect!(self, ")");
+
+                            self.input.skip_ws();
+
+                            Some(Box::new(supports))
+                        }
+                        _ => None,
+                    }
+                } else {
+                    None
+                };
+
+                let media = if !is!(self, EOF) {
+                    let media_query_list = self.parse()?;
+
+                    self.input.skip_ws();
+
+                    Some(media_query_list)
+                } else {
+                    None
+                };
+
+                let prelude = AtRulePrelude::ImportPrelude(ImportPrelude {
+                    span: span!(self, span.lo),
+                    href,
+                    layer_name,
+                    supports,
+                    media,
+                });
+
+                Some(prelude)
+            }
+            js_word!("stylistic")
+            | js_word!("historical-forms")
+            | js_word!("styleset")
+            | js_word!("character-variant")
+            | js_word!("swash")
+            | js_word!("ornaments")
+            | js_word!("annotation")
+                if self.ctx.in_font_feature_values_at_rule =>
+            {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
+            }
+            js_word!("font-palette-values") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::FontPaletteValuesPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("keyframes")
+            | js_word!("-webkit-keyframes")
+            | js_word!("-moz-keyframes")
+            | js_word!("-o-keyframes")
+            | js_word!("-ms-keyframes") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::KeyframesPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("layer") => {
+                self.input.skip_ws();
+
+                if is!(self, Ident) {
+                    let mut name_list: Vec<LayerName> = vec![];
+
+                    name_list.push(self.parse()?);
+
+                    loop {
+                        self.input.skip_ws();
+
+                        if !eat!(self, ",") {
+                            break;
+                        }
+
+                        self.input.skip_ws();
+
+                        name_list.push(self.parse()?);
+                    }
+
+                    let res = if name_list.len() == 1 {
+                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::Name(
+                            name_list.remove(0),
+                        )))
+                    } else {
+                        let first = name_list[0].span;
+                        let last = name_list[name_list.len() - 1].span;
+
+                        Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
+                            LayerNameList {
+                                name_list,
+                                span: Span::new(first.lo, last.hi, Default::default()),
+                            },
+                        )))
+                    };
+
+                    self.input.skip_ws();
+
+                    res
+                } else {
+                    None
+                }
+            }
+            js_word!("media") => {
+                self.input.skip_ws();
+
+                let media = if !is!(self, EOF) {
+                    let media_query_list = self.parse()?;
+
+                    Some(AtRulePrelude::MediaPrelude(media_query_list))
+                } else {
+                    None
+                };
+
+                self.input.skip_ws();
+
+                media
+            }
+            js_word!("namespace") => {
+                self.input.skip_ws();
+
+                let span = self.input.cur_span();
+                let mut prefix = None;
+
+                if is!(self, Ident) {
+                    prefix = match cur!(self) {
+                        tok!("ident") => Some(self.parse()?),
+                        _ => {
+                            unreachable!()
+                        }
+                    };
+
+                    self.input.skip_ws();
+                }
+
+                let uri = match cur!(self) {
+                    tok!("string") => NamespacePreludeUri::Str(self.parse()?),
+                    tok!("url") => NamespacePreludeUri::Url(self.parse()?),
+                    tok!("function") => NamespacePreludeUri::Url(self.parse()?),
+                    _ => {
+                        let span = self.input.cur_span();
+
+                        return Err(Error::new(
+                            span,
+                            ErrorKind::Expected("string, url or function tokens"),
+                        ));
+                    }
+                };
+
+                let prelude = AtRulePrelude::NamespacePrelude(NamespacePrelude {
+                    span: span!(self, span.lo),
+                    prefix,
+                    uri: Box::new(uri),
+                });
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("nest") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::NestPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("page") => {
+                self.input.skip_ws();
+
+                let prelude = if !is!(self, EOF) {
+                    Some(AtRulePrelude::PagePrelude(self.parse()?))
+                } else {
+                    None
+                };
+
+                self.input.skip_ws();
+
+                prelude
+            }
+            js_word!("top-left-corner")
+            | js_word!("top-left")
+            | js_word!("top-center")
+            | js_word!("top-right")
+            | js_word!("top-right-corner")
+            | js_word!("bottom-left-corner")
+            | js_word!("bottom-left")
+            | js_word!("bottom-center")
+            | js_word!("bottom-right")
+            | js_word!("bottom-right-corner")
+            | js_word!("left-top")
+            | js_word!("left-middle")
+            | js_word!("left-bottom")
+            | js_word!("right-top")
+            | js_word!("right-middle")
+            | js_word!("right-bottom")
+                if self.ctx.in_page_at_rule =>
+            {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
+            }
+            js_word!("property") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::PropertyPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("supports") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::SupportsPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("viewport")
+            | js_word!("-ms-viewport")
+            | js_word!("-o-viewport")
+            | js_word!("font-face") => {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
+            }
+            _ => {
+                return Err(Error::new(Default::default(), ErrorKind::Ignore));
+            }
+        };
+
+        if !is!(self, EOF) {
+            let span = self.input.cur_span();
+
+            return Err(Error::new(
+                span,
+                ErrorKind::Unexpected("tokens in at-rule prelude"),
+            ));
+        }
+
+        Ok(prelude)
     }
 }
 

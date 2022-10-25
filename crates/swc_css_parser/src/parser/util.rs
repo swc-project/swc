@@ -57,16 +57,14 @@ where
         ListOfComponentValues { span, children }
     }
 
-    pub(super) fn parse_according_to_grammar<'a, T>(
+    pub(super) fn parse_according_to_grammar<T>(
         &mut self,
-        list_of_component_values: &'a ListOfComponentValues,
-    ) -> PResult<T>
-    where
-        Parser<ListOfComponentValuesInput<'a>>: Parse<T>,
-    {
+        list_of_component_values: &ListOfComponentValues,
+        op: impl FnOnce(&mut Parser<ListOfComponentValuesInput>) -> PResult<T>,
+    ) -> PResult<T> {
         let lexer = ListOfComponentValuesInput::new(list_of_component_values);
         let mut parser = Parser::new(lexer, self.config);
-        let res = parser.with_ctx(self.ctx).parse_as();
+        let res = op(&mut parser.with_ctx(self.ctx));
 
         self.errors.extend(parser.take_errors());
 
