@@ -1,3 +1,3 @@
 var a = 1;
-++a && a.var, a++;
+a++, a && a.var, a++;
 console.log(a);

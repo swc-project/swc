@@ -22,6 +22,9 @@
 
 - **(es)** Expose `unresolved_mark` (#6236) ([0b267ed](https://github.com/swc-project/swc/commit/0b267edea2fb7b64a40b6a220e3bb391173e0516))
 
+
+- **(es/minifier)** Respect options (#6245) ([ec9a80a](https://github.com/swc-project/swc/commit/ec9a80aae0277f1346955d10fe348111050193bd))
+
 ### Miscellaneous Tasks
 
 
