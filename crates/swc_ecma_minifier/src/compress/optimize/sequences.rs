@@ -581,9 +581,15 @@ where
             Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
                 vec![Mergable::Expr(arg)]
             }
+
             Stmt::If(s) if options.sequences() => {
                 vec![Mergable::Expr(&mut s.test)]
             }
+
+            Stmt::Switch(s) if options.sequences() => {
+                vec![Mergable::Expr(&mut s.discriminant)]
+            }
+
             Stmt::Throw(s) if options.sequences() => {
                 vec![Mergable::Expr(&mut s.arg)]
             }
@@ -624,7 +630,7 @@ where
         for stmt in stmts.iter_mut() {
             let is_end = matches!(
                 stmt.as_stmt(),
-                Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..))
+                Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..) | Stmt::Switch(..))
             );
             let can_skip = match stmt.as_stmt() {
                 Some(Stmt::Decl(Decl::Fn(..))) => true,
