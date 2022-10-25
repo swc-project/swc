@@ -20,6 +20,6 @@ members = ["."]
 
 [[bin]]
 doc  = false
-name = "fuzz_target_1"
-path = "fuzz_targets/fuzz_target_1.rs"
+name = "bug"
+path = "fuzz_targets/bug.rs"
 test = false
