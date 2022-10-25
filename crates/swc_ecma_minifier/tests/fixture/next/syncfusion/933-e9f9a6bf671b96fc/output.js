@@ -5815,46 +5815,43 @@
                 }, Button.prototype.getPersistData = function() {
                     return this.addOnPersist([]);
                 }, Button.Inject = function() {}, Button.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var span = this.element.querySelector('span.e-btn-icon'), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'isPrimary':
-                                newProp.isPrimary ? this.element.classList.add(cssClassName.PRIMARY) : this.element.classList.remove(cssClassName.PRIMARY);
-                                break;
-                            case 'disabled':
-                                this.controlStatus(newProp.disabled);
-                                break;
-                            case 'iconCss':
-                                span ? newProp.iconCss ? (span.className = 'e-btn-icon ' + newProp.iconCss, this.element.textContent.trim() && ('Left' === this.iconPosition ? span.classList.add('e-icon-left') : span.classList.add('e-icon-right'))) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(span) : this.setIconCss();
-                                break;
-                            case 'iconPosition':
-                                (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
-                                    this.element
-                                ], [
-                                    'e-top-icon-btn',
-                                    'e-bottom-icon-btn'
-                                ]), (span = this.element.querySelector('span.e-btn-icon')) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(span), this.setIconCss();
-                                break;
-                            case 'cssClass':
-                                oldProp.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
-                                    this.element
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
-                                    this.element
-                                ], newProp.cssClass.split(' '));
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? this.element.classList.add(cssClassName.RTL) : this.element.classList.remove(cssClassName.RTL);
-                                break;
-                            case 'content':
-                                (0, _common_common__WEBPACK_IMPORTED_MODULE_1__.UC)(this.element) || this.element.classList.remove(cssClassName.ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
-                                break;
-                            case 'isToggle':
-                                newProp.isToggle ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.add(this.element, 'click', this.btnClickHandler, this) : (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(this.element, 'click', this.btnClickHandler), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
-                                    this.element
-                                ], [
-                                    'e-active'
-                                ]));
-                        }
+                    for(var span = this.element.querySelector('span.e-btn-icon'), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'isPrimary':
+                            newProp.isPrimary ? this.element.classList.add(cssClassName.PRIMARY) : this.element.classList.remove(cssClassName.PRIMARY);
+                            break;
+                        case 'disabled':
+                            this.controlStatus(newProp.disabled);
+                            break;
+                        case 'iconCss':
+                            span ? newProp.iconCss ? (span.className = 'e-btn-icon ' + newProp.iconCss, this.element.textContent.trim() && ('Left' === this.iconPosition ? span.classList.add('e-icon-left') : span.classList.add('e-icon-right'))) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(span) : this.setIconCss();
+                            break;
+                        case 'iconPosition':
+                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
+                                this.element
+                            ], [
+                                'e-top-icon-btn',
+                                'e-bottom-icon-btn'
+                            ]), (span = this.element.querySelector('span.e-btn-icon')) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.og)(span), this.setIconCss();
+                            break;
+                        case 'cssClass':
+                            oldProp.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
+                                this.element
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
+                                this.element
+                            ], newProp.cssClass.split(' '));
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? this.element.classList.add(cssClassName.RTL) : this.element.classList.remove(cssClassName.RTL);
+                            break;
+                        case 'content':
+                            (0, _common_common__WEBPACK_IMPORTED_MODULE_1__.UC)(this.element) || this.element.classList.remove(cssClassName.ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
+                            break;
+                        case 'isToggle':
+                            newProp.isToggle ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.add(this.element, 'click', this.btnClickHandler, this) : (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(this.element, 'click', this.btnClickHandler), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
+                                this.element
+                            ], [
+                                'e-active'
+                            ]));
                     }
                 }, Button.prototype.click = function() {
                     this.element.click();
@@ -6217,28 +6214,25 @@
                     return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         inputObject.container
                     ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
-                        if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++){
-                            var prop = _a[_i];
-                            switch(prop){
-                                case 'cssClass':
-                                    setCssClass(args.properties.cssClass, [
-                                        inputObject.container
-                                    ]), checkFloatLabelType(args.floatLabelType, inputObject.container);
-                                    break;
-                                case 'enabled':
-                                    setEnabled(args.properties.enabled, args.element, args.floatLabelType, inputObject.container);
-                                    break;
-                                case 'enableRtl':
-                                    setEnableRtl(args.properties.enableRtl, [
-                                        inputObject.container
-                                    ]);
-                                    break;
-                                case 'placeholder':
-                                    setPlaceholder(args.properties.placeholder, args.element);
-                                    break;
-                                case 'readonly':
-                                    setReadonly(args.properties.readonly, args.element);
-                            }
+                        if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++)switch(_a[_i]){
+                            case 'cssClass':
+                                setCssClass(args.properties.cssClass, [
+                                    inputObject.container
+                                ]), checkFloatLabelType(args.floatLabelType, inputObject.container);
+                                break;
+                            case 'enabled':
+                                setEnabled(args.properties.enabled, args.element, args.floatLabelType, inputObject.container);
+                                break;
+                            case 'enableRtl':
+                                setEnableRtl(args.properties.enableRtl, [
+                                    inputObject.container
+                                ]);
+                                break;
+                            case 'placeholder':
+                                setPlaceholder(args.properties.placeholder, args.element);
+                                break;
+                            case 'readonly':
+                                setReadonly(args.properties.readonly, args.element);
                         }
                         return inputObject;
                     }(args, inputObject), makeElement), inputObject;
@@ -7334,45 +7328,42 @@
                     return _super.call(this, options, element) || this;
                 }
                 return __extends(Popup, _super), Popup.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'width':
-                                (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
-                                    width: (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Ac)(newProp.width)
-                                });
-                                break;
-                            case 'height':
-                                (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
-                                    height: (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Ac)(newProp.height)
-                                });
-                                break;
-                            case 'zIndex':
-                                (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
-                                    zIndex: newProp.zIndex
-                                });
-                                break;
-                            case 'enableRtl':
-                                this.setEnableRtl();
-                                break;
-                            case 'position':
-                            case 'relateTo':
-                                this.refreshPosition();
-                                break;
-                            case 'offsetX':
-                                var x = newProp.offsetX - oldProp.offsetX;
-                                this.element.style.left = (parseInt(this.element.style.left, 10) + x).toString() + 'px';
-                                break;
-                            case 'offsetY':
-                                var y = newProp.offsetY - oldProp.offsetY;
-                                this.element.style.top = (parseInt(this.element.style.top, 10) + y).toString() + 'px';
-                                break;
-                            case 'content':
-                                this.setContent();
-                                break;
-                            case 'actionOnScroll':
-                                'none' !== newProp.actionOnScroll ? this.wireScrollEvents() : this.unwireScrollEvents();
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'width':
+                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
+                                width: (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Ac)(newProp.width)
+                            });
+                            break;
+                        case 'height':
+                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
+                                height: (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.Ac)(newProp.height)
+                            });
+                            break;
+                        case 'zIndex':
+                            (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
+                                zIndex: newProp.zIndex
+                            });
+                            break;
+                        case 'enableRtl':
+                            this.setEnableRtl();
+                            break;
+                        case 'position':
+                        case 'relateTo':
+                            this.refreshPosition();
+                            break;
+                        case 'offsetX':
+                            var x = newProp.offsetX - oldProp.offsetX;
+                            this.element.style.left = (parseInt(this.element.style.left, 10) + x).toString() + 'px';
+                            break;
+                        case 'offsetY':
+                            var y = newProp.offsetY - oldProp.offsetY;
+                            this.element.style.top = (parseInt(this.element.style.top, 10) + y).toString() + 'px';
+                            break;
+                        case 'content':
+                            this.setContent();
+                            break;
+                        case 'actionOnScroll':
+                            'none' !== newProp.actionOnScroll ? this.wireScrollEvents() : this.unwireScrollEvents();
                     }
                 }, Popup.prototype.getModuleName = function() {
                     return 'popup';
@@ -10018,82 +10009,79 @@
                 }, Dialog.prototype.getModuleName = function() {
                     return 'dialog';
                 }, Dialog.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    if (this.element.classList.contains(ROOT)) for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'content':
-                                (0, ej2_base.le)(this.content) || '' === this.content ? (0, ej2_base.le)(this.contentEle) || ((0, ej2_base.og)(this.contentEle), this.contentEle = null) : (this.isBlazorServerRender() && (this.contentEle = this.element.querySelector('.e-dlg-content')), (0, ej2_base.le)(this.contentEle) || 'dialog' === this.contentEle.getAttribute('role') ? (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-dlg-content'))) && this.setContent() : (this.isBlazorServerRender() || (this.contentEle.innerHTML = ''), 'function' == typeof this.content ? (this.clearTemplate([
-                                    'content'
-                                ]), (0, ej2_base.og)(this.contentEle), this.contentEle = null, this.setContent()) : 'string' == typeof this.content ? this.isBlazorServerRender() && '' === this.contentEle.innerText ? this.contentEle.insertAdjacentHTML('beforeend', this.sanitizeHelper(this.content)) : this.updateSanitizeContent() : this.contentEle.appendChild(this.content), this.setMaxHeight()));
-                                break;
-                            case 'header':
-                                '' === this.header || (0, ej2_base.le)(this.header) ? this.headerEle && ((0, ej2_base.og)(this.headerEle), this.headerEle = null) : (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-dlg-header-content'))) && this.setHeader();
-                                break;
-                            case 'footerTemplate':
-                                if ('' === this.footerTemplate || (0, ej2_base.le)(this.footerTemplate)) {
-                                    if (!this.ftrTemplateContent) return;
-                                    (0, ej2_base.og)(this.ftrTemplateContent), this.ftrTemplateContent = null, this.buttons = [
-                                        {}
-                                    ];
-                                } else (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-footer-content'))) && this.setFooterTemplate(), this.buttons = [
+                    if (this.element.classList.contains(ROOT)) for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'content':
+                            (0, ej2_base.le)(this.content) || '' === this.content ? (0, ej2_base.le)(this.contentEle) || ((0, ej2_base.og)(this.contentEle), this.contentEle = null) : (this.isBlazorServerRender() && (this.contentEle = this.element.querySelector('.e-dlg-content')), (0, ej2_base.le)(this.contentEle) || 'dialog' === this.contentEle.getAttribute('role') ? (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-dlg-content'))) && this.setContent() : (this.isBlazorServerRender() || (this.contentEle.innerHTML = ''), 'function' == typeof this.content ? (this.clearTemplate([
+                                'content'
+                            ]), (0, ej2_base.og)(this.contentEle), this.contentEle = null, this.setContent()) : 'string' == typeof this.content ? this.isBlazorServerRender() && '' === this.contentEle.innerText ? this.contentEle.insertAdjacentHTML('beforeend', this.sanitizeHelper(this.content)) : this.updateSanitizeContent() : this.contentEle.appendChild(this.content), this.setMaxHeight()));
+                            break;
+                        case 'header':
+                            '' === this.header || (0, ej2_base.le)(this.header) ? this.headerEle && ((0, ej2_base.og)(this.headerEle), this.headerEle = null) : (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-dlg-header-content'))) && this.setHeader();
+                            break;
+                        case 'footerTemplate':
+                            if ('' === this.footerTemplate || (0, ej2_base.le)(this.footerTemplate)) {
+                                if (!this.ftrTemplateContent) return;
+                                (0, ej2_base.og)(this.ftrTemplateContent), this.ftrTemplateContent = null, this.buttons = [
                                     {}
                                 ];
-                                break;
-                            case 'showCloseIcon':
-                                this.element.getElementsByClassName(DLG_CLOSE_ICON).length > 0 ? !this.showCloseIcon && ('' === this.header || (0, ej2_base.le)(this.header)) ? ((0, ej2_base.og)(this.headerContent), this.headerContent = null) : this.showCloseIcon ? this.isBlazorServerRender() && this.wireEvents() : (0, ej2_base.og)(this.closeIcon) : (this.isBlazorServerRender() || this.renderCloseIcon(), this.wireEvents());
-                                break;
-                            case 'locale':
-                                this.showCloseIcon && this.closeIconTitle();
-                                break;
-                            case 'visible':
-                                this.visible ? this.show() : this.hide();
-                                break;
-                            case 'isModal':
-                                this.updateIsModal();
-                                break;
-                            case 'height':
-                                (0, ej2_base.V7)(this.element, {
-                                    height: (0, ej2_base.Ac)(newProp.height)
-                                });
-                                break;
-                            case 'width':
-                                (0, ej2_base.V7)(this.element, {
-                                    width: (0, ej2_base.Ac)(newProp.width)
-                                });
-                                break;
-                            case 'zIndex':
-                                this.popupObj.zIndex = this.zIndex, this.isModal && this.setOverlayZindex(this.zIndex), this.element.style.zIndex !== this.zIndex.toString() && (this.calculatezIndex = !1);
-                                break;
-                            case 'cssClass':
-                                this.setCSSClass(oldProp.cssClass);
-                                break;
-                            case 'buttons':
-                                var buttonCount = this.buttons.length;
-                                (0, ej2_base.le)(this.ftrTemplateContent) || this.isBlazorServerRender() || ((0, ej2_base.og)(this.ftrTemplateContent), this.ftrTemplateContent = null);
-                                for(var i = 0; i < buttonCount; i++)(0, ej2_base.le)(this.buttons[i].buttonModel) || (this.footerTemplate = '', this.setButton());
-                                break;
-                            case 'allowDragging':
-                                this.allowDragging && !(0, ej2_base.le)(this.headerContent) ? this.setAllowDragging() : this.dragObj.destroy();
-                                break;
-                            case 'target':
-                                this.setTarget(newProp.target);
-                                break;
-                            case 'position':
-                                if (this.checkPositionData(), this.isModal) {
-                                    var positionX = (0, ej2_base.le)(oldProp.position.X) ? this.position.X : oldProp.position.X, positionY = (0, ej2_base.le)(oldProp.position.Y) ? this.position.Y : oldProp.position.Y;
-                                    this.dlgContainer.classList.contains('e-dlg-' + positionX + '-' + positionY) && this.dlgContainer.classList.remove('e-dlg-' + positionX + '-' + positionY);
-                                }
-                                this.positionChange();
-                                break;
-                            case 'enableRtl':
-                                this.setEnableRTL();
-                                break;
-                            case 'enableResize':
-                                this.setResize();
-                                break;
-                            case 'minHeight':
-                                '' !== this.minHeight && (this.element.style.minHeight = (0, ej2_base.Ac)(this.minHeight));
-                        }
+                            } else (!this.isBlazorServerRender() || (0, ej2_base.le)(this.element.querySelector('.e-footer-content'))) && this.setFooterTemplate(), this.buttons = [
+                                {}
+                            ];
+                            break;
+                        case 'showCloseIcon':
+                            this.element.getElementsByClassName(DLG_CLOSE_ICON).length > 0 ? !this.showCloseIcon && ('' === this.header || (0, ej2_base.le)(this.header)) ? ((0, ej2_base.og)(this.headerContent), this.headerContent = null) : this.showCloseIcon ? this.isBlazorServerRender() && this.wireEvents() : (0, ej2_base.og)(this.closeIcon) : (this.isBlazorServerRender() || this.renderCloseIcon(), this.wireEvents());
+                            break;
+                        case 'locale':
+                            this.showCloseIcon && this.closeIconTitle();
+                            break;
+                        case 'visible':
+                            this.visible ? this.show() : this.hide();
+                            break;
+                        case 'isModal':
+                            this.updateIsModal();
+                            break;
+                        case 'height':
+                            (0, ej2_base.V7)(this.element, {
+                                height: (0, ej2_base.Ac)(newProp.height)
+                            });
+                            break;
+                        case 'width':
+                            (0, ej2_base.V7)(this.element, {
+                                width: (0, ej2_base.Ac)(newProp.width)
+                            });
+                            break;
+                        case 'zIndex':
+                            this.popupObj.zIndex = this.zIndex, this.isModal && this.setOverlayZindex(this.zIndex), this.element.style.zIndex !== this.zIndex.toString() && (this.calculatezIndex = !1);
+                            break;
+                        case 'cssClass':
+                            this.setCSSClass(oldProp.cssClass);
+                            break;
+                        case 'buttons':
+                            var buttonCount = this.buttons.length;
+                            (0, ej2_base.le)(this.ftrTemplateContent) || this.isBlazorServerRender() || ((0, ej2_base.og)(this.ftrTemplateContent), this.ftrTemplateContent = null);
+                            for(var i = 0; i < buttonCount; i++)(0, ej2_base.le)(this.buttons[i].buttonModel) || (this.footerTemplate = '', this.setButton());
+                            break;
+                        case 'allowDragging':
+                            this.allowDragging && !(0, ej2_base.le)(this.headerContent) ? this.setAllowDragging() : this.dragObj.destroy();
+                            break;
+                        case 'target':
+                            this.setTarget(newProp.target);
+                            break;
+                        case 'position':
+                            if (this.checkPositionData(), this.isModal) {
+                                var positionX = (0, ej2_base.le)(oldProp.position.X) ? this.position.X : oldProp.position.X, positionY = (0, ej2_base.le)(oldProp.position.Y) ? this.position.Y : oldProp.position.Y;
+                                this.dlgContainer.classList.contains('e-dlg-' + positionX + '-' + positionY) && this.dlgContainer.classList.remove('e-dlg-' + positionX + '-' + positionY);
+                            }
+                            this.positionChange();
+                            break;
+                        case 'enableRtl':
+                            this.setEnableRTL();
+                            break;
+                        case 'enableResize':
+                            this.setResize();
+                            break;
+                        case 'minHeight':
+                            '' !== this.minHeight && (this.element.style.minHeight = (0, ej2_base.Ac)(this.minHeight));
                     }
                 }, Dialog.prototype.setTarget = function(target) {
                     this.popupObj.relateTo = target, this.target = target, this.targetEle = 'string' == typeof this.target ? document.querySelector(this.target) : this.target, this.dragObj && (this.dragObj.dragArea = this.targetEle), this.setMaxHeight(), this.isModal && this.updateIsModal(), this.enableResize && this.setResize();
@@ -12133,8 +12121,8 @@
                     for(var existNodes = [], i = 0; i < elements.length; i++)element.contains(elements[i]) && element !== elements[i] && existNodes.push(elements[i]);
                     return existNodes;
                 }, DOMNode.prototype.isEditorArea = function() {
-                    var element, range = this.getRangePoint(0);
-                    for(element = range.commonAncestorContainer; element && !this.isElement(element);)element = element.parentNode;
+                    var element;
+                    for(element = this.getRangePoint(0).commonAncestorContainer; element && !this.isElement(element);)element = element.parentNode;
                     return !!this.isElement(element);
                 }, DOMNode.prototype.getRangePoint = function(point) {
                     var selection = this.getSelection(), ranges = [];
@@ -14353,15 +14341,12 @@
                     var debounceListener = (0, ej2_base.Ds)(this.keyUp, this.undoRedoTimer);
                     this.parent.observer.on(common_constant.My, debounceListener, this), this.parent.observer.on(common_constant.kT, this.keyDown, this), this.parent.observer.on(common_constant.om, this.onAction, this), this.parent.observer.on(common_constant.hL, this.onPropertyChanged, this);
                 }, UndoRedoManager.prototype.onPropertyChanged = function(props) {
-                    for(var _i = 0, _a = Object.keys(props.newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'undoRedoSteps':
-                                this.undoRedoSteps = props.newProp.undoRedoSteps;
-                                break;
-                            case 'undoRedoTimer':
-                                this.undoRedoTimer = props.newProp.undoRedoTimer;
-                        }
+                    for(var _i = 0, _a = Object.keys(props.newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'undoRedoSteps':
+                            this.undoRedoSteps = props.newProp.undoRedoSteps;
+                            break;
+                        case 'undoRedoTimer':
+                            this.undoRedoTimer = props.newProp.undoRedoTimer;
                     }
                 }, UndoRedoManager.prototype.removeEventListener = function() {
                     this.parent.observer.off(common_constant.My, this.keyUp), this.parent.observer.off(common_constant.kT, this.keyDown), this.parent.observer.off(common_constant.om, this.onAction);
@@ -15291,71 +15276,62 @@
                 }, ColorPickerInput.prototype.addEventListener = function() {
                     this.parent.on(constant.vW, this.renderColorPickerInput, this), this.parent.on(constant.vN, this.setRtl, this), this.parent.on(constant.ob, this.destroy, this), this.parent.on(constant.c0, this.destroyColorPicker, this), this.parent.on(constant.CC, this.onPropertyChanged, this), this.parent.on(constant._8, this.setCssClass, this);
                 }, ColorPickerInput.prototype.onPropertyChanged = function(model) {
-                    for(var newProp = model.newProp, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'fontColor':
-                                if (this.fontColorPicker) for(var _b = 0, _c = Object.keys(newProp.fontColor); _b < _c.length; _b++){
-                                    var font = _c[_b];
-                                    switch(font){
-                                        case 'default':
-                                            this.fontColorPicker.setProperties({
-                                                value: newProp.fontColor.default
-                                            }), (0, this.fontColorDropDown.element).querySelector('.' + this.tools.fontcolor.icon).style.borderBottomColor = newProp.fontColor.default;
-                                            break;
-                                        case 'mode':
-                                            this.fontColorPicker.setProperties({
-                                                mode: newProp.fontColor.mode
-                                            });
-                                            break;
-                                        case 'columns':
-                                            this.fontColorPicker.setProperties({
-                                                columns: newProp.fontColor.columns
-                                            });
-                                            break;
-                                        case 'colorCode':
-                                            this.fontColorPicker.setProperties({
-                                                presetColors: newProp.fontColor.colorCode
-                                            });
-                                            break;
-                                        case 'modeSwitcher':
-                                            this.fontColorPicker.setProperties({
-                                                modeSwitcher: newProp.fontColor.modeSwitcher
-                                            });
-                                    }
-                                }
-                                break;
-                            case 'backgroundColor':
-                                if (this.backgroundColorPicker) for(var _d = 0, _e = Object.keys(newProp.backgroundColor); _d < _e.length; _d++){
-                                    var background = _e[_d];
-                                    switch(background){
-                                        case 'default':
-                                            this.backgroundColorPicker.setProperties({
-                                                value: newProp.backgroundColor.default
-                                            }), (0, this.backgroundColorDropDown.element).querySelector('.' + this.tools.backgroundcolor.icon).style.borderBottomColor = newProp.backgroundColor.default;
-                                            break;
-                                        case 'mode':
-                                            this.backgroundColorPicker.setProperties({
-                                                mode: newProp.backgroundColor.mode
-                                            });
-                                            break;
-                                        case 'columns':
-                                            this.backgroundColorPicker.setProperties({
-                                                columns: newProp.backgroundColor.columns
-                                            });
-                                            break;
-                                        case 'colorCode':
-                                            this.backgroundColorPicker.setProperties({
-                                                presetColors: newProp.backgroundColor.colorCode
-                                            });
-                                            break;
-                                        case 'modeSwitcher':
-                                            this.backgroundColorPicker.setProperties({
-                                                modeSwitcher: newProp.backgroundColor.modeSwitcher
-                                            });
-                                    }
-                                }
-                        }
+                    for(var newProp = model.newProp, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'fontColor':
+                            if (this.fontColorPicker) for(var _b = 0, _c = Object.keys(newProp.fontColor); _b < _c.length; _b++)switch(_c[_b]){
+                                case 'default':
+                                    this.fontColorPicker.setProperties({
+                                        value: newProp.fontColor.default
+                                    }), (0, this.fontColorDropDown.element).querySelector('.' + this.tools.fontcolor.icon).style.borderBottomColor = newProp.fontColor.default;
+                                    break;
+                                case 'mode':
+                                    this.fontColorPicker.setProperties({
+                                        mode: newProp.fontColor.mode
+                                    });
+                                    break;
+                                case 'columns':
+                                    this.fontColorPicker.setProperties({
+                                        columns: newProp.fontColor.columns
+                                    });
+                                    break;
+                                case 'colorCode':
+                                    this.fontColorPicker.setProperties({
+                                        presetColors: newProp.fontColor.colorCode
+                                    });
+                                    break;
+                                case 'modeSwitcher':
+                                    this.fontColorPicker.setProperties({
+                                        modeSwitcher: newProp.fontColor.modeSwitcher
+                                    });
+                            }
+                            break;
+                        case 'backgroundColor':
+                            if (this.backgroundColorPicker) for(var _d = 0, _e = Object.keys(newProp.backgroundColor); _d < _e.length; _d++)switch(_e[_d]){
+                                case 'default':
+                                    this.backgroundColorPicker.setProperties({
+                                        value: newProp.backgroundColor.default
+                                    }), (0, this.backgroundColorDropDown.element).querySelector('.' + this.tools.backgroundcolor.icon).style.borderBottomColor = newProp.backgroundColor.default;
+                                    break;
+                                case 'mode':
+                                    this.backgroundColorPicker.setProperties({
+                                        mode: newProp.backgroundColor.mode
+                                    });
+                                    break;
+                                case 'columns':
+                                    this.backgroundColorPicker.setProperties({
+                                        columns: newProp.backgroundColor.columns
+                                    });
+                                    break;
+                                case 'colorCode':
+                                    this.backgroundColorPicker.setProperties({
+                                        presetColors: newProp.backgroundColor.colorCode
+                                    });
+                                    break;
+                                case 'modeSwitcher':
+                                    this.backgroundColorPicker.setProperties({
+                                        modeSwitcher: newProp.backgroundColor.modeSwitcher
+                                    });
+                            }
                     }
                 }, ColorPickerInput.prototype.removeEventListener = function() {
                     this.parent.off(constant.vW, this.renderColorPickerInput), this.parent.off(constant.ob, this.destroy), this.parent.off(constant.vN, this.setRtl), this.parent.off(constant.c0, this.destroyColorPicker), this.parent.off(constant.CC, this.onPropertyChanged), this.parent.off(constant._8, this.setCssClass);
@@ -15950,41 +15926,38 @@
                         checked: 'true'
                     });
                 }, RadioButton.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var wrap = this.getWrapper(), label = this.getLabel(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'checked':
-                                newProp.checked && this.updateChange(), this.element.checked = newProp.checked;
-                                break;
-                            case 'disabled':
-                                newProp.disabled ? (this.setDisabled(), this.unWireEvents()) : (this.element.disabled = !1, this.wireEvents());
-                                break;
-                            case 'cssClass':
-                                oldProp.cssClass && (0, ej2_base.IV)([
-                                    wrap
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
-                                    wrap
-                                ], newProp.cssClass.split(' '));
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? label.classList.add(RTL) : label.classList.remove(RTL);
-                                break;
-                            case 'label':
-                                this.setText(newProp.label);
-                                break;
-                            case 'labelPosition':
-                                'Before' === newProp.labelPosition ? label.classList.add('e-right') : label.classList.remove('e-right');
-                                break;
-                            case 'name':
-                                this.element.setAttribute('name', newProp.name);
-                                break;
-                            case 'value':
-                                if (!(0, ej2_base.le)(this.htmlAttributes) && this.htmlAttributes.value) break;
-                                this.element.setAttribute('value', newProp.value);
-                                break;
-                            case 'htmlAttributes':
-                                this.updateHtmlAttribute();
-                        }
+                    for(var wrap = this.getWrapper(), label = this.getLabel(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'checked':
+                            newProp.checked && this.updateChange(), this.element.checked = newProp.checked;
+                            break;
+                        case 'disabled':
+                            newProp.disabled ? (this.setDisabled(), this.unWireEvents()) : (this.element.disabled = !1, this.wireEvents());
+                            break;
+                        case 'cssClass':
+                            oldProp.cssClass && (0, ej2_base.IV)([
+                                wrap
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
+                                wrap
+                            ], newProp.cssClass.split(' '));
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? label.classList.add(RTL) : label.classList.remove(RTL);
+                            break;
+                        case 'label':
+                            this.setText(newProp.label);
+                            break;
+                        case 'labelPosition':
+                            'Before' === newProp.labelPosition ? label.classList.add('e-right') : label.classList.remove('e-right');
+                            break;
+                        case 'name':
+                            this.element.setAttribute('name', newProp.name);
+                            break;
+                        case 'value':
+                            if (!(0, ej2_base.le)(this.htmlAttributes) && this.htmlAttributes.value) break;
+                            this.element.setAttribute('value', newProp.value);
+                            break;
+                        case 'htmlAttributes':
+                            this.updateHtmlAttribute();
                     }
                 }, RadioButton.prototype.preRender = function() {
                     var element = this.element;
@@ -16369,49 +16342,46 @@
                     }, _this.uploadedFilesData = [], _this.base64String = [], _this.isForm = !1, _this.allTypes = !1, _this.pausedData = [], _this.uploadMetaData = [], _this.tabIndex = '0', _this.btnTabIndex = '0', _this.disableKeyboardNavigation = !1, _this.count = -1, _this.actionCompleteCount = 0, _this.flag = !0, _this.selectedFiles = [], _this.uploaderName = 'UploadFiles', _this.fileStreams = [], _this.newFileRef = 0, _this.isFirstFileOnSelection = !1, _this.dragCounter = 0, _this.isAngular = !1, _this.fileList = [], _this.filesData = [], _this.uploaderOptions = options, _this;
                 }
                 return uploader_extends(Uploader, _super), Uploader.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'allowedExtensions':
-                                this.setExtensions(this.allowedExtensions), this.clearAll();
-                                break;
-                            case 'enabled':
-                                this.setControlStatus();
-                                break;
-                            case 'multiple':
-                                this.setMultipleSelection();
-                                break;
-                            case 'enableRtl':
-                                this.setRTL(), this.reRenderFileList();
-                                break;
-                            case 'buttons':
-                                this.buttons.browse = (0, ej2_base.le)(this.buttons.browse) ? '' : this.buttons.browse, this.buttons.clear = (0, ej2_base.le)(this.buttons.clear) ? '' : this.buttons.clear, this.buttons.upload = (0, ej2_base.le)(this.buttons.upload) ? '' : this.buttons.upload, this.renderButtonTemplates();
-                                break;
-                            case 'dropArea':
-                                this.unBindDropEvents(), this.updateDropArea();
-                                break;
-                            case 'htmlAttributes':
-                                this.updateHTMLAttrToElement(), this.updateHTMLAttrToWrapper(), this.checkHTMLAttributes(!0);
-                                break;
-                            case 'files':
-                                this.renderPreLoadFiles();
-                                break;
-                            case 'directoryUpload':
-                                this.updateDirectoryAttributes();
-                                break;
-                            case 'template':
-                            case 'minFileSize':
-                            case 'maxFileSize':
-                            case 'autoUpload':
-                            case 'sequentialUpload':
-                                this.clearAll();
-                                break;
-                            case 'locale':
-                                this.l10n.setLocale(this.locale), this.setLocalizedTexts(), this.preLocaleObj = (0, ej2_base.NA)('currentLocale', this.l10n);
-                                break;
-                            case 'cssClass':
-                                this.setCSSClass(oldProp.cssClass);
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'allowedExtensions':
+                            this.setExtensions(this.allowedExtensions), this.clearAll();
+                            break;
+                        case 'enabled':
+                            this.setControlStatus();
+                            break;
+                        case 'multiple':
+                            this.setMultipleSelection();
+                            break;
+                        case 'enableRtl':
+                            this.setRTL(), this.reRenderFileList();
+                            break;
+                        case 'buttons':
+                            this.buttons.browse = (0, ej2_base.le)(this.buttons.browse) ? '' : this.buttons.browse, this.buttons.clear = (0, ej2_base.le)(this.buttons.clear) ? '' : this.buttons.clear, this.buttons.upload = (0, ej2_base.le)(this.buttons.upload) ? '' : this.buttons.upload, this.renderButtonTemplates();
+                            break;
+                        case 'dropArea':
+                            this.unBindDropEvents(), this.updateDropArea();
+                            break;
+                        case 'htmlAttributes':
+                            this.updateHTMLAttrToElement(), this.updateHTMLAttrToWrapper(), this.checkHTMLAttributes(!0);
+                            break;
+                        case 'files':
+                            this.renderPreLoadFiles();
+                            break;
+                        case 'directoryUpload':
+                            this.updateDirectoryAttributes();
+                            break;
+                        case 'template':
+                        case 'minFileSize':
+                        case 'maxFileSize':
+                        case 'autoUpload':
+                        case 'sequentialUpload':
+                            this.clearAll();
+                            break;
+                        case 'locale':
+                            this.l10n.setLocale(this.locale), this.setLocalizedTexts(), this.preLocaleObj = (0, ej2_base.NA)('currentLocale', this.l10n);
+                            break;
+                        case 'cssClass':
+                            this.setCSSClass(oldProp.cssClass);
                     }
                 }, Uploader.prototype.setLocalizedTexts = function() {
                     (0, ej2_base.le)(this.template) && ('string' == typeof this.buttons.browse && (this.browseButton.innerText = 'Browse...' === this.buttons.browse ? this.localizedTexts('Browse') : this.buttons.browse, this.browseButton.setAttribute('title', this.browseButton.innerText), this.uploadWrapper && !(0, ej2_base.le)(this.uploadWrapper.querySelector('.' + DROP_AREA)) && (this.uploadWrapper.querySelector('.' + DROP_AREA).innerHTML = this.localizedTexts('dropFilesHint'))), this.updateFileList());
@@ -18676,15 +18646,12 @@
                         disEle && (disEle.classList.remove(CLS_DISABLE), disEle.setAttribute('aria-disabled', 'false'), disEle.setAttribute('tabindex', '0'));
                     }
                 }, HScroll.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'scrollStep':
-                                this.setScrollState();
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? this.element.classList.add(CLS_RTL) : this.element.classList.remove(CLS_RTL);
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'scrollStep':
+                            this.setScrollState();
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? this.element.classList.add(CLS_RTL) : this.element.classList.remove(CLS_RTL);
                     }
                 }, __decorate([
                     (0, ej2_base.Z9)(null)
@@ -18891,15 +18858,12 @@
                         disEle && (disEle.classList.remove(v_scroll_CLS_DISABLE), disEle.setAttribute('aria-disabled', 'false'), disEle.setAttribute('tabindex', '0'));
                     }
                 }, VScroll.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'scrollStep':
-                                this.setScrollState();
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? this.element.classList.add(v_scroll_CLS_RTL) : this.element.classList.remove(v_scroll_CLS_RTL);
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'scrollStep':
+                            this.setScrollState();
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? this.element.classList.add(v_scroll_CLS_RTL) : this.element.classList.remove(v_scroll_CLS_RTL);
                     }
                 }, v_scroll_decorate([
                     (0, ej2_base.Z9)(null)
@@ -19773,61 +19737,58 @@
                 }, Toolbar.prototype.onPropertyChanged = function(newProp, oldProp) {
                     var tEle = this.element, wid = tEle.offsetWidth;
                     this.extendedOpen();
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'items':
-                                if (newProp.items instanceof Array && oldProp.items instanceof Array) this.itemsRerender(newProp.items);
-                                else for(var changedProb = Object.keys(newProp.items), i = 0; i < changedProb.length; i++){
-                                    var index = parseInt(Object.keys(newProp.items)[i], 10), property = Object.keys(newProp.items[index])[0], newProperty = Object(newProp.items[index])[property];
-                                    if ('function' != typeof newProperty) {
-                                        if (this.tbarAlign || 'align' === property) {
-                                            this.refresh(), this.trigger('created');
-                                            break;
-                                        }
-                                        var popupPriCheck = 'showAlwaysInPopup' === property && !newProperty, booleanCheck = 'overflow' === property && 0 !== this.popupPriCount;
-                                        (popupPriCheck || this.items[index].showAlwaysInPopup && booleanCheck) && --this.popupPriCount, (0, ej2_base.le)(this.scrollModule) && this.destroyMode();
-                                        var itemCol = [].slice.call((0, ej2_base.td)('.' + CLS_ITEMS + ' .' + CLS_ITEM, tEle));
-                                        this.isReact && this.clearTemplate(), (0, ej2_base.og)(itemCol[index]), this.tbarEle.splice(index, 1), this.addItems([
-                                            this.items[index]
-                                        ], index), this.items.splice(index, 1), this.items[index].template && this.tbarEle.splice(this.items.length, 1);
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'items':
+                            if (newProp.items instanceof Array && oldProp.items instanceof Array) this.itemsRerender(newProp.items);
+                            else for(var changedProb = Object.keys(newProp.items), i = 0; i < changedProb.length; i++){
+                                var index = parseInt(Object.keys(newProp.items)[i], 10), property = Object.keys(newProp.items[index])[0], newProperty = Object(newProp.items[index])[property];
+                                if ('function' != typeof newProperty) {
+                                    if (this.tbarAlign || 'align' === property) {
+                                        this.refresh(), this.trigger('created');
+                                        break;
                                     }
+                                    var popupPriCheck = 'showAlwaysInPopup' === property && !newProperty, booleanCheck = 'overflow' === property && 0 !== this.popupPriCount;
+                                    (popupPriCheck || this.items[index].showAlwaysInPopup && booleanCheck) && --this.popupPriCount, (0, ej2_base.le)(this.scrollModule) && this.destroyMode();
+                                    var itemCol = [].slice.call((0, ej2_base.td)('.' + CLS_ITEMS + ' .' + CLS_ITEM, tEle));
+                                    this.isReact && this.clearTemplate(), (0, ej2_base.og)(itemCol[index]), this.tbarEle.splice(index, 1), this.addItems([
+                                        this.items[index]
+                                    ], index), this.items.splice(index, 1), this.items[index].template && this.tbarEle.splice(this.items.length, 1);
                                 }
-                                break;
-                            case 'width':
-                                (0, ej2_base.V7)(tEle, {
-                                    width: (0, ej2_base.Ac)(newProp.width)
-                                }), this.renderOverflowMode(), this.popObj && wid < tEle.offsetWidth && this.popupRefresh(this.popObj.element, !1);
-                                break;
-                            case 'height':
-                                (0, ej2_base.V7)(this.element, {
-                                    height: (0, ej2_base.Ac)(newProp.height)
-                                });
-                                break;
-                            case 'overflowMode':
-                                this.destroyMode(), this.renderOverflowMode(), this.enableRtl && this.add(tEle, toolbar_CLS_RTL), this.refreshOverflow();
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? this.add(tEle, toolbar_CLS_RTL) : this.remove(tEle, toolbar_CLS_RTL), (0, ej2_base.le)(this.scrollModule) || (newProp.enableRtl ? this.add(this.scrollModule.element, toolbar_CLS_RTL) : this.remove(this.scrollModule.element, toolbar_CLS_RTL)), (0, ej2_base.le)(this.popObj) || (newProp.enableRtl ? this.add(this.popObj.element, toolbar_CLS_RTL) : this.remove(this.popObj.element, toolbar_CLS_RTL)), this.tbarAlign && this.itemPositioning();
-                                break;
-                            case 'scrollStep':
-                                this.scrollModule && (this.scrollModule.scrollStep = this.scrollStep);
-                                break;
-                            case 'enableCollision':
-                                this.popObj && (this.popObj.collision = {
-                                    Y: this.enableCollision ? 'flip' : 'none'
-                                });
-                                break;
-                            case 'cssClass':
-                                oldProp.cssClass && (0, ej2_base.IV)([
-                                    this.element
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
-                                    this.element
-                                ], newProp.cssClass.split(' '));
-                                break;
-                            case 'allowKeyboard':
-                                this.unwireKeyboardEvent(), newProp.allowKeyboard && this.wireKeyboardEvent();
-                        }
+                            }
+                            break;
+                        case 'width':
+                            (0, ej2_base.V7)(tEle, {
+                                width: (0, ej2_base.Ac)(newProp.width)
+                            }), this.renderOverflowMode(), this.popObj && wid < tEle.offsetWidth && this.popupRefresh(this.popObj.element, !1);
+                            break;
+                        case 'height':
+                            (0, ej2_base.V7)(this.element, {
+                                height: (0, ej2_base.Ac)(newProp.height)
+                            });
+                            break;
+                        case 'overflowMode':
+                            this.destroyMode(), this.renderOverflowMode(), this.enableRtl && this.add(tEle, toolbar_CLS_RTL), this.refreshOverflow();
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? this.add(tEle, toolbar_CLS_RTL) : this.remove(tEle, toolbar_CLS_RTL), (0, ej2_base.le)(this.scrollModule) || (newProp.enableRtl ? this.add(this.scrollModule.element, toolbar_CLS_RTL) : this.remove(this.scrollModule.element, toolbar_CLS_RTL)), (0, ej2_base.le)(this.popObj) || (newProp.enableRtl ? this.add(this.popObj.element, toolbar_CLS_RTL) : this.remove(this.popObj.element, toolbar_CLS_RTL)), this.tbarAlign && this.itemPositioning();
+                            break;
+                        case 'scrollStep':
+                            this.scrollModule && (this.scrollModule.scrollStep = this.scrollStep);
+                            break;
+                        case 'enableCollision':
+                            this.popObj && (this.popObj.collision = {
+                                Y: this.enableCollision ? 'flip' : 'none'
+                            });
+                            break;
+                        case 'cssClass':
+                            oldProp.cssClass && (0, ej2_base.IV)([
+                                this.element
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
+                                this.element
+                            ], newProp.cssClass.split(' '));
+                            break;
+                        case 'allowKeyboard':
+                            this.unwireKeyboardEvent(), newProp.allowKeyboard && this.wireKeyboardEvent();
                     }
                 }, Toolbar.prototype.hideItem = function(index, value) {
                     var initIndex, ele, isElement = 'object' == typeof index, eleIndex = index, innerItems = [].slice.call((0, ej2_base.td)('.' + CLS_ITEM, this.element));
@@ -20249,39 +20210,36 @@
                     ])), this.isPopupCreated && (popupElement = this.getPopUpElement(), this.dropDown.setProperties(getModel(newProp, [
                         'enableRtl'
                     ])));
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'content':
-                                this.element.querySelector('span.e-caret') || this.appendArrowSpan();
-                                break;
-                            case 'disabled':
-                                newProp.disabled ? (this.unWireEvents(), this.isPopupCreated && !this.canOpen() && this.closePopup()) : this.wireEvents();
-                                break;
-                            case 'cssClass':
-                                if (newProp.cssClass.indexOf(classNames.VERTICAL) > -1) {
-                                    var arrowSpan = this.element.querySelector('span.e-caret');
-                                    (0, ej2_base.s1)(arrowSpan, [
-                                        'e-icon-bottom'
-                                    ], [
-                                        'e-icon-right'
-                                    ]);
-                                }
-                                this.isPopupCreated && (oldProp.cssClass && (0, ej2_base.IV)([
-                                    popupElement
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
-                                    popupElement
-                                ], newProp.cssClass.split(' ')));
-                                break;
-                            case 'target':
-                                this.dropDown.content = this.getTargetElement(), this.dropDown.dataBind();
-                                break;
-                            case 'items':
-                                this.isPopupCreated && this.getULElement() && this.createItems();
-                                break;
-                            case 'createPopupOnClick':
-                                newProp.createPopupOnClick ? this.destroyPopup() : this.createPopup();
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'content':
+                            this.element.querySelector('span.e-caret') || this.appendArrowSpan();
+                            break;
+                        case 'disabled':
+                            newProp.disabled ? (this.unWireEvents(), this.isPopupCreated && !this.canOpen() && this.closePopup()) : this.wireEvents();
+                            break;
+                        case 'cssClass':
+                            if (newProp.cssClass.indexOf(classNames.VERTICAL) > -1) {
+                                var arrowSpan = this.element.querySelector('span.e-caret');
+                                (0, ej2_base.s1)(arrowSpan, [
+                                    'e-icon-bottom'
+                                ], [
+                                    'e-icon-right'
+                                ]);
+                            }
+                            this.isPopupCreated && (oldProp.cssClass && (0, ej2_base.IV)([
+                                popupElement
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
+                                popupElement
+                            ], newProp.cssClass.split(' ')));
+                            break;
+                        case 'target':
+                            this.dropDown.content = this.getTargetElement(), this.dropDown.dataBind();
+                            break;
+                        case 'items':
+                            this.isPopupCreated && this.getULElement() && this.createItems();
+                            break;
+                        case 'createPopupOnClick':
+                            newProp.createPopupOnClick ? this.destroyPopup() : this.createPopup();
                     }
                 }, DropDownButton.prototype.focusIn = function() {
                     this.element.focus();
@@ -20495,23 +20453,20 @@
                         'enableRtl',
                         'createPopupOnClick'
                     ], Object.keys(newProp).indexOf('items') > -1 && (this.secondaryBtnObj.items = newProp.items, this.secondaryBtnObj.dataBind()), this.secondaryBtnObj.setProperties(getModel(newProp, model));
-                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'cssClass':
-                                oldProp.cssClass && (0, ej2_base.IV)([
-                                    this.wrapper
-                                ], oldProp.cssClass.split(' ')), (0, ej2_base.cn)([
-                                    this.wrapper
-                                ], newProp.cssClass.split(' '));
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? (0, ej2_base.cn)([
-                                    this.wrapper
-                                ], RTL) : (0, ej2_base.IV)([
-                                    this.wrapper
-                                ], RTL);
-                        }
+                    for(var _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'cssClass':
+                            oldProp.cssClass && (0, ej2_base.IV)([
+                                this.wrapper
+                            ], oldProp.cssClass.split(' ')), (0, ej2_base.cn)([
+                                this.wrapper
+                            ], newProp.cssClass.split(' '));
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? (0, ej2_base.cn)([
+                                this.wrapper
+                            ], RTL) : (0, ej2_base.IV)([
+                                this.wrapper
+                            ], RTL);
                     }
                 }, SplitButton.prototype.focusIn = function() {
                     this.element.focus();
@@ -21031,61 +20986,58 @@
                 }, Tooltip.prototype.getPersistData = function() {
                     return this.addOnPersist([]);
                 }, Tooltip.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var targetElement = this.findTarget(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'width':
-                                this.tooltipEle && targetElement && (this.tooltipEle.style.width = this.tooltipEle.style.maxWidth = (0, ej2_base.Ac)(newProp.width), this.reposition(targetElement));
-                                break;
-                            case 'height':
-                                this.tooltipEle && targetElement && (this.tooltipEle.style.height = (0, ej2_base.Ac)(newProp.height), this.reposition(targetElement));
-                                break;
-                            case 'content':
-                                this.tooltipEle && this.renderContent();
-                                break;
-                            case 'opensOn':
-                                this.unwireEvents(oldProp.opensOn), this.wireEvents(newProp.opensOn);
-                                break;
-                            case 'position':
-                                if (this.formatPosition(), this.tooltipEle && targetElement) {
-                                    var arrowInnerELe = (0, ej2_base.Ys)('.' + ARROW_TIP_INNER, this.tooltipEle);
-                                    arrowInnerELe.style.top = arrowInnerELe.style.left = null, this.reposition(targetElement);
-                                }
-                                break;
-                            case 'tipPointerPosition':
-                                this.tooltipEle && targetElement && this.reposition(targetElement);
-                                break;
-                            case 'offsetX':
-                                if (this.tooltipEle) {
-                                    var x = newProp.offsetX - oldProp.offsetX;
-                                    this.tooltipEle.style.left = (parseInt(this.tooltipEle.style.left, 10) + x).toString() + 'px';
-                                }
-                                break;
-                            case 'offsetY':
-                                if (this.tooltipEle) {
-                                    var y = newProp.offsetY - oldProp.offsetY;
-                                    this.tooltipEle.style.top = (parseInt(this.tooltipEle.style.top, 10) + y).toString() + 'px';
-                                }
-                                break;
-                            case 'cssClass':
-                                this.tooltipEle && (oldProp.cssClass && (0, ej2_base.IV)([
-                                    this.tooltipEle
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
-                                    this.tooltipEle
-                                ], newProp.cssClass.split(' ')));
-                                break;
-                            case 'enableRtl':
-                                this.tooltipEle && (this.enableRtl ? (0, ej2_base.cn)([
-                                    this.tooltipEle
-                                ], tooltip_RTL) : (0, ej2_base.IV)([
-                                    this.tooltipEle
-                                ], tooltip_RTL));
-                                break;
-                            case 'container':
-                                (0, ej2_base.le)(this.containerElement) || (0, ej2_base.IV)([
-                                    this.containerElement
-                                ], POPUP_CONTAINER), this.container = newProp.container, this.tooltipEle && targetElement && (this.appendContainer(this), this.reposition(targetElement));
-                        }
+                    for(var targetElement = this.findTarget(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'width':
+                            this.tooltipEle && targetElement && (this.tooltipEle.style.width = this.tooltipEle.style.maxWidth = (0, ej2_base.Ac)(newProp.width), this.reposition(targetElement));
+                            break;
+                        case 'height':
+                            this.tooltipEle && targetElement && (this.tooltipEle.style.height = (0, ej2_base.Ac)(newProp.height), this.reposition(targetElement));
+                            break;
+                        case 'content':
+                            this.tooltipEle && this.renderContent();
+                            break;
+                        case 'opensOn':
+                            this.unwireEvents(oldProp.opensOn), this.wireEvents(newProp.opensOn);
+                            break;
+                        case 'position':
+                            if (this.formatPosition(), this.tooltipEle && targetElement) {
+                                var arrowInnerELe = (0, ej2_base.Ys)('.' + ARROW_TIP_INNER, this.tooltipEle);
+                                arrowInnerELe.style.top = arrowInnerELe.style.left = null, this.reposition(targetElement);
+                            }
+                            break;
+                        case 'tipPointerPosition':
+                            this.tooltipEle && targetElement && this.reposition(targetElement);
+                            break;
+                        case 'offsetX':
+                            if (this.tooltipEle) {
+                                var x = newProp.offsetX - oldProp.offsetX;
+                                this.tooltipEle.style.left = (parseInt(this.tooltipEle.style.left, 10) + x).toString() + 'px';
+                            }
+                            break;
+                        case 'offsetY':
+                            if (this.tooltipEle) {
+                                var y = newProp.offsetY - oldProp.offsetY;
+                                this.tooltipEle.style.top = (parseInt(this.tooltipEle.style.top, 10) + y).toString() + 'px';
+                            }
+                            break;
+                        case 'cssClass':
+                            this.tooltipEle && (oldProp.cssClass && (0, ej2_base.IV)([
+                                this.tooltipEle
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
+                                this.tooltipEle
+                            ], newProp.cssClass.split(' ')));
+                            break;
+                        case 'enableRtl':
+                            this.tooltipEle && (this.enableRtl ? (0, ej2_base.cn)([
+                                this.tooltipEle
+                            ], tooltip_RTL) : (0, ej2_base.IV)([
+                                this.tooltipEle
+                            ], tooltip_RTL));
+                            break;
+                        case 'container':
+                            (0, ej2_base.le)(this.containerElement) || (0, ej2_base.IV)([
+                                this.containerElement
+                            ], POPUP_CONTAINER), this.container = newProp.container, this.tooltipEle && targetElement && (this.appendContainer(this), this.reposition(targetElement));
                     }
                 }, Tooltip.prototype.open = function(element, animation) {
                     (0, ej2_base.le)(animation) && (animation = this.animation.open), (0, ej2_base.le)(element) && (element = this.element), 'none' !== element.style.display && this.showTooltip(element, animation);
@@ -23128,35 +23080,32 @@
                     return (idx += cIdx) < 0 ? idx += n + emptyCount : idx %= n + emptyCount, idx;
                 }, ColorPicker.prototype.inputHandler = function(e) {
                     var hsv, pValue, target = e.target;
-                    if (target.value.length) {
-                        var label = (0, ej2_base.Ys)('.e-float-text', target.parentElement).textContent;
-                        switch(label){
-                            case 'HEX':
-                                var value = '';
-                                if (('#' === target.value[0] && 5 !== target.value.length || '#' !== target.value[0] && 4 !== target.value.length) && (value = this.roundValue(target.value)), 9 !== value.length) return;
-                                pValue = this.rgbToHex(this.rgb), this.rgb = this.hexToRgb(value + value.substr(-2)), this.inputValueChange(this.rgbToHsv.apply(this, this.rgb), pValue, target.value);
-                                break;
-                            case 'R':
-                                this.rgb[0] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[0] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
-                                break;
-                            case 'G':
-                                this.rgb[1] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[1] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
-                                break;
-                            case 'B':
-                                this.rgb[2] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[2] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
-                                break;
-                            case 'H':
-                                this.hueSlider.value = Number(target.value);
-                                break;
-                            case 'S':
-                                this.hsv[1] !== Number(target.value) && (this.hsv[1] = Number(target.value), this.updateHsv(), this.convertToOtherFormat());
-                                break;
-                            case 'V':
-                                this.hsv[2] !== Number(target.value) && (this.hsv[2] = Number(target.value), this.updateHsv(), this.convertToOtherFormat());
-                                break;
-                            case 'A':
-                                this.opacitySlider.value = Number(target.value);
-                        }
+                    if (target.value.length) switch((0, ej2_base.Ys)('.e-float-text', target.parentElement).textContent){
+                        case 'HEX':
+                            var value = '';
+                            if (('#' === target.value[0] && 5 !== target.value.length || '#' !== target.value[0] && 4 !== target.value.length) && (value = this.roundValue(target.value)), 9 !== value.length) return;
+                            pValue = this.rgbToHex(this.rgb), this.rgb = this.hexToRgb(value + value.substr(-2)), this.inputValueChange(this.rgbToHsv.apply(this, this.rgb), pValue, target.value);
+                            break;
+                        case 'R':
+                            this.rgb[0] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[0] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
+                            break;
+                        case 'G':
+                            this.rgb[1] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[1] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
+                            break;
+                        case 'B':
+                            this.rgb[2] !== Number(target.value) && (pValue = this.rgbToHex(this.rgb), this.rgb[2] = Number(target.value), hsv = this.rgbToHsv.apply(this, this.rgb), this.inputValueChange(hsv, pValue));
+                            break;
+                        case 'H':
+                            this.hueSlider.value = Number(target.value);
+                            break;
+                        case 'S':
+                            this.hsv[1] !== Number(target.value) && (this.hsv[1] = Number(target.value), this.updateHsv(), this.convertToOtherFormat());
+                            break;
+                        case 'V':
+                            this.hsv[2] !== Number(target.value) && (this.hsv[2] = Number(target.value), this.updateHsv(), this.convertToOtherFormat());
+                            break;
+                        case 'A':
+                            this.opacitySlider.value = Number(target.value);
                     }
                 }, ColorPicker.prototype.inputValueChange = function(hsv, pValue, value) {
                     hsv[0] !== this.hsv[0] && (this.hueSlider.setProperties({
@@ -24024,69 +23973,57 @@
                         });
                     }), dropDownItems;
                 }, DropDownButtons.prototype.onPropertyChanged = function(model) {
-                    for(var type, content, newProp = model.newProp, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'fontFamily':
-                                if (this.fontNameDropDown) for(var _b = 0, _c = Object.keys(newProp.fontFamily); _b < _c.length; _b++){
-                                    var fontFamily = _c[_b];
-                                    switch(fontFamily){
-                                        case 'default':
-                                        case 'width':
-                                            var fontItems = this.fontNameDropDown.items;
-                                            type = (0, ej2_base.le)((0, ej2_base.oq)(this.fontNameDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
-                                            var fontNameContent = (0, ej2_base.le)(this.parent.fontFamily.default) ? fontItems[0].text : this.parent.fontFamily.default;
-                                            content = this.dropdownContent(this.parent.fontFamily.width, type, 'quick' === type ? '' : (0, util.Iw)(fontItems, fontNameContent, 'text', 'text')), this.fontNameDropDown.setProperties({
-                                                content: content
-                                            }), (0, ej2_base.le)(this.parent.fontFamily.default) ? this.getEditNode().style.removeProperty('font-family') : this.getEditNode().style.fontFamily = this.parent.fontFamily.default;
-                                            break;
-                                        case 'items':
-                                            this.fontNameDropDown.setProperties({
-                                                items: this.getUpdateItems(newProp.fontFamily.items, 'FontName')
-                                            });
-                                    }
-                                }
-                                break;
-                            case 'fontSize':
-                                if (this.fontSizeDropDown) for(var _d = 0, _e = Object.keys(newProp.fontSize); _d < _e.length; _d++){
-                                    var fontSize = _e[_d];
-                                    switch(fontSize){
-                                        case 'default':
-                                        case 'width':
-                                            var fontsize = this.fontSizeDropDown.items;
-                                            type = (0, ej2_base.le)((0, ej2_base.oq)(this.fontSizeDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
-                                            var fontSizeContent = (0, ej2_base.le)(this.parent.fontSize.default) ? fontsize[1].text : this.parent.fontSize.default;
-                                            content = this.dropdownContent(this.parent.fontSize.width, type, (0, util.R1)((0, util.Iw)(fontsize, fontSizeContent.replace(/\s/g, ''), 'value', 'text'))), this.fontSizeDropDown.setProperties({
-                                                content: content
-                                            }), (0, ej2_base.le)(this.parent.fontSize.default) ? this.getEditNode().style.removeProperty('font-size') : this.getEditNode().style.fontSize = this.parent.fontSize.default;
-                                            break;
-                                        case 'items':
-                                            this.fontSizeDropDown.setProperties({
-                                                items: this.getUpdateItems(newProp.fontSize.items, 'FontSize')
-                                            });
-                                    }
-                                }
-                                break;
-                            case 'format':
-                                if (this.formatDropDown) for(var _f = 0, _g = Object.keys(newProp.format); _f < _g.length; _f++){
-                                    var format = _g[_f];
-                                    switch(format){
-                                        case 'default':
-                                        case 'width':
-                                            var formatItems = this.formatDropDown.items;
-                                            type = (0, ej2_base.le)((0, ej2_base.oq)(this.formatDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
-                                            var formatContent = (0, ej2_base.le)(this.parent.format.default) ? formatItems[0].text : this.parent.format.default;
-                                            content = this.dropdownContent(this.parent.format.width, type, 'quick' === type ? '' : (0, util.Iw)(formatItems, formatContent, 'text', 'text')), this.formatDropDown.setProperties({
-                                                content: content
-                                            });
-                                            break;
-                                        case 'types':
-                                            this.formatDropDown.setProperties({
-                                                items: this.getUpdateItems(newProp.format.types, 'Format')
-                                            });
-                                    }
-                                }
-                        }
+                    for(var type, content, newProp = model.newProp, _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'fontFamily':
+                            if (this.fontNameDropDown) for(var _b = 0, _c = Object.keys(newProp.fontFamily); _b < _c.length; _b++)switch(_c[_b]){
+                                case 'default':
+                                case 'width':
+                                    var fontItems = this.fontNameDropDown.items;
+                                    type = (0, ej2_base.le)((0, ej2_base.oq)(this.fontNameDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
+                                    var fontNameContent = (0, ej2_base.le)(this.parent.fontFamily.default) ? fontItems[0].text : this.parent.fontFamily.default;
+                                    content = this.dropdownContent(this.parent.fontFamily.width, type, 'quick' === type ? '' : (0, util.Iw)(fontItems, fontNameContent, 'text', 'text')), this.fontNameDropDown.setProperties({
+                                        content: content
+                                    }), (0, ej2_base.le)(this.parent.fontFamily.default) ? this.getEditNode().style.removeProperty('font-family') : this.getEditNode().style.fontFamily = this.parent.fontFamily.default;
+                                    break;
+                                case 'items':
+                                    this.fontNameDropDown.setProperties({
+                                        items: this.getUpdateItems(newProp.fontFamily.items, 'FontName')
+                                    });
+                            }
+                            break;
+                        case 'fontSize':
+                            if (this.fontSizeDropDown) for(var _d = 0, _e = Object.keys(newProp.fontSize); _d < _e.length; _d++)switch(_e[_d]){
+                                case 'default':
+                                case 'width':
+                                    var fontsize = this.fontSizeDropDown.items;
+                                    type = (0, ej2_base.le)((0, ej2_base.oq)(this.fontSizeDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
+                                    var fontSizeContent = (0, ej2_base.le)(this.parent.fontSize.default) ? fontsize[1].text : this.parent.fontSize.default;
+                                    content = this.dropdownContent(this.parent.fontSize.width, type, (0, util.R1)((0, util.Iw)(fontsize, fontSizeContent.replace(/\s/g, ''), 'value', 'text'))), this.fontSizeDropDown.setProperties({
+                                        content: content
+                                    }), (0, ej2_base.le)(this.parent.fontSize.default) ? this.getEditNode().style.removeProperty('font-size') : this.getEditNode().style.fontSize = this.parent.fontSize.default;
+                                    break;
+                                case 'items':
+                                    this.fontSizeDropDown.setProperties({
+                                        items: this.getUpdateItems(newProp.fontSize.items, 'FontSize')
+                                    });
+                            }
+                            break;
+                        case 'format':
+                            if (this.formatDropDown) for(var _f = 0, _g = Object.keys(newProp.format); _f < _g.length; _f++)switch(_g[_f]){
+                                case 'default':
+                                case 'width':
+                                    var formatItems = this.formatDropDown.items;
+                                    type = (0, ej2_base.le)((0, ej2_base.oq)(this.formatDropDown.element, '.' + classes.gr)) ? 'toolbar' : 'quick';
+                                    var formatContent = (0, ej2_base.le)(this.parent.format.default) ? formatItems[0].text : this.parent.format.default;
+                                    content = this.dropdownContent(this.parent.format.width, type, 'quick' === type ? '' : (0, util.Iw)(formatItems, formatContent, 'text', 'text')), this.formatDropDown.setProperties({
+                                        content: content
+                                    });
+                                    break;
+                                case 'types':
+                                    this.formatDropDown.setProperties({
+                                        items: this.getUpdateItems(newProp.format.types, 'Format')
+                                    });
+                            }
                     }
                 }, DropDownButtons.prototype.getEditNode = function() {
                     return this.parent.contentModule.getEditPanel();
@@ -27026,45 +26963,42 @@
                         (0, common.sg)(e, rippleSpan);
                     }
                 }, CheckBox.prototype.onPropertyChanged = function(newProp, oldProp) {
-                    for(var wrapper = this.getWrapper(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++){
-                        var prop = _a[_i];
-                        switch(prop){
-                            case 'checked':
-                                this.indeterminate = !1, this.element.indeterminate = !1, this.changeState(newProp.checked ? 'check' : 'uncheck');
-                                break;
-                            case 'indeterminate':
-                                newProp.indeterminate ? this.changeState() : (this.element.indeterminate = !1, this.changeState(this.checked ? 'check' : 'uncheck'));
-                                break;
-                            case 'disabled':
-                                newProp.disabled ? (this.setDisabled(), this.wrapper = this.getWrapper(), this.unWireEvents()) : (this.element.disabled = !1, wrapper.classList.remove(DISABLED), wrapper.setAttribute('aria-disabled', 'false'), this.wireEvents());
-                                break;
-                            case 'cssClass':
-                                oldProp.cssClass && (0, ej2_base.IV)([
-                                    wrapper
-                                ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
-                                    wrapper
-                                ], newProp.cssClass.split(' '));
-                                break;
-                            case 'enableRtl':
-                                newProp.enableRtl ? wrapper.classList.add(RTL) : wrapper.classList.remove(RTL);
-                                break;
-                            case 'label':
-                                this.setText(newProp.label);
-                                break;
-                            case 'labelPosition':
-                                var label = wrapper.getElementsByClassName(LABEL)[0], labelWrap = wrapper.getElementsByTagName('label')[0];
-                                (0, ej2_base.og)(label), 'After' === newProp.labelPosition ? labelWrap.appendChild(label) : labelWrap.insertBefore(label, wrapper.getElementsByClassName(FRAME)[0]);
-                                break;
-                            case 'name':
-                                this.element.setAttribute('name', newProp.name);
-                                break;
-                            case 'value':
-                                if (this.isVue && 'object' == typeof newProp.value) break;
-                                this.element.setAttribute('value', newProp.value);
-                                break;
-                            case 'htmlAttributes':
-                                this.updateHtmlAttributeToWrapper();
-                        }
+                    for(var wrapper = this.getWrapper(), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
+                        case 'checked':
+                            this.indeterminate = !1, this.element.indeterminate = !1, this.changeState(newProp.checked ? 'check' : 'uncheck');
+                            break;
+                        case 'indeterminate':
+                            newProp.indeterminate ? this.changeState() : (this.element.indeterminate = !1, this.changeState(this.checked ? 'check' : 'uncheck'));
+                            break;
+                        case 'disabled':
+                            newProp.disabled ? (this.setDisabled(), this.wrapper = this.getWrapper(), this.unWireEvents()) : (this.element.disabled = !1, wrapper.classList.remove(DISABLED), wrapper.setAttribute('aria-disabled', 'false'), this.wireEvents());
+                            break;
+                        case 'cssClass':
+                            oldProp.cssClass && (0, ej2_base.IV)([
+                                wrapper
+                            ], oldProp.cssClass.split(' ')), newProp.cssClass && (0, ej2_base.cn)([
+                                wrapper
+                            ], newProp.cssClass.split(' '));
+                            break;
+                        case 'enableRtl':
+                            newProp.enableRtl ? wrapper.classList.add(RTL) : wrapper.classList.remove(RTL);
+                            break;
+                        case 'label':
+                            this.setText(newProp.label);
+                            break;
+                        case 'labelPosition':
+                            var label = wrapper.getElementsByClassName(LABEL)[0], labelWrap = wrapper.getElementsByTagName('label')[0];
+                            (0, ej2_base.og)(label), 'After' === newProp.labelPosition ? labelWrap.appendChild(label) : labelWrap.insertBefore(label, wrapper.getElementsByClassName(FRAME)[0]);
+                            break;
+                        case 'name':
+                            this.element.setAttribute('name', newProp.name);
+                            break;
+                        case 'value':
+                            if (this.isVue && 'object' == typeof newProp.value) break;
+                            this.element.setAttribute('value', newProp.value);
+                            break;
+                        case 'htmlAttributes':
+                            this.updateHtmlAttributeToWrapper();
                     }
                 }, CheckBox.prototype.preRender = function() {
                     var element = this.element;
@@ -27168,8 +27102,7 @@
                 return Link.prototype.addEventListener = function() {
                     this.parent.isDestroyed || (this.parent.on(constant.T8, this.linkDialog, this), this.parent.on(constant.nk, this.showDialog, this), this.parent.on(constant.OI, this.closeDialog, this), this.parent.on(constant.QG, this.onKeyDown, this), this.parent.on(constant.IK, this.showLinkQuickToolbar, this), this.parent.on(constant.zA, this.clearDialogObj, this), this.parent.on(constant.Tc, this.onToolbarAction, this), this.parent.on(constant.a$, this.onIframeMouseDown, this), this.parent.on(constant.tC, this.removeLink, this), this.parent.on(constant.xD, this.editLink, this), this.parent.on(constant.nG, this.openLink, this), this.parent.on(constant.uU, this.editAreaClickHandler, this), this.parent.on(constant._8, this.setCssClass, this), this.parent.on(constant.ob, this.destroy, this), this.parent.on(constant.P0, this.moduleDestroy, this));
                 }, Link.prototype.onToolbarAction = function(args) {
-                    var item = args.args.item;
-                    switch(item.subCommand){
+                    switch(args.args.item.subCommand){
                         case 'OpenLink':
                             this.parent.notify(constant.nG, args);
                             break;
@@ -27596,8 +27529,7 @@
                         returnValue: !0
                     });
                 }, Table.prototype.onToolbarAction = function(args) {
-                    var item = args.args.item;
-                    switch(item.subCommand){
+                    switch(args.args.item.subCommand){
                         case 'TableHeader':
                             this.tableHeader(args.selection, args.args);
                             break;

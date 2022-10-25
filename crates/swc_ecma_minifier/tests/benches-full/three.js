@@ -12078,21 +12078,18 @@
                                 return;
                             }
                             var path = new ShapePath();
-                            if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;){
-                                var action = outline[i++];
-                                switch(action){
-                                    case 'm':
-                                        x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.moveTo(x, y);
-                                        break;
-                                    case 'l':
-                                        x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.lineTo(x, y);
-                                        break;
-                                    case 'q':
-                                        cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, path.quadraticCurveTo(cpx1, cpy1, cpx, cpy);
-                                        break;
-                                    case 'b':
-                                        cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, cpx2 = outline[i++] * scale + offsetX, cpy2 = outline[i++] * scale + offsetY, path.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, cpx, cpy);
-                                }
+                            if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;)switch(outline[i++]){
+                                case 'm':
+                                    x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.moveTo(x, y);
+                                    break;
+                                case 'l':
+                                    x = outline[i++] * scale + offsetX, y = outline[i++] * scale + offsetY, path.lineTo(x, y);
+                                    break;
+                                case 'q':
+                                    cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, path.quadraticCurveTo(cpx1, cpy1, cpx, cpy);
+                                    break;
+                                case 'b':
+                                    cpx = outline[i++] * scale + offsetX, cpy = outline[i++] * scale + offsetY, cpx1 = outline[i++] * scale + offsetX, cpy1 = outline[i++] * scale + offsetY, cpx2 = outline[i++] * scale + offsetX, cpy2 = outline[i++] * scale + offsetY, path.bezierCurveTo(cpx1, cpy1, cpx2, cpy2, cpx, cpy);
                             }
                             return {
                                 offsetX: glyph.ha * scale,

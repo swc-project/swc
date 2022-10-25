@@ -7,8 +7,7 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
         return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
     }, stringToLiteral = function(value, length) {
         var result = "", addChar = function(index) {
-            var ch = value.charCodeAt(index);
-            switch(ch){
+            switch(value.charCodeAt(index)){
                 case 0x09:
                     result += "\\t";
                     break;

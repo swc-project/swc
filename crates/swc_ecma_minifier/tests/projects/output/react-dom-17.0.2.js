@@ -3134,8 +3134,8 @@
     }
     function addTrappedEventListener(targetContainer, domEventName, eventSystemFlags, isCapturePhaseListener, isDeferredListenerForLegacyFBSupport) {
         var passive, passive1, unsubscribeListener, listener = function(targetContainer, domEventName, eventSystemFlags) {
-            var priority, listenerWrapper, eventPriority = void 0 === (priority = eventPriorities.get(domEventName)) ? 2 : priority;
-            switch(eventPriority){
+            var priority, listenerWrapper;
+            switch(void 0 === (priority = eventPriorities.get(domEventName)) ? 2 : priority){
                 case 0:
                     listenerWrapper = dispatchDiscreteEvent;
                     break;
@@ -6810,17 +6810,14 @@
                                     initWrapperState$2(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
                             }
                             assertValidProps(tag, rawProps), extraAttributeNames = new Set();
-                            for(var attributes = domElement.attributes, _i = 0; _i < attributes.length; _i++){
-                                var name = attributes[_i].name.toLowerCase();
-                                switch(name){
-                                    case "data-reactroot":
-                                    case "value":
-                                    case "checked":
-                                    case "selected":
-                                        break;
-                                    default:
-                                        extraAttributeNames.add(attributes[_i].name);
-                                }
+                            for(var attributes = domElement.attributes, _i = 0; _i < attributes.length; _i++)switch(attributes[_i].name.toLowerCase()){
+                                case "data-reactroot":
+                                case "value":
+                                case "checked":
+                                case "selected":
+                                    break;
+                                default:
+                                    extraAttributeNames.add(attributes[_i].name);
                             }
                             var updatePayload = null;
                             for(var propKey in rawProps)if (rawProps.hasOwnProperty(propKey)) {
@@ -8236,8 +8233,7 @@
                     null !== currentRef && ("function" == typeof currentRef ? currentRef(null) : currentRef.current = null);
                 }(current);
             }
-            var primaryFlags = 1038 & flags;
-            switch(primaryFlags){
+            switch(1038 & flags){
                 case 2:
                     commitPlacement(nextEffect), nextEffect.flags &= -3;
                     break;

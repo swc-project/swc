@@ -10558,8 +10558,7 @@
                         return programMapTable;
                     }
                 }, parsePesType = function(packet, programMapTable) {
-                    var type = programMapTable[parsePid(packet)];
-                    switch(type){
+                    switch(programMapTable[parsePid(packet)]){
                         case streamTypes.H264_STREAM_TYPE:
                             return "video";
                         case streamTypes.ADTS_STREAM_TYPE:
@@ -10715,8 +10714,7 @@
                     }
                 }, inspectAac_ = function(bytes) {
                     for(var packet, endLoop = !1, audioCount = 0, sampleRate = null, timestamp = null, frameSize = 0, byteIndex = 0; bytes.length - byteIndex >= 3;){
-                        var type = probe.aac.parseType(bytes, byteIndex);
-                        switch(type){
+                        switch(probe.aac.parseType(bytes, byteIndex)){
                             case "timed-metadata":
                                 if (bytes.length - byteIndex < 10 || (frameSize = probe.aac.parseId3TagSize(bytes, byteIndex)) > bytes.length) {
                                     endLoop = !0;
@@ -10757,15 +10755,12 @@
                         pid: null,
                         table: null
                     }, result = {};
-                    for(var pid in parsePsi_(bytes, pmt), pmt.table)if (pmt.table.hasOwnProperty(pid)) {
-                        var type = pmt.table[pid];
-                        switch(type){
-                            case streamTypes.H264_STREAM_TYPE:
-                                result.video = [], parseVideoPes_(bytes, pmt, result), 0 === result.video.length && delete result.video;
-                                break;
-                            case streamTypes.ADTS_STREAM_TYPE:
-                                result.audio = [], parseAudioPes_(bytes, pmt, result), 0 === result.audio.length && delete result.audio;
-                        }
+                    for(var pid in parsePsi_(bytes, pmt), pmt.table)if (pmt.table.hasOwnProperty(pid)) switch(pmt.table[pid]){
+                        case streamTypes.H264_STREAM_TYPE:
+                            result.video = [], parseVideoPes_(bytes, pmt, result), 0 === result.video.length && delete result.video;
+                            break;
+                        case streamTypes.ADTS_STREAM_TYPE:
+                            result.audio = [], parseAudioPes_(bytes, pmt, result), 0 === result.audio.length && delete result.audio;
                     }
                     return result;
                 }, tsInspector = {

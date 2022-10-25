@@ -417,8 +417,7 @@
                         return ret;
                     }(function(ch, i) {
                         if (is_big_int) return !1;
-                        var code = ch.charCodeAt(0);
-                        switch(code){
+                        switch(ch.charCodeAt(0)){
                             case 95:
                                 return numeric_separator = !0;
                             case 98:
