@@ -221,7 +221,7 @@ where
                                 self.errors.push(err);
                             }
 
-                            if list_of_component_values.children.len() > 0 {
+                            if !list_of_component_values.children.is_empty() {
                                 Some(Box::new(AtRulePrelude::ListOfComponentValues(
                                     list_of_component_values,
                                 )))
@@ -283,7 +283,7 @@ where
                                 self.errors.push(err);
                             }
 
-                            if list_of_component_values.children.len() > 0 {
+                            if !list_of_component_values.children.is_empty() {
                                 Some(Box::new(AtRulePrelude::ListOfComponentValues(
                                     list_of_component_values,
                                 )))
