@@ -24,21 +24,9 @@
     `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
-    :                               ^
-    `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
     :             ^
-    `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
-    :                               ^
     `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
@@ -150,21 +138,9 @@
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
-     :                               ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
      :             ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
-     :                               ^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
@@ -174,21 +150,9 @@
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
-     :                               ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
      :             ^
-     `----
-
-  x Expected whitespace, semicolon, EOF, at-keyword or ident token
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
-     :                               ^
      `----
 
   x Expected whitespace, semicolon, EOF, at-keyword or ident token

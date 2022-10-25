@@ -419,27 +419,25 @@ where
                         ),
                     ));
 
-                    let mut children = vec![];
+                    let mut list_of_component_values = ListOfComponentValues {
+                        span: Default::default(),
+                        children: vec![],
+                    };
 
-                    // TODO fix me
-                    while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump() {
-                            children.push(ComponentValue::PreservedToken(token_and_span));
-                        }
+                    while !is_one_of!(self, ";", EOF) {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        };
 
-                        if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
-                            }
+                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
-                            break;
-                        }
+                        list_of_component_values.children.push(component_value);
                     }
 
-                    declarations.push(StyleBlock::ListOfComponentValues(ListOfComponentValues {
-                        span: span!(self, span.lo),
-                        children,
-                    }));
+                    list_of_component_values.span = span!(self, span.lo);
+
+                    declarations.push(StyleBlock::ListOfComponentValues(list_of_component_values));
                 }
             }
         }

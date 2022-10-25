@@ -820,19 +820,25 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :             ^^
+    :             ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :             ^^
+    :             ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :             ^
+    :             ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x LParen
@@ -856,28 +862,10 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
     :               ^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
     :               ^^^^^^^^
@@ -886,10 +874,34 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
+    :                       ^
+    `----
+
+  x Colon
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
+    :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
+    :                        ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
+    :                        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
+ 13 | .selector { (;property: value;); }
     :                         ^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
     :                         ^^^^^
@@ -898,25 +910,13 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :                               ^^
+    :                              ^
     `----
 
-  x StyleBlock
+  x Semi
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
-    :                               ^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
-    :                               ^
-    `----
-
-  x RParen
-    ,-[$DIR/tests/recovery/hacks/input.css:13:1]
- 13 | .selector { (;property: value;); }
-    :                               ^
+    :                              ^
     `----
 
   x ComponentValue
@@ -994,19 +994,25 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :             ^^
+    :             ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x StyleBlock
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :             ^^
+    :             ^^^^^^^^^^^^^^^^^^^^
     `----
 
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :             ^
+    :             ^^^^^^^^^^^^^^^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
+    :             ^^^^^^^^^^^^^^^^^^^
     `----
 
   x LBracket
@@ -1030,28 +1036,10 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x StyleBlock
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
-    :               ^^^^^^^^^^^^^^^
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
     :               ^^^^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
     :               ^^^^^^^^
@@ -1060,10 +1048,34 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
+    :                       ^
+    `----
+
+  x Colon
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
+    :                       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
+    :                        ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
+    :                        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
+ 14 | .selector { [;property: value;]; }
     :                         ^^^^^
     `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
     :                         ^^^^^
@@ -1072,25 +1084,13 @@
   x ComponentValue
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :                               ^^
+    :                              ^
     `----
 
-  x StyleBlock
+  x Semi
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  14 | .selector { [;property: value;]; }
-    :                               ^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
-    :                               ^
-    `----
-
-  x RBracket
-    ,-[$DIR/tests/recovery/hacks/input.css:14:1]
- 14 | .selector { [;property: value;]; }
-    :                               ^
+    :                              ^
     `----
 
   x ComponentValue
@@ -12784,19 +12784,25 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :             ^
+     :             ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
   x LParen
@@ -12820,28 +12826,10 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
      :               ^^^^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
      :               ^^^^^^^^
@@ -12850,10 +12838,34 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
+     :                       ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
+     :                       ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
+     :                        ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
+     :                        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
+ 204 | .selector { (;property: value;); }
      :                         ^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
      :                         ^^^^^
@@ -12862,25 +12874,13 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :                               ^^
+     :                              ^
      `----
 
-  x StyleBlock
+  x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
-     :                               ^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
-     :                               ^
-     `----
-
-  x RParen
-     ,-[$DIR/tests/recovery/hacks/input.css:204:1]
- 204 | .selector { (;property: value;); }
-     :                               ^
+     :                              ^
      `----
 
   x ComponentValue
@@ -12958,19 +12958,25 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :             ^
+     :             ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
   x LBracket
@@ -12994,28 +13000,10 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
      :               ^^^^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
      :               ^^^^^^^^
@@ -13024,10 +13012,34 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
+     :                       ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
+     :                       ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
+     :                        ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
+     :                        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
+ 205 | .selector { [;property: value;]; }
      :                         ^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
      :                         ^^^^^
@@ -13036,25 +13048,13 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :                               ^^
+     :                              ^
      `----
 
-  x StyleBlock
+  x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  205 | .selector { [;property: value;]; }
-     :                               ^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
-     :                               ^
-     `----
-
-  x RBracket
-     ,-[$DIR/tests/recovery/hacks/input.css:205:1]
- 205 | .selector { [;property: value;]; }
-     :                               ^
+     :                              ^
      `----
 
   x ComponentValue
@@ -14500,19 +14500,25 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :             ^
+     :             ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
   x LParen
@@ -14536,28 +14542,10 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
      :               ^^^^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
      :               ^^^^^^^^
@@ -14566,10 +14554,34 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
+     :                       ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
+     :                       ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
+     :                        ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
+     :                        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
+ 225 | .selector { (;property: value;); }
      :                         ^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
      :                         ^^^^^
@@ -14578,25 +14590,13 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :                               ^^
+     :                              ^
      `----
 
-  x StyleBlock
+  x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
-     :                               ^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
-     :                               ^
-     `----
-
-  x RParen
-     ,-[$DIR/tests/recovery/hacks/input.css:225:1]
- 225 | .selector { (;property: value;); }
-     :                               ^
+     :                              ^
      `----
 
   x ComponentValue
@@ -14674,19 +14674,25 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x StyleBlock
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :             ^^
+     :             ^^^^^^^^^^^^^^^^^^^^
      `----
 
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :             ^
+     :             ^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
+     :             ^^^^^^^^^^^^^^^^^^^
      `----
 
   x LBracket
@@ -14710,28 +14716,10 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x StyleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x Declaration
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
-     :               ^^^^^^^^^^^^^^^
-     `----
-
-  x DeclarationName
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
      :               ^^^^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('property' type=static), raw: Atom('property' type=static) }
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
      :               ^^^^^^^^
@@ -14740,10 +14728,34 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
+     :                       ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
+     :                       ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
+     :                        ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
+     :                        ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
+ 226 | .selector { [;property: value;]; }
      :                         ^^^^^
      `----
 
-  x Ident
+  x Ident { value: Atom('value' type=inline), raw: Atom('value' type=inline) }
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
      :                         ^^^^^
@@ -14752,25 +14764,13 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :                               ^^
+     :                              ^
      `----
 
-  x StyleBlock
+  x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  226 | .selector { [;property: value;]; }
-     :                               ^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
-     :                               ^
-     `----
-
-  x RBracket
-     ,-[$DIR/tests/recovery/hacks/input.css:226:1]
- 226 | .selector { [;property: value;]; }
-     :                               ^
+     :                              ^
      `----
 
   x ComponentValue
@@ -16216,7 +16216,13 @@
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:247:5]
  247 | $(var)-size: 100%;
-     :  ^
+     :  ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
+ 247 | $(var)-size: 100%;
+     :  ^^^^^
      `----
 
   x LParen
@@ -16235,18 +16241,6 @@
      ,-[$DIR/tests/recovery/hacks/input.css:247:5]
  247 | $(var)-size: 100%;
      :   ^^^
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
- 247 | $(var)-size: 100%;
-     :      ^
-     `----
-
-  x RParen
-     ,-[$DIR/tests/recovery/hacks/input.css:247:5]
- 247 | $(var)-size: 100%;
-     :      ^
      `----
 
   x ComponentValue
