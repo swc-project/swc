@@ -1880,6 +1880,10 @@ where
     /// console.log(++c)
 
     fn replace_seq_update(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        if !self.options.sequences() {
+            return Ok(false);
+        }
+
         if let Mergable::Expr(a) = a {
             match a {
                 Expr::Update(UpdateExpr {
