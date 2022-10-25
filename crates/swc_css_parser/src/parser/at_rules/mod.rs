@@ -1,5 +1,5 @@
 use swc_atoms::{js_word, JsWord};
-use swc_common::{BytePos, Span};
+use swc_common::Span;
 use swc_css_ast::*;
 
 use super::{input::ParserInput, PResult, Parser};
@@ -9,201 +9,14 @@ use crate::{
     Parse,
 };
 
-impl<I> Parse<AtRule> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<AtRule> {
-        // Consume the next input token. Create a new at-rule with its name set to the
-        // value of the current input token, its prelude initially set to an empty list,
-        // and its value initially set to nothing.
-        let at_rule_span = self.input.cur_span();
-        let at_keyword_name = match bump!(self) {
-            Token::AtKeyword { value, raw } => (value, raw),
-            _ => {
-                unreachable!()
-            }
-        };
-        let at_rule_name = if at_keyword_name.0.starts_with("--") {
-            AtRuleName::DashedIdent(DashedIdent {
-                span: Span::new(
-                    at_rule_span.lo + BytePos(1),
-                    at_rule_span.hi,
-                    Default::default(),
-                ),
-                value: at_keyword_name.0,
-                raw: Some(at_keyword_name.1),
-            })
-        } else {
-            AtRuleName::Ident(Ident {
-                span: Span::new(
-                    at_rule_span.lo + BytePos(1),
-                    at_rule_span.hi,
-                    Default::default(),
-                ),
-                value: at_keyword_name.0,
-                raw: Some(at_keyword_name.1),
-            })
-        };
-        let mut prelude = vec![];
-        let mut at_rule = AtRule {
-            span: span!(self, at_rule_span.lo),
-            name: at_rule_name,
-            prelude: None,
-            block: None,
-        };
-        let lowercased_name = match &at_rule.name {
-            AtRuleName::Ident(ident) => ident.value.to_ascii_lowercase(),
-            AtRuleName::DashedIdent(dashed_ident) => dashed_ident.value.to_ascii_lowercase(),
-        };
-
-        loop {
-            // <EOF-token>
-            // This is a parse error. Return the at-rule.
-            if is!(self, EOF) {
-                self.errors.push(Error::new(
-                    at_rule_span,
-                    ErrorKind::EofButExpected("semicolon or curly block"),
-                ));
-
-                at_rule.span = span!(self, at_rule_span.lo);
-
-                return Ok(at_rule);
-            }
-
-            match cur!(self) {
-                // <semicolon-token>
-                // Return the at-rule.
-                tok!(";") => {
-                    self.input.bump();
-
-                    let list_of_component_values = self.create_locv(prelude);
-
-                    at_rule.prelude = match self
-                        .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&lowercased_name)
-                        }) {
-                        Ok(at_rule_prelude) => match at_rule_prelude {
-                            None if lowercased_name == js_word!("layer") => {
-                                self.errors.push(Error::new(
-                                    at_rule.span,
-                                    ErrorKind::Expected("at least one name"),
-                                ));
-
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            }
-                            _ => at_rule_prelude.map(Box::new),
-                        },
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            if !list_of_component_values.children.is_empty() {
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            } else {
-                                None
-                            }
-                        }
-                    };
-                    at_rule.span = span!(self, at_rule_span.lo);
-
-                    return Ok(at_rule);
-                }
-                // <{-token>
-                // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
-                tok!("{") => {
-                    let mut block = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<SimpleBlock>()?;
-
-                    let list_of_component_values = self.create_locv(prelude);
-
-                    at_rule.prelude = match self
-                        .parse_according_to_grammar(&list_of_component_values, |parser| {
-                            parser.parse_at_rule_prelude(&lowercased_name)
-                        }) {
-                        Ok(at_rule_prelude) => match at_rule_prelude {
-                            Some(AtRulePrelude::LayerPrelude(LayerPrelude::NameList(
-                                name_list,
-                            ))) if name_list.name_list.len() > 1 => {
-                                self.errors.push(Error::new(
-                                    name_list.span,
-                                    ErrorKind::Expected("only one name"),
-                                ));
-
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            }
-                            _ => at_rule_prelude.map(Box::new),
-                        },
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            if !list_of_component_values.children.is_empty() {
-                                Some(Box::new(AtRulePrelude::ListOfComponentValues(
-                                    list_of_component_values,
-                                )))
-                            } else {
-                                None
-                            }
-                        }
-                    };
-
-                    at_rule.block = match self.parse_according_to_grammar(
-                        &self.create_locv(block.value.clone()),
-                        |parser| parser.parse_at_rule_block(&lowercased_name),
-                    ) {
-                        Ok(block_contents) => {
-                            block.value = block_contents;
-
-                            Some(block)
-                        }
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            Some(block)
-                        }
-                    };
-                    at_rule.span = span!(self, at_rule_span.lo);
-
-                    return Ok(at_rule);
-                }
-                // anything else
-                // Reconsume the current input token. Consume a component value. Append the returned
-                // value to the at-rule’s prelude.
-                _ => {
-                    let component_value = self
-                        .with_ctx(Ctx {
-                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                            ..self.ctx
-                        })
-                        .parse_as::<ComponentValue>()?;
-
-                    prelude.push(component_value);
-                }
-            }
-        }
-    }
-}
-
 impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    fn parse_at_rule_prelude(&mut self, name: &JsWord) -> PResult<Option<AtRulePrelude>> {
+    pub(super) fn parse_at_rule_prelude(
+        &mut self,
+        name: &JsWord,
+    ) -> PResult<Option<AtRulePrelude>> {
         let prelude = match *name {
             js_word!("charset") => {
                 self.input.skip_ws();
@@ -681,7 +494,7 @@ where
         Ok(prelude)
     }
 
-    fn parse_at_rule_block(&mut self, name: &JsWord) -> PResult<Vec<ComponentValue>> {
+    pub(super) fn parse_at_rule_block(&mut self, name: &JsWord) -> PResult<Vec<ComponentValue>> {
         let block_contents = match *name {
             js_word!("charset") => {
                 let span = self.input.cur_span();
