@@ -50,6 +50,9 @@
 
 
 
+- **(es/minifier)** Organize terser tests (#6247) ([01edb4f](https://github.com/swc-project/swc/commit/01edb4fff44a9fd6424a9a5f75afb0165b0bad85))
+
+
 - **(es/preset-env)** Ensure custom transforms are working (#6227) ([de03675](https://github.com/swc-project/swc/commit/de036754c4e76ec9ea0deda30a87cd8949e03df5))
 
 ### Build
