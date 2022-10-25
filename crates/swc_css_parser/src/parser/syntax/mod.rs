@@ -273,13 +273,14 @@ where
                 // Reconsume the current input token. Consume an at-rule, and append the result to
                 // rules.
                 tok!("@") => {
-                    rules.push(StyleBlock::AtRule(Box::new(
-                        self.with_ctx(Ctx {
+                    let at_rule = self
+                        .with_ctx(Ctx {
                             block_contents_grammar: BlockContentsGrammar::StyleBlock,
                             ..self.ctx
                         })
-                        .parse_as::<AtRule>()?,
-                    )));
+                        .parse_as::<AtRule>()?;
+
+                    rules.push(StyleBlock::AtRule(Box::new(at_rule)));
                 }
                 // <ident-token>
                 // Initialize a temporary list initially filled with the current input token. As
@@ -289,24 +290,11 @@ where
                 // it to decls.
                 tok!("ident") => {
                     if self.config.legacy_nesting {
-                        let state = self.input.state();
-                        let legacy_nested = self
-                            .with_ctx(Ctx {
-                                is_trying_legacy_nesting: true,
-                                ..self.ctx
-                            })
-                            .parse_as::<QualifiedRule>();
+                        if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
+                            rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
 
-                        match legacy_nested {
-                            Ok(legacy_nested) => {
-                                rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
-
-                                continue;
-                            }
-                            _ => {
-                                self.input.reset(&state);
-                            }
-                        };
+                            continue;
+                        }
                     }
 
                     let span = self.input.cur_span();
@@ -391,23 +379,11 @@ where
                 // component value and throw away the returned value.
                 _ => {
                     if self.config.legacy_nesting {
-                        let state = self.input.state();
-                        let ctx = Ctx {
-                            is_trying_legacy_nesting: true,
-                            ..self.ctx
-                        };
-                        let legacy_nested = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+                        if let Some(legacy_nested) = self.try_to_parse_legacy_nesting() {
+                            rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
 
-                        match legacy_nested {
-                            Ok(legacy_nested) => {
-                                rules.push(StyleBlock::QualifiedRule(Box::new(legacy_nested)));
-
-                                continue;
-                            }
-                            _ => {
-                                self.input.reset(&state);
-                            }
-                        };
+                            continue;
+                        }
                     }
 
                     let span = self.input.cur_span();

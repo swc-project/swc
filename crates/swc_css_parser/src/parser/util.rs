@@ -73,6 +73,24 @@ where
         res
     }
 
+    pub(super) fn try_to_parse_legacy_nesting(&mut self) -> Option<QualifiedRule> {
+        let state = self.input.state();
+        let ctx = Ctx {
+            is_trying_legacy_nesting: true,
+            ..self.ctx
+        };
+        let qualified_rule = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+
+        match qualified_rule {
+            Ok(qualified_rule) => Some(qualified_rule),
+            _ => {
+                self.input.reset(&state);
+
+                None
+            }
+        }
+    }
+
     pub(super) fn legacy_nested_selector_list_to_modern_selector_list(
         &mut self,
         mut selector_list: SelectorList,
