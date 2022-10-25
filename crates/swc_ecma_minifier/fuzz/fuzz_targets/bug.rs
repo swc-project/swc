@@ -12,63 +12,66 @@ use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 
 fuzz_target!(|module: Module| {
-    // fuzzed code goes here
+    testing::run_test(false, |cm, _| {
+        // fuzzed code goes here
 
-    let cm = Lrc::new(swc_common::SourceMap::default());
+        {
+            // Fuzzing produced a syntax error
+            let code = print(cm.clone(), &[&module], true);
 
-    {
-        // Fuzzing produced a syntax error
-        let code = print(cm.clone(), &[&module], true);
+            if exec_node_js(
+                &code,
+                JsExecOptions {
+                    cache: false,
+                    ..Default::default()
+                },
+            )
+            .is_err()
+            {
+                return Ok(());
+            }
+        }
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
-        if exec_node_js(
+        let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+        let program = Program::Module(module);
+
+        let output = optimize(
+            program,
+            cm.clone(),
+            None,
+            None,
+            &MinifyOptions {
+                compress: Some(Default::default()),
+                mangle: Some(MangleOptions {
+                    top_level: true,
+                    ..Default::default()
+                }),
+                ..Default::default()
+            },
+            &ExtraOptions {
+                unresolved_mark,
+                top_level_mark,
+            },
+        )
+        .expect_module();
+
+        let output = output.fold_with(&mut fixer(None));
+
+        let code = print(cm, &[output], true);
+
+        exec_node_js(
             &code,
             JsExecOptions {
                 cache: false,
                 ..Default::default()
             },
         )
-        .is_err()
-        {
-            return;
-        }
-    }
-    let unresolved_mark = Mark::new();
-    let top_level_mark = Mark::new();
+        .unwrap();
 
-    let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
-    let program = Program::Module(module);
-
-    let output = optimize(
-        program,
-        cm.clone(),
-        None,
-        None,
-        &MinifyOptions {
-            compress: Some(Default::default()),
-            mangle: Some(MangleOptions {
-                top_level: true,
-                ..Default::default()
-            }),
-            ..Default::default()
-        },
-        &ExtraOptions {
-            unresolved_mark,
-            top_level_mark,
-        },
-    )
-    .expect_module();
-
-    let output = output.fold_with(&mut fixer(None));
-
-    let code = print(cm, &[output], true);
-
-    exec_node_js(
-        &code,
-        JsExecOptions {
-            cache: false,
-            ..Default::default()
-        },
-    )
+        Ok(())
+    })
     .unwrap();
 });
 
