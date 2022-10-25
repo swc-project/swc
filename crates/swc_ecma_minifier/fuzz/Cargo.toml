@@ -1,0 +1,31 @@
+[package]
+authors = ["Automatically generated"]
+edition = "2018"
+name    = "swc_ecma_minifier-fuzz"
+publish = false
+version = "0.0.0"
+
+  [package.metadata]
+  cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys            = "0.4"
+swc_common               = { path = "../../swc_common", features = ["arbitrary"] }
+swc_ecma_ast             = { path = "../../swc_ecma_ast", features = ["arbitrary"] }
+swc_ecma_codegen         = { path = "../../swc_ecma_codegen" }
+swc_ecma_minifier        = { path = ".." }
+swc_ecma_parser          = { path = "../../swc_ecma_parser" }
+swc_ecma_testing         = { path = "../../swc_ecma_testing" }
+swc_ecma_transforms_base = { path = "../../swc_ecma_transforms_base" }
+swc_ecma_visit           = { path = "../../swc_ecma_visit" }
+testing                  = { path = "../../testing" }
+
+# Prevent this from interfering with workspaces
+[workspace]
+members = ["."]
+
+[[bin]]
+doc  = false
+name = "bug"
+path = "fuzz_targets/bug.rs"
+test = false

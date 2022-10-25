@@ -1,7 +1,5 @@
 use std::mem::take;
 
-#[allow(unused_imports)]
-use retain_mut::RetainMut;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
