@@ -16,10 +16,7 @@ class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
 classes/pure_prop_assignment_for_classes/input.js
-collapse_vars/cascade_conditional/input.js
-collapse_vars/cascade_forin/input.js
 collapse_vars/cascade_statement/input.js
-collapse_vars/cascade_switch/input.js
 collapse_vars/chained_1/input.js
 collapse_vars/chained_2/input.js
 collapse_vars/chained_3/input.js
@@ -377,7 +374,6 @@ reduce_vars/redefine_farg_3/input.js
 reduce_vars/reduce_vars/input.js
 reduce_vars/regex_loop/input.js
 return_undefined/return_undefined/input.js
-sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_4/input.js
 sequences/delete_seq_5/input.js
 sequences/for_init_var/input.js

@@ -747,7 +747,10 @@ where
             )
         };
 
-        if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
+        if !self.options.sequences()
+            && !self.options.collapse_vars
+            && !e.span.has_mark(self.marks.synthesized_seq)
+        {
             log_abort!("sequences: Disabled && no mark");
             return;
         }
@@ -1877,6 +1880,10 @@ where
     /// console.log(++c)
 
     fn replace_seq_update(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        if !self.options.sequences() {
+            return Ok(false);
+        }
+
         if let Mergable::Expr(a) = a {
             match a {
                 Expr::Update(UpdateExpr {
