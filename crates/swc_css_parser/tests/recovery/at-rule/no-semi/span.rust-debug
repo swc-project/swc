@@ -8,16 +8,14 @@
 
   x Rule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x AtRuleName
@@ -58,9 +56,8 @@
 
   x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   :               ^^^^^^^^^^
    `----
 
   x LBrace
@@ -71,23 +68,20 @@
 
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   :                ^^^^^^^^
    `----
 
   x Rule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   :                ^^^^^^^^
    `----
 
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
- 1 | ,-> @media screen {@content}
- 2 | |   
- 3 | `-> @charset "UTF-8"
+ 1 | @media screen {@content}
+   :                ^^^^^^^^
    `----
 
   x AtRuleName
@@ -100,4 +94,28 @@
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :                 ^^^^^^^
+   `----
+
+  x Rule
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 3 | @charset "UTF-8"
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRule
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 3 | @charset "UTF-8"
+   : ^^^^^^^^^^^^^^^^^
+   `----
+
+  x AtRuleName
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 3 | @charset "UTF-8"
+   :  ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 3 | @charset "UTF-8"
+   :  ^^^^^^^
    `----

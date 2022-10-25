@@ -56,126 +56,6 @@ where
             AtRuleName::Ident(ident) => ident.value.to_ascii_lowercase(),
             AtRuleName::DashedIdent(dashed_ident) => dashed_ident.value.to_ascii_lowercase(),
         };
-        let parse_simple_block = |parser: &mut Parser<I>| -> PResult<SimpleBlock> {
-            let ctx = match lowercased_name {
-                js_word!("viewport")
-                | js_word!("-o-viewport")
-                | js_word!("-ms-viewport")
-                | js_word!("font-face")
-                | js_word!("font-palette-values")
-                | js_word!("stylistic")
-                | js_word!("historical-forms")
-                | js_word!("styleset")
-                | js_word!("character-variant")
-                | js_word!("swash")
-                | js_word!("ornaments")
-                | js_word!("annotation")
-                | js_word!("property")
-                | js_word!("color-profile")
-                | js_word!("counter-style")
-                | js_word!("top-left-corner")
-                | js_word!("top-left")
-                | js_word!("top-center")
-                | js_word!("top-right")
-                | js_word!("top-right-corner")
-                | js_word!("bottom-left-corner")
-                | js_word!("bottom-left")
-                | js_word!("bottom-center")
-                | js_word!("bottom-right")
-                | js_word!("bottom-right-corner")
-                | js_word!("left-top")
-                | js_word!("left-middle")
-                | js_word!("left-bottom")
-                | js_word!("right-top")
-                | js_word!("right-middle")
-                | js_word!("right-bottom") => Ctx {
-                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
-                    ..parser.ctx
-                },
-                js_word!("font-feature-values") => Ctx {
-                    in_font_feature_values_at_rule: true,
-                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
-                    ..parser.ctx
-                },
-                js_word!("page") => Ctx {
-                    in_page_at_rule: true,
-                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
-                    ..parser.ctx
-                },
-                js_word!("layer") => Ctx {
-                    block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                    ..parser.ctx
-                },
-                js_word!("media")
-                | js_word!("supports")
-                | js_word!("container")
-                | js_word!("document")
-                | js_word!("-moz-document") => match parser.ctx.block_contents_grammar {
-                    BlockContentsGrammar::StyleBlock => Ctx {
-                        in_container_at_rule: lowercased_name == js_word!("container"),
-                        block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                        ..parser.ctx
-                    },
-                    _ => Ctx {
-                        in_container_at_rule: lowercased_name == js_word!("container"),
-                        block_contents_grammar: BlockContentsGrammar::Stylesheet,
-                        ..parser.ctx
-                    },
-                },
-                js_word!("nest") => Ctx {
-                    block_contents_grammar: BlockContentsGrammar::StyleBlock,
-                    ..parser.ctx
-                },
-                _ => Ctx {
-                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                    ..parser.ctx
-                },
-            };
-            let block = match lowercased_name {
-                js_word!("keyframes")
-                | js_word!("-moz-keyframes")
-                | js_word!("-o-keyframes")
-                | js_word!("-webkit-keyframes")
-                | js_word!("-ms-keyframes")
-                    if is!(parser, "{") =>
-                {
-                    let span_block = parser.input.cur_span();
-                    let name = parser.input.bump().unwrap();
-                    let mut block = SimpleBlock {
-                        span: Default::default(),
-                        name,
-                        value: vec![],
-                    };
-
-                    parser.input.skip_ws();
-
-                    loop {
-                        if is!(parser, "}") {
-                            break;
-                        }
-
-                        parser.input.skip_ws();
-
-                        let keyframe_block: KeyframeBlock = parser.parse()?;
-
-                        block
-                            .value
-                            .push(ComponentValue::KeyframeBlock(keyframe_block));
-
-                        parser.input.skip_ws();
-                    }
-
-                    expect!(parser, "}");
-
-                    block.span = span!(parser, span_block.lo);
-
-                    block
-                }
-                _ => parser.with_ctx(ctx).parse_as::<SimpleBlock>()?,
-            };
-
-            Ok(block)
-        };
 
         loop {
             // <EOF-token>
@@ -237,28 +117,15 @@ where
                 // <{-token>
                 // Consume a simple block and assign it to the at-rule’s block. Return the at-rule.
                 tok!("{") => {
-                    let state = self.input.state();
-                    let block = match parse_simple_block(self) {
-                        Ok(simple_block) => simple_block,
-                        Err(err) => {
-                            if *err.kind() != ErrorKind::Ignore {
-                                self.errors.push(err);
-                            }
-
-                            self.input.reset(&state);
-
-                            let ctx = Ctx {
-                                block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                                ..self.ctx
-                            };
-
-                            self.with_ctx(ctx).parse_as::<SimpleBlock>()?
-                        }
-                    };
+                    let mut block = self
+                        .with_ctx(Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        })
+                        .parse_as::<SimpleBlock>()?;
 
                     let list_of_component_values = self.create_locv(prelude);
 
-                    at_rule.block = Some(block);
                     at_rule.prelude = match self
                         .parse_according_to_grammar(&list_of_component_values, |parser| {
                             parser.parse_at_rule_prelude(&lowercased_name)
@@ -290,6 +157,24 @@ where
                             } else {
                                 None
                             }
+                        }
+                    };
+
+                    at_rule.block = match self.parse_according_to_grammar(
+                        &self.create_locv(block.value.clone()),
+                        |parser| parser.parse_at_rule_block(&lowercased_name),
+                    ) {
+                        Ok(block_contents) => {
+                            block.value = block_contents;
+
+                            Some(block)
+                        }
+                        Err(err) => {
+                            if *err.kind() != ErrorKind::Ignore {
+                                self.errors.push(err);
+                            }
+
+                            Some(block)
                         }
                     };
                     at_rule.span = span!(self, at_rule_span.lo);
@@ -408,6 +293,17 @@ where
 
                 Some(prelude)
             }
+            js_word!("font-face") => {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
+            }
             js_word!("font-feature-values") => {
                 self.input.skip_ws();
 
@@ -416,6 +312,34 @@ where
                 self.input.skip_ws();
 
                 Some(prelude)
+            }
+            js_word!("font-palette-values") => {
+                self.input.skip_ws();
+
+                let prelude = AtRulePrelude::FontPaletteValuesPrelude(self.parse()?);
+
+                self.input.skip_ws();
+
+                Some(prelude)
+            }
+            js_word!("stylistic")
+            | js_word!("historical-forms")
+            | js_word!("styleset")
+            | js_word!("character-variant")
+            | js_word!("swash")
+            | js_word!("ornaments")
+            | js_word!("annotation")
+                if self.ctx.in_font_feature_values_at_rule =>
+            {
+                self.input.skip_ws();
+
+                if !is!(self, EOF) {
+                    let span = self.input.cur_span();
+
+                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
+                }
+
+                None
             }
             js_word!("import") => {
                 self.input.skip_ws();
@@ -546,34 +470,6 @@ where
                     supports,
                     media,
                 });
-
-                Some(prelude)
-            }
-            js_word!("stylistic")
-            | js_word!("historical-forms")
-            | js_word!("styleset")
-            | js_word!("character-variant")
-            | js_word!("swash")
-            | js_word!("ornaments")
-            | js_word!("annotation")
-                if self.ctx.in_font_feature_values_at_rule =>
-            {
-                self.input.skip_ws();
-
-                if !is!(self, EOF) {
-                    let span = self.input.cur_span();
-
-                    return Err(Error::new(span, ErrorKind::Expected("'{' token")));
-                }
-
-                None
-            }
-            js_word!("font-palette-values") => {
-                self.input.skip_ws();
-
-                let prelude = AtRulePrelude::FontPaletteValuesPrelude(self.parse()?);
-
-                self.input.skip_ws();
 
                 Some(prelude)
             }
@@ -757,10 +653,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("viewport")
-            | js_word!("-ms-viewport")
-            | js_word!("-o-viewport")
-            | js_word!("font-face") => {
+            js_word!("viewport") | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -786,6 +679,309 @@ where
         }
 
         Ok(prelude)
+    }
+
+    fn parse_at_rule_block(&mut self, name: &JsWord) -> PResult<Vec<ComponentValue>> {
+        let block_contents = match *name {
+            js_word!("charset") => {
+                let span = self.input.cur_span();
+
+                return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
+            }
+            js_word!("color-profile") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("container") => match self.ctx.block_contents_grammar {
+                BlockContentsGrammar::StyleBlock => {
+                    let ctx = Ctx {
+                        in_container_at_rule: true,
+                        ..self.ctx
+                    };
+
+                    let style_blocks = self.with_ctx(ctx).parse_as::<Vec<StyleBlock>>()?;
+                    let style_blocks: Vec<ComponentValue> = style_blocks
+                        .into_iter()
+                        .map(ComponentValue::StyleBlock)
+                        .collect();
+
+                    style_blocks
+                }
+                _ => {
+                    let ctx = Ctx {
+                        is_top_level: false,
+                        in_container_at_rule: true,
+                        ..self.ctx
+                    };
+                    let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                    let rule_list: Vec<ComponentValue> =
+                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                    rule_list
+                }
+            },
+            js_word!("counter-style") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("custom-media") => {
+                let span = self.input.cur_span();
+
+                return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
+            }
+            js_word!("document") | js_word!("-moz-document") => {
+                match self.ctx.block_contents_grammar {
+                    BlockContentsGrammar::StyleBlock => {
+                        let style_blocks: Vec<StyleBlock> = self.parse()?;
+                        let style_blocks: Vec<ComponentValue> = style_blocks
+                            .into_iter()
+                            .map(ComponentValue::StyleBlock)
+                            .collect();
+
+                        style_blocks
+                    }
+                    _ => {
+                        let ctx = Ctx {
+                            is_top_level: false,
+                            ..self.ctx
+                        };
+                        let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                        let rule_list: Vec<ComponentValue> =
+                            rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                        rule_list
+                    }
+                }
+            }
+            js_word!("font-face") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("font-feature-values") => {
+                let declaration_list = self
+                    .with_ctx(Ctx {
+                        in_font_feature_values_at_rule: true,
+                        ..self.ctx
+                    })
+                    .parse_as::<Vec<DeclarationOrAtRule>>()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("stylistic")
+            | js_word!("historical-forms")
+            | js_word!("styleset")
+            | js_word!("character-variant")
+            | js_word!("swash")
+            | js_word!("ornaments")
+            | js_word!("annotation")
+                if self.ctx.in_font_feature_values_at_rule =>
+            {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("font-palette-values") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("import") => {
+                let span = self.input.cur_span();
+
+                return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
+            }
+            js_word!("keyframes")
+            | js_word!("-webkit-keyframes")
+            | js_word!("-moz-keyframes")
+            | js_word!("-o-keyframes")
+            | js_word!("-ms-keyframes") => {
+                // TODO refactor me
+                let mut rule_list = vec![];
+
+                loop {
+                    if is_one_of!(self, EOF) {
+                        break;
+                    }
+
+                    match cur!(self) {
+                        // <whitespace-token>
+                        // Do nothing.
+                        tok!(" ") => {
+                            self.input.skip_ws();
+                        }
+                        _ => {
+                            let keyframe_block: KeyframeBlock = self.parse()?;
+
+                            rule_list.push(keyframe_block);
+                        }
+                    }
+                }
+
+                rule_list
+                    .into_iter()
+                    .map(ComponentValue::KeyframeBlock)
+                    .collect()
+            }
+            js_word!("layer") => {
+                let ctx = Ctx {
+                    is_top_level: false,
+                    ..self.ctx
+                };
+                let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                let rule_list: Vec<ComponentValue> =
+                    rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                rule_list
+            }
+            js_word!("media") => match self.ctx.block_contents_grammar {
+                BlockContentsGrammar::StyleBlock => {
+                    let style_blocks: Vec<StyleBlock> = self.parse()?;
+                    let style_blocks: Vec<ComponentValue> = style_blocks
+                        .into_iter()
+                        .map(ComponentValue::StyleBlock)
+                        .collect();
+
+                    style_blocks
+                }
+                _ => {
+                    let ctx = Ctx {
+                        is_top_level: false,
+                        ..self.ctx
+                    };
+                    let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                    let rule_list: Vec<ComponentValue> =
+                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                    rule_list
+                }
+            },
+            js_word!("namespace") => {
+                let span = self.input.cur_span();
+
+                return Err(Error::new(span, ErrorKind::Unexpected("")));
+            }
+            js_word!("nest") => {
+                let style_blocks: Vec<StyleBlock> = self.parse()?;
+                let style_blocks: Vec<ComponentValue> = style_blocks
+                    .into_iter()
+                    .map(ComponentValue::StyleBlock)
+                    .collect();
+
+                style_blocks
+            }
+            js_word!("page") => {
+                let declaration_list = self
+                    .with_ctx(Ctx {
+                        in_page_at_rule: true,
+                        ..self.ctx
+                    })
+                    .parse_as::<Vec<DeclarationOrAtRule>>()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("top-left-corner")
+            | js_word!("top-left")
+            | js_word!("top-center")
+            | js_word!("top-right")
+            | js_word!("top-right-corner")
+            | js_word!("bottom-left-corner")
+            | js_word!("bottom-left")
+            | js_word!("bottom-center")
+            | js_word!("bottom-right")
+            | js_word!("bottom-right-corner")
+            | js_word!("left-top")
+            | js_word!("left-middle")
+            | js_word!("left-bottom")
+            | js_word!("right-top")
+            | js_word!("right-middle")
+            | js_word!("right-bottom")
+                if self.ctx.in_page_at_rule =>
+            {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("property") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            js_word!("supports") => match self.ctx.block_contents_grammar {
+                BlockContentsGrammar::StyleBlock => {
+                    let style_blocks: Vec<StyleBlock> = self.parse()?;
+                    let style_blocks: Vec<ComponentValue> = style_blocks
+                        .into_iter()
+                        .map(ComponentValue::StyleBlock)
+                        .collect();
+
+                    style_blocks
+                }
+                _ => {
+                    let ctx = Ctx {
+                        is_top_level: false,
+                        ..self.ctx
+                    };
+                    let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
+                    let rule_list: Vec<ComponentValue> =
+                        rule_list.into_iter().map(ComponentValue::Rule).collect();
+
+                    rule_list
+                }
+            },
+            js_word!("viewport") | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
+                let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
+                let declaration_list: Vec<ComponentValue> = declaration_list
+                    .into_iter()
+                    .map(ComponentValue::DeclarationOrAtRule)
+                    .collect();
+
+                declaration_list
+            }
+            _ => {
+                return Err(Error::new(Default::default(), ErrorKind::Ignore));
+            }
+        };
+
+        Ok(block_contents)
     }
 }
 

@@ -4,3 +4,5 @@
  1 | @import url('http://') :root {}
    :                        ^
    `----
+
+  x Unexpected '{' token
