@@ -630,7 +630,7 @@ where
         for stmt in stmts.iter_mut() {
             let is_end = matches!(
                 stmt.as_stmt(),
-                Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..) | Stmt::Switch(..))
+                Some(Stmt::If(..) | Stmt::Throw(..) | Stmt::Return(..) | Stmt::Switch(..)) | None
             );
             let can_skip = match stmt.as_stmt() {
                 Some(Stmt::Decl(Decl::Fn(..))) => true,
