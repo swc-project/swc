@@ -1,6 +1,7 @@
 var print = console.log.bind(console);
 function foo(x) {
-    var twice = 2 * x.y;
-    print("Foo:", twice);
+    print("Foo:", 2 * x.y);
 }
-foo({ y: 10 });
+foo({
+    y: 10
+});

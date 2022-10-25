@@ -1,6 +1,5 @@
 function f0(o, p) {
-    var x = o[p];
-    return delete x;
+    return o[p], !0;
 }
 function f1(n) {
     return n > +!!n;
