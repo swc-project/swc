@@ -146,6 +146,7 @@ collapse_vars/collapse_rhs_undefined/input.js
 collapse_vars/collapse_rhs_var/input.js
 collapse_vars/collapse_rhs_vardef/input.js
 collapse_vars/collapse_vars_array/input.js
+collapse_vars/collapse_vars_assignment/input.js
 collapse_vars/collapse_vars_closures/input.js
 collapse_vars/collapse_vars_eval_and_with/input.js
 collapse_vars/collapse_vars_issue_721/input.js
@@ -157,6 +158,7 @@ collapse_vars/collapse_vars_seq/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
 collapse_vars/collapse_vars_throw/input.js
 collapse_vars/collapse_vars_try/input.js
+collapse_vars/collapse_vars_unary/input.js
 collapse_vars/collapse_vars_unary_2/input.js
 collapse_vars/collapse_vars_while/input.js
 collapse_vars/compound_assignment/input.js
@@ -246,7 +248,9 @@ collapse_vars/side_effects_property/input.js
 collapse_vars/switch_case_2/input.js
 collapse_vars/switch_case_3/input.js
 collapse_vars/unsafe_builtin/input.js
+collapse_vars/var_defs/input.js
 collapse_vars/var_side_effects_1/input.js
+collapse_vars/var_side_effects_2/input.js
 collapse_vars/var_side_effects_3/input.js
 comments/comment_moved_between_return_and_value/input.js
 comments/preserve_comments_by_default/input.js
