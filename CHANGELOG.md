@@ -32,6 +32,9 @@
 - **(bindings)** Fix type (#6184) ([2bafd53](https://github.com/swc-project/swc/commit/2bafd53e96b7101b9e7ceb6b34a88c8c826ef9d5))
 
 
+- **(es/minifier)** Configure fuzzer (#6246) ([d454488](https://github.com/swc-project/swc/commit/d4544884ee8896248f7f1099e204ce906da4ede2))
+
+
 - **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))
 
 ### Refactor
