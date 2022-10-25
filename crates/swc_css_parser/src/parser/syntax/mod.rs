@@ -255,7 +255,6 @@ where
                     let token_and_span = self.input.bump().unwrap();
 
                     // For recovery mode
-                    // TODO revisit it after refactor parser
                     if let Some(StyleBlock::ListOfComponentValues(list_of_component_values)) =
                         declarations.last_mut()
                     {
@@ -395,6 +394,7 @@ where
                         ),
                     ));
 
+                    // For recovery mode
                     let mut list_of_component_values = ListOfComponentValues {
                         span: Default::default(),
                         children: vec![],
