@@ -181,6 +181,11 @@ where
             // <EOF-token>
             // This is a parse error. Return the at-rule.
             if is!(self, EOF) {
+                self.errors.push(Error::new(
+                    at_rule_span,
+                    ErrorKind::EofButExpected("semicolon or curly block"),
+                ));
+
                 at_rule.span = span!(self, at_rule_span.lo);
 
                 return Ok(at_rule);

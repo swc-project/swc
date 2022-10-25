@@ -14,12 +14,12 @@ where
 {
     fn parse(&mut self) -> PResult<Stylesheet> {
         let start = self.input.cur_span();
-        let ctx = Ctx {
-            is_top_level: true,
-            ..self.ctx
-        };
-        let rules = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-
+        let rules = self
+            .with_ctx(Ctx {
+                is_top_level: true,
+                ..self.ctx
+            })
+            .parse_as::<Vec<Rule>>()?;
         let last = self.input.last_pos();
 
         Ok(Stylesheet {
