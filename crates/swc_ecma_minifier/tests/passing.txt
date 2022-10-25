@@ -121,9 +121,12 @@ collapse_vars/assignment/input.js
 collapse_vars/boolean_binary_1/input.js
 collapse_vars/boolean_binary_2/input.js
 collapse_vars/cascade_call/input.js
+collapse_vars/cascade_conditional/input.js
+collapse_vars/cascade_forin/input.js
 collapse_vars/cascade_if_1/input.js
 collapse_vars/cascade_if_2/input.js
 collapse_vars/cascade_return/input.js
+collapse_vars/cascade_switch/input.js
 collapse_vars/collapse_rhs_array/input.js
 collapse_vars/collapse_rhs_boolean_1/input.js
 collapse_vars/collapse_rhs_boolean_2/input.js
@@ -1413,6 +1416,7 @@ rename/mangle_catch_var_toplevel/input.js
 return_undefined/return_void/input.js
 sandbox/console_log/input.js
 sequences/call/input.js
+sequences/cascade_assignment_in_return/input.js
 sequences/delete_seq_1/input.js
 sequences/delete_seq_2/input.js
 sequences/delete_seq_3/input.js
