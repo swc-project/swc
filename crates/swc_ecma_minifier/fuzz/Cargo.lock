@@ -43,6 +43,9 @@ name = "arbitrary"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "29d47fbf90d5149a107494b15a7dc8d69b351be2db3bb9691740e88ec17fd880"
+dependencies = [
+ "derive_arbitrary",
+]
 
 [[package]]
 name = "arrayvec"
@@ -157,6 +160,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9a032eac705ca39214d169f83e3d3da290af06d8d1d344d1baad2fd002dca4b3"
 dependencies = [
  "unreachable",
+]
+
+[[package]]
+name = "derive_arbitrary"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4903dff04948f22033ca30232ab8eca2c3fc4c913a8b6a34ee5199699814817f"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
@@ -891,6 +905,7 @@ dependencies = [
 name = "swc_ecma_ast"
 version = "0.94.14"
 dependencies = [
+ "arbitrary",
  "bitflags",
  "is-macro",
  "num-bigint",
@@ -966,6 +981,7 @@ name = "swc_ecma_minifier-fuzz"
 version = "0.0.0"
 dependencies = [
  "libfuzzer-sys",
+ "swc_ecma_ast",
  "swc_ecma_minifier",
 ]
 
