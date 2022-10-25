@@ -747,7 +747,10 @@ where
             )
         };
 
-        if !self.options.sequences() && !e.span.has_mark(self.marks.synthesized_seq) {
+        if !self.options.sequences()
+            && !self.options.collapse_vars
+            && !e.span.has_mark(self.marks.synthesized_seq)
+        {
             log_abort!("sequences: Disabled && no mark");
             return;
         }
