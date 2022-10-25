@@ -1321,6 +1321,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_minifier",
+ "swc_ecma_parser",
  "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_visit",

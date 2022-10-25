@@ -1,23 +1,24 @@
 #![no_main]
 use libfuzzer_sys::fuzz_target;
-use swc_common::{sync::Lrc, Mark, SourceMap};
+use swc_common::{sync::Lrc, FileName, Mark, SourceMap};
 use swc_ecma_ast::{Module, Program};
 use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
 use swc_ecma_minifier::{
     optimize,
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
+use swc_ecma_parser::parse_file_as_module;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::FoldWith;
 
 fuzz_target!(|module: Module| {
-    testing::run_test(false, |cm, _| {
+    testing::run_test(false, |cm, handler| {
         // fuzzed code goes here
 
+        let code = print(cm.clone(), &[&module], true);
         {
             // Fuzzing produced a syntax error
-            let code = print(cm.clone(), &[&module], true);
 
             if exec_node_js(
                 &code,
@@ -34,8 +35,22 @@ fuzz_target!(|module: Module| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
-        let program = Program::Module(module);
+        let fm = cm.new_source_file(FileName::Anon, code);
+
+        let mut program = parse_file_as_module(
+            &fm,
+            Default::default(),
+            Default::default(),
+            None,
+            &mut vec![],
+        )
+        .map_err(|err| {
+            err.into_diagnostic(handler).emit();
+        })
+        .map(Program::Module)
+        .unwrap();
+
+        program = program.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
         let output = optimize(
             program,
