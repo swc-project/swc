@@ -1,11 +1,37 @@
 #![no_main]
 use libfuzzer_sys::fuzz_target;
-use swc_common::sync::Lrc;
+use swc_common::{sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::{Module, Program};
+use swc_ecma_codegen::text_writer::{omit_trailing_semi, JsWriter};
+use swc_ecma_minifier::{
+    optimize,
+    option::{ExtraOptions, MangleOptions, MinifyOptions},
+};
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_ecma_transforms_base::{fixer::fixer, resolver};
+use swc_ecma_visit::FoldWith;
 
 fuzz_target!(|module: Module| {
     // fuzzed code goes here
 
+    let cm = Lrc::new(swc_common::SourceMap::default());
+
+    {
+        // Fuzzing produced a syntax error
+        let code = print(cm.clone(), &[&module], true);
+
+        if exec_node_js(
+            &code,
+            JsExecOptions {
+                cache: false,
+                ..Default::default()
+            },
+        )
+        .is_err()
+        {
+            return;
+        }
+    }
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
@@ -13,7 +39,7 @@ fuzz_target!(|module: Module| {
     let program = Program::Module(module);
 
     let output = optimize(
-        program.into(),
+        program,
         cm.clone(),
         None,
         None,
@@ -36,7 +62,14 @@ fuzz_target!(|module: Module| {
 
     let code = print(cm, &[output], true);
 
-    Ok(())
+    exec_node_js(
+        &code,
+        JsExecOptions {
+            cache: false,
+            ..Default::default()
+        },
+    )
+    .unwrap();
 });
 
 fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: bool) -> String {
