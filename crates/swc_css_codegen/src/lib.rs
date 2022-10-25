@@ -1361,10 +1361,8 @@ where
                     decrease_indent!(self);
                 }
                 _ => {
-                    if !self.ctx.in_list_of_component_values {
-                        if ending == "]" && idx != len - 1 {
-                            space!(self);
-                        }
+                    if !self.ctx.in_list_of_component_values && ending == "]" && idx != len - 1 {
+                        space!(self);
                     }
                 }
             }
