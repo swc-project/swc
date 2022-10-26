@@ -224,7 +224,7 @@ div {
     color: lab(from var(--mycolor) 0 0 0);
     color: lab(from var(--mycolor) var(--color));
     color: rgb(var(--bg-color));
-    /*color: rgb(var(--bg-color), var(--bg-color-a));*/
+    color: rgb(var(--bg-color), var(--bg-color-a));
     color: rgb(var(--bg-color) var(--bg-color-a));
     color: rgba(var(--bg-color) 1);
     color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));

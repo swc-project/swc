@@ -447,7 +447,7 @@ where
                 self.input.skip_ws();
 
                 if is!(self, ",") {
-                    if !is_legacy_syntax {
+                    if !is_legacy_syntax && !has_variable {
                         let span = self.input.cur_span();
 
                         return Err(Error::new(span, ErrorKind::Expected("comma token")));
@@ -563,9 +563,11 @@ where
                             self.input.skip_ws();
                         }
                         _ => {
-                            let span = self.input.cur_span();
+                            if !has_variable {
+                                let span = self.input.cur_span();
 
-                            return Err(Error::new(span, ErrorKind::Expected("comma token")));
+                                return Err(Error::new(span, ErrorKind::Expected("comma token")));
+                            }
                         }
                     }
                 }
