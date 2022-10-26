@@ -1310,13 +1310,71 @@ impl Minifier<'_> {
     }
 
     fn allow_elements_to_merge(&self, left: Option<&Child>, right: &Element) -> bool {
-        if let Some(left) = left {
-            return matches!((left, right), (Child::Element(left), right)
-                if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
-                    && left.tag_name == js_word!("style")
-                    && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
-                    && right.tag_name == js_word!("style")
-                    && left.attributes.eq_ignore_span(&right.attributes));
+        if let Some(Child::Element(left)) = left {
+            if matches!(left.namespace, Namespace::HTML | Namespace::SVG)
+                && left.tag_name == js_word!("style")
+                && matches!(right.namespace, Namespace::HTML | Namespace::SVG)
+                && right.tag_name == js_word!("style")
+            {
+                let mut need_skip = false;
+
+                let mut left_attributes = left
+                    .attributes
+                    .clone()
+                    .into_iter()
+                    .filter(|attribute| match attribute.name {
+                        js_word!("type") => {
+                            if let Some(value) = &attribute.value {
+                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else {
+                                    need_skip = true;
+
+                                    true
+                                }
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    })
+                    .collect::<Vec<Attribute>>();
+
+                if need_skip {
+                    return false;
+                }
+
+                let mut right_attributes = right
+                    .attributes
+                    .clone()
+                    .into_iter()
+                    .filter(|attribute| match attribute.name {
+                        js_word!("type") => {
+                            if let Some(value) = &attribute.value {
+                                if value.trim().to_ascii_lowercase() == "text/css" {
+                                    false
+                                } else {
+                                    need_skip = true;
+
+                                    true
+                                }
+                            } else {
+                                true
+                            }
+                        }
+                        _ => true,
+                    })
+                    .collect::<Vec<Attribute>>();
+
+                if need_skip {
+                    return false;
+                }
+
+                left_attributes.sort_by(|a, b| a.name.cmp(&b.name));
+                right_attributes.sort_by(|a, b| a.name.cmp(&b.name));
+
+                return left_attributes.eq_ignore_span(&right_attributes);
+            }
         }
 
         false
