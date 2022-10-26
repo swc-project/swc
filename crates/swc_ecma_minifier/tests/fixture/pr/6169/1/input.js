@@ -1,6 +1,4 @@
-var value, ref = [
+var ref = [
     "foo"
-], key = "foo";
-[
-    "foo"
-][1].toUpperCase();
+], key = ref[0], value = ref[1];
+value.toUpperCase();
