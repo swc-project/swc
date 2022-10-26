@@ -143,7 +143,15 @@
  140 | |       div {
  141 | |           background: red;
  142 | |       }
- 143 | `-> }
+ 143 | |   }
+ 144 | |   
+ 145 | |   @supports (func("example": 1)) {
+ 146 | |       * { background: red; }
+ 147 | |   }
+ 148 | |   
+ 149 | |   @supports (--var) {
+ 150 | |       * { background: red; }
+ 151 | `-> }
      `----
 
   x Rule
@@ -9801,4 +9809,412 @@
      ,-[$DIR/tests/fixture/at-rule/supports/input.css:141:9]
  141 | background: red;
      :             ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | ,-> @supports (func("example": 1)) {
+ 146 | |       * { background: red; }
+ 147 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | ,-> @supports (func("example": 1)) {
+ 146 | |       * { background: red; }
+ 147 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :           ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :            ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :            ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :            ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :            ^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                 ^^^^^^^^^
+     `----
+
+  x String { value: Atom('example' type=inline), raw: Atom('"example"' type=dynamic) }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                 ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                          ^
+     `----
+
+  x Colon
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                          ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                           ^
+     `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                            ^
+     `----
+
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                            ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | ,-> @supports (func("example": 1)) {
+ 146 | |       * { background: red; }
+ 147 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:145:1]
+ 145 | @supports (func("example": 1)) {
+     :                                ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^
+     `----
+
+  x UniversalSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :   ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:146:5]
+ 146 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | ,-> @supports (--var) {
+ 150 | |       * { background: red; }
+ 151 | `-> }
+     `----
+
+  x AtRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | ,-> @supports (--var) {
+ 150 | |       * { background: red; }
+ 151 | `-> }
+     `----
+
+  x AtRuleName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :  ^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :  ^^^^^^^^
+     `----
+
+  x SupportsCondition
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :           ^^^^^^^
+     `----
+
+  x SupportsConditionType
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :           ^^^^^^^
+     `----
+
+  x SupportsInParens
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :           ^^^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :           ^^^^^^^
+     `----
+
+  x LParen
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :           ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :            ^^^^^
+     `----
+
+  x Ident { value: Atom('--var' type=inline), raw: Atom('--var' type=inline) }
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :            ^^^^^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | ,-> @supports (--var) {
+ 150 | |       * { background: red; }
+ 151 | `-> }
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:149:1]
+ 149 | @supports (--var) {
+     :                   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Rule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x QualifiedRule
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x SelectorList
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^
+     `----
+
+  x ComplexSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^
+     `----
+
+  x CompoundSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^
+     `----
+
+  x TypeSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^
+     `----
+
+  x UniversalSelector
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     : ^
+     `----
+
+  x SimpleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :   ^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x LBrace
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :   ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :     ^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :     ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :                 ^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/at-rule/supports/input.css:150:5]
+ 150 | * { background: red; }
+     :                 ^^^
      `----
