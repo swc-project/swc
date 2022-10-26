@@ -541,23 +541,22 @@ impl Minifier<'_> {
     }
 
     fn is_crossorigin_attribute(&self, current_element: &Element, attribute: &Attribute) -> bool {
-        match (
-            current_element.namespace,
-            &current_element.tag_name,
-            &attribute.name,
-        ) {
+        matches!(
+            (
+                current_element.namespace,
+                &current_element.tag_name,
+                &attribute.name,
+            ),
             (
                 Namespace::HTML,
                 &js_word!("img")
-                | &js_word!("audio")
-                | &js_word!("video")
-                | &js_word!("script")
-                | &js_word!("link"),
+                    | &js_word!("audio")
+                    | &js_word!("video")
+                    | &js_word!("script")
+                    | &js_word!("link"),
                 &js_word!("crossorigin"),
-            )
-            | (Namespace::SVG, &js_word!("image"), &js_word!("crossorigin")) => true,
-            _ => false,
-        }
+            ) | (Namespace::SVG, &js_word!("image"), &js_word!("crossorigin"))
+        )
     }
 
     fn element_has_attribute_with_value(
@@ -2407,14 +2406,12 @@ impl VisitMut for Minifier<'_> {
             };
 
             if value.is_empty() {
-                if self.options.collapse_boolean_attributes
+                if (self.options.collapse_boolean_attributes
                     && current_element.namespace == Namespace::HTML
-                    && self.is_boolean_attribute(current_element, &n.name)
-                {
-                    n.value = None;
-                } else if self.options.normalize_attributes
-                    && self.is_crossorigin_attribute(current_element, n)
-                    && value.is_empty()
+                    && self.is_boolean_attribute(current_element, &n.name))
+                    || (self.options.normalize_attributes
+                        && self.is_crossorigin_attribute(current_element, n)
+                        && value.is_empty())
                 {
                     n.value = None;
                 }
