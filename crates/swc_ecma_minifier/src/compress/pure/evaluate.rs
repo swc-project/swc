@@ -350,12 +350,17 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                if 2.0 <= base && base <= 36.0 {
+                if (2.0..=36.0).contains(&base) {
                     let base = base.floor() as u8;
 
                     self.changed = true;
                     const FORMAT: u128 = lexical::format::STANDARD;
-                    let options = lexical::WriteFloatOptions::from_radix(base);
+                    let mut options = lexical::WriteFloatOptions::from_radix(base);
+
+                    unsafe {
+                        // Safety: This is actually safe
+                        options.set_trim_floats(true);
+                    }
 
                     let value = lexical::to_string_with_options::<_, FORMAT>(num.value, &options);
 
