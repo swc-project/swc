@@ -246,4 +246,16 @@ div {
     color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
     color: device-cmyk(var(--bg-color) / var(--bg-color));
     color: device-cmyk(var(--bg-color) var(--bg-color));
+    color: rgb(var(--bg-color));
+    color: rgb(var(--bg-color) var(--bg-color));
+    color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
+    color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+    color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
+    color: rgb(var(--bg-color) / var(--bg-color));
+    color: rgb(var(--bg-color) var(--bg-color));
+    color: rgb(var(--bg-color));
+    color: rgb(var(--bg-color), var(--bg-color));
+    color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
+    color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
+    color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
 }

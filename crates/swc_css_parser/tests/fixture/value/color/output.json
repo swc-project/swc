@@ -2,7 +2,7 @@
   "type": "Stylesheet",
   "span": {
     "start": 1,
-    "end": 8777,
+    "end": 9475,
     "ctxt": 0
   },
   "rules": [
@@ -18432,7 +18432,7 @@
       "type": "QualifiedRule",
       "span": {
         "start": 7117,
-        "end": 8776,
+        "end": 9474,
         "ctxt": 0
       },
       "prelude": {
@@ -18496,7 +18496,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 7121,
-          "end": 8776,
+          "end": 9474,
           "ctxt": 0
         },
         "name": {
@@ -21953,6 +21953,1497 @@
                         "span": {
                           "start": 8761,
                           "end": 8771,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 8779,
+              "end": 8806,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8779,
+                "end": 8784,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 8786,
+                  "end": 8806,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 8786,
+                    "end": 8789,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8790,
+                      "end": 8805,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8790,
+                        "end": 8793,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8794,
+                          "end": 8804,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 8812,
+              "end": 8855,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8812,
+                "end": 8817,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 8819,
+                  "end": 8855,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 8819,
+                    "end": 8822,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8823,
+                      "end": 8838,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8823,
+                        "end": 8826,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8827,
+                          "end": 8837,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8839,
+                      "end": 8854,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8839,
+                        "end": 8842,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8843,
+                          "end": 8853,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 8861,
+              "end": 8920,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8861,
+                "end": 8866,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 8868,
+                  "end": 8920,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 8868,
+                    "end": 8871,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8872,
+                      "end": 8887,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8872,
+                        "end": 8875,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8876,
+                          "end": 8886,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8888,
+                      "end": 8903,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8888,
+                        "end": 8891,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8892,
+                          "end": 8902,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8904,
+                      "end": 8919,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8904,
+                        "end": 8907,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8908,
+                          "end": 8918,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 8926,
+              "end": 9003,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 8926,
+                "end": 8931,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 8933,
+                  "end": 9003,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 8933,
+                    "end": 8936,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8937,
+                      "end": 8952,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8937,
+                        "end": 8940,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8941,
+                          "end": 8951,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8953,
+                      "end": 8968,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8953,
+                        "end": 8956,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8957,
+                          "end": 8967,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8969,
+                      "end": 8984,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8969,
+                        "end": 8972,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8973,
+                          "end": 8983,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 8985,
+                      "end": 8986,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 8987,
+                      "end": 9002,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 8987,
+                        "end": 8990,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 8991,
+                          "end": 9001,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9009,
+              "end": 9070,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9009,
+                "end": 9014,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9016,
+                  "end": 9070,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9016,
+                    "end": 9019,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9020,
+                      "end": 9035,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9020,
+                        "end": 9023,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9024,
+                          "end": 9034,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9036,
+                      "end": 9051,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9036,
+                        "end": 9039,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9040,
+                          "end": 9050,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9052,
+                      "end": 9053,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9054,
+                      "end": 9069,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9054,
+                        "end": 9057,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9058,
+                          "end": 9068,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9076,
+              "end": 9121,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9076,
+                "end": 9081,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9083,
+                  "end": 9121,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9083,
+                    "end": 9086,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9087,
+                      "end": 9102,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9087,
+                        "end": 9090,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9091,
+                          "end": 9101,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9103,
+                      "end": 9104,
+                      "ctxt": 0
+                    },
+                    "value": "/"
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9105,
+                      "end": 9120,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9105,
+                        "end": 9108,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9109,
+                          "end": 9119,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9127,
+              "end": 9170,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9127,
+                "end": 9132,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9134,
+                  "end": 9170,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9134,
+                    "end": 9137,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9138,
+                      "end": 9153,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9138,
+                        "end": 9141,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9142,
+                          "end": 9152,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9154,
+                      "end": 9169,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9154,
+                        "end": 9157,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9158,
+                          "end": 9168,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9176,
+              "end": 9203,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9176,
+                "end": 9181,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9183,
+                  "end": 9203,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9183,
+                    "end": 9186,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9187,
+                      "end": 9202,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9187,
+                        "end": 9190,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9191,
+                          "end": 9201,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9209,
+              "end": 9253,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9209,
+                "end": 9214,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9216,
+                  "end": 9253,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9216,
+                    "end": 9219,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9220,
+                      "end": 9235,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9220,
+                        "end": 9223,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9224,
+                          "end": 9234,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9235,
+                      "end": 9236,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9237,
+                      "end": 9252,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9237,
+                        "end": 9240,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9241,
+                          "end": 9251,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9259,
+              "end": 9320,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9259,
+                "end": 9264,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9266,
+                  "end": 9320,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9266,
+                    "end": 9269,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9270,
+                      "end": 9285,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9270,
+                        "end": 9273,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9274,
+                          "end": 9284,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9285,
+                      "end": 9286,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9287,
+                      "end": 9302,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9287,
+                        "end": 9290,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9291,
+                          "end": 9301,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9302,
+                      "end": 9303,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9304,
+                      "end": 9319,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9304,
+                        "end": 9307,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9308,
+                          "end": 9318,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9326,
+              "end": 9404,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9326,
+                "end": 9331,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9333,
+                  "end": 9404,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9333,
+                    "end": 9336,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9337,
+                      "end": 9352,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9337,
+                        "end": 9340,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9341,
+                          "end": 9351,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9352,
+                      "end": 9353,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9354,
+                      "end": 9369,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9354,
+                        "end": 9357,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9358,
+                          "end": 9368,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9369,
+                      "end": 9370,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9371,
+                      "end": 9386,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9371,
+                        "end": 9374,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9375,
+                          "end": 9385,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9386,
+                      "end": 9387,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9388,
+                      "end": 9403,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9388,
+                        "end": 9391,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9392,
+                          "end": 9402,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "important": null
+          },
+          {
+            "type": "Declaration",
+            "span": {
+              "start": 9410,
+              "end": 9471,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 9410,
+                "end": 9415,
+                "ctxt": 0
+              },
+              "value": "color",
+              "raw": "color"
+            },
+            "value": [
+              {
+                "type": "Function",
+                "span": {
+                  "start": 9417,
+                  "end": 9471,
+                  "ctxt": 0
+                },
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 9417,
+                    "end": 9420,
+                    "ctxt": 0
+                  },
+                  "value": "rgb",
+                  "raw": "rgb"
+                },
+                "value": [
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9421,
+                      "end": 9436,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9421,
+                        "end": 9424,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9425,
+                          "end": 9435,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9436,
+                      "end": 9437,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9438,
+                      "end": 9453,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9438,
+                        "end": 9441,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9442,
+                          "end": 9452,
+                          "ctxt": 0
+                        },
+                        "value": "bg-color",
+                        "raw": "--bg-color"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "Delimiter",
+                    "span": {
+                      "start": 9453,
+                      "end": 9454,
+                      "ctxt": 0
+                    },
+                    "value": ","
+                  },
+                  {
+                    "type": "Function",
+                    "span": {
+                      "start": 9455,
+                      "end": 9470,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Ident",
+                      "span": {
+                        "start": 9455,
+                        "end": 9458,
+                        "ctxt": 0
+                      },
+                      "value": "var",
+                      "raw": "var"
+                    },
+                    "value": [
+                      {
+                        "type": "DashedIdent",
+                        "span": {
+                          "start": 9459,
+                          "end": 9469,
                           "ctxt": 0
                         },
                         "value": "bg-color",
