@@ -2407,7 +2407,12 @@ impl VisitMut for Minifier<'_> {
             };
 
             if value.is_empty() {
-                if self.options.normalize_attributes
+                if self.options.collapse_boolean_attributes
+                    && current_element.namespace == Namespace::HTML
+                    && self.is_boolean_attribute(current_element, &n.name)
+                {
+                    n.value = None;
+                } else if self.options.normalize_attributes
                     && self.is_crossorigin_attribute(current_element, n)
                     && value.is_empty()
                 {
