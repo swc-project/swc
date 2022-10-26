@@ -13,6 +13,12 @@
 
 - **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
 
+### Testing
+
+
+
+- **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
+
 ## [1.3.11] - 2022-10-26
 
 ### Bug Fixes
