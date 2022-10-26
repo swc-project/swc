@@ -165,7 +165,7 @@
    :                                   ^^^^^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('col-start' type=dynamic), raw: Atom('col-start' type=dynamic) }
    ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start);
    :                                   ^^^^^^^^^
@@ -189,10 +189,25 @@
    :                                             ^
    `----
 
-  x Delimiter
+  x Semi
    ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
  2 | grid-template-columns: repeat(4, [col-start);
    :                                             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start);
+   :                                              ^
+ 3 | }
+   `----
+
+  x WhiteSpace { value: Atom('
+  | ' type=inline) }
+   ,-[$DIR/tests/recovery/simple-block/unclosed-in-function/input.css:2:5]
+ 2 | grid-template-columns: repeat(4, [col-start);
+   :                                              ^
+ 3 | }
    `----
 
   x ComponentValue

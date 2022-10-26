@@ -40,7 +40,14 @@
  37 | |   .class {
  38 | |       color: red;
  39 | |       & test;
- 40 | `-> }
+ 40 | |   }
+ 41 | |   
+ 42 | |   
+ 43 | |   .class {
+ 44 | |       &.foo {
+ 45 | |           __ident__
+ 46 | |       }
+ 47 | `-> }
     `----
 
   x Rule
@@ -1548,4 +1555,186 @@
     ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:39:5]
  39 | & test;
     :       ^
+    `----
+
+  x Rule
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | ,-> .class {
+ 44 | |       &.foo {
+ 45 | |           __ident__
+ 46 | |       }
+ 47 | `-> }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | ,-> .class {
+ 44 | |       &.foo {
+ 45 | |           __ident__
+ 46 | |       }
+ 47 | `-> }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    : ^^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    : ^^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    : ^^^^^^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    : ^^^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    : ^^^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    :  ^^^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | ,-> .class {
+ 44 | |       &.foo {
+ 45 | |           __ident__
+ 46 | |       }
+ 47 | `-> }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:43:1]
+ 43 | .class {
+    :        ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | ,-> &.foo {
+ 45 | |           __ident__
+ 46 | `->     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | ,-> &.foo {
+ 45 | |           __ident__
+ 46 | `->     }
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | ,-> &.foo {
+ 45 | |           __ident__
+ 46 | `->     }
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^^^^^
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^^^^^
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^^^^^
+    `----
+
+  x NestingSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    : ^
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    :  ^^^^
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    :  ^^^^
+    `----
+
+  x Ident
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    :   ^^^
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | ,-> &.foo {
+ 45 | |           __ident__
+ 46 | `->     }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:44:5]
+ 44 | &.foo {
+    :       ^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | ,-> __ident__
+ 46 | `->     }
+    `----
+
+  x StyleBlock
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | ,-> __ident__
+ 46 | `->     }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | __ident__
+    : ^^^^^^^^^
+    `----
+
+  x Ident { value: Atom('__ident__' type=dynamic), raw: Atom('__ident__' type=dynamic) }
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | __ident__
+    : ^^^^^^^^^
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | ,-> __ident__
+ 46 | `->     }
+    `----
+
+  x WhiteSpace { value: Atom('
+  |     ' type=inline) }
+    ,-[$DIR/tests/recovery/style-blocks-contents/basic/input.css:45:9]
+ 45 | ,-> __ident__
+ 46 | `->     }
     `----

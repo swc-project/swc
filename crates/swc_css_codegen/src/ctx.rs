@@ -22,6 +22,7 @@ where
 pub(crate) struct Ctx {
     pub in_single_line_selectors: bool,
     pub allow_to_lowercase: bool,
+    pub in_list_of_component_values: bool,
 }
 
 pub(super) struct WithCtx<'w, I: 'w + CssWriter> {

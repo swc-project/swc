@@ -1,7 +1,7 @@
 
   x Stylesheet
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
  2 | |       .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | |       }
@@ -10,7 +10,7 @@
 
   x Rule
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
  2 | |       .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | |       }
@@ -19,7 +19,7 @@
 
   x AtRule
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
  2 | |       .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | |       }
@@ -28,97 +28,103 @@
 
   x AtRuleName
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
    :  ^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
    :  ^^^^^
    `----
 
   x MediaQueryList
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
   x MediaQuery
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x MediaCondition
+  x MediaType
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaConditionAllType
-   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x MediaInParens
-   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   `----
-
-  x Function
-   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :        ^^^^^^
    `----
 
   x Ident
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :        ^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
    :               ^^^
    `----
 
-  x ComponentValue
+  x MediaConditionWithoutOr
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Ident { value: Atom('-webkit-min-device-pixel-ratio' type=dynamic), raw: Atom('-webkit-min-device-pixel-ratio' type=dynamic) }
+  x MediaConditionWithoutOrType
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x MediaInParens
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                                                 ^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Colon
+  x MediaFeature
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                                                 ^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x ComponentValue
+  x MediaFeaturePlain
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                                                  ^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
 
-  x Number { value: 0.0, raw: Atom('0' type=inline), type_flag: Integer }
+  x MediaFeatureName
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                                                  ^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x MediaFeatureValue
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                                                   ^
+   `----
+
+  x Number
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                                                   ^
    `----
 
   x SimpleBlock
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | ,-> @media screen and(-webkit-min-device-pixel-ratio:0) {
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
  2 | |       .gradientWrapper {
  3 | |         -chrome-: only(; z-index: 10;);
  4 | |       }
@@ -127,8 +133,8 @@
 
   x LBrace
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
- 1 | @media screen and(-webkit-min-device-pixel-ratio:0) {
-   :                                                     ^
+ 1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
+   :                                                      ^
    `----
 
   x ComponentValue

@@ -24,25 +24,73 @@
         "raw": "import"
       },
       "prelude": {
-        "type": "ImportPrelude",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 9,
+          "start": 8,
           "end": 26,
           "ctxt": 0
         },
-        "href": {
-          "type": "String",
-          "span": {
-            "start": 9,
-            "end": 18,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 8,
+              "end": 9,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "value": "foo.css",
-          "raw": "\"foo.css\""
-        },
-        "layerName": null,
-        "supports": null,
-        "media": null
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 9,
+              "end": 18,
+              "ctxt": 0
+            },
+            "token": {
+              "String": {
+                "value": "foo.css",
+                "raw": "\"foo.css\""
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "Function",
+            "span": {
+              "start": 19,
+              "end": 26,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 19,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
+            },
+            "value": []
+          }
+        ]
       },
       "block": null
     },
@@ -64,25 +112,88 @@
         "raw": "import"
       },
       "prelude": {
-        "type": "ImportPrelude",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 36,
+          "start": 35,
           "end": 62,
           "ctxt": 0
         },
-        "href": {
-          "type": "String",
-          "span": {
-            "start": 36,
-            "end": 45,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 35,
+              "end": 36,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "value": "foo.css",
-          "raw": "\"foo.css\""
-        },
-        "layerName": null,
-        "supports": null,
-        "media": null
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 36,
+              "end": 45,
+              "ctxt": 0
+            },
+            "token": {
+              "String": {
+                "value": "foo.css",
+                "raw": "\"foo.css\""
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 45,
+              "end": 46,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "Function",
+            "span": {
+              "start": 46,
+              "end": 62,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 46,
+                "end": 51,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 52,
+                  "end": 61,
+                  "ctxt": 0
+                },
+                "token": {
+                  "String": {
+                    "value": "invalid",
+                    "raw": "\"invalid\""
+                  }
+                }
+              }
+            ]
+          }
+        ]
       },
       "block": null
     },
@@ -104,25 +215,124 @@
         "raw": "import"
       },
       "prelude": {
-        "type": "ImportPrelude",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 72,
+          "start": 71,
           "end": 97,
           "ctxt": 0
         },
-        "href": {
-          "type": "String",
-          "span": {
-            "start": 72,
-            "end": 81,
-            "ctxt": 0
+        "children": [
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 71,
+              "end": 72,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           },
-          "value": "foo.css",
-          "raw": "\"foo.css\""
-        },
-        "layerName": null,
-        "supports": null,
-        "media": null
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 72,
+              "end": 81,
+              "ctxt": 0
+            },
+            "token": {
+              "String": {
+                "value": "foo.css",
+                "raw": "\"foo.css\""
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 81,
+              "end": 82,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "Function",
+            "span": {
+              "start": 82,
+              "end": 97,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Ident",
+              "span": {
+                "start": 82,
+                "end": 87,
+                "ctxt": 0
+              },
+              "value": "layer",
+              "raw": "layer"
+            },
+            "value": [
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 88,
+                  "end": 91,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "foo",
+                    "raw": "foo"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 91,
+                  "end": 92,
+                  "ctxt": 0
+                },
+                "token": "Comma"
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 92,
+                  "end": 93,
+                  "ctxt": 0
+                },
+                "token": {
+                  "WhiteSpace": {
+                    "value": " "
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 93,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Ident": {
+                    "value": "bar",
+                    "raw": "bar"
+                  }
+                }
+              }
+            ]
+          }
+        ]
       },
       "block": null
     }

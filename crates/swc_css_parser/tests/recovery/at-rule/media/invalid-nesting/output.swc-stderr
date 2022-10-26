@@ -1,6 +1,6 @@
 
   x Unexpected end of file
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:3]
- 3 |  
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:1]
+ 3 | }
    : ^
    `----

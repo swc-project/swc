@@ -27,7 +27,7 @@
         "type": "ListOfComponentValues",
         "span": {
           "start": 7,
-          "end": 18,
+          "end": 19,
           "ctxt": 0
         },
         "children": [
@@ -82,6 +82,19 @@
               "Ident": {
                 "value": "layer",
                 "raw": "layer"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
               }
             }
           }
