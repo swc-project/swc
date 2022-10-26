@@ -367,13 +367,17 @@ fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
 }
 
 impl Minifier<'_> {
-    fn is_event_handler_attribute(&self, name: &JsWord) -> bool {
-        EVENT_HANDLER_ATTRIBUTES.contains(&&**name)
+    fn is_event_handler_attribute(&self, attribute: &Attribute) -> bool {
+        EVENT_HANDLER_ATTRIBUTES.contains(&&*attribute.name)
     }
 
-    fn is_boolean_attribute(&self, element: &Element, name: &JsWord) -> bool {
+    fn is_boolean_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if element.namespace != Namespace::HTML {
+            return false;
+        }
+
         if let Some(global_pseudo_element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&js_word!("*")) {
-            if let Some(element) = global_pseudo_element.other.get(name) {
+            if let Some(element) = global_pseudo_element.other.get(&attribute.name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
                 }
@@ -381,7 +385,7 @@ impl Minifier<'_> {
         }
 
         if let Some(element) = HTML_ELEMENTS_AND_ATTRIBUTES.get(&element.tag_name) {
-            if let Some(element) = element.other.get(name) {
+            if let Some(element) = element.other.get(&attribute.name) {
                 if element.boolean.is_some() && element.boolean.unwrap() {
                     return true;
                 }
@@ -2349,7 +2353,7 @@ impl VisitMut for Minifier<'_> {
                     if (matches!(i1.name, js_word!("id")) && value.is_empty())
                         || (matches!(i1.name, js_word!("class") | js_word!("style"))
                             && value.is_empty())
-                        || self.is_event_handler_attribute(&i1.name) && value.is_empty()
+                        || self.is_event_handler_attribute(i1) && value.is_empty()
                     {
                         remove_list.push(i);
 
@@ -2407,8 +2411,7 @@ impl VisitMut for Minifier<'_> {
 
             if value.is_empty() {
                 if (self.options.collapse_boolean_attributes
-                    && current_element.namespace == Namespace::HTML
-                    && self.is_boolean_attribute(current_element, &n.name))
+                    && self.is_boolean_attribute(current_element, n))
                     || (self.options.normalize_attributes
                         && self.is_crossorigin_attribute(current_element, n)
                         && value.is_empty())
@@ -2449,12 +2452,11 @@ impl VisitMut for Minifier<'_> {
                     n.value = None;
                 }
                 _ if self.options.collapse_boolean_attributes
-                    && current_element.namespace == Namespace::HTML
-                    && self.is_boolean_attribute(current_element, &n.name) =>
+                    && self.is_boolean_attribute(current_element, n) =>
                 {
                     n.value = None;
                 }
-                _ if self.is_event_handler_attribute(&n.name) => {
+                _ if self.is_event_handler_attribute(n) => {
                     let mut value = value.to_string();
 
                     if self.options.normalize_attributes {
