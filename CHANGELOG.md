@@ -25,6 +25,9 @@
 
 - **(es/minifier)** Respect options (#6245) ([ec9a80a](https://github.com/swc-project/swc/commit/ec9a80aae0277f1346955d10fe348111050193bd))
 
+
+- **(es/minifier)** Support more statements in seqential inliner (#6248) ([86e265a](https://github.com/swc-project/swc/commit/86e265a024d4c6215e2fe7f3442a9cc2be8be1cf))
+
 ### Miscellaneous Tasks
 
 
