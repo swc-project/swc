@@ -1,0 +1,4 @@
+
+div {
+    background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+}
