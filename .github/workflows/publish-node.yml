@@ -53,7 +53,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
-              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
+              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu &&
