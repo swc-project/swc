@@ -258,15 +258,10 @@ impl SimplifyExpr {
                     }
 
                     if exprs.is_empty() {
-                        if val.directness_maters() {
-                            *expr = Expr::Seq(SeqExpr {
-                                span: val.span(),
-                                exprs: vec![0.into(), val],
-                            });
-                        } else {
-                            *expr = *val;
-                        }
-
+                        *expr = Expr::Seq(SeqExpr {
+                            span: val.span(),
+                            exprs: vec![0.into(), val],
+                        });
                         return;
                     }
 
