@@ -1,12 +1,6 @@
 //// [stringLiteralsWithSwitchStatements03.ts]
-var x, z;
-switch(x){
+var z;
+switch(void 0){
     case randBool() ? "foo" : "baz":
-    case randBool(), "bar":
-    case "bar":
-    case "baz":
-    case "foo":
-    case "bar":
     case z || "baz":
-    case "baz":
 }

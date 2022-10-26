@@ -8241,8 +8241,8 @@
                 return t.length < 2 ? "0" + t : t;
             }
             l.get = function(e) {
-                var t, r, n = e.substring(0, 3).toLowerCase();
-                switch(n){
+                var t, r;
+                switch(e.substring(0, 3).toLowerCase()){
                     case "hsl":
                         t = l.get.hsl(e), r = "hsl";
                         break;
@@ -9406,10 +9406,10 @@
                         stickToLeft: 3,
                         stickToRight: 4
                     }; t = e.charAt(r++);){
-                        var o = "." === t, a = !o && /\d/.test(t), u = o ? r - 1 == 0 ? i.stickToLeft : i.stickToRight : a ? i.level : i.alphabet;
-                        switch(u){
+                        var o = "." === t, a = !o && /\d/.test(t);
+                        switch(o ? r - 1 == 0 ? i.stickToLeft : i.stickToRight : a ? i.level : i.alphabet){
                             case i.alphabet:
-                                l || n.levels.push(0), n.text += t;
+                                u || n.levels.push(0), n.text += t;
                                 break;
                             case i.level:
                                 n.levels.push(parseInt(t));
@@ -9420,7 +9420,7 @@
                             case i.stickToRight:
                                 n.stickToRight = !0;
                         }
-                        var l = a;
+                        var u = a;
                     }
                     return n;
                 }

@@ -2428,8 +2428,7 @@
                 var frameIdx, isAdditive = null != this._additiveTrack, valueKey = isAdditive ? 'additiveValue' : 'value', keyframes = this.keyframes, kfsNum = this.keyframes.length, propName = this.propName, arrDim = this.arrDim, isValueColor = this.isValueColor;
                 if (percent < 0) frameIdx = 0;
                 else if (percent < this._lastFramePercent) {
-                    var start = Math.min(this._lastFrame + 1, kfsNum - 1);
-                    for(frameIdx = start; frameIdx >= 0 && !(keyframes[frameIdx].percent <= percent); frameIdx--);
+                    for(frameIdx = Math.min(this._lastFrame + 1, kfsNum - 1); frameIdx >= 0 && !(keyframes[frameIdx].percent <= percent); frameIdx--);
                     frameIdx = Math.min(frameIdx, kfsNum - 2);
                 } else {
                     for(frameIdx = this._lastFrame; frameIdx < kfsNum && !(keyframes[frameIdx].percent > percent); frameIdx++);
@@ -28477,8 +28476,7 @@
             if (offsets) {
                 var lastFrame = this._lastFrame;
                 if (t < this._lastFramePercent) {
-                    var start = Math.min(lastFrame + 1, len - 1);
-                    for(frame = start; frame >= 0 && !(offsets[frame] <= t); frame--);
+                    for(frame = Math.min(lastFrame + 1, len - 1); frame >= 0 && !(offsets[frame] <= t); frame--);
                     frame = Math.min(frame, len - 2);
                 } else {
                     for(frame = lastFrame; frame < len && !(offsets[frame] > t); frame++);
