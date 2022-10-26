@@ -3530,7 +3530,6 @@ dependencies = [
  "backtrace",
  "criterion",
  "indexmap",
- "lexical",
  "num-bigint",
  "num_cpus",
  "once_cell",
