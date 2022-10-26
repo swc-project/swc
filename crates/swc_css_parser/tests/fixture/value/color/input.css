@@ -238,4 +238,12 @@ div {
     color: color(--unwise 35% 20% 8%);
     color: color(--unwise var(--bg-color));
     color: color(--unwise var(--bg-color) var(--bg-color));
+    color: device-cmyk(var(--bg-color));
+    color: device-cmyk(var(--bg-color) var(--bg-color));
+    color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+    color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+    color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+    /*color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));*/
+    /*color: device-cmyk(var(--bg-color) / var(--bg-color));*/
+    /*color: device-cmyk(var(--bg-color) var(--bg-color));*/
 }

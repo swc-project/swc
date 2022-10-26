@@ -396,6 +396,8 @@ where
                         if let Some(percentage_or_number_or_none) = percentage_or_number_or_none {
                             values.push(percentage_or_number_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     "hsl" | "hsla" => {
                         let hue_or_none = self.try_parse_variable_function(
@@ -438,13 +440,13 @@ where
                         if let Some(hue_or_none) = hue_or_none {
                             values.push(hue_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     _ => {
                         unreachable!()
                     }
                 }
-
-                self.input.skip_ws();
 
                 if is!(self, ",") {
                     if !is_legacy_syntax && !has_variable {
@@ -505,6 +507,8 @@ where
                         if let Some(percentage_or_number) = percentage_or_number {
                             values.push(percentage_or_number);
                         }
+
+                        self.input.skip_ws();
                     }
                     "hsl" | "hsla" => {
                         let percentage_or_none = self.try_parse_variable_function(
@@ -547,13 +551,13 @@ where
                         if let Some(percentage_or_none) = percentage_or_none {
                             values.push(percentage_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     _ => {
                         unreachable!();
                     }
                 }
-
-                self.input.skip_ws();
 
                 if is_legacy_syntax {
                     match cur!(self) {
@@ -615,6 +619,8 @@ where
                         if let Some(percentage_or_number) = percentage_or_number {
                             values.push(percentage_or_number);
                         }
+
+                        self.input.skip_ws();
                     }
                     "hsl" | "hsla" => {
                         let percentage_or_none = self.try_parse_variable_function(
@@ -657,13 +663,13 @@ where
                         if let Some(percentage_or_none) = percentage_or_none {
                             values.push(percentage_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     _ => {
                         unreachable!();
                     }
                 }
-
-                self.input.skip_ws();
 
                 if is!(self, ",") && is_legacy_syntax {
                     values.push(ComponentValue::Delimiter(self.parse()?));
@@ -818,6 +824,8 @@ where
                         if let Some(hue_or_none) = hue_or_none {
                             values.push(hue_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let percentage_or_none = self.try_parse_variable_function(
@@ -861,6 +869,8 @@ where
                         if let Some(percentage_or_none) = percentage_or_none {
                             values.push(percentage_or_none);
                         }
+
+                        self.input.skip_ws();
                     }
                     "device-cmyk" => {
                         let cmyk_component = self.try_parse_variable_function(
@@ -871,263 +881,295 @@ where
                         if let Some(cmyk_component) = cmyk_component {
                             values.push(cmyk_component);
                         }
+
+                        self.input.skip_ws();
                     }
                     _ => {
                         unreachable!();
                     }
                 }
 
-                self.input.skip_ws();
-
-                match function_name {
-                    "hwb" => {
-                        let percentage_or_none = self.try_parse_variable_function(
-                            |parser, has_variable_before| match cur!(parser) {
-                                tok!("percentage") => {
-                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
-                                }
-                                Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
-                                }
-                                tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
-
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
-                                        Ok(Some(ComponentValue::Ident(ident)))
-                                    } else {
-                                        Err(Error::new(
-                                            ident.span,
-                                            ErrorKind::Expected("'none' value of an ident token"),
-                                        ))
+                if !is_one_of!(self, EOF, ")") {
+                    match function_name {
+                        "hwb" => {
+                            let percentage_or_none = self.try_parse_variable_function(
+                                |parser, has_variable_before| match cur!(parser) {
+                                    tok!("percentage") => {
+                                        Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                }
-                                _ => {
-                                    if !has_variable_before {
-                                        Err(Error::new(
-                                            parser.input.cur_span(),
-                                            ErrorKind::Expected(
-                                                "percentage, functions (math functions) or ident \
-                                                 (with 'none' value) token",
-                                            ),
-                                        ))
-                                    } else {
-                                        Ok(None)
+                                    Token::Function { value, .. } if is_math_function(value) => {
+                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
-                                }
-                            },
-                            &mut has_variable,
-                        )?;
+                                    tok!("ident") => {
+                                        let ident: Ident = parser.parse()?;
 
-                        if let Some(percentage_or_none) = percentage_or_none {
-                            values.push(percentage_or_none);
+                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                            Ok(Some(ComponentValue::Ident(ident)))
+                                        } else {
+                                            Err(Error::new(
+                                                ident.span,
+                                                ErrorKind::Expected(
+                                                    "'none' value of an ident token",
+                                                ),
+                                            ))
+                                        }
+                                    }
+                                    _ => {
+                                        if !has_variable_before {
+                                            Err(Error::new(
+                                                parser.input.cur_span(),
+                                                ErrorKind::Expected(
+                                                    "percentage, functions (math functions) or \
+                                                     ident (with 'none' value) token",
+                                                ),
+                                            ))
+                                        } else {
+                                            Ok(None)
+                                        }
+                                    }
+                                },
+                                &mut has_variable,
+                            )?;
+
+                            if let Some(percentage_or_none) = percentage_or_none {
+                                values.push(percentage_or_none);
+                            }
+
+                            self.input.skip_ws();
                         }
-                    }
-                    "lab" | "lch" | "oklab" | "oklch" => {
-                        let number_or_none = self.try_parse_variable_function(
-                            |parser, has_variable_before| match cur!(parser) {
-                                tok!("percentage") => {
-                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
-                                }
-                                tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
-                                }
-                                tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
-
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
-                                        Ok(Some(ComponentValue::Ident(ident)))
-                                    } else {
-                                        Err(Error::new(
-                                            ident.span,
-                                            ErrorKind::Expected("'none' value of an ident token"),
-                                        ))
+                        "lab" | "lch" | "oklab" | "oklch" => {
+                            let number_or_none = self.try_parse_variable_function(
+                                |parser, has_variable_before| match cur!(parser) {
+                                    tok!("percentage") => {
+                                        Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                }
-                                _ => {
-                                    if !has_variable_before {
-                                        Err(Error::new(
-                                            parser.input.cur_span(),
-                                            ErrorKind::Expected(
-                                                "number, functions (math functions) or ident \
-                                                 (with 'none' value) token",
-                                            ),
-                                        ))
-                                    } else {
-                                        Ok(None)
+                                    tok!("number") => {
+                                        Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
-                                }
-                            },
-                            &mut has_variable,
-                        )?;
+                                    Token::Function { value, .. } if is_math_function(value) => {
+                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    }
+                                    tok!("ident") => {
+                                        let ident: Ident = parser.parse()?;
 
-                        if let Some(number_or_none) = number_or_none {
-                            values.push(number_or_none);
-                        }
-                    }
-                    "device-cmyk" => {
-                        let cmyk_component = self.try_parse_variable_function(
-                            |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
-                            &mut has_variable,
-                        )?;
+                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                            Ok(Some(ComponentValue::Ident(ident)))
+                                        } else {
+                                            Err(Error::new(
+                                                ident.span,
+                                                ErrorKind::Expected(
+                                                    "'none' value of an ident token",
+                                                ),
+                                            ))
+                                        }
+                                    }
+                                    _ => {
+                                        if !has_variable_before {
+                                            Err(Error::new(
+                                                parser.input.cur_span(),
+                                                ErrorKind::Expected(
+                                                    "number, functions (math functions) or ident \
+                                                     (with 'none' value) token",
+                                                ),
+                                            ))
+                                        } else {
+                                            Ok(None)
+                                        }
+                                    }
+                                },
+                                &mut has_variable,
+                            )?;
 
-                        if let Some(cmyk_component) = cmyk_component {
-                            values.push(cmyk_component);
+                            if let Some(number_or_none) = number_or_none {
+                                values.push(number_or_none);
+                            }
+
+                            self.input.skip_ws();
                         }
-                    }
-                    _ => {
-                        unreachable!();
+                        "device-cmyk" => {
+                            let cmyk_component = self.try_parse_variable_function(
+                                |parser, _| {
+                                    Ok(Some(ComponentValue::CmykComponent(parser.parse()?)))
+                                },
+                                &mut has_variable,
+                            )?;
+
+                            if let Some(cmyk_component) = cmyk_component {
+                                values.push(cmyk_component);
+                            }
+
+                            self.input.skip_ws();
+                        }
+                        _ => {
+                            unreachable!();
+                        }
                     }
                 }
 
-                self.input.skip_ws();
-
-                match function_name {
-                    "hwb" => {
-                        let percentage_or_none = self.try_parse_variable_function(
-                            |parser, has_variable_before| match cur!(parser) {
-                                tok!("percentage") => {
-                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
-                                }
-                                Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
-                                }
-                                tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
-
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
-                                        Ok(Some(ComponentValue::Ident(ident)))
-                                    } else {
-                                        Err(Error::new(
-                                            ident.span,
-                                            ErrorKind::Expected("'none' value of an ident token"),
-                                        ))
+                if !is_one_of!(self, EOF, ")") {
+                    match function_name {
+                        "hwb" => {
+                            let percentage_or_none = self.try_parse_variable_function(
+                                |parser, has_variable_before| match cur!(parser) {
+                                    tok!("percentage") => {
+                                        Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                }
-                                _ => {
-                                    if !has_variable_before {
-                                        Err(Error::new(
-                                            parser.input.cur_span(),
-                                            ErrorKind::Expected(
-                                                "percentage, functions (math functions) or ident \
-                                                 (with 'none' value) token",
-                                            ),
-                                        ))
-                                    } else {
-                                        Ok(None)
+                                    Token::Function { value, .. } if is_math_function(value) => {
+                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
-                                }
-                            },
-                            &mut has_variable,
-                        )?;
+                                    tok!("ident") => {
+                                        let ident: Ident = parser.parse()?;
 
-                        if let Some(percentage_or_none) = percentage_or_none {
-                            values.push(percentage_or_none);
+                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                            Ok(Some(ComponentValue::Ident(ident)))
+                                        } else {
+                                            Err(Error::new(
+                                                ident.span,
+                                                ErrorKind::Expected(
+                                                    "'none' value of an ident token",
+                                                ),
+                                            ))
+                                        }
+                                    }
+                                    _ => {
+                                        if !has_variable_before {
+                                            Err(Error::new(
+                                                parser.input.cur_span(),
+                                                ErrorKind::Expected(
+                                                    "percentage, functions (math functions) or \
+                                                     ident (with 'none' value) token",
+                                                ),
+                                            ))
+                                        } else {
+                                            Ok(None)
+                                        }
+                                    }
+                                },
+                                &mut has_variable,
+                            )?;
+
+                            if let Some(percentage_or_none) = percentage_or_none {
+                                values.push(percentage_or_none);
+                            }
+
+                            self.input.skip_ws();
                         }
-                    }
-                    "lab" | "oklab" => {
-                        let number_or_none = self.try_parse_variable_function(
-                            |parser, has_variable_before| match cur!(parser) {
-                                tok!("percentage") => {
-                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
-                                }
-                                tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
-                                Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
-                                }
-                                tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
-
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
-                                        Ok(Some(ComponentValue::Ident(ident)))
-                                    } else {
-                                        Err(Error::new(
-                                            ident.span,
-                                            ErrorKind::Expected("'none' value of an ident token"),
-                                        ))
+                        "lab" | "oklab" => {
+                            let number_or_none = self.try_parse_variable_function(
+                                |parser, has_variable_before| match cur!(parser) {
+                                    tok!("percentage") => {
+                                        Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                     }
-                                }
-                                _ => {
-                                    if !has_variable_before {
-                                        Err(Error::new(
-                                            parser.input.cur_span(),
-                                            ErrorKind::Expected(
-                                                "number, function (math functions) or ident (with \
-                                                 'none' value) token",
-                                            ),
-                                        ))
-                                    } else {
-                                        Ok(None)
+                                    tok!("number") => {
+                                        Ok(Some(ComponentValue::Number(parser.parse()?)))
                                     }
-                                }
-                            },
-                            &mut has_variable,
-                        )?;
+                                    Token::Function { value, .. } if is_math_function(value) => {
+                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
+                                    }
+                                    tok!("ident") => {
+                                        let ident: Ident = parser.parse()?;
 
-                        if let Some(number_or_none) = number_or_none {
-                            values.push(number_or_none);
+                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                            Ok(Some(ComponentValue::Ident(ident)))
+                                        } else {
+                                            Err(Error::new(
+                                                ident.span,
+                                                ErrorKind::Expected(
+                                                    "'none' value of an ident token",
+                                                ),
+                                            ))
+                                        }
+                                    }
+                                    _ => {
+                                        if !has_variable_before {
+                                            Err(Error::new(
+                                                parser.input.cur_span(),
+                                                ErrorKind::Expected(
+                                                    "number, function (math functions) or ident \
+                                                     (with 'none' value) token",
+                                                ),
+                                            ))
+                                        } else {
+                                            Ok(None)
+                                        }
+                                    }
+                                },
+                                &mut has_variable,
+                            )?;
+
+                            if let Some(number_or_none) = number_or_none {
+                                values.push(number_or_none);
+                            }
+
+                            self.input.skip_ws();
                         }
-                    }
-                    "lch" | "oklch" => {
-                        let hue_or_none = self.try_parse_variable_function(
-                            |parser, has_variable_before| match cur!(parser) {
-                                tok!("number") | tok!("dimension") => {
-                                    Ok(Some(ComponentValue::Hue(parser.parse()?)))
-                                }
-                                Token::Function { value, .. } if is_math_function(value) => {
-                                    Ok(Some(ComponentValue::Function(parser.parse()?)))
-                                }
-                                tok!("ident") => {
-                                    let ident: Ident = parser.parse()?;
-
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
-                                        Ok(Some(ComponentValue::Ident(ident)))
-                                    } else {
-                                        Err(Error::new(
-                                            ident.span,
-                                            ErrorKind::Expected("'none' value of an ident token"),
-                                        ))
+                        "lch" | "oklch" => {
+                            let hue_or_none = self.try_parse_variable_function(
+                                |parser, has_variable_before| match cur!(parser) {
+                                    tok!("number") | tok!("dimension") => {
+                                        Ok(Some(ComponentValue::Hue(parser.parse()?)))
                                     }
-                                }
-                                _ => {
-                                    if !has_variable_before {
-                                        return Err(Error::new(
-                                            parser.input.cur_span(),
-                                            ErrorKind::Expected(
-                                                "number, dimension, functions (math functions) or \
-                                                 ident (with 'none' value) token",
-                                            ),
-                                        ));
-                                    } else {
-                                        Ok(None)
+                                    Token::Function { value, .. } if is_math_function(value) => {
+                                        Ok(Some(ComponentValue::Function(parser.parse()?)))
                                     }
-                                }
-                            },
-                            &mut has_variable,
-                        )?;
+                                    tok!("ident") => {
+                                        let ident: Ident = parser.parse()?;
 
-                        if let Some(hue_or_none) = hue_or_none {
-                            values.push(hue_or_none);
-                        }
-                    }
-                    "device-cmyk" => {
-                        let cmyk_component = self.try_parse_variable_function(
-                            |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
-                            &mut has_variable,
-                        )?;
+                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                            Ok(Some(ComponentValue::Ident(ident)))
+                                        } else {
+                                            Err(Error::new(
+                                                ident.span,
+                                                ErrorKind::Expected(
+                                                    "'none' value of an ident token",
+                                                ),
+                                            ))
+                                        }
+                                    }
+                                    _ => {
+                                        if !has_variable_before {
+                                            return Err(Error::new(
+                                                parser.input.cur_span(),
+                                                ErrorKind::Expected(
+                                                    "number, dimension, functions (math \
+                                                     functions) or ident (with 'none' value) token",
+                                                ),
+                                            ));
+                                        } else {
+                                            Ok(None)
+                                        }
+                                    }
+                                },
+                                &mut has_variable,
+                            )?;
 
-                        if let Some(cmyk_component) = cmyk_component {
-                            values.push(cmyk_component);
+                            if let Some(hue_or_none) = hue_or_none {
+                                values.push(hue_or_none);
+                            }
+
+                            self.input.skip_ws();
                         }
-                    }
-                    _ => {
-                        unreachable!();
+                        "device-cmyk" => {
+                            let cmyk_component = self.try_parse_variable_function(
+                                |parser, _| {
+                                    Ok(Some(ComponentValue::CmykComponent(parser.parse()?)))
+                                },
+                                &mut has_variable,
+                            )?;
+
+                            if let Some(cmyk_component) = cmyk_component {
+                                values.push(cmyk_component);
+                            }
+
+                            self.input.skip_ws();
+                        }
+                        _ => {
+                            unreachable!();
+                        }
                     }
                 }
 
-                self.input.skip_ws();
-
-                if function_name == "device-cmyk" {
+                if !is_one_of!(self, EOF, ")") && function_name == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(
                         |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                         &mut has_variable,

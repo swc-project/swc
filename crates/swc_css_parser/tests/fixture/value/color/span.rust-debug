@@ -241,7 +241,15 @@
  238 | |       color: color(--unwise 35% 20% 8%);
  239 | |       color: color(--unwise var(--bg-color));
  240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
- 241 | `-> }
+ 241 | |       color: device-cmyk(var(--bg-color));
+ 242 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 243 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+ 244 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+ 245 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 246 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));*/
+ 247 | |       /*color: device-cmyk(var(--bg-color) / var(--bg-color));*/
+ 248 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color));*/
+ 249 | `-> }
      `----
 
   x Rule
@@ -22578,7 +22586,15 @@
  238 | |       color: color(--unwise 35% 20% 8%);
  239 | |       color: color(--unwise var(--bg-color));
  240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
- 241 | `-> }
+ 241 | |       color: device-cmyk(var(--bg-color));
+ 242 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 243 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+ 244 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+ 245 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 246 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));*/
+ 247 | |       /*color: device-cmyk(var(--bg-color) / var(--bg-color));*/
+ 248 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color));*/
+ 249 | `-> }
      `----
 
   x QualifiedRule
@@ -22607,7 +22623,15 @@
  238 | |       color: color(--unwise 35% 20% 8%);
  239 | |       color: color(--unwise var(--bg-color));
  240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
- 241 | `-> }
+ 241 | |       color: device-cmyk(var(--bg-color));
+ 242 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 243 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+ 244 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+ 245 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 246 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));*/
+ 247 | |       /*color: device-cmyk(var(--bg-color) / var(--bg-color));*/
+ 248 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color));*/
+ 249 | `-> }
      `----
 
   x SelectorList
@@ -22678,7 +22702,15 @@
  238 | |       color: color(--unwise 35% 20% 8%);
  239 | |       color: color(--unwise var(--bg-color));
  240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
- 241 | `-> }
+ 241 | |       color: device-cmyk(var(--bg-color));
+ 242 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 243 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+ 244 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+ 245 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 246 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));*/
+ 247 | |       /*color: device-cmyk(var(--bg-color) / var(--bg-color));*/
+ 248 | |       /*color: device-cmyk(var(--bg-color) var(--bg-color));*/
+ 249 | `-> }
      `----
 
   x LBrace
@@ -25517,4 +25549,736 @@
      ,-[$DIR/tests/fixture/value/color/input.css:240:5]
  240 | color: color(--unwise var(--bg-color) var(--bg-color));
      :                                           ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :        ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:241:5]
+ 241 | color: device-cmyk(var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:242:5]
+ 242 | color: device-cmyk(var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:243:5]
+ 243 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:244:5]
+ 244 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :        ^^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                    ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                    ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                        ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                        ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                    ^
+     `----
+
+  x Delimiter
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                    ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                      ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                      ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                      ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                          ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:245:5]
+ 245 | color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+     :                                                                                          ^^^^^^^^^^
      `----
