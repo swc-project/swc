@@ -1,3 +1,4 @@
+use radix_fmt::Radix;
 use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
@@ -350,24 +351,15 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                if (2.0..=36.0).contains(&base) {
+                if num.value.fract() == 0.0 && (2.0..=36.0).contains(&base) && base.fract() == 0.0 {
                     let base = base.floor() as u8;
 
                     self.changed = true;
-                    const FORMAT: u128 = lexical::format::STANDARD;
-                    let mut options = lexical::WriteFloatOptions::from_radix(base);
-
-                    unsafe {
-                        // Safety: This is actually safe
-                        options.set_trim_floats(true);
-                    }
-
-                    let value = lexical::to_string_with_options::<_, FORMAT>(num.value, &options);
-
+                    let value = Radix::new(num.value as usize, base).to_string().into();
                     *e = Expr::Lit(Lit::Str(Str {
                         span: e.span(),
                         raw: None,
-                        value: value.into(),
+                        value,
                     }))
                 }
             }
