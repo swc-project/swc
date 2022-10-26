@@ -224,23 +224,23 @@
  221 | |       color: rgba(var(--bg-color) / 1);
  222 | |       color: lab(var(--mycolor) 0);
  223 | |       color: lab(var(--mycolor) var(--mycolor));
- 224 | |       /*color: lab(from var(--mycolor) 0 0 0);*/
- 225 | |       /*color: lab(from var(--mycolor) var(--color));*/
+ 224 | |       color: lab(from var(--mycolor) 0 0 0);
+ 225 | |       color: lab(from var(--mycolor) var(--color));
  226 | |       color: rgb(var(--bg-color));
  227 | |       /*color: rgb(var(--bg-color), var(--bg-color-a));*/
  228 | |       color: rgb(var(--bg-color) var(--bg-color-a));
  229 | |       color: rgba(var(--bg-color) 1);
  230 | |       color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
  231 | |       color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
- 232 | |       /*color: color(from var(--bg-color) var(--bg-color));*/
- 233 | |       /*color: color(from var(--bg-color) var(--bg-color) var(--bg-color));*/
- 234 | |       /*color: color(var(--bg-color) var(--bg-color));*/
- 235 | |       /*color: color(var(--bg-color));*/
- 236 | |       /*color: color(from var(--base) mi calc(pi * 2) calc(ni / 2));*/
- 237 | |       /*color: color(var(--bg-color));*/
- 238 | |       /*color: color(--unwise 35% 20% 8%);*/
- 239 | |       /*color: color(--unwise var(--bg-color));*/
- 240 | |       /*color: color(--unwise var(--bg-color) var(--bg-color));*/
+ 232 | |       color: color(from var(--bg-color) var(--bg-color));
+ 233 | |       color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+ 234 | |       color: color(var(--bg-color) var(--bg-color));
+ 235 | |       color: color(var(--bg-color));
+ 236 | |       color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+ 237 | |       color: color(var(--bg-color));
+ 238 | |       color: color(--unwise 35% 20% 8%);
+ 239 | |       color: color(--unwise var(--bg-color));
+ 240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
  241 | `-> }
      `----
 
@@ -22561,23 +22561,23 @@
  221 | |       color: rgba(var(--bg-color) / 1);
  222 | |       color: lab(var(--mycolor) 0);
  223 | |       color: lab(var(--mycolor) var(--mycolor));
- 224 | |       /*color: lab(from var(--mycolor) 0 0 0);*/
- 225 | |       /*color: lab(from var(--mycolor) var(--color));*/
+ 224 | |       color: lab(from var(--mycolor) 0 0 0);
+ 225 | |       color: lab(from var(--mycolor) var(--color));
  226 | |       color: rgb(var(--bg-color));
  227 | |       /*color: rgb(var(--bg-color), var(--bg-color-a));*/
  228 | |       color: rgb(var(--bg-color) var(--bg-color-a));
  229 | |       color: rgba(var(--bg-color) 1);
  230 | |       color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
  231 | |       color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
- 232 | |       /*color: color(from var(--bg-color) var(--bg-color));*/
- 233 | |       /*color: color(from var(--bg-color) var(--bg-color) var(--bg-color));*/
- 234 | |       /*color: color(var(--bg-color) var(--bg-color));*/
- 235 | |       /*color: color(var(--bg-color));*/
- 236 | |       /*color: color(from var(--base) mi calc(pi * 2) calc(ni / 2));*/
- 237 | |       /*color: color(var(--bg-color));*/
- 238 | |       /*color: color(--unwise 35% 20% 8%);*/
- 239 | |       /*color: color(--unwise var(--bg-color));*/
- 240 | |       /*color: color(--unwise var(--bg-color) var(--bg-color));*/
+ 232 | |       color: color(from var(--bg-color) var(--bg-color));
+ 233 | |       color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+ 234 | |       color: color(var(--bg-color) var(--bg-color));
+ 235 | |       color: color(var(--bg-color));
+ 236 | |       color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+ 237 | |       color: color(var(--bg-color));
+ 238 | |       color: color(--unwise 35% 20% 8%);
+ 239 | |       color: color(--unwise var(--bg-color));
+ 240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
  241 | `-> }
      `----
 
@@ -22590,23 +22590,23 @@
  221 | |       color: rgba(var(--bg-color) / 1);
  222 | |       color: lab(var(--mycolor) 0);
  223 | |       color: lab(var(--mycolor) var(--mycolor));
- 224 | |       /*color: lab(from var(--mycolor) 0 0 0);*/
- 225 | |       /*color: lab(from var(--mycolor) var(--color));*/
+ 224 | |       color: lab(from var(--mycolor) 0 0 0);
+ 225 | |       color: lab(from var(--mycolor) var(--color));
  226 | |       color: rgb(var(--bg-color));
  227 | |       /*color: rgb(var(--bg-color), var(--bg-color-a));*/
  228 | |       color: rgb(var(--bg-color) var(--bg-color-a));
  229 | |       color: rgba(var(--bg-color) 1);
  230 | |       color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
  231 | |       color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
- 232 | |       /*color: color(from var(--bg-color) var(--bg-color));*/
- 233 | |       /*color: color(from var(--bg-color) var(--bg-color) var(--bg-color));*/
- 234 | |       /*color: color(var(--bg-color) var(--bg-color));*/
- 235 | |       /*color: color(var(--bg-color));*/
- 236 | |       /*color: color(from var(--base) mi calc(pi * 2) calc(ni / 2));*/
- 237 | |       /*color: color(var(--bg-color));*/
- 238 | |       /*color: color(--unwise 35% 20% 8%);*/
- 239 | |       /*color: color(--unwise var(--bg-color));*/
- 240 | |       /*color: color(--unwise var(--bg-color) var(--bg-color));*/
+ 232 | |       color: color(from var(--bg-color) var(--bg-color));
+ 233 | |       color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+ 234 | |       color: color(var(--bg-color) var(--bg-color));
+ 235 | |       color: color(var(--bg-color));
+ 236 | |       color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+ 237 | |       color: color(var(--bg-color));
+ 238 | |       color: color(--unwise 35% 20% 8%);
+ 239 | |       color: color(--unwise var(--bg-color));
+ 240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
  241 | `-> }
      `----
 
@@ -22661,23 +22661,23 @@
  221 | |       color: rgba(var(--bg-color) / 1);
  222 | |       color: lab(var(--mycolor) 0);
  223 | |       color: lab(var(--mycolor) var(--mycolor));
- 224 | |       /*color: lab(from var(--mycolor) 0 0 0);*/
- 225 | |       /*color: lab(from var(--mycolor) var(--color));*/
+ 224 | |       color: lab(from var(--mycolor) 0 0 0);
+ 225 | |       color: lab(from var(--mycolor) var(--color));
  226 | |       color: rgb(var(--bg-color));
  227 | |       /*color: rgb(var(--bg-color), var(--bg-color-a));*/
  228 | |       color: rgb(var(--bg-color) var(--bg-color-a));
  229 | |       color: rgba(var(--bg-color) 1);
  230 | |       color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
  231 | |       color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
- 232 | |       /*color: color(from var(--bg-color) var(--bg-color));*/
- 233 | |       /*color: color(from var(--bg-color) var(--bg-color) var(--bg-color));*/
- 234 | |       /*color: color(var(--bg-color) var(--bg-color));*/
- 235 | |       /*color: color(var(--bg-color));*/
- 236 | |       /*color: color(from var(--base) mi calc(pi * 2) calc(ni / 2));*/
- 237 | |       /*color: color(var(--bg-color));*/
- 238 | |       /*color: color(--unwise 35% 20% 8%);*/
- 239 | |       /*color: color(--unwise var(--bg-color));*/
- 240 | |       /*color: color(--unwise var(--bg-color) var(--bg-color));*/
+ 232 | |       color: color(from var(--bg-color) var(--bg-color));
+ 233 | |       color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+ 234 | |       color: color(var(--bg-color) var(--bg-color));
+ 235 | |       color: color(var(--bg-color));
+ 236 | |       color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+ 237 | |       color: color(var(--bg-color));
+ 238 | |       color: color(--unwise 35% 20% 8%);
+ 239 | |       color: color(--unwise var(--bg-color));
+ 240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
  241 | `-> }
      `----
 
@@ -23360,6 +23360,264 @@
      `----
 
   x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                 ^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                 ^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                 ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                     ^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                     ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                ^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                  ^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                  ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                    ^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:224:5]
+ 224 | color: lab(from var(--mycolor) 0 0 0);
+     :                                    ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :        ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :            ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :            ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                 ^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                 ^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                 ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                     ^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                     ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                                ^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                                ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                                ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                                    ^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:225:5]
+ 225 | color: lab(from var(--mycolor) var(--color));
+     :                                    ^^^^^^^
+     `----
+
+  x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:226:5]
  226 | color: rgb(var(--bg-color));
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -23939,4 +24197,1198 @@
      ,-[$DIR/tests/fixture/value/color/input.css:231:5]
  231 | color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
      :                                              ^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :              ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :              ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:232:5]
+ 232 | color: color(from var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :              ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :              ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                   ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                       ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:233:5]
+ 233 | color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+     :                                                       ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                              ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                              ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                                  ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:234:5]
+ 234 | color: color(var(--bg-color) var(--bg-color));
+     :                                  ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:235:5]
+ 235 | color: color(var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :              ^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :              ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                   ^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                   ^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                   ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                       ^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                       ^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                               ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                               ^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                  ^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                  ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                  ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^^^^^
+     `----
+
+  x CalcSum
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^^^^^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^^^^^
+     `----
+
+  x CalcProduct
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^^^^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                       ^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                          ^
+     `----
+
+  x CalcOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                          ^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                            ^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                            ^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                            ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                               ^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                               ^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                               ^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^^^^^
+     `----
+
+  x CalcSum
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^^^^^
+     `----
+
+  x CalcProductOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^^^^^
+     `----
+
+  x CalcProduct
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^^^^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                    ^^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                       ^
+     `----
+
+  x CalcOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                       ^
+     `----
+
+  x CalcValueOrOperator
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                         ^
+     `----
+
+  x CalcValue
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                         ^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:236:5]
+ 236 | color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+     :                                                         ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :              ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :              ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:237:5]
+ 237 | color: color(var(--bg-color));
+     :                  ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :              ^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :              ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                       ^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                       ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                       ^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                           ^^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                           ^^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                           ^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                               ^^
+     `----
+
+  x Percentage
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                               ^^
+     `----
+
+  x Number
+     ,-[$DIR/tests/fixture/value/color/input.css:238:5]
+ 238 | color: color(--unwise 35% 20% 8%);
+     :                               ^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :              ^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :              ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :                       ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :                           ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:239:5]
+ 239 | color: color(--unwise var(--bg-color));
+     :                           ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x StyleBlock
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     : ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Color
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :        ^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :              ^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :              ^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                       ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                           ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                           ^^^^^^^^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Function
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                                       ^^^^^^^^^^^^^^^
+     `----
+
+  x Ident
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                                       ^^^
+     `----
+
+  x ComponentValue
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                                           ^^^^^^^^^^
+     `----
+
+  x DashedIdent
+     ,-[$DIR/tests/fixture/value/color/input.css:240:5]
+ 240 | color: color(--unwise var(--bg-color) var(--bg-color));
+     :                                           ^^^^^^^^^^
      `----

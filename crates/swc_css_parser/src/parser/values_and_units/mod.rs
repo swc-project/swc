@@ -823,6 +823,7 @@ where
                                 tok!("percentage") => {
                                     Ok(Some(ComponentValue::Percentage(parser.parse()?)))
                                 }
+                                tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
                                 }
@@ -922,6 +923,9 @@ where
                     "lab" | "lch" | "oklab" | "oklch" => {
                         let number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
+                                tok!("percentage") => {
+                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
+                                }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
@@ -1022,6 +1026,9 @@ where
                     "lab" | "oklab" => {
                         let number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
+                                tok!("percentage") => {
+                                    Ok(Some(ComponentValue::Percentage(parser.parse()?)))
+                                }
                                 tok!("number") => Ok(Some(ComponentValue::Number(parser.parse()?))),
                                 Token::Function { value, .. } if is_math_function(value) => {
                                     Ok(Some(ComponentValue::Function(parser.parse()?)))
