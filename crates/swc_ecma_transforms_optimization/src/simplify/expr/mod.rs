@@ -258,7 +258,10 @@ impl SimplifyExpr {
                     }
 
                     if exprs.is_empty() {
-                        *expr = *val;
+                        *expr = Expr::Seq(SeqExpr {
+                            span: val.span(),
+                            exprs: vec![0.into(), val],
+                        });
                         return;
                     }
 
