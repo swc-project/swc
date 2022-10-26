@@ -272,4 +272,18 @@ div {
     color: hwb(120 var(--bg-color) 49.8039% / 100);
     color: hwb(120 var(--bg-color) var(--bg-color));
     color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
+    color: color(rec2020 0.42053 0.979780 0.00579);
+    color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
+    color: color(rec2020 0.42053 var(--color));
+    color: color(rec2020 0.42053 var(--color) / 100%);
+    color: color(rec2020 var(--color));
+    color: color(rec2020 var(--color) / var(--color));
+    color: color(var(--color) var(--color));
+    color: color(var(--color));
+    color: color(xyz-d50 0.2005 0.14089 0.4472);
+    color: color(sRGB 0.41587 0.503670 0.36664);
+    color: color(display-p3 0.43313 0.50108 0.37950);
+    color: color(a98-rgb 0.44091 0.49971 0.37408);
+    color: color(prophoto-rgb 0.36589 0.41717 0.31333);
+    color: color(rec2020 0.42210 0.47580 0.35605);
 }
