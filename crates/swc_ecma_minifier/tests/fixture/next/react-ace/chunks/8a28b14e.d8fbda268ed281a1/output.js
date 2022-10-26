@@ -544,9 +544,7 @@
                 "module"
             ], function(require, exports, module) {
                 "use strict";
-                var comparePoints = function(p1, p2) {
-                    return p1.row - p2.row || p1.column - p2.column;
-                }, Range = function(startRow, startColumn, endRow, endColumn) {
+                var Range = function(startRow, startColumn, endRow, endColumn) {
                     this.start = {
                         row: startRow,
                         column: startColumn
@@ -640,7 +638,9 @@
                     };
                 }).call(Range.prototype), Range.fromPoints = function(start, end) {
                     return new Range(start.row, start.column, end.row, end.column);
-                }, Range.comparePoints = comparePoints, Range.comparePoints = function(p1, p2) {
+                }, Range.comparePoints = function(p1, p2) {
+                    return p1.row - p2.row || p1.column - p2.column;
+                }, Range.comparePoints = function(p1, p2) {
                     return p1.row - p2.row || p1.column - p2.column;
                 }, exports.Range = Range;
             }), ace.define("ace/lib/lang", [
@@ -757,7 +757,8 @@
                 "ace/lib/keys"
             ], function(require, exports, module) {
                 "use strict";
-                var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile, TextInput = function(parentNode, host) {
+                var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
+                exports.TextInput = function(parentNode, host) {
                     var typingResetTimeout, typing, detectArrowKeys, closeTimeout, text = dom.createElement("textarea");
                     text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
@@ -837,9 +838,7 @@
                         }
                     };
                     this.resetSelection = resetSelection, isFocused && host.onFocus();
-                    var onSelect = function(e) {
-                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
-                    }, inputHandler = null;
+                    var inputHandler = null;
                     this.setInputHandler = function(cb) {
                         inputHandler = cb;
                     }, this.getInputHandler = function() {
@@ -895,7 +894,9 @@
                         var data = handleClipboardData(e);
                         clipboard.pasteCancelled() || ("string" == typeof data ? (data && host.onPaste(data, e), useragent.isIE && setTimeout(resetSelection), event.preventDefault(e)) : (text.value = "", pasted = !0));
                     };
-                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", onSelect, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
+                    event.addCommandKeyListener(text, host.onCommandKey.bind(host), host), event.addListener(text, "select", function(e) {
+                        !inComposition && (copied ? copied = !1 : 0 === text.selectionStart && text.selectionEnd >= lastValue.length && text.value === lastValue && lastValue && text.selectionEnd !== lastSelectionEnd ? (host.selectAll(), resetSelection()) : isMobile && text.selectionStart != lastSelectionStart && resetSelection());
+                    }, host), event.addListener(text, "input", onInput, host), event.addListener(text, "cut", onCut, host), event.addListener(text, "copy", onCopy, host), event.addListener(text, "paste", onPaste, host), "oncut" in text && "oncopy" in text && "onpaste" in text || event.addListener(parentNode, "keydown", function(e) {
                         if ((!useragent.isMac || e.metaKey) && e.ctrlKey) switch(e.keyCode){
                             case 67:
                                 onCopy(e);
@@ -907,13 +908,7 @@
                                 onCut(e);
                         }
                     }, host);
-                    var onCompositionStart = function(e) {
-                        if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
-                            e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
-                            var range = host.getSelectionRange();
-                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
-                        }
-                    }, onCompositionUpdate = function() {
+                    var onCompositionUpdate = function() {
                         if (inComposition && host.onCompositionUpdate && !host.$readOnly) {
                             if (commandMode) return cancelComposition();
                             inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
@@ -930,7 +925,13 @@
                             tempStyle && (text.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
                         }, 0);
                     }
-                    event.addListener(text, "compositionstart", onCompositionStart, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
+                    event.addListener(text, "compositionstart", function(e) {
+                        if (!inComposition && host.onCompositionStart && !host.$readOnly && (inComposition = {}, !commandMode)) {
+                            e.data && (inComposition.useTextareaForIME = !1), setTimeout(onCompositionUpdate, 0), host._signal("compositionStart"), host.on("mousedown", cancelComposition);
+                            var range = host.getSelectionRange();
+                            range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
+                        }
+                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
                         27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
                     }, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
                         return text;
@@ -976,8 +977,7 @@
                     }, document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
                         document.removeEventListener("selectionchange", detectArrowKeys);
                     }));
-                };
-                exports.TextInput = TextInput, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {
+                }, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {
                     isMobile = _isMobile, isIOS = _isIOS;
                 };
             }), ace.define("ace/mouse/default_handlers", [
@@ -11142,8 +11142,7 @@ margin: 0 10px;\
                             data: q
                         }));
                     };
-                }).call(WorkerClient.prototype);
-                var UIWorkerClient = function(topLevelNamespaces, mod, classname) {
+                }).call(WorkerClient.prototype), exports.UIWorkerClient = function(topLevelNamespaces, mod, classname) {
                     var main = null, emitSync = !1, sender = Object.create(EventEmitter), messageBuffer = [], workerClient = new WorkerClient({
                         messageBuffer: messageBuffer,
                         terminate: function() {},
@@ -11180,8 +11179,7 @@ margin: 0 10px;\
                     ], function(Main) {
                         for(main = new Main[classname](sender); messageBuffer.length;)processNext();
                     }), workerClient;
-                };
-                exports.UIWorkerClient = UIWorkerClient, exports.WorkerClient = WorkerClient, exports.createWorker = createWorker;
+                }, exports.WorkerClient = WorkerClient, exports.createWorker = createWorker;
             }), ace.define("ace/placeholder", [
                 "require",
                 "exports",
@@ -11295,9 +11293,7 @@ margin: 0 10px;\
                         return;
                     }
                     if (0 === button) {
-                        var editor = e.editor, selection = editor.selection, isMultiSelect = editor.inMultiSelectMode, pos = e.getDocumentPosition(), cursor = selection.getCursor(), inSelection = e.inSelection() || selection.isEmpty() && isSamePoint(pos, cursor), mouseX = e.x, mouseY = e.y, onMouseSelection = function(e) {
-                            mouseX = e.clientX, mouseY = e.clientY;
-                        }, session = editor.session, screenAnchor = editor.renderer.pixelToScreenCoordinates(mouseX, mouseY), screenCursor = screenAnchor;
+                        var editor = e.editor, selection = editor.selection, isMultiSelect = editor.inMultiSelectMode, pos = e.getDocumentPosition(), cursor = selection.getCursor(), inSelection = e.inSelection() || selection.isEmpty() && isSamePoint(pos, cursor), mouseX = e.x, mouseY = e.y, session = editor.session, screenAnchor = editor.renderer.pixelToScreenCoordinates(mouseX, mouseY), screenCursor = screenAnchor;
                         if (editor.$mouseHandler.$enableJumpToDef) ctrl && alt || accel && alt ? selectionMode = shift ? "block" : "add" : alt && editor.$blockSelectEnabled && (selectionMode = "block");
                         else if (accel && !alt) {
                             if (selectionMode = "add", !isMultiSelect && shift) return;
@@ -11322,15 +11318,15 @@ margin: 0 10px;\
                             isMultiSelect && !accel ? selection.toSingleRange() : !isMultiSelect && accel && (initialRange = selection.toOrientedRange(), editor.addSelectionMarker(initialRange)), shift ? screenAnchor = session.documentToScreenPosition(selection.lead) : selection.moveToPosition(pos), screenCursor = {
                                 row: -1,
                                 column: -1
-                            };
-                            var onMouseSelectionEnd = function(e) {
+                            }, event.capture(editor.container, function(e) {
+                                mouseX = e.clientX, mouseY = e.clientY;
+                            }, function(e) {
                                 blockSelect(), clearInterval(timerId), editor.removeSelectionMarkers(rectSel), rectSel.length || (rectSel = [
                                     selection.toOrientedRange()
                                 ]), initialRange && (editor.removeSelectionMarker(initialRange), selection.toSingleRange(initialRange));
                                 for(var i = 0; i < rectSel.length; i++)selection.addRange(rectSel[i]);
                                 editor.inVirtualSelectionMode = !1, editor.$mouseHandler.$clickSelection = null;
-                            };
-                            event.capture(editor.container, onMouseSelection, onMouseSelectionEnd);
+                            });
                             var timerId = setInterval(function() {
                                 blockSelect();
                             }, 20);

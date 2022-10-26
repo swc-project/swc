@@ -1,8 +1,7 @@
 //// [for-of50.ts]
-var map = new Map([
+for (const [k, v] of new Map([
     [
         "",
         !0
     ]
-]);
-for (const [k, v] of map);
+]));

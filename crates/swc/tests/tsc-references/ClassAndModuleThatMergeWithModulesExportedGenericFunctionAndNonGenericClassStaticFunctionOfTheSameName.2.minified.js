@@ -7,9 +7,6 @@ var clodule = function() {
     }
     return clodule.fn = function(id) {}, clodule;
 }();
-!function(clodule) {
-    var fn = function(x, y) {
-        return x;
-    };
-    clodule.fn = fn;
-}(clodule || (clodule = {}));
+(clodule || (clodule = {})).fn = function(x, y) {
+    return x;
+};

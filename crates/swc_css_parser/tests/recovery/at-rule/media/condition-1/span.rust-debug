@@ -29,70 +29,298 @@
    :  ^^^^^
    `----
 
-  x MediaQueryList
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :        ^^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :        ^^^^^^^^^^^^^^
+   `----
+
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :         ^^^^^^
+   `----
+
+  x Ident { value: Atom('update' type=inline), raw: Atom('update' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :         ^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :               ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                 ^^^^
+   `----
+
+  x Ident { value: Atom('slow' type=inline), raw: Atom('slow' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                 ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                      ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                      ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                       ^^^
+   `----
+
+  x Ident { value: Atom('and' type=static), raw: Atom('and' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                       ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                          ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                          ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                           ^^^^^^^^^^^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                           ^^^^^^^^^^^^^
+   `----
+
+  x LParen
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                           ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                            ^^^^^
+   `----
+
+  x Ident { value: Atom('hover' type=inline), raw: Atom('hover' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                            ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                 ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                   ^^^^
+   `----
+
+  x Ident { value: Atom('none' type=static), raw: Atom('none' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                   ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                        ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                         ^^^^^^^
+   `----
+
+  x Ident { value: Atom('unknown' type=static), raw: Atom('unknown' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                         ^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                 ^^^^^^^^^^
    `----
 
-  x MediaQuery
+  x SimpleBlock
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                 ^^^^^^^^^^
    `----
 
-  x MediaCondition
+  x LParen
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-   :                                                 ^^^^^^^^^^
+   :                                                 ^
    `----
 
-  x MediaConditionAllType
-   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
- 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-   :                                                 ^^^^^^^^^^
-   `----
-
-  x MediaInParens
-   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
- 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-   :                                                 ^^^^^^^^^^
-   `----
-
-  x MediaFeature
-   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
- 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-   :                                                 ^^^^^^^^^^
-   `----
-
-  x MediaFeaturePlain
-   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
- 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
-   :                                                 ^^^^^^^^^^
-   `----
-
-  x MediaFeatureName
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                  ^^^^^
    `----
 
-  x Ident
+  x Ident { value: Atom('color' type=static), raw: Atom('color' type=static) }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                  ^^^^^
    `----
 
-  x MediaFeatureValue
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                       ^
+   `----
+
+  x Colon
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                        ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                         ^
    `----
 
-  x Number
+  x Number { value: 1.0, raw: Atom('1' type=inline), type_flag: Integer }
    ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
  1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
    :                                                         ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                           ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/media/condition-1/input.css:1:1]
+ 1 | @media (update: slow) and (hover: none) unknown (color: 1) {}
+   :                                                           ^
    `----
 
   x SimpleBlock

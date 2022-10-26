@@ -24,39 +24,61 @@
         "raw": "page"
       },
       "prelude": {
-        "type": "PageSelectorList",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 8,
-          "end": 15,
+          "start": 6,
+          "end": 16,
           "ctxt": 0
         },
-        "selectors": [
+        "children": [
           {
-            "type": "PageSelector",
+            "type": "PreservedToken",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "token": "Colon"
+          },
+          {
+            "type": "PreservedToken",
             "span": {
               "start": 8,
               "end": 15,
               "ctxt": 0
             },
-            "pageType": {
-              "type": "PageSelectorType",
-              "span": {
-                "start": 8,
-                "end": 15,
-                "ctxt": 0
-              },
-              "value": {
-                "type": "Ident",
-                "span": {
-                  "start": 8,
-                  "end": 15,
-                  "ctxt": 0
-                },
+            "token": {
+              "Ident": {
                 "value": "unknown",
                 "raw": "unknown"
               }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 15,
+              "end": 16,
+              "ctxt": 0
             },
-            "pseudos": null
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
           }
         ]
       },

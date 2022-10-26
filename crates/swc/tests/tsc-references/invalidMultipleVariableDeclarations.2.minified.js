@@ -18,11 +18,10 @@ var M, C = function C() {
     _class_call_check(this, D);
 };
 !function(M) {
-    var F2 = function(x) {
-        return x.toString();
-    }, A = function A() {
+    M.A = function A() {
         "use strict";
         _class_call_check(this, A);
+    }, M.F2 = function(x) {
+        return x.toString();
     };
-    M.A = A, M.F2 = F2;
 }(M || (M = {})), new C(), new D(), new C(), new C2(), new C(), new C2(), new D(), new D(), M.A;

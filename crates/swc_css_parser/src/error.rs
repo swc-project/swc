@@ -39,6 +39,9 @@ impl Error {
             ErrorKind::UnexpectedCharInUrl => "Unexpected character in url".into(),
 
             // Parser
+            ErrorKind::EofButExpected(s) => {
+                format!("Unexpected end of file, but expected {}", s).into()
+            }
             ErrorKind::Ignore => "Not an error".into(),
             ErrorKind::UnexpectedChar(c) => format!("Unexpected character `{:?}`", c).into(),
             ErrorKind::Expected(s) => format!("Expected {}", s).into(),
@@ -90,6 +93,7 @@ pub enum ErrorKind {
 
     // Parser errors
     Ignore,
+    EofButExpected(&'static str),
     UnexpectedChar(char),
     Expected(&'static str),
     Unexpected(&'static str),

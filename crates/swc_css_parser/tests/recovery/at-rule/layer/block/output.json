@@ -24,22 +24,137 @@
         "raw": "layer"
       },
       "prelude": {
-        "type": "LayerName",
+        "type": "ListOfComponentValues",
         "span": {
-          "start": 35,
-          "end": 38,
+          "start": 7,
+          "end": 41,
           "ctxt": 0
         },
-        "name": [
+        "children": [
           {
-            "type": "Ident",
+            "type": "PreservedToken",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 8,
+              "end": 17,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "framework",
+                "raw": "framework"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "token": "Comma"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 18,
+              "end": 19,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": " "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 19,
+              "end": 27,
+              "ctxt": 0
+            },
+            "token": {
+              "Ident": {
+                "value": "override",
+                "raw": "override"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 27,
+              "end": 30,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "   "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 30,
+              "end": 31,
+              "ctxt": 0
+            },
+            "token": "Comma"
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 31,
+              "end": 35,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "    "
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
             "span": {
               "start": 35,
               "end": 38,
               "ctxt": 0
             },
-            "value": "foo",
-            "raw": "foo"
+            "token": {
+              "Ident": {
+                "value": "foo",
+                "raw": "foo"
+              }
+            }
+          },
+          {
+            "type": "PreservedToken",
+            "span": {
+              "start": 38,
+              "end": 41,
+              "ctxt": 0
+            },
+            "token": {
+              "WhiteSpace": {
+                "value": "   "
+              }
+            }
           }
         ]
       },

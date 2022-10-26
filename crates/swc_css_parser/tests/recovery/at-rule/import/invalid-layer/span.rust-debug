@@ -30,12 +30,60 @@
    :  ^^^^^^
    `----
 
-  x Str
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :        ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
  1 | @import "foo.css" layer();
    :         ^^^^^^^^^
    `----
 
+  x String { value: Atom('foo.css' type=inline), raw: Atom('"foo.css"' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :         ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | @import "foo.css" layer();
+   :                   ^^^^^
+   `----
+
   x Rule
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
  2 | @import "foo.css" layer("invalid");
@@ -60,10 +108,70 @@
    :  ^^^^^^
    `----
 
-  x Str
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :        ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
  2 | @import "foo.css" layer("invalid");
    :         ^^^^^^^^^
+   `----
+
+  x String { value: Atom('foo.css' type=inline), raw: Atom('"foo.css"' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :         ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                   ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                   ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                         ^^^^^^^^^
+   `----
+
+  x String { value: Atom('invalid' type=inline), raw: Atom('"invalid"' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:2:1]
+ 2 | @import "foo.css" layer("invalid");
+   :                         ^^^^^^^^^
    `----
 
   x Rule
@@ -90,8 +198,104 @@
    :  ^^^^^^
    `----
 
-  x Str
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :        ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :        ^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
  3 | @import "foo.css" layer(foo, bar);
    :         ^^^^^^^^^
+   `----
+
+  x String { value: Atom('foo.css' type=inline), raw: Atom('"foo.css"' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :         ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                   ^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                   ^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                   ^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                         ^^^
+   `----
+
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                         ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                            ^
+   `----
+
+  x Comma
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                             ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                             ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                              ^^^
+   `----
+
+  x Ident { value: Atom('bar' type=inline), raw: Atom('bar' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 3 | @import "foo.css" layer(foo, bar);
+   :                              ^^^
    `----

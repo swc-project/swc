@@ -3,12 +3,10 @@
 .selector:not(*:root) {}
 @supports (-webkit-appearance: none) {}
 .selector {
-  (;property: value;
-  );}
+  (;property: value;);}
 .selector {
-  [;property: value;
-  ];}
-@media screen {}
+  [;property: value;];}
+@media \\0 screen {}
 @media all and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: .001dpcm) {
   .selector {}
 }
@@ -153,11 +151,9 @@ _:-ms-fullscreen,
 .selector:not(*:root) {}
 @supports (-webkit-appearance: none) {}
 .selector {
-  (;property: value;
-  );}
+  (;property: value;);}
 .selector {
-  [;property: value;
-  ];}
+  [;property: value;];}
 html:first-child .selector {}
 _:-o-prefocus, 
 body:last-child .selector {}
@@ -173,11 +169,9 @@ body:last-child .selector {}
 .selector:not(*:root) {}
 @supports (-webkit-appearance: none) {}
 .selector {
-  (;property: value;
-  );}
+  (;property: value;);}
 .selector {
-  [;property: value;
-  ];}
+  [;property: value;];}
 @media screen and (min-width: 0\0) {}
 @media screen {
   @media (min-width: 0px) {}
@@ -188,7 +182,7 @@ html[xmlns*=""]:root .selector {}
 *|html[xmlns*=""] .selector {}
 _::-moz-svg-foreign-content, 
 :root .selector {}
-@media screen {}
+@media \\0 screen {}
 a {
   *color : black;_background: white;
   font-size: big;

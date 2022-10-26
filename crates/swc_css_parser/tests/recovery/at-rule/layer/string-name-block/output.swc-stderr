@@ -1,5 +1,5 @@
 
-  x Expected '{' token
+  x Unexpected tokens in at-rule prelude
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-block/input.css:1:1]
  1 | @layer "framework" {
    :        ^^^^^^^^^^^

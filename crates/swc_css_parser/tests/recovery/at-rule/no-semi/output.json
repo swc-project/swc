@@ -10,7 +10,7 @@
       "type": "AtRule",
       "span": {
         "start": 1,
-        "end": 44,
+        "end": 25,
         "ctxt": 0
       },
       "name": {
@@ -58,7 +58,7 @@
         "type": "SimpleBlock",
         "span": {
           "start": 15,
-          "end": 44,
+          "end": 25,
           "ctxt": 0
         },
         "name": {
@@ -75,7 +75,7 @@
             "type": "AtRule",
             "span": {
               "start": 16,
-              "end": 44,
+              "end": 24,
               "ctxt": 0
             },
             "name": {
@@ -88,96 +88,31 @@
               "value": "content",
               "raw": "content"
             },
-            "prelude": {
-              "type": "ListOfComponentValues",
-              "span": {
-                "start": 24,
-                "end": 44,
-                "ctxt": 0
-              },
-              "children": [
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 24,
-                    "end": 25,
-                    "ctxt": 0
-                  },
-                  "token": "RBrace"
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 25,
-                    "end": 27,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": "\n\n"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 27,
-                    "end": 35,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "AtKeyword": {
-                      "value": "charset",
-                      "raw": "charset"
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 35,
-                    "end": 36,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": " "
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 36,
-                    "end": 43,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "String": {
-                      "value": "UTF-8",
-                      "raw": "\"UTF-8\""
-                    }
-                  }
-                },
-                {
-                  "type": "PreservedToken",
-                  "span": {
-                    "start": 43,
-                    "end": 44,
-                    "ctxt": 0
-                  },
-                  "token": {
-                    "WhiteSpace": {
-                      "value": "\n"
-                    }
-                  }
-                }
-              ]
-            },
+            "prelude": null,
             "block": null
           }
         ]
       }
+    },
+    {
+      "type": "AtRule",
+      "span": {
+        "start": 27,
+        "end": 44,
+        "ctxt": 0
+      },
+      "name": {
+        "type": "Ident",
+        "span": {
+          "start": 28,
+          "end": 35,
+          "ctxt": 0
+        },
+        "value": "charset",
+        "raw": "charset"
+      },
+      "prelude": null,
+      "block": null
     }
   ]
 }

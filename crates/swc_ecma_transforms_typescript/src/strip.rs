@@ -594,12 +594,6 @@ where
                         if let Some(Some(v)) = values.get(&id.sym) {
                             return Ok(v.clone());
                         }
-                        //
-                        for m in e.members.iter() {
-                            if &id.sym == m.id.as_ref() {
-                                return compute(e, span, values, None, m.init.as_deref());
-                            }
-                        }
                         return Err(());
                     }
                     Expr::Unary(ref expr) => {

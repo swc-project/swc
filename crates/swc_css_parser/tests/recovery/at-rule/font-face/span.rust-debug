@@ -356,6 +356,18 @@
     :            ^^^
     `----
 
+  x ComponentValue
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :               ^
+    `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
+ 17 | @font-face foo {}
+    :               ^
+    `----
+
   x SimpleBlock
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  17 | @font-face foo {}
@@ -438,16 +450,4 @@
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
  21 | @font-face ;
     :  ^^^^^^^^^
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
- 21 | @font-face ;
-    :           ^
-    `----
-
-  x WhiteSpace { value: Atom(' ' type=inline) }
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:21:1]
- 21 | @font-face ;
-    :           ^
     `----

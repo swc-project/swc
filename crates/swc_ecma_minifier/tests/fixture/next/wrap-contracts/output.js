@@ -190,10 +190,7 @@
                     for(var w, i = 0; i < this.length; i++)this.words[i] = 0;
                     var off = 0, j = 0;
                     if ('be' === endian) for(i = number.length - 1; i >= start; i -= 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
-                    else {
-                        var parseLength = number.length - start;
-                        for(i = parseLength % 2 == 0 ? start + 1 : start; i < number.length; i += 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
-                    }
+                    else for(i = (number.length - start) % 2 == 0 ? start + 1 : start; i < number.length; i += 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
                     this._strip();
                 }, BN.prototype._parseBase = function(number, base, start) {
                     this.words = [
@@ -7485,10 +7482,7 @@
                     for(var w, i = 0; i < this.length; i++)this.words[i] = 0;
                     var off = 0, j = 0;
                     if ('be' === endian) for(i = number.length - 1; i >= start; i -= 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
-                    else {
-                        var parseLength = number.length - start;
-                        for(i = parseLength % 2 == 0 ? start + 1 : start; i < number.length; i += 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
-                    }
+                    else for(i = (number.length - start) % 2 == 0 ? start + 1 : start; i < number.length; i += 2)w = parseHexByte(number, start, i) << off, this.words[j] |= 0x3ffffff & w, off >= 18 ? (off -= 18, j += 1, this.words[j] |= w >>> 26) : off += 8;
                     this.strip();
                 }, BN.prototype._parseBase = function(number, base, start) {
                     this.words = [

@@ -1,5 +1,5 @@
 
-  x Expected ident (exclude the keywords 'only', 'not', 'and', 'or' and 'layer')
+  x Unexpected tokens in at-rule prelude
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                      ^^

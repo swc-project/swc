@@ -57,20 +57,36 @@ where
         ListOfComponentValues { span, children }
     }
 
-    pub(super) fn parse_according_to_grammar<'a, T>(
+    pub(super) fn parse_according_to_grammar<T>(
         &mut self,
-        list_of_component_values: &'a ListOfComponentValues,
-    ) -> PResult<T>
-    where
-        Parser<ListOfComponentValuesInput<'a>>: Parse<T>,
-    {
+        list_of_component_values: &ListOfComponentValues,
+        op: impl FnOnce(&mut Parser<ListOfComponentValuesInput>) -> PResult<T>,
+    ) -> PResult<T> {
         let lexer = ListOfComponentValuesInput::new(list_of_component_values);
         let mut parser = Parser::new(lexer, self.config);
-        let res = parser.with_ctx(self.ctx).parse_as();
+        let res = op(&mut parser.with_ctx(self.ctx));
 
         self.errors.extend(parser.take_errors());
 
         res
+    }
+
+    pub(super) fn try_to_parse_legacy_nesting(&mut self) -> Option<QualifiedRule> {
+        let state = self.input.state();
+        let ctx = Ctx {
+            is_trying_legacy_nesting: true,
+            ..self.ctx
+        };
+        let qualified_rule = self.with_ctx(ctx).parse_as::<QualifiedRule>();
+
+        match qualified_rule {
+            Ok(qualified_rule) => Some(qualified_rule),
+            _ => {
+                self.input.reset(&state);
+
+                None
+            }
+        }
     }
 
     pub(super) fn legacy_nested_selector_list_to_modern_selector_list(

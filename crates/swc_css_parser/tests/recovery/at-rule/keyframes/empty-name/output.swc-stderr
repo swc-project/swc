@@ -1,5 +1,5 @@
 
-  x Expected ident or string
+  x Unexpected end of file
    ,-[$DIR/tests/recovery/at-rule/keyframes/empty-name/input.css:1:1]
  1 | @keyframes {}
    :            ^

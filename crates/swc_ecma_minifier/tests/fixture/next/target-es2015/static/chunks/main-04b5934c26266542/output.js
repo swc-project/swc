@@ -131,12 +131,10 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.addLocale = void 0, __webpack_require__(2392);
-            const addLocale = function(path) {
+            }), exports.addLocale = void 0, __webpack_require__(2392), exports.addLocale = function(path) {
                 for(var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)args[_key - 1] = arguments[_key];
                 return path;
-            };
-            exports.addLocale = addLocale, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -144,11 +142,9 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.detectDomainLocale = void 0;
-            const detectDomainLocale = function() {
+            }), exports.detectDomainLocale = void 0, exports.detectDomainLocale = function() {
                 for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-            };
-            exports.detectDomainLocale = detectDomainLocale, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -1385,7 +1381,7 @@
                     });
                 });
             }
-            var _default = function(param) {
+            exports.default = function(param) {
                 let { children  } = param;
                 const ampState = _react.useContext(_ampContext.AmpStateContext), headManager = _react.useContext(_headManagerContext.HeadManagerContext);
                 return _react.default.createElement(_sideEffect.default, {
@@ -1393,8 +1389,7 @@
                     headManager: headManager,
                     inAmpMode: _ampMode.isInAmpMode(ampState)
                 }, children);
-            };
-            exports.default = _default, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },

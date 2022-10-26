@@ -38,3 +38,10 @@
     color: red;
     & test;
 }
+
+
+.class {
+    &.foo {
+        __ident__
+    }
+}

@@ -25,10 +25,10 @@ function ExpandoMerge(n) {
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
 }, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
-    var ExpandoNamespace = function() {}, foo = function() {
+    var ExpandoNamespace = function() {};
+    ExpandoNamespace.p6 = 42, Ns.foo = function() {
         return ExpandoNamespace;
     };
-    ExpandoNamespace.p6 = 42, Ns.foo = foo;
 }(Ns || (Ns = {}));
 var ExpandoExpr2 = function(n) {
     return n.toString();

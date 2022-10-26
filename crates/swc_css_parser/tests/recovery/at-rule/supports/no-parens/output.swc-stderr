@@ -4,21 +4,3 @@
  1 | @supports display: flex {}
    :           ^^^^^^^
    `----
-
-  x Expected function or '(' token
-   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
- 1 | @supports display: flex {}
-   :                  ^
-   `----
-
-  x Expected function or '(' token
-   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
- 1 | @supports display: flex {}
-   :                    ^^^^
-   `----
-
-  x Expected function or '(' token
-   ,-[$DIR/tests/recovery/at-rule/supports/no-parens/input.css:1:1]
- 1 | @supports display: flex {}
-   :                         ^
-   `----

@@ -5,6 +5,26 @@
 
 
 
+- **(es/typescript)** Fix stack overflow (#6250) ([28ec6e8](https://github.com/swc-project/swc/commit/28ec6e8fc70cf74722c93353c03e4fdedb21954a))
+
+### Refactor
+
+
+
+- **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
+
+### Testing
+
+
+
+- **(css/parser)** Add tests for refactoring (#6262) ([4c293f9](https://github.com/swc-project/swc/commit/4c293f965b380e49790cdf4fd8c1e1cb3845e9c5))
+
+## [1.3.11] - 2022-10-26
+
+### Bug Fixes
+
+
+
 - **(css/parser)** Add more error recovery (#6240) ([6341554](https://github.com/swc-project/swc/commit/634155462828b36f71cebfdb0937f2cd5f7e62e0))
 
 
@@ -25,6 +45,12 @@
 
 - **(es/minifier)** Respect options (#6245) ([ec9a80a](https://github.com/swc-project/swc/commit/ec9a80aae0277f1346955d10fe348111050193bd))
 
+
+- **(es/minifier)** Support more statements in seqential inliner (#6248) ([86e265a](https://github.com/swc-project/swc/commit/86e265a024d4c6215e2fe7f3442a9cc2be8be1cf))
+
+
+- **(es/minifier)** Inline a lazily initialized var if it's used once (#6237) ([1cd7f61](https://github.com/swc-project/swc/commit/1cd7f617f935c603a6707c3ce5c72b2be914f87d))
+
 ### Miscellaneous Tasks
 
 
@@ -32,10 +58,13 @@
 - **(bindings)** Fix type (#6184) ([2bafd53](https://github.com/swc-project/swc/commit/2bafd53e96b7101b9e7ceb6b34a88c8c826ef9d5))
 
 
+- **(ci)** Fix publish action ([3916886](https://github.com/swc-project/swc/commit/39168865c81d7358867cff3c4edbfdc7092d376c))
+
+
 - **(es/minifier)** Configure fuzzer (#6246) ([d454488](https://github.com/swc-project/swc/commit/d4544884ee8896248f7f1099e204ce906da4ede2))
 
 
-- **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))
+- **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))- **general**: Fix publish action ([83c9850](https://github.com/swc-project/swc/commit/83c98507e7aa2adf52054466a7b7462b1361de2c))
 
 ### Refactor
 
