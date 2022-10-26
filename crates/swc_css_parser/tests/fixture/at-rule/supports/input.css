@@ -141,3 +141,11 @@
         background: red;
     }
 }
+
+@supports (func("example": 1)) {
+    * { background: red; }
+}
+
+@supports (--var) {
+    * { background: red; }
+}
