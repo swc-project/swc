@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Support more statements in seqential inliner (#6248) ([86e265a](https://github.com/swc-project/swc/commit/86e265a024d4c6215e2fe7f3442a9cc2be8be1cf))
 
+
+- **(es/minifier)** Inline a lazily initialized var if it's used once (#6237) ([1cd7f61](https://github.com/swc-project/swc/commit/1cd7f617f935c603a6707c3ce5c72b2be914f87d))
+
 ### Miscellaneous Tasks
 
 
