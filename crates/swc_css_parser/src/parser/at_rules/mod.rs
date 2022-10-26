@@ -635,32 +635,78 @@ where
             | js_word!("-moz-keyframes")
             | js_word!("-o-keyframes")
             | js_word!("-ms-keyframes") => {
-                // TODO refactor me
-                let mut rule_list = vec![];
+                let ctx = Ctx {
+                    block_contents_grammar: BlockContentsGrammar::DeclarationList,
+                    is_top_level: false,
+                    in_keyframes_at_rule: true,
+                    ..self.ctx
+                };
+                let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
 
-                loop {
-                    if is_one_of!(self, EOF) {
-                        break;
-                    }
+                let rule_list: Vec<ComponentValue> = rule_list
+                    .into_iter()
+                    .map(|rule| match rule {
+                        Rule::AtRule(at_rule) => {
+                            self.errors.push(Error::new(
+                                at_rule.span,
+                                ErrorKind::Unexpected("at-rules are not allowed here"),
+                            ));
 
-                    match cur!(self) {
-                        // <whitespace-token>
-                        // Do nothing.
-                        tok!(" ") => {
-                            self.input.skip_ws();
+                            ComponentValue::Rule(Rule::AtRule(at_rule))
                         }
-                        _ => {
-                            let keyframe_block: KeyframeBlock = self.parse()?;
+                        Rule::QualifiedRule(qualified_rule) => {
+                            let locv = match qualified_rule.prelude {
+                                QualifiedRulePrelude::ListOfComponentValues(locv) => locv,
+                                _ => {
+                                    unreachable!();
+                                }
+                            };
 
-                            rule_list.push(keyframe_block);
+                            match self.parse_according_to_grammar(&locv, |parser| {
+                                parser.input.skip_ws();
+
+                                let child = parser.parse()?;
+                                let mut keyframes_selectors: Vec<KeyframeSelector> = vec![child];
+
+                                loop {
+                                    parser.input.skip_ws();
+
+                                    if !eat!(parser, ",") {
+                                        break;
+                                    }
+
+                                    parser.input.skip_ws();
+
+                                    let child = parser.parse()?;
+
+                                    keyframes_selectors.push(child);
+                                }
+
+                                Ok(keyframes_selectors)
+                            }) {
+                                Ok(keyframes_selectors) => {
+                                    ComponentValue::KeyframeBlock(KeyframeBlock {
+                                        span: qualified_rule.span,
+                                        prelude: keyframes_selectors,
+                                        block: qualified_rule.block,
+                                    })
+                                }
+                                Err(err) => {
+                                    self.errors.push(err);
+
+                                    ComponentValue::Rule(Rule::ListOfComponentValues(Box::new(
+                                        locv,
+                                    )))
+                                }
+                            }
                         }
-                    }
-                }
+                        Rule::ListOfComponentValues(locv) => {
+                            ComponentValue::Rule(Rule::ListOfComponentValues(locv))
+                        }
+                    })
+                    .collect();
 
                 rule_list
-                    .into_iter()
-                    .map(ComponentValue::KeyframeBlock)
-                    .collect()
             }
             js_word!("layer") => {
                 let ctx = Ctx {
@@ -892,72 +938,6 @@ where
     }
 }
 
-impl<I> Parse<FontFeatureValuesPrelude> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<FontFeatureValuesPrelude> {
-        let span = self.input.cur_span();
-
-        let mut font_family = vec![self.parse()?];
-
-        loop {
-            self.input.skip_ws();
-
-            if !eat!(self, ",") {
-                break;
-            }
-
-            self.input.skip_ws();
-
-            font_family.push(self.parse()?);
-        }
-
-        Ok(FontFeatureValuesPrelude {
-            span: span!(self, span.lo),
-            font_family,
-        })
-    }
-}
-
-impl<I> Parse<KeyframeBlock> for Parser<I>
-where
-    I: ParserInput,
-{
-    fn parse(&mut self) -> PResult<KeyframeBlock> {
-        let span = self.input.cur_span();
-
-        let child = self.parse()?;
-        let mut prelude = vec![child];
-
-        loop {
-            self.input.skip_ws();
-
-            if !eat!(self, ",") {
-                break;
-            }
-
-            self.input.skip_ws();
-
-            let child = self.parse()?;
-
-            prelude.push(child);
-        }
-
-        let ctx = Ctx {
-            block_contents_grammar: BlockContentsGrammar::DeclarationList,
-            ..self.ctx
-        };
-        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
-
-        Ok(KeyframeBlock {
-            span: span!(self, span.lo),
-            prelude,
-            block,
-        })
-    }
-}
-
 impl<I> Parse<KeyframeSelector> for Parser<I>
 where
     I: ParserInput,
@@ -987,6 +967,34 @@ where
                 ));
             }
         }
+    }
+}
+
+impl<I> Parse<FontFeatureValuesPrelude> for Parser<I>
+where
+    I: ParserInput,
+{
+    fn parse(&mut self) -> PResult<FontFeatureValuesPrelude> {
+        let span = self.input.cur_span();
+
+        let mut font_family = vec![self.parse()?];
+
+        loop {
+            self.input.skip_ws();
+
+            if !eat!(self, ",") {
+                break;
+            }
+
+            self.input.skip_ws();
+
+            font_family.push(self.parse()?);
+        }
+
+        Ok(FontFeatureValuesPrelude {
+            span: span!(self, span.lo),
+            font_family,
+        })
     }
 }
 

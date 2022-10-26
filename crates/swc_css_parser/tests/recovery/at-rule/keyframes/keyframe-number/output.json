@@ -51,90 +51,42 @@
         },
         "value": [
           {
-            "type": "PreservedToken",
-            "span": {
-              "start": 17,
-              "end": 19,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n\t"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
+            "type": "ListOfComponentValues",
             "span": {
               "start": 19,
-              "end": 21,
-              "ctxt": 0
-            },
-            "token": {
-              "Number": {
-                "value": 10.0,
-                "raw": "10",
-                "type": "integer"
-              }
-            }
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 21,
               "end": 22,
               "ctxt": 0
             },
-            "token": {
-              "WhiteSpace": {
-                "value": " "
-              }
-            }
-          },
-          {
-            "type": "SimpleBlock",
-            "span": {
-              "start": 22,
-              "end": 27,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "PreservedToken",
-              "span": {
-                "start": 22,
-                "end": 23,
-                "ctxt": 0
-              },
-              "token": "LBrace"
-            },
-            "value": [
+            "children": [
               {
                 "type": "PreservedToken",
                 "span": {
-                  "start": 23,
-                  "end": 26,
+                  "start": 19,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "token": {
+                  "Number": {
+                    "value": 10.0,
+                    "raw": "10",
+                    "type": "integer"
+                  }
+                }
+              },
+              {
+                "type": "PreservedToken",
+                "span": {
+                  "start": 21,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "token": {
                   "WhiteSpace": {
-                    "value": "\n\n\t"
+                    "value": " "
                   }
                 }
               }
             ]
-          },
-          {
-            "type": "PreservedToken",
-            "span": {
-              "start": 27,
-              "end": 28,
-              "ctxt": 0
-            },
-            "token": {
-              "WhiteSpace": {
-                "value": "\n"
-              }
-            }
           }
         ]
       }
