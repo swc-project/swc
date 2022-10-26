@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Refactor
+
+
+
+- **(css/parser)** Refactor more (#6251) ([a0e4684](https://github.com/swc-project/swc/commit/a0e4684476e1dba7afec7ac732044d44bb06ef6d))
+
+## [1.3.11] - 2022-10-26
+
 ### Bug Fixes
 
 
@@ -38,10 +46,13 @@
 - **(bindings)** Fix type (#6184) ([2bafd53](https://github.com/swc-project/swc/commit/2bafd53e96b7101b9e7ceb6b34a88c8c826ef9d5))
 
 
+- **(ci)** Fix publish action ([3916886](https://github.com/swc-project/swc/commit/39168865c81d7358867cff3c4edbfdc7092d376c))
+
+
 - **(es/minifier)** Configure fuzzer (#6246) ([d454488](https://github.com/swc-project/swc/commit/d4544884ee8896248f7f1099e204ce906da4ede2))
 
 
-- **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))
+- **(es/parser)** Typo (#6228) ([61e63df](https://github.com/swc-project/swc/commit/61e63df0a06a349664f6569f2de8d183c6a43fd9))- **general**: Fix publish action ([83c9850](https://github.com/swc-project/swc/commit/83c98507e7aa2adf52054466a7b7462b1361de2c))
 
 ### Refactor
 
