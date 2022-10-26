@@ -10533,39 +10533,6 @@
                 }, parseAdaptionField = function(packet) {
                     var offset = 0;
                     return (0x30 & packet[3]) >>> 4 > 0x01 && (offset += packet[4] + 1), offset;
-                }, parseType = function(packet, pmtPid) {
-                    var pid = parsePid(packet);
-                    return 0 === pid ? "pat" : pid === pmtPid ? "pmt" : pmtPid ? "pes" : null;
-                }, parsePat = function(packet) {
-                    var pusi = parsePayloadUnitStartIndicator(packet), offset = 4 + parseAdaptionField(packet);
-                    return pusi && (offset += packet[offset] + 1), (0x1f & packet[offset + 10]) << 8 | packet[offset + 11];
-                }, parsePmt = function(packet) {
-                    var tableEnd, programMapTable = {}, pusi = parsePayloadUnitStartIndicator(packet), payloadOffset = 4 + parseAdaptionField(packet);
-                    if (pusi && (payloadOffset += packet[payloadOffset] + 1), 0x01 & packet[payloadOffset + 5]) {
-                        tableEnd = 3 + ((0x0f & packet[payloadOffset + 1]) << 8 | packet[payloadOffset + 2]) - 4;
-                        for(var offset = 12 + ((0x0f & packet[payloadOffset + 10]) << 8 | packet[payloadOffset + 11]); offset < tableEnd;){
-                            var i = payloadOffset + offset;
-                            programMapTable[(0x1f & packet[i + 1]) << 8 | packet[i + 2]] = packet[i], offset += ((0x0f & packet[i + 3]) << 8 | packet[i + 4]) + 5;
-                        }
-                        return programMapTable;
-                    }
-                }, parsePesType = function(packet, programMapTable) {
-                    switch(programMapTable[parsePid(packet)]){
-                        case streamTypes.H264_STREAM_TYPE:
-                            return "video";
-                        case streamTypes.ADTS_STREAM_TYPE:
-                            return "audio";
-                        case streamTypes.METADATA_STREAM_TYPE:
-                            return "timed-metadata";
-                        default:
-                            return null;
-                    }
-                }, parsePesTime = function(packet) {
-                    if (!parsePayloadUnitStartIndicator(packet)) return null;
-                    var ptsDtsFlags, offset = 4 + parseAdaptionField(packet);
-                    if (offset >= packet.byteLength) return null;
-                    var pes = null;
-                    return 0xc0 & (ptsDtsFlags = packet[offset + 7]) && ((pes = {}).pts = (0x0e & packet[offset + 9]) << 27 | (0xff & packet[offset + 10]) << 20 | (0xfe & packet[offset + 11]) << 12 | (0xff & packet[offset + 12]) << 5 | (0xfe & packet[offset + 13]) >>> 3, pes.pts *= 4, pes.pts += (0x06 & packet[offset + 13]) >>> 1, pes.dts = pes.pts, 0x40 & ptsDtsFlags && (pes.dts = (0x0e & packet[offset + 14]) << 27 | (0xff & packet[offset + 15]) << 20 | (0xfe & packet[offset + 16]) << 12 | (0xff & packet[offset + 17]) << 5 | (0xfe & packet[offset + 18]) >>> 3, pes.dts *= 4, pes.dts += (0x06 & packet[offset + 18]) >>> 1)), pes;
                 }, parseNalUnitType = function(type) {
                     switch(type){
                         case 0x05:
@@ -10604,8 +10571,7 @@
                     },
                     parsePayloadUnitStartIndicator: parsePayloadUnitStartIndicator,
                     parsePesType: function(packet, programMapTable) {
-                        var type = programMapTable[parsePid(packet)];
-                        switch(type){
+                        switch(programMapTable[parsePid(packet)]){
                             case streamTypes.H264_STREAM_TYPE:
                                 return "video";
                             case streamTypes.ADTS_STREAM_TYPE:
