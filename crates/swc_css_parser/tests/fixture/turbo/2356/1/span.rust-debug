@@ -1,0 +1,245 @@
+
+  x Stylesheet
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:1:1]
+ 1 | ,-> 
+ 2 | |   div {
+ 3 | |       background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+ 4 | `-> }
+   `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | ,-> div {
+ 3 | |       background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+ 4 | `-> }
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | ,-> div {
+ 3 | |       background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+ 4 | `-> }
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x TypeSelector
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x TagNameSelector
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x WqName
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   : ^^^
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | ,-> div {
+ 3 | |       background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+ 4 | `-> }
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:2:1]
+ 2 | div {
+   :     ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x StyleBlock
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   : ^^^^^^^^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Color
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                   ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                       ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                       ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                       ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                           ^^^^
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                           ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                               ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                               ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                 ^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                 ^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                 ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                     ^^^^
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                     ^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                            ^
+   `----
+
+  x Delimiter
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                            ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                              ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Function
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                              ^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                              ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                                  ^^^^^^^^^^^^^^^
+   `----
+
+  x DashedIdent
+   ,-[$DIR/tests/fixture/turbo/2356/1/input.css:3:5]
+ 3 | background-color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+   :                                                  ^^^^^^^^^^^^^^^
+   `----
