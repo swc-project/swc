@@ -594,7 +594,7 @@ where
                     self.errors.push(Error::new(
                         span,
                         ErrorKind::Expected(
-                            "whitespace, semicolon, EOF, at-keyword or ident token",
+                            "whitespace, semicolon, EOF, at-keyword, '&' or ident token",
                         ),
                     ));
 
@@ -634,8 +634,9 @@ where
 
         // Repeatedly consume the next input token:
         loop {
-            // TODO: remove `}`
-            if is_one_of!(self, EOF, "}") {
+            // <EOF-token>
+            // Return the list of declarations.
+            if is!(self, EOF) {
                 return Ok(declarations);
             }
 
@@ -728,27 +729,27 @@ where
                         ),
                     ));
 
-                    let mut children = vec![];
+                    // For recovery mode
+                    let mut list_of_component_values = ListOfComponentValues {
+                        span: Default::default(),
+                        children: vec![],
+                    };
 
-                    while !is_one_of!(self, EOF, "}") {
-                        if let Some(token_and_span) = self.input.bump() {
-                            children.push(ComponentValue::PreservedToken(token_and_span));
-                        }
+                    while !is_one_of!(self, ";", EOF) {
+                        let ctx = Ctx {
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
+                            ..self.ctx
+                        };
 
-                        if is!(self, ";") {
-                            if let Some(token_and_span) = self.input.bump() {
-                                children.push(ComponentValue::PreservedToken(token_and_span));
-                            }
+                        let component_value = self.with_ctx(ctx).parse_as::<ComponentValue>()?;
 
-                            break;
-                        }
+                        list_of_component_values.children.push(component_value);
                     }
 
+                    list_of_component_values.span = span!(self, span.lo);
+
                     declarations.push(DeclarationOrAtRule::ListOfComponentValues(
-                        ListOfComponentValues {
-                            span: span!(self, span.lo),
-                            children,
-                        },
+                        list_of_component_values,
                     ));
                 }
             }
