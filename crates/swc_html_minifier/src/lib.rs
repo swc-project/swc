@@ -395,25 +395,25 @@ impl Minifier<'_> {
         false
     }
 
-    fn is_trimable_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
-        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
+    fn is_trimable_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if ALLOW_TO_TRIM_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
             return true;
         }
 
         match element.namespace {
             Namespace::HTML => {
-                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                ALLOW_TO_TRIM_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             Namespace::SVG => {
-                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                ALLOW_TO_TRIM_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_comma_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_comma_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
-            Namespace::HTML => match *attribute_name {
+            Namespace::HTML => match attribute.name {
                 js_word!("content")
                     if element.tag_name == js_word!("meta")
                         && (self.element_has_attribute_with_value(
@@ -454,27 +454,29 @@ impl Minifier<'_> {
                 {
                     true
                 }
-                _ if attribute_name == "exportparts" => true,
-                _ => COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name)),
+                _ if attribute.name == js_word!("exportparts") => true,
+                _ => {
+                    COMMA_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
+                }
             },
             Namespace::SVG => {
-                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                COMMA_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_space_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
-        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&**attribute_name) {
+    fn is_space_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
+        if SPACE_SEPARATED_GLOBAL_ATTRIBUTES.contains(&&*attribute.name) {
             return true;
         }
 
         match element.namespace {
             Namespace::HTML => {
-                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             Namespace::SVG => {
-                match *attribute_name {
+                match attribute.name {
                     js_word!("transform")
                     | js_word!("stroke-dasharray")
                     | js_word!("clip-path")
@@ -482,24 +484,24 @@ impl Minifier<'_> {
                     _ => {}
                 }
 
-                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SPACE_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_semicolon_separated_attribute(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_semicolon_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
             Namespace::SVG => {
-                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, attribute_name))
+                SEMICOLON_SEPARATED_SVG_ATTRIBUTES.contains(&(&element.tag_name, &*attribute.name))
             }
             _ => false,
         }
     }
 
-    fn is_attribute_value_unordered_set(&self, element: &Element, attribute_name: &JsWord) -> bool {
+    fn is_attribute_value_unordered_set(&self, element: &Element, attribute: &Attribute) -> bool {
         if matches!(
-            *attribute_name,
+            attribute.name,
             js_word!("class")
                 | js_word!("part")
                 | js_word!("itemprop")
@@ -511,17 +513,17 @@ impl Minifier<'_> {
 
         match element.namespace {
             Namespace::HTML => match element.tag_name {
-                js_word!("link") if *attribute_name == js_word!("blocking") => true,
-                js_word!("script") if *attribute_name == js_word!("blocking") => true,
-                js_word!("style") if *attribute_name == js_word!("blocking") => true,
-                js_word!("output") if *attribute_name == js_word!("for") => true,
-                js_word!("td") if *attribute_name == js_word!("headers") => true,
-                js_word!("th") if *attribute_name == js_word!("headers") => true,
-                js_word!("form") if *attribute_name == js_word!("rel") => true,
-                js_word!("a") if *attribute_name == js_word!("rel") => true,
-                js_word!("area") if *attribute_name == js_word!("rel") => true,
-                js_word!("link") if *attribute_name == js_word!("rel") => true,
-                js_word!("iframe") if *attribute_name == js_word!("sandbox") => true,
+                js_word!("link") if attribute.name == js_word!("blocking") => true,
+                js_word!("script") if attribute.name == js_word!("blocking") => true,
+                js_word!("style") if attribute.name == js_word!("blocking") => true,
+                js_word!("output") if attribute.name == js_word!("for") => true,
+                js_word!("td") if attribute.name == js_word!("headers") => true,
+                js_word!("th") if attribute.name == js_word!("headers") => true,
+                js_word!("form") if attribute.name == js_word!("rel") => true,
+                js_word!("a") if attribute.name == js_word!("rel") => true,
+                js_word!("area") if attribute.name == js_word!("rel") => true,
+                js_word!("link") if attribute.name == js_word!("rel") => true,
+                js_word!("iframe") if attribute.name == js_word!("sandbox") => true,
                 js_word!("link")
                     if self.element_has_attribute_with_value(
                         element,
@@ -531,14 +533,14 @@ impl Minifier<'_> {
                             js_word!("apple-touch-icon"),
                             js_word!("apple-touch-icon-precomposed"),
                         ],
-                    ) && *attribute_name == js_word!("sizes") =>
+                    ) && attribute.name == js_word!("sizes") =>
                 {
                     true
                 }
                 _ => false,
             },
             Namespace::SVG => {
-                matches!(element.tag_name, js_word!("a") if *attribute_name == js_word!("rel"))
+                matches!(element.tag_name, js_word!("a") if attribute.name == js_word!("rel"))
             }
             _ => false,
         }
@@ -2483,7 +2485,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(js_word!(""));
                 }
                 _ if self.options.normalize_attributes
-                    && self.is_semicolon_separated_attribute(current_element, &n.name) =>
+                    && self.is_semicolon_separated_attribute(current_element, n) =>
                 {
                     n.value = Some(
                         value
@@ -2524,7 +2526,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(value.into());
                 }
                 _ if self.options.sort_space_separated_attribute_values
-                    && self.is_attribute_value_unordered_set(current_element, &n.name) =>
+                    && self.is_attribute_value_unordered_set(current_element, n) =>
                 {
                     let mut values = value.split_whitespace().collect::<Vec<_>>();
 
@@ -2533,7 +2535,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(values.join(" ").into());
                 }
                 _ if self.options.normalize_attributes
-                    && self.is_space_separated_attribute(current_element, &n.name) =>
+                    && self.is_space_separated_attribute(current_element, n) =>
                 {
                     n.value = Some(
                         value
@@ -2543,7 +2545,7 @@ impl VisitMut for Minifier<'_> {
                             .into(),
                     );
                 }
-                _ if self.is_comma_separated_attribute(current_element, &n.name) => {
+                _ if self.is_comma_separated_attribute(current_element, n) => {
                     let mut value = value.to_string();
 
                     if self.options.normalize_attributes {
@@ -2579,7 +2581,7 @@ impl VisitMut for Minifier<'_> {
                         n.value = Some(value.into());
                     }
                 }
-                _ if self.is_trimable_separated_attribute(current_element, &n.name) => {
+                _ if self.is_trimable_separated_attribute(current_element, n) => {
                     let mut value = value.to_string();
 
                     let fallback = |n: &mut Attribute| {
