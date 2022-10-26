@@ -2,15 +2,7 @@
 var TypeScript;
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 !function(TypeScript1) {
-    var preFindMemberScope = function(ast, parent, walker) {
-        var memScope = walker.state;
-        return hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar) && (memScope.ast = ast, null == ast.type && memScope.pos >= 0 && memScope.flow.inScopeTypeCheck(ast, memScope.scope), memScope.type = ast.type, memScope.options.stopWalk()), ast;
-    }, pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
-        var builder = new SymbolScopeBuilder(valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, null, container), chain = new ScopeChain(container, context.scopeChain, builder);
-        chain.thisType = thisType, chain.classType = classType, chain.moduleDecl = moduleDecl, context.scopeChain = chain;
-    }, popTypeCollectionScope = function(context) {
-        context.scopeChain = context.scopeChain.previous;
-    }, preFindEnclosingScope = function(ast, parent, walker) {
+    var preFindEnclosingScope = function(ast, parent, walker) {
         var context = walker.state, minChar = ast.minChar, limChar = ast.limChar;
         if (ast.nodeType == NodeType.Script && context.pos > limChar && (limChar = context.pos), minChar <= context.pos && limChar >= context.pos) {
             switch(ast.nodeType){
@@ -49,19 +41,14 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             walker.options.goChildren = !0;
         } else walker.options.goChildren = !1;
         return ast;
-    }, findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
-        var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-        return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
-    }, TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
+    };
+    TypeScript1.TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
         "use strict";
         _class_call_check(this, TypeCollectionContext), this.scopeChain = scopeChain, this.checker = checker, this.script = null;
-    };
-    TypeScript1.TypeCollectionContext = TypeCollectionContext;
-    var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
+    }, TypeScript1.MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
         _class_call_check(this, MemberScopeContext), this.flow = flow, this.pos = pos, this.matchFlag = matchFlag, this.type = null, this.ast = null, this.options = new AstWalkOptions();
     };
-    TypeScript1.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
@@ -88,5 +75,16 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             return this.scriptFragment;
         }, EnclosingScopeContext;
     }();
-    TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = preFindMemberScope, TypeScript1.pushTypeCollectionScope = pushTypeCollectionScope, TypeScript1.popTypeCollectionScope = popTypeCollectionScope, TypeScript1.preFindEnclosingScope = preFindEnclosingScope, TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
+    TypeScript1.EnclosingScopeContext = EnclosingScopeContext, TypeScript1.preFindMemberScope = function(ast, parent, walker) {
+        var memScope = walker.state;
+        return hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar) && (memScope.ast = ast, null == ast.type && memScope.pos >= 0 && memScope.flow.inScopeTypeCheck(ast, memScope.scope), memScope.type = ast.type, memScope.options.stopWalk()), ast;
+    }, TypeScript1.pushTypeCollectionScope = function(container, valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, context, thisType, classType, moduleDecl) {
+        var builder = new SymbolScopeBuilder(valueMembers, ambientValueMembers, enclosedTypes, ambientEnclosedTypes, null, container), chain = new ScopeChain(container, context.scopeChain, builder);
+        chain.thisType = thisType, chain.classType = classType, chain.moduleDecl = moduleDecl, context.scopeChain = chain;
+    }, TypeScript1.popTypeCollectionScope = function(context) {
+        context.scopeChain = context.scopeChain.previous;
+    }, TypeScript1.preFindEnclosingScope = preFindEnclosingScope, TypeScript1.findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
+        var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
+        return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
+    };
 }(TypeScript || (TypeScript = {}));

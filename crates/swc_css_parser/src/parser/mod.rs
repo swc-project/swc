@@ -70,6 +70,7 @@ struct Ctx {
     is_top_level: bool,
     block_contents_grammar: BlockContentsGrammar,
 
+    in_keyframes_at_rule: bool,
     in_supports_at_rule: bool,
     in_import_at_rule: bool,
     in_page_at_rule: bool,

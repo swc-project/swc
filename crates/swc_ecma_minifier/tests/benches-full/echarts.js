@@ -4,7 +4,7 @@
     ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).echarts = {});
 }(this, function(exports1) {
     'use strict';
-    var ua, env, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, target, classAttr, target1, subTypeDefaulters, loadingFx, theme, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    var ua, env, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, target, classAttr, target1, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -2428,8 +2428,7 @@
                 var frameIdx, isAdditive = null != this._additiveTrack, valueKey = isAdditive ? 'additiveValue' : 'value', keyframes = this.keyframes, kfsNum = this.keyframes.length, propName = this.propName, arrDim = this.arrDim, isValueColor = this.isValueColor;
                 if (percent < 0) frameIdx = 0;
                 else if (percent < this._lastFramePercent) {
-                    var start = Math.min(this._lastFrame + 1, kfsNum - 1);
-                    for(frameIdx = start; frameIdx >= 0 && !(keyframes[frameIdx].percent <= percent); frameIdx--);
+                    for(frameIdx = Math.min(this._lastFrame + 1, kfsNum - 1); frameIdx >= 0 && !(keyframes[frameIdx].percent <= percent); frameIdx--);
                     frameIdx = Math.min(frameIdx, kfsNum - 2);
                 } else {
                     for(frameIdx = this._lastFrame; frameIdx < kfsNum && !(keyframes[frameIdx].percent > percent); frameIdx++);
@@ -10480,7 +10479,7 @@
         '#ff8a45',
         '#8d48e3',
         '#dd79ff'
-    ], theme1 = {
+    ], theme = {
         darkMode: !0,
         color: colorPalette,
         backgroundColor: backgroundColor,
@@ -10632,7 +10631,7 @@
             }
         }
     };
-    theme1.categoryAxis.splitLine.show = !1;
+    theme.categoryAxis.splitLine.show = !1;
     var ECEventProcessor = function() {
         function ECEventProcessor() {}
         return ECEventProcessor.prototype.normalizeQuery = function(query) {
@@ -13857,7 +13856,7 @@
                 stackInfoList.length && data.setCalculationInfo('stackedOnSeries', stackInfoList[stackInfoList.length - 1].seriesModel), stackInfoList.push(stackInfo);
             }
         }), stackInfoMap.each(calculateStack);
-    }), loadingFx = function(api, opts) {
+    }), loadingEffects.default = function(api, opts) {
         defaults(opts = opts || {}, {
             text: 'loading',
             textColor: '#000',
@@ -13937,7 +13936,7 @@
                 height: api.getHeight()
             });
         }, group.resize(), group;
-    }, loadingEffects.default = loadingFx, registerAction({
+    }, registerAction({
         type: HIGHLIGHT_ACTION_TYPE,
         event: HIGHLIGHT_ACTION_TYPE,
         update: HIGHLIGHT_ACTION_TYPE
@@ -13957,7 +13956,7 @@
         type: TOGGLE_SELECT_ACTION_TYPE,
         event: TOGGLE_SELECT_ACTION_TYPE,
         update: TOGGLE_SELECT_ACTION_TYPE
-    }, noop), theme = {
+    }, noop), themeStorage.light = {
         color: colorAll,
         colorLayer: [
             [
@@ -13986,7 +13985,7 @@
             ],
             colorAll
         ]
-    }, themeStorage.light = theme, themeStorage.dark = theme1;
+    }, themeStorage.dark = theme;
     var extensions = [], extensionRegisters = {
         registerPreprocessor: registerPreprocessor,
         registerProcessor: registerProcessor,
@@ -25917,11 +25916,7 @@
                 dataGroup.remove(line);
             }).execute(), !this._initialized) {
                 this._initialized = !0;
-                var cb, parallelModel, rect, rectEl, dim, clipPath = (cb = function() {
-                    setTimeout(function() {
-                        dataGroup.removeClipPath();
-                    });
-                }, parallelModel = coordSys.model, rect = coordSys.getRect(), rectEl = new Rect({
+                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rect = coordSys.getRect(), rectEl = new Rect({
                     shape: {
                         x: rect.x,
                         y: rect.y,
@@ -25933,7 +25928,11 @@
                         width: rect.width,
                         height: rect.height
                     }
-                }, seriesModel, cb), rectEl);
+                }, seriesModel, function() {
+                    setTimeout(function() {
+                        dataGroup.removeClipPath();
+                    });
+                }), rectEl);
                 dataGroup.setClipPath(clipPath);
             }
             this._data = data;
@@ -27177,7 +27176,7 @@
             return _this.type = SankeyView.type, _this._focusAdjacencyDisabled = !1, _this;
         }
         return __extends(SankeyView, _super), SankeyView.prototype.render = function(seriesModel, ecModel, api) {
-            var rect, cb, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
+            var rect, rectEl, sankeyView = this, graph = seriesModel.getGraph(), group = this.group, layoutInfo = seriesModel.layoutInfo, width = layoutInfo.width, height = layoutInfo.height, nodeData = seriesModel.getData(), edgeData = seriesModel.getData('edge'), orient = seriesModel.get('orient');
             this._model = seriesModel, group.removeAll(), group.x = layoutInfo.x, group.y = layoutInfo.y, graph.eachEdge(function(edge) {
                 var x1, y1, x2, y2, cpx1, cpy1, cpx2, cpy2, curve = new SankeyPath(), ecData = getECData(curve);
                 ecData.dataIndex = edge.dataIndex, ecData.seriesIndex = seriesModel.seriesIndex, ecData.dataType = 'edge';
@@ -27247,9 +27246,7 @@
                 }, el.ondragend = function() {
                     sankeyView._focusAdjacencyDisabled = !1;
                 }, el.draggable = !0, el.cursor = 'move');
-            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), cb = function() {
-                group.removeClipPath();
-            }, initProps(rectEl = new Rect({
+            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), initProps(rectEl = new Rect({
                 shape: {
                     x: rect.x - 10,
                     y: rect.y - 10,
@@ -27260,7 +27257,9 @@
                 shape: {
                     width: rect.width + 20
                 }
-            }, seriesModel, cb), rectEl)), this._data = seriesModel.getData();
+            }, seriesModel, function() {
+                group.removeClipPath();
+            }), rectEl)), this._data = seriesModel.getData();
         }, SankeyView.prototype.dispose = function() {}, SankeyView.type = 'sankey', SankeyView;
     }(ChartView), SankeySeriesModel = function(_super) {
         function SankeySeriesModel() {
@@ -28477,8 +28476,7 @@
             if (offsets) {
                 var lastFrame = this._lastFrame;
                 if (t < this._lastFramePercent) {
-                    var start = Math.min(lastFrame + 1, len - 1);
-                    for(frame = start; frame >= 0 && !(offsets[frame] <= t); frame--);
+                    for(frame = Math.min(lastFrame + 1, len - 1); frame >= 0 && !(offsets[frame] <= t); frame--);
                     frame = Math.min(frame, len - 2);
                 } else {
                     for(frame = lastFrame; frame < len && !(offsets[frame] > t); frame++);
@@ -29449,7 +29447,7 @@
                 }
                 var textLayout = data.getItemLayout(indices[0]), margin = seriesModel.getModel('label').get('margin'), emphasisModel = seriesModel.getModel('emphasis');
                 if ('add' === status) {
-                    var rect, cb, rectEl, layerGroup = newLayersGroups[idx] = new Group();
+                    var rect, rectEl, layerGroup = newLayersGroups[idx] = new Group();
                     polygon = new ECPolygon({
                         shape: {
                             points: points0,
@@ -29459,9 +29457,7 @@
                             smoothConstraint: !1
                         },
                         z2: 0
-                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), cb = function() {
-                        polygon.removeClipPath();
-                    }, initProps(rectEl = new Rect({
+                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), initProps(rectEl = new Rect({
                         shape: {
                             x: rect.x - 10,
                             y: rect.y - 10,
@@ -29474,7 +29470,9 @@
                             width: rect.width + 100,
                             height: rect.height + 20
                         }
-                    }, seriesModel, cb), rectEl));
+                    }, seriesModel, function() {
+                        polygon.removeClipPath();
+                    }), rectEl));
                 } else {
                     var layerGroup = oldLayersGroups[oldIdx];
                     polygon = layerGroup.childAt(0), group.add(layerGroup), newLayersGroups[idx] = layerGroup, updateProps(polygon, {
@@ -34617,7 +34615,17 @@
             if (seriesOptGenreator[type]) {
                 var newOption = {
                     series: []
-                }, generateNewSeriesTypes = function(seriesModel) {
+                };
+                each(radioTypes, function(radio) {
+                    indexOf(radio, type) >= 0 && each(radio, function(item) {
+                        model.setIconStatus(item, 'normal');
+                    });
+                }), model.setIconStatus(type, 'emphasis'), ecModel.eachComponent({
+                    mainType: 'series',
+                    query: null == seriesIndex ? null : {
+                        seriesIndex: seriesIndex
+                    }
+                }, function(seriesModel) {
                     var seriesType = seriesModel.subType, seriesId = seriesModel.id, newSeriesOpt = seriesOptGenreator[type](seriesType, seriesId, seriesModel, model);
                     newSeriesOpt && (defaults(newSeriesOpt, seriesModel.option), newOption.series.push(newSeriesOpt));
                     var coordSys = seriesModel.coordinateSystem;
@@ -34630,17 +34638,7 @@
                             newOption[axisType][axisIndex].boundaryGap = 'bar' === type;
                         }
                     }
-                };
-                each(radioTypes, function(radio) {
-                    indexOf(radio, type) >= 0 && each(radio, function(item) {
-                        model.setIconStatus(item, 'normal');
-                    });
-                }), model.setIconStatus(type, 'emphasis'), ecModel.eachComponent({
-                    mainType: 'series',
-                    query: null == seriesIndex ? null : {
-                        seriesIndex: seriesIndex
-                    }
-                }, generateNewSeriesTypes), 'stack' === type && (newTitle = merge({
+                }), 'stack' === type && (newTitle = merge({
                     stack: model.option.title.tiled,
                     tiled: model.option.title.stack
                 }, model.option.title)), api.dispatchAction({

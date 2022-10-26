@@ -3,11 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default, Thing = function Thing() {
-    _classCallCheck(this, Thing);
-};
+var _classCallCheck = require("@swc/helpers/lib/_class_call_check.js").default;
 module.exports = {
-    Thing: Thing
+    Thing: function Thing() {
+        _classCallCheck(this, Thing);
+    }
 };
 //// [reexport.js]
 "use strict";

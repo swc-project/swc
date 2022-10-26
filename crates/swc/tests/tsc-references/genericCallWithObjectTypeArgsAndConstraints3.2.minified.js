@@ -2,7 +2,7 @@
 import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
 import _inherits from "@swc/helpers/src/_inherits.mjs";
 import _create_super from "@swc/helpers/src/_create_super.mjs";
-var y, y1, Base = function Base() {
+var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
 }, Derived = function(Base) {
@@ -22,8 +22,4 @@ var y, y1, Base = function Base() {
     }
     return Derived2;
 }(Base);
-new Derived(), new Derived2(), new Derived(), new Derived2(), new Derived(), new Derived2(), y = function(x) {
-    return x;
-}, new Base(), y(null), y1 = function(x) {
-    return x;
-}, new Derived(), y1(null);
+new Derived(), new Derived2(), new Derived(), new Derived2(), new Derived(), new Derived2(), new Base(), new Derived();

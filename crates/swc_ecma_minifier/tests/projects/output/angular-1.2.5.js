@@ -2644,35 +2644,6 @@
                                 }), result.promise;
                             }
                         };
-                    }, when = function(value, callback, errback, progressback) {
-                        var done, result = defer(), wrappedCallback = function(value) {
-                            try {
-                                return (isFunction(callback) ? callback : defaultCallback)(value);
-                            } catch (e) {
-                                return exceptionHandler(e), reject(e);
-                            }
-                        }, wrappedErrback = function(reason) {
-                            try {
-                                return (isFunction(errback) ? errback : defaultErrback)(reason);
-                            } catch (e) {
-                                return exceptionHandler(e), reject(e);
-                            }
-                        }, wrappedProgressback = function(progress) {
-                            try {
-                                return (isFunction(progressback) ? progressback : defaultCallback)(progress);
-                            } catch (e) {
-                                exceptionHandler(e);
-                            }
-                        };
-                        return nextTick(function() {
-                            ref(value).then(function(value) {
-                                done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
-                            }, function(reason) {
-                                done || (done = !0, result.resolve(wrappedErrback(reason)));
-                            }, function(progress) {
-                                done || result.notify(wrappedProgressback(progress));
-                            });
-                        }), result.promise;
                     };
                     function defaultCallback(value) {
                         return value;
@@ -2683,7 +2654,36 @@
                     return {
                         defer: defer,
                         reject: reject,
-                        when: when,
+                        when: function(value, callback, errback, progressback) {
+                            var done, result = defer(), wrappedCallback = function(value) {
+                                try {
+                                    return (isFunction(callback) ? callback : defaultCallback)(value);
+                                } catch (e) {
+                                    return exceptionHandler(e), reject(e);
+                                }
+                            }, wrappedErrback = function(reason) {
+                                try {
+                                    return (isFunction(errback) ? errback : defaultErrback)(reason);
+                                } catch (e) {
+                                    return exceptionHandler(e), reject(e);
+                                }
+                            }, wrappedProgressback = function(progress) {
+                                try {
+                                    return (isFunction(progressback) ? progressback : defaultCallback)(progress);
+                                } catch (e) {
+                                    exceptionHandler(e);
+                                }
+                            };
+                            return nextTick(function() {
+                                ref(value).then(function(value) {
+                                    done || (done = !0, result.resolve(ref(value).then(wrappedCallback, wrappedErrback, wrappedProgressback)));
+                                }, function(reason) {
+                                    done || (done = !0, result.resolve(wrappedErrback(reason)));
+                                }, function(progress) {
+                                    done || result.notify(wrappedProgressback(progress));
+                                });
+                            }), result.promise;
+                        },
                         all: function(promises) {
                             var deferred = defer(), counter = 0, results = isArray(promises) ? [] : {};
                             return forEach(promises, function(promise, key) {
@@ -3722,15 +3722,15 @@
         return {
             require: "ngModel",
             link: function(scope, element, attr, ctrl) {
-                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",", parse = function(viewValue) {
+                var match = /\/(.*)\//.exec(attr.ngList), separator = match && RegExp(match[1]) || attr.ngList || ",";
+                ctrl.$parsers.push(function(viewValue) {
                     if (!isUndefined(viewValue)) {
                         var list = [];
                         return viewValue && forEach(viewValue.split(separator), function(value) {
                             value && list.push(trim(value));
                         }), list;
                     }
-                };
-                ctrl.$parsers.push(parse), ctrl.$formatters.push(function(value) {
+                }), ctrl.$formatters.push(function(value) {
                     if (isArray(value)) return value.join(", ");
                 }), ctrl.$isEmpty = function(value) {
                     return !value || !value.length;

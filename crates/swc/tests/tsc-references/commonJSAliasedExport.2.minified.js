@@ -1,8 +1,7 @@
 //// [commonJSAliasedExport.js]
-var donkey = function(ast) {
+module.exports = function(ast) {
     return ast;
-};
-module.exports = donkey, module.exports.funky = function(declaration) {
+}, module.exports.funky = function(declaration) {
     return !1;
 };
 //// [bug43713.js]

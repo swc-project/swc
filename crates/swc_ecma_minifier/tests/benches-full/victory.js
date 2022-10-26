@@ -6642,8 +6642,7 @@
             };
         },
         "../../../node_modules/delaunator/delaunator.js": function(module1, exports1, __webpack_require__) {
-            var factory;
-            factory = function() {
+            module1.exports = function() {
                 'use strict';
                 var EDGE_STACK = new Uint32Array(512), Delaunator = function(coords) {
                     var n = coords.length >> 1;
@@ -6808,7 +6807,7 @@
                     var t = this.trianglesLen;
                     return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
                 }, Delaunator;
-            }, module1.exports = factory();
+            }();
         },
         "../../../node_modules/delaunay-find/lib/index.js": function(module1, exports1, __webpack_require__) {
             "use strict";
@@ -8194,10 +8193,10 @@
             };
         },
         "../../../node_modules/lodash/now.js": function(module1, exports1, __webpack_require__) {
-            var root = __webpack_require__("../../../node_modules/lodash/_root.js"), now = function() {
+            var root = __webpack_require__("../../../node_modules/lodash/_root.js");
+            module1.exports = function() {
                 return root.Date.now();
             };
-            module1.exports = now;
         },
         "../../../node_modules/lodash/omitBy.js": function(module1, exports1, __webpack_require__) {
             var baseIteratee = __webpack_require__("../../../node_modules/lodash/_baseIteratee.js"), negate = __webpack_require__("../../../node_modules/lodash/negate.js"), pickBy = __webpack_require__("../../../node_modules/lodash/pickBy.js");
@@ -10994,10 +10993,7 @@
                     }, {});
                     return acc[eventKey] = dataObj, TYPES.forEach(function(type) {
                         var labelText = getText(dataProps, type), labelProp = props.labels || props["".concat(type, "Labels")];
-                        if (null != labelText || labelProp && (events || sharedEvents)) {
-                            var target = "".concat(type, "Labels");
-                            acc[eventKey][target] = getLabelProps(lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, props, dataProps), labelText, type);
-                        }
+                        (null != labelText || labelProp && (events || sharedEvents)) && (acc[eventKey]["".concat(type, "Labels")] = getLabelProps(lodash_assign__WEBPACK_IMPORTED_MODULE_5___default()({}, props, dataProps), labelText, type));
                     }), acc;
                 }, initialChildProps);
             };
@@ -12920,10 +12916,7 @@
                     }
                     return TYPES.forEach(function(type) {
                         var labelText = getText(extendedProps, type), labelProp = props.labels || props["".concat(type, "Labels")];
-                        if (null != labelText || labelProp && (events || sharedEvents)) {
-                            var target = "".concat(type, "Labels");
-                            childProps[eventKey][target] = getLabelProps(extendedProps, labelText, style, type);
-                        }
+                        (null != labelText || labelProp && (events || sharedEvents)) && (childProps[eventKey]["".concat(type, "Labels")] = getLabelProps(extendedProps, labelText, style, type));
                     }), childProps;
                 }, initialChildProps);
             };
@@ -15562,7 +15555,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var Circle = function(props) {
+            __webpack_exports__.default = function(props) {
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
@@ -15581,7 +15574,6 @@
                     vectorEffect: "non-scaling-stroke"
                 }, rest));
             };
-            __webpack_exports__.default = Circle;
         },
         "../../victory-core/es/victory-primitives/clip-path.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -15677,7 +15669,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var Line = function(props) {
+            __webpack_exports__.default = function(props) {
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
@@ -15696,7 +15688,6 @@
                     vectorEffect: "non-scaling-stroke"
                 }, rest));
             };
-            __webpack_exports__.default = Line;
         },
         "../../victory-core/es/victory-primitives/path-helpers.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -15746,7 +15737,8 @@
         "../../victory-core/es/victory-primitives/path.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), Path = function(props) {
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+            __webpack_exports__.default = function(props) {
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
@@ -15761,7 +15753,6 @@
                 ]);
                 return desc ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", rest, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("desc", null, desc)) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("path", rest);
             };
-            __webpack_exports__.default = Path;
         },
         "../../victory-core/es/victory-primitives/point.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -15867,7 +15858,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var Rect = function(props) {
+            __webpack_exports__.default = function(props) {
                 var desc = props.desc, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
@@ -15886,7 +15877,6 @@
                     vectorEffect: "non-scaling-stroke"
                 }, rest));
             };
-            __webpack_exports__.default = Rect;
         },
         "../../victory-core/es/victory-primitives/text.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -15917,10 +15907,10 @@
         "../../victory-core/es/victory-primitives/tspan.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), TSpan = function(props) {
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+            __webpack_exports__.default = function(props) {
                 return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tspan", props);
             };
-            __webpack_exports__.default = TSpan;
         },
         "../../victory-core/es/victory-primitives/whisker.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -17085,16 +17075,14 @@
                                 return filteredTickFormat[index];
                             };
                         }
-                        if (!(tickFormat && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(tickFormat))) return function(x) {
-                            return x;
-                        };
-                        var applyStringTicks = function(tick, index, ticks) {
+                        return tickFormat && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(tickFormat) ? stringMap ? function(tick, index, ticks) {
                             var invertedStringMap = lodash_invert__WEBPACK_IMPORTED_MODULE_6___default()(stringMap), stringTickArray = ticks.map(function(t) {
                                 return invertedStringMap[t];
                             });
                             return props.tickFormat(invertedStringMap[tick], index, stringTickArray);
+                        } : tickFormat : function(x) {
+                            return x;
                         };
-                        return stringMap ? applyStringTicks : tickFormat;
                     }
                     var defaultTickFormat = function(props) {
                         var tickValues = props.tickValues, axis = getAxis(props), stringMap = props.stringMap && props.stringMap[axis], fallbackFormat = tickValues && !_collection__WEBPACK_IMPORTED_MODULE_13__.default.containsDates(tickValues) ? function(x) {
@@ -18117,10 +18105,9 @@
                 },
                 getPartialEvents: function(events, eventKey, childProps) {
                     return events ? lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(events).reduce(function(memo, eventName) {
-                        var appliedEvent = function(evt) {
+                        return memo[eventName] = function(evt) {
                             return events[eventName](evt, childProps, eventKey, eventName);
-                        };
-                        return memo[eventName] = appliedEvent, memo;
+                        }, memo;
                     }, {}) : {};
                 },
                 getEventState: function(eventKey, namespace, childType) {
@@ -22377,18 +22364,18 @@
                 }(widths) || function() {
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }());
-            }, approximateTextSize = function(text, style) {
-                var angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
-                    var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
-                    return total + lineStyle.lineHeight * height;
-                }, 0), width = _approximateTextWidthInternal(text, style);
-                return {
-                    width: angle ? _getSizeWithRotate(width, height, angle) : width,
-                    height: (angle ? _getSizeWithRotate(height, width, angle) : height) * coefficients.heightOverlapCoef
-                };
             };
             __webpack_exports__.default = {
-                approximateTextSize: approximateTextSize,
+                approximateTextSize: function(text, style) {
+                    var angle = Array.isArray(style) ? style[0] && style[0].angle : style && style.angle, height = void 0 === text || "" === text || null === text ? 0 : _splitToLines(text).reduce(function(total, line, index) {
+                        var lineStyle = _prepareParams(style, index), height = line.toString().match(/[(A-Z)(0-9)]/) ? lineStyle.fontSize * coefficients.lineCapitalCoef : lineStyle.fontSize;
+                        return total + lineStyle.lineHeight * height;
+                    }, 0), width = _approximateTextWidthInternal(text, style);
+                    return {
+                        width: angle ? _getSizeWithRotate(width, height, angle) : width,
+                        height: (angle ? _getSizeWithRotate(height, width, angle) : height) * coefficients.heightOverlapCoef
+                    };
+                },
                 convertLengthToPixels: convertLengthToPixels
             };
         },
@@ -22712,12 +22699,12 @@
                 },
                 getScale: function(props, axis, childComponents) {
                     if (props.data) return _scale__WEBPACK_IMPORTED_MODULE_19__.default.getBaseScale(props, axis);
-                    var children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), iteratee = function(child) {
+                    var children = childComponents ? childComponents.slice(0) : react__WEBPACK_IMPORTED_MODULE_10___default.a.Children.toArray(props.children), childScale = lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(_helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, function(child) {
                         var sharedProps = lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({}, child.props, {
                             horizontal: props.horizontal
                         });
                         return _scale__WEBPACK_IMPORTED_MODULE_19__.default.getScaleType(sharedProps, axis);
-                    }, childScale = lodash_uniq__WEBPACK_IMPORTED_MODULE_5___default()(_helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, iteratee, props));
+                    }, props));
                     return childScale.length > 1 ? _scale__WEBPACK_IMPORTED_MODULE_19__.default.getScaleFromName("linear") : _scale__WEBPACK_IMPORTED_MODULE_19__.default.getScaleFromName(childScale[0]);
                 },
                 setAnimationState: function(props, nextProps) {
@@ -22788,10 +22775,10 @@
                         categories: categories
                     }, parentProps = parentData ? lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()(baseParentProps, {
                         data: parentData
-                    }) : baseParentProps, iteratee = function(child) {
+                    }) : baseParentProps, childDomains = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, function(child) {
                         var sharedProps = lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({}, child.props, parentProps);
                         return _domain__WEBPACK_IMPORTED_MODULE_15__.default.isDomainComponent(child) ? child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getDomain) ? child.props && child.type.getDomain(sharedProps, axis) : _domain__WEBPACK_IMPORTED_MODULE_15__.default.getDomain(sharedProps, axis) : null;
-                    }, childDomains = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, iteratee, props);
+                    }, props);
                     return [
                         0 === childDomains.length ? 0 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMinValue(childDomains),
                         0 === childDomains.length ? 1 : _collection__WEBPACK_IMPORTED_MODULE_17__.default.getMaxValue(childDomains)
@@ -22860,7 +22847,9 @@
                         childComponents: childComponents,
                         parentProps: parentProps
                     });
-                    var iteratee = function(child, childName, parent) {
+                    var stacked = children.filter(function(c) {
+                        return c.type && "stack" === c.type.role;
+                    }).length, datasets = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, function(child, childName, parent) {
                         var childData, childProps = lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({}, child.props, parentProps);
                         return _data__WEBPACK_IMPORTED_MODULE_14__.default.isDataComponent(child) ? (childData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getData) ? (child = parent ? react__WEBPACK_IMPORTED_MODULE_10___default.a.cloneElement(child, parent.props) : child).type.getData(childProps) : _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(childProps), stack += 1, childData.map(function(datum, index) {
                             return lodash_assign__WEBPACK_IMPORTED_MODULE_9___default()({
@@ -22868,11 +22857,9 @@
                                 _group: index
                             }, datum);
                         })) : null;
-                    }, stacked = children.filter(function(c) {
-                        return c.type && "stack" === c.type.role;
-                    }).length, combine = function(memo, val) {
+                    }, props, [], function(memo, val) {
                         return memo.concat(lodash_uniqBy__WEBPACK_IMPORTED_MODULE_2___default()(val, "_group"));
-                    }, datasets = _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(children, iteratee, props, [], combine);
+                    });
                     return lodash_values__WEBPACK_IMPORTED_MODULE_1___default()(lodash_groupBy__WEBPACK_IMPORTED_MODULE_3___default()(datasets, stacked ? "_group" : "_stack"));
                 },
                 getColor: function(calculatedProps, child, index) {
@@ -22909,18 +22896,17 @@
                     };
                 },
                 getStringsFromCategories: function(childComponents, axis) {
-                    var iteratee = function(child) {
+                    return _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(childComponents.slice(0), function(child) {
                         var childProps = child.props || {};
                         if (!_domain__WEBPACK_IMPORTED_MODULE_15__.default.isDomainComponent(child) || !childProps.categories) return null;
                         var categories = childProps.categories && !Array.isArray(childProps.categories) ? childProps.categories[axis] : childProps.props.categories, categoryStrings = categories && categories.filter(function(val) {
                             return "string" == typeof val;
                         });
                         return categoryStrings ? _collection__WEBPACK_IMPORTED_MODULE_17__.default.removeUndefined(categoryStrings) : [];
-                    };
-                    return _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(childComponents.slice(0), iteratee);
+                    });
                 },
                 getStringsFromData: function(childComponents) {
-                    var iteratee = function(child) {
+                    return _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(childComponents.slice(0), function(child) {
                         var childProps = child.props || {};
                         return _data__WEBPACK_IMPORTED_MODULE_14__.default.isDataComponent(child) ? (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(child.type.getData) ? child.type.getData(childProps) : _data__WEBPACK_IMPORTED_MODULE_14__.default.getData(childProps)).map(function(d) {
                             return {
@@ -22928,7 +22914,10 @@
                                 y: d.yName
                             };
                         }) : null;
-                    }, combine = function(memo, datum) {
+                    }, {}, {
+                        x: [],
+                        y: []
+                    }, function(memo, datum) {
                         var x = Array.isArray(datum) ? datum.map(function(d) {
                             return d.x;
                         }).filter(Boolean) : datum.x, y = Array.isArray(datum) ? datum.map(function(d) {
@@ -22938,11 +22927,7 @@
                             x: void 0 !== x ? memo.x.concat(x) : memo.x,
                             y: void 0 !== y ? memo.y.concat(y) : memo.y
                         };
-                    };
-                    return _helpers__WEBPACK_IMPORTED_MODULE_18__.default.reduceChildren(childComponents.slice(0), iteratee, {}, {
-                        x: [],
-                        y: []
-                    }, combine);
+                    });
                 },
                 getCategoryAndAxisStringsFromChildren: function(props, axis, childComponents) {
                     var categories = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_0___default()(props.categories) ? props.categories[axis] : props.categories, axisComponent = _axis__WEBPACK_IMPORTED_MODULE_11__.default.getAxisComponent(childComponents, axis), axisStrings = axisComponent ? _data__WEBPACK_IMPORTED_MODULE_14__.default.getStringsFromAxes(axisComponent.props, axis) : [], categoryStrings = categories || this.getStringsFromCategories(childComponents, axis);
@@ -26919,11 +26904,6 @@
             }, getAxisType = function(props) {
                 var typicalType = props.dependentAxis ? "radial" : "angular";
                 return props.horizontal ? "angular" === typicalType ? "radial" : "angular" : typicalType;
-            }, filterTicks = function(ticks, scale) {
-                var compareTicks = function(t) {
-                    return scale(t) % (2 * Math.PI);
-                };
-                return lodash_uniqBy__WEBPACK_IMPORTED_MODULE_1___default()(ticks, compareTicks);
             }, getEvaluatedStyles = function(style, props) {
                 return {
                     tickStyle: victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.evaluateStyle(style.ticks, props),
@@ -27099,7 +27079,9 @@
             }, getCalculatedValues = function(props) {
                 var defaultStyles = getStyleObject(props = lodash_assign__WEBPACK_IMPORTED_MODULE_2___default()({
                     polar: !0
-                }, props)), style = getStyles(props, defaultStyles), padding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props), axis = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getAxis(props), axisType = getAxisType(props), stringTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.stringTicks(props) ? props.tickValues : void 0, domain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getDomain(props, axis), range = getRange(props, axis), scale = getScale(props), initialTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTicks(props, scale), ticks = "angular" === axisType ? filterTicks(initialTicks, scale) : initialTicks, tickFormat = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTickFormat(props, scale);
+                }, props)), style = getStyles(props, defaultStyles), padding = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.getPadding(props), axis = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getAxis(props), axisType = getAxisType(props), stringTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.stringTicks(props) ? props.tickValues : void 0, domain = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getDomain(props, axis), range = getRange(props, axis), scale = getScale(props), initialTicks = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTicks(props, scale), ticks = "angular" === axisType ? lodash_uniqBy__WEBPACK_IMPORTED_MODULE_1___default()(initialTicks, function(t) {
+                    return scale(t) % (2 * Math.PI);
+                }) : initialTicks, tickFormat = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.getTickFormat(props, scale);
                 return {
                     axis: axis,
                     style: style,
@@ -27780,7 +27762,8 @@
                     var getData = function(childProps) {
                         var data = victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.getData(childProps);
                         return Array.isArray(data) && data.length > 0 ? data : void 0;
-                    }, iteratee = function(child, childName, parent) {
+                    };
+                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.reduceChildren(react__WEBPACK_IMPORTED_MODULE_6___default.a.Children.toArray(props.children), function(child, childName, parent) {
                         var blacklist = props.selectionBlacklist || [];
                         if (!victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.isDataComponent(child) || lodash_includes__WEBPACK_IMPORTED_MODULE_0___default()(blacklist, childName)) return null;
                         if (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default()(child.type.getData)) {
@@ -27795,8 +27778,7 @@
                             childName: childName,
                             data: _childData
                         } : null;
-                    };
-                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Helpers.reduceChildren(react__WEBPACK_IMPORTED_MODULE_6___default.a.Children.toArray(props.children), iteratee, props);
+                    }, props);
                 },
                 filterDatasets: function(props, datasets, bounds) {
                     var _this = this, filtered = datasets.reduce(function(memo, dataset) {
@@ -28293,7 +28275,7 @@
                     {
                         key: "getBasePropsFromChildren",
                         value: function(childComponents) {
-                            var iteratee = function(child, childName) {
+                            var baseProps = victory_core__WEBPACK_IMPORTED_MODULE_9__.Helpers.reduceChildren(childComponents, function(child, childName) {
                                 if (!(child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(child.type.getBaseProps))) return null;
                                 var _baseProps = child.props && child.type.getBaseProps(child.props);
                                 return _baseProps ? [
@@ -28302,7 +28284,7 @@
                                         _baseProps
                                     ]
                                 ] : null;
-                            }, baseProps = victory_core__WEBPACK_IMPORTED_MODULE_9__.Helpers.reduceChildren(childComponents, iteratee);
+                            });
                             return lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2___default()(baseProps);
                         }
                     },
@@ -29826,15 +29808,15 @@
                     var getData = function(childProps) {
                         var data = victory_core__WEBPACK_IMPORTED_MODULE_7__.Data.getData(childProps);
                         return Array.isArray(data) && data.length > 0 ? data : void 0;
-                    }, iteratee = function(child, childName) {
+                    };
+                    return victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.reduceChildren(children, function(child, childName) {
                         var name = (child.props || {}).name || childName, blacklist = props.voronoiBlacklist || [], blacklistStr = blacklist.filter(lodash_isString__WEBPACK_IMPORTED_MODULE_1___default.a), isRegExpMatch = blacklist.filter(lodash_isRegExp__WEBPACK_IMPORTED_MODULE_0___default.a).some(function(regExp) {
                             return regExp.test(name);
                         });
                         if (!victory_core__WEBPACK_IMPORTED_MODULE_7__.Data.isDataComponent(child) || lodash_includes__WEBPACK_IMPORTED_MODULE_2___default()(blacklistStr, name) || isRegExpMatch) return null;
                         var childData = (child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default()(child.type.getData) ? child.type.getData : getData)(child.props);
                         return childData ? addMeta(childData, name, child) : null;
-                    };
-                    return victory_core__WEBPACK_IMPORTED_MODULE_7__.Helpers.reduceChildren(children, iteratee, props);
+                    }, props);
                 },
                 findPoints: function(datasets, point) {
                     return datasets.filter(function(d) {
@@ -30644,11 +30626,9 @@
                 },
                 handleAnimation: function(ctx) {
                     var animationTimer = ctx.context.animationTimer, transitionTimer = ctx.context.transitionTimer;
-                    transitionTimer.bypassAnimation(), animationTimer.bypassAnimation();
-                    var resumeAnimation = function() {
+                    return transitionTimer.bypassAnimation(), animationTimer.bypassAnimation(), lodash_delay__WEBPACK_IMPORTED_MODULE_0___default()(function() {
                         animationTimer.resumeAnimation(), transitionTimer.resumeAnimation();
-                    };
-                    return lodash_delay__WEBPACK_IMPORTED_MODULE_0___default()(resumeAnimation, 16);
+                    }, 16);
                 },
                 getLastDomain: function(targetProps, originalDomain) {
                     var zoomDomain = targetProps.zoomDomain, cachedZoomDomain = targetProps.cachedZoomDomain, currentDomain = targetProps.currentDomain, domain = targetProps.domain;

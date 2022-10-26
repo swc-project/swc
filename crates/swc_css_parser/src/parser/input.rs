@@ -124,13 +124,16 @@ where
     }
 
     pub(super) fn skip_ws(&mut self) {
+        if self.cur.is_none() {
+            self.bump_inner();
+        }
+
         if let Some(TokenAndSpan {
             token: tok!(" "),
             span,
         }) = &self.cur
         {
             self.last_pos = span.hi;
-
             self.cur = None;
 
             {
@@ -156,6 +159,7 @@ where
             if let Some(last_pos) = self.input.skip_ws() {
                 self.last_pos = last_pos;
             }
+
             self.cur = self.input.next();
         }
     }

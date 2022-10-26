@@ -12,12 +12,9 @@ var A, Point = function() {
         };
     }, Point;
 }();
-!function(Point) {
-    var Origin = function() {
-        return null;
-    };
-    Point.Origin = Origin;
-}(Point || (Point = {})), function(A) {
+(Point || (Point = {})).Origin = function() {
+    return null;
+}, function(A) {
     var Point = function() {
         "use strict";
         function Point(x, y) {

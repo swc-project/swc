@@ -38,22 +38,124 @@
    :  ^^^^^
    `----
 
-  x LayerPrelude
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :       ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :       ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :        ^^^^^^^^^
+   `----
+
+  x Ident { value: Atom('framework' type=dynamic), raw: Atom('framework' type=dynamic) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :        ^^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                 ^
+   `----
+
+  x Comma
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                 ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                  ^
+   `----
+
+  x WhiteSpace { value: Atom(' ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                  ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                   ^^^^^^^^
+   `----
+
+  x Ident { value: Atom('override' type=static), raw: Atom('override' type=static) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                   ^^^^^^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                           ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                           ^^^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                              ^
+   `----
+
+  x Comma
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                              ^
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                               ^^^^
+   `----
+
+  x WhiteSpace { value: Atom('    ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                               ^^^^
+   `----
+
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                                   ^^^
    `----
 
-  x LayerName
+  x Ident { value: Atom('foo' type=inline), raw: Atom('foo' type=inline) }
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
    :                                   ^^^
    `----
 
-  x Ident
+  x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
  1 | @layer framework, override   ,    foo   {
-   :                                   ^^^
+   :                                      ^^^
+   `----
+
+  x WhiteSpace { value: Atom('   ' type=inline) }
+   ,-[$DIR/tests/recovery/at-rule/layer/block/input.css:1:1]
+ 1 | @layer framework, override   ,    foo   {
+   :                                      ^^^
    `----
 
   x SimpleBlock

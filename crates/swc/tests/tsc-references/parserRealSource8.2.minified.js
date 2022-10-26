@@ -73,17 +73,11 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             var catchTable = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), catchLocals = new SymbolScopeBuilder(catchTable, null, null, null, context.scopeChain.scope, context.scopeChain.scope.container);
             catchBlock.containedScope = catchLocals, pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
-    }, preAssignScopes = function(ast, parent, walker) {
-        var context = walker.state, go = !0;
-        return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
-    }, postAssignScopes = function(ast, parent, walker) {
-        var context = walker.state, go = !0;
-        return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.InterfaceDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
-    }, AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
+    };
+    TypeScript1.AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
         "use strict";
         _class_call_check(this, AssignScopeContext), this.scopeChain = scopeChain, this.typeFlow = typeFlow, this.modDeclChain = modDeclChain;
-    };
-    TypeScript1.AssignScopeContext = AssignScopeContext, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
+    }, TypeScript1.pushAssignScope = pushAssignScope, TypeScript1.popAssignScope = popAssignScope, TypeScript1.instanceCompare = instanceCompare, TypeScript1.instanceFilterStop = instanceFilterStop;
     var ScopeSearchFilter = function() {
         "use strict";
         function ScopeSearchFilter(select, stop) {
@@ -96,5 +90,11 @@ import _class_call_check from "@swc/helpers/src/_class_call_check.mjs";
             return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
         }, ScopeSearchFilter;
     }();
-    TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = preAssignScopes, TypeScript1.postAssignScopes = postAssignScopes;
+    TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = function(ast, parent, walker) {
+        var context = walker.state, go = !0;
+        return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
+    }, TypeScript1.postAssignScopes = function(ast, parent, walker) {
+        var context = walker.state, go = !0;
+        return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.InterfaceDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
+    };
 }(TypeScript || (TypeScript = {}));

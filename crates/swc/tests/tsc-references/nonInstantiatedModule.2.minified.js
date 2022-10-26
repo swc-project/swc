@@ -9,10 +9,7 @@ M.a, m.a, function(M2) {
             y: 0
         };
     };
-}(M2 || (M2 = {})), function(M3) {
-    var Utils = function Utils() {
-        "use strict";
-        _class_call_check(this, Utils);
-    };
-    M3.Utils = Utils;
-}(M3 || (M3 = {}));
+}(M2 || (M2 = {})), (M3 || (M3 = {})).Utils = function Utils() {
+    "use strict";
+    _class_call_check(this, Utils);
+};
