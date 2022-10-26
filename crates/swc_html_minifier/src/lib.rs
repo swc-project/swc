@@ -540,6 +540,26 @@ impl Minifier<'_> {
         }
     }
 
+    fn is_crossorigin_attribute(&self, current_element: &Element, attribute: &Attribute) -> bool {
+        match (
+            current_element.namespace,
+            &current_element.tag_name,
+            &attribute.name,
+        ) {
+            (
+                Namespace::HTML,
+                &js_word!("img")
+                | &js_word!("audio")
+                | &js_word!("video")
+                | &js_word!("script")
+                | &js_word!("link"),
+                &js_word!("crossorigin"),
+            )
+            | (Namespace::SVG, &js_word!("image"), &js_word!("crossorigin")) => true,
+            _ => false,
+        }
+    }
+
     fn element_has_attribute_with_value(
         &self,
         element: &Element,
@@ -2381,11 +2401,21 @@ impl VisitMut for Minifier<'_> {
         n.visit_mut_children_with(self);
 
         if let Some(value) = &n.value {
+            let current_element = match &self.current_element {
+                Some(current_element) => current_element,
+                _ => return,
+            };
+
             if value.is_empty() {
+                if self.options.normalize_attributes
+                    && self.is_crossorigin_attribute(current_element, &n)
+                    && value.is_empty()
+                {
+                    n.value = None;
+                }
+
                 return;
             }
-
-            let current_element = self.current_element.as_ref().unwrap();
 
             match (
                 current_element.namespace,
@@ -2409,6 +2439,12 @@ impl VisitMut for Minifier<'_> {
                     &js_word!("type"),
                 ) if self.options.normalize_attributes => {
                     n.value = Some(value.trim().to_ascii_lowercase().into());
+                }
+                _ if self.options.normalize_attributes
+                    && self.is_crossorigin_attribute(current_element, &n)
+                    && value.to_ascii_lowercase() == js_word!("anonymous") =>
+                {
+                    n.value = None;
                 }
                 _ if self.options.collapse_boolean_attributes
                     && current_element.namespace == Namespace::HTML
