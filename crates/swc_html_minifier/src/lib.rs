@@ -2408,7 +2408,7 @@ impl VisitMut for Minifier<'_> {
 
             if value.is_empty() {
                 if self.options.normalize_attributes
-                    && self.is_crossorigin_attribute(current_element, &n)
+                    && self.is_crossorigin_attribute(current_element, n)
                     && value.is_empty()
                 {
                     n.value = None;
@@ -2441,7 +2441,7 @@ impl VisitMut for Minifier<'_> {
                     n.value = Some(value.trim().to_ascii_lowercase().into());
                 }
                 _ if self.options.normalize_attributes
-                    && self.is_crossorigin_attribute(current_element, &n)
+                    && self.is_crossorigin_attribute(current_element, n)
                     && value.to_ascii_lowercase() == js_word!("anonymous") =>
                 {
                     n.value = None;
