@@ -4655,3 +4655,16 @@ test_with_config!(
     }
     "
 );
+
+test!(
+    ::swc_ecma_parser::Syntax::Typescript(Default::default()),
+    |_| tr(),
+    issue_6219,
+    "enum A{
+        a=a,
+    }",
+    r#"var A;
+    (function(A) {
+        A[A["a"] = a] = "a";
+    })(A || (A = {}))"#
+);
