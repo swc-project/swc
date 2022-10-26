@@ -1005,10 +1005,38 @@ where
 
                     tok!("[") | tok!("(") | tok!("{") => {
                         let ctx = Ctx {
-                            block_contents_grammar: BlockContentsGrammar::DeclarationValue,
+                            block_contents_grammar: BlockContentsGrammar::NoGrammar,
                             ..self.ctx
                         };
-                        let block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                        let mut block = self.with_ctx(ctx).parse_as::<SimpleBlock>()?;
+                        let locv = self.create_locv(block.value);
+
+                        block.value = match self.parse_according_to_grammar(&locv, |parser| {
+                            let mut values = vec![];
+
+                            loop {
+                                parser.input.skip_ws();
+
+                                if is!(parser, EOF) {
+                                    break;
+                                }
+
+                                let component_value = parser.parse()?;
+
+                                values.push(component_value);
+                            }
+
+                            Ok(values)
+                        }) {
+                            Ok(values) => values,
+                            Err(err) => {
+                                if *err.kind() != ErrorKind::Ignore {
+                                    self.errors.push(err);
+                                }
+
+                                locv.children
+                            }
+                        };
 
                         return Ok(ComponentValue::SimpleBlock(block));
                     }
@@ -1049,11 +1077,6 @@ where
             value: vec![],
         };
 
-        // TODO refactor me
-        if self.ctx.block_contents_grammar != BlockContentsGrammar::NoGrammar {
-            self.input.skip_ws();
-        }
-
         // Repeatedly consume the next input token and process it as follows:
         loop {
             // <EOF-token>
@@ -1087,67 +1110,11 @@ where
                 // anything else
                 // Reconsume the current input token. Consume a component value and append it to the
                 // value of the block.
-                _ => match self.ctx.block_contents_grammar {
-                    BlockContentsGrammar::NoGrammar => {
-                        let component_value = self.parse()?;
+                _ => {
+                    let component_value = self.parse()?;
 
-                        simple_block.value.push(component_value);
-                    }
-                    BlockContentsGrammar::StyleBlock => {
-                        let style_blocks: Vec<StyleBlock> = self.parse()?;
-                        let style_blocks: Vec<ComponentValue> = style_blocks
-                            .into_iter()
-                            .map(ComponentValue::StyleBlock)
-                            .collect();
-
-                        simple_block.value.extend(style_blocks);
-                    }
-                    // TODO improve grammar validation
-                    BlockContentsGrammar::RuleList | BlockContentsGrammar::Stylesheet => {
-                        let ctx = Ctx {
-                            is_top_level: false,
-                            ..self.ctx
-                        };
-                        let rule_list = self.with_ctx(ctx).parse_as::<Vec<Rule>>()?;
-                        let rule_list: Vec<ComponentValue> =
-                            rule_list.into_iter().map(ComponentValue::Rule).collect();
-
-                        simple_block.value.extend(rule_list);
-                    }
-                    BlockContentsGrammar::DeclarationList => {
-                        let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
-                        let declaration_list: Vec<ComponentValue> = declaration_list
-                            .into_iter()
-                            .map(ComponentValue::DeclarationOrAtRule)
-                            .collect();
-
-                        simple_block.value.extend(declaration_list);
-                    }
-                    BlockContentsGrammar::DeclarationValue => {
-                        let state = self.input.state();
-                        let parsed = self.parse();
-                        let value = match parsed {
-                            Ok(value) => {
-                                self.input.skip_ws();
-
-                                value
-                            }
-                            Err(err) => {
-                                self.errors.push(err);
-                                self.input.reset(&state);
-
-                                let ctx = Ctx {
-                                    block_contents_grammar: BlockContentsGrammar::NoGrammar,
-                                    ..self.ctx
-                                };
-
-                                self.with_ctx(ctx).parse_as::<ComponentValue>()?
-                            }
-                        };
-
-                        simple_block.value.push(value);
-                    }
-                },
+                    simple_block.value.push(component_value);
+                }
             }
         }
 

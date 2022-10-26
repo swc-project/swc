@@ -610,14 +610,31 @@
                     },
                     "value": [
                       {
-                        "type": "Ident",
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 166,
+                          "end": 167,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 167,
                           "end": 170,
                           "ctxt": 0
                         },
-                        "value": "foo",
-                        "raw": "foo"
+                        "token": {
+                          "Ident": {
+                            "value": "foo",
+                            "raw": "foo"
+                          }
+                        }
                       },
                       {
                         "type": "PreservedToken",
@@ -629,14 +646,44 @@
                         "token": "Colon"
                       },
                       {
-                        "type": "Ident",
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 171,
+                          "end": 172,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
                         "span": {
                           "start": 172,
                           "end": 175,
                           "ctxt": 0
                         },
-                        "value": "bar",
-                        "raw": "bar"
+                        "token": {
+                          "Ident": {
+                            "value": "bar",
+                            "raw": "bar"
+                          }
+                        }
+                      },
+                      {
+                        "type": "PreservedToken",
+                        "span": {
+                          "start": 175,
+                          "end": 176,
+                          "ctxt": 0
+                        },
+                        "token": {
+                          "WhiteSpace": {
+                            "value": " "
+                          }
+                        }
                       }
                     ]
                   }
